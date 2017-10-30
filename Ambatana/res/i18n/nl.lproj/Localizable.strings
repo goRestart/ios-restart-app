@@ -27,7 +27,7 @@
 "bump_up_old_view_pay_subtitle" = "Trek meer kopers aan door je advertentie meer zichtbaarheid te geven.";
 "bump_up_old_view_pay_title" = "VERKOOP SNELLER";
 "bump_up_pay_success" = "Geplaatst! Je item is nu extra zichtbaar.";
-"bump_up_processing_free_text" = "Bezig met het omhoog plaatsen...";
+"bump_up_processing_free_text" = "Verwerken...";
 "bump_up_processing_priced_text" = "Verwerken van betaling...";
 "bump_up_product_cell_chat_now_button" = "Nu Chatten";
 "bump_up_product_cell_featured_stripe" = "Aanbevolen";
@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Controleer";
 "chat_not_verified_state_message" = "Controleer of je geverifieerd bent om te beginnen met chatten.";
 "chat_not_verified_state_title" = "BEN JE GEVERIFIEERD?";
+"chat_product_given_away_label" = "Product weggegeven";
 "chat_product_sold_label" = "Product verkocht";
 "chat_related_products_title" = "MISSCHIEN HEB JE INTERESSE IN:";
 "chat_safety_tips" = "Veiligheidstips";
@@ -209,8 +210,9 @@
 "common_new" = "NIEUW!";
 "common_no" = "Nee";
 "common_ok" = "OK";
+"common_product_given_away" = "Product weggegeven";
 "common_product_not_available" = "Oeps! Dit item is niet meer beschikbaar";
-"common_product_sold" = "Dit product is verkocht.";
+"common_product_sold" = "Product verkocht";
 "common_settings" = "Instellingen";
 "common_short_time_day_ago_label" = "%d dag";
 "common_short_time_days_ago_label" = "%d dagen";
@@ -290,6 +292,12 @@
 "edit_product_title" = "Product bewerken";
 "edit_product_unsaved_changes_alert" = "Weet je zeker dat je deze wijzigingen wilt verwijderen?";
 "edit_product_unsaved_changes_alert_ok" = "Verwijderen";
+"featured_info_view_increase_visibility" = "Get more visibility";
+"featured_info_view_more_buyers" = "Attract more buyers";
+"featured_info_view_sell_faster" = "VERKOOP SNELLER";
+"featured_info_view_sell_increase_visibility" = "Meer zichtbaar krijgen";
+"featured_info_view_sell_more_buyers" = "Trek meer kopers aan";
+"featured_info_view_title" = "Aanbevolen Advertentie";
 "filter_results_cars_no_matches" = "Geen exacte resultaten voor jouw zoekopdracht.\n  Toon vergelijkbare resultaten.";
 "filter_results_cars_other_results" = "Recent geplaatst in jouw omgeving";
 "filters_car_make_not_set" = "Niet Ingesteld";
@@ -489,9 +497,9 @@
 "product_delete_send_error_generic" = "Oeps! Er is een fout opgetreden tijdens het verwijderen van jouw product. Probeer het opnieuw.";
 "product_delete_sold_confirm_message" = "Weet je zeker dat je dit product wilt verwijderen?";
 "product_distance_X_from_you" = "%@ van bij jou";
-"product_distance_custom_location" = "Custom location";
+"product_distance_custom_location" = "Aangepaste locatie";
 "product_distance_more_than" = "More than %@";
-"product_distance_near_you" = "Near you";
+"product_distance_near_you" = "In jouw omgeving";
 "product_favorite_direct_message" = "Ik vind het leuk! Is het nog beschikbaar?";
 "product_favorite_login_popup_text" = "Om dit item te favoriseren, moet je eerst inloggen";
 "product_free_price" = "Gratis";
@@ -791,9 +799,9 @@
 "settings_title" = "Instellingen";
 "sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "E-mail";
-"sign_up_email_step1_continue_button" = "Continue";
+"sign_up_email_step1_continue_button" = "Doorgaan";
 "sign_up_email_step1_email_field_hint" = "EMAIL";
-"sign_up_email_step1_footer_log_in_kw" = "Log in";
+"sign_up_email_step1_footer_log_in_kw" = "Inloggen";
 "sign_up_email_step1_title" = "Een nieuw account aanmaken";
 "sign_up_email_step2_help_button" = "Help";
 "sign_up_email_step2_name_field_hint" = "Volledige Naam";
@@ -814,6 +822,7 @@
 "sign_up_title" = "Nieuw account aanmaken";
 "sign_up_username_field_hint" = "Volledige naam";
 "suggested_searches_title" = "Voorgestelde Zoekopdrachten";
+"suggestions_category" = "Categorie";
 "suggestions_last_searches_clear_button" = "Wis alles";
 "suggestions_last_searches_title" = "Recente Zoekopdrachten";
 "survey_confirmation" = "Bedankt! Jouw feedback helpt om ons te verbeteren";

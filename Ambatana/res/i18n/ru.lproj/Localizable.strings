@@ -27,7 +27,7 @@
 "bump_up_old_view_pay_subtitle" = "Привлекайте больше покупателей, поднимая количество просмотров вашего объявления.";
 "bump_up_old_view_pay_title" = "Продать быстрее";
 "bump_up_pay_success" = "Выделено! Теперь ваш товар лучше виден.";
-"bump_up_processing_free_text" = "Обрабатываем продвижение объявления...";
+"bump_up_processing_free_text" = "Обработка...";
 "bump_up_processing_priced_text" = "Обрабатываем платеж...";
 "bump_up_product_cell_chat_now_button" = "Пообщаться";
 "bump_up_product_cell_featured_stripe" = "Популярное";
@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Проверить";
 "chat_not_verified_state_message" = "Проверьте, что ваш аккаунт подтвержден, чтобы начать чат.";
 "chat_not_verified_state_title" = "ВАШ АККАУНТ ПОДТВЕРЖДЕН?";
+"chat_product_given_away_label" = "Товар отдан";
 "chat_product_sold_label" = "Продано";
 "chat_related_products_title" = "ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ:";
 "chat_safety_tips" = "Советами по безопасности";
@@ -209,8 +210,9 @@
 "common_new" = "НОВИНКА!";
 "common_no" = "Нет";
 "common_ok" = "OK";
+"common_product_given_away" = "Товар отдан";
 "common_product_not_available" = "Упс! Этот товар больше не доступен.";
-"common_product_sold" = "Это товар уже продан.";
+"common_product_sold" = "Продано";
 "common_settings" = "Настройки";
 "common_short_time_day_ago_label" = "%d день";
 "common_short_time_days_ago_label" = "%d дней";
@@ -290,6 +292,12 @@
 "edit_product_title" = "Редактировать товар";
 "edit_product_unsaved_changes_alert" = "Вы точно не хотите сохранять эти изменения?";
 "edit_product_unsaved_changes_alert_ok" = "Не сохранять";
+"featured_info_view_increase_visibility" = "Get more visibility";
+"featured_info_view_more_buyers" = "Attract more buyers";
+"featured_info_view_sell_faster" = "Продать быстрее";
+"featured_info_view_sell_increase_visibility" = "Улучшить видимость";
+"featured_info_view_sell_more_buyers" = "Привлечь больше покупателей";
+"featured_info_view_title" = "Выделенное объявление";
 "filter_results_cars_no_matches" = "Совпадений для вашего поиска не найдено. \n Показывать похожие результаты. ";
 "filter_results_cars_other_results" = "Недавно опубликовано в вашем районе";
 "filters_car_make_not_set" = "Не установлен";
@@ -814,6 +822,7 @@
 "sign_up_title" = "Создать новый аккаунт";
 "sign_up_username_field_hint" = "Полное имя";
 "suggested_searches_title" = "Предлагаемые запросы";
+"suggestions_category" = "Категория";
 "suggestions_last_searches_clear_button" = "Очистить все";
 "suggestions_last_searches_title" = "Недавний Поиск";
 "survey_confirmation" = "Спасибо! Ваши отзывы помогают нам быть лучше";

@@ -132,7 +132,6 @@ class ChatViewModel: BaseViewModel {
     private let myMessagesCount = Variable<Int>(0)
     private let otherMessagesCount = Variable<Int>(0)
     fileprivate let isEmptyConversation = Variable<Bool>(true)
-    fileprivate let userDirectAnswersEnabled = Variable<Bool>(false)
 
     fileprivate var isDeleted = false
     fileprivate var shouldAskListingSold: Bool = false
@@ -194,7 +193,7 @@ class ChatViewModel: BaseViewModel {
         switch chatStatus.value {
         case .forbidden, .userDeleted, .userPendingDelete:
             return false
-        case .available, .listingSold, .listingDeleted, .blocked, .blockedBy:
+        case .available, .listingSold, .listingGivenAway, .listingDeleted, .blocked, .blockedBy:
             return true
         }
     }
@@ -420,18 +419,15 @@ class ChatViewModel: BaseViewModel {
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
 
-        userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
-
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
                                         relatedListingsState.asObservable(),
-                                        userDirectAnswersEnabled.asObservable(),
-                                        resultSelector: { chatEnabled, relatedState, directAnswers in
+                                        resultSelector: { chatEnabled, relatedState in
                                             switch relatedState {
                                             case .loading, .visible:
                                                 return .notAvailable
                                             case .hidden:
                                                 guard chatEnabled else { return .notAvailable }
-                                                return directAnswers ? .visible : .hidden
+                                                return .visible
                                             }
                                         }).distinctUntilChanged()
         directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
@@ -557,9 +553,6 @@ class ChatViewModel: BaseViewModel {
         navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: true)
     }
 
-    func directAnswersButtonPressed() {
-        toggleDirectAnswers()
-    }
 }
 
 
@@ -790,14 +783,6 @@ extension ChatViewModel {
         actions.append(safetyTips)
 
         if conversation.value.isSaved {
-            if directAnswersState.value != .notAvailable {
-                let visible = directAnswersState.value == .visible
-                let directAnswersText = visible ? LGLocalizedString.directAnswersHide : LGLocalizedString.directAnswersShow
-                let directAnswersAction = UIAction(interface: UIActionInterface.text(directAnswersText),
-                                                   action: toggleDirectAnswers)
-                actions.append(directAnswersAction)
-            }
-            
             if !isDeleted && !isEmptyConversation.value {
                 let delete = UIAction(interface: UIActionInterface.text(LGLocalizedString.chatListDelete),
                                                    action: deleteAction)
@@ -908,7 +893,7 @@ extension ChatViewModel {
                 switch strongSelf.chatStatus.value {
                 case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
                     strongSelf.chatEnabled.value = false
-                case .available, .listingSold, .listingDeleted:
+                case .available, .listingSold, .listingGivenAway, .listingDeleted:
                     strongSelf.chatEnabled.value =  true
                 }
             } else {
@@ -1010,7 +995,7 @@ extension ChatViewModel {
         switch chatStatus.value {
         case .userDeleted, .userPendingDelete:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(conversation.value.interlocutor?.name)
-        case .available, .blocked, .blockedBy, .forbidden, .listingDeleted, .listingSold:
+        case .available, .blocked, .blockedBy, .forbidden, .listingDeleted, .listingSold, .listingGivenAway:
             return nil
         }
     }
@@ -1173,7 +1158,6 @@ extension ChatViewModel {
         for message in messages {
             guard message.talkerId != myUserId else { return }
         }
-        userDirectAnswersEnabled.value = true
     }
 }
 
@@ -1316,7 +1300,7 @@ fileprivate extension ChatConversation {
         case .deleted, .discarded:
             return .listingDeleted
         case .sold, .soldOld:
-            return .listingSold
+            return listing.price == .free ? .listingGivenAway : .listingSold
         case .approved, .pending:
             return .available
         }
@@ -1326,14 +1310,14 @@ fileprivate extension ChatConversation {
         switch chatStatus {
         case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
             return false
-        case .available, .listingSold, .listingDeleted:
+        case .available, .listingSold, .listingDeleted, .listingGivenAway:
             return true
         }
     }
 
     var relatedListingsEnabled: Bool {
         switch chatStatus {
-        case .forbidden,  .userPendingDelete, .userDeleted, .listingDeleted, .listingSold:
+        case .forbidden,  .userPendingDelete, .userDeleted, .listingDeleted, .listingSold, .listingGivenAway:
             return !amISelling
         case .available, .blocked, .blockedBy:
             return false
@@ -1385,19 +1369,6 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         } else {
             send(quickAnswer: answer)
         }
-    }
-    
-    func directAnswersDidTapClose(_ controller: DirectAnswersPresenter) {
-        showDirectAnswers(false)
-    }
-
-    fileprivate func toggleDirectAnswers() {
-        showDirectAnswers(!userDirectAnswersEnabled.value)
-    }
-
-    fileprivate func showDirectAnswers(_ show: Bool) {
-        keyValueStorage.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
-        userDirectAnswersEnabled.value = show
     }
     
     private func clearListingSoldDirectAnswer() {

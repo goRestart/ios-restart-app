@@ -55,7 +55,7 @@ protocol ListingDetailNavigator: TabNavigator {
     func closeProductDetail()
     func editListing(_ listing: Listing)
     func openListingChat(_ listing: Listing, source: EventParameterTypePage)
-    func closeAfterDelete()
+    func closeListingAfterDelete(_ listing: Listing)
     func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String)
     func openPayBumpUp(forListing listing: Listing,
                        purchaseableProduct: PurchaseableProduct,
@@ -74,6 +74,8 @@ protocol ListingDetailNavigator: TabNavigator {
                                               buttonsLayout: AlertButtonsLayout,
                                               actions: [UIAction])
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType)
+    func openFeaturedInfo()
+    func closeFeaturedInfo()
 }
 
 protocol SimpleProductsNavigator: class {

@@ -18,6 +18,8 @@ func ==(a: TrackerEvent, b: TrackerEvent) -> Bool {
 
 struct TrackerEvent {
     static let notApply: String = "N/A"
+    fileprivate static let itemsCountThreshold = 50
+
     private(set) var name: EventName
     var actualName: String {
         get {
@@ -180,7 +182,7 @@ struct TrackerEvent {
     }
 
     static func listingList(_ user: User?, categories: [ListingCategory]?, taxonomy: TaxonomyChild?, searchQuery: String?,
-                            feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
+                            resultsCount: ItemsCount?, feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
         // Categories
@@ -196,6 +198,9 @@ struct TrackerEvent {
         // Search query
         if let actualSearchQuery = searchQuery {
             params[.searchString] = actualSearchQuery
+        }
+        if let count = resultsCount {
+            params[.numberOfItems] = count.value
         }
         params[.listSuccess] = success.rawValue
         return TrackerEvent(name: .listingList, params: params)
@@ -639,12 +644,24 @@ struct TrackerEvent {
         params[.listingId] = listing.objectId
         return TrackerEvent(name: .listingDeleteComplete, params: params)
     }
-    
+
     static func relatedListings(listingId: String,
-                                source: EventParameterRelatedListingsVisitSource) -> TrackerEvent {
+                                source: EventParameterRelatedListingsVisitSource?) -> TrackerEvent {
         var params = EventParameters()
         params[.listingId] = listingId
-        params[.relatedSource] = source.rawValue
+        if let src = source {
+            params[.relatedSource] = src.rawValue
+        }
+        return TrackerEvent(name: .relatedListings, params: params)
+    }
+    
+    static func relatedListings(listing: Listing,
+                                source: EventParameterRelatedListingsVisitSource?) -> TrackerEvent {
+        var params = EventParameters()
+        params.addListingParams(listing)
+        if let src = source {
+            params[.relatedSource] = src.rawValue
+        }
         return TrackerEvent(name: .relatedListings, params: params)
     }
 
@@ -773,7 +790,12 @@ struct TrackerEvent {
         return TrackerEvent(name: .appRatingStart, params: params)
     }
 
-    static func appRatingRate() -> TrackerEvent {
+    static func appRatingRate(reason: EventParameterUserDidRateReason?) -> TrackerEvent {
+        if let aReason = reason {
+            var params = EventParameters()
+            params[.appRatingReason] = aReason.rawValue
+            return TrackerEvent(name: .appRatingRate, params: params)
+        }
         return TrackerEvent(name: .appRatingRate, params: nil)
     }
 
@@ -994,28 +1016,6 @@ struct TrackerEvent {
         params[.enabled] = enabled
         return TrackerEvent(name: .marketingPushNotifications, params: params)
     }
-    
-    static func passiveBuyerStart(withUser userId: String?, productId: String?) -> TrackerEvent {
-        var params = EventParameters()
-        params[.userId] = userId ?? ""
-        params[.listingId] = productId ?? ""
-        return TrackerEvent(name: .passiveBuyerStart, params: params)
-    }
-    
-    static func passiveBuyerComplete(withUser userId: String?, productId: String?, passiveConversations: Int) -> TrackerEvent {
-        var params = EventParameters()
-        params[.userId] = userId ?? ""
-        params[.listingId] = productId ?? ""
-        params[.passiveConversations] = passiveConversations
-        return TrackerEvent(name: .passiveBuyerComplete, params: params)
-    }
-    
-    static func passiveBuyerAbandon(withUser userId: String?, productId: String?) -> TrackerEvent {
-        var params = EventParameters()
-        params[.userId] = userId ?? ""
-        params[.listingId] = productId ?? ""
-        return TrackerEvent(name: .passiveBuyerAbandon, params: params)
-    }
 
     static func bumpBannerShow(type: EventParameterBumpUpType, listingId: String?) -> TrackerEvent {
         var params = EventParameters()
@@ -1036,34 +1036,42 @@ struct TrackerEvent {
 
     static func listingBumpUpComplete(_ listing: Listing, price: EventParameterBumpUpPrice,
                                       type: EventParameterBumpUpType, restoreRetriesCount: Int,
-                                      network: EventParameterShareNetwork) -> TrackerEvent {
+                                      network: EventParameterShareNetwork,
+                                      transactionStatus: EventParameterTransactionStatus?) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.bumpUpPrice] = price.description
         params[.bumpUpType] = type.rawValue
         params[.retriesNumber] = restoreRetriesCount
         params[.shareNetwork] = network.rawValue
+        params[.transactionStatus] = transactionStatus?.rawValue ?? TrackerEvent.notApply
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }
 
-    static func listingBumpUpFail(type: EventParameterBumpUpType, listingId: String?) -> TrackerEvent {
+    static func listingBumpUpFail(type: EventParameterBumpUpType, listingId: String?,
+                                  transactionStatus: EventParameterTransactionStatus?) -> TrackerEvent {
         var params = EventParameters()
         params[.bumpUpType] = type.rawValue
         params[.listingId] = listingId ?? ""
+        params[.transactionStatus] = transactionStatus?.rawValue ?? TrackerEvent.notApply
         return TrackerEvent(name: .bumpUpFail, params: params)
     }
 
-    static func mobilePaymentComplete(paymentId: String, listingId: String?) -> TrackerEvent {
+    static func mobilePaymentComplete(paymentId: String, listingId: String?,
+                                      transactionStatus: EventParameterTransactionStatus) -> TrackerEvent {
         var params = EventParameters()
         params[.paymentId] = paymentId
         params[.listingId] = listingId ?? ""
+        params[.transactionStatus] = transactionStatus.rawValue
         return TrackerEvent(name: .mobilePaymentComplete, params: params)
     }
 
-    static func mobilePaymentFail(reason: String?, listingId: String?) -> TrackerEvent {
+    static func mobilePaymentFail(reason: String?, listingId: String?,
+                                  transactionStatus: EventParameterTransactionStatus) -> TrackerEvent {
         var params = EventParameters()
         params[.reason] = reason ?? ""
         params[.listingId] = listingId ?? ""
+        params[.transactionStatus] = transactionStatus.rawValue
         return TrackerEvent(name: .mobilePaymentFail, params: params)
     }
 
@@ -1139,6 +1147,12 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingSellYourStuffButton, params: params)
     }
 
+    static func productDetailOpenFeaturedInfoForListing(listingId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.listingId] = listingId ?? ""
+        return TrackerEvent(name: .featuredMoreInfo, params: params)
+    }
+
 
     // MARK: - Private methods
 
@@ -1186,5 +1200,17 @@ struct TrackerEvent {
     private static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool, priceRange: FilterPriceRange) -> EventParameterBoolean {
         guard freePostingModeAllowed else {return .notAvailable}
         return priceRange.free ? .trueParameter : .falseParameter
+    }
+}
+
+typealias ItemsCount = Int
+fileprivate extension ItemsCount {
+    var value: String {
+        get {
+            guard self <= TrackerEvent.itemsCountThreshold else {
+                return "50"
+            }
+            return "\(self)"
+        }
     }
 }

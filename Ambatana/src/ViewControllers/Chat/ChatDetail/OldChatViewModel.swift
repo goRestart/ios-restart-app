@@ -102,8 +102,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
             if let relation = userRelation, relation.isBlocked || relation.isBlockedBy {
                 delegate?.vmHideKeyboard(animated: true)
                 showDirectAnswers(false)
-            } else {
-                showDirectAnswers(userDirectAnswersEnabled.value)
             }
             delegate?.vmUpdateChatInteraction(chatEnabled)
         }
@@ -140,7 +138,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         case .deleted, .discarded:
             return .listingDeleted
         case .sold, .soldOld:
-            return .listingSold
+            return listing.price == .free ? .listingGivenAway : .listingSold
         case .approved, .pending:
             return .available
         }
@@ -150,7 +148,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         switch chatStatus {
         case .forbidden, .blocked, .blockedBy, .userDeleted, .userPendingDelete:
             return false
-        case .available, .listingSold, .listingDeleted:
+        case .available, .listingSold, .listingDeleted, .listingGivenAway:
             return true
         }
     }
@@ -159,7 +157,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         switch chatStatus {
         case .forbidden, .userDeleted, .userPendingDelete:
             return false
-        case .available, .listingSold, .listingDeleted, .blocked, .blockedBy:
+        case .available, .listingSold, .listingDeleted, .blocked, .blockedBy, .listingGivenAway:
             return true
         }
     }
@@ -188,7 +186,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         switch chatStatus {
         case  .userPendingDelete, .userDeleted:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(otherUser?.name)
-        case .listingDeleted, .forbidden, .available, .blocked, .blockedBy, .listingSold:
+        case .listingDeleted, .forbidden, .available, .blocked, .blockedBy, .listingSold, .listingGivenAway:
             return nil
         }
     }
@@ -305,7 +303,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
     let sellerDidntAnswer = Variable<Bool?>(nil)
 
     // MARK: > Direct answers
-    fileprivate let userDirectAnswersEnabled = Variable<Bool>(false)
     let directAnswersState = Variable<DirectAnswersState>(.notAvailable)
 
     private let disposeBag = DisposeBag()
@@ -420,7 +417,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
     func statusEnableRelatedListings() -> Bool {
         guard isBuyer else { return false }
         switch chatStatus {
-        case .forbidden, .userDeleted, .userPendingDelete, .listingDeleted, .listingSold:
+        case .forbidden, .userDeleted, .userPendingDelete, .listingDeleted, .listingSold, .listingGivenAway:
             return true
         case  .available, .blocked, .blockedBy:
             return false
@@ -442,7 +439,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         switch chatStatus {
         case .listingDeleted, .forbidden:
             break
-        case .available, .blocked, .blockedBy, .listingSold, .userPendingDelete, .userDeleted:
+        case .available, .blocked, .blockedBy, .listingSold, .listingGivenAway, .userPendingDelete, .userDeleted:
             delegate?.vmHideKeyboard(animated: false)
             let data = ListingDetailData.listingAPI(listing: listing, thumbnailImage: nil, originFrame: nil)
             navigator?.openListing(data, source: .chat, actionOnFirstAppear: .nonexistent)
@@ -453,7 +450,7 @@ class OldChatViewModel: BaseViewModel, Paginable {
         switch chatStatus {
         case .forbidden, .userPendingDelete, .userDeleted:
             break
-        case .listingDeleted, .available, .blocked, .blockedBy, .listingSold:
+        case .listingDeleted, .available, .blocked, .blockedBy, .listingSold, .listingGivenAway:
             guard let user = otherUser else { return }
             let data = UserDetailData.userAPI(user: user, source: .chat)
             navigator?.openUser(data)
@@ -471,13 +468,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
         texts.append(LGLocalizedString.chatSafetyTips)
         actions.append({ [weak self] in self?.delegate?.vmShowSafetyTips() })
 
-        //Direct answers
-        if chat.isSaved && directAnswersState.value != .notAvailable {
-            let visible = directAnswersState.value == .visible
-            texts.append(visible ? LGLocalizedString.directAnswersHide :
-                LGLocalizedString.directAnswersShow)
-            actions.append({ [weak self] in self?.toggleDirectAnswers() })
-        }
         //Delete
         if chat.isSaved && !isDeleted {
             texts.append(LGLocalizedString.chatListDelete)
@@ -540,11 +530,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
         guard let listingId = listing.objectId else { return }
         navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: true)
     }
-
-    func directAnswersButtonPressed() {
-        toggleDirectAnswers()
-    }
-
     
     // MARK: - private methods
     
@@ -597,20 +582,17 @@ class OldChatViewModel: BaseViewModel, Paginable {
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
 
-        userDirectAnswersEnabled.value = keyValueStorage.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
-        let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(
-            relatedListingsState.asObservable(),
-            userDirectAnswersEnabled.asObservable(),
-            resultSelector: { [weak self] relatedState, directAnswers in
+         let directAnswers: Observable<DirectAnswersState> = relatedListingsState.asObservable()
+            .map { [weak self] (relatedState) -> DirectAnswersState in
                 guard let chatEnabled = self?.chatEnabled else { return .notAvailable }
                 switch relatedState {
                 case .loading, .visible:
                     return .notAvailable
                 case .hidden:
                     guard chatEnabled else { return .notAvailable }
-                    return directAnswers ? .visible : .hidden
-            }
-        }).distinctUntilChanged()
+                    return .visible
+                }
+        }.distinctUntilChanged()
         directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
 
         setupDeepLinksRx()
@@ -1135,14 +1117,6 @@ class OldChatViewModel: BaseViewModel, Paginable {
             (oldestMessageDate.compare(twoDaysAgo) == .orderedAscending || messages.count == Constants.numMessagesPerPage)
     }
 
-    private func checkShouldShowDirectAnswers(messages: [Message]) {
-        // If there's no previous message from me, we should show direct answers
-        guard let myUserId = myUserRepository.myUser?.objectId else { return }
-        for message in messages {
-            guard message.userId != myUserId else { return }
-        }
-        userDirectAnswersEnabled.value = true
-    }
 }
 
 
@@ -1189,18 +1163,9 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
             send(quickAnswer: answer)
         }
     }
-    
-    func directAnswersDidTapClose(_ controller: DirectAnswersPresenter) {
-        showDirectAnswers(false)
-    }
-
-    fileprivate func toggleDirectAnswers() {
-        showDirectAnswers(!userDirectAnswersEnabled.value)
-    }
 
     fileprivate func showDirectAnswers(_ show: Bool) {
-        keyValueStorage.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
-        userDirectAnswersEnabled.value = show
+        directAnswersState.value = show ? .visible : .notAvailable
     }
 }
 

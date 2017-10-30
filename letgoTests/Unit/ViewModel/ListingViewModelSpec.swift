@@ -111,42 +111,8 @@ class ListingViewModelSpec: BaseViewModelSpec {
                     listingRepository.markAsSoldResult = ListingResult(.product(soldProduct))
                 }
                 
-                context("buyer selection a/b disabled") {
+                context("buyer selection enabled newMarkAsSoldFlow") {
                     beforeEach {
-                        featureFlags.newMarkAsSoldFlow = false
-                        let userListing = MockUserListing.makeMock()
-                        listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
-                        
-                        buildListingViewModel()
-                        sut.active = true
-                        
-                        // There should appear one button
-                        expect(sut.actionButtons.value.count).toEventually(equal(1))
-                        sut.actionButtons.value.first?.action()
-                        
-                        expect(tracker.trackedEvents.count).toEventually(equal(1))
-                    }
-                    it("has mark as sold and then sell it again button") {
-                        let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
-                        expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
-                    }
-                    it("does not request buyer selection") {
-                        expect(self.selectBuyersCalled) == false
-                    }
-                    it("has shown mark as sold alert") {
-                        expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldConfirmMessage
-                    }
-                    it("calls show loading in delegate") {
-                        expect(self.delegateReceivedShowLoading) == true
-                    }
-                    it("calls hide loading in delegate") {
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
-                    }
-                }
-                
-                context("buyer selection enabled newMarkAsSoldFlow = true") {
-                    beforeEach {
-                        featureFlags.newMarkAsSoldFlow = true
                         let userListing = MockUserListing.makeMock()
                         listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
                         buildListingViewModel()
@@ -405,8 +371,8 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 var userProduct = MockUserListing.makeMock()
                                 userProduct.objectId = myUser.objectId
                                 product.user = userProduct
+                                product.featured = false
                                 product.status = .pending
-
                                 purchasesShopper.isBumpUpPending = false
 
                                 buildListingViewModel()
@@ -416,6 +382,45 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             }
                             it ("banner info is nil") {
                                 expect(sut.bumpUpBannerInfo.value).to(beNil())
+                            }
+                        }
+                        context ("product status is pending, but is already bumped") {
+                            beforeEach {
+
+                                self.calledOpenFreeBumpUpView = false
+                                let myUser = MockMyUser.makeMock()
+                                myUserRepository.myUserVar.value = myUser
+                                product = MockProduct.makeMock()
+                                var userProduct = MockUserListing.makeMock()
+                                userProduct.objectId = myUser.objectId
+                                product.user = userProduct
+                                product.status = .pending
+                                product.featured = true
+
+                                purchasesShopper.isBumpUpPending = false
+
+                                var paymentItem = MockPaymentItem.makeMock()
+                                paymentItem.provider = .apple
+                                var bumpeableProduct = MockBumpeableListing.makeMock()
+                                bumpeableProduct.paymentItems = [paymentItem]
+                                monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
+
+                                buildListingViewModel()
+                                sut.active = true
+
+                                expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
+                            }
+                            it ("banner info type is priced") {
+                                expect(sut.bumpUpBannerInfo.value?.type) == .priced
+                            }
+                            it ("banner interaction block opens priced bump up view") {
+                                sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
+                                expect(self.calledOpenPricedBumpUpView).toEventually(beTrue())
+                            }
+                            it ("banner button block tries to bump up the product") {
+                                // "tries to" because the result of the bump up feature is tested in another context
+                                sut.bumpUpBannerInfo.value?.buttonBlock()
+                                expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                             }
                         }
                         context ("product status makes it bumpeable") {
@@ -710,8 +715,8 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     func openListingChat(_ listing: Listing, source: EventParameterTypePage) {
 
     }
-    func closeAfterDelete() {
-
+    func closeListingAfterDelete(_ listing: Listing) {
+        
     }
     func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String) {
         calledOpenFreeBumpUpView = true
@@ -742,6 +747,14 @@ extension ListingViewModelSpec: ListingDetailNavigator {
 
     }
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {
+
+    }
+
+    func openFeaturedInfo() {
+
+    }
+
+    func closeFeaturedInfo() {
 
     }
 }

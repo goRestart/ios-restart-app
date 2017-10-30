@@ -23,10 +23,8 @@ protocol FeatureFlaggeable: class {
 
     var websocketChat: Bool { get }
     var captchaTransparent: Bool { get }
-    var passiveBuyersShowKeyboard: Bool { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var newMarkAsSoldFlow: Bool { get }
     var newCarsMultiRequesterEnabled: Bool { get }
     var inAppRatingIOS10: Bool { get }
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
@@ -38,12 +36,15 @@ protocol FeatureFlaggeable: class {
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
     var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var searchAutocomplete: SearchAutocomplete { get }
-    var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled { get }
     var realEstateEnabled: Bool { get }
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
     var moreInfoAdActive: MoreInfoAdActive { get }
+    var homeRelatedEnabled: HomeRelatedEnabled { get }
+    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
+    var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail { get }
+    var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -91,17 +92,6 @@ extension ExpandableCategorySelectionMenu {
     }
 }
 
-extension NewCarouselTapNextPhotoNavigationEnabled {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .active:
-            return true
-        }
-    }
-}
-
 extension ShowPriceAfterSearchOrFilter {
     var isActive: Bool {
         switch self {
@@ -111,6 +101,14 @@ extension ShowPriceAfterSearchOrFilter {
             return true
         }
     }
+}
+
+extension HomeRelatedEnabled {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension SuperKeywordGroupsAndSubgroupsInFeed {
+    var isActive: Bool { get { return self == .active } }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -213,13 +211,6 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.captchaTransparent.value
     }
 
-    var passiveBuyersShowKeyboard: Bool {
-        if Bumper.enabled {
-            return Bumper.passiveBuyersShowKeyboard
-        }
-        return abTests.passiveBuyersShowKeyboard.value
-    }
-
     var freeBumpUpEnabled: Bool {
         if Bumper.enabled {
             return Bumper.freeBumpUpEnabled
@@ -232,13 +223,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.pricedBumpUpEnabled
         }
         return abTests.pricedBumpUpEnabled.value
-    }
-
-    var newMarkAsSoldFlow: Bool {
-        if Bumper.enabled {
-            return Bumper.newMarkAsSoldFlow
-        }
-        return abTests.newMarkAsSoldFlow.value
     }
 
     var newCarsMultiRequesterEnabled: Bool {
@@ -332,19 +316,39 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
     }
     
-
-    var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled {
-        if Bumper.enabled {
-            return Bumper.newCarouselTapNextPhotoNavigationEnabled
-        }
-        return NewCarouselTapNextPhotoNavigationEnabled.fromPosition(abTests.newCarouselTapNextPhotoNavigationEnabled.value)
-    }
-
     var newBumpUpExplanation: NewBumpUpExplanation {
         if Bumper.enabled {
             return Bumper.newBumpUpExplanation
         }
         return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
+    }
+    
+    var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed {
+        if Bumper.enabled {
+            return Bumper.superKeywordGroupsAndSubgroupsInFeed
+        }
+        return SuperKeywordGroupsAndSubgroupsInFeed.fromPosition(abTests.superKeywordGroupsAndSubgroupsInFeed.value)
+    }
+
+    var homeRelatedEnabled: HomeRelatedEnabled {
+        if Bumper.enabled {
+            return Bumper.homeRelatedEnabled
+        }
+        return HomeRelatedEnabled.fromPosition(abTests.homeRelatedEnabled.value)
+    }
+
+    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
+        if Bumper.enabled {
+            return Bumper.hideChatButtonOnFeaturedCells
+        }
+        return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
+    }
+
+    var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail {
+        if Bumper.enabled {
+            return Bumper.featuredRibbonImprovementInDetail
+        }
+        return FeaturedRibbonImprovementInDetail.fromPosition(abTests.featuredRibbonImprovementInDetail.value)
     }
 
     var moreInfoAdActive: MoreInfoAdActive {

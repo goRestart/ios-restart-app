@@ -191,7 +191,7 @@ fileprivate extension Chat {
         case .forbidden:
             return .forbidden
         case .sold:
-            return .listingSold
+           return listing.price == .free ? .listingGivenAway : .listingSold
         case .deleted:
             return .listingDeleted
         case .available:

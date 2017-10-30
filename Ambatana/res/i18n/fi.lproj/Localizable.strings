@@ -27,7 +27,7 @@
 "bump_up_old_view_pay_subtitle" = "Houkuttele enemmän ostajia antamalla tuotteellesi enemmän näkyvyyttä.";
 "bump_up_old_view_pay_title" = "MYY NOPEAMMIN";
 "bump_up_pay_success" = "Nostettu näyteikkunalle! Nyt tuotteesi saa lisänäkyvyyttä.";
-"bump_up_processing_free_text" = "Käsitellään nostoa...";
+"bump_up_processing_free_text" = "Käsitellään...";
 "bump_up_processing_priced_text" = "Käsitellään maksua...";
 "bump_up_product_cell_chat_now_button" = "Lähetä viestiä nyt";
 "bump_up_product_cell_featured_stripe" = "Suositeltu";
@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Tarkista";
 "chat_not_verified_state_message" = "Tarkista, oletko vahvistanut henkilöllisyytesi voidaksesi aloittaa keskustelun.";
 "chat_not_verified_state_title" = "OLETKO VAHVISTANUT HENKILÖLLISYYTESI?";
+"chat_product_given_away_label" = "Tuote annettu pois";
 "chat_product_sold_label" = "Tuote myyty";
 "chat_related_products_title" = "SINUA SAATTAISI KIINNOSTAA:";
 "chat_safety_tips" = "Turvallisuusvinkit";
@@ -209,8 +210,9 @@
 "common_new" = "UUSI!";
 "common_no" = "Ei";
 "common_ok" = "OK";
+"common_product_given_away" = "Tuote annettu pois";
 "common_product_not_available" = "Hups! Tämä tuote ei ole enää saatavilla";
-"common_product_sold" = "Tämä tuote on myyty.";
+"common_product_sold" = "Tuote myyty";
 "common_settings" = "Asetukset";
 "common_short_time_day_ago_label" = "%d päivä";
 "common_short_time_days_ago_label" = "%d päivää";
@@ -290,6 +292,12 @@
 "edit_product_title" = "Muokkaa tuotetta";
 "edit_product_unsaved_changes_alert" = "Haluatko varmasti hylätä nämä muutokset?";
 "edit_product_unsaved_changes_alert_ok" = "Hylkää";
+"featured_info_view_increase_visibility" = "Get more visibility";
+"featured_info_view_more_buyers" = "Attract more buyers";
+"featured_info_view_sell_faster" = "Myy nopeammin";
+"featured_info_view_sell_increase_visibility" = "Saat lisää näkyvyyttä";
+"featured_info_view_sell_more_buyers" = "Houkuttele enemmän ostajia";
+"featured_info_view_title" = "Ilmoitus näyteikkunassa";
 "filter_results_cars_no_matches" = "Täysin hakuasi vastaavia osumia ei löytynyt.\n Näytetään samankaltaiset tulokset. ";
 "filter_results_cars_other_results" = "Alueellasi äskettäin julkaistu";
 "filters_car_make_not_set" = "Ei rajattu";
@@ -814,6 +822,7 @@
 "sign_up_title" = "Luo uusi tili";
 "sign_up_username_field_hint" = "Koko nimi";
 "suggested_searches_title" = "Ehdotetut haut";
+"suggestions_category" = "Kategoria";
 "suggestions_last_searches_clear_button" = "Tyhjennä kaikki";
 "suggestions_last_searches_title" = "Viimeisimmät haut";
 "survey_confirmation" = "Kiitos! Palautteesi auttaa meitä suoriutumaan paremmin";

@@ -188,7 +188,7 @@ class ListingViewModel: BaseViewModel {
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
 
-        listingRepository.incrementViews(listingId: listingId, visitSource: visitSource.rawValue, completion: nil)
+        listingRepository.incrementViews(listingId: listingId, visitSource: visitSource.rawValue, visitTimestamp: Date().millisecondsSince1970, completion: nil)
 
         if !relationRetrieved && myUserRepository.myUser != nil {
             listingRepository.retrieveUserListingRelation(listingId) { [weak self] result in
@@ -257,7 +257,7 @@ class ListingViewModel: BaseViewModel {
 
         // bumpeable listing check
         status.asObservable().bindNext { [weak self] status in
-            if status.isBumpeable {
+            if status.shouldRefreshBumpBanner {
                 self?.refreshBumpeableBanner()
             } else {
                 self?.bumpUpBannerInfo.value = nil
@@ -321,7 +321,7 @@ class ListingViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
-        guard let listingId = listing.value.objectId, status.value.isBumpeable, !isUpdatingBumpUpBanner,
+        guard let listingId = listing.value.objectId, status.value.shouldRefreshBumpBanner, !isUpdatingBumpUpBanner,
                 (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
 
         let isBumpUpPending = purchasesShopper.isBumpUpPending(forListingId: listingId)
@@ -386,6 +386,7 @@ class ListingViewModel: BaseViewModel {
             bannerInteractionBlock = { [weak self] in
                 guard let listing = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
+
                 self?.navigator?.openPayBumpUp(forListing: listing,
                                                purchaseableProduct: purchaseableProduct,
                                                paymentItemId: paymentItemId)
@@ -516,14 +517,7 @@ extension ListingViewModel {
             if let value = result.value {
                 strongSelf.listing.value = value
                 strongSelf.trackHelper.trackMarkSoldCompleted(isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value)
-                
-                if strongSelf.featureFlags.newMarkAsSoldFlow {
-                    strongSelf.selectBuyerToMarkAsSold(sourceRateBuyers: .markAsSold)
-                } else {
-                    strongSelf.delegate?.vmHideLoading(nil, afterMessageCompletion: {
-                        strongSelf.navigator?.openAppRating(.markedSold)
-                    })
-                }
+                strongSelf.selectBuyerToMarkAsSold(sourceRateBuyers: .markAsSold)
             } else {
                 let message = LGLocalizedString.productMarkAsSoldErrorGeneric
                 strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
@@ -607,9 +601,6 @@ extension ListingViewModel {
         if isMine && status.value != .notAvailable {
             actions.append(buildDeleteAction())
         }
-        if isMine && status.value.isSold && isTransactionOpen && featureFlags.newMarkAsSoldFlow {
-            actions.append(buildRateUserAction())
-        }
         
         delegate?.vmShowProductDetailOptions(LGLocalizedString.commonCancel, actions: actions)
     }
@@ -683,11 +674,6 @@ extension ListingViewModel {
                 actions: alertActions)
             })
     }
-    
-    private func buildRateUserAction() -> UIAction {
-        let title = LGLocalizedString.productMenuRateBuyer
-        return UIAction(interface: .text(title), action: { [weak self] in self?.selectBuyerToMarkAsSold(sourceRateBuyers: .rateBuyer) } )
-    }
 
     private var socialShareMessage: SocialMessage {
         return ListingSocialMessage(listing: listing.value, fallbackToStore: false)
@@ -715,7 +701,7 @@ extension ListingViewModel {
     private func buildActionButtons(_ status: ListingViewModelStatus) -> [UIAction] {
         var actionButtons = [UIAction]()
         switch status {
-        case .pending, .notAvailable, .otherSold, .otherSoldFree:
+        case .pending, .notAvailable, .otherSold, .otherSoldFree, .pendingAndFeatured:
             break
         case .available:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldButton, .terciary),
@@ -794,7 +780,6 @@ fileprivate extension ListingViewModel {
     }
     
     func selectBuyerToMarkAsSold(sourceRateBuyers: SourceRateBuyers) {
-        guard featureFlags.newMarkAsSoldFlow else { return }
         guard let listingId = listing.value.objectId else { return }
         let trackingInfo = trackHelper.makeMarkAsSoldTrackingInfo(isShowingFeaturedStripe: isShowingFeaturedStripe.value)
         
@@ -821,23 +806,11 @@ fileprivate extension ListingViewModel {
         guard isMine && status.value.isAvailable else { return }
         let free = status.value.isFree
         
-        var okButton: String
-        var title: String
-        var message: String
-        var cancel: String
-        
-        if featureFlags.newMarkAsSoldFlow {
-            okButton = LGLocalizedString.productMarkAsSoldAlertConfirm
-            title = free ? LGLocalizedString.productMarkAsGivenAwayAlertTitle: LGLocalizedString.productMarkAsSoldAlertTitle
-            message = free ? LGLocalizedString.productMarkAsGivenAwayAlertMessage : LGLocalizedString.productMarkAsSoldAlertMessage
-            cancel = LGLocalizedString.productMarkAsSoldAlertCancel
-        } else {
-            okButton = free ? LGLocalizedString.productMarkAsSoldFreeConfirmOkButton : LGLocalizedString.productMarkAsSoldConfirmOkButton
-            title = free ? LGLocalizedString.productMarkAsSoldFreeConfirmTitle : LGLocalizedString.productMarkAsSoldConfirmTitle
-            message = free ? LGLocalizedString.productMarkAsSoldFreeConfirmMessage : LGLocalizedString.productMarkAsSoldConfirmMessage
-            cancel = free ? LGLocalizedString.productMarkAsSoldFreeConfirmCancelButton : LGLocalizedString.productMarkAsSoldConfirmCancelButton
-        }
-        
+        let okButton = LGLocalizedString.productMarkAsSoldAlertConfirm
+        let title = free ? LGLocalizedString.productMarkAsGivenAwayAlertTitle: LGLocalizedString.productMarkAsSoldAlertTitle
+        let message = free ? LGLocalizedString.productMarkAsGivenAwayAlertMessage : LGLocalizedString.productMarkAsSoldAlertMessage
+        let cancel = LGLocalizedString.productMarkAsSoldAlertCancel
+
         var alertActions: [UIAction] = []
         let markAsSoldAction = UIAction(interface: .text(okButton),
                                         action: { [weak self] in
@@ -893,9 +866,9 @@ fileprivate extension ListingViewModel {
         listingRepository.delete(listingId: productId) { [weak self] result in
             var message: String? = nil
             var afterMessageAction: (() -> ())? = nil
-            if let _ = result.value {
+            if let _ = result.value, let listing = self?.listing.value {
                 afterMessageAction = { [weak self] in
-                    self?.navigator?.closeAfterDelete()
+                    self?.navigator?.closeListingAfterDelete(listing)
                 }
                 self?.trackHelper.trackDeleteCompleted()
             } else if let _ = result.error {
@@ -931,6 +904,8 @@ fileprivate extension ListingViewModel {
         chatWrapper.sendMessageFor(listing: listing.value, type: type) { [weak self] result in
             guard let strongSelf = self else { return }
             if let firstMessage = result.value {
+                let messageViewSent = messageView.markAsSent()
+                strongSelf.directChatMessages.replace(0, with: messageViewSent)
                 let feedPosition = strongSelf.delegate?.trackingFeedPosition ?? .none
                 strongSelf.trackHelper.trackMessageSent(isFirstMessage: firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
                                                         messageType: type,
@@ -1055,7 +1030,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
     }
 
     func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork) {
-        trackBumpUpCompleted(.free, type: .free, restoreRetriesCount: 0, network: network)
+        trackBumpUpCompleted(.free, type: .free, restoreRetriesCount: 0, network: network, transactionStatus: nil)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
             self?.isShowingFeaturedStripe.value = true
@@ -1063,7 +1038,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
     }
 
     func freeBumpDidFail(withNetwork network: EventParameterShareNetwork) {
-        trackBumpUpFail(type: .free)
+        trackBumpUpFail(type: .free, transactionStatus: nil)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorBumpGeneric, afterMessageCompletion: nil)
     }
 
@@ -1075,32 +1050,34 @@ extension ListingViewModel: PurchasesShopperDelegate {
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingPricedText)
     }
 
-    func paymentDidSucceed(paymentId: String) {
-        trackMobilePaymentComplete(withPaymentId: paymentId)
+    func paymentDidSucceed(paymentId: String, transactionStatus: EventParameterTransactionStatus) {
+        trackMobilePaymentComplete(withPaymentId: paymentId, transactionStatus: transactionStatus)
     }
 
-    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int) {
+    func pricedBumpPaymentDidFail(withReason reason: String?, transactionStatus: EventParameterTransactionStatus) {
+        trackMobilePaymentFail(withReason: reason, transactionStatus: transactionStatus)
+        delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorPaymentFailed, afterMessageCompletion: nil)
+    }
+
+    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int, transactionStatus: EventParameterTransactionStatus) {
         trackBumpUpCompleted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""),
                              type: type,
                              restoreRetriesCount: restoreRetriesCount,
-                             network: .notAvailable)
+                             network: .notAvailable,
+                             transactionStatus: transactionStatus)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
             self?.isShowingFeaturedStripe.value = true
         })
     }
 
-    func pricedBumpDidFail(type: BumpUpType) {
-        trackBumpUpFail(type: type)
+    func pricedBumpDidFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus) {
+        trackBumpUpFail(type: type, transactionStatus: transactionStatus)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorBumpGeneric, afterMessageCompletion: { [weak self] in
             self?.refreshBumpeableBanner()
         })
     }
 
-    func pricedBumpPaymentDidFail(withReason reason: String?) {
-        trackMobilePaymentFail(withReason: reason)
-        delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorPaymentFailed, afterMessageCompletion: nil)
-    }
 
     // Restore Bump
 

@@ -27,7 +27,7 @@ public struct LGCoreKitConstants {
     
     static let geocodeRegionRadius: CLLocationDistance = 5_000_000 // meters
 
-    static let stickersRetrievalDebounceTime: TimeInterval = 3600 // Seconds (1hour)
+    static let stickersRetrievalDebounceTime: TimeInterval = 86400 // Seconds (24hours)
 
     public static let defaultQuadKeyPrecision: Int = 13
 

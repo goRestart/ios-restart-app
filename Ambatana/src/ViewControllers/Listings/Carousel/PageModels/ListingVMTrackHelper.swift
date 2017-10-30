@@ -77,20 +77,21 @@ extension ListingViewModel {
     }
 
     func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, type: BumpUpType, restoreRetriesCount: Int,
-                              network: EventParameterShareNetwork) {
-        trackHelper.trackBumpUpCompleted(price, type: type, restoreRetriesCount: restoreRetriesCount, network: network)
+                              network: EventParameterShareNetwork, transactionStatus: EventParameterTransactionStatus?) {
+        trackHelper.trackBumpUpCompleted(price, type: type, restoreRetriesCount: restoreRetriesCount, network: network,
+                                         transactionStatus: transactionStatus)
     }
 
-    func trackBumpUpFail(type: BumpUpType) {
-        trackHelper.trackBumpUpFail(type: type)
+    func trackBumpUpFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus?) {
+        trackHelper.trackBumpUpFail(type: type, transactionStatus: transactionStatus)
     }
 
-    func trackMobilePaymentComplete(withPaymentId paymentId: String) {
-        trackHelper.trackMobilePaymentComplete(withPaymentId: paymentId)
+    func trackMobilePaymentComplete(withPaymentId paymentId: String, transactionStatus: EventParameterTransactionStatus) {
+        trackHelper.trackMobilePaymentComplete(withPaymentId: paymentId, transactionStatus: transactionStatus)
     }
 
-    func trackMobilePaymentFail(withReason reason: String?) {
-        trackHelper.trackMobilePaymentFail(withReason: reason)
+    func trackMobilePaymentFail(withReason reason: String?, transactionStatus: EventParameterTransactionStatus) {
+        trackHelper.trackMobilePaymentFail(withReason: reason, transactionStatus: transactionStatus)
     }
 
     func trackBumpUpNotAllowed(reason: EventParameterBumpUpNotAllowedReason) {
@@ -99,6 +100,10 @@ extension ListingViewModel {
 
     func trackBumpUpNotAllowedContactUs(reason: EventParameterBumpUpNotAllowedReason) {
         trackHelper.trackBumpUpNotAllowedContactUs(reason: reason)
+    }
+
+    func trackOpenFeaturedInfo() {
+        trackHelper.trackOpenFeaturedInfo()
     }
 }
 
@@ -147,26 +152,31 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, type: BumpUpType, restoreRetriesCount: Int, network: EventParameterShareNetwork) {
+    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, type: BumpUpType, restoreRetriesCount: Int,
+                              network: EventParameterShareNetwork, transactionStatus: EventParameterTransactionStatus?) {
         let trackerEvent = TrackerEvent.listingBumpUpComplete(listing, price: price,
                                                               type: EventParameterBumpUpType(bumpType: type),
                                                               restoreRetriesCount: restoreRetriesCount,
-                                                              network: network)
+                                                              network: network,
+                                                              transactionStatus: transactionStatus)
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackBumpUpFail(type: BumpUpType) {
-        let trackerEvent = TrackerEvent.listingBumpUpFail(type: EventParameterBumpUpType(bumpType: type), listingId: listing.objectId)
+    func trackBumpUpFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus?) {
+        let trackerEvent = TrackerEvent.listingBumpUpFail(type: EventParameterBumpUpType(bumpType: type),
+                                                          listingId: listing.objectId, transactionStatus: transactionStatus)
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackMobilePaymentComplete(withPaymentId paymentId: String) {
-        let trackerEvent = TrackerEvent.mobilePaymentComplete(paymentId: paymentId, listingId: listing.objectId)
+    func trackMobilePaymentComplete(withPaymentId paymentId: String, transactionStatus: EventParameterTransactionStatus) {
+        let trackerEvent = TrackerEvent.mobilePaymentComplete(paymentId: paymentId, listingId: listing.objectId,
+                                                              transactionStatus: transactionStatus)
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackMobilePaymentFail(withReason reason: String?) {
-        let trackerEvent = TrackerEvent.mobilePaymentFail(reason: reason, listingId: listing.objectId)
+    func trackMobilePaymentFail(withReason reason: String?, transactionStatus: EventParameterTransactionStatus) {
+        let trackerEvent = TrackerEvent.mobilePaymentFail(reason: reason, listingId: listing.objectId,
+                                                          transactionStatus: transactionStatus)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -177,6 +187,11 @@ extension ProductVMTrackHelper {
 
     func trackBumpUpNotAllowedContactUs(reason: EventParameterBumpUpNotAllowedReason) {
         let trackerEvent = TrackerEvent.bumpUpNotAllowedContactUs(reason)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackOpenFeaturedInfo() {
+        let trackerEvent = TrackerEvent.productDetailOpenFeaturedInfoForListing(listingId: listing.objectId)
         tracker.trackEvent(trackerEvent)
     }
 }

@@ -24,10 +24,8 @@ class MockFeatureFlags: FeatureFlaggeable {
 
     var websocketChat: Bool = false
     var captchaTransparent: Bool = false
-    var passiveBuyersShowKeyboard: Bool = false
     var freeBumpUpEnabled: Bool = false
     var pricedBumpUpEnabled: Bool = false
-    var newMarkAsSoldFlow: Bool = false
     var newCarsMultiRequesterEnabled: Bool = false
     var inAppRatingIOS10: Bool = false
     var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
@@ -40,18 +38,22 @@ class MockFeatureFlags: FeatureFlaggeable {
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed = .control
 
     var searchAutocomplete: SearchAutocomplete = .control
-    var newCarouselNavigationTapNextPhotoEnabled: NewCarouselTapNextPhotoNavigationEnabled = .control
     var realEstateEnabled: Bool = false
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
     var newBumpUpExplanation: NewBumpUpExplanation = .control
     var moreInfoAdActive: MoreInfoAdActive = .control
+    var homeRelatedEnabled: HomeRelatedEnabled = .control
+    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells = .control
+    var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail = .control
+    var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
     var locationRequiresManualChangeSuggestion = false
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
+
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

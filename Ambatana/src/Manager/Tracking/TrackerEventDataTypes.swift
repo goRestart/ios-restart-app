@@ -149,10 +149,6 @@ enum EventName: String {
     case notificationCenterComplete         = "notification-center-complete"
 
     case marketingPushNotifications         = "marketing-push-notifications"
-    
-    case passiveBuyerStart                  = "passive-buyer-start"
-    case passiveBuyerComplete               = "passive-buyer-complete"
-    case passiveBuyerAbandon                = "passive-buyer-abandon"
 
     case bumpBannerShow                     = "bump-banner-show"
     case bumpUpStart                        = "bump-up-start"
@@ -173,7 +169,8 @@ enum EventName: String {
     case categoriesComplete                 = "categories-complete"
 
     case moreInfoAdTapped                   = "more-info-ad-tapped"
-    
+    case featuredMoreInfo                   = "featured-more-info"
+
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -254,6 +251,7 @@ enum EventParameterName: String {
     case tab                  = "tab"
     case userAction           = "user-action"
     case appRatingSource      = "app-rating-source"
+    case appRatingReason     = "app-rating-reason"
     case messageType          = "message-type"
     case ratingStars          = "rating-stars"
     case ratingComments       = "rating-comments"
@@ -322,6 +320,8 @@ enum EventParameterName: String {
     case adVisibility         = "visibility"
     case adActionLeftApp      = "left-application"
     case isMine               = "is-mine"
+    case numberOfItems        = "number-of-items"
+    case transactionStatus    = "transaction-status"
 }
 
 enum EventParameterBoolean: String {
@@ -719,6 +719,11 @@ enum EventParameterRatingSource: String {
     case favorite = "favorite"
 }
 
+enum EventParameterUserDidRateReason: String {
+    case happy = "happy"
+    case sad = "sad"
+}
+
 enum EventParameterListingVisitSource: String {
     case listingList = "product-list"
     case moreInfoRelated = "more-info-related"
@@ -732,6 +737,8 @@ enum EventParameterListingVisitSource: String {
     case openApp = "open-app"
     case notifications = "notifications"
     case relatedListings = "related-items-list"
+    case next = "next-related-items-list"
+    case previous = "previous-related-items-list"
     case unknown = "N/A"
 }
 
@@ -825,7 +832,7 @@ enum EventParameterRelatedShownReason: String {
             self = .unanswered48h
         case .listingDeleted:
             self = .listingDeleted
-        case .listingSold:
+        case .listingSold, .listingGivenAway:
             self = .listingSold
         case .userPendingDelete, .userDeleted:
             self = .userDeleted
@@ -869,6 +876,20 @@ enum EventParameterBumpUpType: String {
             self = .retry
         }
     }
+}
+
+enum EventParameterTransactionStatus: String {
+    case purchasingPurchased = "purchasing-purchased"
+    case purchasingDeferred = "purchasing-deferred"
+    case purchasingRestored = "purchasing-restored"
+    case purchasingFailed = "purchasing-failed"
+    case purchasingUnknown = "purchasing-unknown"
+
+    case restoringPurchased = "restoring-purchased"
+    case restoringDeferred = "restoring-deferred"
+    case restoringRestored = "restoring-restored"
+    case restoringFailed = "restoring-failed"
+    case restoringUnknown = "restoring-unknown"
 }
 
 enum EventParameterBumpUpNotAllowedReason: String {
@@ -947,6 +968,7 @@ enum EventParameterAdVisibility: String {
 
     init(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat) {
         let height = UIScreen.main.bounds.height
+        print(height)
         if bannerBottomPosition <= height {
             self = .full
         } else if bannerTopPosition >= height {

@@ -9,11 +9,31 @@
 /* Begin PBXBuildFile section */
 		012B73E61F54216600068537 /* QuickAnswerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012B73E51F54216600068537 /* QuickAnswerSpec.swift */; };
 		01602CB81F506DE500DDA296 /* Listing+NegotiableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01602CB71F506DE500DDA296 /* Listing+NegotiableSpec.swift */; };
+		01616CC61F975C2E00F412D7 /* Taxonomy+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616CC51F975C2E00F412D7 /* Taxonomy+LG.swift */; };
+		01616CC71F975C2E00F412D7 /* Taxonomy+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616CC51F975C2E00F412D7 /* Taxonomy+LG.swift */; };
+		01616CCC1F978DA900F412D7 /* SelectableFilterTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616CCB1F978DA900F412D7 /* SelectableFilterTagCell.swift */; };
+		01616CCD1F978DA900F412D7 /* SelectableFilterTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616CCB1F978DA900F412D7 /* SelectableFilterTagCell.swift */; };
 		0178CBD81F0E463D00620BA6 /* UriSchemeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */; };
-		01A5286E1F70100100FEF4CF /* PillPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A5286D1F70100100FEF4CF /* PillPageControl.swift */; };
-		01A528711F70113200FEF4CF /* AnimatedPageCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A528701F70113200FEF4CF /* AnimatedPageCollectionViewLayout.swift */; };
-		01A528721F7013BC00FEF4CF /* AnimatedPageCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A528701F70113200FEF4CF /* AnimatedPageCollectionViewLayout.swift */; };
-		01A528731F7013C300FEF4CF /* PillPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A5286D1F70100100FEF4CF /* PillPageControl.swift */; };
+		0A6D88BF1F7CED6900819E89 /* DeepLinksRouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D88BE1F7CED6900819E89 /* DeepLinksRouterSpec.swift */; };
+		0A6D88C41F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D88C31F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json */; };
+		0A6D88C51F7CFECA00819E89 /* DeferredDeepLinkTargetCategory.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D88C31F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json */; };
+		0A6D88C91F7D058B00819E89 /* DeferredDeepLinkTargetSearchQuery.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D88C81F7D058B00819E89 /* DeferredDeepLinkTargetSearchQuery.json */; };
+		0A6D88CB1F7D05B700819E89 /* DeferredDeepLinkTargetListing.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D88CA1F7D05B700819E89 /* DeferredDeepLinkTargetListing.json */; };
+		0A6E56AE1F8E233500419DDC /* RelatedListingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E56AD1F8E233500419DDC /* RelatedListingsViewModel.swift */; };
+		0A6E56AF1F8E241000419DDC /* RelatedListingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E56AD1F8E233500419DDC /* RelatedListingsViewModel.swift */; };
+		0A82750A1F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8275091F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift */; };
+		0A82750B1F7D0DA400A6A0C5 /* DeferredDeepLinkTargetSearchQuery.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D88C81F7D058B00819E89 /* DeferredDeepLinkTargetSearchQuery.json */; };
+		0A82750C1F7D0DAD00A6A0C5 /* DeferredDeepLinkTargetListing.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D88CA1F7D05B700819E89 /* DeferredDeepLinkTargetListing.json */; };
+		0A82750E1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A82750D1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json */; };
+		0A8275101F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A82750F1F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json */; };
+		0A8275121F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */; };
+		0A8275131F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A82750D1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json */; };
+		0A8275141F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A82750F1F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json */; };
+		0A8275151F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */; };
+		0AC264E11F94ACB600666BA6 /* EditListingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC264E01F94ACB600666BA6 /* EditListingCoordinator.swift */; };
+		0AC264E21F94B6A800666BA6 /* EditListingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC264E01F94ACB600666BA6 /* EditListingCoordinator.swift */; };
+		0AC264E41F94B87400666BA6 /* EditListingNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC264E31F94B87400666BA6 /* EditListingNavigator.swift */; };
+		0AC264E51F94B8E900666BA6 /* EditListingNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC264E31F94B87400666BA6 /* EditListingNavigator.swift */; };
 		0AF7CCBB1F8B51F500128303 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7CCBA1F8B51F500128303 /* RoundButton.swift */; };
 		0AF7CCBD1F8B525E00128303 /* OvalLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */; };
 		0AF7CCBE1F8B533D00128303 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7CCBA1F8B51F500128303 /* RoundButton.swift */; };
@@ -140,6 +160,10 @@
 		2E64D41B1D11B34F00257B69 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E64D4191D11B34F00257B69 /* Tooltip.swift */; };
 		2E6B6E3D1D2BC0A500C10A20 /* PostIncentiviserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */; };
 		2E6B6E3E1D2BCC9800C10A20 /* PostIncentiviserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */; };
+		2E75EC491FA0959A00C5F48F /* FeaturedInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC481FA0959A00C5F48F /* FeaturedInfoViewController.swift */; };
+		2E75EC4A1FA0959A00C5F48F /* FeaturedInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC481FA0959A00C5F48F /* FeaturedInfoViewController.swift */; };
+		2E75EC4C1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC4B1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift */; };
+		2E75EC4D1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC4B1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift */; };
 		2E8ED6A71EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8ED6A61EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift */; };
 		2E97169E1D59E958009B3A32 /* ExpressChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */; };
 		2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */; };
@@ -448,6 +472,8 @@
 		50D08DE81E69AF14009CC260 /* MockChatWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08DA51E69AF14009CC260 /* MockChatWrapper.swift */; };
 		50D250041DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D250031DAFB68600B45EC2 /* UIApplication+PushNotification.swift */; };
 		50D250051DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D250031DAFB68600B45EC2 /* UIApplication+PushNotification.swift */; };
+		50D4C3221F8CBF39000E8069 /* SuggestiveSearch+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D4C3211F8CBF39000E8069 /* SuggestiveSearch+LG.swift */; };
+		50D4C3231F8CBF39000E8069 /* SuggestiveSearch+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D4C3211F8CBF39000E8069 /* SuggestiveSearch+LG.swift */; };
 		50D67B971D0AFF24003AC0A5 /* TabBarShowable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D67B961D0AFF24003AC0A5 /* TabBarShowable.swift */; };
 		50D67B981D0AFF24003AC0A5 /* TabBarShowable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D67B961D0AFF24003AC0A5 /* TabBarShowable.swift */; };
 		50D67B9A1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D67B991D182EE9003AC0A5 /* SellCoordinator.swift */; };
@@ -626,15 +652,14 @@
 		720A8FAB1F1F94E700DCBAD8 /* FilterPriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 720A8FA81F1F94E700DCBAD8 /* FilterPriceCell.xib */; };
 		720A8FAC1F1F94E700DCBAD8 /* FilterPriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 720A8FA81F1F94E700DCBAD8 /* FilterPriceCell.xib */; };
 		720C55911F44559400554048 /* PostCarDetailsViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720C55901F44559400554048 /* PostCarDetailsViewSpec.swift */; };
-		720FD0091F322AD900C87551 /* TourPostingViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720FD0081F322AD900C87551 /* TourPostingViewModelSpec.swift */; };
 		721383FE1F20B224006DB039 /* TaxonomiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721383FD1F20B224006DB039 /* TaxonomiesViewModel.swift */; };
 		721383FF1F20B224006DB039 /* TaxonomiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721383FD1F20B224006DB039 /* TaxonomiesViewModel.swift */; };
 		721384011F20EB97006DB039 /* TaxonomiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721384001F20EB97006DB039 /* TaxonomiesViewController.swift */; };
 		721384021F20EB97006DB039 /* TaxonomiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721384001F20EB97006DB039 /* TaxonomiesViewController.swift */; };
 		721384041F20EC43006DB039 /* TaxonomiesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721384031F20EC43006DB039 /* TaxonomiesTableView.swift */; };
 		721384051F20EC43006DB039 /* TaxonomiesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721384031F20EC43006DB039 /* TaxonomiesTableView.swift */; };
-		721384071F210C15006DB039 /* TaxonomyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721384061F210C15006DB039 /* TaxonomyHeaderView.swift */; };
-		721384081F210C15006DB039 /* TaxonomyHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721384061F210C15006DB039 /* TaxonomyHeaderView.swift */; };
+		721384071F210C15006DB039 /* TaxonomyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721384061F210C15006DB039 /* TaxonomyTableViewCell.swift */; };
+		721384081F210C15006DB039 /* TaxonomyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721384061F210C15006DB039 /* TaxonomyTableViewCell.swift */; };
 		72157A061E5F34F8006AF997 /* notificationserviceGodMode.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 721579FF1E5F34F7006AF997 /* notificationserviceGodMode.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		72157A0B1E5F3798006AF997 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D57CD01E5767FC0009FA06 /* NotificationService.swift */; };
 		721A83111E827FD300507E47 /* MediaPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721A83101E827FD300507E47 /* MediaPermissions.swift */; };
@@ -818,10 +843,6 @@
 		C727FBC11CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727FBBD1CCFC4ED002BC643 /* NotificationsViewController.xib */; };
 		C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBC21CCFC545002BC643 /* NotificationsViewModel.swift */; };
 		C727FBC41CCFC545002BC643 /* NotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBC21CCFC545002BC643 /* NotificationsViewModel.swift */; };
-		C73075081E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73075071E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift */; };
-		C730750A1E13ABE600EF9A05 /* PassiveBuyersNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73075091E13ABE600EF9A05 /* PassiveBuyersNavigator.swift */; };
-		C730750B1E13BBCF00EF9A05 /* PassiveBuyersNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73075091E13ABE600EF9A05 /* PassiveBuyersNavigator.swift */; };
-		C730750C1E13BBD300EF9A05 /* PassiveBuyersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73075071E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift */; };
 		C730FD0E1E76F93000175C27 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C730FD0D1E76F93000175C27 /* CacheManager.swift */; };
 		C730FD0F1E76F93000175C27 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C730FD0D1E76F93000175C27 /* CacheManager.swift */; };
 		C730FD111E77FC5A00175C27 /* BooleanDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = C730FD101E77FC5A00175C27 /* BooleanDAO.swift */; };
@@ -834,7 +855,7 @@
 		C731B8791CE22BBE00F31D46 /* WSChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */; };
 		C735101E1D942B5000D67040 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C735101D1D942B5000D67040 /* FeatureFlags.swift */; };
 		C735101F1D942B5000D67040 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C735101D1D942B5000D67040 /* FeatureFlags.swift */; };
-		C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */; };
+		C7363FB21BF9CB5B00A4BF6F /* FilterTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB11BF9CB5B00A4BF6F /* FilterTagsView.swift */; };
 		C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB31BF9CB8D00A4BF6F /* FilterTagCell.swift */; };
 		C7363FB61BF9CB8D00A4BF6F /* FilterTagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7363FB41BF9CB8D00A4BF6F /* FilterTagCell.xib */; };
 		C7363FB81BF9E64B00A4BF6F /* FilterTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB71BF9E64B00A4BF6F /* FilterTag.swift */; };
@@ -900,10 +921,6 @@
 		C749317A1D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74931781D3533DE00E117F1 /* UserRatingNavigator.swift */; };
 		C749C78D1C10830600F7118E /* CellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749C78C1C10830600F7118E /* CellDrawer.swift */; };
 		C749C78F1C10836C00F7118E /* BaseCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749C78E1C10836C00F7118E /* BaseCellDrawer.swift */; };
-		C74BC2421E0D7FFB00381D96 /* PassiveBuyerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BC2401E0D7FFB00381D96 /* PassiveBuyerCell.swift */; };
-		C74BC2431E0D7FFB00381D96 /* PassiveBuyerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BC2401E0D7FFB00381D96 /* PassiveBuyerCell.swift */; };
-		C74BC2441E0D7FFB00381D96 /* PassiveBuyerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74BC2411E0D7FFB00381D96 /* PassiveBuyerCell.xib */; };
-		C74BC2451E0D7FFB00381D96 /* PassiveBuyerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C74BC2411E0D7FFB00381D96 /* PassiveBuyerCell.xib */; };
 		C74BDB411D7F121600B59482 /* StickersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BDB401D7F121600B59482 /* StickersManager.swift */; };
 		C74BDB421D7F121600B59482 /* StickersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74BDB401D7F121600B59482 /* StickersManager.swift */; };
 		C75018481D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */; };
@@ -934,12 +951,6 @@
 		C75B5DD41D59E0C500112368 /* ListingCarouselCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75B5DCF1D59E0C500112368 /* ListingCarouselCellModel.swift */; };
 		C75B5DD51D59E0C500112368 /* ListingCarouselImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75B5DD01D59E0C500112368 /* ListingCarouselImageCell.swift */; };
 		C75B5DD61D59E0C500112368 /* ListingCarouselImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75B5DD01D59E0C500112368 /* ListingCarouselImageCell.swift */; };
-		C75C543D1E0D2CF6003F219D /* PassiveBuyersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75C543B1E0D2CF6003F219D /* PassiveBuyersViewController.swift */; };
-		C75C543E1E0D2CF6003F219D /* PassiveBuyersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75C543B1E0D2CF6003F219D /* PassiveBuyersViewController.swift */; };
-		C75C543F1E0D2CF6003F219D /* PassiveBuyersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75C543C1E0D2CF6003F219D /* PassiveBuyersViewController.xib */; };
-		C75C54401E0D2CF6003F219D /* PassiveBuyersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75C543C1E0D2CF6003F219D /* PassiveBuyersViewController.xib */; };
-		C75C54431E0D2D2F003F219D /* PassiveBuyersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75C54421E0D2D2F003F219D /* PassiveBuyersViewModel.swift */; };
-		C75C54441E0D2D2F003F219D /* PassiveBuyersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75C54421E0D2D2F003F219D /* PassiveBuyersViewModel.swift */; };
 		C765EE471E7FE58200063750 /* MockDeepLinksRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE461E7FE58200063750 /* MockDeepLinksRouter.swift */; };
 		C765EE491E7FEA4500063750 /* DeepLink+MockFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE481E7FEA4500063750 /* DeepLink+MockFactory.swift */; };
 		C765EE4B1E7FEEE200063750 /* MockChatEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C765EE4A1E7FEEE200063750 /* MockChatEvent.swift */; };
@@ -1072,10 +1083,6 @@
 		C7B588501CE1DE1C009B3975 /* DirectAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588141CE1DE1C009B3975 /* DirectAnswerCell.swift */; };
 		C7B588511CE1DE1C009B3975 /* DirectAnswerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B588151CE1DE1C009B3975 /* DirectAnswerCell.xib */; };
 		C7B588521CE1DE1C009B3975 /* DirectAnswerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B588151CE1DE1C009B3975 /* DirectAnswerCell.xib */; };
-		C7B588531CE1DE1C009B3975 /* DirectAnswersCloseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588161CE1DE1C009B3975 /* DirectAnswersCloseCell.swift */; };
-		C7B588541CE1DE1C009B3975 /* DirectAnswersCloseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588161CE1DE1C009B3975 /* DirectAnswersCloseCell.swift */; };
-		C7B588551CE1DE1C009B3975 /* DirectAnswersCloseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B588171CE1DE1C009B3975 /* DirectAnswersCloseCell.xib */; };
-		C7B588561CE1DE1C009B3975 /* DirectAnswersCloseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B588171CE1DE1C009B3975 /* DirectAnswersCloseCell.xib */; };
 		C7B588571CE1DE1C009B3975 /* DirectAnswersPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588181CE1DE1C009B3975 /* DirectAnswersPresenter.swift */; };
 		C7B588581CE1DE1C009B3975 /* DirectAnswersPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B588181CE1DE1C009B3975 /* DirectAnswersPresenter.swift */; };
 		C7B5885B1CE1DE1C009B3975 /* OldChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B5881A1CE1DE1C009B3975 /* OldChatViewController.swift */; };
@@ -1198,7 +1205,7 @@
 		C7DB41DC1C5138B500400945 /* CAGradientLayer+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7239A171C11F92B006CB5A6 /* CAGradientLayer+Color.swift */; };
 		C7DB41DD1C5138B500400945 /* ProductionEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B201AFB49C0006E88E0 /* ProductionEnvironment.swift */; };
 		C7DB41DE1C5138B500400945 /* PopupSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71589B21C4F8E1C00E7563E /* PopupSignUpViewController.swift */; };
-		C7DB41E51C5138B500400945 /* FilterTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */; };
+		C7DB41E51C5138B500400945 /* FilterTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB11BF9CB5B00A4BF6F /* FilterTagsView.swift */; };
 		C7DB41E71C5138B500400945 /* AmplitudeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C01B723E6B001E4E92 /* AmplitudeTracker.swift */; };
 		C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA51B28937800E50A68 /* SignUpViewModel.swift */; };
 		C7DB41EF1C5138B500400945 /* ListingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412E0851B4F179F00683FFD /* ListingListView.swift */; };
@@ -1435,9 +1442,20 @@
 /* Begin PBXFileReference section */
 		012B73E51F54216600068537 /* QuickAnswerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickAnswerSpec.swift; sourceTree = "<group>"; };
 		01602CB71F506DE500DDA296 /* Listing+NegotiableSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Listing+NegotiableSpec.swift"; sourceTree = "<group>"; };
+		01616CC51F975C2E00F412D7 /* Taxonomy+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Taxonomy+LG.swift"; sourceTree = "<group>"; };
+		01616CCB1F978DA900F412D7 /* SelectableFilterTagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableFilterTagCell.swift; sourceTree = "<group>"; };
 		0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UriSchemeSpec.swift; path = DeepLinks/UriSchemeSpec.swift; sourceTree = "<group>"; };
-		01A5286D1F70100100FEF4CF /* PillPageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PillPageControl.swift; path = PillPageControl/PillPageControl.swift; sourceTree = "<group>"; };
-		01A528701F70113200FEF4CF /* AnimatedPageCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnimatedPageCollectionViewLayout.swift; path = AnimatedLayout/AnimatedPageCollectionViewLayout.swift; sourceTree = "<group>"; };
+		0A6D88BE1F7CED6900819E89 /* DeepLinksRouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinksRouterSpec.swift; sourceTree = "<group>"; };
+		0A6D88C31F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkTargetCategory.json; sourceTree = "<group>"; };
+		0A6D88C81F7D058B00819E89 /* DeferredDeepLinkTargetSearchQuery.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkTargetSearchQuery.json; sourceTree = "<group>"; };
+		0A6D88CA1F7D05B700819E89 /* DeferredDeepLinkTargetListing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkTargetListing.json; sourceTree = "<group>"; };
+		0A6E56AD1F8E233500419DDC /* RelatedListingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatedListingsViewModel.swift; sourceTree = "<group>"; };
+		0A8275091F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockDeferredDeepLinkMaker.swift; sourceTree = "<group>"; };
+		0A82750D1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetSearchQuery.json; sourceTree = "<group>"; };
+		0A82750F1F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetCategory.json; sourceTree = "<group>"; };
+		0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetListing.json; sourceTree = "<group>"; };
+		0AC264E01F94ACB600666BA6 /* EditListingCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditListingCoordinator.swift; sourceTree = "<group>"; };
+		0AC264E31F94B87400666BA6 /* EditListingNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditListingNavigator.swift; sourceTree = "<group>"; };
 		0AF7CCBA1F8B51F500128303 /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OvalLayer.swift; sourceTree = "<group>"; };
 		2E06EAEB1D7051BA00A40704 /* FilterRangePriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangePriceCell.swift; sourceTree = "<group>"; };
@@ -1501,6 +1519,8 @@
 		2E607ECD1E3F41C700ADFED1 /* BumpUpCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BumpUpCoordinator.swift; sourceTree = "<group>"; };
 		2E64D4191D11B34F00257B69 /* Tooltip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
 		2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostIncentiviserItem.swift; sourceTree = "<group>"; };
+		2E75EC481FA0959A00C5F48F /* FeaturedInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedInfoViewController.swift; path = Monetization/FeaturedInfoViewController.swift; sourceTree = "<group>"; };
+		2E75EC4B1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedInfoViewModel.swift; path = Monetization/FeaturedInfoViewModel.swift; sourceTree = "<group>"; };
 		2E8ED6A61EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FilterTagsVC+RemoveRelatedTagsSpec.swift"; sourceTree = "<group>"; };
 		2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatViewController.swift; sourceTree = "<group>"; };
 		2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpressChatViewController.xib; sourceTree = "<group>"; };
@@ -1735,6 +1755,7 @@
 		50D08DA51E69AF14009CC260 /* MockChatWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChatWrapper.swift; sourceTree = "<group>"; };
 		50D08DE91E69AF6F009CC260 /* letgoTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "letgoTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		50D250031DAFB68600B45EC2 /* UIApplication+PushNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+PushNotification.swift"; sourceTree = "<group>"; };
+		50D4C3211F8CBF39000E8069 /* SuggestiveSearch+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SuggestiveSearch+LG.swift"; sourceTree = "<group>"; };
 		50D67B961D0AFF24003AC0A5 /* TabBarShowable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarShowable.swift; sourceTree = "<group>"; };
 		50D67B991D182EE9003AC0A5 /* SellCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellCoordinator.swift; sourceTree = "<group>"; };
 		50D67B9C1D182F07003AC0A5 /* SellNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellNavigator.swift; sourceTree = "<group>"; };
@@ -1837,11 +1858,10 @@
 		720A8FA71F1F94E700DCBAD8 /* FilterPriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterPriceCell.swift; sourceTree = "<group>"; };
 		720A8FA81F1F94E700DCBAD8 /* FilterPriceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterPriceCell.xib; sourceTree = "<group>"; };
 		720C55901F44559400554048 /* PostCarDetailsViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostCarDetailsViewSpec.swift; path = Widgets/PostCarDetailsViewSpec.swift; sourceTree = "<group>"; };
-		720FD0081F322AD900C87551 /* TourPostingViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourPostingViewModelSpec.swift; sourceTree = "<group>"; };
 		721383FD1F20B224006DB039 /* TaxonomiesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TaxonomiesViewModel.swift; path = Ambatana/src/ViewControllers/Taxonomies/TaxonomiesViewModel.swift; sourceTree = SOURCE_ROOT; };
 		721384001F20EB97006DB039 /* TaxonomiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TaxonomiesViewController.swift; path = Ambatana/src/ViewControllers/Taxonomies/TaxonomiesViewController.swift; sourceTree = SOURCE_ROOT; };
 		721384031F20EC43006DB039 /* TaxonomiesTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TaxonomiesTableView.swift; path = Ambatana/src/ViewControllers/Taxonomies/TaxonomiesTableView.swift; sourceTree = SOURCE_ROOT; };
-		721384061F210C15006DB039 /* TaxonomyHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TaxonomyHeaderView.swift; path = Ambatana/src/ViewControllers/Taxonomies/TaxonomyHeaderView.swift; sourceTree = SOURCE_ROOT; };
+		721384061F210C15006DB039 /* TaxonomyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TaxonomyTableViewCell.swift; path = Ambatana/src/ViewControllers/Taxonomies/TaxonomyTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		721579FF1E5F34F7006AF997 /* notificationserviceGodMode.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = notificationserviceGodMode.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		721A83101E827FD300507E47 /* MediaPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaPermissions.swift; path = Ambatana/src/Manager/MediaPermissions.swift; sourceTree = SOURCE_ROOT; };
 		721A83131E82B52C00507E47 /* MockMediaPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockMediaPermissions.swift; sourceTree = "<group>"; };
@@ -1950,8 +1970,6 @@
 		C727FBBC1CCFC4ED002BC643 /* NotificationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		C727FBBD1CCFC4ED002BC643 /* NotificationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationsViewController.xib; sourceTree = "<group>"; };
 		C727FBC21CCFC545002BC643 /* NotificationsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewModel.swift; sourceTree = "<group>"; };
-		C73075071E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersCoordinator.swift; sourceTree = "<group>"; };
-		C73075091E13ABE600EF9A05 /* PassiveBuyersNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersNavigator.swift; sourceTree = "<group>"; };
 		C730FD0D1E76F93000175C27 /* CacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		C730FD101E77FC5A00175C27 /* BooleanDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanDAO.swift; sourceTree = "<group>"; };
 		C73189C71DBE3847005A93EE /* ListHeaderContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHeaderContainer.swift; sourceTree = "<group>"; };
@@ -1960,7 +1978,7 @@
 		C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSChatListViewModel.swift; sourceTree = "<group>"; };
 		C735101A1D94246C00D67040 /* bumper_features.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = bumper_features.json; sourceTree = "<group>"; };
 		C735101D1D942B5000D67040 /* FeatureFlags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
-		C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagsViewController.swift; sourceTree = "<group>"; };
+		C7363FB11BF9CB5B00A4BF6F /* FilterTagsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagsView.swift; sourceTree = "<group>"; };
 		C7363FB31BF9CB8D00A4BF6F /* FilterTagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagCell.swift; sourceTree = "<group>"; };
 		C7363FB41BF9CB8D00A4BF6F /* FilterTagCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterTagCell.xib; sourceTree = "<group>"; };
 		C7363FB71BF9E64B00A4BF6F /* FilterTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTag.swift; sourceTree = "<group>"; };
@@ -1997,8 +2015,6 @@
 		C74931781D3533DE00E117F1 /* UserRatingNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRatingNavigator.swift; sourceTree = "<group>"; };
 		C749C78C1C10830600F7118E /* CellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellDrawer.swift; sourceTree = "<group>"; };
 		C749C78E1C10836C00F7118E /* BaseCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCellDrawer.swift; sourceTree = "<group>"; };
-		C74BC2401E0D7FFB00381D96 /* PassiveBuyerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyerCell.swift; sourceTree = "<group>"; };
-		C74BC2411E0D7FFB00381D96 /* PassiveBuyerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PassiveBuyerCell.xib; sourceTree = "<group>"; };
 		C74BDB401D7F121600B59482 /* StickersManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickersManager.swift; sourceTree = "<group>"; };
 		C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatOtherInfoCell.swift; sourceTree = "<group>"; };
 		C75018471D10681B007D4CE4 /* ChatOtherInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatOtherInfoCell.xib; sourceTree = "<group>"; };
@@ -2015,9 +2031,6 @@
 		C75B5DCE1D59E0C500112368 /* ListingCarouselCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCarouselCell.swift; sourceTree = "<group>"; };
 		C75B5DCF1D59E0C500112368 /* ListingCarouselCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCarouselCellModel.swift; sourceTree = "<group>"; };
 		C75B5DD01D59E0C500112368 /* ListingCarouselImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCarouselImageCell.swift; sourceTree = "<group>"; };
-		C75C543B1E0D2CF6003F219D /* PassiveBuyersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersViewController.swift; sourceTree = "<group>"; };
-		C75C543C1E0D2CF6003F219D /* PassiveBuyersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PassiveBuyersViewController.xib; sourceTree = "<group>"; };
-		C75C54421E0D2D2F003F219D /* PassiveBuyersViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassiveBuyersViewModel.swift; sourceTree = "<group>"; };
 		C765EE461E7FE58200063750 /* MockDeepLinksRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockDeepLinksRouter.swift; sourceTree = "<group>"; };
 		C765EE481E7FEA4500063750 /* DeepLink+MockFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DeepLink+MockFactory.swift"; sourceTree = "<group>"; };
 		C765EE4A1E7FEEE200063750 /* MockChatEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChatEvent.swift; sourceTree = "<group>"; };
@@ -2093,8 +2106,6 @@
 		C7B588131CE1DE1C009B3975 /* QuickAnswer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickAnswer.swift; sourceTree = "<group>"; };
 		C7B588141CE1DE1C009B3975 /* DirectAnswerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswerCell.swift; sourceTree = "<group>"; };
 		C7B588151CE1DE1C009B3975 /* DirectAnswerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DirectAnswerCell.xib; sourceTree = "<group>"; };
-		C7B588161CE1DE1C009B3975 /* DirectAnswersCloseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswersCloseCell.swift; sourceTree = "<group>"; };
-		C7B588171CE1DE1C009B3975 /* DirectAnswersCloseCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DirectAnswersCloseCell.xib; sourceTree = "<group>"; };
 		C7B588181CE1DE1C009B3975 /* DirectAnswersPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswersPresenter.swift; sourceTree = "<group>"; };
 		C7B5881A1CE1DE1C009B3975 /* OldChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldChatViewController.swift; sourceTree = "<group>"; };
 		C7B5881B1CE1DE1C009B3975 /* OldChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldChatViewModel.swift; sourceTree = "<group>"; };
@@ -2306,24 +2317,22 @@
 			isa = PBXGroup;
 			children = (
 				0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */,
+				0A6D88BE1F7CED6900819E89 /* DeepLinksRouterSpec.swift */,
 			);
 			name = DeepLinks;
 			sourceTree = "<group>";
 		};
-		01A5286C1F700FF200FEF4CF /* PillPageControl */ = {
+		0A6D88C21F7CF7A600819E89 /* DeepLinks */ = {
 			isa = PBXGroup;
 			children = (
-				01A5286D1F70100100FEF4CF /* PillPageControl.swift */,
+				0A6D88C31F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json */,
+				0A6D88C81F7D058B00819E89 /* DeferredDeepLinkTargetSearchQuery.json */,
+				0A6D88CA1F7D05B700819E89 /* DeferredDeepLinkTargetListing.json */,
+				0A82750D1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json */,
+				0A82750F1F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json */,
+				0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */,
 			);
-			name = PillPageControl;
-			sourceTree = "<group>";
-		};
-		01A5286F1F70112100FEF4CF /* AnimatedLayout */ = {
-			isa = PBXGroup;
-			children = (
-				01A528701F70113200FEF4CF /* AnimatedPageCollectionViewLayout.swift */,
-			);
-			name = AnimatedLayout;
+			path = DeepLinks;
 			sourceTree = "<group>";
 		};
 		2E00C4DE1D00364C00B95010 /* LGAlertViewController */ = {
@@ -2392,6 +2401,8 @@
 				2E4952E21E26810D00188880 /* BumpUpPayViewModel.swift */,
 				2E10CF5F1F84E5C00019B58F /* OldBumpUpPayViewController.swift */,
 				2E10CF621F84E6890019B58F /* OldBumpUpPayViewController.xib */,
+				2E75EC481FA0959A00C5F48F /* FeaturedInfoViewController.swift */,
+				2E75EC4B1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift */,
 			);
 			name = Monetization;
 			sourceTree = "<group>";
@@ -2583,7 +2594,6 @@
 				2E4952DD1E26808D00188880 /* Monetization */,
 				50560B8D1B25D18F0021D8D9 /* Navigation */,
 				C727FBBB1CCFC4C9002BC643 /* Notifications */,
-				C75C543A1E0D2CD9003F219D /* PassiveBuyers */,
 				50560B8F1B25D18F0021D8D9 /* Listings */,
 				C749316B1D34FCE100E117F1 /* Ratings */,
 				C783D9791C64BB5D000EE5CA /* ReportUsers */,
@@ -2645,6 +2655,7 @@
 				C7415ED41DE880BD0003D6C1 /* SimpleListingsViewController.swift */,
 				C7415ED51DE880BD0003D6C1 /* SimpleListingsViewController.xib */,
 				C7415EDA1DE898580003D6C1 /* SimpleListingsViewModel.swift */,
+				0A6E56AD1F8E233500419DDC /* RelatedListingsViewModel.swift */,
 			);
 			path = Listings;
 			sourceTree = "<group>";
@@ -2730,8 +2741,6 @@
 				C74931781D3533DE00E117F1 /* UserRatingNavigator.swift */,
 				C7732F711D883C7700EAD5B7 /* OnboardingCoordinator.swift */,
 				C7732F741D8842B800EAD5B7 /* OnboardingNavigator.swift */,
-				C73075071E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift */,
-				C73075091E13ABE600EF9A05 /* PassiveBuyersNavigator.swift */,
 				50E557BA1E421CB900327B6A /* LoginCoordinator.swift */,
 				50E557BD1E421CF500327B6A /* LoginNavigator.swift */,
 				C7AFFB061E714D5D0052A9CA /* SurveysCoordinator.swift */,
@@ -2740,6 +2749,8 @@
 				8EF026151EDD74020097A3A9 /* FiltersNavigator.swift */,
 				2E4BDE6E1EDC52A300CBDC8C /* QuickLocationFiltersCoordinator.swift */,
 				2E4BDE6B1EDC528800CBDC8C /* QuickLocationFiltersNavigator.swift */,
+				0AC264E01F94ACB600666BA6 /* EditListingCoordinator.swift */,
+				0AC264E31F94B87400666BA6 /* EditListingNavigator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -2806,6 +2817,7 @@
 				C707D4571E9B8C0B00042C03 /* RepositoryError+LG.swift */,
 				C765EE7E1E84036400063750 /* SessionErrors+LG.swift */,
 				C79895C71DE4349900DD58BF /* SessionEvent+LG.swift */,
+				50D4C3211F8CBF39000E8069 /* SuggestiveSearch+LG.swift */,
 				C707D4491E96799000042C03 /* TextHiddenTags.swift */,
 				C79842001CC8E8C900C300FF /* User+LG.swift */,
 				72B935F51E3F917500F93F73 /* UserProduct+LG.swift */,
@@ -3079,6 +3091,7 @@
 		50D08D601E69AF14009CC260 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				0A6D88C21F7CF7A600819E89 /* DeepLinks */,
 				50D08D611E69AF14009CC260 /* MockAppVersion.swift */,
 				72D928DD1E83DE360030F4C3 /* MockConfigManager.swift */,
 				72D928E61E83ED300030F4C3 /* MockRatingManager.swift */,
@@ -3121,6 +3134,7 @@
 				50D08D731E69AF14009CC260 /* MockPurchaseableProductsResponse.swift */,
 				C765EE481E7FEA4500063750 /* DeepLink+MockFactory.swift */,
 				C765EE4A1E7FEEE200063750 /* MockChatEvent.swift */,
+				0A8275091F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3393,6 +3407,7 @@
 				2E4A94ED1E4C8D4200218916 /* ShowFeaturedStripeHelper.swift */,
 				2EBAA2411EB9E1D000F69DC7 /* CarAttributes+GeneratedName.swift */,
 				7290DB451F27839900277C7A /* TaxonomyChild+LG.swift */,
+				01616CC51F975C2E00F412D7 /* Taxonomy+LG.swift */,
 			);
 			path = LetgoExtensions;
 			sourceTree = "<group>";
@@ -3458,7 +3473,6 @@
 		6AA8278F1D2D03720068C39B /* Carousel */ = {
 			isa = PBXGroup;
 			children = (
-				01A5286F1F70112100FEF4CF /* AnimatedLayout */,
 				C7126BD31E6053AA00038CC4 /* PageModels */,
 				C75B5DCD1D59E0C500112368 /* Cells */,
 				C75B5DB31D59E09500112368 /* ProductDetailOnboarding */,
@@ -3498,7 +3512,7 @@
 				721383FD1F20B224006DB039 /* TaxonomiesViewModel.swift */,
 				721384001F20EB97006DB039 /* TaxonomiesViewController.swift */,
 				721384031F20EC43006DB039 /* TaxonomiesTableView.swift */,
-				721384061F210C15006DB039 /* TaxonomyHeaderView.swift */,
+				721384061F210C15006DB039 /* TaxonomyTableViewCell.swift */,
 			);
 			name = Taxonomies;
 			path = Filters;
@@ -3656,10 +3670,11 @@
 		C7132A461BF4F56D0000747A /* Tags */ = {
 			isa = PBXGroup;
 			children = (
-				C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */,
+				C7363FB11BF9CB5B00A4BF6F /* FilterTagsView.swift */,
 				C7363FB31BF9CB8D00A4BF6F /* FilterTagCell.swift */,
 				C7363FB41BF9CB8D00A4BF6F /* FilterTagCell.xib */,
 				C7363FB71BF9E64B00A4BF6F /* FilterTag.swift */,
+				01616CCB1F978DA900F412D7 /* SelectableFilterTagCell.swift */,
 			);
 			path = Tags;
 			sourceTree = "<group>";
@@ -3817,26 +3832,6 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		C75C543A1E0D2CD9003F219D /* PassiveBuyers */ = {
-			isa = PBXGroup;
-			children = (
-				C75C54411E0D2D0E003F219D /* cells */,
-				C75C543B1E0D2CF6003F219D /* PassiveBuyersViewController.swift */,
-				C75C543C1E0D2CF6003F219D /* PassiveBuyersViewController.xib */,
-				C75C54421E0D2D2F003F219D /* PassiveBuyersViewModel.swift */,
-			);
-			path = PassiveBuyers;
-			sourceTree = "<group>";
-		};
-		C75C54411E0D2D0E003F219D /* cells */ = {
-			isa = PBXGroup;
-			children = (
-				C74BC2401E0D7FFB00381D96 /* PassiveBuyerCell.swift */,
-				C74BC2411E0D7FFB00381D96 /* PassiveBuyerCell.xib */,
-			);
-			path = cells;
-			sourceTree = "<group>";
-		};
 		C77593D91BF0B7BD0097D62F /* Filters */ = {
 			isa = PBXGroup;
 			children = (
@@ -3981,8 +3976,6 @@
 				C7B588131CE1DE1C009B3975 /* QuickAnswer.swift */,
 				C7B588141CE1DE1C009B3975 /* DirectAnswerCell.swift */,
 				C7B588151CE1DE1C009B3975 /* DirectAnswerCell.xib */,
-				C7B588161CE1DE1C009B3975 /* DirectAnswersCloseCell.swift */,
-				C7B588171CE1DE1C009B3975 /* DirectAnswersCloseCell.xib */,
 				C7E1DE531E51F644003818F6 /* DirectAnswersHorizontalView.swift */,
 				C7B588181CE1DE1C009B3975 /* DirectAnswersPresenter.swift */,
 			);
@@ -4192,7 +4185,6 @@
 		D458383C1AEE6A9100B5F181 /* ui */ = {
 			isa = PBXGroup;
 			children = (
-				01A5286C1F700FF200FEF4CF /* PillPageControl */,
 				72A9DA851F5564850066BEBF /* ExpandableCategorySelectionView */,
 				8E814F371F3472AA00C88432 /* LGSlider */,
 				508AFB081E51D1B10007363D /* AutocompleteField */,
@@ -4430,6 +4422,7 @@
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = 3MAE68NKQE;
 						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -4448,12 +4441,12 @@
 					721579FE1E5F34F7006AF997 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 3MAE68NKQE;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					72D57CCD1E5767FC0009FA06 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 3MAE68NKQE;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 0;
@@ -4463,7 +4456,7 @@
 					C7DB41831C5138B500400945 = {
 						DevelopmentTeam = 3MAE68NKQE;
 						LastSwiftMigration = 0820;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 1;
@@ -4528,9 +4521,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A82750E1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json in Resources */,
+				0A6D88C41F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json in Resources */,
+				0A8275121F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json in Resources */,
+				0A6D88CB1F7D05B700819E89 /* DeferredDeepLinkTargetListing.json in Resources */,
 				50D08DA81E69AF14009CC260 /* iOScfgMockOK.json in Resources */,
 				50D08DA71E69AF14009CC260 /* iOScfgMockKOIncomplete.json in Resources */,
+				0A8275101F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json in Resources */,
 				50D08DA91E69AF14009CC260 /* iOScfgReadDAO.json in Resources */,
+				0A6D88C91F7D058B00819E89 /* DeferredDeepLinkTargetSearchQuery.json in Resources */,
 				50D08DAC1E69AF14009CC260 /* No_JSON.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4546,7 +4545,6 @@
 				C7DE8AD31C888761005CF37E /* SellListingCell.xib in Resources */,
 				C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */,
 				2E50E9A91D057E92002DC4C1 /* LGAlertViewController.xib in Resources */,
-				C75C543F1E0D2CF6003F219D /* PassiveBuyersViewController.xib in Resources */,
 				C74931701D34FD0200E117F1 /* RateUserViewController.xib in Resources */,
 				C77593DF1BF0B8A00097D62F /* FiltersViewController.xib in Resources */,
 				D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */,
@@ -4558,7 +4556,6 @@
 				720459351F4F7653008D5A97 /* ListingCell.xib in Resources */,
 				C77593EE1BF0C1FD0097D62F /* FilterDistanceCell.xib in Resources */,
 				C708C83E1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
-				C74BC2441E0D7FFB00381D96 /* PassiveBuyerCell.xib in Resources */,
 				50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */,
 				2E373FA21D3CDEF500AC811C /* UserRatingCell.xib in Resources */,
 				508011191D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
@@ -4602,7 +4599,6 @@
 				2E9716A41D5A0535009B3A32 /* ExpressChatCell.xib in Resources */,
 				722FEA381F1E3BD500838116 /* FilterFreeCell.xib in Resources */,
 				C783D98B1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
-				C7B588551CE1DE1C009B3975 /* DirectAnswersCloseCell.xib in Resources */,
 				C77593E61BF0BD310097D62F /* FilterCategoryCell.xib in Resources */,
 				508011211D474ED80073F362 /* iPhoneParts.xcassets in Resources */,
 				2E4436331BF389EE00814624 /* LGNavBarSearchField.xib in Resources */,
@@ -4673,6 +4669,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A8275131F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json in Resources */,
+				0A8275141F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json in Resources */,
+				0A8275151F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json in Resources */,
+				0A82750C1F7D0DAD00A6A0C5 /* DeferredDeepLinkTargetListing.json in Resources */,
+				0A82750B1F7D0DA400A6A0C5 /* DeferredDeepLinkTargetSearchQuery.json in Resources */,
+				0A6D88C51F7CFECA00819E89 /* DeferredDeepLinkTargetCategory.json in Resources */,
 				C750184B1D10681B007D4CE4 /* ChatOtherInfoCell.xib in Resources */,
 				C73FABB91DD37968008F4519 /* SettingsLogoutCell.xib in Resources */,
 				C7DB42481C5138B500400945 /* FilterSingleCheckCell.xib in Resources */,
@@ -4680,7 +4682,6 @@
 				C7DE8AD41C888761005CF37E /* SellListingCell.xib in Resources */,
 				C7DB42491C5138B500400945 /* LetGo.entitlements in Resources */,
 				2E50E9AA1D057E92002DC4C1 /* LGAlertViewController.xib in Resources */,
-				C75C54401E0D2CF6003F219D /* PassiveBuyersViewController.xib in Resources */,
 				C74931711D34FD0200E117F1 /* RateUserViewController.xib in Resources */,
 				C7DB424A1C5138B500400945 /* FiltersViewController.xib in Resources */,
 				C75B55FC1C7E12C90001F5CD /* FilterDisclosureCell.xib in Resources */,
@@ -4692,7 +4693,6 @@
 				720459361F4F7653008D5A97 /* ListingCell.xib in Resources */,
 				C7DB424E1C5138B500400945 /* FilterDistanceCell.xib in Resources */,
 				C708C83F1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
-				C74BC2451E0D7FFB00381D96 /* PassiveBuyerCell.xib in Resources */,
 				C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */,
 				2E373FAE1D3E6F4500AC811C /* UserRatingCell.xib in Resources */,
 				5080111A1D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
@@ -4736,7 +4736,6 @@
 				C75B5DC41D59E09500112368 /* ListingCarouselViewController.xib in Resources */,
 				722FEA391F1E3BD500838116 /* FilterFreeCell.xib in Resources */,
 				C783D98C1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
-				C7B588561CE1DE1C009B3975 /* DirectAnswersCloseCell.xib in Resources */,
 				C7DB426F1C5138B500400945 /* FilterCategoryCell.xib in Resources */,
 				508011221D474ED80073F362 /* iPhoneParts.xcassets in Resources */,
 				C7DB42711C5138B500400945 /* LGNavBarSearchField.xib in Resources */,
@@ -5384,6 +5383,7 @@
 				72D928D81E83D1C60030F4C3 /* ChatViewModelSpec.swift in Sources */,
 				72D928E71E83ED300030F4C3 /* MockRatingManager.swift in Sources */,
 				50D08DCB1E69AF14009CC260 /* CrashManagerSpec.swift in Sources */,
+				0A82750A1F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift in Sources */,
 				50D08DCD1E69AF14009CC260 /* NotificationsManagerSpec.swift in Sources */,
 				50D08DDB1E69AF14009CC260 /* BaseViewModelSpec.swift in Sources */,
 				50D08DD21E69AF14009CC260 /* ConfigSpec.swift in Sources */,
@@ -5396,6 +5396,7 @@
 				50D08DD61E69AF14009CC260 /* ListingListMultiRequesterSpec.swift in Sources */,
 				50D08DCC1E69AF14009CC260 /* GodModeManagerSpec.swift in Sources */,
 				504C63C41ECAF2EA00D33BFA /* MockApplication.swift in Sources */,
+				0A6D88BF1F7CED6900819E89 /* DeepLinksRouterSpec.swift in Sources */,
 				C750AA8B1E6D76DC005F87C5 /* MockListingViewModelMaker.swift in Sources */,
 				50D08DE11E69AF14009CC260 /* ListingCarouselViewModelSpec.swift in Sources */,
 				2EF0BB131E784468006808B5 /* MockPaymentQueue.swift in Sources */,
@@ -5488,12 +5489,15 @@
 				C707D44A1E96799000042C03 /* TextHiddenTags.swift in Sources */,
 				6A5E1A0C1D548F5400F92692 /* UIButton+Rx.swift in Sources */,
 				50EC64041C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
+				2E75EC491FA0959A00C5F48F /* FeaturedInfoViewController.swift in Sources */,
 				C7B5882B1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift in Sources */,
 				50146BDC1D4F90F100B0F635 /* MainTabNavigator.swift in Sources */,
+				50D4C3221F8CBF39000E8069 /* SuggestiveSearch+LG.swift in Sources */,
 				50CBCD5F1BF0BB8F00A329BB /* CollectionViewFooter.swift in Sources */,
 				8E814F391F3472C000C88432 /* LGSlider.swift in Sources */,
 				50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */,
 				C71C5D5E1D958974006EB3CE /* BumperFeatures.swift in Sources */,
+				01616CC61F975C2E00F412D7 /* Taxonomy+LG.swift in Sources */,
 				504C63BC1ECAF18F00D33BFA /* Application.swift in Sources */,
 				C78F9DB61DC9ED1300884064 /* LocalProduct.swift in Sources */,
 				6A12E0521C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
@@ -5504,7 +5508,6 @@
 				50AB5F221ED4447200E9909D /* UserRatingTag.swift in Sources */,
 				508D48671CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,
 				C7B5886B1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
-				C74BC2421E0D7FFB00381D96 /* PassiveBuyerCell.swift in Sources */,
 				C7AFFAFE1E7053EF0052A9CA /* NPSViewModel.swift in Sources */,
 				6A5691531D255D27000B7365 /* ListingCellModel.swift in Sources */,
 				8E814F3C1F3472E800C88432 /* LGSliderViewModel.swift in Sources */,
@@ -5515,7 +5518,6 @@
 				507440DE1E3F97EB006976F7 /* LoginAppearance+Helper.swift in Sources */,
 				C72794361D549342009C25AB /* ChangePasswordViewController.swift in Sources */,
 				8E15D7971E9B97D3000A99C0 /* PostCategoryDetailRowView.swift in Sources */,
-				C75C54431E0D2D2F003F219D /* PassiveBuyersViewModel.swift in Sources */,
 				8E2600731E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */,
 				509F79AF1ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift in Sources */,
 				6A5E19DE1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
@@ -5565,6 +5567,7 @@
 				2E2208E81DD4BD1100FB2483 /* EmptyCell.swift in Sources */,
 				C783D97C1C64BB90000EE5CA /* ReportUsersViewController.swift in Sources */,
 				50BA5C061C3C093E00F34042 /* AppDelegate.swift in Sources */,
+				01616CCC1F978DA900F412D7 /* SelectableFilterTagCell.swift in Sources */,
 				C783D98E1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
 				C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */,
 				2E52CCD41CBD54F3003B7A96 /* ABTests.swift in Sources */,
@@ -5625,7 +5628,6 @@
 				C730FD0E1E76F93000175C27 /* CacheManager.swift in Sources */,
 				5009F83E1E5B01890064ED22 /* Metrics.swift in Sources */,
 				C7363FBA1BFA3E6500A4BF6F /* DistanceType+LG.swift in Sources */,
-				C75C543D1E0D2CF6003F219D /* PassiveBuyersViewController.swift in Sources */,
 				C7B5889E1CE1E025009B3975 /* ChatGroupedListView.swift in Sources */,
 				72D928E41E83EBC10030F4C3 /* LGRatingManager.swift in Sources */,
 				D412E07F1B4EFF2800683FFD /* ListingListViewModel.swift in Sources */,
@@ -5645,7 +5647,6 @@
 				506846471CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
 				C79842011CC8E8C900C300FF /* User+LG.swift in Sources */,
 				C7415EEB1DEF1E300003D6C1 /* TextViewController.swift in Sources */,
-				C7B588531CE1DE1C009B3975 /* DirectAnswersCloseCell.swift in Sources */,
 				C7905B871DF1D090009CD191 /* UITextView+Lines.swift in Sources */,
 				6A5E1A0A1D548F5400F92692 /* UIBarItem+Rx.swift in Sources */,
 				720A8FA91F1F94E700DCBAD8 /* FilterPriceCell.swift in Sources */,
@@ -5672,8 +5673,9 @@
 				6A5E19F21D548F5400F92692 /* UnicodeScalar+LG.swift in Sources */,
 				C7AFFB041E7054780052A9CA /* WebSurveyViewModel.swift in Sources */,
 				72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */,
-				C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */,
+				C7363FB21BF9CB5B00A4BF6F /* FilterTagsView.swift in Sources */,
 				50C9E4C11B723E6B001E4E92 /* AmplitudeTracker.swift in Sources */,
+				0AC264E11F94ACB600666BA6 /* EditListingCoordinator.swift in Sources */,
 				2EF4E3AF1D3688AB00A09DFD /* Config.swift in Sources */,
 				C7F22D851DB7A55C00353803 /* RecaptchaViewModel.swift in Sources */,
 				6A4E80611C77620900C6423E /* LetgoAvatar.swift in Sources */,
@@ -5681,7 +5683,6 @@
 				C7DB42981C521DC900400945 /* EnvironmentsHelper.swift in Sources */,
 				C7B588831CE1DFA6009B3975 /* ChatMyMessageCellDrawer.swift in Sources */,
 				50F0BAA61B28937800E50A68 /* SignUpViewModel.swift in Sources */,
-				C730750A1E13ABE600EF9A05 /* PassiveBuyersNavigator.swift in Sources */,
 				C7732F721D883C7700EAD5B7 /* OnboardingCoordinator.swift in Sources */,
 				C7BAC9C31E49CEA1005BD0AF /* NotificationsManager.swift in Sources */,
 				C7732F6F1D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
@@ -5804,12 +5805,10 @@
 				2EE4BD211CDA398400EAADF9 /* CrashManager.swift in Sources */,
 				C74016D91D6467C9004C1E9D /* PostListingDetailPriceView.swift in Sources */,
 				50146BD31D4F5FC700B0F635 /* ProfileTabCoordinator.swift in Sources */,
-				C73075081E13AB2B00EF9A05 /* PassiveBuyersCoordinator.swift in Sources */,
 				C743FEAD1E449EA600B4E912 /* RateBuyersViewController.swift in Sources */,
 				C7F22D801DB7A3A200353803 /* RecaptchaViewController.swift in Sources */,
-				721384071F210C15006DB039 /* TaxonomyHeaderView.swift in Sources */,
+				721384071F210C15006DB039 /* TaxonomyTableViewCell.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
-				01A528711F70113200FEF4CF /* AnimatedPageCollectionViewLayout.swift in Sources */,
 				72EB705C1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */,
 				C731B8781CE22BBE00F31D46 /* WSChatListViewModel.swift in Sources */,
 				505F55B31E8A97AF005A616F /* PostCategorySelectionView.swift in Sources */,
@@ -5821,6 +5820,7 @@
 				C7DE3ADB1CBD099F002CB482 /* TabBarViewModel.swift in Sources */,
 				C788EED41CC6935600B9E26F /* UserListingListRequester.swift in Sources */,
 				2E4C60A51DDF61B300595490 /* ChatBanner.swift in Sources */,
+				0A6E56AE1F8E233500419DDC /* RelatedListingsViewModel.swift in Sources */,
 				2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */,
 				5095988B1C8733B70026AE2D /* AppReport.swift in Sources */,
 				C7126BDB1E6053AA00038CC4 /* ListingVMTrackHelper.swift in Sources */,
@@ -5864,7 +5864,6 @@
 				C7BAC9CD1E49E81E005BD0AF /* Listing+LG.swift in Sources */,
 				C7DE8ACB1C888761005CF37E /* EditListingViewModel.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
-				01A5286E1F70100100FEF4CF /* PillPageControl.swift in Sources */,
 				6A5E19E81D548F5400F92692 /* Int+LG.swift in Sources */,
 				2E47610B1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift in Sources */,
 				C7BB25D01E36153600649396 /* GodModeManager.swift in Sources */,
@@ -5923,6 +5922,7 @@
 				2E4B359C1CC90A9500B8CB64 /* RelatedListingListRequester.swift in Sources */,
 				C742340C1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,
 				C7AB4EC61CD39C67007B573D /* LGNotificationsManager.swift in Sources */,
+				0AC264E41F94B87400666BA6 /* EditListingNavigator.swift in Sources */,
 				72B76C831DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */,
 				C7F4CBA61C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				C7BB25CE1E3613D500649396 /* VersionChecker.swift in Sources */,
@@ -5937,6 +5937,7 @@
 				502047181EE99F6E006C0EC2 /* FeatureFlagsDAO.swift in Sources */,
 				50C59BD81CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
 				2E64D41A1D11B34F00257B69 /* Tooltip.swift in Sources */,
+				2E75EC4C1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6004,12 +6005,15 @@
 				C707D44B1E96799000042C03 /* TextHiddenTags.swift in Sources */,
 				50EC64051C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
 				509CFF361DCCE8DF0068E518 /* CGPoint+LG.swift in Sources */,
+				2E75EC4A1FA0959A00C5F48F /* FeaturedInfoViewController.swift in Sources */,
 				6A5E1A0D1D548F5400F92692 /* UIButton+Rx.swift in Sources */,
 				C7B5882C1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift in Sources */,
+				50D4C3231F8CBF39000E8069 /* SuggestiveSearch+LG.swift in Sources */,
 				2E373FB01D3E6F5100AC811C /* UserRatingListViewModel.swift in Sources */,
 				8E814F3A1F3472C000C88432 /* LGSlider.swift in Sources */,
 				50146BDD1D4F90F100B0F635 /* MainTabNavigator.swift in Sources */,
 				C7DB41981C5138B500400945 /* CollectionViewFooter.swift in Sources */,
+				01616CC71F975C2E00F412D7 /* Taxonomy+LG.swift in Sources */,
 				504C63BD1ECAF18F00D33BFA /* Application.swift in Sources */,
 				C7DB41991C5138B500400945 /* BaseViewController.swift in Sources */,
 				6A12E0531C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */,
@@ -6022,7 +6026,6 @@
 				508D48681CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,
 				C7B5886C1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
 				C7AFFAFF1E7053EF0052A9CA /* NPSViewModel.swift in Sources */,
-				C74BC2431E0D7FFB00381D96 /* PassiveBuyerCell.swift in Sources */,
 				8E814F3D1F3472E800C88432 /* LGSliderViewModel.swift in Sources */,
 				6A5691541D255D27000B7365 /* ListingCellModel.swift in Sources */,
 				C75B5DC21D59E09500112368 /* ListingCarouselViewController.swift in Sources */,
@@ -6035,7 +6038,6 @@
 				8E2600741E2FB15D00242B3F /* ChangeEmailViewModel.swift in Sources */,
 				509F79B01ED6E54D00AF2F70 /* CenterAlignedCollectionViewFlowLayout.swift in Sources */,
 				6A5E19DF1D548F5400F92692 /* FBLoginHelper.swift in Sources */,
-				C75C54441E0D2D2F003F219D /* PassiveBuyersViewModel.swift in Sources */,
 				6A672C141CCFB22900AB9175 /* UIColor+LG.swift in Sources */,
 				503996D81C60C3EE004D2E09 /* LGViewPager.swift in Sources */,
 				6AF75CFF1CF35EFB00EACCF0 /* ChatStickerCellDrawer.swift in Sources */,
@@ -6067,7 +6069,6 @@
 				6A5E1A051D548F5400F92692 /* TypeAliases.swift in Sources */,
 				C727FBBF1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */,
 				C74931741D351E8300E117F1 /* RateUserViewModel.swift in Sources */,
-				C730750C1E13BBD300EF9A05 /* PassiveBuyersCoordinator.swift in Sources */,
 				5063949E1C8DA9000091C831 /* BaseViewModelDelegate.swift in Sources */,
 				C7AFFB131E71AB500052A9CA /* TimeInterval+Time.swift in Sources */,
 				C783D98A1C64C15B000EE5CA /* ReportUserCell.swift in Sources */,
@@ -6081,6 +6082,7 @@
 				2E373FAC1D3E6F3E00AC811C /* UserRatingListRequester.swift in Sources */,
 				C72794291D549334009C25AB /* SettingsCell.swift in Sources */,
 				C7111F031CA438AC000C5C5A /* UniversalLink.swift in Sources */,
+				01616CCD1F978DA900F412D7 /* SelectableFilterTagCell.swift in Sources */,
 				2E2208E91DD4BD1100FB2483 /* EmptyCell.swift in Sources */,
 				C7DB41B21C5138B500400945 /* MediaPickerManager.swift in Sources */,
 				50F681F31C8F4586001F33A3 /* RxPaginable.swift in Sources */,
@@ -6145,7 +6147,6 @@
 				C78BB50C1C5A314700614096 /* AppShareViewController.swift in Sources */,
 				50D67B981D0AFF24003AC0A5 /* TabBarShowable.swift in Sources */,
 				72D928E51E83EBC10030F4C3 /* LGRatingManager.swift in Sources */,
-				C75C543E1E0D2CF6003F219D /* PassiveBuyersViewController.swift in Sources */,
 				508C3F7A1C984BCA00CF431F /* UserViewHeader.swift in Sources */,
 				C7DB41CF1C5138B500400945 /* RememberPasswordViewController.swift in Sources */,
 				7204593B1F5008ED008D5A97 /* ListingCell.swift in Sources */,
@@ -6162,7 +6163,6 @@
 				50146BCE1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */,
 				C7DB41DA1C5138B500400945 /* Constants.swift in Sources */,
 				5095988A1C8733B70026AE2D /* Logger.swift in Sources */,
-				C730750B1E13BBCF00EF9A05 /* PassiveBuyersNavigator.swift in Sources */,
 				C7DB41DC1C5138B500400945 /* CAGradientLayer+Color.swift in Sources */,
 				720A8FAA1F1F94E700DCBAD8 /* FilterPriceCell.swift in Sources */,
 				C7415EEC1DEF1E300003D6C1 /* TextViewController.swift in Sources */,
@@ -6174,7 +6174,6 @@
 				506846481CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
 				C79842021CC8E8C900C300FF /* User+LG.swift in Sources */,
 				50D250051DAFB68600B45EC2 /* UIApplication+PushNotification.swift in Sources */,
-				C7B588541CE1DE1C009B3975 /* DirectAnswersCloseCell.swift in Sources */,
 				C7798EA31D2EB6AB00C81DD4 /* UICollectionView+Helper.swift in Sources */,
 				8EF026181EDD7E8C0097A3A9 /* FiltersNavigator.swift in Sources */,
 				2EFF0D9D1E69732E00FBF3D5 /* Dictionary+Filter.swift in Sources */,
@@ -6192,8 +6191,9 @@
 				C7F3F1E61DE5EF6A00652447 /* TourBlurBackgroundViewController.swift in Sources */,
 				C7B588861CE1DFA6009B3975 /* ChatOthersMessageCellDrawer.swift in Sources */,
 				C7DB41DE1C5138B500400945 /* PopupSignUpViewController.swift in Sources */,
+				0AC264E21F94B6A800666BA6 /* EditListingCoordinator.swift in Sources */,
 				6A5E19F31D548F5400F92692 /* UnicodeScalar+LG.swift in Sources */,
-				C7DB41E51C5138B500400945 /* FilterTagsViewController.swift in Sources */,
+				C7DB41E51C5138B500400945 /* FilterTagsView.swift in Sources */,
 				C7DB41E71C5138B500400945 /* AmplitudeTracker.swift in Sources */,
 				C7F22D861DB7A55C00353803 /* RecaptchaViewModel.swift in Sources */,
 				2E2D53DF1D369AFF00348D12 /* Config.swift in Sources */,
@@ -6224,10 +6224,8 @@
 				50C63B771DC3B63700836D85 /* ShareType.swift in Sources */,
 				8E1139E61EC9AD7100A9D772 /* FilterTitleHeaderView.swift in Sources */,
 				C743FEB11E449F2E00B4E912 /* RateBuyersHeader.swift in Sources */,
-				01A528731F7013C300FEF4CF /* PillPageControl.swift in Sources */,
 				C79895C91DE43D5100DD58BF /* SessionEvent+LG.swift in Sources */,
 				C7E73E8B1CD1F77E000F2591 /* NotificationData.swift in Sources */,
-				01A528721F7013BC00FEF4CF /* AnimatedPageCollectionViewLayout.swift in Sources */,
 				72A83F651DD222100043EB3B /* Leanplum+LG.swift in Sources */,
 				2EBC92061E0A77A5007F0F82 /* AppstoreProductsRequest.swift in Sources */,
 				50C63B721DC3A79100836D85 /* SocialMessage.swift in Sources */,
@@ -6255,6 +6253,7 @@
 				C7DB42001C5138B500400945 /* ReusableCell.swift in Sources */,
 				2E28B12C1D99132D001BF8E4 /* Double+Rounding.swift in Sources */,
 				6A9C9EBF1CCF95A1009D866C /* UIButton+LetgoStyles.swift in Sources */,
+				0A6E56AF1F8E241000419DDC /* RelatedListingsViewModel.swift in Sources */,
 				C7111F091CA4458F000C5C5A /* ShortcutItem.swift in Sources */,
 				C743FEB81E44E46000B4E912 /* PossibleBuyerCell.swift in Sources */,
 				509598881C8733B70026AE2D /* CrashlyticsLogger.swift in Sources */,
@@ -6326,7 +6325,7 @@
 				C74016DA1D6467C9004C1E9D /* PostListingDetailPriceView.swift in Sources */,
 				C743FEAE1E449EA600B4E912 /* RateBuyersViewController.swift in Sources */,
 				5076228B1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
-				721384081F210C15006DB039 /* TaxonomyHeaderView.swift in Sources */,
+				721384081F210C15006DB039 /* TaxonomyTableViewCell.swift in Sources */,
 				72EB705D1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */,
 				C7F22D811DB7A3A200353803 /* RecaptchaViewController.swift in Sources */,
 				505F55B41E8A97AF005A616F /* PostCategorySelectionView.swift in Sources */,
@@ -6439,6 +6438,7 @@
 				2E6B6E3E1D2BCC9800C10A20 /* PostIncentiviserItem.swift in Sources */,
 				C742340D1D5A132D0082D1CD /* UITableView+Changes.swift in Sources */,
 				2E4B359D1CC90A9500B8CB64 /* RelatedListingListRequester.swift in Sources */,
+				0AC264E51F94B8E900666BA6 /* EditListingNavigator.swift in Sources */,
 				72B76C841DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift in Sources */,
 				C7AB4EC71CD39C67007B573D /* LGNotificationsManager.swift in Sources */,
 				C7BB25D21E3618C700649396 /* VersionChecker.swift in Sources */,
@@ -6453,6 +6453,7 @@
 				502047191EE99F6E006C0EC2 /* FeatureFlagsDAO.swift in Sources */,
 				50C59BD91CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
 				2E64D41B1D11B34F00257B69 /* Tooltip.swift in Sources */,
+				2E75EC4D1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6761,8 +6762,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Juan Iglesias (N84RY52Y5Q)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 29;
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -6779,8 +6781,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
-				PROVISIONING_PROFILE = "ac6904aa-0f7e-480d-b0b2-f2731f1ee961";
-				PROVISIONING_PROFILE_SPECIFIER = "Letgo Development";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -6795,8 +6797,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 29;
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -6813,8 +6816,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
-				PROVISIONING_PROFILE = "3c1f5276-ba35-49ab-b57d-9a0a2335a4ce";
-				PROVISIONING_PROFILE_SPECIFIER = "Letgo AppStore";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -6829,15 +6832,16 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Juan Iglesias (N84RY52Y5Q)";
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/notificationservice/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e9244d98-cc36-4d89-bf26-51c0bff66ef8";
-				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service Development";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -6854,17 +6858,18 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/notificationservice/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3c1f5276-ba35-49ab-b57d-9a0a2335a4ce";
-				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service AppStore";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -6879,17 +6884,18 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/notificationservice/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3004d0f2-16fa-430c-a26b-8b41c2987936";
-				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service Adhoc";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -6904,15 +6910,16 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Juan Iglesias (N84RY52Y5Q)";
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = notificationservice/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e9244d98-cc36-4d89-bf26-51c0bff66ef8";
-				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service Development";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -6929,17 +6936,18 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = notificationservice/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3c1f5276-ba35-49ab-b57d-9a0a2335a4ce";
-				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service AppStore";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -6954,17 +6962,18 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = notificationservice/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.notificationservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3004d0f2-16fa-430c-a26b-8b41c2987936";
-				PROVISIONING_PROFILE_SPECIFIER = "Letgo Notification Service Adhoc";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -6978,8 +6987,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Juan Iglesias (N84RY52Y5Q)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 29;
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -6996,8 +7006,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG -D GOD_MODE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e9244d98-cc36-4d89-bf26-51c0bff66ef8";
-				PROVISIONING_PROFILE_SPECIFIER = "Letgo Development";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -7012,8 +7022,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 29;
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -7030,8 +7041,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D GOD_MODE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3c1f5276-ba35-49ab-b57d-9a0a2335a4ce";
-				PROVISIONING_PROFILE_SPECIFIER = "Letgo AppStore";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -7045,8 +7056,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 29;
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -7063,8 +7075,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D GOD_MODE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e238f210-062f-4db5-907b-43734d8251cf";
-				PROVISIONING_PROFILE_SPECIFIER = "Letgo Adhoc";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -7119,8 +7131,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana Holdings B.V. (3MAE68NKQE)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 29;
-				DEVELOPMENT_TEAM = 3MAE68NKQE;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -7137,8 +7150,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
-				PROVISIONING_PROFILE = "3004d0f2-16fa-430c-a26b-8b41c2987936";
-				PROVISIONING_PROFILE_SPECIFIER = "Letgo Adhoc";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";

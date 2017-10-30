@@ -121,7 +121,6 @@ class ListingCarouselViewModel: BaseViewModel {
 
     let quickAnswers = Variable<[[QuickAnswer]]>([[]])
     let quickAnswersAvailable = Variable<Bool>(false)
-    let quickAnswersCollapsed: Variable<Bool>
 
     let directChatEnabled = Variable<Bool>(false)
     var directChatPlaceholder = Variable<String>("")
@@ -143,25 +142,16 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate let nextImagesToPrefetch = 3
     fileprivate var prefetchingIndexes: [Int] = []
 
-    fileprivate var shouldShowOnboarding: Bool {
-        let shouldShowOldOnboarding = !featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive
-            && !keyValueStorage[.didShowListingDetailOnboarding]
-        let shouldShowNewOnboarding = featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive
-            && !keyValueStorage[.didShowHorizontalListingDetailOnboarding]
-        return shouldShowOldOnboarding || shouldShowNewOnboarding
-    }
+    fileprivate var shouldShowOnboarding: Bool { return !keyValueStorage[.didShowListingDetailOnboarding] }
 
-    var imageScrollDirection: UICollectionViewScrollDirection {
-        if featureFlags.newCarouselNavigationTapNextPhotoEnabled.isActive {
-            return .horizontal
-        }
-        return .vertical
-    }
-
-    let imageHorizontalNavigationEnabled = Variable<Bool>(false)
+    var imageScrollDirection: UICollectionViewScrollDirection = .vertical
 
     var isMyListing: Bool {
         return currentListingViewModel?.isMine ?? false
+    }
+
+    var isStatusLabelClickable: Bool {
+        return featureFlags.featuredRibbonImprovementInDetail == .active
     }
 
     fileprivate var trackingIndex: Int?
@@ -283,7 +273,6 @@ class ListingCarouselViewModel: BaseViewModel {
         self.listingListRequester = listingListRequester
         self.source = source
         self.actionOnFirstAppear = actionOnFirstAppear
-        self.quickAnswersCollapsed = Variable<Bool>(keyValueStorage[.listingDetailQuickAnswersHidden])
         self.keyValueStorage = keyValueStorage
         self.imageDownloader = imageDownloader
         self.listingViewModelMaker = listingViewModelMaker
@@ -345,7 +334,13 @@ class ListingCarouselViewModel: BaseViewModel {
         // Tracking
         if active {
             let feedPosition = movement.feedPosition(for: trackingIndex)
-            currentListingViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
+            if source == .relatedListings {
+                currentListingViewModel?.trackVisit(movement.visitUserAction,
+                                                    source: movement.visitSource(source),
+                                                    feedPosition: feedPosition)
+            } else {
+                currentListingViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
+            }
         }
     }
 
@@ -365,14 +360,6 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func directMessagesItemPressed() {
         currentListingViewModel?.chatWithSeller()
-    }
-
-    func quickAnswersShowButtonPressed() {
-        quickAnswersCollapsed.value = false
-    }
-
-    func quickAnswersCloseButtonPressed() {
-        quickAnswersCollapsed.value = true
     }
 
     func send(quickAnswer: QuickAnswer) {
@@ -537,7 +524,12 @@ class ListingCarouselViewModel: BaseViewModel {
                                                willLeaveApp: willLeave)
     }
 
-
+    func statusLabelTapped() {
+        navigator?.openFeaturedInfo()
+        currentListingViewModel?.trackOpenFeaturedInfo()
+    }
+    
+    
     // MARK: - Private Methods
 
     fileprivate func listingAt(index: Int) -> Listing? {
@@ -561,12 +553,6 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-        imageHorizontalNavigationEnabled.value = imageScrollDirection == .horizontal
-        
-        quickAnswersCollapsed.asObservable().skip(1).bindNext { [weak self] collapsed in
-            self?.keyValueStorage[.listingDetailQuickAnswersHidden] = collapsed
-        }.addDisposableTo(disposeBag)
-
         moreInfoState.asObservable().map { $0 == .shown }.distinctUntilChanged().filter { $0 }.bindNext { [weak self] _ in
             if let adActive = self?.adActive, !adActive {
                 self?.currentListingViewModel?.trackVisitMoreInfo(isMine: EventParameterBoolean(bool: self?.currentListingViewModel?.isMine),
@@ -609,18 +595,7 @@ class ListingCarouselViewModel: BaseViewModel {
         currentVM.directChatEnabled.asObservable().bindTo(directChatEnabled).addDisposableTo(activeDisposeBag)
         directChatMessages.removeAll()
         currentVM.directChatMessages.changesObservable.subscribeNext { [weak self] change in
-            switch change {
-            case let .insert(index, value):
-                self?.directChatMessages.insert(value, atIndex: index)
-            case let .remove(index, _):
-                self?.directChatMessages.removeAtIndex(index)
-            case let .swap(fromIndex, toIndex, replacingWith):
-                self?.directChatMessages.swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
-            case let .move(fromIndex, toIndex, replacingWith):
-                self?.directChatMessages.move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
-            case .composite:
-                break
-            }
+            self?.performCollectionChange(change: change)
         }.addDisposableTo(activeDisposeBag)
         directChatPlaceholder.value = currentVM.directChatPlaceholder
 
@@ -633,6 +608,23 @@ class ListingCarouselViewModel: BaseViewModel {
         socialSharer.value = currentVM.socialSharer
 
         moreInfoState.asObservable().bindTo(currentVM.moreInfoState).addDisposableTo(activeDisposeBag)
+    }
+
+    private func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
+        switch change {
+        case let .insert(index, value):
+            directChatMessages.insert(value, atIndex: index)
+        case let .remove(index, _):
+            directChatMessages.removeAtIndex(index)
+        case let .swap(fromIndex, toIndex, replacingWith):
+            directChatMessages.swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
+        case let .move(fromIndex, toIndex, replacingWith):
+            directChatMessages.move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
+        case let .composite(changes):
+            for change in changes {
+                performCollectionChange(change: change)
+            }            
+        }
     }
 
     private func makeAdsRequestQuery() -> String {
@@ -719,19 +711,6 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
         finalActions.append(UIAction(interface: .text(title), action: { [weak self] in
             self?.delegate?.vmShowOnboarding()
         }))
-
-        if quickAnswersAvailable.value {
-            //Adding show/hide quick answers option
-            if quickAnswersCollapsed.value {
-                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersShow), action: {
-                    [weak self] in self?.quickAnswersShowButtonPressed()
-                }))
-            } else {
-                finalActions.append(UIAction(interface: .text(LGLocalizedString.directAnswersHide), action: {
-                    [weak self] in self?.quickAnswersCloseButtonPressed()
-                }))
-            }
-        }
         delegate?.vmShowCarouselOptions(cancelLabel, actions: finalActions)
     }
 
@@ -803,6 +782,19 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
 // MARK: - Tracking
 
 extension CarouselMovement {
+    func visitSource(_ originSource: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
+        switch self {
+        case .tap:
+            return .next
+        case .swipeRight:
+            return .next
+        case .initial:
+            return originSource
+        case .swipeLeft:
+            return .previous
+        }
+    }
+
     var visitUserAction: ListingVisitUserAction {
         switch self {
         case .tap:

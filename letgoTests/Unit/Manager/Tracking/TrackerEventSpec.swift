@@ -810,8 +810,10 @@ class TrackerEventSpec: QuickSpec {
                 let categories: [ListingCategory] = [.homeAndGarden, .motorsAndAccessories]
                 let taxonomy: TaxonomyChild = MockTaxonomyChild.makeMock()
                 let searchQuery = "iPhone"
+                let count = Int.random()
+
                 beforeEach {
-                    sut = TrackerEvent.listingList(nil, categories: categories, taxonomy: taxonomy, searchQuery: searchQuery, feedSource: .home, success: .trueParameter)
+                    sut = TrackerEvent.listingList(nil, categories: categories, taxonomy: taxonomy, searchQuery: searchQuery, resultsCount: count, feedSource: .home, success: .trueParameter)
                 }
                 
                 it("has its event name") {
@@ -834,6 +836,13 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains keyword-name parameter") {
                     expect(sut.params!.stringKeyParams["keyword-name"] as? String).to(equal(taxonomy.name))
+                }
+                it("contains number-of-items parameter") {
+                    if count >= 50 {
+                        expect(sut.params!.stringKeyParams["number-of-items"] as? String).to(equal("50"))
+                    } else {
+                        expect(sut.params!.stringKeyParams["number-of-items"] as? String).to(equal("\(count)"))
+                    }
                 }
             }
             
@@ -3438,7 +3447,8 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
-                    sut = TrackerEvent.listingBumpUpComplete(.product(product), price: .free, type: .free, restoreRetriesCount: 8, network: .facebook)
+                    sut = TrackerEvent.listingBumpUpComplete(.product(product), price: .free, type: .free, restoreRetriesCount: 8,
+                                                             network: .facebook, transactionStatus: .purchasingPurchased)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-complete"))
@@ -3461,7 +3471,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("bump up fail") {
                 beforeEach {
-                    sut = TrackerEvent.listingBumpUpFail(type: .paid, listingId: "1122")
+                    sut = TrackerEvent.listingBumpUpFail(type: .paid, listingId: "1122", transactionStatus: .purchasingPurchased)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-fail"))
@@ -3472,10 +3482,13 @@ class TrackerEventSpec: QuickSpec {
                 it("product id matches") {
                     expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
                 }
+                it("transaction status matches") {
+                    expect(sut.params?.stringKeyParams["transaction-status"] as? String) == "purchasing-purchased"
+                }
             }
             describe("mobile payment complete") {
                 beforeEach {
-                    sut = TrackerEvent.mobilePaymentComplete(paymentId: "007", listingId: "1122")
+                    sut = TrackerEvent.mobilePaymentComplete(paymentId: "007", listingId: "1122", transactionStatus: .purchasingPurchased)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("mobile-payment-complete"))
@@ -3486,10 +3499,13 @@ class TrackerEventSpec: QuickSpec {
                 it("product id matches") {
                     expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
                 }
+                it("transaction status matches") {
+                    expect(sut.params?.stringKeyParams["transaction-status"] as? String) == "purchasing-purchased"
+                }
             }
             describe("mobile payment fail") {
                 beforeEach {
-                    sut = TrackerEvent.mobilePaymentFail(reason: nil, listingId: "1122")
+                    sut = TrackerEvent.mobilePaymentFail(reason: nil, listingId: "1122", transactionStatus: .purchasingPurchased)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("mobile-payment-fail"))
@@ -3499,6 +3515,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("product id matches") {
                     expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
+                }
+                it("transaction status matches") {
+                    expect(sut.params?.stringKeyParams["transaction-status"] as? String) == "purchasing-purchased"
                 }
             }
             describe("bump up not allowed") {
@@ -3521,58 +3540,6 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("reason matches") {
                     expect(sut.params?.stringKeyParams["reason"] as? String) == "internal"
-                }
-            }
-            describe("Passive buyer start") {
-                beforeEach {
-                    sut = TrackerEvent.passiveBuyerStart(withUser: "123456", productId: "AAAAA")
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("passive-buyer-start"))
-                }
-                it("contains user-id param") {
-                    let param = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(param) == "123456"
-                }
-                it("contains product-id param") {
-                    let param = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(param).to(equal("AAAAA"))
-                }
-            }
-            describe("Passive buyer complete") {
-                beforeEach {
-                    sut = TrackerEvent.passiveBuyerComplete(withUser: "123456", productId: "AAAAA", passiveConversations: 3)
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("passive-buyer-complete"))
-                }
-                it("contains user-id param") {
-                    let param = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(param) == "123456"
-                }
-                it("contains product-id param") {
-                    let param = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(param).to(equal("AAAAA"))
-                }
-                it("contains passive-conversations param") {
-                    let param = sut.params!.stringKeyParams["passive-conversations"] as? Int
-                    expect(param).to(equal(3))
-                }
-            }
-            describe("Passive buyer abandon") {
-                beforeEach {
-                    sut = TrackerEvent.passiveBuyerAbandon(withUser: "123456", productId: "AAAAA")
-                }
-                it("has its event name") {
-                    expect(sut.name.rawValue).to(equal("passive-buyer-abandon"))
-                }
-                it("contains user-id param") {
-                    let param = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(param) == "123456"
-                }
-                it("contains product-id param") {
-                    let param = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(param ).to(equal("AAAAA"))
                 }
             }
             describe("chat-window-open") {
@@ -3605,7 +3572,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("app rating rate") {
                 beforeEach {
-                    sut = TrackerEvent.appRatingRate()
+                    sut = TrackerEvent.appRatingRate(reason: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("app-rating-rate"))

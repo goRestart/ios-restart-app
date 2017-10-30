@@ -27,7 +27,7 @@
 "bump_up_old_view_pay_subtitle" = "Atraia mais compradores dando à sua publicação mais visibilidade.";
 "bump_up_old_view_pay_title" = "VENDA MAIS RÁPIDO";
 "bump_up_pay_success" = "Destacado! Agora o seu item tem uma visibilidade acrescida.";
-"bump_up_processing_free_text" = "A processar o bump...";
+"bump_up_processing_free_text" = "A processar...";
 "bump_up_processing_priced_text" = "A processar o pagamento...";
 "bump_up_product_cell_chat_now_button" = "Converse já";
 "bump_up_product_cell_featured_stripe" = "Destacado";
@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Verifique";
 "chat_not_verified_state_message" = "Confirme se está verificado para poder começar a conversar.";
 "chat_not_verified_state_title" = "ESTÁ VERIFICADO?";
+"chat_product_given_away_label" = "Produto dado";
 "chat_product_sold_label" = "Artigo vendido";
 "chat_related_products_title" = "PODERÁ TER INTERESSE EM:";
 "chat_safety_tips" = "Dicas de segurança";
@@ -209,8 +210,9 @@
 "common_new" = "NOVO!";
 "common_no" = "Não";
 "common_ok" = "Ok";
+"common_product_given_away" = "Produto dado";
 "common_product_not_available" = "Ups! Este produto já não está disponível";
-"common_product_sold" = "Este artigo foi vendido.";
+"common_product_sold" = "Artigo vendido";
 "common_settings" = "Definições";
 "common_short_time_day_ago_label" = "%d dia";
 "common_short_time_days_ago_label" = "%d dias";
@@ -290,6 +292,12 @@
 "edit_product_title" = "Editar artigo";
 "edit_product_unsaved_changes_alert" = "Tem a certeza de que deseja rejeitar estas alterações?";
 "edit_product_unsaved_changes_alert_ok" = "Rejeitar";
+"featured_info_view_increase_visibility" = "Get more visibility";
+"featured_info_view_more_buyers" = "Attract more buyers";
+"featured_info_view_sell_faster" = "Venda mais rápido";
+"featured_info_view_sell_increase_visibility" = "Tenha mais visibilidade";
+"featured_info_view_sell_more_buyers" = "Atraia mais compradores";
+"featured_info_view_title" = "Publicação destacada";
 "filter_results_cars_no_matches" = "A sua pesquisa não devolveu resultados exatos.\nA exibir resultados semelhantes. ";
 "filter_results_cars_other_results" = "Publicado recentemente na sua área";
 "filters_car_make_not_set" = "Não Definida";
@@ -814,6 +822,7 @@
 "sign_up_title" = "Criar uma nova conta";
 "sign_up_username_field_hint" = "Nome completo";
 "suggested_searches_title" = "Pesquisas sugeridas";
+"suggestions_category" = "Categoria";
 "suggestions_last_searches_clear_button" = "Limpar tudo";
 "suggestions_last_searches_title" = "Pesquisas recentes";
 "survey_confirmation" = "Obrigado! O seu feedback ajuda-nos a melhorar";

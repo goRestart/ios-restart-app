@@ -13,6 +13,7 @@ enum AppReport: ReportType {
 
     case monetization(error: MonetizationReportError)   // 1000..<2000
     case navigation(error: NavigationReportError)       // 2000..<3000
+    case uikit(error: UIKitReportError)       // 3000..<4000
 
     var domain: String {
         return Constants.appDomain
@@ -30,8 +31,17 @@ enum AppReport: ReportType {
             case .childCoordinatorPresent:
                 return 2001
             }
+        case .uikit(let error):
+            switch error {
+            case .unableToConvertHTMLToString:
+                return 3001
+            }
         }
     }
+}
+
+enum UIKitReportError {
+    case unableToConvertHTMLToString
 }
 
 enum MonetizationReportError {

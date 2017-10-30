@@ -35,7 +35,7 @@
 "bump_up_view_free_subtitle" = "Cuanto más compartes, más visibilidad tiene tu anuncio.";
 "bump_up_view_free_title" = "DESTACA TU ANUNCIO";
 "bump_up_view_pay_button_title" = "Activar por %@";
-"bump_up_view_pay_subtitle" = "Destacaremos tu artículo durante 24 horas para que lo vean más compradores y lo vendas más rápido.";
+"bump_up_view_pay_subtitle" = "Destacaremos tu artículo durante 24 horas para que lo vean más compradores y lo vendas más rápido";
 "bump_up_view_pay_title" = "Atrae al doble de compradores";
 "categories_baby_and_child" = "Niños y Bebés";
 "categories_car" = "Coches";
@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Comprobar";
 "chat_not_verified_state_message" = "Comprueba si estás verificado para empezar a chatear.";
 "chat_not_verified_state_title" = "¿ESTÁS VERIFICADO?";
+"chat_product_given_away_label" = "Producto ya regalado";
 "chat_product_sold_label" = "Artículo vendido";
 "chat_related_products_title" = "TAMBIÉN TE PODRÍA INTERESAR:";
 "chat_safety_tips" = "Consejos de seguridad";
@@ -209,8 +210,9 @@
 "common_new" = "¡NUEVO!";
 "common_no" = "No";
 "common_ok" = "Aceptar";
+"common_product_given_away" = "Producto ya regalado";
 "common_product_not_available" = "¡Ups! Este artículo ya no está disponible";
-"common_product_sold" = "Este artículo ha sido vendido.";
+"common_product_sold" = "Artículo vendido";
 "common_settings" = "Ajustes";
 "common_short_time_day_ago_label" = "%d día";
 "common_short_time_days_ago_label" = "%d días";
@@ -290,6 +292,12 @@
 "edit_product_title" = "Editar artículo";
 "edit_product_unsaved_changes_alert" = "¿Estás seguro de querer descartar tus cambios?";
 "edit_product_unsaved_changes_alert_ok" = "Descartar";
+"featured_info_view_increase_visibility" = "Get more visibility";
+"featured_info_view_more_buyers" = "Attract more buyers";
+"featured_info_view_sell_faster" = "Vende más rápido";
+"featured_info_view_sell_increase_visibility" = "Consigue más visibilidad";
+"featured_info_view_sell_more_buyers" = "Atrae más compradores";
+"featured_info_view_title" = "Anuncio destacado";
 "filter_results_cars_no_matches" = "No hay resultados exactos para tu búsqueda.\nMostrando resultados similares.";
 "filter_results_cars_other_results" = "Publicados recientemente cerca de ti";
 "filters_car_make_not_set" = "No Definida";
@@ -814,6 +822,7 @@
 "sign_up_title" = "Crear nueva cuenta";
 "sign_up_username_field_hint" = "Nombre y apellido";
 "suggested_searches_title" = "Búsquedas sugeridas";
+"suggestions_category" = "Categoría";
 "suggestions_last_searches_clear_button" = "Eliminar todas";
 "suggestions_last_searches_title" = "Búsquedas recientes";
 "survey_confirmation" = "¡Gracias! Tus opiniones nos ayudan a mejorar";

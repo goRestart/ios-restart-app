@@ -19,8 +19,6 @@ extension Bumper  {
         flags.append(FreeBumpUpEnabled.self)
         flags.append(PricedBumpUpEnabled.self)
         flags.append(CaptchaTransparent.self)
-        flags.append(PassiveBuyersShowKeyboard.self)
-        flags.append(NewMarkAsSoldFlow.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
         flags.append(InAppRatingIOS10.self)
         flags.append(AddSuperKeywordsOnFeed.self)
@@ -33,11 +31,14 @@ extension Bumper  {
         flags.append(DefaultRadiusDistanceFeed.self)
         flags.append(RealEstateEnabled.self)
         flags.append(SearchAutocomplete.self)
-        flags.append(NewCarouselTapNextPhotoNavigationEnabled.self)
         flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
         flags.append(NewBumpUpExplanation.self)
         flags.append(MoreInfoAdActive.self)
+        flags.append(HomeRelatedEnabled.self)
+        flags.append(HideChatButtonOnFeaturedCells.self)
+        flags.append(FeaturedRibbonImprovementInDetail.self)
+        flags.append(SuperKeywordGroupsAndSubgroupsInFeed.self)
         Bumper.initialize(flags)
     } 
 
@@ -69,16 +70,6 @@ extension Bumper  {
     static var captchaTransparent: Bool {
         guard let value = Bumper.value(for: CaptchaTransparent.key) else { return false }
         return CaptchaTransparent(rawValue: value)?.asBool ?? false
-    }
-
-    static var passiveBuyersShowKeyboard: Bool {
-        guard let value = Bumper.value(for: PassiveBuyersShowKeyboard.key) else { return false }
-        return PassiveBuyersShowKeyboard(rawValue: value)?.asBool ?? false
-    }
-
-    static var newMarkAsSoldFlow: Bool {
-        guard let value = Bumper.value(for: NewMarkAsSoldFlow.key) else { return false }
-        return NewMarkAsSoldFlow(rawValue: value)?.asBool ?? false
     }
 
     static var newCarsMultiRequesterEnabled: Bool {
@@ -115,7 +106,7 @@ extension Bumper  {
         guard let value = Bumper.value(for: AppRatingDialogInactive.key) else { return false }
         return AppRatingDialogInactive(rawValue: value)?.asBool ?? false
     }
-  
+
     static var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
         guard let value = Bumper.value(for: ExpandableCategorySelectionMenu.key) else { return .control }
         return ExpandableCategorySelectionMenu(rawValue: value) ?? .control 
@@ -141,11 +132,6 @@ extension Bumper  {
         return SearchAutocomplete(rawValue: value) ?? .control 
     }
 
-    static var newCarouselTapNextPhotoNavigationEnabled: NewCarouselTapNextPhotoNavigationEnabled {
-        guard let value = Bumper.value(for: NewCarouselTapNextPhotoNavigationEnabled.key) else { return .control }
-        return NewCarouselTapNextPhotoNavigationEnabled(rawValue: value) ?? .control 
-    }
-
     static var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
         guard let value = Bumper.value(for: ShowPriceAfterSearchOrFilter.key) else { return .control }
         return ShowPriceAfterSearchOrFilter(rawValue: value) ?? .control 
@@ -164,7 +150,27 @@ extension Bumper  {
     static var moreInfoAdActive: MoreInfoAdActive {
         guard let value = Bumper.value(for: MoreInfoAdActive.key) else { return .control }
         return MoreInfoAdActive(rawValue: value) ?? .control 
-    } 
+    }
+
+    static var homeRelatedEnabled: HomeRelatedEnabled {
+        guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return .control }
+        return HomeRelatedEnabled(rawValue: value) ?? .control 
+    }
+
+    static var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
+        guard let value = Bumper.value(for: HideChatButtonOnFeaturedCells.key) else { return .control }
+        return HideChatButtonOnFeaturedCells(rawValue: value) ?? .control 
+    }
+
+    static var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail {
+        guard let value = Bumper.value(for: FeaturedRibbonImprovementInDetail.key) else { return .control }
+        return FeaturedRibbonImprovementInDetail(rawValue: value) ?? .control 
+    }
+  
+    static var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed {
+        guard let value = Bumper.value(for: SuperKeywordGroupsAndSubgroupsInFeed.key) else { return .control }
+        return SuperKeywordGroupsAndSubgroupsInFeed(rawValue: value) ?? .control 
+    }
 }
 
 
@@ -219,24 +225,6 @@ enum CaptchaTransparent: String, BumperFeature  {
     static var enumValues: [CaptchaTransparent] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Captcha transparent" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum PassiveBuyersShowKeyboard: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return PassiveBuyersShowKeyboard.no.rawValue }
-    static var enumValues: [PassiveBuyersShowKeyboard] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Passive buyers products suggested notification opens product with keyboard opened" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum NewMarkAsSoldFlow: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return NewMarkAsSoldFlow.no.rawValue }
-    static var enumValues: [NewMarkAsSoldFlow] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New mark as sold flow active. alert + showing buyer list" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -402,22 +390,6 @@ enum SearchAutocomplete: String, BumperFeature  {
     }
 }
 
-enum NewCarouselTapNextPhotoNavigationEnabled: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return NewCarouselTapNextPhotoNavigationEnabled.control.rawValue }
-    static var enumValues: [NewCarouselTapNextPhotoNavigationEnabled] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New carousel on tap displays different photo from same product" } 
-    static func fromPosition(_ position: Int) -> NewCarouselTapNextPhotoNavigationEnabled {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum ShowPriceAfterSearchOrFilter: String, BumperFeature  {
     case control, baseline, priceOnSearchOrFilter
     static var defaultValue: String { return ShowPriceAfterSearchOrFilter.control.rawValue }
@@ -475,6 +447,70 @@ enum MoreInfoAdActive: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "show the ad in more info" } 
     static func fromPosition(_ position: Int) -> MoreInfoAdActive {
+        switch position {
+        case 0: return .control
+        case 1: return .baseline
+        case 2: return .active
+        default: return .control
+        }
+    }
+}
+
+enum HomeRelatedEnabled: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return HomeRelatedEnabled.control.rawValue }
+    static var enumValues: [HomeRelatedEnabled] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show the related button in the main feed" } 
+    static func fromPosition(_ position: Int) -> HomeRelatedEnabled {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum HideChatButtonOnFeaturedCells: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return HideChatButtonOnFeaturedCells.control.rawValue }
+    static var enumValues: [HideChatButtonOnFeaturedCells] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "hide chat button on the featured listing cells" } 
+    static func fromPosition(_ position: Int) -> HideChatButtonOnFeaturedCells {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum FeaturedRibbonImprovementInDetail: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return FeaturedRibbonImprovementInDetail.control.rawValue }
+    static var enumValues: [FeaturedRibbonImprovementInDetail] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Featured ribbon in product detail is clickable" } 
+    static func fromPosition(_ position: Int) -> FeaturedRibbonImprovementInDetail {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum SuperKeywordGroupsAndSubgroupsInFeed: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return SuperKeywordGroupsAndSubgroupsInFeed.control.rawValue }
+    static var enumValues: [SuperKeywordGroupsAndSubgroupsInFeed] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Super keywords groups and subgroups in feed as bubble filters" } 
+    static func fromPosition(_ position: Int) -> SuperKeywordGroupsAndSubgroupsInFeed {
         switch position { 
             case 0: return .control
             case 1: return .baseline

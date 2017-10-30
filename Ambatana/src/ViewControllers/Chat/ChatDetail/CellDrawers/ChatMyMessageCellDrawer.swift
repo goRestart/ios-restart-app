@@ -49,7 +49,7 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
         case .read:
             cell.checkImageView.image = UIImage(named: "ic_doble_read")
         case .unknown:
-            cell.checkImageView.image = nil
+            cell.checkImageView.image = UIImage(named: "ic_watch")
         }
     }
     

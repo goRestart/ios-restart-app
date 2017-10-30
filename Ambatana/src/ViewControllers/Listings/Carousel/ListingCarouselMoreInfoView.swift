@@ -184,6 +184,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
             toItem: container, attribute: .top, multiplier: 1, constant: 0))
         container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .bottom, relatedBy: .equal,
             toItem: container, attribute: .bottom, multiplier: 1, constant: 8))
+        setNeedsLayout()
     }
     
     private func addMapGestures() {
@@ -505,8 +506,9 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
         }
         setNeedsLayout()
         if size.size.height > 0 {
-            let bannerTop = bannerContainerView.frame.origin.y
-            let bannerBottom = bannerContainerView.frame.origin.y + size.size.height
+            let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
+            let bannerTop = absolutePosition.y
+            let bannerBottom = bannerTop + size.size.height
             viewModel?.didReceiveAd(bannerTopPosition: bannerTop, bannerBottomPosition: bannerBottom)
         }
     }
@@ -631,7 +633,7 @@ fileprivate extension ListingViewModelStatus {
     func scrollBottomInset(chatEnabled: Bool) -> CGFloat {
         // Needed to avoid drawing content below the chat button
         switch self {
-        case .pending, .otherSold, .notAvailable, .otherSoldFree:
+        case .pending, .otherSold, .notAvailable, .otherSoldFree, .pendingAndFeatured:
             // No buttons in the bottom
             return 0
         case .available, .sold, .otherAvailable, .availableFree, .otherAvailableFree, .soldFree:

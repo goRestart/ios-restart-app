@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Check";
 "chat_not_verified_state_message" = "Check if you're verified in order to start chatting.";
 "chat_not_verified_state_title" = "ARE YOU VERIFIED?";
+"chat_product_given_away_label" = "Product given away";
 "chat_product_sold_label" = "Product sold";
 "chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
 "chat_safety_tips" = "Safety Tips";
@@ -209,8 +210,9 @@
 "common_new" = "NEW!";
 "common_no" = "No";
 "common_ok" = "OK";
+"common_product_given_away" = "Product given away";
 "common_product_not_available" = "Oops! This item is no longer available";
-"common_product_sold" = "This product has been sold.";
+"common_product_sold" = "Product sold";
 "common_settings" = "Settings";
 "common_short_time_day_ago_label" = "%d day";
 "common_short_time_days_ago_label" = "%d days";
@@ -290,6 +292,10 @@
 "edit_product_title" = "Edit Product";
 "edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
 "edit_product_unsaved_changes_alert_ok" = "Discard";
+"featured_info_view_increase_visibility" = "Get more visibility";
+"featured_info_view_more_buyers" = "Attract more buyers";
+"featured_info_view_sell_faster" = "Sell faster";
+"featured_info_view_title" = "Featured Listing";
 "filter_results_cars_no_matches" = "No exact matches for your search.\n Showing similar results. ";
 "filter_results_cars_other_results" = "Recently posted in your area";
 "filters_car_make_not_set" = "Not Set";
@@ -814,6 +820,7 @@
 "sign_up_title" = "Create new account";
 "sign_up_username_field_hint" = "Full name";
 "suggested_searches_title" = "Suggested Searches";
+"suggestions_category" = "Category";
 "suggestions_last_searches_clear_button" = "Clear all";
 "suggestions_last_searches_title" = "Recent Searches";
 "survey_confirmation" = "Thank you! Your feedback helps us improve";

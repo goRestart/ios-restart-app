@@ -13,7 +13,7 @@ import RxSwift
 
 protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
-    func vmShowTags(_ tags: [FilterTag])
+    func vmShowTags(primaryTags: [FilterTag], secondaryTags: [FilterTag])
     func vmFiltersChanged()
 }
 
@@ -70,12 +70,17 @@ class MainListingsViewModel: BaseViewModel {
         return featureFlags.addSuperKeywordsOnFeed.isActive
     }
 
+    var isSuperKeywordGroupsAndSubgroupsInFeedEnabled: Bool {
+        return featureFlags.superKeywordGroupsAndSubgroupsInFeed.isActive
+    }
+    
     var defaultBubbleText: String {
         let distance = filters.distanceRadius ?? 0
         let type = filters.distanceType
         return bubbleTextGenerator.bubbleInfoText(forDistance: distance, type: type, distanceRadius: filters.distanceRadius, place: filters.place)
     }
     
+    var taxonomies: [Taxonomy] = []
     var taxonomyChildren: [TaxonomyChild] = []
 
     let infoBubbleVisible = Variable<Bool>(false)
@@ -84,13 +89,16 @@ class MainListingsViewModel: BaseViewModel {
     
     private static let firstVersionNumber = 1
 
-    var tags: [FilterTag] {
+    var primaryTags: [FilterTag] {
         
         var resultTags : [FilterTag] = []
         for prodCat in filters.selectedCategories {
             resultTags.append(.category(prodCat))
         }
         
+        if isSuperKeywordGroupsAndSubgroupsInFeedEnabled, let taxonomy = filters.selectedTaxonomy {
+            resultTags.append(.taxonomy(taxonomy))
+        }
         if let taxonomyChild = filters.selectedTaxonomyChildren.last {
             resultTags.append(.taxonomyChild(taxonomyChild))
         }
@@ -127,6 +135,18 @@ class MainListingsViewModel: BaseViewModel {
             }
         }
 
+        return resultTags
+    }
+    
+    var secondaryTags: [FilterTag] {
+        var resultTags: [FilterTag] = []
+        
+        if let taxonomyChildren = filters.selectedTaxonomy?.children, filters.selectedTaxonomyChildren.count <= 0 {
+            for secondaryTaxonomyChild in taxonomyChildren {
+                resultTags.append(.secondaryTaxonomyChild(secondaryTaxonomyChild))
+            }
+        }
+        
         return resultTags
     }
 
@@ -194,7 +214,7 @@ class MainListingsViewModel: BaseViewModel {
     let lastSearchesShowMaximum = 3
     let trendingSearches = Variable<[String]>([])
     let suggestiveSearchInfo = Variable<SuggestiveSearchInfo>(SuggestiveSearchInfo.empty())
-    let lastSearches = Variable<[SuggestiveSearch]>([])
+    let lastSearches = Variable<[LocalSuggestiveSearch]>([])
     let searchText = Variable<String?>(nil)
     var lastSearchesCounter: Int {
         return lastSearches.value.count
@@ -245,7 +265,7 @@ class MainListingsViewModel: BaseViewModel {
                                                   numberOfColumns: columns, tracker: tracker, shouldShowPrices: shouldShowPrices.value)
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
 
-        if let search = searchType, !search.isCollection && !search.query.isEmpty {
+        if let search = searchType, let query = search.query, !search.isCollection && !query.isEmpty {
             self.shouldTrackSearch = true
         }
         
@@ -288,6 +308,9 @@ class MainListingsViewModel: BaseViewModel {
         updatePermissionsWarning()
         taxonomyChildren = filterSuperKeywordsHighlighted(taxonomies: getTaxonomyChildren())
         updateCategoriesHeader()
+        if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
+            taxonomies = getTaxonomies()
+        }
         if firstTime {
             setupRx()
         }
@@ -326,11 +349,13 @@ class MainListingsViewModel: BaseViewModel {
     /**
         Called when a filter gets removed
     */
-    func updateFiltersFromTags(_ tags: [FilterTag]) {
+    func updateFiltersFromTags(_ tags: [FilterTag], removedTag: FilterTag?) {
 
         var place: Place? = nil
         var categories: [FilterCategoryItem] = []
         var taxonomyChild: TaxonomyChild? = nil
+        var taxonomy: Taxonomy? = nil
+        var secondaryTaxonomyChild: TaxonomyChild? = nil
         var orderBy = ListingSortCriteria.defaultOption
         var within = ListingTimeCriteria.defaultOption
         var minPrice: Int? = nil
@@ -352,6 +377,10 @@ class MainListingsViewModel: BaseViewModel {
                 categories.append(FilterCategoryItem(category: prodCategory))
             case .taxonomyChild(let taxonomyChildSelected):
                 taxonomyChild = taxonomyChildSelected
+            case .taxonomy(let taxonomySelected):
+                taxonomy = taxonomySelected
+            case .secondaryTaxonomyChild(let secondaryTaxonomySelected):
+                secondaryTaxonomyChild = secondaryTaxonomySelected
             case .orderBy(let prodSortOption):
                 orderBy = prodSortOption
             case .within(let prodTimeOption):
@@ -384,9 +413,23 @@ class MainListingsViewModel: BaseViewModel {
             }
         }
         
-        if let taxonomyChildValue = taxonomyChild {
+        if let taxonomyValue = taxonomy {
+            filters.selectedTaxonomy = taxonomyValue
+        } else {
+            filters.selectedTaxonomy = nil
+        }
+        
+        if let secondaryTaxonomyChildValue = secondaryTaxonomyChild,
+            filters.selectedTaxonomy != nil {
+            filters.selectedTaxonomyChildren = [secondaryTaxonomyChildValue]
+        } else if let taxonomyChildValue = taxonomyChild,
+            filters.selectedTaxonomy != nil {
             filters.selectedTaxonomyChildren = [taxonomyChildValue]
         } else {
+            filters.selectedTaxonomyChildren = []
+        }
+        
+        if let removedTag = removedTag, removedTag.isTaxonomy {
             filters.selectedTaxonomyChildren = []
         }
     
@@ -429,16 +472,12 @@ class MainListingsViewModel: BaseViewModel {
         updateListView()
     }
     
-    /**
-     Called when a filter gets removed
-     */
     func applyFilters(_ categoryHeaderInfo: CategoryHeaderInfo) {
         tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                      name: categoryHeaderInfo.name))
-        delegate?.vmShowTags(tags)
+        delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
         updateCategoriesHeader()
         updateListView()
-        
     }
     
     func updateFiltersFromHeaderCategories(_ categoryHeaderInfo: CategoryHeaderInfo) {
@@ -447,6 +486,8 @@ class MainListingsViewModel: BaseViewModel {
             filters.selectedCategories = [listingCategory]
         case .superKeyword(let taxonomyChild):
             filters.selectedTaxonomyChildren = [taxonomyChild]
+        case .superKeywordGroup(let taxonomy):
+            filters.selectedTaxonomy = taxonomy
         case .other:
             tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                          name: categoryHeaderInfo.name))
@@ -538,14 +579,10 @@ class MainListingsViewModel: BaseViewModel {
     
     var categoryHeaderElements: [CategoryHeaderElement] {
         var categoryHeaderElements: [CategoryHeaderElement] = []
-        if isAddSuperKeywordsEnabled {
-            taxonomyChildren.forEach {
-                categoryHeaderElements.append(CategoryHeaderElement.superKeyword($0))
-            }
+        if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
+            categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
         } else {
-            ListingCategory.visibleValuesInFeed().forEach {
-                categoryHeaderElements.append(CategoryHeaderElement.listingCategory($0))
-            }
+            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed().map { CategoryHeaderElement.listingCategory($0) })
         }
         return categoryHeaderElements
     }
@@ -558,7 +595,7 @@ extension MainListingsViewModel: FiltersViewModelDataDelegate {
 
     func viewModelDidUpdateFilters(_ viewModel: FiltersViewModel, filters: ListingFilters) {
         self.filters = filters
-        delegate?.vmShowTags(tags)
+        delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
         updateListView()
     }
 }
@@ -622,14 +659,17 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             break
         }
     }
-    
+
+    func shouldShowRelatedListingsButton() -> Bool {
+        return featureFlags.homeRelatedEnabled.isActive
+    }
 
     // MARK: > ListingListViewModelDataDelegate
 
     func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt,
-                       hasListings: Bool) {
+                       withResultsCount resultsCount: Int, hasListings: Bool) {
 
-        trackRequestSuccess(page: page, hasListings: hasListings)
+        trackRequestSuccess(page: page, resultsCount: resultsCount, hasListings: hasListings)
         // Only save the string when there is products and we are not searching a collection
         if let search = searchType, hasListings {
             updateLastSearchStored(lastSearch: search)
@@ -844,7 +884,7 @@ extension MainListingsViewModel {
     
     func lastSearchAtIndex(_ index: Int) -> SuggestiveSearch? {
         guard 0..<lastSearches.value.count ~= index else { return nil }
-        return lastSearches.value[index]
+        return lastSearches.value[index].suggestiveSearch
     }
 
     func selectedTrendingSearchAtIndex(_ index: Int) {
@@ -869,7 +909,7 @@ extension MainListingsViewModel {
     }
     
     func selectedLastSearchAtIndex(_ index: Int) {
-        guard let lastSearch = lastSearchAtIndex(index), !lastSearch.name.isEmpty else { return }
+        guard let lastSearch = lastSearchAtIndex(index), let name = lastSearch.name, !name.isEmpty else { return }
         delegate?.vmDidSearch()
         navigator?.openMainListings(withSearchType: .lastSearch(search: lastSearch),
                                     listingFilters: filters)
@@ -939,15 +979,13 @@ extension MainListingsViewModel {
     
     fileprivate func updateLastSearchStored(lastSearch: SearchType) {
         guard let suggestiveSearch = getSuggestiveSearchFrom(searchType: lastSearch) else { return }
-        
         // We save up to lastSearchesSavedMaximum items
         var searchesSaved = keyValueStorage[.lastSuggestiveSearches]
-        // Check if already the name exists and if so then move the search to front.
-        if let index = searchesSaved.flatMap({ $0.name }).index(of: suggestiveSearch.name) {
+        // Check if already the search exists and if so then move the search to front.
+        if let index = searchesSaved.index(of: suggestiveSearch) {
             searchesSaved.remove(at: index)
         }
-        let localSuggestiveSearch = LocalSuggestiveSearch(suggestiveSearch: suggestiveSearch)
-        searchesSaved.append(localSuggestiveSearch)
+        searchesSaved.append(suggestiveSearch)
         if searchesSaved.count > lastSearchesSavedMaximum {
             searchesSaved.removeFirst()
         }
@@ -955,13 +993,13 @@ extension MainListingsViewModel {
         retrieveLastUserSearch()
     }
     
-    fileprivate func getSuggestiveSearchFrom(searchType: SearchType) -> SuggestiveSearch? {
+    fileprivate func getSuggestiveSearchFrom(searchType: SearchType) -> LocalSuggestiveSearch? {
         let suggestiveSearch: SuggestiveSearch?
         switch searchType {
         case let .user(query):
-            suggestiveSearch = LocalSuggestiveSearch(name: query, category: nil)
+            suggestiveSearch = SuggestiveSearch.term(name: query)
         case let .trending(query):
-            suggestiveSearch = LocalSuggestiveSearch(name: query, category: nil)
+            suggestiveSearch = SuggestiveSearch.term(name: query)
         case let .suggestive(search, _):
             suggestiveSearch = search
         case let .lastSearch(search):
@@ -969,7 +1007,11 @@ extension MainListingsViewModel {
         case .collection:
             suggestiveSearch = nil
         }
-        return suggestiveSearch
+        if let suggestiveSearch = suggestiveSearch {
+            return LocalSuggestiveSearch(suggestiveSearch: suggestiveSearch)
+        } else {
+            return nil
+        }
     }
 }
 
@@ -978,7 +1020,7 @@ extension MainListingsViewModel {
 extension MainListingsViewModel {
 
     var showCategoriesCollectionBanner: Bool {
-        return tags.isEmpty && !listViewModel.isListingListEmpty.value
+        return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value
     }
 
     func pushPermissionsHeaderPressed() {
@@ -1056,7 +1098,7 @@ fileprivate extension MainListingsViewModel {
         switch type {
         case .selectedForYou:
             query = keyValueStorage[.lastSuggestiveSearches]
-                .flatMap { $0.name }
+                .flatMap { $0.suggestiveSearch.name }
                 .reversed()
                 .joined(separator: " ")
                 .clipMoreThan(wordCount: Constants.maxSelectedForYouQueryTerms)
@@ -1114,20 +1156,20 @@ fileprivate extension MainListingsViewModel {
     }
     
 
-    func trackRequestSuccess(page: UInt, hasListings: Bool) {
+    func trackRequestSuccess(page: UInt, resultsCount: Int, hasListings: Bool) {
         guard page == 0 else { return }
         let successParameter: EventParameterBoolean = hasListings ? .trueParameter : .falseParameter
         let trackerEvent = TrackerEvent.listingList(myUserRepository.myUser,
                                                     categories: filters.selectedCategories,
                                                     taxonomy: filters.selectedTaxonomyChildren.first,
-                                                    searchQuery: queryString, feedSource: feedSource,
-                                                    success: successParameter)
+                                                    searchQuery: queryString, resultsCount: resultsCount,
+                                                    feedSource: feedSource, success: successParameter)
         tracker.trackEvent(trackerEvent)
 
-        if let searchType = searchType, shouldTrackSearch {
+        if let searchType = searchType, let searchQuery = searchType.query, shouldTrackSearch {
             shouldTrackSearch = false
             let successValue = hasListings ? EventParameterSearchCompleteSuccess.success : EventParameterSearchCompleteSuccess.fail
-            tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchType.query,
+            tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchQuery,
                                                            isTrending: searchType.isTrending,
                                                            success: successValue, isLastSearch: searchType.isLastSearch,
                                                            isSuggestiveSearch: searchType.isSuggestive, suggestiveSearchIndex: searchType.indexSelected))
@@ -1174,7 +1216,7 @@ extension MainListingsViewModel: EditLocationDelegate {
 
 extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
     func openTaxonomyList() {
-        let vm = TaxonomiesViewModel(taxonomies: getTaxonomies(), source: .listingList)
+        let vm = TaxonomiesViewModel(taxonomies: getTaxonomies(), taxonomySelected: nil, taxonomyChildSelected: nil, source: .listingList)
         vm.taxonomiesDelegate = self
         navigator?.openTaxonomyList(withViewModel: vm)
     }
@@ -1184,9 +1226,17 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
 // MARK: TaxonomiesDelegate
 
 extension MainListingsViewModel: TaxonomiesDelegate {
-    func didSelectTaxonomyChild(taxonomyChild: TaxonomyChild) {
+    func didSelect(taxonomy: Taxonomy) {
+        filters.selectedTaxonomy = taxonomy
+        filters.selectedTaxonomyChildren = []
+        delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
+        updateCategoriesHeader()
+        updateListView()
+    }
+    
+    func didSelect(taxonomyChild: TaxonomyChild) {
         filters.selectedTaxonomyChildren = [taxonomyChild]
-        delegate?.vmShowTags(tags)
+        delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
         updateCategoriesHeader()
         updateListView()
     }

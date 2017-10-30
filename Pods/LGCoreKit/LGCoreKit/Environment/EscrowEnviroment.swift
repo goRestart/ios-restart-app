@@ -8,15 +8,14 @@
 
 struct EscrowEnvironment: Environment {
     let apiBaseURL = "https://api.escrowverification.com"
-    let realEstateBaseURL = "https://listingrealestate.origin.stg.letgo.com"
+    let realEstateBaseURL = "https://listingrealestate.escrowverification.com"
     let bouncerBaseURL = "https://bouncer.escrowverification.com/api"
-    let userRatingsBaseURL = "http://rating.escrowverification.com/api"
+    let userRatingsBaseURL = "https://rating.escrowverification.com/api"
     let chatBaseURL = "chat.escrowverification.com"
     let webSocketURL = "wss://chat.escrowverification.com/socket"
     let notificationsBaseURL = "https://notifications.escrowverification.com/api"
-    let passiveBuyersBaseURL = "https://passivebuyers.escrowverification.com/api"
-    let paymentsBaseURL = "https://payment.stg.letgo.com/payment"
-    let suggestiveSearchBaseURL = "https://suggestivesearch.letgo.com"
-    let searchProductsBaseURL = "http://search-products.can.letgo.aws"
-    let niordBaseURL = "https://niord.letgo.com"
+    let paymentsBaseURL = "https://payment.escrowverification.com/payment"
+    let suggestiveSearchBaseURL = "https://suggestivesearch.escrowverification.com"
+    let searchProductsBaseURL = "https://search-products.escrowverification.com"
+    let niordBaseURL = "https://niord.escrowverification.com"
 }

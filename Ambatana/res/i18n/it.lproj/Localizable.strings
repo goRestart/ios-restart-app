@@ -27,7 +27,7 @@
 "bump_up_old_view_pay_subtitle" = "Attira più acquirenti offrendo una maggiore visibilità al tuo annuncio.";
 "bump_up_old_view_pay_title" = "VENDI PIÙ VELOCEMENTE";
 "bump_up_pay_success" = "Promosso! Adesso il tuo articolo gode di una maggiore visibilità.";
-"bump_up_processing_free_text" = "Elaborazione promozione...";
+"bump_up_processing_free_text" = "Elaborazione...";
 "bump_up_processing_priced_text" = "Elaborazione pagamento...";
 "bump_up_product_cell_chat_now_button" = "Chatta subito";
 "bump_up_product_cell_featured_stripe" = "In evidenza";
@@ -161,6 +161,7 @@
 "chat_not_verified_state_check_button" = "Controlla";
 "chat_not_verified_state_message" = "Controlla di essere un utente verificato per iniziare a chattare.";
 "chat_not_verified_state_title" = "SEI UN UTENTE VERIFICATO?";
+"chat_product_given_away_label" = "Prodotto regalato";
 "chat_product_sold_label" = "Prodotto venduto";
 "chat_related_products_title" = "POTRESTI ESSERE INTERESSATO A:";
 "chat_safety_tips" = "Consigli utili";
@@ -209,8 +210,9 @@
 "common_new" = "NOVITÀ!";
 "common_no" = "No";
 "common_ok" = "OK";
+"common_product_given_away" = "Prodotto regalato";
 "common_product_not_available" = "Ops! Questo articolo non è più disponibile.";
-"common_product_sold" = "Questo prodotto è stato venduto.";
+"common_product_sold" = "Prodotto venduto";
 "common_settings" = "Impostazioni";
 "common_short_time_day_ago_label" = "%d giorno";
 "common_short_time_days_ago_label" = "%d giorni";
@@ -290,6 +292,12 @@
 "edit_product_title" = "Modifica Prodotto";
 "edit_product_unsaved_changes_alert" = "Sei sicuro di voler eliminare queste modifiche?";
 "edit_product_unsaved_changes_alert_ok" = "Elimina";
+"featured_info_view_increase_visibility" = "Get more visibility";
+"featured_info_view_more_buyers" = "Attract more buyers";
+"featured_info_view_sell_faster" = "Vendi più velocemente";
+"featured_info_view_sell_increase_visibility" = "Ottieni più visibilità";
+"featured_info_view_sell_more_buyers" = "Attira più compratori";
+"featured_info_view_title" = "Articolo in evidenza";
 "filter_results_cars_no_matches" = "Nessuna corrispondenza per la tua ricerca.\n Risultati simili. ";
 "filter_results_cars_other_results" = "Pubblicati di recente nella tua zona";
 "filters_car_make_not_set" = "Non Impostato";
@@ -489,7 +497,7 @@
 "product_delete_send_error_generic" = "Ops! Si è verificato un errore durante l'eliminazione del tuo prodotto. Riprova più tardi.";
 "product_delete_sold_confirm_message" = "Sei sicuro di voler eliminare questo prodotto?";
 "product_distance_X_from_you" = "%@ da te";
-"product_distance_custom_location" = "Posizione abituale";
+"product_distance_custom_location" = "Posizione personalizzata";
 "product_distance_more_than" = "Più di %@";
 "product_distance_near_you" = "Vicino a te";
 "product_favorite_direct_message" = "Mi piace! È ancora disponibile?";
@@ -814,6 +822,7 @@
 "sign_up_title" = "Crea nuovo account";
 "sign_up_username_field_hint" = "Nome e Cognome";
 "suggested_searches_title" = "Ricerche consigliate";
+"suggestions_category" = "Categoria";
 "suggestions_last_searches_clear_button" = "Cancella tutto";
 "suggestions_last_searches_title" = "Ricerche recenti";
 "survey_confirmation" = "Grazie! Il tuo feedback ci permette di migliorare";
