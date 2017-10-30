@@ -506,6 +506,8 @@ class MainListingsViewModel: BaseViewModel {
 
     func updateSelectedTaxonomyChildren(taxonomyChildren: [TaxonomyChild]) {
         filters.selectedTaxonomyChildren = taxonomyChildren
+        updateCategoriesHeader()
+        updateListView()
     }
     
     // MARK: - Private methods
