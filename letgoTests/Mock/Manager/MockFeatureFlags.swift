@@ -36,6 +36,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var appRatingDialogInactive: Bool = false
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu = .control
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed = .control
+    var newItemPage: NewItemPage = .control
 
     var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: Bool = false
