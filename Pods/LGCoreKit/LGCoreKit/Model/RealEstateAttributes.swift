@@ -55,6 +55,17 @@ public struct RealEstateAttributes: Equatable {
                                     bedrooms: bedrooms ?? self.bedrooms,
                                     bathrooms: bathrooms ?? self.bathrooms)
     }
+    
+    public func removing(propertyType: Bool = false,
+                         offerType: Bool = false,
+                         bedrooms: Bool = false,
+                         bathrooms: Bool = false) -> RealEstateAttributes {
+        
+        return RealEstateAttributes(propertyType: propertyType ? nil : self.propertyType,
+                                    offerType: offerType ? nil : self.offerType,
+                                    bedrooms: bedrooms ? nil : self.bedrooms,
+                                    bathrooms: bathrooms ? nil : self.bathrooms)
+    }
 }
 
 public func ==(lhs: RealEstateAttributes, rhs: RealEstateAttributes) -> Bool {
