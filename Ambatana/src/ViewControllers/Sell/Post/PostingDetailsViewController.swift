@@ -42,8 +42,6 @@ class PostingDetailsViewController: KeyboardViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
         setupConstraints()
         setupUI()
-        setupRx()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,20 +108,8 @@ class PostingDetailsViewController: KeyboardViewController {
         buttonNext.layout(with: contentView).below(by: Metrics.bigMargin)
         buttonNext.layout().height(PostingDetailsViewController.skipButtonHeight)
         buttonNext.layout().width(PostingDetailsViewController.skipButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
-        buttonNext.layout(with: view).right(by: -Metrics.bigMargin).bottom(by: -Metrics.bigMargin) { (constraint) in
-            self.buttonNextBottomMargin = constraint
-        }
-    }
-    
-    private func setupRx() {
-        keyboardChanges.bindNext { [weak self] change in
-            guard let strongSelf = self else { return }
-            let viewHeight = strongSelf.view.height
-            self?.buttonNextBottomMargin.constant = change.origin - viewHeight - Metrics.bigMargin
-            UIView.animate(withDuration: Double(change.animationTime)) {
-                strongSelf.view.layoutIfNeeded()
-            }
-            }.addDisposableTo(disposeBag)
+        buttonNext.layout(with: keyboardView).bottom(to: .top, by: -Metrics.bigMargin)
+        buttonNext.layout(with: view).right(by: -Metrics.bigMargin)
     }
     
     
