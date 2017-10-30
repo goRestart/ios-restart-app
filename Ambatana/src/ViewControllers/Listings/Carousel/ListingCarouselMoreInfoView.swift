@@ -184,7 +184,6 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
             toItem: container, attribute: .top, multiplier: 1, constant: 0))
         container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .bottom, relatedBy: .equal,
             toItem: container, attribute: .bottom, multiplier: 1, constant: 8))
-        setNeedsLayout()
     }
     
     private func addMapGestures() {
@@ -479,16 +478,14 @@ fileprivate extension ListingCarouselMoreInfoView {
         bannerContainerView.addSubview(bannerView)
         bannerView.translatesAutoresizingMaskIntoConstraints = false
         bannerView.layout(with:bannerContainerView).fill()
-
-        setNeedsLayout()
     }
 
     func loadAFShoppingRequest() {
-        bannerView?.load(viewModel?.makeAFShoppingRequest())
+        bannerView?.load(viewModel?.makeAFShoppingRequestWithWidth(width: frame.width))
     }
 
     func loadAFSearchRequest() {
-        bannerView?.load(viewModel?.makeAFSearchRequest())
+        bannerView?.load(viewModel?.makeAFSearchRequestWithWidth(width: frame.width))
     }
 }
 
@@ -504,17 +501,14 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
             bannerContainerViewLeftConstraint.constant = sideMargin
             bannerContainerViewRightConstraint.constant = sideMargin
         }
-        setNeedsLayout()
         if size.size.height > 0 {
             let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
             let bannerTop = absolutePosition.y
             let bannerBottom = bannerTop + size.size.height
-            viewModel?.didReceiveAd(bannerTopPosition: bannerTop, bannerBottomPosition: bannerBottom)
+            viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
+                                    bannerBottomPosition: bannerBottom,
+                                    screenHeight: UIScreen.main.bounds.height)
         }
-    }
-
-    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
-
     }
 
     func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
@@ -525,16 +519,15 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
         setNeedsLayout()
 
         // TODO: ⚠️ remove line when Google's AFS finally works!!!
-        viewModel?.didFailToReceiveAd(withErrorCode: error.code)
+        viewModel?.didFailToReceiveAd(withErrorCode: GADErrorCode(rawValue: error.code) ?? .internalError)
 
         /** TODO: ⚠️ Uncomment code when Google's AFS finally works!!!
-
         if let adRequestType = viewModel?.currentAdRequestType {
             switch adRequestType {
             case .shopping:
                 loadAFSearchRequest()
             case .search:
-                viewModel?.didFailToReceiveAd(withErrorCode: error.code)
+                viewModel?.didFailToReceiveAd(withErrorCode: GADErrorCode(rawValue: error.code))
             }
         }
          */

@@ -175,9 +175,14 @@ class ListingCarouselViewModel: BaseViewModel {
         }
     }
 
+    fileprivate let locale: Locale
+
     // Ads
     var adUnitId: String {
         return EnvironmentProxy.sharedInstance.moreInfoAdUnitId
+    }
+    var adTestModeActive: Bool {
+        return EnvironmentProxy.sharedInstance.adTestModeActive
     }
     var adActive: Bool {
         return featureFlags.moreInfoAdActive == .active
@@ -247,7 +252,8 @@ class ListingCarouselViewModel: BaseViewModel {
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
-                  listingViewModelMaker: ListingViewModel.ConvenienceMaker())
+                  listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
+                  locale: Locale.current)
     }
 
     init(productListModels: [ListingCellModel]?,
@@ -261,7 +267,8 @@ class ListingCarouselViewModel: BaseViewModel {
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorageable,
          imageDownloader: ImageDownloaderType,
-         listingViewModelMaker: ListingViewModelMaker) {
+         listingViewModelMaker: ListingViewModelMaker,
+         locale: Locale) {
         if let productListModels = productListModels {
             self.objects.appendContentsOf(productListModels.flatMap(ListingCarouselCellModel.adapter))
             self.isLastPage = listingListRequester.isLastPage(productListModels.count)
@@ -277,6 +284,7 @@ class ListingCarouselViewModel: BaseViewModel {
         self.imageDownloader = imageDownloader
         self.listingViewModelMaker = listingViewModelMaker
         self.featureFlags = featureFlags
+        self.locale = locale
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
         } else {
@@ -399,38 +407,39 @@ class ListingCarouselViewModel: BaseViewModel {
         quickAnswers.value.move(fromIndex: index, toIndex: quickAnswers.value.count-1)
     }
 
-    func makeAFShoppingRequest() -> GADDynamicHeightSearchRequest {
+    func makeAFShoppingRequestWithWidth(width: CGFloat) -> GADDynamicHeightSearchRequest {
         currentAdRequestType = .shopping
         let adsRequest = GADDynamicHeightSearchRequest()
 
-        #if GOD_MODE
+        if adTestModeActive {
             adsRequest.adTestEnabled = true
-            adsRequest.setAdvancedOptionValue(Locale.current.languageCode ?? "en", forKey: "testgl")
-            adsRequest.setAdvancedOptionValue("on", forKey: "adtest")
-        #endif
-
+            adsRequest.setAdvancedOptionValue(locale.languageCode ?? Constants.testglDefaultValue,
+                                              forKey: Constants.testglKey)
+            adsRequest.setAdvancedOptionValue(Constants.adtestValue, forKey: Constants.adtestKey)
+        }
+        
         if adRequestQuery == nil {
             adRequestQuery = makeAdsRequestQuery()
         }
 
         adsRequest.query = adRequestQuery
 
-        let screenWidth = String(Int(UIScreen.main.bounds.width-(2*sideMargin)))
+        let viewWidth = String(Int(width-(2*sideMargin)))
 
-        adsRequest.setAdvancedOptionValue("plas", forKey: "adType")
-        adsRequest.setAdvancedOptionValue("200", forKey: "height")
-        adsRequest.setAdvancedOptionValue(screenWidth, forKey: "width")
+        adsRequest.setAdvancedOptionValue(Constants.adTypeValue, forKey: Constants.adTypeKey)
+        adsRequest.setAdvancedOptionValue(Constants.adHeightValue, forKey: Constants.adHeightKey)
+        adsRequest.setAdvancedOptionValue(viewWidth, forKey: Constants.adWidthKey)
         
         return adsRequest
     }
 
-    func makeAFSearchRequest() -> GADDynamicHeightSearchRequest {
+    func makeAFSearchRequestWithWidth(width: CGFloat) -> GADDynamicHeightSearchRequest {
         currentAdRequestType = .search
         let adsRequest = GADDynamicHeightSearchRequest()
 
-        #if GOD_MODE
+        if adTestModeActive {
             adsRequest.adTestEnabled = true
-        #endif
+        }
 
         if adRequestQuery == nil {
             adRequestQuery = makeAdsRequestQuery()
@@ -438,9 +447,9 @@ class ListingCarouselViewModel: BaseViewModel {
 
         adsRequest.query = adRequestQuery
 
-        let screenWidth = String(Int(UIScreen.main.bounds.width-(2*sideMargin)))
+        let screenWidth = String(Int(width-(2*sideMargin)))
 
-        adsRequest.hostLanguage = Locale.current.languageCode ?? "en"
+        adsRequest.hostLanguage = locale.languageCode ?? "en"
         adsRequest.numberOfAds = 1
         adsRequest.cssWidth = screenWidth     // Equivalent to "width" CSA parameter
         adsRequest.siteLinksExtensionEnabled = true
@@ -450,7 +459,7 @@ class ListingCarouselViewModel: BaseViewModel {
         return adsRequest
     }
 
-    func didReceiveAd(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat) {
+    func didReceiveAd(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat, screenHeight: CGFloat) {
 
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let adShown: EventParameterBoolean = .trueParameter
@@ -458,7 +467,8 @@ class ListingCarouselViewModel: BaseViewModel {
         let queryType = currentAdRequestQueryType?.trackingParamValue
         let query = adRequestQuery
         let visibility = EventParameterAdVisibility(bannerTopPosition: bannerTopPosition,
-                                                    bannerBottomPosition: bannerBottomPosition)
+                                                    bannerBottomPosition: bannerBottomPosition,
+                                                    screenHeight: screenHeight)
         let errorReason: EventParameterAdSenseRequestErrorReason? = nil
 
         bannerTrackingStatus = BannerTrackingStatus(isMine: isMine,
@@ -478,7 +488,7 @@ class ListingCarouselViewModel: BaseViewModel {
                                                     errorReason: errorReason)
     }
 
-    func didFailToReceiveAd(withErrorCode code: Int) {
+    func didFailToReceiveAd(withErrorCode code: GADErrorCode) {
 
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
         let adShown: EventParameterBoolean = .falseParameter
@@ -640,9 +650,9 @@ class ListingCarouselViewModel: BaseViewModel {
         } else if let autoTitle = productInfo.value?.titleAuto {
             currentAdRequestQueryType = .listingAutoTitle
             return autoTitle
-        } else if let category = productInfo.value?.category {
+        } else if let category = productInfo.value?.category, category != .other {
             currentAdRequestQueryType = .listingCategory
-            return category
+            return category.name
         } else {
             currentAdRequestQueryType = .hardcoded
             return randomHardcodedQuery

@@ -105,4 +105,9 @@ class EnvironmentProxy: AppEnvironment {
     var moreInfoAdUnitId: String {
         return environment.moreInfoAdUnitId
     }
+
+    var adTestModeActive: Bool {
+        return environment.adTestModeActive
+    }
+
 }

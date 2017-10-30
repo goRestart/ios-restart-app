@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import GoogleMobileAds
 
 enum EventName: String {
     case location                           = "location"
@@ -330,14 +331,13 @@ enum EventParameterBoolean: String {
     case notAvailable = "N/A"
 
     init(bool: Bool?) {
-        guard let bool = bool else {
-            self = .notAvailable
-            return
-        }
-        if bool {
+        switch bool {
+        case .some(true):
             self = .trueParameter
-        } else {
+        case .some(false):
             self = .falseParameter
+        case .none:
+            self = .notAvailable
         }
     }
 }
@@ -967,12 +967,10 @@ enum EventParameterAdVisibility: String {
     case partial = "partial"
     case none = "none"
 
-    init(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat) {
-        let height = UIScreen.main.bounds.height
-        print(height)
-        if bannerBottomPosition <= height {
+    init(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat, screenHeight: CGFloat) {
+        if bannerBottomPosition <= screenHeight {
             self = .full
-        } else if bannerTopPosition >= height {
+        } else if bannerTopPosition >= screenHeight {
             self = .none
         } else {
             self = .partial
@@ -986,13 +984,13 @@ enum EventParameterAdSenseRequestErrorReason: String {
     case networkError = "network"
     case internalError = "internal"
 
-    init(errorCode: Int) {
+    init(errorCode: GADErrorCode) {
         switch errorCode {
-        case 0:
+        case .invalidRequest:
             self = .invalidRequest
-        case 1:
+        case .noFill:
             self = .noAdsToShow
-        case 2:
+        case .networkError:
             self = .networkError
         default:
             self = .internalError

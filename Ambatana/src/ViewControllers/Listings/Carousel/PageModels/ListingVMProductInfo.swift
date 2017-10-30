@@ -21,7 +21,7 @@ struct ListingVMProductInfo {
     let location: LGLocationCoordinates2D?
     let distance: String?
     let creationDate: Date?
-    let category: String?
+    let category: ListingCategory?
 
     init(listing: Listing, isAutoTranslated: Bool, distance: String?, freeModeAllowed: Bool) {
         self.title = listing.title
@@ -35,6 +35,6 @@ struct ListingVMProductInfo {
         self.location = listing.location
         self.distance = distance
         self.creationDate = listing.createdAt
-        self.category = listing.category.name
+        self.category = listing.category
     }
 }

@@ -40,4 +40,5 @@ class EscrowEnvironment: AppEnvironment {
 
     // Google Ads
     let moreInfoAdUnitId = ""
+    let adTestModeActive = true
 }

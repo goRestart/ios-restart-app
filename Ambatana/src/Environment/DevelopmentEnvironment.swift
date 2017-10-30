@@ -40,4 +40,5 @@ class DevelopmentEnvironment: AppEnvironment {
 
     // Google Ads
     let moreInfoAdUnitId = "partner-vert-pla-mobile-app-ambatana-srp"
+    let adTestModeActive = true
 }

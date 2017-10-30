@@ -40,6 +40,8 @@ protocol AppEnvironment {
 
     // Google Ads
     var moreInfoAdUnitId: String { get }
+    var adTestModeActive: Bool { get }
+
 }
 
 extension AppEnvironment {
