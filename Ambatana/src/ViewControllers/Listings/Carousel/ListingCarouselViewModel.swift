@@ -515,13 +515,18 @@ class ListingCarouselViewModel: BaseViewModel {
                                                     errorReason: status.errorReason)
     }
 
-    func adTapped(willLeaveApp: Bool) {
+    func adTapped(typePage: EventParameterTypePage, willLeaveApp: Bool) {
         let adType = currentAdRequestType?.trackingParamValue
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
+        let queryType = currentAdRequestQueryType?.trackingParamValue
+        let query = adRequestQuery
         let willLeave = EventParameterBoolean(bool: willLeaveApp)
         currentListingViewModel?.trackAdTapped(adType: adType,
                                                isMine: isMine,
-                                               willLeaveApp: willLeave)
+                                               queryType: queryType,
+                                               query: query,
+                                               willLeaveApp: willLeave,
+                                               typePage: typePage)
     }
 
     func statusLabelTapped() {

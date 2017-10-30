@@ -48,10 +48,18 @@ extension ListingViewModel {
                                        errorReason: errorReason)
     }
 
-    func trackAdTapped(adType: EventParameterAdType?, isMine: EventParameterBoolean, willLeaveApp: EventParameterBoolean) {
+    func trackAdTapped(adType: EventParameterAdType?,
+                       isMine: EventParameterBoolean,
+                       queryType: EventParameterAdQueryType?,
+                       query: String?,
+                       willLeaveApp: EventParameterBoolean,
+                       typePage: EventParameterTypePage) {
         trackHelper.trackAdTapped(adType: adType,
                                   isMine: isMine,
-                                  willLeaveApp: willLeaveApp)
+                                  queryType: queryType,
+                                  query: query,
+                                  willLeaveApp: willLeaveApp,
+                                  typePage: typePage)
     }
 
     // MARK: Share
@@ -225,8 +233,19 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackAdTapped(adType: EventParameterAdType?, isMine: EventParameterBoolean, willLeaveApp: EventParameterBoolean) {
-        let trackerEvent = TrackerEvent.moreInfoAdTapped(listingId: listing.objectId, adType: adType, isMine: isMine, willLeaveApp: willLeaveApp)
+    func trackAdTapped(adType: EventParameterAdType?,
+                       isMine: EventParameterBoolean,
+                       queryType: EventParameterAdQueryType?,
+                       query: String?,
+                       willLeaveApp: EventParameterBoolean,
+                       typePage: EventParameterTypePage) {
+        let trackerEvent = TrackerEvent.adTapped(listingId: listing.objectId,
+                                                         adType: adType,
+                                                         isMine: isMine,
+                                                         queryType: queryType,
+                                                         query: query,
+                                                         willLeaveApp: willLeaveApp,
+                                                         typePage: typePage)
         tracker.trackEvent(trackerEvent)
     }
 

@@ -168,7 +168,7 @@ enum EventName: String {
     case categoriesStart                    = "categories-start"
     case categoriesComplete                 = "categories-complete"
 
-    case moreInfoAdTapped                   = "more-info-ad-tapped"
+    case adTapped                           = "ad-tapped"
     case featuredMoreInfo                   = "featured-more-info"
 
 
@@ -315,9 +315,9 @@ enum EventParameterName: String {
     case relatedSource        = "related-source"
     case adShown              = "ad-shown"
     case adType               = "ad-type"
-    case adQueryType          = "query-type"
-    case adQuery              = "query"
-    case adVisibility         = "visibility"
+    case adQueryType          = "ad-query-type"
+    case adQuery              = "ad-query-text"
+    case adVisibility         = "ad-visibility"
     case adActionLeftApp      = "left-application"
     case isMine               = "is-mine"
     case numberOfItems        = "number-of-items"
