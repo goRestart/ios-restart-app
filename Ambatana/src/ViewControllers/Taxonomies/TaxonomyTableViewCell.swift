@@ -30,6 +30,15 @@ class TaxonomyTableViewCell: UITableViewCell {
         setupLayout()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        resetUI()
+    }
+    
+    private func resetUI() {
+        accessoryType = .none
+    }
+    
     
     // MARK: - UI
     
