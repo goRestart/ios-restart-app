@@ -254,6 +254,7 @@ enum AccessibilityId: String {
     case postingCategoryDeatilTextField
     case postingCategoryDeatilSearchBar
     case postingCategoryDeatilTableView
+    case postingAddDetailTableView
 
     // Editlisting
     case editListingCloseButton

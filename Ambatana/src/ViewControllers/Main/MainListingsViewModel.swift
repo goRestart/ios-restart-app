@@ -504,6 +504,9 @@ class MainListingsViewModel: BaseViewModel {
                                          locationDelegate: self)
     }
 
+    func updateSelectedTaxonomyChildren(taxonomyChildren: [TaxonomyChild]) {
+        filters.selectedTaxonomyChildren = taxonomyChildren
+    }
     
     // MARK: - Private methods
 

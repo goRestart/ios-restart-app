@@ -346,6 +346,7 @@ enum EventParameterButtonNameType: String {
     case close = "close"
     case skip = "skip"
     case done = "done"
+    case summary = "summary"
     case sellYourStuff = "sell-your-stuff"
     case startMakingCash = "start-making-cash"
 }
