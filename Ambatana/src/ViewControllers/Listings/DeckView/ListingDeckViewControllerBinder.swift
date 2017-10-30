@@ -106,7 +106,7 @@ final class ListingDeckViewControllerBinder {
     private func bindOverlaysAlpha(withViewController viewController: ListingDeckViewController,
                                    viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         viewController.overlaysAlpha.asObservable().bindNext { [unowned listingDeckView] alpha in
-            listingDeckView.updateOverlaysWith(alpha: alpha)
+            viewController.updateViewWith(alpha: alpha)
             }.addDisposableTo(disposeBag)
     }
 
@@ -130,7 +130,7 @@ final class ListingDeckViewControllerBinder {
             listingDeckView.directAnswersView.update(answers: quickAnswers, isDynamic: isDynamic)
             }.addDisposableTo(disposeBag)
 
-        viewModel.chatEnabled.asObservable().bindNext { [unowned listingDeckView] enabled in
+        viewModel.chatEnabled.asObservable().distinctUntilChanged().bindNext { [unowned listingDeckView] enabled in
             if enabled {
                 listingDeckView.showChat()
                 listingDeckView.hideActions()

@@ -94,7 +94,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     private func setupNavigationBar() {
         setNavBarBackgroundStyle(.transparent(substyle: .light))
-        
+
         let rightButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_more_options"), style: .plain, target: self, action: #selector(didTapMoreInfo))
         let leftButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_red"), style: .plain, target: self, action: #selector(didTapClose))
         self.navigationItem.rightBarButtonItem = rightButton
@@ -121,7 +121,15 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     private func setupDirectChat() {
         listingDeckView.directAnswersView.delegate = self
     }
-    
+
+    func updateViewWith(alpha: CGFloat) {
+        let chatAlpha = viewModel.chatEnabled.value ? alpha : 0
+        let actionsAlpha = viewModel.chatEnabled.value ? 0 : alpha
+
+        listingDeckView.updatePrivateActionsWith(alpha: actionsAlpha)
+        listingDeckView.updateChatWith(alpha: chatAlpha)
+    }
+
 }
 
 extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate, DirectAnswersHorizontalViewDelegate {
@@ -135,7 +143,7 @@ extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate,
         directChatTable.rowHeight = UITableViewAutomaticDimension
         directChatTable.estimatedRowHeight = 140
         directChatTable.isCellHiddenBlock = { return $0.contentView.isHidden }
-//        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.directMessagesItemPressed() }
+        //        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.directMessagesItemPressed() }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -148,7 +156,7 @@ extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate,
         let message = messages[indexPath.row]
         let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true, disclosure: true)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
-        
+
         drawer.draw(cell, message: message)
         cell.transform = tableView.transform
 
@@ -158,13 +166,13 @@ extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate,
     func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
         print("Selected direct answer")
         if let productVM = viewModel.currentListingViewModel, productVM.showKeyboardWhenQuickAnswer {
-//            chatTextView.setText(answer.text)
+            //            chatTextView.setText(answer.text)
         } else {
-//            viewModel.send(quickAnswer: answer)
+            //            viewModel.send(quickAnswer: answer)
         }
-
+        
         if let productVM = viewModel.currentListingViewModel, productVM.areQuickAnswersDynamic {
-//            viewModel.moveQuickAnswerToTheEnd(index)
+            //            viewModel.moveQuickAnswerToTheEnd(index)
         }
     }
     

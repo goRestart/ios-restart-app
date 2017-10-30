@@ -22,7 +22,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     var collectionViewTop: NSLayoutConstraint? = nil
     let layout = ListingDeckCollectionViewLayout()
 
-    let bottomView = UIView()
     let itemActionsView = ListingDeckActionView()
 
     override init(frame: CGRect) {
@@ -40,9 +39,9 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     private func setupUI() {
         backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         setupCollectionView()
-        setupBottomView()
-        bringSubview(toFront: collectionView)
+        setupPrivateActionsView()
 
+        bringSubview(toFront: collectionView)
         setupDirectChatView()
     }
 
@@ -58,21 +57,14 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         collectionView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     }
 
-    private func setupBottomView() {
-        addSubview(bottomView)
-        bottomView.translatesAutoresizingMaskIntoConstraints = false
-        bottomView.layout(with: collectionView).below()
-        bottomView.layout(with: self).trailing().bottom().leading()
-        bottomView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-
-        setupPrivateActionsView()
-    }
-
     private func setupPrivateActionsView() {
-        bottomView.addSubview(itemActionsView)
+        addSubview(itemActionsView)
         itemActionsView.translatesAutoresizingMaskIntoConstraints = false
-        itemActionsView.layout(with: bottomView).fill()
+        itemActionsView.layout(with: self).trailing().bottom().leading()
+        itemActionsView.layout(with: collectionView).below()
+        itemActionsView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
         itemActionsView.alpha = 0
+        itemActionsView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     }
 
     private func setupDirectChatView() {
@@ -86,27 +78,31 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         addSubview(chatTextView)
         chatTextView.layout(with: self)
             .fillHorizontal(by: CarouselUI.itemsMargin)
-            .bottomMargin(by: -16.0) { [weak self] constraint in
-                self?.chatTextViewBottom = constraint
-        }
+            .bottomMargin(by: -16.0) { [weak self] constraint in self?.chatTextViewBottom = constraint }
+        chatTextView.backgroundColor = .white
 
-        directAnswersView.style = .light
         directAnswersView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(directAnswersView)
         directAnswersView.layout(with: self).leftMargin().rightMargin()
         directAnswersView.layout(with: chatTextView).above(by: -8.0)
+        directAnswersView.backgroundColor = .clear
+        directAnswersView.style = .light
 
         addSubview(directChatTable)
         directChatTable.translatesAutoresizingMaskIntoConstraints = false
         directChatTable.layout(with: self).topMargin().leftMargin().rightMargin()
         directChatTable.layout(with: directAnswersView).above(by: -8.0)
         directChatTable.alpha = 0
+        directChatTable.backgroundColor = .clear
     }
 
-    func updateOverlaysWith(alpha: CGFloat) {
-        bottomView.alpha = alpha
+    func updateChatWith(alpha: CGFloat) {
         chatTextView.alpha = alpha
         directAnswersView.alpha = alpha
+    }
+
+    func updatePrivateActionsWith(alpha: CGFloat) {
+        itemActionsView.alpha = alpha
     }
 
     func updateBottom(wintInset inset: CGFloat) {
@@ -127,23 +123,21 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     func hideBumpUp() { print("hideBumpUp") }
 
     func showActions() {
-        UIView.animate(withDuration: 0.2) {
-            self.itemActionsView.alpha = 1
-            self.directAnswersView.alpha = 0
-            self.chatTextView.alpha = 0
-        }
+        self.itemActionsView.alpha = 1
     }
 
     func hideActions() {
-        UIView.animate(withDuration: 0.2) {
-            self.itemActionsView.alpha = 0
-            self.directAnswersView.alpha = 1
-            self.chatTextView.alpha = 1
-        }
+        self.itemActionsView.alpha = 0
     }
 
-    func showChat() { hideActions() }
+    func showChat() {
+        self.directAnswersView.alpha = 1
+        self.chatTextView.alpha = 1
+    }
 
-    func hideChat() { showActions() }
-
+    func hideChat() {
+        self.directAnswersView.alpha = 0
+        self.chatTextView.alpha = 0
+    }
+    
 }
