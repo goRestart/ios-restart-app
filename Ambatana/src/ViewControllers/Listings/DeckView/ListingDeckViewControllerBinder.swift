@@ -26,6 +26,8 @@ final class ListingDeckViewControllerBinder {
         bindIndexSignal(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindChat(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindActions(withViewModel: viewModel, listingDeckView: listingDeckView)
+
+        bindNavigationBarActions(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
     }
 
     private func bindActions(withViewModel viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
@@ -34,9 +36,7 @@ final class ListingDeckViewControllerBinder {
             guard let strongSelf = self else { return }
 
             guard actionButtons.count > 0 else {
-                UIView.animate(withDuration: 0.2, animations: {
-                    listingDeckView.itemActionsView.alpha = 0
-                })
+                listingDeckView.hideActions()
                 return
             }
             let takeUntilAction = viewModel.actionButtons.asObservable().skip(1)
@@ -47,7 +47,7 @@ final class ListingDeckViewControllerBinder {
                     bottomAction.action()
                 }.addDisposableTo(strongSelf.disposeBag)
             UIView.animate(withDuration: 0.2, animations: {
-                listingDeckView.itemActionsView.alpha = 1
+                listingDeckView.showActions()
             })
             }.addDisposableTo(disposeBag)
     }
@@ -81,8 +81,8 @@ final class ListingDeckViewControllerBinder {
 
     private func bindCollectionView(withViewController viewController: ListingDeckViewController,
                                     viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewModel.objectChanges.observeOn(MainScheduler.instance).bindNext { [weak self] change in
-            // listingDeckView.collectionView.handleCollectionChange(change)
+        viewModel.objectChanges.observeOn(MainScheduler.instance).bindNext { [unowned listingDeckView] change in
+            //            listingDeckView.collectionView.handleCollectionChange(change)
             listingDeckView.collectionView.reloadData()
             }.addDisposableTo(disposeBag)
     }
@@ -105,7 +105,7 @@ final class ListingDeckViewControllerBinder {
 
     private func bindOverlaysAlpha(withViewController viewController: ListingDeckViewController,
                                    viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewController.overlaysAlpha.asObservable().bindNext { [unowned listingDeckView] alpha in
+        viewController.overlaysAlpha.asObservable().bindNext { [unowned viewController] alpha in
             viewController.updateViewWith(alpha: alpha)
             }.addDisposableTo(disposeBag)
     }
@@ -153,6 +153,23 @@ final class ListingDeckViewControllerBinder {
                 listingDeckView.directChatTable.handleCollectionChange(change, animation: .none)
             }
             }.addDisposableTo(disposeBag)
+    }
+
+    private func bindNavigationBarActions(withViewController viewController: ListingDeckViewController,
+                                          viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
+        viewModel.navBarButtons.asObservable().subscribeNext { [unowned viewModel, weak self] navBarButtons in
+            guard let strongSelf = self else { return }
+            viewController.setNavigationBarRightButtons([])
+
+            guard navBarButtons.count > 0, let action = navBarButtons.first else { return }
+            let takeUntilAction = viewModel.navBarButtons.asObservable().skip(1)
+            viewController.setLetGoRightButtonWith(action, buttonTintColor: .red,
+                                                   tapBlock: { tapEvent in
+                                                    tapEvent.bindNext{
+                                                        action.action()
+                                                        }.addDisposableTo(strongSelf.disposeBag)
+            })
+        }
     }
     
 }

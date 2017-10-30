@@ -26,11 +26,7 @@ struct Prefetching {
 }
 
 protocol ListingDeckViewModelDelegate: BaseViewModelDelegate {
-    func vmRemoveMoreInfoTooltip()
-    func vmShowOnboarding()
-
-    // Forward from ListingViewModelDelegate
-    func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction])
+    func vmShowOptions(_ cancelLabel: String, actions: [UIAction])
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
     func vmResetBumpUpBannerCountdown()
 }
@@ -200,7 +196,7 @@ final class ListingDeckViewModel: BaseViewModel {
         return vm
     }
 
-    private func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
+    func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
         switch change {
         case let .insert(index, value):
             directChatMessages.insert(value, atIndex: index)
@@ -262,14 +258,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
 extension ListingDeckViewModel: ListingViewModelDelegate {
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
-        var finalActions: [UIAction] = actions
-
-        //Adding show onboarding action
-        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
-        finalActions.append(UIAction(interface: .text(title), action: { [weak self] in
-            self?.delegate?.vmShowOnboarding()
-        }))
-        delegate?.vmShowCarouselOptions(cancelLabel, actions: finalActions)
+        delegate?.vmShowOptions(cancelLabel, actions: actions)
     }
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {

@@ -261,6 +261,7 @@ fileprivate extension TabCoordinator {
                                                  source: source)
             viewModel.navigator = self
             let deckViewController = ListingDeckViewController(viewModel: viewModel)
+            viewModel.delegate = deckViewController
             navigationController.pushViewController(deckViewController, animated: true)
         }
     }

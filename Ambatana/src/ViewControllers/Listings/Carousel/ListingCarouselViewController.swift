@@ -1285,6 +1285,7 @@ extension ListingCarouselViewController: ListingCarouselViewModelDelegate {
         chatTextView.resignFirstResponder()
         super.vmShowAutoFadingMessage(message, completion: completion)
     }
+
 }
 
 

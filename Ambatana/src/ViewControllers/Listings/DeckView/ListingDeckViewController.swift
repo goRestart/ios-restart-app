@@ -115,6 +115,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
 
     @objc private func didTapClose() {
+
         //            closeBumpUpBanner()
         viewModel.close()
     }
@@ -150,7 +151,7 @@ extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate,
         directChatTable.rowHeight = UITableViewAutomaticDimension
         directChatTable.estimatedRowHeight = 140
         directChatTable.isCellHiddenBlock = { return $0.contentView.isHidden }
-        //        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.directMessagesItemPressed() }
+//        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.directMessagesItemPressed() }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -171,17 +172,34 @@ extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate,
     }
 
     func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
-        print("Selected direct answer")
         if let productVM = viewModel.currentListingViewModel, productVM.showKeyboardWhenQuickAnswer {
-            //            chatTextView.setText(answer.text)
+            listingDeckView.chatTextView.setText(answer.text)
         } else {
-            //            viewModel.send(quickAnswer: answer)
+//            viewModel.send(quickAnswer: answer)
         }
-        
         if let productVM = viewModel.currentListingViewModel, productVM.areQuickAnswersDynamic {
-            //            viewModel.moveQuickAnswerToTheEnd(index)
+//            viewModel.moveQuickAnswerToTheEnd(index)
         }
     }
-    
+
 }
 
+extension ListingDeckViewController: ListingDeckViewModelDelegate {
+    func vmShowOptions(_ cancelLabel: String, actions: [UIAction]) {
+        showActionSheet(cancelLabel, actions: actions, barButtonItem: nil)
+    }
+
+    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
+        showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItems?.first)
+    }
+
+    func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
+        return (self, navigationItem.rightBarButtonItems?.first)
+    }
+    
+    func vmResetBumpUpBannerCountdown() {
+        listingDeckView.itemActionsView.bumpUpBanner.resetCountdown()
+    }
+    
+    
+}

@@ -19,10 +19,8 @@ final class ListingViewModelBinder {
         guard let theOneViewModel = viewModel else { return }
         self.disposeBag = DisposeBag()
 
-        currentVM.listing.asObservable().skip(1).bindNext { [weak self] updatedListing in
-            //            theOneViewModel.currentViewModelIsBeingUpdated.value = true
-            //            theOneViewModel.objects.replace(index, with: ListingCarouselCellModel(listing:updatedListing))
-            //            theOneViewModel.currentViewModelIsBeingUpdated.value = false
+        currentVM.listing.asObservable().skip(1).bindNext { updatedListing in
+            theOneViewModel.objects.replace(theOneViewModel.currentIndex, with: ListingCarouselCellModel(listing:updatedListing))
             }.addDisposableTo(disposeBag)
 
         currentVM.status.asObservable().bindTo(theOneViewModel.status).addDisposableTo(disposeBag)
@@ -40,8 +38,8 @@ final class ListingViewModelBinder {
         currentVM.directChatEnabled.asObservable().bindTo(theOneViewModel.chatEnabled).addDisposableTo(disposeBag)
 
         theOneViewModel.directChatMessages.removeAll()
-        currentVM.directChatMessages.changesObservable.subscribeNext { [unowned self] change in
-            //            theOneViewModel.performCollectionChange(change: change)
+        currentVM.directChatMessages.changesObservable.subscribeNext { change in
+            theOneViewModel.performCollectionChange(change: change)
             }.addDisposableTo(disposeBag)
         theOneViewModel.directChatPlaceholder.value = currentVM.directChatPlaceholder
 
