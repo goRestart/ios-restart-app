@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-class PostingDetailsViewController : BaseViewController {
+class PostingDetailsViewController: KeyboardViewController {
     
     fileprivate static let titleHeight: CGFloat = 60
     fileprivate static let skipButtonMinimumWidth: CGFloat = 100
@@ -19,6 +19,7 @@ class PostingDetailsViewController : BaseViewController {
     private let titleLabel: UILabel = UILabel()
     private let contentView: UIView = UIView()
     private let buttonNext: UIButton = UIButton()
+    private var buttonNextBottomMargin = NSLayoutConstraint()
     
     private let viewModel: PostingDetailsViewModel
     
@@ -98,16 +99,17 @@ class PostingDetailsViewController : BaseViewController {
         contentView.layout(with: view).fillHorizontal(by: Metrics.veryShortMargin)
         
         
-        let tableView = viewModel.makeContentView
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(tableView)
-        tableView.layout(with: contentView).fill()
+        let infoView = viewModel.makeContentView
+        infoView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(infoView)
+        infoView.layout(with: contentView).fill()
         
         view.addSubview(buttonNext)
         buttonNext.layout(with: contentView).below(by: Metrics.bigMargin)
         buttonNext.layout().height(PostingDetailsViewController.skipButtonHeight)
         buttonNext.layout().width(PostingDetailsViewController.skipButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
-        buttonNext.layout(with: view).right(by: -Metrics.bigMargin).bottom(by: -Metrics.bigMargin)
+        buttonNext.layout(with: keyboardView).bottom(to: .top, by: -Metrics.bigMargin)
+        buttonNext.layout(with: view).right(by: -Metrics.bigMargin)
     }
     
     
