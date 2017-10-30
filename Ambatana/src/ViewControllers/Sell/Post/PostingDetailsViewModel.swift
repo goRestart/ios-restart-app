@@ -69,7 +69,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
     
     weak var navigator: PostListingNavigator?
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     // MARK: - LifeCycle
     
@@ -122,7 +122,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             return
         }
         if step == .price {
-            priceSet(price: priceListing.value)
+            set(price: priceListing.value)
         }
         advanceNextStep(next: next)
     }
@@ -157,7 +157,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         navigator?.closePostProductAndPostInBackground(params: listingCreationParams, trackingInfo: trackingInfo)
     }
     
-    private func priceSet(price: ListingPrice) {
+    private func set(price: ListingPrice) {
         postListingState = postListingState.updating(price: price)
     }
     
