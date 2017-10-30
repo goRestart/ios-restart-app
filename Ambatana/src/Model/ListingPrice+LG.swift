@@ -6,4 +6,20 @@
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
-import Foundation
+import LGCoreKit
+
+extension ListingPrice {
+    func stringValue(currency: Currency, isFreeEnabled: Bool) -> String {
+        
+        if isFreeEnabled && free {
+            return LGLocalizedString.productFreePrice
+        } else {
+            return value > 0 ? formattedPrice(currency: currency) :  LGLocalizedString.productNegotiablePrice
+        }
+    }
+    
+    private func formattedPrice(currency: Currency) -> String {
+        let actualCurrencyCode = currency.code
+        return Core.currencyHelper.formattedAmountWithCurrencyCode(actualCurrencyCode, amount: value)
+    }
+}

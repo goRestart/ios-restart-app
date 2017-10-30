@@ -25,6 +25,15 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         }
     }
     
+    private var currencySymbol: String? {
+        guard let countryCode = locationManager.currentLocation?.countryCode else { return nil }
+        return currencyHelper.currencyWithCountryCode(countryCode).symbol
+    }
+    
+    private var countryCode: String? {
+        return locationManager.currentLocation?.countryCode
+    }
+    
     var makeContentView: UIView {
         var values: [String]
         switch step {
@@ -37,10 +46,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .propertyType:
             values = RealEstatePropertyType.allValues.flatMap { $0.localizedString }
         case .price:
-            var currencySymbol: String? = nil
-            if let countryCode = locationManager.currentLocation?.countryCode {
-                currencySymbol = currencyHelper.currencyWithCountryCode(countryCode).symbol
-            }
+           
             let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol,
                                                       freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
             priceView.priceListing.asObservable().bindTo(priceListing).addDisposableTo(disposeBag)
@@ -233,15 +239,21 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         var value: String?
         switch section {
         case .price:
-            value = "missing price"
+            if let countryCodeValue = countryCode {
+                 value = postListingState.price?.stringValue(currency: currencyHelper.currencyWithCountryCode(countryCodeValue), isFreeEnabled: featureFlags.freePostingModeAllowed)
+            }
         case .propertyType:
             value = postListingState.verticalAttributes?.realEstateAttributes?.propertyType?.localizedString
         case .offerType:
             value = postListingState.verticalAttributes?.realEstateAttributes?.offerType?.localizedString
         case .bedrooms:
-            value = String(describing: postListingState.verticalAttributes?.realEstateAttributes?.bedrooms)
+            if let bedrooms = postListingState.verticalAttributes?.realEstateAttributes?.bedrooms {
+                value = NumberOfBedrooms(rawValue: bedrooms)?.summaryLocalizedString
+            }
         case .bathrooms:
-            value = String(describing: postListingState.verticalAttributes?.realEstateAttributes?.bathrooms)
+            if let bathrooms = postListingState.verticalAttributes?.realEstateAttributes?.bathrooms {
+                value = NumberOfBathrooms(rawValue:bathrooms)?.summaryLocalizedString
+            }
         case .location:
             value = myUserRepository.myUser?.location?.postalAddress?.cityStateString
         case .make:
