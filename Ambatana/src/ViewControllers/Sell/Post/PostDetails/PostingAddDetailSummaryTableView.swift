@@ -10,8 +10,8 @@ import RxSwift
 import LGCoreKit
 
 protocol PostingAddDetailSummaryTableViewDelegate: class {
-    func indexSelected(index: Int)
-    func indexDeselected(index: Int)
+    func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView, didSelectIndex: Int)
+    func valueFor(section: PostingSummaryOption) -> String
 }
 
 enum PostingSummaryOption {
@@ -25,7 +25,7 @@ enum PostingSummaryOption {
     case model
     case year
     
-    var emptyStateValue: String {
+    var emptyLocalizeString: String {
         switch self {
         case .price:
             return LGLocalizedString.realEstateSummaryPriceEmpty
@@ -39,6 +39,12 @@ enum PostingSummaryOption {
             return LGLocalizedString.realEstateSummaryBathroomsEmpty
         case .location:
             return LGLocalizedString.realEstateSummaryLocationEmpty
+        case .make:
+            return LGLocalizedString.postCategoryDetailAddMake
+        case .model:
+            return LGLocalizedString.postCategoryDetailAddModel
+        case .year:
+            return ""
         }
     }
     static func optionsIncluded(with postCategory: PostCategory) -> [PostingSummaryOption] {
@@ -59,17 +65,16 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
     static let cellIdentifier = "PostingAddDetailSummaryCell"
     static let cellAddDetailHeight: CGFloat = 67
     
-    private let postingSummaryOptions: [PostingSummaryOption]
+    private var postingSummaryOptions: [PostingSummaryOption]
     private let tableView = UITableView()
-    private var selectedValue: IndexPath?
-    weak var delegate: PostingAddDetailTableViewDelegate?
+    weak var delegate: PostingAddDetailSummaryTableViewDelegate?
     
     
     // MARK: - Lifecycle
     
-    init(values: [String]) {
+    init(postCategory: PostCategory?) {
+        self.postingSummaryOptions = PostingSummaryOption.optionsIncluded(with: postCategory ?? .unassigned)
         super.init(frame: CGRect.zero)
-        postingSummaryOptions
         setupUI()
         setupAccessibilityIds()
         setupLayout()
@@ -88,8 +93,6 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
         tableView.dataSource = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         tableView.backgroundColor = UIColor.clear
-        tableView.tintColor = UIColor.white
-        tableView.indicatorStyle = .white
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.margin, right: 0)
     }
     
@@ -102,8 +105,7 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
             .bottom()
             .leading()
             .trailing()
-        
-        setupTableView(values: detailInfo)
+        setupTableView(values: postingSummaryOptions)
     }
     
     // MARK: - Accessibility
@@ -116,7 +118,7 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
     // MARK: - UITableView delegate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return detailInfo.count
+        return postingSummaryOptions.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -124,16 +126,16 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return PostingAddDetailTableView.cellAddDetailHeight
+        return PostingAddDetailSummaryTableView.cellAddDetailHeight
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostingAddDetailTableView.cellIdentifier) else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostingAddDetailSummaryTableView.cellIdentifier) else {
             return UITableViewCell()
         }
-        let value = detailInfo[indexPath.row]
-        cell.selectionStyle = .none
-        cell.textLabel?.text = value
+        let sectionSummary = postingSummaryOptions[indexPath.row]
+        cell.accessoryType = .disclosureIndicator
+        cell.textLabel?.text = setValue(section: sectionSummary)
         cell.textLabel?.font = UIFont.selectableItem
         cell.backgroundColor = UIColor.clear
         cell.textLabel?.textColor = UIColor.grayLight
@@ -142,44 +144,17 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
-            if let selectedCell = selectedValue, let cellAlreadySelected = tableView.cellForRow(at: selectedCell) {
-                cellAlreadySelected.accessoryType = .none
-                cellAlreadySelected.accessoryView = nil
-                cellAlreadySelected.textLabel?.textColor = UIColor.grayLight
-                selectedValue = nil
-                delegate?.indexDeselected(index: indexPath.row)
-            } else {
-                let image = #imageLiteral(resourceName: "ic_checkmark").withRenderingMode(.alwaysTemplate)
-                let checkmark  = UIImageView(frame:CGRect(x:0,
-                                                          y:0,
-                                                          width:PostingAddDetailTableView.checkMarkSize.width,
-                                                          height:PostingAddDetailTableView.checkMarkSize.height))
-                checkmark.image = image
-                checkmark.tintColor = UIColor.white
-                cell.accessoryView = checkmark
-                
-                cell.accessoryType = .checkmark
-                cell.textLabel?.textColor = UIColor.white
-                selectedValue = indexPath
-                cell.isSelected = true
-                delegate?.indexSelected(index: indexPath.row)
-            }
+            cell.textLabel?.textColor = UIColor.white
+            delegate?.postingAddDetailSummary(self, didSelectIndex: indexPath.row)
         }
     }
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            if let selectedValue = selectedValue, let cellAlreadySelected = tableView.cellForRow(at: selectedValue) {
-                cellAlreadySelected.accessoryType = .none
-                cellAlreadySelected.accessoryView = nil
-                cellAlreadySelected.textLabel?.textColor = UIColor.grayLight
-            }
-        }
-        delegate?.indexDeselected(index: indexPath.row)
-    }
-    
-    func setupTableView(values: [String]) {
-        detailInfo = values
+    func setupTableView(values: [PostingSummaryOption]) {
+        postingSummaryOptions = values
         tableView.reloadData()
+    }
+    
+    func setValue(section: PostingSummaryOption) -> String {
+        return delegate?.valueFor(section: section) ?? section.emptyLocalizeString
     }
 }

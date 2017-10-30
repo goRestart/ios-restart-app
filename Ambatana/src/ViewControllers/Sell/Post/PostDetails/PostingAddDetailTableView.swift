@@ -53,7 +53,6 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
         tableView.tintColor = UIColor.white
         tableView.indicatorStyle = .white
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.margin, right: 0)
-        tableView.allowsMultipleSelection = true
     }
     
     private func setupLayout() {

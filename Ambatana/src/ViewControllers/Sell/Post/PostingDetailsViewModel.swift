@@ -10,7 +10,7 @@ import RxSwift
 import LGCoreKit
 
 
-class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate {
+class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
     
     var title: String {
         return step.title
@@ -46,8 +46,9 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             priceView.priceListing.asObservable().bindTo(priceListing).addDisposableTo(disposeBag)
             return priceView
         case .summary:
-            // WIP: https://ambatana.atlassian.net/browse/ABIOS-3079
-            return UIView()
+            let summaryView = PostingAddDetailSummaryTableView(postCategory: postListingState.category)
+            summaryView.delegate = self
+            return summaryView
         }
         let view: PostingAddDetailTableView = PostingAddDetailTableView(values: values)
         view.delegate = self
@@ -58,6 +59,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     private let currencyHelper: CurrencyHelper
     private let locationManager: LocationManager
     private let featureFlags: FeatureFlaggeable
+    private let myUserRepository: MyUserRepository
     
     private let step: PostingDetailStep
     private var postListingState: PostListingState
@@ -84,7 +86,8 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
                   tracker: TrackerProxy.sharedInstance,
                   currencyHelper: Core.currencyHelper,
                   locationManager: Core.locationManager,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  myUserRepository: Core.myUserRepository)
     }
     
     init(step: PostingDetailStep,
@@ -95,7 +98,8 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
          tracker: Tracker,
          currencyHelper: CurrencyHelper,
          locationManager: LocationManager,
-         featureFlags: FeatureFlaggeable) {
+         featureFlags: FeatureFlaggeable,
+         myUserRepository: MyUserRepository) {
         self.step = step
         self.postListingState = postListingState
         self.uploadedImageSource = uploadedImageSource
@@ -105,6 +109,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         self.currencyHelper = currencyHelper
         self.locationManager = locationManager
         self.featureFlags = featureFlags
+        self.myUserRepository = myUserRepository
     }
     
     func closeButtonPressed() {
@@ -216,4 +221,37 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
         }
     }
+    
+    
+    // MARK: - PostingAddDetailSummaryTableViewDelegate
+    
+    func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView, didSelectIndex: Int) {
+        navigator?.cancelPostListing()
+    }
+    
+    func valueFor(section: PostingSummaryOption) -> String {
+        var value: String?
+        switch section {
+        case .price:
+            value = "missing price"
+        case .propertyType:
+            value = postListingState.verticalAttributes?.realEstateAttributes?.propertyType?.localizedString
+        case .offerType:
+            value = postListingState.verticalAttributes?.realEstateAttributes?.offerType?.localizedString
+        case .bedrooms:
+            value = String(describing: postListingState.verticalAttributes?.realEstateAttributes?.bedrooms)
+        case .bathrooms:
+            value = String(describing: postListingState.verticalAttributes?.realEstateAttributes?.bathrooms)
+        case .location:
+            value = myUserRepository.myUser?.location?.postalAddress?.cityStateString
+        case .make:
+            value = postListingState.verticalAttributes?.carAttributes?.make
+        case .model:
+            value = postListingState.verticalAttributes?.carAttributes?.model
+        case .year:
+            value = String(describing: postListingState.verticalAttributes?.carAttributes?.year)
+        }
+        return value ?? section.emptyLocalizeString
+    }
 }
+
