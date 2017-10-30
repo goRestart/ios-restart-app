@@ -134,7 +134,7 @@ class PostingAddDetailPriceView: UIView {
         Observable.combineLatest(freeSwitch.rx.isOn.asObservable(), priceTextField.rx.text.asObservable()) { ($0, $1) }.bindNext { [weak self] (isOn, textFieldValue) in
             guard let strongSelf = self else { return }
             if isOn {
-               strongSelf.priceListing.value = .free
+                strongSelf.priceListing.value = .free
             } else if let value = textFieldValue, let price = Double(value) {
                 strongSelf.priceListing.value = .normal(price)
             } else {
