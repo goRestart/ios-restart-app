@@ -2240,6 +2240,12 @@
 // Real Estate number of bathrooms 4
 "real_estate_bathrooms_4" = "4+";
 
+// bathroom
+"real_estate_summary_bathroom_title" = "bathroom";
+
+// bathrooms
+"real_estate_summary_bathrooms_title" = "bathrooms";
+
 // Ral Estate number of bedrooms Title
 "real_estate_bedrooms_title" = "No. of bedrooms";
 
@@ -2257,6 +2263,12 @@
 
 // Real Estate number of bedrooms 4
 "real_estate_bedrooms_4" = "4+";
+
+// bedroom
+"real_estate_summary_bedroom_title" = "bedroom";
+
+// bedrooms
+"real_estate_summary_bedrooms_title" = "bedrooms";
 
 // Real Estate summary price empty value
 "real_estate_summary_price_empty" = "Add price";

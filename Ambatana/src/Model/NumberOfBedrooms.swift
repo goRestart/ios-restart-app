@@ -30,6 +30,21 @@ enum NumberOfBedrooms: Int {
         }
     }
     
+    var summaryLocalizedString: String {
+        switch self {
+        case .zero:
+            return LGLocalizedString.realEstateBedrooms0
+        case .one:
+            return LGLocalizedString.realEstateBedrooms1 + " " + LGLocalizedString.realEstateSummaryBedroomTitle
+        case .two:
+            return LGLocalizedString.realEstateBedrooms2 + " " + LGLocalizedString.realEstateSummaryBedroomsTitle
+        case .three:
+            return LGLocalizedString.realEstateBedrooms3 + " " + LGLocalizedString.realEstateSummaryBedroomsTitle
+        case .four:
+            return LGLocalizedString.realEstateBedrooms4 + " " + LGLocalizedString.realEstateSummaryBedroomsTitle
+        }
+    }
+    
     static var allValues: [NumberOfBedrooms] {
         return [.zero, .one, .two, .three, .four]
     }
