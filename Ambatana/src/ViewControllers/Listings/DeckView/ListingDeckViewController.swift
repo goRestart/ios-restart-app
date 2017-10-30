@@ -43,9 +43,14 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         super.viewDidLoad()
         setupRx()
 
-        setupNavigationBar()
         setupCollectionView()
         setupDirectChat()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNavigationBar()
+        UIApplication.shared.setStatusBarStyle(.default, animated: true)
     }
 
     // MARK: Rx
@@ -94,6 +99,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     private func setupNavigationBar() {
         setNavBarBackgroundStyle(.transparent(substyle: .light))
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
 
         let rightButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_more_options"), style: .plain, target: self, action: #selector(didTapMoreInfo))
         let leftButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_red"), style: .plain, target: self, action: #selector(didTapClose))

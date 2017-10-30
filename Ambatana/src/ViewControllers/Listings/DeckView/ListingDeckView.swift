@@ -37,7 +37,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     }
 
     private func setupUI() {
-        backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        backgroundColor = UIColor.viewControllerBackground
         setupCollectionView()
         setupPrivateActionsView()
 
@@ -54,7 +54,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
 
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.decelerationRate = 0
-        collectionView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        collectionView.backgroundColor = UIColor.viewControllerBackground
     }
 
     private func setupPrivateActionsView() {
@@ -64,7 +64,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         itemActionsView.layout(with: collectionView).below()
         itemActionsView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
         itemActionsView.alpha = 0
-        itemActionsView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        itemActionsView.backgroundColor = UIColor.viewControllerBackground
     }
 
     private func setupDirectChatView() {
@@ -79,7 +79,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         chatTextView.layout(with: self)
             .fillHorizontal(by: CarouselUI.itemsMargin)
             .bottomMargin(by: -16.0) { [weak self] constraint in self?.chatTextViewBottom = constraint }
-        chatTextView.backgroundColor = .white
+        chatTextView.backgroundColor = .clear
 
         directAnswersView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(directAnswersView)
