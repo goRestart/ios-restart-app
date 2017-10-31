@@ -12,12 +12,12 @@ import LGCoreKit
 
 final class ListingDeckActionView: UIView {
 
-    let topButton = UIButton(type: .custom)
-    private var topButtonBottomContainer: NSLayoutConstraint?
-    private var topButtonBottomSeparator: NSLayoutConstraint?
+    let actionButton = UIButton(type: .custom)
+    private var actionButtonBottomContainer: NSLayoutConstraint?
+    private var actionButtonBottomSeparator: NSLayoutConstraint?
 
-    let separator = UIView()
-    let bumpUpBanner = BumpUpBanner()
+    private let separator = UIView()
+    private let bumpUpBanner = BumpUpBanner()
 
     convenience init() {
         self.init(frame: .zero)
@@ -36,36 +36,36 @@ final class ListingDeckActionView: UIView {
     override var intrinsicContentSize: CGSize { return CGSize(width: UIViewNoIntrinsicMetric, height: 64.0 + 48.0) }
 
     private func setup() {
-        setupTopButton()
+        setupActionButton()
         setupSeparator()
         setupBumpUpBanner()
         setupUI()
     }
 
-    private func setupTopButton() {
-        addSubview(topButton)
-        topButton.translatesAutoresizingMaskIntoConstraints = false
-        topButton.layout().height(48.0)
+    private func setupActionButton() {
+        addSubview(actionButton)
+        actionButton.translatesAutoresizingMaskIntoConstraints = false
+        actionButton.layout().height(48.0)
 
-        topButton.layout(with: self)
+        actionButton.layout(with: self)
             .topMargin(by: 8.0).rightMargin(by: -16.0).leftMargin(by: 16.0)
-        topButton.layout(with: self).bottomMargin(by: -8) { [weak self] constraint in
-            self?.topButtonBottomContainer = constraint
-            self?.topButtonBottomContainer?.priority = UILayoutPriorityDefaultLow
+        actionButton.layout(with: self).bottomMargin(by: -8) { [weak self] constraint in
+            self?.actionButtonBottomContainer = constraint
+            self?.actionButtonBottomContainer?.priority = UILayoutPriorityDefaultLow
         }
-        topButton.setTitle(LGLocalizedString.productMarkAsSoldButton, for: .normal)
-        topButton.setStyle(.terciary)
+        actionButton.setTitle(LGLocalizedString.productMarkAsSoldButton, for: .normal)
+        actionButton.setStyle(.terciary)
     }
 
     private func setupSeparator() {
         addSubview(separator)
         separator.translatesAutoresizingMaskIntoConstraints = false
 
-        separator.layout(with: topButton).below(by: 8.0) { [weak self] constraint in
-            self?.topButtonBottomSeparator = constraint
-            self?.topButtonBottomSeparator?.priority = 999
+        separator.layout(with: actionButton).below(by: 8.0) { [weak self] constraint in
+            self?.actionButtonBottomSeparator = constraint
+            self?.actionButtonBottomSeparator?.priority = 999
         }
-        separator.layout().height(1 / UIScreen.main.scale)
+        separator.layout().height(1)
         separator.layout(with: self).fillHorizontal()
     }
 
@@ -85,16 +85,20 @@ final class ListingDeckActionView: UIView {
                                                  buttonBlock: {}))
     }
 
+    func resetCountdown() {
+        bumpUpBanner.resetCountdown()
+    }
+
     func hideBumpUp() {
-        topButtonBottomSeparator?.priority = UILayoutPriorityDefaultLow
-        topButtonBottomContainer?.priority = 999
+        actionButtonBottomSeparator?.priority = UILayoutPriorityDefaultLow
+        actionButtonBottomContainer?.priority = 999
         separator.alpha = 0
         bumpUpBanner.alpha = 0
     }
 
     func showBumpUp() {
-        topButtonBottomContainer?.priority = UILayoutPriorityDefaultLow
-        topButtonBottomSeparator?.priority = 999
+        actionButtonBottomContainer?.priority = UILayoutPriorityDefaultLow
+        actionButtonBottomSeparator?.priority = 999
         separator.alpha = 1
         bumpUpBanner.alpha = 1
     }
@@ -103,7 +107,7 @@ final class ListingDeckActionView: UIView {
         backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         separator.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
 
-        bringSubview(toFront: topButton)
+        bringSubview(toFront: actionButton)
     }
 
 }

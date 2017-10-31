@@ -13,10 +13,11 @@ import RxSwift
 final class ListingDeckViewControllerBinder {
 
     weak var listingDeckViewController: ListingDeckViewController? = nil
-    let disposeBag: DisposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
 
     func bind(withViewModel viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         guard let viewController = listingDeckViewController else { return }
+        disposeBag = DisposeBag()
 
         bindKeyboardChanges(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindCollectionView(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
@@ -38,11 +39,10 @@ final class ListingDeckViewControllerBinder {
                 listingDeckView.hideActions()
                 return
             }
-            let takeUntilAction = viewModel.actionButtons.asObservable().skip(1)
             guard let bottomAction = actionButtons.first else { return }
-            listingDeckView.itemActionsView.topButton.configureWith(uiAction: bottomAction)
+            listingDeckView.itemActionsView.actionButton.configureWith(uiAction: bottomAction)
             listingDeckView.itemActionsView
-                .topButton.rx.tap.takeUntil(takeUntilAction).bindNext {
+                .actionButton.rx.tap.bindNext {
                     bottomAction.action()
                 }.addDisposableTo(strongSelf.disposeBag)
             UIView.animate(withDuration: 0.2, animations: {
@@ -156,12 +156,10 @@ final class ListingDeckViewControllerBinder {
 
     private func bindNavigationBarActions(withViewController viewController: ListingDeckViewController,
                                           viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewModel.navBarButtons.asObservable().subscribeNext { [unowned viewModel, weak self] navBarButtons in
+        viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
             guard let strongSelf = self else { return }
             viewController.setNavigationBarRightButtons([])
-
             guard navBarButtons.count > 0, let action = navBarButtons.first else { return }
-            let takeUntilAction = viewModel.navBarButtons.asObservable().skip(1)
             viewController.setLetGoRightButtonWith(action, buttonTintColor: .red,
                                                    tapBlock: { tapEvent in
                                                     tapEvent.bindNext{

@@ -198,7 +198,7 @@ extension ListingDeckViewController: ListingDeckViewModelDelegate {
     }
     
     func vmResetBumpUpBannerCountdown() {
-        listingDeckView.itemActionsView.bumpUpBanner.resetCountdown()
+        listingDeckView.itemActionsView.resetCountdown()
     }
     
     
