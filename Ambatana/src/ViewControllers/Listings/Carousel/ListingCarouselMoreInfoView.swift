@@ -516,7 +516,6 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
         bannerContainerViewHeightConstraint.constant = 0
         bannerContainerViewLeftConstraint.constant = 0
         bannerContainerViewRightConstraint.constant = 0
-        setNeedsLayout()
 
         // TODO: ⚠️ remove line when Google's AFS finally works!!!
         viewModel?.didFailToReceiveAd(withErrorCode: GADErrorCode(rawValue: error.code) ?? .internalError)
