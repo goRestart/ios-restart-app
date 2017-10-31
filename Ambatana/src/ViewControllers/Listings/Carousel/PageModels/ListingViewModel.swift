@@ -531,9 +531,7 @@ extension ListingViewModel {
 extension ListingViewModel {
 
     fileprivate func refreshNavBarButtons() {
-        // TODO: Remove when feature flag is created
-        let newItemPage = true
-        if newItemPage {
+        if featureFlags.newItemPage.isActive {
             let icon = #imageLiteral(resourceName: "ic_more_options").withRenderingMode(.alwaysOriginal)
             let action = UIAction(interface: .image(icon, nil), action: { [weak self] in self?.showOptionsMenu() },
                             accessibilityId: .listingCarouselNavBarActionsButton)
