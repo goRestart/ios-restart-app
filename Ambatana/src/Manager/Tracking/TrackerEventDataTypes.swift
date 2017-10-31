@@ -965,13 +965,13 @@ enum EventParameterAdQueryType: String {
 enum EventParameterAdVisibility: String {
     case full = "full"
     case partial = "partial"
-    case none = "none"
+    case notVisible = "not-visible"
 
     init(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat, screenHeight: CGFloat) {
         if bannerBottomPosition <= screenHeight {
             self = .full
         } else if bannerTopPosition >= screenHeight {
-            self = .none
+            self = .notVisible
         } else {
             self = .partial
         }
