@@ -38,7 +38,7 @@ extension Bumper  {
         flags.append(HomeRelatedEnabled.self)
         flags.append(HideChatButtonOnFeaturedCells.self)
         flags.append(FeaturedRibbonImprovementInDetail.self)
-        flags.append(SuperKeywordGroupsAndSubgroupsInFeed.self)
+        flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(NewItemPage.self)
         Bumper.initialize(flags)
     } 
@@ -168,9 +168,9 @@ extension Bumper  {
         return FeaturedRibbonImprovementInDetail(rawValue: value) ?? .control 
     }
 
-    static var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed {
-        guard let value = Bumper.value(for: SuperKeywordGroupsAndSubgroupsInFeed.key) else { return .control }
-        return SuperKeywordGroupsAndSubgroupsInFeed(rawValue: value) ?? .control 
+    static var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
+        guard let value = Bumper.value(for: TaxonomiesAndTaxonomyChildrenInFeed.key) else { return .control }
+        return TaxonomiesAndTaxonomyChildrenInFeed(rawValue: value) ?? .control 
     }
 
     static var newItemPage: NewItemPage {
@@ -510,13 +510,13 @@ enum FeaturedRibbonImprovementInDetail: String, BumperFeature  {
     }
 }
 
-enum SuperKeywordGroupsAndSubgroupsInFeed: String, BumperFeature  {
+enum TaxonomiesAndTaxonomyChildrenInFeed: String, BumperFeature  {
     case control, baseline, active
-    static var defaultValue: String { return SuperKeywordGroupsAndSubgroupsInFeed.control.rawValue }
-    static var enumValues: [SuperKeywordGroupsAndSubgroupsInFeed] { return [.control, .baseline, .active]}
+    static var defaultValue: String { return TaxonomiesAndTaxonomyChildrenInFeed.control.rawValue }
+    static var enumValues: [TaxonomiesAndTaxonomyChildrenInFeed] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Super keywords groups and subgroups in feed as bubble filters" } 
-    static func fromPosition(_ position: Int) -> SuperKeywordGroupsAndSubgroupsInFeed {
+    static var description: String { return "Taxonomies and taxonomy children in feed as filter tags" } 
+    static func fromPosition(_ position: Int) -> TaxonomiesAndTaxonomyChildrenInFeed {
         switch position { 
             case 0: return .control
             case 1: return .baseline
