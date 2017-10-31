@@ -517,6 +517,7 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
         bannerContainerViewLeftConstraint.constant = 0
         bannerContainerViewRightConstraint.constant = 0
 
+        // Task to fix this: https://ambatana.atlassian.net/browse/ABIOS-3147
         // TODO: ⚠️ remove line when Google's AFS finally works!!!
         viewModel?.didFailToReceiveAd(withErrorCode: GADErrorCode(rawValue: error.code) ?? .internalError)
 
