@@ -9,9 +9,10 @@
 import Foundation
 import UIKit
 
+// TODO ABIOS-3101 https://ambatana.atlassian.net/browse/ABIOS-3101
 final class ListingCardView: UICollectionViewCell {
 
-    let listingIDLabel = UILabel()
+    private let listingIDLabel = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
