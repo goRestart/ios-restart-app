@@ -243,19 +243,13 @@ fileprivate extension TabCoordinator {
     func openListing(_ listing: Listing, cellModels: [ListingCellModel], requester: ListingListRequester,
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
                      source: EventParameterListingVisitSource, index: Int) {
-        if false {
+        if showRelated {
             //Same as single product opening
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,
                         source: source, requester: requester, index: index, discover: false,
                         actionOnFirstAppear: .nonexistent)
-        } else {
-//            let vm = ListingCarouselViewModel(productListModels: cellModels, initialListing: listing,
-//                                              thumbnailImage: thumbnailImage, listingListRequester: requester, source: source,
-//                                              actionOnFirstAppear: .nonexistent, trackingIndex: index,
-//                                              firstProductSyncRequired: false)
-//            vm.navigator = self
-//            openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listing.objectId)
-
+        } else if featureFlags.newItemPage.isActive {
+            // TODO ABIOS-3100 check all the other parameters
             let viewModel = ListingDeckViewModel(listing: listing,
                                                  listingListRequester: requester,
                                                  source: source)
@@ -263,6 +257,13 @@ fileprivate extension TabCoordinator {
             let deckViewController = ListingDeckViewController(viewModel: viewModel)
             viewModel.delegate = deckViewController
             navigationController.pushViewController(deckViewController, animated: true)
+        } else {
+            let vm = ListingCarouselViewModel(productListModels: cellModels, initialListing: listing,
+                                              thumbnailImage: thumbnailImage, listingListRequester: requester, source: source,
+                                              actionOnFirstAppear: .nonexistent, trackingIndex: index,
+                                              firstProductSyncRequired: false)
+            vm.navigator = self
+            openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listing.objectId)
         }
     }
 

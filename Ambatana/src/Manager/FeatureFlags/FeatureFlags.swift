@@ -103,6 +103,12 @@ extension ShowPriceAfterSearchOrFilter {
     }
 }
 
+extension NewItemPage {
+    var isActive: Bool {
+        return self == .active
+    }
+}
+
 extension HomeRelatedEnabled {
     var isActive: Bool { get { return self == .active } }
 }
