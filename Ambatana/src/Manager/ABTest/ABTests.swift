@@ -42,7 +42,8 @@ class ABTests {
     let hideChatButtonOnFeaturedCells = IntABDynamicVar(key: "20171011ChatButtonOnFeaturedCells", defaultValue: 0)
     let featuredRibbonImprovementInDetail = IntABDynamicVar(key: "20171024FeaturedRibbonImprovementInDetail", defaultValue: 0)
     let superKeywordGroupsAndSubgroupsInFeed = IntABDynamicVar(key: "20171009SuperKeywordGroupsAndSubgroupsInFeed", defaultValue: 0)
-
+    let newItemPage = IntABDynamicVar(key: "20171027NewItemPage", defaultValue: 0)
+    
     init() {
     }
     
@@ -76,6 +77,7 @@ class ABTests {
         result.append(hideChatButtonOnFeaturedCells)
         result.append(featuredRibbonImprovementInDetail)
         result.append(superKeywordGroupsAndSubgroupsInFeed)
+        result.append(newItemPage)
         
         return result
     }

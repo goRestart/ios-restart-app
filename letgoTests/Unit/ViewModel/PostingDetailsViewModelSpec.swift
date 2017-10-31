@@ -6,13 +6,6 @@
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
-//
-//  ListingViewModelSpec.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 06/02/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
 
 @testable import LetGoGodMode
 import LGCoreKit
@@ -27,14 +20,15 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
     var closePostProductAndPostInBackgroundCalled: Bool = false
     var closePostProductAndPostLaterCalled: Bool = false
     var openLoginIfNeededFromListingPosted: Bool = false
-
-        override func spec() {
+    
+    override func spec() {
         var sut: PostingDetailsViewModel!
-            
+        
         var locationManager: MockLocationManager!
         var tracker: MockTracker!
         var currencyHelper: CurrencyHelper!
-            
+        var featureFlags: MockFeatureFlags!
+        
         var postingDetailsStep: PostingDetailStep!
         var postListingState: PostListingState!
         var uploadedImageSource: EventParameterPictureSource! = .camera
@@ -42,7 +36,6 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
         var postListingBasicInfo = PostListingBasicDetailViewModel()
         
         describe("PostingDetailsViewModelSpec") {
-            
             func buildPostingDetailsViewModel() {
                 sut = PostingDetailsViewModel(step: postingDetailsStep,
                                               postListingState: postListingState,
@@ -51,8 +44,8 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                                               postListingBasicInfo: postListingBasicInfo,
                                               tracker: tracker,
                                               currencyHelper: currencyHelper,
-                                              locationManager: locationManager)
-
+                                              locationManager: locationManager,
+                                              featureFlags: featureFlags)
                 sut.navigator = self
             }
             
@@ -61,6 +54,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                 locationManager = MockLocationManager()
                 tracker = MockTracker()
                 currencyHelper = Core.currencyHelper
+                featureFlags = MockFeatureFlags()
                 
                 self.cancelPostingCalled = false
                 self.nextPostingDetailStepCalled = false
@@ -73,7 +67,6 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                 beforeEach {
                     postingDetailsStep = .bathrooms
                     postListingState = PostListingState(postCategory: .realEstate)
-                    
                     buildPostingDetailsViewModel()
                 }
                 
@@ -94,7 +87,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 context("index 0 selected") {
-                    beforeEach{
+                    beforeEach {
                         sut.indexSelected(index: 0)
                     }
                     it("move to next step") {
@@ -102,7 +95,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 context("index 0 Deselected") {
-                    beforeEach{
+                    beforeEach {
                         sut.indexDeselected(index: 0)
                     }
                     it("stay in the same screen") {
@@ -115,7 +108,6 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                 beforeEach {
                     postingDetailsStep = .summary
                     postListingState = PostListingState(postCategory: .realEstate)
-                    
                     buildPostingDetailsViewModel()
                 }
                 context("press next button") {
@@ -138,7 +130,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 context("index 0 selected") {
-                    beforeEach{
+                    beforeEach {
                         sut.indexSelected(index: 0)
                     }
                     it("does not move to next step") {
@@ -146,7 +138,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 context("index 0 Deselected") {
-                    beforeEach{
+                    beforeEach {
                         sut.indexDeselected(index: 0)
                     }
                     it("stays in the same screen") {
@@ -158,7 +150,6 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                 beforeEach {
                     postingDetailsStep = .price
                     postListingState = PostListingState(postCategory: .realEstate)
-                    
                     buildPostingDetailsViewModel()
                 }
                 
@@ -182,7 +173,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 context("index 0 selected") {
-                    beforeEach{
+                    beforeEach {
                         sut.indexSelected(index: 0)
                     }
                     it("does not move to next step because there is no index") {
@@ -190,7 +181,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                     }
                 }
                 context("index 0 Deselected") {
-                    beforeEach{
+                    beforeEach {
                         sut.indexDeselected(index: 0)
                     }
                     it("stays in the same screen") {
