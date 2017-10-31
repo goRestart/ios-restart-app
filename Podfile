@@ -57,7 +57,7 @@ def shared_pods
 
     # Custom camera
 #    pod "CameraManager",        "3.1.1"
-    pod "CameraManager",        :git => 'https://github.com/letgoapp/CameraManager', :commit => '3c8a514c1c94234fe7fa27734431e7dd3e53abfb' # pr https://github.com/imaginary-cloud/CameraManager/pull/121 swift 4, we need to preserv our changes!
+    pod "CameraManager",        :git => 'https://github.com/letgoapp/CameraManager', :commit => '96e56bb8386730dc74aef1bcc4971bc3cfbcb257' # Swift 4
 
     # Ken Burns effect
     pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a' # Obj-c
@@ -75,10 +75,9 @@ def shared_pods
     pod "SwiftyUserDefaults",   :git => 'https://github.com/Dschee/SwiftyUserDefaults', :commit => 'dd3d8ddc5bf95db09b66185182b5a555ac59efd5' # PR: https://github.com/radex/SwiftyUserDefaults/pull/135 swift 4 (not too much activity)
 
     # TextView with placeholder
-    pod "KMPlaceholderTextView", "1.3.0" # not updated, we could make our component for this, shouldn't be hard
+    pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6' # Swift 4
 
-    # TODO: This is an override to check our fork, remove after original repo merges our pr.
-    pod "KeychainSwift",        :git => 'git@github.com:letgoapp/keychain-swift.git', :commit => 'f6230869f4d26d720f36eb227bd269c3d712986b' # branch https://github.com/evgenyneu/keychain-swift/tree/swift-4.0 swift 4
+    pod "KeychainSwift",        "10.0.0" #Swift 4
 
 end
 
