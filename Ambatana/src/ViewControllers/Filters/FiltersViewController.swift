@@ -103,7 +103,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         // make sure the "to price" cell exists
         guard let priceSectionIndex = viewModel.sections.index(of: .price) else { return }
         let indexPath = IndexPath(item: 1,section: priceSectionIndex)
-        if viewModel.isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
+        if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
             guard let maxPriceCell = collectionView.cellForItem(at: indexPath) as? FilterRangePriceCell else { return }
             maxPriceCell.textFieldTo.becomeFirstResponder()
         } else {
@@ -186,7 +186,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         case .distance:
             return 1
         case .categories:
-            return viewModel.isSuperKeywordGroupsAndSubgroupsInFeedEnabled ? 1 : viewModel.numOfCategories
+            return viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled ? 1 : viewModel.numOfCategories
         case .carsInfo:
             return 3
         case .within:
@@ -234,7 +234,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 cell.setupWithDistance(viewModel.currentDistanceRadius)
                 return cell
             case .categories:
-                if viewModel.isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
+                if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.titleLabel.text = LGLocalizedString.categoriesTitle
@@ -303,7 +303,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 cell.bottomSeparator.isHidden = indexPath.row != (viewModel.numOfSortOptions - 1)
                 return cell
             case .price:
-                if viewModel.isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
+                if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
                     if indexPath.row == 0 {
                         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterFreeCell",
                                                                             for: indexPath) as? FilterFreeCell else { return UICollectionViewCell() }
@@ -354,7 +354,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             //Do nothing on distance
             break
         case .categories:
-            if viewModel.isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
+            if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
                 viewModel.categoriesButtonPressed()
             } else {
                 viewModel.selectCategoryAtIndex(indexPath.row)
@@ -421,7 +421,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         // Cells sizes
         let screenWidth = UIScreen.main.bounds.size.width
         distanceCellSize = CGSize(width: screenWidth, height: 78.0)
-        let categoryWidth = viewModel.isSuperKeywordGroupsAndSubgroupsInFeedEnabled ? screenWidth : screenWidth * 0.5
+        let categoryWidth = viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled ? screenWidth : screenWidth * 0.5
         categoryCellSize = CGSize(width: categoryWidth, height: 50.0)
         singleCheckCellSize = CGSize(width: screenWidth, height: 50.0)
         priceCellSize = CGSize(width: screenWidth, height: 50.0)
