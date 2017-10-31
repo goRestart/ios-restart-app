@@ -44,7 +44,7 @@ protocol FeatureFlaggeable: class {
     var homeRelatedEnabled: HomeRelatedEnabled { get }
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
     var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail { get }
-    var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed { get }
+    var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var newItemPage: NewItemPage { get }
 
     // Country dependant features
@@ -108,7 +108,7 @@ extension HomeRelatedEnabled {
     var isActive: Bool { get { return self == .active } }
 }
 
-extension SuperKeywordGroupsAndSubgroupsInFeed {
+extension TaxonomiesAndTaxonomyChildrenInFeed {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -323,13 +323,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
     }
-    
-    var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed {
-        if Bumper.enabled {
-            return Bumper.superKeywordGroupsAndSubgroupsInFeed
-        }
-        return SuperKeywordGroupsAndSubgroupsInFeed.fromPosition(abTests.superKeywordGroupsAndSubgroupsInFeed.value)
-    }
 
     var homeRelatedEnabled: HomeRelatedEnabled {
         if Bumper.enabled {
@@ -364,6 +357,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.newItemPage
         }
         return NewItemPage.fromPosition(abTests.newItemPage.value)
+    }
+    
+    var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
+        if Bumper.enabled {
+            return Bumper.taxonomiesAndTaxonomyChildrenInFeed
+        }
+        return TaxonomiesAndTaxonomyChildrenInFeed.fromPosition(abTests.taxonomiesAndTaxonomyChildrenInFeed.value)
     }
 
 

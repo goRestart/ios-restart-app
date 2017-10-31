@@ -47,7 +47,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var homeRelatedEnabled: HomeRelatedEnabled = .control
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells = .control
     var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail = .control
-    var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed = .control
+    var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
 
     // Country dependant features
     var freePostingModeAllowed = false

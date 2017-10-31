@@ -70,8 +70,8 @@ class MainListingsViewModel: BaseViewModel {
         return featureFlags.addSuperKeywordsOnFeed.isActive
     }
 
-    var isSuperKeywordGroupsAndSubgroupsInFeedEnabled: Bool {
-        return featureFlags.superKeywordGroupsAndSubgroupsInFeed.isActive
+    var isTaxonomiesAndTaxonomyChildrenInFeedEnabled: Bool {
+        return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive
     }
     
     var defaultBubbleText: String {
@@ -96,7 +96,7 @@ class MainListingsViewModel: BaseViewModel {
             resultTags.append(.category(prodCat))
         }
         
-        if isSuperKeywordGroupsAndSubgroupsInFeedEnabled, let taxonomy = filters.selectedTaxonomy {
+        if isTaxonomiesAndTaxonomyChildrenInFeedEnabled, let taxonomy = filters.selectedTaxonomy {
             resultTags.append(.taxonomy(taxonomy))
         }
         if let taxonomyChild = filters.selectedTaxonomyChildren.last {
@@ -308,7 +308,7 @@ class MainListingsViewModel: BaseViewModel {
         updatePermissionsWarning()
         taxonomyChildren = filterSuperKeywordsHighlighted(taxonomies: getTaxonomyChildren())
         updateCategoriesHeader()
-        if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
+        if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
             taxonomies = getTaxonomies()
         }
         if firstTime {
@@ -584,7 +584,7 @@ class MainListingsViewModel: BaseViewModel {
     
     var categoryHeaderElements: [CategoryHeaderElement] {
         var categoryHeaderElements: [CategoryHeaderElement] = []
-        if isSuperKeywordGroupsAndSubgroupsInFeedEnabled {
+        if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
             categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
         } else {
             categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed().map { CategoryHeaderElement.listingCategory($0) })
