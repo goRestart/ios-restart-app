@@ -165,14 +165,11 @@ class ListingCarouselViewModel: BaseViewModel {
         }
     }
 
-    fileprivate let locale: Locale
+    fileprivate let adsRequester: AdsRequester
 
     // Ads
     var adUnitId: String {
         return EnvironmentProxy.sharedInstance.moreInfoAdUnitId
-    }
-    var adTestModeActive: Bool {
-        return EnvironmentProxy.sharedInstance.adTestModeActive
     }
     var adActive: Bool {
         return featureFlags.moreInfoAdActive == .active
@@ -186,7 +183,6 @@ class ListingCarouselViewModel: BaseViewModel {
     var currentAdRequestQueryType: AdRequestQueryType? = .listingTitle
     var adRequestQuery: String? = nil
     var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
-
     let sideMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6) ? Metrics.margin : 0
 
 
@@ -243,7 +239,7 @@ class ListingCarouselViewModel: BaseViewModel {
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
                   listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
-                  locale: Locale.current)
+                  adsRequester: AdsRequester())
     }
 
     init(productListModels: [ListingCellModel]?,
@@ -258,7 +254,7 @@ class ListingCarouselViewModel: BaseViewModel {
          keyValueStorage: KeyValueStorageable,
          imageDownloader: ImageDownloaderType,
          listingViewModelMaker: ListingViewModelMaker,
-         locale: Locale) {
+         adsRequester: AdsRequester) {
         if let productListModels = productListModels {
             self.objects.appendContentsOf(productListModels.flatMap(ListingCarouselCellModel.adapter))
             self.isLastPage = listingListRequester.isLastPage(productListModels.count)
@@ -274,7 +270,7 @@ class ListingCarouselViewModel: BaseViewModel {
         self.imageDownloader = imageDownloader
         self.listingViewModelMaker = listingViewModelMaker
         self.featureFlags = featureFlags
-        self.locale = locale
+        self.adsRequester = adsRequester
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
         } else {
@@ -399,53 +395,27 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func makeAFShoppingRequestWithWidth(width: CGFloat) -> GADDynamicHeightSearchRequest {
         currentAdRequestType = .shopping
-        let adsRequest = GADDynamicHeightSearchRequest()
 
-        if adTestModeActive {
-            adsRequest.adTestEnabled = true
-            adsRequest.setAdvancedOptionValue(locale.languageCode ?? Constants.testglDefaultValue,
-                                              forKey: Constants.testglKey)
-            adsRequest.setAdvancedOptionValue(Constants.adtestValue, forKey: Constants.adtestKey)
-        }
-        
         if adRequestQuery == nil {
             adRequestQuery = makeAdsRequestQuery()
         }
+        let adWidth = width-(2*sideMargin)
 
-        adsRequest.query = adRequestQuery
-
-        let viewWidth = String(Int(width-(2*sideMargin)))
-
-        adsRequest.setAdvancedOptionValue(Constants.adTypeValue, forKey: Constants.adTypeKey)
-        adsRequest.setAdvancedOptionValue(Constants.adHeightValue, forKey: Constants.adHeightKey)
-        adsRequest.setAdvancedOptionValue(viewWidth, forKey: Constants.adWidthKey)
+        let adsRequest = adsRequester.makeAFShoppingRequestWithQuery(query: adRequestQuery, width: adWidth)
         
         return adsRequest
     }
 
     func makeAFSearchRequestWithWidth(width: CGFloat) -> GADDynamicHeightSearchRequest {
         currentAdRequestType = .search
-        let adsRequest = GADDynamicHeightSearchRequest()
-
-        if adTestModeActive {
-            adsRequest.adTestEnabled = true
-        }
 
         if adRequestQuery == nil {
             adRequestQuery = makeAdsRequestQuery()
         }
+        let adWidth = width-(2*sideMargin)
 
-        adsRequest.query = adRequestQuery
+        let adsRequest = adsRequester.makeAFSearchRequestWithQuery(query: adRequestQuery, width: adWidth)
 
-        let screenWidth = String(Int(width-(2*sideMargin)))
-
-        adsRequest.hostLanguage = locale.languageCode ?? "en"
-        adsRequest.numberOfAds = 1
-        adsRequest.cssWidth = screenWidth     // Equivalent to "width" CSA parameter
-        adsRequest.siteLinksExtensionEnabled = true
-        adsRequest.sellerRatingsExtensionEnabled = true
-        adsRequest.clickToCallExtensionEnabled = true
-        
         return adsRequest
     }
 
