@@ -13,47 +13,34 @@ typealias EasingFunction = (CGFloat) -> CGFloat
 
 struct ListingDeckCellLayout {
     let insets: UIEdgeInsets
-    let anchors: Anchors
     let verticalInsetDelta: CGFloat
-
-    struct Anchors {
-        let leftAnchor: CGFloat
-        let anchor: CGFloat
-        let rightAnchor: CGFloat
-    }
-
 }
 
 final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
-    let easeInQuad: EasingFunction = { t in return t * t }
+    private let easeInQuad: EasingFunction = { t in return t * t }
 
-    var cache = [UICollectionViewLayoutAttributes]()
+    private var cache = [UICollectionViewLayoutAttributes]()
     private var shouldInvalidateCache: Bool { return cache.count != numberOfItems }
-
     private var cellLayout: ListingDeckCellLayout
+    private let horizontalInset: CGFloat = 32.0
+    private let verticalInset: CGFloat = 16.0
+    private let anchor: CGFloat = 0.5
+    private var numberOfItems: Int { get { return collectionView?.numberOfItems(inSection: 0) ?? 0 } }
+
     var page: Int { return Int(pageOffset(givenOffset: collectionView?.contentOffset.x ?? 0)) }
-
-    let horizontalInset: CGFloat = 32.0
-    let verticalInset: CGFloat = 16.0
     var interitemSpacing: CGFloat { get { return cellLayout.insets.left / 2.0 } }
-    var leftAnchor: CGFloat { get { return cellLayout.anchors.leftAnchor } }
-    var anchor: CGFloat { get { return cellLayout.anchors.anchor } }
-    var rightAnchor: CGFloat { get { return cellLayout.anchors.rightAnchor } }
-
-    override var collectionViewContentSize : CGSize {
-        let count = CGFloat(numberOfItems)
-        let width = count * cellWidth + (count - 1) * horizontalInset/2 + 2*horizontalInset
-        return CGSize(width: width, height: cellHeight)
-    }
-
     var visibleWidth: CGFloat { get { return (collectionView?.bounds.width ?? 375) } }
     var visibleHeight: CGFloat { get { return (collectionView?.bounds.height ?? 750) } }
 
     var cellWidth: CGFloat { get { return visibleWidth - 2*horizontalInset } }
     var cellHeight: CGFloat { get { return visibleHeight - verticalInset } }
 
-    var numberOfItems: Int { get { return collectionView?.numberOfItems(inSection: 0) ?? 0 } }
+    override var collectionViewContentSize : CGSize {
+        let count = CGFloat(numberOfItems)
+        let width = count * cellWidth + (count - 1) * horizontalInset/2 + 2*horizontalInset
+        return CGSize(width: width, height: cellHeight)
+    }
 
     convenience init(cellLayout: ListingDeckCellLayout) {
         self.init()
@@ -62,8 +49,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     override init() {
         let insets = UIEdgeInsets(top: 16.0, left: 32.0, bottom: 32.0, right: 32.0)
-        let anchors = ListingDeckCellLayout.Anchors(leftAnchor: 0.25, anchor: 0.5, rightAnchor: 0.75)
-        self.cellLayout = ListingDeckCellLayout(insets: insets, anchors: anchors, verticalInsetDelta: insets.top)
+        self.cellLayout = ListingDeckCellLayout(insets: insets, verticalInsetDelta: insets.top)
         super.init()
 
         self.scrollDirection = .horizontal
@@ -167,8 +153,6 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         attributes.frame = frame
         attributes.alpha = alphaForItem(withInitialX: x)
     }
-
-
 
     //     Return true so that the layout is continuously invalidated as the user scrolls
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
