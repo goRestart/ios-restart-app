@@ -93,8 +93,6 @@ final class ListingDeckViewModel: BaseViewModel {
         }
     }
 
-    fileprivate let disposeBag = DisposeBag()
-
     convenience init(listing: Listing,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource) {
@@ -103,22 +101,27 @@ final class ListingDeckViewModel: BaseViewModel {
         self.init(initialListing: listing, listingListRequester: listingListRequester, source: source,
                   imageDownloader: ImageDownloader.sharedInstance,
                   listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
-                  pagination: pagination, prefetching: prefetching, shouldSyncFirstListing: true)
+                  pagination: pagination,
+                  prefetching: prefetching,
+                  shouldSyncFirstListing: true,
+                  binder: ListingViewModelBinder())
     }
 
     init(initialListing: Listing?,
          listingListRequester: ListingListRequester,
          source: EventParameterListingVisitSource,
          imageDownloader: ImageDownloaderType, listingViewModelMaker: ListingViewModelMaker,
-         pagination: Pagination, prefetching: Prefetching,
-         shouldSyncFirstListing: Bool) {
+         pagination: Pagination,
+         prefetching: Prefetching,
+         shouldSyncFirstListing: Bool,
+         binder: ListingViewModelBinder) {
         self.imageDownloader = imageDownloader
         self.pagination = pagination
         self.prefetching = prefetching
         self.listingListRequester = listingListRequester
         self.listingViewModelMaker = listingViewModelMaker
         self.source = source
-        self.binder = ListingViewModelBinder()
+        self.binder = binder
 
         self.objects.appendContentsOf([initialListing].flatMap{$0}.map(ListingCarouselCellModel.init))
         self.pagination.isLast = false
