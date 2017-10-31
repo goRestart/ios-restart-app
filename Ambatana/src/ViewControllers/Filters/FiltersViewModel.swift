@@ -182,8 +182,8 @@ class FiltersViewModel: BaseViewModel {
         return featureFlags.addSuperKeywordsOnFeed.isActive
     }
     
-    var isSuperKeywordGroupsAndSubgroupsInFeedEnabled: Bool {
-        return featureFlags.superKeywordGroupsAndSubgroupsInFeed.isActive
+    var isTaxonomiesAndTaxonomyChildrenInFeedEnabled: Bool {
+        return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive
     }
     
     var currentTaxonomySelected: Taxonomy? {
