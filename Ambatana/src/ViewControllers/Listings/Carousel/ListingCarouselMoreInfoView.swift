@@ -115,8 +115,8 @@ class ListingCarouselMoreInfoView: UIView {
     func viewWillShow() {
         setupMapViewIfNeeded()
         if let adActive = viewModel?.adActive, adActive {
-            if let bannerTrackingStatus = viewModel?.bannerTrackingStatus {
-                viewModel?.adAlreadyRequestedWithStatus(bannerTrackingStatus: bannerTrackingStatus)
+            if let adBannerTrackingStatus = viewModel?.adBannerTrackingStatus {
+                viewModel?.adAlreadyRequestedWithStatus(adBannerTrackingStatus: adBannerTrackingStatus)
             } else {
                 loadAFShoppingRequest()
             }

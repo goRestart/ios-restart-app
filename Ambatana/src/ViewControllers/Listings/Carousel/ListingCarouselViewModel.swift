@@ -58,16 +58,6 @@ enum AdRequestQueryType {
     }
 }
 
-struct BannerTrackingStatus {
-    let isMine: EventParameterBoolean
-    let adShown: EventParameterBoolean
-    let adType: EventParameterAdType?
-    let queryType: EventParameterAdQueryType?
-    let query: String?
-    let visibility: EventParameterAdVisibility?
-    let errorReason: EventParameterAdSenseRequestErrorReason?
-}
-
 class ListingCarouselViewModel: BaseViewModel {
 
     // Paginable
@@ -187,7 +177,7 @@ class ListingCarouselViewModel: BaseViewModel {
     var adActive: Bool {
         return featureFlags.moreInfoAdActive == .active
     }
-    var randomHardcodedQuery: String {
+    var randomHardcodedAdQuery: String {
         let popularItems = ["ps4", "iphone", LGLocalizedString.productPostIncentiveDresser]
         let term = popularItems.random() ?? "iphone"
         return term
@@ -195,7 +185,7 @@ class ListingCarouselViewModel: BaseViewModel {
     var currentAdRequestType: AdRequestType? = .shopping
     var currentAdRequestQueryType: AdRequestQueryType? = .listingTitle
     var adRequestQuery: String? = nil
-    var bannerTrackingStatus: BannerTrackingStatus? = nil
+    var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
 
     let sideMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6) ? Metrics.margin : 0
 
@@ -329,7 +319,7 @@ class ListingCarouselViewModel: BaseViewModel {
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
         guard let viewModel = viewModelAt(index: index) else { return }
         currentAdRequestType = .shopping
-        bannerTrackingStatus = nil
+        adBannerTrackingStatus = nil
         currentListingViewModel?.active = false
         currentListingViewModel?.delegate = nil
         currentListingViewModel = viewModel
@@ -471,7 +461,7 @@ class ListingCarouselViewModel: BaseViewModel {
                                                     screenHeight: screenHeight)
         let errorReason: EventParameterAdSenseRequestErrorReason? = nil
 
-        bannerTrackingStatus = BannerTrackingStatus(isMine: isMine,
+        adBannerTrackingStatus = AdBannerTrackingStatus(isMine: isMine,
                                                     adShown: adShown,
                                                     adType: adType,
                                                     queryType: queryType,
@@ -498,7 +488,7 @@ class ListingCarouselViewModel: BaseViewModel {
         let visibility: EventParameterAdVisibility? = nil
         let errorReason: EventParameterAdSenseRequestErrorReason? = EventParameterAdSenseRequestErrorReason(errorCode: code)
         
-        bannerTrackingStatus = BannerTrackingStatus(isMine: isMine,
+        adBannerTrackingStatus = AdBannerTrackingStatus(isMine: isMine,
                                                     adShown: adShown,
                                                     adType: adType,
                                                     queryType: queryType,
@@ -515,7 +505,7 @@ class ListingCarouselViewModel: BaseViewModel {
                                                     errorReason: errorReason)
     }
 
-    func adAlreadyRequestedWithStatus(bannerTrackingStatus status: BannerTrackingStatus) {
+    func adAlreadyRequestedWithStatus(adBannerTrackingStatus status: AdBannerTrackingStatus) {
         currentListingViewModel?.trackVisitMoreInfo(isMine: status.isMine,
                                                     adShown: status.adShown,
                                                     adType: status.adType,
@@ -655,7 +645,7 @@ class ListingCarouselViewModel: BaseViewModel {
             return category.name
         } else {
             currentAdRequestQueryType = .hardcoded
-            return randomHardcodedQuery
+            return randomHardcodedAdQuery
         }
     }
 }

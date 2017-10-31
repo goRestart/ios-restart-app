@@ -164,6 +164,8 @@
 		2E75EC4A1FA0959A00C5F48F /* FeaturedInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC481FA0959A00C5F48F /* FeaturedInfoViewController.swift */; };
 		2E75EC4C1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC4B1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift */; };
 		2E75EC4D1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC4B1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift */; };
+		2E75EC4F1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */; };
+		2E75EC501FA86F6E00C5F48F /* AdBannerTrackingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */; };
 		2E8ED6A71EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8ED6A61EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift */; };
 		2E97169E1D59E958009B3A32 /* ExpressChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */; };
 		2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */; };
@@ -1547,6 +1549,7 @@
 		2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostIncentiviserItem.swift; sourceTree = "<group>"; };
 		2E75EC481FA0959A00C5F48F /* FeaturedInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedInfoViewController.swift; path = Monetization/FeaturedInfoViewController.swift; sourceTree = "<group>"; };
 		2E75EC4B1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedInfoViewModel.swift; path = Monetization/FeaturedInfoViewModel.swift; sourceTree = "<group>"; };
+		2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdBannerTrackingStatus.swift; sourceTree = "<group>"; };
 		2E8ED6A61EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FilterTagsVC+RemoveRelatedTagsSpec.swift"; sourceTree = "<group>"; };
 		2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatViewController.swift; sourceTree = "<group>"; };
 		2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpressChatViewController.xib; sourceTree = "<group>"; };
@@ -3530,6 +3533,7 @@
 				C75B5DB11D59E09500112368 /* ListingCarouselViewController.xib */,
 				C75B5DB21D59E09500112368 /* ListingCarouselViewModel.swift */,
 				C7D23FE01DCC954D00931803 /* CarouselUIHelper.swift */,
+				2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */,
 			);
 			path = Carousel;
 			sourceTree = "<group>";
@@ -5960,6 +5964,7 @@
 				2E4952E31E26810D00188880 /* BumpUpFreeViewController.swift in Sources */,
 				C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */,
 				6A5E1A181D548F5400F92692 /* UIView+Geometry.swift in Sources */,
+				2E75EC4F1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift in Sources */,
 				50146BD01D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
 				6AF75D041CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */,
 				2E373FA51D3D019600AC811C /* UserRatingListViewController.swift in Sources */,
@@ -6488,6 +6493,7 @@
 				C7415EDC1DE898580003D6C1 /* SimpleListingsViewModel.swift in Sources */,
 				C7DB42241C5138B500400945 /* UIImage+Tint.swift in Sources */,
 				C749317A1D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
+				2E75EC501FA86F6E00C5F48F /* AdBannerTrackingStatus.swift in Sources */,
 				6A5E1A191D548F5400F92692 /* UIView+Geometry.swift in Sources */,
 				50146BD11D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
 				50CA9FB11C91696800350C5F /* UserViewModel.swift in Sources */,
