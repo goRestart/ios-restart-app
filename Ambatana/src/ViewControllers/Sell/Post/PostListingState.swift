@@ -174,7 +174,7 @@ final class PostListingState {
     }
     
     func updating(price: ListingPrice) -> PostListingState {
-        guard step == .detailsSelection else { return self }
+        guard step == .detailsSelection || step == .addingDetails  else { return self }
         let newStep: PostListingStep
         if let category = category {
             switch category {
@@ -196,6 +196,7 @@ final class PostListingState {
                                 price: price,
                                 verticalAttributes: verticalAttributes)
     }
+
     
     func updating(carInfo: CarAttributes) -> PostListingState {
         guard step == .carDetailsSelection else { return self }

@@ -39,6 +39,7 @@ extension Bumper  {
         flags.append(HideChatButtonOnFeaturedCells.self)
         flags.append(FeaturedRibbonImprovementInDetail.self)
         flags.append(SuperKeywordGroupsAndSubgroupsInFeed.self)
+        flags.append(NewItemPage.self)
         Bumper.initialize(flags)
     } 
 
@@ -166,11 +167,16 @@ extension Bumper  {
         guard let value = Bumper.value(for: FeaturedRibbonImprovementInDetail.key) else { return .control }
         return FeaturedRibbonImprovementInDetail(rawValue: value) ?? .control 
     }
-  
+
     static var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed {
         guard let value = Bumper.value(for: SuperKeywordGroupsAndSubgroupsInFeed.key) else { return .control }
         return SuperKeywordGroupsAndSubgroupsInFeed(rawValue: value) ?? .control 
     }
+
+    static var newItemPage: NewItemPage {
+        guard let value = Bumper.value(for: NewItemPage.key) else { return .control }
+        return NewItemPage(rawValue: value) ?? .control 
+    } 
 }
 
 
@@ -511,6 +517,22 @@ enum SuperKeywordGroupsAndSubgroupsInFeed: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Super keywords groups and subgroups in feed as bubble filters" } 
     static func fromPosition(_ position: Int) -> SuperKeywordGroupsAndSubgroupsInFeed {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum NewItemPage: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return NewItemPage.control.rawValue }
+    static var enumValues: [NewItemPage] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "New item page with card appearance and different navigation" } 
+    static func fromPosition(_ position: Int) -> NewItemPage {
         switch position { 
             case 0: return .control
             case 1: return .baseline

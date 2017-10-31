@@ -43,6 +43,7 @@ class ABTests {
     let featuredRibbonImprovementInDetail = IntABDynamicVar(key: "20171024FeaturedRibbonImprovementInDetail", defaultValue: 0)
     let superKeywordGroupsAndSubgroupsInFeed = IntABDynamicVar(key: "20171009SuperKeywordGroupsAndSubgroupsInFeed", defaultValue: 0)
     let moreInfoAdActive = IntABDynamicVar(key: "20171018MoreInfoAdActive", defaultValue: 0)
+    let newItemPage = IntABDynamicVar(key: "20171027NewItemPage", defaultValue: 0)
     
     init() {
     }
@@ -78,6 +79,7 @@ class ABTests {
         result.append(featuredRibbonImprovementInDetail)
         result.append(superKeywordGroupsAndSubgroupsInFeed)
         result.append(moreInfoAdActive)
+        result.append(newItemPage)
 
         return result
     }
