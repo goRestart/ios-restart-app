@@ -31,7 +31,7 @@ final class ListingDeckViewControllerBinder {
     }
 
     private func bindActions(withViewModel viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewModel.actionButtons.asObservable().bindNext { [unowned listingDeckView, unowned viewModel, weak self]
+        viewModel.actionButtons.asObservable().bindNext { [unowned listingDeckView, weak self]
             actionButtons in
             guard let strongSelf = self else { return }
 
@@ -53,13 +53,6 @@ final class ListingDeckViewControllerBinder {
 
     private func bindKeyboardChanges(withViewController viewController: ListingDeckViewController,
                                      viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-
-        let tapGesture = UITapGestureRecognizer()
-        listingDeckView.overlayView.addGestureRecognizer(tapGesture)
-        tapGesture.rx.event.bindNext { _ in
-            listingDeckView.chatTextView.resignFirstResponder()
-            }.addDisposableTo(disposeBag)
-
         viewController.keyboardChanges.bindNext { [unowned viewController] change in
             let height = listingDeckView.bounds.height - change.origin
             listingDeckView.updateBottom(wintInset: height)
@@ -81,8 +74,7 @@ final class ListingDeckViewControllerBinder {
     private func bindCollectionView(withViewController viewController: ListingDeckViewController,
                                     viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         viewModel.objectChanges.observeOn(MainScheduler.instance).bindNext { [unowned listingDeckView] change in
-            //            listingDeckView.collectionView.handleCollectionChange(change)
-            listingDeckView.collectionView.reloadData()
+            listingDeckView.collectionView.handleCollectionChange(change)
             }.addDisposableTo(disposeBag)
     }
 
@@ -90,7 +82,7 @@ final class ListingDeckViewControllerBinder {
                                    viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         viewController.contentOffset.asObservable()
             .map { [unowned listingDeckView] x in
-                let pageOffset = listingDeckView.layout.pageOffset(givenOffset: x).truncatingRemainder(dividingBy: 1.0)
+                let pageOffset = listingDeckView.collectionLayout.pageOffset(givenOffset: x).truncatingRemainder(dividingBy: 1.0)
                 if pageOffset < 0.5 {
                     return 2*pageOffset
                 }
@@ -98,7 +90,7 @@ final class ListingDeckViewControllerBinder {
             }.bindTo(viewController.overlaysAlpha).addDisposableTo(disposeBag)
 
         viewController.contentOffset.asObservable().bindNext { [unowned viewController, listingDeckView] _ in
-            viewController.indexSignal.value = listingDeckView.layout.page
+            viewController.indexSignal.value = listingDeckView.collectionLayout.page
             }.addDisposableTo(disposeBag)
     }
 

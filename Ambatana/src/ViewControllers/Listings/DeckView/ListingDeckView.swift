@@ -12,26 +12,29 @@ import LGCoreKit
 
 final class ListingDeckView: UIView, UICollectionViewDelegate {
 
-    let overlayView = UIView()
-    let directChatTable = CustomTouchesTableView()
-    var directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin)
+    private let overlayView = UIView()
+    
+    private var chatTextViewBottom: NSLayoutConstraint? = nil
+    private var collectionViewTop: NSLayoutConstraint? = nil
+
     let chatTextView = ChatTextView()
-    var chatTextViewBottom: NSLayoutConstraint? = nil
-
+    let directChatTable = CustomTouchesTableView()
+    let directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin)
     let collectionView: UICollectionView
-    var collectionViewTop: NSLayoutConstraint? = nil
-    let layout = ListingDeckCollectionViewLayout()
-
     let itemActionsView = ListingDeckActionView()
+    let collectionLayout = ListingDeckCollectionViewLayout()
+
+    var currentPage: Int { return collectionLayout.page }
+
 
     override init(frame: CGRect) {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
         super.init(frame: frame)
         setupUI()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
         super.init(coder: aDecoder)
         setupUI()
     }
@@ -74,6 +77,9 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         overlayView.alpha = 0
         overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
 
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideFullScreenChat))
+        overlayView.addGestureRecognizer(tapGesture)
+
         chatTextView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(chatTextView)
         chatTextView.layout(with: self)
@@ -105,6 +111,9 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         itemActionsView.alpha = alpha
     }
 
+    func updateTop(wintInset inset: CGFloat) {
+        self.collectionViewTop?.constant = inset
+    }
     func updateBottom(wintInset inset: CGFloat) {
         self.chatTextViewBottom?.constant = -(inset + 16.0)
     }
@@ -113,7 +122,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         overlayView.alpha = 1
     }
 
-    func hideFullScreenChat() {
+    @objc func hideFullScreenChat() {
         chatTextView.resignFirstResponder()
         overlayView.alpha = 0
     }

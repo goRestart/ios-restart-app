@@ -36,7 +36,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        listingDeckView.collectionViewTop?.constant = topBarHeight
+        listingDeckView.updateTop(wintInset: topBarHeight)
     }
 
     override func viewDidLoad() {
