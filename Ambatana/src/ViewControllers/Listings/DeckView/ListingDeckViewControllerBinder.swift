@@ -15,7 +15,6 @@ final class ListingDeckViewControllerBinder {
     weak var listingDeckViewController: ListingDeckViewController? = nil
     let disposeBag: DisposeBag = DisposeBag()
 
-
     func bind(withViewModel viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         guard let viewController = listingDeckViewController else { return }
 

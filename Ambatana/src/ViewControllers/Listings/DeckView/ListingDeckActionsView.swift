@@ -53,7 +53,7 @@ final class ListingDeckActionView: UIView {
             self?.topButtonBottomContainer = constraint
             self?.topButtonBottomContainer?.priority = UILayoutPriorityDefaultLow
         }
-        topButton.setTitle("Mark as Sold", for: .normal)
+        topButton.setTitle(LGLocalizedString.productMarkAsSoldButton, for: .normal)
         topButton.setStyle(.terciary)
     }
 
