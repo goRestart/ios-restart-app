@@ -27,7 +27,9 @@ struct ListingDeckCellLayout {
 final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     let easeInQuad: EasingFunction = { t in return t * t }
+
     var cache = [UICollectionViewLayoutAttributes]()
+    private var shouldInvalidateCache: Bool { return cache.count != numberOfItems }
 
     private var cellLayout: ListingDeckCellLayout
     var page: Int { return Int(pageOffset(givenOffset: collectionView?.contentOffset.x ?? 0)) }
@@ -73,22 +75,18 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     override func prepare() {
         super.prepare()
-        cache.removeAll(keepingCapacity: false)
-
-        for item in 0..<numberOfItems {
-            let indexPath = IndexPath(item: item, section: 0)
-            let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-
-            attributes.zIndex = item
-            var frame: CGRect = .zero
-            let x = CGFloat(item) * (cellWidth + horizontalInset / 2) + horizontalInset
-
-            frame = CGRect(x: x, y: yInsetForItem(withInitialX: x), width: cellWidth, height: cellHeight)
-
-            attributes.frame = frame
-            attributes.alpha = alphaForItem(withInitialX: x)
-            cache.append(attributes)
+        if shouldInvalidateCache {
+            cache.removeAll(keepingCapacity: false)
+            for item in 0..<numberOfItems {
+                let indexPath = IndexPath(item: item, section: 0)
+                cache.append(attributesForItem(at: indexPath))
+            }
+        } else {
+            cache.forEach { attribute in
+                update(attributes: attribute, forItemAt: attribute.indexPath)
+            }
         }
+
     }
 
     func pageOffset(givenOffset x: CGFloat) -> CGFloat {
@@ -151,7 +149,28 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         return layoutAttributes
     }
 
-//     Return true so that the layout is continuously invalidated as the user scrolls
+    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        return attributesForItem(at: indexPath)
+    }
+
+    private func attributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes {
+        let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+        update(attributes: attributes, forItemAt: indexPath)
+        return attributes
+    }
+
+    private func update(attributes: UICollectionViewLayoutAttributes, forItemAt indexPath: IndexPath) {
+        attributes.zIndex = indexPath.row
+        var frame: CGRect = .zero
+        let x = CGFloat(indexPath.row) * (cellWidth + horizontalInset / 2) + horizontalInset
+        frame = CGRect(x: x, y: yInsetForItem(withInitialX: x), width: cellWidth, height: cellHeight)
+        attributes.frame = frame
+        attributes.alpha = alphaForItem(withInitialX: x)
+    }
+
+
+
+    //     Return true so that the layout is continuously invalidated as the user scrolls
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return true
     }
