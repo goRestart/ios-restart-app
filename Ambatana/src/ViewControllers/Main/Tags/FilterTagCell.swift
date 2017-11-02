@@ -15,17 +15,18 @@ protocol FilterTagCellDelegate : class {
 
 class FilterTagCell: UICollectionViewCell {
     
-    private static let cellHeight : CGFloat = 32.0
-    private static let fixedWidthSpace : CGFloat = 42.0 //10.0 left margin & 32.0 close button
-    private static let iconWidth : CGFloat = 28.0
+    private static let cellHeight: CGFloat = 32.0
+    private static let fixedWidthSpace: CGFloat = 52.0 //15.0 left margin & 32.0 close button + 5 right margin
+    private static let iconWidth: CGFloat = 28.0
     private static let USDollarCode = "USD"
 
     @IBOutlet weak var tagIcon: UIImageView!
     @IBOutlet weak var tagIconWidth: NSLayoutConstraint!
     @IBOutlet weak var tagLabel: UILabel!
+    @IBOutlet weak var closeButton: UIButton!
     
-    weak var delegate : FilterTagCellDelegate?
-    var filterTag : FilterTag?
+    weak var delegate: FilterTagCellDelegate?
+    var filterTag: FilterTag?
 
 
     // MARK: - Static methods
@@ -42,8 +43,12 @@ class FilterTagCell: UICollectionViewCell {
             return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeight)
         case .taxonomyChild(let taxonomyChild):
             return FilterTagCell.sizeForText(taxonomyChild.name)
+        case .taxonomy(let taxonomy):
+            return FilterTagCell.sizeForText(taxonomy.name)
+        case .secondaryTaxonomyChild(let secondaryTaxonomyChild):
+            return FilterTagCell.sizeForText(secondaryTaxonomyChild.name)
         case .priceRange(let minPrice, let maxPrice, let currency):
-            let priceRangeString  = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
+            let priceRangeString = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
             return FilterTagCell.sizeForText(priceRangeString)
         case .freeStuff:
             return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeight)
@@ -126,6 +131,28 @@ class FilterTagCell: UICollectionViewCell {
         self.resetUI()
     }
     
+    private func setupUI() {
+        contentView.layer.borderColor = UIColor.lineGray.cgColor
+        contentView.layer.borderWidth = LGUIKitConstants.onePixelSize
+        contentView.rounded = true
+        contentView.layer.backgroundColor = UIColor.white.cgColor
+    }
+    
+    private func resetUI() {
+        tagLabel.text = nil
+        tagIcon.image = nil
+        tagIconWidth.constant = 0
+        tagLabel.textColor = .black
+        contentView.backgroundColor = .white
+    }
+    
+    private func setAccessibilityIds() {
+        accessibilityId = .filterTagCell
+        tagIcon.accessibilityId = .filterTagCellTagIcon
+        tagLabel.accessibilityId = .filterTagCellTagLabel
+    }
+    
+    
     // MARK: - IBActions
     
     @IBAction func onCloseBtn(_ sender: AnyObject) {
@@ -140,28 +167,45 @@ class FilterTagCell: UICollectionViewCell {
         
         switch tag {
         case .location(let place):
+            setDefaultCellStyle()
             tagLabel.text = place.fullText(showAddress: false)
         case .orderBy(let sortOption):
+            setDefaultCellStyle()
             tagLabel.text = sortOption.name
         case .within(let timeOption):
+            setDefaultCellStyle()
             tagLabel.text = timeOption.name
         case .category(let category):
+            setDefaultCellStyle()
             tagIconWidth.constant = FilterTagCell.iconWidth
             tagIcon.image = category.imageTag
         case .taxonomyChild(let taxonomyChild):
+            setDefaultCellStyle()
             tagLabel.text = taxonomyChild.name
+        case .taxonomy(let taxonomy):
+            setColoredCellStyle(taxonomy.color)
+            tagLabel.text = taxonomy.name
+        case .secondaryTaxonomyChild(let secondaryTaxonomyChild):
+            setDefaultCellStyle()
+            tagLabel.text = secondaryTaxonomyChild.name
         case .priceRange(let minPrice, let maxPrice, let currency):
+            setDefaultCellStyle()
             tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
         case .freeStuff:
+            setDefaultCellStyle()
             tagIconWidth.constant = FilterTagCell.iconWidth
             tagIcon.image = UIImage(named: "categories_free_tag")
         case .distance(let distance):
+            setDefaultCellStyle()
             tagLabel.text = distance.intToDistanteFormat()
         case .make(_, let name):
+            setDefaultCellStyle()
             tagLabel.text = name
         case .model(_, let name):
+            setDefaultCellStyle()
             tagLabel.text = name
         case .yearsRange(let startYear, let endYear):
+            setDefaultCellStyle()
             tagLabel.text = FilterTagCell.stringForYearsRange(startYear, endYear: endYear)
         }
     }
@@ -169,22 +213,17 @@ class FilterTagCell: UICollectionViewCell {
 
     // MARK: - Private methods
     
-    private func setupUI() {
-        self.contentView.layer.borderColor = UIColor.lineGray.cgColor
-        self.contentView.layer.borderWidth = LGUIKitConstants.onePixelSize
-        self.contentView.rounded = true
-        self.contentView.layer.backgroundColor = UIColor.white.cgColor
+    private func setDefaultCellStyle() {
+        tagLabel.textColor = .black
+        contentView.backgroundColor = .white
+        closeButton.setImage(UIImage(named: "filters_clear_btn"), for: .normal)
+        closeButton.setImage(UIImage(named: "filters_clear_btn"), for: .highlighted)
     }
     
-    private func resetUI() {
-        self.tagLabel.text = nil
-        self.tagIcon.image = nil
-        self.tagIconWidth.constant = 0
-    }
-
-    private func setAccessibilityIds() {
-        self.accessibilityId = .filterTagCell
-        tagIcon.accessibilityId = .filterTagCellTagIcon
-        tagLabel.accessibilityId = .filterTagCellTagLabel
+    private func setColoredCellStyle(_ color: UIColor) {
+        tagLabel.textColor = .white
+        contentView.backgroundColor = color
+        closeButton.setImage(UIImage(named: "filters_taxonomy_clear_btn"), for: .normal)
+        closeButton.setImage(UIImage(named: "filters_taxonomy_clear_btn"), for: .highlighted)
     }
 }

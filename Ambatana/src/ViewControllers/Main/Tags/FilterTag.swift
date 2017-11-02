@@ -8,18 +8,42 @@
 
 import LGCoreKit
 
-enum FilterTag: Equatable{
+enum FilterTag: Equatable {
     case location(Place)
     case within(ListingTimeCriteria)
     case orderBy(ListingSortCriteria)
     case category(ListingCategory)
     case taxonomyChild(TaxonomyChild)
+    case taxonomy(Taxonomy)
+    case secondaryTaxonomyChild(TaxonomyChild)
     case priceRange(from: Int?, to: Int?, currency: Currency?)
     case freeStuff
     case distance(distance: Int)
     case make(id: String, name: String)
     case model(id: String, name: String)
     case yearsRange(from: Int?, to: Int?)
+}
+
+extension FilterTag {
+    var isTaxonomy: Bool {
+        switch self {
+        case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange:
+            return false
+        case .taxonomy:
+            return true
+        }
+    }
+    
+    var taxonomyChild: TaxonomyChild? {
+        switch self {
+        case .location, .within, .orderBy, .category, .taxonomy, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange:
+            return nil
+        case .taxonomyChild(let taxonomyChild):
+            return taxonomyChild
+        case .secondaryTaxonomyChild(let taxonomyChild):
+            return taxonomyChild
+        }
+    }
 }
 
 func ==(a: FilterTag, b: FilterTag) -> Bool {
@@ -29,6 +53,8 @@ func ==(a: FilterTag, b: FilterTag) -> Bool {
     case (.orderBy(let a),   .orderBy(let b))   where a == b: return true
     case (.category(let a), .category(let b)) where a == b: return true
     case (.taxonomyChild(let a), .taxonomyChild(let b)) where a == b: return true
+    case (.taxonomy(let a), .taxonomy(let b)) where a == b: return true
+    case (.secondaryTaxonomyChild(let a), .secondaryTaxonomyChild(let b)) where a == b: return true
     case (.priceRange(let a, let b, _), .priceRange(let c, let d, _)) where a == c && b == d: return true
     case (.freeStuff, .freeStuff): return true
     case (.distance(let distanceA), .distance(let distanceB)) where distanceA == distanceB: return true

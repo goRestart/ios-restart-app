@@ -41,7 +41,7 @@ extension String {
 
     var capitalizedFirstLetterOnly: String  {
         guard !self.isEmpty else { return self }
-        var result = self
+        var result = self.lowercase
         result.replaceSubrange(result.startIndex...result.startIndex, with: String(result[result.startIndex]).capitalized)
         return result
     }

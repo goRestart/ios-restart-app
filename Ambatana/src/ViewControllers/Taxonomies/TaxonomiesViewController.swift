@@ -38,7 +38,8 @@ class TaxonomiesViewController : BaseViewController, TaxonomiesViewModelDelegate
         updateTableView(values: viewModel.taxonomies)
     }
     
-     // MARK: - UI
+    
+    // MARK: - UI
     
     private func setupUI() {
         view.backgroundColor = UIColor.white
@@ -49,12 +50,17 @@ class TaxonomiesViewController : BaseViewController, TaxonomiesViewModelDelegate
     }
     
     private func updateTableView(values: [Taxonomy]) {
-        tableView.setupTableView(values: values)
+        tableView.setupTableView(values: values, selectedTaxonomy: viewModel.currentTaxonomySelected,
+                                 selectedTaxonomyChild: viewModel.currentTaxonomyChildSelected)
     }
     
     private func setupRx() {
         // Rx to select info
-        tableView.itemSelected.asObservable().bindNext { [weak self] taxonomyChild in
+        tableView.taxonomySelection.asObservable().bindNext { [weak self] taxonomy in
+            guard let taxonomy = taxonomy else { return }
+            self?.viewModel.taxonomySelected(taxonomy: taxonomy)
+            }.addDisposableTo(disposeBag)
+        tableView.taxonomyChildSelection.asObservable().bindNext { [weak self] taxonomyChild in
             guard let taxonomyChild = taxonomyChild else { return }
             self?.viewModel.taxonomyChildSelected(taxonomyChild: taxonomyChild)
         }.addDisposableTo(disposeBag)

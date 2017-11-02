@@ -761,7 +761,12 @@ struct TrackerEvent {
         return TrackerEvent(name: .appRatingStart, params: params)
     }
 
-    static func appRatingRate() -> TrackerEvent {
+    static func appRatingRate(reason: EventParameterUserDidRateReason?) -> TrackerEvent {
+        if let aReason = reason {
+            var params = EventParameters()
+            params[.appRatingReason] = aReason.rawValue
+            return TrackerEvent(name: .appRatingRate, params: params)
+        }
         return TrackerEvent(name: .appRatingRate, params: nil)
     }
 
@@ -1111,6 +1116,12 @@ struct TrackerEvent {
     static func listingSellYourStuffButton() -> TrackerEvent {
         let params = EventParameters()
         return TrackerEvent(name: .listingSellYourStuffButton, params: params)
+    }
+
+    static func productDetailOpenFeaturedInfoForListing(listingId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.listingId] = listingId ?? ""
+        return TrackerEvent(name: .featuredMoreInfo, params: params)
     }
 
 

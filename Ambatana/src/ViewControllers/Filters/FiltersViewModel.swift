@@ -182,8 +182,26 @@ class FiltersViewModel: BaseViewModel {
         return featureFlags.addSuperKeywordsOnFeed.isActive
     }
     
+    var isTaxonomiesAndTaxonomyChildrenInFeedEnabled: Bool {
+        return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive
+    }
+    
+    var currentTaxonomySelected: Taxonomy? {
+        return productFilter.selectedTaxonomy
+    }
+    
     var currentTaxonomyChildSelected: TaxonomyChild? {
         return productFilter.selectedTaxonomyChildren.last
+    }
+    
+    var currentCategoryNameSelected: String? {
+        if let taxonomyChild = productFilter.selectedTaxonomyChildren.last {
+            return taxonomyChild.name
+        } else if let taxonomy = productFilter.selectedTaxonomy {
+            return taxonomy.name
+        } else {
+            return nil
+        }
     }
 
     fileprivate var productFilter : ListingFilters
@@ -241,7 +259,7 @@ class FiltersViewModel: BaseViewModel {
     }
     
     func categoriesButtonPressed() {
-        let taxonomiesVM = TaxonomiesViewModel(taxonomies: categoryRepository.indexTaxonomies(), source: .filter)
+        let taxonomiesVM = TaxonomiesViewModel(taxonomies: categoryRepository.indexTaxonomies(), taxonomySelected: currentTaxonomySelected, taxonomyChildSelected: currentTaxonomyChildSelected, source: .filter)
         taxonomiesVM.taxonomiesDelegate = self
         navigator?.openTaxonomyList(withViewModel: taxonomiesVM)
     }
@@ -509,7 +527,14 @@ extension FiltersViewModel: CarAttributeSelectionDelegate {
 // MARK: TaxonomiesDelegate
 
 extension FiltersViewModel: TaxonomiesDelegate {
-    func didSelectTaxonomyChild(taxonomyChild: TaxonomyChild) {
+    func didSelect(taxonomy: Taxonomy) {
+        productFilter.selectedTaxonomy = taxonomy
+        productFilter.selectedTaxonomyChildren = []
+        sections = generateSections()
+        delegate?.vmDidUpdate()
+    }
+    
+    func didSelect(taxonomyChild: TaxonomyChild) {
         productFilter.selectedTaxonomyChildren = [taxonomyChild]
         sections = generateSections()
         delegate?.vmDidUpdate()

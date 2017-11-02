@@ -371,8 +371,8 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 var userProduct = MockUserListing.makeMock()
                                 userProduct.objectId = myUser.objectId
                                 product.user = userProduct
+                                product.featured = false
                                 product.status = .pending
-
                                 purchasesShopper.isBumpUpPending = false
 
                                 buildListingViewModel()
@@ -382,6 +382,45 @@ class ListingViewModelSpec: BaseViewModelSpec {
                             }
                             it ("banner info is nil") {
                                 expect(sut.bumpUpBannerInfo.value).to(beNil())
+                            }
+                        }
+                        context ("product status is pending, but is already bumped") {
+                            beforeEach {
+
+                                self.calledOpenFreeBumpUpView = false
+                                let myUser = MockMyUser.makeMock()
+                                myUserRepository.myUserVar.value = myUser
+                                product = MockProduct.makeMock()
+                                var userProduct = MockUserListing.makeMock()
+                                userProduct.objectId = myUser.objectId
+                                product.user = userProduct
+                                product.status = .pending
+                                product.featured = true
+
+                                purchasesShopper.isBumpUpPending = false
+
+                                var paymentItem = MockPaymentItem.makeMock()
+                                paymentItem.provider = .apple
+                                var bumpeableProduct = MockBumpeableListing.makeMock()
+                                bumpeableProduct.paymentItems = [paymentItem]
+                                monetizationRepository.retrieveResult = BumpeableListingResult(value: bumpeableProduct)
+
+                                buildListingViewModel()
+                                sut.active = true
+
+                                expect(sut.bumpUpBannerInfo.value).toEventuallyNot(beNil())
+                            }
+                            it ("banner info type is priced") {
+                                expect(sut.bumpUpBannerInfo.value?.type) == .priced
+                            }
+                            it ("banner interaction block opens priced bump up view") {
+                                sut.bumpUpBannerInfo.value?.bannerInteractionBlock()
+                                expect(self.calledOpenPricedBumpUpView).toEventually(beTrue())
+                            }
+                            it ("banner button block tries to bump up the product") {
+                                // "tries to" because the result of the bump up feature is tested in another context
+                                sut.bumpUpBannerInfo.value?.buttonBlock()
+                                expect(self.delegateReceivedShowLoading).toEventually(beTrue())
                             }
                         }
                         context ("product status makes it bumpeable") {
@@ -708,6 +747,14 @@ extension ListingViewModelSpec: ListingDetailNavigator {
 
     }
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {
+
+    }
+
+    func openFeaturedInfo() {
+
+    }
+
+    func closeFeaturedInfo() {
 
     }
 }
