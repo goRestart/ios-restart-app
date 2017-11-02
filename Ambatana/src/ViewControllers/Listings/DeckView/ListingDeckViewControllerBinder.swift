@@ -26,7 +26,7 @@ final class ListingDeckViewControllerBinder {
         bindIndexSignal(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindChat(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindActions(withViewModel: viewModel, listingDeckView: listingDeckView)
-
+        bindAltActions(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindNavigationBarActions(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
     }
 
@@ -49,6 +49,14 @@ final class ListingDeckViewControllerBinder {
                 listingDeckView.showActions()
             })
             }.addDisposableTo(disposeBag)
+    }
+
+    private func bindAltActions(withViewController viewController: ListingDeckViewController,
+                                viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
+        viewModel.altActions.asObservable().skip(1).bindNext { [unowned viewController] altActions in
+            guard altActions.count > 0 else { return }
+            viewController.vmShowOptions(LGLocalizedString.commonCancel, actions: altActions)
+        }.addDisposableTo(disposeBag)
     }
 
     private func bindKeyboardChanges(withViewController viewController: ListingDeckViewController,

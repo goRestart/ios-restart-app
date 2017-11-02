@@ -33,6 +33,7 @@ final class ListingViewModelBinder {
 
         currentVM.actionButtons.asObservable().bindTo(theOneViewModel.actionButtons).addDisposableTo(disposeBag)
         currentVM.navBarButtons.asObservable().bindTo(theOneViewModel.navBarButtons).addDisposableTo(disposeBag)
+        currentVM.altActions.asObservable().bindTo(theOneViewModel.altActions).addDisposableTo(disposeBag)
 
         theOneViewModel.quickAnswers.value = currentVM.quickAnswers
         currentVM.directChatEnabled.asObservable().bindTo(theOneViewModel.chatEnabled).addDisposableTo(disposeBag)

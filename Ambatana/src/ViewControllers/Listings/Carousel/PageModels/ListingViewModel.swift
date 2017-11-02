@@ -15,8 +15,6 @@ import RxSwift
 
 protocol ListingViewModelDelegate: class, BaseViewModelDelegate {
 
-    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction])
-
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
 
     var trackingFeedPosition: EventParameterFeedPosition { get }
@@ -90,6 +88,8 @@ class ListingViewModel: BaseViewModel {
 
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
+    let altActions = Variable<[UIAction]>([])
+
     let directChatEnabled = Variable<Bool>(false)
     var directChatPlaceholder: String {
         let userName = listing.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""
@@ -533,7 +533,7 @@ extension ListingViewModel {
     fileprivate func refreshNavBarButtons() {
         if featureFlags.newItemPage.isActive {
             let icon = #imageLiteral(resourceName: "ic_more_options").withRenderingMode(.alwaysOriginal)
-            let action = UIAction(interface: .image(icon, nil), action: { [weak self] in self?.showOptionsMenu() },
+            let action = UIAction(interface: .image(icon, nil), action: { [weak self] in self?.updateAltActions() },
                             accessibilityId: .listingCarouselNavBarActionsButton)
 
             navBarButtons.value = [action]
@@ -578,7 +578,7 @@ extension ListingViewModel {
 
     private func buildMoreNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_more")?.withRenderingMode(.alwaysOriginal)
-        return UIAction(interface: .image(icon, nil), action: { [weak self] in self?.showOptionsMenu() },
+        return UIAction(interface: .image(icon, nil), action: { [weak self] in self?.updateAltActions() },
                         accessibilityId: .listingCarouselNavBarActionsButton)
     }
 
@@ -595,7 +595,7 @@ extension ListingViewModel {
     }
 
 
-    private func showOptionsMenu() {
+    private func updateAltActions() {
         var actions = [UIAction]()
 
         if status.value.isEditable {
@@ -608,8 +608,8 @@ extension ListingViewModel {
         if isMine && status.value != .notAvailable {
             actions.append(buildDeleteAction())
         }
-        
-        delegate?.vmShowProductDetailOptions(LGLocalizedString.commonCancel, actions: actions)
+
+        altActions.value = actions
     }
 
     private func buildEditAction() -> UIAction {

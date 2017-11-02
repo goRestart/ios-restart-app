@@ -37,7 +37,6 @@ struct Prefetching {
 }
 
 protocol ListingDeckViewModelDelegate: BaseViewModelDelegate {
-    func vmShowOptions(_ cancelLabel: String, actions: [UIAction])
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
     func vmResetBumpUpBannerCountdown()
 }
@@ -73,6 +72,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
+    let altActions = Variable<[UIAction]>([])
 
     let status = Variable<ListingViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)
@@ -272,9 +272,6 @@ final class ListingDeckViewModel: BaseViewModel {
 // MARK: ListingViewModelDelegate
 
 extension ListingDeckViewModel: ListingViewModelDelegate {
-    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
-        delegate?.vmShowOptions(cancelLabel, actions: actions)
-    }
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
         guard let delegate = delegate else { return (UIViewController(), nil) }

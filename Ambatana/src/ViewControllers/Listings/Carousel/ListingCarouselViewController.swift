@@ -521,6 +521,7 @@ extension ListingCarouselViewController {
         setupPageControlRx()
         setupUserInfoRx()
         setupNavbarButtonsRx()
+        setupAltActionsRx()
         setupBottomButtonsRx()
         setupProductStatusLabelRx()
         setupDirectChatElementsRx()
@@ -567,6 +568,13 @@ extension ListingCarouselViewController {
             }.addDisposableTo(disposeBag)
     }
 
+    fileprivate func setupAltActionsRx() {
+        viewModel.altActions.asObservable().skip(1).bindNext { [weak self] altActions in
+            guard let strongSelf = self else { return }
+            guard altActions.count > 0 else { return }
+            strongSelf.vmShowCarouselOptions(LGLocalizedString.commonCancel, actions: altActions)
+            }.addDisposableTo(disposeBag)
+    }
 
     fileprivate func setupNavbarButtonsRx() {
         setNavigationBarRightButtons([])

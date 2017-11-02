@@ -70,6 +70,7 @@ class ListingCarouselViewModel: BaseViewModel {
 
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
+    let altActions = Variable<[UIAction]>([])
 
     let status = Variable<ListingViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)
@@ -389,6 +390,7 @@ class ListingCarouselViewModel: BaseViewModel {
 
         currentVM.actionButtons.asObservable().bindTo(actionButtons).addDisposableTo(activeDisposeBag)
         currentVM.navBarButtons.asObservable().bindTo(navBarButtons).addDisposableTo(activeDisposeBag)
+        currentVM.altActions.asObservable().bindTo(altActions).addDisposableTo(activeDisposeBag)
 
         quickAnswers.value = currentVM.quickAnswers
         currentVM.directChatEnabled.asObservable().bindTo(quickAnswersAvailable).addDisposableTo(activeDisposeBag)
