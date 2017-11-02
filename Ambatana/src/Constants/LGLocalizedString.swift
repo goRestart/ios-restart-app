@@ -2927,6 +2927,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("rating_view_title_label_uppercase", comment: "")
 	}
 
+	static var realEstateLocationTitle: String {
+		return NSLocalizedString("real_estate_location_title", comment: "")
+	}
+
 	static var realEstateSummaryTitle: String {
 		return NSLocalizedString("real_estate_summary_title", comment: "")
 	}

@@ -10,8 +10,13 @@ import RxSwift
 import LGCoreKit
 
 protocol PostingAddDetailSummaryTableViewDelegate: class {
-    func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView, didSelectIndex: Int)
-    func valueFor(section: PostingSummaryOption) -> String
+    func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView, didSelectIndex: PostingSummaryOption)
+    func valueFor(section: PostingSummaryOption) -> String?
+}
+
+protocol PostingViewConfigurable {
+    func setupView(viewModel: PostingDetailsViewModel)
+    func setupContainerView(view: UIView)
 }
 
 enum PostingSummaryOption {
@@ -24,6 +29,30 @@ enum PostingSummaryOption {
     case make
     case model
     case year
+    
+    
+    var postingDetailStep: PostingDetailStep {
+        switch self {
+        case .price:
+            return .price
+        case .propertyType:
+            return .propertyType
+        case .offerType:
+            return .offerType
+        case .bedrooms:
+            return .bedrooms
+        case .bathrooms:
+            return .bathrooms
+        case .location:
+            return .location
+        case .make:
+            return .make
+        case .model:
+            return .model
+        case .year:
+            return .year
+        }
+    }
     
     var emptyLocalizeString: String {
         switch self {
@@ -44,7 +73,7 @@ enum PostingSummaryOption {
         case .model:
             return LGLocalizedString.postCategoryDetailAddModel
         case .year:
-            return ""
+            return LGLocalizedString.postCategoryDetailCarYear
         }
     }
     static func optionsIncluded(with postCategory: PostCategory) -> [PostingSummaryOption] {
@@ -60,10 +89,22 @@ enum PostingSummaryOption {
 }
 
 
-final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITableViewDataSource {
+final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITableViewDataSource, PostingViewConfigurable {
+    
+    
+    
+    func setupContainerView(view: UIView) {
+        translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(self)
+        layout(with: view).fill()
+    }
+    
+    func setupView(viewModel: PostingDetailsViewModel) { }
+
     
     static let cellIdentifier = "PostingAddDetailSummaryCell"
-    static let cellAddDetailHeight: CGFloat = 67
+    static let cellAddDetailSummaryHeight: CGFloat = 70
+    static let cellAddLocationSummaryHeight: CGFloat = 150
     
     private var postingSummaryOptions: [PostingSummaryOption]
     private let tableView = UITableView()
@@ -88,7 +129,7 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
     // MARK: - Layout
     
     private func setupUI() {
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: PostingAddDetailSummaryTableView.cellIdentifier)
+        tableView.register(PostingAddDetailSummaryTableViewCell.self, forCellReuseIdentifier: PostingAddDetailSummaryTableView.cellIdentifier)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
@@ -126,26 +167,36 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return PostingAddDetailSummaryTableView.cellAddDetailHeight
+        if indexPath.row == postingSummaryOptions.count - 1 {
+            return PostingAddDetailSummaryTableView.cellAddLocationSummaryHeight
+        } else {
+            return PostingAddDetailSummaryTableView.cellAddDetailSummaryHeight
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostingAddDetailSummaryTableView.cellIdentifier) else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostingAddDetailSummaryTableView.cellIdentifier) as? PostingAddDetailSummaryTableViewCell else {
             return UITableViewCell()
         }
         let sectionSummary = postingSummaryOptions[indexPath.row]
-        cell.accessoryType = .disclosureIndicator
-        cell.textLabel?.text = setValue(section: sectionSummary)
-        cell.textLabel?.font = UIFont.selectableItem
-        cell.backgroundColor = UIColor.clear
-        cell.textLabel?.textColor = UIColor.grayLight
+        if let text = setValue(section: sectionSummary) {
+           cell.textLabel?.text = text
+        } else {
+            cell.textLabel?.text = sectionSummary.emptyLocalizeString
+            cell.imageView?.image = UIImage(named: "items")
+            cell.imageView?.tintColor = UIColor.grayLighter
+        }
+        
+        if indexPath.row == postingSummaryOptions.count - 1 {
+            cell.showSeparator()
+        }
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            cell.textLabel?.textColor = UIColor.white
-            delegate?.postingAddDetailSummary(self, didSelectIndex: indexPath.row)
+        if let _ = tableView.cellForRow(at: indexPath) {
+            delegate?.postingAddDetailSummary(self, didSelectIndex: postingSummaryOptions[indexPath.row])
         }
     }
     
@@ -154,7 +205,7 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
         tableView.reloadData()
     }
     
-    func setValue(section: PostingSummaryOption) -> String {
-        return delegate?.valueFor(section: section) ?? section.emptyLocalizeString
+    func setValue(section: PostingSummaryOption) -> String? {
+        return delegate?.valueFor(section: section)
     }
 }

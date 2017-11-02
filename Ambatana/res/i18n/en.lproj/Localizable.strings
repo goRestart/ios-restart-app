@@ -2177,6 +2177,9 @@
 // Rating view title label.  Check attached image "rating_view.png" (but uppercase)
 "rating_view_title_label_uppercase" = "GIVE US 5 STARS!";
 
+// Real Estate location title
+"real_estate_location_title" = "Location";
+
 // Real Estate summary title
 "real_estate_summary_title" = "Summary";
 

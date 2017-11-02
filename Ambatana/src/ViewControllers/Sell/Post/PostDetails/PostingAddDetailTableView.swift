@@ -12,10 +12,11 @@ import LGCoreKit
 protocol PostingAddDetailTableViewDelegate: class {
     func indexSelected(index: Int)
     func indexDeselected(index: Int)
+    func findValueSelected() -> Int?
 }
 
 
-final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewDataSource {
+final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewDataSource, PostingViewConfigurable {
     
     static let cellIdentifier = "postingAddDetailCell"
     static let cellAddDetailHeight: CGFloat = 70
@@ -29,8 +30,9 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     
     // MARK: - Lifecycle
     
-    init(values: [String]) {
+    init(values: [String], delegate: PostingAddDetailTableViewDelegate) {
         self.detailInfo = values
+        self.delegate = delegate
         super.init(frame: CGRect.zero)
         setupUI()
         setupAccessibilityIds()
@@ -53,6 +55,7 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
         tableView.tintColor = UIColor.white
         tableView.indicatorStyle = .white
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.margin, right: 0)
+        tableView.allowsMultipleSelection = true
     }
     
     private func setupLayout() {
@@ -108,6 +111,25 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectCell(indexPath: indexPath)
+        delegate?.indexSelected(index: indexPath.row)
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        deselectCell(indexPath: indexPath)
+    }
+   
+    func deselectCell(indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.accessoryType = .none
+        cell.accessoryView = nil
+        cell.textLabel?.textColor = UIColor.grayLight
+        selectedValue = nil
+        delegate?.indexDeselected(index: indexPath.row)
+        tableView.deselectRow(at: indexPath, animated: false)
+    }
+    
+    func selectCell(indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
         
         let image = #imageLiteral(resourceName: "ic_checkmark").withRenderingMode(.alwaysTemplate)
@@ -122,24 +144,27 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
         cell.accessoryType = .checkmark
         cell.textLabel?.textColor = UIColor.white
         selectedValue = indexPath
-        delegate?.indexSelected(index: indexPath.row)
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        deselectCell(indexPath: indexPath)
-    }
-    
-    func deselectCell(indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) else { return }
-        cell.accessoryType = .none
-        cell.accessoryView = nil
-        cell.textLabel?.textColor = UIColor.grayLight
-        selectedValue = nil
-        delegate?.indexDeselected(index: indexPath.row)
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
     }
     
     func setupTableView(values: [String]) {
         detailInfo = values
         tableView.reloadData()
     }
+    
+    // MARK - PostingStepConfigurable
+    
+    func setupView(viewModel: PostingDetailsViewModel) {
+        guard let positionSelected = viewModel.findValueSelected() else { return }
+        selectCell(indexPath: IndexPath(item: positionSelected, section: 0))
+
+    }
+    
+    
+    func setupContainerView(view: UIView) {
+        translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(self)
+        layout(with: view).fill()
+    }
+    
 }

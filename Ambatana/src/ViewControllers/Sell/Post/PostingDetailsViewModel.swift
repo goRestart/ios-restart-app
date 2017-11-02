@@ -9,7 +9,6 @@
 import RxSwift
 import LGCoreKit
 
-
 class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
     
     var title: String {
@@ -19,10 +18,14 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     var buttonTitle: String {
         switch step {
         case .bathrooms, .bedrooms, .offerType, .price, .propertyType:
-            return LGLocalizedString.postingButtonSkip
+            return  fromSummary ? LGLocalizedString.productPostDone : LGLocalizedString.postingButtonSkip
         default:
             return LGLocalizedString.productPostDone
         }
+    }
+    
+    var shouldShowCloseButton: Bool {
+        return step == .summary
     }
     
     private var currencySymbol: String? {
@@ -34,7 +37,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         return locationManager.currentLocation?.countryCode
     }
     
-    var makeContentView: UIView {
+    var makeContentView: PostingViewConfigurable? {
         var values: [String]
         switch step {
         case .bathrooms:
@@ -55,10 +58,16 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             let summaryView = PostingAddDetailSummaryTableView(postCategory: postListingState.category)
             summaryView.delegate = self
             return summaryView
+        case .location, .year, .make, .model:
+            return nil
         }
-        let view: PostingAddDetailTableView = PostingAddDetailTableView(values: values)
-        view.delegate = self
+        let view: PostingAddDetailTableView = PostingAddDetailTableView(values: values, delegate: self)
         return view
+    }
+    
+    var currentPrice: ListingPrice? {
+        guard let price = postListingState.price else { return nil }
+        return price
     }
     
     private let tracker: Tracker
@@ -73,6 +82,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     private let postingSource: PostingSource
     private let postListingBasicInfo: PostListingBasicDetailViewModel
     private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
+    private let fromSummary: Bool
     
     weak var navigator: PostListingNavigator?
     private let disposeBag = DisposeBag()
@@ -83,12 +93,14 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
                      postListingState: PostListingState,
                      uploadedImageSource: EventParameterPictureSource?,
                      postingSource: PostingSource,
-                     postListingBasicInfo: PostListingBasicDetailViewModel) {
+                     postListingBasicInfo: PostListingBasicDetailViewModel,
+                     fromSummary: Bool) {
         self.init(step: step,
                   postListingState: postListingState,
                   uploadedImageSource: uploadedImageSource,
                   postingSource: postingSource,
                   postListingBasicInfo: postListingBasicInfo,
+                  fromSummary: fromSummary,
                   tracker: TrackerProxy.sharedInstance,
                   currencyHelper: Core.currencyHelper,
                   locationManager: Core.locationManager,
@@ -101,6 +113,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
          uploadedImageSource: EventParameterPictureSource?,
          postingSource: PostingSource,
          postListingBasicInfo: PostListingBasicDetailViewModel,
+         fromSummary: Bool,
          tracker: Tracker,
          currencyHelper: CurrencyHelper,
          locationManager: LocationManager,
@@ -111,6 +124,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         self.uploadedImageSource = uploadedImageSource
         self.postingSource = postingSource
         self.postListingBasicInfo = postListingBasicInfo
+        self.fromSummary = fromSummary
         self.tracker = tracker
         self.currencyHelper = currencyHelper
         self.locationManager = locationManager
@@ -121,7 +135,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     func closeButtonPressed() {
         postAndClose()
     }
-    
+
     func nextbuttonPressed() {
         guard let next = step.nextStep else {
             postAndClose()
@@ -130,7 +144,8 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         if step == .price {
             set(price: priceListing.value)
         }
-        advanceNextStep(next: next)
+        let nextStep = fromSummary ? .summary : next
+        advanceNextStep(next: nextStep)
     }
     
     private func postAndClose() {
@@ -142,7 +157,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     }
     
     private func advanceNextStep(next: PostingDetailStep) {
-        navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo)
+        navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, fromSummary: false)
     }
     
     private func postListing() {
@@ -186,7 +201,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             realEstatePropertyType = RealEstatePropertyType.allValues[index]
         case .price:
             return
-        case .summary:
+        case .summary, .location, .make, .model, .year:
             return
         }
 
@@ -197,8 +212,10 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
                                                  bathrooms: numberOfBathrooms?.rawValue)
         postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
         delay(0.3) { [weak self] in
-            guard let next = self?.step.nextStep else { return }
-            self?.advanceNextStep(next: next)
+            guard let strongSelf = self else { return }
+            guard let next = strongSelf.step.nextStep else { return }
+            let nextStep = strongSelf.fromSummary ? .summary : next
+            strongSelf.advanceNextStep(next: nextStep)
         }
     }
     
@@ -219,7 +236,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             removePropertyType = true
         case .price:
             return
-        case .summary:
+        case .summary, .location, .make, .model, .year:
             return
         }
         if let realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes {
@@ -228,14 +245,35 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         }
     }
     
+    func findValueSelected() -> Int? {
+        var positionSelected: Int? = nil
+        switch step {
+        case .propertyType:
+            positionSelected = postListingState.verticalAttributes?.realEstateAttributes?.propertyType?.position
+        case .offerType:
+            positionSelected = postListingState.verticalAttributes?.realEstateAttributes?.offerType?.position
+        case .bedrooms:
+            if let bedrooms = postListingState.verticalAttributes?.realEstateAttributes?.bedrooms {
+                positionSelected = NumberOfBedrooms(rawValue: bedrooms)?.position
+            }
+        case .bathrooms:
+            if let bathrooms = postListingState.verticalAttributes?.realEstateAttributes?.bathrooms {
+                positionSelected = NumberOfBathrooms(rawValue:bathrooms)?.position
+            }
+        case .price, .make, .model, .year, .location, .summary:
+            return nil
+        }
+        return positionSelected
+    }
+    
     
     // MARK: - PostingAddDetailSummaryTableViewDelegate
     
-    func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView, didSelectIndex: Int) {
-        navigator?.cancelPostListing()
+    func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView, didSelectIndex: PostingSummaryOption) {
+        navigator?.nextPostingDetailStep(step: didSelectIndex.postingDetailStep, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, fromSummary: true)
     }
     
-    func valueFor(section: PostingSummaryOption) -> String {
+    func valueFor(section: PostingSummaryOption) -> String? {
         var value: String?
         switch section {
         case .price:
@@ -263,7 +301,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .year:
             value = String(describing: postListingState.verticalAttributes?.carAttributes?.year)
         }
-        return value ?? section.emptyLocalizeString
+        return value
     }
 }
 

@@ -207,7 +207,8 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
                                postListingState: PostListingState,
                                uploadedImageSource: EventParameterPictureSource?,
                                postingSource: PostingSource,
-                               postListingBasicInfo: PostListingBasicDetailViewModel) {
+                               postListingBasicInfo: PostListingBasicDetailViewModel,
+                               fromSummary: Bool) {
         nextPostingDetailStepCalled = true
     }
     func closePostProductAndPostInBackground(params: ListingCreationParams,
