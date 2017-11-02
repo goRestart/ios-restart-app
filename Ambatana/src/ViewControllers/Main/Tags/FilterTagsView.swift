@@ -13,8 +13,9 @@ protocol FilterTagsViewDelegate : class {
 
 class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, FilterTagCellDelegate {
 
-    static var collectionViewHeight: CGFloat = 40
-    private static var collectionContentInset = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 5)
+    static var collectionViewHeight: CGFloat = 52
+    static var minimumInteritemSpacing: CGFloat = 5
+    private static var collectionContentInset = UIEdgeInsets(top: 10, left: 5, bottom: 10, right: 5)
     
     private var collectionView: UICollectionView?
     private var secondaryCollectionView: UICollectionView?
@@ -42,6 +43,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = FilterTagsView.collectionContentInset
+        flowLayout.minimumInteritemSpacing = FilterTagsView.minimumInteritemSpacing
         collectionView = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
         guard let collectionView = collectionView else { return }
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -71,6 +73,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = FilterTagsView.collectionContentInset
+        flowLayout.minimumInteritemSpacing = FilterTagsView.minimumInteritemSpacing
         secondaryCollectionView = UICollectionView(frame: frame, collectionViewLayout: flowLayout)
         guard let secondaryCollectionView = secondaryCollectionView else { return }
         secondaryCollectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -105,8 +108,10 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     
-    // MARK: - UICollectionViewDelegate & DataSource methods
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+    // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         if collectionView == self.collectionView {
             return FilterTagCell.cellSizeForTag(tags[indexPath.row])
         } else {
@@ -191,7 +196,8 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
                     switch tags[i] {
                     case .make, .model, .yearsRange:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild:
+                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild,
+                         .taxonomy, .secondaryTaxonomyChild:
                         continue
                     }
                 }
@@ -204,20 +210,23 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
                 switch tags[i] {
                 case .model:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .make, .yearsRange, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild:
+                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .make, .yearsRange,
+                     .taxonomyChild, .taxonomy, .secondaryTaxonomyChild:
                     continue
                 }
             }
         case .taxonomy:
             for i in 0..<tags.count {
                 switch tags[i] {
-                case .secondaryTaxonomyChild:
+                case .secondaryTaxonomyChild, .taxonomyChild:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .category, .make, .yearsRange, .taxonomyChild, .taxonomy:
+                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .category, .make,
+                     .yearsRange, .taxonomy:
                     continue
                 }
             }
-        case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .yearsRange, .taxonomyChild, .secondaryTaxonomyChild:
+        case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .yearsRange, .taxonomyChild,
+             .secondaryTaxonomyChild:
             break
         }
         return relatedIndexesToDelete

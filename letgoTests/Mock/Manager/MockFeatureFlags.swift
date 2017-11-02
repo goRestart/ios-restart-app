@@ -36,6 +36,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var appRatingDialogInactive: Bool = false
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu = .control
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed = .control
+    var newItemPage: NewItemPage = .control
 
     var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: Bool = false
@@ -45,7 +46,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var homeRelatedEnabled: HomeRelatedEnabled = .control
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells = .control
     var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail = .control
-    var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed = .control
+    var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
 
     // Country dependant features
     var freePostingModeAllowed = false

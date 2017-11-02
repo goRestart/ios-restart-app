@@ -16,7 +16,7 @@ protocol FilterTagCellDelegate : class {
 class FilterTagCell: UICollectionViewCell {
     
     private static let cellHeight: CGFloat = 32.0
-    private static let fixedWidthSpace: CGFloat = 42.0 //10.0 left margin & 32.0 close button
+    private static let fixedWidthSpace: CGFloat = 52.0 //15.0 left margin & 32.0 close button + 5 right margin
     private static let iconWidth: CGFloat = 28.0
     private static let USDollarCode = "USD"
 
