@@ -179,9 +179,11 @@ extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate,
         if let productVM = viewModel.currentListingViewModel, productVM.showKeyboardWhenQuickAnswer {
             listingDeckView.chatTextView.setText(answer.text)
         } else {
+            // TODO ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
 //            viewModel.send(quickAnswer: answer)
         }
         if let productVM = viewModel.currentListingViewModel, productVM.areQuickAnswersDynamic {
+            // TODO ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
 //            viewModel.moveQuickAnswerToTheEnd(index)
         }
     }
