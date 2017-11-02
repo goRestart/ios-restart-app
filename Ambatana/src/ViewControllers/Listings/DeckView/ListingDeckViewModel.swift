@@ -173,6 +173,7 @@ final class ListingDeckViewModel: BaseViewModel {
         prefetchNeighborsImages(index, movement: movement)
 
         // Tracking
+        // TODO ABIOS-3109 https://ambatana.atlassian.net/browse/ABIOS-3109
         //        if active {
         //            let feedPosition = movement.feedPosition(for: trackingIndex)
         //            if source == .relatedListings {
