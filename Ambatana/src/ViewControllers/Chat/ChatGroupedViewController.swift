@@ -55,7 +55,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
         for index in 0..<viewModel.chatListsCount {
             let page: ChatListView
             
-            guard let pageVM = viewModel.wsChatListViewModelForTabAtIndex(index) else { continue }
+            guard let pageVM = viewModel.chatListViewModelForTabAtIndex(index) else { continue }
             page = ChatListView(viewModel: pageVM)
             page.tableView.accessibilityId = viewModel.accessibilityIdentifierForTableViewAtIndex(index)
             page.footerButton.accessibilityId = .chatListViewFooterButton

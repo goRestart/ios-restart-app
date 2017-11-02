@@ -30,18 +30,14 @@ class LGChatWrapper: ChatWrapper {
 
     private let chatRepository: ChatRepository
     private let myUserRepository: MyUserRepository
-    private let featureFlags: FeatureFlaggeable
 
     convenience init() {
-        self.init(chatRepository: Core.chatRepository, myUserRepository: Core.myUserRepository,
-                  featureFlags: FeatureFlags.sharedInstance)
+        self.init(chatRepository: Core.chatRepository, myUserRepository: Core.myUserRepository)
     }
 
-    init(chatRepository: ChatRepository, myUserRepository: MyUserRepository,
-         featureFlags: FeatureFlaggeable) {
+    init(chatRepository: ChatRepository, myUserRepository: MyUserRepository) {
         self.chatRepository = chatRepository
         self.myUserRepository = myUserRepository
-        self.featureFlags = featureFlags
     }
 
     func sendMessageFor(listing: Listing, type: ChatWrapperMessageType, completion: ChatWrapperCompletion?) {
@@ -54,10 +50,10 @@ class LGChatWrapper: ChatWrapper {
             return
         }
 
-        sendWebSocketChatMessage(listingId, sellerId: sellerId, text: type.text, type: type.chatType, completion: completion)
+        sendChatMessage(listingId, sellerId: sellerId, text: type.text, type: type.chatType, completion: completion)
     }
 
-    private func sendWebSocketChatMessage(_ listingId: String, sellerId: String, text: String, type: ChatMessageType,
+    private func sendChatMessage(_ listingId: String, sellerId: String, text: String, type: ChatMessageType,
                                           completion: ChatWrapperCompletion?) {
         // get conversation
         chatRepository.showConversation(sellerId, listingId: listingId) { [weak self] result in

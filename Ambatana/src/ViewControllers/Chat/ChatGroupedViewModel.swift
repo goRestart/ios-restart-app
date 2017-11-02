@@ -190,9 +190,9 @@ class ChatGroupedViewModel: BaseViewModel {
         tabNavigator?.openUser(data)
     }
 
-    func wsChatListViewModelForTabAtIndex(_ index: Int) -> WSChatListViewModel? {
+    func chatListViewModelForTabAtIndex(_ index: Int) -> ChatListViewModel? {
         guard let chatListVM = viewModelAtIndex(index) else { return nil }
-        return chatListVM as? WSChatListViewModel
+        return chatListVM as? ChatListViewModel
     }
 
 
@@ -228,7 +228,7 @@ class ChatGroupedViewModel: BaseViewModel {
             }, emptyReason: nil, errorCode: nil
         )
         let chatListViewModel: ChatListViewModel
-        chatListViewModel = WSChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
+        chatListViewModel = ChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         chatListViewModel.emptyStatusViewModel = emptyVM
         return chatListViewModel
     }
@@ -244,7 +244,7 @@ class ChatGroupedViewModel: BaseViewModel {
             secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil, errorCode: nil
         )
         let chatListViewModel: ChatListViewModel
-        chatListViewModel = WSChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
+        chatListViewModel = ChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         chatListViewModel.emptyStatusViewModel = emptyVM
         return chatListViewModel
     }
@@ -260,7 +260,7 @@ class ChatGroupedViewModel: BaseViewModel {
             secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: nil, errorCode: nil
         )
         let chatListViewModel: ChatListViewModel
-        chatListViewModel = WSChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
+        chatListViewModel = ChatListViewModel(chatsType: chatsType, tabNavigator: tabNavigator)
         chatListViewModel.emptyStatusViewModel = emptyVM
         return chatListViewModel
     }
