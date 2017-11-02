@@ -82,7 +82,10 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifiers.cardView, for: indexPath) as? ListingCardView {
             let listing = viewModel.listingCellModelAt(index: indexPath.row)
-            cell.populateWith(listing?.listing.objectId ?? "IDENTIFICADOR")
+            guard objectID = listing?.listing.objectId else {
+                return cell
+            }
+            cell.populateWith(objectID)
             return cell
         }
         return UICollectionViewCell()
@@ -151,6 +154,7 @@ extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate,
         directChatTable.rowHeight = UITableViewAutomaticDimension
         directChatTable.estimatedRowHeight = 140
         directChatTable.isCellHiddenBlock = { return $0.contentView.isHidden }
+        // TODO ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
 //        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.directMessagesItemPressed() }
     }
 
