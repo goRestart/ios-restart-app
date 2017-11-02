@@ -12,6 +12,15 @@ import LGCoreKit
 
 final class ListingDeckActionView: UIView {
 
+    private struct Layout {
+        struct Height {
+            // TODO INTRINSIC-CONTENT-SIZE NEEDED
+            static let actionButton: CGFloat = 48.0
+            static let blanks: CGFloat = 4 * Metrics.shortMargin
+            static let bumpUp: CGFloat = 32.0
+        }
+    }
+
     let actionButton = UIButton(type: .custom)
     private var actionButtonBottomContainer: NSLayoutConstraint?
     private var actionButtonBottomSeparator: NSLayoutConstraint?
@@ -33,7 +42,9 @@ final class ListingDeckActionView: UIView {
         setup()
     }
 
-    override var intrinsicContentSize: CGSize { return CGSize(width: UIViewNoIntrinsicMetric, height: 64.0 + 48.0) }
+    override var intrinsicContentSize: CGSize {
+        let height = Layout.Height.bumpUp + Layout.Height.bumpUp + Layout.Height.actionButton
+        return CGSize(width: UIViewNoIntrinsicMetric, height: height) }
 
     private func setup() {
         setupActionButton()
@@ -45,11 +56,11 @@ final class ListingDeckActionView: UIView {
     private func setupActionButton() {
         addSubview(actionButton)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
-        actionButton.layout().height(48.0)
+        actionButton.layout().height(Layout.Height.actionButton)
 
         actionButton.layout(with: self)
-            .topMargin(by: 8.0).rightMargin(by: -16.0).leftMargin(by: 16.0)
-        actionButton.layout(with: self).bottomMargin(by: -8) { [weak self] constraint in
+            .topMargin(by: Metrics.shortMargin).rightMargin(by: -Metrics.margin).leftMargin(by: Metrics.margin)
+        actionButton.layout(with: self).bottomMargin(by: -Metrics.shortMargin) { [weak self] constraint in
             self?.actionButtonBottomContainer = constraint
             self?.actionButtonBottomContainer?.priority = UILayoutPriorityDefaultLow
         }
@@ -61,7 +72,7 @@ final class ListingDeckActionView: UIView {
         addSubview(separator)
         separator.translatesAutoresizingMaskIntoConstraints = false
 
-        separator.layout(with: actionButton).below(by: 8.0) { [weak self] constraint in
+        separator.layout(with: actionButton).below(by: Metrics.shortMargin) { [weak self] constraint in
             self?.actionButtonBottomSeparator = constraint
             self?.actionButtonBottomSeparator?.priority = 999
         }
@@ -73,9 +84,9 @@ final class ListingDeckActionView: UIView {
         addSubview(bumpUpBanner)
         bumpUpBanner.translatesAutoresizingMaskIntoConstraints = false
 
-        bumpUpBanner.layout(with: separator).below(by: 8.0)
+        bumpUpBanner.layout(with: separator).below(by: Metrics.shortMargin)
         bumpUpBanner.layout(with: self).fillHorizontal()
-        bumpUpBanner.layout(with: self).bottomMargin(by: -8.0)
+        bumpUpBanner.layout(with: self).bottomMargin(by: -Metrics.shortMargin)
 
         bumpUpBanner.updateInfo(info: BumpUpInfo(type: .priced,
                                                  timeSinceLastBump: 10.0,
@@ -106,8 +117,8 @@ final class ListingDeckActionView: UIView {
     private func setupUI() {
         backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         separator.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-
+        
         bringSubview(toFront: actionButton)
     }
-
+    
 }
