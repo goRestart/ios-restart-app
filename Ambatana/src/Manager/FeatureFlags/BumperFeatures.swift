@@ -39,6 +39,7 @@ extension Bumper  {
         flags.append(FeaturedRibbonImprovementInDetail.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(NewItemPage.self)
+        flags.append(ShowClockInDirectAnswer.self)
         Bumper.initialize(flags)
     } 
 
@@ -170,6 +171,11 @@ extension Bumper  {
     static var newItemPage: NewItemPage {
         guard let value = Bumper.value(for: NewItemPage.key) else { return .control }
         return NewItemPage(rawValue: value) ?? .control 
+    }
+
+    static var showClockInDirectAnswer: ShowClockInDirectAnswer {
+        guard let value = Bumper.value(for: ShowClockInDirectAnswer.key) else { return .control }
+        return ShowClockInDirectAnswer(rawValue: value) ?? .control 
     } 
 }
 
@@ -511,6 +517,22 @@ enum NewItemPage: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New item page with card appearance and different navigation" } 
     static func fromPosition(_ position: Int) -> NewItemPage {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShowClockInDirectAnswer: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowClockInDirectAnswer.control.rawValue }
+    static var enumValues: [ShowClockInDirectAnswer] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show a clock until the message is delivered correctly" } 
+    static func fromPosition(_ position: Int) -> ShowClockInDirectAnswer {
         switch position { 
             case 0: return .control
             case 1: return .baseline

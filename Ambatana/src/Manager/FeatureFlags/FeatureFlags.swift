@@ -44,6 +44,7 @@ protocol FeatureFlaggeable: class {
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
     var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
+    var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var newItemPage: NewItemPage { get }
 
     // Country dependant features
@@ -356,6 +357,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.taxonomiesAndTaxonomyChildrenInFeed
         }
         return TaxonomiesAndTaxonomyChildrenInFeed.fromPosition(abTests.taxonomiesAndTaxonomyChildrenInFeed.value)
+    }
+    
+    var showClockInDirectAnswer: ShowClockInDirectAnswer {
+        if Bumper.enabled {
+            return Bumper.showClockInDirectAnswer
+        }
+        return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
     }
 
 
