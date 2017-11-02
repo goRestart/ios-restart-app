@@ -142,7 +142,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         if firstTime {
-            // TODO prepare onboarding
+            // TODO ABIOS-3105 https://ambatana.atlassian.net/browse/ABIOS-3105 prepare onboarding
 
         }
         // Tracking
