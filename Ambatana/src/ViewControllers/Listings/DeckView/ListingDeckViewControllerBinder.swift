@@ -28,6 +28,7 @@ final class ListingDeckViewControllerBinder {
         bindActions(withViewModel: viewModel, listingDeckView: listingDeckView)
         bindAltActions(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindNavigationBarActions(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
+        bindBumpUp(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
     }
 
     private func bindActions(withViewModel viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
@@ -49,6 +50,19 @@ final class ListingDeckViewControllerBinder {
                 listingDeckView.showActions()
             })
             }.addDisposableTo(disposeBag)
+    }
+
+    private func bindBumpUp(withViewController viewController: ListingDeckViewController,
+                            viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
+        viewModel.bumpUpBannerInfo.asObservable().bindNext { [unowned viewController] bumpInfo in
+//            guard let bumpUp = bumpInfo else { return }
+            let bumpUp = BumpUpInfo(type: .free, timeSinceLastBump: TimeInterval(0), maxCountdown: TimeInterval(10), price: "48.0", bannerInteractionBlock: {
+                print("ney")
+            }, buttonBlock: { 
+                print("ney")
+            })
+            viewController.showBumpUpBanner(bumpInfo: bumpUp)
+        }.addDisposableTo(disposeBag)
     }
 
     private func bindAltActions(withViewController viewController: ListingDeckViewController,

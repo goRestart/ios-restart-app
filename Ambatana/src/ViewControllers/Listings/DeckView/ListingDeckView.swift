@@ -25,7 +25,8 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     let collectionLayout = ListingDeckCollectionViewLayout()
 
     var currentPage: Int { return collectionLayout.page }
-
+    var bumpUpBanner: BumpUpBanner { return itemActionsView.bumpUpBanner }
+    var isBumpUpVisisble: Bool { return itemActionsView.isBumpUpVisisble }
 
     override init(frame: CGRect) {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
@@ -64,8 +65,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         addSubview(itemActionsView)
         itemActionsView.translatesAutoresizingMaskIntoConstraints = false
         itemActionsView.layout(with: self).trailing().bottom().leading()
-        itemActionsView.layout(with: collectionView).below()
+        itemActionsView.layout(with: collectionView).below(relatedBy: .greaterThanOrEqual)
+
         itemActionsView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+        itemActionsView.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
         itemActionsView.alpha = 0
         itemActionsView.backgroundColor = UIColor.viewControllerBackground
     }
@@ -91,6 +94,8 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         addSubview(directAnswersView)
         directAnswersView.layout(with: self).leftMargin().rightMargin()
         directAnswersView.layout(with: chatTextView).above(by: -8.0)
+        directAnswersView.layout(with: collectionView).below(relatedBy: .greaterThanOrEqual)
+
         directAnswersView.backgroundColor = .clear
         directAnswersView.style = .light
 
@@ -111,12 +116,26 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         itemActionsView.alpha = alpha
     }
 
+    func updateBumpUp(withInfo info: BumpUpInfo) {
+        itemActionsView.updateBumpUp(withInfo: info)
+    }
+
     func updateTop(wintInset inset: CGFloat) {
         collectionViewTop?.constant = inset
     }
     func updateBottom(wintInset inset: CGFloat) {
         chatTextViewBottom?.constant = -(inset + 16.0)
     }
+
+    func showActions() {
+        itemActionsView.alpha = 1
+    }
+
+    func hideActions() {
+        itemActionsView.alpha = 0
+    }
+
+    // MARK: Chat
 
     func showFullScreenChat() {
         overlayView.alpha = 1
@@ -127,17 +146,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         overlayView.alpha = 0
     }
 
-    func showBumpUp() {  }
-
-    func hideBumpUp() { print("hideBumpUp") }
-
-    func showActions() {
-        itemActionsView.alpha = 1
-    }
-
-    func hideActions() {
-        itemActionsView.alpha = 0
-    }
 
     func showChat() {
         directAnswersView.alpha = 1
@@ -148,5 +156,18 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         directAnswersView.alpha = 0
         chatTextView.alpha = 0
     }
-    
+
+    // MARK: BumpUp
+
+    func showBumpUp() {
+        itemActionsView.showBumpUp()
+    }
+
+    func hideBumpUp() {
+        itemActionsView.hideBumpUp()
+    }
+
+    func resetBumpUpCountdown() {
+        bumpUpBanner.resetCountdown()
+    }
 }

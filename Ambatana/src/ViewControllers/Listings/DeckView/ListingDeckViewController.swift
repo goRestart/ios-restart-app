@@ -119,7 +119,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     @objc private func didTapClose() {
 
-        //            closeBumpUpBanner()
+        closeBumpUpBanner()
         viewModel.close()
     }
 
@@ -141,6 +141,41 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         listingDeckView.updateChatWith(alpha: chatAlpha)
     }
 
+    func showBumpUpBanner(bumpInfo: BumpUpInfo){
+        guard !listingDeckView.isBumpUpVisisble else {
+            // banner is already visible, but info changes
+            listingDeckView.updateBumpUp(withInfo: bumpInfo)
+            return
+        }
+
+        viewModel.bumpUpBannerShown(type: bumpInfo.type)
+        delay(1.0) { [weak self] in
+            self?.listingDeckView.updateBumpUp(withInfo: bumpInfo)
+            self?.listingDeckView.bumpUpBanner.setNeedsLayout()
+            self?.listingDeckView.bumpUpBanner.layoutIfNeeded()
+
+            UIView.animate(withDuration: 0.3,
+                           delay: 0,
+                           usingSpringWithDamping: 6.0,
+                           initialSpringVelocity: 3.0,
+                           options: .layoutSubviews, animations: {
+                            self?.listingDeckView.showBumpUp()
+                            self?.listingDeckView.layoutIfNeeded()
+            }, completion: nil)
+        }
+    }
+
+    func closeBumpUpBanner() {
+        listingDeckView.hideBumpUp()
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       usingSpringWithDamping: 6.0,
+                       initialSpringVelocity: 3.0,
+                       options: .layoutSubviews, animations: {
+                        self.listingDeckView.layoutIfNeeded()
+        }, completion: nil)
+    }
+
 }
 
 extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate, DirectAnswersHorizontalViewDelegate {
@@ -155,7 +190,7 @@ extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate,
         directChatTable.estimatedRowHeight = 140
         directChatTable.isCellHiddenBlock = { return $0.contentView.isHidden }
         // TODO ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
-//        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.directMessagesItemPressed() }
+        //        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.directMessagesItemPressed() }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -180,11 +215,11 @@ extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate,
             listingDeckView.chatTextView.setText(answer.text)
         } else {
             // TODO ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
-//            viewModel.send(quickAnswer: answer)
+            //            viewModel.send(quickAnswer: answer)
         }
         if let productVM = viewModel.currentListingViewModel, productVM.areQuickAnswersDynamic {
             // TODO ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
-//            viewModel.moveQuickAnswerToTheEnd(index)
+            //            viewModel.moveQuickAnswerToTheEnd(index)
         }
     }
 

@@ -237,6 +237,12 @@ final class ListingDeckViewModel: BaseViewModel {
         }
     }
 
+    // MARK: Tracking
+
+    func bumpUpBannerShown(type: BumpUpType) {
+        currentListingViewModel?.trackBumpUpBannerShown(type: type)
+    }
+
     // MARK: Paginable
 
     func retrievePage(_ page: Int) {
