@@ -34,12 +34,12 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
         var productStatsObserver: TestableObserver<ListingStats?>!
         var navBarButtonsObserver: TestableObserver<[UIAction]>!
         var actionButtonsObserver: TestableObserver<[UIAction]>!
+
         var statusObserver: TestableObserver<ListingViewModelStatus>!
         var isFeaturedObserver: TestableObserver<Bool>!
         var quickAnswersObserver: TestableObserver<[[QuickAnswer]]>!
         var chatEnabled: TestableObserver<Bool>!
         var directChatPlaceholderObserver: TestableObserver<String>!
-        var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
         var isFavoriteObserver: TestableObserver<Bool>!
         var favoriteButtonStateObserver: TestableObserver<ButtonState>!
         var shareButtonStateObserver: TestableObserver<ButtonState>!
@@ -48,7 +48,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
         var socialSharerObserver: TestableObserver<SocialSharer>!
 
 
-        describe("ListingDeckViewModelBinderSpec") {
+        fdescribe("ListingDeckViewModelBinderSpec") {
             beforeEach {
                 sut = ListingViewModelBinder()
                 var productMock = MockProduct.makeMock()
@@ -67,7 +67,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 listingListRequester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20)
                 imageDownloader = MockImageDownloader()
 
-                let pagination = Pagination(first: 0, next: 1, isLast: false)
+                let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
                 let prefetching = Prefetching(previousCount: 1, nextCount: 3)
 
                 listingDeckViewModel =  ListingDeckViewModel(initialListing: listing,
@@ -88,12 +88,12 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 productStatsObserver = scheduler.createObserver(Optional<ListingStats>.self)
                 navBarButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 actionButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
+
                 statusObserver = scheduler.createObserver(ListingViewModelStatus.self)
                 isFeaturedObserver = scheduler.createObserver(Bool.self)
                 quickAnswersObserver = scheduler.createObserver(Array<Array<QuickAnswer>>.self)
                 chatEnabled = scheduler.createObserver(Bool.self)
                 directChatPlaceholderObserver = scheduler.createObserver(String.self)
-                directChatMessagesObserver = scheduler.createObserver(Array<ChatViewMessage>.self)
                 isFavoriteObserver = scheduler.createObserver(Bool.self)
                 favoriteButtonStateObserver = scheduler.createObserver(ButtonState.self)
                 shareButtonStateObserver = scheduler.createObserver(ButtonState.self)
@@ -113,7 +113,6 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 listingDeckViewModel.quickAnswers.asObservable().skip(1).bindTo(quickAnswersObserver).addDisposableTo(disposeBag)
                 listingDeckViewModel.chatEnabled.asObservable().skip(1).bindTo(chatEnabled).addDisposableTo(disposeBag)
                 listingDeckViewModel.directChatPlaceholder.asObservable().skip(1).bindTo(directChatPlaceholderObserver).addDisposableTo(disposeBag)
-                listingDeckViewModel.directChatMessages.observable.skip(1).bindTo(directChatMessagesObserver).addDisposableTo(disposeBag)
                 listingDeckViewModel.isFavorite.asObservable().skip(1).bindTo(isFavoriteObserver).addDisposableTo(disposeBag)
                 listingDeckViewModel.favoriteButtonState.asObservable().skip(1).bindTo(favoriteButtonStateObserver).addDisposableTo(disposeBag)
                 listingDeckViewModel.shareButtonState.asObservable().skip(1).bindTo(shareButtonStateObserver).addDisposableTo(disposeBag)
@@ -172,10 +171,6 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
 
                 it("directChatPlaceholderObserver changed") {
                     expect(directChatPlaceholderObserver.eventValues.count) > 0
-                }
-
-                it("directChatMessagesObserver changed") {
-                    expect(directChatMessagesObserver.eventValues.count) > 0
                 }
 
                 it("isFavoriteObserver changed") {
