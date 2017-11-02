@@ -40,7 +40,7 @@ final class ListingDeckViewModel: BaseViewModel {
             setCurrentIndex(currentIndex)
         }
     }
-    var isNextPageAvaiable: Bool { get { return !pagination.isLast } }
+    var isNextPageAvailable: Bool { get { return !pagination.isLast } }
     var isLoading = false
 
     let prefetching: Prefetching
@@ -239,7 +239,7 @@ final class ListingDeckViewModel: BaseViewModel {
                 strongSelf.objects.appendContentsOf(newListings.map(ListingCarouselCellModel.init))
                 strongSelf.pagination.isLast = strongSelf.listingListRequester.isLastPage(newListings.count)
 
-                if newListings.isEmpty && strongSelf.isNextPageAvaiable {
+                if newListings.isEmpty && strongSelf.isNextPageAvailable {
                     strongSelf.retrieveNextPage()
                 }
             }
