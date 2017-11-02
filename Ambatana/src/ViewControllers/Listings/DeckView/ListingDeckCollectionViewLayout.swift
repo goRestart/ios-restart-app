@@ -23,9 +23,8 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     private var cache = [UICollectionViewLayoutAttributes]()
     private var shouldInvalidateCache: Bool { return cache.count != numberOfItems }
     private var cellLayout: ListingDeckCellLayout
-    private let horizontalInset: CGFloat = 32.0
-    private let verticalInset: CGFloat = 16.0
-    private let anchor: CGFloat = 0.5
+
+    private let centerRatio: CGFloat = 0.5
     private var numberOfItems: Int { get { return collectionView?.numberOfItems(inSection: 0) ?? 0 } }
 
     var page: Int { return Int(pageOffset(givenOffset: collectionView?.contentOffset.x ?? 0)) }
@@ -33,12 +32,12 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     var visibleWidth: CGFloat { get { return (collectionView?.bounds.width ?? 375) } }
     var visibleHeight: CGFloat { get { return (collectionView?.bounds.height ?? 750) } }
 
-    var cellWidth: CGFloat { get { return visibleWidth - 2*horizontalInset } }
-    var cellHeight: CGFloat { get { return visibleHeight - verticalInset } }
+    var cellWidth: CGFloat { get { return visibleWidth - 2*cellLayout.insets.left } }
+    var cellHeight: CGFloat { get { return visibleHeight - cellLayout.insets.top } }
 
     override var collectionViewContentSize : CGSize {
         let count = CGFloat(numberOfItems)
-        let width = count * cellWidth + (count - 1) * horizontalInset/2 + 2*horizontalInset
+        let width = count * cellWidth + (count - 1) * cellLayout.insets.left/2 + 2*cellLayout.insets.left
         return CGSize(width: width, height: cellHeight)
     }
 
@@ -87,27 +86,34 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         let factor = offsetFactorForItem(withInitialX: initialX)
 
         let minimum = cellLayout.insets.top - cellLayout.verticalInsetDelta
-        let leftInset = min(minimum + ((0.5 - factor) * verticalInset), verticalInset)
-        let rightInset = min(minimum + ((factor - 0.5) * verticalInset), verticalInset)
-        let inset = factor < anchor ? leftInset : rightInset
+        let leftInset = min(minimum + ((0.5 - factor) * cellLayout.insets.top), cellLayout.insets.top)
+        let rightInset = min(minimum + ((factor - 0.5) * cellLayout.insets.top), cellLayout.insets.top)
+        let inset = factor < centerRatio ? leftInset : rightInset
         return inset
     }
 
     private func alphaForItem(withInitialX initialX: CGFloat) -> CGFloat {
-        let factor = offsetFactorForItem(withInitialX: initialX)
-        let base: CGFloat = 0.7
+        func isAnimatable(withScreenRatio ratio: CGFloat) -> Bool {
+            return ratio < 1 && ratio > 0
+        }
 
-        guard factor < 1 && factor > 0 else {
+        func alphaForItem(withRatio ratio: CGFloat, offset: CGFloat, base: CGFloat, variable: CGFloat) -> CGFloat {
+            // We need to move by the offset in order to use the lineal equation
+            return min(base + ((offset + ratio) * variable), 1.0)
+        }
+
+        let ratio = offsetFactorForItem(withInitialX: initialX)
+        let base: CGFloat = 0.7
+        let variable = 1 - base
+
+        guard isAnimatable(withScreenRatio: ratio) else {
             return base
         }
 
-        let variable = 1 - base
-        let midAnchor = anchor
+        let leftAlpha = alphaForItem(withRatio: ratio, offset: 0.5, base: base, variable: variable)
+        let rightAlpha = alphaForItem(withRatio: ratio, offset: 1.5, base: base, variable: variable)
 
-        let leftAlpha = min(base + ((0.5 + factor) * variable), 1.0)
-        let rightAlpha = min(base + ((1.5 - factor) * variable), 1.0)
-
-        let alpha = factor < midAnchor ? leftAlpha : rightAlpha
+        let alpha = ratio < centerRatio ? leftAlpha : rightAlpha
         return max(base, easeInQuad(alpha))
     }
 
@@ -148,7 +154,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     private func update(attributes: UICollectionViewLayoutAttributes, forItemAt indexPath: IndexPath) {
         attributes.zIndex = indexPath.row
         var frame: CGRect = .zero
-        let x = CGFloat(indexPath.row) * (cellWidth + horizontalInset / 2) + horizontalInset
+        let x = CGFloat(indexPath.row) * (cellWidth + cellLayout.insets.left / 2) + cellLayout.insets.left
         frame = CGRect(x: x, y: yInsetForItem(withInitialX: x), width: cellWidth, height: cellHeight)
         attributes.frame = frame
         attributes.alpha = alphaForItem(withInitialX: x)
