@@ -28,11 +28,13 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
         var tracker: MockTracker!
         var currencyHelper: CurrencyHelper!
         var featureFlags: MockFeatureFlags!
+        var myUserRepository: MockMyUserRepository!
         
         var postingDetailsStep: PostingDetailStep!
         var postListingState: PostListingState!
         var uploadedImageSource: EventParameterPictureSource! = .camera
         var postingSource: PostingSource! = .tabBar
+        var fromSummary: Bool = false
         var postListingBasicInfo = PostListingBasicDetailViewModel()
         
         describe("PostingDetailsViewModelSpec") {
@@ -42,10 +44,13 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                                               uploadedImageSource: uploadedImageSource,
                                               postingSource: postingSource,
                                               postListingBasicInfo: postListingBasicInfo,
+                                              fromSummary: fromSummary,
                                               tracker: tracker,
                                               currencyHelper: currencyHelper,
                                               locationManager: locationManager,
-                                              featureFlags: featureFlags)
+                                              featureFlags: featureFlags,
+                                              myUserRepository: myUserRepository)
+                
                 sut.navigator = self
             }
             
@@ -55,6 +60,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                 tracker = MockTracker()
                 currencyHelper = Core.currencyHelper
                 featureFlags = MockFeatureFlags()
+                myUserRepository = MockMyUserRepository()
                 
                 self.cancelPostingCalled = false
                 self.nextPostingDetailStepCalled = false
@@ -222,4 +228,5 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?) {
         openLoginIfNeededFromListingPosted = true
     }
+    func backToSummary() { }
 }

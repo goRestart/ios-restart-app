@@ -24,7 +24,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         }
     }
     
-    var shouldShowCloseButton: Bool {
+    var isSummaryStep: Bool {
         return step == .summary
     }
     
