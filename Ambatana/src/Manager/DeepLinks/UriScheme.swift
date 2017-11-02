@@ -72,10 +72,6 @@ struct UriScheme {
                 // letgo://chat/?c=12345 where c=conversation_id
                 return UriScheme(deepLink: DeepLink.link(.conversation(data: .conversation(conversationId: conversationId)),
                     campaign: campaign, medium: medium, source: source, cardActionParameter: cardActionParameter))
-            } else if let listingId = params["p"], let buyerId = params["b"] {
-                // letgo://chat/?p=12345&b=abcde where p=listing_id, b=buyer_id (user)
-                return UriScheme(deepLink: DeepLink.link(.conversation(data: .listingBuyer(listingId: listingId,
-                    buyerId: buyerId)), campaign: campaign, medium: medium, source: source, cardActionParameter: cardActionParameter))
             } else {
                 return nil
             }

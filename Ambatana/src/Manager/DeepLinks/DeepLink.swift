@@ -146,20 +146,14 @@ enum DeepLinkSource {
  Enum to distinguish between the two methods to obtain a conversation
 
  - Conversation: By conversation id
- - ProductBuyer: By productId and buyerId 
  */
 enum ConversationData: Equatable {
     case conversation(conversationId: String)
-    case listingBuyer(listingId: String, buyerId: String)
     
     static public func ==(lhs: ConversationData, rhs: ConversationData) -> Bool {
         switch (lhs, rhs) {
         case (.conversation(let lhsConversationId), .conversation(let rhsConversationId)):
             return lhsConversationId == rhsConversationId
-        case (.listingBuyer(let lhsListingId, let lhsBuyerId), .listingBuyer(let rhsListingId, let rhsBuyerId)):
-            return lhsListingId == rhsListingId && lhsBuyerId == rhsBuyerId
-        default:
-            return false
         }
     }
 }

@@ -564,8 +564,6 @@ extension ChatViewModel {
         switch data {
         case .conversation(let conversationId):
             return conversationId == conversation.value.objectId
-        case let .listingBuyer(listingId, listingBuyerId):
-            return listingId == conversation.value.listing?.objectId && listingBuyerId == buyerId
         }
     }
 

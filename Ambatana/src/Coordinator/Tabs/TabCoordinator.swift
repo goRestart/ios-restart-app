@@ -343,8 +343,6 @@ fileprivate extension TabCoordinator {
         switch data {
         case let .conversation(conversationId):
             chatRepository.showConversation(conversationId, completion: completion)
-        case .listingBuyer:
-            return //Those are the legacy pushes and new chat doesn't work with Listing + buyer
         }
     }
 
