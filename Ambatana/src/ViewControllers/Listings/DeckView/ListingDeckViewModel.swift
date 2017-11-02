@@ -15,8 +15,19 @@ struct Pagination {
     var next: Int
     var isLast: Bool
 
-    mutating func moveToNextPage() {
-        next = next + 1
+    func moveToNextPage() -> Pagination {
+        let nextPage = next + 1
+        return Pagination(first: first, next: nextPage, isLast: isLast)
+    }
+
+    static func makePagination(first: Int, next: Int, isLast: Bool) -> Pagination {
+        return Pagination(first: first, next: next, isLast: isLast)
+    }
+
+    private init(first: Int, next: Int, isLast: Bool) {
+        self.first = first
+        self.next = next
+        self.isLast = isLast
     }
 }
 
@@ -96,7 +107,7 @@ final class ListingDeckViewModel: BaseViewModel {
     convenience init(listing: Listing,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource) {
-        let pagination = Pagination(first: 0, next: 1, isLast: false)
+        let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
         let prefetching = Prefetching(previousCount: 1, nextCount: 3)
         self.init(initialListing: listing, listingListRequester: listingListRequester, source: source,
                   imageDownloader: ImageDownloader.sharedInstance,
@@ -235,7 +246,7 @@ final class ListingDeckViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             self?.isLoading = false
             if let newListings = result.listingsResult.value {
-                strongSelf.pagination.moveToNextPage()
+                strongSelf.pagination = strongSelf.pagination.moveToNextPage()
                 strongSelf.objects.appendContentsOf(newListings.map(ListingCarouselCellModel.init))
                 strongSelf.pagination.isLast = strongSelf.listingListRequester.isLastPage(newListings.count)
 

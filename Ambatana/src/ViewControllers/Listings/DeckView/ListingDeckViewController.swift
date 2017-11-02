@@ -82,7 +82,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifiers.cardView, for: indexPath) as? ListingCardView {
             let listing = viewModel.listingCellModelAt(index: indexPath.row)
-            guard objectID = listing?.listing.objectId else {
+            guard let objectID = listing?.listing.objectId else {
                 return cell
             }
             cell.populateWith(objectID)
