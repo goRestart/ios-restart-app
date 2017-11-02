@@ -19,7 +19,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
 
     let chatTextView = ChatTextView()
     let directChatTable = CustomTouchesTableView()
-    let directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: CarouselUI.itemsMargin)
+    let directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: Metrics.margin)
     let collectionView: UICollectionView
     let itemActionsView = ListingDeckActionView()
     let collectionLayout = ListingDeckCollectionViewLayout()
@@ -112,10 +112,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     }
 
     func updateTop(wintInset inset: CGFloat) {
-        self.collectionViewTop?.constant = inset
+        collectionViewTop?.constant = inset
     }
     func updateBottom(wintInset inset: CGFloat) {
-        self.chatTextViewBottom?.constant = -(inset + 16.0)
+        chatTextViewBottom?.constant = -(inset + 16.0)
     }
 
     func showFullScreenChat() {
@@ -132,21 +132,21 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     func hideBumpUp() { print("hideBumpUp") }
 
     func showActions() {
-        self.itemActionsView.alpha = 1
+        itemActionsView.alpha = 1
     }
 
     func hideActions() {
-        self.itemActionsView.alpha = 0
+        itemActionsView.alpha = 0
     }
 
     func showChat() {
-        self.directAnswersView.alpha = 1
-        self.chatTextView.alpha = 1
+        directAnswersView.alpha = 1
+        chatTextView.alpha = 1
     }
 
     func hideChat() {
-        self.directAnswersView.alpha = 0
-        self.chatTextView.alpha = 0
+        directAnswersView.alpha = 0
+        chatTextView.alpha = 0
     }
     
 }
