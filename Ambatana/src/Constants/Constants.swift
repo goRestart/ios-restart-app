@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
+
 struct Constants {
     // Input validation
     static let fullNameMinLength = 2
@@ -90,6 +92,7 @@ struct Constants {
     static let maxPriceIntegerCharacters = 9
     static let maxPriceFractionalCharacters = 2
     static let currencyDefault = "US"
+    static let defaultPrice: ListingPrice = .negotiable(0)
 
     // Messages retrieving
     static let numMessagesPerPage = 40

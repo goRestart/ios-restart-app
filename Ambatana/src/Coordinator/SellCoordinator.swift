@@ -18,6 +18,7 @@ final class SellCoordinator: Coordinator {
     var child: Coordinator?
     weak var coordinatorDelegate: CoordinatorDelegate?
     var viewController: UIViewController
+    var navigationController: SellNavigationController
     weak var presentedAlertController: UIAlertController?
     let bubbleNotificationManager: BubbleNotificationManager
     let sessionManager: SessionManager
@@ -30,6 +31,7 @@ final class SellCoordinator: Coordinator {
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let postingSource: PostingSource
     fileprivate let postCategory: PostCategory?
+    fileprivate var postingDetailStep: PostingDetailStep?
     weak var delegate: SellCoordinatorDelegate?
 
     fileprivate let disposeBag = DisposeBag()
@@ -71,15 +73,14 @@ final class SellCoordinator: Coordinator {
         let postListingVM = PostListingViewModel(source: source, postCategory: postCategory)
         let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                       forcedInitialTab: forcedInitialTab)
-        self.viewController = postListingVC
-
+        navigationController = SellNavigationController(rootViewController: postListingVC)
+        self.viewController = navigationController
         postListingVM.navigator = self
     }
 
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        guard let postListingVC = viewController as? PostListingViewController else { return }
+        guard let postListingVC = viewController as? UINavigationController else { return }
         guard postListingVC.parent == nil else { return }
-
         parentViewController = parent
         parent.present(postListingVC, animated: animated, completion: completion)
     }
@@ -118,6 +119,35 @@ extension SellCoordinator: PostListingNavigator {
             }
         }
     }
+    
+    func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
+        let viewModel = PostingDetailsViewModel(step: .propertyType,
+                                                postListingState: postListingState,
+                                                uploadedImageSource: uploadedImageSource,
+                                                postingSource: postingSource,
+                                                postListingBasicInfo: postListingBasicInfo)
+        viewModel.navigator = self
+        let vc = PostingDetailsViewController(viewModel: viewModel)
+        postingDetailStep = .propertyType
+        navigationController.startDetails(category: postListingState.category)
+        navigationController.pushViewController(vc, animated: false)
+    }
+    
+    func nextPostingDetailStep(step: PostingDetailStep,
+                               postListingState: PostListingState,
+                               uploadedImageSource: EventParameterPictureSource?,
+                               postingSource: PostingSource,
+                               postListingBasicInfo: PostListingBasicDetailViewModel) {
+        let viewModel = PostingDetailsViewModel(step: step,
+                                                postListingState: postListingState,
+                                                uploadedImageSource: uploadedImageSource,
+                                                postingSource: postingSource,
+                                                postListingBasicInfo: postListingBasicInfo)
+        viewModel.navigator = self
+        let vc = PostingDetailsViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
     
     fileprivate func trackListingPostedInBackground(withError error: RepositoryError) {
         let sellError: EventParameterPostListingError
@@ -203,7 +233,8 @@ extension SellCoordinator: ListingPostedNavigator {
                                                           forcedInitialTab: nil)
             strongSelf.viewController = postListingVC
             postListingVM.navigator = self
-
+            strongSelf.navigationController = SellNavigationController(rootViewController: postListingVC)
+            strongSelf.viewController = strongSelf.navigationController
             strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)
         }
     }

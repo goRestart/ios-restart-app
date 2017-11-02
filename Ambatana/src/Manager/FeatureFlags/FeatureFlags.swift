@@ -42,7 +42,9 @@ protocol FeatureFlaggeable: class {
     var newBumpUpExplanation: NewBumpUpExplanation { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
-    var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed { get }
+    var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail { get }
+    var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
+    var newItemPage: NewItemPage { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -105,7 +107,7 @@ extension HomeRelatedEnabled {
     var isActive: Bool { get { return self == .active } }
 }
 
-extension SuperKeywordGroupsAndSubgroupsInFeed {
+extension TaxonomiesAndTaxonomyChildrenInFeed {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -320,13 +322,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
     }
-    
-    var superKeywordGroupsAndSubgroupsInFeed: SuperKeywordGroupsAndSubgroupsInFeed {
-        if Bumper.enabled {
-            return Bumper.superKeywordGroupsAndSubgroupsInFeed
-        }
-        return SuperKeywordGroupsAndSubgroupsInFeed.fromPosition(abTests.superKeywordGroupsAndSubgroupsInFeed.value)
-    }
 
     var homeRelatedEnabled: HomeRelatedEnabled {
         if Bumper.enabled {
@@ -341,6 +336,28 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
     }
+
+    var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail {
+        if Bumper.enabled {
+            return Bumper.featuredRibbonImprovementInDetail
+        }
+        return FeaturedRibbonImprovementInDetail.fromPosition(abTests.featuredRibbonImprovementInDetail.value)
+    }
+
+    var newItemPage: NewItemPage {
+        if Bumper.enabled {
+            return Bumper.newItemPage
+        }
+        return NewItemPage.fromPosition(abTests.newItemPage.value)
+    }
+    
+    var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
+        if Bumper.enabled {
+            return Bumper.taxonomiesAndTaxonomyChildrenInFeed
+        }
+        return TaxonomiesAndTaxonomyChildrenInFeed.fromPosition(abTests.taxonomiesAndTaxonomyChildrenInFeed.value)
+    }
+
 
     // MARK: - Country features
 
