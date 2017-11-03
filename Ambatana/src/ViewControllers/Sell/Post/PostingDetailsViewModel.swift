@@ -66,8 +66,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     }
     
     var currentPrice: ListingPrice? {
-        guard let price = postListingState.price else { return nil }
-        return price
+        return postListingState.price
     }
     
     private let tracker: Tracker
