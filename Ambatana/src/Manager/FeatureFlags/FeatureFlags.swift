@@ -45,6 +45,7 @@ protocol FeatureFlaggeable: class {
     var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var newItemPage: NewItemPage { get }
+    var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -61,46 +62,19 @@ extension FeatureFlaggeable {
 }
 
 extension AddSuperKeywordsOnFeed {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .active:
-            return true
-        }
-    }
+    var isActive: Bool { get { return self == .active } }
 }
+
 extension TweaksCarPostingFlow {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .active:
-            return true
-        }
-    }
+    var isActive: Bool { get { return self == .active } }
 }
 
 extension ExpandableCategorySelectionMenu {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .expandableMenu:
-            return true
-        }
-    }
+    var isActive: Bool { get { return self == .expandableMenu } }
 }
 
 extension ShowPriceAfterSearchOrFilter {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .priceOnSearchOrFilter:
-            return true
-        }
-    }
+    var isActive: Bool { get { return self == .priceOnSearchOrFilter } }
 }
 
 extension HomeRelatedEnabled {
@@ -108,6 +82,10 @@ extension HomeRelatedEnabled {
 }
 
 extension TaxonomiesAndTaxonomyChildrenInFeed {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension ShowPriceStepRealEstatePosting {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -356,6 +334,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.taxonomiesAndTaxonomyChildrenInFeed
         }
         return TaxonomiesAndTaxonomyChildrenInFeed.fromPosition(abTests.taxonomiesAndTaxonomyChildrenInFeed.value)
+    }
+    
+    var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting {
+        if Bumper.enabled {
+            return Bumper.showPriceStepRealEstatePosting
+        }
+        return ShowPriceStepRealEstatePosting.fromPosition(abTests.showPriceStepRealEstatePosting.value)
     }
 
 
