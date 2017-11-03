@@ -19,6 +19,7 @@
 		0A0AF97C1FA864900024EF22 /* ListingDeckViewModelBinderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0AF97B1FA864900024EF22 /* ListingDeckViewModelBinderSpec.swift */; };
 		0A31CF621FA1EBEB00FE84E0 /* ListingViewModelBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A31CF611FA1EBEB00FE84E0 /* ListingViewModelBinder.swift */; };
 		0A31CF631FA1ECCE00FE84E0 /* ListingViewModelBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A31CF611FA1EBEB00FE84E0 /* ListingViewModelBinder.swift */; };
+		0A653BC01FAB7C8600C2AA77 /* ListingDeckViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A653BBF1FAB7C8600C2AA77 /* ListingDeckViewModelSpec.swift */; };
 		0A6D88BF1F7CED6900819E89 /* DeepLinksRouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D88BE1F7CED6900819E89 /* DeepLinksRouterSpec.swift */; };
 		0A6D88C41F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D88C31F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json */; };
 		0A6D88C51F7CFECA00819E89 /* DeferredDeepLinkTargetCategory.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D88C31F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json */; };
@@ -1493,6 +1494,7 @@
 		0A00F9C31FA364B100E915F4 /* ListingDeckViewControllerBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewControllerBinder.swift; sourceTree = "<group>"; };
 		0A0AF97B1FA864900024EF22 /* ListingDeckViewModelBinderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewModelBinderSpec.swift; sourceTree = "<group>"; };
 		0A31CF611FA1EBEB00FE84E0 /* ListingViewModelBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingViewModelBinder.swift; sourceTree = "<group>"; };
+		0A653BBF1FAB7C8600C2AA77 /* ListingDeckViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewModelSpec.swift; sourceTree = "<group>"; };
 		0A6D88BE1F7CED6900819E89 /* DeepLinksRouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinksRouterSpec.swift; sourceTree = "<group>"; };
 		0A6D88C31F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkTargetCategory.json; sourceTree = "<group>"; };
 		0A6D88C81F7D058B00819E89 /* DeferredDeepLinkTargetSearchQuery.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkTargetSearchQuery.json; sourceTree = "<group>"; };
@@ -2395,6 +2397,7 @@
 			isa = PBXGroup;
 			children = (
 				0A0AF97B1FA864900024EF22 /* ListingDeckViewModelBinderSpec.swift */,
+				0A653BBF1FAB7C8600C2AA77 /* ListingDeckViewModelSpec.swift */,
 			);
 			path = ListingDeck;
 			sourceTree = "<group>";
@@ -5488,6 +5491,7 @@
 				50D08DB71E69AF14009CC260 /* MockTracker.swift in Sources */,
 				50D08DE61E69AF14009CC260 /* SignUpViewModelSpec.swift in Sources */,
 				502047221EEA9A2F006C0EC2 /* MockFeatureFlagsDAO.swift in Sources */,
+				0A653BC01FAB7C8600C2AA77 /* ListingDeckViewModelSpec.swift in Sources */,
 				50D08DC01E69AF14009CC260 /* CGFloat+LGSpec.swift in Sources */,
 				72D928D81E83D1C60030F4C3 /* ChatViewModelSpec.swift in Sources */,
 				72D928E71E83ED300030F4C3 /* MockRatingManager.swift in Sources */,

@@ -57,6 +57,7 @@ final class ListingDeckViewModel: BaseViewModel {
     fileprivate var prefetchingIndexes: [Int] = []
 
     let startIndex: Int
+    var shouldSyncFirstListing: Bool = false
     fileprivate var trackingIndex: Int?
 
     let objects = CollectionVariable<ListingCarouselCellModel>([])
@@ -109,19 +110,45 @@ final class ListingDeckViewModel: BaseViewModel {
                      source: EventParameterListingVisitSource) {
         let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
         let prefetching = Prefetching(previousCount: 1, nextCount: 3)
-        self.init(initialListing: listing, listingListRequester: listingListRequester, source: source,
-                  imageDownloader: ImageDownloader.sharedInstance,
+        self.init(productListModels: nil,
+                  initialListing: listing,
+                  listingListRequester: listingListRequester,
+                  source: source, imageDownloader: ImageDownloader.sharedInstance,
                   listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
                   pagination: pagination,
                   prefetching: prefetching,
-                  shouldSyncFirstListing: true,
+                  shouldSyncFirstListing: false,
                   binder: ListingViewModelBinder())
     }
 
-    init(initialListing: Listing?,
+    convenience init(productListModels: [ListingCellModel]?,
+                     initialListing: Listing?,
+                     listingListRequester: ListingListRequester,
+                     source: EventParameterListingVisitSource,
+                     imageDownloader: ImageDownloaderType,
+                     listingViewModelMaker: ListingViewModelMaker,
+                     shouldSyncFirstListing: Bool,
+                     binder: ListingViewModelBinder) {
+        let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
+        let prefetching = Prefetching(previousCount: 1, nextCount: 3)
+        self.init(productListModels: productListModels,
+                  initialListing: initialListing,
+                  listingListRequester: listingListRequester,
+                  source: source,
+                  imageDownloader: imageDownloader,
+                  listingViewModelMaker: listingViewModelMaker,
+                  pagination: pagination,
+                  prefetching: prefetching,
+                  shouldSyncFirstListing: shouldSyncFirstListing,
+                  binder: binder)
+    }
+
+    init(productListModels: [ListingCellModel]?,
+         initialListing: Listing?,
          listingListRequester: ListingListRequester,
          source: EventParameterListingVisitSource,
-         imageDownloader: ImageDownloaderType, listingViewModelMaker: ListingViewModelMaker,
+         imageDownloader: ImageDownloaderType,
+         listingViewModelMaker: ListingViewModelMaker,
          pagination: Pagination,
          prefetching: Prefetching,
          shouldSyncFirstListing: Bool,
@@ -134,8 +161,13 @@ final class ListingDeckViewModel: BaseViewModel {
         self.source = source
         self.binder = binder
 
-        self.objects.appendContentsOf([initialListing].flatMap{$0}.map(ListingCarouselCellModel.init))
-        self.pagination.isLast = false
+        if let productListModels = productListModels {
+            self.objects.appendContentsOf(productListModels.flatMap(ListingCarouselCellModel.adapter))
+            self.pagination.isLast = listingListRequester.isLastPage(productListModels.count)
+        } else {
+            self.objects.appendContentsOf([initialListing].flatMap{$0}.map(ListingCarouselCellModel.init))
+            self.pagination.isLast = false
+        }
         if let listing = initialListing {
             startIndex = objects.value.index(where: { $0.listing.objectId == listing.objectId}) ?? 0
         } else {
@@ -143,18 +175,17 @@ final class ListingDeckViewModel: BaseViewModel {
         }
 
         super.init()
+        self.shouldSyncFirstListing = shouldSyncFirstListing
         binder.viewModel = self
-        moveToProductAtIndex(startIndex, movement: .initial)
-
-        if shouldSyncFirstListing {
-            syncFirstListing()
-        }
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
         if firstTime {
             // TODO ABIOS-3105 https://ambatana.atlassian.net/browse/ABIOS-3105 prepare onboarding
-
+            moveToProductAtIndex(startIndex, movement: .initial)
+            if shouldSyncFirstListing {
+                syncFirstListing()
+            }
         }
         // Tracking
         currentListingViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)
@@ -166,10 +197,11 @@ final class ListingDeckViewModel: BaseViewModel {
         currentListingViewModel?.delegate = nil
         currentListingViewModel = viewModel
         currentListingViewModel?.delegate = self
+
+        binder.bindTo(listingViewModel: viewModel)
         currentListingViewModel?.active = active
 
         currentIndex = index
-        binder.bindTo(listingViewModel: viewModel)
         prefetchNeighborsImages(index, movement: movement)
 
         // Tracking

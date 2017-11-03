@@ -55,14 +55,9 @@ final class ListingDeckViewControllerBinder {
     private func bindBumpUp(withViewController viewController: ListingDeckViewController,
                             viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         viewModel.bumpUpBannerInfo.asObservable().bindNext { [unowned viewController] bumpInfo in
-//            guard let bumpUp = bumpInfo else { return }
-            let bumpUp = BumpUpInfo(type: .free, timeSinceLastBump: TimeInterval(0), maxCountdown: TimeInterval(10), price: "48.0", bannerInteractionBlock: {
-                print("ney")
-            }, buttonBlock: { 
-                print("ney")
-            })
+            guard let bumpUp = bumpInfo else { return }
             viewController.showBumpUpBanner(bumpInfo: bumpUp)
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
 
     private func bindAltActions(withViewController viewController: ListingDeckViewController,
@@ -70,7 +65,7 @@ final class ListingDeckViewControllerBinder {
         viewModel.altActions.asObservable().skip(1).bindNext { [unowned viewController] altActions in
             guard altActions.count > 0 else { return }
             viewController.vmShowOptions(LGLocalizedString.commonCancel, actions: altActions)
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
 
     private func bindKeyboardChanges(withViewController viewController: ListingDeckViewController,
@@ -143,7 +138,7 @@ final class ListingDeckViewControllerBinder {
             listingDeckView.directAnswersView.update(answers: quickAnswers, isDynamic: isDynamic)
             }.addDisposableTo(disposeBag)
 
-        viewModel.chatEnabled.asObservable().distinctUntilChanged().bindNext { [unowned listingDeckView] enabled in
+        viewModel.chatEnabled.asObservable().bindNext { [unowned listingDeckView] enabled in
             if enabled {
                 listingDeckView.showChat()
                 listingDeckView.hideActions()

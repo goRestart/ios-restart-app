@@ -48,7 +48,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
         var socialSharerObserver: TestableObserver<SocialSharer>!
 
 
-        fdescribe("ListingDeckViewModelBinderSpec") {
+        describe("ListingDeckViewModelBinderSpec") {
             beforeEach {
                 sut = ListingViewModelBinder()
                 var productMock = MockProduct.makeMock()
@@ -70,15 +70,18 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
                 let prefetching = Prefetching(previousCount: 1, nextCount: 3)
 
-                listingDeckViewModel =  ListingDeckViewModel(initialListing: listing,
-                                                             listingListRequester: listingListRequester,
-                                                             source: .listingList,
-                                                             imageDownloader: imageDownloader,
-                                                             listingViewModelMaker: listingViewModelMaker,
-                                                             pagination: pagination,
-                                                             prefetching: prefetching,
-                                                             shouldSyncFirstListing: false,
-                                                             binder: sut)
+                listingDeckViewModel = ListingDeckViewModel(productListModels: nil,
+                                                            initialListing: listing,
+                                                            listingListRequester: listingListRequester,
+                                                            source: .listingList,
+                                                            imageDownloader: imageDownloader,
+                                                            listingViewModelMaker: listingViewModelMaker,
+                                                            pagination: pagination,
+                                                            prefetching: prefetching,
+                                                            shouldSyncFirstListing: false,
+                                                            binder: sut)
+
+
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
 
@@ -188,18 +191,18 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 it("socialSharerObserver changed") {
                     expect(socialSharerObserver.eventValues.count) > 0
                 }
-
+                
                 it("socialMessageObserver changed") {
                     expect(socialMessageObserver.eventValues.count) > 0
                 }
-
+                
                 it("bumpUpBannerInfoObserver changed") {
                     expect(bumpUpBannerInfoObserver.eventValues.count) > 0
                 }
             }
         }
-
-
+        
+        
     }
-
+    
 }
