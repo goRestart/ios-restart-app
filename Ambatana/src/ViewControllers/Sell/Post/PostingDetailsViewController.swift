@@ -43,16 +43,13 @@ class PostingDetailsViewController: KeyboardViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
         setupConstraints()
         setupUI()
+        infoView?.setupView(viewModel: viewModel)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setStatusBarHidden(true)
         setupNavigationBar()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        infoView?.setupView(viewModel: viewModel)
     }
     
     
