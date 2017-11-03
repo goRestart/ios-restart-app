@@ -31,7 +31,6 @@ final class SellCoordinator: Coordinator {
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let postingSource: PostingSource
     fileprivate let postCategory: PostCategory?
-    fileprivate var postingDetailStep: PostingDetailStep?
     weak var delegate: SellCoordinatorDelegate?
 
     fileprivate let disposeBag = DisposeBag()
@@ -121,7 +120,9 @@ extension SellCoordinator: PostListingNavigator {
     }
     
     func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
-        let viewModel = PostingDetailsViewModel(step: .propertyType,
+        let firstStep: PostingDetailStep = featureFlags.showPriceStepRealEstatePosting.isActive ? .price : .propertyType
+        
+        let viewModel = PostingDetailsViewModel(step: firstStep,
                                                 postListingState: postListingState,
                                                 uploadedImageSource: uploadedImageSource,
                                                 postingSource: postingSource,
@@ -129,7 +130,6 @@ extension SellCoordinator: PostListingNavigator {
                                                 fromSummary: false)
         viewModel.navigator = self
         let vc = PostingDetailsViewController(viewModel: viewModel)
-        postingDetailStep = .propertyType
         navigationController.startDetails(category: postListingState.category)
         navigationController.pushViewController(vc, animated: false)
     }
