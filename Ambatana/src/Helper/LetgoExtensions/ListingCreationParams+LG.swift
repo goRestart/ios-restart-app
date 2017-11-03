@@ -9,7 +9,7 @@
 import LGCoreKit
 
 extension ListingCreationParams {
-    static func make(title: String,
+    static func make(title: String?,
                      description: String,
                      currency: Currency,
                      location: LGLocationCoordinates2D,
@@ -21,7 +21,7 @@ extension ListingCreationParams {
         if let category = postListingState.category {
             switch category {
             case .car:
-                let carParams = CarCreationParams(name: title,
+                let carParams = CarCreationParams(name: title ?? postListingState.verticalAttributes?.carAttributes?.generatedCarName(),
                                                   description: description,
                                                   price: postListingState.price ?? Constants.defaultPrice,
                                                   category: .cars,
