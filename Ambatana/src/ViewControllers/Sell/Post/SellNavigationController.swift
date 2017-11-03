@@ -94,7 +94,10 @@ class SellNavigationController: UINavigationController {
     func setupRx() {
         viewModel.currentStep.asObservable().map { $0 == 0 }.bindTo(progressView.rx.isHidden).addDisposableTo(disposeBag)
         viewModel.currentStep.asObservable().map { $0 == 0 }.bindTo(backgroundProgressView.rx.isHidden).addDisposableTo(disposeBag)
-        viewModel.categorySelected.asObservable().map { $0?.numberOfSteps(shouldShowPrice: self?.viewModel.shouldShowPriceStep) }.bindNext { [weak self] number in
+        viewModel.categorySelected.asObservable().map { [weak self] category in
+                guard let strongSelf = self else { return nil }
+                return category?.numberOfSteps(shouldShowPrice: strongSelf.viewModel.shouldShowPriceStep)
+            }.bindNext { [weak self] number in
                 self?.viewModel.numberOfSteps.value = number ?? 0
             }.addDisposableTo(disposeBag)
     }
