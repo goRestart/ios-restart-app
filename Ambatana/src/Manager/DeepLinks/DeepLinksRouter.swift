@@ -20,7 +20,6 @@ protocol DeepLinksRouter: class, AppsFlyerTrackerDelegate {
     func consumeInitialDeepLink() -> DeepLink?
 
     func initWithLaunchOptions(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
-    @available(iOS 9.0, *)
     func performActionForShortcutItem(_ shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void)
     func openUrl(_ url: URL, sourceApplication: String?, annotation: Any?) -> Bool
     func continueUserActivity(_ userActivity: NSUserActivity, restorationHandler: ([Any]?) -> Void) -> Bool
@@ -107,7 +106,6 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
 
     // MARK: > Shortcut actions (force touch)
 
-    @available(iOS 9.0, *)
     func performActionForShortcutItem(_ shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
         guard let shortCut = ShortcutItem.buildFromUIApplicationShortcutItem(shortcutItem) else { return }
         deepLinksSignal.onNext(shortCut.deepLink)

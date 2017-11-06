@@ -115,14 +115,12 @@ extension AppDelegate: UIApplicationDelegate {
         return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation, options: nil)
     }
 
-    @available(iOS 9.0, *)
     func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
         let sourceApplication: String? = options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String
         let annotation: Any? = options[UIApplicationOpenURLOptionsKey.annotation]
         return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation, options: options)
     }
 
-    @available(iOS 9.0, *)
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem,
                      completionHandler: @escaping (Bool) -> Void) {
         deepLinksRouter?.performActionForShortcutItem(shortcutItem,

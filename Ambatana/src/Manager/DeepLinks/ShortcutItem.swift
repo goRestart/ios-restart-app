@@ -21,7 +21,6 @@ enum ShortcutItem: String {
         }
     }
 
-    @available(iOS 9.0, *)
     static func buildFromUIApplicationShortcutItem(_ item: UIApplicationShortcutItem) -> ShortcutItem? {
         return ShortcutItem(rawValue: item.type)
     }
