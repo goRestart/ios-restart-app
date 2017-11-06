@@ -41,8 +41,7 @@ struct PushNotification {
 
         } else if let conversationId = userInfo["c"] as? String {
             let type = DeepLinkMessageType(rawValue: (userInfo["n_t"] as? Int) ?? 0 ) ?? .message
-            return PushNotification(deepLink: DeepLink.push(.message(messageType: type, data:
-                .conversation(conversationId: conversationId)), origin: origin, campaign: nil, medium: nil,
+            return PushNotification(deepLink: DeepLink.push(.message(messageType: type, conversationId: conversationId), origin: origin, campaign: nil, medium: nil,
                 source: .push, cardActionParameter: nil), badge: badge)
         }
 

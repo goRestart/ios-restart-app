@@ -276,9 +276,9 @@ class ChatViewController: TextViewController {
 
 // MARK: ConversationDataDisplayer
 
-extension ChatViewController: ConversationDataDisplayer {
-    func isDisplayingConversationData(_ data: ConversationData) -> Bool {
-        return viewModel.isMatchingConversationData(data)
+extension ChatViewController: ConversationIdDisplayer {
+    func isDisplayingConversationId(_ conversationId: String) -> Bool {
+        return viewModel.isMatchingConversationId(conversationId)
     }
 }
 

@@ -762,24 +762,24 @@ fileprivate extension AppCoordinator {
             }
         case .conversations:
             openTab(.chats, force: false, completion: nil)
-        case let .conversation(data):
+        case let .conversation(conversationId):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source: .external,
+                    self?.chatsTabBarCoordinator.openChat(.dataIds(conversationId: conversationId), source: .external,
                                                           predefinedMessage: nil)
                 }
             }
-        case let .conversationWithMessage(data: data, message: message):
+        case let .conversationWithMessage(conversationId: conversationId, message: message):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source: .external,
+                    self?.chatsTabBarCoordinator.openChat(.dataIds(conversationId: conversationId), source: .external,
                                                           predefinedMessage: message)
                 }
             }
-        case .message(_, let data):
+        case .message(_, let conversationId):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source: .external,
+                    self?.chatsTabBarCoordinator.openChat(.dataIds(conversationId: conversationId), source: .external,
                                                           predefinedMessage: nil)
                 }
             }
@@ -885,18 +885,10 @@ fileprivate extension AppCoordinator {
         }
     }
 
-    func showInappChatNotification(_ data: ConversationData, message: String) {
+    func showInappChatNotification(_ conversationId: String, message: String) {
         guard sessionManager.loggedIn else { return }
         //Avoid showing notification if user is already in that conversation.
-        guard let selectedTabCoordinator = selectedTabCoordinator, !selectedTabCoordinator.isShowingConversation(data) else { return }
-
-        let conversationId: String
-        switch data {
-        case let .conversation(id):
-            conversationId = id
-        default:
-            return
-        }
+        guard let selectedTabCoordinator = selectedTabCoordinator, !selectedTabCoordinator.isShowingConversation(conversationId) else { return }
 
         tracker.trackEvent(TrackerEvent.inappChatNotificationStart())
         chatRepository.showConversation(conversationId) { [weak self] result in

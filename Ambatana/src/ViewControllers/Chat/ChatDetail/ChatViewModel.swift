@@ -560,11 +560,8 @@ class ChatViewModel: BaseViewModel {
 
 extension ChatViewModel {
     
-    func isMatchingConversationData(_ data: ConversationData) -> Bool {
-        switch data {
-        case .conversation(let conversationId):
-            return conversationId == conversation.value.objectId
-        }
+    func isMatchingConversationId(_ conversationId: String) -> Bool {
+        return conversationId == conversation.value.objectId
     }
 
     fileprivate func showUserNotVerifiedAlert() {

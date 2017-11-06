@@ -68,9 +68,9 @@ class TabCoordinator: NSObject, Coordinator {
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {}
     func dismissViewController(animated: Bool, completion: (() -> Void)?) {}
 
-    func isShowingConversation(_ data: ConversationData) -> Bool {
-        if let convDataDisplayer = navigationController.viewControllers.last as? ConversationDataDisplayer {
-            return convDataDisplayer.isDisplayingConversationData(data)
+    func isShowingConversation(_ conversationId: String) -> Bool {
+        if let conversationIdDisplayer = navigationController.viewControllers.last as? ConversationIdDisplayer {
+            return conversationIdDisplayer.isDisplayingConversationId(conversationId)
         }
         return false
     }
@@ -134,8 +134,8 @@ extension TabCoordinator: TabNavigator {
             openConversation(conversation, source: source, predefinedMessage: predefinedMessage)
         case let .listingAPI(listing):
             openListingChat(listing, source: source)
-        case let .dataIds(data):
-            openChatFromConversationData(data, source: source, predefinedMessage: predefinedMessage)
+        case let .dataIds(conversationId):
+            openChatFromConversationId(conversationId, source: source, predefinedMessage: predefinedMessage)
         }
     }
 
@@ -328,7 +328,7 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(chatVC, animated: true)
     }
 
-    func openChatFromConversationData(_ data: ConversationData, source: EventParameterTypePage, predefinedMessage: String?) {
+    func openChatFromConversationId(_ conversationId: String, source: EventParameterTypePage, predefinedMessage: String?) {
         navigationController.showLoadingMessageAlert()
 
         let completion: ChatConversationCompletion = { [weak self] result in
@@ -340,10 +340,8 @@ fileprivate extension TabCoordinator {
                 }
             }
         }
-        switch data {
-        case let .conversation(conversationId):
-            chatRepository.showConversation(conversationId, completion: completion)
-        }
+
+        chatRepository.showConversation(conversationId, completion: completion)
     }
 
     func showChatRetrieveError(_ error: RepositoryError) {

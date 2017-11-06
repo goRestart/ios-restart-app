@@ -23,7 +23,7 @@ enum ListingDetailData {
 }
 
 enum ChatDetailData {
-    case dataIds(data: ConversationData)
+    case dataIds(conversationId: String)
     case conversation(conversation: ChatConversation)
     case listingAPI(listing: Listing)
 }
