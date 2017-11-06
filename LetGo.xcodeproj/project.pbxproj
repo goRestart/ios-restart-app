@@ -6858,6 +6858,7 @@
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Ambatana/src/Application/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6893,6 +6894,7 @@
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Ambatana/src/Application/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7227,6 +7229,7 @@
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Ambatana/src/Application/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
