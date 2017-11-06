@@ -34,7 +34,7 @@ class ABTests {
     let locationDataSourceType = IntABDynamicVar(key: "20170830LocationDataSourceType", defaultValue: 0)
     let defaultRadiusDistanceFeed = IntABDynamicVar(key: "20170922DefaultRadiusDistanceFeed", defaultValue: 0)
     let searchAutocomplete = IntABDynamicVar(key: "20170914SearchAutocomplete", defaultValue: 0)
-    let realEstateEnabled = BoolABDynamicVar(key: "20170927realEstateEnabled", defaultValue: false)
+    let realEstateEnabled = BoolABDynamicVar(key: "20171106realEstateEnabled", defaultValue: false)
     let showPriceAfterSearchOrFilter = IntABDynamicVar(key: "20170928ShowPriceAfterSearchOrFilter", defaultValue: 0)
     let requestsTimeOut = IntABDynamicVar(key: "20170929RequestTimeOut", defaultValue: 30)
     let newBumpUpExplanation = IntABDynamicVar(key: "20171004NewBumpUpExplanation", defaultValue: 0)
@@ -43,7 +43,7 @@ class ABTests {
     let featuredRibbonImprovementInDetail = IntABDynamicVar(key: "20171024FeaturedRibbonImprovementInDetail", defaultValue: 0)
     let newItemPage = IntABDynamicVar(key: "20171027NewItemPage", defaultValue: 0)
     let taxonomiesAndTaxonomyChildrenInFeed = IntABDynamicVar(key: "20171031TaxonomiesAndTaxonomyChildrenInFeed", defaultValue: 0)
-    let showPriceStepRealEstatePosting = IntABDynamicVar(key: "20171002ShowPriceStepRealEstatePosting", defaultValue: 0)
+    let showPriceStepRealEstatePosting = IntABDynamicVar(key: "20171106RealEstatePostingOrder", defaultValue: 0)
     
     init() {
     }

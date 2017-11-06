@@ -284,7 +284,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.realEstateEnabled
         }
-        return abTests.realEstateEnabled.value
+        return false
     }
     
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
@@ -340,7 +340,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.showPriceStepRealEstatePosting
         }
-        return ShowPriceStepRealEstatePosting.fromPosition(abTests.showPriceStepRealEstatePosting.value)
+        return .control
     }
 
 
