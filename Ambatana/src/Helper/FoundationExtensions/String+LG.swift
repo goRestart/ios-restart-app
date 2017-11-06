@@ -10,29 +10,11 @@ import Foundation
 
 extension String {
 
-    var uppercase: String {
-        if #available(iOS 9.0, *) {
-            return localizedUppercase
-        } else {
-            return uppercased(with: Locale.current)
-        }
-    }
+    var uppercase: String { return localizedUppercase }
 
-    var lowercase: String {
-        if #available(iOS 9.0, *) {
-            return localizedLowercase
-        } else {
-            return lowercased(with: Locale.current)
-        }
-    }
+    var lowercase: String { return localizedLowercase }
 
-    var capitalized: String {
-        if #available(iOS 9.0, *) {
-            return localizedCapitalized
-        } else {
-            return self.capitalized(with: Locale.current)
-        }
-    }
+    var capitalized: String { return localizedCapitalized }
 
     var trim: String {
         let trimSet = CharacterSet.whitespacesAndNewlines

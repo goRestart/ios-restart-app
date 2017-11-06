@@ -168,11 +168,7 @@ extension Notification {
         let origin = (userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.origin.y ?? KeyboardViewController.initialKbOrigin
         let animationTime = (userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? CGFloat) ?? 0.25
         let isLocal: Bool
-        if #available(iOS 9.0, *) {
-            isLocal = (userInfo?[UIKeyboardIsLocalUserInfoKey] as? Bool) ?? true
-        } else {
-            isLocal = true
-        }
+        isLocal = (userInfo?[UIKeyboardIsLocalUserInfoKey] as? Bool) ?? true
         let animOptions: UIViewAnimationOptions
         if let animCurve = userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? UInt {
             // From: http://stackoverflow.com/a/26939315/1666070

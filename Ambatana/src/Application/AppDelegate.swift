@@ -181,9 +181,7 @@ extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity,
                      restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         let routerUserActivity = deepLinksRouter?.continueUserActivity(userActivity, restorationHandler: restorationHandler) ?? false
-        if #available(iOS 9.0, *) {
-            AppsFlyerTracker.shared().continue(userActivity, restorationHandler: restorationHandler)
-        }
+        AppsFlyerTracker.shared().continue(userActivity, restorationHandler: restorationHandler)
         return routerUserActivity
     }
 

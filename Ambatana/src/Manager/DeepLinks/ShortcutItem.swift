@@ -11,14 +11,10 @@ enum ShortcutItem: String {
     case startBrowsing = "letgo.startBrowsing"
 
     static func buildFromLaunchOptions(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]) -> ShortcutItem? {
-        if #available(iOS 9.0, *) {
-            guard let shortcutItemRaw = launchOptions[UIApplicationLaunchOptionsKey.shortcutItem]
-                as? UIApplicationShortcutItem else { return nil }
-            guard let shortcutItem = ShortcutItem.buildFromUIApplicationShortcutItem(shortcutItemRaw) else { return nil }
-            return shortcutItem
-        } else {
-            return nil
-        }
+        guard let shortcutItemRaw = launchOptions[UIApplicationLaunchOptionsKey.shortcutItem]
+            as? UIApplicationShortcutItem else { return nil }
+        guard let shortcutItem = ShortcutItem.buildFromUIApplicationShortcutItem(shortcutItemRaw) else { return nil }
+        return shortcutItem
     }
 
     static func buildFromUIApplicationShortcutItem(_ item: UIApplicationShortcutItem) -> ShortcutItem? {
