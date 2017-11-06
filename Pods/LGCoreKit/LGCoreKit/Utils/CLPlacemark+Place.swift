@@ -55,24 +55,21 @@ extension CLPlacemark {
     - returns: A localized postal address string.
     */
     private func postalAddressStringFromAddressDictionary(_ addressDict: Dictionary<AnyHashable,Any>?,
-        addCountryName: Bool) -> String? {
-            guard let addressDict = addressDict else { return nil }
-            let addressString: String
-            if #available(iOS 9.0, *) {
-                let address = CNMutablePostalAddress()
-                address.street = addressDict["Street"] as? String ?? ""
-                address.state = addressDict["State"] as? String ?? ""
-                address.postalCode = addressDict["ZIP"] as? String ?? ""
-                address.city = addressDict["City"] as? String ?? ""
-                address.isoCountryCode = addressDict["CountryCode"] as? String ?? ""
-                if addCountryName {
-                    address.country = addressDict["Country"] as? String ?? ""
-                }
-                addressString = CNPostalAddressFormatter.string(from: address, style: .mailingAddress)
-            } else {
-                addressString = ABCreateStringWithAddressDictionary(addressDict, addCountryName)
-            }
-            return addressString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                                                          addCountryName: Bool) -> String? {
+        guard let addressDict = addressDict else { return nil }
+        let addressString: String
+        let address = CNMutablePostalAddress()
+        address.street = addressDict["Street"] as? String ?? ""
+        address.state = addressDict["State"] as? String ?? ""
+        address.postalCode = addressDict["ZIP"] as? String ?? ""
+        address.city = addressDict["City"] as? String ?? ""
+        address.isoCountryCode = addressDict["CountryCode"] as? String ?? ""
+        if addCountryName {
+            address.country = addressDict["Country"] as? String ?? ""
+        }
+        addressString = CNPostalAddressFormatter.string(from: address, style: .mailingAddress)
+
+        return addressString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
 }
 
