@@ -19,12 +19,14 @@ protocol PostListingNavigator: class {
                                postListingState: PostListingState,
                                uploadedImageSource: EventParameterPictureSource?,
                                postingSource: PostingSource,
-                               postListingBasicInfo: PostListingBasicDetailViewModel)
+                               postListingBasicInfo: PostListingBasicDetailViewModel,
+                               previousStepIsSummary: Bool)
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo)
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
                                       trackingInfo: PostListingTrackingInfo)
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
+    func backToSummary() 
 }
 
 protocol ListingPostedNavigator: class {

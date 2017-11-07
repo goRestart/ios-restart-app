@@ -22,5 +22,14 @@ extension RealEstateOfferType {
     static var allValues: [RealEstateOfferType] {
         return [.rent, .sale]
     }
+    
+    var position: Int {
+        switch self {
+        case .rent:
+            return 0
+        case .sale:
+            return 1
+        }
+    }
 }
 

@@ -724,7 +724,7 @@
 "real_estate_bathrooms_2" = "2";
 "real_estate_bathrooms_2_5" = "2.5";
 "real_estate_bathrooms_3" = "3";
-"real_estate_bathrooms_3_5" = "3.5";
+"real_estate_bathrooms_3_5" = ".3.5";
 "real_estate_bathrooms_4" = "4개 이상";
 "real_estate_bathrooms_title" = "화장실 숫자";
 "real_estate_bedrooms_0" = "원룸";
@@ -741,7 +741,7 @@
 "real_estate_summary_bedrooms_emtpy" = "침실 숫자 추가하기";
 "real_estate_summary_location_empty" = "위치: 지정되지 않음";
 "real_estate_summary_offer_type_empty" = "판매 종류 추가";
-"real_estate_summary_price_empty" = "Add price";
+"real_estate_summary_price_empty" = "가격 추가";
 "real_estate_summary_title" = "요약";
 "real_estate_summary_type_property_empty" = "매물 종류 추가하기";
 "real_estate_type_property_apartment" = "아파트";
