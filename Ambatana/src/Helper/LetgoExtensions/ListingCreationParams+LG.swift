@@ -34,7 +34,7 @@ extension ListingCreationParams {
             case .realEstate:
                 let realEstateParams = RealEstateCreationParams(name: title,
                                                                 description: description,
-                                                                price: Constants.defaultPrice,
+                                                                price: postListingState.price ?? Constants.defaultPrice,
                                                                 category: .realEstate,
                                                                 currency: currency,
                                                                 location: location,
@@ -45,7 +45,7 @@ extension ListingCreationParams {
             case .motorsAndAccessories, .unassigned:
                 let productParams = ProductCreationParams(name: title,
                                                           description: description,
-                                                          price: Constants.defaultPrice,
+                                                          price: postListingState.price ?? Constants.defaultPrice,
                                                           category: category.listingCategory,
                                                           currency: currency,
                                                           location: location,
@@ -56,7 +56,7 @@ extension ListingCreationParams {
         } else {
             let productParams = ProductCreationParams(name: title,
                                                       description: description,
-                                                      price: Constants.defaultPrice,
+                                                      price: postListingState.price ?? Constants.defaultPrice,
                                                       category: .unassigned,
                                                       currency: currency,
                                                       location: location,
