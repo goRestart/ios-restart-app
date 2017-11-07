@@ -15,6 +15,10 @@ enum PostingDetailStep {
     case offerType
     case bedrooms
     case bathrooms
+    case location
+    case make
+    case model
+    case year
     case summary
     
     var title: String {
@@ -31,6 +35,14 @@ enum PostingDetailStep {
             return LGLocalizedString.realEstateBathroomsTitle
         case .summary:
             return LGLocalizedString.realEstateSummaryTitle
+        case .location:
+            return LGLocalizedString.realEstateLocationTitle
+        case .make:
+            return LGLocalizedString.postCategoryDetailCarMake
+        case .model:
+            return LGLocalizedString.postCategoryDetailCarModel
+        case .year:
+            return LGLocalizedString.postCategoryDetailCarYear
         }
     }
     
@@ -48,6 +60,14 @@ enum PostingDetailStep {
             return .summary
         case .summary:
             return nil
+        case .location:
+            return nil
+        case .make:
+            return .model
+        case .model:
+            return .year
+        case .year:
+            return .summary
         }
     }
 }
