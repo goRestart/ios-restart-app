@@ -55,6 +55,10 @@ extension ListingViewModel {
         trackHelper.trackBumpUpBannerShown(type: type)
     }
 
+    func trackBumpBannerInfoShown(type: BumpUpType, storeProductId: String?) {
+        trackHelper.trackBumpBannerInfoShown(type: type, storeProductId: storeProductId)
+    }
+
     func trackBumpUpStarted(_ price: EventParameterBumpUpPrice, type: BumpUpType) {
         trackHelper.trackBumpUpStarted(price, type: type)
     }
@@ -126,6 +130,11 @@ extension ProductVMTrackHelper {
 extension ProductVMTrackHelper {
     func trackBumpUpBannerShown(type: BumpUpType) {
         let trackerEvent = TrackerEvent.bumpBannerShow(type: EventParameterBumpUpType(bumpType: type), listingId: listing.objectId)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackBumpBannerInfoShown(type: BumpUpType, storeProductId: String?) {
+        let trackerEvent = TrackerEvent.bumpBannerInfoShown(type: EventParameterBumpUpType(bumpType: type), listingId: listing.objectId, storeProductId: storeProductId)
         tracker.trackEvent(trackerEvent)
     }
 

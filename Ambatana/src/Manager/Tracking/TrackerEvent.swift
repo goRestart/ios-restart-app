@@ -995,6 +995,14 @@ struct TrackerEvent {
         return TrackerEvent(name: .bumpBannerShow, params: params)
     }
 
+    static func bumpBannerInfoShown(type: EventParameterBumpUpType, listingId: String?, storeProductId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.bumpUpType] = type.rawValue
+        params[.listingId] = listingId ?? ""
+        params[.storeProductId] = storeProductId ?? TrackerEvent.notApply
+        return TrackerEvent(name: .bumpInfoShown, params: params)
+    }
+
     static func listingBumpUpStart(_ listing: Listing, price: EventParameterBumpUpPrice,
                                    type: EventParameterBumpUpType) -> TrackerEvent {
         var params = EventParameters()
