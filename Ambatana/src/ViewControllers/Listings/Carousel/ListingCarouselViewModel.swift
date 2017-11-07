@@ -120,7 +120,7 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let imageDownloader: ImageDownloaderType
     fileprivate let listingViewModelMaker: ListingViewModelMaker
-    fileprivate let featureFlags: FeatureFlaggeable
+    let featureFlags: FeatureFlaggeable
 
     fileprivate let disposeBag = DisposeBag()
 

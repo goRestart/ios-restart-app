@@ -43,6 +43,7 @@ class ABTests {
     let newItemPage = IntABDynamicVar(key: "20171027NewItemPage", defaultValue: 0)
     let taxonomiesAndTaxonomyChildrenInFeed = IntABDynamicVar(key: "20171031TaxonomiesAndTaxonomyChildrenInFeed", defaultValue: 0)
     let showPriceStepRealEstatePosting = IntABDynamicVar(key: "20171106RealEstatePostingOrder", defaultValue: 0)
+    let showClockInDirectAnswer = IntABDynamicVar(key: "20171031ShowClockInDirectAnswer", defaultValue: 0)
     
     init() {
     }
@@ -78,6 +79,7 @@ class ABTests {
         result.append(newItemPage)
         result.append(taxonomiesAndTaxonomyChildrenInFeed)
         result.append(showPriceStepRealEstatePosting)
+        result.append(showClockInDirectAnswer)
         
         return result
     }

@@ -47,6 +47,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail = .control
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting = .control
+    var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
