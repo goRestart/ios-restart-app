@@ -38,6 +38,7 @@ extension Bumper  {
         flags.append(FeaturedRibbonImprovementInDetail.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(NewItemPage.self)
+        flags.append(ShowPriceStepRealEstatePosting.self)
         Bumper.initialize(flags)
     }
 
@@ -164,6 +165,11 @@ extension Bumper  {
     static var newItemPage: NewItemPage {
         guard let value = Bumper.value(for: NewItemPage.key) else { return .control }
         return NewItemPage(rawValue: value) ?? .control 
+    }
+
+    static var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting {
+        guard let value = Bumper.value(for: ShowPriceStepRealEstatePosting.key) else { return .control }
+        return ShowPriceStepRealEstatePosting(rawValue: value) ?? .control 
     } 
 }
 
@@ -496,6 +502,22 @@ enum NewItemPage: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New item page with card appearance and different navigation" } 
     static func fromPosition(_ position: Int) -> NewItemPage {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShowPriceStepRealEstatePosting: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowPriceStepRealEstatePosting.control.rawValue }
+    static var enumValues: [ShowPriceStepRealEstatePosting] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show price on real estate listing" } 
+    static func fromPosition(_ position: Int) -> ShowPriceStepRealEstatePosting {
         switch position { 
             case 0: return .control
             case 1: return .baseline

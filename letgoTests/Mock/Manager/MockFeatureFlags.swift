@@ -46,6 +46,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells = .control
     var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail = .control
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
+    var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting = .control
 
     // Country dependant features
     var freePostingModeAllowed = false

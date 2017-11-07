@@ -679,6 +679,7 @@
 		723A45CA1DDC4D470001D02C /* UILabel+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A45C81DDC4D470001D02C /* UILabel+LG.swift */; };
 		724635B31F2742CD002997D1 /* CategoryHeaderElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724635B21F2742CD002997D1 /* CategoryHeaderElement.swift */; };
 		724635B41F2742CD002997D1 /* CategoryHeaderElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724635B21F2742CD002997D1 /* CategoryHeaderElement.swift */; };
+		727463AD1FB0674D00AD8261 /* ListingPrice+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727463AC1FB0674D00AD8261 /* ListingPrice+LGSpec.swift */; };
 		727EF0691E0AF0220037DA4E /* LocationManager+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */; };
 		727EF06A1E0AF0220037DA4E /* LocationManager+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */; };
 		727EF06C1E0BE16D0037DA4E /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF06B1E0BE16D0037DA4E /* CountryCode.swift */; };
@@ -1897,6 +1898,7 @@
 		722FEA371F1E3BD500838116 /* FilterFreeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterFreeCell.xib; sourceTree = "<group>"; };
 		723A45C81DDC4D470001D02C /* UILabel+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LG.swift"; sourceTree = "<group>"; };
 		724635B21F2742CD002997D1 /* CategoryHeaderElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryHeaderElement.swift; path = Ambatana/src/ViewControllers/Main/CategoriesHeader/CategoryHeaderElement.swift; sourceTree = SOURCE_ROOT; };
+		727463AC1FB0674D00AD8261 /* ListingPrice+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListingPrice+LGSpec.swift"; sourceTree = "<group>"; };
 		727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LocationManager+LG.swift"; sourceTree = "<group>"; };
 		727EF06B1E0BE16D0037DA4E /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		727EF06E1E0BE6600037DA4E /* LGLocation+isAuto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGLocation+isAuto.swift"; sourceTree = "<group>"; };
@@ -3201,6 +3203,7 @@
 		50D08D751E69AF14009CC260 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				727463AC1FB0674D00AD8261 /* ListingPrice+LGSpec.swift */,
 				50D08D761E69AF14009CC260 /* CGFloat+LGSpec.swift */,
 				50D08D771E69AF14009CC260 /* Collection+LGSpec.swift */,
 				2E4BDE741EDDA07700CBDC8C /* DistanceBubbleTextGeneratorSpec.swift */,
@@ -5428,6 +5431,7 @@
 				50D08DAA1E69AF14009CC260 /* MockConfigFileDAO.swift in Sources */,
 				50D08DB71E69AF14009CC260 /* MockTracker.swift in Sources */,
 				50D08DE61E69AF14009CC260 /* SignUpViewModelSpec.swift in Sources */,
+				727463AD1FB0674D00AD8261 /* ListingPrice+LGSpec.swift in Sources */,
 				502047221EEA9A2F006C0EC2 /* MockFeatureFlagsDAO.swift in Sources */,
 				50D08DC01E69AF14009CC260 /* CGFloat+LGSpec.swift in Sources */,
 				72D928D81E83D1C60030F4C3 /* ChatViewModelSpec.swift in Sources */,
