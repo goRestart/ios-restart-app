@@ -179,7 +179,7 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
             return UITableViewCell()
         }
         let sectionSummary = postingSummaryOptions[indexPath.row]
-        if let text = setValue(section: sectionSummary) {
+        if let text = getValueSelected(section: sectionSummary) {
            cell.textLabel?.text = text
         } else {
             cell.textLabel?.text = sectionSummary.emptyLocalizeString
@@ -205,7 +205,7 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
         tableView.reloadData()
     }
     
-    func setValue(section: PostingSummaryOption) -> String? {
+    func getValueSelected(section: PostingSummaryOption) -> String? {
         return delegate?.valueFor(section: section)
     }
 }

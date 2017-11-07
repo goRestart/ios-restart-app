@@ -127,7 +127,7 @@ extension SellCoordinator: PostListingNavigator {
                                                 uploadedImageSource: uploadedImageSource,
                                                 postingSource: postingSource,
                                                 postListingBasicInfo: postListingBasicInfo,
-                                                fromSummary: false)
+                                                previousStepIsSummary: false)
         viewModel.navigator = self
         let vc = PostingDetailsViewController(viewModel: viewModel)
         navigationController.startDetails(category: postListingState.category)
@@ -139,13 +139,13 @@ extension SellCoordinator: PostListingNavigator {
                                uploadedImageSource: EventParameterPictureSource?,
                                postingSource: PostingSource,
                                postListingBasicInfo: PostListingBasicDetailViewModel,
-                               fromSummary: Bool) {
+                               previousStepIsSummary: Bool) {
         let viewModel = PostingDetailsViewModel(step: step,
                                                 postListingState: postListingState,
                                                 uploadedImageSource: uploadedImageSource,
                                                 postingSource: postingSource,
                                                 postListingBasicInfo: postListingBasicInfo,
-                                                fromSummary: fromSummary)
+                                                previousStepIsSummary: previousStepIsSummary)
         viewModel.navigator = self
         let vc = PostingDetailsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)

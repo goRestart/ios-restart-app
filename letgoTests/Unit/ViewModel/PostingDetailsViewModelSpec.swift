@@ -34,7 +34,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
         var postListingState: PostListingState!
         var uploadedImageSource: EventParameterPictureSource! = .camera
         var postingSource: PostingSource! = .tabBar
-        var fromSummary: Bool = false
+        var previousStepIsSummary: Bool = false
         var postListingBasicInfo = PostListingBasicDetailViewModel()
         
         describe("PostingDetailsViewModelSpec") {
@@ -44,7 +44,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                                               uploadedImageSource: uploadedImageSource,
                                               postingSource: postingSource,
                                               postListingBasicInfo: postListingBasicInfo,
-                                              fromSummary: fromSummary,
+                                              previousStepIsSummary: previousStepIsSummary,
                                               tracker: tracker,
                                               currencyHelper: currencyHelper,
                                               locationManager: locationManager,
@@ -214,7 +214,7 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
                                uploadedImageSource: EventParameterPictureSource?,
                                postingSource: PostingSource,
                                postListingBasicInfo: PostListingBasicDetailViewModel,
-                               fromSummary: Bool) {
+                               previousStepIsSummary: Bool) {
         nextPostingDetailStepCalled = true
     }
     func closePostProductAndPostInBackground(params: ListingCreationParams,
