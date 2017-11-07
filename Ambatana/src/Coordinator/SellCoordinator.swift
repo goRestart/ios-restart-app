@@ -125,7 +125,8 @@ extension SellCoordinator: PostListingNavigator {
                                                 postListingState: postListingState,
                                                 uploadedImageSource: uploadedImageSource,
                                                 postingSource: postingSource,
-                                                postListingBasicInfo: postListingBasicInfo)
+                                                postListingBasicInfo: postListingBasicInfo,
+                                                previousStepIsSummary: false)
         viewModel.navigator = self
         let vc = PostingDetailsViewController(viewModel: viewModel)
         postingDetailStep = .propertyType
@@ -137,12 +138,14 @@ extension SellCoordinator: PostListingNavigator {
                                postListingState: PostListingState,
                                uploadedImageSource: EventParameterPictureSource?,
                                postingSource: PostingSource,
-                               postListingBasicInfo: PostListingBasicDetailViewModel) {
+                               postListingBasicInfo: PostListingBasicDetailViewModel,
+                               previousStepIsSummary: Bool) {
         let viewModel = PostingDetailsViewModel(step: step,
                                                 postListingState: postListingState,
                                                 uploadedImageSource: uploadedImageSource,
                                                 postingSource: postingSource,
-                                                postListingBasicInfo: postListingBasicInfo)
+                                                postListingBasicInfo: postListingBasicInfo,
+                                                previousStepIsSummary: previousStepIsSummary)
         viewModel.navigator = self
         let vc = PostingDetailsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
@@ -191,6 +194,10 @@ extension SellCoordinator: PostListingNavigator {
 
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?) {
         openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.productPostLoginMessage), loggedInAction: loggedInAction, cancelAction: cancelAction)
+    }
+    
+    func backToSummary() {
+        let _ = navigationController.popViewController(animated: true)
     }
 }
 
