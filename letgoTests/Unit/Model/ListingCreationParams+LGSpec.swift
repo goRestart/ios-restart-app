@@ -73,6 +73,23 @@ class ListingCreationParamsLGSpec: QuickSpec {
                     expect(sut.price).to(equal(ListingPrice.free))
                 }
             }
+            context("make with no price") {
+                beforeEach {
+                    var postListingState = PostListingState(postCategory: .motorsAndAccessories)
+                    postListingState = postListingState.updatingStepToUploadingImages()
+                    postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                    postListingState = postListingState.updatingAfterUploadingSuccess()
+                    sut = ListingCreationParams.make(title: "title",
+                                                     description: "description",
+                                                     currency: Currency.makeMock(),
+                                                     location: LGLocationCoordinates2D.makeMock(),
+                                                     postalAddress: PostalAddress.makeMock(),
+                                                     postListingState: postListingState)
+                }
+                it("price is negotiable zero") {
+                    expect(sut.price).to(equal(ListingPrice.negotiable(0)))
+                }
+            }
         }
     }
 }
