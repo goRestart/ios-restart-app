@@ -18,59 +18,60 @@ class ListingCreationParamsLGSpec: QuickSpec {
     override func spec() {
         
         var sut : ListingCreationParams!
-        
-        describe("make with price") {
-            beforeEach {
-                let postListingState = PostListingState(postCategory: .motorsAndAccessories)
-                postListingState = postListingState.updatingStepToUploadingImages()
-                postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
-                postListingState = postListingState.updatingAfterUploadingSuccess()
-                postListingState = postListingState.updating(price: .normal(100))
-                sut = ListingCreationParams.make(title: "title",
-                                                 description: "description",
-                                                 currency: Currency.makeMock(),
-                                                 location: LGLocationCoordinates2D.makeMock(),
-                                                 postalAddress: PostalAddress.makeMock(),
-                                                 postListingState: postListingState)
+        describe("make params") {
+            context("make with price") {
+                beforeEach {
+                    var postListingState = PostListingState(postCategory: .motorsAndAccessories)
+                    postListingState = postListingState.updatingStepToUploadingImages()
+                    postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                    postListingState = postListingState.updatingAfterUploadingSuccess()
+                    postListingState = postListingState.updating(price: .normal(100))
+                    sut = ListingCreationParams.make(title: "title",
+                                                     description: "description",
+                                                     currency: Currency.makeMock(),
+                                                     location: LGLocationCoordinates2D.makeMock(),
+                                                     postalAddress: PostalAddress.makeMock(),
+                                                     postListingState: postListingState)
+                }
+                it("price is normal 100") {
+                    expect(sut.price).to(equal(.normal(100)))
+                }
             }
-            it("price is normal 100") {
-                expect(sut.price).to(equal(.normal(100)))
+            context("make with negotiable") {
+                beforeEach {
+                    var postListingState = PostListingState(postCategory: .motorsAndAccessories)
+                    postListingState = postListingState.updatingStepToUploadingImages()
+                    postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                    postListingState = postListingState.updatingAfterUploadingSuccess()
+                    postListingState = postListingState.updating(price: .negotiable(0))
+                    sut = ListingCreationParams.make(title: "title",
+                                                     description: "description",
+                                                     currency: Currency.makeMock(),
+                                                     location: LGLocationCoordinates2D.makeMock(),
+                                                     postalAddress: PostalAddress.makeMock(),
+                                                     postListingState: postListingState)
+                }
+                it("price is negotiable zero") {
+                    expect(sut.price).to(equal(.negotiable(0)))
+                }
             }
-        }
-        describe("make with negotiable") {
-            beforeEach {
-                let postListingState = PostListingState(postCategory: .motorsAndAccessories)
-                postListingState = postListingState.updatingStepToUploadingImages()
-                postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
-                postListingState = postListingState.updatingAfterUploadingSuccess()
-                postListingState = postListingState.updating(price: .negotiable(0))
-                sut = ListingCreationParams.make(title: "title",
-                                                 description: "description",
-                                                 currency: Currency.makeMock(),
-                                                 location: LGLocationCoordinates2D.makeMock(),
-                                                 postalAddress: PostalAddress.makeMock(),
-                                                 postListingState: postListingState)
-            }
-            it("price is negotiable zero") {
-                expect(sut.price).to(equal(.negotiable(0)))
-            }
-        }
-        describe("make with free") {
-            beforeEach {
-                let postListingState = PostListingState(postCategory: .motorsAndAccessories)
-                postListingState = postListingState.updatingStepToUploadingImages()
-                postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
-                postListingState = postListingState.updatingAfterUploadingSuccess()
-                postListingState = postListingState.updating(price: .free)
-                sut = ListingCreationParams.make(title: "title",
-                                                 description: "description",
-                                                 currency: Currency.makeMock(),
-                                                 location: LGLocationCoordinates2D.makeMock(),
-                                                 postalAddress: PostalAddress.makeMock(),
-                                                 postListingState: postListingState)
-            }
-            it("price is negotiable zero") {
-                expect(sut.price).to(equal(.free))
+            context("make with free") {
+                beforeEach {
+                    var postListingState = PostListingState(postCategory: .motorsAndAccessories)
+                    postListingState = postListingState.updatingStepToUploadingImages()
+                    postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                    postListingState = postListingState.updatingAfterUploadingSuccess()
+                    postListingState = postListingState.updating(price: .free)
+                    sut = ListingCreationParams.make(title: "title",
+                                                     description: "description",
+                                                     currency: Currency.makeMock(),
+                                                     location: LGLocationCoordinates2D.makeMock(),
+                                                     postalAddress: PostalAddress.makeMock(),
+                                                     postListingState: postListingState)
+                }
+                it("price is negotiable zero") {
+                    expect(sut.price).to(equal(ListingPrice.free))
+                }
             }
         }
     }
