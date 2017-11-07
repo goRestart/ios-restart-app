@@ -66,16 +66,12 @@ struct UriScheme {
         case .chat:
             if let conversationId = params["c"], let message = params["m"] {
                 // letgo://chat/?c=12345&m=abcde where c=conversation_id, m=message
-                return UriScheme(deepLink: DeepLink.link(.conversationWithMessage(data: .conversation(conversationId: conversationId), message: message),
+                return UriScheme(deepLink: DeepLink.link(.conversationWithMessage(conversationId: conversationId, message: message),
                                                          campaign: campaign, medium: medium, source: source, cardActionParameter: cardActionParameter))
             } else if let conversationId = params["c"] {
                 // letgo://chat/?c=12345 where c=conversation_id
-                return UriScheme(deepLink: DeepLink.link(.conversation(data: .conversation(conversationId: conversationId)),
+                return UriScheme(deepLink: DeepLink.link(.conversation(conversationId: conversationId),
                     campaign: campaign, medium: medium, source: source, cardActionParameter: cardActionParameter))
-            } else if let listingId = params["p"], let buyerId = params["b"] {
-                // letgo://chat/?p=12345&b=abcde where p=listing_id, b=buyer_id (user)
-                return UriScheme(deepLink: DeepLink.link(.conversation(data: .listingBuyer(listingId: listingId,
-                    buyerId: buyerId)), campaign: campaign, medium: medium, source: source, cardActionParameter: cardActionParameter))
             } else {
                 return nil
             }

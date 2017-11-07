@@ -49,9 +49,9 @@ enum DeepLinkAction: Equatable {
     case listingMarkAsSold(listingId: String)
     case user(userId: String)
     case conversations
-    case conversation(data: ConversationData)
-    case conversationWithMessage(data: ConversationData, message: String)
-    case message(messageType: DeepLinkMessageType, data: ConversationData)
+    case conversation(conversationId: String)
+    case conversationWithMessage(conversationId: String, message: String)
+    case message(messageType: DeepLinkMessageType, conversationId: String)
     case search(query: String, categories: String?)
     case resetPassword(token: String)
     case userRatings
@@ -142,30 +142,8 @@ enum DeepLinkSource {
     }
 }
 
-/**
- Enum to distinguish between the two methods to obtain a conversation
-
- - Conversation: By conversation id
- - ProductBuyer: By productId and buyerId 
- */
-enum ConversationData: Equatable {
-    case conversation(conversationId: String)
-    case listingBuyer(listingId: String, buyerId: String)
-    
-    static public func ==(lhs: ConversationData, rhs: ConversationData) -> Bool {
-        switch (lhs, rhs) {
-        case (.conversation(let lhsConversationId), .conversation(let rhsConversationId)):
-            return lhsConversationId == rhsConversationId
-        case (.listingBuyer(let lhsListingId, let lhsBuyerId), .listingBuyer(let rhsListingId, let rhsBuyerId)):
-            return lhsListingId == rhsListingId && lhsBuyerId == rhsBuyerId
-        default:
-            return false
-        }
-    }
-}
-
-protocol ConversationDataDisplayer {
-    func isDisplayingConversationData(_ data: ConversationData) -> Bool
+protocol ConversationIdDisplayer {
+    func isDisplayingConversationId(_ conversationId: String) -> Bool
 }
 
 /**
