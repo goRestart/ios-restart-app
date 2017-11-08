@@ -74,7 +74,7 @@ class PostListingDetailPriceView: BaseView {
     }
 
     private func setupUI() {
-        infoLabel.text = LGLocalizedString.productPostPriceLabel.uppercase
+        infoLabel.text = LGLocalizedString.productPostPriceLabel.localizedUppercase
         priceViewContainer.layer.cornerRadius = 15.0
         postFreeViewContainer.backgroundColor = UIColor(white: 0.9, alpha: 0.3)
         freePostSwitch.isUserInteractionEnabled = false

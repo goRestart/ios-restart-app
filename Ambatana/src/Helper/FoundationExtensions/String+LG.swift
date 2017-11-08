@@ -10,12 +10,6 @@ import Foundation
 
 extension String {
 
-    var uppercase: String { return localizedUppercase }
-
-    var lowercase: String { return localizedLowercase }
-
-    var capitalized: String { return localizedCapitalized }
-
     var trim: String {
         let trimSet = CharacterSet.whitespacesAndNewlines
         return trimmingCharacters(in: trimSet)
@@ -23,8 +17,8 @@ extension String {
 
     var capitalizedFirstLetterOnly: String  {
         guard !self.isEmpty else { return self }
-        var result = self.lowercase
-        result.replaceSubrange(result.startIndex...result.startIndex, with: String(result[result.startIndex]).capitalized)
+        var result = self.localizedLowercase
+        result.replaceSubrange(result.startIndex...result.startIndex, with: String(result[result.startIndex]).localizedCapitalized)
         return result
     }
 
@@ -115,7 +109,7 @@ extension String {
         if let plusSignRange = username.range(of: "+") {
             username = username.substring(to: plusSignRange.lowerBound)
         }
-        return username.capitalized
+        return username.localizedCapitalized
     }
 
     func isValidLengthPrice(_ acceptsSeparator: Bool, locale: Locale = Locale.autoupdatingCurrent) -> Bool {

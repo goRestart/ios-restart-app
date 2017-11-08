@@ -67,7 +67,7 @@ class SellListingCell: UICollectionViewCell, ReusableCell {
 
     func setupAddPictureCell() {
         self.label.isHidden = false
-        label.text = LGLocalizedString.sellPictureLabel.uppercase
+        label.text = LGLocalizedString.sellPictureLabel.localizedUppercase
         label.textColor = UIColor.red
         self.activity.isHidden = true
         iconImageView.image = UIImage(named: "ic_add_white")?.imageWithColor(UIColor.red)?.withRenderingMode(.alwaysOriginal)

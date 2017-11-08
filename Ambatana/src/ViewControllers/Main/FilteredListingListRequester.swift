@@ -128,7 +128,7 @@ class FilteredListingListRequester: ListingListRequester {
             titleFromFilters = LGLocalizedString.filterResultsCarsOtherResults
         }
 
-        return titleFromFilters.isEmpty ? nil : titleFromFilters.uppercase
+        return titleFromFilters.isEmpty ? nil : titleFromFilters.localizedUppercase
     }
 
     private func rangeYearTitle(forFilters filters: ListingFilters?) -> String? {

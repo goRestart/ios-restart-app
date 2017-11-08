@@ -20,7 +20,7 @@ class LetgoAvatar {
 
         let label = UILabel(frame: view.bounds)
         if let c = name?.specialCharactersRemoved.characters.first {
-                label.text = String(c).capitalized
+                label.text = String(c).localizedCapitalized
         }
         label.font = UIFont.avatarFont
         label.textColor = UIColor.white

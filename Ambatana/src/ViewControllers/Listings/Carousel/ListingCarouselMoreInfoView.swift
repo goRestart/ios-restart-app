@@ -334,8 +334,8 @@ fileprivate extension ListingCarouselMoreInfoView {
         descriptionLabel.linkTextAttributes = [:]
         descriptionLabel.textColor = UIColor.grayLight
         descriptionLabel.addGestureRecognizer(tapGesture)
-        descriptionLabel.expandText = LGLocalizedString.commonExpand.uppercase
-        descriptionLabel.collapseText = LGLocalizedString.commonCollapse.uppercase
+        descriptionLabel.expandText = LGLocalizedString.commonExpand.localizedUppercase
+        descriptionLabel.collapseText = LGLocalizedString.commonCollapse.localizedUppercase
         descriptionLabel.gradientColor = UIColor.clear
         descriptionLabel.expandTextColor = UIColor.white
 
