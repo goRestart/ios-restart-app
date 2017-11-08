@@ -325,7 +325,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func bumpUpBannerShown(type: BumpUpType) {
-        currentListingViewModel?.trackBumpUpBannerShown(type: type)
+        currentListingViewModel?.trackBumpUpBannerShown(type: type, storeProductId: currentListingViewModel?.paymentProviderItemId)
     }
     
     func moveQuickAnswerToTheEnd(_ index: Int) {
