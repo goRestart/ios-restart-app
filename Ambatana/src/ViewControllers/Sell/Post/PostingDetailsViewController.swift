@@ -18,6 +18,7 @@ class PostingDetailsViewController: KeyboardViewController {
     
     private let titleLabel: UILabel = UILabel()
     private let contentView: UIView = UIView()
+    private var infoView: PostingViewConfigurable?
     private let buttonNext: UIButton = UIButton()
     private var buttonNextBottomMargin = NSLayoutConstraint()
     
@@ -42,6 +43,7 @@ class PostingDetailsViewController: KeyboardViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
         setupConstraints()
         setupUI()
+        infoView?.setupView(viewModel: viewModel)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,7 +67,11 @@ class PostingDetailsViewController: KeyboardViewController {
         titleLabel.font = UIFont.headline
         titleLabel.textColor = UIColor.white
         
-        buttonNext.setStyle(.postingFlow)
+        if viewModel.isSummaryStep {
+            buttonNext.setStyle(.primary(fontSize: .medium))
+        } else {
+            buttonNext.setStyle(.postingFlow)
+        }
         buttonNext.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
     }
     
@@ -73,7 +79,7 @@ class PostingDetailsViewController: KeyboardViewController {
         guard let navigationController = navigationController as? SellNavigationController else { return }
         let currentStep = navigationController.currentStep
         setNavBarBackgroundStyle(.transparent(substyle: .dark))
-        if currentStep == 1 {
+        if currentStep == 1 || viewModel.isSummaryStep {
             let closeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_post_close") , style: UIBarButtonItemStyle.plain,
                                               target: self, action: #selector(PostingDetailsViewController.closeButtonPressed))
             self.navigationItem.leftBarButtonItem = closeButton
@@ -99,16 +105,17 @@ class PostingDetailsViewController: KeyboardViewController {
         contentView.layout(with: view).fillHorizontal(by: Metrics.veryShortMargin)
         
         
-        let infoView = viewModel.makeContentView
-        infoView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(infoView)
-        infoView.layout(with: contentView).fill()
+        infoView = viewModel.makeContentView
+        infoView?.setupContainerView(view: contentView)
         
         view.addSubview(buttonNext)
         buttonNext.layout(with: contentView).below(by: Metrics.bigMargin)
         buttonNext.layout().height(PostingDetailsViewController.skipButtonHeight)
         buttonNext.layout().width(PostingDetailsViewController.skipButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
         buttonNext.layout(with: keyboardView).bottom(to: .top, by: -Metrics.bigMargin)
+        if viewModel.isSummaryStep {
+            buttonNext.layout(with: keyboardView).left(by: Metrics.bigMargin)
+        }
         buttonNext.layout(with: view).right(by: -Metrics.bigMargin)
     }
     

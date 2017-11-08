@@ -9,20 +9,7 @@
 @testable import LetGoGodMode
 
 class MockFeatureFlagsDAO: FeatureFlagsDAO {
-    var websocketChatEnabled: Bool?
     var timeoutForRequests: TimeInterval?
-
-    init() {
-        websocketChatEnabled = Bool?.makeRandom()
-    }
-    
-    func retrieveWebsocketChatEnabled() -> Bool? {
-        return websocketChatEnabled
-    }
-    
-    func save(websocketChatEnabled: Bool) {
-        self.websocketChatEnabled = websocketChatEnabled
-    }
 
     func retrieveTimeoutForRequests() -> TimeInterval? {
         return timeoutForRequests
@@ -31,5 +18,4 @@ class MockFeatureFlagsDAO: FeatureFlagsDAO {
     func save(timeoutForRequests: TimeInterval) {
         self.timeoutForRequests = timeoutForRequests
     }
-
 }

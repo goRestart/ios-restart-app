@@ -560,13 +560,8 @@ class ChatViewModel: BaseViewModel {
 
 extension ChatViewModel {
     
-    func isMatchingConversationData(_ data: ConversationData) -> Bool {
-        switch data {
-        case .conversation(let conversationId):
-            return conversationId == conversation.value.objectId
-        case let .listingBuyer(listingId, listingBuyerId):
-            return listingId == conversation.value.listing?.objectId && listingBuyerId == buyerId
-        }
+    func isMatchingConversationId(_ conversationId: String) -> Bool {
+        return conversationId == conversation.value.objectId
     }
 
     fileprivate func showUserNotVerifiedAlert() {
@@ -1428,9 +1423,6 @@ extension ChatViewModel {
         var cleanRelatedListings: [Listing] = []
         for listing in listings {
             if listing.user.objectId != myUserRepository.myUser?.objectId { cleanRelatedListings.append(listing) }
-            if cleanRelatedListings.count == OldChatViewModel.maxRelatedListingsForExpressChat {
-                return cleanRelatedListings
-            }
         }
         return cleanRelatedListings
     }
