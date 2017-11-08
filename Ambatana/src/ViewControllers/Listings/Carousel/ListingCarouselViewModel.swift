@@ -155,7 +155,8 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let imageDownloader: ImageDownloaderType
     fileprivate let listingViewModelMaker: ListingViewModelMaker
-    fileprivate let featureFlags: FeatureFlaggeable
+    let featureFlags: FeatureFlaggeable
+    fileprivate let locationManager: LocationManager
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -168,11 +169,17 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate let adsRequester: AdsRequester
 
     // Ads
-    var adUnitId: String {
-        return EnvironmentProxy.sharedInstance.moreInfoAdUnitId
+    var userIsInUS: Bool {
+        return locationManager.sensorCountryMatchesWith(countryCode: "us")
+    }
+    var shoppingAdUnitId: String {
+        return userIsInUS ? "" : EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShopping
+    }
+    var searchAdUnitId: String {
+        return userIsInUS ? "" : EnvironmentProxy.sharedInstance.moreInfoAdUnitIdSearch
     }
     var adActive: Bool {
-        return featureFlags.moreInfoAdActive == .active
+        return featureFlags.moreInfoAdActive == .active && !userIsInUS
     }
     var randomHardcodedAdQuery: String {
         let popularItems = ["ps4", "iphone", LGLocalizedString.productPostIncentiveDresser]
@@ -239,7 +246,8 @@ class ListingCarouselViewModel: BaseViewModel {
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   imageDownloader: ImageDownloader.sharedInstance,
                   listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
-                  adsRequester: AdsRequester())
+                  adsRequester: AdsRequester(),
+                  locationManager: Core.locationManager)
     }
 
     init(productListModels: [ListingCellModel]?,
@@ -254,7 +262,8 @@ class ListingCarouselViewModel: BaseViewModel {
          keyValueStorage: KeyValueStorageable,
          imageDownloader: ImageDownloaderType,
          listingViewModelMaker: ListingViewModelMaker,
-         adsRequester: AdsRequester) {
+         adsRequester: AdsRequester,
+         locationManager: LocationManager) {
         if let productListModels = productListModels {
             self.objects.appendContentsOf(productListModels.flatMap(ListingCarouselCellModel.adapter))
             self.isLastPage = listingListRequester.isLastPage(productListModels.count)
@@ -271,6 +280,7 @@ class ListingCarouselViewModel: BaseViewModel {
         self.listingViewModelMaker = listingViewModelMaker
         self.featureFlags = featureFlags
         self.adsRequester = adsRequester
+        self.locationManager = locationManager
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
         } else {
@@ -385,7 +395,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func bumpUpBannerShown(type: BumpUpType) {
-        currentListingViewModel?.trackBumpUpBannerShown(type: type)
+        currentListingViewModel?.trackBumpUpBannerShown(type: type, storeProductId: currentListingViewModel?.paymentProviderItemId)
     }
     
     func moveQuickAnswerToTheEnd(_ index: Int) {
@@ -396,11 +406,8 @@ class ListingCarouselViewModel: BaseViewModel {
     func makeAFShoppingRequestWithWidth(width: CGFloat) -> GADDynamicHeightSearchRequest {
         currentAdRequestType = .shopping
 
-        if adRequestQuery == nil {
-            adRequestQuery = makeAdsRequestQuery()
-        }
+        adRequestQuery = makeAdsRequestQuery()
         let adWidth = width-(2*sideMargin)
-
         let adsRequest = adsRequester.makeAFShoppingRequestWithQuery(query: adRequestQuery, width: adWidth)
         
         return adsRequest
@@ -413,7 +420,6 @@ class ListingCarouselViewModel: BaseViewModel {
             adRequestQuery = makeAdsRequestQuery()
         }
         let adWidth = width-(2*sideMargin)
-
         let adsRequest = adsRequester.makeAFSearchRequestWithQuery(query: adRequestQuery, width: adWidth)
 
         return adsRequest

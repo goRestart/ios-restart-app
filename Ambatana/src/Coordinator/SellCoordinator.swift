@@ -31,7 +31,6 @@ final class SellCoordinator: Coordinator {
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let postingSource: PostingSource
     fileprivate let postCategory: PostCategory?
-    fileprivate var postingDetailStep: PostingDetailStep?
     weak var delegate: SellCoordinatorDelegate?
 
     fileprivate let disposeBag = DisposeBag()
@@ -121,14 +120,16 @@ extension SellCoordinator: PostListingNavigator {
     }
     
     func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
-        let viewModel = PostingDetailsViewModel(step: .propertyType,
+        let firstStep: PostingDetailStep = featureFlags.showPriceStepRealEstatePosting.isActive ? .price : .propertyType
+        
+        let viewModel = PostingDetailsViewModel(step: firstStep,
                                                 postListingState: postListingState,
                                                 uploadedImageSource: uploadedImageSource,
                                                 postingSource: postingSource,
-                                                postListingBasicInfo: postListingBasicInfo)
+                                                postListingBasicInfo: postListingBasicInfo,
+                                                previousStepIsSummary: false)
         viewModel.navigator = self
         let vc = PostingDetailsViewController(viewModel: viewModel)
-        postingDetailStep = .propertyType
         navigationController.startDetails(category: postListingState.category)
         navigationController.pushViewController(vc, animated: false)
     }
@@ -137,12 +138,14 @@ extension SellCoordinator: PostListingNavigator {
                                postListingState: PostListingState,
                                uploadedImageSource: EventParameterPictureSource?,
                                postingSource: PostingSource,
-                               postListingBasicInfo: PostListingBasicDetailViewModel) {
+                               postListingBasicInfo: PostListingBasicDetailViewModel,
+                               previousStepIsSummary: Bool) {
         let viewModel = PostingDetailsViewModel(step: step,
                                                 postListingState: postListingState,
                                                 uploadedImageSource: uploadedImageSource,
                                                 postingSource: postingSource,
-                                                postListingBasicInfo: postListingBasicInfo)
+                                                postListingBasicInfo: postListingBasicInfo,
+                                                previousStepIsSummary: previousStepIsSummary)
         viewModel.navigator = self
         let vc = PostingDetailsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
@@ -191,6 +194,10 @@ extension SellCoordinator: PostListingNavigator {
 
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?) {
         openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.productPostLoginMessage), loggedInAction: loggedInAction, cancelAction: cancelAction)
+    }
+    
+    func backToSummary() {
+        let _ = navigationController.popViewController(animated: true)
     }
 }
 

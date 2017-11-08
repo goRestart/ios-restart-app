@@ -39,6 +39,7 @@ class ProductionEnvironment: AppEnvironment {
     let websiteBaseUrlWithLocaleParams = "https://%@.letgo.com/%@"
 
     // Google Ads
-    let moreInfoAdUnitId = "partner-vert-pla-mobile-app-ambatana-srp"
+    let moreInfoAdUnitIdShopping = "partner-vert-pla-mobile-app-ambatana-srp"
+    let moreInfoAdUnitIdSearch = "partner-mobile-app-letgo-com"
     let adTestModeActive = false
 }

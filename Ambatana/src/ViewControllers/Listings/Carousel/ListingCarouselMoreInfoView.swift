@@ -468,7 +468,6 @@ fileprivate extension ListingCarouselMoreInfoView {
 
         bannerView = GADSearchBannerView.init(adSize: kGADAdSizeFluid)
         guard let bannerView = bannerView else { return }
-        bannerView.adUnitID = viewModel.adUnitId
         bannerView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 0)
 
         bannerView.autoresizingMask = .flexibleWidth
@@ -481,10 +480,12 @@ fileprivate extension ListingCarouselMoreInfoView {
     }
 
     func loadAFShoppingRequest() {
+        bannerView?.adUnitID = viewModel?.shoppingAdUnitId
         bannerView?.load(viewModel?.makeAFShoppingRequestWithWidth(width: frame.width))
     }
 
     func loadAFSearchRequest() {
+        bannerView?.adUnitID = viewModel?.searchAdUnitId
         bannerView?.load(viewModel?.makeAFSearchRequestWithWidth(width: frame.width))
     }
 }
@@ -517,20 +518,14 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
         bannerContainerViewLeftConstraint.constant = 0
         bannerContainerViewRightConstraint.constant = 0
 
-        // Task to fix this: https://ambatana.atlassian.net/browse/ABIOS-3147
-        // TODO: ⚠️ remove line when Google's AFS finally works!!!
-        viewModel?.didFailToReceiveAd(withErrorCode: GADErrorCode(rawValue: error.code) ?? .internalError)
-
-        /** TODO: ⚠️ Uncomment code when Google's AFS finally works!!!
         if let adRequestType = viewModel?.currentAdRequestType {
             switch adRequestType {
             case .shopping:
                 loadAFSearchRequest()
             case .search:
-                viewModel?.didFailToReceiveAd(withErrorCode: GADErrorCode(rawValue: error.code))
+                viewModel?.didFailToReceiveAd(withErrorCode: GADErrorCode(rawValue: error.code) ?? .internalError)
             }
         }
-         */
     }
 
     func adViewWillPresentScreen(_ bannerView: GADBannerView) {

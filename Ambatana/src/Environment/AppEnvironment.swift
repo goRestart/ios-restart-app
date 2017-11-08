@@ -39,7 +39,8 @@ protocol AppEnvironment {
     var websiteBaseUrlWithLocaleParams: String { get }
 
     // Google Ads
-    var moreInfoAdUnitId: String { get }
+    var moreInfoAdUnitIdShopping: String { get }
+    var moreInfoAdUnitIdSearch: String { get }
     var adTestModeActive: Bool { get }
 
 }

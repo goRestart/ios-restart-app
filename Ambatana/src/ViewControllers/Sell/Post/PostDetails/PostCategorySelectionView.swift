@@ -30,12 +30,12 @@ enum PostCategory {
         return realEstateEnabled ? [.car, PostCategory.realEstate, PostCategory.motorsAndAccessories, PostCategory.unassigned] : [PostCategory.car, PostCategory.motorsAndAccessories, PostCategory.unassigned]
     }
     
-    var numberOfSteps: CGFloat {
+    func numberOfSteps(shouldShowPrice: Bool) -> CGFloat {
         switch self {
         case .car:
-            return 3
+            return shouldShowPrice ? 4 : 3
         case .realEstate:
-            return 5
+            return shouldShowPrice ? 6 : 5
         case .unassigned, .motorsAndAccessories:
             return 0
         }

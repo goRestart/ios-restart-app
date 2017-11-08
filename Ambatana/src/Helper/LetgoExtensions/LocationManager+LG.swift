@@ -14,4 +14,8 @@ extension LocationManager {
     func countryMatchesWith(countryCode: String) -> Bool {
        return  countryCode == currentLocation?.countryCode?.lowercased()
     }
+
+    func sensorCountryMatchesWith(countryCode: String) -> Bool {
+        return  countryCode == currentAutoLocation?.countryCode?.lowercased()
+    }
 }

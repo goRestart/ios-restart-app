@@ -23,7 +23,6 @@ class NotificationsManagerSpec: QuickSpec {
         var sessionManager: MockSessionManager!
         var myUserRepository: MockMyUserRepository!
         var chatRepository: MockChatRepository!
-        var oldChatRepository: MockOldChatRepository!
         var notificationsRepository: MockNotificationsRepository!
         var keyValueStorage: KeyValueStorage!
         var featureFlags: MockFeatureFlags!
@@ -41,7 +40,6 @@ class NotificationsManagerSpec: QuickSpec {
             func createNotificationsManager() {
                 sut = LGNotificationsManager(sessionManager: sessionManager,
                                              chatRepository: chatRepository,
-                                             oldChatRepository: oldChatRepository,
                                              notificationsRepository: notificationsRepository,
                                              keyValueStorage: keyValueStorage,
                                              featureFlags: featureFlags,
@@ -77,14 +75,12 @@ class NotificationsManagerSpec: QuickSpec {
             }
 
             func populateCountersResults() {
-                oldChatRepository.unreadMsgCountResult = Result<Int, RepositoryError>(10)
                 let chatUnread = MockChatUnreadMessages(totalUnreadMessages: 7)
                 chatRepository.unreadMessagesResult = ChatUnreadMessagesResult(chatUnread)
                 notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(2)
             }
 
             func populateEmptyCountersResults() {
-                oldChatRepository.unreadMsgCountResult = Result<Int, RepositoryError>(0)
                 let chatUnread = MockChatUnreadMessages(totalUnreadMessages: 0)
                 chatRepository.unreadMessagesResult = ChatUnreadMessagesResult(chatUnread)
                 notificationsRepository.unreadCountResult = NotificationsUnreadCountResult(0)
@@ -93,7 +89,6 @@ class NotificationsManagerSpec: QuickSpec {
             beforeEach {
                 sessionManager = MockSessionManager()
                 chatRepository = MockChatRepository.makeMock()
-                oldChatRepository = MockOldChatRepository.makeMock()
                 notificationsRepository = MockNotificationsRepository.makeMock()
                 myUserRepository = MockMyUserRepository.makeMock()
                 keyValueStorage = KeyValueStorage(storage: MockKeyValueStorage(), myUserRepository: myUserRepository)
@@ -135,24 +130,8 @@ class NotificationsManagerSpec: QuickSpec {
                         beforeEach {
                             sessionManager.loggedIn = true
                         }
-                        context("old chat") {
+                        context("chat") {
                             beforeEach {
-                                featureFlags.websocketChat = false
-                                sut.setup()
-                            }
-                            it("unreadMessagesCount emits a nil and then 10") {
-                                expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 10]))
-                            }
-                            it("unreadNotificationsCount emits and then 2") {
-                                expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 2]))
-                            }
-                            it("globalCount is 26") {
-                                expect(globalCountObserver.events.last?.value.element!).toEventually(equal(12))
-                            }
-                        }
-                        context("new chat") {
-                            beforeEach {
-                                featureFlags.websocketChat = true
                                 sut.setup()
                             }
                             it("unreadMessagesCount emits a nil and then 7") {
@@ -263,25 +242,8 @@ class NotificationsManagerSpec: QuickSpec {
                     beforeEach {
                         createNotificationsManager()
                     }
-                    context("old chat") {
+                    context("chat") {
                         beforeEach {
-                            featureFlags.websocketChat = false
-                            sut.setup()
-                            doLogin()
-                        }
-                        it("unreadMessagesCount emits a nil and then 10") {
-                            expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 10]))
-                        }
-                        it("unreadNotificationsCount emits and then 2") {
-                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 2]))
-                        }
-                        it("globalCount is 12") {
-                            expect(globalCountObserver.events.last?.value.element!).toEventually(equal(12))
-                        }
-                    }
-                    context("new chat") {
-                        beforeEach {
-                            featureFlags.websocketChat = true
                             sut.setup()
                             doLogin()
                         }
@@ -349,27 +311,8 @@ class NotificationsManagerSpec: QuickSpec {
                     beforeEach {
                         createNotificationsManager()
                     }
-                    context("old chat") {
+                    context("chat") {
                         beforeEach {
-                            featureFlags.websocketChat = false
-                            sut.setup()
-                            expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 10]))
-                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 2]))
-                            doLogout()
-                        }
-                        it("unreadMessagesCount emits a nil, 10 and 0") {
-                            expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 10, nil]))
-                        }
-                        it("unreadNotificationsCount emits nil, 2 and 0") {
-                            expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 2, nil]))
-                        }
-                        it("globalCount is 0") {
-                            expect(globalCountObserver.events.last?.value.element!) == 0
-                        }
-                    }
-                    context("new chat") {
-                        beforeEach {
-                            featureFlags.websocketChat = true
                             sut.setup()
                             expect(unreadMessagesObserver.eventValues).toEventually(equal([nil, 7]))
                             expect(unreadNotificationsObserver.eventValues).toEventually(equal([nil, 2]))
@@ -431,25 +374,8 @@ class NotificationsManagerSpec: QuickSpec {
                 }
             }
             describe("push notification") {
-                context("old chat") {
+                context("chat") {
                     beforeEach {
-                        featureFlags.websocketChat = false
-                        doLogin()
-                        populateEmptyCountersResults()
-                        createNotificationsManager()
-                        sut.setup()
-                        expect(unreadMessagesObserver.eventValues.count).toEventually(equal(2)) // initial + setup
-                        populateCountersResults()
-                        deepLinksRouter.deepLinksSignal.onNext(DeepLink.makeChatMock())
-                        expect(unreadMessagesObserver.eventValues.count).toEventually(equal(3))
-                    }
-                    it("unreadMessagesCount value becomes 10") {
-                        XCTAssertEqual(unreadMessagesObserver.events, [next(0, nil), next(0, 0), next(0, 10)])
-                    }
-                }
-                context("new chat") {
-                    beforeEach {
-                        featureFlags.websocketChat = true
                         doLogin()
                         populateEmptyCountersResults()
                         createNotificationsManager()

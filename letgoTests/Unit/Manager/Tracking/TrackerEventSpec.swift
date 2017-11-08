@@ -3472,7 +3472,7 @@ class TrackerEventSpec: QuickSpec {
             }
             describe("bump banner show") {
                 beforeEach {
-                    sut = TrackerEvent.bumpBannerShow(type: .paid, listingId: "1122")
+                    sut = TrackerEvent.bumpBannerShow(type: .paid, listingId: "1122", storeProductId: "tier1")
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-banner-show"))
@@ -3483,12 +3483,32 @@ class TrackerEventSpec: QuickSpec {
                 it("product id matches") {
                     expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
                 }
+                it("storeProductId matches") {
+                    expect(sut.params?.stringKeyParams["store-productId"] as? String) == "tier1"
+                }
+            }
+            describe("bump banner Info shown") {
+                beforeEach {
+                    sut = TrackerEvent.bumpBannerInfoShown(type: .paid, listingId: "1122", storeProductId: "tier1")
+                }
+                it("has its event name ") {
+                    expect(sut.name.rawValue).to(equal("bump-info-shown"))
+                }
+                it("type matches") {
+                    expect(sut.params?.stringKeyParams["bump-type"] as? String) == "paid"
+                }
+                it("product id matches") {
+                    expect(sut.params?.stringKeyParams["product-id"] as? String) == "1122"
+                }
+                it("storeProductId matches") {
+                    expect(sut.params?.stringKeyParams["store-productId"] as? String) == "tier1"
+                }
             }
             describe("bump up start") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
-                    sut = TrackerEvent.listingBumpUpStart(.product(product), price: .free, type: .free)
+                    sut = TrackerEvent.listingBumpUpStart(.product(product), price: .free, type: .free, storeProductId: nil)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-start"))
@@ -3502,13 +3522,17 @@ class TrackerEventSpec: QuickSpec {
                 it("type matches") {
                     expect(sut.params?.stringKeyParams["bump-type"] as? String) == "free"
                 }
+                it("storeProductId is N/A") {
+                    expect(sut.params?.stringKeyParams["store-productId"] as? String) == TrackerEvent.notApply
+                }
             }
             describe("bump up complete") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
                     sut = TrackerEvent.listingBumpUpComplete(.product(product), price: .free, type: .free, restoreRetriesCount: 8,
-                                                             network: .facebook, transactionStatus: .purchasingPurchased)
+                                                             network: .facebook, transactionStatus: .purchasingPurchased,
+                                                             storeProductId: nil)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-complete"))
@@ -3528,10 +3552,16 @@ class TrackerEventSpec: QuickSpec {
                 it("network matches") {
                     expect(sut.params?.stringKeyParams["share-network"] as? String) == "facebook"
                 }
+                it("storeProductId is N/A") {
+                    expect(sut.params?.stringKeyParams["store-productId"] as? String) == TrackerEvent.notApply
+                }
             }
             describe("bump up fail") {
                 beforeEach {
-                    sut = TrackerEvent.listingBumpUpFail(type: .paid, listingId: "1122", transactionStatus: .purchasingPurchased)
+                    sut = TrackerEvent.listingBumpUpFail(type: .paid,
+                                                         listingId: "1122",
+                                                         transactionStatus: .purchasingPurchased,
+                                                         storeProductId: "tier2")
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-fail"))
@@ -3544,6 +3574,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("transaction status matches") {
                     expect(sut.params?.stringKeyParams["transaction-status"] as? String) == "purchasing-purchased"
+                }
+                it("storeProductId matches") {
+                    expect(sut.params?.stringKeyParams["store-productId"] as? String) == "tier2"
                 }
             }
             describe("mobile payment complete") {

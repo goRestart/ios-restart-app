@@ -21,7 +21,6 @@ protocol FeatureFlaggeable: class {
     var surveyUrl: String { get }
     var surveyEnabled: Bool { get }
 
-    var websocketChat: Bool { get }
     var captchaTransparent: Bool { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
@@ -45,7 +44,9 @@ protocol FeatureFlaggeable: class {
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
     var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
+    var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var newItemPage: NewItemPage { get }
+    var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -62,46 +63,19 @@ extension FeatureFlaggeable {
 }
 
 extension AddSuperKeywordsOnFeed {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .active:
-            return true
-        }
-    }
+    var isActive: Bool { get { return self == .active } }
 }
+
 extension TweaksCarPostingFlow {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .active:
-            return true
-        }
-    }
+    var isActive: Bool { get { return self == .active } }
 }
 
 extension ExpandableCategorySelectionMenu {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .expandableMenu:
-            return true
-        }
-    }
+    var isActive: Bool { get { return self == .expandableMenu } }
 }
 
 extension ShowPriceAfterSearchOrFilter {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .priceOnSearchOrFilter:
-            return true
-        }
-    }
+    var isActive: Bool { get { return self == .priceOnSearchOrFilter } }
 }
 
 extension HomeRelatedEnabled {
@@ -112,10 +86,13 @@ extension TaxonomiesAndTaxonomyChildrenInFeed {
     var isActive: Bool { get { return self == .active } }
 }
 
+extension ShowPriceStepRealEstatePosting {
+    var isActive: Bool { get { return self == .active } }
+}
+
 class FeatureFlags: FeatureFlaggeable {
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
-    let websocketChat: Bool
     let requestTimeOut: RequestsTimeOut
 
     private let locale: Locale
@@ -132,12 +109,6 @@ class FeatureFlags: FeatureFlaggeable {
         Bumper.initialize()
 
         // Initialize all vars that shouldn't change over application lifetime
-        if Bumper.enabled {
-            self.websocketChat = Bumper.websocketChat
-        } else {
-            self.websocketChat = dao.retrieveWebsocketChatEnabled() ?? abTests.websocketChat.value
-        }
-
         if Bumper.enabled {
             self.requestTimeOut = Bumper.requestsTimeOut
         } else {
@@ -175,7 +146,6 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     func variablesUpdated() {
-        dao.save(websocketChatEnabled: abTests.websocketChat.value)
         if Bumper.enabled {
             dao.save(timeoutForRequests: TimeInterval(Bumper.requestsTimeOut.timeout))
         } else {
@@ -307,7 +277,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.realEstateEnabled
         }
-        return abTests.realEstateEnabled.value
+        return false
     }
     
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
@@ -364,6 +334,20 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.taxonomiesAndTaxonomyChildrenInFeed
         }
         return TaxonomiesAndTaxonomyChildrenInFeed.fromPosition(abTests.taxonomiesAndTaxonomyChildrenInFeed.value)
+    }
+    
+    var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting {
+        if Bumper.enabled {
+            return Bumper.showPriceStepRealEstatePosting
+        }
+        return .control
+    }
+    
+    var showClockInDirectAnswer: ShowClockInDirectAnswer {
+        if Bumper.enabled {
+            return Bumper.showClockInDirectAnswer
+        }
+        return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
     }
 
 

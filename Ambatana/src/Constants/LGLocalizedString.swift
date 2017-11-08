@@ -2927,6 +2927,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("rating_view_title_label_uppercase", comment: "")
 	}
 
+	static var realEstateLocationTitle: String {
+		return NSLocalizedString("real_estate_location_title", comment: "")
+	}
+
 	static var realEstateSummaryTitle: String {
 		return NSLocalizedString("real_estate_summary_title", comment: "")
 	}
@@ -3011,6 +3015,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_bathrooms_4", comment: "")
 	}
 
+	static var realEstateSummaryBathroomTitle: String {
+		return NSLocalizedString("real_estate_summary_bathroom_title", comment: "")
+	}
+
+	static var realEstateSummaryBathroomsTitle: String {
+		return NSLocalizedString("real_estate_summary_bathrooms_title", comment: "")
+	}
+
 	static var realEstateBedroomsTitle: String {
 		return NSLocalizedString("real_estate_bedrooms_title", comment: "")
 	}
@@ -3033,6 +3045,14 @@ struct LGLocalizedString {
 
 	static var realEstateBedrooms4: String {
 		return NSLocalizedString("real_estate_bedrooms_4", comment: "")
+	}
+
+	static var realEstateSummaryBedroomTitle: String {
+		return NSLocalizedString("real_estate_summary_bedroom_title", comment: "")
+	}
+
+	static var realEstateSummaryBedroomsTitle: String {
+		return NSLocalizedString("real_estate_summary_bedrooms_title", comment: "")
 	}
 
 	static var realEstateSummaryPriceEmpty: String {
