@@ -16,19 +16,19 @@ extension FilterSection {
         switch(self) {
         case .location:
 
-            return LGLocalizedString.filtersSectionLocation.uppercase
+            return LGLocalizedString.filtersSectionLocation.localizedUppercase
         case .distance:
-            return LGLocalizedString.filtersSectionDistance.uppercase
+            return LGLocalizedString.filtersSectionDistance.localizedUppercase
         case .categories:
-            return LGLocalizedString.filtersSectionCategories.uppercase
+            return LGLocalizedString.filtersSectionCategories.localizedUppercase
         case .carsInfo:
-            return LGLocalizedString.filtersSectionCarInfo.uppercase
+            return LGLocalizedString.filtersSectionCarInfo.localizedUppercase
         case .within:
-            return LGLocalizedString.filtersSectionWithin.uppercase
+            return LGLocalizedString.filtersSectionWithin.localizedUppercase
         case .sortBy:
-            return LGLocalizedString.filtersSectionSortby.uppercase
+            return LGLocalizedString.filtersSectionSortby.localizedUppercase
         case .price:
-            return LGLocalizedString.filtersSectionPrice.uppercase
+            return LGLocalizedString.filtersSectionPrice.localizedUppercase
         }
     }
 
