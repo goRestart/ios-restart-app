@@ -9,7 +9,7 @@
 import LGCoreKit
 
 extension ListingCreationParams {
-    static func make(title: String,
+    static func make(title: String?,
                      description: String,
                      currency: Currency,
                      location: LGLocationCoordinates2D,
@@ -21,7 +21,7 @@ extension ListingCreationParams {
         if let category = postListingState.category {
             switch category {
             case .car:
-                let carParams = CarCreationParams(name: title,
+                let carParams = CarCreationParams(name: title ?? postListingState.verticalAttributes?.carAttributes?.generatedCarName(),
                                                   description: description,
                                                   price: postListingState.price ?? Constants.defaultPrice,
                                                   category: .cars,
@@ -34,7 +34,7 @@ extension ListingCreationParams {
             case .realEstate:
                 let realEstateParams = RealEstateCreationParams(name: title,
                                                                 description: description,
-                                                                price: Constants.defaultPrice,
+                                                                price: postListingState.price ?? Constants.defaultPrice,
                                                                 category: .realEstate,
                                                                 currency: currency,
                                                                 location: location,
@@ -45,7 +45,7 @@ extension ListingCreationParams {
             case .motorsAndAccessories, .unassigned:
                 let productParams = ProductCreationParams(name: title,
                                                           description: description,
-                                                          price: Constants.defaultPrice,
+                                                          price: postListingState.price ?? Constants.defaultPrice,
                                                           category: category.listingCategory,
                                                           currency: currency,
                                                           location: location,
@@ -56,7 +56,7 @@ extension ListingCreationParams {
         } else {
             let productParams = ProductCreationParams(name: title,
                                                       description: description,
-                                                      price: Constants.defaultPrice,
+                                                      price: postListingState.price ?? Constants.defaultPrice,
                                                       category: .unassigned,
                                                       currency: currency,
                                                       location: location,

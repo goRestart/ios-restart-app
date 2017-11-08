@@ -215,7 +215,6 @@ class LGSessionManager: InternalSessionManager {
      Starts the chat, will open websocket and authenticate on demand
      */
     func startChat() {
-        guard LGCoreKit.shouldUseChatWithWebSocket else { return }
         guard loggedIn else { return }
         websocketClient.start(withEndpoint: EnvironmentProxy.sharedInstance.webSocketURL)
     }
@@ -224,7 +223,6 @@ class LGSessionManager: InternalSessionManager {
      Stops the chat removing any pending completion / operation
      */
     dynamic func stopChat() {
-        guard LGCoreKit.shouldUseChatWithWebSocket else { return }
         websocketClient.stop()
     }
 
@@ -277,7 +275,6 @@ class LGSessionManager: InternalSessionManager {
     }
 
     func authenticateWebSocket() {
-        guard LGCoreKit.shouldUseChatWithWebSocket else { return }
         let tokenString = tokenDAO.token.actualValue
         guard let token = tokenString, tokenDAO.level >= .user,
             let userId = myUserRepository.myUser?.objectId else {

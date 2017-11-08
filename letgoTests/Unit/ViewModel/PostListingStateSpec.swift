@@ -421,6 +421,18 @@ class PostProductStateSpec: BaseViewModelSpec {
                         expect(sut.step) == PostListingStep.detailsSelection
                     }
                 }
+                context("with realEstate as postCategory") {
+                    beforeEach {
+                        sut = PostListingState(postCategory: .realEstate)
+                        sut = sut.updatingStepToUploadingImages()
+                        sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
+                        sut = sut.updatingAfterUploadingSuccess()
+                    }
+                    
+                    it("updates the step to price selection") {
+                        expect(sut.step) == PostListingStep.addingDetails
+                    }
+                }
             }
             
             describe("after pricing updated") {

@@ -13,7 +13,6 @@ import bumper
 extension Bumper  {
     static func initialize() {
         var flags = [BumperFeature.Type]()
-        flags.append(WebsocketChat.self)
         flags.append(ShowNPSSurvey.self)
         flags.append(SurveyEnabled.self)
         flags.append(FreeBumpUpEnabled.self)
@@ -39,12 +38,9 @@ extension Bumper  {
         flags.append(FeaturedRibbonImprovementInDetail.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(NewItemPage.self)
+        flags.append(ShowPriceStepRealEstatePosting.self)
+        flags.append(ShowClockInDirectAnswer.self)
         Bumper.initialize(flags)
-    } 
-
-    static var websocketChat: Bool {
-        guard let value = Bumper.value(for: WebsocketChat.key) else { return false }
-        return WebsocketChat(rawValue: value)?.asBool ?? false
     }
 
     static var showNPSSurvey: Bool {
@@ -170,18 +166,19 @@ extension Bumper  {
     static var newItemPage: NewItemPage {
         guard let value = Bumper.value(for: NewItemPage.key) else { return .control }
         return NewItemPage(rawValue: value) ?? .control 
+    }
+
+    static var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting {
+        guard let value = Bumper.value(for: ShowPriceStepRealEstatePosting.key) else { return .control }
+        return ShowPriceStepRealEstatePosting(rawValue: value) ?? .control 
+    }
+
+    static var showClockInDirectAnswer: ShowClockInDirectAnswer {
+        guard let value = Bumper.value(for: ShowClockInDirectAnswer.key) else { return .control }
+        return ShowClockInDirectAnswer(rawValue: value) ?? .control 
     } 
 }
 
-
-enum WebsocketChat: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return WebsocketChat.no.rawValue }
-    static var enumValues: [WebsocketChat] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New Websocket Chat" } 
-    var asBool: Bool { return self == .yes }
-}
 
 enum ShowNPSSurvey: String, BumperFeature  {
     case no, yes
@@ -511,6 +508,38 @@ enum NewItemPage: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New item page with card appearance and different navigation" } 
     static func fromPosition(_ position: Int) -> NewItemPage {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShowPriceStepRealEstatePosting: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowPriceStepRealEstatePosting.control.rawValue }
+    static var enumValues: [ShowPriceStepRealEstatePosting] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show price on real estate listing" } 
+    static func fromPosition(_ position: Int) -> ShowPriceStepRealEstatePosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShowClockInDirectAnswer: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowClockInDirectAnswer.control.rawValue }
+    static var enumValues: [ShowClockInDirectAnswer] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show a clock until the message is delivered correctly" } 
+    static func fromPosition(_ position: Int) -> ShowClockInDirectAnswer {
         switch position { 
             case 0: return .control
             case 1: return .baseline

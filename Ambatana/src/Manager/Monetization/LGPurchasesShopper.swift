@@ -366,6 +366,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         guard currentBump.numRetries < Constants.maxRetriesForBumpUpRestore  else {
             removeFromUserDefaults(transactionId: currentBump.transactionId)
             removeFromUserDefaultsBumpUpWithListingId(listingId: listingId)
+            delegate?.pricedBumpDidFail(type: type, transactionStatus: transactionStatus)
             return
         }
 

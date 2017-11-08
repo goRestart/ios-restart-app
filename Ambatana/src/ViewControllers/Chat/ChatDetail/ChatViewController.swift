@@ -65,7 +65,7 @@ class ChatViewController: TextViewController {
         self.viewModel = viewModel
         self.listingView = ChatListingView.chatListingView()
         self.relatedListingsView = ChatRelatedListingsView()
-        self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
+        self.directAnswersPresenter = DirectAnswersPresenter()
         self.stickersView = ChatStickersView()
         self.featureFlags = featureFlags
         self.pushPermissionManager = pushPermissionManager
@@ -276,9 +276,9 @@ class ChatViewController: TextViewController {
 
 // MARK: ConversationDataDisplayer
 
-extension ChatViewController: ConversationDataDisplayer {
-    func isDisplayingConversationData(_ data: ConversationData) -> Bool {
-        return viewModel.isMatchingConversationData(data)
+extension ChatViewController: ConversationIdDisplayer {
+    func isDisplayingConversationId(_ conversationId: String) -> Bool {
+        return viewModel.isMatchingConversationId(conversationId)
     }
 }
 

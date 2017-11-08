@@ -120,7 +120,7 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate let keyValueStorage: KeyValueStorageable
     fileprivate let imageDownloader: ImageDownloaderType
     fileprivate let listingViewModelMaker: ListingViewModelMaker
-    fileprivate let featureFlags: FeatureFlaggeable
+    let featureFlags: FeatureFlaggeable
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -325,7 +325,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func bumpUpBannerShown(type: BumpUpType) {
-        currentListingViewModel?.trackBumpUpBannerShown(type: type)
+        currentListingViewModel?.trackBumpUpBannerShown(type: type, storeProductId: currentListingViewModel?.paymentProviderItemId)
     }
     
     func moveQuickAnswerToTheEnd(_ index: Int) {
