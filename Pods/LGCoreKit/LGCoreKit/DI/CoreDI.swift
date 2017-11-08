@@ -137,10 +137,6 @@ final class CoreDI: InternalDI {
 
         self.internalMyUserRepository = myUserRepository
         self.internalInstallationRepository = installationRepository
-        let oldChatDataSource = ChatApiDataSource(apiClient: apiClient)
-        let oldchatRepository = LGOldChatRepository(dataSource: oldChatDataSource,
-                                                    myUserRepository: myUserRepository)
-        self.oldChatRepository = oldchatRepository
 
         let notificationsDataSource = NotificationsApiDataSource(apiClient: self.apiClient)
         self.notificationsRepository = LGNotificationsRepository(dataSource: notificationsDataSource)
@@ -214,7 +210,6 @@ final class CoreDI: InternalDI {
         return internalInstallationRepository
     }
     let internalInstallationRepository: InternalInstallationRepository
-    let oldChatRepository: OldChatRepository
     let chatRepository: ChatRepository
     let notificationsRepository: NotificationsRepository
     let stickersRepository: StickersRepository

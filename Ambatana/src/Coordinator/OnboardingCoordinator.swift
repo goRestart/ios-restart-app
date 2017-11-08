@@ -372,18 +372,13 @@ extension OnboardingCoordinator: HelpNavigator {
 extension OnboardingCoordinator {
     func open(url: URL) {
         if let vc = currentNavigationController() {
-            if #available(iOS 9.0, *) {
-                let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
-                svc.view.tintColor = UIColor.primaryColor
-                vc.present(svc, animated: true, completion: nil)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
+            let svc = SFSafariViewController(url: url, entersReaderIfAvailable: false)
+            svc.view.tintColor = UIColor.primaryColor
+            vc.present(svc, animated: true, completion: nil)
         } else {
             UIApplication.shared.openURL(url)
         }
     }
-
 }
 
 

@@ -310,16 +310,16 @@ extension UserViewHeader {
         attributes[NSForegroundColorAttributeName] = UIColor.lgBlack
         attributes[NSFontAttributeName] = UIFont.inactiveTabFont
 
-        let sellingTitle = NSAttributedString(string: LGLocalizedString.profileSellingProductsTab.uppercase,
+        let sellingTitle = NSAttributedString(string: LGLocalizedString.profileSellingProductsTab.localizedUppercase,
             attributes: attributes)
         sellingButton.setAttributedTitle(sellingTitle, for: .normal)
 
 
-        let soldTitle = NSAttributedString(string: LGLocalizedString.profileSoldProductsTab.uppercase,
+        let soldTitle = NSAttributedString(string: LGLocalizedString.profileSoldProductsTab.localizedUppercase,
             attributes: attributes)
         soldButton.setAttributedTitle(soldTitle, for: .normal)
 
-        let favsTitle = NSAttributedString(string: LGLocalizedString.profileFavouritesProductsTab.uppercase,
+        let favsTitle = NSAttributedString(string: LGLocalizedString.profileFavouritesProductsTab.localizedUppercase,
             attributes: attributes)
         favoritesButton.setAttributedTitle(favsTitle, for: .normal)
 
@@ -357,16 +357,16 @@ extension UserViewHeader {
         attributes[NSForegroundColorAttributeName] = selectedColor
         attributes[NSFontAttributeName] = UIFont.activeTabFont
 
-        let sellingTitle = NSAttributedString(string: LGLocalizedString.profileSellingProductsTab.uppercase,
+        let sellingTitle = NSAttributedString(string: LGLocalizedString.profileSellingProductsTab.localizedUppercase,
             attributes: attributes)
         sellingButton.setAttributedTitle(sellingTitle, for: .selected)
 
 
-        let soldTitle = NSAttributedString(string: LGLocalizedString.profileSoldProductsTab.uppercase,
+        let soldTitle = NSAttributedString(string: LGLocalizedString.profileSoldProductsTab.localizedUppercase,
             attributes: attributes)
         soldButton.setAttributedTitle(soldTitle, for: .selected)
 
-        let favsTitle = NSAttributedString(string: LGLocalizedString.profileFavouritesProductsTab.uppercase,
+        let favsTitle = NSAttributedString(string: LGLocalizedString.profileFavouritesProductsTab.localizedUppercase,
             attributes: attributes)
         favoritesButton.setAttributedTitle(favsTitle, for: .selected)
     }
