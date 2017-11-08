@@ -151,6 +151,7 @@ enum EventName: String {
     case marketingPushNotifications         = "marketing-push-notifications"
 
     case bumpBannerShow                     = "bump-banner-show"
+    case bumpInfoShown                      = "bump-info-shown"
     case bumpUpStart                        = "bump-up-start"
     case bumpUpComplete                     = "bump-up-complete"
     case bumpUpFail                         = "bump-up-fail"
@@ -281,6 +282,7 @@ enum EventParameterName: String {
     case bumpUpType           = "bump-type"
     case paymentId            = "payment-id"
     case retriesNumber        = "retries-number"
+    case storeProductId       = "store-productId"
     case passiveConversations = "passive-conversations"
     case feedPosition         = "feed-position"
     case feedSource           = "feed-source"

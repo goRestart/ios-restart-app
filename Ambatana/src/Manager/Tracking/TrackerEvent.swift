@@ -988,27 +988,38 @@ struct TrackerEvent {
         return TrackerEvent(name: .marketingPushNotifications, params: params)
     }
 
-    static func bumpBannerShow(type: EventParameterBumpUpType, listingId: String?) -> TrackerEvent {
+    static func bumpBannerShow(type: EventParameterBumpUpType, listingId: String?, storeProductId: String?) -> TrackerEvent {
         var params = EventParameters()
         params[.bumpUpType] = type.rawValue
         params[.listingId] = listingId ?? ""
+        params[.storeProductId] = storeProductId ?? TrackerEvent.notApply
         return TrackerEvent(name: .bumpBannerShow, params: params)
     }
 
+    static func bumpBannerInfoShown(type: EventParameterBumpUpType, listingId: String?, storeProductId: String?) -> TrackerEvent {
+        var params = EventParameters()
+        params[.bumpUpType] = type.rawValue
+        params[.listingId] = listingId ?? ""
+        params[.storeProductId] = storeProductId ?? TrackerEvent.notApply
+        return TrackerEvent(name: .bumpInfoShown, params: params)
+    }
+
     static func listingBumpUpStart(_ listing: Listing, price: EventParameterBumpUpPrice,
-                                   type: EventParameterBumpUpType) -> TrackerEvent {
+                                   type: EventParameterBumpUpType, storeProductId: String?) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
 
         params[.bumpUpPrice] = price.description
         params[.bumpUpType] = type.rawValue
+        params[.storeProductId] = storeProductId ?? TrackerEvent.notApply
         return TrackerEvent(name: .bumpUpStart, params: params)
     }
 
     static func listingBumpUpComplete(_ listing: Listing, price: EventParameterBumpUpPrice,
                                       type: EventParameterBumpUpType, restoreRetriesCount: Int,
                                       network: EventParameterShareNetwork,
-                                      transactionStatus: EventParameterTransactionStatus?) -> TrackerEvent {
+                                      transactionStatus: EventParameterTransactionStatus?,
+                                      storeProductId: String?) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.bumpUpPrice] = price.description
@@ -1016,15 +1027,18 @@ struct TrackerEvent {
         params[.retriesNumber] = restoreRetriesCount
         params[.shareNetwork] = network.rawValue
         params[.transactionStatus] = transactionStatus?.rawValue ?? TrackerEvent.notApply
+        params[.storeProductId] = storeProductId ?? TrackerEvent.notApply
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }
 
     static func listingBumpUpFail(type: EventParameterBumpUpType, listingId: String?,
-                                  transactionStatus: EventParameterTransactionStatus?) -> TrackerEvent {
+                                  transactionStatus: EventParameterTransactionStatus?,
+                                  storeProductId: String?) -> TrackerEvent {
         var params = EventParameters()
         params[.bumpUpType] = type.rawValue
         params[.listingId] = listingId ?? ""
         params[.transactionStatus] = transactionStatus?.rawValue ?? TrackerEvent.notApply
+        params[.storeProductId] = storeProductId ?? TrackerEvent.notApply
         return TrackerEvent(name: .bumpUpFail, params: params)
     }
 
