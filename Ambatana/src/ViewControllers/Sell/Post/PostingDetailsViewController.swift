@@ -70,11 +70,8 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         titleLabel.font = UIFont.headline
         titleLabel.textColor = UIColor.white
         
-        if viewModel.isSummaryStep {
-            buttonNext.setStyle(.primary(fontSize: .medium))
-        } else {
-            buttonNext.setStyle(.postingFlow)
-        }
+        buttonNext.setStyle(viewModel.doneButtonStyle)
+        
         buttonNext.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
     }
     
@@ -115,7 +112,12 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         buttonNext.layout(with: contentView).below(by: Metrics.bigMargin)
         buttonNext.layout().height(PostingDetailsViewController.skipButtonHeight)
         buttonNext.layout().width(PostingDetailsViewController.skipButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
-        buttonNext.layout(with: keyboardView).bottom(to: .top, by: -Metrics.bigMargin)
+        if viewModel.shouldFollowKeyboard {
+            buttonNext.layout(with: keyboardView).bottom(to: .top, by: -Metrics.bigMargin)
+        } else {
+            buttonNext.layout(with: view).bottom(by: -Metrics.bigMargin)
+        }
+        
         if viewModel.isSummaryStep {
             buttonNext.layout(with: keyboardView).left(by: Metrics.bigMargin)
         }

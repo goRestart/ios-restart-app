@@ -17,15 +17,38 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     
     var buttonTitle: String {
         switch step {
-        case .bathrooms, .bedrooms, .offerType, .price, .propertyType:
+        case .bathrooms, .bedrooms, .offerType, .propertyType, .make, .model, .year:
             return  fromSummary ? LGLocalizedString.productPostDone : LGLocalizedString.postingButtonSkip
-        default:
+        case .price, .location, .summary:
             return LGLocalizedString.productPostDone
         }
     }
     
+    var shouldFollowKeyboard: Bool {
+        switch step {
+        case .bathrooms, .bedrooms, .offerType, .price, .propertyType, .make, .model, .year, .summary:
+            return  true
+        case .location:
+            return false
+        }
+    }
+    
     var isSummaryStep: Bool {
-        return step == .summary
+        switch step {
+        case .summary:
+            return  true
+        default:
+            return false
+        }
+    }
+    
+    var doneButtonStyle: ButtonStyle {
+        switch step {
+        case .bathrooms, .bedrooms, .offerType, .propertyType, .make, .model, .year:
+            return .postingFlow
+        case .location, .summary, .price:
+            return .primary(fontSize: .medium)
+        }
     }
     
     private var currencySymbol: String? {
