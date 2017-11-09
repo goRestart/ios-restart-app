@@ -53,6 +53,9 @@ protocol FeatureFlaggeable: class {
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
+    var adsAllowed: Bool { get }
+    var moreInfoShoppingAdUnitId: String { get }
+    var moreInfoSearchAdUnitId: String { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -393,6 +396,15 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
 
+    var adsAllowed: Bool {
+        switch sensorLocationCountryCode {
+        case .usa?:
+            return false
+        default:
+            return true
+        }
+    }
+
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         guard let code = countryCode, let countryCode = CountryCode(string: code) else { return false }
         switch countryCode {
@@ -403,6 +415,25 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
 
+    var moreInfoShoppingAdUnitId: String {
+        switch sensorLocationCountryCode {
+        case .usa?:
+            return ""
+        default:
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShopping
+        }
+    }
+
+    var moreInfoSearchAdUnitId: String {
+        switch sensorLocationCountryCode {
+        case .usa?:
+            return ""
+        default:
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdSearch
+        }
+    }
+
+
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {
@@ -412,5 +443,10 @@ class FeatureFlags: FeatureFlaggeable {
 
     private var localeCountryCode: CountryCode? {
         return CountryCode(string: locale.lg_countryCode)
+    }
+
+    private var sensorLocationCountryCode: CountryCode? {
+        guard let countryCode = locationManager.currentAutoLocation?.countryCode else { return nil }
+        return CountryCode(string: countryCode)
     }
 }

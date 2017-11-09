@@ -55,7 +55,9 @@ class MockFeatureFlags: FeatureFlaggeable {
     var locationRequiresManualChangeSuggestion = false
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
-
+    var moreInfoShoppingAdUnitId = ""
+    var moreInfoSearchAdUnitId = ""
+    var adsAllowed = true
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

@@ -169,17 +169,14 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate let adsRequester: AdsRequester
 
     // Ads
-    var userIsInUS: Bool {
-        return locationManager.sensorCountryMatchesWith(countryCode: "us")
-    }
     var shoppingAdUnitId: String {
-        return userIsInUS ? "" : EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShopping
+        return featureFlags.moreInfoShoppingAdUnitId
     }
     var searchAdUnitId: String {
-        return userIsInUS ? "" : EnvironmentProxy.sharedInstance.moreInfoAdUnitIdSearch
+        return featureFlags.moreInfoSearchAdUnitId
     }
     var adActive: Bool {
-        return featureFlags.moreInfoAdActive == .active && !userIsInUS
+        return featureFlags.moreInfoAdActive == .active && featureFlags.adsAllowed
     }
     var randomHardcodedAdQuery: String {
         let popularItems = ["ps4", "iphone", LGLocalizedString.productPostIncentiveDresser]
