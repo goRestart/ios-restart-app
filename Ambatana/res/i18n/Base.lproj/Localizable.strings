@@ -2180,6 +2180,9 @@
 // Real Estate location title
 "real_estate_location_title" = "Location";
 
+// Real estate notification
+"real_estate_location_notification_message" = "We'll never show your exact location to other users";
+
 // Real Estate summary title
 "real_estate_summary_title" = "Summary";
 

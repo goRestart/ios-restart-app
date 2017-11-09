@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-class PostingDetailsViewController: KeyboardViewController {
+class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewControllerModelDelegate {
     
     fileprivate static let titleHeight: CGFloat = 60
     fileprivate static let skipButtonMinimumWidth: CGFloat = 100
@@ -108,7 +108,7 @@ class PostingDetailsViewController: KeyboardViewController {
         contentView.layout(with: view).fillHorizontal(by: Metrics.veryShortMargin)
         
         
-        infoView = viewModel.makeContentView
+        infoView = viewModel.makeContentView(viewControllerDelegate: self)
         infoView?.setupContainerView(view: contentView)
         
         view.addSubview(buttonNext)

@@ -37,7 +37,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         return locationManager.currentLocation?.countryCode
     }
     
-    var makeContentView: PostingViewConfigurable? {
+    func makeContentView(viewControllerDelegate: LGSearchMapViewControllerModelDelegate) -> PostingViewConfigurable? {
         var values: [String]
         switch step {
         case .bathrooms:
@@ -49,7 +49,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .propertyType:
             values = RealEstatePropertyType.allValues.flatMap { $0.localizedString }
         case .price:
-           
+            
             let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol,
                                                       freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
             priceView.priceListing.asObservable().bindTo(priceListing).addDisposableTo(disposeBag)
@@ -58,7 +58,9 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             let summaryView = PostingAddDetailSummaryTableView(postCategory: postListingState.category)
             summaryView.delegate = self
             return summaryView
-        case .location, .year, .make, .model:
+        case .location:
+            return PostingAddDetailLocation(viewControllerDelegate: viewControllerDelegate)
+        case .year, .make, .model:
             return nil
         }
         let view: PostingAddDetailTableView = PostingAddDetailTableView(values: values, delegate: self)

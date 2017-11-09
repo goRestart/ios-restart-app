@@ -733,12 +733,18 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Αριθμός υπνοδωματίων";
+"real_estate_location_notification_message" = "We'll never show your exact location to other users";
+"real_estate_location_title" = "Location";
 "real_estate_offer_type_rent" = "Για Ενοικίαση";
 "real_estate_offer_type_sale" = "Για Πώληση";
 "real_estate_offer_type_title" = "Τύπος Καταχώρησης";
 "real_estate_price_title" = "Τιμή";
+"real_estate_summary_bathroom_title" = "bathroom";
 "real_estate_summary_bathrooms_empty" = "Προσθήκη αριθμού μπάνιων";
+"real_estate_summary_bathrooms_title" = "bathrooms";
+"real_estate_summary_bedroom_title" = "bedroom";
 "real_estate_summary_bedrooms_emtpy" = "Προσθήκη αριθμού υπνοδωματίων";
+"real_estate_summary_bedrooms_title" = "bedrooms";
 "real_estate_summary_location_empty" = "Τοποθεσία: δεν έχει οριστεί";
 "real_estate_summary_offer_type_empty" = "Προσθήκη τύπου καταχώρησης";
 "real_estate_summary_price_empty" = "Προσθήκη τιμής";
@@ -828,7 +834,7 @@
 "settings_section_promote" = "Προώθηση";
 "settings_section_support" = "Υποστήριξη";
 "settings_title" = "Ρυθμίσεις";
-"sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
+"sign_up_acceptance_error" = "Για να εγγραφείτε θα πρέπει να αποδεχτείτε τους Όρους & Προϋποθέσεις και την Πολιτική Ιδιωτικότητας";
 "sign_up_email_field_hint" = "Email";
 "sign_up_email_step1_continue_button" = "Continue";
 "sign_up_email_step1_email_field_hint" = "Email";
@@ -838,7 +844,7 @@
 "sign_up_email_step2_name_field_hint" = "Ονοματεπώνυμο";
 "sign_up_email_step2_newsletter" = "Θέλω να λαμβάνω το newsletter του letgo";
 "sign_up_email_step2_terms_conditions_privacy_kw" = "Πολιτική Απορρήτου";
-"sign_up_newsleter" = "I want to receive the letgo newsletter";
+"sign_up_newsleter" = "Θέλω να λαμβάνω το newsletter του letgo";
 "sign_up_password_field_hint" = "Κωδικός Πρόσβασης";
 "sign_up_send_button" = "Εγγραφή";
 "sign_up_send_error_email_taken" = "Έχει ήδη γίνει εγγραφή με το email %@. Παρακαλώ, χρησιμοποιήστε το για να συνδεθείτε.";
@@ -847,7 +853,7 @@
 "sign_up_send_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email.";
 "sign_up_send_error_invalid_password_with_max" = "Παρακαλώ εισάγετε έναν έγκυρο κωδικό πρόσβασης. Θα πρέπει να αποτελείται τουλάχιστον από %d μέχρι %d χαρακτήρες.";
 "sign_up_send_error_invalid_username" = "Παρακαλώ εισάγετε έγκυρο όνομα χρήστη. Θα πρέπει να αποτελείται από τουλάχιστον %d χαρακτήρες.";
-"sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
+"sign_up_terms_conditions" = "Συμφωνώ στους Όρους & Προϋποθέσεις και στην Πολιτική Ιδιωτικότητας του letgo";
 "sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Δημιουργία νέου λογαριασμού";

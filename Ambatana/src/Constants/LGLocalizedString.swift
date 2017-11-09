@@ -2931,6 +2931,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_location_title", comment: "")
 	}
 
+	static var realEstateLocationNotificationMessage: String {
+		return NSLocalizedString("real_estate_location_notification_message", comment: "")
+	}
+
 	static var realEstateSummaryTitle: String {
 		return NSLocalizedString("real_estate_summary_title", comment: "")
 	}

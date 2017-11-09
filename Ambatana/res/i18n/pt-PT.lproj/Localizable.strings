@@ -733,12 +733,18 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "+4";
 "real_estate_bedrooms_title" = "Nº de quartos";
+"real_estate_location_notification_message" = "We'll never show your exact location to other users";
+"real_estate_location_title" = "Location";
 "real_estate_offer_type_rent" = "Para aluguer";
 "real_estate_offer_type_sale" = "Para venda";
 "real_estate_offer_type_title" = "Tipo de publicação";
 "real_estate_price_title" = "Preço";
+"real_estate_summary_bathroom_title" = "bathroom";
 "real_estate_summary_bathrooms_empty" = "Adicionar nº de casas de banho";
+"real_estate_summary_bathrooms_title" = "bathrooms";
+"real_estate_summary_bedroom_title" = "bedroom";
 "real_estate_summary_bedrooms_emtpy" = "Adicionar nº de quartos";
+"real_estate_summary_bedrooms_title" = "bedrooms";
 "real_estate_summary_location_empty" = "Localização: não definido";
 "real_estate_summary_offer_type_empty" = "Adicionar tipo de publicação";
 "real_estate_summary_price_empty" = "Adicionar preço";
@@ -828,7 +834,7 @@
 "settings_section_promote" = "Promover";
 "settings_section_support" = "Suporte";
 "settings_title" = "Configurações";
-"sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
+"sign_up_acceptance_error" = "Para se inscrever deve aceitar os Termos & Condições e Política de Privacidade";
 "sign_up_email_field_hint" = "Email";
 "sign_up_email_step1_continue_button" = "Continue";
 "sign_up_email_step1_email_field_hint" = "Email";
@@ -838,7 +844,7 @@
 "sign_up_email_step2_name_field_hint" = "Nome completo";
 "sign_up_email_step2_newsletter" = "Desejo receber a newsletter letgo";
 "sign_up_email_step2_terms_conditions_privacy_kw" = "Política de Privacidade";
-"sign_up_newsleter" = "I want to receive the letgo newsletter";
+"sign_up_newsleter" = "Desejo receber a newsletter letgo";
 "sign_up_password_field_hint" = "Password";
 "sign_up_send_button" = "Registar";
 "sign_up_send_error_email_taken" = "O endereço de email %@ já se encontra registado. Por favor utilize-o para efetuar o login.";
@@ -847,7 +853,7 @@
 "sign_up_send_error_invalid_email" = "Insira um email válido.";
 "sign_up_send_error_invalid_password_with_max" = "Insira uma password válida. Deve ter entre %d e %d caracteres.";
 "sign_up_send_error_invalid_username" = "Insira um nome de utilizador válido. Deve conter pelo menos %d caracteres.";
-"sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
+"sign_up_terms_conditions" = "Concordo com os Termos & Condições e Política de Privacidade do letgo";
 "sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Criar uma nova conta";

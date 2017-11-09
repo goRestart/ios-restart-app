@@ -733,12 +733,18 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Zahl der Schlafzimmer";
+"real_estate_location_notification_message" = "We'll never show your exact location to other users";
+"real_estate_location_title" = "Location";
 "real_estate_offer_type_rent" = "Zur Miete";
 "real_estate_offer_type_sale" = "Zum Verkauf";
 "real_estate_offer_type_title" = "Art des Angebots";
 "real_estate_price_title" = "Preis";
+"real_estate_summary_bathroom_title" = "bathroom";
 "real_estate_summary_bathrooms_empty" = "Zahl der Badezimmer hinzufügen";
+"real_estate_summary_bathrooms_title" = "bathrooms";
+"real_estate_summary_bedroom_title" = "bedroom";
 "real_estate_summary_bedrooms_emtpy" = "Zahl der Schlafzimmer hinzufügen";
+"real_estate_summary_bedrooms_title" = "bedrooms";
 "real_estate_summary_location_empty" = "Standort: nicht eingestellt";
 "real_estate_summary_offer_type_empty" = "Art des Angebots hinzufügen";
 "real_estate_summary_price_empty" = "Preis hinzufügen";
@@ -828,7 +834,7 @@
 "settings_section_promote" = "Bewerben";
 "settings_section_support" = "Hilfe";
 "settings_title" = "Einstellungen";
-"sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
+"sign_up_acceptance_error" = "Um dich registrieren zu können, musst du die Nutzungsbedingungen und Datenschutzrichtlinien von letgo akzeptieren";
 "sign_up_email_field_hint" = "E-Mail-Adresse";
 "sign_up_email_step1_continue_button" = "Continue";
 "sign_up_email_step1_email_field_hint" = "E-Mail";
@@ -838,7 +844,7 @@
 "sign_up_email_step2_name_field_hint" = "Vor- und Nachname";
 "sign_up_email_step2_newsletter" = "Ich möchte den letgo-Newsletter erhalten";
 "sign_up_email_step2_terms_conditions_privacy_kw" = "Datenschutz-Richtlinien";
-"sign_up_newsleter" = "I want to receive the letgo newsletter";
+"sign_up_newsleter" = "Ich möchte den letgo-Newsletter erhalten";
 "sign_up_password_field_hint" = "Kennwort";
 "sign_up_send_button" = "Registrieren";
 "sign_up_send_error_email_taken" = "Die E-Mail-Adresse %@ wird bereits verwendet. Bitte nutze sie, um dich anzumelden.";
@@ -847,7 +853,7 @@
 "sign_up_send_error_invalid_email" = "Bitte gib eine gültige E-Mail-Adresse ein.";
 "sign_up_send_error_invalid_password_with_max" = "Bitte gib ein gültiges Kennwort ein. Es muss zwischen %d und %d Zeichen lang sein.";
 "sign_up_send_error_invalid_username" = "Bitte gib einen gültigen Benutzernamen mit mindestens %d Zeichen ein.";
-"sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
+"sign_up_terms_conditions" = "Ich akzeptiere die Nutzungsbedingungen und Datenschutzrichtlinien von letgo.";
 "sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Neues Benutzerkonto anlegen";

@@ -733,12 +733,18 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Hálószobák száma";
+"real_estate_location_notification_message" = "We'll never show your exact location to other users";
+"real_estate_location_title" = "Location";
 "real_estate_offer_type_rent" = "Kiadó";
 "real_estate_offer_type_sale" = "Eladó";
 "real_estate_offer_type_title" = "Hirdetés típusa";
 "real_estate_price_title" = "Ár";
+"real_estate_summary_bathroom_title" = "bathroom";
 "real_estate_summary_bathrooms_empty" = "Fürdőszobaszám hozzáadása";
+"real_estate_summary_bathrooms_title" = "bathrooms";
+"real_estate_summary_bedroom_title" = "bedroom";
 "real_estate_summary_bedrooms_emtpy" = "Hálószobaszám hozzáadása";
+"real_estate_summary_bedrooms_title" = "bedrooms";
 "real_estate_summary_location_empty" = "Hely: nincs megadva";
 "real_estate_summary_offer_type_empty" = "Hirdetéstípus hozzáadása";
 "real_estate_summary_price_empty" = "Ár hozzáadása";
@@ -838,7 +844,7 @@
 "sign_up_email_step2_name_field_hint" = "Teljes név";
 "sign_up_email_step2_newsletter" = "Szeretnék letgo hírlevelet kapni";
 "sign_up_email_step2_terms_conditions_privacy_kw" = "Adatkezelési irányelveinket";
-"sign_up_newsleter" = "I want to receive the letgo newsletter";
+"sign_up_newsleter" = "Szeretnék letgo hírlevelet kapni";
 "sign_up_password_field_hint" = "Jelszó";
 "sign_up_send_button" = "Regisztráció";
 "sign_up_send_error_email_taken" = "Az következő e-mail már regisztrált: %@ Jelentkezz be vele!";
