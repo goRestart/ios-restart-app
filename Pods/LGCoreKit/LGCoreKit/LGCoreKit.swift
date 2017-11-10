@@ -17,12 +17,8 @@ public class LGCoreKit {
 
     public static var loggingOptions = CoreLoggingOptions.none
     public static var quadKeyZoomLevel = LGCoreKitConstants.defaultQuadKeyPrecision
-    static var shouldUseChatWithWebSocket = false
 
     public static func initialize(config: LGCoreKitConfig) {
-
-        LGCoreKit.shouldUseChatWithWebSocket = config.shouldUseChatWithWebSocket
-
         EnvironmentProxy.sharedInstance.setEnvironmentType(config.environmentType)
 
         InternalCore.internalSessionManager.initialize()

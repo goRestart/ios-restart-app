@@ -18,7 +18,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     var buttonTitle: String {
         switch step {
         case .bathrooms, .bedrooms, .offerType, .propertyType, .make, .model, .year:
-            return  fromSummary ? LGLocalizedString.productPostDone : LGLocalizedString.postingButtonSkip
+            return  previousStepIsSummary ? LGLocalizedString.productPostDone : LGLocalizedString.postingButtonSkip
         case .price, .summary:
             return LGLocalizedString.productPostDone
         case .location:
@@ -96,8 +96,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     }
     
     var currentPrice: ListingPrice? {
-        guard let price = postListingState.price else { return nil }
-        return price
+        return postListingState.price
     }
     
     private let tracker: Tracker
@@ -113,7 +112,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     private let postListingBasicInfo: PostListingBasicDetailViewModel
     private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
     private let placeSelected = Variable<Place?>(nil)
-    private let fromSummary: Bool
+    private let previousStepIsSummary: Bool
     
     weak var navigator: PostListingNavigator?
     private let disposeBag = DisposeBag()
@@ -125,13 +124,13 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
                      uploadedImageSource: EventParameterPictureSource?,
                      postingSource: PostingSource,
                      postListingBasicInfo: PostListingBasicDetailViewModel,
-                     fromSummary: Bool) {
+                     previousStepIsSummary: Bool) {
         self.init(step: step,
                   postListingState: postListingState,
                   uploadedImageSource: uploadedImageSource,
                   postingSource: postingSource,
                   postListingBasicInfo: postListingBasicInfo,
-                  fromSummary: fromSummary,
+                  previousStepIsSummary: previousStepIsSummary,
                   tracker: TrackerProxy.sharedInstance,
                   currencyHelper: Core.currencyHelper,
                   locationManager: Core.locationManager,
@@ -144,7 +143,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
          uploadedImageSource: EventParameterPictureSource?,
          postingSource: PostingSource,
          postListingBasicInfo: PostListingBasicDetailViewModel,
-         fromSummary: Bool,
+         previousStepIsSummary: Bool,
          tracker: Tracker,
          currencyHelper: CurrencyHelper,
          locationManager: LocationManager,
@@ -155,7 +154,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         self.uploadedImageSource = uploadedImageSource
         self.postingSource = postingSource
         self.postListingBasicInfo = postListingBasicInfo
-        self.fromSummary = fromSummary
+        self.previousStepIsSummary = previousStepIsSummary
         self.tracker = tracker
         self.currencyHelper = currencyHelper
         self.locationManager = locationManager
@@ -183,7 +182,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         if step == .price {
             set(price: priceListing.value)
         }
-        let nextStep = fromSummary ? .summary : next
+        let nextStep = previousStepIsSummary ? .summary : next
         advanceNextStep(next: nextStep)
     }
     
@@ -196,7 +195,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     }
     
     private func advanceNextStep(next: PostingDetailStep) {
-        navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, fromSummary: false)
+        navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, previousStepIsSummary: false)
     }
     
     private func postListing() {
@@ -258,7 +257,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         delay(0.3) { [weak self] in
             guard let strongSelf = self else { return }
             guard let next = strongSelf.step.nextStep else { return }
-            let nextStep = strongSelf.fromSummary ? .summary : next
+            let nextStep = strongSelf.previousStepIsSummary ? .summary : next
             strongSelf.advanceNextStep(next: nextStep)
         }
     }
@@ -314,7 +313,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     // MARK: - PostingAddDetailSummaryTableViewDelegate
     
     func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView, didSelectIndex: PostingSummaryOption) {
-        navigator?.nextPostingDetailStep(step: didSelectIndex.postingDetailStep, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, fromSummary: true)
+        navigator?.nextPostingDetailStep(step: didSelectIndex.postingDetailStep, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, previousStepIsSummary: true)
     }
     
     func valueFor(section: PostingSummaryOption) -> String? {

@@ -10,7 +10,6 @@ import Argo
 import Curry
 import Runes
 
-
 public struct CarAttributes: Equatable {
     public let make: String?
     public let makeId: String?

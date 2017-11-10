@@ -592,7 +592,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
         clearButton.titleLabel?.textAlignment = .right
         clearButton.titleLabel?.font = UIFont.sectionTitleFont
         clearButton.setTitleColor(UIColor.darkGrayText, for: .normal)
-        clearButton.setTitle(LGLocalizedString.suggestionsLastSearchesClearButton.uppercase, for: .normal)
+        clearButton.setTitle(LGLocalizedString.suggestionsLastSearchesClearButton.localizedUppercase, for: .normal)
         clearButton.addTarget(self, action: #selector(cleanSearchesButtonPressed), for: .touchUpInside)
         container.addSubview(clearButton)
         
@@ -614,13 +614,13 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
         switch sectionType {
         case .suggestive:
             clearButton.isHidden = true
-            suggestionTitleLabel.text = LGLocalizedString.suggestedSearchesTitle.uppercase
+            suggestionTitleLabel.text = LGLocalizedString.suggestedSearchesTitle.localizedUppercase
         case .lastSearch:
             clearButton.isHidden = false
-            suggestionTitleLabel.text = LGLocalizedString.suggestionsLastSearchesTitle.uppercase
+            suggestionTitleLabel.text = LGLocalizedString.suggestionsLastSearchesTitle.localizedUppercase
         case .trending:
             clearButton.isHidden = true
-            suggestionTitleLabel.text = LGLocalizedString.trendingSearchesTitle.uppercase
+            suggestionTitleLabel.text = LGLocalizedString.trendingSearchesTitle.localizedUppercase
         }
         return container
     }

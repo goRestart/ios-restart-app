@@ -20,7 +20,7 @@ protocol PostListingNavigator: class {
                                uploadedImageSource: EventParameterPictureSource?,
                                postingSource: PostingSource,
                                postListingBasicInfo: PostListingBasicDetailViewModel,
-                               fromSummary: Bool)
+                               previousStepIsSummary: Bool)
     func closePostProductAndPostInBackground(params: ListingCreationParams,
                                              trackingInfo: PostListingTrackingInfo)
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],

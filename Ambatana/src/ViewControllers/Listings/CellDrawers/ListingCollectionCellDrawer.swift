@@ -14,7 +14,7 @@ class ListingCollectionCellDrawer: BaseCollectionCellDrawer<CollectionCell>, Gri
     func draw(_ model: CollectionCellType, style: CellStyle, inCell cell: CollectionCell) {
         cell.layoutIfNeeded()
         cell.imageView.image = model.image
-        cell.title.text = model.title.uppercase
+        cell.title.text = model.title.localizedUppercase
         cell.title.font = UIFont.systemBoldFont(size: cell.title.fontSizeAdjusted())
     }
 }

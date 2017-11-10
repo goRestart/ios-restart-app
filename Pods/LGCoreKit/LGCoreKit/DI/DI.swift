@@ -21,7 +21,6 @@ public protocol DI: class {
     // Repository
     var myUserRepository: MyUserRepository { get }
     var installationRepository: InstallationRepository { get }
-    var oldChatRepository: OldChatRepository { get }
     var listingRepository: ListingRepository { get }
     var fileRepository: FileRepository { get }
     var contactRepository: ContactRepository { get }

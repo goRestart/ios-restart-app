@@ -1,10 +1,5 @@
 
 [
-	{
-		"name": "WebsocketChat",
-		"values": ["No", "Yes"],
-		"description": "New Websocket Chat"
-	},
     {
 		"name": "ShowNPSSurvey",
 		"values": ["No", "Yes"],
@@ -134,5 +129,10 @@
         "name": "ShowPriceStepRealEstatePosting",
         "values": ["control", "baseline", "active"],
         "description": "show price on real estate listing"
+    },
+    {
+        "name": "ShowClockInDirectAnswer",
+        "values": ["control", "baseline", "active"],
+        "description": "Show a clock until the message is delivered correctly"
     }
 ]

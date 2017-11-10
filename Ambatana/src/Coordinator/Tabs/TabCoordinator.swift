@@ -29,7 +29,6 @@ class TabCoordinator: NSObject, Coordinator {
     let listingRepository: ListingRepository
     let userRepository: UserRepository
     let chatRepository: ChatRepository
-    let oldChatRepository: OldChatRepository
     let myUserRepository: MyUserRepository
     let installationRepository: InstallationRepository
     let keyValueStorage: KeyValueStorage
@@ -44,14 +43,13 @@ class TabCoordinator: NSObject, Coordinator {
     // MARK: - Lifecycle
 
     init(listingRepository: ListingRepository, userRepository: UserRepository, chatRepository: ChatRepository,
-         oldChatRepository: OldChatRepository, myUserRepository: MyUserRepository, installationRepository: InstallationRepository,
+         myUserRepository: MyUserRepository, installationRepository: InstallationRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage, tracker: Tracker, rootViewController: UIViewController,
          featureFlags: FeatureFlaggeable, sessionManager: SessionManager) {
         self.listingRepository = listingRepository
         self.userRepository = userRepository
         self.chatRepository = chatRepository
-        self.oldChatRepository = oldChatRepository
         self.myUserRepository = myUserRepository
         self.installationRepository = installationRepository
         self.bubbleNotificationManager = bubbleNotificationManager
@@ -70,9 +68,9 @@ class TabCoordinator: NSObject, Coordinator {
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {}
     func dismissViewController(animated: Bool, completion: (() -> Void)?) {}
 
-    func isShowingConversation(_ data: ConversationData) -> Bool {
-        if let convDataDisplayer = navigationController.viewControllers.last as? ConversationDataDisplayer {
-            return convDataDisplayer.isDisplayingConversationData(data)
+    func isShowingConversation(_ conversationId: String) -> Bool {
+        if let conversationIdDisplayer = navigationController.viewControllers.last as? ConversationIdDisplayer {
+            return conversationIdDisplayer.isDisplayingConversationId(conversationId)
         }
         return false
     }
@@ -132,14 +130,12 @@ extension TabCoordinator: TabNavigator {
 
     func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {
         switch data {
-        case let .chatAPI(chat):
-            openChat(chat, source: source)
         case let .conversation(conversation):
             openConversation(conversation, source: source, predefinedMessage: predefinedMessage)
         case let .listingAPI(listing):
             openListingChat(listing, source: source)
-        case let .dataIds(data):
-            openChatFromConversationData(data, source: source, predefinedMessage: predefinedMessage)
+        case let .dataIds(conversationId):
+            openChatFromConversationId(conversationId, source: source, predefinedMessage: predefinedMessage)
         }
     }
 
@@ -320,13 +316,6 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openChat(_ chat: Chat, source: EventParameterTypePage) {
-        guard let vm = OldChatViewModel(chat: chat, source: source) else { return }
-        vm.navigator = self
-        let vc = OldChatViewController(viewModel: vm)
-        navigationController.pushViewController(vc, animated: true)
-    }
-
     func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage, predefinedMessage: String?) {
         let vm = ChatViewModel(conversation: conversation, navigator: self, source: source, predefinedMessage: predefinedMessage)
         let vc = ChatViewController(viewModel: vm)
@@ -334,56 +323,25 @@ fileprivate extension TabCoordinator {
     }
 
     func openChatFrom(listing: Listing, source: EventParameterTypePage) {
-        if featureFlags.websocketChat {
-            guard let chatVM = ChatViewModel(listing: listing, navigator: self, source: source) else { return }
-            let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: source == .listingListFeatured)
-            navigationController.pushViewController(chatVC, animated: true)
-        } else {
-            guard let chatVM = OldChatViewModel(listing: listing, source: .listingDetail) else { return }
-            chatVM.navigator = self
-            let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
-            navigationController.pushViewController(chatVC, animated: true)
-        }
+        guard let chatVM = ChatViewModel(listing: listing, navigator: self, source: source) else { return }
+        let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: source == .listingListFeatured)
+        navigationController.pushViewController(chatVC, animated: true)
     }
 
-    func openChatFromConversationData(_ data: ConversationData, source: EventParameterTypePage, predefinedMessage: String?) {
+    func openChatFromConversationId(_ conversationId: String, source: EventParameterTypePage, predefinedMessage: String?) {
         navigationController.showLoadingMessageAlert()
 
-        if featureFlags.websocketChat {
-            let completion: ChatConversationCompletion = { [weak self] result in
-                self?.navigationController.dismissLoadingMessageAlert { [weak self] in
-                    if let conversation = result.value {
-                        self?.openConversation(conversation, source: source, predefinedMessage: predefinedMessage)
-                    } else if let error = result.error {
-                        self?.showChatRetrieveError(error)
-                    }
+        let completion: ChatConversationCompletion = { [weak self] result in
+            self?.navigationController.dismissLoadingMessageAlert { [weak self] in
+                if let conversation = result.value {
+                    self?.openConversation(conversation, source: source, predefinedMessage: predefinedMessage)
+                } else if let error = result.error {
+                    self?.showChatRetrieveError(error)
                 }
-            }
-            switch data {
-            case let .conversation(conversationId):
-                chatRepository.showConversation(conversationId, completion: completion)
-            case .listingBuyer:
-                return //Those are the legacy pushes and new chat doesn't work with Listing + buyer
-            }
-        } else {
-            let completion: ChatCompletion = { [weak self] result in
-                self?.navigationController.dismissLoadingMessageAlert { [weak self] in
-                    if let chat = result.value {
-                        self?.openChat(chat, source: source)
-                    } else if let error = result.error {
-                        self?.showChatRetrieveError(error)
-                    }
-                }
-            }
-            switch data {
-            case let .conversation(conversationId):
-                oldChatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
-                                                    numResults: Constants.numMessagesPerPage, completion: completion)
-            case let .listingBuyer(listingId, buyerId):
-                oldChatRepository.retrieveMessagesWithListingId(listingId, buyerId: buyerId, page: 0,
-                                                    numResults: Constants.numMessagesPerPage, completion: completion)
             }
         }
+
+        chatRepository.showConversation(conversationId, completion: completion)
     }
 
     func showChatRetrieveError(_ error: RepositoryError) {

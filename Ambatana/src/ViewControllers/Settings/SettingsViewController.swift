@@ -127,7 +127,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             container.addSubview(topSeparator)
         }
         let label = UILabel(frame: CGRect(x: 12, y: 28, width: tableView.width, height: 15))
-        label.text = title.uppercase
+        label.text = title.localizedUppercase
         label.font = UIFont.systemRegularFont(size: 13)
         label.textColor = UIColor.gray
         label.sizeToFit()

@@ -94,9 +94,7 @@ extension ChatStickersView: UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if featureFlags.websocketChat {
-            collectionView.deselectItem(at: indexPath, animated: true)
-        }
+        collectionView.deselectItem(at: indexPath, animated: true)
         guard enabled else { return }
         let sticker = stickers[indexPath.row]
         delegate?.stickersViewDidSelectSticker(sticker)
