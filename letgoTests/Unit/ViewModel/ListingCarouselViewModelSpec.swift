@@ -89,7 +89,8 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                                keyValueStorage: keyValueStorage,
                                                imageDownloader: imageDownloader,
                                                listingViewModelMaker: listingViewModelMaker,
-                                               adsRequester: AdsRequester())
+                                               adsRequester: AdsRequester(),
+                                               locationManager: locationManager)
                 sut.delegate = self
 
                 disposeBag = DisposeBag()
