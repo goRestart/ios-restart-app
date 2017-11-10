@@ -10,6 +10,15 @@ import GoogleMobileAds
 
 class AdsRequester {
 
+    static let testglKey: String = "testgl"
+    static let testglDefaultValue: String = "en"
+    static let adtestKey: String = "adtest"
+    static let adtestValue: String = "on"
+    static let adTypeKey: String = "adType"
+    static let adTypeValue: String = "plas"
+    static let adHeightKey: String = "height"
+    static let adHeightValue: String = "200"
+    static let adWidthKey: String = "width"
     static let afsDefaultHostLanguage: String = "en"
 
     let locale: Locale
@@ -37,18 +46,18 @@ class AdsRequester {
         adsRequest.adTestEnabled = adTestModeActive
 
         if adTestModeActive {
-            adsRequest.setAdvancedOptionValue(locale.languageCode ?? Constants.testglDefaultValue,
-                                              forKey: Constants.testglKey)
-            adsRequest.setAdvancedOptionValue(Constants.adtestValue, forKey: Constants.adtestKey)
+            adsRequest.setAdvancedOptionValue(locale.languageCode ?? AdsRequester.testglDefaultValue,
+                                              forKey: AdsRequester.testglKey)
+            adsRequest.setAdvancedOptionValue(AdsRequester.adtestValue, forKey: AdsRequester.adtestKey)
         }
 
         adsRequest.query = query
 
         let stringWidth = String(Int(width))
 
-        adsRequest.setAdvancedOptionValue(Constants.adTypeValue, forKey: Constants.adTypeKey)
-        adsRequest.setAdvancedOptionValue(Constants.adHeightValue, forKey: Constants.adHeightKey)
-        adsRequest.setAdvancedOptionValue(stringWidth, forKey: Constants.adWidthKey)
+        adsRequest.setAdvancedOptionValue(AdsRequester.adTypeValue, forKey: AdsRequester.adTypeKey)
+        adsRequest.setAdvancedOptionValue(AdsRequester.adHeightValue, forKey: AdsRequester.adHeightKey)
+        adsRequest.setAdvancedOptionValue(stringWidth, forKey: AdsRequester.adWidthKey)
 
         return adsRequest
     }

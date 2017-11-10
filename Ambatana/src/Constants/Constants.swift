@@ -143,15 +143,4 @@ struct Constants {
     // Bump Ups
     static let maxRetriesForBumpUpRestore = 20
     static let maxRetriesForFirstTimeBumpUp = 3
-
-    // AFSh
-    static let testglKey: String = "testgl"
-    static let testglDefaultValue: String = "en"
-    static let adtestKey: String = "adtest"
-    static let adtestValue: String = "on"
-    static let adTypeKey: String = "adType"
-    static let adTypeValue: String = "plas"
-    static let adHeightKey: String = "height"
-    static let adHeightValue: String = "200"
-    static let adWidthKey: String = "width"
 }
