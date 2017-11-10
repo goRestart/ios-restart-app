@@ -87,6 +87,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         
         gpsLocationButton.layer.cornerRadius = 10
         gpsLocationButton.setImage(UIImage(named:"map_user_location_button"), for: .normal)
+        gpsLocationButton.addTarget(self, action: #selector(LGSearchMap.gpsButtonPressed), for: .touchUpInside)
         
         aproxLocationArea.backgroundColor = UIColor.black
         aproxLocationArea.alpha = 0.1
@@ -137,8 +138,6 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         viewModel.placeInfoText.asObservable().subscribeNext { [weak self] infoText in
             self?.searchField.text = infoText
         }.addDisposableTo(disposeBag)
-        
-        
     }
     
     
@@ -165,6 +164,10 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         let radius = Constants.accurateRegionRadius
         let region = MKCoordinateRegionMakeWithDistance(coordinates, radius, radius)
         mapView.setRegion(region, animated: false)
+    }
+    
+    dynamic func gpsButtonPressed() {
+        viewModel.showGPSLocation()
     }
     
     

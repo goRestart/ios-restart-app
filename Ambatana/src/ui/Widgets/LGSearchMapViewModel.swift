@@ -32,9 +32,7 @@ class LGSearchMapViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     private var predictiveResults: [Place]
     private var currentPlace: Place
-    private var usingGPSLocation = false        // user uses GPS location
-    private var serviceAlreadyLoading = false   // if the service is already waiting for a response, we don't launch another request
-    private var pendingGoToLocation = false      // In case goToLocation was called while serviceAlreadyLoading
+    private var usingGPSLocation = false
     private let initialPlace: Place
     
     let placeLocation = Variable<CLLocationCoordinate2D?>(nil)
@@ -92,21 +90,22 @@ class LGSearchMapViewModel: BaseViewModel {
         return predictiveResults.count
     }
     
-    func setupRX() {
+    func showGPSLocation() {
+        guard let location = locationManager.currentAutoLocation else { return }
+        placeLocation.value = location.coordinate
+        locationToFetch.value = (location.coordinate, fromGps: true)
+    }
+    
+    private func setupRX() {
         searchText.asObservable().skip(1)
             .debounce(0.3, scheduler: MainScheduler.instance)
             .subscribeNext{ [weak self] searchText, autoSelect in
                 self?.resultsForSearchText(searchText, autoSelectFirst: autoSelect)
             }.addDisposableTo(disposeBag)
         
-        
-        //Place retrieval
         locationToFetch.asObservable()
-            .filter { coordinates, gpsLocation in return coordinates != nil }
+            .filter { coordinates, gpsLocation in return coordinates != nil }.debug()
             .debounce(0.5, scheduler: MainScheduler.instance)
-            .filter { _ in
-                return false
-            }
             .map { coordinates, gpsLocation in
                 return self.locationRepository.rx_retrieveAddressForCoordinates(coordinates, fromGps: gpsLocation)
             }
@@ -115,8 +114,16 @@ class LGSearchMapViewModel: BaseViewModel {
                 self?.setPlace(place, forceLocation: false, fromGps: gpsLocation, enableSave: true)
             }
             .addDisposableTo(disposeBag)
+        
+        userMovedLocation.asObservable()
+            .subscribeNext { [weak self] coordinates in
+                guard let coordinates = coordinates else { return }
+                DispatchQueue.main.async {
+                    self?.locationToFetch.value = (coordinates, false)
+                }
+        }.addDisposableTo(disposeBag)
     }
-    
+
     func placeResumedDataAtPosition(_ position: Int) -> String? {
         return predictiveResults[position].placeResumedData
     }
@@ -165,7 +172,6 @@ class LGSearchMapViewModel: BaseViewModel {
                     self?.setPlace(place, forceLocation: true, fromGps: false, enableSave: true)
                 }
             } else {
-                // Guard to avoid slow responses override last one
                 guard let currentText = self?.searchText.value.0, currentText == textToSearch else { return }
                 if let suggestions = result.value {
                     self?.predictiveResults = suggestions
@@ -225,5 +231,10 @@ class LGSearchMapViewModel: BaseViewModel {
     
     private func updateInfoText() {
         placeInfoText.value = currentPlace.fullText(showAddress: true)
+    }
+    
+    
+    func setViewControllerDelegate(viewControllerModelDelegate: LGSearchMapViewControllerModelDelegate) {
+        viewControllerDelegate = viewControllerModelDelegate
     }
 }
