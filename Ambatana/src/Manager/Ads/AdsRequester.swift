@@ -32,8 +32,9 @@ class AdsRequester {
     func makeAFShoppingRequestWithQuery(query: String?, width: CGFloat) -> GADDynamicHeightSearchRequest {
         let adsRequest = GADDynamicHeightSearchRequest()
 
+        adsRequest.adTestEnabled = adTestModeActive
+
         if adTestModeActive {
-            adsRequest.adTestEnabled = true
             adsRequest.setAdvancedOptionValue(locale.languageCode ?? Constants.testglDefaultValue,
                                               forKey: Constants.testglKey)
             adsRequest.setAdvancedOptionValue(Constants.adtestValue, forKey: Constants.adtestKey)
@@ -53,9 +54,7 @@ class AdsRequester {
     func makeAFSearchRequestWithQuery(query: String?, width: CGFloat) -> GADDynamicHeightSearchRequest {
         let adsRequest = GADDynamicHeightSearchRequest()
 
-        if adTestModeActive {
-            adsRequest.adTestEnabled = true
-        }
+        adsRequest.adTestEnabled = adTestModeActive
 
         adsRequest.query = query
 
