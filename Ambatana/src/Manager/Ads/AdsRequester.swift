@@ -10,6 +10,8 @@ import GoogleMobileAds
 
 class AdsRequester {
 
+    static let afsDefaultHostLanguage: String = "en"
+
     let locale: Locale
     let featureFlags: FeatureFlaggeable
 
@@ -60,7 +62,7 @@ class AdsRequester {
 
         let stringWidth = String(Int(width))
 
-        adsRequest.hostLanguage = locale.languageCode ?? "en"
+        adsRequest.hostLanguage = locale.languageCode ?? AdsRequester.afsDefaultHostLanguage
         adsRequest.numberOfAds = 1
         adsRequest.cssWidth = stringWidth     // Equivalent to "width" CSA parameter
         adsRequest.siteLinksExtensionEnabled = true

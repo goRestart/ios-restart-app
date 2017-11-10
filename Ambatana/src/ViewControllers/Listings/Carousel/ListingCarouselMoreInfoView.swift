@@ -476,7 +476,7 @@ fileprivate extension ListingCarouselMoreInfoView {
 
         bannerContainerView.addSubview(bannerView)
         bannerView.translatesAutoresizingMaskIntoConstraints = false
-        bannerView.layout(with:bannerContainerView).fill()
+        bannerView.layout(with: bannerContainerView).fill()
     }
 
     func loadAFShoppingRequest() {
