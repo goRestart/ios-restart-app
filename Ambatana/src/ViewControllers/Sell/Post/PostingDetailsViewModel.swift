@@ -19,8 +19,10 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         switch step {
         case .bathrooms, .bedrooms, .offerType, .propertyType, .make, .model, .year:
             return  fromSummary ? LGLocalizedString.productPostDone : LGLocalizedString.postingButtonSkip
-        case .price, .location, .summary:
+        case .price, .summary:
             return LGLocalizedString.productPostDone
+        case .location:
+            return LGLocalizedString.changeLocationApplyButton
         }
     }
     
@@ -82,7 +84,10 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             summaryView.delegate = self
             return summaryView
         case .location:
-            return PostingAddDetailLocation(viewControllerDelegate: viewControllerDelegate)
+            let locationView = PostingAddDetailLocation(viewControllerDelegate: viewControllerDelegate,
+                                                        currentPlace: postListingState.place)
+            locationView.locationSelected.asObservable().bindTo(placeSelected).addDisposableTo(disposeBag)
+            return locationView
         case .year, .make, .model:
             return nil
         }
@@ -107,6 +112,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     private let postingSource: PostingSource
     private let postListingBasicInfo: PostListingBasicDetailViewModel
     private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
+    private let placeSelected = Variable<Place?>(nil)
     private let fromSummary: Bool
     
     weak var navigator: PostListingNavigator?
@@ -160,11 +166,19 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     func closeButtonPressed() {
         postAndClose()
     }
-
+    
     func nextbuttonPressed() {
         guard let next = step.nextStep else {
             postAndClose()
             return
+        }
+        switch step {
+        case .price:
+            set(price: priceListing.value)
+        case .location:
+            set(place: placeSelected.value)
+        case .bathrooms, .bedrooms, .make, .model, .year, .offerType, .propertyType, .summary:
+            break
         }
         if step == .price {
             set(price: priceListing.value)
@@ -205,6 +219,11 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     
     private func set(price: ListingPrice) {
         postListingState = postListingState.updating(price: price)
+    }
+    
+    private func set(place: Place?) {
+        guard let place = place else { return }
+        postListingState = postListingState.updating(place: place)
     }
     
     // MARK: - PostingAddDetailTableViewDelegate 
@@ -318,7 +337,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
                 value = NumberOfBathrooms(rawValue:bathrooms)?.summaryLocalizedString
             }
         case .location:
-            value = myUserRepository.myUser?.location?.postalAddress?.cityStateString ?? locationManager.currentLocation?.postalAddress?.cityStateString
+            value = getCurrentLocationSelected()
         case .make:
             value = postListingState.verticalAttributes?.carAttributes?.make
         case .model:
@@ -328,5 +347,10 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         }
         return value
     }
+    
+    private func getCurrentLocationSelected() -> String? {
+        return postListingState.place?.postalAddress?.address ?? myUserRepository.myUser?.location?.postalAddress?.address ?? locationManager.currentLocation?.postalAddress?.address
+    }
+    
 }
 

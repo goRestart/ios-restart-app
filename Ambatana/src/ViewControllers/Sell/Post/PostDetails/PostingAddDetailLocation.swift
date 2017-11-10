@@ -10,24 +10,28 @@
 import RxSwift
 import MapKit
 import LGCoreKit
+import CoreLocation
+
 
 final class PostingAddDetailLocation: UIView, PostingViewConfigurable {
     
     private let bottomMessage = UILabel()
-    private let searchMapView = LGSearchMap(frame: CGRect.zero, viewModel: LGSearchMapViewModel())
-    var position = Variable<LGLocationCoordinates2D?>(nil)
-    
+    private let searchMapView: LGSearchMap
+    var locationSelected = Variable<Place?>(nil)
+    private let searchMapViewModel: LGSearchMapViewModel
     private let disposeBag = DisposeBag()
     
     
     // MARK - Lifecycle
     
-    init(viewControllerDelegate: LGSearchMapViewControllerModelDelegate) {
+    init(viewControllerDelegate: LGSearchMapViewControllerModelDelegate, currentPlace: Place?) {
+        self.searchMapViewModel = LGSearchMapViewModel(currentPlace: currentPlace)
+        self.searchMapView = LGSearchMap(frame: CGRect.zero, viewModel: searchMapViewModel)
         super.init(frame: CGRect.zero)
         setupUI()
         setupConstraints()
         setupRx()
-        searchMapView.viewModel.viewControllerDelegate = viewControllerDelegate
+        searchMapView.viewModel.setViewControllerDelegate(viewControllerModelDelegate: viewControllerDelegate)
         
     }
     
@@ -54,16 +58,19 @@ final class PostingAddDetailLocation: UIView, PostingViewConfigurable {
     }
     
     private func setupRx() {
-       
+        searchMapView.viewModel.placeLocation.asObservable()
+            .bindNext({ [weak self] place in
+                guard let place = place else { return }
+                self?.locationSelected.value = place
+            }).addDisposableTo(disposeBag)
     }
-    
-    
     
     // MARK: - PostingViewConfigurable
     
     func setupView(viewModel: PostingDetailsViewModel) {
         
     }
+    
     func setupContainerView(view: UIView) {
         translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(self)

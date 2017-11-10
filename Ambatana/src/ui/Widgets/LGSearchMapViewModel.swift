@@ -35,7 +35,7 @@ class LGSearchMapViewModel: BaseViewModel {
     private var usingGPSLocation = false
     private let initialPlace: Place
     
-    let placeLocation = Variable<CLLocationCoordinate2D?>(nil)
+    let placeLocation = Variable<Place?>(nil)
     let placeInfoText = Variable<String>("")
     let setLocationEnabled = Variable<Bool>(false)
     let loading = Variable<Bool>(false)
@@ -46,18 +46,18 @@ class LGSearchMapViewModel: BaseViewModel {
     
     private let locationToFetch = Variable<(CLLocationCoordinate2D?, fromGps: Bool)>(nil, fromGps: false)
     
-    convenience override init() {
+    convenience init(currentPlace: Place?) {
         let locationManager = Core.locationManager
         let locationRepository = Core.locationRepository
-        self.init(locationManager: locationManager, locationRepository: locationRepository)
+        self.init(locationManager: locationManager, locationRepository: locationRepository, currentPlace: currentPlace)
     }
     
-    init(locationManager: LocationManager, locationRepository: LocationRepository) {
+    init(locationManager: LocationManager, locationRepository: LocationRepository, currentPlace: Place?) {
         self.locationManager = locationManager
         self.locationRepository = locationRepository
         self.predictiveResults = []
-        self.currentPlace = Place.newPlace()
-        self.initialPlace = Place(postalAddress: nil, location: locationManager.currentAutoLocation?.location)
+        self.currentPlace = currentPlace ?? Place.newPlace()
+        self.initialPlace = currentPlace ?? Place(postalAddress: nil, location: locationManager.currentAutoLocation?.location)
         super.init()
         self.initPlace(initialPlace, distanceRadius: distanceRadius)
         setupRX()
@@ -92,7 +92,7 @@ class LGSearchMapViewModel: BaseViewModel {
     
     func showGPSLocation() {
         guard let location = locationManager.currentAutoLocation else { return }
-        placeLocation.value = location.coordinate
+        placeLocation.value = Place(postalAddress: location.postalAddress, location: LGLocationCoordinates2D(coordinates: location.coordinate))
         locationToFetch.value = (location.coordinate, fromGps: true)
     }
     
@@ -104,7 +104,7 @@ class LGSearchMapViewModel: BaseViewModel {
             }.addDisposableTo(disposeBag)
         
         locationToFetch.asObservable()
-            .filter { coordinates, gpsLocation in return coordinates != nil }.debug()
+            .filter { coordinates, gpsLocation in return coordinates != nil }
             .debounce(0.5, scheduler: MainScheduler.instance)
             .map { coordinates, gpsLocation in
                 return self.locationRepository.rx_retrieveAddressForCoordinates(coordinates, fromGps: gpsLocation)
@@ -217,15 +217,13 @@ class LGSearchMapViewModel: BaseViewModel {
         setLocationEnabled.value = enableSave
         DispatchQueue.main.async {
             self.updateInfoText()
-            if forceLocation {
-                self.placeLocation.value = self.currentPlace.location?.coordinates2DfromLocation()
-            }
+            self.placeLocation.value = self.currentPlace
         }
     }
     
     private func setMapToPreviousKnownPlace() {
         setLocationEnabled.value = false
-        placeLocation.value = currentPlace.location?.coordinates2DfromLocation()
+        placeLocation.value = currentPlace
         locationToFetch.value = (currentPlace.location?.coordinates2DfromLocation(), fromGps: false)
     }
     
