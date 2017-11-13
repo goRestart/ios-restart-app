@@ -73,7 +73,7 @@ class AdsRequester {
 
         adsRequest.hostLanguage = locale.languageCode ?? AdsRequester.afsDefaultHostLanguage
         adsRequest.numberOfAds = 1
-        adsRequest.cssWidth = stringWidth     // Equivalent to "width" CSA parameter
+        adsRequest.cssWidth = stringWidth
         adsRequest.siteLinksExtensionEnabled = true
         adsRequest.sellerRatingsExtensionEnabled = true
         adsRequest.clickToCallExtensionEnabled = true
