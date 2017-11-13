@@ -174,7 +174,10 @@ fileprivate extension ChatListViewModel {
     }
     
     func deleteSelectedChats() {
-        guard !selectedConversationIds.isEmpty else { return }
+        guard !selectedConversationIds.isEmpty else {
+            delegate?.chatListViewModelDidFailArchivingChats(self)
+            return
+        }
         let conversationIds = Array(selectedConversationIds)
         chatRepository.archiveConversations(conversationIds) { [weak self] result in
             guard let strongSelf = self else { return }

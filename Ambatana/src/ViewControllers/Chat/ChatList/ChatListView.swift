@@ -114,8 +114,11 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
             showDeleteConfirmationWithTitle: title,
             message: message,
             cancelText: cancelText,
-            actionText: actionText,
-            action: action)
+            actionText: actionText) { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.chatListViewDidStartArchiving(strongSelf)
+                action()
+        }
     }
 
     
