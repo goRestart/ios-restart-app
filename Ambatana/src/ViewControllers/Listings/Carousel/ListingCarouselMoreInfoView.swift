@@ -10,6 +10,7 @@ import MapKit
 import LGCoreKit
 import RxSwift
 import LGCollapsibleLabel
+import GoogleMobileAds
 
 enum MoreInfoState {
     case hidden
@@ -55,7 +56,14 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var mapViewContainer: UIView!
     fileprivate var mapViewContainerExpandable: UIView? = nil
     fileprivate var mapViewTapGesture: UITapGestureRecognizer? = nil
-    
+
+    @IBOutlet weak var bannerContainerView: UIView!
+    @IBOutlet weak var bannerContainerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bannerContainerViewLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bannerContainerViewRightConstraint: NSLayoutConstraint!
+
+    var bannerView: GADSearchBannerView?
+
     @IBOutlet weak var socialShareContainer: UIView!
     @IBOutlet weak var socialShareTitleLabel: UILabel!
     @IBOutlet weak var socialShareView: SocialShareView!
@@ -99,10 +107,20 @@ class ListingCarouselMoreInfoView: UIView {
         setupStatsRx(viewModel: viewModel)
         setupBottomPanelRx(viewModel: viewModel)
         self.viewModel = viewModel
+        if viewModel.adActive {
+            setupBannerWith(viewModel: viewModel)
+        }
     }
 
     func viewWillShow() {
         setupMapViewIfNeeded()
+        if let adActive = viewModel?.adActive, adActive {
+            if let adBannerTrackingStatus = viewModel?.adBannerTrackingStatus {
+                viewModel?.adAlreadyRequestedWithStatus(adBannerTrackingStatus: adBannerTrackingStatus)
+            } else {
+                loadAFShoppingRequest()
+            }
+        }
     }
 
     func dismissed() {
@@ -444,6 +462,78 @@ fileprivate extension ListingCarouselMoreInfoView {
             self?.socialShareView.socialMessage = socialMessage
             self?.socialShareView.isHidden = socialMessage == nil
         }.addDisposableTo(disposeBag)
+    }
+
+    func setupBannerWith(viewModel: ListingCarouselViewModel) {
+
+        bannerView = GADSearchBannerView.init(adSize: kGADAdSizeFluid)
+        guard let bannerView = bannerView else { return }
+        bannerView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 0)
+
+        bannerView.autoresizingMask = .flexibleWidth
+        bannerView.adSizeDelegate = self
+        bannerView.delegate = self
+
+        bannerContainerView.addSubview(bannerView)
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        bannerView.layout(with: bannerContainerView).fill()
+    }
+
+    func loadAFShoppingRequest() {
+        bannerView?.adUnitID = viewModel?.shoppingAdUnitId
+        bannerView?.load(viewModel?.makeAFShoppingRequestWithWidth(width: frame.width))
+    }
+
+    func loadAFSearchRequest() {
+        bannerView?.adUnitID = viewModel?.searchAdUnitId
+        bannerView?.load(viewModel?.makeAFSearchRequestWithWidth(width: frame.width))
+    }
+}
+
+
+// MARK: - GADAdSizeDelegate, GADBannerViewDelegate
+
+extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate {
+    func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
+        let newFrame = CGRect(x: bannerView.frame.origin.x, y: bannerView.frame.origin.y, width: size.size.width, height: size.size.height)
+        bannerView.frame = newFrame
+        bannerContainerViewHeightConstraint.constant = size.size.height
+        if let sideMargin = viewModel?.sideMargin {
+            bannerContainerViewLeftConstraint.constant = sideMargin
+            bannerContainerViewRightConstraint.constant = sideMargin
+        }
+        if size.size.height > 0 {
+            let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
+            let bannerTop = absolutePosition.y
+            let bannerBottom = bannerTop + size.size.height
+            viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
+                                    bannerBottomPosition: bannerBottom,
+                                    screenHeight: UIScreen.main.bounds.height)
+        }
+    }
+
+    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
+        logMessage(.info, type: .monetization, message: "Banner failed with error: \(error.localizedDescription)")
+        bannerContainerViewHeightConstraint.constant = 0
+        bannerContainerViewLeftConstraint.constant = 0
+        bannerContainerViewRightConstraint.constant = 0
+
+        if let adRequestType = viewModel?.currentAdRequestType {
+            switch adRequestType {
+            case .shopping:
+                loadAFSearchRequest()
+            case .search:
+                viewModel?.didFailToReceiveAd(withErrorCode: GADErrorCode(rawValue: error.code) ?? .internalError)
+            }
+        }
+    }
+
+    func adViewWillPresentScreen(_ bannerView: GADBannerView) {
+        viewModel?.adTapped(typePage: EventParameterTypePage.listingDetailMoreInfo, willLeaveApp: false)
+    }
+
+    func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
+        viewModel?.adTapped(typePage: EventParameterTypePage.listingDetailMoreInfo, willLeaveApp: true)
     }
 }
 
