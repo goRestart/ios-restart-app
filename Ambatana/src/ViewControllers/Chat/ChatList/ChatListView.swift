@@ -107,6 +107,16 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
             strongSelf.delegate?.chatListView(strongSelf, didFinishUnarchivingWithMessage: nil)
         }
     }
+    
+    func chatListViewModel(_: ChatListViewModel, showDeleteConfirmationWithTitle title: String, message: String, cancelText: String, actionText: String, action: @escaping () -> ()) {
+        delegate?.chatListView(
+            self,
+            showDeleteConfirmationWithTitle: title,
+            message: message,
+            cancelText: cancelText,
+            actionText: actionText,
+            action: action)
+    }
 
     
     // MARK: - UITableViewDataSource
