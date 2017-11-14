@@ -29,10 +29,12 @@ public func ==(lhs: MonetizationEvent, rhs: MonetizationEvent) -> Bool {
 }
 
 public protocol MonetizationRepository {
-    
+
     var events: Observable<MonetizationEvent> { get }
     
-    func retrieveBumpeableListingInfo(listingId: String, completion: BumpeableListingCompletion?)
+    func retrieveBumpeableListingInfo(listingId: String,
+                                      withPriceDifferentiation priceDif: Bool,
+                                      completion: BumpeableListingCompletion?)
     func freeBump(forListingId listingId: String, itemId: String, completion: BumpCompletion?)
     func pricedBump(forListingId listingId: String, paymentId: String, receiptData: String, itemId: String, itemPrice: String,
                     itemCurrency: String, amplitudeId: String?, appsflyerId: String?, idfa: String?, bundleId: String?,

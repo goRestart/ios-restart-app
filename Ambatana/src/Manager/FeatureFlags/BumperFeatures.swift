@@ -41,8 +41,9 @@ extension Bumper  {
         flags.append(NewItemPage.self)
         flags.append(ShowPriceStepRealEstatePosting.self)
         flags.append(ShowClockInDirectAnswer.self)
+        flags.append(BumpUpPriceDifferentiation.self)
         Bumper.initialize(flags)
-    }
+    } 
 
     static var showNPSSurvey: Bool {
         guard let value = Bumper.value(for: ShowNPSSurvey.key) else { return false }
@@ -182,6 +183,11 @@ extension Bumper  {
     static var showClockInDirectAnswer: ShowClockInDirectAnswer {
         guard let value = Bumper.value(for: ShowClockInDirectAnswer.key) else { return .control }
         return ShowClockInDirectAnswer(rawValue: value) ?? .control 
+    }
+
+    static var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation {
+        guard let value = Bumper.value(for: BumpUpPriceDifferentiation.key) else { return .control }
+        return BumpUpPriceDifferentiation(rawValue: value) ?? .control 
     } 
 }
 
@@ -450,11 +456,11 @@ enum MoreInfoAdActive: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "show the ad in more info" } 
     static func fromPosition(_ position: Int) -> MoreInfoAdActive {
-        switch position {
-        case 0: return .control
-        case 1: return .baseline
-        case 2: return .active
-        default: return .control
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
         }
     }
 }
@@ -562,6 +568,22 @@ enum ShowClockInDirectAnswer: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show a clock until the message is delivered correctly" } 
     static func fromPosition(_ position: Int) -> ShowClockInDirectAnswer {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum BumpUpPriceDifferentiation: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return BumpUpPriceDifferentiation.control.rawValue }
+    static var enumValues: [BumpUpPriceDifferentiation] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Scale bump prices according to listing price" } 
+    static func fromPosition(_ position: Int) -> BumpUpPriceDifferentiation {
         switch position { 
             case 0: return .control
             case 1: return .baseline
