@@ -23,7 +23,9 @@ open class MockMonetizationRepository: MonetizationRepository {
 
     // MARK: - MonetizationRepository
 
-    public func retrieveBumpeableListingInfo(listingId: String, completion: BumpeableListingCompletion?) {
+    public func retrieveBumpeableListingInfo(listingId: String,
+                                             withPriceDifferentiation priceDif: Bool,
+                                             completion: BumpeableListingCompletion?) {
         delay(result: retrieveResult, completion: completion)
     }
 

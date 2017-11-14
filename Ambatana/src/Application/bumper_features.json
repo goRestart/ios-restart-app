@@ -139,5 +139,10 @@
         "name": "ShowClockInDirectAnswer",
         "values": ["control", "baseline", "active"],
         "description": "Show a clock until the message is delivered correctly"
+    },
+    {
+        "name": "BumpUpPriceDifferentiation",
+        "values": ["control", "baseline", "active"],
+        "description": "Scale bump prices according to listing price"
     }
 ]

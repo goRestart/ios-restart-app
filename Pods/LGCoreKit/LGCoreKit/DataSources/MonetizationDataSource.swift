@@ -15,7 +15,10 @@ typealias MonetizationDataSourceBumpResult = Result<Void, ApiError>
 typealias MonetizationDataSourceBumpCompletion = (MonetizationDataSourceBumpResult) -> Void
 
 protocol MonetizationDataSource {
-    func retrieveBumpeableListingInfo(listingId: String, completion: MonetizationDataSourceBumpeableListingCompletion?)
+
+    func retrieveBumpeableListingInfo(listingId: String,
+                                      withPriceDifferentiation priceDif: Bool,
+                                      completion: MonetizationDataSourceBumpeableListingCompletion?)
     func freeBump(forListingId listingId: String, itemId: String, paymentId: String,
                   completion: MonetizationDataSourceBumpCompletion?)
     func pricedBump(forListingId listingId: String, receiptData: String, itemId: String, itemPrice: String, itemCurrency: String,

@@ -14,6 +14,7 @@ class MonetizationApiDataSource : MonetizationDataSource {
 
     static let platformNameKey = "platform"
     static let platformNameValue = "ios"
+    static let priceDifferentiationKey = "bucket"
 
     static let paymentIdKey = "id"
     static let itemIdKey = "item_id"
@@ -44,10 +45,14 @@ class MonetizationApiDataSource : MonetizationDataSource {
 
     // Public methods
 
-    func retrieveBumpeableListingInfo(listingId: String, completion: MonetizationDataSourceBumpeableListingCompletion?) {
+    func retrieveBumpeableListingInfo(listingId: String,
+                                      withPriceDifferentiation priceDif: Bool,
+                                      completion: MonetizationDataSourceBumpeableListingCompletion?) {
+        let priceDifValue = priceDif ? 1 : 0
         let request = MonetizationRouter.showBumpeable(listingId: listingId,
-                                                       params: [MonetizationApiDataSource.platformNameKey:MonetizationApiDataSource.platformNameValue])
-        apiClient.request(request, decoder: MonetizationApiDataSource.decoderBumpeableProduct, completion: completion)
+                                                       params: [MonetizationApiDataSource.platformNameKey:MonetizationApiDataSource.platformNameValue,
+                                                                MonetizationApiDataSource.priceDifferentiationKey:priceDifValue])
+        apiClient.request(request, decoder: MonetizationApiDataSource.decoderBumpeableListing, completion: completion)
     }
 
     func freeBump(forListingId listingId: String, itemId: String, paymentId: String,
@@ -80,7 +85,7 @@ class MonetizationApiDataSource : MonetizationDataSource {
 
     // Private methods
 
-    private static func decoderBumpeableProduct(object: Any) -> BumpeableListing? {
+    private static func decoderBumpeableListing(object: Any) -> BumpeableListing? {
         let bumpeableListing: LGBumpeableListing? = decode(object)
         return bumpeableListing
     }
