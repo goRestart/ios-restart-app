@@ -15,17 +15,18 @@ protocol ChatListViewModelDelegate: class {
     func chatListViewModelDidSucceedArchivingChats(_ viewModel: ChatListViewModel)
     func chatListViewModelDidFailUnarchivingChats(_ viewModel: ChatListViewModel)
     func chatListViewModelDidSucceedUnarchivingChats(_ viewModel: ChatListViewModel)
+    func chatListViewModel(_ :ChatListViewModel, showDeleteConfirmationWithTitle title: String, message: String,
+                           cancelText: String, actionText: String, action: @escaping () -> ())
 }
 
 class ChatListViewModel: BaseChatGroupedListViewModel<ChatConversation> {
     
     weak var delegate: ChatListViewModelDelegate?
     
-    private var chatRepository: ChatRepository
+    fileprivate var chatRepository: ChatRepository
 
     private(set) var chatsType: ChatsType
-    private var selectedConversationIds: Set<String>
-    //weak var delegate: ChatListViewModelDelegate?
+    fileprivate var selectedConversationIds: Set<String>
 
     var titleForDeleteButton: String {
         return LGLocalizedString.chatListDelete
@@ -137,17 +138,22 @@ class ChatListViewModel: BaseChatGroupedListViewModel<ChatConversation> {
 
     func deleteButtonPressed() {
         guard !selectedConversationIds.isEmpty else { return }
-
-        let conversationIds = Array(selectedConversationIds)
-        chatRepository.archiveConversations(conversationIds) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let _ = result.error {
-                strongSelf.delegate?.chatListViewModelDidFailArchivingChats(strongSelf)
-            } else {
-                strongSelf.delegate?.chatListViewModelDidSucceedArchivingChats(strongSelf)
-            }
+        let count = selectedConversationIds.count
+        delegate?.chatListViewModel(
+            self,
+            showDeleteConfirmationWithTitle: deleteConfirmationTitle(count),
+            message: deleteConfirmationMessage(count),
+            cancelText: deleteConfirmationCancelTitle(),
+            actionText: deleteConfirmationSendButton()) { [weak self] in
+                self?.deleteSelectedChats()
         }
     }
+}
+
+
+// MARK: Private methods
+
+fileprivate extension ChatListViewModel {
 
     func deleteConfirmationTitle(_ itemCount: Int) -> String {
         return itemCount <= 1 ? LGLocalizedString.chatListDeleteAlertTitleOne :
@@ -165,6 +171,22 @@ class ChatListViewModel: BaseChatGroupedListViewModel<ChatConversation> {
 
     func deleteConfirmationSendButton() -> String {
         return LGLocalizedString.chatListDeleteAlertSend
+    }
+    
+    func deleteSelectedChats() {
+        guard !selectedConversationIds.isEmpty else {
+            delegate?.chatListViewModelDidFailArchivingChats(self)
+            return
+        }
+        let conversationIds = Array(selectedConversationIds)
+        chatRepository.archiveConversations(conversationIds) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let _ = result.error {
+                strongSelf.delegate?.chatListViewModelDidFailArchivingChats(strongSelf)
+            } else {
+                strongSelf.delegate?.chatListViewModelDidSucceedArchivingChats(strongSelf)
+            }
+        }
     }
 }
 
