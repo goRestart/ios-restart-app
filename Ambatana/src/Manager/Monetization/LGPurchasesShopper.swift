@@ -366,6 +366,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         guard currentBump.numRetries < Constants.maxRetriesForBumpUpRestore  else {
             removeFromUserDefaults(transactionId: currentBump.transactionId)
             removeFromUserDefaultsBumpUpWithListingId(listingId: listingId)
+            delegate?.pricedBumpDidFail(type: type, transactionStatus: transactionStatus)
             return
         }
 
@@ -647,8 +648,6 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
     }
 
     fileprivate func failedBumpInfoFor(listingId: String) -> FailedBumpInfo? {
-        print(keyValueStorage)
-        print(keyValueStorage.userFailedBumpsInfo)
         guard let dictionary = keyValueStorage.userFailedBumpsInfo[listingId] else { return nil }
         return FailedBumpInfo(dictionary: dictionary)
     }

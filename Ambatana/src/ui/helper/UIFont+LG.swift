@@ -58,35 +58,19 @@ extension UIFont {
     }
     
     static func systemMediumFont(size: Int) -> UIFont {
-        if #available(iOS 9.0, *) {
-            return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightMedium)
-        } else {
-            return UIFont(name: "HelveticaNeue-Medium", size: CGFloat(size))!
-        }
+        return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightMedium)
     }
-    
+
     static func systemLightFont(size: Int) -> UIFont {
-        if #available(iOS 9.0, *) {
-            return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightLight)
-        } else {
-            return UIFont(name: "HelveticaNeue-Light", size: CGFloat(size))!
-        }
+        return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightLight)
     }
     
     static func systemRegularFont(size: Int) -> UIFont {
-        if #available(iOS 9.0, *) {
-            return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightRegular)
-        } else {
-            return UIFont(name: "HelveticaNeue", size: CGFloat(size))!
-        }
+        return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightRegular)
     }
     
     static func systemSemiBoldFont(size: Int) -> UIFont {
-        if #available(iOS 9.0, *) {
-            return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightSemibold)
-        } else {
-            return UIFont(name: "HelveticaNeue-Bold", size: CGFloat(size))!
-        }
+        return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightSemibold)
     }
     
     static func systemBoldFont(size: Int) -> UIFont {

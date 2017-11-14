@@ -33,6 +33,7 @@ extension Bumper  {
         flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
         flags.append(NewBumpUpExplanation.self)
+        flags.append(MoreInfoAdActive.self)
         flags.append(HomeRelatedEnabled.self)
         flags.append(HideChatButtonOnFeaturedCells.self)
         flags.append(FeaturedRibbonImprovementInDetail.self)
@@ -141,6 +142,11 @@ extension Bumper  {
     static var newBumpUpExplanation: NewBumpUpExplanation {
         guard let value = Bumper.value(for: NewBumpUpExplanation.key) else { return .control }
         return NewBumpUpExplanation(rawValue: value) ?? .control 
+    }
+
+    static var moreInfoAdActive: MoreInfoAdActive {
+        guard let value = Bumper.value(for: MoreInfoAdActive.key) else { return .control }
+        return MoreInfoAdActive(rawValue: value) ?? .control 
     }
 
     static var homeRelatedEnabled: HomeRelatedEnabled {
@@ -433,6 +439,22 @@ enum NewBumpUpExplanation: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .active
             default: return .control
+        }
+    }
+}
+
+enum MoreInfoAdActive: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return MoreInfoAdActive.control.rawValue }
+    static var enumValues: [MoreInfoAdActive] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show the ad in more info" } 
+    static func fromPosition(_ position: Int) -> MoreInfoAdActive {
+        switch position {
+        case 0: return .control
+        case 1: return .baseline
+        case 2: return .active
+        default: return .control
         }
     }
 }

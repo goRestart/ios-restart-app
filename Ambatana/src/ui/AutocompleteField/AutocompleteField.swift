@@ -61,9 +61,7 @@ fileprivate extension AutocompleteField {
     func setupLabel() {
         setLabel(text: nil)
         label.lineBreakMode = .byClipping
-        if #available(iOS 9.0, *) {
-            label.allowsDefaultTighteningForTruncation = false
-        }
+        label.allowsDefaultTighteningForTruncation = false
         addSubview(label)
     }
 

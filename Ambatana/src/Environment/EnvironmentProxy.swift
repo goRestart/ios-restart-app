@@ -101,4 +101,17 @@ class EnvironmentProxy: AppEnvironment {
     var websiteBaseUrlWithLocaleParams: String {
         return environment.websiteBaseUrlWithLocaleParams
     }
+
+    var moreInfoAdUnitIdShopping: String {
+        return environment.moreInfoAdUnitIdShopping
+    }
+
+    var moreInfoAdUnitIdSearch: String {
+        return environment.moreInfoAdUnitIdSearch
+    }
+
+    var adTestModeActive: Bool {
+        return environment.adTestModeActive
+    }
+
 }

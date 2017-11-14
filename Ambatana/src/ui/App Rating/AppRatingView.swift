@@ -47,7 +47,7 @@ class AppRatingView: UIView {
         headerImageView.backgroundColor = UIColor.ratingViewBackgroundColor
         mainTextLabel.text = LGLocalizedString.ratingViewTitleLabelUppercase
         ratUslabel.text = LGLocalizedString.ratingViewRateUsLabel
-        dismissButton.setTitle(LGLocalizedString.ratingViewRemindLaterButton.uppercase, for: .normal)
+        dismissButton.setTitle(LGLocalizedString.ratingViewRemindLaterButton.localizedUppercase, for: .normal)
 
         setAccesibilityIds()
     }

@@ -101,6 +101,11 @@
         "description": "show new bump up explanation view"
     },
     {
+        "name": "MoreInfoAdActive",
+        "values": ["control", "baseline", "active"],
+        "description": "show the ad in more info"
+    },
+    {
         "name": "HomeRelatedEnabled",
         "values": ["control", "baseline", "active"],
         "description": "Show the related button in the main feed"

@@ -32,10 +32,35 @@ extension ListingViewModel {
         trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition, isShowingFeaturedStripe: isBumpedUp)
     }
 
-    func trackVisitMoreInfo() {
-        trackHelper.trackVisitMoreInfo()
+    func trackVisitMoreInfo(isMine: EventParameterBoolean,
+                            adShown: EventParameterBoolean,
+                            adType: EventParameterAdType?,
+                            queryType: EventParameterAdQueryType?,
+                            query: String?,
+                            visibility: EventParameterAdVisibility?,
+                            errorReason: EventParameterAdSenseRequestErrorReason?) {
+        trackHelper.trackVisitMoreInfo(isMine: isMine,
+                                       adShown: adShown,
+                                       adType: adType,
+                                       queryType: queryType,
+                                       query: query,
+                                       visibility: visibility,
+                                       errorReason: errorReason)
     }
 
+    func trackAdTapped(adType: EventParameterAdType?,
+                       isMine: EventParameterBoolean,
+                       queryType: EventParameterAdQueryType?,
+                       query: String?,
+                       willLeaveApp: EventParameterBoolean,
+                       typePage: EventParameterTypePage) {
+        trackHelper.trackAdTapped(adType: adType,
+                                  isMine: isMine,
+                                  queryType: queryType,
+                                  query: query,
+                                  willLeaveApp: willLeaveApp,
+                                  typePage: typePage)
+    }
 
     // MARK: Share
 
@@ -51,22 +76,30 @@ extension ListingViewModel {
 
     // MARK: Bump Up
 
-    func trackBumpUpBannerShown(type: BumpUpType) {
-        trackHelper.trackBumpUpBannerShown(type: type)
+    func trackBumpUpBannerShown(type: BumpUpType, storeProductId: String?) {
+        trackHelper.trackBumpUpBannerShown(type: type, storeProductId: storeProductId)
     }
 
-    func trackBumpUpStarted(_ price: EventParameterBumpUpPrice, type: BumpUpType) {
-        trackHelper.trackBumpUpStarted(price, type: type)
+    func trackBumpBannerInfoShown(type: BumpUpType, storeProductId: String?) {
+        trackHelper.trackBumpBannerInfoShown(type: type, storeProductId: storeProductId)
     }
 
-    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, type: BumpUpType, restoreRetriesCount: Int,
-                              network: EventParameterShareNetwork, transactionStatus: EventParameterTransactionStatus?) {
+    func trackBumpUpStarted(_ price: EventParameterBumpUpPrice, type: BumpUpType, storeProductId: String?) {
+        trackHelper.trackBumpUpStarted(price, type: type, storeProductId: storeProductId)
+    }
+
+    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice,
+                              type: BumpUpType,
+                              restoreRetriesCount: Int,
+                              network: EventParameterShareNetwork,
+                              transactionStatus: EventParameterTransactionStatus?,
+                              storeProductId: String?) {
         trackHelper.trackBumpUpCompleted(price, type: type, restoreRetriesCount: restoreRetriesCount, network: network,
-                                         transactionStatus: transactionStatus)
+                                         transactionStatus: transactionStatus, storeProductId: storeProductId)
     }
 
-    func trackBumpUpFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus?) {
-        trackHelper.trackBumpUpFail(type: type, transactionStatus: transactionStatus)
+    func trackBumpUpFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus?, storeProductId: String?) {
+        trackHelper.trackBumpUpFail(type: type, transactionStatus: transactionStatus, storeProductId: storeProductId)
     }
 
     func trackMobilePaymentComplete(withPaymentId paymentId: String, transactionStatus: EventParameterTransactionStatus) {
@@ -124,30 +157,45 @@ extension ProductVMTrackHelper {
 // MARK: - Bump Up
 
 extension ProductVMTrackHelper {
-    func trackBumpUpBannerShown(type: BumpUpType) {
-        let trackerEvent = TrackerEvent.bumpBannerShow(type: EventParameterBumpUpType(bumpType: type), listingId: listing.objectId)
+    func trackBumpUpBannerShown(type: BumpUpType, storeProductId: String?) {
+        let trackerEvent = TrackerEvent.bumpBannerShow(type: EventParameterBumpUpType(bumpType: type),
+                                                       listingId: listing.objectId,
+                                                       storeProductId: storeProductId)
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackBumpUpStarted(_ price: EventParameterBumpUpPrice, type: BumpUpType) {
+    func trackBumpBannerInfoShown(type: BumpUpType, storeProductId: String?) {
+        let trackerEvent = TrackerEvent.bumpBannerInfoShown(type: EventParameterBumpUpType(bumpType: type), listingId: listing.objectId, storeProductId: storeProductId)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackBumpUpStarted(_ price: EventParameterBumpUpPrice, type: BumpUpType, storeProductId: String?) {
         let trackerEvent = TrackerEvent.listingBumpUpStart(listing, price: price,
-                                                           type: EventParameterBumpUpType(bumpType: type))
+                                                           type: EventParameterBumpUpType(bumpType: type),
+                                                           storeProductId: storeProductId)
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice, type: BumpUpType, restoreRetriesCount: Int,
-                              network: EventParameterShareNetwork, transactionStatus: EventParameterTransactionStatus?) {
+    func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice,
+                              type: BumpUpType,
+                              restoreRetriesCount: Int,
+                              network: EventParameterShareNetwork,
+                              transactionStatus: EventParameterTransactionStatus?,
+                              storeProductId: String?) {
         let trackerEvent = TrackerEvent.listingBumpUpComplete(listing, price: price,
                                                               type: EventParameterBumpUpType(bumpType: type),
                                                               restoreRetriesCount: restoreRetriesCount,
                                                               network: network,
-                                                              transactionStatus: transactionStatus)
+                                                              transactionStatus: transactionStatus,
+                                                              storeProductId: storeProductId)
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackBumpUpFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus?) {
+    func trackBumpUpFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus?, storeProductId: String?) {
         let trackerEvent = TrackerEvent.listingBumpUpFail(type: EventParameterBumpUpType(bumpType: type),
-                                                          listingId: listing.objectId, transactionStatus: transactionStatus)
+                                                          listingId: listing.objectId,
+                                                          transactionStatus: transactionStatus,
+                                                          storeProductId: storeProductId)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -189,8 +237,38 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackVisitMoreInfo() {
-        let trackerEvent = TrackerEvent.listingDetailVisitMoreInfo(listing)
+    func trackVisitMoreInfo(isMine: EventParameterBoolean,
+                            adShown: EventParameterBoolean,
+                            adType: EventParameterAdType?,
+                            queryType: EventParameterAdQueryType?,
+                            query: String?,
+                            visibility: EventParameterAdVisibility?,
+                            errorReason: EventParameterAdSenseRequestErrorReason?) {
+
+        let trackerEvent = TrackerEvent.listingDetailVisitMoreInfo(listing,
+                                                                   isMine: isMine,
+                                                                   adShown: adShown,
+                                                                   adType: adType,
+                                                                   queryType: queryType,
+                                                                   query: query,
+                                                                   visibility: visibility,
+                                                                   errorReason: errorReason)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackAdTapped(adType: EventParameterAdType?,
+                       isMine: EventParameterBoolean,
+                       queryType: EventParameterAdQueryType?,
+                       query: String?,
+                       willLeaveApp: EventParameterBoolean,
+                       typePage: EventParameterTypePage) {
+        let trackerEvent = TrackerEvent.adTapped(listingId: listing.objectId,
+                                                         adType: adType,
+                                                         isMine: isMine,
+                                                         queryType: queryType,
+                                                         query: query,
+                                                         willLeaveApp: willLeaveApp,
+                                                         typePage: typePage)
         tracker.trackEvent(trackerEvent)
     }
 

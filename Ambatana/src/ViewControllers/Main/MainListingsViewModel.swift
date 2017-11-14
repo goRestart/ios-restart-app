@@ -125,9 +125,9 @@ class MainListingsViewModel: BaseViewModel {
 
         if filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsCategory {
             if let makeId = filters.carMakeId, let makeName = filters.carMakeName {
-                resultTags.append(.make(id: makeId.value, name: makeName.uppercase))
+                resultTags.append(.make(id: makeId.value, name: makeName.localizedUppercase))
                 if let modelId = filters.carModelId, let modelName = filters.carModelName {
-                    resultTags.append(.model(id: modelId.value, name: modelName.uppercase))
+                    resultTags.append(.model(id: modelId.value, name: modelName.localizedUppercase))
                 }
             }
             if filters.carYearStart != nil || filters.carYearEnd != nil {
