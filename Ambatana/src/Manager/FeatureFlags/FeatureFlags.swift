@@ -45,6 +45,7 @@ protocol FeatureFlaggeable: class {
     var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
+    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation { get }
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
 
@@ -90,6 +91,10 @@ extension TaxonomiesAndTaxonomyChildrenInFeed {
 }
 
 extension ShowPriceStepRealEstatePosting {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension BumpUpPriceDifferentiation {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -353,6 +358,12 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
     }
 
+    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation {
+        if Bumper.enabled {
+            return Bumper.bumpUpPriceDifferentiation
+        }
+        return BumpUpPriceDifferentiation.fromPosition(abTests.bumpUpPriceDifferentiation.value)
+    }
 
     // MARK: - Country features
 

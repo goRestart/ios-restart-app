@@ -49,6 +49,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
+    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
