@@ -58,7 +58,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var signUpEmailTermsAndConditionsAcceptRequired = false
     var moreInfoShoppingAdUnitId = ""
     var moreInfoSearchAdUnitId = ""
-    var adsAllowed = true
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

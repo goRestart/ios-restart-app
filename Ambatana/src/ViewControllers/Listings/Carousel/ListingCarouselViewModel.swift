@@ -176,7 +176,7 @@ class ListingCarouselViewModel: BaseViewModel {
         return featureFlags.moreInfoSearchAdUnitId
     }
     var adActive: Bool {
-        return featureFlags.moreInfoAdActive == .active && featureFlags.adsAllowed
+        return featureFlags.moreInfoAdActive.isActive
     }
     var randomHardcodedAdQuery: String {
         let popularItems = ["ps4", "iphone", LGLocalizedString.productPostIncentiveDresser]
@@ -607,7 +607,9 @@ class ListingCarouselViewModel: BaseViewModel {
 
     private func makeAdsRequestQuery() -> String {
 
-        if let title = productInfo.value?.title {
+        let useTitleForQuery = featureFlags.moreInfoAdActive == .titleFirst
+
+        if let title = productInfo.value?.title, useTitleForQuery {
             currentAdRequestQueryType = .listingTitle
             return title
         } else if let autoTitle = productInfo.value?.titleAuto {

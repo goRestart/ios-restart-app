@@ -41,5 +41,7 @@ class EscrowEnvironment: AppEnvironment {
     // Google Ads
     let moreInfoAdUnitIdShopping = ""
     let moreInfoAdUnitIdSearch = ""
+    let moreInfoAdUnitIdShoppingUSA = ""
+    let moreInfoAdUnitIdSearchUSA = ""
     let adTestModeActive = true
 }
