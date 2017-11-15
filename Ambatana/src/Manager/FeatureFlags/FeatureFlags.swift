@@ -423,7 +423,7 @@ class FeatureFlags: FeatureFlaggeable {
     var moreInfoShoppingAdUnitId: String {
         switch sensorLocationCountryCode {
         case .usa?:
-            return ""
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShoppingUSA
         default:
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShopping
         }
@@ -432,7 +432,7 @@ class FeatureFlags: FeatureFlaggeable {
     var moreInfoSearchAdUnitId: String {
         switch sensorLocationCountryCode {
         case .usa?:
-            return ""
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdSearchUSA
         default:
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdSearch
         }
