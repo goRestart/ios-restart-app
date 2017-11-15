@@ -54,7 +54,6 @@ protocol FeatureFlaggeable: class {
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
-    var adsAllowed: Bool { get }
     var moreInfoShoppingAdUnitId: String { get }
     var moreInfoSearchAdUnitId: String { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
@@ -80,6 +79,10 @@ extension ExpandableCategorySelectionMenu {
 
 extension ShowPriceAfterSearchOrFilter {
     var isActive: Bool { get { return self == .priceOnSearchOrFilter } }
+}
+
+extension MoreInfoAdActive {
+    var isActive: Bool { get { return self == .titleFirst || self == .cloudsightFirst } }
 }
 
 extension HomeRelatedEnabled {
@@ -404,15 +407,6 @@ class FeatureFlags: FeatureFlaggeable {
             return true
         default:
             return false
-        }
-    }
-
-    var adsAllowed: Bool {
-        switch sensorLocationCountryCode {
-        case .usa?:
-            return false
-        default:
-            return true
         }
     }
 

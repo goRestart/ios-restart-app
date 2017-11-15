@@ -450,16 +450,17 @@ enum NewBumpUpExplanation: String, BumperFeature  {
 }
 
 enum MoreInfoAdActive: String, BumperFeature  {
-    case control, baseline, active
+    case control, baseline, titleFirst, cloudsightFirst
     static var defaultValue: String { return MoreInfoAdActive.control.rawValue }
-    static var enumValues: [MoreInfoAdActive] { return [.control, .baseline, .active]}
+    static var enumValues: [MoreInfoAdActive] { return [.control, .baseline, .titleFirst, .cloudsightFirst]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "show the ad in more info" } 
     static func fromPosition(_ position: Int) -> MoreInfoAdActive {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .active
+            case 2: return .titleFirst
+            case 3: return .cloudsightFirst
             default: return .control
         }
     }

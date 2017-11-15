@@ -102,7 +102,7 @@
     },
     {
         "name": "MoreInfoAdActive",
-        "values": ["control", "baseline", "active"],
+        "values": ["control", "baseline", "titleFirst", "cloudsightFirst"],
         "description": "show the ad in more info"
     },
     {
