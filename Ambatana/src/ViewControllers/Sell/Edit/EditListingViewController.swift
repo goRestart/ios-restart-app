@@ -290,32 +290,35 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             MediaPickerManager.showImagePickerIn(self)
             if indexPath.item > 1 && indexPath.item < 4 {
                 collectionView.scrollToItem(at: IndexPath(item: indexPath.item+1, section: 0),
-                    at: UICollectionViewScrollPosition.right, animated: true)
+                                            at: .right,
+                                            animated: true)
             }
             
         } else if (indexPath.item < viewModel.numberOfImages) {
             // remove image
-            let alert = UIAlertController(title: LGLocalizedString.sellPictureSelectedTitle, message: nil,
-                preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: LGLocalizedString.sellPictureSelectedTitle,
+                                          message: nil,
+                                          preferredStyle: .actionSheet)
             
             let cell = collectionView.cellForItem(at: indexPath) as? SellListingCell
             alert.popoverPresentationController?.sourceView = cell
-            alert.popoverPresentationController?.sourceRect = cell?.bounds ?? CGRect.zero
+            alert.popoverPresentationController?.sourceRect = cell?.bounds ?? .zero
             
             alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedDeleteButton,
-                style: .destructive, handler: { (deleteAction) -> Void in
-                    self.deleteAlreadyUploadedImageWithIndex(indexPath.row)
-                    guard indexPath.item > 0 else { return }
-                    collectionView.scrollToItem(at: IndexPath(item: indexPath.item-1, section: 0),
-                            at: UICollectionViewScrollPosition.right, animated: true)
+                                          style: .destructive,
+                                          handler: { [weak self] _ in
+                                            self?.deleteAlreadyUploadedImageWithIndex(indexPath.item)
+                                            guard indexPath.item > 0 else { return }
+                                            collectionView.scrollToItem(at: IndexPath(item: indexPath.item-1, section: 0),
+                                                                        at: .right, animated: true)
             }))
             alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedSaveIntoCameraRollButton,
-                style: .default, handler: { (saveAction) -> Void in
-                    self.saveProductImageToDiskAtIndex(indexPath.row)
+                                          style: .default,
+                                          handler: { [weak self] _ in
+                                            self?.saveProductImageToDiskAtIndex(indexPath.item)
             }))
-            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedCancelButton,
-                style: .cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedCancelButton, style: .cancel))
+            present(alert, animated: true)
         }
     }
     
