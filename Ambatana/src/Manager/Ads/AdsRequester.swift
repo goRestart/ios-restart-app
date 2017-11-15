@@ -19,7 +19,6 @@ class AdsRequester {
     static let adHeightKey: String = "height"
     static let adHeightValue: String = "200"
     static let adWidthKey: String = "width"
-    static let afsDefaultHostLanguage: String = "en"
 
     let locale: Locale
     let featureFlags: FeatureFlaggeable
@@ -59,25 +58,6 @@ class AdsRequester {
         adsRequest.setAdvancedOptionValue(AdsRequester.adHeightValue, forKey: AdsRequester.adHeightKey)
         adsRequest.setAdvancedOptionValue(stringWidth, forKey: AdsRequester.adWidthKey)
 
-        return adsRequest
-    }
-
-    func makeAFSearchRequestWithQuery(query: String?, width: CGFloat) -> GADDynamicHeightSearchRequest {
-        let adsRequest = GADDynamicHeightSearchRequest()
-
-        adsRequest.adTestEnabled = adTestModeActive
-
-        adsRequest.query = query
-
-        let stringWidth = String(Int(width))
-
-        adsRequest.hostLanguage = locale.languageCode ?? AdsRequester.afsDefaultHostLanguage
-        adsRequest.numberOfAds = 1
-        adsRequest.cssWidth = stringWidth
-        adsRequest.siteLinksExtensionEnabled = true
-        adsRequest.sellerRatingsExtensionEnabled = true
-        adsRequest.clickToCallExtensionEnabled = true
-        
         return adsRequest
     }
 }

@@ -55,7 +55,6 @@ protocol FeatureFlaggeable: class {
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
     var moreInfoShoppingAdUnitId: String { get }
-    var moreInfoSearchAdUnitId: String { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -426,15 +425,6 @@ class FeatureFlags: FeatureFlaggeable {
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShoppingUSA
         default:
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShopping
-        }
-    }
-
-    var moreInfoSearchAdUnitId: String {
-        switch sensorLocationCountryCode {
-        case .usa?:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdSearchUSA
-        default:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdSearch
         }
     }
 
