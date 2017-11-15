@@ -111,11 +111,11 @@ class EnvironmentProxy: AppEnvironment {
     }
 
     var moreInfoAdUnitIdShoppingUSA: String {
-        return environment.moreInfoAdUnitIdShopping
+        return environment.moreInfoAdUnitIdShoppingUSA
     }
 
     var moreInfoAdUnitIdSearchUSA: String {
-        return environment.moreInfoAdUnitIdSearch
+        return environment.moreInfoAdUnitIdSearchUSA
     }
 
     var adTestModeActive: Bool {
