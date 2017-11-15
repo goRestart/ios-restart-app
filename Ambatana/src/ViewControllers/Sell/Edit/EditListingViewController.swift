@@ -307,7 +307,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
                     self.deleteAlreadyUploadedImageWithIndex(indexPath.row)
                     guard indexPath.item > 0 else { return }
                     collectionView.scrollToItem(at: IndexPath(item: indexPath.item-1, section: 0),
-                            at: UICollectionViewScrollPosition.left, animated: true)
+                            at: UICollectionViewScrollPosition.right, animated: true)
             }))
             alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedSaveIntoCameraRollButton,
                 style: .default, handler: { (saveAction) -> Void in
