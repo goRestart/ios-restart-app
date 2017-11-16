@@ -26,14 +26,11 @@ enum CarouselMovement {
 
 enum AdRequestType {
     case shopping
-    case search
 
     var trackingParamValue: EventParameterAdType {
         switch self {
         case .shopping:
             return .shopping
-        case .search:
-            return .search
         }
     }
 }
@@ -171,9 +168,6 @@ class ListingCarouselViewModel: BaseViewModel {
     // Ads
     var shoppingAdUnitId: String {
         return featureFlags.moreInfoShoppingAdUnitId
-    }
-    var searchAdUnitId: String {
-        return featureFlags.moreInfoSearchAdUnitId
     }
     var adActive: Bool {
         return featureFlags.moreInfoAdActive.isActive
@@ -407,18 +401,6 @@ class ListingCarouselViewModel: BaseViewModel {
         let adWidth = width-(2*sideMargin)
         let adsRequest = adsRequester.makeAFShoppingRequestWithQuery(query: adRequestQuery, width: adWidth)
         
-        return adsRequest
-    }
-
-    func makeAFSearchRequestWithWidth(width: CGFloat) -> GADDynamicHeightSearchRequest {
-        currentAdRequestType = .search
-
-        if adRequestQuery == nil {
-            adRequestQuery = makeAdsRequestQuery()
-        }
-        let adWidth = width-(2*sideMargin)
-        let adsRequest = adsRequester.makeAFSearchRequestWithQuery(query: adRequestQuery, width: adWidth)
-
         return adsRequest
     }
 

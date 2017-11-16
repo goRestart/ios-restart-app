@@ -106,16 +106,8 @@ class EnvironmentProxy: AppEnvironment {
         return environment.moreInfoAdUnitIdShopping
     }
 
-    var moreInfoAdUnitIdSearch: String {
-        return environment.moreInfoAdUnitIdSearch
-    }
-
     var moreInfoAdUnitIdShoppingUSA: String {
         return environment.moreInfoAdUnitIdShoppingUSA
-    }
-
-    var moreInfoAdUnitIdSearchUSA: String {
-        return environment.moreInfoAdUnitIdSearchUSA
     }
 
     var adTestModeActive: Bool {

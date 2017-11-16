@@ -40,8 +40,6 @@ class DevelopmentEnvironment: AppEnvironment {
 
     // Google Ads
     let moreInfoAdUnitIdShopping = "partner-vert-pla-mobile-app-letgo-pdp"
-    let moreInfoAdUnitIdSearch = "partner-mobile-app-letgo-com"
     let moreInfoAdUnitIdShoppingUSA = "partner-vert-pla-mobile-app-letgo-us-pdp"
-    let moreInfoAdUnitIdSearchUSA = "partner-mobile-app-letgo-us"
     let adTestModeActive = true
 }

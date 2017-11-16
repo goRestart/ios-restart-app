@@ -40,9 +40,7 @@ protocol AppEnvironment {
 
     // Google Ads
     var moreInfoAdUnitIdShopping: String { get }
-    var moreInfoAdUnitIdSearch: String { get }
     var moreInfoAdUnitIdShoppingUSA: String { get }
-    var moreInfoAdUnitIdSearchUSA: String { get }
     var adTestModeActive: Bool { get }
 
 }
