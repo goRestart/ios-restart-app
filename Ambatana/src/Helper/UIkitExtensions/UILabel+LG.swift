@@ -55,6 +55,13 @@ extension UILabel {
             logMessage(.error, type: .uikit, message: message)
             report(AppReport.uikit(error: .unableToConvertHTMLToString), message: message)
         }
-
+    }
+    
+    func addKern(value: NSNumber) {
+        guard let text = text, !text.isEmpty else { return }
+        let attributedString = NSMutableAttributedString(string: text)
+        let range = NSRange(location: 0, length: attributedString.length - 1)
+        attributedString.addAttribute(NSKernAttributeName, value: value, range: range)
+        attributedText = attributedString
     }
 }
