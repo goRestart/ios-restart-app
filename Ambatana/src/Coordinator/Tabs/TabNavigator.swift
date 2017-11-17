@@ -32,7 +32,8 @@ enum ProductCarouselActionOnFirstAppear {
     case nonexistent
     case showKeyboard
     case showShareSheet
-    case triggerBumpUp
+    case triggerBumpUp(purchaseableProduct: PurchaseableProduct, paymentItemId: String?, paymentProviderItemId: String?,
+                       bumpUpType: BumpUpType)
     case triggerMarkAsSold
 }
 

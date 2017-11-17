@@ -182,8 +182,11 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             chatTextView.becomeFirstResponder()
         case .showShareSheet:
             viewModel.shareButtonPressed()
-        case .triggerBumpUp:
-            bumpUpBanner.executeBannerInteractionBlock()
+        case let .triggerBumpUp(purchaseableProduct, paymentItemId, paymentProviderItemId, bumpUpType):
+            viewModel.showBumpUpView(purchaseableProduct: purchaseableProduct,
+                                     paymentItemId: paymentItemId,
+                                     paymentProviderItemId: paymentProviderItemId,
+                                     bumpUpType: bumpUpType)
         case .triggerMarkAsSold:
             viewModel.currentListingViewModel?.markAsSold()
         default:

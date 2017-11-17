@@ -12,6 +12,11 @@ import RxSwift
 import UIKit
 import StoreKit
 
+enum BumpUpSource {
+    case deepLink
+    case promoted
+}
+
 final class AppCoordinator: NSObject, Coordinator {
     var child: Coordinator?
     var viewController: UIViewController {
@@ -47,6 +52,12 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let locationManager: LocationManager
     fileprivate let installationRepository: InstallationRepository
+    fileprivate let monetizationRepository: MonetizationRepository
+    fileprivate let purchasesShopper: PurchasesShopper
+
+    fileprivate var paymentItemId: String?
+    fileprivate var paymentProviderItemId: String?
+    fileprivate var bumpUpSource: BumpUpSource?
 
     weak var delegate: AppNavigatorDelegate?
 
@@ -72,8 +83,10 @@ final class AppCoordinator: NSObject, Coordinator {
                   chatRepository: Core.chatRepository,
                   userRatingRepository: Core.userRatingRepository,
                   installationRepository: Core.installationRepository,
+                  monetizationRepository: Core.monetizationRepository,
                   locationManager: Core.locationManager,
-                  featureFlags: FeatureFlags.sharedInstance)
+                  featureFlags: FeatureFlags.sharedInstance,
+                  purchasesShopper: LGPurchasesShopper.sharedInstance)
         tabBarViewModel.navigator = self
     }
 
@@ -92,8 +105,10 @@ final class AppCoordinator: NSObject, Coordinator {
          chatRepository: ChatRepository,
          userRatingRepository: UserRatingRepository,
          installationRepository: InstallationRepository,
+         monetizationRepository: MonetizationRepository,
          locationManager: LocationManager,
-         featureFlags: FeatureFlaggeable) {
+         featureFlags: FeatureFlaggeable,
+         purchasesShopper: PurchasesShopper) {
 
         self.tabBarCtl = tabBarController
         self.selectedTab = Variable<Tab>(.home)
@@ -121,6 +136,9 @@ final class AppCoordinator: NSObject, Coordinator {
         self.chatRepository = chatRepository
         self.userRatingRepository = userRatingRepository
         self.installationRepository = installationRepository
+        self.monetizationRepository = monetizationRepository
+
+        self.purchasesShopper = purchasesShopper
 
         self.featureFlags = featureFlags
         self.locationManager = locationManager
@@ -229,6 +247,13 @@ extension AppCoordinator: AppNavigator {
         } else {
             tabBarCtl.showAppRatingView(source)
         }
+    }
+
+    func openPromoteBumpForListingId(listingId: String, purchaseableProduct: PurchaseableProduct) {
+
+        let promoteBumpCoordinator = PromoteBumpCoordinator(listingId: listingId, purchaseableProduct: purchaseableProduct)
+        promoteBumpCoordinator.delegate = self
+        openChild(coordinator: promoteBumpCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
     private func askUserIsEnjoyingLetgo() {
@@ -397,8 +422,7 @@ extension AppCoordinator: SellCoordinatorDelegate {
 
     func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithListing listing: Listing) {
         refreshSelectedListingsRefreshable()
-
-        openAfterSellDialogIfNeeded()
+        openAfterSellDialogIfNeeded(forListing: listing)
     }
 }
 
@@ -449,15 +473,60 @@ fileprivate extension AppCoordinator {
         refreshable.listingsRefresh()
     }
 
-    @discardableResult func openAfterSellDialogIfNeeded() -> Bool {
+    func openAfterSellDialogIfNeeded(forListing listing: Listing) {
+        // TODO: add the ABTEST and the 24h check
+        // check 24h timer
+        // yes ->
+        //        check if listing is bumpeable
+        // yes ->
+        //        show alert
+        // no  -> openAfterSellDialogIfNeeded()
+
+
+        if let listingId = listing.objectId, shouldRetrieveBumpeableInfo() {
+            bumpUpSource = .promoted
+            retrieveBumpeableInfoForListing(listingId: listingId)
+        } else {
+            showAfterSellPushAndRatingDialogs()
+        }
+    }
+
+    func shouldRetrieveBumpeableInfo() -> Bool {
+        return true
+        // TODO: ⚠️ Use the right code here!
+//        return featureFlags.abtestPromoteEnabled && keyValueStorage.24hoursSincelastPromo
+    }
+
+    func showAfterSellPushAndRatingDialogs() {
         if pushPermissionsManager.shouldShowPushPermissionsAlertFromViewController(.sell) {
             pushPermissionsManager.showPrePermissionsViewFrom(tabBarCtl, type: .sell, completion: nil)
         } else if ratingManager.shouldShowRating {
             openAppRating(.listingSellComplete)
-        } else {
-            return false
         }
-        return true
+    }
+
+    fileprivate func retrieveBumpeableInfoForListing(listingId: String) {
+        purchasesShopper.bumpInfoRequesterDelegate = self
+        monetizationRepository.retrieveBumpeableListingInfo(
+            listingId: listingId,
+            withPriceDifferentiation: featureFlags.bumpUpPriceDifferentiation.isActive) { [weak self] result in
+                guard let strongSelf = self else { return }
+
+                if let value = result.value {
+                    let paymentItems = value.paymentItems.filter { $0.provider == .apple }
+                    if !paymentItems.isEmpty {
+                        // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
+                        strongSelf.paymentItemId = paymentItems.first?.itemId
+                        strongSelf.paymentProviderItemId = paymentItems.first?.providerItemId
+
+                        // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
+                        // a useless request to apple
+                        if let _ = strongSelf.paymentItemId {
+                            strongSelf.purchasesShopper.productsRequestStartForListing(listingId, withIds: paymentItems.map { $0.providerItemId })
+                        }
+                    }
+                }
+        }
     }
 }
 
@@ -558,7 +627,6 @@ fileprivate extension AppCoordinator {
                 }
             }.addDisposableTo(disposeBag)
     }
-
 
     func setupCoreEventsRx() {
         sessionManager.sessionEvents.bindNext { [weak self] event in
@@ -736,13 +804,8 @@ fileprivate extension AppCoordinator {
                                                           actionOnFirstAppear: .showShareSheet)
             }
         case let .listingBumpUp(listingId):
-            tabBarCtl.clearAllPresented(nil)
-            afterDelayClosure = { [weak self] in
-                self?.openTab(.profile, force: false) { [weak self] in
-                    self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId),
-                                                              source: .openApp, actionOnFirstAppear: .triggerBumpUp)
-                }
-            }
+            bumpUpSource = .deepLink
+            retrieveBumpeableInfoForListing(listingId: listingId)
         case let .listingMarkAsSold(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
@@ -915,6 +978,47 @@ extension AppCoordinator: ChangePasswordNavigator {
     }
     func passwordSaved() {
         tabBarCtl.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension AppCoordinator: BumpInfoRequesterDelegate {
+    func shopperFinishedProductsRequestForListingId(_ listingId: String?, withProducts products: [PurchaseableProduct]) {
+
+        guard let requestListingId = listingId, let purchase = products.first, let bumpUpSource = bumpUpSource else { return }
+
+        switch bumpUpSource {
+        case .deepLink:
+            tabBarCtl.clearAllPresented(nil)
+            openTab(.profile, force: false) { [weak self] in
+                let triggerBumpOnAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchaseableProduct: purchase,
+                                                                                           paymentItemId: self?.paymentItemId,
+                                                                                           paymentProviderItemId: self?.paymentProviderItemId,
+                                                                                           bumpUpType: .priced)
+                self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: requestListingId),
+                                                          source: .openApp, actionOnFirstAppear: triggerBumpOnAppear)
+            }
+        case .promoted:
+            tabBarCtl.clearAllPresented(nil)
+            openPromoteBumpForListingId(listingId: requestListingId, purchaseableProduct: purchase)
+        }
+    }
+}
+
+extension AppCoordinator: PromoteBumpCoordinatorDelegate {
+    func openSellFasterForListingId(listingId: String, purchaseableProduct: PurchaseableProduct) {
+        tabBarCtl.clearAllPresented(nil)
+        openTab(.profile, force: false) { [weak self] in
+
+            let triggerBumpOnAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchaseableProduct: purchaseableProduct,
+                                                                                       paymentItemId: self?.paymentItemId,
+                                                                                       paymentProviderItemId: self?.paymentProviderItemId,
+                                                                                       bumpUpType: .priced)
+
+            self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId),
+                                                      source: .openApp,
+                                                      actionOnFirstAppear: triggerBumpOnAppear)
+            
+        }
     }
 }
 

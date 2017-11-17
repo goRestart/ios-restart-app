@@ -353,11 +353,14 @@ class MyAppstoreProduct: SKProduct {
     }
 }
 
-extension PurchasesShopperSpec: PurchasesShopperDelegate {
+extension PurchasesShopperSpec: BumpInfoRequesterDelegate {
     func shopperFinishedProductsRequestForListingId(_ listingId: String?, withProducts products: [PurchaseableProduct]) {
         guard let id = listingId else { return }
         self.requestsFinished.append(id)
     }
+}
+
+extension PurchasesShopperSpec: PurchasesShopperDelegate {
 
     func freeBumpDidStart() {
     }
