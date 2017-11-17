@@ -483,11 +483,6 @@ fileprivate extension ListingCarouselMoreInfoView {
         bannerView?.adUnitID = viewModel?.shoppingAdUnitId
         bannerView?.load(viewModel?.makeAFShoppingRequestWithWidth(width: frame.width))
     }
-
-    func loadAFSearchRequest() {
-        bannerView?.adUnitID = viewModel?.searchAdUnitId
-        bannerView?.load(viewModel?.makeAFSearchRequestWithWidth(width: frame.width))
-    }
 }
 
 
@@ -518,14 +513,7 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
         bannerContainerViewLeftConstraint.constant = 0
         bannerContainerViewRightConstraint.constant = 0
 
-        if let adRequestType = viewModel?.currentAdRequestType {
-            switch adRequestType {
-            case .shopping:
-                loadAFSearchRequest()
-            case .search:
-                viewModel?.didFailToReceiveAd(withErrorCode: GADErrorCode(rawValue: error.code) ?? .internalError)
-            }
-        }
+        viewModel?.didFailToReceiveAd(withErrorCode: GADErrorCode(rawValue: error.code) ?? .internalError)
     }
 
     func adViewWillPresentScreen(_ bannerView: GADBannerView) {

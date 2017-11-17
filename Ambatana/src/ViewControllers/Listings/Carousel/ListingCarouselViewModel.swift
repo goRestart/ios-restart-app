@@ -26,14 +26,11 @@ enum CarouselMovement {
 
 enum AdRequestType {
     case shopping
-    case search
 
     var trackingParamValue: EventParameterAdType {
         switch self {
         case .shopping:
             return .shopping
-        case .search:
-            return .search
         }
     }
 }
@@ -172,11 +169,8 @@ class ListingCarouselViewModel: BaseViewModel {
     var shoppingAdUnitId: String {
         return featureFlags.moreInfoShoppingAdUnitId
     }
-    var searchAdUnitId: String {
-        return featureFlags.moreInfoSearchAdUnitId
-    }
     var adActive: Bool {
-        return featureFlags.moreInfoAdActive == .active && featureFlags.adsAllowed
+        return featureFlags.moreInfoAdActive.isActive
     }
     var randomHardcodedAdQuery: String {
         let popularItems = ["ps4", "iphone", LGLocalizedString.productPostIncentiveDresser]
@@ -410,18 +404,6 @@ class ListingCarouselViewModel: BaseViewModel {
         return adsRequest
     }
 
-    func makeAFSearchRequestWithWidth(width: CGFloat) -> GADDynamicHeightSearchRequest {
-        currentAdRequestType = .search
-
-        if adRequestQuery == nil {
-            adRequestQuery = makeAdsRequestQuery()
-        }
-        let adWidth = width-(2*sideMargin)
-        let adsRequest = adsRequester.makeAFSearchRequestWithQuery(query: adRequestQuery, width: adWidth)
-
-        return adsRequest
-    }
-
     func didReceiveAd(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat, screenHeight: CGFloat) {
 
         let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
@@ -607,7 +589,9 @@ class ListingCarouselViewModel: BaseViewModel {
 
     private func makeAdsRequestQuery() -> String {
 
-        if let title = productInfo.value?.title {
+        let useTitleForQuery = featureFlags.moreInfoAdActive == .titleFirst
+
+        if let title = productInfo.value?.title, useTitleForQuery {
             currentAdRequestQueryType = .listingTitle
             return title
         } else if let autoTitle = productInfo.value?.titleAuto {

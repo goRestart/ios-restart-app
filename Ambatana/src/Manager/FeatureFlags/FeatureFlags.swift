@@ -54,9 +54,7 @@ protocol FeatureFlaggeable: class {
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
-    var adsAllowed: Bool { get }
     var moreInfoShoppingAdUnitId: String { get }
-    var moreInfoSearchAdUnitId: String { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -80,6 +78,10 @@ extension ExpandableCategorySelectionMenu {
 
 extension ShowPriceAfterSearchOrFilter {
     var isActive: Bool { get { return self == .priceOnSearchOrFilter } }
+}
+
+extension MoreInfoAdActive {
+    var isActive: Bool { get { return self == .titleFirst || self == .cloudsightFirst } }
 }
 
 extension HomeRelatedEnabled {
@@ -407,15 +409,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
 
-    var adsAllowed: Bool {
-        switch sensorLocationCountryCode {
-        case .usa?:
-            return false
-        default:
-            return true
-        }
-    }
-
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         guard let code = countryCode, let countryCode = CountryCode(string: code) else { return false }
         switch countryCode {
@@ -429,18 +422,9 @@ class FeatureFlags: FeatureFlaggeable {
     var moreInfoShoppingAdUnitId: String {
         switch sensorLocationCountryCode {
         case .usa?:
-            return ""
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShoppingUSA
         default:
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShopping
-        }
-    }
-
-    var moreInfoSearchAdUnitId: String {
-        switch sensorLocationCountryCode {
-        case .usa?:
-            return ""
-        default:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdSearch
         }
     }
 
