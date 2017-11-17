@@ -10,6 +10,9 @@ import UIKit
 
 class PromoteBumpViewController: BaseViewController {
 
+    private static let alertSideMargin: CGFloat = 50
+
+    private var blurEffectView: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     private var alertView: UIView = UIView()
     private var titleLabel: UILabel = UILabel()
     private var iconView: UIImageView = UIImageView()
@@ -23,6 +26,7 @@ class PromoteBumpViewController: BaseViewController {
     required init(viewModel: PromoteBumpViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
+        modalPresentationStyle = .overCurrentContext
     }
 
     required init?(coder: NSCoder) {
@@ -39,42 +43,73 @@ class PromoteBumpViewController: BaseViewController {
 
     private func setupUI() {
 
-//        alpha = 0
-//        UIView.animate(withDuration: 0.4, animations: { () -> Void in
-//            self.view.alpha = 1
-//        })
-
+        view.backgroundColor = UIColor.clear
         alertView.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
         alertView.backgroundColor = UIColor.white
 
+        titleLabel.text = viewModel?.titleText
+        titleLabel.textColor = UIColor.blackText
+        titleLabel.font = UIFont.systemBoldFont(size: 27)
+        titleLabel.textAlignment = .center
+        titleLabel.numberOfLines = 0
+
+        iconView.image = viewModel?.sellFasterImage
+        iconView.contentMode = .scaleAspectFit
+
+        sellFasterButton.frame = CGRect(x: 0, y: 0, width: 0, height: LGUIKitConstants.mediumButtonHeight)
         sellFasterButton.setTitle(viewModel?.sellFasterText, for: .normal)
-        sellFasterButton.setStyle(.primary(fontSize: .medium))
+        sellFasterButton.setStyle(.primary(fontSize: .big))
         sellFasterButton.addTarget(self, action: #selector(sellFaster), for: .touchUpInside)
 
         laterButton.setTitle(viewModel?.laterText, for: .normal)
-//        laterButton.
+        laterButton.titleLabel?.font = UIFont.systemRegularFont(size: 15)
+        laterButton.setTitleColor(UIColor.grayText, for: .normal)
         laterButton.addTarget(self, action: #selector(laterPressed), for: .touchUpInside)
     }
 
-//    func setupWithFrame(frame: CGRect) {
-//        self.frame = frame
-//        setupConstraints()
-//    }
-
     private func setupConstraints() {
 
+        blurEffectView.translatesAutoresizingMaskIntoConstraints = false
         alertView.translatesAutoresizingMaskIntoConstraints = false
-        sellFasterButton.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(blurEffectView)
+        blurEffectView.layout(with: view).fill()
 
         view.addSubview(alertView)
+        alertView.layout(with: view)
+            .center()
+            .leading(by: PromoteBumpViewController.alertSideMargin)
+            .trailing(by: -PromoteBumpViewController.alertSideMargin)
 
-        alertView.layout().width(200).height(200)
-        alertView.layout(with: view).center()
+        let subviews: [UIView] = [titleLabel, iconView, sellFasterButton, laterButton]
+        view.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
+        alertView.addSubviews(subviews)
 
-        alertView.addSubview(sellFasterButton)
+        titleLabel.layout(with: alertView)
+            .top(by: Metrics.bigMargin)
+            .leading(by: Metrics.veryBigMargin)
+            .trailing(by: -Metrics.veryBigMargin)
+            .centerX()
 
-        sellFasterButton.layout().width(160).height(50)
-        sellFasterButton.layout(with: alertView).center()
+        iconView.layout(with: alertView)
+            .leading(by: Metrics.veryBigMargin)
+            .trailing(by: -Metrics.veryBigMargin)
+            .centerX()
+        iconView.layout(with: titleLabel).top(to: .bottom, by: Metrics.veryShortMargin)
+
+        sellFasterButton.layout().height(LGUIKitConstants.mediumButtonHeight)
+        sellFasterButton.layout(with: alertView)
+            .leading(by: Metrics.veryBigMargin)
+            .trailing(by: -Metrics.veryBigMargin)
+            .centerX()
+        sellFasterButton.layout(with: iconView).top(to: .bottom, by: Metrics.shortMargin)
+
+        laterButton.layout(with: alertView)
+            .bottom(by: -Metrics.margin)
+            .leading(by: Metrics.veryBigMargin)
+            .trailing(by: -Metrics.veryBigMargin)
+            .centerX()
+        laterButton.layout(with: sellFasterButton).top(to: .bottom, by: Metrics.margin)
     }
 
 
@@ -83,12 +118,6 @@ class PromoteBumpViewController: BaseViewController {
     dynamic func sellFaster() {
         // open product detail & bump
         viewModel?.sellFaster()
-//        UIView.animate(withDuration: 0.4, animations: { () -> Void in
-//            self.alpha = 0
-//        }, completion: { (completed) -> Void in
-//            // open product detail & bump
-//            self.removeFromSuperview()
-//        })
     }
 
     dynamic func laterPressed() {
