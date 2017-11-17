@@ -20,15 +20,19 @@ class PromoteBumpViewController: BaseViewController {
 
     // MARK: - Lifecycle
 
-    convenience init(viewModel: PromoteBumpViewModel) {
-        super.init()
+    required init(viewModel: PromoteBumpViewModel) {
         self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nil)
     }
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-
+        setupConstraints()
     }
 
     // MARK: - Private methods
@@ -42,9 +46,14 @@ class PromoteBumpViewController: BaseViewController {
 
         alertView.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
         alertView.backgroundColor = UIColor.white
+
         sellFasterButton.setTitle(viewModel?.sellFasterText, for: .normal)
         sellFasterButton.setStyle(.primary(fontSize: .medium))
         sellFasterButton.addTarget(self, action: #selector(sellFaster), for: .touchUpInside)
+
+        laterButton.setTitle(viewModel?.laterText, for: .normal)
+//        laterButton.
+        laterButton.addTarget(self, action: #selector(laterPressed), for: .touchUpInside)
     }
 
 //    func setupWithFrame(frame: CGRect) {
@@ -80,5 +89,9 @@ class PromoteBumpViewController: BaseViewController {
 //            // open product detail & bump
 //            self.removeFromSuperview()
 //        })
+    }
+
+    dynamic func laterPressed() {
+        viewModel?.later()
     }
 }

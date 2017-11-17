@@ -6,4 +6,7 @@
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
-import Foundation
+protocol PromoteBumpNavigator {
+    func promoteBumpDidCancel()
+    func openSellFasterForListingId(listingId: String, purchaseableProduct: PurchaseableProduct)
+}
