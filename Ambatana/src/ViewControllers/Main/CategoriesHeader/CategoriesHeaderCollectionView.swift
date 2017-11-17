@@ -67,6 +67,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryHeaderCell.reuseIdentifier, for: indexPath) as? CategoryHeaderCell else { return UICollectionViewCell() }
             let categoryHeaderElement = categoryHeaderElements[indexPath.row]
             cell.categoryTitle.text = categoryHeaderElement.name.localizedUppercase
+            cell.categoryTitle.addKern(value: -0.30)
             switch categoryHeaderElement {
             case .listingCategory, .other:
                 cell.categoryIcon.image = categoryHeaderElement.imageIcon
