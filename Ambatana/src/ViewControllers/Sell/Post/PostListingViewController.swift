@@ -461,7 +461,7 @@ fileprivate extension PostListingState {
     }
     
     func postedInfoLabelText(confirmationText: String?) -> String? {
-        return isError ? LGLocalizedString.commonErrorTitle.capitalized : confirmationText
+        return isError ? LGLocalizedString.commonErrorTitle.localizedCapitalized : confirmationText
     }
     
     var postErrorLabelAlpha: CGFloat {

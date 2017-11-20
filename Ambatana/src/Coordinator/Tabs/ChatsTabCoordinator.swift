@@ -20,7 +20,6 @@ final class ChatsTabCoordinator: TabCoordinator {
         let listingRepository = Core.listingRepository
         let userRepository = Core.userRepository
         let chatRepository = Core.chatRepository
-        let oldChatRepository = Core.oldChatRepository
         let myUserRepository = Core.myUserRepository
         let installationRepository = Core.installationRepository
         let bubbleNotificationManager =  LGBubbleNotificationManager.sharedInstance
@@ -33,7 +32,6 @@ final class ChatsTabCoordinator: TabCoordinator {
         super.init(listingRepository: listingRepository,
                   userRepository: userRepository,
                   chatRepository: chatRepository,
-                  oldChatRepository: oldChatRepository,
                   myUserRepository: myUserRepository,
                   installationRepository: installationRepository,
                   bubbleNotificationManager: bubbleNotificationManager,

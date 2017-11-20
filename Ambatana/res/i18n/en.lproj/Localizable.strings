@@ -2177,6 +2177,9 @@
 // Rating view title label.  Check attached image "rating_view.png" (but uppercase)
 "rating_view_title_label_uppercase" = "GIVE US 5 STARS!";
 
+// Real Estate location title
+"real_estate_location_title" = "Location";
+
 // Real Estate summary title
 "real_estate_summary_title" = "Summary";
 
@@ -2240,6 +2243,12 @@
 // Real Estate number of bathrooms 4
 "real_estate_bathrooms_4" = "4+";
 
+// bathroom
+"real_estate_summary_bathroom_title" = "bathroom";
+
+// bathrooms
+"real_estate_summary_bathrooms_title" = "bathrooms";
+
 // Ral Estate number of bedrooms Title
 "real_estate_bedrooms_title" = "No. of bedrooms";
 
@@ -2257,6 +2266,12 @@
 
 // Real Estate number of bedrooms 4
 "real_estate_bedrooms_4" = "4+";
+
+// bedroom
+"real_estate_summary_bedroom_title" = "bedroom";
+
+// bedrooms
+"real_estate_summary_bedrooms_title" = "bedrooms";
 
 // Real Estate summary price empty value
 "real_estate_summary_price_empty" = "Add price";

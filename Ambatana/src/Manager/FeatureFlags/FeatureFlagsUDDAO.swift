@@ -33,15 +33,6 @@ final class FeatureFlagsUDDAO: FeatureFlagsDAO {
     
     
     // MARK: - FeatureFlagsDAO
-    
-    func retrieveWebsocketChatEnabled() -> Bool? {
-        return retrieve(key: .websocketChatEnabled)
-    }
-    
-    func save(websocketChatEnabled: Bool) {
-        save(key: .websocketChatEnabled, value: websocketChatEnabled)
-        sync()
-    }
 
     func retrieveTimeoutForRequests() -> TimeInterval? {
         return networkDAO.timeoutIntervalForRequests
@@ -60,15 +51,4 @@ fileprivate extension FeatureFlagsUDDAO {
         return userDefaults.dictionary(forKey: FeatureFlagsUDDAO.userDefaultsKey)
     }
     
-    func retrieve<T>(key: Key) -> T? {
-        return dictionary[key.rawValue] as? T
-    }
-    
-    func save<T>(key: Key, value: T) {
-        dictionary[key.rawValue] = value
-    }
-    
-    func sync() {
-        userDefaults.setValue(dictionary, forKey: FeatureFlagsUDDAO.userDefaultsKey)
-    }
 }

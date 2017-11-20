@@ -12,12 +12,14 @@ import LGCoreKit
 class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
 
     var showDisclose: Bool = false
+    var showClock: Bool = false
     
     private let rightMarginMessageTextDefault: CGFloat = 10
     private let rightMarginWithDisclosure: CGFloat = 38
     
-    init(showDisclose: Bool, autoHide: Bool) {
+    init(showDisclose: Bool, autoHide: Bool, showClock: Bool) {
         self.showDisclose = showDisclose
+        self.showClock = showClock
         super.init(autoHide: autoHide)
     }
     
@@ -49,7 +51,7 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
         case .read:
             cell.checkImageView.image = UIImage(named: "ic_doble_read")
         case .unknown:
-            cell.checkImageView.image = UIImage(named: "ic_watch")
+            cell.checkImageView.image = showClock ? UIImage(named: "ic_watch") : nil
         }
     }
     

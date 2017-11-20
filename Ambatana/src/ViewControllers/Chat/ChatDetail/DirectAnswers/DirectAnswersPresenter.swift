@@ -40,17 +40,12 @@ class DirectAnswersPresenter {
     fileprivate weak var horizontalView: DirectAnswersHorizontalView?
 
     fileprivate var answers: [[QuickAnswer]] = [[]]
-    private let websocketChatActive: Bool
     private static let disabledAlpha: CGFloat = 0.6
     
     var isDynamic: Bool = false
 
 
     // MARK: - Public methods
-    
-    init(websocketChatActive: Bool) {
-        self.websocketChatActive = websocketChatActive
-    }
 
     func setupOnTopOfView(_ sibling: UIView) {
         guard let parentView = sibling.superview else { return }

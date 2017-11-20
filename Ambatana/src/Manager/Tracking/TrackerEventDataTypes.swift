@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import GoogleMobileAds
 
 enum EventName: String {
     case location                           = "location"
@@ -151,6 +152,7 @@ enum EventName: String {
     case marketingPushNotifications         = "marketing-push-notifications"
 
     case bumpBannerShow                     = "bump-banner-show"
+    case bumpInfoShown                      = "bump-info-shown"
     case bumpUpStart                        = "bump-up-start"
     case bumpUpComplete                     = "bump-up-complete"
     case bumpUpFail                         = "bump-up-fail"
@@ -167,8 +169,10 @@ enum EventName: String {
     case onboardingInterestsComplete        = "onboarding-interests-complete"
     case categoriesStart                    = "categories-start"
     case categoriesComplete                 = "categories-complete"
+
+    case adTapped                           = "ad-tapped"
     case featuredMoreInfo                   = "featured-more-info"
-    
+
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -281,6 +285,7 @@ enum EventParameterName: String {
     case bumpUpType           = "bump-type"
     case paymentId            = "payment-id"
     case retriesNumber        = "retries-number"
+    case storeProductId       = "store-productId"
     case passiveConversations = "passive-conversations"
     case feedPosition         = "feed-position"
     case feedSource           = "feed-source"
@@ -311,6 +316,13 @@ enum EventParameterName: String {
     case superKeywordsIds     = "superkeyword-ids"
     case keywordName          = "keyword-name"
     case relatedSource        = "related-source"
+    case adShown              = "ad-shown"
+    case adType               = "ad-type"
+    case adQueryType          = "ad-query-type"
+    case adQuery              = "ad-query-text"
+    case adVisibility         = "ad-visibility"
+    case adActionLeftApp      = "left-application"
+    case isMine               = "is-mine"
     case numberOfItems        = "number-of-items"
     case transactionStatus    = "transaction-status"
 }
@@ -319,6 +331,17 @@ enum EventParameterBoolean: String {
     case trueParameter = "true"
     case falseParameter = "false"
     case notAvailable = "N/A"
+
+    init(bool: Bool?) {
+        switch bool {
+        case .some(true):
+            self = .trueParameter
+        case .some(false):
+            self = .falseParameter
+        case .none:
+            self = .notAvailable
+        }
+    }
 }
 
 enum EventParameterLoginSourceValue: String {
@@ -927,6 +950,53 @@ enum EventParamenterLocationTypePage: String {
     case profile    = "profile"
     case feedBubble = "feed-bubble"
     case automatic  = "automatic"
+}
+
+enum EventParameterAdType: String {
+    case shopping = "shopping"
+}
+
+enum EventParameterAdQueryType: String {
+    case title = "title"
+    case cloudsight = "cloudsight"
+    case category = "category"
+    case hardcoded = "hardcoded"
+}
+
+enum EventParameterAdVisibility: String {
+    case full = "full"
+    case partial = "partial"
+    case notVisible = "not-visible"
+
+    init(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat, screenHeight: CGFloat) {
+        if bannerBottomPosition <= screenHeight {
+            self = .full
+        } else if bannerTopPosition >= screenHeight {
+            self = .notVisible
+        } else {
+            self = .partial
+        }
+    }
+}
+
+enum EventParameterAdSenseRequestErrorReason: String {
+    case invalidRequest = "invalid-request"
+    case noAdsToShow = "no-fill"
+    case networkError = "network"
+    case internalError = "internal"
+
+    init(errorCode: GADErrorCode) {
+        switch errorCode {
+        case .invalidRequest:
+            self = .invalidRequest
+        case .noFill:
+            self = .noAdsToShow
+        case .networkError:
+            self = .networkError
+        default:
+            self = .internalError
+        }
+    }
 }
 
 struct EventParameters {

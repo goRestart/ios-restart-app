@@ -1118,7 +1118,10 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         let messages = viewModel.directChatMessages.value
         guard 0..<messages.count ~= indexPath.row else { return UITableViewCell() }
         let message = messages[indexPath.row]
-        let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true, disclosure: true)
+        let drawer = ChatCellDrawerFactory.drawerForMessage(message,
+                                                            autoHide: true, 
+                                                            disclosure: true,
+                                                            showClock: viewModel.featureFlags.showClockInDirectAnswer == .active)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
 
         drawer.draw(cell, message: message)
