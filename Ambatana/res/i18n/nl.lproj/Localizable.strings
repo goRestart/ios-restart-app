@@ -733,12 +733,18 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Aantal Slaapkamers";
+"real_estate_location_notification_message" = "We zullen jouw exacte locatie nooit aan andere gebruikers laten zien";
+"real_estate_location_title" = "Plaats";
 "real_estate_offer_type_rent" = "Te Huur";
 "real_estate_offer_type_sale" = "Te Koop";
 "real_estate_offer_type_title" = "Soort Advertentie";
 "real_estate_price_title" = "Prijs";
+"real_estate_summary_bathroom_title" = "badkamer";
 "real_estate_summary_bathrooms_empty" = "Aantal badkamers toevoegen";
+"real_estate_summary_bathrooms_title" = "badkamers";
+"real_estate_summary_bedroom_title" = "slaapkamer";
 "real_estate_summary_bedrooms_emtpy" = "Aantal slaapkamers toevoegen";
+"real_estate_summary_bedrooms_title" = "slaapkamers";
 "real_estate_summary_location_empty" = "Locatie: niet ingesteld";
 "real_estate_summary_offer_type_empty" = "Soort advertentie toevoegen";
 "real_estate_summary_price_empty" = "Prijs toevoegen";
@@ -828,7 +834,7 @@
 "settings_section_promote" = "Promoten";
 "settings_section_support" = "Ondersteuning";
 "settings_title" = "Instellingen";
-"sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
+"sign_up_acceptance_error" = "Om je aan te melden dien je de Algemene Voorwaarden en het Privacybeleid te accepteren";
 "sign_up_email_field_hint" = "E-mail";
 "sign_up_email_step1_continue_button" = "Doorgaan";
 "sign_up_email_step1_email_field_hint" = "EMAIL";
@@ -838,7 +844,7 @@
 "sign_up_email_step2_name_field_hint" = "Volledige Naam";
 "sign_up_email_step2_newsletter" = "Ik wil graag de nieuwsbrief van letgo ontvangen";
 "sign_up_email_step2_terms_conditions_privacy_kw" = "Privacy Beleid";
-"sign_up_newsleter" = "I want to receive the letgo newsletter";
+"sign_up_newsleter" = "Ik wil graag de nieuwsbrief van letgo ontvangen";
 "sign_up_password_field_hint" = "Wachtwoord";
 "sign_up_send_button" = "Aanmelden";
 "sign_up_send_error_email_taken" = "Dit e-mailadres %@ is al geregistreerd. Gebruik het a.u.b. om in te loggen.";
@@ -847,7 +853,7 @@
 "sign_up_send_error_invalid_email" = "Vul een geldig e-mailadres in.";
 "sign_up_send_error_invalid_password_with_max" = "Voer a.u.b. een geldig wachtwoord in. Het moeten tussen %d en %d tekens bevatten.";
 "sign_up_send_error_invalid_username" = "Gelieve een geldige naam in te voeren, deze moet minstens %d tekens bevatten.";
-"sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
+"sign_up_terms_conditions" = "Ik ga akkoord met de Algemene Voorwaarden en het Privacybeleid";
 "sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Nieuw account aanmaken";

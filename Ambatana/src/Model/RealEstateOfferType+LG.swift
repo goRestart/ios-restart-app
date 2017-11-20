@@ -19,6 +19,15 @@ extension RealEstateOfferType {
         }
     }
     
+    var shortLocalizedString: String {
+        switch self {
+        case .rent:
+            return LGLocalizedString.realEstateTitleGeneratorOfferTypeRent
+        case .sale:
+            return LGLocalizedString.realEstateTitleGeneratorOfferTypeSale
+        }
+    }
+    
     static var allValues: [RealEstateOfferType] {
         return [.rent, .sale]
     }
