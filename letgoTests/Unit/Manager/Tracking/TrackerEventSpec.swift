@@ -1199,7 +1199,14 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345", state: "MD",
                         countryCode: "US", country: nil)
 
-                    sut = TrackerEvent.listingDetailVisitMoreInfo(.product(product))
+                    sut = TrackerEvent.listingDetailVisitMoreInfo(.product(product),
+                                                                  isMine: .falseParameter,
+                                                                  adShown: .falseParameter,
+                                                                  adType: nil,
+                                                                  queryType: nil,
+                                                                  query: nil,
+                                                                  visibility: nil,
+                                                                  errorReason: nil)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-detail-visit-more-info"))
@@ -1234,8 +1241,61 @@ class TrackerEventSpec: QuickSpec {
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
                     expect(itemType).to(equal("1"))
                 }
+                it("contains is-mine false") {
+                    expect(sut.params!.stringKeyParams["is-mine"] as? String) == "false"
+                }
+                it("contains ad-shown false") {
+                    expect(sut.params!.stringKeyParams["ad-shown"] as? String) == "false"
+                }
+                it("contains ad-type N/A") {
+                    expect(sut.params!.stringKeyParams["ad-type"] as? String) == TrackerEvent.notApply
+                }
+                it("contains ad-query-type N/A") {
+                    expect(sut.params!.stringKeyParams["ad-query-type"] as? String) == TrackerEvent.notApply
+                }
+                it("contains ad-query-text N/A") {
+                    expect(sut.params!.stringKeyParams["ad-query-text"] as? String) == TrackerEvent.notApply
+                }
+                it("contains ad-visibility N/A") {
+                    expect(sut.params!.stringKeyParams["ad-visibility"] as? String) == TrackerEvent.notApply
+                }
+                it("contains reason N/A") {
+                    expect(sut.params!.stringKeyParams["reason"] as? String) == TrackerEvent.notApply
+                }
             }
-            
+            describe("adTapped") {
+                beforeEach {
+                    sut = TrackerEvent.adTapped(listingId: "listing123",
+                                                adType: .shopping,
+                                                isMine: .falseParameter,
+                                                queryType: .title,
+                                                query: "patata",
+                                                willLeaveApp: .trueParameter,
+                                                typePage: .listingDetailMoreInfo)
+                }
+                it("contains product id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("listing123"))
+                }
+                it("contains ad-type N/A") {
+                    expect(sut.params!.stringKeyParams["ad-type"] as? String) == "shopping"
+                }
+                it("contains is-mine false") {
+                    expect(sut.params!.stringKeyParams["is-mine"] as? String) == "false"
+                }
+                it("contains ad-query-type title") {
+                    expect(sut.params!.stringKeyParams["ad-query-type"] as? String) == "title"
+                }
+                it("contains ad-query-text") {
+                    expect(sut.params!.stringKeyParams["ad-query-text"] as? String) == "patata"
+                }
+                it("contains will leave app true") {
+                    expect(sut.params!.stringKeyParams["left-application"] as? String) == "true"
+                }
+                it("contains type page") {
+                    expect(sut.params!.stringKeyParams["type-page"] as? String) == "product-detail-more-info"
+                }
+            }
             describe("listingNotAvailable") {
                 beforeEach {
                     sut = TrackerEvent.listingNotAvailable(.notifications, reason: .notFound)

@@ -39,11 +39,13 @@ protocol FeatureFlaggeable: class {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
+    var moreInfoAdActive: MoreInfoAdActive { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
     var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
+    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation { get }
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
 
@@ -52,6 +54,7 @@ protocol FeatureFlaggeable: class {
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
+    var moreInfoShoppingAdUnitId: String { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -77,6 +80,10 @@ extension ShowPriceAfterSearchOrFilter {
     var isActive: Bool { get { return self == .priceOnSearchOrFilter } }
 }
 
+extension MoreInfoAdActive {
+    var isActive: Bool { get { return self == .titleFirst || self == .cloudsightFirst } }
+}
+
 extension HomeRelatedEnabled {
     var isActive: Bool { get { return self == .active } }
 }
@@ -86,6 +93,10 @@ extension TaxonomiesAndTaxonomyChildrenInFeed {
 }
 
 extension ShowPriceStepRealEstatePosting {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension BumpUpPriceDifferentiation {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -314,6 +325,13 @@ class FeatureFlags: FeatureFlaggeable {
         return FeaturedRibbonImprovementInDetail.fromPosition(abTests.featuredRibbonImprovementInDetail.value)
     }
 
+    var moreInfoAdActive: MoreInfoAdActive {
+        if Bumper.enabled {
+            return Bumper.moreInfoAdActive
+        }
+        return MoreInfoAdActive.fromPosition(abTests.moreInfoAdActive.value)
+    }
+  
     var newItemPage: NewItemPage {
         if Bumper.enabled {
             return Bumper.newItemPage
@@ -342,6 +360,12 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
     }
 
+    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation {
+        if Bumper.enabled {
+            return Bumper.bumpUpPriceDifferentiation
+        }
+        return BumpUpPriceDifferentiation.fromPosition(abTests.bumpUpPriceDifferentiation.value)
+    }
 
     // MARK: - Country features
 
@@ -395,6 +419,16 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
 
+    var moreInfoShoppingAdUnitId: String {
+        switch sensorLocationCountryCode {
+        case .usa?:
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShoppingUSA
+        default:
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShopping
+        }
+    }
+
+
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {
@@ -404,5 +438,10 @@ class FeatureFlags: FeatureFlaggeable {
 
     private var localeCountryCode: CountryCode? {
         return CountryCode(string: locale.lg_countryCode)
+    }
+
+    private var sensorLocationCountryCode: CountryCode? {
+        guard let countryCode = locationManager.currentAutoLocation?.countryCode else { return nil }
+        return CountryCode(string: countryCode)
     }
 }

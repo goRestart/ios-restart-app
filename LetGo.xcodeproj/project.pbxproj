@@ -164,6 +164,10 @@
 		2E75EC4A1FA0959A00C5F48F /* FeaturedInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC481FA0959A00C5F48F /* FeaturedInfoViewController.swift */; };
 		2E75EC4C1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC4B1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift */; };
 		2E75EC4D1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC4B1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift */; };
+		2E75EC4F1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */; };
+		2E75EC501FA86F6E00C5F48F /* AdBannerTrackingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */; };
+		2E75EC531FA89F5B00C5F48F /* AdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */; };
+		2E75EC541FA89F5B00C5F48F /* AdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */; };
 		2E8ED6A71EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8ED6A61EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift */; };
 		2E97169E1D59E958009B3A32 /* ExpressChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */; };
 		2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */; };
@@ -1554,6 +1558,8 @@
 		2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostIncentiviserItem.swift; sourceTree = "<group>"; };
 		2E75EC481FA0959A00C5F48F /* FeaturedInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedInfoViewController.swift; path = Monetization/FeaturedInfoViewController.swift; sourceTree = "<group>"; };
 		2E75EC4B1FA0BC0500C5F48F /* FeaturedInfoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeaturedInfoViewModel.swift; path = Monetization/FeaturedInfoViewModel.swift; sourceTree = "<group>"; };
+		2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdBannerTrackingStatus.swift; sourceTree = "<group>"; };
+		2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdsRequester.swift; path = Ads/AdsRequester.swift; sourceTree = "<group>"; };
 		2E8ED6A61EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FilterTagsVC+RemoveRelatedTagsSpec.swift"; sourceTree = "<group>"; };
 		2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatViewController.swift; sourceTree = "<group>"; };
 		2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpressChatViewController.xib; sourceTree = "<group>"; };
@@ -2485,6 +2491,14 @@
 			name = ABTest;
 			sourceTree = "<group>";
 		};
+		2E75EC511FA89F1E00C5F48F /* Ads */ = {
+			isa = PBXGroup;
+			children = (
+				2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */,
+			);
+			name = Ads;
+			sourceTree = "<group>";
+		};
 		2E9716A01D5A04F3009B3A32 /* ExpressChat */ = {
 			isa = PBXGroup;
 			children = (
@@ -2897,6 +2911,7 @@
 		509273341B172D2100A346F9 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				2E75EC511FA89F1E00C5F48F /* Ads */,
 				2E131C691DEDE785004D26DC /* Monetization */,
 				C735101C1D942B5000D67040 /* FeatureFlags */,
 				2E4A9DB81D8054B700F99026 /* Listings Requester */,
@@ -3545,6 +3560,7 @@
 				C75B5DB11D59E09500112368 /* ListingCarouselViewController.xib */,
 				C75B5DB21D59E09500112368 /* ListingCarouselViewModel.swift */,
 				C7D23FE01DCC954D00931803 /* CarouselUIHelper.swift */,
+				2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */,
 			);
 			path = Carousel;
 			sourceTree = "<group>";
@@ -5685,6 +5701,7 @@
 				6A5E1A161D548F5400F92692 /* UITextField+LG.swift in Sources */,
 				C7126BD91E6053AA00038CC4 /* ListingViewModelStatus.swift in Sources */,
 				C749316E1D34FD0200E117F1 /* RateUserViewController.swift in Sources */,
+				2E75EC531FA89F5B00C5F48F /* AdsRequester.swift in Sources */,
 				C79643111D4F5AFA000C5FCE /* RelatedListingsView.swift in Sources */,
 				5095988D1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */,
 				C7363FBC1BFA449A00A4BF6F /* ListingSortCriteria+LG.swift in Sources */,
@@ -5979,6 +5996,7 @@
 				C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */,
 				72C7A1C61FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift in Sources */,
 				6A5E1A181D548F5400F92692 /* UIView+Geometry.swift in Sources */,
+				2E75EC4F1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift in Sources */,
 				50146BD01D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
 				6AF75D041CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */,
 				2E373FA51D3D019600AC811C /* UserRatingListViewController.swift in Sources */,
@@ -6216,6 +6234,7 @@
 				6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
 				C7126BDA1E6053AA00038CC4 /* ListingViewModelStatus.swift in Sources */,
 				C727944A1D54944E009C25AB /* SettingsViewModel.swift in Sources */,
+				2E75EC541FA89F5B00C5F48F /* AdsRequester.swift in Sources */,
 				6A5E1A1D1D548F5400F92692 /* UIViewController+LG.swift in Sources */,
 				6A5E1A171D548F5400F92692 /* UITextField+LG.swift in Sources */,
 				C79643121D4F5AFA000C5FCE /* RelatedListingsView.swift in Sources */,
@@ -6510,6 +6529,7 @@
 				C7DB42241C5138B500400945 /* UIImage+Tint.swift in Sources */,
 				72C7A1C71FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift in Sources */,
 				C749317A1D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
+				2E75EC501FA86F6E00C5F48F /* AdBannerTrackingStatus.swift in Sources */,
 				6A5E1A191D548F5400F92692 /* UIView+Geometry.swift in Sources */,
 				50146BD11D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
 				50CA9FB11C91696800350C5F /* UserViewModel.swift in Sources */,

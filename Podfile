@@ -21,6 +21,9 @@ def shared_pods
     pod "RxCocoa",              "3.1.0"     # branch https://github.com/ReactiveX/RxSwift/tree/rxswift4.0-swift4.0 swift 4
     pod "RxBlocking",           "3.1.0"     # NOT USED IN LETGO !!!
 
+    #Ads
+    pod "Google-Mobile-Ads-SDK","7.24.1"
+
     #Fabric
     pod "Fabric",               "1.6.11"    # Obj-c
     pod "Crashlytics",          "3.8.3"     # Obj-c
@@ -35,9 +38,9 @@ def shared_pods
     pod "NewRelicAgent",        "5.14.2"    # Obj-c
 
     # letgo Core
-    pod "LGCoreKit",             "3.25.2"
+    pod "LGCoreKit",             "3.26.0"
 #    pod "LGCoreKit",            :path => "../lgcorekit"
-#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'ad6a18b470243d462e3019ebf0331ea6e25377da'
+#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '63852de51190ee4010b9cb77c3dcedfbc67a9019'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.1.0"     # :path => "../collapsiblelabel"

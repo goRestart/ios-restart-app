@@ -648,8 +648,6 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
     }
 
     fileprivate func failedBumpInfoFor(listingId: String) -> FailedBumpInfo? {
-        print(keyValueStorage)
-        print(keyValueStorage.userFailedBumpsInfo)
         guard let dictionary = keyValueStorage.userFailedBumpsInfo[listingId] else { return nil }
         return FailedBumpInfo(dictionary: dictionary)
     }

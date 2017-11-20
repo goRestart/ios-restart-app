@@ -32,10 +32,35 @@ extension ListingViewModel {
         trackHelper.trackVisit(visitUserAction, source: source, feedPosition: feedPosition, isShowingFeaturedStripe: isBumpedUp)
     }
 
-    func trackVisitMoreInfo() {
-        trackHelper.trackVisitMoreInfo()
+    func trackVisitMoreInfo(isMine: EventParameterBoolean,
+                            adShown: EventParameterBoolean,
+                            adType: EventParameterAdType?,
+                            queryType: EventParameterAdQueryType?,
+                            query: String?,
+                            visibility: EventParameterAdVisibility?,
+                            errorReason: EventParameterAdSenseRequestErrorReason?) {
+        trackHelper.trackVisitMoreInfo(isMine: isMine,
+                                       adShown: adShown,
+                                       adType: adType,
+                                       queryType: queryType,
+                                       query: query,
+                                       visibility: visibility,
+                                       errorReason: errorReason)
     }
 
+    func trackAdTapped(adType: EventParameterAdType?,
+                       isMine: EventParameterBoolean,
+                       queryType: EventParameterAdQueryType?,
+                       query: String?,
+                       willLeaveApp: EventParameterBoolean,
+                       typePage: EventParameterTypePage) {
+        trackHelper.trackAdTapped(adType: adType,
+                                  isMine: isMine,
+                                  queryType: queryType,
+                                  query: query,
+                                  willLeaveApp: willLeaveApp,
+                                  typePage: typePage)
+    }
 
     // MARK: Share
 
@@ -212,8 +237,38 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackVisitMoreInfo() {
-        let trackerEvent = TrackerEvent.listingDetailVisitMoreInfo(listing)
+    func trackVisitMoreInfo(isMine: EventParameterBoolean,
+                            adShown: EventParameterBoolean,
+                            adType: EventParameterAdType?,
+                            queryType: EventParameterAdQueryType?,
+                            query: String?,
+                            visibility: EventParameterAdVisibility?,
+                            errorReason: EventParameterAdSenseRequestErrorReason?) {
+
+        let trackerEvent = TrackerEvent.listingDetailVisitMoreInfo(listing,
+                                                                   isMine: isMine,
+                                                                   adShown: adShown,
+                                                                   adType: adType,
+                                                                   queryType: queryType,
+                                                                   query: query,
+                                                                   visibility: visibility,
+                                                                   errorReason: errorReason)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackAdTapped(adType: EventParameterAdType?,
+                       isMine: EventParameterBoolean,
+                       queryType: EventParameterAdQueryType?,
+                       query: String?,
+                       willLeaveApp: EventParameterBoolean,
+                       typePage: EventParameterTypePage) {
+        let trackerEvent = TrackerEvent.adTapped(listingId: listing.objectId,
+                                                         adType: adType,
+                                                         isMine: isMine,
+                                                         queryType: queryType,
+                                                         query: query,
+                                                         willLeaveApp: willLeaveApp,
+                                                         typePage: typePage)
         tracker.trackEvent(trackerEvent)
     }
 

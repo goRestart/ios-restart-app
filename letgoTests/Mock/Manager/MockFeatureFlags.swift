@@ -42,19 +42,21 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
     var newBumpUpExplanation: NewBumpUpExplanation = .control
+    var moreInfoAdActive: MoreInfoAdActive = .control
     var homeRelatedEnabled: HomeRelatedEnabled = .control
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells = .control
     var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail = .control
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
+    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
     var locationRequiresManualChangeSuggestion = false
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
-
+    var moreInfoShoppingAdUnitId = ""
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

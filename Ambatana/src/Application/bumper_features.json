@@ -101,6 +101,11 @@
         "description": "show new bump up explanation view"
     },
     {
+        "name": "MoreInfoAdActive",
+        "values": ["control", "baseline", "titleFirst", "cloudsightFirst"],
+        "description": "show the ad in more info"
+    },
+    {
         "name": "HomeRelatedEnabled",
         "values": ["control", "baseline", "active"],
         "description": "Show the related button in the main feed"
@@ -134,5 +139,10 @@
         "name": "ShowClockInDirectAnswer",
         "values": ["control", "baseline", "active"],
         "description": "Show a clock until the message is delivered correctly"
+    },
+    {
+        "name": "BumpUpPriceDifferentiation",
+        "values": ["control", "baseline", "active"],
+        "description": "Scale bump prices according to listing price"
     }
 ]
