@@ -19,24 +19,24 @@ import LGCoreKit
  */
 
 extension RealEstateAttributes {
-    func generateRealEstateName() -> String {
+    var generateRealEstateName: String {
         let separator = " "
         var realEstateTitle: String = ""
         
         if let propertyType = propertyType {
-            realEstateTitle = propertyType.shortLocalizedString
+            realEstateTitle = propertyType.shortLocalizedString.localizedUppercase
         }
         if let offerType = offerType {
             let separator = realEstateTitle.isEmpty ? "" : separator
-            realEstateTitle += separator + offerType.localizedString
+            realEstateTitle += separator + offerType.shortLocalizedString.localizedUppercase
         }
         if let bedrooms = bedrooms, let numberOfBedrooms = NumberOfBedrooms(rawValue: bedrooms) {
             let separator = realEstateTitle.isEmpty ? "" : separator
-            realEstateTitle += separator + numberOfBedrooms.localizedString
+            realEstateTitle += separator + numberOfBedrooms.shortLocalizedString.localizedUppercase
         }
         if let bathrooms = bathrooms, let numberOfBathrooms = NumberOfBathrooms(rawValue: bathrooms) {
             let separator = realEstateTitle.isEmpty ? "" : separator
-            realEstateTitle += separator + numberOfBathrooms.localizedString
+            realEstateTitle += separator + numberOfBathrooms.shortLocalizedString.localizedUppercase
         }
         return realEstateTitle
     }

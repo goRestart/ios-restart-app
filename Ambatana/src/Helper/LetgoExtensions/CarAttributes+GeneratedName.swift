@@ -9,16 +9,20 @@
 import LGCoreKit
 
 extension CarAttributes {
-    func generatedCarName() -> String {
+    var generatedCarName: String {
+        let separator = " - "
         var carTitle: String = ""
+        
         if let makeName = make, makeName != CarAttributes.emptyMake {
-            carTitle += makeName
+            carTitle = makeName
         }
         if let modelName = model, modelName != CarAttributes.emptyModel {
-            carTitle += " - " + modelName
+            let separator = carTitle.isEmpty ? "" : separator
+            carTitle += separator + modelName
         }
-        if let year = year, year != CarAttributes.emptyYear {
-            carTitle += " - " + String(year)
+        if let yearName = year, yearName != CarAttributes.emptyYear {
+            let separator = carTitle.isEmpty ? "" : separator
+            carTitle += separator + String(yearName)
         }
         return carTitle
     }
