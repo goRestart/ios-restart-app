@@ -201,8 +201,5 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 }
             }
         }
-        
-        
     }
-    
 }

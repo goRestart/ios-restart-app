@@ -56,7 +56,8 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     }
 
     override init() {
-        let insets = UIEdgeInsets(top: 16.0, left: 32.0, bottom: 32.0, right: 32.0)
+        let doubleMargin = 2*Metrics.margin
+        let insets = UIEdgeInsets(top: Metrics.margin, left: doubleMargin, bottom: doubleMargin, right: doubleMargin)
         self.cellLayout = ListingDeckCellLayout(insets: insets, verticalInsetDelta: insets.top)
         super.init()
 

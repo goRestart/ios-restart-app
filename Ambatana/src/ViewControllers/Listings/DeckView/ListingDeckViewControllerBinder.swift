@@ -49,7 +49,7 @@ final class ListingDeckViewControllerBinder {
             UIView.animate(withDuration: 0.2, animations: {
                 listingDeckView.showActions()
             })
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     private func bindBumpUp(withViewController viewController: ListingDeckViewController,
@@ -57,7 +57,7 @@ final class ListingDeckViewControllerBinder {
         viewModel.bumpUpBannerInfo.asObservable().bindNext { [unowned viewController] bumpInfo in
             guard let bumpUp = bumpInfo else { return }
             viewController.showBumpUpBanner(bumpInfo: bumpUp)
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     private func bindAltActions(withViewController viewController: ListingDeckViewController,
@@ -65,7 +65,7 @@ final class ListingDeckViewControllerBinder {
         viewModel.altActions.asObservable().skip(1).bindNext { [unowned viewController] altActions in
             guard altActions.count > 0 else { return }
             viewController.vmShowOptions(LGLocalizedString.commonCancel, actions: altActions)
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     private func bindKeyboardChanges(withViewController viewController: ListingDeckViewController,
@@ -84,15 +84,14 @@ final class ListingDeckViewControllerBinder {
                             }
                             viewController.view.layoutIfNeeded()
             }, completion: nil)
-
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     private func bindCollectionView(withViewController viewController: ListingDeckViewController,
                                     viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         viewModel.objectChanges.observeOn(MainScheduler.instance).bindNext { [unowned listingDeckView] change in
             listingDeckView.collectionView.handleCollectionChange(change)
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     private func bindContentOffset(withViewController viewController: ListingDeckViewController,
@@ -104,25 +103,26 @@ final class ListingDeckViewControllerBinder {
                     return 2*pageOffset
                 }
                 return 2*(1 - pageOffset)
-            }.bindTo(viewController.overlaysAlpha).addDisposableTo(disposeBag)
+            }.bindTo(viewController.overlaysAlpha)
+        .addDisposableTo(disposeBag)
 
         viewController.contentOffset.asObservable().bindNext { [unowned viewController, listingDeckView] _ in
             viewController.indexSignal.value = listingDeckView.collectionLayout.page
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     private func bindOverlaysAlpha(withViewController viewController: ListingDeckViewController,
                                    viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         viewController.overlaysAlpha.asObservable().bindNext { [unowned viewController] alpha in
             viewController.updateViewWith(alpha: alpha)
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     private func bindIndexSignal(withViewController viewController: ListingDeckViewController,
                                  viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         viewController.indexSignal.asObservable().distinctUntilChanged().bindNext { [unowned viewModel] index in
             viewModel.moveToProductAtIndex(index, movement: .swipeRight)
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     private func bindChat(withViewController viewController: ListingDeckViewController,
@@ -136,7 +136,7 @@ final class ListingDeckViewControllerBinder {
         viewModel.quickAnswers.asObservable().bindNext { [unowned listingDeckView, unowned viewModel] quickAnswers in
             let isDynamic = viewModel.currentListingViewModel?.areQuickAnswersDynamic ?? false
             listingDeckView.directAnswersView.update(answers: quickAnswers, isDynamic: isDynamic)
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
 
         viewModel.chatEnabled.asObservable().bindNext { [unowned listingDeckView] enabled in
             if enabled {
@@ -146,7 +146,8 @@ final class ListingDeckViewControllerBinder {
                 listingDeckView.hideChat()
                 listingDeckView.showActions()
             }
-            }.addDisposableTo(disposeBag)
+
+        }.addDisposableTo(disposeBag)
 
         viewModel.directChatMessages.changesObservable.bindNext { [unowned listingDeckView, unowned viewModel] change in
             switch change {
@@ -160,7 +161,7 @@ final class ListingDeckViewControllerBinder {
             default:
                 listingDeckView.directChatTable.handleCollectionChange(change, animation: .none)
             }
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     private func bindNavigationBarActions(withViewController viewController: ListingDeckViewController,
@@ -175,7 +176,7 @@ final class ListingDeckViewControllerBinder {
                                                         action.action()
                                                         }.addDisposableTo(strongSelf.disposeBag)
             })
-        }
+        }.addDisposableTo(disposeBag)
     }
     
 }

@@ -244,7 +244,7 @@ fileprivate extension TabCoordinator {
                      thumbnailImage: UIImage?, originFrame: CGRect?, showRelated: Bool,
                      source: EventParameterListingVisitSource, index: Int) {
         if featureFlags.newItemPage.isActive {
-            // TODO ABIOS-3100 check all the other parameters
+            // TODO: ABIOS-3100 check all the other parameters
             let viewModel = ListingDeckViewModel(listing: listing,
                                                  listingListRequester: requester,
                                                  source: source)
