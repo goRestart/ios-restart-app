@@ -189,7 +189,7 @@ extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate,
         directChatTable.rowHeight = UITableViewAutomaticDimension
         directChatTable.estimatedRowHeight = 140
         directChatTable.isCellHiddenBlock = { return $0.contentView.isHidden }
-        // TODO ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
+        // TODO: ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
         //        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.directMessagesItemPressed() }
     }
 
@@ -214,11 +214,11 @@ extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate,
         if let productVM = viewModel.currentListingViewModel, productVM.showKeyboardWhenQuickAnswer {
             listingDeckView.chatTextView.setText(answer.text)
         } else {
-            // TODO ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
+            // TODO: ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
             //            viewModel.send(quickAnswer: answer)
         }
         if let productVM = viewModel.currentListingViewModel, productVM.areQuickAnswersDynamic {
-            // TODO ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
+            // TODO: ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
             //            viewModel.moveQuickAnswerToTheEnd(index)
         }
     }

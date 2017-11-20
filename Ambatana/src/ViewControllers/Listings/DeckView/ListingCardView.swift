@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-// TODO ABIOS-3101 https://ambatana.atlassian.net/browse/ABIOS-3101
+// TODO: ABIOS-3101 https://ambatana.atlassian.net/browse/ABIOS-3101
 final class ListingCardView: UICollectionViewCell {
 
     private let listingIDLabel = UILabel()

@@ -17,26 +17,35 @@ struct ListingDeckCellLayout {
 }
 
 final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
+    private struct Constants {
+        static let minAlpha: CGFloat = 0.7
+    }
+    private struct Defaults {
+        static let itemsCount = 0
+        static let offset: CGFloat = 0
+        static let visibleWidth: CGFloat = 375.0
+        static let visibleHeight: CGFloat = 750.0
+    }
 
     private let easeInQuad: EasingFunction = { t in return t * t }
 
     private var cache = [UICollectionViewLayoutAttributes]()
-    private var shouldInvalidateCache: Bool { return cache.count != numberOfItems }
+    private var shouldInvalidateCache: Bool { return cache.count != itemsCount }
     private var cellLayout: ListingDeckCellLayout
 
     private let centerRatio: CGFloat = 0.5
-    private var numberOfItems: Int { get { return collectionView?.numberOfItems(inSection: 0) ?? 0 } }
+    private var itemsCount: Int { get { return collectionView?.numberOfItems(inSection: 0) ?? Defaults.itemsCount } }
 
-    var page: Int { return Int(pageOffset(givenOffset: collectionView?.contentOffset.x ?? 0)) }
+    var page: Int { return Int(pageOffset(givenOffset: collectionView?.contentOffset.x ?? Defaults.offset)) }
     var interitemSpacing: CGFloat { get { return cellLayout.insets.left / 2.0 } }
-    var visibleWidth: CGFloat { get { return (collectionView?.bounds.width ?? 375) } }
-    var visibleHeight: CGFloat { get { return (collectionView?.bounds.height ?? 750) } }
+    var visibleWidth: CGFloat { get { return (collectionView?.bounds.width ?? Defaults.visibleWidth) } }
+    var visibleHeight: CGFloat { get { return (collectionView?.bounds.height ?? Defaults.visibleHeight) } }
 
     var cellWidth: CGFloat { get { return visibleWidth - 2*cellLayout.insets.left } }
     var cellHeight: CGFloat { get { return visibleHeight - cellLayout.insets.top } }
 
     override var collectionViewContentSize : CGSize {
-        let count = CGFloat(numberOfItems)
+        let count = CGFloat(itemsCount)
         let width = count * cellWidth + (count - 1) * cellLayout.insets.left/2 + 2*cellLayout.insets.left
         return CGSize(width: width, height: cellHeight)
     }
@@ -62,7 +71,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         super.prepare()
         if shouldInvalidateCache {
             cache.removeAll(keepingCapacity: false)
-            for item in 0..<numberOfItems {
+            for item in 0..<itemsCount {
                 let indexPath = IndexPath(item: item, section: 0)
                 cache.append(attributesForItem(at: indexPath))
             }
@@ -103,18 +112,17 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         }
 
         let ratio = offsetFactorForItem(withInitialX: initialX)
-        let base: CGFloat = 0.7
-        let variable = 1 - base
+        let variable = 1 - Constants.minAlpha
 
         guard isAnimatable(withScreenRatio: ratio) else {
-            return base
+            return Constants.minAlpha
         }
 
-        let leftAlpha = alphaForItem(withRatio: ratio, offset: 0.5, base: base, variable: variable)
-        let rightAlpha = alphaForItem(withRatio: ratio, offset: 1.5, base: base, variable: variable)
+        let leftAlpha = alphaForItem(withRatio: ratio, offset: 0.5, base: Constants.minAlpha, variable: variable)
+        let rightAlpha = alphaForItem(withRatio: ratio, offset: 1.5, base: Constants.minAlpha, variable: variable)
 
         let alpha = ratio < centerRatio ? leftAlpha : rightAlpha
-        return max(base, easeInQuad(alpha))
+        return max(Constants.minAlpha, easeInQuad(alpha))
     }
 
     private func offsetFactorForItem(withInitialX initialX: CGFloat) -> CGFloat {

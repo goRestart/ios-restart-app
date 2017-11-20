@@ -14,7 +14,6 @@ final class ListingDeckActionView: UIView {
 
     private struct Layout {
         struct Height {
-            // TODO INTRINSIC-CONTENT-SIZE NEEDED
             static let actionButton: CGFloat = 48.0
             static let blank: CGFloat = Metrics.shortMargin
 

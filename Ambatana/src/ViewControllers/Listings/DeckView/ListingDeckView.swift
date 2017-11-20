@@ -87,13 +87,13 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         addSubview(chatTextView)
         chatTextView.layout(with: self)
             .fillHorizontal(by: CarouselUI.itemsMargin)
-            .bottomMargin(by: -16.0) { [weak self] constraint in self?.chatTextViewBottom = constraint }
+            .bottomMargin(by: -Metrics.margin) { [weak self] constraint in self?.chatTextViewBottom = constraint }
         chatTextView.backgroundColor = .clear
 
         directAnswersView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(directAnswersView)
         directAnswersView.layout(with: self).leftMargin().rightMargin()
-        directAnswersView.layout(with: chatTextView).above(by: -8.0)
+        directAnswersView.layout(with: chatTextView).above(by: -Metrics.shortMargin)
         directAnswersView.layout(with: collectionView).below(relatedBy: .greaterThanOrEqual)
 
         directAnswersView.backgroundColor = .clear
@@ -102,7 +102,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         addSubview(directChatTable)
         directChatTable.translatesAutoresizingMaskIntoConstraints = false
         directChatTable.layout(with: self).topMargin().leftMargin().rightMargin()
-        directChatTable.layout(with: directAnswersView).above(by: -8.0)
+        directChatTable.layout(with: directAnswersView).above(by: -Metrics.shortMargin)
         directChatTable.alpha = 0
         directChatTable.backgroundColor = .clear
     }
@@ -124,7 +124,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         collectionViewTop?.constant = inset
     }
     func updateBottom(wintInset inset: CGFloat) {
-        chatTextViewBottom?.constant = -(inset + 16.0)
+        chatTextViewBottom?.constant = -(inset + Metrics.margin)
     }
 
     func showActions() {

@@ -181,7 +181,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         if firstTime {
-            // TODO ABIOS-3105 https://ambatana.atlassian.net/browse/ABIOS-3105 prepare onboarding
+            // TODO: ABIOS-3105 https://ambatana.atlassian.net/browse/ABIOS-3105 prepare onboarding
             moveToProductAtIndex(startIndex, movement: .initial)
             if shouldSyncFirstListing {
                 syncFirstListing()
@@ -205,7 +205,7 @@ final class ListingDeckViewModel: BaseViewModel {
         prefetchNeighborsImages(index, movement: movement)
 
         // Tracking
-        // TODO ABIOS-3109 https://ambatana.atlassian.net/browse/ABIOS-3109
+        // TODO: ABIOS-3109 https://ambatana.atlassian.net/browse/ABIOS-3109
         //        if active {
         //            let feedPosition = movement.feedPosition(for: trackingIndex)
         //            if source == .relatedListings {
