@@ -13,17 +13,13 @@ extension CarAttributes {
         let separator = " - "
         var carTitle: String = ""
         
-        if let makeName = make, makeName != CarAttributes.emptyMake {
-            carTitle = makeName
+        var yearString: String? = nil
+        if let year = year {
+            yearString = String(year)
         }
-        if let modelName = model, modelName != CarAttributes.emptyModel {
-            let separator = carTitle.isEmpty ? "" : separator
-            carTitle += separator + modelName
-        }
-        if let yearName = year, yearName != CarAttributes.emptyYear {
-            let separator = carTitle.isEmpty ? "" : separator
-            carTitle += separator + String(yearName)
-        }
+        
+        carTitle = [make, model, yearString].flatMap{$0}.filter { $0 != CarAttributes.emptyMake && $0 != CarAttributes.emptyModel && $0 != String(CarAttributes.emptyYear) }.joined(separator: separator)
+        
         return carTitle
     }
 }

@@ -23,21 +23,18 @@ extension RealEstateAttributes {
         let separator = " "
         var realEstateTitle: String = ""
         
-        if let propertyType = propertyType {
-            realEstateTitle = propertyType.shortLocalizedString.localizedUppercase
+        let propertyTypeString = propertyType?.shortLocalizedString.localizedUppercase
+        let offerTypeString = offerType?.shortLocalizedString.localizedUppercase
+        var bedroomsString: String? = nil
+        if let bedroomsRawValue = bedrooms, let bedroomsValue = NumberOfBedrooms(rawValue: bedroomsRawValue) {
+            bedroomsString = bedroomsValue.shortLocalizedString.localizedUppercase
         }
-        if let offerType = offerType {
-            let separator = realEstateTitle.isEmpty ? "" : separator
-            realEstateTitle += separator + offerType.shortLocalizedString.localizedUppercase
+        var bathroomsString: String? = nil
+        if let bathroomsRawValue = bathrooms, let bathroomsValue = NumberOfBathrooms(rawValue: bathroomsRawValue) {
+             bathroomsString = bathroomsValue.shortLocalizedString.localizedUppercase
         }
-        if let bedrooms = bedrooms, let numberOfBedrooms = NumberOfBedrooms(rawValue: bedrooms) {
-            let separator = realEstateTitle.isEmpty ? "" : separator
-            realEstateTitle += separator + numberOfBedrooms.shortLocalizedString.localizedUppercase
-        }
-        if let bathrooms = bathrooms, let numberOfBathrooms = NumberOfBathrooms(rawValue: bathrooms) {
-            let separator = realEstateTitle.isEmpty ? "" : separator
-            realEstateTitle += separator + numberOfBathrooms.shortLocalizedString.localizedUppercase
-        }
+        realEstateTitle = [propertyTypeString, offerTypeString, bedroomsString, bathroomsString].flatMap{ $0 }.joined(separator: separator)
+        
         return realEstateTitle
     }
 }
