@@ -536,7 +536,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     private func generateCarTitle() -> String {
         // title generate always but when there is already a title.
         guard let title = title, !title.isEmpty else {
-            return carAttributes.generatedCarName
+            return carAttributes.generatedTitle
         }
         return title
     }

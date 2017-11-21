@@ -21,7 +21,7 @@ class CarAttributesLGSpec: QuickSpec {
             context("with no data on attributes") {
                 beforeEach {
                     carAttributes = CarAttributes.emptyCarAttributes()
-                    sut = carAttributes.generatedCarName
+                    sut = carAttributes.generatedTitle
                 }
                 it ("returns empty title") {
                     expect(sut) == ""
@@ -29,7 +29,7 @@ class CarAttributesLGSpec: QuickSpec {
                 context("attributes with all attributes") {
                     beforeEach {
                         carAttributes = CarAttributes(makeId: "123", make: "Audi", modelId: "321", model: "A4", year: 2017)
-                        sut = carAttributes.generatedCarName
+                        sut = carAttributes.generatedTitle
                     }
                     it ("result should equal: Audi - A4 - 2017") {
                         expect(sut) == "Audi - A4 - 2017"
@@ -38,7 +38,7 @@ class CarAttributesLGSpec: QuickSpec {
                 context("attributes with make only") {
                     beforeEach {
                         carAttributes = CarAttributes(makeId: "123", make: "Audi", modelId: nil, model: nil, year: nil)
-                        sut = carAttributes.generatedCarName
+                        sut = carAttributes.generatedTitle
                     }
                     it ("result should equal: Audi") {
                         expect(sut) == "Audi"
@@ -47,7 +47,7 @@ class CarAttributesLGSpec: QuickSpec {
                 context("attributes with year only") {
                     beforeEach {
                         carAttributes = CarAttributes(makeId: nil, make: nil, modelId: nil, model: nil, year: 2017)
-                        sut = carAttributes.generatedCarName
+                        sut = carAttributes.generatedTitle
                     }
                     it ("result should equal: 2017") {
                         expect(sut) == "2017"
@@ -56,7 +56,7 @@ class CarAttributesLGSpec: QuickSpec {
                 context("attributes with model and year") {
                     beforeEach {
                         carAttributes = CarAttributes(makeId: nil, make: nil, modelId: nil, model: "A4", year: 2017)
-                        sut = carAttributes.generatedCarName
+                        sut = carAttributes.generatedTitle
                     }
                     it ("result should equal: A4 - 2017") {
                         expect(sut) == "A4 - 2017"
@@ -65,7 +65,7 @@ class CarAttributesLGSpec: QuickSpec {
                 context("attributes with make and model") {
                     beforeEach {
                         carAttributes = CarAttributes(makeId: "124", make: "Audi", modelId: "123", model: "A4", year: nil)
-                        sut = carAttributes.generatedCarName
+                        sut = carAttributes.generatedTitle
                     }
                     it ("result should equal: Audi - A4") {
                         expect(sut) == "Audi - A4"

@@ -8,20 +8,10 @@
 
 import LGCoreKit
 
-/*
- public let propertyType: LGCoreKit.RealEstatePropertyType?
- 
- public let offerType: LGCoreKit.RealEstateOfferType?
- 
- public let bedrooms: Int?
- 
- public let bathrooms: Float?
- */
-
 extension RealEstateAttributes {
-    var generateRealEstateName: String {
+    var generatedTitle: String {
         let separator = " "
-        var realEstateTitle: String = ""
+        var title: String = ""
         
         let propertyTypeString = propertyType?.shortLocalizedString.localizedUppercase
         let offerTypeString = offerType?.shortLocalizedString.localizedUppercase
@@ -33,8 +23,8 @@ extension RealEstateAttributes {
         if let bathroomsRawValue = bathrooms, let bathroomsValue = NumberOfBathrooms(rawValue: bathroomsRawValue) {
              bathroomsString = bathroomsValue.shortLocalizedString.localizedUppercase
         }
-        realEstateTitle = [propertyTypeString, offerTypeString, bedroomsString, bathroomsString].flatMap{ $0 }.joined(separator: separator)
+        title = [propertyTypeString, offerTypeString, bedroomsString, bathroomsString].flatMap{ $0 }.joined(separator: separator)
         
-        return realEstateTitle
+        return title
     }
 }
