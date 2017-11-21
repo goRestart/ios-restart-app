@@ -15,12 +15,6 @@ class RealEstateAttributesLGSpec: QuickSpec {
     override func spec() {
         var realEstateAttributes: RealEstateAttributes!
         var sut: String!
-        /*
-        public let propertyType: RealEstatePropertyType?
-        public let offerType: RealEstateOfferType?
-        public let bedrooms: Int?
-        public let bathrooms: Float?
-        */
         
         describe("Generate real estate posting") {
             context("with no data on attributes") {
