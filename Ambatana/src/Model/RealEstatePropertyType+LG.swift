@@ -25,6 +25,21 @@ extension RealEstatePropertyType {
         }
     }
     
+    var shortLocalizedString: String {
+        switch self {
+        case .apartment:
+            return LGLocalizedString.realEstateTitleGeneratorPropertyTypeApartment
+        case .room:
+            return LGLocalizedString.realEstateTitleGeneratorPropertyTypeRoom
+        case .house:
+            return LGLocalizedString.realEstateTitleGeneratorPropertyTypeHouse
+        case .other:
+            return LGLocalizedString.realEstateTitleGeneratorPropertyTypeOther
+        case .commercial:
+            return LGLocalizedString.realEstateTitleGeneratorPropertyTypeCommercial
+        }
+    }
+    
     static var allValues: [RealEstatePropertyType] {
         return [.apartment, .room, .house, .commercial, .other]
     }
