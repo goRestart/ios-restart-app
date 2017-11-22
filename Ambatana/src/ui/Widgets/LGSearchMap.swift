@@ -11,16 +11,18 @@ import LGCoreKit
 import RxSwift
 
 class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+
     
-    static let mapRegionMarginMutiplier = 0.5   // var to set the right region depending on the distance
-    static let mapRegionDiameterMutiplier = 2.0 // var to set the right region depending on the distance
-    fileprivate static let suggestionCellId = "suggestionCell"
-    fileprivate static let suggestionCellHeight: CGFloat = 44
-    
-    static let searchBarIconSize: CGSize = CGSize(width: 20, height: 20)
-    static let gpsIconSize: CGSize = CGSize(width: 50, height: 50)
-    static let searchFieldHeight: CGFloat = 40
-    static let cornerRadius: CGFloat = 10
+    struct LGSearchMapConstants {
+        static let mapRegionMarginMutiplier = 0.5
+        static let mapRegionDiameterMutiplier = 2.0
+        static let suggestionCellId = "suggestionCell"
+        static let suggestionCellHeight: CGFloat = 44
+        static let searchBarIconSize: CGSize = CGSize(width: 20, height: 20)
+        static let gpsIconSize: CGSize = CGSize(width: 50, height: 50)
+        static let cornerRadius: CGFloat = 10
+        static let searchFieldHeight: CGFloat = 40
+    }
     
     private let mapView = MKMapView()
     private let searchField = LGTextField()
@@ -44,7 +46,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         setupLayout()
         setupUI()
         setupRx()
-        setCenterMap(location: viewModel.coordinate)
+        updateCenterMap(location: viewModel.coordinate)
     }
     
     
@@ -57,7 +59,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     
     private func setupUI() {
         
-        cornerRadius = LGSearchMap.cornerRadius
+        cornerRadius = LGSearchMapConstants.cornerRadius
         
         searchField.insetX = 40
         searchField.placeholder = LGLocalizedString.changeLocationSearchFieldHint
@@ -83,7 +85,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         suggestionsTableView.delegate = self
         suggestionsTableView.dataSource = self
         suggestionsTableView.register(UITableViewCell.self,
-                                      forCellReuseIdentifier: LGSearchMap.suggestionCellId)
+                                      forCellReuseIdentifier: LGSearchMapConstants.suggestionCellId)
         
         gpsLocationButton.layer.cornerRadius = 10
         gpsLocationButton.setImage(UIImage(named:"map_user_location_button"), for: .normal)
@@ -105,12 +107,12 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         mapView.layout(with: self).fill()
         
         searchField.layout(with: mapView).top(by: Metrics.margin).fillHorizontal(by: Metrics.margin)
-        searchField.layout().height(LGSearchMap.searchFieldHeight)
-        searchIcon.layout().height(LGSearchMap.searchBarIconSize.height).width(LGSearchMap.searchBarIconSize.width)
+        searchField.layout().height(LGSearchMapConstants.searchFieldHeight)
+        searchIcon.layout().height(LGSearchMapConstants.searchBarIconSize.height).width(LGSearchMapConstants.searchBarIconSize.width)
         searchIcon.layout(with: searchField).centerY().left(by: Metrics.shortMargin)
         
         gpsLocationButton.layout(with: searchField).below(by: Metrics.shortMargin).right()
-        gpsLocationButton.layout().height(LGSearchMap.gpsIconSize.height).width(LGSearchMap.gpsIconSize.width)
+        gpsLocationButton.layout().height(LGSearchMapConstants.gpsIconSize.height).width(LGSearchMapConstants.gpsIconSize.width)
         
         suggestionsTableView.layout(with: searchField).below().fillHorizontal()
         
@@ -133,7 +135,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         
         viewModel.placeLocation.asObservable().bindNext { [weak self] (place) in
             guard let place = place else { return }
-            self?.setCenterMap(location: place.location)
+            self?.updateCenterMap(location: place.location)
         }.addDisposableTo(disposeBag)
         
         viewModel.placeInfoText.asObservable().subscribeNext { [weak self] infoText in
@@ -142,7 +144,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     }
     
     
-    func goToLocation(_ resultsIndex: Int?) {
+    func moveToLocation(_ resultsIndex: Int?) {
         searchField.resignFirstResponder()
         
         if let resultsIndex = resultsIndex {
@@ -159,7 +161,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     
     // MARK: - Map Actions
     
-    private func setCenterMap(location: LGLocationCoordinates2D?) {
+    private func updateCenterMap(location: LGLocationCoordinates2D?) {
         guard let latitude = location?.latitude, let longitude = location?.longitude else { return }
         let coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let radius = Constants.accurateRegionRadius
@@ -190,7 +192,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     
     func registerCells() {
         suggestionsTableView.register(UITableViewCell.self,
-                                      forCellReuseIdentifier: LGSearchMap.suggestionCellId)
+                                      forCellReuseIdentifier: LGSearchMapConstants.suggestionCellId)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -199,7 +201,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: LGSearchMap.suggestionCellId, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: LGSearchMapConstants.suggestionCellId, for: indexPath)
         
         cell.textLabel?.text = viewModel.placeResumedDataAtPosition(indexPath.row)
         cell.selectionStyle = .none
@@ -208,9 +210,9 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.searchField.text = viewModel.placeResumedDataAtPosition(indexPath.row)
+        searchField.text = viewModel.placeResumedDataAtPosition(indexPath.row)
         suggestionsTableView.isHidden = true
-        goToLocation(indexPath.row)
+        moveToLocation(indexPath.row)
     }
     
     
@@ -219,7 +221,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     func vmUpdateSearchTableWithResults(_ results: [String]) {
         if !searchField.isFirstResponder { return }
         
-        let newHeight = CGFloat(results.count) * LGSearchMap.suggestionCellHeight
+        let newHeight = CGFloat(results.count) * LGSearchMapConstants.suggestionCellHeight
         suggestionsTableView.frame = CGRect(x: suggestionsTableView.frame.origin.x,
                                             y: suggestionsTableView.frame.origin.y, width: suggestionsTableView.frame.size.width, height: newHeight);
         suggestionsTableView.isHidden = false
@@ -265,7 +267,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
             return true
         }
         suggestionsTableView.isHidden = true
-        goToLocation(nil)
+        moveToLocation(nil)
         return true
     }
     

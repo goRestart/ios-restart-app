@@ -175,7 +175,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .price:
             set(price: priceListing.value)
         case .location:
-            set(place: placeSelected.value)
+            update(place: placeSelected.value)
         case .bathrooms, .bedrooms, .make, .model, .year, .offerType, .propertyType, .summary:
             break
         }
@@ -220,7 +220,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         postListingState = postListingState.updating(price: price)
     }
     
-    private func set(place: Place?) {
+    private func update(place: Place?) {
         guard let place = place else { return }
         postListingState = postListingState.updating(place: place)
     }
@@ -336,7 +336,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
                 value = NumberOfBathrooms(rawValue:bathrooms)?.summaryLocalizedString
             }
         case .location:
-            value = getCurrentLocationSelected()
+            value = retrieveCurrentLocationSelected()
         case .make:
             value = postListingState.verticalAttributes?.carAttributes?.make
         case .model:
@@ -347,7 +347,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         return value
     }
     
-    private func getCurrentLocationSelected() -> String? {
+    private func retrieveCurrentLocationSelected() -> String? {
         return postListingState.place?.postalAddress?.address ?? myUserRepository.myUser?.location?.postalAddress?.address ?? locationManager.currentLocation?.postalAddress?.address
     }
     

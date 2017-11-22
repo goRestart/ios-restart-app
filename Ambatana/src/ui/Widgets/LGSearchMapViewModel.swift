@@ -149,7 +149,7 @@ class LGSearchMapViewModel: BaseViewModel {
                     strongSelf.setPlace(updatedPlace, forceLocation: true, fromGps: false, enableSave: true)
                 } else {
                     strongSelf.viewControllerDelegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage) {
-                        strongSelf.setMapToPreviousKnownPlace()
+                        strongSelf.updateMapToPreviousKnownPlace()
                     }
                 }
             }
@@ -208,7 +208,7 @@ class LGSearchMapViewModel: BaseViewModel {
         
         if currentPlace.postalAddress?.countryCode != place.postalAddress?.countryCode {
             viewControllerDelegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorCountryAlertMessage) { [weak self] in
-                self?.setMapToPreviousKnownPlace()
+                self?.updateMapToPreviousKnownPlace()
             }
             return
         }
@@ -221,7 +221,7 @@ class LGSearchMapViewModel: BaseViewModel {
         }
     }
     
-    private func setMapToPreviousKnownPlace() {
+    private func updateMapToPreviousKnownPlace() {
         setLocationEnabled.value = false
         placeLocation.value = currentPlace
         locationToFetch.value = (currentPlace.location?.coordinates2DfromLocation(), fromGps: false)
