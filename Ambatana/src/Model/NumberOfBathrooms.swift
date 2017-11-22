@@ -39,6 +39,21 @@ enum NumberOfBathrooms: Float {
         }
     }
     
+    var shortLocalizedString: String {
+        switch self {
+        case .zero:
+            return LGLocalizedString.realEstateTitleGeneratorBathrooms0
+        case .one:
+            return LGLocalizedString.realEstateTitleGeneratorBathrooms1
+        case .two:
+            return LGLocalizedString.realEstateTitleGeneratorBathrooms2
+        case .three:
+            return LGLocalizedString.realEstateTitleGeneratorBathrooms3
+        case .four:
+            return LGLocalizedString.realEstateTitleGeneratorBathrooms4
+        }
+    }
+    
     var summaryLocalizedString: String {
         switch self {
         case .zero:
