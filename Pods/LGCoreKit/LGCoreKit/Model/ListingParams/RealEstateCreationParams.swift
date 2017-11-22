@@ -33,15 +33,30 @@ public class RealEstateCreationParams: BaseListingParams {
     
     override func apiCreationEncode(userId: String) -> [String: Any] {
         
-        var params = super.apiCreationEncode(userId: userId)
-        
+        var params: [String: Any] = [:]
+        params["name"] = name
+        params["category"] = category.rawValue
+        params["languageCode"] = languageCode
+        params["userId"] = userId
+        params["description"] = descr
+        params["price"] = price.value
+        params["priceFlag"] = price.priceFlag.rawValue
+        params["currency"] = currency.code
+        params["latitude"] = Float(location.latitude)
+        params["longitude"] = Float(location.longitude)
+        params["countryCode"] = postalAddress.countryCode
+        params["city"] = postalAddress.city
+        params["address"] = postalAddress.address
+        params["zipCode"] = postalAddress.zipCode
+        params["images"] = images.flatMap { $0.objectId }
+
         var realEstateAttributesDict: [String: Any] = [:]
-        realEstateAttributesDict["typeOfProperty"] = realEstateAttributes.propertyType
-        realEstateAttributesDict["typeOfListing"] = realEstateAttributes.offerType
+        realEstateAttributesDict["typeOfProperty"] = realEstateAttributes.propertyType?.rawValue
+        realEstateAttributesDict["typeOfListing"] = realEstateAttributes.offerType?.rawValue
         realEstateAttributesDict["numberOfBedrooms"] = realEstateAttributes.bedrooms
         realEstateAttributesDict["numberOfBathrooms"] = realEstateAttributes.bathrooms
         
-        params["attributes"] = realEstateAttributesDict
+        params["realEstateAttributes"] = realEstateAttributesDict
         
         return params
     }
