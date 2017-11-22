@@ -2291,8 +2291,71 @@
 // Real Estate summary bathrooms empty value
 "real_estate_summary_bathrooms_empty" = "Add no. of bathrooms";
 
+// title of price in summary screen
+"real_estate_summary_price_title" = "Price: %@";
+
 // Real Estate summary location empty value
 "real_estate_summary_location_empty" = "Location: not set";
+
+// Real estate apartment short version for title.
+"real_estate_title_generator_property_type_apartment" = "apt";
+
+// Real estate room short version for title.
+"real_estate_title_generator_property_type_room" = "room";
+
+// Real estate house short version for title.
+"real_estate_title_generator_property_type_house" = "house";
+
+// Real estate other short version for title.
+"real_estate_title_generator_property_type_other" = "other";
+
+// Real estate commercial short version for title.
+"real_estate_title_generator_property_type_commercial" = "commercial";
+
+// Real estate sale short version for title.
+"real_estate_title_generator_offer_type_sale" = "for sale";
+
+// Real estate rent short version for title.
+"real_estate_title_generator_offer_type_rent" = "for rent";
+
+// Real estate studio short version for title.
+"real_estate_title_generator_bedrooms_studio" = "Studio";
+
+// Real estate one bedroom short version for title.
+"real_estate_title_generator_bedrooms_one" = "1BR";
+
+// Real estate two bedroom short version for title.
+"real_estate_title_generator_bedrooms_two" = "2BR";
+
+// Real estate three bedroom short version for title.
+"real_estate_title_generator_bedrooms_three" = "3BR";
+
+// Real estate four bedroom short version for title.
+"real_estate_title_generator_bedrooms_four" = "4+BR";
+
+// Real Estate number of bathrooms 0 short version
+"real_estate_title_generator_bathrooms_0" = "None";
+
+// Real Estate number of bathrooms 1 short version
+"real_estate_title_generator_bathrooms_1" = "1BA";
+
+// Real Estate number of bathrooms 1.5 short version
+"real_estate_title_generator_bathrooms_1_5" = "1.5BA";
+
+// Real Estate number of bathrooms 2 short version
+"real_estate_title_generator_bathrooms_2" = "2BA";
+
+// Real Estate number of bathrooms 2.5 short version
+"real_estate_title_generator_bathrooms_2_5" = "2.5BA";
+
+// Real Estate number of bathrooms 3 short version
+"real_estate_title_generator_bathrooms_3" = "3BA";
+
+// Real Estate number of bathrooms 3.5 short version
+"real_estate_title_generator_bathrooms_3_5" = "3.5BA";
+
+// Real Estate number of bathrooms 4 short version
+"real_estate_title_generator_bathrooms_4" = "4+BA";
 
 // Title when showing list of related items
 "related_items_title" = "Related items";

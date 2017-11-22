@@ -3079,8 +3079,92 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_summary_bathrooms_empty", comment: "")
 	}
 
+	static func realEstateSummaryPriceTitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("real_estate_summary_price_title", comment: ""), var1)
+	}
+
 	static var realEstateSummaryLocationEmpty: String {
 		return NSLocalizedString("real_estate_summary_location_empty", comment: "")
+	}
+
+	static var realEstateTitleGeneratorPropertyTypeApartment: String {
+		return NSLocalizedString("real_estate_title_generator_property_type_apartment", comment: "")
+	}
+
+	static var realEstateTitleGeneratorPropertyTypeRoom: String {
+		return NSLocalizedString("real_estate_title_generator_property_type_room", comment: "")
+	}
+
+	static var realEstateTitleGeneratorPropertyTypeHouse: String {
+		return NSLocalizedString("real_estate_title_generator_property_type_house", comment: "")
+	}
+
+	static var realEstateTitleGeneratorPropertyTypeOther: String {
+		return NSLocalizedString("real_estate_title_generator_property_type_other", comment: "")
+	}
+
+	static var realEstateTitleGeneratorPropertyTypeCommercial: String {
+		return NSLocalizedString("real_estate_title_generator_property_type_commercial", comment: "")
+	}
+
+	static var realEstateTitleGeneratorOfferTypeSale: String {
+		return NSLocalizedString("real_estate_title_generator_offer_type_sale", comment: "")
+	}
+
+	static var realEstateTitleGeneratorOfferTypeRent: String {
+		return NSLocalizedString("real_estate_title_generator_offer_type_rent", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBedroomsStudio: String {
+		return NSLocalizedString("real_estate_title_generator_bedrooms_studio", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBedroomsOne: String {
+		return NSLocalizedString("real_estate_title_generator_bedrooms_one", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBedroomsTwo: String {
+		return NSLocalizedString("real_estate_title_generator_bedrooms_two", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBedroomsThree: String {
+		return NSLocalizedString("real_estate_title_generator_bedrooms_three", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBedroomsFour: String {
+		return NSLocalizedString("real_estate_title_generator_bedrooms_four", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms0: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_0", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms1: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_1", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms15: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_1_5", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms2: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_2", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms25: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_2_5", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms3: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_3", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms35: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_3_5", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms4: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_4", comment: "")
 	}
 
 	static var relatedItemsTitle: String {
