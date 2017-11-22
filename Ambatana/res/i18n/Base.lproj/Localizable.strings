@@ -2291,6 +2291,9 @@
 // Real Estate summary bathrooms empty value
 "real_estate_summary_bathrooms_empty" = "Add no. of bathrooms";
 
+// title of price in summary screen
+"real_estate_summary_price_title" = "Price: %@";
+
 // Real Estate summary location empty value
 "real_estate_summary_location_empty" = "Location: not set";
 

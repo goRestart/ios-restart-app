@@ -748,6 +748,7 @@
 "real_estate_summary_location_empty" = "Location: not set";
 "real_estate_summary_offer_type_empty" = "Add type of listing";
 "real_estate_summary_price_empty" = "Add price";
+"real_estate_summary_price_title" = "Price: %@";
 "real_estate_summary_title" = "Summary";
 "real_estate_summary_type_property_empty" = "Add type of property";
 "real_estate_title_generator_bathrooms_0" = "None";

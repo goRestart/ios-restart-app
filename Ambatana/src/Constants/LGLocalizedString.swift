@@ -3079,6 +3079,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_summary_bathrooms_empty", comment: "")
 	}
 
+	static func realEstateSummaryPriceTitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("real_estate_summary_price_title", comment: ""), var1)
+	}
+
 	static var realEstateSummaryLocationEmpty: String {
 		return NSLocalizedString("real_estate_summary_location_empty", comment: "")
 	}
