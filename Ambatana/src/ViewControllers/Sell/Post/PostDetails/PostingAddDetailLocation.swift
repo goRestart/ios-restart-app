@@ -68,6 +68,8 @@ final class PostingAddDetailLocation: UIView, PostingViewConfigurable {
     // MARK: - PostingViewConfigurable
     
     func setupView(viewModel: PostingDetailsViewModel) {
+        guard let location = viewModel.currentLocation else { return }
+        searchMapView.updateCenterMap(location: location)
         
     }
     

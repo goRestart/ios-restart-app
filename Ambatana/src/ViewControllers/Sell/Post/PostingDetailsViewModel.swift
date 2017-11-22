@@ -99,6 +99,10 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         return postListingState.price
     }
     
+    var currentLocation: LGLocationCoordinates2D? {
+        return postListingState.place?.location
+    }
+    
     private let tracker: Tracker
     private let currencyHelper: CurrencyHelper
     private let locationManager: LocationManager
