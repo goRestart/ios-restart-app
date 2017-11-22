@@ -25,6 +25,7 @@ class SellNavigationController: UINavigationController {
         return viewModel.actualStep
     }
     
+    
     override init(rootViewController: UIViewController) {
         self.viewModel = SellNavigationViewModel()
         super.init(rootViewController: rootViewController)
