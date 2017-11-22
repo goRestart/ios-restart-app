@@ -52,6 +52,7 @@ class PostingDetailsViewController: KeyboardViewController {
     }
     
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
         setupNavigationBar()
     }
     
