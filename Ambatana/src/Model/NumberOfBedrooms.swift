@@ -29,6 +29,21 @@ enum NumberOfBedrooms: Int {
             return LGLocalizedString.realEstateBedrooms4
         }
     }
+
+    var shortLocalizedString: String {
+        switch self {
+        case .zero:
+            return LGLocalizedString.realEstateTitleGeneratorBedroomsStudio
+        case .one:
+            return LGLocalizedString.realEstateTitleGeneratorBedroomsOne
+        case .two:
+            return LGLocalizedString.realEstateTitleGeneratorBedroomsTwo
+        case .three:
+            return LGLocalizedString.realEstateTitleGeneratorBedroomsThree
+        case .four:
+            return LGLocalizedString.realEstateTitleGeneratorBedroomsFour
+        }
+    }
     
     var summaryLocalizedString: String {
         switch self {
