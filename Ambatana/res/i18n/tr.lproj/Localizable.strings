@@ -748,6 +748,7 @@
 "real_estate_summary_location_empty" = "Konum: belirlenmedi";
 "real_estate_summary_offer_type_empty" = "İlan tipi ekle";
 "real_estate_summary_price_empty" = "Fiyat ekle";
+"real_estate_summary_price_title" = "Price: %@";
 "real_estate_summary_title" = "Tanım";
 "real_estate_summary_type_property_empty" = "Emlak tipi ekle";
 "real_estate_title_generator_bathrooms_0" = "Yok";

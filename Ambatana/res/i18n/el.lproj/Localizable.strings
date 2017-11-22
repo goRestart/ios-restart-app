@@ -748,6 +748,7 @@
 "real_estate_summary_location_empty" = "Τοποθεσία: δεν έχει οριστεί";
 "real_estate_summary_offer_type_empty" = "Προσθήκη τύπου καταχώρησης";
 "real_estate_summary_price_empty" = "Προσθήκη τιμής";
+"real_estate_summary_price_title" = "Price: %@";
 "real_estate_summary_title" = "Σύνολο";
 "real_estate_summary_type_property_empty" = "Προσθήκη τύπου ιδιοκτησίας";
 "real_estate_title_generator_bathrooms_0" = "Κανένα";

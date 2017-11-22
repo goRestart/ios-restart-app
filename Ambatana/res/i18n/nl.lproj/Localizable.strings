@@ -748,6 +748,7 @@
 "real_estate_summary_location_empty" = "Locatie: niet ingesteld";
 "real_estate_summary_offer_type_empty" = "Soort advertentie toevoegen";
 "real_estate_summary_price_empty" = "Prijs toevoegen";
+"real_estate_summary_price_title" = "Price: %@";
 "real_estate_summary_title" = "Samenvatting";
 "real_estate_summary_type_property_empty" = "Soort woning toevoegen";
 "real_estate_title_generator_bathrooms_0" = "Geen";
