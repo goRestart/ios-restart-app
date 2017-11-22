@@ -33,9 +33,9 @@ enum PostCategory {
     func numberOfSteps(shouldShowPrice: Bool) -> CGFloat {
         switch self {
         case .car:
-            return shouldShowPrice ? 4 : 3
+            return shouldShowPrice ? 3 : 2
         case .realEstate:
-            return shouldShowPrice ? 6 : 5
+            return shouldShowPrice ? 5 : 4
         case .unassigned, .motorsAndAccessories:
             return 0
         }
