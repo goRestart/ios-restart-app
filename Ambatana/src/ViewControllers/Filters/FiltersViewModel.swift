@@ -140,7 +140,7 @@ class FiltersViewModel: BaseViewModel {
     }
 
     var carsInfoCellsDisabled: Bool {
-        let isTaxonomyCars = productFilter.selectedTaxonomyChildren.contains(where: { $0.isCarsCategory == true })
+        let isTaxonomyCars = productFilter.selectedTaxonomyChildren.contains(where: { $0.isCarsTaxonomy } )
         return !(productFilter.selectedCategories.contains(.cars) || isTaxonomyCars)
     }
 
