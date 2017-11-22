@@ -49,6 +49,9 @@ class PostingDetailsViewController: KeyboardViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setStatusBarHidden(true)
+    }
+    
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         setupNavigationBar()
     }
     
