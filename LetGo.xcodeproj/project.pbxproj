@@ -701,6 +701,10 @@
 		723A45CA1DDC4D470001D02C /* UILabel+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A45C81DDC4D470001D02C /* UILabel+LG.swift */; };
 		724635B31F2742CD002997D1 /* CategoryHeaderElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724635B21F2742CD002997D1 /* CategoryHeaderElement.swift */; };
 		724635B41F2742CD002997D1 /* CategoryHeaderElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724635B21F2742CD002997D1 /* CategoryHeaderElement.swift */; };
+		724D77A41FC3251E00DB43C0 /* RealEstateAttributes+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724D77A31FC3251E00DB43C0 /* RealEstateAttributes+LG.swift */; };
+		724D77A51FC3252100DB43C0 /* RealEstateAttributes+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724D77A31FC3251E00DB43C0 /* RealEstateAttributes+LG.swift */; };
+		724D77A71FC338E200DB43C0 /* RealEstateAttributes+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724D77A61FC338E200DB43C0 /* RealEstateAttributes+LGSpec.swift */; };
+		724D77A91FC3467700DB43C0 /* CarAttributes+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724D77A81FC3467700DB43C0 /* CarAttributes+LGSpec.swift */; };
 		727463AD1FB0674D00AD8261 /* ListingPrice+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727463AC1FB0674D00AD8261 /* ListingPrice+LGSpec.swift */; };
 		727463B81FB1E96600AD8261 /* ListingCreationParams+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727463B71FB1E96600AD8261 /* ListingCreationParams+LGSpec.swift */; };
 		727EF0691E0AF0220037DA4E /* LocationManager+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */; };
@@ -1933,6 +1937,9 @@
 		722FEA371F1E3BD500838116 /* FilterFreeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterFreeCell.xib; sourceTree = "<group>"; };
 		723A45C81DDC4D470001D02C /* UILabel+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LG.swift"; sourceTree = "<group>"; };
 		724635B21F2742CD002997D1 /* CategoryHeaderElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryHeaderElement.swift; path = Ambatana/src/ViewControllers/Main/CategoriesHeader/CategoryHeaderElement.swift; sourceTree = SOURCE_ROOT; };
+		724D77A31FC3251E00DB43C0 /* RealEstateAttributes+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RealEstateAttributes+LG.swift"; sourceTree = "<group>"; };
+		724D77A61FC338E200DB43C0 /* RealEstateAttributes+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RealEstateAttributes+LGSpec.swift"; sourceTree = "<group>"; };
+		724D77A81FC3467700DB43C0 /* CarAttributes+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CarAttributes+LGSpec.swift"; sourceTree = "<group>"; };
 		727463AC1FB0674D00AD8261 /* ListingPrice+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListingPrice+LGSpec.swift"; sourceTree = "<group>"; };
 		727463B71FB1E96600AD8261 /* ListingCreationParams+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ListingCreationParams+LGSpec.swift"; path = "../Model/ListingCreationParams+LGSpec.swift"; sourceTree = "<group>"; };
 		727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LocationManager+LG.swift"; sourceTree = "<group>"; };
@@ -3274,6 +3281,8 @@
 			isa = PBXGroup;
 			children = (
 				727463AC1FB0674D00AD8261 /* ListingPrice+LGSpec.swift */,
+				724D77A61FC338E200DB43C0 /* RealEstateAttributes+LGSpec.swift */,
+				724D77A81FC3467700DB43C0 /* CarAttributes+LGSpec.swift */,
 				50D08D761E69AF14009CC260 /* CGFloat+LGSpec.swift */,
 				50D08D771E69AF14009CC260 /* Collection+LGSpec.swift */,
 				2E4BDE741EDDA07700CBDC8C /* DistanceBubbleTextGeneratorSpec.swift */,
@@ -3526,6 +3535,7 @@
 				72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */,
 				2E4A94ED1E4C8D4200218916 /* ShowFeaturedStripeHelper.swift */,
 				2EBAA2411EB9E1D000F69DC7 /* CarAttributes+GeneratedName.swift */,
+				724D77A31FC3251E00DB43C0 /* RealEstateAttributes+LG.swift */,
 				7290DB451F27839900277C7A /* TaxonomyChild+LG.swift */,
 				01616CC51F975C2E00F412D7 /* Taxonomy+LG.swift */,
 			);
@@ -5508,10 +5518,12 @@
 				502047221EEA9A2F006C0EC2 /* MockFeatureFlagsDAO.swift in Sources */,
 				0A653BC01FAB7C8600C2AA77 /* ListingDeckViewModelSpec.swift in Sources */,
 				50D08DC01E69AF14009CC260 /* CGFloat+LGSpec.swift in Sources */,
+				724D77A71FC338E200DB43C0 /* RealEstateAttributes+LGSpec.swift in Sources */,
 				72D928D81E83D1C60030F4C3 /* ChatViewModelSpec.swift in Sources */,
 				72D928E71E83ED300030F4C3 /* MockRatingManager.swift in Sources */,
 				50D08DCB1E69AF14009CC260 /* CrashManagerSpec.swift in Sources */,
 				0A82750A1F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift in Sources */,
+				724D77A91FC3467700DB43C0 /* CarAttributes+LGSpec.swift in Sources */,
 				50D08DCD1E69AF14009CC260 /* NotificationsManagerSpec.swift in Sources */,
 				50D08DDB1E69AF14009CC260 /* BaseViewModelSpec.swift in Sources */,
 				50D08DD21E69AF14009CC260 /* ConfigSpec.swift in Sources */,
@@ -5641,6 +5653,7 @@
 				508D48671CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,
 				C7B5886B1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
 				C7AFFAFE1E7053EF0052A9CA /* NPSViewModel.swift in Sources */,
+				724D77A41FC3251E00DB43C0 /* RealEstateAttributes+LG.swift in Sources */,
 				6A5691531D255D27000B7365 /* ListingCellModel.swift in Sources */,
 				8E814F3C1F3472E800C88432 /* LGSliderViewModel.swift in Sources */,
 				C75B5DC11D59E09500112368 /* ListingCarouselViewController.swift in Sources */,
@@ -6179,6 +6192,7 @@
 				2E1F0D981D65F4B80021EDBE /* BubbleNotification.swift in Sources */,
 				508D48681CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,
 				C7B5886C1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
+				724D77A51FC3252100DB43C0 /* RealEstateAttributes+LG.swift in Sources */,
 				C7AFFAFF1E7053EF0052A9CA /* NPSViewModel.swift in Sources */,
 				8E814F3D1F3472E800C88432 /* LGSliderViewModel.swift in Sources */,
 				6A5691541D255D27000B7365 /* ListingCellModel.swift in Sources */,
