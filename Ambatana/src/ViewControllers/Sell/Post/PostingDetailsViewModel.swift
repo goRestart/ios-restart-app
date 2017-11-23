@@ -324,8 +324,9 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         var value: String?
         switch section {
         case .price:
-            if let countryCodeValue = countryCode {
-                 value = postListingState.price?.stringValue(currency: currencyHelper.currencyWithCountryCode(countryCodeValue), isFreeEnabled: featureFlags.freePostingModeAllowed)
+            if let countryCodeValue = countryCode, let price = postListingState.price?.stringValue(currency: currencyHelper.currencyWithCountryCode(countryCodeValue),
+                                                                                                  isFreeEnabled: featureFlags.freePostingModeAllowed) {
+                value = LGLocalizedString.realEstateSummaryPriceTitle(price)
             }
         case .propertyType:
             value = postListingState.verticalAttributes?.realEstateAttributes?.propertyType?.localizedString

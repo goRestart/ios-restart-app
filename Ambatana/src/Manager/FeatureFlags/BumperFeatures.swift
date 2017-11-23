@@ -36,7 +36,6 @@ extension Bumper  {
         flags.append(MoreInfoAdActive.self)
         flags.append(HomeRelatedEnabled.self)
         flags.append(HideChatButtonOnFeaturedCells.self)
-        flags.append(FeaturedRibbonImprovementInDetail.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(NewItemPage.self)
         flags.append(ShowPriceStepRealEstatePosting.self)
@@ -158,11 +157,6 @@ extension Bumper  {
     static var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
         guard let value = Bumper.value(for: HideChatButtonOnFeaturedCells.key) else { return .control }
         return HideChatButtonOnFeaturedCells(rawValue: value) ?? .control 
-    }
-
-    static var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail {
-        guard let value = Bumper.value(for: FeaturedRibbonImprovementInDetail.key) else { return .control }
-        return FeaturedRibbonImprovementInDetail(rawValue: value) ?? .control 
     }
 
     static var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
@@ -489,22 +483,6 @@ enum HideChatButtonOnFeaturedCells: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "hide chat button on the featured listing cells" } 
     static func fromPosition(_ position: Int) -> HideChatButtonOnFeaturedCells {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum FeaturedRibbonImprovementInDetail: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return FeaturedRibbonImprovementInDetail.control.rawValue }
-    static var enumValues: [FeaturedRibbonImprovementInDetail] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Featured ribbon in product detail is clickable" } 
-    static func fromPosition(_ position: Int) -> FeaturedRibbonImprovementInDetail {
         switch position { 
             case 0: return .control
             case 1: return .baseline
