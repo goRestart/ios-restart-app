@@ -3167,6 +3167,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_title_generator_bathrooms_4", comment: "")
 	}
 
+	static func realEstateCurrentStepOfTotal(_ var1: Int, _ var2: Int) -> String {
+		return String(format: NSLocalizedString("real_estate_current_step_of_total", comment: ""), var1, var2)
+	}
+
 	static var relatedItemsTitle: String {
 		return NSLocalizedString("related_items_title", comment: "")
 	}

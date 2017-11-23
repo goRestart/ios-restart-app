@@ -20,6 +20,7 @@ class SellNavigationController: UINavigationController {
     
     let progressView = UIView()
     let backgroundProgressView = UIView()
+    let stepLabel = UILabel()
     
     var currentStep: CGFloat {
         return viewModel.actualStep
@@ -92,26 +93,54 @@ class SellNavigationController: UINavigationController {
         return super.popViewController(animated: animated)
     }
     
+    private func animateStep(isHidden: Bool) {
+        let alpha: CGFloat = isHidden ? 0.0 : 1.0
+        UIView.animate(withDuration: 0.3, animations: { [weak self] _ in
+            self?.progressView.alpha = alpha
+            self?.backgroundProgressView.alpha = alpha
+            self?.stepLabel.alpha = alpha
+        })
+    }
+    
     func setupRx() {
-        viewModel.currentStep.asObservable().map { $0 == 0 }.bindTo(progressView.rx.isHidden).addDisposableTo(disposeBag)
-        viewModel.currentStep.asObservable().map { $0 == 0 }.bindTo(backgroundProgressView.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.currentStep.asObservable().map { [weak self] currentStep -> Bool in
+            guard let totalSteps = self?.viewModel.numberOfSteps.value else { return false }
+            return currentStep == 0 || currentStep > totalSteps
+            }.bindNext { [weak self] isHidden in
+                self?.animateStep(isHidden: isHidden)
+            }.addDisposableTo(disposeBag)
+        
         viewModel.categorySelected.asObservable().map { [weak self] category in
                 guard let strongSelf = self else { return nil }
                 return category?.numberOfSteps(shouldShowPrice: strongSelf.viewModel.shouldShowPriceStep)
             }.bindNext { [weak self] number in
                 self?.viewModel.numberOfSteps.value = number ?? 0
             }.addDisposableTo(disposeBag)
+        
+        Observable.combineLatest(viewModel.currentStep.asObservable(), viewModel.numberOfSteps.asObservable()) { ($0, $1) }
+            .bindNext { [weak self] (currentStep, totalSteps) in
+                let current = Int(min(currentStep, totalSteps))
+                let totalStep = Int(totalSteps)
+                self?.stepLabel.text = LGLocalizedString.realEstateCurrentStepOfTotal(current, totalStep)
+            }.addDisposableTo(disposeBag)
+        
     }
     
     func setupUI() {
         progressView.backgroundColor = UIColor.white
-        backgroundProgressView.backgroundColor = UIColor(white: 0, alpha: 0.20)
+        backgroundProgressView.backgroundColor = UIColor.whiteTextHighAlpha
         let witdh = viewModel.widthToFill(totalWidth: view.width)
         progressView.frame = CGRect(x: 0, y: 0, width: witdh, height: SellNavigationController.progressViewHeight)
         view.addSubview(progressView)
         backgroundProgressView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: SellNavigationController.progressViewHeight)
         view.addSubview(backgroundProgressView)
         view.sendSubview(toBack: backgroundProgressView)
+        view.addSubview(stepLabel)
+        stepLabel.translatesAutoresizingMaskIntoConstraints = false
+        stepLabel.layout(with: view).right(by: -Metrics.margin).top(by: Metrics.margin)
+        stepLabel.layout().width(100)
+        stepLabel.textColor = UIColor.whiteTextHighAlpha
+        stepLabel.textAlignment = .right
     }
 }
 
