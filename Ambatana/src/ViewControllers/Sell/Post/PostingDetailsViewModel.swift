@@ -148,10 +148,15 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     }
     
     private func postAndClose() {
+        guard let listingCreationParams = retrieveListingParams() else {
+            navigator?.cancelPostListing()
+            return
+        }
+        let trackingInfo = retrieveTrackingInfo()
         navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: { [weak self] in
-            self?.postListing()
-        }, cancelAction: { [weak self] in
-            self?.navigator?.cancelPostListing()
+            self?.navigator?.postInForeground(listingParams: listingCreationParams, trackingInfo: trackingInfo)
+            }, cancelAction: { [weak self] in
+                self?.navigator?.cancelPostListing()
         })
     }
     
@@ -160,25 +165,33 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     }
     
     private func postListing() {
-        guard let location = locationManager.currentLocation?.location else {
+        guard let listingCreationParams = retrieveListingParams() else {
             navigator?.cancelPostListing()
             return
         }
-        let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
-        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
-        let listingCreationParams =  ListingCreationParams.make(title: postListingBasicInfo.title.value,
-                                                                description: postListingBasicInfo.description.value,
-                                                                currency: currency,
-                                                                location: location,
-                                                                postalAddress: postalAddress,
-                                                                postListingState: postListingState)
-        
-        let trackingInfo: PostListingTrackingInfo = PostListingTrackingInfo(buttonName: .summary, sellButtonPosition: postingSource.sellButtonPosition, imageSource: uploadedImageSource, price: String(describing: postListingState.price?.value))
+        let trackingInfo = retrieveTrackingInfo()
         navigator?.closePostProductAndPostInBackground(params: listingCreationParams, trackingInfo: trackingInfo)
     }
     
     private func set(price: ListingPrice) {
         postListingState = postListingState.updating(price: price)
+    }
+    
+    private func retrieveTrackingInfo() -> PostListingTrackingInfo {
+        return PostListingTrackingInfo(buttonName: .summary, sellButtonPosition: postingSource.sellButtonPosition, imageSource: uploadedImageSource, price: String(describing: postListingState.price?.value))
+    }
+    
+    private func retrieveListingParams() -> ListingCreationParams? {
+        guard let location = locationManager.currentLocation?.location else { return nil }
+        
+        let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
+        let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
+        return ListingCreationParams.make(title: postListingBasicInfo.title.value,
+                                                                description: postListingBasicInfo.description.value,
+                                                                currency: currency,
+                                                                location: location,
+                                                                postalAddress: postalAddress,
+                                                                postListingState: postListingState)
     }
     
     // MARK: - PostingAddDetailTableViewDelegate 
