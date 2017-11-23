@@ -2357,6 +2357,9 @@
 // Real Estate number of bathrooms 4 short version
 "real_estate_title_generator_bathrooms_4" = "4+BA";
 
+// Show the current step of total steps
+"real_estate_current_step_of_total" = "%d of %d";
+
 // Title when showing list of related items
 "related_items_title" = "Related items";
 

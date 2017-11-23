@@ -114,7 +114,9 @@ class SellNavigationController: UINavigationController {
         
         Observable.combineLatest(viewModel.currentStep.asObservable(), viewModel.numberOfSteps.asObservable()) { ($0, $1) }
             .bindNext { [weak self] (currentStep, totalSteps) in
-                self?.stepLabel.text = "\(Int(currentStep)) of \(Int(totalSteps))"
+                let current = Int(min(currentStep, totalSteps))
+                let totalStep = Int(totalSteps)
+                self?.stepLabel.text = LGLocalizedString.realEstateCurrentStepOfTotal(current, totalStep)
             }.addDisposableTo(disposeBag)
         
     }
