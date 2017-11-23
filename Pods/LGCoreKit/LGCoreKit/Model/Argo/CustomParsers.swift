@@ -41,6 +41,15 @@ class LGArgo {
 
         return Decoded<LGLocationCoordinates2D>.success(LGLocationCoordinates2D(latitude: latitude, longitude: longitude))
     }
+    
+    static func geoRealEstateToPostalAddress(_ input: JSON?) -> Decoded<PostalAddress> {
+        guard let jsonInput = input else { return Decoded<PostalAddress>.customError("Missing Json input") }
+        let countryCode: String? = jsonInput.decode("countryCode")
+        let city: String? = jsonInput.decode("city")
+        let zipCode: String? =  jsonInput.decode("zipCode")
+        let postalAddress = PostalAddress(address: nil, city: city, zipCode: zipCode, state: nil, countryCode: countryCode, country: nil)
+        return Decoded<PostalAddress>.success(postalAddress)
+    }
 
     static func jsonToLocation(_ json: JSON, latKey: String, lonKey: String, typeKey: String) -> Decoded<LGLocation?> {
         guard let latitude: Double = json.decode(latKey) else { return Decoded<LGLocation?>.success(nil) }
