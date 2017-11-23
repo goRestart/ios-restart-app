@@ -138,10 +138,6 @@ class ListingCarouselViewModel: BaseViewModel {
         return currentListingViewModel?.isMine ?? false
     }
 
-    var isStatusLabelClickable: Bool {
-        return featureFlags.featuredRibbonImprovementInDetail == .active
-    }
-
     fileprivate var trackingIndex: Int?
     fileprivate var initialThumbnail: UIImage?
 

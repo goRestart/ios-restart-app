@@ -42,7 +42,6 @@ protocol FeatureFlaggeable: class {
     var moreInfoAdActive: MoreInfoAdActive { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
-    var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation { get }
@@ -322,13 +321,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.hideChatButtonOnFeaturedCells
         }
         return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
-    }
-
-    var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail {
-        if Bumper.enabled {
-            return Bumper.featuredRibbonImprovementInDetail
-        }
-        return FeaturedRibbonImprovementInDetail.fromPosition(abTests.featuredRibbonImprovementInDetail.value)
     }
 
     var moreInfoAdActive: MoreInfoAdActive {
