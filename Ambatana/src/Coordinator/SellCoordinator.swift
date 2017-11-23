@@ -122,7 +122,7 @@ extension SellCoordinator: PostListingNavigator {
     func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
         
         let shouldShowPrice = featureFlags.showPriceStepRealEstatePosting.isActive
-        let firstStep: PostingDetailStep = showPrice(postListingPrice: postListingState.price, shouldShowPrice:shouldShowPrice) ? .price : .propertyType
+        let firstStep: PostingDetailStep = shouldShowPriceStep(postListingPrice: postListingState.price, showPriceActive:shouldShowPrice) ? .price : .propertyType
         
         let viewModel = PostingDetailsViewModel(step: firstStep,
                                                 postListingState: postListingState,
@@ -136,8 +136,8 @@ extension SellCoordinator: PostListingNavigator {
         navigationController.pushViewController(vc, animated: false)
     }
     
-    private func showPrice(postListingPrice: ListingPrice?, shouldShowPrice: Bool) -> Bool {
-        guard shouldShowPrice else { return false }
+    private func shouldShowPriceStep(postListingPrice: ListingPrice?, showPriceActive: Bool) -> Bool {
+        guard showPriceActive else { return false }
         guard let _ = postListingPrice else { return true }
         return false
     }
