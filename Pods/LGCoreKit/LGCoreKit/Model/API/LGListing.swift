@@ -75,12 +75,10 @@ extension Listing: Decodable  {
         let result: Decoded<Listing>
         switch category {
         case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-             .fashionAndAccesories, .babyAndChild, .other:
+             .fashionAndAccesories, .babyAndChild, .other, .realEstate:
             result = curry(Listing.product) <^> LGProduct.decode(j)
         case .cars:
             result = curry(Listing.car) <^> LGCar.decode(j)
-        case .realEstate:
-            result = curry(Listing.realEstate) <^> LGRealEstate.decode(j)
         }
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "Listing parse error: \(error)")
