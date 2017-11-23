@@ -93,14 +93,16 @@ class SellNavigationController: UINavigationController {
     }
     
     func setupRx() {
-//        
         viewModel.currentStep.asObservable().map { [weak self] currentStep -> Bool in
             guard let totalSteps = self?.viewModel.numberOfSteps.value else { return false }
             return currentStep == 0 || currentStep > totalSteps
             }.bindNext { [weak self] isHidden in
-                self?.progressView.isHidden = isHidden
-                self?.backgroundProgressView.isHidden = isHidden
-                self?.stepLabel.isHidden = isHidden
+                let alpha: CGFloat = isHidden ? 0.0 : 1.0
+                UIView.animate(withDuration: 0.3, animations: {
+                    self?.progressView.alpha = alpha
+                    self?.backgroundProgressView.alpha = alpha
+                    self?.stepLabel.alpha = alpha
+                })
             }.addDisposableTo(disposeBag)
         
         viewModel.categorySelected.asObservable().map { [weak self] category in
