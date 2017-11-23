@@ -205,8 +205,7 @@ class LGSearchMapViewModel: BaseViewModel {
 
     
     private func setPlace(_ place: Place, forceLocation: Bool, fromGps: Bool, enableSave: Bool) {
-        
-        if currentPlace.postalAddress?.countryCode != place.postalAddress?.countryCode {
+        guard currentPlace.postalAddress?.countryCode == place.postalAddress?.countryCode else {
             viewControllerDelegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorCountryAlertMessage) { [weak self] in
                 self?.updateMapToPreviousKnownPlace()
             }
