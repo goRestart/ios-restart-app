@@ -229,4 +229,6 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
         openLoginIfNeededFromListingPosted = true
     }
     func backToSummary() { }
+    func postInForeground(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo) { }
+    func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool) {}
 }
