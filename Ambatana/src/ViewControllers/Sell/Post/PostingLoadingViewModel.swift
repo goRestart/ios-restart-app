@@ -19,15 +19,6 @@ import LGCoreKit
 
 class PostingLoadingViewModel : BaseViewModel {
     
-    var title: String {
-        return "loading"
-    }
-    
-    var buttonTitle: String {
-        return "retry"
-    }
-    
-    private let tracker: Tracker
     private let listingRepository: ListingRepository
     private let listingParams: ListingCreationParams
     private let trackingInfo: PostListingTrackingInfo
@@ -37,22 +28,18 @@ class PostingLoadingViewModel : BaseViewModel {
     private let disposeBag = DisposeBag()
     
     var fisnishRequest = Variable<Bool?>(false)
-    var success: Bool = false
     
     // MARK: - LifeCycle
     
     convenience init(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo) {
-        self.init(tracker: TrackerProxy.sharedInstance,
-                  listingRepository: Core.listingRepository,
+        self.init(listingRepository: Core.listingRepository,
                   listingParams: listingParams,
                   trackingInfo: trackingInfo)
     }
     
-    init(tracker: Tracker,
-         listingRepository: ListingRepository,
+    init(listingRepository: ListingRepository,
         listingParams: ListingCreationParams,
         trackingInfo: PostListingTrackingInfo) {
-        self.tracker = tracker
         self.listingRepository = listingRepository
         self.listingParams = listingParams
         self.trackingInfo = trackingInfo
@@ -60,16 +47,15 @@ class PostingLoadingViewModel : BaseViewModel {
     
     func createListing() {
         listingRepository.create(listingParams: listingParams) { [weak self] (listingResult) in
-            self?.fisnishRequest.value = true
             self?.listingResult = listingResult
-            if let _ = listingResult.value {
-               self?.success = true
-            }
+            self?.fisnishRequest.value = true
         }
     }
     
     func nextStep() {
-        guard let result = listingResult else { return }
+        guard let result = listingResult else {
+            navigator?.cancelPostListing() // It should never happen
+            return }
         navigator?.showConfirmation(listingResult: result, trackingInfo: trackingInfo, modalStyle: false)
     }
 }

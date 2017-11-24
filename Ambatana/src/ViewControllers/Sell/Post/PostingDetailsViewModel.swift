@@ -132,12 +132,12 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     }
     
     func closeButtonPressed() {
-        postAndClose()
+        closeAndPost()
     }
 
     func nextbuttonPressed() {
         guard let next = step.nextStep else {
-            postAndClose()
+            post()
             return
         }
         if step == .price {
@@ -147,7 +147,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         advanceNextStep(next: nextStep)
     }
     
-    private func postAndClose() {
+    private func post() {
         guard let listingCreationParams = retrieveListingParams() else {
             navigator?.cancelPostListing()
             return
@@ -155,6 +155,19 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         let trackingInfo = retrieveTrackingInfo()
         navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: { [weak self] in
             self?.navigator?.postInForeground(listingParams: listingCreationParams, trackingInfo: trackingInfo)
+            }, cancelAction: { [weak self] in
+                self?.navigator?.cancelPostListing()
+        })
+    }
+    
+    private func closeAndPost() {
+        guard let listingCreationParams = retrieveListingParams() else {
+            navigator?.cancelPostListing()
+            return
+        }
+        let trackingInfo = retrieveTrackingInfo()
+        navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: { [weak self] in
+            self?.navigator?.closePostProductAndPostInBackground(params: listingCreationParams, trackingInfo: trackingInfo)
             }, cancelAction: { [weak self] in
                 self?.navigator?.cancelPostListing()
         })

@@ -13,7 +13,12 @@ import RxSwift
 
 class PostingLoadingViewController: BaseViewController {
     
-    private var loadingView = LoadingIndicator()
+    struct LoadingMetrics {
+        static var heightLoadingView: CGFloat = 100
+        static var widthLoadingView: CGFloat = 100
+    }
+    
+    private var loadingView = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: LoadingMetrics.widthLoadingView, height: LoadingMetrics.widthLoadingView))
     private let viewModel: PostingLoadingViewModel
     
     let disposeBag = DisposeBag()
@@ -51,16 +56,13 @@ class PostingLoadingViewController: BaseViewController {
         view.backgroundColor = UIColor.clear
         view.setNeedsLayout()
         view.layoutIfNeeded()
-        loadingView.color = UIColor.red
+        loadingView.color = UIColor.white
         loadingView.startAnimating()
     }
     
     private func setupRx() {
         viewModel.fisnishRequest.asObservable().filter{ $0 == true }.bindNext { [weak self] finished in
-            guard let success = self?.viewModel.success else { return }
-            self?.loadingView.stopAnimating(success, completion: { [weak self] _ in
-                self?.viewModel.nextStep()
-            })
+            self?.viewModel.nextStep()
         }.addDisposableTo(disposeBag)
     }
     
@@ -69,7 +71,7 @@ class PostingLoadingViewController: BaseViewController {
         
         view.addSubview(loadingView)
         
-        loadingView.layout().height(100).width(100)
+        loadingView.layout().height(LoadingMetrics.heightLoadingView).width(LoadingMetrics.widthLoadingView)
         loadingView.layout(with: view).centerY().centerX()
     }
 }
