@@ -80,16 +80,21 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         guard let navigationController = navigationController as? SellNavigationController else { return }
         let currentStep = navigationController.currentStep
         setNavBarBackgroundStyle(.transparent(substyle: .dark))
+        
+        let backImage = #imageLiteral(resourceName: "navbar_back_white_shadow")
+        let closeImage = #imageLiteral(resourceName: "ic_post_close")
+        
         if currentStep == 1 || viewModel.isSummaryStep {
-            let closeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_post_close") , style: UIBarButtonItemStyle.plain,
+            let closeButton = UIBarButtonItem(image: closeImage , style: UIBarButtonItemStyle.plain,
                                               target: self, action: #selector(PostingDetailsViewController.closeButtonPressed))
+            closeButton.setBackgroundVerticalPositionAdjustment(5, for: .default)
             self.navigationItem.leftBarButtonItem = closeButton
         } else {
-            let closeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "navbar_back_white_shadow") , style: UIBarButtonItemStyle.plain,
+            let backButton = UIBarButtonItem(image: backImage , style: UIBarButtonItemStyle.plain,
                                               target: self, action: #selector(PostingDetailsViewController.popBackViewController))
-            self.navigationItem.leftBarButtonItem = closeButton
+            backButton.setBackgroundVerticalPositionAdjustment(5, for: .default)
+            self.navigationItem.leftBarButtonItem = backButton
         }
-        
     }
     
     private func setupConstraints() {
@@ -135,3 +140,4 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         viewModel.nextbuttonPressed()
     }
 }
+
