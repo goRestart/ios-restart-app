@@ -29,11 +29,11 @@ enum NumberOfBathrooms: Float {
         case .two:
             return LGLocalizedString.realEstateBathrooms2
         case .twoAndHalf:
-            return LGLocalizedString.realEstateBathrooms15
+            return LGLocalizedString.realEstateBathrooms25
         case .three:
             return LGLocalizedString.realEstateBathrooms3
         case .threeAndHalf:
-            return LGLocalizedString.realEstateBathrooms15
+            return LGLocalizedString.realEstateBathrooms35
         case .four:
             return LGLocalizedString.realEstateBathrooms4
         }
