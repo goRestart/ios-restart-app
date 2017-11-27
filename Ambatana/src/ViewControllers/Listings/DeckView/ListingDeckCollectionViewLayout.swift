@@ -31,7 +31,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     private var cache = [UICollectionViewLayoutAttributes]()
     private var shouldInvalidateCache: Bool { return cache.count != itemsCount }
-    private var cellLayout: ListingDeckCellLayout
+    private let cellLayout: ListingDeckCellLayout
 
     private let centerRatio: CGFloat = 0.5
     private var itemsCount: Int { get { return collectionView?.numberOfItems(inSection: 0) ?? Defaults.itemsCount } }
@@ -50,23 +50,19 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         return CGSize(width: width, height: cellHeight)
     }
 
-    convenience init(cellLayout: ListingDeckCellLayout) {
-        self.init()
+    private init(cellLayout: ListingDeckCellLayout) {
         self.cellLayout = cellLayout
-    }
-
-    override init() {
-        let doubleMargin = 2*Metrics.margin
-        let insets = UIEdgeInsets(top: Metrics.margin, left: doubleMargin, bottom: doubleMargin, right: doubleMargin)
-        self.cellLayout = ListingDeckCellLayout(insets: insets, verticalInsetDelta: insets.top)
         super.init()
-
         self.scrollDirection = .horizontal
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    convenience override init() {
+        let doubleMargin = 2*Metrics.margin
+        let insets = UIEdgeInsets(top: Metrics.margin, left: doubleMargin, bottom: doubleMargin, right: doubleMargin)
+        self.init(cellLayout: ListingDeckCellLayout(insets: insets, verticalInsetDelta: insets.top))
     }
+
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func prepare() {
         super.prepare()
