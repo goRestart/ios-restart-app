@@ -89,9 +89,10 @@ class CategoryHeaderCell: UICollectionViewCell {
         
         categoryIcon.layout().height(60).width(60)
         categoryIcon.layout(with: contentView).top(by: 20).centerX()
-        categoryTitle.layout(with: contentView).bottom(by: -10).left().right()
-        categoryTitle.layout().height(20)
+        categoryTitle.layout(with: contentView).leading(by: 2).trailing(by: -2)
+        categoryTitle.layout(with: categoryIcon).top(to: .bottom, by: 10)
         categoryTitle.textAlignment = .center
+        categoryTitle.numberOfLines = 2
         categoryNewContainter.layout(with: contentView).top(by: 10).centerX()
         
         categoryNewLabel.layout(with: categoryNewContainter).top(by: 3).left(by: 10).right(by: -10).bottom(by: -3)

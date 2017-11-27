@@ -17,11 +17,12 @@ extension ListingCreationParams {
                      postListingState: PostListingState) -> ListingCreationParams {
         
         let listingCreationParams: ListingCreationParams
-        
+        let location = postListingState.place?.location ?? location
+        let postalAddress = postListingState.place?.postalAddress ?? postalAddress
         if let category = postListingState.category {
             switch category {
             case .car:
-                let carParams = CarCreationParams(name: title ?? postListingState.verticalAttributes?.carAttributes?.generatedCarName(),
+                let carParams = CarCreationParams(name: title ?? postListingState.verticalAttributes?.carAttributes?.generatedTitle,
                                                   description: description,
                                                   price: postListingState.price ?? Constants.defaultPrice,
                                                   category: .cars,
@@ -32,7 +33,7 @@ extension ListingCreationParams {
                                                   carAttributes: postListingState.verticalAttributes?.carAttributes ?? CarAttributes.emptyCarAttributes())
                 listingCreationParams = ListingCreationParams.car(carParams)
             case .realEstate:
-                let realEstateParams = RealEstateCreationParams(name: title,
+                let realEstateParams = RealEstateCreationParams(name: title ?? postListingState.verticalAttributes?.realEstateAttributes?.generatedTitle,
                                                                 description: description,
                                                                 price: postListingState.price ?? Constants.defaultPrice,
                                                                 category: .realEstate,

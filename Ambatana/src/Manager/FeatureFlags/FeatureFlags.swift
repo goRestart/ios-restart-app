@@ -42,7 +42,6 @@ protocol FeatureFlaggeable: class {
     var moreInfoAdActive: MoreInfoAdActive { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
-    var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation { get }
@@ -54,9 +53,7 @@ protocol FeatureFlaggeable: class {
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
-    var adsAllowed: Bool { get }
     var moreInfoShoppingAdUnitId: String { get }
-    var moreInfoSearchAdUnitId: String { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -80,6 +77,10 @@ extension ExpandableCategorySelectionMenu {
 
 extension ShowPriceAfterSearchOrFilter {
     var isActive: Bool { get { return self == .priceOnSearchOrFilter } }
+}
+
+extension MoreInfoAdActive {
+    var isActive: Bool { get { return self == .titleFirst || self == .cloudsightFirst } }
 }
 
 extension HomeRelatedEnabled {
@@ -316,13 +317,6 @@ class FeatureFlags: FeatureFlaggeable {
         return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
     }
 
-    var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail {
-        if Bumper.enabled {
-            return Bumper.featuredRibbonImprovementInDetail
-        }
-        return FeaturedRibbonImprovementInDetail.fromPosition(abTests.featuredRibbonImprovementInDetail.value)
-    }
-
     var moreInfoAdActive: MoreInfoAdActive {
         if Bumper.enabled {
             return Bumper.moreInfoAdActive
@@ -407,15 +401,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
 
-    var adsAllowed: Bool {
-        switch sensorLocationCountryCode {
-        case .usa?:
-            return false
-        default:
-            return true
-        }
-    }
-
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         guard let code = countryCode, let countryCode = CountryCode(string: code) else { return false }
         switch countryCode {
@@ -429,18 +414,9 @@ class FeatureFlags: FeatureFlaggeable {
     var moreInfoShoppingAdUnitId: String {
         switch sensorLocationCountryCode {
         case .usa?:
-            return ""
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShoppingUSA
         default:
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShopping
-        }
-    }
-
-    var moreInfoSearchAdUnitId: String {
-        switch sensorLocationCountryCode {
-        case .usa?:
-            return ""
-        default:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdSearch
         }
     }
 

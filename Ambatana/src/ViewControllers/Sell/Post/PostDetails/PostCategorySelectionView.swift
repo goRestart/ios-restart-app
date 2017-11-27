@@ -31,11 +31,23 @@ enum PostCategory {
     }
     
     func numberOfSteps(shouldShowPrice: Bool) -> CGFloat {
+        let delta: CGFloat = shouldShowPrice ? 0 :  1
         switch self {
         case .car:
-            return shouldShowPrice ? 4 : 3
+            return baseSteps - delta
         case .realEstate:
-            return shouldShowPrice ? 6 : 5
+            return baseSteps - delta
+        case .unassigned, .motorsAndAccessories:
+            return baseSteps
+        }
+    }
+    
+    private var baseSteps: CGFloat {
+        switch self {
+        case .car:
+            return 3
+        case .realEstate:
+            return 5
         case .unassigned, .motorsAndAccessories:
             return 0
         }

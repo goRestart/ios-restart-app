@@ -954,7 +954,6 @@ enum EventParamenterLocationTypePage: String {
 
 enum EventParameterAdType: String {
     case shopping = "shopping"
-    case search = "search"
 }
 
 enum EventParameterAdQueryType: String {

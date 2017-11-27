@@ -691,7 +691,17 @@
 		723A45CA1DDC4D470001D02C /* UILabel+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A45C81DDC4D470001D02C /* UILabel+LG.swift */; };
 		724635B31F2742CD002997D1 /* CategoryHeaderElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724635B21F2742CD002997D1 /* CategoryHeaderElement.swift */; };
 		724635B41F2742CD002997D1 /* CategoryHeaderElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724635B21F2742CD002997D1 /* CategoryHeaderElement.swift */; };
+		724D77A41FC3251E00DB43C0 /* RealEstateAttributes+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724D77A31FC3251E00DB43C0 /* RealEstateAttributes+LG.swift */; };
+		724D77A51FC3252100DB43C0 /* RealEstateAttributes+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724D77A31FC3251E00DB43C0 /* RealEstateAttributes+LG.swift */; };
+		724D77A71FC338E200DB43C0 /* RealEstateAttributes+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724D77A61FC338E200DB43C0 /* RealEstateAttributes+LGSpec.swift */; };
+		724D77A91FC3467700DB43C0 /* CarAttributes+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724D77A81FC3467700DB43C0 /* CarAttributes+LGSpec.swift */; };
 		727463AD1FB0674D00AD8261 /* ListingPrice+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727463AC1FB0674D00AD8261 /* ListingPrice+LGSpec.swift */; };
+		727463AF1FB0763D00AD8261 /* PostingAddDetailLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727463AE1FB0763D00AD8261 /* PostingAddDetailLocation.swift */; };
+		727463B01FB0763D00AD8261 /* PostingAddDetailLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727463AE1FB0763D00AD8261 /* PostingAddDetailLocation.swift */; };
+		727463B21FB0AEAB00AD8261 /* LGSearchMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727463B11FB0AEAB00AD8261 /* LGSearchMap.swift */; };
+		727463B31FB0AEAB00AD8261 /* LGSearchMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727463B11FB0AEAB00AD8261 /* LGSearchMap.swift */; };
+		727463B51FB0AF1400AD8261 /* LGSearchMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727463B41FB0AF1400AD8261 /* LGSearchMapViewModel.swift */; };
+		727463B61FB0AF1400AD8261 /* LGSearchMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727463B41FB0AF1400AD8261 /* LGSearchMapViewModel.swift */; };
 		727463B81FB1E96600AD8261 /* ListingCreationParams+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727463B71FB1E96600AD8261 /* ListingCreationParams+LGSpec.swift */; };
 		727EF0691E0AF0220037DA4E /* LocationManager+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */; };
 		727EF06A1E0AF0220037DA4E /* LocationManager+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */; };
@@ -1917,7 +1927,13 @@
 		722FEA371F1E3BD500838116 /* FilterFreeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterFreeCell.xib; sourceTree = "<group>"; };
 		723A45C81DDC4D470001D02C /* UILabel+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LG.swift"; sourceTree = "<group>"; };
 		724635B21F2742CD002997D1 /* CategoryHeaderElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryHeaderElement.swift; path = Ambatana/src/ViewControllers/Main/CategoriesHeader/CategoryHeaderElement.swift; sourceTree = SOURCE_ROOT; };
+		724D77A31FC3251E00DB43C0 /* RealEstateAttributes+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RealEstateAttributes+LG.swift"; sourceTree = "<group>"; };
+		724D77A61FC338E200DB43C0 /* RealEstateAttributes+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RealEstateAttributes+LGSpec.swift"; sourceTree = "<group>"; };
+		724D77A81FC3467700DB43C0 /* CarAttributes+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CarAttributes+LGSpec.swift"; sourceTree = "<group>"; };
 		727463AC1FB0674D00AD8261 /* ListingPrice+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListingPrice+LGSpec.swift"; sourceTree = "<group>"; };
+		727463AE1FB0763D00AD8261 /* PostingAddDetailLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingAddDetailLocation.swift; sourceTree = "<group>"; };
+		727463B11FB0AEAB00AD8261 /* LGSearchMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSearchMap.swift; sourceTree = "<group>"; };
+		727463B41FB0AF1400AD8261 /* LGSearchMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSearchMapViewModel.swift; sourceTree = "<group>"; };
 		727463B71FB1E96600AD8261 /* ListingCreationParams+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ListingCreationParams+LGSpec.swift"; path = "../Model/ListingCreationParams+LGSpec.swift"; sourceTree = "<group>"; };
 		727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LocationManager+LG.swift"; sourceTree = "<group>"; };
 		727EF06B1E0BE16D0037DA4E /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
@@ -2788,6 +2804,8 @@
 				2E5350431CF8A181003B06CC /* ListingStatsView.xib */,
 				C77B7DB91DBF9D150043C624 /* PushPermissionsHeader.swift */,
 				2E64D4191D11B34F00257B69 /* Tooltip.swift */,
+				727463B11FB0AEAB00AD8261 /* LGSearchMap.swift */,
+				727463B41FB0AF1400AD8261 /* LGSearchMapViewModel.swift */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -3244,6 +3262,8 @@
 			isa = PBXGroup;
 			children = (
 				727463AC1FB0674D00AD8261 /* ListingPrice+LGSpec.swift */,
+				724D77A61FC338E200DB43C0 /* RealEstateAttributes+LGSpec.swift */,
+				724D77A81FC3467700DB43C0 /* CarAttributes+LGSpec.swift */,
 				50D08D761E69AF14009CC260 /* CGFloat+LGSpec.swift */,
 				50D08D771E69AF14009CC260 /* Collection+LGSpec.swift */,
 				2E4BDE741EDDA07700CBDC8C /* DistanceBubbleTextGeneratorSpec.swift */,
@@ -3495,6 +3515,7 @@
 				72B76C821DF80B3A001A18CE /* CTTelephonyNetworkInfo+CountryConfigurable.swift */,
 				2E4A94ED1E4C8D4200218916 /* ShowFeaturedStripeHelper.swift */,
 				2EBAA2411EB9E1D000F69DC7 /* CarAttributes+GeneratedName.swift */,
+				724D77A31FC3251E00DB43C0 /* RealEstateAttributes+LG.swift */,
 				7290DB451F27839900277C7A /* TaxonomyChild+LG.swift */,
 				01616CC51F975C2E00F412D7 /* Taxonomy+LG.swift */,
 			);
@@ -3857,6 +3878,7 @@
 				72FE02DE1F98D38F005BD672 /* PostingAddDetailPriceView.swift */,
 				72854D161F8CE41700E54530 /* PostingAddDetailTableView.swift */,
 				72FE02E11F9E1DF7005BD672 /* PostingAddDetailSummaryTableView.swift */,
+				727463AE1FB0763D00AD8261 /* PostingAddDetailLocation.swift */,
 				72C7A1C51FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift */,
 			);
 			path = PostDetails;
@@ -5477,10 +5499,12 @@
 				727463AD1FB0674D00AD8261 /* ListingPrice+LGSpec.swift in Sources */,
 				502047221EEA9A2F006C0EC2 /* MockFeatureFlagsDAO.swift in Sources */,
 				50D08DC01E69AF14009CC260 /* CGFloat+LGSpec.swift in Sources */,
+				724D77A71FC338E200DB43C0 /* RealEstateAttributes+LGSpec.swift in Sources */,
 				72D928D81E83D1C60030F4C3 /* ChatViewModelSpec.swift in Sources */,
 				72D928E71E83ED300030F4C3 /* MockRatingManager.swift in Sources */,
 				50D08DCB1E69AF14009CC260 /* CrashManagerSpec.swift in Sources */,
 				0A82750A1F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift in Sources */,
+				724D77A91FC3467700DB43C0 /* CarAttributes+LGSpec.swift in Sources */,
 				50D08DCD1E69AF14009CC260 /* NotificationsManagerSpec.swift in Sources */,
 				50D08DDB1E69AF14009CC260 /* BaseViewModelSpec.swift in Sources */,
 				50D08DD21E69AF14009CC260 /* ConfigSpec.swift in Sources */,
@@ -5609,6 +5633,7 @@
 				508D48671CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,
 				C7B5886B1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
 				C7AFFAFE1E7053EF0052A9CA /* NPSViewModel.swift in Sources */,
+				724D77A41FC3251E00DB43C0 /* RealEstateAttributes+LG.swift in Sources */,
 				6A5691531D255D27000B7365 /* ListingCellModel.swift in Sources */,
 				8E814F3C1F3472E800C88432 /* LGSliderViewModel.swift in Sources */,
 				C75B5DC11D59E09500112368 /* ListingCarouselViewController.swift in Sources */,
@@ -5809,6 +5834,7 @@
 				6A879D9F1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,
 				72D928EE1E83F0BD0030F4C3 /* LGPushPermissionsManager.swift in Sources */,
 				C7DCFEC21BFE3CFD00F7A4FB /* UITabBarController+Animations.swift in Sources */,
+				727463B51FB0AF1400AD8261 /* LGSearchMapViewModel.swift in Sources */,
 				C765EE7F1E84036400063750 /* SessionErrors+LG.swift in Sources */,
 				C7E73E8A1CD1F77E000F2591 /* NotificationData.swift in Sources */,
 				C7D23FE11DCC954D00931803 /* CarouselUIHelper.swift in Sources */,
@@ -5973,11 +5999,13 @@
 				C7732F6A1D87FA3400EAD5B7 /* TourPostingViewController.swift in Sources */,
 				2E06EAED1D7051BA00A40704 /* FilterRangePriceCell.swift in Sources */,
 				6A12E04F1C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,
+				727463AF1FB0763D00AD8261 /* PostingAddDetailLocation.swift in Sources */,
 				72D928E11E83EB990030F4C3 /* RatingManager.swift in Sources */,
 				C77B7DBA1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,
 				C7BAC9CD1E49E81E005BD0AF /* Listing+LG.swift in Sources */,
 				C7DE8ACB1C888761005CF37E /* EditListingViewModel.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
+				727463B21FB0AEAB00AD8261 /* LGSearchMap.swift in Sources */,
 				6A5E19E81D548F5400F92692 /* Int+LG.swift in Sources */,
 				2E47610B1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift in Sources */,
 				C7BB25D01E36153600649396 /* GodModeManager.swift in Sources */,
@@ -6143,6 +6171,7 @@
 				2E1F0D981D65F4B80021EDBE /* BubbleNotification.swift in Sources */,
 				508D48681CCF4FFC00C52BE3 /* ImageDownloaderType.swift in Sources */,
 				C7B5886C1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
+				724D77A51FC3252100DB43C0 /* RealEstateAttributes+LG.swift in Sources */,
 				C7AFFAFF1E7053EF0052A9CA /* NPSViewModel.swift in Sources */,
 				8E814F3D1F3472E800C88432 /* LGSliderViewModel.swift in Sources */,
 				6A5691541D255D27000B7365 /* ListingCellModel.swift in Sources */,
@@ -6343,6 +6372,7 @@
 				2E9716A71D5A2840009B3A32 /* ExpressChatViewModel.swift in Sources */,
 				72D928EF1E83F0BD0030F4C3 /* LGPushPermissionsManager.swift in Sources */,
 				C7DB41F51C5138B500400945 /* CellDrawer.swift in Sources */,
+				727463B61FB0AF1400AD8261 /* LGSearchMapViewModel.swift in Sources */,
 				C7B588601CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
 				C765EE801E84036400063750 /* SessionErrors+LG.swift in Sources */,
 				C7DB41F61C5138B500400945 /* UITabBarController+Animations.swift in Sources */,
@@ -6507,11 +6537,13 @@
 				508D48661CCF4FFC00C52BE3 /* ImageDownloader.swift in Sources */,
 				50146BE31D4F910B00B0F635 /* ProfileTabNavigator.swift in Sources */,
 				2E2A5E151D5C81200047ED45 /* ExpressChatNavigator.swift in Sources */,
+				727463B01FB0763D00AD8261 /* PostingAddDetailLocation.swift in Sources */,
 				C7732F6B1D87FA3400EAD5B7 /* TourPostingViewController.swift in Sources */,
 				72D928E21E83EB990030F4C3 /* RatingManager.swift in Sources */,
 				2E06EAEF1D70595900A40704 /* FilterRangePriceCell.swift in Sources */,
 				C7BAC9CE1E49E81E005BD0AF /* Listing+LG.swift in Sources */,
 				C7B588581CE1DE1C009B3975 /* DirectAnswersPresenter.swift in Sources */,
+				727463B31FB0AEAB00AD8261 /* LGSearchMap.swift in Sources */,
 				C77B7DBB1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,
 				6A12E0501C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,
 				2E47610C1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift in Sources */,
