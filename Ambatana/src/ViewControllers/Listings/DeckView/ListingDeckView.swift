@@ -9,24 +9,26 @@
 import Foundation
 import UIKit
 import LGCoreKit
+import RxSwift
 
 final class ListingDeckView: UIView, UICollectionViewDelegate {
 
+    let directChatTable = CustomTouchesTableView()
+    let collectionView: UICollectionView
+
     private let overlayView = UIView()
-    
     private var chatTextViewBottom: NSLayoutConstraint? = nil
     private var collectionViewTop: NSLayoutConstraint? = nil
+    private let directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: Metrics.margin)
+    private let itemActionsView = ListingDeckActionView()
+    private let collectionLayout = ListingDeckCollectionViewLayout()
+    private let chatTextView = ChatTextView()
 
-    let chatTextView = ChatTextView()
-    let directChatTable = CustomTouchesTableView()
-    let directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: Metrics.margin)
-    let collectionView: UICollectionView
-    let itemActionsView = ListingDeckActionView()
-    let collectionLayout = ListingDeckCollectionViewLayout()
-
+    var rx_actionButton: Reactive<UIButton> { return itemActionsView.actionButton.rx }
+    var rx_chatTextView: Reactive<ChatTextView> { return chatTextView.rx }
     var currentPage: Int { return collectionLayout.page }
     var bumpUpBanner: BumpUpBanner { return itemActionsView.bumpUpBanner }
-    var isBumpUpVisisble: Bool { return itemActionsView.isBumpUpVisisble }
+    var isBumpUpVisible: Bool { return itemActionsView.isBumpUpVisisble }
 
     override init(frame: CGRect) {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
@@ -107,9 +109,8 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         directChatTable.backgroundColor = .clear
     }
 
-    func updateChatWith(alpha: CGFloat) {
-        chatTextView.alpha = alpha
-        directAnswersView.alpha = alpha
+    func pageOffset(givenOffset: CGFloat) -> CGFloat {
+        return collectionLayout.pageOffset(givenOffset: givenOffset)
     }
 
     func updatePrivateActionsWith(alpha: CGFloat) {
@@ -127,6 +128,12 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         chatTextViewBottom?.constant = -(inset + Metrics.margin)
     }
 
+    // MARK: ItemActionsView
+
+    func configureActionWith(_ action: UIAction) {
+        itemActionsView.actionButton.configureWith(uiAction: action)
+    }
+
     func showActions() {
         itemActionsView.alpha = 1
     }
@@ -137,6 +144,27 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
 
     // MARK: Chat
 
+    func setDirectAnswersHorizontalViewDelegate(_ delegate: DirectAnswersHorizontalViewDelegate) {
+        directAnswersView.delegate = delegate
+    }
+
+    func updateDirectChatWith(answers: [[QuickAnswer]], isDynamic: Bool) {
+        directAnswersView.update(answers: answers, isDynamic: isDynamic)
+    }
+
+    func updateChatWith(alpha: CGFloat) {
+        chatTextView.alpha = alpha
+        directAnswersView.alpha = alpha
+    }
+
+    func setChatText(_ text: String) {
+        chatTextView.setText(text)
+    }
+
+    func setChatInitialText(_ text: String) {
+        chatTextView.setInitialText(text)
+    }
+
     func showFullScreenChat() {
         overlayView.alpha = 1
     }
@@ -145,7 +173,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         chatTextView.resignFirstResponder()
         overlayView.alpha = 0
     }
-
 
     func showChat() {
         directAnswersView.alpha = 1

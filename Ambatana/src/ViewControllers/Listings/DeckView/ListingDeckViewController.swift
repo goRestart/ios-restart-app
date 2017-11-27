@@ -130,7 +130,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     // MARK: DirectAnswersHorizontalViewDelegate
 
     private func setupDirectChat() {
-        listingDeckView.directAnswersView.delegate = self
+        listingDeckView.setDirectAnswersHorizontalViewDelegate(self)
     }
 
     func updateViewWith(alpha: CGFloat) {
@@ -142,7 +142,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
 
     func showBumpUpBanner(bumpInfo: BumpUpInfo){
-        guard !listingDeckView.isBumpUpVisisble else {
+        guard !listingDeckView.isBumpUpVisible else {
             // banner is already visible, but info changes
             listingDeckView.updateBumpUp(withInfo: bumpInfo)
             return
@@ -212,7 +212,7 @@ extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate,
 
     func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
         if let productVM = viewModel.currentListingViewModel, productVM.showKeyboardWhenQuickAnswer {
-            listingDeckView.chatTextView.setText(answer.text)
+            listingDeckView.setChatText(answer.text)
         } else {
             // TODO: ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
             //            viewModel.send(quickAnswer: answer)
@@ -239,6 +239,6 @@ extension ListingDeckViewController: ListingDeckViewModelDelegate {
     }
 
     func vmResetBumpUpBannerCountdown() {
-        listingDeckView.itemActionsView.resetCountdown()
+        listingDeckView.resetBumpUpCountdown()
     }
 }

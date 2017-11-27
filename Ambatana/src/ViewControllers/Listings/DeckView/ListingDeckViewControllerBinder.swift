@@ -41,11 +41,10 @@ final class ListingDeckViewControllerBinder {
                 return
             }
             guard let actionButton = actionButtons.first else { return }
-            listingDeckView.itemActionsView.actionButton.configureWith(uiAction: actionButton)
-            listingDeckView.itemActionsView
-                .actionButton.rx.tap.bindNext {
-                    actionButton.action()
-                }.addDisposableTo(strongSelf.disposeBag)
+            listingDeckView.configureActionWith(actionButton)
+            listingDeckView.rx_actionButton.tap.bindNext {
+                actionButton.action()
+            }.addDisposableTo(strongSelf.disposeBag)
             UIView.animate(withDuration: 0.2, animations: {
                 listingDeckView.showActions()
             })
@@ -98,7 +97,7 @@ final class ListingDeckViewControllerBinder {
                                    viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         viewController.contentOffset.asObservable()
             .map { [unowned listingDeckView] x in
-                let pageOffset = listingDeckView.collectionLayout.pageOffset(givenOffset: x).truncatingRemainder(dividingBy: 1.0)
+                let pageOffset = listingDeckView.pageOffset(givenOffset: x).truncatingRemainder(dividingBy: 1.0)
                 guard pageOffset >= 0.5 else {
                     return 2*pageOffset
                 }
@@ -107,7 +106,7 @@ final class ListingDeckViewControllerBinder {
         .addDisposableTo(disposeBag)
 
         viewController.contentOffset.asObservable().bindNext { [unowned viewController, listingDeckView] _ in
-            viewController.indexSignal.value = listingDeckView.collectionLayout.page
+            viewController.indexSignal.value = listingDeckView.currentPage
         }.addDisposableTo(disposeBag)
     }
 
@@ -128,15 +127,15 @@ final class ListingDeckViewControllerBinder {
     private func bindChat(withViewController viewController: ListingDeckViewController,
                           viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         viewModel.directChatPlaceholder.asObservable()
-            .bindTo(listingDeckView.chatTextView.rx.placeholder)
+            .bindTo(listingDeckView.rx_chatTextView.placeholder)
             .addDisposableTo(disposeBag)
         if let productVM = viewModel.currentListingViewModel, !productVM.areQuickAnswersDynamic {
-            listingDeckView.chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
+            listingDeckView.setChatInitialText(LGLocalizedString.chatExpressTextFieldText)
         }
 
         viewModel.quickAnswers.asObservable().bindNext { [unowned listingDeckView, unowned viewModel] quickAnswers in
             let isDynamic = viewModel.currentListingViewModel?.areQuickAnswersDynamic ?? false
-            listingDeckView.directAnswersView.update(answers: quickAnswers, isDynamic: isDynamic)
+            listingDeckView.updateDirectChatWith(answers: quickAnswers, isDynamic: isDynamic)
         }.addDisposableTo(disposeBag)
 
         viewModel.chatEnabled.asObservable().bindNext { [unowned listingDeckView] enabled in
