@@ -16,14 +16,14 @@ final class ListingDeckViewControllerBinder {
     var disposeBag = DisposeBag()
     var currentDisposeBag: DisposeBag?
 
+    private let indexSignal = Variable<Int>(0)
+
     func bind(withViewModel viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         guard let viewController = listingDeckViewController else { return }
 
         bindKeyboardChanges(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindCollectionView(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindContentOffset(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
-        bindOverlaysAlpha(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
-        bindIndexSignal(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindChat(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindActions(withViewModel: viewModel, listingDeckView: listingDeckView)
         bindAltActions(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
@@ -102,25 +102,12 @@ final class ListingDeckViewControllerBinder {
                     return 2*pageOffset
                 }
                 return 2*(1 - pageOffset)
-            }.bindTo(viewController.overlaysAlpha)
+            }.bindNext { viewController.updateViewWith(alpha: $0) }
         .addDisposableTo(disposeBag)
 
-        viewController.contentOffset.asObservable().bindNext { [unowned viewController, listingDeckView] _ in
-            viewController.indexSignal.value = listingDeckView.currentPage
-        }.addDisposableTo(disposeBag)
-    }
-
-    private func bindOverlaysAlpha(withViewController viewController: ListingDeckViewController,
-                                   viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewController.overlaysAlpha.asObservable().bindNext { [unowned viewController] alpha in
-            viewController.updateViewWith(alpha: alpha)
-        }.addDisposableTo(disposeBag)
-    }
-
-    private func bindIndexSignal(withViewController viewController: ListingDeckViewController,
-                                 viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewController.indexSignal.asObservable().distinctUntilChanged().bindNext { [unowned viewModel] index in
-            viewModel.moveToProductAtIndex(index, movement: .swipeRight)
+        viewController.contentOffset.bindNext { _ in
+            // TODO: Tracking
+            viewModel.moveToProductAtIndex(listingDeckView.currentPage, movement: .swipeRight)
         }.addDisposableTo(disposeBag)
     }
 

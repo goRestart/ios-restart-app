@@ -15,11 +15,9 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         static let cardView = "ListingCardView"
     }
 
-    let contentOffset = Variable<CGFloat>(0)
-    let overlaysAlpha = Variable<CGFloat>(1)
-    let indexSignal = Variable<Int>(0)
-
-    let listingDeckView = ListingDeckView()
+    var contentOffset: Observable<CGFloat> { return  contentOffsetVar.asObservable() }
+    private let contentOffsetVar = Variable<CGFloat>(0)
+    fileprivate let listingDeckView = ListingDeckView()
     fileprivate let viewModel: ListingDeckViewModel
     fileprivate let binder = ListingDeckViewControllerBinder()
 
@@ -94,8 +92,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     // ScrollViewDelegate
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        contentOffset.value = scrollView.contentOffset.x
-
+        contentOffsetVar.value = scrollView.contentOffset.x
     }
 
     // MARK: NavBar
