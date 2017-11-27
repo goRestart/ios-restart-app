@@ -25,6 +25,8 @@ class SellNavigationViewModel : BaseViewModel {
         return featureFlags.showPriceStepRealEstatePosting.isActive
     }
     
+    
+    
     init(featureFlags: FeatureFlags) {
         self.featureFlags = featureFlags
     }

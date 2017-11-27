@@ -8,7 +8,7 @@
 
 struct StagingEnvironment: Environment {
     let apiBaseURL = "http://api.stg.letgo.com"
-    let realEstateBaseURL = "https://listingrealestate.origin.stg.letgo.com"
+    let realEstateBaseURL = "https://listingrealestate.stg.letgo.com"
     let bouncerBaseURL = "http://bouncer.stg.letgo.com/api"
     let userRatingsBaseURL = "http://rating.stg.letgo.com/api"
     let chatBaseURL = "https://chat.stg.letgo.com"

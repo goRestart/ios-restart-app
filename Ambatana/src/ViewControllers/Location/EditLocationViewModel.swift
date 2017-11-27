@@ -335,8 +335,7 @@ class EditLocationViewModel: BaseViewModel {
                 DispatchQueue.main.async {
                     self?.locationToFetch.value = (coordinates, false)
                 }
-            }
-            .addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
 
         //Place retrieval
         locationToFetch.asObservable()
