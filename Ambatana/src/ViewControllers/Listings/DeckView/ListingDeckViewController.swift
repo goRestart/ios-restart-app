@@ -237,10 +237,8 @@ extension ListingDeckViewController: ListingDeckViewModelDelegate {
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
         return (self, navigationItem.rightBarButtonItems?.first)
     }
-    
+
     func vmResetBumpUpBannerCountdown() {
         listingDeckView.itemActionsView.resetCountdown()
     }
-    
-    
 }

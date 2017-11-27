@@ -14,10 +14,10 @@ final class ListingDeckViewControllerBinder {
 
     weak var listingDeckViewController: ListingDeckViewController? = nil
     var disposeBag = DisposeBag()
+    var currentDisposeBag: DisposeBag?
 
     func bind(withViewModel viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         guard let viewController = listingDeckViewController else { return }
-        disposeBag = DisposeBag()
 
         bindKeyboardChanges(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindCollectionView(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
@@ -40,11 +40,11 @@ final class ListingDeckViewControllerBinder {
                 listingDeckView.hideActions()
                 return
             }
-            guard let bottomAction = actionButtons.first else { return }
-            listingDeckView.itemActionsView.actionButton.configureWith(uiAction: bottomAction)
+            guard let actionButton = actionButtons.first else { return }
+            listingDeckView.itemActionsView.actionButton.configureWith(uiAction: actionButton)
             listingDeckView.itemActionsView
                 .actionButton.rx.tap.bindNext {
-                    bottomAction.action()
+                    actionButton.action()
                 }.addDisposableTo(strongSelf.disposeBag)
             UIView.animate(withDuration: 0.2, animations: {
                 listingDeckView.showActions()
@@ -99,7 +99,7 @@ final class ListingDeckViewControllerBinder {
         viewController.contentOffset.asObservable()
             .map { [unowned listingDeckView] x in
                 let pageOffset = listingDeckView.collectionLayout.pageOffset(givenOffset: x).truncatingRemainder(dividingBy: 1.0)
-                if pageOffset < 0.5 {
+                guard pageOffset >= 0.5 else {
                     return 2*pageOffset
                 }
                 return 2*(1 - pageOffset)
@@ -127,7 +127,8 @@ final class ListingDeckViewControllerBinder {
 
     private func bindChat(withViewController viewController: ListingDeckViewController,
                           viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewModel.directChatPlaceholder.asObservable().bindTo(listingDeckView.chatTextView.rx.placeholder)
+        viewModel.directChatPlaceholder.asObservable()
+            .bindTo(listingDeckView.chatTextView.rx.placeholder)
             .addDisposableTo(disposeBag)
         if let productVM = viewModel.currentListingViewModel, !productVM.areQuickAnswersDynamic {
             listingDeckView.chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
