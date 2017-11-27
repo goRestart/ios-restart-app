@@ -17,7 +17,8 @@ extension ListingCreationParams {
                      postListingState: PostListingState) -> ListingCreationParams {
         
         let listingCreationParams: ListingCreationParams
-        
+        let location = postListingState.place?.location ?? location
+        let postalAddress = postListingState.place?.postalAddress ?? postalAddress
         if let category = postListingState.category {
             switch category {
             case .car:

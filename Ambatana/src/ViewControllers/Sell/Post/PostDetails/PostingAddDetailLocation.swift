@@ -1,0 +1,83 @@
+//
+//  PostingAddDetailLocation.swift
+//  LetGo
+//
+//  Created by Juan Iglesias on 06/11/2017.
+//  Copyright © 2017 Ambatana. All rights reserved.
+//
+
+
+import RxSwift
+import MapKit
+import LGCoreKit
+import CoreLocation
+
+
+final class PostingAddDetailLocation: UIView, PostingViewConfigurable {
+    
+    private let bottomMessage = UILabel()
+    private let searchMapView: LGSearchMap
+    var locationSelected = Variable<Place?>(nil)
+    private let searchMapViewModel: LGSearchMapViewModel
+    private let disposeBag = DisposeBag()
+    
+    
+    // MARK - Lifecycle
+    
+    init(viewControllerDelegate: LGSearchMapViewControllerModelDelegate, currentPlace: Place?) {
+        self.searchMapViewModel = LGSearchMapViewModel(currentPlace: currentPlace)
+        self.searchMapView = LGSearchMap(frame: CGRect.zero, viewModel: searchMapViewModel)
+        super.init(frame: CGRect.zero)
+        setupUI()
+        setupConstraints()
+        setupRx()
+        searchMapView.viewModel.setViewControllerDelegate(viewControllerModelDelegate: viewControllerDelegate)
+        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - UI
+    
+    private func setupUI() {
+        bottomMessage.text = LGLocalizedString.realEstateLocationNotificationMessage
+        bottomMessage.font = UIFont.subtitleFont
+        bottomMessage.textColor = UIColor.white
+    }
+    
+    private func setupConstraints() {
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: [bottomMessage, searchMapView])
+        addSubviews([bottomMessage, searchMapView])
+        
+        searchMapView.layout(with: self).top().fillHorizontal(by: Metrics.bigMargin)
+        bottomMessage.layout(with: searchMapView).below(by: Metrics.margin).fillHorizontal()
+        bottomMessage.layout(with: self).bottom()
+    }
+    
+    private func setupRx() {
+        searchMapView.viewModel.placeLocation.asObservable()
+            .bindNext({ [weak self] place in
+                guard let place = place else { return }
+                self?.locationSelected.value = place
+            }).addDisposableTo(disposeBag)
+    }
+    
+    // MARK: - PostingViewConfigurable
+    
+    func setupView(viewModel: PostingDetailsViewModel) {
+        guard let location = viewModel.currentLocation else { return }
+        searchMapView.updateCenterMap(location: location)
+        
+    }
+    
+    func setupContainerView(view: UIView) {
+        translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(self)
+        layout(with: view).fill()
+    }
+    
+    
+}

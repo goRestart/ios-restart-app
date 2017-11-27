@@ -61,7 +61,7 @@ enum PostingDetailStep {
         case .summary:
             return nil
         case .location:
-            return nil
+            return .summary
         case .make:
             return .model
         case .model:

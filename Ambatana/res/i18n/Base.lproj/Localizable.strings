@@ -2291,6 +2291,9 @@
 // Real Estate summary bathrooms empty value
 "real_estate_summary_bathrooms_empty" = "Add no. of bathrooms";
 
+// title of price in summary screen
+"real_estate_summary_price_title" = "Price: %@";
+
 // Real Estate summary location empty value
 "real_estate_summary_location_empty" = "Location: not set";
 
@@ -2353,6 +2356,9 @@
 
 // Real Estate number of bathrooms 4 short version
 "real_estate_title_generator_bathrooms_4" = "4+BA";
+
+// Show the current step of total steps
+"real_estate_current_step_of_total" = "%d of %d";
 
 // Title when showing list of related items
 "related_items_title" = "Related items";
