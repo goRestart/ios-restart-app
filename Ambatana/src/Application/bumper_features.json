@@ -139,5 +139,10 @@
         "name": "BumpUpPriceDifferentiation",
         "values": ["control", "baseline", "active"],
         "description": "Scale bump prices according to listing price"
+    },
+    {
+        "name": "PromoteBumpUpAfterSell",
+        "values": ["control", "baseline", "active"],
+        "description": "Show a bump up alert after posting (once every 24h)"
     }
 ]

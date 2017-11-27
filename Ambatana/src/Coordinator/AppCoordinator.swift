@@ -492,9 +492,9 @@ fileprivate extension AppCoordinator {
     }
 
     func shouldRetrieveBumpeableInfo() -> Bool {
-        return true
+        return featureFlags.promoteBumpUpAfterSell.isActive
         // TODO: ⚠️ Use the right code here!
-//        return featureFlags.abtestPromoteEnabled && keyValueStorage.24hoursSincelastPromo
+//        return featureFlags.promoteBumpUpAfterSell && keyValueStorage.24hoursSincelastPromo
     }
 
     func showAfterSellPushAndRatingDialogs() {
