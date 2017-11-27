@@ -22,6 +22,10 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     @IBOutlet weak var postedInfoLabel: UILabel!
     @IBOutlet weak var postErrorLabel: UILabel!
     @IBOutlet weak var retryButton: UIButton!
+    @IBOutlet weak var uploadImageStackView: UIStackView!
+    var loadingViewRealEstate: LoadingIndicator?
+    var messageLabelUploadingImage: UILabel = UILabel()
+    var retryButtonUploadingImageRealEstate: UIButton = UIButton(type: .custom)
     
     fileprivate var closeButton: UIButton
 
@@ -180,8 +184,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     @IBAction func onRetryButton(_ sender: AnyObject) {
         viewModel.retryButtonPressed()
     }
-
-
+    
     // MARK: - Private methods
 
     private func setupView() {
@@ -201,6 +204,38 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         setupAddCarDetailsView()
         setupCloseButton()
         setupFooter()
+        setupLoadingStackView()
+    }
+    
+    private func setupLoadingStackView() {
+        guard let category = viewModel.postCategory, category == .realEstate else { return }
+        loadingViewRealEstate = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        loadingViewRealEstate?.layout().height(100).width(100)
+        loadingViewRealEstate?.startAnimating()
+        if let loadingView = loadingViewRealEstate {
+            uploadImageStackView.addArrangedSubview(loadingView)
+        }
+        messageLabelUploadingImage.textColor = UIColor.white
+        messageLabelUploadingImage.font = UIFont.body
+        retryButtonUploadingImageRealEstate.setStyle(.primary(fontSize: .medium))
+        retryButtonUploadingImageRealEstate.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
+        retryButtonUploadingImageRealEstate.addTarget(self, action: #selector(PostListingViewController.onRetryButton), for: .touchUpInside)
+        uploadImageStackView.addArrangedSubview(messageLabelUploadingImage)
+        uploadImageStackView.addArrangedSubview(retryButtonUploadingImageRealEstate)
+        messageLabelUploadingImage.isHidden = true
+        retryButtonUploadingImageRealEstate.isHidden = true
+    }
+    
+    fileprivate func addMessageToStackView(textMessage: String?, success: Bool) {
+        guard let category = viewModel.postCategory, category == .realEstate else { return }
+        messageLabelUploadingImage.text = textMessage
+        messageLabelUploadingImage.isHidden = false
+        if !success {
+            retryButtonUploadingImageRealEstate.isHidden = false
+        }
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            self?.uploadImageStackView.layoutIfNeeded()
+        })
     }
     
     private func setupCloseButton() {
@@ -443,6 +478,19 @@ fileprivate extension PostListingState {
     }
     
     var customLoadingViewAlpha: CGFloat {
+        if let category = category, category == .realEstate {
+            return 0
+        } else {
+            switch step {
+            case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
+                return 0
+            case .uploadingImage, .errorUpload, .detailsSelection, .uploadSuccess:
+                return 1
+            }
+        }
+    }
+    
+    var stackViewLoadingAlpha: CGFloat {
         switch step {
         case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
             return 0
@@ -452,11 +500,15 @@ fileprivate extension PostListingState {
     }
     
     var postedInfoLabelAlpha: CGFloat {
-        switch step {
-        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .carDetailsSelection, .finished, .addingDetails:
+        if let category = category, category == .realEstate {
             return 0
-        case .detailsSelection, .uploadSuccess:
-            return 1
+        } else {
+            switch step {
+            case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .carDetailsSelection, .finished, .addingDetails:
+                return 0
+            case .detailsSelection, .uploadSuccess:
+                return 1
+            }
         }
     }
     
@@ -465,7 +517,8 @@ fileprivate extension PostListingState {
     }
     
     var postErrorLabelAlpha: CGFloat {
-        return isError ? 1 : 0
+        guard let category = category, category == .realEstate else { return isError ? 1 : 0 }
+        return 0
     }
     
     var postErrorLabelText: String? {
@@ -478,7 +531,8 @@ fileprivate extension PostListingState {
     }
     
     var retryButtonAlpha: CGFloat {
-        return isError ? 1 : 0
+        guard let category = category, category == .realEstate else { return isError ? 1 : 0 }
+        return 0
     }
     
     var priceViewAlpha: CGFloat {
@@ -551,6 +605,7 @@ extension PostListingViewController {
             strongSelf.closeButton.alpha = state.closeButtonAlpha
             strongSelf.otherStepsContainer.alpha = state.isOtherStepsContainerAlpha
             strongSelf.customLoadingView.alpha = state.customLoadingViewAlpha
+            strongSelf.uploadImageStackView.alpha = state.stackViewLoadingAlpha
             strongSelf.postedInfoLabel.alpha = state.postedInfoLabelAlpha
             strongSelf.postedInfoLabel.text = state.postedInfoLabelText(confirmationText: strongSelf.viewModel.confirmationOkText)
             strongSelf.postErrorLabel.alpha = state.postErrorLabelAlpha
@@ -574,16 +629,25 @@ extension PostListingViewController {
             customLoadingView.startAnimating()
             isLoading = true
         } else if isLoading {
-            customLoadingView.stopAnimating(!state.isError, completion: updateVisibility)
+            stopAnimationLoaders(text: state.postedInfoLabelText(confirmationText: viewModel.confirmationOkText), isError: state.isError, action: updateVisibility)
             isLoading = false
         } else {
             updateVisibility()
         }
         if state.priceViewShouldBecomeFirstResponder() {
             priceView.becomeFirstResponder()
-            customLoadingView.stopAnimating(!state.isError, completion: nil)
+            stopAnimationLoaders(text: state.postedInfoLabelText(confirmationText: viewModel.confirmationOkText),isError: state.isError, action: updateVisibility)
         } else if state.priceViewShouldResignFirstResponder() {
             priceView.resignFirstResponder()
+        }
+    }
+    
+    private func stopAnimationLoaders(text: String?, isError: Bool, action: @escaping ()->()) {
+        if let category = viewModel.postCategory, category == .realEstate {
+            loadingViewRealEstate?.stopAnimating(!isError, completion: action)
+            addMessageToStackView(textMessage:text , success: !isError)
+        } else {
+            customLoadingView.stopAnimating(!isError, completion: action)
         }
     }
     

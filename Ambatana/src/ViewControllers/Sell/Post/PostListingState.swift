@@ -120,14 +120,13 @@ final class PostListingState {
         case .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
             return self
         }
-        let nextStep: PostListingStep
-        if let category = category, category == .car {
-            nextStep = .carDetailsSelection
+        let newStep: PostListingStep
+        if let currentCategory = category, currentCategory == .realEstate {
+            newStep = .addingDetails
         } else {
-            nextStep = .detailsSelection
+            newStep = .detailsSelection
         }
-        
-        return PostListingState(step: nextStep,
+        return PostListingState(step: newStep,
                                 previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
