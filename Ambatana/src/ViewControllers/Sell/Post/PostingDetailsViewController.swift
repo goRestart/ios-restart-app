@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-class PostingDetailsViewController: KeyboardViewController {
+class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewControllerModelDelegate {
     
     fileprivate static let titleHeight: CGFloat = 60
     fileprivate static let skipButtonMinimumWidth: CGFloat = 100
@@ -71,11 +71,8 @@ class PostingDetailsViewController: KeyboardViewController {
         titleLabel.font = UIFont.headline
         titleLabel.textColor = UIColor.white
         
-        if viewModel.isSummaryStep {
-            buttonNext.setStyle(.primary(fontSize: .medium))
-        } else {
-            buttonNext.setStyle(.postingFlow)
-        }
+        buttonNext.setStyle(viewModel.doneButtonStyle)
+        
         buttonNext.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
     }
     
@@ -83,16 +80,21 @@ class PostingDetailsViewController: KeyboardViewController {
         guard let navigationController = navigationController as? SellNavigationController else { return }
         let currentStep = navigationController.currentStep
         setNavBarBackgroundStyle(.transparent(substyle: .dark))
+        
+        let backImage = #imageLiteral(resourceName: "navbar_back_white_shadow")
+        let closeImage = #imageLiteral(resourceName: "ic_post_close")
+        
         if currentStep == 1 || viewModel.isSummaryStep {
-            let closeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_post_close") , style: UIBarButtonItemStyle.plain,
+            let closeButton = UIBarButtonItem(image: closeImage , style: UIBarButtonItemStyle.plain,
                                               target: self, action: #selector(PostingDetailsViewController.closeButtonPressed))
+            closeButton.setBackgroundVerticalPositionAdjustment(5, for: .default)
             self.navigationItem.leftBarButtonItem = closeButton
         } else {
-            let closeButton = UIBarButtonItem(image: #imageLiteral(resourceName: "navbar_back_white_shadow") , style: UIBarButtonItemStyle.plain,
+            let backButton = UIBarButtonItem(image: backImage , style: UIBarButtonItemStyle.plain,
                                               target: self, action: #selector(PostingDetailsViewController.popBackViewController))
-            self.navigationItem.leftBarButtonItem = closeButton
+            backButton.setBackgroundVerticalPositionAdjustment(5, for: .default)
+            self.navigationItem.leftBarButtonItem = backButton
         }
-        
     }
     
     private func setupConstraints() {
@@ -109,14 +111,18 @@ class PostingDetailsViewController: KeyboardViewController {
         contentView.layout(with: view).fillHorizontal(by: Metrics.veryShortMargin)
         
         
-        infoView = viewModel.makeContentView
+        infoView = viewModel.makeContentView(viewControllerDelegate: self)
         infoView?.setupContainerView(view: contentView)
         
         view.addSubview(buttonNext)
         buttonNext.layout(with: contentView).below(by: Metrics.bigMargin)
         buttonNext.layout().height(PostingDetailsViewController.skipButtonHeight)
         buttonNext.layout().width(PostingDetailsViewController.skipButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
-        buttonNext.layout(with: keyboardView).bottom(to: .top, by: -Metrics.bigMargin)
+        if viewModel.shouldFollowKeyboard {
+            buttonNext.layout(with: keyboardView).bottom(to: .top, by: -Metrics.bigMargin)
+        } else {
+            buttonNext.layout(with: view).bottom(by: -Metrics.bigMargin)
+        }
         if viewModel.isSummaryStep {
             buttonNext.layout(with: keyboardView).left(by: Metrics.bigMargin)
         }
@@ -134,3 +140,4 @@ class PostingDetailsViewController: KeyboardViewController {
         viewModel.nextbuttonPressed()
     }
 }
+

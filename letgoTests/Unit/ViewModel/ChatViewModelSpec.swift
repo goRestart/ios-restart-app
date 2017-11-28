@@ -49,6 +49,8 @@ class ChatViewModelSpec: BaseViewModelSpec {
         var chatInterlocutor: MockChatInterlocutor!
         var user: MockUser!
         var chatConversation: MockChatConversation!
+        var relatedCounter: Int!
+        var listingsRelated: [Listing] = []
         
         // Vars rx observers
         var scheduler: TestScheduler!
@@ -89,14 +91,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 chatRepository.confirmReadCommandResult = commandResult
                 chatRepository.confirmReceptionCommandResult = commandResult
 
-                let productA = Listing.product(MockProduct.makeMock())
-                let productB = Listing.product(MockProduct.makeMock())
-                let productC = Listing.product(MockProduct.makeMock())
-                let productD = Listing.product(MockProduct.makeMock())
-                var listingsRelated = [productA]
-                listingsRelated.append(productB)
-                listingsRelated.append(productC)
-                listingsRelated.append(productD)
                 listingRepository.indexResult = ListingsResult(value: listingsRelated)
                 listingRepository.productResult = ProductResult(value: product)
 
@@ -181,24 +175,53 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             expect(relatedListingsStateObserver.lastValue).toEventually(equal(ChatRelatedItemsState.hidden))
                         }
                     }
-                    context("being a buyer and listing approved") {
-                        beforeEach {
-                            productResult = self.makeMockProduct(with: .approved)
-                            chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false, listingStatus: .approved)
-                            buildChatViewModel(myUser: mockMyUser,
-                                               chatMessages: chatMessages,
-                                               product: productResult,
-                                               chatConversation: chatConversation,
-                                               user: user)
-                            sut.active = true
-                            expect(relatedListingsStateObserver.eventValues.count).toEventually(equal(1))
+                    context("being a buyer and listing sold") {
+                        context("less than four related products") {
+                            var listingId: String!
+                            beforeEach {
+                                productResult = self.makeMockProduct(with: .sold)
+                                chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false, listingStatus: .sold)
+                                relatedCounter = Int.random(1, ChatViewModel.maxRelatedListingsForExpressChat)
+                                listingsRelated = Listing.makeMocks(count: relatedCounter)
+                                buildChatViewModel(myUser: mockMyUser,
+                                                   chatMessages: chatMessages,
+                                                   product: productResult,
+                                                   chatConversation: chatConversation,
+                                                   user: user)
+                                sut.active = true
+                                expect(relatedListingsStateObserver.eventValues.count).toEventually(equal(1))
+                            }
+                            it ("has related products") {
+                                expect(sut.relatedListings.count).toEventually(equal(relatedCounter))
+                            }
+                            it("related products state is visible") {
+                                listingId = chatConversation.listing?.objectId
+                                expect(relatedListingsStateObserver.eventValues).toEventually(equal([ChatRelatedItemsState.visible(listingId: listingId)]))
+                            }
                         }
-                        it ("has related products") {
-                            expect(sut.relatedListings.count).toEventually(equal(4))
+                        context("more than four related products") {
+                            var listingId: String!
+                            beforeEach {
+                                productResult = self.makeMockProduct(with: .sold)
+                                chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false, listingStatus: .sold)
+                                listingsRelated = Listing.makeMocks(count: Int.random(ChatViewModel.maxRelatedListingsForExpressChat, 20))
+                                buildChatViewModel(myUser: mockMyUser,
+                                                   chatMessages: chatMessages,
+                                                   product: productResult,
+                                                   chatConversation: chatConversation,
+                                                   user: user)
+                                sut.active = true
+                                expect(relatedListingsStateObserver.eventValues.count).toEventually(equal(1))
+                            }
+                            it ("has related products") {
+                                expect(sut.relatedListings.count).toEventually(equal(ChatViewModel.maxRelatedListingsForExpressChat))
+                            }
+                            it("related products state is visible") {
+                                listingId = chatConversation.listing?.objectId
+                                expect(relatedListingsStateObserver.eventValues).toEventually(equal([ChatRelatedItemsState.visible(listingId: listingId)]))
+                            }
                         }
-                        it("related products state is visible") {
-                            expect(relatedListingsStateObserver.eventValues).toEventually(equal([.loading]))
-                        }
+                        
                     }
                     context("being a buyer and listing sold") {
                         var listingId: String!
@@ -214,7 +237,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                             expect(relatedListingsStateObserver.eventValues.count).toEventually(equal(1))
                         }
                         it ("has related products") {
-                            expect(sut.relatedListings.count).toEventually(equal(4))
+                            expect(sut.relatedListings.count).toEventually(equal(ChatViewModel.maxRelatedListingsForExpressChat))
                         }
                         it("related products state is visible") {
                             listingId = chatConversation.listing?.objectId

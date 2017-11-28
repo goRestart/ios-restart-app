@@ -748,7 +748,7 @@
 "real_estate_summary_location_empty" = "위치: 지정되지 않음";
 "real_estate_summary_offer_type_empty" = "판매 종류 추가";
 "real_estate_summary_price_empty" = "가격 추가";
-"real_estate_summary_price_title" = "Price: %@";
+"real_estate_summary_price_title" = "가격: %@";
 "real_estate_summary_title" = "요약";
 "real_estate_summary_type_property_empty" = "매물 종류 추가하기";
 "real_estate_title_generator_bathrooms_0" = "없음";

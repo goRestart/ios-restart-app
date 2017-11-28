@@ -147,76 +147,69 @@ extension LGRealEstate : Decodable {
      Expects a json in the form:
      
      {
-     "id": "0af7ebed-f285-4e84-8630-d1555ddbf102",
-     "name": "",
-     "category_id": 1,
-     "language_code": "US",
-     "description": "Selling a brand new, never opened FitBit, I'm asking for $75 negotiable.",
-     "price": 75,
-     "price_flag": 1,   // Can be 0 (normal), 1 (free), 2 (Negotiable), 3 (Firm price)
-     "currency": "USD",
-     "status": 1,
+     "id": "string",
+     "name": "string",
+     "categoryId": 10,
+     "languageCode": "string",
+     "description": "string",
+     "price": 1.75,
+     "currency": "USD|EUR",
+     "priceFlag": "0(normal)|1(free)|2(negotiable)|3(firm)",
+     "status": 0,
+     "realEstateAttributes": {
+     "typeOfProperty": "apartment|house|room|commercial|others",
+     "typeOfListing": "rent|sell",
+     "numberOfBedrooms": 1,
+     "numberOfBathrooms": 1.5
+     },
      "geo": {
-     "lat": 40.733637875435,
-     "lng": -73.982275536568,
-     "country_code": "US",
-     "city": "New York",
-     "zip_code": "10003",
-     "distance": 11.90776294472
+     "lat": 41.54061842,
+     "lng": 2.43402958,
+     "countryCode": "string",
+     "city": "string",
+     "zipCode": "string"
      },
      "owner": {
-     "id": "56da24a0-88d4-4956-a568-74739787051f",
-     "name": "GeralD1507",
-     "avatar_url": null,
-     "zip_code": "10003",
-     "country_code": "US",
-     "is_richy": false,
-     "city": "New York",
-     "banned": null
+     "id": "string"
      },
-     "images": [{
-     "url": "http:\/\/cdn.letgo.com\/images\/59\/1d\/f8\/22\/591df822060703afad9834d095ed4c2f.jpg",
-     "id": "8ecdfe97-a7ed-4068-b4b8-c68a5ae63540"
-     }],
-     "thumb": {
-     "url": "http:\/\/cdn.letgo.com\/images\/59\/1d\/f8\/22\/591df822060703afad9834d095ed4c2f_thumb.jpg",
-     "width": 576,
-     "height": 1024
-     },
-     "created_at": "2016-04-11T12:49:52+00:00",
-     "updated_at": "2016-04-11T13:13:23+00:00",
-     "image_information": "black fitbit wireless activity wristband",
-     "featured": false
-     "realEstateAttributes": {
-     "typeOfProperty": "room",
-     "typeOfListing": "rent",
-     "numberOfBedrooms": 1,
-     "numberOfBathrooms": 2
+     "images": [
+     {
+     "id": "string",
+     "url": "string"
      }
+     ],
+     "thumb": {
+     "url": "string",
+     "width": 200,
+     "height": 200
+     },
+     "createdAt": "string",
+     "updatedAt": "string",
+     "featured": true
      }
      */
     
     static func decode(_ j: JSON) -> Decoded<LGRealEstate> {
-        guard let category_id: Int = j.decode("category_id"),
-            let category = ListingCategory(rawValue: category_id), category.isRealEstate else {
+        guard let categoryId: Int = j.decode("categoryId"),
+            let category = ListingCategory(rawValue: categoryId), category.isRealEstate else {
                 logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGRealEstate parse error: category_id is not valid")
                 return Decoded<LGRealEstate>.failure(DecodeError.custom("category_id: is not valid"))
         }
         let geo: JSON? = j.decode("geo")
         let result01 = curry(LGRealEstate.make)
         let result02 = result01 <^> j <|? "id"                                          // objectId : String?
-        let result03 = result02 <*> j <|? "updated_at"                                  // updatedAt : Date?
-        let result04 = result03 <*> j <|? "created_at"                                  // createdAt : Date?
+        let result03 = result02 <*> j <|? "updatedAt"                                  // updatedAt : Date?
+        let result04 = result03 <*> j <|? "createdAt"                                  // createdAt : Date?
         let result05 = result04 <*> j <|? "name"                                        // name : String?
         let result06 = result05 <*> j <|? "image_information"                           // nameAuto : String?
         let result07 = result06 <*> j <|? "description"                                 // descr : String?
         let result08 = result07 <*> j <|? "price"                                       // price : Float?
-        let result09 = result08 <*> j <|? "price_flag"
+        let result09 = result08 <*> j <|? "priceFlag"
         let result10 = result09 <*> j <| "currency"                                    // currency : String?
         let result11 = result10 <*> LGArgo.jsonToCoordinates(geo, latKey: "lat", lonKey: "lng") // location : LGLocationCoordinates2D?
-        let result12 = result11 <*> j <| "geo"                                          // postalAddress : PostalAddress
-        let result13 = result12 <*> j <|? "language_code"                               // languageCode : String?
-        let result14 = result13 <*> j <| "category_id"                                  // category_id : Int
+        let result12 = result11 <*> LGArgo.geoRealEstateToPostalAddress(geo)      // postalAddress : PostalAddress
+        let result13 = result12 <*> j <|? "languageCode"                               // languageCode : String?
+        let result14 = result13 <*> j <| "categoryId"                                  // category_id : Int
         let result15 = result14 <*> j <| "status"                                       // status : Int
         let result16 = result15 <*> j <|? ["thumb", "url"]                              // thumbnail : String?
         let result17 = result16 <*> j <|? "thumb"                                       // thumbnailSize : LGSize?

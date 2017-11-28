@@ -17,9 +17,11 @@ import Result
 
 class EditLocationViewController: BaseViewController, EditLocationViewModelDelegate {
 
-    static let mapRegionMarginMutiplier = 0.5   // var to set the right region depending on the distance
-    static let mapRegionDiameterMutiplier = 2.0 // var to set the right region depending on the distance
-
+    struct EditLocationMetrics {
+        static let mapRegionMarginMutiplier = 0.5
+        static let mapRegionDiameterMutiplier = 2.0
+    }
+    
     // UI
     @IBOutlet weak var mapView: MKMapView!
     fileprivate var circleOverlay: MKOverlay?
@@ -300,8 +302,8 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
             .bindNext { [weak self] (approximate, location, currentRadius) in
                 var radius = approximate ? Constants.nonAccurateRegionRadius : Constants.accurateRegionRadius
                 if let _ = currentRadius, let distanceMeters = self?.viewModel.distanceMeters {
-                    radius = distanceMeters * (EditLocationViewController.mapRegionMarginMutiplier +
-                                              EditLocationViewController.mapRegionDiameterMutiplier)
+                    radius = distanceMeters * (EditLocationMetrics.mapRegionMarginMutiplier +
+                                              EditLocationMetrics.mapRegionDiameterMutiplier)
                 }
                 self?.centerMapInLocation(location, radius: radius)
             }
@@ -358,8 +360,8 @@ extension EditLocationViewController: FilterDistanceSliderDelegate {
         viewModel.currentDistanceRadius.value = distance
         updateCircleOverlay()
         centerMapInLocation(mapView.centerCoordinate, radius: viewModel.distanceMeters *
-                                                                (EditLocationViewController.mapRegionMarginMutiplier +
-                                                                EditLocationViewController.mapRegionDiameterMutiplier))
+                                                                (EditLocationMetrics.mapRegionMarginMutiplier +
+                                                                EditLocationMetrics.mapRegionDiameterMutiplier))
     }
 }
 
@@ -425,7 +427,7 @@ extension EditLocationViewController: UITableViewDataSource, UITableViewDelegate
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.searchField.text = viewModel.placeResumedDataAtPosition(indexPath.row)
+        searchField.text = viewModel.placeResumedDataAtPosition(indexPath.row)
         suggestionsTableView.isHidden = true
         goToLocation(indexPath.row)
     }
