@@ -20,7 +20,7 @@ class PostingLoadingViewModel : BaseViewModel {
     weak var navigator: PostListingNavigator?
     private let disposeBag = DisposeBag()
     
-    var fisnishRequest = Variable<Bool?>(false)
+    var finishRequest = Variable<Bool?>(false)
     
     // MARK: - LifeCycle
     
@@ -41,7 +41,7 @@ class PostingLoadingViewModel : BaseViewModel {
     func createListing() {
         listingRepository.create(listingParams: listingParams) { [weak self] (listingResult) in
             self?.listingResult = listingResult
-            self?.fisnishRequest.value = true
+            self?.finishRequest.value = true
         }
     }
     
