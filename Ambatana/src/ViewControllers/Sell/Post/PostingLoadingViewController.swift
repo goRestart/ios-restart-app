@@ -21,7 +21,7 @@ class PostingLoadingViewController: BaseViewController {
     private var loadingView = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: LoadingMetrics.widthLoadingView, height: LoadingMetrics.widthLoadingView))
     private let viewModel: PostingLoadingViewModel
     
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     
     // MARK: - LifeCycle
