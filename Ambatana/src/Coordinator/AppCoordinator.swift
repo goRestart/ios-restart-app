@@ -474,15 +474,6 @@ fileprivate extension AppCoordinator {
     }
 
     func openAfterSellDialogIfNeeded(forListing listing: Listing) {
-        // TODO: add the ABTEST and the 24h check
-        // check 24h timer
-        // yes ->
-        //        check if listing is bumpeable
-        // yes ->
-        //        show alert
-        // no  -> openAfterSellDialogIfNeeded()
-
-
         if let listingId = listing.objectId, shouldRetrieveBumpeableInfo() {
             bumpUpSource = .promoted
             retrieveBumpeableInfoForListing(listingId: listingId)
@@ -492,9 +483,17 @@ fileprivate extension AppCoordinator {
     }
 
     func shouldRetrieveBumpeableInfo() -> Bool {
-        return featureFlags.promoteBumpUpAfterSell.isActive
-        // TODO: ⚠️ Use the right code here!
-//        return featureFlags.promoteBumpUpAfterSell && keyValueStorage.24hoursSincelastPromo
+        print("🤖🤖🤖🤖🤖")
+        print(featureFlags.promoteBumpUpAfterSell.isActive)
+        print(keyValueStorage[.lastShownPromoteBumpDate])
+        guard featureFlags.promoteBumpUpAfterSell.isActive else { return false }
+
+        if let lastShownDate = keyValueStorage[.lastShownPromoteBumpDate],
+            abs(lastShownDate.timeIntervalSinceNow) < Constants.promoteAfterPostWaitTime {
+            return false
+        } else {
+            return true
+        }
     }
 
     func showAfterSellPushAndRatingDialogs() {
@@ -1017,6 +1016,7 @@ extension AppCoordinator: PromoteBumpCoordinatorDelegate {
             self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId),
                                                       source: .openApp,
                                                       actionOnFirstAppear: triggerBumpOnAppear)
+            self?.keyValueStorage[.lastShownPromoteBumpDate] = Date()
             
         }
     }
