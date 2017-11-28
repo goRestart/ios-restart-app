@@ -486,15 +486,12 @@ fileprivate extension PostListingState {
     }
     
     var customLoadingViewAlpha: CGFloat {
-        if let category = category, category == .realEstate {
+        guard !isRealEstate else { return 0 }
+        switch step {
+        case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
             return 0
-        } else {
-            switch step {
-            case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
-                return 0
-            case .uploadingImage, .errorUpload, .detailsSelection, .uploadSuccess:
-                return 1
-            }
+        case .uploadingImage, .errorUpload, .detailsSelection, .uploadSuccess:
+            return 1
         }
     }
     
@@ -508,15 +505,12 @@ fileprivate extension PostListingState {
     }
     
     var postedInfoLabelAlpha: CGFloat {
-        if let category = category, category == .realEstate {
+        guard !isRealEstate else { return 0 }
+        switch step {
+        case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .carDetailsSelection, .finished, .addingDetails:
             return 0
-        } else {
-            switch step {
-            case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .carDetailsSelection, .finished, .addingDetails:
-                return 0
-            case .detailsSelection, .uploadSuccess:
-                return 1
-            }
+        case .detailsSelection, .uploadSuccess:
+            return 1
         }
     }
     
@@ -543,7 +537,7 @@ fileprivate extension PostListingState {
     }
     
     var retryButtonAlpha: CGFloat {
-        guard let category = category, category == .realEstate else { return isError ? 1 : 0 }
+        guard !isRealEstate else { return isError ? 1 : 0 }
         return 0
     }
     
@@ -656,7 +650,7 @@ extension PostListingViewController {
     }
     
     private func stopAnimationLoaders(text: String?, isError: Bool, action: @escaping ()->()) {
-        if let category = viewModel.postCategory, category == .realEstate {
+        if viewModel.isRealEstate {
             loadingViewRealEstate?.stopAnimating(!isError, completion: action)
             addMessageToStackView(textMessage:text , success: !isError)
         } else {

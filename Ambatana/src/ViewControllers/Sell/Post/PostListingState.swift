@@ -41,6 +41,11 @@ final class PostListingState {
     let verticalAttributes: VerticalAttributes?
     let place: Place?
     
+    var isRealEstate: Bool {
+        guard let category = category, category == .realEstate else { return false }
+        return true
+    }
+    
     
     // MARK: - Lifecycle
     
