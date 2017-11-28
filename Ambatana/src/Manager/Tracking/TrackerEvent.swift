@@ -511,10 +511,23 @@ struct TrackerEvent {
             params[.postingType] = EventParameterPostingType.realEstate.rawValue
         }
 
+        
         params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
         params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
         params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
-
+        
+        if let realEstateAttributes = listing.realEstate?.realEstateAttributes {
+            params[.propertyType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.propertyType?.rawValue).name
+            params[.offerType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.offerType?.rawValue).name
+            params[.bathrooms] = EventParameterBathroomsRealEstate.bathrooms(value: realEstateAttributes.bathrooms).name
+            params[.bedrooms] = EventParameterBedroomsRealEstate.bedrooms(value: realEstateAttributes.bedrooms).name
+        } else {
+            params[.propertyType] = EventParameterStringRealEstate.notApply.name
+            params[.offerType] = EventParameterStringRealEstate.notApply.name
+            params[.bathrooms] = EventParameterBathroomsRealEstate.notApply.name
+            params[.bedrooms] = EventParameterBedroomsRealEstate.notApply.name
+        }
+        
         return TrackerEvent(name: .listingSellComplete, params: params)
     }
     

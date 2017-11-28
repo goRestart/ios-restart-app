@@ -325,6 +325,12 @@ enum EventParameterName: String {
     case isMine               = "is-mine"
     case numberOfItems        = "number-of-items"
     case transactionStatus    = "transaction-status"
+    case propertyType         = "property-type"
+    case offerType            = "deal-type"
+    case bedrooms             = "bedroom-number"
+    case bathrooms            = "bathroom-number"
+    case location             = "location"
+    case sqrMeters            = "sqr-meters"
 }
 
 enum EventParameterBoolean: String {
@@ -480,6 +486,61 @@ enum EventParameterYear {
         }
     }
 }
+
+enum EventParameterStringRealEstate {
+    case realEstateParam(name: String?)
+    case none
+    case notApply
+    
+    var name: String {
+        switch self {
+        case .realEstateParam(let name):
+            guard let name = name, !name.isEmpty else { return "skip" }
+            return name
+        case .none:
+            return "skip"
+        case .notApply:
+            return "N/A"
+        }
+    }
+}
+
+enum EventParameterBathroomsRealEstate {
+    case bathrooms(value: Float?)
+    case none
+    case notApply
+    
+    var name: String {
+        switch self {
+        case .bathrooms(let value):
+            guard let value = value else { return "skip" }
+            return String(value)
+        case .none:
+            return "skip"
+        case .notApply:
+            return "N/A"
+        }
+    }
+}
+
+enum EventParameterBedroomsRealEstate {
+    case bedrooms(value: Int?)
+    case none
+    case notApply
+    
+    var name: String {
+        switch self {
+        case .bedrooms(let value):
+            guard let value = value else { return "skip" }
+            return String(value)
+        case .none:
+            return "skip"
+        case .notApply:
+            return "N/A"
+        }
+    }
+}
+
 
 enum EventParameterMessageType: String {
     case text       = "text"
