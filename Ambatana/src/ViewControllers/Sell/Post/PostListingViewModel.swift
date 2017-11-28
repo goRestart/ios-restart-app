@@ -348,7 +348,8 @@ fileprivate extension PostListingViewModel {
         if sessionManager.loggedIn {
             guard let images = state.value.lastImagesUploadResult?.value,
                 let listingCreationParams = makeListingParams(images: images) else { return }
-            navigator?.postInForeground(listingParams: listingCreationParams, trackingInfo: trackingInfo)
+            navigator?.closePostProductAndPostInBackground(params: listingCreationParams,
+                                                           trackingInfo: trackingInfo)
         } else if let images = state.value.pendingToUploadImages {
             let loggedInAction = { [weak self] in
                 guard let listingParams = self?.makeListingParams(images: []) else { return }

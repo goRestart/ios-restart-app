@@ -202,6 +202,7 @@
 "common_error_generic_body" = "Hiba történt.";
 "common_error_list_retry_button" = "Újra";
 "common_error_network_body" = "Ellenőrizd a hálózati beállításokat, majd próbálkozz újra";
+"common_error_posting_loaded_image" = "Hoppá! Portékád meghirdetése sikertelen. Ellenőrizd a hálózati beállításokat.";
 "common_error_retry_button" = "Próbálkozz újra";
 "common_error_title" = "HOPPÁ!";
 "common_expand" = "Többet";
@@ -733,6 +734,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Hálószobák száma";
+"real_estate_current_step_of_total" = "%d of %d";
 "real_estate_location_notification_message" = "Sosem mutatjuk meg más felhasználóknak a pontos tartózkodási helyedet";
 "real_estate_location_title" = "Hely";
 "real_estate_offer_type_rent" = "Kiadó";
@@ -748,7 +750,7 @@
 "real_estate_summary_location_empty" = "Hely: nincs megadva";
 "real_estate_summary_offer_type_empty" = "Hirdetéstípus hozzáadása";
 "real_estate_summary_price_empty" = "Ár hozzáadása";
-"real_estate_summary_price_title" = "Price: %@";
+"real_estate_summary_price_title" = "Ára: %@";
 "real_estate_summary_title" = "Összegzés";
 "real_estate_summary_type_property_empty" = "Ingatlantípus hozzáadása";
 "real_estate_title_generator_bathrooms_0" = "Nincs";

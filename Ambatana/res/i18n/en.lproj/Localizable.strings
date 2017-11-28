@@ -616,6 +616,9 @@
 // Common error title
 "common_error_title" = "OOPS!";
 
+// Error when loading image
+"common_error_posting_loaded_image" = "Oops! Your listing hasn’t been posted. Please check your network settings.";
+
 // Common expand
 "common_expand" = "Show More";
 

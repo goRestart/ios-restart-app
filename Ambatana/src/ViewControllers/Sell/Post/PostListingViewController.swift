@@ -10,6 +10,11 @@ import UIKit
 import RxSwift
 
 class PostListingViewController: BaseViewController, PostListingViewModelDelegate {
+    
+    static let retryButtonHeight: CGFloat = 50
+    static let loadingViewHeight: CGFloat = 100
+    static let loadingViewWidth: CGFloat = 100
+    
     @IBOutlet weak var cameraGalleryContainer: UIView!
     
     @IBOutlet weak var otherStepsContainer: UIView!
@@ -140,6 +145,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         navigationController?.setNavigationBarHidden(true, animated: false)
         if viewModel.state.value.isLoading {
             customLoadingView.startAnimating()
+            loadingViewRealEstate?.startAnimating()
         }
     }
 
@@ -209,14 +215,15 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     
     private func setupLoadingStackView() {
         guard let category = viewModel.postCategory, category == .realEstate else { return }
-        loadingViewRealEstate = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        loadingViewRealEstate?.layout().height(100).width(100)
-        loadingViewRealEstate?.startAnimating()
+        loadingViewRealEstate = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: PostListingViewController.loadingViewHeight, height: PostListingViewController.loadingViewHeight))
+        loadingViewRealEstate?.layout().height(100).width(PostListingViewController.loadingViewWidth)
         if let loadingView = loadingViewRealEstate {
             uploadImageStackView.addArrangedSubview(loadingView)
         }
         messageLabelUploadingImage.textColor = UIColor.white
         messageLabelUploadingImage.font = UIFont.body
+        messageLabelUploadingImage.numberOfLines = 0
+        retryButtonUploadingImageRealEstate.layout().height(PostListingViewController.retryButtonHeight)
         retryButtonUploadingImageRealEstate.setStyle(.primary(fontSize: .medium))
         retryButtonUploadingImageRealEstate.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
         retryButtonUploadingImageRealEstate.addTarget(self, action: #selector(PostListingViewController.onRetryButton), for: .touchUpInside)
@@ -232,6 +239,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         messageLabelUploadingImage.isHidden = false
         if !success {
             retryButtonUploadingImageRealEstate.isHidden = false
+            retryButtonUploadingImageRealEstate.setStyle(.primary(fontSize: .medium))
         }
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.uploadImageStackView.layoutIfNeeded()
@@ -516,6 +524,10 @@ fileprivate extension PostListingState {
         return isError ? LGLocalizedString.commonErrorTitle.localizedCapitalized : confirmationText
     }
     
+    func messageForLoadedImage(confirmationText: String?) -> String? {
+        return isError ? LGLocalizedString.commonErrorPostingLoadedImage : confirmationText
+    }
+    
     var postErrorLabelAlpha: CGFloat {
         guard let category = category, category == .realEstate else { return isError ? 1 : 0 }
         return 0
@@ -627,16 +639,17 @@ extension PostListingViewController {
                                 updateVisibility()
                            })
             customLoadingView.startAnimating()
+            loadingViewRealEstate?.startAnimating()
             isLoading = true
         } else if isLoading {
-            stopAnimationLoaders(text: state.postedInfoLabelText(confirmationText: viewModel.confirmationOkText), isError: state.isError, action: updateVisibility)
+            stopAnimationLoaders(text: state.messageForLoadedImage(confirmationText: viewModel.confirmationOkText), isError: state.isError, action: updateVisibility)
             isLoading = false
         } else {
             updateVisibility()
         }
         if state.priceViewShouldBecomeFirstResponder() {
             priceView.becomeFirstResponder()
-            stopAnimationLoaders(text: state.postedInfoLabelText(confirmationText: viewModel.confirmationOkText),isError: state.isError, action: updateVisibility)
+            stopAnimationLoaders(text: state.messageForLoadedImage(confirmationText: viewModel.confirmationOkText),isError: state.isError, action: updateVisibility)
         } else if state.priceViewShouldResignFirstResponder() {
             priceView.resignFirstResponder()
         }

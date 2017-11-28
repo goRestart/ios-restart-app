@@ -202,6 +202,7 @@
 "common_error_generic_body" = "오류가 발생했습니다";
 "common_error_list_retry_button" = "재시도하기";
 "common_error_network_body" = "네트워크 설정을 확인한 후 다시 시도하세요";
+"common_error_posting_loaded_image" = "잠깐만요! 회원님의 상품이 게시되지 않았습니다. 네트워크 설정을 확인해주십시오.";
 "common_error_retry_button" = "다시 시도하세요";
 "common_error_title" = "웁스";
 "common_expand" = "더보기";
@@ -733,6 +734,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4개 이상";
 "real_estate_bedrooms_title" = "방 숫자";
+"real_estate_current_step_of_total" = "%d of %d";
 "real_estate_location_notification_message" = "저희는 다른 사용자들에게 회원님의 정확한 위치를 공개하지 않습니다";
 "real_estate_location_title" = "위치";
 "real_estate_offer_type_rent" = "전세";
