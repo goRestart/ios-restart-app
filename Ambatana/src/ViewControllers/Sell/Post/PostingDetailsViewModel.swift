@@ -251,7 +251,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .summary, .location, .make, .model, .year:
             return
         }
-
+        
         var realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes()
         realEstateInfo = realEstateInfo.updating(propertyType: realEstatePropertyType,
                                                  offerType: realEstateOfferType,
@@ -317,6 +317,10 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     // MARK: - PostingAddDetailSummaryTableViewDelegate
     
     func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView, didSelectIndex: PostingSummaryOption) {
+        
+        let event = TrackerEvent.openOptionOnSummary(fieldOpen: EventParameterOptionSummary(optionSelected: didSelectIndex),
+                                                     postingType: EventParameterPostingType(category: postListingState.category ?? .unassigned))
+        tracker.trackEvent(event)
         navigator?.nextPostingDetailStep(step: didSelectIndex.postingDetailStep, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, previousStepIsSummary: true)
     }
     

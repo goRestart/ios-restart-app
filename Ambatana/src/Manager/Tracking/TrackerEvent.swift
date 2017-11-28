@@ -1185,6 +1185,13 @@ struct TrackerEvent {
         params[.listingId] = listingId ?? ""
         return TrackerEvent(name: .featuredMoreInfo, params: params)
     }
+    
+    static func openOptionOnSummary(fieldOpen: EventParameterOptionSummary, postingType: EventParameterPostingType) -> TrackerEvent {
+        var params = EventParameters()
+        params[.fieldOpen] = fieldOpen.rawValue 
+        params[.postingType] = postingType.rawValue
+        return TrackerEvent(name: .openOptionOnSummary, params: params)
+    }
 
 
     // MARK: - Private methods

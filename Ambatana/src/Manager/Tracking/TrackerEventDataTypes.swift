@@ -172,6 +172,7 @@ enum EventName: String {
 
     case adTapped                           = "ad-tapped"
     case featuredMoreInfo                   = "featured-more-info"
+    case openOptionOnSummary                = "posting-summary-open"
 
 
     // Constants
@@ -331,6 +332,7 @@ enum EventParameterName: String {
     case bathrooms            = "bathroom-number"
     case location             = "location"
     case sqrMeters            = "sqr-meters"
+    case fieldOpen            = "open-field"
 }
 
 enum EventParameterBoolean: String {
@@ -440,6 +442,17 @@ enum EventParameterPostingType: String {
     case stuff = "stuff"
     case realEstate = "real-estate"
     case none = "N/A"
+    
+    init(category: PostCategory) {
+        switch category {
+        case .unassigned, .motorsAndAccessories:
+            self = .stuff
+        case .car:
+            self = .car
+        case .realEstate:
+            self = .realEstate
+        }
+    }
 }
 
 enum EventParameterMake {
@@ -1056,6 +1069,41 @@ enum EventParameterAdSenseRequestErrorReason: String {
             self = .networkError
         default:
             self = .internalError
+        }
+    }
+}
+
+enum EventParameterOptionSummary: String {
+    case price = "price"
+    case propertyType = "property-type"
+    case offerType = "deal-type"
+    case bedrooms = "bedroom-number"
+    case bathrooms = "bathroom-number"
+    case location = "location"
+    case make = "make"
+    case model = "model"
+    case year = "year"
+    
+    init(optionSelected: PostingSummaryOption) {
+        switch optionSelected {
+        case .price:
+            self = .price
+        case .propertyType:
+            self = .propertyType
+        case .offerType:
+            self = .offerType
+        case .bedrooms:
+            self = .bedrooms
+        case .bathrooms:
+            self = .bathrooms
+        case .location:
+            self = .location
+        case .make:
+            self = .make
+        case .model:
+            self = .model
+        case .year:
+            self = .year
         }
     }
 }

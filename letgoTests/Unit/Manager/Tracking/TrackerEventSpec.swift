@@ -4005,6 +4005,23 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.name.rawValue).to(equal("product-sell-your-stuff-button"))
                 }
             }
+            
+            describe("open option on posting summary") {
+                beforeEach {
+                    sut = TrackerEvent.openOptionOnSummary(fieldOpen: .location, postingType: .realEstate)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("posting-summary-open"))
+                }
+                it("contains type parameter") {
+                    let param = sut.params!.stringKeyParams["open-field"] as? String
+                    expect(param) == "location"
+                }
+                it("contains type parameter") {
+                    let param = sut.params!.stringKeyParams["posting-type"] as? String
+                    expect(param) == "real-estate"
+                }
+            }
         }
     }
 }
