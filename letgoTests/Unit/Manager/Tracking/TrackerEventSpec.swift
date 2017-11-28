@@ -2184,7 +2184,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            fdescribe("listingSellComplete product") {
+            describe("listingSellComplete product") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "r4nd0m1D"
@@ -2275,7 +2275,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            fdescribe("listingSellComplete car") {
+            describe("listingSellComplete car") {
                 beforeEach {
                     var car = MockCar.makeMock()
                     car.objectId = "r4nd0m1D"
@@ -2379,7 +2379,7 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            fdescribe("listingSellComplete real estate") {
+            describe("listingSellComplete real estate") {
                 beforeEach {
                     var realEstate = MockRealEstate.makeMock()
                     realEstate.objectId = "r4nd0m1D"
