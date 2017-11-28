@@ -6,13 +6,6 @@
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
-//
-//  PostingDetailsViewModel.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 04/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
 
 import RxSwift
 import LGCoreKit

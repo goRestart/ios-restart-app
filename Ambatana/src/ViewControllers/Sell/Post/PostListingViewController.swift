@@ -11,9 +11,9 @@ import RxSwift
 
 class PostListingViewController: BaseViewController, PostListingViewModelDelegate {
     
-    static let retryButtonHeight: CGFloat = 50
-    static let loadingViewHeight: CGFloat = 100
-    static let loadingViewWidth: CGFloat = 100
+    private static let retryButtonHeight: CGFloat = 50
+    private static let loadingViewHeight: CGFloat = 100
+    private static let loadingViewWidth: CGFloat = 100
     
     @IBOutlet weak var cameraGalleryContainer: UIView!
     
@@ -751,8 +751,8 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         viewPager.dataSource = self
         viewPager.scrollDelegate = self
         viewPager.indicatorSelectedColor = UIColor.white
-        viewPager.tabsBackgroundColor = UIColor.clear
-        viewPager.tabsSeparatorColor = UIColor.clear
+        viewPager.tabsBackgroundColor = .clear
+        viewPager.tabsSeparatorColor = .clear
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         cameraGalleryContainer.insertSubview(viewPager, at: 0)
         

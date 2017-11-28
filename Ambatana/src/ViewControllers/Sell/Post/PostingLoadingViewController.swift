@@ -53,10 +53,8 @@ class PostingLoadingViewController: BaseViewController {
     
     private func setupUI() {
         view.clipsToBounds = true
-        view.backgroundColor = UIColor.clear
-        view.setNeedsLayout()
-        view.layoutIfNeeded()
-        loadingView.color = UIColor.white
+        view.backgroundColor = .clear
+        loadingView.color = .white
         loadingView.startAnimating()
     }
     

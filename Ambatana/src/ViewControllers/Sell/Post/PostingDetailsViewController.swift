@@ -65,8 +65,8 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         titleLabel.text = viewModel.title
         buttonNext.setTitle(viewModel.buttonTitle, for: .normal)
         
-        view.backgroundColor = UIColor.clear
-        contentView.backgroundColor = UIColor.clear
+        view.backgroundColor = .clear
+        contentView.backgroundColor = .clear
         
         titleLabel.font = UIFont.headline
         titleLabel.textColor = UIColor.white

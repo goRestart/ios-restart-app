@@ -145,7 +145,7 @@ final class TourNotificationsViewController: BaseViewController {
     }
     
     func setupUI() {
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = .clear
         iphoneBckgImage.image = viewModel.infoImage
         notifyButton.setStyle(.primary(fontSize: .medium))
 

@@ -34,7 +34,7 @@ class PostingAddDetailSummaryTableViewCell: UITableViewCell {
     
     private func setupUI() {
         textLabel?.font = UIFont.selectableItem
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
         textLabel?.textColor = UIColor.grayLight
         selectionStyle = .none
         accessoryType = .disclosureIndicator

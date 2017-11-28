@@ -182,7 +182,7 @@ class ChatViewController: TextViewController {
 
         
         if let patternBackground = UIColor.emptyViewBackgroundColor {
-            tableView.backgroundColor = UIColor.clear
+            tableView.backgroundColor = .clear
             view.backgroundColor = patternBackground
         }
         
@@ -314,7 +314,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         stickersWindow?.windowLevel = 100000001 // needs to be higher then the level of the keyboard (100000000)
         stickersWindow?.addSubview(stickersView)
         stickersWindow?.isHidden = true
-        stickersWindow?.backgroundColor = UIColor.clear
+        stickersWindow?.backgroundColor = .clear
         stickersView.isHidden = true
         showingStickers = false
 

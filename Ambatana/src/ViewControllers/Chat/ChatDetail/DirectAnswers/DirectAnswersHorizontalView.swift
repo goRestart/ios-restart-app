@@ -73,7 +73,7 @@ class DirectAnswersHorizontalView: UIView {
     }
 
     private func setupUI(sideMargin: CGFloat) {
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
         clipsToBounds = true
         let height = DirectAnswersHorizontalView.defaultHeight
         layout().height(height, constraintBlock: { [weak self] in self?.heightConstraint = $0 })
@@ -97,7 +97,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
         let filterNib = UINib(nibName: DirectAnswerCell.reusableID, bundle: nil)
         collectionView.register(filterNib, forCellWithReuseIdentifier: DirectAnswerCell.reusableID)
 
-        collectionView.backgroundColor = UIColor.clear
+        collectionView.backgroundColor = .clear
         collectionView.allowsSelection = true
         collectionView.allowsMultipleSelection = false
         collectionView.dataSource = self

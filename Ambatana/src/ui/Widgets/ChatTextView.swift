@@ -168,7 +168,7 @@ class ChatTextView: UIView {
 
     private func setupUI() {
         textView.tintColor = UIColor.primaryColor
-        textView.backgroundColor = UIColor.clear
+        textView.backgroundColor = .clear
         textView.returnKeyType = .send
         textView.delegate = self
         sendButton.setStyle(.primary(fontSize: .medium))
