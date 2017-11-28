@@ -17,15 +17,40 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     
     var buttonTitle: String {
         switch step {
-        case .bathrooms, .bedrooms, .offerType, .price, .propertyType:
+        case .bathrooms, .bedrooms, .offerType, .propertyType, .make, .model, .year:
             return  previousStepIsSummary ? LGLocalizedString.productPostDone : LGLocalizedString.postingButtonSkip
-        default:
+        case .price, .summary:
             return LGLocalizedString.productPostDone
+        case .location:
+            return LGLocalizedString.changeLocationApplyButton
+        }
+    }
+    
+    var shouldFollowKeyboard: Bool {
+        switch step {
+        case .bathrooms, .bedrooms, .offerType, .price, .propertyType, .make, .model, .year, .summary:
+            return  true
+        case .location:
+            return false
         }
     }
     
     var isSummaryStep: Bool {
-        return step == .summary
+        switch step {
+        case .summary:
+            return  true
+        default:
+            return false
+        }
+    }
+    
+    var doneButtonStyle: ButtonStyle {
+        switch step {
+        case .bathrooms, .bedrooms, .offerType, .propertyType, .make, .model, .year:
+            return .postingFlow
+        case .location, .summary, .price:
+            return .primary(fontSize: .medium)
+        }
     }
     
     private var currencySymbol: String? {
@@ -37,7 +62,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         return locationManager.currentLocation?.countryCode
     }
     
-    var makeContentView: PostingViewConfigurable? {
+    func makeContentView(viewControllerDelegate: LGSearchMapViewControllerModelDelegate) -> PostingViewConfigurable? {
         var values: [String]
         switch step {
         case .bathrooms:
@@ -49,7 +74,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .propertyType:
             values = RealEstatePropertyType.allValues.flatMap { $0.localizedString }
         case .price:
-           
+            
             let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol,
                                                       freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
             priceView.priceListing.asObservable().bindTo(priceListing).addDisposableTo(disposeBag)
@@ -58,7 +83,12 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             let summaryView = PostingAddDetailSummaryTableView(postCategory: postListingState.category)
             summaryView.delegate = self
             return summaryView
-        case .location, .year, .make, .model:
+        case .location:
+            let locationView = PostingAddDetailLocation(viewControllerDelegate: viewControllerDelegate,
+                                                        currentPlace: postListingState.place)
+            locationView.locationSelected.asObservable().bindTo(placeSelected).addDisposableTo(disposeBag)
+            return locationView
+        case .year, .make, .model:
             return nil
         }
         let view: PostingAddDetailTableView = PostingAddDetailTableView(values: values, delegate: self)
@@ -67,6 +97,10 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     
     var currentPrice: ListingPrice? {
         return postListingState.price
+    }
+    
+    var currentLocation: LGLocationCoordinates2D? {
+        return postListingState.place?.location
     }
     
     private let tracker: Tracker
@@ -81,6 +115,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     private let postingSource: PostingSource
     private let postListingBasicInfo: PostListingBasicDetailViewModel
     private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
+    private let placeSelected = Variable<Place?>(nil)
     private let previousStepIsSummary: Bool
     
     weak var navigator: PostListingNavigator?
@@ -134,11 +169,19 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     func closeButtonPressed() {
         postAndClose()
     }
-
+    
     func nextbuttonPressed() {
         guard let next = step.nextStep else {
             postAndClose()
             return
+        }
+        switch step {
+        case .price:
+            set(price: priceListing.value)
+        case .location:
+            update(place: placeSelected.value)
+        case .bathrooms, .bedrooms, .make, .model, .year, .offerType, .propertyType, .summary:
+            break
         }
         if step == .price {
             set(price: priceListing.value)
@@ -179,6 +222,11 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     
     private func set(price: ListingPrice) {
         postListingState = postListingState.updating(price: price)
+    }
+    
+    private func update(place: Place?) {
+        guard let place = place else { return }
+        postListingState = postListingState.updating(place: place)
     }
     
     // MARK: - PostingAddDetailTableViewDelegate 
@@ -293,7 +341,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
                 value = NumberOfBathrooms(rawValue:bathrooms)?.summaryLocalizedString
             }
         case .location:
-            value = myUserRepository.myUser?.location?.postalAddress?.cityStateString ?? locationManager.currentLocation?.postalAddress?.cityStateString
+            value = retrieveCurrentLocationSelected()
         case .make:
             value = postListingState.verticalAttributes?.carAttributes?.make
         case .model:
@@ -303,5 +351,10 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         }
         return value
     }
+    
+    private func retrieveCurrentLocationSelected() -> String? {
+        return postListingState.place?.postalAddress?.address ?? myUserRepository.myUser?.location?.postalAddress?.address ?? locationManager.currentLocation?.postalAddress?.address
+    }
+    
 }
 
