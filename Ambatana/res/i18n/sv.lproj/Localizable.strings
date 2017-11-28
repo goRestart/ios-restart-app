@@ -7,7 +7,7 @@
 "app_share_fbmessenger_button" = "Bjud in via Messenger";
 "app_share_message_text" = "Kolla in appen letgo och tjäna pengar på att sälja prylar du inte längre använder!";
 "app_share_subject_text" = "Kolla in letgo";
-"app_share_subtitle" = "Dela letgo med dina vänner och låt oss få communityn att växa!";
+"app_share_subtitle" = "Ju fler desto roligare! Dela letgo med dina vänner";
 "app_share_success" = "Appen har delats!";
 "app_share_title" = "BJUD IN DINA VÄNNER";
 "app_share_whatsapp_button" = "Bjud in via WhatsApp";
@@ -108,7 +108,7 @@
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "säkerhetstips";
 "chat_blocked_disclaimer_scammer_wo_name" = "Av säkerhetsskäl har det här kontot tagits bort av letgo och dessa meddelanden har raderats.";
 "chat_connect_account_disclaimer_button" = "Verifiera nu!";
-"chat_connect_accounts_title" = "BYGG FÖRTROENDE!";
+"chat_connect_accounts_title" = "SKAPA FÖRTROENDE!";
 "chat_deleted_disclaimer_w_name" = "Du kan inte fortsätta denna konversation, för %@s konto är inte längre aktivt.";
 "chat_deleted_disclaimer_wo_name" = "Du kan inte fortsätta den här konversationen för detta konto är inte längre aktivt.";
 "chat_disclaimer_letgo_team" = "LETGO-TEAMET";
@@ -121,7 +121,7 @@
 "chat_express_dont_miss_label" = "Missa inte dessa fynd";
 "chat_express_one_message_sent_success_alert" = "Ditt meddelande har skickats!";
 "chat_express_several_messages_sent_success_alert" = "Dina meddelanden har skickats!";
-"chat_express_text_field_text" = "Hej! Är den kvar?";
+"chat_express_text_field_text" = "Hej, är den fortfarande till salu?";
 "chat_forbidden_disclaimer_buyer_w_name" = "%@s konto är under granskning av letgo.";
 "chat_forbidden_disclaimer_buyer_wo_name" = "Det här kontot är under granskning av letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Det verkar som att %@ inte längre är intresserad av att köpa din produkt.";
@@ -202,6 +202,7 @@
 "common_error_generic_body" = "Ett fel uppstod.";
 "common_error_list_retry_button" = "Prova igen";
 "common_error_network_body" = "Var vänlig kolla dina nätverksinställningar och försök igen";
+"common_error_posting_loaded_image" = "Hoppsan! Din annons har inte lagts upp. Vänligen kontrollera dina nätverksinställningar.";
 "common_error_retry_button" = "Försök igen";
 "common_error_title" = "HOPPSAN!";
 "common_expand" = "Visa mer";
@@ -242,7 +243,7 @@
 "contact_subject_option_profile_edit" = "Redigera/ta bort profil";
 "contact_subject_option_report" = "Rapporterar användare/spam";
 "direct_answer_availability_title" = "Tillgänglighet...";
-"direct_answer_condition" = "I vilket skick är denna produkt?";
+"direct_answer_condition" = "I vilket skick är produkten?";
 "direct_answer_condition_title" = "Skick...";
 "direct_answer_describe_condition" = "Kan du beskriva dess skick?";
 "direct_answer_free_available" = "Ja, den finns fortfarande";
@@ -274,7 +275,7 @@
 "direct_answer_sold_question_ok" = "Markera som såld";
 "direct_answer_sold_question_title" = "Redan sålt den?";
 "direct_answer_sold_title" = "Såld...";
-"direct_answer_still_available" = "Är denna produkt fortfarande tillgänglig?";
+"direct_answer_still_available" = "Är de fortfarande tillgänglig?";
 "direct_answer_still_for_sale" = "Ja, den är fortfarande till försäljning";
 "direct_answer_still_for_sale_buyer" = "Är den fortfarande till salu?";
 "direct_answer_whats_offer" = "Vad bjuder du?";
@@ -490,9 +491,9 @@
 "product_delete_confirm_ok_button" = "Jag vill inte sälja den";
 "product_delete_confirm_sold_button" = "Jag har redan sålt den";
 "product_delete_confirm_title" = "Ta bort produkt";
-"product_delete_post_button_title" = "Lägg upp en sak till";
-"product_delete_post_subtitle" = "Försök lägga upp något annat och börja tjäna pengar.";
-"product_delete_post_title" = "INGEN TUR DEN HÄR GÅNGEN?";
+"product_delete_post_button_title" = "Lägg upp en till annons";
+"product_delete_post_subtitle" = "Lägg upp något annat för att börja tjäna pengar.";
+"product_delete_post_title" = "INGET FLYT DEN HÄR GÅNGEN?";
 "product_delete_send_error_generic" = "Hoppsan! Vi kunde inte ta bort din produkt. Var god försök igen.";
 "product_delete_sold_confirm_message" = "Är du säker på att du vill ta bort denna produkt?";
 "product_distance_X_from_you" = "%@ från dig";
@@ -563,7 +564,7 @@
 "product_post_close_alert_ok_button" = "Lägg upp produkten";
 "product_post_close_alert_title" = "Produkten är inte upplagd";
 "product_post_confirmation_another" = "Eller";
-"product_post_confirmation_another_button" = "Lägg upp en till vara";
+"product_post_confirmation_another_button" = "Lägg upp en till annons";
 "product_post_confirmation_edit" = "Lägg till mer information";
 "product_post_different_country_error" = "Du kan inte lägga upp produkter i ett land som du inte befinner dig i.";
 "product_post_done" = "Klar";
@@ -651,7 +652,7 @@
 "profile_blocked_by_me_label" = "Den här användaren har blockerats av dig";
 "profile_blocked_by_me_label_w_name" = "%@ har blockerats av dig";
 "profile_blocked_by_other_label" = "Denna användare har blockerat dig";
-"profile_build_trust_button" = "Bygg Förtroende";
+"profile_build_trust_button" = "Skapa Förtroende";
 "profile_connect_accounts_message" = "Du har fortfarande inte verifierat ditt konto med:";
 "profile_favourites_my_user_no_products_button" = "Surfa vidare";
 "profile_favourites_my_user_no_products_label" = "INGA FAVORITER (ÄNNU!)";
@@ -733,6 +734,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Antal sovrum";
+"real_estate_current_step_of_total" = "%d av %d";
 "real_estate_location_notification_message" = "Vi visar aldrig din exakta plats till andra användare";
 "real_estate_location_title" = "Plats";
 "real_estate_offer_type_rent" = "Uthyres";

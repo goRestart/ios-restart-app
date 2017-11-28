@@ -202,6 +202,7 @@
 "common_error_generic_body" = "En feil oppstod.";
 "common_error_list_retry_button" = "Prøv igjen";
 "common_error_network_body" = "Vennligst sjekk dine nettverksinnstillinger og prøv igjen";
+"common_error_posting_loaded_image" = "Oops! Ditt produkt er ikke publisert. Vennligst sjekk dine nettverksinnstillinger.";
 "common_error_retry_button" = "Prøv igjen";
 "common_error_title" = "OOPS!";
 "common_expand" = "Vis mer";
@@ -733,6 +734,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Antall soverom";
+"real_estate_current_step_of_total" = "%d of %d";
 "real_estate_location_notification_message" = "Vi viser aldri din nøyaktige plassering til andre brukere";
 "real_estate_location_title" = "Sted";
 "real_estate_offer_type_rent" = "Til utleie";
@@ -748,7 +750,7 @@
 "real_estate_summary_location_empty" = "Plassering: ikke valgt";
 "real_estate_summary_offer_type_empty" = "Legg til annonsetype";
 "real_estate_summary_price_empty" = "Legg til pris";
-"real_estate_summary_price_title" = "Price: %@";
+"real_estate_summary_price_title" = "Pris: %@";
 "real_estate_summary_title" = "Sammendrag";
 "real_estate_summary_type_property_empty" = "Legg til eiendomstype";
 "real_estate_title_generator_bathrooms_0" = "Ingen";

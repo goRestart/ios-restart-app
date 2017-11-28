@@ -202,6 +202,7 @@
 "common_error_generic_body" = "An error occurred.";
 "common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Please check your network settings and try again";
+"common_error_posting_loaded_image" = "Oops! Your listing hasn’t been posted. Please check your network settings.";
 "common_error_retry_button" = "Try again";
 "common_error_title" = "OOPS!";
 "common_expand" = "Show More";
@@ -733,6 +734,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "No. of bedrooms";
+"real_estate_current_step_of_total" = "%d of %d";
 "real_estate_location_notification_message" = "We'll never show your exact location to other users";
 "real_estate_location_title" = "Location";
 "real_estate_offer_type_rent" = "For Rent";
