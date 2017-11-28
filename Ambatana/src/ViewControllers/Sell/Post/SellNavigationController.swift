@@ -64,7 +64,6 @@ class SellNavigationController: UINavigationController {
         view.addSubview(background)
         background.layout(with: view).fill()
         view.sendSubview(toBack:background)
-        view.setNeedsLayout()
         view.layoutIfNeeded()
     }
     
