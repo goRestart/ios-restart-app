@@ -202,7 +202,7 @@
 "common_error_generic_body" = "Ein Fehler ist aufgetreten.";
 "common_error_list_retry_button" = "Wiederholen";
 "common_error_network_body" = "Bitte überprüfe deine Verbindung und probiere es erneut";
-"common_error_posting_loaded_image" = "Hoppla! Dein Produkt wurde nicht eingestellt. Bitte überprüfe deine Netzwerkeinstellungen.";
+"common_error_posting_loaded_image" = "Hoppla! Dein Angebot wurde nicht eingestellt. Bitte überprüfe deine Verbindung.";
 "common_error_retry_button" = "Versuch's noch einmal";
 "common_error_title" = "HOPPLA!";
 "common_expand" = "Mehr anzeigen";
@@ -734,7 +734,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Zahl der Schlafzimmer";
-"real_estate_current_step_of_total" = "%d of %d";
+"real_estate_current_step_of_total" = "%d von %d";
 "real_estate_location_notification_message" = "Wir werden anderen Nutzern niemals deinen genauen Standort anzeigen";
 "real_estate_location_title" = "Standort";
 "real_estate_offer_type_rent" = "Zur Miete";

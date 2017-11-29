@@ -1393,6 +1393,9 @@
 //  Passive buyers screen for seller -> Contact success
 "passive_buyers_contact_success" = "Buyers contacted!";
 
+// Button to initiate chat from the full screen photo viewer
+"photo_viewer_chat_button" = "Chat";
+
 // Add Details navigation title
 "post_category_details_navigation_title" = "Add Details";
 
@@ -1521,9 +1524,6 @@
 
 // Product distance. "Custom location"
 "product_distance_custom_location" = "Custom location";
-
-// Button to open the chat from the pictures full screen preview
-"product_chat_open_button_title" = "Chat";
 
 // direct message on product favorite
 "product_favorite_direct_message" = "I like it! Is it still available?";
