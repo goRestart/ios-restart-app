@@ -26,6 +26,15 @@ enum ListingCellModel {
     init(emptyVM: LGEmptyViewModel) {
         self = ListingCellModel.emptyCell(vm: emptyVM)
     }
+
+    var listing: Listing? {
+        switch self {
+        case .listingCell(let listing):
+            return listing
+        default:
+            return nil
+        }
+    }
 }
 
 

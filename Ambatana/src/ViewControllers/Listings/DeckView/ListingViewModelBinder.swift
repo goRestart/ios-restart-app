@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import LGCoreKit
 
 final class ListingViewModelBinder {
 
@@ -20,7 +21,8 @@ final class ListingViewModelBinder {
         self.disposeBag = DisposeBag()
 
         currentVM.listing.asObservable().skip(1).bindNext { updatedListing in
-            theOneViewModel.objects.replace(theOneViewModel.currentIndex, with: ListingCarouselCellModel(listing:updatedListing))
+            let newModel = theOneViewModel.cellModel(fromListing: updatedListing)
+            theOneViewModel.objects.replace(theOneViewModel.currentIndex, with: newModel)
             }.addDisposableTo(disposeBag)
 
         currentVM.status.asObservable().bindTo(theOneViewModel.status).addDisposableTo(disposeBag)
@@ -45,11 +47,6 @@ final class ListingViewModelBinder {
         theOneViewModel.directChatPlaceholder.value = currentVM.directChatPlaceholder
 
         currentVM.isFavorite.asObservable().bindTo(theOneViewModel.isFavorite).addDisposableTo(disposeBag)
-        currentVM.favoriteButtonState.asObservable().bindTo(theOneViewModel.favoriteButtonState).addDisposableTo(disposeBag)
-        currentVM.shareButtonState.asObservable().bindTo(theOneViewModel.shareButtonState).addDisposableTo(disposeBag)
         currentVM.bumpUpBannerInfo.asObservable().bindTo(theOneViewModel.bumpUpBannerInfo).addDisposableTo(disposeBag)
-
-        currentVM.socialMessage.asObservable().bindTo(theOneViewModel.socialMessage).addDisposableTo(disposeBag)
-        theOneViewModel.socialSharer.value = currentVM.socialSharer
     }
 }

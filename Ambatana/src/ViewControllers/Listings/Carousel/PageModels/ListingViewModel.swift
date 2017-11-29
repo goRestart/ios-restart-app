@@ -1120,3 +1120,8 @@ extension ListingViewModel: PurchasesShopperDelegate {
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
 }
+
+// new item page
+extension ListingViewModel {
+    var isFavoritable: Bool { return !isMine }
+}

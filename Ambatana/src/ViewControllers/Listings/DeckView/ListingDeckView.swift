@@ -67,7 +67,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         addSubview(itemActionsView)
         itemActionsView.translatesAutoresizingMaskIntoConstraints = false
         itemActionsView.layout(with: self).trailing().bottom().leading()
-        itemActionsView.layout(with: collectionView).below(relatedBy: .greaterThanOrEqual)
+        itemActionsView.layout(with: collectionView).below(by: 2*Metrics.margin)
 
         itemActionsView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
         itemActionsView.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
@@ -143,6 +143,11 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     }
 
     // MARK: Chat
+
+    @discardableResult
+    override func resignFirstResponder() -> Bool {
+        return chatTextView.resignFirstResponder()
+    }
 
     func setDirectAnswersHorizontalViewDelegate(_ delegate: DirectAnswersHorizontalViewDelegate) {
         directAnswersView.delegate = delegate

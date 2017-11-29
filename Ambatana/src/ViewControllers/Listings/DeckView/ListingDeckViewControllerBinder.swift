@@ -31,6 +31,17 @@ final class ListingDeckViewControllerBinder {
         bindBumpUp(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
     }
 
+    func bind(cell: ListingCardView) {
+        guard let viewController = listingDeckViewController else { return }
+        cell.rxShareButton.tap.asObservable().bindNext {
+            viewController.didTapShare()
+        }.addDisposableTo(cell.disposeBag)
+
+        cell.rxActionButton.tap.asObservable().bindNext {
+            viewController.didTapCardAction()
+        }.addDisposableTo(cell.disposeBag)
+    }
+
     private func bindActions(withViewModel viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         viewModel.actionButtons.asObservable().bindNext { [unowned listingDeckView, weak self]
             actionButtons in

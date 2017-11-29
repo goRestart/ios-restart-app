@@ -69,6 +69,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
 
                 let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
                 let prefetching = Prefetching(previousCount: 1, nextCount: 3)
+                let myUserRepo = MockMyUserRepository.makeMock()
 
                 listingDeckViewModel = ListingDeckViewModel(productListModels: nil,
                                                             initialListing: listing,
@@ -76,6 +77,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                                                             source: .listingList,
                                                             imageDownloader: imageDownloader,
                                                             listingViewModelMaker: listingViewModelMaker,
+                                                            myUserRepository: myUserRepo,
                                                             pagination: pagination,
                                                             prefetching: prefetching,
                                                             shouldSyncFirstListing: false,
@@ -117,11 +119,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 listingDeckViewModel.chatEnabled.asObservable().skip(1).bindTo(chatEnabled).addDisposableTo(disposeBag)
                 listingDeckViewModel.directChatPlaceholder.asObservable().skip(1).bindTo(directChatPlaceholderObserver).addDisposableTo(disposeBag)
                 listingDeckViewModel.isFavorite.asObservable().skip(1).bindTo(isFavoriteObserver).addDisposableTo(disposeBag)
-                listingDeckViewModel.favoriteButtonState.asObservable().skip(1).bindTo(favoriteButtonStateObserver).addDisposableTo(disposeBag)
-                listingDeckViewModel.shareButtonState.asObservable().skip(1).bindTo(shareButtonStateObserver).addDisposableTo(disposeBag)
                 listingDeckViewModel.bumpUpBannerInfo.asObservable().skip(1).bindTo(bumpUpBannerInfoObserver).addDisposableTo(disposeBag)
-                listingDeckViewModel.socialMessage.asObservable().skip(1).bindTo(socialMessageObserver).addDisposableTo(disposeBag)
-                listingDeckViewModel.socialSharer.asObservable().skip(1).bindTo(socialSharerObserver).addDisposableTo(disposeBag)
 
                 listingDeckViewModel.moveToProductAtIndex(0, movement: .initial)
             }

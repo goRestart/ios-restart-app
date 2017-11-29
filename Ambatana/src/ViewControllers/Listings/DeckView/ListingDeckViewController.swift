@@ -79,14 +79,22 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifiers.cardView, for: indexPath) as? ListingCardView {
-            let listing = viewModel.listingCellModelAt(index: indexPath.row)
-            guard let objectID = listing?.listing.objectId else {
+            guard let listing = viewModel.listingCellModelAt(index: indexPath.row),
+                let vm = viewModel.viewModelAt(index: indexPath.row) else {
                 return cell
             }
-            cell.populateWith(objectID)
+            cell.populateWith(cellViewModel: listing, listingViewModel: vm, imageDownloader: viewModel.imageDownloader)
+            binder.bind(cell: cell)
             return cell
         }
         return UICollectionViewCell()
+    }
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+        if let listingCell = cell as? ListingCardView {
+            listingCell.reloadData(animated: true)
+        }
     }
 
     // ScrollViewDelegate
@@ -110,14 +118,26 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         setNavigationBarRightButtons([])
     }
 
-    @objc private func didTapBumpUp() {
-
+    func setFavourite(fav: Bool) {
+        print(fav ? "IS FAV" : "IS NOT FAV")
     }
 
-    @objc private func didTapClose() {
+    func didTapShare() {
+        viewModel.currentListingViewModel?.shareProduct()
+    }
 
+    func didTapCardAction() {
+        viewModel.didTapCardAction()
+    }
+
+
+    @objc private func didTapClose() {
         closeBumpUpBanner()
-        viewModel.close()
+        UIView.animate(withDuration: 0.3, animations: { 
+            self.listingDeckView.resignFirstResponder()
+        }) { (completion) in
+            self.viewModel.close()
+        }
     }
 
     @objc private func didTapMoreInfo() {

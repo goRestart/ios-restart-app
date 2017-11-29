@@ -38,7 +38,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
         var disposeBag: DisposeBag!
         var scheduler: TestScheduler!
 
-        var cellModelsObserver: TestableObserver<[ListingCarouselCellModel]>!
+        var cellModelsObserver: TestableObserver<[ListingCardViewModel]>!
         var productInfoObserver: TestableObserver<ListingVMProductInfo?>!
         var productImageUrlsObserver: TestableObserver<[URL]>!
         var userInfoObserver: TestableObserver<ListingVMUserInfo?>!
@@ -53,11 +53,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
         var directChatPlaceholderObserver: TestableObserver<String>!
         var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
         var isFavoriteObserver: TestableObserver<Bool>!
-        var favoriteButtonStateObserver: TestableObserver<ButtonState>!
-        var shareButtonStateObserver: TestableObserver<ButtonState>!
         var bumpUpBannerInfoObserver: TestableObserver<BumpUpInfo?>!
-        var socialMessageObserver: TestableObserver<SocialMessage?>!
-        var socialSharerObserver: TestableObserver<SocialSharer>!
 
         fdescribe("ListingDeckViewModelSpec") {
 
@@ -80,11 +76,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 sut.directChatPlaceholder.asObservable().bindTo(directChatPlaceholderObserver).addDisposableTo(disposeBag)
                 sut.directChatMessages.observable.bindTo(directChatMessagesObserver).addDisposableTo(disposeBag)
                 sut.isFavorite.asObservable().bindTo(isFavoriteObserver).addDisposableTo(disposeBag)
-                sut.favoriteButtonState.asObservable().bindTo(favoriteButtonStateObserver).addDisposableTo(disposeBag)
-                sut.shareButtonState.asObservable().bindTo(shareButtonStateObserver).addDisposableTo(disposeBag)
                 sut.bumpUpBannerInfo.asObservable().bindTo(bumpUpBannerInfoObserver).addDisposableTo(disposeBag)
-                sut.socialMessage.asObservable().bindTo(socialMessageObserver).addDisposableTo(disposeBag)
-                sut.socialSharer.asObservable().bindTo(socialSharerObserver).addDisposableTo(disposeBag)
             }
 
             func buildSut(productListModels: [ListingCellModel]? = nil,
@@ -139,7 +131,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
-                cellModelsObserver = scheduler.createObserver(Array<ListingCarouselCellModel>.self)
+                cellModelsObserver = scheduler.createObserver(Array<ListingCardViewModel>.self)
                 productInfoObserver = scheduler.createObserver(Optional<ListingVMProductInfo>.self)
                 productImageUrlsObserver = scheduler.createObserver(Array<URL>.self)
                 userInfoObserver = scheduler.createObserver(Optional<ListingVMUserInfo>.self)
@@ -154,11 +146,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 directChatPlaceholderObserver = scheduler.createObserver(String.self)
                 directChatMessagesObserver = scheduler.createObserver(Array<ChatViewMessage>.self)
                 isFavoriteObserver = scheduler.createObserver(Bool.self)
-                favoriteButtonStateObserver = scheduler.createObserver(ButtonState.self)
-                shareButtonStateObserver = scheduler.createObserver(ButtonState.self)
                 bumpUpBannerInfoObserver = scheduler.createObserver(Optional<BumpUpInfo>.self)
-                socialMessageObserver = scheduler.createObserver(Optional<SocialMessage>.self)
-                socialSharerObserver = scheduler.createObserver(SocialSharer.self)
 
                 self.resetViewModelSpec()
             }
@@ -537,15 +525,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("directChagEnabled changed twice") {
                             expect(directChatEnabledObserver.eventValues.count) == 3
                         }
-                        it("favoriteButton changed twice") {
-                            expect(favoriteButtonStateObserver.eventValues.count) == 3
-                        }
-                        it("sharebutton changed twice") {
-                            expect(shareButtonStateObserver.eventValues.count) == 3
-                        }
-                        it("socialMessage changed twice") {
-                            expect(socialMessageObserver.eventValues.count) == 3
-                        }
                         describe("view model gets active") {
                             beforeEach {
                                 sut.active = true
@@ -599,15 +578,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("directChagEnabled changed twice") {
                             expect(directChatEnabledObserver.eventValues.count) == 3
                         }
-                        it("favoriteButton changed twice") {
-                            expect(favoriteButtonStateObserver.eventValues.count) == 3
-                        }
-                        it("sharebutton changed twice") {
-                            expect(shareButtonStateObserver.eventValues.count) == 3
-                        }
-                        it("socialMessage changed twice") {
-                            expect(socialMessageObserver.eventValues.count) == 3
-                        }
                     }
                 }
             }
@@ -640,9 +610,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                     it("matches product favorites") {
                         expect(productStatsObserver.eventValues.flatMap {$0}.last?.favouritesCount).toEventually(equal(stats.favouritesCount))
                     }
-                    it("share button state is hidden") {
-                        expect(shareButtonStateObserver.eventValues) == [.hidden]
-                    }
                     it("there's a share navbar button") {
                         let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
                         expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
@@ -660,9 +627,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         it("product vm status updates otherAvailable") {
                             expect(statusObserver.eventValues) == [.otherAvailable, .otherAvailable]
-                        }
-                        it("share button state updates to hidden again") {
-                            expect(shareButtonStateObserver.eventValues) == [.hidden, .hidden]
                         }
                         it("directchatenabled is true again") {
                             expect(directChatEnabledObserver.eventValues) == [true, true]
@@ -683,9 +647,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         it("product vm status updates available") {
                             expect(statusObserver.eventValues) == [.otherAvailable, .available]
-                        }
-                        it("share button state becomes enabled") {
-                            expect(shareButtonStateObserver.eventValues) == [.hidden, .enabled]
                         }
                         it("directchatenabled is false") {
                             expect(directChatEnabledObserver.eventValues) == [true, false]
@@ -760,12 +721,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             it("direct chat is disabled") {
                                 expect(directChatEnabledObserver.lastValue) == false
                             }
-                            it("sharebutton is enabled") {
-                                expect(shareButtonStateObserver.lastValue) == .enabled
-                            }
-                            it("favorite button is hidden") {
-                                expect(favoriteButtonStateObserver.lastValue) == .hidden
-                            }
                         }
                         context("featured") {
                             beforeEach {
@@ -803,12 +758,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             }
                             it("direct chat is disabled") {
                                 expect(directChatEnabledObserver.lastValue) == false
-                            }
-                            it("sharebutton is enabled") {
-                                expect(shareButtonStateObserver.lastValue) == .enabled
-                            }
-                            it("favorite button is hidden") {
-                                expect(favoriteButtonStateObserver.lastValue) == .hidden
                             }
                         }
                     }
@@ -849,12 +798,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("direct chat is disabled") {
                             expect(directChatEnabledObserver.lastValue) == false
                         }
-                        it("sharebutton is enabled") {
-                            expect(shareButtonStateObserver.lastValue) == .enabled
-                        }
-                        it("favorite button is hidden") {
-                            expect(favoriteButtonStateObserver.lastValue) == .hidden
-                        }
                     }
                     context("approved - free") {
                         beforeEach {
@@ -892,12 +835,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         it("direct chat is disabled") {
                             expect(directChatEnabledObserver.lastValue) == false
-                        }
-                        it("sharebutton is enabled") {
-                            expect(shareButtonStateObserver.lastValue) == .enabled
-                        }
-                        it("favorite button is hidden") {
-                            expect(favoriteButtonStateObserver.lastValue) == .hidden
                         }
                     }
                     context("sold - normal") {
@@ -937,12 +874,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("direct chat is disabled") {
                             expect(directChatEnabledObserver.lastValue) == false
                         }
-                        it("sharebutton is enabled") {
-                            expect(shareButtonStateObserver.lastValue) == .enabled
-                        }
-                        it("favorite button is hidden") {
-                            expect(favoriteButtonStateObserver.lastValue) == .hidden
-                        }
                     }
                     context("sold - free") {
                         beforeEach {
@@ -980,12 +911,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         it("direct chat is disabled") {
                             expect(directChatEnabledObserver.lastValue) == false
-                        }
-                        it("sharebutton is enabled") {
-                            expect(shareButtonStateObserver.lastValue) == .enabled
-                        }
-                        it("favorite button is hidden") {
-                            expect(favoriteButtonStateObserver.lastValue) == .hidden
                         }
                     }
                 }
@@ -1026,12 +951,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("direct chat is disabled") {
                             expect(directChatEnabledObserver.lastValue) == false
                         }
-                        it("sharebutton is hidden") {
-                            expect(shareButtonStateObserver.lastValue) == .hidden
-                        }
-                        it("favorite button is enabled") {
-                            expect(favoriteButtonStateObserver.lastValue) == .enabled
-                        }
                     }
                     context("approved - normal") {
                         beforeEach {
@@ -1069,12 +988,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         it("direct chat is enabled") {
                             expect(directChatEnabledObserver.lastValue) == true
-                        }
-                        it("sharebutton is hidden") {
-                            expect(shareButtonStateObserver.lastValue) == .hidden
-                        }
-                        it("favorite button is enabled") {
-                            expect(favoriteButtonStateObserver.lastValue) == .enabled
                         }
                     }
                     context("approved - free") {
@@ -1114,12 +1027,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("direct chat is enabled") {
                             expect(directChatEnabledObserver.lastValue) == true
                         }
-                        it("sharebutton is hidden") {
-                            expect(shareButtonStateObserver.lastValue) == .hidden
-                        }
-                        it("favorite button is enabled") {
-                            expect(favoriteButtonStateObserver.lastValue) == .enabled
-                        }
                     }
                     context("sold - normal") {
                         beforeEach {
@@ -1158,12 +1065,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("direct chat is disabled") {
                             expect(directChatEnabledObserver.lastValue) == false
                         }
-                        it("sharebutton is hidden") {
-                            expect(shareButtonStateObserver.lastValue) == .hidden
-                        }
-                        it("favorite button is enabled") {
-                            expect(favoriteButtonStateObserver.lastValue) == .enabled
-                        }
                     }
                     context("sold - free") {
                         beforeEach {
@@ -1201,12 +1102,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         it("direct chat is disabled") {
                             expect(directChatEnabledObserver.lastValue) == false
-                        }
-                        it("sharebutton is hidden") {
-                            expect(shareButtonStateObserver.lastValue) == .hidden
-                        }
-                        it("favorite button is enabled") {
-                            expect(favoriteButtonStateObserver.lastValue) == .enabled
                         }
                     }
                 }
