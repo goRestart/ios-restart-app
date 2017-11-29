@@ -202,6 +202,7 @@
 "common_error_generic_body" = "Ocorreu um erro.";
 "common_error_list_retry_button" = "Tente novamente";
 "common_error_network_body" = "Por favor verifique a configuração da sua internet e tente novamente";
+"common_error_posting_loaded_image" = "Ops! O seu produto não foi publicado. Por favor verifique a configuração da sua rede.";
 "common_error_retry_button" = "Tente novamente";
 "common_error_title" = "OPS!";
 "common_expand" = "Mostrar mais";
@@ -733,6 +734,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "+4";
 "real_estate_bedrooms_title" = "Nº de quartos";
+"real_estate_current_step_of_total" = "%d of %d";
 "real_estate_location_notification_message" = "Nunca mostraremos a sua localização exata aos outros utilizadores";
 "real_estate_location_title" = "Localização";
 "real_estate_offer_type_rent" = "Para aluguer";

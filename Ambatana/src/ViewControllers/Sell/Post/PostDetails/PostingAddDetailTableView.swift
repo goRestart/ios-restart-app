@@ -51,7 +51,7 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
-        tableView.backgroundColor = UIColor.clear
+        tableView.backgroundColor = .clear
         tableView.tintColor = UIColor.white
         tableView.indicatorStyle = .white
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.margin, right: 0)
@@ -99,7 +99,7 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
         cell.selectionStyle = .none
         cell.textLabel?.text = value
         cell.textLabel?.font = UIFont.selectableItem
-        cell.backgroundColor = UIColor.clear
+        cell.backgroundColor = .clear
         cell.textLabel?.textColor = UIColor.grayLight
         return cell
     }

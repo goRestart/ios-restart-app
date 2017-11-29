@@ -520,7 +520,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         darkAppereanceBgView.isHidden = false
 
         loginSegmentedControl.tintColor = UIColor.white
-        loginSegmentedControl.backgroundColor = UIColor.clear
+        loginSegmentedControl.backgroundColor = .clear
         loginSegmentedControl.layer.borderColor = UIColor.white.cgColor
 
         let textfieldTextColor = UIColor.whiteText

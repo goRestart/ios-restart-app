@@ -64,7 +64,7 @@ class ListingCarouselCell: UICollectionViewCell {
 
         collectionView.keyboardDismissMode = .onDrag
         collectionView.frame = bounds
-        collectionView.backgroundColor = UIColor.clear
+        collectionView.backgroundColor = .clear
         collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         collectionView.delegate = self
         collectionView.dataSource = self

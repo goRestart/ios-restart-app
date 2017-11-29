@@ -62,7 +62,7 @@ extension UserViewHeaderContainer {
 
 fileprivate extension UserViewHeaderContainer {
     func setupUI() {
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
 
         header.translatesAutoresizingMaskIntoConstraints = false
         addSubview(header)

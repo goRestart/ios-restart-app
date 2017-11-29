@@ -81,7 +81,7 @@ fileprivate extension ChatOtherInfoCell {
         userInfoContainer.layer.cornerRadius = LGUIKitConstants.chatCellCornerRadius
         userInfoContainer.layer.shouldRasterize = true
         userInfoContainer.layer.rasterizationScale = UIScreen.main.scale
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
         verifyLabel.text = LGLocalizedString.chatUserInfoVerifiedWith
     }
 }

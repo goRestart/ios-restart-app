@@ -61,7 +61,7 @@ class ExpressChatViewController: BaseViewController {
     }
 
     func setupUI() {
-        scrollView.backgroundColor = UIColor.clear
+        scrollView.backgroundColor = .clear
         automaticallyAdjustsScrollViewInsets = false
 
         dontMissLabel.text = LGLocalizedString.chatExpressDontMissLabel.uppercased()

@@ -172,7 +172,7 @@ extension TextViewController {
         tableView.layout(with: view).fillHorizontal().top()
         tableView.layout(with: textViewBar)
             .bottom(to: .top, by: -tableBottomMargin, constraintBlock: { [weak self] in self?.tableBottomMarginConstraint = $0 })
-        tableView.backgroundColor = UIColor.clear
+        tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.clipsToBounds = false
         updateInverted()

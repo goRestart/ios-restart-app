@@ -51,7 +51,7 @@ class TourPostingViewController: BaseViewController {
     // MARK: - Private
 
     private func setupUI() {
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = .clear
         titleLabel.text = viewModel.titleText
         subtitleLabel.text = viewModel.subtitleText
         

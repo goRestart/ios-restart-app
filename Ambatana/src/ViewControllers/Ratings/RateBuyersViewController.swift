@@ -60,7 +60,7 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = PossibleBuyerCell.cellHeight
-        tableView.backgroundColor = UIColor.clear
+        tableView.backgroundColor = .clear
         tableView.contentInset = UIEdgeInsets(top: RateBuyersViewController.topContentInsetTableView,
                                               left: 0,
                                               bottom: Metrics.shortMargin,

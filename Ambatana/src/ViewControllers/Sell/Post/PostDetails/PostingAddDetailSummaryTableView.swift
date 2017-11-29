@@ -133,7 +133,7 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
-        tableView.backgroundColor = UIColor.clear
+        tableView.backgroundColor = .clear
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.margin, right: 0)
     }
     
