@@ -54,6 +54,7 @@ class PurchasesShopperSpec: QuickSpec {
                                          keyValueStorage: keyValueStorage, paymentQueue: paymentQueue,
                                          receiptURLProvider: mockReceiptURLProvider)
                 sut.delegate = self
+                sut.bumpInfoRequesterDelegate = self
                 sut.startObservingTransactions()
             }
             afterEach {
