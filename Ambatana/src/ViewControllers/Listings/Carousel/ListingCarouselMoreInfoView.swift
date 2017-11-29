@@ -384,7 +384,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         statsContainerViewHeightConstraint.constant = 0.0
         statsContainerViewTopConstraint.constant = 0.0
 
-        guard let statsView = ListingStatsView.ListingStatsView() else { return }
+        guard let statsView = ListingStatsView.make() else { return }
         self.statsView = statsView
         statsContainerView.addSubview(statsView)
 

@@ -9,20 +9,26 @@
 import Foundation
 import UIKit
 import RxSwift
+import LGCoreKit
 
-typealias ListingCardViewCellModel = ListingCarouselCellModel
 // TODO: ABIOS-3101 https://ambatana.atlassian.net/browse/ABIOS-3101
 final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, PassthroughScrollViewDelegate {
     private struct Identifier {
         static let reusableID = String(describing: ListingDeckImagePreviewCell.self)
     }
-    private let binder = ListingCardViewBinder()
-    private(set) var disposeBag = DisposeBag()
+
+    var delegate: ListingCardDetailsViewDelegate? {
+        get { return detailsView.delegate }
+        set { detailsView.delegate = newValue }
+    }
 
     var rxShareButton: Reactive<UIButton> { return userView.rxShareButton }
     var rxActionButton: Reactive<UIButton> { return userView.rxActionButton }
     let userView = ListingCardUserView()
     let layout = ListingDeckImagePreviewLayout()
+
+    private let binder = ListingCardViewBinder()
+    private(set) var disposeBag = DisposeBag()
 
     private let previewCollectionView: UICollectionView
     private var collectionHeight: NSLayoutConstraint?
@@ -34,11 +40,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
 
     private let verticalScrollView = PassthroughScrollView()
     private var scrollViewContentInset: UIEdgeInsets = UIEdgeInsets.zero
-
     private let detailsView = ListingCardDetailsView()
-
     private var imageDownloader: ImageDownloaderType?
-
     private var pageCount: Int { get { return urls.count } }
 
     override init(frame: CGRect) {
@@ -60,34 +63,25 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
         reloadData(animated: false)
     }
 
-    func populateWith(cellViewModel viewModel: ListingCardViewModel,
-                      listingViewModel: ListingViewModel,
-                      imageDownloader: ImageDownloaderType) {
-        populateImageViewsWith(cellViewModel: viewModel, imageDownloader: imageDownloader)
-        populateImageCount(cellViewModel: viewModel)
-        populateUserInfo(cellViewModel: viewModel, imageDownloader: imageDownloader)
-
+    func populateWith(listingViewModel: ListingCardViewCellModel, imageDownloader: ImageDownloaderType) {
+        self.imageDownloader = imageDownloader
+        populateDetailsWith(listingViewModel: listingViewModel)
         binder.bind(withViewModel: listingViewModel)
     }
-    private func populateUserInfo(cellViewModel viewModel: ListingCardViewModel,
-                                  imageDownloader: ImageDownloaderType) {
-        let name = viewModel.userName
-        let url = viewModel.avatar
-        userView.populate(withUserName: name ?? "Facundo Menzella",
-                                    icon: url,
-                                    imageDownloader: imageDownloader, isMine: viewModel.isMine)
+
+    private func populateDetailsWith(listingViewModel: ListingCardViewCellModel) {
+        detailsView.populateWithViewModel(listingViewModel)
     }
 
-    private func populateImageCount(cellViewModel viewModel: ListingCardViewModel) {
-        update(pageCount: viewModel.images.count)
+    func populateWith(userInfo: ListingVMUserInfo) {
+        userView.populate(withUserName: userInfo.name, icon: userInfo.avatar,
+                          imageDownloader: ImageDownloader.sharedInstance)
     }
 
-    private func populateImageViewsWith(cellViewModel viewModel: ListingCardViewModel,
-                                        imageDownloader: ImageDownloaderType) {
-        self.imageDownloader = imageDownloader
-        self.urls = viewModel.images
+    func populateWith(imagesURLs: [URL]) {
+        self.urls = imagesURLs
         update(pageCount: urls.count)
-        
+
         previewCollectionView.delegate = self
         previewCollectionView.dataSource = self
         previewCollectionView.isPagingEnabled = true
@@ -96,7 +90,6 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
 
     func reloadData(animated: Bool) {
         layoutVerticalContentInset(animated: animated)
-
         previewCollectionView.reloadData()
     }
 
@@ -186,7 +179,9 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
         detailsView.layout(with: userView).fillHorizontal().below()
         detailsView.layout(with: verticalScrollView).fillHorizontal().bottom().centerX()
         let stickyHeight = userView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
-        detailsView.layout(with: verticalScrollView).proportionalWidth().proportionalHeight(add: -stickyHeight)
+        detailsView.heightAnchor.constraint(greaterThanOrEqualTo: heightAnchor,
+                                            multiplier: 1.0,
+                                            constant: -stickyHeight).isActive = true
     }
 
     override func layoutSubviews() {
@@ -202,6 +197,9 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
     private func layoutVerticalContentInset(animated: Bool) {
         let topInset = previewCollectionView.height
         let top = topInset - userView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+
+        guard scrollViewContentInset.top != top else { return }
+
         scrollViewContentInset = UIEdgeInsets(top: top, left: 0, bottom: 0, right: 0)
         verticalScrollView.contentInset = scrollViewContentInset
         verticalScrollView.setContentOffset(CGPoint(x: 0, y: -scrollViewContentInset.top), animated: animated)

@@ -17,7 +17,7 @@ import Nimble
 class ListingDeckViewModelBinderSpec: QuickSpec {
 
     override func spec() {
-        var sut: ListingViewModelBinder!
+        var sut: ListingDeckViewModelBinder!
         var listing: Listing!
 
         var listingViewModelMaker: MockListingViewModelMaker!
@@ -50,7 +50,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
 
         describe("ListingDeckViewModelBinderSpec") {
             beforeEach {
-                sut = ListingViewModelBinder()
+                sut = ListingDeckViewModelBinder()
                 var productMock = MockProduct.makeMock()
                 productMock.status = .approved
                 listing = .product(productMock)
@@ -107,10 +107,6 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 socialSharerObserver = scheduler.createObserver(SocialSharer.self)
 
                 disposeBag = DisposeBag()
-                listingDeckViewModel.productInfo.asObservable().skip(1).bindTo(productInfoObserver).addDisposableTo(disposeBag)
-                listingDeckViewModel.productImageURLs.asObservable().skip(1).bindTo(productImageUrlsObserver).addDisposableTo(disposeBag)
-                listingDeckViewModel.userInfo.asObservable().skip(1).bindTo(userInfoObserver).addDisposableTo(disposeBag)
-                listingDeckViewModel.listingStats.asObservable().skip(1).bindTo(productStatsObserver).addDisposableTo(disposeBag)
                 listingDeckViewModel.navBarButtons.asObservable().skip(1).bindTo(navBarButtonsObserver).addDisposableTo(disposeBag)
                 listingDeckViewModel.actionButtons.asObservable().skip(1).bindTo(actionButtonsObserver).addDisposableTo(disposeBag)
                 listingDeckViewModel.status.asObservable().skip(1).bindTo(statusObserver).addDisposableTo(disposeBag)
@@ -118,7 +114,6 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 listingDeckViewModel.quickAnswers.asObservable().skip(1).bindTo(quickAnswersObserver).addDisposableTo(disposeBag)
                 listingDeckViewModel.chatEnabled.asObservable().skip(1).bindTo(chatEnabled).addDisposableTo(disposeBag)
                 listingDeckViewModel.directChatPlaceholder.asObservable().skip(1).bindTo(directChatPlaceholderObserver).addDisposableTo(disposeBag)
-                listingDeckViewModel.isFavorite.asObservable().skip(1).bindTo(isFavoriteObserver).addDisposableTo(disposeBag)
                 listingDeckViewModel.bumpUpBannerInfo.asObservable().skip(1).bindTo(bumpUpBannerInfoObserver).addDisposableTo(disposeBag)
 
                 listingDeckViewModel.moveToProductAtIndex(0, movement: .initial)

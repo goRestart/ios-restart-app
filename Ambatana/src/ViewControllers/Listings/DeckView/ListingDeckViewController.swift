@@ -79,12 +79,13 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifiers.cardView, for: indexPath) as? ListingCardView {
-            guard let listing = viewModel.listingCellModelAt(index: indexPath.row),
-                let vm = viewModel.viewModelAt(index: indexPath.row) else {
+            guard let listing = viewModel.listingCellModelAt(index: indexPath.row) else {
                 return cell
             }
-            cell.populateWith(cellViewModel: listing, listingViewModel: vm, imageDownloader: viewModel.imageDownloader)
+            cell.populateWith(listingViewModel: listing, imageDownloader: viewModel.imageDownloader)
             binder.bind(cell: cell)
+            cell.delegate = self
+
             return cell
         }
         return UICollectionViewCell()
@@ -116,10 +117,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         self.navigationItem.leftBarButtonItem  = leftButton
 
         setNavigationBarRightButtons([])
-    }
-
-    func setFavourite(fav: Bool) {
-        print(fav ? "IS FAV" : "IS NOT FAV")
     }
 
     func didTapShare() {
@@ -257,5 +254,11 @@ extension ListingDeckViewController: ListingDeckViewModelDelegate {
 
     func vmResetBumpUpBannerCountdown() {
         listingDeckView.resetBumpUpCountdown()
+    }
+}
+
+extension ListingDeckViewController: ListingCardDetailsViewDelegate {
+    func viewControllerToShowShareOptions() -> UIViewController {
+        return self
     }
 }

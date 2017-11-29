@@ -38,11 +38,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
         var disposeBag: DisposeBag!
         var scheduler: TestScheduler!
 
-        var cellModelsObserver: TestableObserver<[ListingCardViewModel]>!
-        var productInfoObserver: TestableObserver<ListingVMProductInfo?>!
-        var productImageUrlsObserver: TestableObserver<[URL]>!
-        var userInfoObserver: TestableObserver<ListingVMUserInfo?>!
-        var productStatsObserver: TestableObserver<ListingStats?>!
+        var cellModelsObserver: TestableObserver<[ListingCardViewCellModel]>!
         var navBarButtonsObserver: TestableObserver<[UIAction]>!
         var actionButtonsObserver: TestableObserver<[UIAction]>!
         var statusObserver: TestableObserver<ListingViewModelStatus>!
@@ -52,7 +48,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
         var directChatEnabledObserver: TestableObserver<Bool>!
         var directChatPlaceholderObserver: TestableObserver<String>!
         var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
-        var isFavoriteObserver: TestableObserver<Bool>!
         var bumpUpBannerInfoObserver: TestableObserver<BumpUpInfo?>!
 
         fdescribe("ListingDeckViewModelSpec") {
@@ -61,10 +56,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 disposeBag = DisposeBag()
 
                 sut.objects.observable.bindTo(cellModelsObserver).addDisposableTo(disposeBag)
-                sut.productInfo.asObservable().bindTo(productInfoObserver).addDisposableTo(disposeBag)
-                sut.productImageURLs.asObservable().bindTo(productImageUrlsObserver).addDisposableTo(disposeBag)
-                sut.userInfo.asObservable().bindTo(userInfoObserver).addDisposableTo(disposeBag)
-                sut.listingStats.asObservable().bindTo(productStatsObserver).addDisposableTo(disposeBag)
                 sut.navBarButtons.asObservable().bindTo(navBarButtonsObserver).addDisposableTo(disposeBag)
                 sut.actionButtons.asObservable().bindTo(actionButtonsObserver).addDisposableTo(disposeBag)
                 sut.status.asObservable().bindTo(statusObserver).addDisposableTo(disposeBag)
@@ -75,7 +66,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 sut.chatEnabled.asObservable().bindTo(directChatEnabledObserver).addDisposableTo(disposeBag)
                 sut.directChatPlaceholder.asObservable().bindTo(directChatPlaceholderObserver).addDisposableTo(disposeBag)
                 sut.directChatMessages.observable.bindTo(directChatMessagesObserver).addDisposableTo(disposeBag)
-                sut.isFavorite.asObservable().bindTo(isFavoriteObserver).addDisposableTo(disposeBag)
                 sut.bumpUpBannerInfo.asObservable().bindTo(bumpUpBannerInfoObserver).addDisposableTo(disposeBag)
             }
 
@@ -98,7 +88,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                            imageDownloader: imageDownloader,
                                            listingViewModelMaker: listingViewModelMaker,
                                            shouldSyncFirstListing: firstProductSyncRequired,
-                                           binder: ListingViewModelBinder())
+                                           binder: ListingDeckViewModelBinder())
 
                 sut.delegate = self
             }
@@ -131,11 +121,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
-                cellModelsObserver = scheduler.createObserver(Array<ListingCardViewModel>.self)
-                productInfoObserver = scheduler.createObserver(Optional<ListingVMProductInfo>.self)
-                productImageUrlsObserver = scheduler.createObserver(Array<URL>.self)
-                userInfoObserver = scheduler.createObserver(Optional<ListingVMUserInfo>.self)
-                productStatsObserver = scheduler.createObserver(Optional<ListingStats>.self)
+                cellModelsObserver = scheduler.createObserver(Array<ListingCardViewCellModel>.self)
                 navBarButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 actionButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 statusObserver = scheduler.createObserver(ListingViewModelStatus.self)
@@ -145,7 +131,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 directChatEnabledObserver = scheduler.createObserver(Bool.self)
                 directChatPlaceholderObserver = scheduler.createObserver(String.self)
                 directChatMessagesObserver = scheduler.createObserver(Array<ChatViewMessage>.self)
-                isFavoriteObserver = scheduler.createObserver(Bool.self)
                 bumpUpBannerInfoObserver = scheduler.createObserver(Optional<BumpUpInfo>.self)
 
                 self.resetViewModelSpec()
@@ -319,23 +304,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                     }
                 }
             }
-            describe("first product needs update") {
-                var newProduct: MockProduct!
-                beforeEach {
-                    product.name = String.makeRandom()
-                    newProduct = MockProduct.makeMock()
-                    newProduct.name = String.makeRandom()
-                    newProduct.objectId = product.objectId
-                    newProduct.user = product.user
-                    listingRepository.listingResult = ListingResult(.product(newProduct))
-                    buildSut(initialProduct: product, firstProductSyncRequired: true)
-                    sut.active = true
-                    startObserving()
-                }
-                it("product info title passes trough both items title") {
-                    expect(productInfoObserver.eventValues.flatMap { $0?.title }).toEventually(equal([product.title, newProduct.title].flatMap { $0 }))
-                }
-            }
             describe("pagination") {
                 context("single item") {
                     beforeEach {
@@ -501,15 +469,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("doesn't track any product visit") {
                             expect(tracker.trackedEvents.count) == 0
                         }
-                        it("product info changed twice") {
-                            expect(productInfoObserver.eventValues.count) == 3
-                        }
-                        it("product images changed twice") {
-                            expect(productImageUrlsObserver.eventValues.count) == 3
-                        }
-                        it("user info changed twice") {
-                            expect(userInfoObserver.eventValues.count) == 3
-                        }
                         it("navbarButtons changed twice") {
                             expect(navBarButtonsObserver.eventValues.count) == 3
                         }
@@ -554,15 +513,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.flatMap { $0.params?.stringKeyParams["product-id"] as? String })
                                 == products.prefix(through: 2).flatMap { $0.objectId }
                         }
-                        it("product info changed twice") {
-                            expect(productInfoObserver.eventValues.count) == 3
-                        }
-                        it("product images changed twice") {
-                            expect(productImageUrlsObserver.eventValues.count) == 3
-                        }
-                        it("user info changed twice") {
-                            expect(userInfoObserver.eventValues.count) == 3
-                        }
                         it("navbarButtons changed twice") {
                             expect(navBarButtonsObserver.eventValues.count) == 3
                         }
@@ -598,18 +548,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         sut.active = true
                         startObserving()
                     }
-                    it("doesn't update favorite / reported as user is logged out") {
-                        expect(isFavoriteObserver.eventValues.count) == 1
-                    }
-                    it("updates product stats") {
-                        expect(productStatsObserver.eventValues.count).toEventually(equal(2))
-                    }
-                    it("matches product views") {
-                        expect(productStatsObserver.eventValues.flatMap {$0}.last?.viewsCount).toEventually(equal(stats.viewsCount))
-                    }
-                    it("matches product favorites") {
-                        expect(productStatsObserver.eventValues.flatMap {$0}.last?.favouritesCount).toEventually(equal(stats.favouritesCount))
-                    }
                     it("there's a share navbar button") {
                         let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
                         expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
@@ -624,12 +562,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         beforeEach {
                             let myUser = MockMyUser.makeMock()
                             myUserRepository.myUserVar.value = myUser
-                        }
-                        it("product vm status updates otherAvailable") {
-                            expect(statusObserver.eventValues) == [.otherAvailable, .otherAvailable]
-                        }
-                        it("directchatenabled is true again") {
-                            expect(directChatEnabledObserver.eventValues) == [true, true]
                         }
                         it("action buttons are again empty") {
                             expect(actionButtonsObserver.eventValues.map { $0.count }) == [0, 0]
@@ -693,15 +625,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                 sut.active = true
                                 startObserving()
                             }
-                            it("product title matches") {
-                                expect(productInfoObserver.lastValue??.title) == product.title
-                            }
-                            it("images match") {
-                                expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
-                            }
-                            it("user name matches") {
-                                expect(userInfoObserver.lastValue??.name) == myUser.shortName
-                            }
                             it("navbar buttons have edit and options") {
                                 let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
                                 expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
@@ -730,15 +653,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                 buildSut(initialProduct: product)
                                 sut.active = true
                                 startObserving()
-                            }
-                            it("product title matches") {
-                                expect(productInfoObserver.lastValue??.title) == product.title
-                            }
-                            it("images match") {
-                                expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
-                            }
-                            it("user name matches") {
-                                expect(userInfoObserver.lastValue??.name) == myUser.shortName
                             }
                             it("navbar buttons have edit and options") {
                                 let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
@@ -770,15 +684,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                             startObserving()
                         }
-                        it("product title matches") {
-                            expect(productInfoObserver.lastValue??.title) == product.title
-                        }
-                        it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
-                        }
-                        it("user name matches") {
-                            expect(userInfoObserver.lastValue??.name) == myUser.shortName
-                        }
                         it("navbar buttons have edit and options") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
                             expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
@@ -807,15 +712,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             buildSut(initialProduct: product)
                             sut.active = true
                             startObserving()
-                        }
-                        it("product title matches") {
-                            expect(productInfoObserver.lastValue??.title) == product.title
-                        }
-                        it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
-                        }
-                        it("user name matches") {
-                            expect(userInfoObserver.lastValue??.name) == myUser.shortName
                         }
                         it("navbar buttons have edit and options") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
@@ -846,15 +742,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                             startObserving()
                         }
-                        it("product title matches") {
-                            expect(productInfoObserver.lastValue??.title) == product.title
-                        }
-                        it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
-                        }
-                        it("user name matches") {
-                            expect(userInfoObserver.lastValue??.name) == myUser.shortName
-                        }
                         it("navbar buttons have just options") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarActionsButton]
                             expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
@@ -883,15 +770,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             buildSut(initialProduct: product)
                             sut.active = true
                             startObserving()
-                        }
-                        it("product title matches") {
-                            expect(productInfoObserver.lastValue??.title) == product.title
-                        }
-                        it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
-                        }
-                        it("user name matches") {
-                            expect(userInfoObserver.lastValue??.name) == myUser.shortName
                         }
                         it("navbar buttons have just options") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarActionsButton]
@@ -923,15 +801,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                             startObserving()
                         }
-                        it("product title matches") {
-                            expect(productInfoObserver.lastValue??.title) == product.title
-                        }
-                        it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
-                        }
-                        it("user name matches") {
-                            expect(userInfoObserver.lastValue??.name) == product.user.shortName
-                        }
                         it("navbar buttons has share button") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
                             expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
@@ -960,15 +829,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             buildSut(initialProduct: product)
                             sut.active = true
                             startObserving()
-                        }
-                        it("product title matches") {
-                            expect(productInfoObserver.lastValue??.title) == product.title
-                        }
-                        it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
-                        }
-                        it("user name matches") {
-                            expect(userInfoObserver.lastValue??.name) == product.user.shortName
                         }
                         it("navbar buttons has share button") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
@@ -999,15 +859,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                             startObserving()
                         }
-                        it("product title matches") {
-                            expect(productInfoObserver.lastValue??.title) == product.title
-                        }
-                        it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
-                        }
-                        it("user name matches") {
-                            expect(userInfoObserver.lastValue??.name) == product.user.shortName
-                        }
                         it("navbar buttons has share button") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
                             expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
@@ -1036,15 +887,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             buildSut(initialProduct: product)
                             sut.active = true
                             startObserving()
-                        }
-                        it("product title matches") {
-                            expect(productInfoObserver.lastValue??.title) == product.title
-                        }
-                        it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
-                        }
-                        it("user name matches") {
-                            expect(userInfoObserver.lastValue??.name) == product.user.shortName
                         }
                         it("navbar buttons has share button") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
@@ -1075,15 +917,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                             startObserving()
                         }
-                        it("product title matches") {
-                            expect(productInfoObserver.lastValue??.title) == product.title
-                        }
-                        it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
-                        }
-                        it("user name matches") {
-                            expect(userInfoObserver.lastValue??.name) == product.user.shortName
-                        }
                         it("navbar buttons has share button") {
                             let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
                             expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
@@ -1104,25 +937,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             expect(directChatEnabledObserver.lastValue) == false
                         }
                     }
-                }
-            }
-            describe("product update events") {
-                var productUpdated: MockProduct!
-                beforeEach {
-                    buildSut(initialProduct: product)
-                    sut.active = true
-                    startObserving()
-
-                    productUpdated = MockProduct.makeMock()
-                    productUpdated.objectId = product.objectId
-                    productUpdated.user = product.user
-                    listingRepository.eventsPublishSubject.onNext(.update(.product(productUpdated)))
-                }
-                it("has two events for product info") {
-                    expect(productInfoObserver.eventValues.count) == 2
-                }
-                it("has two events for status") {
-                    expect(statusObserver.eventValues.count) == 2
                 }
             }
         }

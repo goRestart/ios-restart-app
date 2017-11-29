@@ -13,28 +13,39 @@ import RxSwift
 final class ListingCardViewBinder {
 
     weak var cardView: ListingCardView?
-    private let disposeBag = DisposeBag()
+    private var disposeBag = DisposeBag()
     private var vmDisposeBag = DisposeBag()
 
     private let page = Variable<Int>(0)
-    private let isFavorite = Variable<Bool>(false)
+    private let isFavoritable = Variable<Bool>(false)
 
     func bind() {
+        disposeBag = DisposeBag()
         guard let card = cardView else { return }
 
         page.asObservable().bindNext { [unowned card] page in
             card.update(currentPage: page)
         }.addDisposableTo(disposeBag)
-
-        isFavorite.asObservable().bindNext { [weak self] isFav in
-            self?.cardView?.userView.set(action: .favourite(isOn: isFav))
-        }.addDisposableTo(disposeBag)
     }
 
-    func bind(withViewModel viewModel: ListingViewModel) {
+    func bind(withViewModel viewModel: ListingCardViewCellModel) {
         vmDisposeBag = DisposeBag()
-        viewModel.isFavorite.asObservable()
-            .filter { _ in return viewModel.isFavoritable }.bindTo(isFavorite).addDisposableTo(vmDisposeBag)
+
+        viewModel.productIsFavorite.bindNext { [weak self] favorite in
+            if viewModel.cardIsFavoritable {
+                self?.cardView?.userView.set(action: .favourite(isOn: favorite))
+            } else {
+                self?.cardView?.userView.set(action: .edit)
+            }
+        }.addDisposableTo(vmDisposeBag)
+
+        viewModel.cardUserInfo.bindNext { [weak self] userInfo in
+            self?.cardView?.populateWith(userInfo: userInfo)
+        }.addDisposableTo(vmDisposeBag)
+
+        viewModel.cardProductImageURLs.bindNext { [weak self] urls in
+            self?.cardView?.populateWith(imagesURLs: urls)
+        }.addDisposableTo(vmDisposeBag)
     }
 
     func update(scrollViewBindings scrollView: UIScrollView) {

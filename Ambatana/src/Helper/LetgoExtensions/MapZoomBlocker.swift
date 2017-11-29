@@ -149,3 +149,19 @@ class MapZoomBlocker: NSObject, MKMapViewDelegate {
     }
 
 }
+
+extension MKMapView {
+
+    static func snapshotAt(_ center: CLLocationCoordinate2D,
+                           span: MKCoordinateSpan,
+                           with completionHandler: @escaping MapKit.MKMapSnapshotCompletionHandler) {
+        let options = MKMapSnapshotOptions()
+        let region = MKCoordinateRegion(center: center, span: span)
+        options.scale = UIScreen.main.scale
+        options.region = region
+
+        let snapshooter = MKMapSnapshotter(options: options)
+        snapshooter.start(completionHandler: completionHandler)
+    }
+
+}

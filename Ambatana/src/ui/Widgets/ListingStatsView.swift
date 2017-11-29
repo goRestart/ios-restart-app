@@ -30,16 +30,22 @@ class ListingStatsView: UIView {
     private let maxStatsDisplayedCount = 999
     private let timeViewMinWidth: CGFloat = 55
 
+    override var intrinsicContentSize: CGSize { return CGSize(width: UIViewNoIntrinsicMetric, height: 24.0) }
 
     // MARK: - Lifecycle
 
-    static func ListingStatsView() -> ListingStatsView? {
+    static func make() -> ListingStatsView? {
         let view = Bundle.main.loadNibNamed("ListingStatsView", owner: self, options: nil)?.first as? ListingStatsView
         view?.setupUI()
         return view
     }
 
-    func setupUI() {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        setupUI()
+    }
+
+    fileprivate func setupUI() {
         favouriteStatsView.layer.cornerRadius = 12
         viewsStatsView.layer.cornerRadius = 12
         timePostedView.layer.cornerRadius = 12
@@ -62,7 +68,7 @@ class ListingStatsView: UIView {
 
         setupPostedTimeViewWithDate(postedDate)
 
-        layoutSubviews()
+        setNeedsLayout()
     }
 
     func setupPostedTimeViewWithDate(_ postedDate: Date?) {

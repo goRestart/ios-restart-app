@@ -14,7 +14,7 @@ struct ListingVMUserInfo {
     let name: String
     let avatar: URL?
     let avatarPlaceholder: UIImage?
-
+    
     init(userListing: UserListing, myUser: MyUser?) {
         let ownerId = userListing.objectId
         self.userId = ownerId

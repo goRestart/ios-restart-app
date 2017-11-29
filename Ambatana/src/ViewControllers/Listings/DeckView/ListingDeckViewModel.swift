@@ -44,12 +44,9 @@ protocol ListingDeckViewModelDelegate: BaseViewModelDelegate {
 final class ListingDeckViewModel: BaseViewModel {
 
     var pagination: Pagination
-    fileprivate(set) var currentIndex: Int = 0 {
-        didSet {
-            // Just for pagination
-            setCurrentIndex(currentIndex)
-        }
-    }
+    // Just for pagination
+
+    fileprivate(set) var currentIndex: Int = 0 { didSet { setCurrentIndex(currentIndex) } }
     var isNextPageAvailable: Bool { get { return !pagination.isLast } }
     var isLoading = false
 
@@ -60,21 +57,16 @@ final class ListingDeckViewModel: BaseViewModel {
     var shouldSyncFirstListing: Bool = false
     fileprivate var trackingIndex: Int?
 
-    let objects = CollectionVariable<ListingCardViewModel>([])
-    var objectChanges: Observable<CollectionChange<ListingCardViewModel>> {
-        return objects.changesObservable
-    }
+    let objects = CollectionVariable<ListingCardViewCellModel>([])
+    var objectChanges: Observable<CollectionChange<ListingCardViewCellModel>> { return objects.changesObservable }
 
-    let binder: ListingViewModelBinder
-    let productInfo = Variable<ListingVMProductInfo?>(nil)
-    let productImageURLs = Variable<[URL]>([])
-    let userInfo = Variable<ListingVMUserInfo?>(nil)
-    let listingStats = Variable<ListingStats?>(nil)
+    let binder: ListingDeckViewModelBinder
 
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
     let altActions = Variable<[UIAction]>([])
 
+    // TODO: Need to deifne where we will show this info
     let status = Variable<ListingViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)
 
@@ -83,23 +75,20 @@ final class ListingDeckViewModel: BaseViewModel {
     var directChatPlaceholder = Variable<String>("")
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
 
-    let isFavorite = Variable<Bool>(false)
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
 
     fileprivate let source: EventParameterListingVisitSource
     fileprivate let listingListRequester: ListingListRequester
     fileprivate let userRepository: MyUserRepository
     fileprivate var productsViewModels: [String: ListingViewModel] = [:]
+
     let imageDownloader: ImageDownloaderType // TODO: Fornow
     fileprivate let listingViewModelMaker: ListingViewModelMaker
 
     weak var delegate: ListingDeckViewModelDelegate?
+
     var currentListingViewModel: ListingViewModel?
-    weak var navigator: ListingDetailNavigator? {
-        didSet {
-            currentListingViewModel?.navigator = navigator
-        }
-    }
+    weak var navigator: ListingDetailNavigator? { didSet { currentListingViewModel?.navigator = navigator } }
 
     convenience init(listing: Listing,
                      listingListRequester: ListingListRequester,
@@ -115,7 +104,7 @@ final class ListingDeckViewModel: BaseViewModel {
                   pagination: pagination,
                   prefetching: prefetching,
                   shouldSyncFirstListing: false,
-                  binder: ListingViewModelBinder())
+                  binder: ListingDeckViewModelBinder())
     }
 
     convenience init(productListModels: [ListingCellModel]?,
@@ -125,7 +114,7 @@ final class ListingDeckViewModel: BaseViewModel {
                      imageDownloader: ImageDownloaderType,
                      listingViewModelMaker: ListingViewModelMaker,
                      shouldSyncFirstListing: Bool,
-                     binder: ListingViewModelBinder) {
+                     binder: ListingDeckViewModelBinder) {
         let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
         let prefetching = Prefetching(previousCount: 1, nextCount: 3)
         self.init(productListModels: productListModels,
@@ -151,7 +140,7 @@ final class ListingDeckViewModel: BaseViewModel {
          pagination: Pagination,
          prefetching: Prefetching,
          shouldSyncFirstListing: Bool,
-         binder: ListingViewModelBinder) {
+         binder: ListingDeckViewModelBinder) {
         self.imageDownloader = imageDownloader
         self.pagination = pagination
         self.prefetching = prefetching
@@ -163,17 +152,17 @@ final class ListingDeckViewModel: BaseViewModel {
 
         if let productListModels = productListModels {
             self.objects.appendContentsOf(productListModels
-                .flatMap { return $0.listing }
-                .map { return ListingCardViewModel(listing: $0, isMine: $0.isMine(myUserRepository: myUserRepository)) })
+                .flatMap { $0.listing }
+                .flatMap { listingViewModelMaker.make(listing: $0, visitSource: source) })
             self.pagination.isLast = listingListRequester.isLastPage(productListModels.count)
         } else {
             self.objects.appendContentsOf([initialListing]
-                .flatMap{$0}
-                .map { return ListingCardViewModel(listing: $0, isMine: $0.isMine(myUserRepository: myUserRepository)) })
+                .flatMap { $0 }
+                .flatMap { listingViewModelMaker.make(listing: $0, visitSource: source) })
             self.pagination.isLast = false
         }
         if let listing = initialListing {
-            startIndex = objects.value.index(where: { $0.listing.objectId == listing.objectId}) ?? 0
+            startIndex = objects.value.index(where: { $0.cardListing.objectId == listing.objectId}) ?? 0
         } else {
             startIndex = 0
         }
@@ -223,20 +212,20 @@ final class ListingDeckViewModel: BaseViewModel {
     }
 
     func didTapCardAction() {
-        if let isFav = currentListingViewModel?.isFavoritable, isFav {
+        if let isFav = currentListingViewModel?.cardIsFavoritable, isFav {
             currentListingViewModel?.switchFavorite()
         } else {
             currentListingViewModel?.editListing()
         }
     }
 
-    func listingCellModelAt(index: Int) -> ListingCardViewModel? {
+    func listingCellModelAt(index: Int) -> ListingCardViewCellModel? {
         guard 0..<objectCount ~= index else { return nil }
         return objects.value[index]
     }
 
     fileprivate func listingAt(index: Int) -> Listing? {
-        return listingCellModelAt(index: index)?.listing
+        return listingCellModelAt(index: index)?.cardListing
     }
 
     func viewModelAt(index: Int) -> ListingViewModel? {
@@ -244,7 +233,7 @@ final class ListingDeckViewModel: BaseViewModel {
         return viewModelFor(listing: listing)
     }
 
-    private func viewModelFor(listing: Listing) -> ListingViewModel? {
+    func viewModelFor(listing: Listing) -> ListingViewModel? {
         guard let listingId = listing.objectId else { return nil }
         if let vm = productsViewModels[listingId] {
             return vm
@@ -276,14 +265,9 @@ final class ListingDeckViewModel: BaseViewModel {
         currentListingViewModel?.syncListing() { [weak self] in
             guard let strongSelf = self else { return }
             guard let listing = strongSelf.currentListingViewModel?.listing.value else { return }
-            let newModel = strongSelf.cellModel(fromListing: listing)
+            guard let newModel = strongSelf.viewModelFor(listing: listing) else { return }
             strongSelf.objects.replace(strongSelf.startIndex, with: newModel)
         }
-    }
-
-    func cellModel(fromListing listing: Listing) -> ListingCardViewModel {
-        let isMine = listing.isMine(myUserRepository: userRepository)
-        return ListingCardViewModel(listing: listing, isMine: isMine)
     }
 
     // MARK: Tracking
@@ -304,11 +288,7 @@ final class ListingDeckViewModel: BaseViewModel {
             self?.isLoading = false
             if let newListings = result.listingsResult.value {
                 strongSelf.pagination = strongSelf.pagination.moveToNextPage()
-                let models = newListings.map { listing in
-                    return ListingCardViewModel(listing: listing,
-                                                isMine: listing.isMine(myUserRepository: strongSelf.userRepository))
-                }
-
+                let models = newListings.flatMap { strongSelf.viewModelFor(listing: $0) }
                 strongSelf.objects.appendContentsOf(models)
                 strongSelf.pagination.isLast = strongSelf.listingListRequester.isLastPage(newListings.count)
 
@@ -423,7 +403,6 @@ extension ListingDeckViewModel {
             range = (index - prefetching.previousCount)...(index - 1)
         default:
             range = (index - prefetching.previousCount)...(index + prefetching.nextCount)
-            print("OH MY GOD")
         }
         var imagesToPrefetch: [URL] = []
         for index in range {

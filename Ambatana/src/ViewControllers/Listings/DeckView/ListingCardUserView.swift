@@ -31,12 +31,8 @@ final class ListingCardUserView: UIView {
     }
 
     struct Constant {
-        struct Height {
-            static let userIcon: CGFloat = 34.0
-        }
-        struct Width {
-            static let shareProportion: CGFloat = 0.15
-        }
+        struct Height { static let userIcon: CGFloat = 34.0 }
+        struct Width {  static let shareProportion: CGFloat = 0.15 }
     }
 
     override var intrinsicContentSize: CGSize { return CGSize(width: UIViewNoIntrinsicMetric, height: 68.0) } // totally arbitrary
@@ -67,14 +63,9 @@ final class ListingCardUserView: UIView {
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-    func populate(withUserName userName: String, icon: URL?, imageDownloader: ImageDownloaderType, isMine: Bool) {
+    func populate(withUserName userName: String, icon: URL?, imageDownloader: ImageDownloaderType) {
         userNameLabel.text = userName
         actionButton.tintColor = .white
-        if isMine {
-            actionButton.setImage(Images.edit, for: .normal)
-        } else {
-            actionButton.setImage(Images.favourite, for: .normal)
-        }
 
         guard let url = icon else { return }
         imageDownloader.downloadImageWithURL(url, completion: { [weak self] (result, url) in
@@ -118,7 +109,7 @@ final class ListingCardUserView: UIView {
                        usingSpringWithDamping: 0.2,
                        initialSpringVelocity: 6.0,
                        options: .allowUserInteraction,
-                       animations: { [weak self] in
+                       animations: { _ in
                         sender.transform = .identity
             },
                        completion: nil)
@@ -167,7 +158,6 @@ final class ListingCardUserView: UIView {
 
         userNameLabel.layout(with: userIcon).leading(to: .trailingMargin, by: Metrics.margin).top()
         userNameLabel.layout(with: userIcon).bottom(relatedBy: .greaterThanOrEqual)
-        userNameLabel.text = "Steve"
         userNameLabel.font = UIFont.systemBoldFont(size: 15)
         userNameLabel.textColor = .white
     }
