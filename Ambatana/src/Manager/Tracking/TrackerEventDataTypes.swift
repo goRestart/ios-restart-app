@@ -332,7 +332,7 @@ enum EventParameterName: String {
     case bathrooms            = "bathroom-number"
     case location             = "location"
     case sqrMeters            = "sqr-meters"
-    case fieldOpen            = "open-field"
+    case openField            = "open-field"
 }
 
 enum EventParameterBoolean: String {

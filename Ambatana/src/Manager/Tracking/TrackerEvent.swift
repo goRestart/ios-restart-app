@@ -1188,7 +1188,7 @@ struct TrackerEvent {
     
     static func openOptionOnSummary(fieldOpen: EventParameterOptionSummary, postingType: EventParameterPostingType) -> TrackerEvent {
         var params = EventParameters()
-        params[.fieldOpen] = fieldOpen.rawValue 
+        params[.openField] = fieldOpen.rawValue
         params[.postingType] = postingType.rawValue
         return TrackerEvent(name: .openOptionOnSummary, params: params)
     }
