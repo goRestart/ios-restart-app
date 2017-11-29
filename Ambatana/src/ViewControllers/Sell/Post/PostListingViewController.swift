@@ -214,7 +214,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     }
     
     private func setupLoadingStackView() {
-        guard let category = viewModel.postCategory, category == .realEstate else { return }
+        guard !viewModel.isRealEstate else { return }
         loadingViewRealEstate = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: PostListingViewController.loadingViewWidth, height: PostListingViewController.loadingViewHeight))
         loadingViewRealEstate?.layout().height(PostListingViewController.loadingViewHeight).width(PostListingViewController.loadingViewWidth)
         if let loadingView = loadingViewRealEstate {
@@ -234,7 +234,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     }
     
     fileprivate func addMessageToStackView(textMessage: String?, success: Bool) {
-        guard let category = viewModel.postCategory, category == .realEstate else { return }
+        guard !viewModel.isRealEstate else { return }
         messageLabelUploadingImage.text = textMessage
         messageLabelUploadingImage.isHidden = false
         if !success {
