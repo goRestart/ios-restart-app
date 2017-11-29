@@ -197,7 +197,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         }
         let trackingInfo = retrieveTrackingInfo()
         navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: { [weak self] in
-            self?.navigator?.postInForeground(listingParams: listingCreationParams, trackingInfo: trackingInfo)
+            self?.navigator?.openListingCreation(listingParams: listingCreationParams, trackingInfo: trackingInfo)
             }, cancelAction: { [weak self] in
                 self?.navigator?.cancelPostListing()
         })

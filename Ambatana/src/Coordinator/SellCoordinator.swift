@@ -176,10 +176,10 @@ extension SellCoordinator: PostListingNavigator {
         TrackerProxy.sharedInstance.trackEvent(sellErrorDataEvent)
     }
     
-    func postInForeground(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo) {
-        let viewModel = PostingLoadingViewModel(listingParams: listingParams, trackingInfo: trackingInfo)
+    func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo) {
+        let viewModel = ListingCreationViewModel(listingParams: listingParams, trackingInfo: trackingInfo)
         viewModel.navigator = self
-        let vc = PostingLoadingViewController(viewModel: viewModel)
+        let vc = ListingCreationViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)
     }
 

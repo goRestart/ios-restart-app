@@ -1,5 +1,5 @@
 //
-//  PostingLoadingViewModel.swift
+//  ListingCreationViewModel.swift
 //  LetGo
 //
 //  Created by Juan Iglesias on 23/11/2017.
@@ -10,7 +10,7 @@
 import RxSwift
 import LGCoreKit
 
-class PostingLoadingViewModel : BaseViewModel {
+class ListingCreationViewModel : BaseViewModel {
     
     private let listingRepository: ListingRepository
     private let listingParams: ListingCreationParams

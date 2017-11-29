@@ -11,7 +11,7 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-class PostingLoadingViewController: BaseViewController {
+class ListingCreationViewController: BaseViewController {
     
     struct LoadingMetrics {
         static var heightLoadingView: CGFloat = 100
@@ -19,14 +19,14 @@ class PostingLoadingViewController: BaseViewController {
     }
     
     private var loadingView = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: LoadingMetrics.widthLoadingView, height: LoadingMetrics.widthLoadingView))
-    private let viewModel: PostingLoadingViewModel
+    private let viewModel: ListingCreationViewModel
     
     private let disposeBag = DisposeBag()
     
     
     // MARK: - LifeCycle
     
-    init(viewModel: PostingLoadingViewModel) {
+    init(viewModel: ListingCreationViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
     }
