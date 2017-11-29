@@ -305,6 +305,11 @@ final class ListingDeckViewModel: BaseViewModel {
         }
     }
 
+    func didTapStatusView() {
+        navigator?.openFeaturedInfo()
+        currentListingViewModel?.trackOpenFeaturedInfo()
+    }
+
     func close() {
         navigator?.closeProductDetail()
     }

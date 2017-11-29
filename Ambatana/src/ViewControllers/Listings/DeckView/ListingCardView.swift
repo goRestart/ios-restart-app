@@ -11,24 +11,30 @@ import UIKit
 import RxSwift
 import LGCoreKit
 
-// TODO: ABIOS-3101 https://ambatana.atlassian.net/browse/ABIOS-3101
+protocol ListingCardViewDelegate {
+    func didTapOnStatusView()
+}
+
 final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, PassthroughScrollViewDelegate {
     private struct Identifier {
         static let reusableID = String(describing: ListingDeckImagePreviewCell.self)
     }
 
-    var delegate: ListingCardDetailsViewDelegate? {
-        get { return detailsView.delegate }
-        set { detailsView.delegate = newValue }
+    var delegate: (ListingCardDetailsViewDelegate & ListingCardViewDelegate)? {
+        didSet { detailsView.delegate = delegate }
     }
 
     var rxShareButton: Reactive<UIButton> { return userView.rxShareButton }
     var rxActionButton: Reactive<UIButton> { return userView.rxActionButton }
+
     let userView = ListingCardUserView()
     let layout = ListingDeckImagePreviewLayout()
 
     private let binder = ListingCardViewBinder()
     private(set) var disposeBag = DisposeBag()
+
+    private let statusView = ProductStatusView()
+    private let statusTapGesture = UITapGestureRecognizer(target: self, action: #selector(touchUpStatusView))
 
     private let previewCollectionView: UICollectionView
     private var collectionHeight: NSLayoutConstraint?
@@ -65,12 +71,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
 
     func populateWith(listingViewModel: ListingCardViewCellModel, imageDownloader: ImageDownloaderType) {
         self.imageDownloader = imageDownloader
-        populateDetailsWith(listingViewModel: listingViewModel)
-        binder.bind(withViewModel: listingViewModel)
-    }
-
-    private func populateDetailsWith(listingViewModel: ListingCardViewCellModel) {
         detailsView.populateWithViewModel(listingViewModel)
+        binder.bind(withViewModel: listingViewModel)
     }
 
     func populateWith(userInfo: ListingVMUserInfo) {
@@ -86,6 +88,12 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
         previewCollectionView.dataSource = self
         previewCollectionView.isPagingEnabled = true
         previewCollectionView.reloadData()
+    }
+
+    func populateWith(status: ListingViewModelStatus, featured: Bool) {
+        statusTapGesture.isEnabled = featured
+        statusView.isHidden = status.string == nil
+        statusView.setFeaturedStatus(status, featured: featured)
     }
 
     func reloadData(animated: Bool) {
@@ -111,9 +119,26 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
         setupCollectionView()
         setupImagesCount()
         setupVerticalScrollView()
+        setupStatusView()
 
         backgroundColor = .clear
         contentView.backgroundColor = .white
+    }
+
+    private func setupStatusView() {
+        contentView.addSubview(statusView)
+        statusView.translatesAutoresizingMaskIntoConstraints = false
+
+        statusView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                        constant: Metrics.margin).isActive = true
+        statusView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        statusView.addGestureRecognizer(statusTapGesture)
+    }
+
+    @objc private func touchUpStatusView() {
+        statusView.bounce { [weak self] in
+            self?.delegate?.didTapOnStatusView()
+        }
     }
 
     private func setupCollectionView() {
@@ -121,7 +146,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
         contentView.addSubview(previewCollectionView)
         previewCollectionView.layout(with: contentView)
             .fillHorizontal().top().proportionalHeight(multiplier: 0.8) { [weak self] in
-            self?.collectionHeight = $0
+                self?.collectionHeight = $0
         }
     }
 
@@ -288,11 +313,11 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
         }
         return previewCollectionView
     }
-    
+
     func shouldTouchPassthroughScrollView(scrollView: PassthroughScrollView,
                                           point: CGPoint, with event: UIEvent?) -> Bool {
         func shouldScrollHorizontally(scrollView: PassthroughScrollView,
-                                         point: CGPoint, with event: UIEvent?) -> Bool {
+                                      point: CGPoint, with event: UIEvent?) -> Bool {
             let contentOffset = scrollView.contentOffset.y
 
             let alreadyScrolledVertically = contentOffset > -scrollViewContentInset.top
@@ -302,12 +327,11 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
             return previewCollectionView.hitTest(previewPoint, with: event) != nil
                 && userView.hitTest(headerPoint, with: event) == nil && !alreadyScrolledVertically
         }
-
-
+        
+        
         if shouldScrollHorizontally(scrollView: scrollView, point: point, with: event) {
             return true
         }
-
         return scrollView.contentOffset.y >= 0
     }
 }

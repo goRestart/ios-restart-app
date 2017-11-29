@@ -389,9 +389,9 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             guard let strongSelf = self else { return }
 
             self?.imageBackground.isHidden = true
-                self?.collectionView.handleCollectionChange(change) { _ in
-                    self?.imageBackground.isHidden = false
-                }
+            self?.collectionView.handleCollectionChange(change) { _ in
+                self?.imageBackground.isHidden = false
+            }
             }.addDisposableTo(disposeBag)
     }
 
@@ -521,7 +521,6 @@ extension ListingCarouselViewController {
         setupPageControlRx()
         setupUserInfoRx()
         setupNavbarButtonsRx()
-        setupAltActionsRx()
         setupBottomButtonsRx()
         setupProductStatusLabelRx()
         setupDirectChatElementsRx()
@@ -543,7 +542,7 @@ extension ListingCarouselViewController {
             pageControl.numberOfPages = images.count
             pageControl.frame.size = CGSize(width: CarouselUI.pageControlWidth, height:
                 pageControl.size(forNumberOfPages: images.count).width + CarouselUI.pageControlWidth)
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
 
     fileprivate func setupUserInfoRx() {
@@ -568,13 +567,6 @@ extension ListingCarouselViewController {
             }.addDisposableTo(disposeBag)
     }
 
-    fileprivate func setupAltActionsRx() {
-        viewModel.altActions.asObservable().skip(1).bindNext { [weak self] altActions in
-            guard let strongSelf = self else { return }
-            guard altActions.count > 0 else { return }
-            strongSelf.vmShowCarouselOptions(LGLocalizedString.commonCancel, actions: altActions)
-            }.addDisposableTo(disposeBag)
-    }
 
     fileprivate func setupNavbarButtonsRx() {
         setNavigationBarRightButtons([])
@@ -635,7 +627,7 @@ extension ListingCarouselViewController {
             strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bindNext {
                 topAction.action()
                 }.addDisposableTo(strongSelf.disposeBag)
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
 
     private func setupDirectChatElementsRx() {
@@ -826,7 +818,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
             } else {
                 collectionView.showRubberBandEffect(.left,
                                                     offset: ListingCarouselViewController.defaultRubberBandOffset)
-                
+
             }
         case .right:
             let newIndexRow = indexPath.row + 1
@@ -946,7 +938,7 @@ extension ListingCarouselViewController {
         guard let button = moreInfoView.dragView else { return }
         self.navigationController?.navigationBar.endIgnoreTouchesFor(button)
     }
-    
+
     fileprivate func dragMoreInfoView(offset: CGFloat, bottomLimit: CGFloat) {
         guard moreInfoState.value != .shown && !cellZooming.value else { return }
         if moreInfoView.frame.origin.y-offset > -view.frame.height {
@@ -956,11 +948,11 @@ extension ListingCarouselViewController {
             moreInfoState.value = .hidden
             moreInfoView.frame.origin.y = -view.frame.height
         }
-        
+
         let bottomOverScroll = max(offset-bottomLimit, 0)
         bottomItemsMargin = CarouselUI.itemsMargin + bottomOverScroll
     }
-    
+
     fileprivate func updateMoreInfoFrame() {
         if moreInfoView.frame.bottom > CarouselUI.moreInfoDragMargin*2 {
             showMoreInfo()
@@ -1055,19 +1047,19 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
                                            indexPath: indexPath, imageDownloader: carouselImageDownloader,
                                            imageScrollDirection: viewModel.imageScrollDirection)
             carouselCell.delegate = self
-            
+
             return carouselCell
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         collectionContentOffset.value = scrollView.contentOffset
-        
+
         if viewModel.imageScrollDirection == .horizontal {
             dragMoreInfoView(offset: scrollView.contentOffset.y, bottomLimit: bottomScrollLimit)
             scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: 0)
         }
     }
-    
+
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         cellAnimating.value = false
     }
@@ -1117,7 +1109,7 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         guard 0..<messages.count ~= indexPath.row else { return UITableViewCell() }
         let message = messages[indexPath.row]
         let drawer = ChatCellDrawerFactory.drawerForMessage(message,
-                                                            autoHide: true, 
+                                                            autoHide: true,
                                                             disclosure: true,
                                                             showClock: viewModel.featureFlags.showClockInDirectAnswer == .active)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
@@ -1211,7 +1203,7 @@ extension ListingCarouselViewController: ListingCarouselViewModelDelegate {
     func vmResetBumpUpBannerCountdown() {
         bumpUpBanner.resetCountdown()
     }
-    
+
 
     // Loadings and alerts overrides to remove keyboard before showing
 
@@ -1224,7 +1216,6 @@ extension ListingCarouselViewController: ListingCarouselViewModelDelegate {
         chatTextView.resignFirstResponder()
         super.vmShowAutoFadingMessage(message, completion: completion)
     }
-
 }
 
 
@@ -1262,3 +1253,4 @@ fileprivate extension ListingCarouselViewController {
         productStatusView.accessibilityId = .listingCarouselStatusView
     }
 }
+

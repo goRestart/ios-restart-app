@@ -46,6 +46,12 @@ final class ListingCardViewBinder {
         viewModel.cardProductImageURLs.bindNext { [weak self] urls in
             self?.cardView?.populateWith(imagesURLs: urls)
         }.addDisposableTo(vmDisposeBag)
+
+        let statusAndFeatured = Observable.combineLatest(viewModel.cardStatus,
+                                                         viewModel.cardIsFeatured) { $0 }
+        statusAndFeatured.bindNext { [weak self] (status, isFeatured) in
+            self?.cardView?.populateWith(status: status, featured: isFeatured)
+        }.addDisposableTo(vmDisposeBag)
     }
 
     func update(scrollViewBindings scrollView: UIScrollView) {

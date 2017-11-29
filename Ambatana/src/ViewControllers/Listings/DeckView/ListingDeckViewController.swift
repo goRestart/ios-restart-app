@@ -127,7 +127,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         viewModel.didTapCardAction()
     }
 
-
     @objc private func didTapClose() {
         closeBumpUpBanner()
         UIView.animate(withDuration: 0.3, animations: { 
@@ -257,8 +256,12 @@ extension ListingDeckViewController: ListingDeckViewModelDelegate {
     }
 }
 
-extension ListingDeckViewController: ListingCardDetailsViewDelegate {
+extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCardViewDelegate {
     func viewControllerToShowShareOptions() -> UIViewController {
         return self
+    }
+
+    func didTapOnStatusView() {
+        viewModel.didTapStatusView()
     }
 }

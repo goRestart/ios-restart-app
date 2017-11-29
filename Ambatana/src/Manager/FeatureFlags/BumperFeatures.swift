@@ -158,7 +158,7 @@ extension Bumper  {
         guard let value = Bumper.value(for: HideChatButtonOnFeaturedCells.key) else { return .control }
         return HideChatButtonOnFeaturedCells(rawValue: value) ?? .control 
     }
-
+    
     static var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
         guard let value = Bumper.value(for: TaxonomiesAndTaxonomyChildrenInFeed.key) else { return .control }
         return TaxonomiesAndTaxonomyChildrenInFeed(rawValue: value) ?? .control 
