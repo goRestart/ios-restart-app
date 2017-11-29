@@ -160,6 +160,7 @@ enum EventName: String {
     case mobilePaymentFail                  = "mobile-payment-fail"
     case bumpNotAllowed                     = "bump-up-not-allowed"
     case bumpNotAllowedContactUs            = "bump-up-not-allowed-contact-us"
+    case bumpUpPromo                        = "bump-up-promo"
 
     case chatWindowVisit                    = "chat-window-open"
     
@@ -325,6 +326,7 @@ enum EventParameterName: String {
     case isMine               = "is-mine"
     case numberOfItems        = "number-of-items"
     case transactionStatus    = "transaction-status"
+    case promotedBump         = "promoted-bump"
 }
 
 enum EventParameterBoolean: String {
@@ -742,6 +744,7 @@ enum EventParameterListingVisitSource: String {
     case relatedListings = "related-items-list"
     case next = "next-related-items-list"
     case previous = "previous-related-items-list"
+    case promoteBump = "promote-bump-up"
     case unknown = "N/A"
 }
 

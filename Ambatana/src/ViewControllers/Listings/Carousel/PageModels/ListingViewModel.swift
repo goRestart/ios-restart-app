@@ -117,6 +117,13 @@ class ListingViewModel: BaseViewModel {
     fileprivate var paymentItemId: String?
     var paymentProviderItemId: String?
     fileprivate var userIsSoftBlocked: Bool = false
+    fileprivate var bumpUpSource: BumpUpSource?
+    fileprivate var isPromotedBump: Bool {
+        if let bumpUpSource = bumpUpSource, bumpUpSource == .promoted {
+            return true
+        }
+        return false
+    }
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -463,7 +470,9 @@ class ListingViewModel: BaseViewModel {
     func showBumpUpView(purchaseableProduct: PurchaseableProduct,
                         paymentItemId: String?,
                         paymentProviderItemId: String?,
-                        bumpUpType: BumpUpType) {
+                        bumpUpType: BumpUpType,
+                        bumpUpSource: BumpUpSource?) {
+        self.bumpUpSource = bumpUpSource
         switch bumpUpType {
         case .priced:
             guard let paymentItemId = paymentItemId else { return }
@@ -1074,13 +1083,13 @@ extension ListingViewModel: PurchasesShopperDelegate {
     // Free Bump Up
 
     func freeBumpDidStart() {
-        trackBumpUpStarted(.free, type: .free, storeProductId: paymentProviderItemId)
+        trackBumpUpStarted(.free, type: .free, storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
 
     func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork) {
         trackBumpUpCompleted(.free, type: .free, restoreRetriesCount: 0, network: network, transactionStatus: nil,
-                             storeProductId: paymentProviderItemId)
+                             storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
             self?.isShowingFeaturedStripe.value = true
@@ -1097,7 +1106,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
 
     func pricedBumpDidStart() {
         trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: .priced,
-                           storeProductId: paymentProviderItemId)
+                           storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingPricedText)
     }
 
@@ -1116,7 +1125,8 @@ extension ListingViewModel: PurchasesShopperDelegate {
                              restoreRetriesCount: restoreRetriesCount,
                              network: .notAvailable,
                              transactionStatus: transactionStatus,
-                             storeProductId: paymentProviderItemId)
+                             storeProductId: paymentProviderItemId,
+                             isPromotedBump: isPromotedBump)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
             self?.isShowingFeaturedStripe.value = true
@@ -1135,7 +1145,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
 
     func restoreBumpDidStart() {
         trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: .restore,
-                           storeProductId: paymentProviderItemId)
+                           storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
 }

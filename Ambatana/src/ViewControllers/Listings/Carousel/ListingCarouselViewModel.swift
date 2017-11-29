@@ -388,11 +388,13 @@ class ListingCarouselViewModel: BaseViewModel {
     func showBumpUpView(purchaseableProduct: PurchaseableProduct,
                         paymentItemId: String?,
                         paymentProviderItemId: String?,
-                        bumpUpType: BumpUpType) {
+                        bumpUpType: BumpUpType,
+                        bumpUpSource: BumpUpSource?) {
         currentListingViewModel?.showBumpUpView(purchaseableProduct: purchaseableProduct,
                                                 paymentItemId: paymentItemId,
                                                 paymentProviderItemId: paymentProviderItemId,
-                                                bumpUpType: bumpUpType)
+                                                bumpUpType: bumpUpType,
+                                                bumpUpSource: bumpUpSource)
     }
 
     func moveQuickAnswerToTheEnd(_ index: Int) {

@@ -483,11 +483,7 @@ fileprivate extension AppCoordinator {
     }
 
     func shouldRetrieveBumpeableInfo() -> Bool {
-        print("🤖🤖🤖🤖🤖")
-        print(featureFlags.promoteBumpUpAfterSell.isActive)
-        print(keyValueStorage[.lastShownPromoteBumpDate])
         guard featureFlags.promoteBumpUpAfterSell.isActive else { return false }
-
         if let lastShownDate = keyValueStorage[.lastShownPromoteBumpDate],
             abs(lastShownDate.timeIntervalSinceNow) < Constants.promoteAfterPostWaitTime {
             return false
@@ -992,12 +988,17 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
                 let triggerBumpOnAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchaseableProduct: purchase,
                                                                                            paymentItemId: self?.paymentItemId,
                                                                                            paymentProviderItemId: self?.paymentProviderItemId,
-                                                                                           bumpUpType: .priced)
+                                                                                           bumpUpType: .priced,
+                                                                                           triggerBumpUpSource: .deepLink)
                 self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: requestListingId),
                                                           source: .openApp, actionOnFirstAppear: triggerBumpOnAppear)
             }
         case .promoted:
             tabBarCtl.clearAllPresented(nil)
+
+            let promoteBumpEvent = TrackerEvent.bumpUpPromo()
+            tracker.trackEvent(promoteBumpEvent)
+
             openPromoteBumpForListingId(listingId: requestListingId, purchaseableProduct: purchase)
         }
     }
@@ -1011,10 +1012,10 @@ extension AppCoordinator: PromoteBumpCoordinatorDelegate {
             let triggerBumpOnAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchaseableProduct: purchaseableProduct,
                                                                                        paymentItemId: self?.paymentItemId,
                                                                                        paymentProviderItemId: self?.paymentProviderItemId,
-                                                                                       bumpUpType: .priced)
+                                                                                       bumpUpType: .priced, triggerBumpUpSource: .promoted)
 
             self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId),
-                                                      source: .openApp,
+                                                      source: .promoteBump,
                                                       actionOnFirstAppear: triggerBumpOnAppear)
             self?.keyValueStorage[.lastShownPromoteBumpDate] = Date()
             
