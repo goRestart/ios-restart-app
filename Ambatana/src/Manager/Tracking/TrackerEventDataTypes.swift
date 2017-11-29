@@ -508,8 +508,7 @@ enum EventParameterStringRealEstate {
     var name: String {
         switch self {
         case .realEstateParam(let name):
-            guard let name = name, !name.isEmpty else { return "skip" }
-            return name
+            return name ?? "skip"
         case .none:
             return "skip"
         case .notApply:
@@ -520,7 +519,6 @@ enum EventParameterStringRealEstate {
 
 enum EventParameterBathroomsRealEstate {
     case bathrooms(value: Float?)
-    case none
     case notApply
     
     var name: String {
@@ -528,8 +526,6 @@ enum EventParameterBathroomsRealEstate {
         case .bathrooms(let value):
             guard let value = value else { return "skip" }
             return String(value)
-        case .none:
-            return "skip"
         case .notApply:
             return "N/A"
         }
@@ -538,7 +534,6 @@ enum EventParameterBathroomsRealEstate {
 
 enum EventParameterBedroomsRealEstate {
     case bedrooms(value: Int?)
-    case none
     case notApply
     
     var name: String {
@@ -546,8 +541,6 @@ enum EventParameterBedroomsRealEstate {
         case .bedrooms(let value):
             guard let value = value else { return "skip" }
             return String(value)
-        case .none:
-            return "skip"
         case .notApply:
             return "N/A"
         }
