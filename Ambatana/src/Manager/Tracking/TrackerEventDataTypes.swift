@@ -462,10 +462,10 @@ enum EventParameterMake {
     var name: String {
         switch self {
         case .make(let name):
-            guard let name = name, !name.isEmpty else { return "N/A" }
+            guard let name = name, !name.isEmpty else { return Constants.parameterNotApply }
             return name
         case .none:
-            return "N/A"
+            return Constants.parameterNotApply
         }
     }
 }
@@ -477,10 +477,10 @@ enum EventParameterModel {
     var name: String {
         switch self {
         case .model(let name):
-            guard let name = name, !name.isEmpty else { return "N/A" }
+            guard let name = name, !name.isEmpty else { return Constants.parameterNotApply }
             return name
         case .none:
-            return "N/A"
+            return Constants.parameterNotApply
         }
     }
 }
@@ -492,15 +492,18 @@ enum EventParameterYear {
     var year: String {
         switch self {
         case .year(let year):
-            guard let year = year, year != 0 else { return "N/A" }
+            guard let year = year, year != 0 else { return Constants.parameterNotApply }
             return String(year)
         case .none:
-            return "N/A"
+            return Constants.parameterNotApply
         }
     }
 }
 
+
+
 enum EventParameterStringRealEstate {
+    
     case realEstateParam(name: String?)
     case none
     case notApply
@@ -508,11 +511,11 @@ enum EventParameterStringRealEstate {
     var name: String {
         switch self {
         case .realEstateParam(let name):
-            return name ?? "skip"
+            return name ?? Constants.parameterSkipValue
         case .none:
-            return "skip"
+            return Constants.parameterSkipValue
         case .notApply:
-            return "N/A"
+            return Constants.parameterNotApply
         }
     }
 }
@@ -524,10 +527,10 @@ enum EventParameterBathroomsRealEstate {
     var name: String {
         switch self {
         case .bathrooms(let value):
-            guard let value = value else { return "skip" }
+            guard let value = value else { return Constants.parameterSkipValue }
             return String(value)
         case .notApply:
-            return "N/A"
+            return Constants.parameterNotApply
         }
     }
 }
@@ -539,10 +542,10 @@ enum EventParameterBedroomsRealEstate {
     var name: String {
         switch self {
         case .bedrooms(let value):
-            guard let value = value else { return "skip" }
+            guard let value = value else { return Constants.parameterSkipValue }
             return String(value)
         case .notApply:
-            return "N/A"
+            return Constants.parameterNotApply
         }
     }
 }
