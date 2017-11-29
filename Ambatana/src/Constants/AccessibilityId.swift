@@ -581,6 +581,12 @@ enum AccessibilityId: String {
 
     // Featured Info View
     case featuredInfoCloseButton
+
+    // Promote Bump Up view
+    case promoteBumpUpView
+    case promoteBumpUpTitle
+    case promoteBumpUpSellFasterButton
+    case promoteBumpUpLaterButton
 }
 
 extension UIAccessibilityIdentification {

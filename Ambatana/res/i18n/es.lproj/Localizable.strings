@@ -202,6 +202,7 @@
 "common_error_generic_body" = "Se ha producido un error.";
 "common_error_list_retry_button" = "Reintentar";
 "common_error_network_body" = "Por favor, comprueba tu configuración de red e inténtalo de nuevo";
+"common_error_posting_loaded_image" = "¡Ups! Tu anuncio no se ha publicado. Por favor, comprueba tu conexión.";
 "common_error_retry_button" = "Inténtalo de nuevo";
 "common_error_title" = "¡UPS!";
 "common_expand" = "Ver Más";
@@ -677,6 +678,9 @@
 "profile_verify_facebook_title" = "FACEBOOK";
 "profile_verify_google_button" = "Google";
 "profile_verify_google_title" = "GOOGLE";
+"promote_bump_later_button" = "Later";
+"promote_bump_sell_faster_button" = "Sell faster";
+"promote_bump_title" = "Attract more buyers";
 "quick_filter_location_title" = "Aplicar ubicación";
 "rate_buyers_message" = "¡Enhorabuena!";
 "rate_buyers_not_on_letgo_button" = "No lo he vendido en letgo";
@@ -733,6 +737,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "+4";
 "real_estate_bedrooms_title" = "Nº de habitaciones";
+"real_estate_current_step_of_total" = "%d de %d";
 "real_estate_location_notification_message" = "Nunca mostraremos tu ubicación exacta al resto de usuarios";
 "real_estate_location_title" = "Ubicación";
 "real_estate_offer_type_rent" = "En alquiler";

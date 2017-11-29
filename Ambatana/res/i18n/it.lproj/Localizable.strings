@@ -202,6 +202,7 @@
 "common_error_generic_body" = "Si è verificato un errore.";
 "common_error_list_retry_button" = "Riprova";
 "common_error_network_body" = "Controlla le tue impostazioni di rete e riprova";
+"common_error_posting_loaded_image" = "Ops! Il tuo prodotto non è stato pubblicato. Controlla le impostazioni di rete.";
 "common_error_retry_button" = "Riprova";
 "common_error_title" = "OPS!";
 "common_expand" = "Mostra Altro";
@@ -677,6 +678,9 @@
 "profile_verify_facebook_title" = "FACEBOOK";
 "profile_verify_google_button" = "Google";
 "profile_verify_google_title" = "GOOGLE";
+"promote_bump_later_button" = "Later";
+"promote_bump_sell_faster_button" = "Sell faster";
+"promote_bump_title" = "Attract more buyers";
 "quick_filter_location_title" = "Imposta posizione";
 "rate_buyers_message" = "Complimenti!";
 "rate_buyers_not_on_letgo_button" = "Non l'ho venduto su letgo";
@@ -733,6 +737,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "Più di 4";
 "real_estate_bedrooms_title" = "N° di stanze";
+"real_estate_current_step_of_total" = "%d of %d";
 "real_estate_location_notification_message" = "La tua posizione esatta non verrà mai mostrata agli altri utenti";
 "real_estate_location_title" = "Posizione";
 "real_estate_offer_type_rent" = "In affitto";

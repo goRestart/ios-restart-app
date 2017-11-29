@@ -16,18 +16,18 @@ class PromoteBumpViewModel: BaseViewModel {
     private var purchaseableProduct: PurchaseableProduct
 
     var titleText: String {
-        return "_ Attract more buyers"
+        return LGLocalizedString.promoteBumpTitle
     }
 
     var sellFasterImage: UIImage? {
         return UIImage(named: "bumpup2X")
     }
     var sellFasterText: String {
-        return LGLocalizedString.featuredInfoViewSellFaster
+        return LGLocalizedString.promoteBumpSellFasterButton
     }
 
     var laterText: String {
-        return "_ Later"
+        return LGLocalizedString.promoteBumpLaterButton
     }
 
 

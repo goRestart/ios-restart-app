@@ -37,6 +37,7 @@ class PromoteBumpViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupConstraints()
+        setupAccessibilityIds()
     }
 
     // MARK: - Private methods
@@ -112,6 +113,12 @@ class PromoteBumpViewController: BaseViewController {
         laterButton.layout(with: sellFasterButton).top(to: .bottom, by: Metrics.margin)
     }
 
+    func setupAccessibilityIds() {
+        alertView.accessibilityId = .promoteBumpUpView
+        titleLabel.accessibilityId = .promoteBumpUpTitle
+        sellFasterButton.accessibilityId = .promoteBumpUpSellFasterButton
+        laterButton.accessibilityId = .promoteBumpUpLaterButton
+    }
 
     // MARK: - Actions
 

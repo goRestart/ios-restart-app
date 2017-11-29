@@ -202,6 +202,7 @@
 "common_error_generic_body" = "Παρουσιάστηκε σφάλμα.";
 "common_error_list_retry_button" = "Προσπαθήστε ξανά";
 "common_error_network_body" = "Παρακαλώ ελέγξτε τις ρυθμίσεις δικτύου και προσπαθήστε ξανά";
+"common_error_posting_loaded_image" = "Όπα! Η καταχώρησή σας δεν έχει δημοσιευτεί. Παρακαλώ, ελέγξτε τις ρυθμίσεις δικτύου σας.";
 "common_error_retry_button" = "Προσπαθήστε ξανά";
 "common_error_title" = "ΟΠΑ!";
 "common_expand" = "Δείτε Περισσότερα";
@@ -677,6 +678,9 @@
 "profile_verify_facebook_title" = "FACEBOOK";
 "profile_verify_google_button" = "Google";
 "profile_verify_google_title" = "GOOGLE";
+"promote_bump_later_button" = "Later";
+"promote_bump_sell_faster_button" = "Sell faster";
+"promote_bump_title" = "Attract more buyers";
 "quick_filter_location_title" = "Ορισμός Τοποθεσίας";
 "rate_buyers_message" = "Συγχαρητήρια!";
 "rate_buyers_not_on_letgo_button" = "Δεν το πούλησα στο letgo";
@@ -733,6 +737,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Αριθμός υπνοδωματίων";
+"real_estate_current_step_of_total" = "%d από %d";
 "real_estate_location_notification_message" = "Δε θα δείξουμε ποτέ την ακριβή σας τοποθεσία σε άλλους χρήστες";
 "real_estate_location_title" = "Τοποθεσία";
 "real_estate_offer_type_rent" = "Για Ενοικίαση";
@@ -748,7 +753,7 @@
 "real_estate_summary_location_empty" = "Τοποθεσία: δεν έχει οριστεί";
 "real_estate_summary_offer_type_empty" = "Προσθήκη τύπου καταχώρησης";
 "real_estate_summary_price_empty" = "Προσθήκη τιμής";
-"real_estate_summary_price_title" = "Price: %@";
+"real_estate_summary_price_title" = "Τιμή: %@";
 "real_estate_summary_title" = "Σύνολο";
 "real_estate_summary_type_property_empty" = "Προσθήκη τύπου ιδιοκτησίας";
 "real_estate_title_generator_bathrooms_0" = "Κανένα";

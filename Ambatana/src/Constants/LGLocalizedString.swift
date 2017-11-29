@@ -831,6 +831,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_error_title", comment: "")
 	}
 
+	static var commonErrorPostingLoadedImage: String {
+		return NSLocalizedString("common_error_posting_loaded_image", comment: "")
+	}
+
 	static var commonExpand: String {
 		return NSLocalizedString("common_expand", comment: "")
 	}
@@ -1875,6 +1879,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("passive_buyers_contact_success", comment: "")
 	}
 
+	static var photoViewerChatButton: String {
+		return NSLocalizedString("photo_viewer_chat_button", comment: "")
+	}
+
 	static var postCategoryDetailsNavigationTitle: String {
 		return NSLocalizedString("post_category_details_navigation_title", comment: "")
 	}
@@ -2761,6 +2769,18 @@ struct LGLocalizedString {
 
 	static var profileConnectAccountsMessage: String {
 		return NSLocalizedString("profile_connect_accounts_message", comment: "")
+	}
+
+	static var promoteBumpTitle: String {
+		return NSLocalizedString("promote_bump_title", comment: "")
+	}
+
+	static var promoteBumpSellFasterButton: String {
+		return NSLocalizedString("promote_bump_sell_faster_button", comment: "")
+	}
+
+	static var promoteBumpLaterButton: String {
+		return NSLocalizedString("promote_bump_later_button", comment: "")
 	}
 
 	static var quickFilterLocationTitle: String {

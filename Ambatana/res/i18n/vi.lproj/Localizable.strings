@@ -202,6 +202,7 @@
 "common_error_generic_body" = "Có lỗi xảy ra.";
 "common_error_list_retry_button" = "Thử lại";
 "common_error_network_body" = "Vui lòng kiểm tra cài đặt mạng và thử lại";
+"common_error_posting_loaded_image" = "Ồ! Bài của bạn chưa được đăng. Vui lòng kiểm tra cài đặt mạng.";
 "common_error_retry_button" = "Thử lại";
 "common_error_title" = "Ồ!";
 "common_expand" = "Hiện thêm";
@@ -677,6 +678,9 @@
 "profile_verify_facebook_title" = "FACEBOOK";
 "profile_verify_google_button" = "Google";
 "profile_verify_google_title" = "GOOGLE";
+"promote_bump_later_button" = "Later";
+"promote_bump_sell_faster_button" = "Sell faster";
+"promote_bump_title" = "Attract more buyers";
 "quick_filter_location_title" = "Cài đặt Địa điểm";
 "rate_buyers_message" = "Chúc mừng!";
 "rate_buyers_not_on_letgo_button" = "Tôi không bán sản phẩm này trên letgo";
@@ -733,6 +737,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Số Phòng ngủ";
+"real_estate_current_step_of_total" = "%d trên %d";
 "real_estate_location_notification_message" = "Chúng tôi sẽ không bao giờ hiển thị chính xác địa điểm của bạn cho người dùng khác";
 "real_estate_location_title" = "Địa điểm";
 "real_estate_offer_type_rent" = "Cho Thuê";

@@ -202,6 +202,7 @@
 "common_error_generic_body" = "Une erreur est survenue.";
 "common_error_list_retry_button" = "Réessayer";
 "common_error_network_body" = "Veuillez vérifier votre connexion et réessayez";
+"common_error_posting_loaded_image" = "Oups ! Votre annonce n'a pas été publiée. Veuillez vérifier vos paramètres de connexion.";
 "common_error_retry_button" = "Réessayez";
 "common_error_title" = "OUPS !";
 "common_expand" = "Afficher Plus";
@@ -677,6 +678,9 @@
 "profile_verify_facebook_title" = "FACEBOOK";
 "profile_verify_google_button" = "Google";
 "profile_verify_google_title" = "GOOGLE";
+"promote_bump_later_button" = "Later";
+"promote_bump_sell_faster_button" = "Sell faster";
+"promote_bump_title" = "Attract more buyers";
 "quick_filter_location_title" = "Configurer une localisation";
 "rate_buyers_message" = "Félicitations !";
 "rate_buyers_not_on_letgo_button" = "Je ne l'ai pas vendu sur letgo";
@@ -733,6 +737,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "Plus de 4";
 "real_estate_bedrooms_title" = "Nombre de chambres";
+"real_estate_current_step_of_total" = "%d de %d";
 "real_estate_location_notification_message" = "Nous n'indiquons jamais votre localisation exacte aux autres utilisateurs";
 "real_estate_location_title" = "Lieu";
 "real_estate_offer_type_rent" = "À louer";
@@ -748,7 +753,7 @@
 "real_estate_summary_location_empty" = "Localisation : non configurée";
 "real_estate_summary_offer_type_empty" = "Ajouter type d'annonce";
 "real_estate_summary_price_empty" = "Ajouter prix";
-"real_estate_summary_price_title" = "Price: %@";
+"real_estate_summary_price_title" = "Prix : %@";
 "real_estate_summary_title" = "Résumé";
 "real_estate_summary_type_property_empty" = "Ajouter type de propriété";
 "real_estate_title_generator_bathrooms_0" = "Aucune";

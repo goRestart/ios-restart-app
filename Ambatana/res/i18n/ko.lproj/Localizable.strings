@@ -202,6 +202,7 @@
 "common_error_generic_body" = "오류가 발생했습니다";
 "common_error_list_retry_button" = "재시도하기";
 "common_error_network_body" = "네트워크 설정을 확인한 후 다시 시도하세요";
+"common_error_posting_loaded_image" = "잠깐만요! 회원님의 상품이 게시되지 않았습니다. 연결 설정을 확인해주세요.";
 "common_error_retry_button" = "다시 시도하세요";
 "common_error_title" = "웁스";
 "common_expand" = "더보기";
@@ -677,6 +678,9 @@
 "profile_verify_facebook_title" = "페이스북";
 "profile_verify_google_button" = "구글";
 "profile_verify_google_title" = "구글";
+"promote_bump_later_button" = "Later";
+"promote_bump_sell_faster_button" = "Sell faster";
+"promote_bump_title" = "Attract more buyers";
 "quick_filter_location_title" = "위치 설정";
 "rate_buyers_message" = "축하드립니다!";
 "rate_buyers_not_on_letgo_button" = "저는 이것은 letgo에서 판매하지 않았습니다";
@@ -733,6 +737,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4개 이상";
 "real_estate_bedrooms_title" = "방 숫자";
+"real_estate_current_step_of_total" = "%d 중 %d";
 "real_estate_location_notification_message" = "저희는 다른 사용자들에게 회원님의 정확한 위치를 공개하지 않습니다";
 "real_estate_location_title" = "위치";
 "real_estate_offer_type_rent" = "전세";
