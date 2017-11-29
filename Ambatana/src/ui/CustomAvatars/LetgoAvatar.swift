@@ -24,7 +24,7 @@ class LetgoAvatar {
         }
         label.font = UIFont.avatarFont
         label.textColor = UIColor.white
-        label.backgroundColor = UIColor.clear
+        label.backgroundColor = .clear
         label.textAlignment = .center
         view.addSubview(label)
 

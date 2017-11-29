@@ -20,7 +20,7 @@ class LGTextField: UITextField {
                 self.tintColor = UIColor.primaryColor
             }
             else {
-                self.tintColor = UIColor.clear
+                self.tintColor = .clear
             }
         }
     }

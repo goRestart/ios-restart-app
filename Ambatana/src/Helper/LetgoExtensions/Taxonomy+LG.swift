@@ -13,7 +13,7 @@ extension Taxonomy {
      Gets the taxonomy color depending on its first superkeyword child ID
      */
     var color: UIColor {
-        guard let firstTaxonomyChild = children.filter({$0.type == .superKeyword}).first else { return UIColor.white }
+        guard let firstTaxonomyChild = children.filter({$0.type == .superKeyword}).first else { return .white }
         switch firstTaxonomyChild.id {
         case 1, 2, 3, 4:
             return UIColor.Taxonomy.electronics

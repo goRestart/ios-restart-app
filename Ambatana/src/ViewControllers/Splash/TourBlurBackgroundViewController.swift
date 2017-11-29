@@ -23,7 +23,7 @@ class TourBlurBackgroundViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = .clear
 
         // Do any additional setup after loading the view.
     }

@@ -104,7 +104,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
         scrollsToTop = false
         showsHorizontalScrollIndicator = false
         
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
         
         // CollectionView cells
         register(CategoryHeaderCell.self, forCellWithReuseIdentifier: CategoryHeaderCell.reuseIdentifier)

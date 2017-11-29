@@ -64,6 +64,7 @@ class SellNavigationController: UINavigationController {
         view.addSubview(background)
         background.layout(with: view).fill()
         view.sendSubview(toBack:background)
+        view.layoutIfNeeded()
     }
     
     func startDetails(category: PostCategory?) {

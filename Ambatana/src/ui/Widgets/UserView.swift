@@ -26,7 +26,7 @@ enum UserViewStyle {
         case .full:
             return UIColor.white.withAlphaComponent(0.9)
         case .compactShadow, .compactBorder, .withProductInfo:
-            return UIColor.clear
+            return .clear
         }
     }
 

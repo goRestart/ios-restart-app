@@ -831,6 +831,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_error_title", comment: "")
 	}
 
+	static var commonErrorPostingLoadedImage: String {
+		return NSLocalizedString("common_error_posting_loaded_image", comment: "")
+	}
+
 	static var commonExpand: String {
 		return NSLocalizedString("common_expand", comment: "")
 	}

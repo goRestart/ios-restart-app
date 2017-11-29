@@ -12,6 +12,6 @@ class EmptyCell: UICollectionViewCell, ReusableCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
     }
 }

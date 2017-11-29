@@ -202,6 +202,7 @@
 "common_error_generic_body" = "Tapahtui virhe.";
 "common_error_list_retry_button" = "Yritä uudelleen";
 "common_error_network_body" = "Ole hyvä ja tarkista verkkoasetuksesi ja yritä uudelleen";
+"common_error_posting_loaded_image" = "Hups! Tuotettasi ei ole julkaistu. Ole hyvä ja tarkista verkkoasetuksesi.";
 "common_error_retry_button" = "Yritä uudelleen";
 "common_error_title" = "HUPS!";
 "common_expand" = "Näytä enemmän";
@@ -733,6 +734,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Makuuhuoneiden määrä";
+"real_estate_current_step_of_total" = "%d of %d";
 "real_estate_location_notification_message" = "Emme koskaan näytä tarkkaa sijaintiasi muille käyttäjille";
 "real_estate_location_title" = "Sijainti";
 "real_estate_offer_type_rent" = "Vuokrataan";
