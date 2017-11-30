@@ -1,7 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 source 'git@github.com:letgoapp/letgo-ios-specs.git'
 
-platform :ios, "8.0"
+platform :ios, "9.0"
 
 use_frameworks!
 
@@ -9,15 +9,15 @@ workspace "LetGo.xcworkspace"
 project "LetGo.xcodeproj"
 
 def shared_pods
-    pod "AlamofireImage",       "3.2.0" #"3.3.0"     # Swift 3.2
+    pod "AlamofireImage",       "3.3.0"
 
     pod "FBSDKLoginKit",        "4.22.0"    # Obj-c
     pod "FBSDKCoreKit",         "4.22.0"    # Obj-c
-    pod "FBSDKShareKit",		"4.22.0"    # Obj-c
+    pod "FBSDKShareKit",        "4.22.0"    # Obj-c
 
-    pod "RxSwift",              "~> 3.0" #"4.0.0"     # Swift 4.0
-    pod "RxSwiftExt"#,           "3.0.0"     # Swift 4.0
-    pod "RxCocoa",              "~> 3.0" #"4.0.0"     # Swift 4.0
+    pod "RxSwift",              "4.0.0"
+    pod "RxSwiftExt",           "3.0.0"
+    pod "RxCocoa",              "4.0.0"
 
     #Fabric
     pod "Fabric",               "1.6.11"    # Obj-c
@@ -33,8 +33,8 @@ def shared_pods
     pod "NewRelicAgent",        "5.14.2"    # Obj-c
 
     # letgo Core
-    pod "LGCoreKit",             "3.24.2"
-#    pod "LGCoreKit",            :path => "../lgcorekit"
+#    pod "LGCoreKit",             "3.24.2"
+    pod "LGCoreKit",            :path => "../lgcorekit"
 #    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'ad6a18b470243d462e3019ebf0331ea6e25377da'
 
     # letgo Collapsible label
@@ -47,7 +47,7 @@ def shared_pods
     pod "CHTCollectionViewWaterfallLayout", "0.9.5" # Obj-c
 
     # Device info helper
-    pod "DeviceGuru",           "~> 2.1" #"~> 3.0.0"  # Swift 4
+    pod "DeviceGuru",           "~> 3.0.1"
 
     # Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
     pod "Google/SignIn",        "3.0.3"     # Obj-c
@@ -56,8 +56,7 @@ def shared_pods
     pod "GoogleIDFASupport",    "3.14.0"    # Obj-c
 
     # Custom camera
-#    pod "CameraManager",        "3.1.1"
-    pod "CameraManager",        :git => 'https://github.com/letgoapp/CameraManager', :commit => '96e56bb8386730dc74aef1bcc4971bc3cfbcb257' # Swift 4
+    pod "CameraManager",        "4.0.1"
 
     # Ken Burns effect
     pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a' # Obj-c
@@ -66,7 +65,7 @@ def shared_pods
     pod "TMReachability",        :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6' # Obj-c
 
     # Logging
-    pod "CocoaLumberjack/Swift", "~> 3.0" #"3.3.0" # Swift 4
+    pod "CocoaLumberjack/Swift", "3.3.0"
 
     # FLEX debugging tool
     pod "FLEX",                 "2.4.0"  # Obj-c
@@ -75,27 +74,27 @@ def shared_pods
     pod "SwiftyUserDefaults",   :git => 'https://github.com/Dschee/SwiftyUserDefaults', :commit => 'dd3d8ddc5bf95db09b66185182b5a555ac59efd5' # PR: https://github.com/radex/SwiftyUserDefaults/pull/135 swift 4 (not too much activity)
 
     # TextView with placeholder
-    pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6' # Swift 4
+    pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6'
 
-    pod "KeychainSwift",        "10.0.0" #Swift 4
+    pod "KeychainSwift",        "10.0.0"
 
 end
 
 target "LetGo" do
-	shared_pods
+    shared_pods
 end
 
 target "LetGoGodMode" do
-	shared_pods
+    shared_pods
 end
 
 target "letgoTests" do
-	shared_pods
+    shared_pods
 
     ## Testing
-    pod "Quick",            "1.2.0" # Swift 3.2
-    pod "Nimble",           "7.0.2" # Swift 4
-    pod "RxTest",           "~> 3.0" #"4.0.0" # Swift 4
+    pod "Quick",            "1.2.0"
+    pod "Nimble",           "7.0.2"
+    pod "RxTest",           "4.0.0"
 
     # Mocking
     pod "OHHTTPStubs",      "5.2.3" # not updated - https://github.com/AliSoftware/OHHTTPStubs/issues/257

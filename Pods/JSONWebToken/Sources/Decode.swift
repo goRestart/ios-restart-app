@@ -2,7 +2,7 @@ import Foundation
 
 
 /// Failure reasons from decoding a JWT
-public enum InvalidToken : CustomStringConvertible, Error {
+public enum InvalidToken: CustomStringConvertible, Error {
   /// Decoding the JWT itself failed
   case decodeError(String)
 
@@ -25,7 +25,7 @@ public enum InvalidToken : CustomStringConvertible, Error {
   case invalidIssuer
 
   /// Returns a readable description of the error
-  public var description:String {
+  public var description: String {
     switch self {
     case .decodeError(let error):
       return "Decode Error: \(error)"
@@ -47,24 +47,37 @@ public enum InvalidToken : CustomStringConvertible, Error {
 
 
 /// Decode a JWT
-public func decode(_ jwt:String, algorithms:[Algorithm], verify:Bool = true, audience:String? = nil, issuer:String? = nil) throws -> Payload {
-  let (header, payload, signature, signatureInput) = try load(jwt)
+public func decode(_ jwt: String, algorithms: [Algorithm], verify: Bool = true, audience: String? = nil, issuer: String? = nil, leeway: TimeInterval = 0) throws -> ClaimSet {
+  let (header, claims, signature, signatureInput) = try load(jwt)
+
   if verify {
-    try validateClaims(payload, audience: audience, issuer: issuer)
+    try claims.validate(audience: audience, issuer: issuer, leeway: leeway)
     try verifySignature(algorithms, header: header, signingInput: signatureInput, signature: signature)
   }
 
-  return payload
+  return claims
 }
 
 /// Decode a JWT
-public func decode(_ jwt:String, algorithm:Algorithm, verify:Bool = true, audience:String? = nil, issuer:String? = nil) throws -> Payload {
-  return try decode(jwt, algorithms: [algorithm], verify: verify, audience: audience, issuer: issuer)
+public func decode(_ jwt: String, algorithm: Algorithm, verify: Bool = true, audience: String? = nil, issuer: String? = nil, leeway: TimeInterval = 0) throws -> ClaimSet {
+  return try decode(jwt, algorithms: [algorithm], verify: verify, audience: audience, issuer: issuer, leeway: leeway)
+}
+
+/// Decode a JWT
+@available(*, deprecated, message: "use decode that returns a ClaimSet instead")
+public func decode(_ jwt: String, algorithms: [Algorithm], verify: Bool = true, audience: String? = nil, issuer: String? = nil) throws -> Payload {
+  return try decode(jwt, algorithms: algorithms, verify: verify, audience: audience, issuer: issuer).claims
+}
+
+/// Decode a JWT
+@available(*, deprecated, message: "use decode that returns a ClaimSet instead")
+public func decode(_ jwt: String, algorithm: Algorithm, verify: Bool = true, audience: String? = nil, issuer: String? = nil) throws -> Payload {
+  return try decode(jwt, algorithms: [algorithm], verify: verify, audience: audience, issuer: issuer).claims
 }
 
 // MARK: Parsing a JWT
 
-func load(_ jwt:String) throws -> (header: Payload, payload: Payload, signature: Data, signatureInput: String) {
+func load(_ jwt: String) throws -> (header: JOSEHeader, payload: ClaimSet, signature: Data, signatureInput: String) {
   let segments = jwt.components(separatedBy: ".")
   if segments.count != 3 {
     throw InvalidToken.decodeError("Not enough segments")
@@ -98,13 +111,13 @@ func load(_ jwt:String) throws -> (header: Payload, payload: Payload, signature:
     throw InvalidToken.decodeError("Signature is not correctly encoded as base64")
   }
 
-  return (header: header!, payload: payload!, signature: signature, signatureInput: signatureInput)
+  return (header: JOSEHeader(parameters: header!), payload: ClaimSet(claims: payload!), signature: signature, signatureInput: signatureInput)
 }
 
 // MARK: Signature Verification
 
-func verifySignature(_ algorithms: [Algorithm], header: Payload, signingInput: String, signature: Data) throws {
-  guard let alg = header["alg"] as? String else {
+func verifySignature(_ algorithms: [Algorithm], header: JOSEHeader, signingInput: String, signature: Data) throws {
+  guard let alg = header.algorithm else {
     throw InvalidToken.decodeError("Missing Algorithm")
   }
 

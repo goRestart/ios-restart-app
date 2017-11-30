@@ -6,11 +6,10 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
-import Foundation
 import RxSwift
 
 /// Observer that records events together with virtual time when they were received.
-public class TestableObserver<ElementType>
+public final class TestableObserver<ElementType>
     : ObserverType {
     public typealias Element = ElementType
     
@@ -25,7 +24,7 @@ public class TestableObserver<ElementType>
 
     /// Notify observer about sequence event.
     ///
-    /// - parameter event: Event that occured.
+    /// - parameter event: Event that occurred.
     public func on(_ event: Event<Element>) {
         events.append(Recorded(time: _scheduler.clock, value: event))
     }
