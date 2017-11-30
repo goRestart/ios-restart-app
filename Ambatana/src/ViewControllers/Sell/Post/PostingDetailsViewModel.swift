@@ -53,6 +53,15 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         }
     }
     
+    var buttonFullWidth: Bool {
+        switch step {
+        case .bathrooms, .bedrooms, .offerType, .propertyType, .make, .model, .year, .price:
+            return false
+        case .location, .summary:
+            return true
+        }
+    }
+    
     private var currencySymbol: String? {
         guard let countryCode = locationManager.currentLocation?.countryCode else { return nil }
         return currencyHelper.currencyWithCountryCode(countryCode).symbol
