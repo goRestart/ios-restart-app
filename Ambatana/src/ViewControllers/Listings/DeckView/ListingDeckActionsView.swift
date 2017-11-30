@@ -16,21 +16,18 @@ final class ListingDeckActionView: UIView {
         struct Height {
             static let actionButton: CGFloat = 48.0
             static let blank: CGFloat = Metrics.shortMargin
-
-            static func from(bumpUp: BumpUpBanner) -> CGFloat {
-                return bumpUp.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
-            }
+            static let bumpUp: CGFloat = 40.0
         }
     }
 
-    private var actionButtonBottom: NSLayoutConstraint?
-
-    var isBumpUpVisisble: Bool { return actionButtonBottom?.constant == 2*Layout.Height.blank + bumpUpHeight }
     let actionButton = UIButton(type: .custom)
-    let separator = UIView()
-    let bumpUpBanner = BumpUpBanner()
+    private var fullViewContraints: [NSLayoutConstraint] = []
+    private var actionButtonCenterY: NSLayoutConstraint?
 
-    private var bumpUpHeight: CGFloat { return Layout.Height.from(bumpUp: bumpUpBanner) }
+    let separator = UIView()
+
+    let bumpUpBanner = BumpUpBanner()
+    var isBumpUpVisisble: Bool { return !bumpUpBanner.isHidden }
 
     convenience init() {
         self.init(frame: .zero)
@@ -44,12 +41,7 @@ final class ListingDeckActionView: UIView {
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override var intrinsicContentSize: CGSize {
-        let height: CGFloat
-        if isBumpUpVisisble {
-            height = 4*Layout.Height.blank + bumpUpHeight + Layout.Height.actionButton
-        } else {
-            height = 4*Layout.Height.blank + Layout.Height.actionButton - Layout.Height.blank
-        }
+        let height: CGFloat = 4*Layout.Height.blank + Layout.Height.bumpUp + Layout.Height.actionButton
         return CGSize(width: UIViewNoIntrinsicMetric, height: height)
     }
 
@@ -67,11 +59,17 @@ final class ListingDeckActionView: UIView {
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         actionButton.layout().height(Layout.Height.actionButton)
 
-        actionButton.layout(with: self)
-            .topMargin(by: Metrics.shortMargin).rightMargin(by: -Metrics.margin).leftMargin(by: Metrics.margin)
-        actionButton.layout(with: self).bottomMargin(by: -Metrics.shortMargin) { [weak self] constraint in
-            self?.actionButtonBottom = constraint
-        }
+        actionButton.layout(with: self).fillHorizontal(by: Metrics.margin)
+
+        actionButtonCenterY = actionButton.centerYAnchor.constraint(equalTo: centerYAnchor)
+        actionButtonCenterY?.isActive = true
+
+        let bottom = -(Layout.Height.bumpUp + 2*Layout.Height.blank)
+        fullViewContraints.append(contentsOf: [
+            actionButton.topAnchor.constraint(equalTo: topAnchor, constant: Layout.Height.blank),
+            actionButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: bottom)
+            ])
+
         actionButton.setTitle(LGLocalizedString.productMarkAsSoldButton, for: .normal)
         actionButton.setStyle(.terciary)
     }
@@ -91,6 +89,7 @@ final class ListingDeckActionView: UIView {
 
         bumpUpBanner.layout(with: separator).below(by: Layout.Height.blank)
         bumpUpBanner.layout(with: self).fillHorizontal()
+        bumpUpBanner.layout().height(Layout.Height.bumpUp)
     }
 
     func resetCountdown() {
@@ -98,7 +97,6 @@ final class ListingDeckActionView: UIView {
     }
 
     func hideBumpUp() {
-        actionButtonBottom?.constant = -Layout.Height.blank
         bumpUpBanner.isHidden = true
         separator.isHidden = true
 
@@ -110,11 +108,10 @@ final class ListingDeckActionView: UIView {
     }
 
     func showBumpUp() {
-        actionButtonBottom?.constant = -(3*Layout.Height.blank + bumpUpHeight)
         bumpUpBanner.isHidden = false
         separator.isHidden = false
-        
-        invalidateIntrinsicContentSize()
+
+        fullModeAlignment(true)
     }
 
     private func setupUI() {
@@ -125,6 +122,15 @@ final class ListingDeckActionView: UIView {
         separator.isHidden = true
 
         bringSubview(toFront: actionButton)
+
+        fullModeAlignment(false)
+    }
+
+    private func fullModeAlignment(_ isEnabled: Bool) {
+        fullViewContraints.forEach {
+            $0.isActive = isEnabled
+        }
+        actionButtonCenterY?.isActive = !isEnabled
     }
     
 }

@@ -56,7 +56,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.layout(with: self).leading().trailing().top() { [weak self] constraint in
             self?.collectionViewTop = constraint
-        }
+        }.proportionalHeight(multiplier: 0.7)
 
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.decelerationRate = 0
@@ -66,8 +66,18 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     private func setupPrivateActionsView() {
         addSubview(itemActionsView)
         itemActionsView.translatesAutoresizingMaskIntoConstraints = false
-        itemActionsView.layout(with: self).trailing().bottom().leading()
-        itemActionsView.layout(with: collectionView).below(by: 2*Metrics.margin)
+
+        let layoutGuide = UILayoutGuide()
+        itemActionsView.addLayoutGuide(layoutGuide)
+
+        layoutGuide.topAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
+        layoutGuide.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+
+        itemActionsView.layout(with: self).fillHorizontal().bottom(relatedBy: .lessThanOrEqual)
+        itemActionsView.layout(with: collectionView).below(relatedBy: .greaterThanOrEqual)
+
+        itemActionsView.centerYAnchor.constraint(equalTo: layoutGuide.centerYAnchor).isActive = true
+
         itemActionsView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
         itemActionsView.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
         itemActionsView.alpha = 0
@@ -93,16 +103,15 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
 
         directAnswersView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(directAnswersView)
-        directAnswersView.layout(with: self).leftMargin().rightMargin()
+        directAnswersView.layout(with: self).fillHorizontal()
         directAnswersView.layout(with: chatTextView).above(by: -Metrics.shortMargin)
-        directAnswersView.layout(with: collectionView).below(relatedBy: .greaterThanOrEqual)
 
         directAnswersView.backgroundColor = .clear
         directAnswersView.style = .light
 
         addSubview(directChatTable)
         directChatTable.translatesAutoresizingMaskIntoConstraints = false
-        directChatTable.layout(with: self).topMargin().leftMargin().rightMargin()
+        directChatTable.layout(with: self).topMargin().fillHorizontal()
         directChatTable.layout(with: directAnswersView).above(by: -Metrics.shortMargin)
         directChatTable.alpha = 0
         directChatTable.backgroundColor = .clear

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ListingDeckImagePreviewCell: UICollectionViewCell {
+class ListingDeckImagePreviewCell: UICollectionViewCell, ReusableCell {
 
     var position: Int = 0
     var imageURL: URL?

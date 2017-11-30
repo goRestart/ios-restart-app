@@ -71,7 +71,6 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
 
         mapSnapShotView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(mapSnapShotView)
-
         mapSnapShotView.layout(with: self).fillVertical(by: Layout.Defaults.insets.top)
         let mapViewConstraints = [
             mapSnapShotView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.Defaults.insets.top),
@@ -125,7 +124,6 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
                         self?.mapView.layoutIfNeeded()
         })
     }
-
     func hideMap(animated: Bool) {
         guard animated else {
             hideMap()
