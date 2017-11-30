@@ -10,6 +10,11 @@ import UIKit
 import RxSwift
 
 class PostListingViewController: BaseViewController, PostListingViewModelDelegate {
+    
+    private static let retryButtonHeight: CGFloat = 50
+    private static let loadingViewHeight: CGFloat = 100
+    private static let loadingViewWidth: CGFloat = 100
+    
     @IBOutlet weak var cameraGalleryContainer: UIView!
     
     @IBOutlet weak var otherStepsContainer: UIView!
@@ -22,6 +27,10 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     @IBOutlet weak var postedInfoLabel: UILabel!
     @IBOutlet weak var postErrorLabel: UILabel!
     @IBOutlet weak var retryButton: UIButton!
+    @IBOutlet weak var uploadImageStackView: UIStackView!
+    var loadingViewRealEstate: LoadingIndicator?
+    var messageLabelUploadingImage: UILabel = UILabel()
+    var retryButtonUploadingImageRealEstate: UIButton = UIButton(type: .custom)
     
     fileprivate var closeButton: UIButton
 
@@ -136,6 +145,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         navigationController?.setNavigationBarHidden(true, animated: false)
         if viewModel.state.value.isLoading {
             customLoadingView.startAnimating()
+            loadingViewRealEstate?.startAnimating()
         }
     }
 
@@ -180,8 +190,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     @IBAction func onRetryButton(_ sender: AnyObject) {
         viewModel.retryButtonPressed()
     }
-
-
+    
     // MARK: - Private methods
 
     private func setupView() {
@@ -201,6 +210,40 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         setupAddCarDetailsView()
         setupCloseButton()
         setupFooter()
+        setupLoadingStackView()
+    }
+    
+    private func setupLoadingStackView() {
+        guard viewModel.isRealEstate else { return }
+        loadingViewRealEstate = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: PostListingViewController.loadingViewWidth, height: PostListingViewController.loadingViewHeight))
+        loadingViewRealEstate?.layout().height(PostListingViewController.loadingViewHeight).width(PostListingViewController.loadingViewWidth)
+        if let loadingView = loadingViewRealEstate {
+            uploadImageStackView.addArrangedSubview(loadingView)
+        }
+        messageLabelUploadingImage.textColor = UIColor.white
+        messageLabelUploadingImage.font = UIFont.body
+        messageLabelUploadingImage.numberOfLines = 0
+        retryButtonUploadingImageRealEstate.layout().height(PostListingViewController.retryButtonHeight)
+        retryButtonUploadingImageRealEstate.setStyle(.primary(fontSize: .medium))
+        retryButtonUploadingImageRealEstate.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
+        retryButtonUploadingImageRealEstate.addTarget(self, action: #selector(PostListingViewController.onRetryButton), for: .touchUpInside)
+        uploadImageStackView.addArrangedSubview(messageLabelUploadingImage)
+        uploadImageStackView.addArrangedSubview(retryButtonUploadingImageRealEstate)
+        messageLabelUploadingImage.isHidden = true
+        retryButtonUploadingImageRealEstate.isHidden = true
+    }
+    
+    fileprivate func addMessageToStackView(textMessage: String?, success: Bool) {
+        guard viewModel.isRealEstate else { return }
+        messageLabelUploadingImage.text = textMessage
+        messageLabelUploadingImage.isHidden = false
+        if !success {
+            retryButtonUploadingImageRealEstate.isHidden = false
+            retryButtonUploadingImageRealEstate.setStyle(.primary(fontSize: .medium))
+        }
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            self?.uploadImageStackView.layoutIfNeeded()
+        })
     }
     
     private func setupCloseButton() {
@@ -443,6 +486,16 @@ fileprivate extension PostListingState {
     }
     
     var customLoadingViewAlpha: CGFloat {
+        guard !isRealEstate else { return 0 }
+        switch step {
+        case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
+            return 0
+        case .uploadingImage, .errorUpload, .detailsSelection, .uploadSuccess:
+            return 1
+        }
+    }
+    
+    var stackViewLoadingAlpha: CGFloat {
         switch step {
         case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
             return 0
@@ -452,6 +505,7 @@ fileprivate extension PostListingState {
     }
     
     var postedInfoLabelAlpha: CGFloat {
+        guard !isRealEstate else { return 0 }
         switch step {
         case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .carDetailsSelection, .finished, .addingDetails:
             return 0
@@ -461,11 +515,16 @@ fileprivate extension PostListingState {
     }
     
     func postedInfoLabelText(confirmationText: String?) -> String? {
-        return isError ? LGLocalizedString.commonErrorTitle.capitalized : confirmationText
+        return isError ? LGLocalizedString.commonErrorTitle.localizedCapitalized : confirmationText
+    }
+    
+    func messageForLoadedImage(confirmationText: String?) -> String? {
+        return isError ? LGLocalizedString.commonErrorPostingLoadedImage : confirmationText
     }
     
     var postErrorLabelAlpha: CGFloat {
-        return isError ? 1 : 0
+        guard let category = category, category == .realEstate else { return isError ? 1 : 0 }
+        return 0
     }
     
     var postErrorLabelText: String? {
@@ -478,7 +537,8 @@ fileprivate extension PostListingState {
     }
     
     var retryButtonAlpha: CGFloat {
-        return isError ? 1 : 0
+        guard isRealEstate else { return isError ? 1 : 0 }
+        return 0
     }
     
     var priceViewAlpha: CGFloat {
@@ -551,6 +611,7 @@ extension PostListingViewController {
             strongSelf.closeButton.alpha = state.closeButtonAlpha
             strongSelf.otherStepsContainer.alpha = state.isOtherStepsContainerAlpha
             strongSelf.customLoadingView.alpha = state.customLoadingViewAlpha
+            strongSelf.uploadImageStackView.alpha = state.stackViewLoadingAlpha
             strongSelf.postedInfoLabel.alpha = state.postedInfoLabelAlpha
             strongSelf.postedInfoLabel.text = state.postedInfoLabelText(confirmationText: strongSelf.viewModel.confirmationOkText)
             strongSelf.postErrorLabel.alpha = state.postErrorLabelAlpha
@@ -572,18 +633,28 @@ extension PostListingViewController {
                                 updateVisibility()
                            })
             customLoadingView.startAnimating()
+            loadingViewRealEstate?.startAnimating()
             isLoading = true
         } else if isLoading {
-            customLoadingView.stopAnimating(!state.isError, completion: updateVisibility)
+            stopAnimationLoaders(text: state.messageForLoadedImage(confirmationText: viewModel.confirmationOkText), isError: state.isError, action: updateVisibility)
             isLoading = false
         } else {
             updateVisibility()
         }
         if state.priceViewShouldBecomeFirstResponder() {
             priceView.becomeFirstResponder()
-            customLoadingView.stopAnimating(!state.isError, completion: nil)
+            stopAnimationLoaders(text: state.messageForLoadedImage(confirmationText: viewModel.confirmationOkText),isError: state.isError, action: updateVisibility)
         } else if state.priceViewShouldResignFirstResponder() {
             priceView.resignFirstResponder()
+        }
+    }
+    
+    private func stopAnimationLoaders(text: String?, isError: Bool, action: @escaping ()->()) {
+        if viewModel.isRealEstate {
+            loadingViewRealEstate?.stopAnimating(!isError, completion: action)
+            addMessageToStackView(textMessage:text , success: !isError)
+        } else {
+            customLoadingView.stopAnimating(!isError, completion: action)
         }
     }
     
@@ -674,8 +745,8 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         viewPager.dataSource = self
         viewPager.scrollDelegate = self
         viewPager.indicatorSelectedColor = UIColor.white
-        viewPager.tabsBackgroundColor = UIColor.clear
-        viewPager.tabsSeparatorColor = UIColor.clear
+        viewPager.tabsBackgroundColor = .clear
+        viewPager.tabsSeparatorColor = .clear
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         cameraGalleryContainer.insertSubview(viewPager, at: 0)
         

@@ -1,5 +1,5 @@
 //
-//  CarCreationParams+GeneratedName.swift
+//  CarCreationParams+generatedTitle.swift
 //  LetGo
 //
 //  Created by Dídac on 03/05/17.
@@ -9,17 +9,15 @@
 import LGCoreKit
 
 extension CarAttributes {
-    func generatedCarName() -> String {
-        var carTitle: String = ""
-        if let makeName = make, makeName != CarAttributes.emptyMake {
-            carTitle += makeName
+    var generatedTitle: String {
+        let separator = " - "
+        var title: String = ""
+        
+        var yearString: String? = nil
+        if let year = year {
+            yearString = String(year)
         }
-        if let modelName = model, modelName != CarAttributes.emptyModel {
-            carTitle += " - " + modelName
-        }
-        if let year = year, year != CarAttributes.emptyYear {
-            carTitle += " - " + String(year)
-        }
-        return carTitle
+        title = [make, model, yearString].flatMap{$0}.filter { $0 != CarAttributes.emptyMake && $0 != CarAttributes.emptyModel && $0 != String(CarAttributes.emptyYear) }.joined(separator: separator)
+        return title
     }
 }

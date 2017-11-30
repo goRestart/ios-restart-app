@@ -39,6 +39,12 @@ final class PostListingState {
     let lastImagesUploadResult: FilesResult?
     let price: ListingPrice?
     let verticalAttributes: VerticalAttributes?
+    let place: Place?
+    
+    var isRealEstate: Bool {
+        guard let category = category, category == .realEstate else { return false }
+        return true
+    }
     
     
     // MARK: - Lifecycle
@@ -52,7 +58,8 @@ final class PostListingState {
                   pendingToUploadImages: nil,
                   lastImagesUploadResult: nil,
                   price: nil,
-                  verticalAttributes: nil)
+                  verticalAttributes: nil,
+                  place: nil)
     }
     
     private init(step: PostListingStep,
@@ -61,7 +68,8 @@ final class PostListingState {
                  pendingToUploadImages: [UIImage]?,
                  lastImagesUploadResult: FilesResult?,
                  price: ListingPrice?,
-                 verticalAttributes: VerticalAttributes?) {
+                 verticalAttributes: VerticalAttributes?,
+                 place: Place?) {
         self.step = step
         self.previousStep = previousStep
         self.category = category
@@ -69,6 +77,7 @@ final class PostListingState {
         self.lastImagesUploadResult = lastImagesUploadResult
         self.price = price
         self.verticalAttributes = verticalAttributes
+        self.place = place
     }
     
     func updating(category: PostCategory) -> PostListingState {
@@ -88,7 +97,8 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
-                                verticalAttributes: verticalAttributes)
+                                verticalAttributes: verticalAttributes,
+                                place: place)
     }
     
     func updatingStepToUploadingImages() -> PostListingState {
@@ -104,7 +114,8 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
-                                verticalAttributes: verticalAttributes)
+                                verticalAttributes: verticalAttributes,
+                                place: place)
     }
     
     func updating(pendingToUploadImages: [UIImage]) -> PostListingState {
@@ -114,32 +125,38 @@ final class PostListingState {
         case .uploadingImage, .errorUpload, .detailsSelection, .categorySelection, .carDetailsSelection, .finished, .uploadSuccess, .addingDetails:
             return self
         }
-        let nextStep: PostListingStep
-        if let category = category, category == .car {
-            nextStep = .carDetailsSelection
+        let newStep: PostListingStep
+        if let currentCategory = category, currentCategory == .realEstate {
+            newStep = .addingDetails
         } else {
-            nextStep = .detailsSelection
+            newStep = .detailsSelection
         }
-        
-        return PostListingState(step: nextStep,
+        return PostListingState(step: newStep,
                                 previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
-                                verticalAttributes: verticalAttributes)
+                                verticalAttributes: verticalAttributes,
+                                place: place)
     }
     
     func updatingAfterUploadingSuccess() -> PostListingState {
         guard step == .uploadSuccess else { return self }
-        let nextStep: PostListingStep = .detailsSelection
+        let nextStep: PostListingStep
+        if let currentCategory = category, currentCategory == .realEstate {
+            nextStep = .addingDetails
+        } else {
+            nextStep = .detailsSelection
+        }
         return PostListingState(step: nextStep,
                                 previousStep: step,
                                 category: category,
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
-                                verticalAttributes: verticalAttributes)
+                                verticalAttributes: verticalAttributes,
+                                place: place)
     }
     
     
@@ -151,7 +168,8 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: FilesResult(value: uploadedImages),
                                 price: price,
-                                verticalAttributes: verticalAttributes)
+                                verticalAttributes: verticalAttributes,
+                                place: place)
     }
     
     func updating(uploadError: RepositoryError) -> PostListingState {
@@ -170,7 +188,8 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: FilesResult(error: uploadError),
                                 price: price,
-                                verticalAttributes: verticalAttributes)
+                                verticalAttributes: verticalAttributes,
+                                place: place)
     }
     
     func updating(price: ListingPrice) -> PostListingState {
@@ -194,7 +213,8 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
-                                verticalAttributes: verticalAttributes)
+                                verticalAttributes: verticalAttributes,
+                                place: place)
     }
 
     
@@ -206,7 +226,8 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
-                                verticalAttributes: .carInfo(carInfo))
+                                verticalAttributes: .carInfo(carInfo),
+                                place: place)
     }
     
     func updating(realEstateInfo: RealEstateAttributes) -> PostListingState {
@@ -217,7 +238,8 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
-                                verticalAttributes: .realEstateInfo(realEstateInfo))
+                                verticalAttributes: .realEstateInfo(realEstateInfo),
+                                place: place)
     }
     
     func revertToPreviousStep() -> PostListingState {
@@ -228,7 +250,20 @@ final class PostListingState {
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
-                                verticalAttributes: verticalAttributes)
+                                verticalAttributes: verticalAttributes,
+                                place: place)
+    }
+    
+    func updating(place: Place) -> PostListingState {
+        guard step == .addingDetails else { return self }
+        return PostListingState(step: .addingDetails,
+                                previousStep: step,
+                                category: category,
+                                pendingToUploadImages: pendingToUploadImages,
+                                lastImagesUploadResult: lastImagesUploadResult,
+                                price: price,
+                                verticalAttributes: verticalAttributes,
+                                place: place)
     }
 }
 

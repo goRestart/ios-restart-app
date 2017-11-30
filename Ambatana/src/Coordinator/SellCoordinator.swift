@@ -31,7 +31,6 @@ final class SellCoordinator: Coordinator {
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let postingSource: PostingSource
     fileprivate let postCategory: PostCategory?
-    fileprivate var postingDetailStep: PostingDetailStep?
     weak var delegate: SellCoordinatorDelegate?
 
     fileprivate let disposeBag = DisposeBag()
@@ -110,39 +109,51 @@ extension SellCoordinator: PostListingNavigator {
                     self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
                     self?.keyValueStorage.userPostProductPostedPreviously = true
                     self?.showConfirmation(listingResult: ListingResult(value: listing),
-                                           trackingInfo: trackingInfo)
+                                           trackingInfo: trackingInfo, modalStyle: true)
                 } else if let error = result.error {
                     self?.trackListingPostedInBackground(withError: error)
                     self?.showConfirmation(listingResult: ListingResult(error: error),
-                                           trackingInfo: trackingInfo)
+                                           trackingInfo: trackingInfo, modalStyle: true)
                 }
             }
         }
     }
     
     func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
-        let viewModel = PostingDetailsViewModel(step: .propertyType,
+        
+        let shouldShowPrice = featureFlags.showPriceStepRealEstatePosting.isActive
+        let firstStep: PostingDetailStep = shouldShowPriceStep(postListingPrice: postListingState.price, showPriceActive:shouldShowPrice) ? .price : .propertyType
+        
+        let viewModel = PostingDetailsViewModel(step: firstStep,
                                                 postListingState: postListingState,
                                                 uploadedImageSource: uploadedImageSource,
                                                 postingSource: postingSource,
-                                                postListingBasicInfo: postListingBasicInfo)
+                                                postListingBasicInfo: postListingBasicInfo,
+                                                previousStepIsSummary: false)
         viewModel.navigator = self
         let vc = PostingDetailsViewController(viewModel: viewModel)
-        postingDetailStep = .propertyType
         navigationController.startDetails(category: postListingState.category)
         navigationController.pushViewController(vc, animated: false)
+    }
+    
+    private func shouldShowPriceStep(postListingPrice: ListingPrice?, showPriceActive: Bool) -> Bool {
+        guard showPriceActive else { return false }
+        guard let _ = postListingPrice else { return true }
+        return false
     }
     
     func nextPostingDetailStep(step: PostingDetailStep,
                                postListingState: PostListingState,
                                uploadedImageSource: EventParameterPictureSource?,
                                postingSource: PostingSource,
-                               postListingBasicInfo: PostListingBasicDetailViewModel) {
+                               postListingBasicInfo: PostListingBasicDetailViewModel,
+                               previousStepIsSummary: Bool) {
         let viewModel = PostingDetailsViewModel(step: step,
                                                 postListingState: postListingState,
                                                 uploadedImageSource: uploadedImageSource,
                                                 postingSource: postingSource,
-                                                postListingBasicInfo: postListingBasicInfo)
+                                                postListingBasicInfo: postListingBasicInfo,
+                                                previousStepIsSummary: previousStepIsSummary)
         viewModel.navigator = self
         let vc = PostingDetailsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
@@ -164,15 +175,27 @@ extension SellCoordinator: PostListingNavigator {
         let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
         TrackerProxy.sharedInstance.trackEvent(sellErrorDataEvent)
     }
+    
+    func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo) {
+        let viewModel = ListingCreationViewModel(listingParams: listingParams, trackingInfo: trackingInfo)
+        viewModel.navigator = self
+        let vc = ListingCreationViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: false)
+    }
 
-    fileprivate func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo) {
+    func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool) {
         guard let parentVC = parentViewController else { return }
         
         let listingPostedVM = ListingPostedViewModel(listingResult: listingResult, trackingInfo: trackingInfo)
         listingPostedVM.navigator = self
         let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)
         viewController = listingPostedVC
-        parentVC.present(listingPostedVC, animated: true, completion: nil)
+        if modalStyle {
+            parentVC.present(listingPostedVC, animated: true, completion: nil)
+        } else {
+            navigationController.pushViewController(listingPostedVC, animated: false)
+        }
+        
     }
 
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
@@ -191,6 +214,10 @@ extension SellCoordinator: PostListingNavigator {
 
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?) {
         openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.productPostLoginMessage), loggedInAction: loggedInAction, cancelAction: cancelAction)
+    }
+    
+    func backToSummary() {
+        let _ = navigationController.popViewController(animated: true)
     }
 }
 

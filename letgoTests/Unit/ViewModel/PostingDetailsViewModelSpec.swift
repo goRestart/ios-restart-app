@@ -28,11 +28,13 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
         var tracker: MockTracker!
         var currencyHelper: CurrencyHelper!
         var featureFlags: MockFeatureFlags!
+        var myUserRepository: MockMyUserRepository!
         
         var postingDetailsStep: PostingDetailStep!
         var postListingState: PostListingState!
         var uploadedImageSource: EventParameterPictureSource! = .camera
         var postingSource: PostingSource! = .tabBar
+        var previousStepIsSummary: Bool = false
         var postListingBasicInfo = PostListingBasicDetailViewModel()
         
         describe("PostingDetailsViewModelSpec") {
@@ -42,10 +44,13 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                                               uploadedImageSource: uploadedImageSource,
                                               postingSource: postingSource,
                                               postListingBasicInfo: postListingBasicInfo,
+                                              previousStepIsSummary: previousStepIsSummary,
                                               tracker: tracker,
                                               currencyHelper: currencyHelper,
                                               locationManager: locationManager,
-                                              featureFlags: featureFlags)
+                                              featureFlags: featureFlags,
+                                              myUserRepository: myUserRepository)
+                
                 sut.navigator = self
             }
             
@@ -55,6 +60,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                 tracker = MockTracker()
                 currencyHelper = Core.currencyHelper
                 featureFlags = MockFeatureFlags()
+                myUserRepository = MockMyUserRepository()
                 
                 self.cancelPostingCalled = false
                 self.nextPostingDetailStepCalled = false
@@ -207,7 +213,8 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
                                postListingState: PostListingState,
                                uploadedImageSource: EventParameterPictureSource?,
                                postingSource: PostingSource,
-                               postListingBasicInfo: PostListingBasicDetailViewModel) {
+                               postListingBasicInfo: PostListingBasicDetailViewModel,
+                               previousStepIsSummary: Bool) {
         nextPostingDetailStepCalled = true
     }
     func closePostProductAndPostInBackground(params: ListingCreationParams,
@@ -221,4 +228,7 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?) {
         openLoginIfNeededFromListingPosted = true
     }
+    func backToSummary() { }
+    func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo) { }
+    func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool) {}
 }

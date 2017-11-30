@@ -8,6 +8,7 @@
 
 import LGCoreKit
 import Leanplum
+import JWT
 
 final class PushManager {
     enum Notification: String {
@@ -107,6 +108,6 @@ final class PushManager {
     }
 
     private func tokenStringFromData(_ data: Data) -> String {
-        return data.toHexString()
+        return data.hexString
     }
 }

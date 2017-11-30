@@ -19,7 +19,7 @@ extension TaxonomyChild {
         }
     }
     
-    var isCarsCategory: Bool {
+    var isCarsTaxonomy: Bool {
         switch type {
         case .category:
             if let categoryValue = category {
@@ -28,8 +28,12 @@ extension TaxonomyChild {
                 return false
             }
         case .superKeyword:
-            return false
+            return isCarsSuperKeyword
         }
+    }
+    
+    var isCarsSuperKeyword: Bool {
+        return id == 20
     }
 }
 
@@ -40,9 +44,9 @@ extension Array where Element == TaxonomyChild {
 }
 
 extension Array where Element == TaxonomyChild {
-    var containsCarsCategory: Bool {
+    var containsCarsTaxonomy: Bool {
         return self.reduce(false) { (result, taxonomyChild) -> Bool in
-            let isCarsCategory = taxonomyChild.isCarsCategory
+            let isCarsCategory = taxonomyChild.isCarsTaxonomy
             return result || isCarsCategory
         }
     }

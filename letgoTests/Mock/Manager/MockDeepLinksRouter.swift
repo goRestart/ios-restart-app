@@ -34,7 +34,6 @@ class MockDeepLinksRouter: NSObject, DeepLinksRouter {
     func initWithLaunchOptions(_ launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         return false
     }
-    @available(iOS 9.0, *)
     func performActionForShortcutItem(_ shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
     }
     func openUrl(_ url: URL, sourceApplication: String?, annotation: Any?) -> Bool {

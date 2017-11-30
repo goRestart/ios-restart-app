@@ -21,7 +21,6 @@ protocol FeatureFlaggeable: class {
     var surveyUrl: String { get }
     var surveyEnabled: Bool { get }
 
-    var websocketChat: Bool { get }
     var captchaTransparent: Bool { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
@@ -40,17 +39,21 @@ protocol FeatureFlaggeable: class {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
+    var moreInfoAdActive: MoreInfoAdActive { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
-    var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
+    var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
+    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation { get }
     var newItemPage: NewItemPage { get }
+    var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
+    var moreInfoShoppingAdUnitId: String { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -61,46 +64,23 @@ extension FeatureFlaggeable {
 }
 
 extension AddSuperKeywordsOnFeed {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .active:
-            return true
-        }
-    }
+    var isActive: Bool { get { return self == .active } }
 }
+
 extension TweaksCarPostingFlow {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .active:
-            return true
-        }
-    }
+    var isActive: Bool { get { return self == .active } }
 }
 
 extension ExpandableCategorySelectionMenu {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .expandableMenu:
-            return true
-        }
-    }
+    var isActive: Bool { get { return self == .expandableMenu } }
 }
 
 extension ShowPriceAfterSearchOrFilter {
-    var isActive: Bool {
-        switch self {
-        case .control, .baseline:
-            return false
-        case .priceOnSearchOrFilter:
-            return true
-        }
-    }
+    var isActive: Bool { get { return self == .priceOnSearchOrFilter } }
+}
+
+extension MoreInfoAdActive {
+    var isActive: Bool { get { return self == .titleFirst || self == .cloudsightFirst } }
 }
 
 extension HomeRelatedEnabled {
@@ -111,10 +91,17 @@ extension TaxonomiesAndTaxonomyChildrenInFeed {
     var isActive: Bool { get { return self == .active } }
 }
 
+extension ShowPriceStepRealEstatePosting {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension BumpUpPriceDifferentiation {
+    var isActive: Bool { get { return self == .active } }
+}
+
 class FeatureFlags: FeatureFlaggeable {
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
-    let websocketChat: Bool
     let requestTimeOut: RequestsTimeOut
 
     private let locale: Locale
@@ -131,12 +118,6 @@ class FeatureFlags: FeatureFlaggeable {
         Bumper.initialize()
 
         // Initialize all vars that shouldn't change over application lifetime
-        if Bumper.enabled {
-            self.websocketChat = Bumper.websocketChat
-        } else {
-            self.websocketChat = dao.retrieveWebsocketChatEnabled() ?? abTests.websocketChat.value
-        }
-
         if Bumper.enabled {
             self.requestTimeOut = Bumper.requestsTimeOut
         } else {
@@ -174,7 +155,6 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     func variablesUpdated() {
-        dao.save(websocketChatEnabled: abTests.websocketChat.value)
         if Bumper.enabled {
             dao.save(timeoutForRequests: TimeInterval(Bumper.requestsTimeOut.timeout))
         } else {
@@ -306,7 +286,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.realEstateEnabled
         }
-        return abTests.realEstateEnabled.value
+        return false
     }
     
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
@@ -337,13 +317,13 @@ class FeatureFlags: FeatureFlaggeable {
         return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
     }
 
-    var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail {
+    var moreInfoAdActive: MoreInfoAdActive {
         if Bumper.enabled {
-            return Bumper.featuredRibbonImprovementInDetail
+            return Bumper.moreInfoAdActive
         }
-        return FeaturedRibbonImprovementInDetail.fromPosition(abTests.featuredRibbonImprovementInDetail.value)
+        return MoreInfoAdActive.fromPosition(abTests.moreInfoAdActive.value)
     }
-
+  
     var newItemPage: NewItemPage {
         if Bumper.enabled {
             return Bumper.newItemPage
@@ -357,7 +337,27 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return TaxonomiesAndTaxonomyChildrenInFeed.fromPosition(abTests.taxonomiesAndTaxonomyChildrenInFeed.value)
     }
+    
+    var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting {
+        if Bumper.enabled {
+            return Bumper.showPriceStepRealEstatePosting
+        }
+        return .control
+    }
+    
+    var showClockInDirectAnswer: ShowClockInDirectAnswer {
+        if Bumper.enabled {
+            return Bumper.showClockInDirectAnswer
+        }
+        return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
+    }
 
+    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation {
+        if Bumper.enabled {
+            return Bumper.bumpUpPriceDifferentiation
+        }
+        return BumpUpPriceDifferentiation.fromPosition(abTests.bumpUpPriceDifferentiation.value)
+    }
 
     // MARK: - Country features
 
@@ -411,6 +411,16 @@ class FeatureFlags: FeatureFlaggeable {
         }
     }
 
+    var moreInfoShoppingAdUnitId: String {
+        switch sensorLocationCountryCode {
+        case .usa?:
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShoppingUSA
+        default:
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShopping
+        }
+    }
+
+
     // MARK: - Private
 
     private var locationCountryCode: CountryCode? {
@@ -420,5 +430,10 @@ class FeatureFlags: FeatureFlaggeable {
 
     private var localeCountryCode: CountryCode? {
         return CountryCode(string: locale.lg_countryCode)
+    }
+
+    private var sensorLocationCountryCode: CountryCode? {
+        guard let countryCode = locationManager.currentAutoLocation?.countryCode else { return nil }
+        return CountryCode(string: countryCode)
     }
 }

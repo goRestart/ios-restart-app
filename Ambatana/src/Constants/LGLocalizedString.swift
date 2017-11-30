@@ -831,6 +831,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_error_title", comment: "")
 	}
 
+	static var commonErrorPostingLoadedImage: String {
+		return NSLocalizedString("common_error_posting_loaded_image", comment: "")
+	}
+
 	static var commonExpand: String {
 		return NSLocalizedString("common_expand", comment: "")
 	}
@@ -2927,6 +2931,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("rating_view_title_label_uppercase", comment: "")
 	}
 
+	static var realEstateLocationTitle: String {
+		return NSLocalizedString("real_estate_location_title", comment: "")
+	}
+
+	static var realEstateLocationNotificationMessage: String {
+		return NSLocalizedString("real_estate_location_notification_message", comment: "")
+	}
+
 	static var realEstateSummaryTitle: String {
 		return NSLocalizedString("real_estate_summary_title", comment: "")
 	}
@@ -3011,6 +3023,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_bathrooms_4", comment: "")
 	}
 
+	static var realEstateSummaryBathroomTitle: String {
+		return NSLocalizedString("real_estate_summary_bathroom_title", comment: "")
+	}
+
+	static var realEstateSummaryBathroomsTitle: String {
+		return NSLocalizedString("real_estate_summary_bathrooms_title", comment: "")
+	}
+
 	static var realEstateBedroomsTitle: String {
 		return NSLocalizedString("real_estate_bedrooms_title", comment: "")
 	}
@@ -3035,6 +3055,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_bedrooms_4", comment: "")
 	}
 
+	static var realEstateSummaryBedroomTitle: String {
+		return NSLocalizedString("real_estate_summary_bedroom_title", comment: "")
+	}
+
+	static var realEstateSummaryBedroomsTitle: String {
+		return NSLocalizedString("real_estate_summary_bedrooms_title", comment: "")
+	}
+
 	static var realEstateSummaryPriceEmpty: String {
 		return NSLocalizedString("real_estate_summary_price_empty", comment: "")
 	}
@@ -3055,8 +3083,96 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_summary_bathrooms_empty", comment: "")
 	}
 
+	static func realEstateSummaryPriceTitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("real_estate_summary_price_title", comment: ""), var1)
+	}
+
 	static var realEstateSummaryLocationEmpty: String {
 		return NSLocalizedString("real_estate_summary_location_empty", comment: "")
+	}
+
+	static var realEstateTitleGeneratorPropertyTypeApartment: String {
+		return NSLocalizedString("real_estate_title_generator_property_type_apartment", comment: "")
+	}
+
+	static var realEstateTitleGeneratorPropertyTypeRoom: String {
+		return NSLocalizedString("real_estate_title_generator_property_type_room", comment: "")
+	}
+
+	static var realEstateTitleGeneratorPropertyTypeHouse: String {
+		return NSLocalizedString("real_estate_title_generator_property_type_house", comment: "")
+	}
+
+	static var realEstateTitleGeneratorPropertyTypeOther: String {
+		return NSLocalizedString("real_estate_title_generator_property_type_other", comment: "")
+	}
+
+	static var realEstateTitleGeneratorPropertyTypeCommercial: String {
+		return NSLocalizedString("real_estate_title_generator_property_type_commercial", comment: "")
+	}
+
+	static var realEstateTitleGeneratorOfferTypeSale: String {
+		return NSLocalizedString("real_estate_title_generator_offer_type_sale", comment: "")
+	}
+
+	static var realEstateTitleGeneratorOfferTypeRent: String {
+		return NSLocalizedString("real_estate_title_generator_offer_type_rent", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBedroomsStudio: String {
+		return NSLocalizedString("real_estate_title_generator_bedrooms_studio", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBedroomsOne: String {
+		return NSLocalizedString("real_estate_title_generator_bedrooms_one", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBedroomsTwo: String {
+		return NSLocalizedString("real_estate_title_generator_bedrooms_two", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBedroomsThree: String {
+		return NSLocalizedString("real_estate_title_generator_bedrooms_three", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBedroomsFour: String {
+		return NSLocalizedString("real_estate_title_generator_bedrooms_four", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms0: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_0", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms1: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_1", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms15: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_1_5", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms2: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_2", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms25: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_2_5", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms3: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_3", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms35: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_3_5", comment: "")
+	}
+
+	static var realEstateTitleGeneratorBathrooms4: String {
+		return NSLocalizedString("real_estate_title_generator_bathrooms_4", comment: "")
+	}
+
+	static func realEstateCurrentStepOfTotal(_ var1: Int, _ var2: Int) -> String {
+		return String(format: NSLocalizedString("real_estate_current_step_of_total", comment: ""), var1, var2)
 	}
 
 	static var relatedItemsTitle: String {

@@ -15,8 +15,24 @@ class SellNavigationViewModel : BaseViewModel {
     let categorySelected = Variable<PostCategory?>(nil)
     var shouldModifyProgress: Bool = false
     
+    let featureFlags: FeatureFlags
+    
     var actualStep: CGFloat {
         return currentStep.value
+    }
+    
+    var shouldShowPriceStep: Bool {
+        return featureFlags.showPriceStepRealEstatePosting.isActive
+    }
+    
+    
+    
+    init(featureFlags: FeatureFlags) {
+        self.featureFlags = featureFlags
+    }
+    
+    override convenience init() {
+        self.init(featureFlags: FeatureFlags.sharedInstance)
     }
     
     

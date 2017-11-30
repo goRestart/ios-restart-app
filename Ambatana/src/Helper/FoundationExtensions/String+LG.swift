@@ -10,30 +10,17 @@ import Foundation
 
 extension String {
 
-    var uppercase: String {
-        if #available(iOS 9.0, *) {
-            return localizedUppercase
-        } else {
-            return uppercased(with: Locale.current)
+    var sha256: Data? {
+        guard let messageData = self.data(using:String.Encoding.utf8) else { return nil }
+        var digestData = Data(count: Int(CC_SHA256_DIGEST_LENGTH))
+        _ = digestData.withUnsafeMutableBytes {digestBytes in
+            messageData.withUnsafeBytes {messageBytes in
+                CC_SHA256(messageBytes, CC_LONG(messageData.count), digestBytes)
+            }
         }
+        return digestData
     }
-
-    var lowercase: String {
-        if #available(iOS 9.0, *) {
-            return localizedLowercase
-        } else {
-            return lowercased(with: Locale.current)
-        }
-    }
-
-    var capitalized: String {
-        if #available(iOS 9.0, *) {
-            return localizedCapitalized
-        } else {
-            return self.capitalized(with: Locale.current)
-        }
-    }
-
+    
     var trim: String {
         let trimSet = CharacterSet.whitespacesAndNewlines
         return trimmingCharacters(in: trimSet)
@@ -41,8 +28,8 @@ extension String {
 
     var capitalizedFirstLetterOnly: String  {
         guard !self.isEmpty else { return self }
-        var result = self.lowercase
-        result.replaceSubrange(result.startIndex...result.startIndex, with: String(result[result.startIndex]).capitalized)
+        var result = self.localizedLowercase
+        result.replaceSubrange(result.startIndex...result.startIndex, with: String(result[result.startIndex]).localizedCapitalized)
         return result
     }
 
@@ -133,7 +120,7 @@ extension String {
         if let plusSignRange = username.range(of: "+") {
             username = username.substring(to: plusSignRange.lowerBound)
         }
-        return username.capitalized
+        return username.localizedCapitalized
     }
 
     func isValidLengthPrice(_ acceptsSeparator: Bool, locale: Locale = Locale.autoupdatingCurrent) -> Bool {

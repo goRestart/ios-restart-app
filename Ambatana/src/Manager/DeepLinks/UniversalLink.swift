@@ -70,7 +70,7 @@ struct UniversalLink {
                 return UniversalLink(deepLink: DeepLink.link(.conversations, campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
             case "account-chat-conversation":
                 guard components.count > 2, let conversationId = components.last else { return nil }
-                return UniversalLink(deepLink: DeepLink.link(.conversation(data: .conversation(conversationId: conversationId)), campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
+                return UniversalLink(deepLink: DeepLink.link(.conversation(conversationId: conversationId), campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))
             case "reset-password-renew":
                 guard let token = queryParams["token"] else { return nil }
                 return UniversalLink(deepLink: DeepLink.link(.resetPassword(token: token), campaign: campaign, medium: medium, source: source, cardActionParameter: cardAction))

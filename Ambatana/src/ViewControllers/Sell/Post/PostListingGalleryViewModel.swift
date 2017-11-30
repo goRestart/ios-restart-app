@@ -296,13 +296,11 @@ class PostListingGalleryViewModel: BaseViewModel {
         newAlbums.append(contentsOf: PostListingGalleryViewModel.collectAlbumsOfType(.smartAlbum,
             subtype: .smartAlbumBursts))
         newAlbums.append(contentsOf: PostListingGalleryViewModel.collectAlbumsOfType(.smartAlbum,
-            subtype: .smartAlbumFavorites))
-        if #available(iOS 9.0, *) {
-            newAlbums.append(contentsOf: PostListingGalleryViewModel.collectAlbumsOfType(.smartAlbum,
-                subtype: .smartAlbumSelfPortraits))
-            newAlbums.append(contentsOf: PostListingGalleryViewModel.collectAlbumsOfType(.smartAlbum,
-                subtype: .smartAlbumScreenshots))
-        }
+                                                                                     subtype: .smartAlbumFavorites))
+        newAlbums.append(contentsOf: PostListingGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+                                                                                     subtype: .smartAlbumSelfPortraits))
+        newAlbums.append(contentsOf: PostListingGalleryViewModel.collectAlbumsOfType(.smartAlbum,
+                                                                                     subtype: .smartAlbumScreenshots))
         newAlbums.append(contentsOf: PostListingGalleryViewModel.collectAlbumsOfType(.album))
 
         albums = newAlbums

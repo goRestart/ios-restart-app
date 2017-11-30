@@ -19,6 +19,9 @@ def shared_pods
     pod "RxSwiftExt",           "3.0.0"
     pod "RxCocoa",              "4.0.0"
 
+    #Ads
+    pod "Google-Mobile-Ads-SDK","7.24.1"
+
     #Fabric
     pod "Fabric",               "1.6.11"    # Obj-c
     pod "Crashlytics",          "3.8.3"     # Obj-c
@@ -29,19 +32,21 @@ def shared_pods
     pod "Amplitude-iOS",        "3.8.5"     # Obj-c
     pod "AppsFlyerFramework",   "4.7.11"    # Obj-c
 #    pod "Leanplum-iOS-SDK",     "2.0.1"    # Obj-c
-    pod "Leanplum-iOS-SDK", :git => 'https://github.com/Leanplum/Leanplum-iOS-SDK-internal', :tag => '2.0.3.95'
+    pod "Leanplum-iOS-SDK",     "2.0.4"
     pod "NewRelicAgent",        "5.14.2"    # Obj-c
 
     # letgo Core
-#    pod "LGCoreKit",             "3.24.2"
-    pod "LGCoreKit",            :path => "../lgcorekit"
-#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'ad6a18b470243d462e3019ebf0331ea6e25377da'
+#    pod "LGCoreKit",             "3.26.2"
+     pod "LGCoreKit",            :path => "../lgcorekit"
+#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '63852de51190ee4010b9cb77c3dcedfbc67a9019'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.2.0"     # :path => "../collapsiblelabel"
 
     # letgo bumper (feature flags)
-    pod "bumper",               "1.1.0"     #:path => "../bumper"
+#    pod "bumper",               "1.1.0"     #:path => "../bumper"
+    pod "bumper",            :git => 'git@github.com:letgoapp/bumper.git', :commit => '7ec04a070eca2337f058954d7f53c474d616d7b1'
+
 
     # Collection View Custom Layout
     pod "CHTCollectionViewWaterfallLayout", "0.9.5" # Obj-c

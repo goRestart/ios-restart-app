@@ -50,6 +50,7 @@ PODS:
     - GoogleUtilities (~> 1.2)
   - FirebaseInstanceID (1.0.9)
   - FLEX (2.4.0)
+  - Google-Mobile-Ads-SDK (7.24.1)
   - Google/Core (3.0.3):
     - FirebaseAnalytics (~> 3.2)
   - Google/SignIn (3.0.3):
@@ -85,7 +86,7 @@ PODS:
   - JSONWebToken (2.2.0)
   - KeychainSwift (10.0.0)
   - KMPlaceholderTextView (1.3.0)
-  - Leanplum-iOS-SDK (2.0.3.95)
+  - Leanplum-iOS-SDK (2.0.4)
   - LGCollapsibleLabel (1.2.0)
   - LGCoreKit (3.26.2):
     - Alamofire (~> 4.5.1)
@@ -146,7 +147,7 @@ DEPENDENCIES:
   - Amplitude-iOS (= 3.8.5)
   - AppsFlyerFramework (= 4.7.11)
   - Branch (= 0.12.27)
-  - bumper (= 1.1.0)
+  - bumper (from `git@github.com:letgoapp/bumper.git`, commit `7ec04a070eca2337f058954d7f53c474d616d7b1`)
   - CameraManager (= 4.0.1)
   - CHTCollectionViewWaterfallLayout (= 0.9.5)
   - CocoaLumberjack/Swift (= 3.3.0)
@@ -158,12 +159,13 @@ DEPENDENCIES:
   - FBSDKShareKit (= 4.22.0)
   - Firebase/AppIndexing (= 3.7.1)
   - FLEX (= 2.4.0)
+  - Google-Mobile-Ads-SDK (= 7.24.1)
   - Google/SignIn (= 3.0.3)
   - GoogleIDFASupport (= 3.14.0)
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - KeychainSwift (= 10.0.0)
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
-  - Leanplum-iOS-SDK (from `https://github.com/Leanplum/Leanplum-iOS-SDK-internal`, tag `2.0.3.95`)
+  - Leanplum-iOS-SDK (= 2.0.4)
   - LGCollapsibleLabel (= 1.2.0)
   - LGCoreKit (from `../lgcorekit`)
   - NewRelicAgent (= 5.14.2)
@@ -180,15 +182,15 @@ DEPENDENCIES:
   - TwitterKit (= 2.3.0)
 
 EXTERNAL SOURCES:
+  bumper:
+    :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
+    :git: git@github.com:letgoapp/bumper.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  Leanplum-iOS-SDK:
-    :git: https://github.com/Leanplum/Leanplum-iOS-SDK-internal
-    :tag: 2.0.3.95
   LGCoreKit:
     :path: ../lgcorekit
   SwiftyUserDefaults:
@@ -199,15 +201,15 @@ EXTERNAL SOURCES:
     :git: https://github.com/albertbori/Reachability
 
 CHECKOUT OPTIONS:
+  bumper:
+    :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
+    :git: git@github.com:letgoapp/bumper.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  Leanplum-iOS-SDK:
-    :git: https://github.com/Leanplum/Leanplum-iOS-SDK-internal
-    :tag: 2.0.3.95
   SwiftyUserDefaults:
     :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
     :git: https://github.com/Dschee/SwiftyUserDefaults
@@ -222,7 +224,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: ece902d4233177d4e9db1429c7a5df5fad8e9f07
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Branch: 41404cc6de82e84368a26961f66d657b0662ca02
-  bumper: ba80c619cdc94ffd689894dc67ee7e0f129f32d7
+  bumper: 8d5499e9774aa148763ab9a1eebcaf5e0ed7beff
   CameraManager: 56b3516e8e22cfbf56f3f0401291561e1ad9b3d0
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
@@ -239,6 +241,7 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: 2d0518b1378fe9d685ef40cbdd63d2fdc1125339
   FLEX: bd1a39e55b56bb413b6f1b34b3c10a0dc44ef079
   Google: cd92fab98f800f509da88c1e0c570275713bc9d5
+  Google-Mobile-Ads-SDK: ed8004a7265b424568dc84f3d2bbe3ea3fff958f
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleSignIn: 3fdaa34a2ba04dbd7a25d7db39aecb0da98d5bdc
@@ -251,7 +254,7 @@ SPEC CHECKSUMS:
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
   KeychainSwift: f9f7910449a0c0fd2cabc889121530dd2c477c33
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
-  Leanplum-iOS-SDK: 7d5af0a1c6220f33afbcc693348d6fd90231a32c
+  Leanplum-iOS-SDK: 09db04ac2c741d43a2d3b4781e3a25bf1166466e
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
   LGCoreKit: 4122b4407acc016501fcb6c7e6ed22d4097d9086
   NewRelicAgent: 28645401ac7531eeeabde64410c9d5efd49e083f
@@ -272,6 +275,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 44e8d6e05974df911cf658cfcc1e7e35e5ade5d6
+PODFILE CHECKSUM: 408228b868fc72dd4361c3de7e06aefe08f358bb
 
 COCOAPODS: 1.3.1

@@ -10,7 +10,7 @@ import LGCoreKit
 import RxSwift
 
 
-class PostingAddDetailPriceView: UIView {
+class PostingAddDetailPriceView: UIView, PostingViewConfigurable {
     
     static private let currencyWidth: CGFloat = 20
     static private let priceViewMargin: CGFloat = 20
@@ -85,6 +85,8 @@ class PostingAddDetailPriceView: UIView {
         
         let tapBackground = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
         addGestureRecognizer(tapBackground)
+        
+        freeSwitch.onTintColor = UIColor.primaryColor
     }
     
     private func setupConstraints() {
@@ -161,5 +163,26 @@ class PostingAddDetailPriceView: UIView {
     
     dynamic private func closeKeyboard() {
         priceTextField.resignFirstResponder()
+    }
+    
+    
+    // MARK: - PostingViewConfigurable
+
+    func setupContainerView(view: UIView) {
+        translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(self)
+        layout(with: view).fill()
+    }
+    
+    func setupView(viewModel: PostingDetailsViewModel) {
+        guard let price = viewModel.currentPrice else { return }
+        switch price {
+        case .firmPrice, .normal:
+            priceTextField.text = String(price.value)
+        case .free:
+            freeActive.value = true
+        case .negotiable:
+            break
+        }
     }
 }

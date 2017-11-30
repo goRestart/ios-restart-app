@@ -288,7 +288,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         addSubview(indicatorContainer)
 
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicatorContainer.backgroundColor = UIColor.clear
+        indicatorContainer.backgroundColor = .clear
         indicatorContainer.addSubview(indicator)
 
         pagesScrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -296,7 +296,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         pagesScrollView.bounces = false
         pagesScrollView.showsHorizontalScrollIndicator = false
         pagesScrollView.showsVerticalScrollIndicator = false
-        pagesScrollView.backgroundColor = UIColor.clear
+        pagesScrollView.backgroundColor = .clear
         pagesScrollView.delegate = self
         addSubview(pagesScrollView)
         

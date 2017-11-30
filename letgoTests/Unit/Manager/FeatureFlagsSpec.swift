@@ -38,54 +38,7 @@ class FeatureFlagsSpec: QuickSpec {
                                    dao: dao)
             }
 
-            describe("initialization") {
-                context("bumper disabled") {
-                    context("dao did not cache websocket variable") {
-                        beforeEach {
-                            dao.websocketChatEnabled = nil
-
-                            sut = FeatureFlags(locale: locale,
-                                               locationManager: locationManager,
-                                               countryInfo: countryInfo,
-                                               abTests: abTests,
-                                               dao: dao)
-                        }
-
-                        it("returns websocket ab test value") {
-                            expect(sut.websocketChat) == abTests.websocketChat.value
-                        }
-                    }
-
-                    context("data cached websocket variable") {
-                        beforeEach {
-                            dao.websocketChatEnabled = true
-
-                            sut = FeatureFlags(locale: locale,
-                                               locationManager: locationManager,
-                                               countryInfo: countryInfo,
-                                               abTests: abTests,
-                                               dao: dao)
-                        }
-
-                        it("returns websocket cached value") {
-                            expect(sut.websocketChat) == dao.websocketChatEnabled
-                        }
-                    }
-                }
-            }
-
-            describe("ab variables updated") {
-                beforeEach {
-                    sut.variablesUpdated()
-                }
-
-                it("saves websocket ab test value in dao") {
-                    expect(dao.websocketChatEnabled) == abTests.websocketChat.value
-                }
-            }
-
             describe("NetworkDAO interaction") {
-
                 context("bumper disabled") {
                     context("network dao does not have any presetted value") {
                         beforeEach {

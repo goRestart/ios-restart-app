@@ -105,7 +105,7 @@ class FilteredListingListRequester: ListingListRequester {
     }
 
     private var requesterTitle: String? {
-        guard let filters = filters, filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsCategory  else { return nil }
+        guard let filters = filters, filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy  else { return nil }
         var titleFromFilters: String = ""
 
         if let makeName = filters.carMakeName {
@@ -128,7 +128,7 @@ class FilteredListingListRequester: ListingListRequester {
             titleFromFilters = LGLocalizedString.filterResultsCarsOtherResults
         }
 
-        return titleFromFilters.isEmpty ? nil : titleFromFilters.uppercase
+        return titleFromFilters.isEmpty ? nil : titleFromFilters.localizedUppercase
     }
 
     private func rangeYearTitle(forFilters filters: ListingFilters?) -> String? {

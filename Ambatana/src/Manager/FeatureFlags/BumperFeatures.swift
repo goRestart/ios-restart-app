@@ -13,7 +13,6 @@ import bumper
 extension Bumper  {
     static func initialize() {
         var flags = [BumperFeature.Type]()
-        flags.append(WebsocketChat.self)
         flags.append(ShowNPSSurvey.self)
         flags.append(SurveyEnabled.self)
         flags.append(FreeBumpUpEnabled.self)
@@ -34,18 +33,16 @@ extension Bumper  {
         flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
         flags.append(NewBumpUpExplanation.self)
+        flags.append(MoreInfoAdActive.self)
         flags.append(HomeRelatedEnabled.self)
         flags.append(HideChatButtonOnFeaturedCells.self)
-        flags.append(FeaturedRibbonImprovementInDetail.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(NewItemPage.self)
+        flags.append(ShowPriceStepRealEstatePosting.self)
+        flags.append(ShowClockInDirectAnswer.self)
+        flags.append(BumpUpPriceDifferentiation.self)
         Bumper.initialize(flags)
     } 
-
-    static var websocketChat: Bool {
-        guard let value = Bumper.value(for: WebsocketChat.key) else { return false }
-        return WebsocketChat(rawValue: value)?.asBool ?? false
-    }
 
     static var showNPSSurvey: Bool {
         guard let value = Bumper.value(for: ShowNPSSurvey.key) else { return false }
@@ -147,6 +144,11 @@ extension Bumper  {
         return NewBumpUpExplanation(rawValue: value) ?? .control 
     }
 
+    static var moreInfoAdActive: MoreInfoAdActive {
+        guard let value = Bumper.value(for: MoreInfoAdActive.key) else { return .control }
+        return MoreInfoAdActive(rawValue: value) ?? .control 
+    }
+
     static var homeRelatedEnabled: HomeRelatedEnabled {
         guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return .control }
         return HomeRelatedEnabled(rawValue: value) ?? .control 
@@ -157,11 +159,6 @@ extension Bumper  {
         return HideChatButtonOnFeaturedCells(rawValue: value) ?? .control 
     }
 
-    static var featuredRibbonImprovementInDetail: FeaturedRibbonImprovementInDetail {
-        guard let value = Bumper.value(for: FeaturedRibbonImprovementInDetail.key) else { return .control }
-        return FeaturedRibbonImprovementInDetail(rawValue: value) ?? .control 
-    }
-
     static var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
         guard let value = Bumper.value(for: TaxonomiesAndTaxonomyChildrenInFeed.key) else { return .control }
         return TaxonomiesAndTaxonomyChildrenInFeed(rawValue: value) ?? .control 
@@ -170,18 +167,24 @@ extension Bumper  {
     static var newItemPage: NewItemPage {
         guard let value = Bumper.value(for: NewItemPage.key) else { return .control }
         return NewItemPage(rawValue: value) ?? .control 
+    }
+
+    static var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting {
+        guard let value = Bumper.value(for: ShowPriceStepRealEstatePosting.key) else { return .control }
+        return ShowPriceStepRealEstatePosting(rawValue: value) ?? .control 
+    }
+
+    static var showClockInDirectAnswer: ShowClockInDirectAnswer {
+        guard let value = Bumper.value(for: ShowClockInDirectAnswer.key) else { return .control }
+        return ShowClockInDirectAnswer(rawValue: value) ?? .control 
+    }
+
+    static var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation {
+        guard let value = Bumper.value(for: BumpUpPriceDifferentiation.key) else { return .control }
+        return BumpUpPriceDifferentiation(rawValue: value) ?? .control 
     } 
 }
 
-
-enum WebsocketChat: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return WebsocketChat.no.rawValue }
-    static var enumValues: [WebsocketChat] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New Websocket Chat" } 
-    var asBool: Bool { return self == .yes }
-}
 
 enum ShowNPSSurvey: String, BumperFeature  {
     case no, yes
@@ -440,6 +443,23 @@ enum NewBumpUpExplanation: String, BumperFeature  {
     }
 }
 
+enum MoreInfoAdActive: String, BumperFeature  {
+    case control, baseline, titleFirst, cloudsightFirst
+    static var defaultValue: String { return MoreInfoAdActive.control.rawValue }
+    static var enumValues: [MoreInfoAdActive] { return [.control, .baseline, .titleFirst, .cloudsightFirst]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show the ad in more info" } 
+    static func fromPosition(_ position: Int) -> MoreInfoAdActive {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .titleFirst
+            case 3: return .cloudsightFirst
+            default: return .control
+        }
+    }
+}
+
 enum HomeRelatedEnabled: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return HomeRelatedEnabled.control.rawValue }
@@ -472,22 +492,6 @@ enum HideChatButtonOnFeaturedCells: String, BumperFeature  {
     }
 }
 
-enum FeaturedRibbonImprovementInDetail: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return FeaturedRibbonImprovementInDetail.control.rawValue }
-    static var enumValues: [FeaturedRibbonImprovementInDetail] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Featured ribbon in product detail is clickable" } 
-    static func fromPosition(_ position: Int) -> FeaturedRibbonImprovementInDetail {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum TaxonomiesAndTaxonomyChildrenInFeed: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return TaxonomiesAndTaxonomyChildrenInFeed.control.rawValue }
@@ -511,6 +515,54 @@ enum NewItemPage: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New item page with card appearance and different navigation" } 
     static func fromPosition(_ position: Int) -> NewItemPage {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShowPriceStepRealEstatePosting: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowPriceStepRealEstatePosting.control.rawValue }
+    static var enumValues: [ShowPriceStepRealEstatePosting] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show price on real estate listing" } 
+    static func fromPosition(_ position: Int) -> ShowPriceStepRealEstatePosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShowClockInDirectAnswer: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowClockInDirectAnswer.control.rawValue }
+    static var enumValues: [ShowClockInDirectAnswer] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show a clock until the message is delivered correctly" } 
+    static func fromPosition(_ position: Int) -> ShowClockInDirectAnswer {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum BumpUpPriceDifferentiation: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return BumpUpPriceDifferentiation.control.rawValue }
+    static var enumValues: [BumpUpPriceDifferentiation] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Scale bump prices according to listing price" } 
+    static func fromPosition(_ position: Int) -> BumpUpPriceDifferentiation {
         switch position { 
             case 0: return .control
             case 1: return .baseline

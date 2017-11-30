@@ -55,7 +55,7 @@ class RateBuyersHeader: UIView {
         titleLabel.font = UIFont.systemMediumFont(size: 17)
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
-        titleLabel.text = setTitle().uppercase
+        titleLabel.text = setTitle().localizedUppercase
         messageLabel.textColor = UIColor.darkGrayText
         messageLabel.font = UIFont.mediumBodyFont
         messageLabel.numberOfLines = 0

@@ -17,6 +17,7 @@ import RxSwift
 import TwitterKit
 import UIKit
 
+
 #if DEBUG
     import AdSupport
 #endif
@@ -115,14 +116,12 @@ extension AppDelegate: UIApplicationDelegate {
         return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation, options: nil)
     }
 
-    @available(iOS 9.0, *)
     func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
         let sourceApplication: String? = options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String
         let annotation: Any? = options[UIApplicationOpenURLOptionsKey.annotation]
         return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation, options: options)
     }
 
-    @available(iOS 9.0, *)
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem,
                      completionHandler: @escaping (Bool) -> Void) {
         deepLinksRouter?.performActionForShortcutItem(shortcutItem,
@@ -183,9 +182,7 @@ extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication, continue userActivity: NSUserActivity,
                      restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         let routerUserActivity = deepLinksRouter?.continueUserActivity(userActivity, restorationHandler: restorationHandler) ?? false
-        if #available(iOS 9.0, *) {
-            AppsFlyerTracker.shared().continue(userActivity, restorationHandler: restorationHandler)
-        }
+        AppsFlyerTracker.shared().continue(userActivity, restorationHandler: restorationHandler)
         return routerUserActivity
     }
 
@@ -259,9 +256,9 @@ fileprivate extension AppDelegate {
 
         // Logging
         #if GOD_MODE
-            DDLog.add(DDTTYLogger.sharedInstance())       // TTY = Xcode console
-            DDTTYLogger.sharedInstance().colorsEnabled =  true
-            DDLog.add(DDASLLogger.sharedInstance())       // ASL = Apple System Logs
+            DDLog.add(DDTTYLogger.sharedInstance)       // TTY = Xcode console
+            DDTTYLogger.sharedInstance.colorsEnabled =  true
+            DDLog.add(DDASLLogger.sharedInstance)       // ASL = Apple System Logs
         #endif
 
         // New Relic
@@ -298,11 +295,9 @@ fileprivate extension AppDelegate {
 
         // LGCoreKit
         let coreEnvironment = environmentHelper.coreEnvironment
-        let shouldUseWebSocketChat = featureFlags.websocketChat
         let carsInfoJSONPath = Bundle.main.path(forResource: "CarsInfo", ofType: "json") ?? ""
         let taxonomiesJSONPath = Bundle.main.path(forResource: "Taxonomies", ofType: "json") ?? ""
         let coreKitConfig = LGCoreKitConfig(environmentType: coreEnvironment,
-                                            shouldUseChatWithWebSocket: shouldUseWebSocketChat,
                                             carsInfoAppJSONURL: URL(fileURLWithPath: carsInfoJSONPath),
                                             taxonomiesAppJSONURL: URL(fileURLWithPath: taxonomiesJSONPath))
         LGCoreKit.initialize(config: coreKitConfig)

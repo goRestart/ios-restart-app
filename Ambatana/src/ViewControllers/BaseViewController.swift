@@ -268,10 +268,12 @@ extension UIViewController {
         
         reachabilityEnabled = enabled
         if enabled {
-            NotificationCenter.default.addObserver(self, selector: #selector(UIViewController.onReachabilityChanged(_:)), name: NSNotification.Name.reachabilityChanged, object: nil)
+            //swift4
+//            NotificationCenter.default.addObserver(self, selector: #selector(UIViewController.onReachabilityChanged(_:)), name: NSNotification.Name.reachabilityChanged, object: nil)
         }
         else {
-            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.reachabilityChanged, object: nil)
+            //swift4
+//            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.reachabilityChanged, object: nil)
         }
     }
     
@@ -315,7 +317,7 @@ enum NavBarBackgroundStyle {
         case let .transparent(substyle):
             switch substyle {
             case .dark:
-                return UIColor.clearBarButton
+                return .clearBarButton
             case .light:
                 return UIColor.lightBarButton
             }
@@ -329,7 +331,7 @@ enum NavBarBackgroundStyle {
         case let .transparent(substyle):
             switch substyle {
             case .dark:
-                return UIColor.clearBarTitle
+                return .clearBarTitle
             case .light:
                 return UIColor.lightBarTitle
             }

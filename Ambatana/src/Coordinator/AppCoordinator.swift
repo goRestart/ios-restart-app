@@ -42,7 +42,6 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let listingRepository: ListingRepository
     fileprivate let userRepository: UserRepository
     fileprivate let myUserRepository: MyUserRepository
-    fileprivate let oldChatRepository: OldChatRepository
     fileprivate let chatRepository: ChatRepository
     fileprivate let userRatingRepository: UserRatingRepository
     fileprivate let featureFlags: FeatureFlaggeable
@@ -70,7 +69,6 @@ final class AppCoordinator: NSObject, Coordinator {
                   listingRepository: Core.listingRepository,
                   userRepository: Core.userRepository,
                   myUserRepository: Core.myUserRepository,
-                  oldChatRepository: Core.oldChatRepository,
                   chatRepository: Core.chatRepository,
                   userRatingRepository: Core.userRatingRepository,
                   installationRepository: Core.installationRepository,
@@ -91,7 +89,6 @@ final class AppCoordinator: NSObject, Coordinator {
          listingRepository: ListingRepository,
          userRepository: UserRepository,
          myUserRepository: MyUserRepository,
-         oldChatRepository: OldChatRepository,
          chatRepository: ChatRepository,
          userRatingRepository: UserRatingRepository,
          installationRepository: InstallationRepository,
@@ -121,7 +118,6 @@ final class AppCoordinator: NSObject, Coordinator {
         self.listingRepository = listingRepository
         self.userRepository = userRepository
         self.myUserRepository = myUserRepository
-        self.oldChatRepository = oldChatRepository
         self.chatRepository = chatRepository
         self.userRatingRepository = userRatingRepository
         self.installationRepository = installationRepository
@@ -766,24 +762,24 @@ fileprivate extension AppCoordinator {
             }
         case .conversations:
             openTab(.chats, force: false, completion: nil)
-        case let .conversation(data):
+        case let .conversation(conversationId):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source: .external,
+                    self?.chatsTabBarCoordinator.openChat(.dataIds(conversationId: conversationId), source: .external,
                                                           predefinedMessage: nil)
                 }
             }
-        case let .conversationWithMessage(data: data, message: message):
+        case let .conversationWithMessage(conversationId: conversationId, message: message):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source: .external,
+                    self?.chatsTabBarCoordinator.openChat(.dataIds(conversationId: conversationId), source: .external,
                                                           predefinedMessage: message)
                 }
             }
-        case .message(_, let data):
+        case .message(_, let conversationId):
             afterDelayClosure = { [weak self] in
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.chatsTabBarCoordinator.openChat(.dataIds(data: data), source: .external,
+                    self?.chatsTabBarCoordinator.openChat(.dataIds(conversationId: conversationId), source: .external,
                                                           predefinedMessage: nil)
                 }
             }
@@ -889,48 +885,26 @@ fileprivate extension AppCoordinator {
         }
     }
 
-    func showInappChatNotification(_ data: ConversationData, message: String) {
+    func showInappChatNotification(_ conversationId: String, message: String) {
         guard sessionManager.loggedIn else { return }
         //Avoid showing notification if user is already in that conversation.
-        guard let selectedTabCoordinator = selectedTabCoordinator, !selectedTabCoordinator.isShowingConversation(data) else { return }
-
-        let conversationId: String
-        switch data {
-        case let .conversation(id):
-            conversationId = id
-        default:
-            return
-        }
+        guard let selectedTabCoordinator = selectedTabCoordinator, !selectedTabCoordinator.isShowingConversation(conversationId) else { return }
 
         tracker.trackEvent(TrackerEvent.inappChatNotificationStart())
-        if featureFlags.websocketChat {
-            chatRepository.showConversation(conversationId) { [weak self] result in
-                guard let conversation = result.value else { return }
-                let action = UIAction(interface: .text(LGLocalizedString.appNotificationReply), action: { [weak self] in
-                    self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
-                    self?.openTab(.chats, force: false) { [weak self] in
-                        self?.selectedTabCoordinator?.openChat(.conversation(conversation: conversation), source: .inAppNotification, predefinedMessage: nil)
-                    }
-                })
-                let data = BubbleNotificationData(tagGroup: conversationId,
-                                                  text: message,
-                                                  action: action,
-                                                  iconURL: conversation.interlocutor?.avatar?.fileURL,
-                                                  iconImage: UIImage(named: "user_placeholder"))
-                self?.showBubble(with: data, duration: Constants.bubbleChatDuration)
-            }
-        } else {
-            // Old chat cannot retrieve chat because it would mark messages as read.
+        chatRepository.showConversation(conversationId) { [weak self] result in
+            guard let conversation = result.value else { return }
             let action = UIAction(interface: .text(LGLocalizedString.appNotificationReply), action: { [weak self] in
                 self?.tracker.trackEvent(TrackerEvent.inappChatNotificationComplete())
                 self?.openTab(.chats, force: false) { [weak self] in
-                    self?.selectedTabCoordinator?.openChat(.dataIds(data: data), source: .inAppNotification, predefinedMessage: nil)
+                    self?.selectedTabCoordinator?.openChat(.conversation(conversation: conversation), source: .inAppNotification, predefinedMessage: nil)
                 }
             })
             let data = BubbleNotificationData(tagGroup: conversationId,
                                               text: message,
-                                              action: action)
-            showBubble(with: data, duration: Constants.bubbleChatDuration)
+                                              action: action,
+                                              iconURL: conversation.interlocutor?.avatar?.fileURL,
+                                              iconImage: UIImage(named: "user_placeholder"))
+            self?.showBubble(with: data, duration: Constants.bubbleChatDuration)
         }
     }
 }

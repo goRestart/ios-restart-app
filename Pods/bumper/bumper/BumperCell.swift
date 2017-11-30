@@ -37,9 +37,9 @@ class BumperCell: UITableViewCell {
         views["titleLabel"] = titleLabel
         views["infoLabel"] = infoLabel
 
-        infoLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-        infoLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
-        titleLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+        infoLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        infoLabel.setContentHuggingPriority(.required, for: .horizontal)
+        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
 
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-[titleLabel]-|",
                                                       options: [], metrics: nil, views: views))

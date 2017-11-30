@@ -26,23 +26,14 @@ struct Config: Codable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
-        do {
-            let currentVersionInfo = try values.nestedContainer(keyedBy: CurrentVersionInfoKeys.self,
-                                                                forKey: .currentVersionInfo)
-            buildNumber = (try? currentVersionInfo.decode(Int.self, forKey: .buildNumber)) ?? 0
-            forceUpdateVersions = (try? currentVersionInfo.decode([Int].self, forKey: .forceUpdateVersions)) ?? []
-        } catch jsonError {
-            buildNumber = 0
-            forceUpdateVersions = []
-        }
+        let currentVersionInfo = try values.nestedContainer(keyedBy: CurrentVersionInfoKeys.self,
+                                                            forKey: .currentVersionInfo)
+        buildNumber = (try currentVersionInfo.decodeIfPresent(Int.self, forKey: .buildNumber)) ?? 0
+        forceUpdateVersions = (try currentVersionInfo.decodeIfPresent([Int].self, forKey: .forceUpdateVersions)) ?? []
         
-        configURL = (try? values.decode(String.self, forKey: .configURL)) ?? ""
+        configURL = (try values.decodeIfPresent(String.self, forKey: .configURL)) ?? ""
         
-        do {
-            quadKeyZoomLevel = try values.decode(Int.self, forKey: .quadKeyZoomLevel)
-        } catch {
-            quadKeyZoomLevel =  Constants.defaultQuadKeyZoomLevel
-        }
+        quadKeyZoomLevel = (try values.decodeIfPresent(Int.self, forKey: .quadKeyZoomLevel)) ?? Constants.defaultQuadKeyZoomLevel
     }
     
     func encode(to encoder: Encoder) throws {

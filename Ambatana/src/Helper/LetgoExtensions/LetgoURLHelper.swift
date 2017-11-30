@@ -147,7 +147,7 @@ class LetgoURLHelper {
         var param: [String: String] = [:]
         param["app_version"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         param["os_version"] = UIDevice.current.systemVersion
-        param["device_model"] = DeviceGuru.hardwareDescription()
+        param["device_model"] = DeviceGuru().hardwareDescription()
         param["user_id"] = userId
         param["user_name"] = userName
         param["user_email"] = email

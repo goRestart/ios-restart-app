@@ -37,6 +37,12 @@ protocol AppEnvironment {
     // Website
     var websiteBaseUrl: String { get }
     var websiteBaseUrlWithLocaleParams: String { get }
+
+    // Google Ads
+    var moreInfoAdUnitIdShopping: String { get }
+    var moreInfoAdUnitIdShoppingUSA: String { get }
+    var adTestModeActive: Bool { get }
+
 }
 
 extension AppEnvironment {

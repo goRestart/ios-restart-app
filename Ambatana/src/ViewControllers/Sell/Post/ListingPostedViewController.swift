@@ -110,7 +110,7 @@ class ListingPostedViewController: BaseViewController, ListingPostedViewModelDel
         setStatusBarHidden(true)
         mainButton.setStyle(.primary(fontSize: .big))
         mainButton.isHidden = viewModel.mainButtonHidden
-        editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercase
+        editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.localizedUppercase
         editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, for: .normal)
         loadingIndicator.color = UIColor.primaryColor
 

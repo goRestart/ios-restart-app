@@ -47,7 +47,7 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     // MARK: - UI
     
     private func setupUI() {
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
         
         searchIconImageView.contentMode = .center
         searchIconImageView.image = #imageLiteral(resourceName: "ic_search")

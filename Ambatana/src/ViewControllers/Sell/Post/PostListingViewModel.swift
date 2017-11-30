@@ -43,6 +43,11 @@ class PostListingViewModel: BaseViewModel {
             return LGLocalizedString.productPostProductPostedNotLogged
         }
     }
+    
+    var isRealEstate: Bool {
+        guard let category = postCategory, category == .realEstate else { return false }
+        return true
+    }
 
     let state: Variable<PostListingState>
     let category: Variable<PostCategory?>
@@ -376,7 +381,7 @@ fileprivate extension PostListingViewModel {
     
     func makeListingParams(images:[File]) -> ListingCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
-        let title = postDetailViewModel.listingTitle ?? ""
+        let title = postDetailViewModel.listingTitle
         let description = postDetailViewModel.listingDescription ?? ""
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)

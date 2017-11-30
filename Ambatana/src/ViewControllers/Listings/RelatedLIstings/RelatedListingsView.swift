@@ -65,7 +65,7 @@ class RelatedListingsView: UIView {
     // MARK: - Private
 
     private func setup() {
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(collectionView)
@@ -103,7 +103,7 @@ extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSou
     fileprivate func setupCollection() {
         drawerManager.cellStyle = .relatedListings
         drawerManager.registerCell(inCollectionView: collectionView)
-        collectionView.backgroundColor = UIColor.clear
+        collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.scrollsToTop = false

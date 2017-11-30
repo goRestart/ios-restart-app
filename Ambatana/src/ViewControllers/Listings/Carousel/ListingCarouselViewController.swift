@@ -673,15 +673,13 @@ extension ListingCarouselViewController {
             if isFeatured {
                 strongSelf.productStatusView.backgroundColor = UIColor.white
                 let featuredText = LGLocalizedString.bumpUpProductDetailFeaturedLabel
-                strongSelf.productStatusLabel.text = strongSelf.viewModel.isStatusLabelClickable ? featuredText.capitalizedFirstLetterOnly : featuredText
-                strongSelf.productStatusLabel.textColor = strongSelf.viewModel.isStatusLabelClickable ? UIColor.blackText : UIColor.redText
-                strongSelf.productStatusImageView.isHidden = !strongSelf.viewModel.isStatusLabelClickable
-                strongSelf.productStatusImageViewLeftConstraint.constant = strongSelf.viewModel.isStatusLabelClickable ? Metrics.shortMargin : 0
-                strongSelf.productStatusImageViewRightConstraint.constant = strongSelf.viewModel.isStatusLabelClickable ? Metrics.shortMargin : 0
-                strongSelf.productStatusImageViewWidthConstraint.constant = strongSelf.viewModel.isStatusLabelClickable ? Metrics.margin : 0
-                if strongSelf.viewModel.isStatusLabelClickable {
-                    strongSelf.addTapRecognizerToStatusLabel()
-                }
+                strongSelf.productStatusLabel.text = featuredText.capitalizedFirstLetterOnly
+                strongSelf.productStatusLabel.textColor = UIColor.blackText
+                strongSelf.productStatusImageView.isHidden = false
+                strongSelf.productStatusImageViewLeftConstraint.constant = Metrics.shortMargin
+                strongSelf.productStatusImageViewRightConstraint.constant = Metrics.shortMargin
+                strongSelf.productStatusImageViewWidthConstraint.constant = Metrics.margin
+                strongSelf.addTapRecognizerToStatusLabel()
             } else {
                 strongSelf.productStatusView.backgroundColor = status.bgColor
                 strongSelf.productStatusLabel.text = status.string
@@ -1110,7 +1108,10 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         let messages = viewModel.directChatMessages.value
         guard 0..<messages.count ~= indexPath.row else { return UITableViewCell() }
         let message = messages[indexPath.row]
-        let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true, disclosure: true)
+        let drawer = ChatCellDrawerFactory.drawerForMessage(message,
+                                                            autoHide: true, 
+                                                            disclosure: true,
+                                                            showClock: viewModel.featureFlags.showClockInDirectAnswer == .active)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
 
         drawer.draw(cell, message: message)

@@ -16,7 +16,7 @@ class FilterListingListRequesterFactory {
         var filtersArray: [ListingFilters] = [filters]
         var requestersArray: [ListingListRequester] = []
 
-        if multiRequesterEnabled && (filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsCategory) {
+        if multiRequesterEnabled && (filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy) {
             filtersArray = FilterListingListRequesterFactory.generateCarsNegativeFilters(fromFilters: filters)
         }
 

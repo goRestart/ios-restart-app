@@ -136,7 +136,7 @@ class ListingPostedViewModel: BaseViewModel {
         case .success:
             return LGLocalizedString.productPostIncentiveTitle
         case .error:
-            return LGLocalizedString.commonErrorTitle.capitalized
+            return LGLocalizedString.commonErrorTitle.localizedCapitalized
         }
     }
 

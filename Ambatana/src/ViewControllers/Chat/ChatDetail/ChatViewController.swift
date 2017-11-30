@@ -65,7 +65,7 @@ class ChatViewController: TextViewController {
         self.viewModel = viewModel
         self.listingView = ChatListingView.chatListingView()
         self.relatedListingsView = ChatRelatedListingsView()
-        self.directAnswersPresenter = DirectAnswersPresenter(websocketChatActive: featureFlags.websocketChat)
+        self.directAnswersPresenter = DirectAnswersPresenter()
         self.stickersView = ChatStickersView()
         self.featureFlags = featureFlags
         self.pushPermissionManager = pushPermissionManager
@@ -182,7 +182,7 @@ class ChatViewController: TextViewController {
 
         
         if let patternBackground = UIColor.emptyViewBackgroundColor {
-            tableView.backgroundColor = UIColor.clear
+            tableView.backgroundColor = .clear
             view.backgroundColor = patternBackground
         }
         
@@ -276,9 +276,9 @@ class ChatViewController: TextViewController {
 
 // MARK: ConversationDataDisplayer
 
-extension ChatViewController: ConversationDataDisplayer {
-    func isDisplayingConversationData(_ data: ConversationData) -> Bool {
-        return viewModel.isMatchingConversationData(data)
+extension ChatViewController: ConversationIdDisplayer {
+    func isDisplayingConversationId(_ conversationId: String) -> Bool {
+        return viewModel.isMatchingConversationId(conversationId)
     }
 }
 
@@ -314,7 +314,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         stickersWindow?.windowLevel = 100000001 // needs to be higher then the level of the keyboard (100000000)
         stickersWindow?.addSubview(stickersView)
         stickersWindow?.isHidden = true
-        stickersWindow?.backgroundColor = UIColor.clear
+        stickersWindow?.backgroundColor = .clear
         stickersView.isHidden = true
         showingStickers = false
 

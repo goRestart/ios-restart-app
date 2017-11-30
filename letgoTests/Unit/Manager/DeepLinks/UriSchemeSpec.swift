@@ -16,7 +16,7 @@ class UriSchemeSpec: QuickSpec {
         var url: URL!
         var listingId: String!
         var message: String!
-        var conversationData: ConversationData!
+        var conversationId: String!
         
         describe("build from URL") {
             context("with a notification center URL") {
@@ -77,21 +77,19 @@ class UriSchemeSpec: QuickSpec {
             context("with a chat predefined message URL") {
                 beforeEach {
                     url = URL(string: "letgo://chat/")
-                    let conversationId = String.makeRandom()
+                    conversationId = String.makeRandom()
                     message = String.makeRandomPhrase(words: Int.makeRandom(), wordLengthMin: Int.makeRandom(min: 1, max: 5), wordLengthMax: Int.makeRandom(min: 5, max: 20))
                     let conversationQueryItem = URLQueryItem(name: "c", value: conversationId)
                     let messageQueryItem = URLQueryItem(name: "m", value: message)
                     var urlComponents = URLComponents(string: url.absoluteString)!
                     urlComponents.queryItems = [conversationQueryItem, messageQueryItem]
                     sut = UriScheme.buildFromUrl(urlComponents.url!)
-                    
-                    conversationData = ConversationData.conversation(conversationId: conversationId)
                 }
                 it("is not nil") {
                     expect(sut).toNot(beNil())
                 }
                 it("has a deep link with conversation with predefined message action") {
-                    expect(sut.deepLink.action) == DeepLinkAction.conversationWithMessage(data: conversationData, message: message)
+                    expect(sut.deepLink.action) == DeepLinkAction.conversationWithMessage(conversationId: conversationId, message: message)
                 }
             }
             
