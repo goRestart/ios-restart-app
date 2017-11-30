@@ -141,8 +141,7 @@ extension ListingCategory {
         case .cars:
             return UIImage(named: "categories_cars_tag")
         case .realEstate:
-            //TODO: add real estate value
-            return UIImage(named: "categories_cars_tag")
+            return UIImage(named: "categories_housing_tag")
         }
     }
 
