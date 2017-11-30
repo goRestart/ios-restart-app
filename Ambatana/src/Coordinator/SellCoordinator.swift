@@ -73,6 +73,7 @@ final class SellCoordinator: Coordinator {
         let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                       forcedInitialTab: forcedInitialTab)
         navigationController = SellNavigationController(rootViewController: postListingVC)
+        navigationController.setupInitialCategory(postCategory: postCategory)
         self.viewController = navigationController
         postListingVM.navigator = self
     }
@@ -249,6 +250,7 @@ extension SellCoordinator: ListingPostedNavigator {
             strongSelf.viewController = postListingVC
             postListingVM.navigator = self
             strongSelf.navigationController = SellNavigationController(rootViewController: postListingVC)
+            strongSelf.navigationController.setupInitialCategory(postCategory: nil)
             strongSelf.viewController = strongSelf.navigationController
             strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)
         }
