@@ -74,7 +74,7 @@ class TourPostingViewController: BaseViewController {
         closeButton.rx.tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
     }
 
-    dynamic private func cameraContainerPressed() {
+    @objc dynamic private func cameraContainerPressed() {
         viewModel.cameraButtonPressed()
     }
 }

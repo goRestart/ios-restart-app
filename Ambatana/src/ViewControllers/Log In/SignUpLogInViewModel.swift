@@ -167,7 +167,7 @@ class SignUpLogInViewModel: BaseViewModel {
         let localizedLegalText = LGLocalizedString.signUpTermsConditions
         let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
             textColor: linkColor)
-        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont.mediumBodyFont,
+        attributtedLegalText.addAttribute(NSAttributedStringKey.font, value: UIFont.mediumBodyFont,
             range: NSMakeRange(0, attributtedLegalText.length))
         return attributtedLegalText
     }

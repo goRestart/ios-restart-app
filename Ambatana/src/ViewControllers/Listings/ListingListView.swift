@@ -563,7 +563,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         errorView.updateConstraintsIfNeeded()
     }
 
-    dynamic private func refreshControlTriggered() {
+    @objc dynamic private func refreshControlTriggered() {
         viewModel.refreshControlTriggered()
     }
 
@@ -612,7 +612,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     /**
         Called when the error button is pressed.
     */
-    dynamic private func errorButtonPressed() {
+    @objc dynamic private func errorButtonPressed() {
         switch viewModel.state {
         case .empty(let emptyVM):
             emptyVM.action?()

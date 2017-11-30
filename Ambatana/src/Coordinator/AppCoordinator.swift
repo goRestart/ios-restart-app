@@ -814,7 +814,7 @@ fileprivate extension AppCoordinator {
         }
 
         if let afterDelayClosure = afterDelayClosure {
-            delay(0.5) { _ in
+            delay(0.5) { 
                 afterDelayClosure()
             }
         }

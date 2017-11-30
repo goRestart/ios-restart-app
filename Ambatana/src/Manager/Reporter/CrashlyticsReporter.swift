@@ -15,7 +15,7 @@ class CrashlyticsReporter: Reporter {
 
     func report(_ domain: Domain, code: Int, message: String) {
         let userInfo: [AnyHashable: Any] = ["message": message]
-        let error = NSError(domain: domain, code: code, userInfo: userInfo)
+        let error = NSError(domain: domain, code: code, userInfo: userInfo as! [String : Any])
         Crashlytics.sharedInstance().recordError(error)
     }
 }

@@ -118,7 +118,7 @@ class MapZoomBlocker: NSObject, MKMapViewDelegate {
      The reset will be animated.
      This will also reset any rotation in the map.
      */
-    func resetRegionDelta() {
+    @objc func resetRegionDelta() {
         guard let mapView = mapView else { return }
         guard !isResettingRegion else { return }
         guard shouldForceResetMapRegion() else { return }

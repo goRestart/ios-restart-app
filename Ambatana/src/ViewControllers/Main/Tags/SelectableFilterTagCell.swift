@@ -31,7 +31,7 @@ class SelectableFilterTagCell: UICollectionViewCell {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: SelectableFilterTagCell.cellHeight)
         let boundingBox = text.boundingRect(with: constraintRect,
                                             options: NSStringDrawingOptions.usesLineFragmentOrigin,
-                                            attributes: [NSFontAttributeName: UIFont.mediumBodyFont], context: nil)
+                                            attributes: [NSAttributedStringKey.font: UIFont.mediumBodyFont], context: nil)
         return CGSize(width: boundingBox.width + Metrics.margin * 2, height: SelectableFilterTagCell.cellHeight)
     }
     

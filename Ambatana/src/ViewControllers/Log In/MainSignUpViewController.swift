@@ -101,11 +101,11 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     
     // MARK: - Actions
     
-    func closeButtonPressed() {
+    @objc func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
     
-    func helpButtonPressed() {
+    @objc func helpButtonPressed() {
         viewModel.helpButtonPressed()
     }
      

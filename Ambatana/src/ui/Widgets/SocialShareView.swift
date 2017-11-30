@@ -167,7 +167,7 @@ class SocialShareView: UIView {
             if index == buttons.count - 1 {
                 let constraint = NSLayoutConstraint(item: button, attribute: .right, relatedBy: .greaterThanOrEqual,
                                                     toItem: container, attribute: .right, multiplier: 1.0, constant: 0)
-                constraint.priority = UILayoutPriorityDefaultHigh
+                constraint.priority = UILayoutPriority.defaultHigh
                 container.addConstraint(constraint)
             }
             previous = button
@@ -205,7 +205,7 @@ class SocialShareView: UIView {
             if index % gridColumns == gridColumns - 1 {
                 let constraint = NSLayoutConstraint(item: button, attribute: .right, relatedBy: .greaterThanOrEqual,
                                                     toItem: container, attribute: .right, multiplier: 1.0, constant: 0)
-                constraint.priority = UILayoutPriorityDefaultHigh
+                constraint.priority = UILayoutPriority.defaultHigh
                 container.addConstraint(constraint)
                 top = button
                 previous = nil

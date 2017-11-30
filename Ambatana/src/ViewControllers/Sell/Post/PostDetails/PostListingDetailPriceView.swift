@@ -82,7 +82,7 @@ class PostListingDetailPriceView: BaseView {
         freePostLabel.text = LGLocalizedString.sellPostFreeLabel
         freePostLabel.textColor = UIColor.white
         priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
-                                                                  attributes: [NSForegroundColorAttributeName: UIColor.white])
+                                                                  attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
         doneButton.setTitle(LGLocalizedString.productPostDone, for: .normal)
         currencyLabel.text = viewModel.currencySymbol
         currencyLabel.textColor = UIColor.white
@@ -128,7 +128,7 @@ class PostListingDetailPriceView: BaseView {
         } )
     }
 
-    dynamic private func freeCellPressed() {
+    @objc dynamic private func freeCellPressed() {
         viewModel.freeCellPressed()
     }
 }

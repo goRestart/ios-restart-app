@@ -471,7 +471,7 @@ extension LocationRepository {
                     return
                 }
 
-                observer.onNext(resolvedPlace, fromGps)
+                observer.onNext((resolvedPlace, fromGps))
                 observer.onCompleted()
             }
             return Disposables.create()

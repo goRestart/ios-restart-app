@@ -222,15 +222,15 @@ class UserView: UIView {
         setAccesibilityIds()
     }
 
-    dynamic private func avatarPressed() {
+    @objc dynamic private func avatarPressed() {
         delegate?.userViewAvatarPressed(self)
     }
     
-    dynamic private func textPressed() {
+    @objc dynamic private func textPressed() {
         delegate?.userViewTextInfoContainerPressed(self)
     }
 
-    dynamic private func avatarLongPressed(_ recognizer: UILongPressGestureRecognizer) {
+    @objc dynamic private func avatarLongPressed(_ recognizer: UILongPressGestureRecognizer) {
         switch recognizer.state {
         case .began:
             delegate?.userViewAvatarLongPressStarted(self)

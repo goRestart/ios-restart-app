@@ -77,7 +77,7 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
         }.addDisposableTo(disposeBag)
     }
     
-    dynamic private func closeButtonPressed() {
+    @objc dynamic private func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
 }

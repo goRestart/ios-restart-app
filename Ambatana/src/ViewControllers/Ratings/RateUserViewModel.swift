@@ -228,7 +228,7 @@ fileprivate extension RateUserViewModel {
         }.addDisposableTo(disposeBag)
         
         Observable.combineLatest(isLoading.asObservable(),
-                                 state.asObservable(), resultSelector: { $0 })
+                                 state.asObservable(), resultSelector: { ($0, $1) })
             .map { [weak self] (isLoading, state) -> String? in
                 guard let strongSelf = self, !isLoading else { return nil }
                 
@@ -250,7 +250,7 @@ fileprivate extension RateUserViewModel {
         let tagsValid = selectedTagIndexes.observable
             .map { !$0.isEmpty }
             .distinctUntilChanged()
-        let comment = Observable.combineLatest(description.asObservable(), selectedTagIndexes.observable) { $0 }
+        let comment = Observable.combineLatest(description.asObservable(), selectedTagIndexes.observable) { ($0, $1) }
             .map { [weak self] _ in return self?.makeComment() }
         let commentLength = comment.asObservable()
             .map { Constants.userRatingDescriptionMaxLength - ($0?.characters.count ?? 0) }
@@ -261,7 +261,7 @@ fileprivate extension RateUserViewModel {
                                  state.asObservable(),
                                  tagsValid,
                                  ratingValid,
-                                 commentValid, resultSelector: { $0 })
+                                 commentValid, resultSelector: { ($0, $1, $2, $3, $4) })
             .map { (isLoading, state, tagsValid, ratingValid, commentValid) -> Bool in
                 guard !isLoading else { return false }
                 

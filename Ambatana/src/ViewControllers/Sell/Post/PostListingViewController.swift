@@ -170,16 +170,16 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         viewModel.closeButtonPressed()
     }
 
-    dynamic func galleryButtonPressed() {
+    @objc dynamic func galleryButtonPressed() {
         guard viewPager.scrollEnabled else { return }
         viewPager.selectTabAtIndex(Tab.gallery.index, animated: true)
     }
     
-    dynamic func galleryPostButtonPressed() {
+    @objc dynamic func galleryPostButtonPressed() {
         galleryView.postButtonPressed()
     }
 
-    dynamic func cameraButtonPressed() {
+    @objc dynamic func cameraButtonPressed() {
         if viewPager.currentPage == Tab.camera.index {
             cameraView.takePhoto()
         } else {
@@ -320,7 +320,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
                 strongSelf.showCarYears()
             case .year:
                 strongSelf.carDetailsView.updateYear(withYear: categoryDetail.name)
-                delay(0.3) { _ in // requested by designers
+                delay(0.3) {  // requested by designers
                     strongSelf.didFinishEnteringDetails()
                 }
             }
@@ -385,7 +385,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
 
 extension PostListingViewController {
     
-    dynamic func carDetailsNavigationBackButtonPressed() {
+    @objc dynamic func carDetailsNavigationBackButtonPressed() {
         if let previousState = carDetailsView.previousState, previousState.isSummary {
             didFinishEnteringDetails()
         } else {
@@ -412,19 +412,19 @@ extension PostListingViewController {
         }
     }
     
-    dynamic func carMakeButtonPressed() {
+    @objc dynamic func carMakeButtonPressed() {
         showCarMakes()
     }
     
-    dynamic func carModelButtonPressed() {
+    @objc dynamic func carModelButtonPressed() {
         showCarModels()
     }
     
-    dynamic func carYearButtonPressed() {
+    @objc dynamic func carYearButtonPressed() {
         showCarYears()
     }
     
-    dynamic func carDetailsDoneButtonPressed() {
+    @objc dynamic func carDetailsDoneButtonPressed() {
         carDetailsView.hideKeyboard()
         viewModel.postCarDetailDone()
     }
@@ -833,9 +833,9 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         shadow.shadowOffset = CGSize(width: 0, height: 0)
         
         var titleAttributes = [String : Any]()
-        titleAttributes[NSShadowAttributeName] = shadow
-        titleAttributes[NSForegroundColorAttributeName] = UIColor.white
-        titleAttributes[NSFontAttributeName] = UIFont.activeTabFont
+        titleAttributes[NSAttributedStringKey.shadow] = shadow
+        titleAttributes[NSAttributedStringKey.foregroundColor] = UIColor.white
+        titleAttributes[NSAttributedStringKey.font] = UIFont.activeTabFont
         return titleAttributes
     }
 }

@@ -1037,7 +1037,7 @@ extension MainListingsViewModel {
                          name: NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
     }
 
-    fileprivate dynamic func updatePermissionsWarning() {
+    @objc fileprivate dynamic func updatePermissionsWarning() {
         var currentHeader = mainListingsHeader.value
         if UIApplication.shared.areRemoteNotificationsEnabled {
             currentHeader.remove(MainListingsHeader.PushPermissions)
@@ -1048,7 +1048,7 @@ extension MainListingsViewModel {
         mainListingsHeader.value = currentHeader
     }
     
-    fileprivate dynamic func updateCategoriesHeader() {
+    @objc fileprivate dynamic func updateCategoriesHeader() {
         var currentHeader = mainListingsHeader.value
         if showCategoriesCollectionBanner {
             currentHeader.insert(MainListingsHeader.CategoriesCollectionBanner)

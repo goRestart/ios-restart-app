@@ -278,7 +278,7 @@ extension UIViewController {
     }
     
     
-    dynamic private func onReachabilityChanged(_ notification: Notification) {
+    @objc dynamic private func onReachabilityChanged(_ notification: Notification) {
         updateReachableAndToastViewVisibilityIfNeeded()
     }
     
@@ -386,8 +386,8 @@ extension UIViewController {
         }
 
         navigationController?.navigationBar.tintColor = style.tintColor
-        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : UIFont.pageTitleFont,
-                                                                   NSForegroundColorAttributeName : style.titleColor]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font : UIFont.pageTitleFont,
+                                                                   NSAttributedStringKey.foregroundColor : style.titleColor]
     }
 }
 
@@ -570,15 +570,15 @@ class BaseViewController: UIViewController, TabBarShowable {
     
     // MARK: > NSNotificationCenter
     
-    dynamic private func applicationDidEnterBackground(_ notification: Notification) {
+    @objc dynamic private func applicationDidEnterBackground(_ notification: Notification) {
         viewWillDisappearToBackground(true)
     }
     
-    dynamic private func applicationWillEnterForeground(_ notification: Notification) {
+    @objc dynamic private func applicationWillEnterForeground(_ notification: Notification) {
         viewWillAppearFromBackground(true)
     }
 
-    dynamic func statusBarDidShow(_ notification: Notification) {
+    @objc dynamic func statusBarDidShow(_ notification: Notification) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.01 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { [weak self] in
                 self?.view.setNeedsLayout()
                 self?.view.layoutIfNeeded()

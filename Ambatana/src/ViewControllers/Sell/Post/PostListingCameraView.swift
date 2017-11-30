@@ -226,7 +226,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         viewModel.shouldShowFirstTimeAlert.asObservable().map { !$0 }.bindTo(firstTimeAlertContainer.rx.isHidden).addDisposableTo(disposeBag)
     }
 
-    private dynamic func hideFirstTimeAlert() {
+    @objc private dynamic func hideFirstTimeAlert() {
         viewModel.hideFirstTimeAlert()
     }
 }

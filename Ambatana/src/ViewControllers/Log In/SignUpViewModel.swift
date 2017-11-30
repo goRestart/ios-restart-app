@@ -41,10 +41,10 @@ class SignUpViewModel: BaseViewModel {
         let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
             textColor: UIColor.darkGrayText)
         let range = NSMakeRange(0, attributtedLegalText.length)
-        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont.smallBodyFont, range: range)
+        attributtedLegalText.addAttribute(NSAttributedStringKey.font, value: UIFont.smallBodyFont, range: range)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
-        attributtedLegalText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: range)
+        attributtedLegalText.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: range)
         return attributtedLegalText
     }
 

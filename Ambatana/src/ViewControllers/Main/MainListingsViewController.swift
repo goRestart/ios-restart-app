@@ -319,7 +319,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         self.navigationController?.setNavigationBarHidden(hidden, animated: animated)
     }
 
-    dynamic fileprivate func endEdit() {
+    @objc dynamic fileprivate func endEdit() {
         suggestionsSearchesContainer.isHidden = true
         setFiltersNavBarButton()
         setInviteNavBarButton()
@@ -340,7 +340,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     /**
         Called when the search button is pressed.
     */
-    dynamic private func filtersButtonPressed(_ sender: AnyObject) {
+    @objc dynamic private func filtersButtonPressed(_ sender: AnyObject) {
         navbarSearch.searchTextField.resignFirstResponder()
         viewModel.showFilters()
     }
@@ -386,7 +386,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
                                                            action: #selector(openInvite))
     }
     
-    dynamic private func openInvite() {
+    @objc dynamic private func openInvite() {
         viewModel.vmUserDidTapInvite()
     }
     
@@ -419,7 +419,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
     }
 
-    dynamic private func onBubbleTapped() {
+    @objc dynamic private func onBubbleTapped() {
         viewModel.bubbleTapped()
     }
 
@@ -625,7 +625,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
         return container
     }
     
-    dynamic private func cleanSearchesButtonPressed() {
+    @objc dynamic private func cleanSearchesButtonPressed() {
         viewModel.cleanUpLastSearches()
     }
     
@@ -633,11 +633,11 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
         endEdit()
     }
 
-    func keyboardWillShow(_ notification: Notification) {
+    @objc func keyboardWillShow(_ notification: Notification) {
         suggestionsSearchesTable.contentInset.bottom = notification.keyboardChange.height
     }
 
-    func keyboardWillHide(_ notification: Notification) {
+    @objc func keyboardWillHide(_ notification: Notification) {
         suggestionsSearchesTable.contentInset.bottom = 0
     }
 

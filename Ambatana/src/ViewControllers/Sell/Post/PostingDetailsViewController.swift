@@ -132,11 +132,11 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     
     // MARK: - UIActions
     
-    func closeButtonPressed() {
+    @objc func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
     
-    func nextButtonPressed() {
+    @objc func nextButtonPressed() {
         viewModel.nextbuttonPressed()
     }
 }

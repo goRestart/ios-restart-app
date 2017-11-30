@@ -63,7 +63,7 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable {
         currencyLabel.font = UIFont.systemBoldFont(size: 26)
         
         priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
-                                                                  attributes: [NSForegroundColorAttributeName: UIColor.grayLight, NSFontAttributeName: UIFont.systemBoldFont(size: 26)])
+                                                                  attributes: [NSAttributedStringKey.foregroundColor: UIColor.grayLight, NSAttributedStringKey.font: UIFont.systemBoldFont(size: 26)])
         priceTextField.keyboardType = .decimalPad
         priceTextField.font = UIFont.systemBoldFont(size: 26)
         priceTextField.textColor = UIColor.white
@@ -157,11 +157,11 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable {
     
     // MARK: - Actions
     
-    dynamic private func freeContainerPressed() {
+    @objc dynamic private func freeContainerPressed() {
         freeActive.value = !freeSwitch.isOn
     }
     
-    dynamic private func closeKeyboard() {
+    @objc dynamic private func closeKeyboard() {
         priceTextField.resignFirstResponder()
     }
     

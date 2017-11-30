@@ -95,14 +95,14 @@ fileprivate extension AutocompleteField {
         // In this way we can hide the letters in the suggestion that the user has already written.
         let attributedString = NSMutableAttributedString(
             string: text,
-            attributes: [NSFontAttributeName: font ?? UIFont.systemFont(size: 17),
-                         NSForegroundColorAttributeName: completionColor])
+            attributes: [NSAttributedStringKey.font: font ?? UIFont.systemFont(size: 17),
+                         NSAttributedStringKey.foregroundColor: completionColor])
 
         // Hide the letters that are under the fields text.
         // If the suggestion is abcdefgh and the user has written abcd
         // we want to hide those letters from the suggestion.
         if let inputText = self.text, attributedString.length >= inputText.characters.count {
-            attributedString.addAttribute(NSForegroundColorAttributeName,
+            attributedString.addAttribute(NSAttributedStringKey.foregroundColor,
                                           value: UIColor.clear,
                                           range: NSRange(location: 0,
                                                          length: inputText.characters.count)

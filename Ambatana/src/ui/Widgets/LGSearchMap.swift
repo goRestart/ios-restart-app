@@ -169,7 +169,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         mapView.setRegion(region, animated: false)
     }
     
-    dynamic func gpsButtonPressed() {
+    @objc dynamic func gpsButtonPressed() {
         viewModel.showGPSLocation()
     }
     

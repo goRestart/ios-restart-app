@@ -110,7 +110,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         }
     }
     
-    func setLocationCloseButtonPressed() {
+    @objc func setLocationCloseButtonPressed() {
         viewModel.cancelSetLocation()
     }
     

@@ -208,7 +208,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         }
     }
     
-    dynamic func didTapMap() {
+    @objc dynamic func didTapMap() {
         mapExpanded ? compressMap() : expandMap()
     }
 
@@ -258,7 +258,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         })
     }
     
-    func compressMap() {
+    @objc func compressMap() {
         guard mapExpanded else { return }
 
         self.delegate?.request(fullScreen: false)
@@ -419,7 +419,7 @@ fileprivate extension ListingCarouselMoreInfoView {
 
     func setupContentRx(viewModel: ListingCarouselViewModel) {
 
-        let statusAndChat = Observable.combineLatest(viewModel.status.asObservable(), viewModel.directChatEnabled.asObservable()) { $0 }
+        let statusAndChat = Observable.combineLatest(viewModel.status.asObservable(), viewModel.directChatEnabled.asObservable()) { ($0, $1) }
         statusAndChat.bindNext { [weak self] (status, chatEnabled) in
             self?.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0,
                                                          bottom: status.scrollBottomInset(chatEnabled: chatEnabled), right: 0)
@@ -439,7 +439,7 @@ fileprivate extension ListingCarouselMoreInfoView {
 
     func setupStatsRx(viewModel: ListingCarouselViewModel) {
         let productCreation = viewModel.productInfo.asObservable().map { $0?.creationDate }
-        let statsAndCreation = Observable.combineLatest(viewModel.listingStats.asObservable().unwrap(), productCreation) { $0 }
+        let statsAndCreation = Observable.combineLatest(viewModel.listingStats.asObservable().unwrap(), productCreation) { ($0, $1) }
         let statsViewVisible = statsAndCreation.map { (stats, creation) in
             return stats.viewsCount >= Constants.minimumStatsCountToShow || stats.favouritesCount >= Constants.minimumStatsCountToShow || creation != nil
         }
@@ -529,7 +529,7 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
 // MARK: - LGCollapsibleLabel
 
 extension ListingCarouselMoreInfoView {
-    func toggleDescriptionState() {
+    @objc func toggleDescriptionState() {
         UIView.animate(withDuration: 0.25, animations: {
             self.descriptionLabel.toggleState()
             self.layoutIfNeeded()
@@ -584,9 +584,9 @@ extension ListingVMProductInfo {
     var styledDescription: NSAttributedString? {
         guard let description = description else { return nil }
         let result = NSMutableAttributedString(attributedString: description)
-        result.addAttribute(NSForegroundColorAttributeName, value: UIColor.grayLight,
+        result.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.grayLight,
                                 range: NSMakeRange(0, result.length))
-        result.addAttribute(NSFontAttributeName, value: UIFont.productDescriptionFont,
+        result.addAttribute(NSAttributedStringKey.font, value: UIFont.productDescriptionFont,
                             range: NSMakeRange(0, result.length))
         return result
     }
@@ -594,9 +594,9 @@ extension ListingVMProductInfo {
     var styledTitle: NSAttributedString? {
         guard let linkedTitle = linkedTitle else { return nil }
         let result = NSMutableAttributedString(attributedString: linkedTitle)
-        result.addAttribute(NSForegroundColorAttributeName, value: UIColor.white,
+        result.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white,
                             range: NSMakeRange(0, result.length))
-        result.addAttribute(NSFontAttributeName, value: UIFont.productTitleFont,
+        result.addAttribute(NSAttributedStringKey.font, value: UIFont.productTitleFont,
                             range: NSMakeRange(0, result.length))
         return result
     }

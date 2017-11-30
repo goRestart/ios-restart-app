@@ -73,7 +73,7 @@ class MediaPickerManager {
 
     static func hasCameraPermissions() -> Bool {
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else { return false }
-        let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+        let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
         return status == .authorized
     }
 
@@ -83,7 +83,7 @@ class MediaPickerManager {
                 showDefaultAlertWithMessage(message, inController: controller)
                 return
             }
-            let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo)
+            let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
             switch (status) {
             case .authorized:
                 block()
@@ -91,7 +91,7 @@ class MediaPickerManager {
                 let message = LGLocalizedString.productSellCameraPermissionsError
                 showSettingsAlertWithMessage(message, inController: controller)
             case .notDetermined:
-                AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo) { granted in
+                AVCaptureDevice.requestAccess(for: AVMediaType.video) { granted in
                     if granted {
                         DispatchQueue.main.async {
                             block()

@@ -245,7 +245,7 @@ extension TabBarController: UIGestureRecognizerDelegate {
         self.tabBar.addGestureRecognizer(longPress)
     }
 
-    func longPressProfileItem(_ recognizer: UILongPressGestureRecognizer) {
+    @objc func longPressProfileItem(_ recognizer: UILongPressGestureRecognizer) {
         guard AdminViewController.canOpenAdminPanel() else { return }
         let admin = AdminViewController()
         let nav = UINavigationController(rootViewController: admin)

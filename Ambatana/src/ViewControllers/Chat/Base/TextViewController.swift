@@ -189,7 +189,7 @@ extension TextViewController {
         tableView.transform = invertedTable ? CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0) : CGAffineTransform.identity
     }
 
-    dynamic fileprivate func scrollViewTap() {
+    @objc dynamic fileprivate func scrollViewTap() {
         dismissKeyboard(true)
         scrollViewDidTap()
     }
@@ -218,7 +218,7 @@ extension TextViewController: UITextViewDelegate {
         leftButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(leftButtonsContainer)
         leftButtonsContainer.layout(with: textViewBar).left(by: viewMargins).bottom(by: -textViewMargin)
-        leftButtonsContainer.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        leftButtonsContainer.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
 
         textView.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(textView)

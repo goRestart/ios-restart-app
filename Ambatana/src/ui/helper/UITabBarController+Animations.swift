@@ -13,7 +13,7 @@ extension UITabBarController {
     /**
     This cannot be called before viewDidLayoutSubviews(), because the frame is not set before this time
     */
-    func setTabBarHidden(_ hidden:Bool, animated:Bool, completion: ((Bool) -> (Void))? = nil) {
+    @objc func setTabBarHidden(_ hidden:Bool, animated:Bool, completion: ((Bool) -> (Void))? = nil) {
 
         // bail if the current state matches the desired state
         if (tabBarHidden() == hidden) { return }

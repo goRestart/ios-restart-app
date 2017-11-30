@@ -165,16 +165,16 @@ class ExpandableCategorySelectionView: UIView {
         }
     }
     
-    fileprivate dynamic func tapOutside() {
+    @objc fileprivate dynamic func tapOutside() {
         closeButtonPressed()
     }
     
-    fileprivate dynamic func closeButtonPressed() {
+    @objc fileprivate dynamic func closeButtonPressed() {
         shrink(animated: true)
         viewModel.closeButtonDidPressed()
     }
 
-    fileprivate dynamic func buttonPressed(_ button: UIButton) {
+    @objc fileprivate dynamic func buttonPressed(_ button: UIButton) {
         let buttonIndex = button.tag
         guard 0..<viewModel.categoriesAvailable.count ~= buttonIndex else { return }
         shrink(animated: true)

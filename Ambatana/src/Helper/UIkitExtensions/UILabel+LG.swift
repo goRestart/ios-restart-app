@@ -23,7 +23,7 @@ extension UILabel {
         var maxWidthString: NSMutableAttributedString? = nil
         for i in 0..<words.count {
             let word = words[i]
-            let wordSize = word.size(attributes: attributes)
+            let wordSize = word.size(withAttributes: attributes)
             if wordSize.width > maxSize.width {
                 maxSize = wordSize
                 maxWidthString = NSMutableAttributedString(string: word, attributes: attributes)
@@ -32,7 +32,7 @@ extension UILabel {
         if let maxWidth = maxWidthString {
             while maxSize.width > self.frame.width {
                 font = font.withSize(font.pointSize - 1.0)
-                maxWidth.addAttribute(NSFontAttributeName, value: font, range: NSRange(location: 0, length: maxWidth.length))
+                maxWidth.addAttribute(NSAttributedStringKey.font, value: font, range: NSRange(location: 0, length: maxWidth.length))
                 maxSize = maxWidth.size()
             }
         }
@@ -43,8 +43,8 @@ extension UILabel {
         guard let font = self.font else { return }
         let modifiedFont = String(format:"<span style=\"font-family: '-apple-system', '\(font.fontName)'; font-size: \(font.pointSize)\">%@</span>", htmlText)
         guard let data = modifiedFont.data(using: .utf8, allowLossyConversion: true) else { return }
-        let options: [String: Any] = [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                                      NSCharacterEncodingDocumentAttribute: String.Encoding.utf8.rawValue]
+        let options: [String: Any] = [NSAttributedString.DocumentAttributeKey.documentType.rawValue: NSAttributedString.DocumentType.html,
+                                      NSAttributedString.DocumentAttributeKey.characterEncoding.rawValue: String.Encoding.utf8.rawValue]
         if let attrStr = try? NSAttributedString(data: data, options: options, documentAttributes: nil) {
             self.attributedText = attrStr
         } else {
@@ -61,7 +61,7 @@ extension UILabel {
         guard let text = text, !text.isEmpty else { return }
         let attributedString = NSMutableAttributedString(string: text)
         let range = NSRange(location: 0, length: attributedString.length - 1)
-        attributedString.addAttribute(NSKernAttributeName, value: value, range: range)
+        attributedString.addAttribute(NSAttributedStringKey.kern, value: value, range: range)
         attributedText = attributedString
     }
 }

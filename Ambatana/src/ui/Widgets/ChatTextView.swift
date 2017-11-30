@@ -142,10 +142,10 @@ class ChatTextView: UIView {
         setupBackgroundsWCorners()
 
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        textView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
         addSubview(textView)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
-        sendButton.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        sendButton.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
         addSubview(sendButton)
 
         var views = [String: Any]()

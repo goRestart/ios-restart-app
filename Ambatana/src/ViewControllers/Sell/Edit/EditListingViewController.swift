@@ -371,7 +371,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         }
     }
     
-    func image(_ image: UIImage!, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutableRawPointer) {
+    @objc func image(_ image: UIImage!, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutableRawPointer) {
         self.dismissLoadingMessageAlert(){
             if error == nil { // success
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollOk)
@@ -644,11 +644,11 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         })
     }
 
-    dynamic func closeButtonPressed() {
+    @objc dynamic func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
     
-    private dynamic func scrollViewTapped() {
+    @objc private dynamic func scrollViewTapped() {
         activeField?.endEditing(true)
     }
 }

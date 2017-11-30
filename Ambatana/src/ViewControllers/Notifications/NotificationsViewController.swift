@@ -96,7 +96,7 @@ class NotificationsViewController: BaseViewController {
 
     // MARK: > Actions
 
-    dynamic private func refreshControlTriggered() {
+    @objc dynamic private func refreshControlTriggered() {
         viewModel.refresh()
     }
 

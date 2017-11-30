@@ -338,7 +338,7 @@ extension UserViewController {
         listingListView.errorPadding = errorPadding
     }
 
-    dynamic private func handleHeaderPan(_ gestureRecognizer: UIPanGestureRecognizer) {
+    @objc dynamic private func handleHeaderPan(_ gestureRecognizer: UIPanGestureRecognizer) {
         let translation = gestureRecognizer.translation(in: view)
         gestureRecognizer.setTranslation(CGPoint.zero, in: view)
 
@@ -412,7 +412,7 @@ extension UserViewController {
             viewModel.userName.asObservable(),
             viewModel.userLocation.asObservable(),
             viewModel.userAvatarURL.asObservable(),
-            viewModel.userAvatarPlaceholder.asObservable()) { $0 }
+            viewModel.userAvatarPlaceholder.asObservable()) { ($0, $1, $2, $3) }
         .subscribeNext { [weak self] (userName, userLocation, avatar, placeholder) in
             guard let navBarUserView = self?.navBarUserView else { return }
             navBarUserView.setupWith(userAvatar: avatar, placeholder: placeholder, userName: userName,

@@ -78,11 +78,11 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
 
     // MARK: - IBActions & Navbar
     
-    func onNavbarCancel(){
+    @objc func onNavbarCancel(){
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
-    func onNavbarReset(){
+    @objc func onNavbarReset(){
         viewModel.resetFilters()
     }
     
@@ -456,7 +456,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         }.addDisposableTo(disposeBag)
     }
 
-    private dynamic func collectionTapped() {
+    @objc private dynamic func collectionTapped() {
         view.endEditing(true)
     }
 

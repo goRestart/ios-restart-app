@@ -182,7 +182,7 @@ class FeaturedInfoViewController: BaseViewController {
 
     // MARK: Actions
 
-    dynamic func closeButtonPressed() {
+    @objc dynamic func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
 }

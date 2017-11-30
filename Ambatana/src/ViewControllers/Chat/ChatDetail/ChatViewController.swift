@@ -264,11 +264,11 @@ class ChatViewController: TextViewController {
 
     // MARK: > Navigation
     
-    dynamic private func listingInfoPressed() {
+    @objc dynamic private func listingInfoPressed() {
         viewModel.listingInfoPressed()
     }
 
-    dynamic private func optionsBtnPressed() {
+    @objc dynamic private func optionsBtnPressed() {
         viewModel.openOptionsMenu()
     }
 }
@@ -339,7 +339,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         reloadLeftActions()
     }
     
-    func hideStickers() {
+    @objc func hideStickers() {
         guard showingStickers else { return }
         stickersWindow?.isHidden = true
         stickersView.isHidden = true
@@ -451,7 +451,7 @@ fileprivate extension ChatViewController {
                                                     (id, name) -> UIImage? in
                                                     return LetgoAvatar.avatarWithID(id, name: name)
         }
-        Observable.combineLatest(placeHolder, viewModel.interlocutorAvatarURL.asObservable()) { $0 }
+        Observable.combineLatest(placeHolder, viewModel.interlocutorAvatarURL.asObservable()) { ($0, $1) }
             .bindNext { [weak self] (placeholder, avatarUrl) in
                 if let url = avatarUrl {
                     self?.listingView.userAvatar.lg_setImageWithURL(url, placeholderImage: placeholder)
@@ -611,7 +611,7 @@ extension ChatViewController {
      
      - parameter notification: NSNotification received
      */
-    func menuControllerWillShow(_ notification: Notification) {
+    @objc func menuControllerWillShow(_ notification: Notification) {
         guard let indexPath = selectedCellIndexPath else { return }
         guard let cell = tableView.cellForRow(at: indexPath) as? ChatBubbleCell else { return }
         selectedCellIndexPath = nil
@@ -625,7 +625,7 @@ extension ChatViewController {
         menu.setMenuVisible(true, animated: true)
     }
     
-    func menuControllerWillHide(_ notification: Notification) {
+    @objc func menuControllerWillHide(_ notification: Notification) {
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
                                                          name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
     }
@@ -674,7 +674,7 @@ extension ChatViewController {
                 self?.viewModel.safetyTipsDismissed()
                 guard let chatEnabled = self?.viewModel.chatEnabled, chatEnabled.value else { return }
                 self?.textView.becomeFirstResponder()
-            }
+            } as (() -> Void)
             chatSafetyTipsView.frame = navCtlView.frame
             navCtlView.addSubview(chatSafetyTipsView)
             chatSafetyTipsView.show()

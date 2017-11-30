@@ -361,7 +361,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         self.navigationItem.leftBarButtonItem = backButton
     }
 
-    dynamic private func backButtonClose() {
+    @objc dynamic private func backButtonClose() {
         close()
     }
 
@@ -546,7 +546,7 @@ extension ListingCarouselViewController {
     }
 
     fileprivate func setupUserInfoRx() {
-        let productAndUserInfos = Observable.combineLatest(viewModel.productInfo.asObservable(), viewModel.userInfo.asObservable()) { $0 }
+        let productAndUserInfos = Observable.combineLatest(viewModel.productInfo.asObservable(), viewModel.userInfo.asObservable()) { ($0, $1) }
         productAndUserInfos.bindNext { [weak self] (productInfo, userInfo) in
             self?.userView.setupWith(userAvatar: userInfo?.avatar,
                                      userName: userInfo?.name,
@@ -667,7 +667,7 @@ extension ListingCarouselViewController {
 
     private func setupProductStatusLabelRx() {
 
-        let statusAndFeatured = Observable.combineLatest(viewModel.status.asObservable(), viewModel.isFeatured.asObservable()) { $0 }
+        let statusAndFeatured = Observable.combineLatest(viewModel.status.asObservable(), viewModel.isFeatured.asObservable()) { ($0, $1) }
         statusAndFeatured.bindNext { [weak self] (status, isFeatured) in
             guard let strongSelf = self else { return }
             if isFeatured {
@@ -698,7 +698,7 @@ extension ListingCarouselViewController {
         productStatusView.addGestureRecognizer(tapRec)
     }
 
-    private dynamic func statusLabelTapped() {
+    @objc private dynamic func statusLabelTapped() {
         viewModel.statusLabelTapped()
     }
 
@@ -859,7 +859,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
 
 extension ListingCarouselViewController {
 
-    dynamic func didTapMoreInfo() {
+    @objc dynamic func didTapMoreInfo() {
         chatTextView.resignFirstResponder()
     }
 
@@ -875,7 +875,7 @@ extension ListingCarouselViewController {
         moreInfoView.delegate = self
     }
 
-    func dragMoreInfoButton(_ pan: UIPanGestureRecognizer) {
+    @objc func dragMoreInfoButton(_ pan: UIPanGestureRecognizer) {
         let point = pan.location(in: view)
 
         if point.y >= CarouselUI.moreInfoExtraHeight { // start dragging when point is below the navbar
@@ -894,7 +894,7 @@ extension ListingCarouselViewController {
         }
     }
 
-    func dragViewTapped(_ tap: UITapGestureRecognizer) {
+    @objc func dragViewTapped(_ tap: UITapGestureRecognizer) {
         showMoreInfo()
     }
 

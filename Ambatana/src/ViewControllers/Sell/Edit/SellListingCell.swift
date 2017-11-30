@@ -85,7 +85,7 @@ extension SellListingCell {
         perform(#selector(resetBgColor), with: nil, afterDelay: 0.2)
     }
 
-    dynamic private func resetBgColor() {
+    @objc dynamic private func resetBgColor() {
         self.backgroundColor = UIColor.white
     }
 }

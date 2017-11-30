@@ -81,7 +81,7 @@ class ListingCarouselCell: UICollectionViewCell {
         collectionView.addGestureRecognizer(singleTap)
     }
     
-    func doSingleTapAction(_ gestureRecognizer: UITapGestureRecognizer) {
+    @objc func doSingleTapAction(_ gestureRecognizer: UITapGestureRecognizer) {
         guard imageScrollDirection == .horizontal else {
             delegate?.didTapOnCarouselCell(self, tapSide: nil)
             return

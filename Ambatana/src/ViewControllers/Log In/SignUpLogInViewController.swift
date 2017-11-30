@@ -239,7 +239,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         // workaround to avoid weird font type
         passwordTextField.font = UIFont(name: "systemFont", size: 17)
         passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint,
-            attributes: [NSFontAttributeName : UIFont.systemFont(ofSize: 17) ])
+            attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 17) ])
        
     }
     
@@ -251,11 +251,11 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         viewModel.openRememberPassword()
     }
 
-    func closeButtonPressed() {
+    @objc func closeButtonPressed() {
         viewModel.cancel()
     }
 
-    func helpButtonPressed() {
+    @objc func helpButtonPressed() {
         viewModel.openHelp()
     }
 
@@ -487,8 +487,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
         let textfieldTextColor = UIColor.blackText
         var textfieldPlaceholderAttrs = [String: AnyObject]()
-        textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFont(ofSize: 17)
-        textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = UIColor.blackTextHighAlpha
+        textfieldPlaceholderAttrs[NSAttributedStringKey.font] = UIFont.systemFont(ofSize: 17)
+        textfieldPlaceholderAttrs[NSAttributedStringKey.foregroundColor] = UIColor.blackTextHighAlpha
 
         orLabel.textColor = UIColor.darkGrayText
         lines.forEach { $0.backgroundColor = UIColor.darkGrayText.cgColor }
@@ -525,8 +525,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
         let textfieldTextColor = UIColor.whiteText
         var textfieldPlaceholderAttrs = [String: AnyObject]()
-        textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFont(ofSize: 17)
-        textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = UIColor.whiteTextHighAlpha
+        textfieldPlaceholderAttrs[NSAttributedStringKey.font] = UIFont.systemFont(ofSize: 17)
+        textfieldPlaceholderAttrs[NSAttributedStringKey.foregroundColor] = UIColor.whiteTextHighAlpha
 
         orLabel.textColor = UIColor.white
         lines.forEach { $0.backgroundColor = UIColor.white.cgColor }

@@ -68,14 +68,14 @@ extension String {
             let resultText : NSMutableAttributedString = NSMutableAttributedString(string: self)
 
             if let textColor = textColor {
-                resultText.addAttribute(NSForegroundColorAttributeName, value: textColor,
+                resultText.addAttribute(NSAttributedStringKey.foregroundColor, value: textColor,
                                         range: NSMakeRange(0, resultText.length))
             }
             
             for (word, url) in urlDict {
                 let range = nsText.range(of: word, options: .caseInsensitive)
                 guard range.location != NSNotFound else { continue }
-                resultText.addAttribute(NSLinkAttributeName, value: url, range: range)
+                resultText.addAttribute(NSAttributedStringKey.link, value: url, range: range)
             }
             return resultText
     }
@@ -272,10 +272,10 @@ extension String {
     
     func makeBold(ignoringText: String, font: UIFont) -> NSAttributedString {
         let attributedString = NSMutableAttributedString(string: self,
-                                                         attributes: [NSFontAttributeName: font])
+                                                         attributes: [NSAttributedStringKey.font: font])
         let ignoreTextCount = contains(ignoringText) ? ignoringText.characters.count : 0
         attributedString.addAttribute(
-            NSFontAttributeName,
+            NSAttributedStringKey.font,
             value: UIFont.boldSystemFont(ofSize: font.pointSize),
             range: NSMakeRange(ignoreTextCount, characters.count-ignoreTextCount)
         )
@@ -290,7 +290,7 @@ extension String {
 
         let requiredSize: CGRect = self.boundingRect(with: textSize,
                                                      options: NSStringDrawingOptions.usesLineFragmentOrigin,
-                                                     attributes: [NSFontAttributeName: font],
+                                                     attributes: [NSAttributedStringKey.font: font],
                                                      context: nil)
 
         let resultHeight = requiredSize.height
