@@ -68,7 +68,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         itemActionsView.translatesAutoresizingMaskIntoConstraints = false
         itemActionsView.layout(with: self).trailing().bottom().leading()
         itemActionsView.layout(with: collectionView).below(by: 2*Metrics.margin)
-
         itemActionsView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
         itemActionsView.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
         itemActionsView.alpha = 0

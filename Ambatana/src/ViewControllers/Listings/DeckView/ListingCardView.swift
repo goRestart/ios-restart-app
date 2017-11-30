@@ -10,17 +10,20 @@ import Foundation
 import UIKit
 import RxSwift
 import LGCoreKit
+import MapKit
+
 
 protocol ListingCardViewDelegate {
     func didTapOnStatusView()
 }
 
-final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, PassthroughScrollViewDelegate {
+final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UICollectionViewDataSource,
+                                UICollectionViewDelegate, PassthroughScrollViewDelegate {
     private struct Identifier {
         static let reusableID = String(describing: ListingDeckImagePreviewCell.self)
     }
 
-    var delegate: (ListingCardDetailsViewDelegate & ListingCardViewDelegate)? {
+    var delegate: (ListingCardDetailsViewDelegate & ListingCardViewDelegate & ListingCardDetailMapViewDelegate)? {
         didSet { detailsView.delegate = delegate }
     }
 
@@ -46,7 +49,10 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
 
     private let verticalScrollView = PassthroughScrollView()
     private var scrollViewContentInset: UIEdgeInsets = UIEdgeInsets.zero
+
     private let detailsView = ListingCardDetailsView()
+    private var fullMapConstraints: [NSLayoutConstraint] = []
+
     private var imageDownloader: ImageDownloaderType?
     private var pageCount: Int { get { return urls.count } }
 
@@ -66,6 +72,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
         disposeBag = DisposeBag()
 
         urls.removeAll()
+        fullMapConstraints.forEach { detailsView.detailMapView.removeConstraint($0) }
+        fullMapConstraints.removeAll()
         reloadData(animated: false)
     }
 
@@ -113,6 +121,30 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
 
     func update(currentPage: Int) {
         imageCountLabel.text = "\(currentPage)/\(urls.count)"
+    }
+
+    func showFullMap(fromRect rect: CGRect) {
+        detailsView.detailMapView.showRegion(animated: true)
+        fullMapConstraints = [
+            detailsView.detailMapView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            detailsView.detailMapView.heightAnchor.constraint(equalToConstant: contentView.height)
+        ]
+        NSLayoutConstraint.activate(fullMapConstraints)
+
+        UIView.animate(withDuration: 0.3) {
+            self.detailsView.detailMapView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(1)
+            self.detailsView.layoutIfNeeded()
+        }
+    }
+
+    func hideFullMap() {
+        fullMapConstraints.forEach { detailsView.detailMapView.removeConstraint($0) }
+        fullMapConstraints.removeAll()
+        UIView.animate(withDuration: 0.3) {
+            self.detailsView.detailMapView.hideMap(animated: true)
+            self.detailsView.detailMapView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0)
+            self.detailsView.layoutIfNeeded()
+        }
     }
 
     private func setupUI() {
@@ -183,6 +215,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
     }
 
     private func setupVerticalScrollView() {
+        verticalScrollView.showsVerticalScrollIndicator = false
         verticalScrollView.delegate = self
         verticalScrollView.touchDelegate = self
         verticalScrollView.translatesAutoresizingMaskIntoConstraints = false

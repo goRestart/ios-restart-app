@@ -24,7 +24,11 @@ protocol ListingCardDetailsViewDelegate: class {
 }
 
 final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
-    weak var delegate: ListingCardDetailsViewDelegate?
+    private struct Layout { struct Height { static let mapView: CGFloat = 128.0  } }
+
+    var delegate: (ListingCardDetailsViewDelegate & ListingCardDetailMapViewDelegate)? {
+        didSet { detailMapView.delegate = delegate }
+    }
 
     private let scrollView = UIScrollView()
 
@@ -37,8 +41,9 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
 
     private let mapHeader = UIStackView()
     private let locationLabel = UILabel()
-    private let mapSnapShotView = UIImageView()
+    private let mapPlaceHolder = UIView()
 
+    let detailMapView = ListingCardDetailMapView()
     private var mapSnapShotToBottom: NSLayoutConstraint?
     private var mapSnapShotToSocialView: NSLayoutConstraint?
 
@@ -56,6 +61,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
     }
 
     // MARK: PopulateView
+
     func populateWithViewModel(_ viewModel: ListingCardDetailsViewModel) {
         binder.bindTo(viewModel)
     }
@@ -64,10 +70,9 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
         if let location = productInfo.location {
             let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             let center = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-            MKMapView.snapshotAt(center, span: span, with: { (snapshot, error) in
-                guard error == nil, let image = snapshot?.image else { return }
-                self.mapSnapShotView.image = image
-            })
+
+            let region = MKCoordinateRegion(center: center, span: span)
+            detailMapView.setRegion(region, size: CGSize(width: 300, height: 500))
         }
         titleLabel.text = productInfo.title
         priceLabel.text = productInfo.price
@@ -110,6 +115,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
             let view = UIView()
             view.translatesAutoresizingMaskIntoConstraints = false
             scrollView.addSubview(view)
+            scrollView.showsVerticalScrollIndicator = false
 
             view.backgroundColor = .white
             view.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
@@ -188,6 +194,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
             locationLabel.font = UIFont.systemMediumFont(size: 13)
             locationLabel.textAlignment = .left
             locationLabel.textColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
+
             locationLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
             locationLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
         }
@@ -209,21 +216,31 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
         }
 
         func setupSnapShotView() {
-            mapSnapShotView.translatesAutoresizingMaskIntoConstraints = false
-            scrollView.addSubview(mapSnapShotView)
+            detailMapView.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(detailMapView)
 
-            mapSnapShotView.layout(with: scrollView)
+            mapPlaceHolder.translatesAutoresizingMaskIntoConstraints = false
+            scrollView.addSubview(mapPlaceHolder)
+
+            mapPlaceHolder.layout(with: scrollView)
                 .leadingMargin(by: Metrics.shortMargin).trailingMargin(by: -Metrics.shortMargin)
-            mapSnapShotView.topAnchor.constraint(equalTo: mapHeader.bottomAnchor, constant: Metrics.shortMargin).isActive = true
-            mapSnapShotView.layout().height(128)
-
-            mapSnapShotView.clipsToBounds = true
-            mapSnapShotView.contentMode = .scaleAspectFill
-            mapSnapShotView.cornerRadius = 6.0
-            mapSnapShotView.backgroundColor = UIColor.gray
-
-            mapSnapShotToBottom = mapSnapShotView.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor,
+            mapPlaceHolder.topAnchor.constraint(equalTo: mapHeader.bottomAnchor,
+                                                constant: Metrics.shortMargin).isActive = true
+            mapPlaceHolder.layout().height(Layout.Height.mapView)
+            mapPlaceHolder.backgroundColor = backgroundColor
+            
+            let centerY = detailMapView.centerYAnchor.constraint(equalTo: mapPlaceHolder.centerYAnchor)
+            centerY.priority = UILayoutPriorityRequired - 1
+            centerY.isActive = true
+            
+            detailMapView.layout(with: scrollView).fillHorizontal()
+            let mapHeightConstraint = detailMapView.heightAnchor.constraint(equalToConstant: Layout.Height.mapView)
+            mapHeightConstraint.isActive = true
+            mapHeightConstraint.priority = UILayoutPriorityRequired - 1
+            
+            mapSnapShotToBottom = mapPlaceHolder.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor,
                                                                           constant: -2*Metrics.margin)
+            detailMapView.isUserInteractionEnabled = true
         }
         setupLocationLabel()
         setupMapHeader()
@@ -235,7 +252,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
             socialMediaHeader.translatesAutoresizingMaskIntoConstraints = false
             scrollView.addSubview(socialMediaHeader)
 
-            mapSnapShotToSocialView = socialMediaHeader.topAnchor.constraint(equalTo: mapSnapShotView.bottomAnchor,
+            mapSnapShotToSocialView = socialMediaHeader.topAnchor.constraint(equalTo: mapPlaceHolder.bottomAnchor,
                                                                              constant: 2*Metrics.margin)
             mapSnapShotToSocialView?.isActive = true
 

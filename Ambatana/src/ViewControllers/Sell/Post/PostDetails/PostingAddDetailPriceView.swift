@@ -54,7 +54,6 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable {
     // MARK: - UI
     
     private func setupUI() {
-        
         separatorView.backgroundColor = UIColor.whiteTextLowAlpha
         currencyLabel.numberOfLines = 1
         currencyLabel.adjustsFontSizeToFitWidth = false

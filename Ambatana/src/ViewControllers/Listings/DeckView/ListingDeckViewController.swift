@@ -256,9 +256,24 @@ extension ListingDeckViewController: ListingDeckViewModelDelegate {
     }
 }
 
-extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCardViewDelegate {
-    func viewControllerToShowShareOptions() -> UIViewController {
-        return self
+extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCardViewDelegate, ListingCardDetailMapViewDelegate {
+    func viewControllerToShowShareOptions() -> UIViewController { return self }
+
+    func didTapOnMapSnapshot(_ snapshot: UIView) {
+        let page = listingDeckView.currentPage
+        guard let cell = listingDeckView.collectionView.cellForItem(at: IndexPath(row: page, section: 0))
+            as? ListingCardView else { return }
+
+        listingDeckView.collectionView.isScrollEnabled = false
+        cell.showFullMap(fromRect: snapshot.frame)
+    }
+
+    func didTapMapView() {
+        let page = listingDeckView.currentPage
+        guard let cell = listingDeckView.collectionView.cellForItem(at: IndexPath(row: page, section: 0))
+            as? ListingCardView else { return }
+        listingDeckView.collectionView.isScrollEnabled = true
+        cell.hideFullMap()
     }
 
     func didTapOnStatusView() {

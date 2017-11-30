@@ -270,6 +270,7 @@ final class ListingDeckViewModel: BaseViewModel {
         }
     }
 
+
     // MARK: Tracking
 
     func bumpUpBannerShown(type: BumpUpType) {

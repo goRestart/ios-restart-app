@@ -29,6 +29,7 @@ protocol ListingCardViewCellModel: ListingCardDetailsViewModel {
 
     var cardIsFavoritable: Bool { get }
     var cardIsFeatured: Observable<Bool> { get  }
+
     var productIsFavorite: Observable<Bool> { get }
     var cardUserInfo: Observable<ListingVMUserInfo> { get }
     var cardProductImageURLs: Observable<[URL]> { get }
