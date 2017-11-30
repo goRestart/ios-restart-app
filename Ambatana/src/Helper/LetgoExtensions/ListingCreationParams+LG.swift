@@ -33,7 +33,7 @@ extension ListingCreationParams {
                                                   carAttributes: postListingState.verticalAttributes?.carAttributes ?? CarAttributes.emptyCarAttributes())
                 listingCreationParams = ListingCreationParams.car(carParams)
             case .realEstate:
-                let realEstateParams = RealEstateCreationParams(name: title ?? postListingState.verticalAttributes?.realEstateAttributes?.generatedTitle,
+                let realEstateParams = RealEstateCreationParams(name: postListingState.verticalAttributes?.realEstateAttributes?.generatedTitle,
                                                                 description: description,
                                                                 price: postListingState.price ?? Constants.defaultPrice,
                                                                 category: .realEstate,

@@ -88,7 +88,7 @@ fileprivate extension ChatDisclaimerCell {
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: ChatDisclaimerCell.buttonHContentInset,
                                                 bottom: 0, right: ChatDisclaimerCell.buttonHContentInset)
 
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
         

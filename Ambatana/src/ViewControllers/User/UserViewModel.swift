@@ -57,7 +57,7 @@ class UserViewModel: BaseViewModel {
     
     // Output
     let navBarButtons = Variable<[UIAction]>([])
-    let backgroundColor = Variable<UIColor>(UIColor.clear)
+    let backgroundColor = Variable<UIColor>(.clear)
     let headerMode = Variable<UserViewHeaderMode>(.myUser)
     let userAvatarPlaceholder = Variable<UIImage?>(nil)
     let userAvatarURL = Variable<URL?>(nil)

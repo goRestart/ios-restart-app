@@ -50,7 +50,7 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
         tableView.delegate = self
         tableView.dataSource = self
         tableView.indicatorStyle = .white
-        tableView.backgroundColor = UIColor.clear
+        tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         // Avoid margin generated when adjusting scroll view insets. Setting automaticallyAdjustsScrollViewInsets to false 
         // does not fit because it overlaps with the navigation bar

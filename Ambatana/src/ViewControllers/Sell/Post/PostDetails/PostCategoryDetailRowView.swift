@@ -105,7 +105,7 @@ class PostCategoryDetailRowView: UIView, UITextFieldDelegate {
         case .textEntryRow:
             textField.textAlignment = .left
             textField.clearButtonMode = .never
-            textField.backgroundColor = UIColor.clear
+            textField.backgroundColor = .clear
             textField.textColor = UIColor.white
             textField.keyboardType = .numberPad
             textField.delegate = self

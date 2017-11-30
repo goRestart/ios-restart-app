@@ -69,9 +69,9 @@ class CategoryHeaderCell: UICollectionViewCell {
     
     private func setupUI() {
         
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
         categoryNewContainter.backgroundColor = UIColor.white
-        categoryNewLabel.backgroundColor = UIColor.clear
+        categoryNewLabel.backgroundColor = .clear
         
         categoryTitle.translatesAutoresizingMaskIntoConstraints = false
         categoryNewLabel.translatesAutoresizingMaskIntoConstraints = false

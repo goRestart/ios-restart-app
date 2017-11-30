@@ -10,7 +10,7 @@ import UIKit
 
 class LoadingIndicator: UIView {
 
-    var color: UIColor = UIColor.white {
+    var color: UIColor = .white {
         didSet {
             loadingShape.strokeColor = color.cgColor
             okIcon.tintColor = color

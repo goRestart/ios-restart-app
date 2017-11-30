@@ -315,7 +315,7 @@ enum NavBarBackgroundStyle {
         case let .transparent(substyle):
             switch substyle {
             case .dark:
-                return UIColor.clearBarButton
+                return .clearBarButton
             case .light:
                 return UIColor.lightBarButton
             }
@@ -329,7 +329,7 @@ enum NavBarBackgroundStyle {
         case let .transparent(substyle):
             switch substyle {
             case .dark:
-                return UIColor.clearBarTitle
+                return .clearBarTitle
             case .light:
                 return UIColor.lightBarTitle
             }

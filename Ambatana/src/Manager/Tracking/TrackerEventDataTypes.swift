@@ -173,6 +173,7 @@ enum EventName: String {
 
     case adTapped                           = "ad-tapped"
     case featuredMoreInfo                   = "featured-more-info"
+    case openOptionOnSummary                = "posting-summary-open"
 
 
     // Constants
@@ -327,6 +328,13 @@ enum EventParameterName: String {
     case numberOfItems        = "number-of-items"
     case transactionStatus    = "transaction-status"
     case promotedBump         = "promoted-bump"
+    case propertyType         = "property-type"
+    case offerType            = "deal-type"
+    case bedrooms             = "bedroom-number"
+    case bathrooms            = "bathroom-number"
+    case location             = "location"
+    case sqrMeters            = "sqr-meters"
+    case openField            = "open-field"
 }
 
 enum EventParameterBoolean: String {
@@ -436,6 +444,17 @@ enum EventParameterPostingType: String {
     case stuff = "stuff"
     case realEstate = "real-estate"
     case none = "N/A"
+    
+    init(category: PostCategory) {
+        switch category {
+        case .unassigned, .motorsAndAccessories:
+            self = .stuff
+        case .car:
+            self = .car
+        case .realEstate:
+            self = .realEstate
+        }
+    }
 }
 
 enum EventParameterMake {
@@ -445,10 +464,10 @@ enum EventParameterMake {
     var name: String {
         switch self {
         case .make(let name):
-            guard let name = name, !name.isEmpty else { return "N/A" }
+            guard let name = name, !name.isEmpty else { return Constants.parameterNotApply }
             return name
         case .none:
-            return "N/A"
+            return Constants.parameterNotApply
         }
     }
 }
@@ -460,10 +479,10 @@ enum EventParameterModel {
     var name: String {
         switch self {
         case .model(let name):
-            guard let name = name, !name.isEmpty else { return "N/A" }
+            guard let name = name, !name.isEmpty else { return Constants.parameterNotApply }
             return name
         case .none:
-            return "N/A"
+            return Constants.parameterNotApply
         }
     }
 }
@@ -475,13 +494,64 @@ enum EventParameterYear {
     var year: String {
         switch self {
         case .year(let year):
-            guard let year = year, year != 0 else { return "N/A" }
+            guard let year = year, year != 0 else { return Constants.parameterNotApply }
             return String(year)
         case .none:
-            return "N/A"
+            return Constants.parameterNotApply
         }
     }
 }
+
+
+
+enum EventParameterStringRealEstate {
+    
+    case realEstateParam(name: String?)
+    case none
+    case notApply
+    
+    var name: String {
+        switch self {
+        case .realEstateParam(let name):
+            return name ?? Constants.parameterSkipValue
+        case .none:
+            return Constants.parameterSkipValue
+        case .notApply:
+            return Constants.parameterNotApply
+        }
+    }
+}
+
+enum EventParameterBathroomsRealEstate {
+    case bathrooms(value: Float?)
+    case notApply
+    
+    var name: String {
+        switch self {
+        case .bathrooms(let value):
+            guard let value = value else { return Constants.parameterSkipValue }
+            return String(value)
+        case .notApply:
+            return Constants.parameterNotApply
+        }
+    }
+}
+
+enum EventParameterBedroomsRealEstate {
+    case bedrooms(value: Int?)
+    case notApply
+    
+    var name: String {
+        switch self {
+        case .bedrooms(let value):
+            guard let value = value else { return Constants.parameterSkipValue }
+            return String(value)
+        case .notApply:
+            return Constants.parameterNotApply
+        }
+    }
+}
+
 
 enum EventParameterMessageType: String {
     case text       = "text"
@@ -998,6 +1068,41 @@ enum EventParameterAdSenseRequestErrorReason: String {
             self = .networkError
         default:
             self = .internalError
+        }
+    }
+}
+
+enum EventParameterOptionSummary: String {
+    case price = "price"
+    case propertyType = "property-type"
+    case offerType = "deal-type"
+    case bedrooms = "bedroom-number"
+    case bathrooms = "bathroom-number"
+    case location = "location"
+    case make = "make"
+    case model = "model"
+    case year = "year"
+    
+    init(optionSelected: PostingSummaryOption) {
+        switch optionSelected {
+        case .price:
+            self = .price
+        case .propertyType:
+            self = .propertyType
+        case .offerType:
+            self = .offerType
+        case .bedrooms:
+            self = .bedrooms
+        case .bathrooms:
+            self = .bathrooms
+        case .location:
+            self = .location
+        case .make:
+            self = .make
+        case .model:
+            self = .model
+        case .year:
+            self = .year
         }
     }
 }

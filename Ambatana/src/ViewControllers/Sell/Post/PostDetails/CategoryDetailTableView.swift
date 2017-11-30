@@ -35,7 +35,7 @@ enum CategoryDetailStyle {
     var cellBackgroundColor: UIColor {
         switch self {
         case .lightContent:
-            return UIColor.clear
+            return .clear
         case .darkContent:
             return UIColor.white
         }
@@ -44,7 +44,7 @@ enum CategoryDetailStyle {
     var tableViewBackgroundColor: UIColor {
         switch self {
         case .lightContent:
-            return UIColor.clear
+            return .clear
         case .darkContent:
             return UIColor.white
         }
@@ -215,7 +215,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         searchBar.autocapitalizationType = .none
         searchBar.autocorrectionType = .no
         searchBar.barStyle = .default
-        searchBar.barTintColor = UIColor.clear
+        searchBar.barTintColor = .clear
         searchBar.backgroundColor = nil
         searchBar.tintColor = UIColor.redText
         let imageWithColor = UIImage.imageWithColor(style.searchBackgroundColor,
@@ -228,7 +228,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
         if let textField: UITextField = searchBar.firstSubview(ofType: UITextField.self) {
             textField.font = UIFont.bigBodyFont
             textField.clearButtonMode = .never
-            textField.backgroundColor = UIColor.clear
+            textField.backgroundColor = .clear
             textField.textColor = style.searchTextColor
             textField.attributedPlaceholder =
                 NSAttributedString(string: LGLocalizedString.postCategoryDetailSearchPlaceholder,

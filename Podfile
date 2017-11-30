@@ -34,7 +34,7 @@ def shared_pods
     pod "Amplitude-iOS",        "3.8.5"     # Obj-c
     pod "AppsFlyerFramework",   "4.7.11"    # Obj-c
 #    pod "Leanplum-iOS-SDK",     "2.0.1"    # Obj-c
-    pod "Leanplum-iOS-SDK", :git => 'https://github.com/Leanplum/Leanplum-iOS-SDK-internal', :tag => '2.0.3.95'
+    pod "Leanplum-iOS-SDK",     "2.0.4"
     pod "NewRelicAgent",        "5.14.2"    # Obj-c
 
     # letgo Core

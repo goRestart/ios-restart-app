@@ -85,6 +85,8 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable {
         
         let tapBackground = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
         addGestureRecognizer(tapBackground)
+        
+        freeSwitch.onTintColor = UIColor.primaryColor
     }
     
     private func setupConstraints() {

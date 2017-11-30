@@ -43,6 +43,11 @@ class PostListingViewModel: BaseViewModel {
             return LGLocalizedString.productPostProductPostedNotLogged
         }
     }
+    
+    var isRealEstate: Bool {
+        guard let category = postCategory, category == .realEstate else { return false }
+        return true
+    }
 
     let state: Variable<PostListingState>
     let category: Variable<PostCategory?>

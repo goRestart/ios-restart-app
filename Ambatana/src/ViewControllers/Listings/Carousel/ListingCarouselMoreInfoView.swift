@@ -354,7 +354,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         descriptionLabel.addGestureRecognizer(tapGesture)
         descriptionLabel.expandText = LGLocalizedString.commonExpand.localizedUppercase
         descriptionLabel.collapseText = LGLocalizedString.commonCollapse.localizedUppercase
-        descriptionLabel.gradientColor = UIColor.clear
+        descriptionLabel.gradientColor = .clear
         descriptionLabel.expandTextColor = UIColor.white
 
         setupSocialShareView()
@@ -362,7 +362,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         dragView.rounded = true
         dragView.layer.borderColor = UIColor.white.cgColor
         dragView.layer.borderWidth = 1
-        dragView.backgroundColor = UIColor.clear
+        dragView.backgroundColor = .clear
         
         dragViewTitle.text = LGLocalizedString.productMoreInfoOpenButton
         dragViewTitle.textColor = UIColor.white
