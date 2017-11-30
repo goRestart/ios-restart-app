@@ -13,23 +13,13 @@ import RxSwift
 final class ListingCardViewBinder {
 
     weak var cardView: ListingCardView?
-    private var disposeBag = DisposeBag()
-    private var vmDisposeBag = DisposeBag()
+    var viewModelBag: DisposeBag?
 
-    private let page = Variable<Int>(0)
     private let isFavoritable = Variable<Bool>(false)
 
-    func bind() {
-        disposeBag = DisposeBag()
-        guard let card = cardView else { return }
-
-        page.asObservable().bindNext { [unowned card] page in
-            card.update(currentPage: page)
-        }.addDisposableTo(disposeBag)
-    }
-
     func bind(withViewModel viewModel: ListingCardViewCellModel) {
-        vmDisposeBag = DisposeBag()
+        viewModelBag = DisposeBag()
+        guard let vmDisposeBag = viewModelBag else { return }
 
         viewModel.productIsFavorite.bindNext { [weak self] favorite in
             if viewModel.cardIsFavoritable {
@@ -53,11 +43,4 @@ final class ListingCardViewBinder {
             self?.cardView?.populateWith(status: status, featured: isFeatured)
         }.addDisposableTo(vmDisposeBag)
     }
-
-    func update(scrollViewBindings scrollView: UIScrollView) {
-        let base = scrollView.width / 2.0
-        let offset = base + scrollView.contentOffset.x
-        page.value = Int(offset / scrollView.width) + 1
-    }
-    
 }

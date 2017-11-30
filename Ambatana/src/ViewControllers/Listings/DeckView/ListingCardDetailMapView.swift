@@ -23,7 +23,6 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         struct CornerRadius { static let mapView: CGFloat = 6.0 }
     }
 
-
     private var region: MKCoordinateRegion?
     private var tap: UITapGestureRecognizer?
 
@@ -131,6 +130,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         guard animated else {
             hideMap()
             mapView.removeFromSuperview()
+            return
         }
         UIView.animate(withDuration: 0.3,
                        animations: { [weak self] in
@@ -144,5 +144,4 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         mapView.alpha = 0
         mapSnapShotView.alpha = 1
     }
-
 }

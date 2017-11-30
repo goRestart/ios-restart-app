@@ -17,8 +17,7 @@ protocol ListingCardViewDelegate {
     func didTapOnStatusView()
 }
 
-final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UICollectionViewDataSource,
-                                UICollectionViewDelegate, PassthroughScrollViewDelegate {
+final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, PassthroughScrollViewDelegate {
     private struct Identifier {
         static let reusableID = String(describing: ListingDeckImagePreviewCell.self)
     }
@@ -39,9 +38,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
     private let statusView = ProductStatusView()
     private let statusTapGesture = UITapGestureRecognizer(target: self, action: #selector(touchUpStatusView))
 
-    private let previewCollectionView: UICollectionView
-    private var collectionHeight: NSLayoutConstraint?
-    private var urls: [URL] = []
+    private let previewImageView = UIImageView()
+    private var previewImageViewHeight: NSLayoutConstraint?
 
     private let gradient = GradientView(colors: [UIColor.black.withAlphaComponent(0.2), UIColor.black.withAlphaComponent(0)])
     private let countImageView = UIImageView(image: #imageLiteral(resourceName: "nit_preview_count"))
@@ -54,16 +52,11 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
     private var fullMapConstraints: [NSLayoutConstraint] = []
 
     private var imageDownloader: ImageDownloaderType?
-    private var pageCount: Int { get { return urls.count } }
+    private(set) var pageCount: Int = 0
 
     override init(frame: CGRect) {
-        previewCollectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
         super.init(frame: frame)
         binder.cardView = self
-        binder.bind()
-
-        previewCollectionView.register(ListingDeckImagePreviewCell.self,
-                                       forCellWithReuseIdentifier: Identifier.reusableID)
         setupUI()
     }
 
@@ -71,7 +64,6 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
         super.prepareForReuse()
         disposeBag = DisposeBag()
 
-        urls.removeAll()
         fullMapConstraints.forEach { detailsView.detailMapView.removeConstraint($0) }
         fullMapConstraints.removeAll()
         reloadData(animated: false)
@@ -89,13 +81,19 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
     }
 
     func populateWith(imagesURLs: [URL]) {
-        self.urls = imagesURLs
-        update(pageCount: urls.count)
+        guard let url = imagesURLs.first else { return }
+        let cache = imageDownloader?.cachedImageForUrl(url)
+        guard cache == nil else {
+            previewImageView.image = cache
+            return
+        }
+        _ = imageDownloader?.downloadImageWithURL(url) { [weak self] (result, url) in
+            if let value = result.value {
+                self?.previewImageView.image = value.image
+            }
+        }
 
-        previewCollectionView.delegate = self
-        previewCollectionView.dataSource = self
-        previewCollectionView.isPagingEnabled = true
-        previewCollectionView.reloadData()
+        update(pageCount: imagesURLs.count)
     }
 
     func populateWith(status: ListingViewModelStatus, featured: Bool) {
@@ -106,21 +104,17 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
 
     func reloadData(animated: Bool) {
         layoutVerticalContentInset(animated: animated)
-        previewCollectionView.reloadData()
     }
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     func update(pageCount: Int) {
+        self.pageCount = pageCount
         if pageCount > 1 {
             imageCountLabel.text = "1/\(pageCount)"
         } else {
             imageCountLabel.text = "1"
         }
-    }
-
-    func update(currentPage: Int) {
-        imageCountLabel.text = "\(currentPage)/\(urls.count)"
     }
 
     func showFullMap(fromRect rect: CGRect) {
@@ -148,7 +142,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
     }
 
     private func setupUI() {
-        setupCollectionView()
+        setupPreviewImageView()
         setupImagesCount()
         setupVerticalScrollView()
         setupStatusView()
@@ -173,12 +167,13 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
         }
     }
 
-    private func setupCollectionView() {
-        previewCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(previewCollectionView)
-        previewCollectionView.layout(with: contentView)
-            .fillHorizontal().top().proportionalHeight(multiplier: 0.8) { [weak self] in
-                self?.collectionHeight = $0
+    private func setupPreviewImageView() {
+        previewImageView.translatesAutoresizingMaskIntoConstraints = false
+        previewImageView.clipsToBounds = true
+        contentView.addSubview(previewImageView)
+        previewImageView.layout(with: contentView)
+            .fillHorizontal().top().proportionalHeight(multiplier: 0.7) { [weak self] in
+                self?.previewImageViewHeight = $0
         }
     }
 
@@ -253,7 +248,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
     }
 
     private func layoutVerticalContentInset(animated: Bool) {
-        let topInset = previewCollectionView.height
+        let topInset = previewImageView.height
         let top = topInset - userView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
 
         guard scrollViewContentInset.top != top else { return }
@@ -266,21 +261,17 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
     // MARK: UIScrollViewDelegate
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView == previewCollectionView {
-            binder.update(scrollViewBindings: scrollView)
+        if scrollView.contentOffset.y > -0.5 {
+            scrollView.contentOffset.y = -0.5
+        } else if scrollView.contentOffset.y < -scrollViewContentInset.top {
+            self.previewImageViewHeight?.constant = abs(scrollViewContentInset.top + scrollView.contentOffset.y)
+        } else if abs(scrollView.contentOffset.y / scrollViewContentInset.top) < 0.5 {
+            let ratio = abs(scrollView.contentOffset.y / scrollViewContentInset.top) / 0.5
+            updateCount(alpha: ratio)
+            updateBlur(alpha: 1 - ratio)
         } else {
-            if scrollView.contentOffset.y > -0.5 {
-                scrollView.contentOffset.y = -0.5
-            } else if scrollView.contentOffset.y < -scrollViewContentInset.top {
-                self.collectionHeight?.constant = abs(scrollViewContentInset.top + scrollView.contentOffset.y)
-            } else if abs(scrollView.contentOffset.y / scrollViewContentInset.top) < 0.5 {
-                let ratio = abs(scrollView.contentOffset.y / scrollViewContentInset.top) / 0.5
-                updateCount(alpha: ratio)
-                updateBlur(alpha: 1 - ratio)
-            } else {
-                updateCount(alpha: 1.0)
-                updateBlur(alpha: 0)
-            }
+            updateCount(alpha: 1.0)
+            updateBlur(alpha: 0)
         }
     }
 
@@ -294,48 +285,6 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
         gradient.alpha = alpha
     }
 
-    // MARK: UICollectionViewDataSource, UICollectionViewDelegate
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return urls.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
-        -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifier.reusableID,
-                                                          for: indexPath)
-            guard let imageCell = cell as? ListingDeckImagePreviewCell else { return UICollectionViewCell() }
-            guard indexPath.row < urls.count else { return imageCell }
-            let imageURL = urls[indexPath.row]
-
-            let cellTag = tagCellForDownloadMissmatch(imageCell, atIndexPath: indexPath)
-
-            if imageCell.imageURL != imageURL { //Avoid reloading same image in the cell
-                imageCell.imageView.image = nil
-
-                _ = imageDownloader?.downloadImageWithURL(imageURL) { [weak imageCell] (result, url) in
-                    if let value = result.value, cell.tag == cellTag {
-                        imageCell?.imageURL = imageURL
-                        imageCell?.imageView.image = value.image
-                    }
-                }
-            }
-
-            return imageCell
-    }
-
-    private func tagCellForDownloadMissmatch(_ cell: ListingDeckImagePreviewCell, atIndexPath indexPath: IndexPath) -> Int {
-        let imageCellTag = (indexPath as NSIndexPath).hash
-        cell.tag = imageCellTag
-        cell.position = indexPath.row
-        return imageCellTag
-    }
-
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let imageCell = cell as? ListingCarouselImageCell else { return }
-        imageCell.resetZoom()
-    }
-
     // MARK: PassthroughScrollViewDelegate
 
     func viewToReceiveTouch(scrollView: PassthroughScrollView) -> UIView {
@@ -344,27 +293,11 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIColle
         if contentOffset >= 0 {
             return detailsView
         }
-        return previewCollectionView
+        return previewImageView
     }
 
     func shouldTouchPassthroughScrollView(scrollView: PassthroughScrollView,
                                           point: CGPoint, with event: UIEvent?) -> Bool {
-        func shouldScrollHorizontally(scrollView: PassthroughScrollView,
-                                      point: CGPoint, with event: UIEvent?) -> Bool {
-            let contentOffset = scrollView.contentOffset.y
-
-            let alreadyScrolledVertically = contentOffset > -scrollViewContentInset.top
-
-            let previewPoint = previewCollectionView.convert(point, from: scrollView)
-            let headerPoint = userView.convert(point, to: scrollView)
-            return previewCollectionView.hitTest(previewPoint, with: event) != nil
-                && userView.hitTest(headerPoint, with: event) == nil && !alreadyScrolledVertically
-        }
-        
-        
-        if shouldScrollHorizontally(scrollView: scrollView, point: point, with: event) {
-            return true
-        }
         return scrollView.contentOffset.y >= 0
     }
 }
