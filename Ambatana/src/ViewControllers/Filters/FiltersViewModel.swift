@@ -143,6 +143,10 @@ class FiltersViewModel: BaseViewModel {
         let isTaxonomyCars = productFilter.selectedTaxonomyChildren.contains(where: { $0.isCarsTaxonomy } )
         return !(productFilter.selectedCategories.contains(.cars) || isTaxonomyCars)
     }
+    
+    var realEstateInfoCellsDisabled: Bool {
+        return !productFilter.selectedCategories.contains(.realEstate)
+    }
 
     var numOfWithinTimes : Int {
         return self.withinTimes.count
@@ -245,6 +249,11 @@ class FiltersViewModel: BaseViewModel {
         }
         // Don't show car info cells if necessary
         if let idx = updatedSections.index(of: FilterSection.carsInfo), carsInfoCellsDisabled {
+            updatedSections.remove(at: idx)
+        }
+        
+        // Don't show real Estate info cells if necessary
+        if let idx = updatedSections.index(of: FilterSection.realEstateInfo), realEstateInfoCellsDisabled {
             updatedSections.remove(at: idx)
         }
         return updatedSections

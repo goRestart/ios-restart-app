@@ -202,7 +202,7 @@
 "common_error_generic_body" = "Bir hata oluştu.";
 "common_error_list_retry_button" = "Tekrar dene";
 "common_error_network_body" = "Lütfen internet bağlantını kontrol et ve tekrar dene";
-"common_error_posting_loaded_image" = "Oops! Ürünün yayınlanmadı. Lütfen internete bağlı olduğundan emin ol.";
+"common_error_posting_loaded_image" = "Oops! İlanın yayınlanmadı. Lütfen internet bağlantı ayarlarını kontrol et.";
 "common_error_retry_button" = "Tekrar dene";
 "common_error_title" = "OOPS!";
 "common_expand" = "Daha fazla göster";
@@ -678,6 +678,9 @@
 "profile_verify_facebook_title" = "FACEBOOK";
 "profile_verify_google_button" = "Google";
 "profile_verify_google_title" = "GOOGLE";
+"promote_bump_later_button" = "Daha Sonra";
+"promote_bump_sell_faster_button" = "Hemen sat";
+"promote_bump_title" = "Daha çok alıcıyı çek";
 "quick_filter_location_title" = "Konum seç";
 "rate_buyers_message" = "Tebrikler!";
 "rate_buyers_not_on_letgo_button" = "Bu ürünü letgo'da satmadım";
@@ -734,7 +737,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Oda Sayısı";
-"real_estate_current_step_of_total" = "%d of %d";
+"real_estate_current_step_of_total" = "%d / %d";
 "real_estate_location_notification_message" = "Açık adresini diğer kullanıcılara asla göstermeyeceğiz";
 "real_estate_location_title" = "Konum";
 "real_estate_offer_type_rent" = "Kiralık";

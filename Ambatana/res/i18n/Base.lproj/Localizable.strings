@@ -969,6 +969,30 @@
 // Filters For Year, before year X
 "filters_car_year_before_year" = "Before %i";
 
+// Filters property type not set
+"filters_real_estate_property_type_not_set" = "Not set";
+
+// Filters Type of Listing not set
+"filters_real_estate_offer_type_not_set" = "Not set";
+
+// Filters Nº of Bedrooms type not set
+"filters_real_estate_bedrooms_not_set" = "Not set";
+
+// Filters Nº of Bathrooms not set
+"filters_real_estate_bathrooms_not_set" = "Not set";
+
+// Filters property type title
+"filters_real_estate_property_type_title" = "Type of Property";
+
+// Filters Type of Listing title
+"filters_real_estate_offer_type_title" = "Type of Listing";
+
+// Filters Nº of Bedrooms type title
+"filters_real_estate_bedrooms_title" = "Nº of Bedrooms";
+
+// Filters Nº of Bathrooms title
+"filters_real_estate_bathrooms_title" = "Nº of Bathrooms";
+
 // Selected location text when there is no postal address. 
 "filters_tag_location_selected" = "Selected location";
 
@@ -1392,6 +1416,9 @@
 
 //  Passive buyers screen for seller -> Contact success
 "passive_buyers_contact_success" = "Buyers contacted!";
+
+// Button to initiate chat from the full screen photo viewer
+"photo_viewer_chat_button" = "Chat";
 
 // Add Details navigation title
 "post_category_details_navigation_title" = "Add Details";
@@ -2058,6 +2085,15 @@
 
 // Text to verify accounts
 "profile_connect_accounts_message" = "You still haven't verified your account with:";
+
+// Promote bump up title text
+"promote_bump_title" = "Attract more buyers";
+
+// Promote bump up main button text
+"promote_bump_sell_faster_button" = "Sell faster";
+
+// Promote bump up later button text
+"promote_bump_later_button" = "Later";
 
 // Navigation bar title "Set Location"
 "quick_filter_location_title" = "Set Location";

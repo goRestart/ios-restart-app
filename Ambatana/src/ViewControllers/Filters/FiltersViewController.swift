@@ -168,6 +168,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 default:
                     return singleCheckCellSize
                 }
+            case .realEstateInfo:
+                return singleCheckCellSize
             case .sortBy, .within, .location:
                 return singleCheckCellSize
             case .price:
@@ -195,6 +197,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             return viewModel.numOfSortOptions
         case .price:
             return viewModel.numberOfPriceRows
+        case .realEstateInfo:
+            return 4
         }
     }
     
@@ -287,6 +291,47 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 default:
                     return UICollectionViewCell()
                 }
+            case .realEstateInfo:
+                switch indexPath.item {
+                case 0:
+                    // propertyType
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
+                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
+                    cell.isUserInteractionEnabled = true
+                    cell.titleLabel.isEnabled = true
+                    cell.titleLabel.text = LGLocalizedString.filtersRealEstatePropertyTypeTitle
+                    cell.subtitleLabel.text = viewModel.currentCarMakeName ?? LGLocalizedString.filtersRealEstatePropertyTypeNotSet
+                    return cell
+                case 1:
+                    // OfferType
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
+                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
+                    cell.isUserInteractionEnabled = viewModel.modelCellEnabled
+                    cell.titleLabel.isEnabled = viewModel.modelCellEnabled
+                    cell.titleLabel.text = LGLocalizedString.filtersRealEstateOfferTypeTitle
+                    cell.subtitleLabel.text = viewModel.currentCarModelName ?? LGLocalizedString.filtersRealEstateOfferTypeNotSet
+                    return cell
+                case 2:
+                    // Number of bedrooms
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
+                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
+                    cell.isUserInteractionEnabled = viewModel.modelCellEnabled
+                    cell.titleLabel.isEnabled = viewModel.modelCellEnabled
+                    cell.titleLabel.text = LGLocalizedString.filtersRealEstateBedroomsTitle
+                    cell.subtitleLabel.text = viewModel.currentCarModelName ?? LGLocalizedString.filtersRealEstateBedroomsNotSet
+                    return cell
+                case 3:
+                    // Number of bathrooms
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
+                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
+                    cell.isUserInteractionEnabled = viewModel.modelCellEnabled
+                    cell.titleLabel.isEnabled = viewModel.modelCellEnabled
+                    cell.titleLabel.text = LGLocalizedString.filtersRealEstateBathroomsTitle
+                    cell.subtitleLabel.text = viewModel.currentCarModelName ?? LGLocalizedString.filtersRealEstateBathroomsNotSet
+                    return cell
+                default:
+                    return UICollectionViewCell()
+                }
             case .within:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterSingleCheckCell",
                     for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
@@ -369,6 +414,24 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 viewModel.modelButtonPressed()
             case 2:
                 // Do nothing for year
+                break
+            default:
+                break
+            }
+        case .realEstateInfo:
+            // TODO: define actions when click: https://ambatana.atlassian.net/browse/ABIOS-3212
+            switch indexPath.item {
+            case 0:
+                // propertyType
+                break
+            case 1:
+                // Offer type
+                break
+            case 2:
+                // Bedrooms
+                break
+            case 3:
+                // Bathrooms
                 break
             default:
                 break

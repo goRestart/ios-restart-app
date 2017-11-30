@@ -202,7 +202,7 @@
 "common_error_generic_body" = "Произошла ошибка.";
 "common_error_list_retry_button" = "Еще раз";
 "common_error_network_body" = "Пожалуйста, проверьте настройки сети и попробуйте еще раз";
-"common_error_posting_loaded_image" = "Упс! Ваш товар не был размещен. Пожалуйста, проверьте сетевые настройки.";
+"common_error_posting_loaded_image" = "Упс! Ваше объявление не было размещено. Пожалуйста, проверьте сетевые настройки.";
 "common_error_retry_button" = "Попробуйте еще раз";
 "common_error_title" = "УПС!";
 "common_expand" = "Показать еще";
@@ -678,6 +678,9 @@
 "profile_verify_facebook_title" = "FACEBOOK";
 "profile_verify_google_button" = "Google";
 "profile_verify_google_title" = "GOOGLE";
+"promote_bump_later_button" = "Позже";
+"promote_bump_sell_faster_button" = "Продать быстрее";
+"promote_bump_title" = "Привлечь больше покупателей";
 "quick_filter_location_title" = "Задать местоположение";
 "rate_buyers_message" = "Поздравляем!";
 "rate_buyers_not_on_letgo_button" = "Я продал не на letgo";
@@ -734,7 +737,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Количество спален";
-"real_estate_current_step_of_total" = "%d of %d";
+"real_estate_current_step_of_total" = "%d из %d";
 "real_estate_location_notification_message" = "Мы никогда не показываем ваше точное местоположение другим пользователям";
 "real_estate_location_title" = "Местоположение";
 "real_estate_offer_type_rent" = "Аренда";
