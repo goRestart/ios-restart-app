@@ -102,16 +102,16 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
         cell.backgroundColor = UIColor.clear
         cell.textLabel?.textColor = UIColor.grayLight
         if selectedValue == indexPath {
-            selectCell(cell: cell)
+            select(cell: cell)
         } else {
-            deselectCell(cell: cell)
+            deselect(cell: cell)
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         guard let selectedValue = selectedValue else { return indexPath }
-        deselectCell(cell: tableView.cellForRow(at: selectedValue))
+        deselect(cell: tableView.cellForRow(at: selectedValue))
         return indexPath
     }
     
@@ -119,24 +119,24 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
         delegate?.indexSelected(index: indexPath.row)
         selectedValue = indexPath
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-        selectCell(cell: tableView.cellForRow(at: indexPath))
+        select(cell: tableView.cellForRow(at: indexPath))
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         selectedValue = nil
         delegate?.indexDeselected(index: indexPath.row)
         tableView.deselectRow(at: indexPath, animated: false)
-        deselectCell(cell: tableView.cellForRow(at: indexPath))
+        deselect(cell: tableView.cellForRow(at: indexPath))
     }
    
-    func deselectCell(cell: UITableViewCell?) {
+    func deselect(cell: UITableViewCell?) {
         guard let cell = cell else { return }
         cell.accessoryType = .none
         cell.accessoryView = nil
         cell.textLabel?.textColor = UIColor.grayLight
     }
     
-    func selectCell(cell: UITableViewCell?) {
+    func select(cell: UITableViewCell?) {
         guard let cell = cell else { return }
         
         let image = #imageLiteral(resourceName: "ic_checkmark").withRenderingMode(.alwaysTemplate)
