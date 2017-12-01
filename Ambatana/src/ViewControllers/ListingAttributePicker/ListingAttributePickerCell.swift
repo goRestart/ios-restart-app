@@ -9,31 +9,31 @@ final class ListingAttributePickerCell: UITableViewCell {
         case light
         case dark
         
-        func cellHeight() -> CGFloat {
+        var cellHeight: CGFloat {
             switch self {
             case .light: return 70
             case .dark: return 44
             }
         }
         
-        func font() -> UIFont {
+        var font: UIFont {
             switch self {
             case .light: return UIFont.selectableItem
             case .dark: return UIFont.bigBodyFont
             }
         }
         
-        func textColor() -> UIColor {
+        var textColor: UIColor {
             switch self {
             case .light: return .grayLight
             case .dark: return .blackTextHighAlpha
             }
         }
         
-        func checkTintColor() -> UIColor? {
+        var checkTintColor: UIColor {
             switch self {
             case .light: return .white
-            case .dark: return nil
+            case .dark: return .primaryColor
             }
         }
     }
@@ -54,9 +54,9 @@ final class ListingAttributePickerCell: UITableViewCell {
     
     /// Configures the cell for a specific value. The theme parameter is used here because it is not possible to
     /// reuse a cell and initialize it with custom parameters. The theme will only be applied if it is different
-    /// from nil and different to the currently set.
-    func configure(with text: String, theme: Theme? = nil) {
-        if let theme = theme, self.theme != theme {
+    /// to the currently set.
+    func configure(with text: String, theme: Theme) {
+        if self.theme != theme {
             self.theme = theme
             setupTheme()
         }
@@ -67,9 +67,7 @@ final class ListingAttributePickerCell: UITableViewCell {
         let image = #imageLiteral(resourceName: "ic_checkmark").withRenderingMode(.alwaysTemplate)
         let checkmark  = UIImageView(frame: CGRect(origin: .zero, size: checkMarkSize))
         checkmark.image = image
-        if let color = theme.checkTintColor() {
-            checkmark.tintColor = color
-        }
+        checkmark.tintColor = theme.checkTintColor
         accessoryView = checkmark
         accessoryType = .checkmark
         textLabel?.textColor = .white
@@ -91,7 +89,7 @@ fileprivate extension ListingAttributePickerCell {
     }
     
     func setupTheme() {
-        textLabel?.font = theme.font()
-        textLabel?.textColor = theme.textColor()
+        textLabel?.font = theme.font
+        textLabel?.textColor = theme.textColor
     }
 }

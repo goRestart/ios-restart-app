@@ -75,7 +75,7 @@ final class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return ListingAttributePickerCell.Theme.light.cellHeight()
+        return ListingAttributePickerCell.Theme.light.cellHeight
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
