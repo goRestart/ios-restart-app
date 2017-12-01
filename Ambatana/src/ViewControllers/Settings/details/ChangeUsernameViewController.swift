@@ -125,8 +125,8 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         switch (result) {
         case .success:
             completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.changeUsernameSendOk) { _ in
-                    viewModel.userNameSaved()
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.changeUsernameSendOk) { [weak self] in
+                    self?.viewModel.userNameSaved()
                 }
             }
             break
@@ -140,8 +140,8 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
             case .usernameTaken:
                 message = LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo(viewModel.username)
             }
-            completion = {
-                self.showAutoFadingOutMessageAlert(message)
+            completion = { [weak self] in
+                self?.showAutoFadingOutMessageAlert(message)
             }
         }
         

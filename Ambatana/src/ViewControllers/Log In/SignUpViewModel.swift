@@ -148,7 +148,7 @@ class SignUpViewModel: BaseViewModel {
     // MARK: - Private methods
 
     private func logInWithFacebook() {
-        fbLoginHelper.login({ [weak self] _ in
+        fbLoginHelper.login({ [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.vmShowLoading(nil)
             }, loginCompletion: { [weak self] result in
