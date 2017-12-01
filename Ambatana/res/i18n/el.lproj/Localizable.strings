@@ -308,6 +308,10 @@
 "filters_price_from" = "Από";
 "filters_price_to" = "Μέχρι";
 "filters_price_wrong_range_error" = "Η μικρότερη τιμή δεν μπορεί να είναι περισσότερη από τη μεγαλύτερη τιμή.";
+"filters_real_estate_bathrooms_not_set" = "Not set";
+"filters_real_estate_bedrooms_not_set" = "Not set";
+"filters_real_estate_offer_type_not_set" = "Not set";
+"filters_real_estate_property_type_not_set" = "Not set";
 "filters_save_button" = "Αποθήκευση φίλτρων";
 "filters_section_car_info" = "Πληροφορίες αυτοκινήτου";
 "filters_section_categories" = "Κατηγορίες";
@@ -315,6 +319,7 @@
 "filters_section_location" = "Τοποθεσία";
 "filters_section_price" = "Τιμή";
 "filters_section_price_free_title" = "Εμφάνιση μόνο δωρεάν αντικειμένων";
+"filters_section_real_estate_info" = "Property info";
 "filters_section_sortby" = "Ταξινόμηση κατά";
 "filters_section_within" = "Δημοσιεύτηκε μεταξύ";
 "filters_sort_closest" = "Κοντινότερο";

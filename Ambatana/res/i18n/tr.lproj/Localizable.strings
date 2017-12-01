@@ -308,6 +308,10 @@
 "filters_price_from" = "Minimum";
 "filters_price_to" = "Maksimum";
 "filters_price_wrong_range_error" = "Minimum fiyat maksimum fiyattan yüksek olamaz.";
+"filters_real_estate_bathrooms_not_set" = "Not set";
+"filters_real_estate_bedrooms_not_set" = "Not set";
+"filters_real_estate_offer_type_not_set" = "Not set";
+"filters_real_estate_property_type_not_set" = "Not set";
 "filters_save_button" = "Filtreleri Kaydet";
 "filters_section_car_info" = "Araç detayları";
 "filters_section_categories" = "KATEGORİLER";
@@ -315,6 +319,7 @@
 "filters_section_location" = "Konum";
 "filters_section_price" = "Fiyat";
 "filters_section_price_free_title" = "Sadece ücretsiz ürünleri göster";
+"filters_section_real_estate_info" = "Property info";
 "filters_section_sortby" = "Sırala";
 "filters_section_within" = "YAYINLANMA ZAMANI";
 "filters_sort_closest" = "İlk önce en yakını";

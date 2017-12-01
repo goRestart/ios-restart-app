@@ -153,6 +153,11 @@ class FiltersViewModel: BaseViewModel {
     }
     private var withinTimes : [ListingTimeCriteria]
     
+    var numberOfofferType : Int {
+        return self.offerTypeOptions.count
+    }
+    private var offerTypeOptions : [RealEstateOfferType]
+    
     var numOfSortOptions : Int {
         return self.sortOptions.count
     }
@@ -218,18 +223,29 @@ class FiltersViewModel: BaseViewModel {
     }
     
     convenience init(currentFilters: ListingFilters) {
-        self.init(categoryRepository: Core.categoryRepository, categories: [],
-            withinTimes: ListingTimeCriteria.allValues(), sortOptions: ListingSortCriteria.allValues(),
-            currentFilters: currentFilters, featureFlags: FeatureFlags.sharedInstance, carsInfoRepository: Core.carsInfoRepository)
+        self.init(categoryRepository: Core.categoryRepository,
+                  categories: [],
+                  withinTimes: ListingTimeCriteria.allValues(),
+                  sortOptions: ListingSortCriteria.allValues(),
+                  offerTypeOptions: RealEstateOfferType.allValues,
+                  currentFilters: currentFilters,
+                  featureFlags: FeatureFlags.sharedInstance,
+                  carsInfoRepository: Core.carsInfoRepository)
     }
     
-    required init(categoryRepository: CategoryRepository, categories: [FilterCategoryItem],
-                  withinTimes: [ListingTimeCriteria], sortOptions: [ListingSortCriteria], currentFilters: ListingFilters,
-        featureFlags: FeatureFlaggeable, carsInfoRepository: CarsInfoRepository) {
+    required init(categoryRepository: CategoryRepository,
+                  categories: [FilterCategoryItem],
+                  withinTimes: [ListingTimeCriteria],
+                  sortOptions: [ListingSortCriteria],
+                  offerTypeOptions: [RealEstateOfferType],
+                  currentFilters: ListingFilters,
+                  featureFlags: FeatureFlaggeable,
+                  carsInfoRepository: CarsInfoRepository) {
         self.categoryRepository = categoryRepository
         self.categories = categories
         self.withinTimes = withinTimes
         self.sortOptions = sortOptions
+        self.offerTypeOptions = offerTypeOptions
         self.productFilter = currentFilters
         self.sections = []
         self.featureFlags = featureFlags
@@ -437,6 +453,26 @@ class FiltersViewModel: BaseViewModel {
         return withinTimes[index] == productFilter.selectedWithin
     }
     
+    // MARK: Real Estate offer type
+    func selectOfferTypeAtIndex(_ index: Int) {
+        guard index < numberOfofferType else { return }
+        productFilter.offerType = offerTypeOptions[index]
+        delegate?.vmDidUpdate()
+    }
+    
+    func offerTypeNameAtIndex(_ index: Int) -> String? {
+        guard index < numberOfofferType else { return nil }
+        
+        return offerTypeOptions[index].localizedString
+    }
+    
+    func offerTypeSelectedAtIndex(_ index: Int) -> Bool {
+        guard index < numOfWithinTimes else { return false }
+        
+        return offerTypeOptions[index] == productFilter.offerType
+    }
+    
+    
     // MARK: Filter by
     
     func selectSortOptionAtIndex(_ index: Int) {
@@ -467,6 +503,10 @@ class FiltersViewModel: BaseViewModel {
 
     var numberOfPriceRows: Int {
         return priceRangeAvailable ? 2 : 1
+    }
+    
+    var numberOfRealEstateRows: Int {
+        return 5
     }
     
     func setMinPrice(_ value: String?) {

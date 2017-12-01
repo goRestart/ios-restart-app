@@ -308,6 +308,10 @@
 "filters_price_from" = "От";
 "filters_price_to" = "До";
 "filters_price_wrong_range_error" = "Минимальная цена не может быть выше максимальной.";
+"filters_real_estate_bathrooms_not_set" = "Not set";
+"filters_real_estate_bedrooms_not_set" = "Not set";
+"filters_real_estate_offer_type_not_set" = "Not set";
+"filters_real_estate_property_type_not_set" = "Not set";
 "filters_save_button" = "Сохранить фильтры";
 "filters_section_car_info" = "Информация о машине";
 "filters_section_categories" = "Категории";
@@ -315,6 +319,7 @@
 "filters_section_location" = "Местоположение";
 "filters_section_price" = "Цена";
 "filters_section_price_free_title" = "Показывать только бесплатные товары";
+"filters_section_real_estate_info" = "Property info";
 "filters_section_sortby" = "Сортировка по";
 "filters_section_within" = "Размещено за";
 "filters_sort_closest" = "Сначала ближайшее";

@@ -308,6 +308,10 @@
 "filters_price_from" = "부터";
 "filters_price_to" = "에게";
 "filters_price_wrong_range_error" = "최저 가격은 최고 가격보다 높을 수 없습니다";
+"filters_real_estate_bathrooms_not_set" = "Not set";
+"filters_real_estate_bedrooms_not_set" = "Not set";
+"filters_real_estate_offer_type_not_set" = "Not set";
+"filters_real_estate_property_type_not_set" = "Not set";
 "filters_save_button" = "필터 저장";
 "filters_section_car_info" = "자동차 정보";
 "filters_section_categories" = "항목";
@@ -315,6 +319,7 @@
 "filters_section_location" = "위치";
 "filters_section_price" = "가격";
 "filters_section_price_free_title" = "무료 제품만 보기";
+"filters_section_real_estate_info" = "Property info";
 "filters_section_sortby" = "분류하기";
 "filters_section_within" = "안에 입력하세요";
 "filters_sort_closest" = "가장 가까운 순서대로";

@@ -969,6 +969,9 @@
 // Filters For Year, before year X
 "filters_car_year_before_year" = "Before %i";
 
+// Filters section title
+"filters_section_real_estate_info" = "Property info";
+
 // Filters property type not set
 "filters_real_estate_property_type_not_set" = "Not set";
 
@@ -980,18 +983,6 @@
 
 // Filters Nº of Bathrooms not set
 "filters_real_estate_bathrooms_not_set" = "Not set";
-
-// Filters property type title
-"filters_real_estate_property_type_title" = "Type of Property";
-
-// Filters Type of Listing title
-"filters_real_estate_offer_type_title" = "Type of Listing";
-
-// Filters Nº of Bedrooms type title
-"filters_real_estate_bedrooms_title" = "Nº of Bedrooms";
-
-// Filters Nº of Bathrooms title
-"filters_real_estate_bathrooms_title" = "Nº of Bathrooms";
 
 // Selected location text when there is no postal address. 
 "filters_tag_location_selected" = "Selected location";

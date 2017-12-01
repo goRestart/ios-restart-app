@@ -28,6 +28,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     private var distanceCellSize = CGSize.zero
     private var categoryCellSize = CGSize.zero
     private var singleCheckCellSize = CGSize.zero
+    private var singleCheckCellWithMarginSize = CGSize.zero
     private var priceCellSize = CGSize.zero
     private var yearRangeCellSize = CGSize.zero
 
@@ -169,6 +170,14 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     return singleCheckCellSize
                 }
             case .realEstateInfo:
+                switch indexPath.item {
+                case 0:
+                    return singleCheckCellSize
+                case 1, 2:
+                    return singleCheckCellWithMarginSize
+                default:
+                    return singleCheckCellSize
+                }
                 return singleCheckCellSize
             case .sortBy, .within, .location:
                 return singleCheckCellSize
@@ -198,7 +207,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         case .price:
             return viewModel.numberOfPriceRows
         case .realEstateInfo:
-            return 4
+            return viewModel.numberOfRealEstateRows
         }
     }
     
@@ -222,7 +231,6 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
-            // ABIOS-2721: CellDrawer pattern
             switch viewModel.sections[indexPath.section] {
             case .location:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
@@ -299,34 +307,46 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = true
                     cell.titleLabel.isEnabled = true
-                    cell.titleLabel.text = LGLocalizedString.filtersRealEstatePropertyTypeTitle
+                    cell.titleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
                     cell.subtitleLabel.text = viewModel.currentCarMakeName ?? LGLocalizedString.filtersRealEstatePropertyTypeNotSet
                     return cell
                 case 1:
-                    // OfferType
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
-                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
-                    cell.isUserInteractionEnabled = viewModel.modelCellEnabled
-                    cell.titleLabel.isEnabled = viewModel.modelCellEnabled
-                    cell.titleLabel.text = LGLocalizedString.filtersRealEstateOfferTypeTitle
-                    cell.subtitleLabel.text = viewModel.currentCarModelName ?? LGLocalizedString.filtersRealEstateOfferTypeNotSet
+                    // For sale option
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterSingleCheckCell",
+                                                                        for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
+                    cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
+                    cell.isSelected = viewModel.offerTypeSelectedAtIndex(indexPath.row - 1)
+                    cell.topSeparator.isHidden = false
+                    cell.bottomSeparator.isHidden = true
+                    cell.setMargin(top: true)
                     return cell
                 case 2:
+                    // For rent option
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterSingleCheckCell",
+                                                                        for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
+                    cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
+                    cell.isSelected = viewModel.offerTypeSelectedAtIndex(indexPath.row - 1)
+                    cell.topSeparator.isHidden = false
+                    cell.bottomSeparator.isHidden = false
+                    cell.setMargin(bottom: true)
+                    return cell
+                case 3:
                     // Number of bedrooms
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
-                    cell.isUserInteractionEnabled = viewModel.modelCellEnabled
-                    cell.titleLabel.isEnabled = viewModel.modelCellEnabled
-                    cell.titleLabel.text = LGLocalizedString.filtersRealEstateBedroomsTitle
+                    cell.isUserInteractionEnabled = true
+                    cell.titleLabel.isEnabled = true
+                    cell.titleLabel.text = LGLocalizedString.realEstateBedroomsTitle
                     cell.subtitleLabel.text = viewModel.currentCarModelName ?? LGLocalizedString.filtersRealEstateBedroomsNotSet
+                    cell.topSeparator.isHidden = false
                     return cell
-                case 3:
+                case 4:
                     // Number of bathrooms
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
-                    cell.isUserInteractionEnabled = viewModel.modelCellEnabled
-                    cell.titleLabel.isEnabled = viewModel.modelCellEnabled
-                    cell.titleLabel.text = LGLocalizedString.filtersRealEstateBathroomsTitle
+                    cell.isUserInteractionEnabled = true
+                    cell.titleLabel.isEnabled = true
+                    cell.titleLabel.text = LGLocalizedString.realEstateBathroomsTitle
                     cell.subtitleLabel.text = viewModel.currentCarModelName ?? LGLocalizedString.filtersRealEstateBathroomsNotSet
                     return cell
                 default:
@@ -425,13 +445,18 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 // propertyType
                 break
             case 1:
-                // Offer type
+                // for sale
+                viewModel.selectOfferTypeAtIndex(indexPath.row - 1)
                 break
             case 2:
-                // Bedrooms
+                // for rent
+                viewModel.selectOfferTypeAtIndex(indexPath.row - 1)
                 break
             case 3:
-                // Bathrooms
+                // bedrooms
+                break
+            case 4:
+                // bathrooms
                 break
             default:
                 break
@@ -469,6 +494,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         collectionView.register(priceNib, forCellWithReuseIdentifier: "FilterPriceCell")
         let freeNib = UINib(nibName: "FilterFreeCell", bundle: nil)
         collectionView.register(freeNib, forCellWithReuseIdentifier: "FilterFreeCell")
+        
+        collectionView.register(FilterSingleCheckCell.self, forCellWithReuseIdentifier: "\(FilterSingleCheckCell.self)")
 
         // Navbar
         setNavBarTitle(LGLocalizedString.filtersTitle)
@@ -487,6 +514,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         let categoryWidth = viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled ? screenWidth : screenWidth * 0.5
         categoryCellSize = CGSize(width: categoryWidth, height: 50.0)
         singleCheckCellSize = CGSize(width: screenWidth, height: 50.0)
+        singleCheckCellWithMarginSize = CGSize(width: screenWidth, height: 62.0)
         priceCellSize = CGSize(width: screenWidth, height: 50.0)
         yearRangeCellSize = CGSize(width: screenWidth, height: 90)
 
