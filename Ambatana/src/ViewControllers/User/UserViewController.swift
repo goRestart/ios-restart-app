@@ -569,7 +569,7 @@ extension UserViewController: ScrollableToTop {
 extension UserViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate {
 
     func setupPermissionsRx() {
-        viewModel.pushPermissionsDisabledWarning.asObservable().filter {$0 != nil} .bindNext { [weak self] _ in
+        viewModel.pushPermissionsDisabledWarning.asObservable().filter {$0 != nil} .bindNext { [weak self] in
             self?.listingListView.refreshDataView()
         }.addDisposableTo(disposeBag)
     }

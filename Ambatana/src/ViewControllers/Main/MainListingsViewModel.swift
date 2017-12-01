@@ -520,7 +520,7 @@ class MainListingsViewModel: BaseViewModel {
     }
    
     private func setupRx() {
-        listViewModel.isListingListEmpty.asObservable().bindNext { [weak self] _ in
+        listViewModel.isListingListEmpty.asObservable().bindNext { [weak self] in
             self?.updateCategoriesHeader()
         }.addDisposableTo(disposeBag) 
         shouldShowPrices.asObservable().bindNext { [weak self] shouldShowPrices in
@@ -799,8 +799,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
 extension MainListingsViewModel {
     fileprivate func setupSessionAndLocation() {
-        sessionManager.sessionEvents.bindNext { [weak self] _ in self?.sessionDidChange() }.addDisposableTo(disposeBag)
-        locationManager.locationEvents.filter { $0 == .locationUpdate }.bindNext { [weak self] _ in
+        sessionManager.sessionEvents.bindNext { [weak self] in self?.sessionDidChange() }.addDisposableTo(disposeBag)
+        locationManager.locationEvents.filter { $0 == .locationUpdate }.bindNext { [weak self] in
             self?.locationDidChange()
         }.addDisposableTo(disposeBag)
     }

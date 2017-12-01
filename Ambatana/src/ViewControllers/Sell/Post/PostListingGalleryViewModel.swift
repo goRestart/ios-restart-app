@@ -212,7 +212,7 @@ class PostListingGalleryViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         visible.asObservable().distinctUntilChanged().filter{ $0 }
-            .subscribeNext{ [weak self] _ in self?.didBecomeVisible() }
+            .subscribeNext{ [weak self] in self?.didBecomeVisible() }
             .addDisposableTo(disposeBag)
 
         imagesSelected.asObservable().bindNext { [weak self] imgsSelected in

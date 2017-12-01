@@ -46,7 +46,7 @@ class ChatSafetyTipsView: UIView {
             animations: { [weak self] in
                 self?.alpha = 0
             },
-            completion: { [weak self] _ in
+            completion: { [weak self] in
                 if remove {
                     self?.removeFromSuperview()
                 }

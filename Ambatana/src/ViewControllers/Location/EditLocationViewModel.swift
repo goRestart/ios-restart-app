@@ -341,7 +341,7 @@ class EditLocationViewModel: BaseViewModel {
         locationToFetch.asObservable()
             .filter { coordinates, gpsLocation in return coordinates != nil }
             .debounce(0.5, scheduler: MainScheduler.instance)
-            .filter { [weak self] _ in
+            .filter { [weak self] in
                 return !(self?.userTouchingMap.value ?? true)
             }
             .map { coordinates, gpsLocation in

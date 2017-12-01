@@ -575,12 +575,12 @@ fileprivate extension AppCoordinator {
             }.addDisposableTo(disposeBag)
 
         locationManager.locationEvents.filter { $0 == .movedFarFromSavedManualLocation }.take(1).bindNext {
-            [weak self] _ in
+            [weak self] in
             self?.askUserToUpdateLocation()
             }.addDisposableTo(disposeBag)
 
         locationManager.locationEvents.filter { $0 == .locationUpdate }.take(1).bindNext {
-            [weak self] _ in
+            [weak self] in
             guard let strongSelf = self else { return }
             if strongSelf.featureFlags.locationRequiresManualChangeSuggestion {
                 strongSelf.askUserToUpdateLocationManually()

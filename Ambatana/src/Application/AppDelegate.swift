@@ -280,7 +280,7 @@ fileprivate extension AppDelegate {
         #endif
 
         // Location data source
-        featureFlags.syncedData.filter { $0 }.asObservable().subscribeNext { [weak self] _ in
+        featureFlags.syncedData.filter { $0 }.asObservable().subscribeNext { [weak self] in
             let locationDataSourceType: LocationDataSourceType
             switch featureFlags.locationDataSourceEndpoint {
             case .control, .baseline:

@@ -118,7 +118,7 @@ class UserViewHeader: UIView {
             UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseIn, .beginFromCurrentState],
                                        animations: { [weak self] in
                                         self?.itemsAlpha = alpha
-                }, completion: { [weak self] _ in self?.itemsAlpha = alpha })
+                }, completion: { [weak self] in self?.itemsAlpha = alpha })
         }
     }
 
@@ -408,23 +408,23 @@ extension UserViewHeader {
     }
 
     private func setupButtonsRxBindings() {
-        avatarButton.rx.tap.subscribeNext { [weak self] _ in
+        avatarButton.rx.tap.subscribeNext { [weak self] in
             self?.delegate?.headerAvatarAction()
         }.addDisposableTo(disposeBag)
 
-        ratingsButton.rx.tap.subscribeNext { [weak self] _ in
+        ratingsButton.rx.tap.subscribeNext { [weak self] in
             self?.delegate?.ratingsAvatarAction()
         }.addDisposableTo(disposeBag)
 
-        sellingButton.rx.tap.subscribeNext { [weak self] _ in
+        sellingButton.rx.tap.subscribeNext { [weak self] in
             self?.tab.value = .selling
         }.addDisposableTo(disposeBag)
 
-        soldButton.rx.tap.subscribeNext { [weak self] _ in
+        soldButton.rx.tap.subscribeNext { [weak self] in
             self?.tab.value = .sold
         }.addDisposableTo(disposeBag)
 
-        favoritesButton.rx.tap.subscribeNext { [weak self] _ in
+        favoritesButton.rx.tap.subscribeNext { [weak self] in
             self?.tab.value = .favorites
         }.addDisposableTo(disposeBag)
 

@@ -279,29 +279,29 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         
         carDetailsView.updateProgress(withPercentage: viewModel.currentCarDetailsProgress)
         
-        carDetailsView.navigationBackButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        carDetailsView.navigationBackButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carDetailsNavigationBackButtonPressed()
         }.addDisposableTo(disposeBag)
-        carDetailsView.navigationMakeButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        carDetailsView.navigationMakeButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carMakeButtonPressed()
         }.addDisposableTo(disposeBag)
-        carDetailsView.navigationModelButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        carDetailsView.navigationModelButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carModelButtonPressed()
         }.addDisposableTo(disposeBag)
-        carDetailsView.navigationYearButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        carDetailsView.navigationYearButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carYearButtonPressed()
         }.addDisposableTo(disposeBag)
-        carDetailsView.makeRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        carDetailsView.makeRowView.button.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carMakeButtonPressed()
         }.addDisposableTo(disposeBag)
-        carDetailsView.modelRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        carDetailsView.modelRowView.button.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carModelButtonPressed()
         }.addDisposableTo(disposeBag)
-        carDetailsView.yearRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        carDetailsView.yearRowView.button.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carYearButtonPressed()
         }.addDisposableTo(disposeBag)
         
-        carDetailsView.doneButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        carDetailsView.doneButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carDetailsDoneButtonPressed()
         }.addDisposableTo(disposeBag)
         
@@ -336,12 +336,12 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             .trailing()
             .bottom()
         
-        footer.galleryButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        footer.galleryButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.galleryButtonPressed()
         }.addDisposableTo(disposeBag)
         cameraView.takePhotoEnabled.asObservable().bindTo(footer.cameraButton.rx.isEnabled).addDisposableTo(disposeBag)
         cameraView.takePhotoEnabled.asObservable().bindTo(footer.galleryButton.rx.isEnabled).addDisposableTo(disposeBag)
-        footer.cameraButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        footer.cameraButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.cameraButtonPressed()
         }.addDisposableTo(disposeBag)
     }

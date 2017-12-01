@@ -631,7 +631,7 @@ extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
             textField.placeholder = "Password"
             textField.isSecureTextEntry = true
         }
-        let loginAction = UIAlertAction(title: "Login", style: .default) { [weak self] _ in
+        let loginAction = UIAlertAction(title: "Login", style: .default) { [weak self] in
             guard let passwordTextField = alertController.textFields?.first else { return }
             self?.viewModel.godLogIn(passwordTextField.text ?? "")
         }

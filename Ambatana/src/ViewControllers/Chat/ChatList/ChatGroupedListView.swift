@@ -96,7 +96,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         super.didBecomeActive(firstTime)
 
         if firstTime {
-            sessionManager.sessionEvents.filter { $0.isLogout }.bindNext { [weak self] _ in
+            sessionManager.sessionEvents.filter { $0.isLogout }.bindNext { [weak self] in
                 self?.clear()
             }.addDisposableTo(disposeBag)
             

@@ -349,7 +349,7 @@ fileprivate extension BaseChatGroupedListViewModel {
         }.addDisposableTo(disposeBag)
         
         if shouldWriteInCollectionVariable {
-            objects.changesObservable.subscribeNext { [weak self] _ in
+            objects.changesObservable.subscribeNext { [weak self] in
                 self?.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
                 self?.notificationsManager.updateChatCounters()
             }.addDisposableTo(disposeBag)

@@ -57,7 +57,7 @@ class SellListingCell: UICollectionViewCell, ReusableCell {
     func setupCellWithUrl(_ url: URL?) {
         guard let url = url else { return }
         setupLoadingCell()
-        imageView.lg_setImageWithURL(url, placeholderImage: nil, completion: { [weak self] _ -> Void in
+        imageView.lg_setImageWithURL(url, placeholderImage: nil, completion: { [weak self] (_, _) -> Void in
             guard let strongSelf = self else { return }
             strongSelf.activity.stopAnimating()
             strongSelf.activity.isHidden = true

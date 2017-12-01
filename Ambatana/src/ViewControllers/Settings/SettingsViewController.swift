@@ -84,7 +84,7 @@ class SettingsViewController: BaseViewController {
             }
         }.addDisposableTo(disposeBag)
 
-        viewModel.sections.asObservable().bindNext { [weak self] _ in
+        viewModel.sections.asObservable().bindNext { [weak self] in
             self?.tableView?.reloadData()
         }.addDisposableTo(disposeBag)
     }

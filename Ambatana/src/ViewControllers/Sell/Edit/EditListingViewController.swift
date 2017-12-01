@@ -306,7 +306,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             
             alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedDeleteButton,
                                           style: .destructive,
-                                          handler: { [weak self] _ in
+                                          handler: { [weak self] in
                                             self?.deleteAlreadyUploadedImageWithIndex(indexPath.item)
                                             guard indexPath.item > 0 else { return }
                                             collectionView.scrollToItem(at: IndexPath(item: indexPath.item-1, section: 0),
@@ -314,7 +314,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             }))
             alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedSaveIntoCameraRollButton,
                                           style: .default,
-                                          handler: { [weak self] _ in
+                                          handler: { [weak self] in
                                             self?.saveProductImageToDiskAtIndex(indexPath.item)
             }))
             alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedCancelButton, style: .cancel))

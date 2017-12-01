@@ -131,10 +131,10 @@ class LGNotificationsManager: NotificationsManager {
             self?.chatStatus = $0
         }.addDisposableTo(disposeBag)
 
-        deepLinksRouter.chatDeepLinks.filter { [weak self] _ in
+        deepLinksRouter.chatDeepLinks.filter { [weak self] in
             if let status = self?.chatStatus, status == .openAuthenticated { return false }
             return true
-        }.bindNext { [weak self] _ in
+        }.bindNext { [weak self] in
             self?.requestChatCounters()
         }.addDisposableTo(disposeBag)
     }
@@ -179,7 +179,7 @@ fileprivate extension LGNotificationsManager {
             self?.keyValueStorage.userMarketingNotifications = value
         }.addDisposableTo(disposeBag)
 
-        loggedIn.asObservable().skip(1).filter { $0 }.bindNext { [weak self] _ in
+        loggedIn.asObservable().skip(1).filter { $0 }.bindNext { [weak self] in
             guard let keyValueStorage = self?.keyValueStorage else { return }
             self?.marketingNotifications.value = keyValueStorage.userMarketingNotifications
         }.addDisposableTo(disposeBag)

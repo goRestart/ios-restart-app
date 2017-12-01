@@ -136,7 +136,7 @@ class ListingCarouselPushAnimator: NSObject, PushAnimator {
                 guard finished else { return }
                 UIView.animate(withDuration: 0.3, animations: {
                     toView.alpha = 1
-                    }, completion: { [weak self] _ in
+                    }, completion: { [weak self] in
                         fromView.removeFromSuperview()
                         snapshot.removeFromSuperview()
                         backgroundImage.removeFromSuperview()
