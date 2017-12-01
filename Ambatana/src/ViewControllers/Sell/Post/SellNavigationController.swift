@@ -96,7 +96,7 @@ class SellNavigationController: UINavigationController {
     
     private func animateStep(isHidden: Bool) {
         let alpha: CGFloat = isHidden ? 0.0 : 1.0
-        UIView.animate(withDuration: 0.3, animations: { [weak self] _ in
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.progressView.alpha = alpha
             self?.backgroundProgressView.alpha = alpha
             self?.stepLabel.alpha = alpha

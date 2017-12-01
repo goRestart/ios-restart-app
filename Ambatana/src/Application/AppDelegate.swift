@@ -353,7 +353,7 @@ fileprivate extension AppDelegate {
 
         // Force update check
         appActive.filter { $0 }.subscribeNext { [weak self] active in
-            self?.configManager?.updateWithCompletion { _ in
+            self?.configManager?.updateWithCompletion {
                 self?.navigator?.openForceUpdateAlertIfNeeded()
             }
             }.addDisposableTo(disposeBag)
