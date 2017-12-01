@@ -1,36 +1,23 @@
-//
-//  PostingAddDetailTableView.swift
-//  LetGo
-//
-//  Created by Juan Iglesias on 10/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
-//
-
 import RxSwift
 import LGCoreKit
 
-protocol PostingAddDetailTableViewDelegate: class {
+protocol ListingAttributePickerTableViewDelegate: class {
     func indexSelected(index: Int)
     func indexDeselected(index: Int)
     func findValueSelected() -> Int?
 }
 
-
-final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewDataSource, PostingViewConfigurable {
-    
-    static let cellIdentifier = "postingAddDetailCell"
-    static let cellAddDetailHeight: CGFloat = 70
-    static let checkMarkSize: CGSize = CGSize(width: 17, height: 12)
+final class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewDataSource, PostingViewConfigurable {
     
     private var detailInfo: [String]
     private let tableView = UITableView()
     private var selectedValue: IndexPath?
-    weak var delegate: PostingAddDetailTableViewDelegate?
+    weak var delegate: ListingAttributePickerTableViewDelegate?
     
     
     // MARK: - Lifecycle
     
-    init(values: [String], delegate: PostingAddDetailTableViewDelegate) {
+    init(values: [String], delegate: ListingAttributePickerTableViewDelegate) {
         self.detailInfo = values
         self.delegate = delegate
         super.init(frame: CGRect.zero)
@@ -47,7 +34,7 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     // MARK: - Layout
     
     private func setupUI() {
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: PostingAddDetailTableView.cellIdentifier)
+        tableView.register(ListingAttributePickerCell.self, forCellReuseIdentifier: ListingAttributePickerCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
@@ -88,19 +75,16 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return PostingAddDetailTableView.cellAddDetailHeight
+        return ListingAttributePickerCell.Theme.light.cellHeight
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PostingAddDetailTableView.cellIdentifier) else {
+        let identifier = ListingAttributePickerCell.identifier
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? ListingAttributePickerCell else {
             return UITableViewCell()
         }
         let value = detailInfo[indexPath.row]
-        cell.selectionStyle = .none
-        cell.textLabel?.text = value
-        cell.textLabel?.font = UIFont.selectableItem
-        cell.backgroundColor = .clear
-        cell.textLabel?.textColor = UIColor.grayLight
+        cell.configure(with: value, theme: .light)
         return cell
     }
     
@@ -120,29 +104,16 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     }
    
     func deselectCell(indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) else { return }
-        cell.accessoryType = .none
-        cell.accessoryView = nil
-        cell.textLabel?.textColor = UIColor.grayLight
+        guard let cell = tableView.cellForRow(at: indexPath) as? ListingAttributePickerCell else { return }
+        cell.deselect()
         selectedValue = nil
         delegate?.indexDeselected(index: indexPath.row)
         tableView.deselectRow(at: indexPath, animated: false)
     }
     
     func selectCell(indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) else { return }
-        
-        let image = #imageLiteral(resourceName: "ic_checkmark").withRenderingMode(.alwaysTemplate)
-        let checkmark  = UIImageView(frame:CGRect(x:0,
-                                                  y:0,
-                                                  width:PostingAddDetailTableView.checkMarkSize.width,
-                                                  height:PostingAddDetailTableView.checkMarkSize.height))
-        checkmark.image = image
-        checkmark.tintColor = UIColor.white
-        cell.accessoryView = checkmark
-        
-        cell.accessoryType = .checkmark
-        cell.textLabel?.textColor = UIColor.white
+        guard let cell = tableView.cellForRow(at: indexPath) as? ListingAttributePickerCell else { return }
+        cell.select()
         selectedValue = indexPath
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
     }
@@ -160,11 +131,9 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
 
     }
     
-    
     func setupContainerView(view: UIView) {
         translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(self)
         layout(with: view).fill()
     }
-    
 }

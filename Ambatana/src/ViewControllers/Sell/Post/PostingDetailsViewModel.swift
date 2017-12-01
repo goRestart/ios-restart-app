@@ -9,7 +9,7 @@
 import RxSwift
 import LGCoreKit
 
-class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
+class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
     
     var title: String {
         return step.title
@@ -91,7 +91,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .year, .make, .model:
             return nil
         }
-        let view: PostingAddDetailTableView = PostingAddDetailTableView(values: values, delegate: self)
+        let view: ListingAttributePickerTableView = ListingAttributePickerTableView(values: values, delegate: self)
         return view
     }
     
