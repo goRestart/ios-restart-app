@@ -42,9 +42,9 @@ class LGSearchMapViewModel: BaseViewModel {
     let currentDistanceRadius = Variable<Int?>(nil)
     let userMovedLocation = Variable<CLLocationCoordinate2D?>(nil)
     
-    let searchText = Variable<(String, autoSelect: Bool)>("", autoSelect: false)
+    let searchText = Variable<(String, autoSelect: Bool)>(("", autoSelect: false))
     
-    private let locationToFetch = Variable<(CLLocationCoordinate2D?, fromGps: Bool)>(nil, fromGps: false)
+    private let locationToFetch = Variable<(CLLocationCoordinate2D?, fromGps: Bool)>((nil, fromGps: false))
     
     convenience init(currentPlace: Place?) {
         let locationManager = Core.locationManager
