@@ -74,12 +74,12 @@ class EditLocationViewModel: BaseViewModel {
     let currentDistanceRadius = Variable<Int?>(nil)
 
     //Input
-    let searchText = Variable<(String, autoSelect: Bool)>("", autoSelect: false)
+    let searchText = Variable<(String, autoSelect: Bool)>(("", autoSelect: false))
     let userTouchingMap = Variable<Bool>(false)
     let userMovedLocation = Variable<CLLocationCoordinate2D?>(nil)
 
     //Internal
-    private let locationToFetch = Variable<(CLLocationCoordinate2D?, fromGps: Bool)>(nil, fromGps: false)
+    private let locationToFetch = Variable<(CLLocationCoordinate2D?, fromGps: Bool)>((nil, fromGps: false))
 
     
     // MARK: - Lifecycle
