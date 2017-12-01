@@ -799,8 +799,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
 extension MainListingsViewModel {
     fileprivate func setupSessionAndLocation() {
-        sessionManager.sessionEvents.bindNext { [weak self] in self?.sessionDidChange() }.addDisposableTo(disposeBag)
-        locationManager.locationEvents.filter { $0 == .locationUpdate }.bindNext { [weak self] in
+        sessionManager.sessionEvents.bindNext { [weak self] _ in self?.sessionDidChange() }.addDisposableTo(disposeBag)
+        locationManager.locationEvents.filter { $0 == .locationUpdate }.bindNext { [weak self] _ in
             self?.locationDidChange()
         }.addDisposableTo(disposeBag)
     }

@@ -318,15 +318,15 @@ fileprivate extension PostListingViewModel {
             strongSelf.state.value = strongSelf.state.value.updating(category: category)
         }.addDisposableTo(disposeBag)
         
-        state.asObservable().filter { $0.step == .finished }.bindNext { [weak self] in
+        state.asObservable().filter { $0.step == .finished }.bindNext { [weak self] _ in
             self?.postListing()
         }.addDisposableTo(disposeBag)
         
-        state.asObservable().filter { $0.step == .addingDetails }.bindNext { [weak self] in
+        state.asObservable().filter { $0.step == .addingDetails }.bindNext { [weak self] _ in
             self?.openPostingDetails()
             }.addDisposableTo(disposeBag)
         
-        state.asObservable().filter { $0.step == .uploadSuccess }.bindNext { [weak self] in
+        state.asObservable().filter { $0.step == .uploadSuccess }.bindNext { [weak self] _ in
             // Keep one second delay in order to give time to read the product posted message.
             delay(1) { [weak self] in
                 guard let strongSelf = self else { return }

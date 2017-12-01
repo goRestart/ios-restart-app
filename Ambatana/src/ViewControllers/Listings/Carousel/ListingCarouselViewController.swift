@@ -497,7 +497,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         //Event when scroll reaches one entire page (alpha == 1) so that we can delay some tasks until then.
         alphaSignal.map { $0 == 1 }.distinctUntilChanged().filter { $0 }
             .debounce(0.5, scheduler: MainScheduler.instance)
-            .bindNext { [weak self] in
+            .bindNext { [weak self] _ in
                 self?.finishedTransition()
             }.addDisposableTo(disposeBag)
     }
@@ -919,7 +919,7 @@ extension ListingCarouselViewController {
                        animations: { [weak self] in
                         guard let `self` = self else { return }
                         self.moreInfoView.frame.origin.y = -self.view.bounds.height
-            }, completion: { [weak self] in
+            }, completion: { [weak self] _ in
                 self?.moreInfoView.dismissed()
         })
     }
@@ -1075,7 +1075,7 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         directChatTable.rowHeight = UITableViewAutomaticDimension
         directChatTable.estimatedRowHeight = 140
         directChatTable.isCellHiddenBlock = { return $0.contentView.isHidden }
-        directChatTable.didSelectRowAtIndexPath = {  [weak self] in self?.viewModel.directMessagesItemPressed() }
+        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.directMessagesItemPressed() }
 
         directAnswersView.delegate = self
         directAnswersView.style = .light

@@ -234,7 +234,7 @@ class ChatViewController: TextViewController {
         relatedListingsView.setupOnTopOfView(textViewBar)
         relatedListingsView.title.value = LGLocalizedString.chatRelatedProductsTitle
         relatedListingsView.delegate = viewModel
-        relatedListingsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] in
+        relatedListingsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
             self?.configureBottomMargin(animated: true)
         }.addDisposableTo(disposeBag)
     }
@@ -389,7 +389,7 @@ extension ChatViewController {
         bannerTopConstraint.constant = -expressChatBanner.frame.height
         UIView.animate(withDuration: 0.5, animations: { [weak self] in
             self?.view.layoutIfNeeded()
-        }, completion: { [weak self] in
+        }, completion: { [weak self] _ in
             self?.expressChatBanner.isHidden = true
         }) 
     }
@@ -442,7 +442,7 @@ fileprivate extension ChatViewController {
             guard let url = imageUrl else { return }
             self?.listingView.listingImage.lg_setImageWithURL(url)
             }.addDisposableTo(disposeBag)
-        viewModel.shouldUpdateQuickAnswers.asObservable().filter{ $0 }.distinctUntilChanged().subscribeNext { [weak self] in
+        viewModel.shouldUpdateQuickAnswers.asObservable().filter{ $0 }.distinctUntilChanged().subscribeNext { [weak self] _ in
             self?.setupDirectAnswers()
         }.addDisposableTo(disposeBag)
         
@@ -481,7 +481,7 @@ fileprivate extension ChatViewController {
             }
         }.addDisposableTo(disposeBag)
         
-        viewModel.showStickerBadge.asObservable().bindNext { [weak self] in
+        viewModel.showStickerBadge.asObservable().bindNext { [weak self] _ in
             self?.reloadLeftActions()
         }.addDisposableTo(disposeBag)
         

@@ -118,7 +118,7 @@ class UserViewHeader: UIView {
             UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseIn, .beginFromCurrentState],
                                        animations: { [weak self] in
                                         self?.itemsAlpha = alpha
-                }, completion: { [weak self] in self?.itemsAlpha = alpha })
+                }, completion: { [weak self] _ in self?.itemsAlpha = alpha })
         }
     }
 

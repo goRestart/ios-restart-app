@@ -265,7 +265,7 @@ class ListingViewModel: BaseViewModel {
             }
         }.addDisposableTo(disposeBag)
 
-        isFavorite.asObservable().subscribeNext { [weak self] in
+        isFavorite.asObservable().subscribeNext { [weak self] _ in
             self?.refreshNavBarButtons()
         }.addDisposableTo(disposeBag)
 
@@ -295,7 +295,7 @@ class ListingViewModel: BaseViewModel {
             self?.shareButtonState.value = isMine ? .enabled : .hidden
         }.addDisposableTo(disposeBag)
 
-        myUserRepository.rx_myUser.bindNext { [weak self] in
+        myUserRepository.rx_myUser.bindNext { [weak self] _ in
             self?.refreshStatus()
         }.addDisposableTo(disposeBag)
 

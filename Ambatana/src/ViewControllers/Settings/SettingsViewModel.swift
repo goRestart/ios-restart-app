@@ -259,7 +259,7 @@ class SettingsViewModel: BaseViewModel {
     }
 
     private func setupRx() {
-        myUserRepository.rx_myUser.bindNext { [weak self] in
+        myUserRepository.rx_myUser.bindNext { [weak self] _ in
             self?.populateSettings()
         }.addDisposableTo(disposeBag)
     }

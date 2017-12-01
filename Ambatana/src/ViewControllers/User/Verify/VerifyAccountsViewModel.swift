@@ -158,7 +158,7 @@ class VerifyAccountsViewModel: BaseViewModel {
     private func setupRx() {
         guard emailRequiresInput else { return }
         typedEmail.asObservable()
-            .filter { [weak self] in
+            .filter { [weak self] _ in
                 guard let actionState = self?.typedEmailState.value, let buttonState = self?.emailButtonState.value else { return false }
                 return actionState != .loading && buttonState == .hidden
             }
