@@ -826,13 +826,13 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         return title
     }
     
-    private func tabTitleTextAttributes()-> [String : Any] {
+    private func tabTitleTextAttributes()-> [NSAttributedStringKey : Any] {
         let shadow = NSShadow()
         shadow.shadowColor = UIColor.black.withAlphaComponent(0.5)
         shadow.shadowBlurRadius = 2
         shadow.shadowOffset = CGSize(width: 0, height: 0)
         
-        var titleAttributes = [String : Any]()
+        var titleAttributes = [NSAttributedStringKey : Any]()
         titleAttributes[NSAttributedStringKey.shadow] = shadow
         titleAttributes[NSAttributedStringKey.foregroundColor] = UIColor.white
         titleAttributes[NSAttributedStringKey.font] = UIFont.activeTabFont

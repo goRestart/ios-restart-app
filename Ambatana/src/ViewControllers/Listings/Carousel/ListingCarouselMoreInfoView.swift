@@ -585,7 +585,7 @@ extension ListingVMProductInfo {
         guard let description = description else { return nil }
         let result = NSMutableAttributedString(attributedString: description)
         result.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.grayLight,
-                                range: NSMakeRange(0, result.length))
+                            range: NSMakeRange(0, result.length))
         result.addAttribute(NSAttributedStringKey.font, value: UIFont.productDescriptionFont,
                             range: NSMakeRange(0, result.length))
         return result

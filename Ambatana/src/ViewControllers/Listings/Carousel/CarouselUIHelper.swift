@@ -65,10 +65,10 @@ class CarouselUIHelper {
     }
 
     static func buildMoreInfoTooltipText() -> NSAttributedString {
-        let tapTextAttributes: [String : Any] = [NSAttributedStringKey.foregroundColor.rawValue : UIColor.white,
-                                                       NSAttributedStringKey.font.rawValue : UIFont.systemBoldFont(size: 17)]
-        let infoTextAttributes: [String : Any] = [ NSAttributedStringKey.foregroundColor.rawValue : UIColor.grayLighter,
-                                                         NSAttributedStringKey.font.rawValue : UIFont.systemSemiBoldFont(size: 17)]
+        let tapTextAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.foregroundColor : UIColor.white,
+                                                                NSAttributedStringKey.font : UIFont.systemBoldFont(size: 17)]
+        let infoTextAttributes: [NSAttributedStringKey : Any] = [ NSAttributedStringKey.foregroundColor : UIColor.grayLighter,
+                                                                  NSAttributedStringKey.font : UIFont.systemSemiBoldFont(size: 17)]
         let plainText = LGLocalizedString.productMoreInfoTooltipPart2(LGLocalizedString.productMoreInfoTooltipPart1)
         let resultText = NSMutableAttributedString(string: plainText, attributes: infoTextAttributes)
         let boldRange = NSString(string: plainText).range(of: LGLocalizedString.productMoreInfoTooltipPart1,

@@ -181,7 +181,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
 
         let textfieldTextColor = UIColor.lgBlack
         let textfieldTextPlaceholderColor = UIColor.lgBlack.withAlphaComponent(0.5)
-        var textfieldPlaceholderAttrs = [String: Any]()
+        var textfieldPlaceholderAttrs = [NSAttributedStringKey: Any]()
         textfieldPlaceholderAttrs[NSAttributedStringKey.font] = UIFont.systemFont(ofSize: 17)
         textfieldPlaceholderAttrs[NSAttributedStringKey.foregroundColor] = textfieldTextPlaceholderColor
 
@@ -198,7 +198,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
 
         let textfieldTextColor = UIColor.white
         let textfieldTextPlaceholderColor = textfieldTextColor.withAlphaComponent(0.7)
-        var textfieldPlaceholderAttrs = [String: Any]()
+        var textfieldPlaceholderAttrs = [NSAttributedStringKey: Any]()
         textfieldPlaceholderAttrs[NSAttributedStringKey.font] = UIFont.systemFont(ofSize: 17)
         textfieldPlaceholderAttrs[NSAttributedStringKey.foregroundColor] = textfieldTextPlaceholderColor
 

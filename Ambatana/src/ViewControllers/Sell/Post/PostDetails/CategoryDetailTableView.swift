@@ -232,7 +232,7 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
             textField.textColor = style.searchTextColor
             textField.attributedPlaceholder =
                 NSAttributedString(string: LGLocalizedString.postCategoryDetailSearchPlaceholder,
-                    attributes: [NSAttributedStringKey.foregroundColor: style.placeholderTextColor])
+                                   attributes: [NSAttributedStringKey.foregroundColor: style.placeholderTextColor])
             if let iconSearchImageView = textField.leftView as? UIImageView {
                 iconSearchImageView.image = iconSearchImageView.image?.withRenderingMode(.alwaysTemplate)
                 iconSearchImageView.tintColor = style.searchIconColor

@@ -63,7 +63,8 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable {
         currencyLabel.font = UIFont.systemBoldFont(size: 26)
         
         priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
-                                                                  attributes: [NSAttributedStringKey.foregroundColor: UIColor.grayLight, NSAttributedStringKey.font: UIFont.systemBoldFont(size: 26)])
+                                                                  attributes: [NSAttributedStringKey.foregroundColor: UIColor.grayLight,
+                                                                               NSAttributedStringKey.font: UIFont.systemBoldFont(size: 26)])
         priceTextField.keyboardType = .decimalPad
         priceTextField.font = UIFont.systemBoldFont(size: 26)
         priceTextField.textColor = UIColor.white

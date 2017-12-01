@@ -486,7 +486,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         loginSegmentedControl.layer.borderColor = UIColor.primaryColor.cgColor
 
         let textfieldTextColor = UIColor.blackText
-        var textfieldPlaceholderAttrs = [String: AnyObject]()
+        var textfieldPlaceholderAttrs = [NSAttributedStringKey: Any]()
         textfieldPlaceholderAttrs[NSAttributedStringKey.font] = UIFont.systemFont(ofSize: 17)
         textfieldPlaceholderAttrs[NSAttributedStringKey.foregroundColor] = UIColor.blackTextHighAlpha
 
@@ -524,7 +524,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         loginSegmentedControl.layer.borderColor = UIColor.white.cgColor
 
         let textfieldTextColor = UIColor.whiteText
-        var textfieldPlaceholderAttrs = [String: AnyObject]()
+        var textfieldPlaceholderAttrs = [NSAttributedStringKey: Any]()
         textfieldPlaceholderAttrs[NSAttributedStringKey.font] = UIFont.systemFont(ofSize: 17)
         textfieldPlaceholderAttrs[NSAttributedStringKey.foregroundColor] = UIColor.whiteTextHighAlpha
 
