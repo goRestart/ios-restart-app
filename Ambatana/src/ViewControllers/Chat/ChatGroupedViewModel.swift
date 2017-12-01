@@ -147,7 +147,7 @@ class ChatGroupedViewModel: BaseViewModel {
 
         let color: UIColor = selected ? UIColor.primaryColor : UIColor.black
 
-        var titleAttributes = [String : Any]()
+        var titleAttributes = [NSAttributedStringKey : Any]()
         titleAttributes[NSAttributedStringKey.foregroundColor] = color
         titleAttributes[NSAttributedStringKey.font] = selected ? UIFont.activeTabFont : UIFont.inactiveTabFont
 
