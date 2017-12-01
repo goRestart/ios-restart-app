@@ -14,6 +14,8 @@ protocol FilterPriceCellDelegate: class {
 }
 
 class FilterPriceCell: UICollectionViewCell {
+    
+    static let identifier = "\(FilterPriceCell.self)"
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var textField: UITextField!

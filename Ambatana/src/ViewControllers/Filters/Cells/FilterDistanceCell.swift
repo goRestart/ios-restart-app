@@ -11,6 +11,8 @@ import LGCoreKit
 
 class FilterDistanceCell: UICollectionViewCell {
     
+    static let identifier = "\(FilterDistanceCell.self)"
+    
     @IBOutlet weak var separatorHeight: NSLayoutConstraint!
     private let filterDistanceSlider = FilterDistanceSlider()
 

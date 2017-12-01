@@ -10,6 +10,8 @@ import UIKit
 
 class FilterDisclosureCell: UICollectionViewCell {
 
+    static let identifier = "\(FilterDisclosureCell.self)"
+    
     @IBOutlet weak var topSeparator: UIView!
     @IBOutlet weak var separatorHeight: NSLayoutConstraint!
     @IBOutlet weak var titleLabel: UILabel!

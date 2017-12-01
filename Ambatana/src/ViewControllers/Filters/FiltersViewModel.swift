@@ -93,6 +93,19 @@ class FiltersViewModel: BaseViewModel {
     var currentCarModelName: String? {
         return productFilter.carModelName
     }
+    
+    var currentPropertyTypeName: String? {
+        return productFilter.propertyType?.localizedString
+    }
+    
+    var currentNumberOfBathroomsName: String? {
+        return productFilter.bedrooms?.summaryLocalizedString
+    }
+    
+    var currentNumberOfBedroomsName: String? {
+        return productFilter.bathrooms?.summaryLocalizedString
+    }
+    
     var modelCellEnabled: Bool {
         return currentCarMakeName != nil
     }
@@ -153,7 +166,7 @@ class FiltersViewModel: BaseViewModel {
     }
     private var withinTimes : [ListingTimeCriteria]
     
-    var numberOfofferType : Int {
+    var offerTypeOptionsCount : Int {
         return self.offerTypeOptions.count
     }
     private var offerTypeOptions : [RealEstateOfferType]
@@ -455,13 +468,13 @@ class FiltersViewModel: BaseViewModel {
     
     // MARK: Real Estate offer type
     func selectOfferTypeAtIndex(_ index: Int) {
-        guard index < numberOfofferType else { return }
+        guard index < offerTypeOptionsCount else { return }
         productFilter.offerType = offerTypeOptions[index]
         delegate?.vmDidUpdate()
     }
     
     func offerTypeNameAtIndex(_ index: Int) -> String? {
-        guard index < numberOfofferType else { return nil }
+        guard index < offerTypeOptionsCount else { return nil }
         
         return offerTypeOptions[index].localizedString
     }

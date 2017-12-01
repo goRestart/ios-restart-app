@@ -14,6 +14,7 @@ protocol FilterCarInfoYearCellDelegate: class {
 
 class FilterSliderYearCell: UICollectionViewCell, LGSliderDelegate {
     
+    static let identifier = "\(FilterSliderYearCell.self)"
     var slider: LGSlider?
     
     weak var delegate: FilterCarInfoYearCellDelegate?
