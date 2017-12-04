@@ -144,21 +144,17 @@ class FiltersViewModel: BaseViewModel {
         return self.categories.count%2 == 1
     }
 
-    var priceCellsDisabled: Bool {
-        if featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive {
-            return false
-        } else {
-            return self.productFilter.priceRange.free
-        }
+    var isPriceCellEnabled: Bool {
+        return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive || !productFilter.priceRange.free
     }
 
-    var carsInfoCellsDisabled: Bool {
+    var isCarsInfoCellEnabled: Bool {
         let isTaxonomyCars = productFilter.selectedTaxonomyChildren.contains(where: { $0.isCarsTaxonomy } )
-        return !(productFilter.selectedCategories.contains(.cars) || isTaxonomyCars)
+        return productFilter.selectedCategories.contains(.cars) || isTaxonomyCars
     }
     
-    var realEstateInfoCellsDisabled: Bool {
-        return !productFilter.selectedCategories.contains(.realEstate)
+    var isRealEstateInfoCellEnabled: Bool {
+        return productFilter.selectedCategories.contains(.realEstate)
     }
 
     var numOfWithinTimes : Int {
@@ -266,22 +262,11 @@ class FiltersViewModel: BaseViewModel {
     // MARK: - Actions
 
     fileprivate func generateSections() -> [FilterSection] {
-        var updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive)
+        let updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive)
 
-        // Don't show price cells if necessary
-        if let idx = updatedSections.index(of: FilterSection.price), priceCellsDisabled {
-            updatedSections.remove(at: idx)
-        }
-        // Don't show car info cells if necessary
-        if let idx = updatedSections.index(of: FilterSection.carsInfo), carsInfoCellsDisabled {
-            updatedSections.remove(at: idx)
-        }
-        
-        // Don't show real Estate info cells if necessary
-        if let idx = updatedSections.index(of: FilterSection.realEstateInfo), realEstateInfoCellsDisabled {
-            updatedSections.remove(at: idx)
-        }
-        return updatedSections
+        return updatedSections.filter { $0 != .price ||  isPriceCellEnabled }
+            .filter {$0 != .carsInfo ||  isCarsInfoCellEnabled }
+            .filter {$0 != .realEstateInfo || isRealEstateInfoCellEnabled }
     }
 
     func locationButtonPressed() {

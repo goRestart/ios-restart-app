@@ -114,6 +114,7 @@ class FilterSingleCheckCell: UICollectionViewCell, ReusableCell {
         tickIcon.isHidden = true
         titleLabel.text = ""
         bottomSeparator.isHidden = true
+        setMargin()
     }
 
     private func setAccessibilityIds() {
