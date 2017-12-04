@@ -520,7 +520,7 @@ class MainListingsViewModel: BaseViewModel {
     }
    
     private func setupRx() {
-        listViewModel.isListingListEmpty.asObservable().bindNext { [weak self] in
+        listViewModel.isListingListEmpty.asObservable().bindNext { [weak self] _ in
             self?.updateCategoriesHeader()
         }.addDisposableTo(disposeBag) 
         shouldShowPrices.asObservable().bindNext { [weak self] shouldShowPrices in
