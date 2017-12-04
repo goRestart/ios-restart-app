@@ -26,8 +26,8 @@ class FilterSingleCheckCell: UICollectionViewCell, ReusableCell {
     private var tickIcon = UIImageView()
     fileprivate var mainView = UIView()
     
-    var bottomMarginConstraint = NSLayoutConstraint()
-    var topMarginConstraint = NSLayoutConstraint()
+    private var bottomMarginConstraint = NSLayoutConstraint()
+    private var topMarginConstraint = NSLayoutConstraint()
     
     // MARK: - Lifecycle
     

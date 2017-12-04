@@ -72,8 +72,8 @@ struct ListingFilters {
     
     var propertyType: RealEstatePropertyType?
     var offerType: RealEstateOfferType?
-    var bedrooms: NumberOfBedrooms?
-    var bathrooms: NumberOfBathrooms?
+    var numberOfBedrooms: NumberOfBedrooms?
+    var numberOfBathrooms: NumberOfBathrooms?
 
     init() {
         self.init(
@@ -94,8 +94,8 @@ struct ListingFilters {
             carYearEnd: nil,
             propertyType: nil,
             offerType: nil,
-            bedrooms: nil,
-            bathrooms: nil
+            numberOfBedrooms: nil,
+            numberOfBathrooms: nil
         )
     }
     
@@ -116,8 +116,8 @@ struct ListingFilters {
          carYearEnd: RetrieveListingParam<Int>?,
          propertyType: RealEstatePropertyType?,
          offerType: RealEstateOfferType?,
-         bedrooms: NumberOfBedrooms?,
-         bathrooms: NumberOfBathrooms?
+         numberOfBedrooms: NumberOfBedrooms?,
+         numberOfBathrooms: NumberOfBathrooms?
          ) {
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
@@ -136,8 +136,8 @@ struct ListingFilters {
         self.carYearEnd = carYearEnd
         self.propertyType = propertyType
         self.offerType = offerType
-        self.bedrooms = bedrooms
-        self.bathrooms = bathrooms
+        self.numberOfBedrooms = numberOfBedrooms
+        self.numberOfBathrooms = numberOfBathrooms
     }
     
     func updating(selectedCategories: [ListingCategory]) -> ListingFilters {
@@ -158,8 +158,8 @@ struct ListingFilters {
                               carYearEnd: carYearEnd,
                               propertyType: propertyType,
                               offerType: offerType,
-                              bedrooms: bedrooms,
-                              bathrooms: bathrooms)
+                              numberOfBedrooms: numberOfBedrooms,
+                              numberOfBathrooms: numberOfBathrooms)
     }
     
     
@@ -187,7 +187,7 @@ struct ListingFilters {
         if selectedOrdering != ListingSortCriteria.defaultOption { return false }
         if priceRange != .priceRange(min: nil, max: nil) { return false }
         if carMakeId != nil || carModelId != nil || carYearStart != nil || carYearEnd != nil { return false }
-        if propertyType != nil || offerType != nil || bedrooms != nil || bathrooms != nil { return false }
+        if propertyType != nil || offerType != nil || numberOfBedrooms != nil || numberOfBathrooms != nil { return false }
         return true
     }
     
@@ -238,8 +238,8 @@ extension ListingFilters: Equatable {
         a.carYearEnd == b.carYearEnd &&
         a.propertyType == b.propertyType &&
         a.offerType == b.offerType &&
-        a.bedrooms == b.bedrooms &&
-        a.bathrooms == b.bathrooms
+        a.numberOfBedrooms == b.numberOfBedrooms &&
+        a.numberOfBathrooms == b.numberOfBathrooms
     }
 }
 

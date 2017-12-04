@@ -99,11 +99,11 @@ class FiltersViewModel: BaseViewModel {
     }
     
     var currentNumberOfBathroomsName: String? {
-        return productFilter.bedrooms?.summaryLocalizedString
+        return productFilter.numberOfBathrooms?.summaryLocalizedString
     }
     
     var currentNumberOfBedroomsName: String? {
-        return productFilter.bathrooms?.summaryLocalizedString
+        return productFilter.numberOfBedrooms?.summaryLocalizedString
     }
     
     var modelCellEnabled: Bool {
