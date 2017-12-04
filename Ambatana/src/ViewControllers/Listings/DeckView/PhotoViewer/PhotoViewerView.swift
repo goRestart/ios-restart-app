@@ -7,13 +7,17 @@
 //
 
 import Foundation
+import RxSwift
 
-final class PhotoViewerView: UIView {
-    
+final class PhotoViewerView: UIView, PhotoViewerViewType {
+
+    var rx_closeButton: Reactive<UIControl>? { return (closeButton as UIControl).rx }
+    var rx_chatButton: Reactive<UIControl>? { return (chatButton as UIControl).rx }
+
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: ListingDeckImagePreviewLayout())
     let pageControl = UIPageControl()
-    let chatButton = ChatButton()
-    let closeButton = UIButton(type: .custom)
+    private let chatButton = ChatButton()
+    private let closeButton = UIButton(type: .custom)
 
     convenience init() {
         self.init(frame: .zero)
@@ -38,7 +42,7 @@ final class PhotoViewerView: UIView {
         addSubview(collectionView)
         collectionView.layout(with: self).fill()
 
-        collectionView.backgroundColor = #colorLiteral(red: 0.7803921569, green: 0.8078431373, blue: 0.7803921569, alpha: 1)
+        collectionView.backgroundColor = UIColo.grayLight
     }
 
     private func setupPageControl() {
@@ -126,8 +130,6 @@ class ChatButton: UIControl {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
         layer.cornerRadius = min(height, width) / 2.0
     }
-
 }

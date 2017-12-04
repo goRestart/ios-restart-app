@@ -32,7 +32,5 @@ final class PhotoViewerViewModel: BaseViewModel {
 
     func showChat() {
         // TODO: ABIOS-3107
-        print("show chat")
     }
-
 }

@@ -12,7 +12,7 @@ import LGCoreKit
 import RxSwift
 
 final class ListingDeckView: UIView, UICollectionViewDelegate {
-
+    struct Layout { struct Height { static let previewFactor: CGFloat = 0.7 } }
     let directChatTable = CustomTouchesTableView()
     let collectionView: UICollectionView
 
@@ -56,7 +56,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.layout(with: self).leading().trailing().top() { [weak self] constraint in
             self?.collectionViewTop = constraint
-        }.proportionalHeight(multiplier: 0.7)
+        }.proportionalHeight(multiplier: Layout.Height.previewFactor)
 
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.decelerationRate = 0

@@ -8,10 +8,8 @@
 
 import Foundation
 
-final class PhotoViewerViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate {
-    private struct Identifiers {
-        static let reusableID = ListingDeckImagePreviewCell.reusableID
-    }
+final class PhotoViewerViewController: BaseViewController, PhotoViewerVCType, UICollectionViewDataSource, UICollectionViewDelegate {
+    private struct Identifiers { static let reusableID = ListingDeckImagePreviewCell.reusableID }
 
     override var prefersStatusBarHidden: Bool { return true }
 
@@ -33,9 +31,6 @@ final class PhotoViewerViewController: BaseViewController, UICollectionViewDataS
                                             forCellWithReuseIdentifier: Identifiers.reusableID)
         photoViewer.collectionView.dataSource = self
         photoViewer.pageControl.numberOfPages = viewModel.itemsCount
-
-        photoViewer.chatButton.addTarget(self, action: #selector(showChat), for: .touchUpInside)
-        photoViewer.closeButton.addTarget(self, action: #selector(closeView), for: .touchUpInside)
     }
 
     func showChat() {
