@@ -409,16 +409,6 @@ class SignUpLogInViewModel: BaseViewModel {
                 self?.trackLoginFBFailedWithError(trackingError)
             }
         }
-//        fbLoginHelper.login({ [weak self]
-//            self?.delegate?.vmShowLoading(nil)
-//        }, loginCompletion: { [weak self] result in
-//            self?.processExternalServiceAuthResult(result, accountProvider: .facebook)
-//            if result.isSuccess {
-//                self?.trackLoginFBOK()
-//            } else if let trackingError = result.trackingError {
-//                self?.trackLoginFBFailedWithError(trackingError)
-//            }
-//        })
     }
 
     func logInWithGoogle() {
