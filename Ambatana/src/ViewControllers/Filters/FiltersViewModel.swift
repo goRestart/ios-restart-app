@@ -482,7 +482,7 @@ class FiltersViewModel: BaseViewModel {
     }
     
     
-    // MARK: Filter by
+    // MARK: Sort by
     
     func selectSortOptionAtIndex(_ index: Int) {
         guard index < numOfSortOptions else { return }
