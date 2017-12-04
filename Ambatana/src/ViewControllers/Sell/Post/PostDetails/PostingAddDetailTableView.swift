@@ -101,36 +101,43 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
         cell.textLabel?.font = UIFont.selectableItem
         cell.backgroundColor = .clear
         cell.textLabel?.textColor = UIColor.grayLight
+        if selectedValue == indexPath {
+            select(cell: cell)
+        } else {
+            deselect(cell: cell)
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         guard let selectedValue = selectedValue else { return indexPath }
-        deselectCell(indexPath: selectedValue)
+        deselect(cell: tableView.cellForRow(at: selectedValue))
         return indexPath
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectCell(indexPath: indexPath)
         delegate?.indexSelected(index: indexPath.row)
+        selectedValue = indexPath
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        select(cell: tableView.cellForRow(at: indexPath))
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        deselectCell(indexPath: indexPath)
-    }
-   
-    func deselectCell(indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) else { return }
-        cell.accessoryType = .none
-        cell.accessoryView = nil
-        cell.textLabel?.textColor = UIColor.grayLight
         selectedValue = nil
         delegate?.indexDeselected(index: indexPath.row)
         tableView.deselectRow(at: indexPath, animated: false)
+        deselect(cell: tableView.cellForRow(at: indexPath))
+    }
+   
+    func deselect(cell: UITableViewCell?) {
+        guard let cell = cell else { return }
+        cell.accessoryType = .none
+        cell.accessoryView = nil
+        cell.textLabel?.textColor = UIColor.grayLight
     }
     
-    func selectCell(indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+    func select(cell: UITableViewCell?) {
+        guard let cell = cell else { return }
         
         let image = #imageLiteral(resourceName: "ic_checkmark").withRenderingMode(.alwaysTemplate)
         let checkmark  = UIImageView(frame:CGRect(x:0,
@@ -143,8 +150,6 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
         
         cell.accessoryType = .checkmark
         cell.textLabel?.textColor = UIColor.white
-        selectedValue = indexPath
-        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
     }
     
     func setupTableView(values: [String]) {
@@ -156,8 +161,9 @@ final class PostingAddDetailTableView: UIView, UITableViewDelegate, UITableViewD
     
     func setupView(viewModel: PostingDetailsViewModel) {
         guard let positionSelected = viewModel.findValueSelected() else { return }
-        selectCell(indexPath: IndexPath(item: positionSelected, section: 0))
-
+        let indexPath = IndexPath(row: positionSelected, section: 0)
+        selectedValue = indexPath
+        tableView.reloadRows(at: [indexPath], with: .none)
     }
     
     

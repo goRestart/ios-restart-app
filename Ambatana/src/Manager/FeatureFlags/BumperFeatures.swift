@@ -20,7 +20,6 @@ extension Bumper  {
         flags.append(CaptchaTransparent.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
         flags.append(InAppRatingIOS10.self)
-        flags.append(AddSuperKeywordsOnFeed.self)
         flags.append(TweaksCarPostingFlow.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
@@ -78,11 +77,6 @@ extension Bumper  {
     static var inAppRatingIOS10: Bool {
         guard let value = Bumper.value(for: InAppRatingIOS10.key) else { return false }
         return InAppRatingIOS10(rawValue: value)?.asBool ?? false
-    }
-
-    static var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed {
-        guard let value = Bumper.value(for: AddSuperKeywordsOnFeed.key) else { return .control }
-        return AddSuperKeywordsOnFeed(rawValue: value) ?? .control 
     }
 
     static var tweaksCarPostingFlow: TweaksCarPostingFlow {
@@ -253,22 +247,6 @@ enum InAppRatingIOS10: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New in-app rating for iOS 10.3+" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum AddSuperKeywordsOnFeed: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return AddSuperKeywordsOnFeed.control.rawValue }
-    static var enumValues: [AddSuperKeywordsOnFeed] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Add super keywords in feed and filters" } 
-    static func fromPosition(_ position: Int) -> AddSuperKeywordsOnFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
 }
 
 enum TweaksCarPostingFlow: String, BumperFeature  {

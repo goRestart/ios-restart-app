@@ -308,6 +308,10 @@
 "filters_price_from" = "Alkaen";
 "filters_price_to" = "Päättyen";
 "filters_price_wrong_range_error" = "Minimihinta ei voi olla suurempi kuin maksimihinta.";
+"filters_real_estate_bathrooms_not_set" = "ei rajattu";
+"filters_real_estate_bedrooms_not_set" = "ei rajattu";
+"filters_real_estate_offer_type_not_set" = "ei rajattu";
+"filters_real_estate_property_type_not_set" = "ei rajattu";
 "filters_save_button" = "Tallenna suodattimet";
 "filters_section_car_info" = "Auton tiedot";
 "filters_section_categories" = "Kategoriat";
@@ -315,6 +319,7 @@
 "filters_section_location" = "Sijainti";
 "filters_section_price" = "Hinta";
 "filters_section_price_free_title" = "Näytä vain ilmaiset tuotteet";
+"filters_section_real_estate_info" = "Property info";
 "filters_section_sortby" = "Lajittele";
 "filters_section_within" = "Julkaisusta aikaa";
 "filters_sort_closest" = "Lähin ensin";
