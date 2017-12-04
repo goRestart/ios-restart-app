@@ -13,7 +13,7 @@ protocol PurchaseableProduct {
     var price: NSDecimalNumber { get }
     var priceLocale: Locale { get }
     var productIdentifier: String { get }
-    var downloadable: Bool { get }
+//    var downloadable: Bool { get }
     var downloadContentLengths: [NSNumber] { get }
     var downloadContentVersion: String { get }
 }

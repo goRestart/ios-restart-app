@@ -164,10 +164,10 @@ class PostListingCameraViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         visible.asObservable().distinctUntilChanged().filter{ $0 }
-            .subscribeNext{ [weak self] in self?.didBecomeVisible() }
+            .subscribeNext{ [weak self] _ in self?.didBecomeVisible() }
             .addDisposableTo(disposeBag)
         
-        shouldShowFirstTimeAlert.asObservable().filter {$0}.bindNext { [weak self] in
+        shouldShowFirstTimeAlert.asObservable().filter {$0}.bindNext { [weak self] _ in
             self?.firstTimeAlertDidShow()
         }.addDisposableTo(disposeBag)
     }

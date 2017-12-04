@@ -72,7 +72,7 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
     }
 
     private func setupRx() {
-        viewModel.visibilityFormat.asObservable().bindNext { [weak self] in
+        viewModel.visibilityFormat.asObservable().bindNext { [weak self] _ in
             self?.tableView.reloadData()
         }.addDisposableTo(disposeBag)
     }

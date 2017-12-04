@@ -415,11 +415,11 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func setupRxBindings() {
-        isFreePosting.asObservable().bindNext { [weak self] in self?.checkChanges() }.addDisposableTo(disposeBag)
-        category.asObservable().bindNext { [weak self] in self?.checkChanges() }.addDisposableTo(disposeBag)
-        carMakeName.asObservable().bindNext { [weak self] in self?.checkChanges() }.addDisposableTo(disposeBag)
-        carModelName.asObservable().bindNext { [weak self] in self?.checkChanges() }.addDisposableTo(disposeBag)
-        carYear.asObservable().bindNext { [weak self] in self?.checkChanges() }.addDisposableTo(disposeBag)
+        isFreePosting.asObservable().bindNext { [weak self] _ in self?.checkChanges() }.addDisposableTo(disposeBag)
+        category.asObservable().bindNext { [weak self] _ in self?.checkChanges() }.addDisposableTo(disposeBag)
+        carMakeName.asObservable().bindNext { [weak self] _ in self?.checkChanges() }.addDisposableTo(disposeBag)
+        carModelName.asObservable().bindNext { [weak self] _ in self?.checkChanges() }.addDisposableTo(disposeBag)
+        carYear.asObservable().bindNext { [weak self] _ in self?.checkChanges() }.addDisposableTo(disposeBag)
     }
 
     private func checkChanges() {

@@ -43,10 +43,9 @@ extension UILabel {
         guard let font = self.font else { return }
         let modifiedFont = String(format:"<span style=\"font-family: '-apple-system', '\(font.fontName)'; font-size: \(font.pointSize)\">%@</span>", htmlText)
         guard let data = modifiedFont.data(using: .utf8, allowLossyConversion: true) else { return }
-        let options: [NSAttributedString.DocumentAttributeKey: Any] =
-            [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.html,
-             NSAttributedString.DocumentAttributeKey.characterEncoding: String.Encoding.utf8.rawValue]
-        if let attrStr = try? NSAttributedString(data: data, options: options, documentAttributes: nil) {
+        if let attrStr = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html,
+                                                                       .characterEncoding: String.Encoding.utf8.rawValue],
+                                                 documentAttributes: nil) {
             self.attributedText = attrStr
         } else {
             // if it fails we keep going 💪🏼
