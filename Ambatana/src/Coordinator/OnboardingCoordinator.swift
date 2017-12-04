@@ -294,10 +294,10 @@ extension OnboardingCoordinator: SignUpLogInNavigator {
         }
     }
 
-    func openRecaptcha() {
+    func openRecaptcha(action: LoginActionType) {
         guard let navCtl = currentNavigationController() else { return }
 
-        let vm = RecaptchaViewModel()
+        let vm = RecaptchaViewModel(action: action)
         vm.navigator = self
         let vc = RecaptchaViewController(viewModel: vm)
         navCtl.present(vc, animated: true, completion: nil)
@@ -332,12 +332,12 @@ extension OnboardingCoordinator: RecaptchaNavigator {
         recaptchaVC.dismiss(animated: true, completion: nil)
     }
 
-    func recaptchaFinishedWithToken(_ token: String) {
+    func recaptchaFinishedWithToken(_ token: String, action: LoginActionType) {
         guard let recaptchaVC = currentNavigationController()?.presentedViewController as? RecaptchaViewController else {
             return
         }
         recaptchaVC.dismiss(animated: true) { [weak self] in
-            self?.recaptchaTokenDelegate?.recaptchaTokenObtained(token: token)
+            self?.recaptchaTokenDelegate?.recaptchaTokenObtained(token: token, action: action)
         }
     }
 }

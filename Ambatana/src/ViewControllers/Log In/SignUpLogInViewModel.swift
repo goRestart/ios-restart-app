@@ -469,7 +469,7 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     private func processLoginSessionError(_ error: LoginError) {
-        trackLoginEmailFailedWithError(error.trackingError)
+        var showCaptcha = false
         var afterMessageCompletion: (() -> ())? = nil
         switch error {
         case .scammer:
@@ -487,11 +487,20 @@ class SignUpLogInViewModel: BaseViewModel {
                     self?.showRememberPasswordAlert()
                 }
             }
-        case .network, .badRequest, .notFound, .forbidden, .conflict, .tooManyRequests, .userNotVerified, .internalError:
+        case .userNotVerified:
+            showCaptcha = true
+        case .network, .badRequest, .notFound, .forbidden, .conflict, .tooManyRequests, .internalError:
             break
         }
-
-        delegate?.vmHideLoading(error.errorMessage, afterMessageCompletion: afterMessageCompletion)
+       
+        if showCaptcha {
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.navigator?.openRecaptcha(action: .login)
+            }
+        } else {
+            trackLoginEmailFailedWithError(error.trackingError)
+            delegate?.vmHideLoading(error.errorMessage, afterMessageCompletion: afterMessageCompletion)
+        }
     }
 
     private func process(signupError: SignupError) {
@@ -504,7 +513,7 @@ class SignUpLogInViewModel: BaseViewModel {
             }
         case .userNotVerified:
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.navigator?.openRecaptcha()
+                self?.navigator?.openRecaptcha(action: .signup)
             }
         case .network, .badRequest, .notFound, .forbidden, .unauthorized, .conflict, .nonExistingEmail,
              .tooManyRequests, .internalError:
@@ -671,8 +680,13 @@ fileprivate extension SignUpFormErrors {
 // MARK: - RecaptchaTokenDelegate
 
 extension SignUpLogInViewModel: RecaptchaTokenDelegate {
-    func recaptchaTokenObtained(token: String) {
-        signUp(recaptchaToken: token)
+    func recaptchaTokenObtained(token: String, action: LoginActionType) {
+        switch action {
+        case .login:
+            break // TODO: 💥 add login with recaptcha token
+        case .signup:
+            signUp(recaptchaToken: token)
+        }
     }
 }
 
