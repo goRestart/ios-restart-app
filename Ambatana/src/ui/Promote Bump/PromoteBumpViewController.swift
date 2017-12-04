@@ -21,6 +21,7 @@ class PromoteBumpViewController: BaseViewController {
 
     private weak var viewModel: PromoteBumpViewModel?
 
+    
     // MARK: - Lifecycle
 
     required init(viewModel: PromoteBumpViewModel) {
@@ -39,6 +40,7 @@ class PromoteBumpViewController: BaseViewController {
         setupConstraints()
         setupAccessibilityIds()
     }
+
 
     // MARK: - Private methods
 
@@ -119,6 +121,7 @@ class PromoteBumpViewController: BaseViewController {
         sellFasterButton.accessibilityId = .promoteBumpUpSellFasterButton
         laterButton.accessibilityId = .promoteBumpUpLaterButton
     }
+
 
     // MARK: - Actions
 
