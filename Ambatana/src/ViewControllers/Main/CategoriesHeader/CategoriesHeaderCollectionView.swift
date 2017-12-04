@@ -54,7 +54,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     
     
     // MARK: - UICollectionViewDelegate & DataSource methods
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+    @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         return CategoryHeaderCell.cellSize()
     }
     

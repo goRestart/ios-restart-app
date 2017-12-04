@@ -60,7 +60,7 @@ class LGEmptyView: UIView {
         }
     }
 
-    var title: String? {
+    @objc var title: String? {
         didSet {
             titleLabel.text = title
         }
