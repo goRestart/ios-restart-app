@@ -150,25 +150,27 @@ class PostListingViewModel: BaseViewModel {
     }
 
     func imagesSelected(_ images: [UIImage], source: EventParameterPictureSource) {
-        uploadedImageSource = source
-        imagesSelected = images
-        
-        guard sessionManager.loggedIn else {
-            state.value = state.value.updating(pendingToUploadImages: images)
-            return
-        }
-
-        state.value = state.value.updatingStepToUploadingImages()
-
-        fileRepository.upload(images, progress: nil) { [weak self] result in
-            guard let strongSelf = self else { return }
-            
-            if let images = result.value {
-                strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedImages: images)
-            } else if let error = result.error {
-                strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
-            }
-        }
+//        uploadedImageSource = source
+//        imagesSelected = images
+//        
+//        guard sessionManager.loggedIn else {
+//            state.value = state.value.updating(pendingToUploadImages: images)
+//            return
+//        }
+//
+//        state.value = state.value.updatingStepToUploadingImages()
+//
+//        fileRepository.upload(images, progress: nil) { [weak self] result in
+//            guard let strongSelf = self else { return }
+//            
+//            if let images = result.value {
+//                strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedImages: images)
+//            } else if let error = result.error {
+//                strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
+//            }
+//        }
+        //guard let listingParams = makeListingParams(images: images) else { return }
+        navigator?.openQueuedRequestsLoading(images: images)
     }
     
     func closeButtonPressed() {
@@ -379,7 +381,7 @@ fileprivate extension PostListingViewModel {
                                 postListingBasicInfo: postDetailViewModel)
     }
     
-    func makeListingParams(images:[File]) -> ListingCreationParams? {
+    func makeListingParams(images: [File]) -> ListingCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
         let title = postDetailViewModel.listingTitle
         let description = postDetailViewModel.listingDescription ?? ""
