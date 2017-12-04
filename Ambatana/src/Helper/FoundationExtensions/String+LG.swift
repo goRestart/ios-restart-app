@@ -197,7 +197,8 @@ extension String {
     }
     
     func hasEmojis() -> Bool {
-        return unicodeScalars.flatMap{ $0.isEmoji }.count > 0
+        let emojis = unicodeScalars.filter { $0.isEmoji }
+        return emojis.count > 0
     }
     
     func trunc(_ length: Int, trailing: String? = "...") -> String {
