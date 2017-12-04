@@ -10,19 +10,23 @@ import LGCoreKit
 
 protocol RecaptchaNavigator: class {
     func recaptchaClose()
-    func recaptchaFinishedWithToken(_ token: String)
+    func recaptchaFinishedWithToken(_ token: String, action: LoginActionType)
 }
 
 class RecaptchaViewModel: BaseViewModel {
 
     weak var navigator: RecaptchaNavigator?
+    private let action: LoginActionType
     private let tracker: Tracker
 
-    convenience override init() {
-        self.init(tracker: TrackerProxy.sharedInstance)
+    convenience init(action: LoginActionType) {
+        self.init(action: action,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
-    init(tracker: Tracker) {
+    init(action: LoginActionType,
+         tracker: Tracker) {
+        self.action = action
         self.tracker = tracker
     }
 
@@ -43,7 +47,7 @@ class RecaptchaViewModel: BaseViewModel {
 
     func startedLoadingURL(_ url: URL) {
         guard let token = tokenFromURL(url) else { return }
-        navigator?.recaptchaFinishedWithToken(token)
+        navigator?.recaptchaFinishedWithToken(token, action: action)
     }
 
     func urlLoaded(_ url: URL) { }

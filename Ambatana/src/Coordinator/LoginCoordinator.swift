@@ -16,7 +16,7 @@ enum LoginStyle {
 }
 
 protocol RecaptchaTokenDelegate: class {
-    func recaptchaTokenObtained(token: String)
+    func recaptchaTokenObtained(token: String, action: LoginActionType)
 }
 
 final class LoginCoordinator: Coordinator, ChangePasswordPresenter {
@@ -213,10 +213,10 @@ extension LoginCoordinator: SignUpLogInNavigator {
         closeRootAndOpenDeviceNotAllowedAlert(contactURL: contactURL, network: network)
     }
 
-    func openRecaptcha() {
+    func openRecaptcha(action: LoginActionType) {
         let topVC = topViewController()
 
-        let vm = RecaptchaViewModel()
+        let vm = RecaptchaViewModel(action: action)
         vm.navigator = self
         let vc = RecaptchaViewController(viewModel: vm)
         presentedViewControllers.append(vc)
@@ -261,10 +261,10 @@ extension LoginCoordinator: RecaptchaNavigator {
         dismissLastPresented(animated: true, completion: nil)
     }
 
-    func recaptchaFinishedWithToken(_ token: String) {
+    func recaptchaFinishedWithToken(_ token: String, action: LoginActionType) {
         guard topViewController() is RecaptchaViewController else { return }
         dismissLastPresented(animated: true) { [weak self] in
-            self?.recaptchaTokenDelegate?.recaptchaTokenObtained(token: token)
+            self?.recaptchaTokenDelegate?.recaptchaTokenObtained(token: token, action: action)
         }
     }
 }
