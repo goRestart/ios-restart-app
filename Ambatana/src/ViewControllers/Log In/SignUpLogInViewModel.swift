@@ -504,7 +504,7 @@ class SignUpLogInViewModel: BaseViewModel {
             }
         case .userNotVerified:
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.navigator?.openRecaptcha(transparentMode: self?.featureFlags.captchaTransparent ?? false)
+                self?.navigator?.openRecaptcha()
             }
         case .network, .badRequest, .notFound, .forbidden, .unauthorized, .conflict, .nonExistingEmail,
              .tooManyRequests, .internalError:

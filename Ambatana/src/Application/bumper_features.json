@@ -21,11 +21,6 @@
         "description": "User can bump paying"
     },
     {
-        "name": "CaptchaTransparent",
-        "values": ["No", "Yes"],
-        "description": "Captcha transparent"
-    },
-    {
         "name": "NewCarsMultiRequesterEnabled",
         "values": ["no", "yes"],
         "description": "Cars multi requester enabled"

@@ -294,16 +294,12 @@ extension OnboardingCoordinator: SignUpLogInNavigator {
         }
     }
 
-    func openRecaptcha(transparentMode: Bool) {
+    func openRecaptcha() {
         guard let navCtl = currentNavigationController() else { return }
 
-        let vm = RecaptchaViewModel(transparentMode: transparentMode)
+        let vm = RecaptchaViewModel()
         vm.navigator = self
-        let backgroundImage: UIImage? = transparentMode ? viewController.presentingViewController?.view.takeSnapshot() : nil
-        let vc = RecaptchaViewController(viewModel: vm, backgroundImage: backgroundImage)
-        if transparentMode {
-            vc.modalTransitionStyle = .crossDissolve
-        }
+        let vc = RecaptchaViewController(viewModel: vm)
         navCtl.present(vc, animated: true, completion: nil)
     }
 

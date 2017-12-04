@@ -17,7 +17,6 @@ extension Bumper  {
         flags.append(SurveyEnabled.self)
         flags.append(FreeBumpUpEnabled.self)
         flags.append(PricedBumpUpEnabled.self)
-        flags.append(CaptchaTransparent.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
         flags.append(InAppRatingIOS10.self)
         flags.append(TweaksCarPostingFlow.self)
@@ -61,11 +60,6 @@ extension Bumper  {
     static var pricedBumpUpEnabled: Bool {
         guard let value = Bumper.value(for: PricedBumpUpEnabled.key) else { return false }
         return PricedBumpUpEnabled(rawValue: value)?.asBool ?? false
-    }
-
-    static var captchaTransparent: Bool {
-        guard let value = Bumper.value(for: CaptchaTransparent.key) else { return false }
-        return CaptchaTransparent(rawValue: value)?.asBool ?? false
     }
 
     static var newCarsMultiRequesterEnabled: Bool {
@@ -213,15 +207,6 @@ enum PricedBumpUpEnabled: String, BumperFeature  {
     static var enumValues: [PricedBumpUpEnabled] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "User can bump paying" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum CaptchaTransparent: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return CaptchaTransparent.no.rawValue }
-    static var enumValues: [CaptchaTransparent] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Captcha transparent" } 
     var asBool: Bool { return self == .yes }
 }
 

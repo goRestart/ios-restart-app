@@ -21,7 +21,6 @@ protocol FeatureFlaggeable: class {
     var surveyUrl: String { get }
     var surveyEnabled: Bool { get }
 
-    var captchaTransparent: Bool { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var newCarsMultiRequesterEnabled: Bool { get }
@@ -177,13 +176,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.surveyEnabled
         }
         return abTests.surveyEnabled.value
-    }
-
-    var captchaTransparent: Bool {
-        if Bumper.enabled {
-            return Bumper.captchaTransparent
-        }
-        return abTests.captchaTransparent.value
     }
 
     var freeBumpUpEnabled: Bool {

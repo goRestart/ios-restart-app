@@ -17,15 +17,13 @@ class RecaptchaViewModel: BaseViewModel {
 
     weak var navigator: RecaptchaNavigator?
     private let tracker: Tracker
-    let transparentMode: Bool
 
-    convenience init(transparentMode: Bool) {
-        self.init(tracker: TrackerProxy.sharedInstance, transparentMode: transparentMode)
+    convenience override init() {
+        self.init(tracker: TrackerProxy.sharedInstance)
     }
 
-    init(tracker: Tracker, transparentMode: Bool) {
+    init(tracker: Tracker) {
         self.tracker = tracker
-        self.transparentMode = transparentMode
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -36,7 +34,7 @@ class RecaptchaViewModel: BaseViewModel {
     }
 
     var url: URL? {
-        return LetgoURLHelper.buildRecaptchaURL(transparent: transparentMode)
+        return LetgoURLHelper.buildRecaptchaURL()
     }
 
     func closeButtonPressed() {

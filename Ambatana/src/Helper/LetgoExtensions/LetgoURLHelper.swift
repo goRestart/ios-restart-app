@@ -62,10 +62,9 @@ class LetgoURLHelper {
         return URL(string: environment.websiteUrl(Constants.websiteUserEndpoint(userId))) // not localized
     }
 
-    static func buildRecaptchaURL(transparent: Bool) -> URL? {
+    static func buildRecaptchaURL() -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteRecaptchaEndpoint) else { return nil }
         guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
-        urlComponents.percentEncodedQuery = LetgoURLHelper.buildRecaptchParameters(transparent)
         return urlComponents.url
     }
 
@@ -168,8 +167,4 @@ class LetgoURLHelper {
             .encodeString()
     }
 
-    private static func buildRecaptchParameters(_ transparent: Bool) -> String {
-        let value = transparent ? "true": "false"
-        return "transparent=\(value)"
-    }
 }
