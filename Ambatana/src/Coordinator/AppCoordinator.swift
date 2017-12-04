@@ -506,20 +506,17 @@ fileprivate extension AppCoordinator {
             listingId: listingId,
             withPriceDifferentiation: featureFlags.bumpUpPriceDifferentiation.isActive) { [weak self] result in
                 guard let strongSelf = self else { return }
+                guard let value = result.value  else { return }
+                let paymentItems = value.paymentItems.filter { $0.provider == .apple }
+                guard !paymentItems.isEmpty else { return }
+                // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
+                strongSelf.paymentItemId = paymentItems.first?.itemId
+                strongSelf.paymentProviderItemId = paymentItems.first?.providerItemId
 
-                if let value = result.value {
-                    let paymentItems = value.paymentItems.filter { $0.provider == .apple }
-                    if !paymentItems.isEmpty {
-                        // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
-                        strongSelf.paymentItemId = paymentItems.first?.itemId
-                        strongSelf.paymentProviderItemId = paymentItems.first?.providerItemId
-
-                        // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
-                        // a useless request to apple
-                        if let _ = strongSelf.paymentItemId {
-                            strongSelf.purchasesShopper.productsRequestStartForListing(listingId, withIds: paymentItems.map { $0.providerItemId })
-                        }
-                    }
+                // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
+                // a useless request to apple
+                if let _ = strongSelf.paymentItemId {
+                    strongSelf.purchasesShopper.productsRequestStartForListing(listingId, withIds: paymentItems.map { $0.providerItemId })
                 }
         }
     }
@@ -1005,7 +1002,7 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
 }
 
 extension AppCoordinator: PromoteBumpCoordinatorDelegate {
-    func openSellFasterForListingId(listingId: String, purchaseableProduct: PurchaseableProduct) {
+    func openSellFaster(listingId: String, purchaseableProduct: PurchaseableProduct) {
         tabBarCtl.clearAllPresented(nil)
         openTab(.profile, force: false) { [weak self] in
 

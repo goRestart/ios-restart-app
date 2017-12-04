@@ -41,11 +41,11 @@ class PromoteBumpViewModel: BaseViewModel {
 
     // MARK: - public methods
 
-    func sellFaster() {
-        navigator?.openSellFasterForListingId(listingId: listingId, purchaseableProduct: purchaseableProduct)
+    func sellFasterButtonPressed() {
+        navigator?.openSellFaster(listingId: listingId, purchaseableProduct: purchaseableProduct)
     }
 
-    func later() {
+    func laterButtonPressed() {
         navigator?.promoteBumpDidCancel()
     }
 }

@@ -1,5 +1,5 @@
 //
-//  PromoteBumpView.swift
+//  PromoteBumpViewController.swift
 //  LetGo
 //
 //  Created by Dídac on 10/11/2017.
@@ -124,10 +124,10 @@ class PromoteBumpViewController: BaseViewController {
 
     dynamic func sellFaster() {
         // open product detail & bump
-        viewModel?.sellFaster()
+        viewModel?.sellFasterButtonPressed()
     }
 
     dynamic func laterPressed() {
-        viewModel?.later()
+        viewModel?.laterButtonPressed()
     }
 }
