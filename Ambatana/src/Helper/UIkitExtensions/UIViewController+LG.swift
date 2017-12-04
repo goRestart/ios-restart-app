@@ -134,7 +134,7 @@ extension UIViewController {
 
 // MARK: - Present/pop
 
-extension UIViewController {
+@objc extension UIViewController {
 
     // gets back one VC from the stack.
     func popBackViewController() {
