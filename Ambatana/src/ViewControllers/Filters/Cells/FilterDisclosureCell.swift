@@ -8,8 +8,9 @@
 
 import UIKit
 
-class FilterDisclosureCell: UICollectionViewCell {
+class FilterDisclosureCell: UICollectionViewCell, ReusableCell {
 
+    
     @IBOutlet weak var topSeparator: UIView!
     @IBOutlet weak var separatorHeight: NSLayoutConstraint!
     @IBOutlet weak var titleLabel: UILabel!
