@@ -112,13 +112,13 @@ extension String {
 
     func makeUsernameFromEmail() -> String? {
         guard let atSignRange = range(of: "@"), isEmail() else { return nil }
-        let emailUsername = substring(to: atSignRange.lowerBound)
+        let emailUsername = String(self[..<atSignRange.lowerBound])
         var username = emailUsername
         username = username.replacingOccurrences(of: ".", with: " ")
         username = username.replacingOccurrences(of: "_", with: " ")
         username = username.replacingOccurrences(of: "-", with: " ")
         if let plusSignRange = username.range(of: "+") {
-            username = username.substring(to: plusSignRange.lowerBound)
+            username = String(username[..<plusSignRange.lowerBound])
         }
         return username.localizedCapitalized
     }
@@ -146,7 +146,7 @@ extension String {
 
     func toNameReduced(maxChars: Int) -> String {
         guard characters.count > maxChars else { return self }
-        let substring = self.substring(to: characters.index(startIndex, offsetBy: maxChars))
+        let substring =  String(self[..<characters.index(startIndex, offsetBy: maxChars)])
         let words = substring.byWords
         guard words.count > 1 else { return substring+"." }
         let firstPart = words.prefix(words.count - 1).joined(separator: " ")
@@ -165,12 +165,12 @@ extension String {
         formatter.numberStyle = NumberFormatter.Style.decimal
         formatter.locale = Locale.autoupdatingCurrent
         if let number = formatter.number(from: self) {
-            return Double(number)
+            return number.doubleValue
         }
         // Just in case decimal style doesn't work
         formatter.numberStyle = NumberFormatter.Style.currency
         if let number = formatter.number(from: self) {
-            return Double(number)
+            return number.doubleValue
         }
         return 0
     }
@@ -203,7 +203,8 @@ extension String {
     
     func trunc(_ length: Int, trailing: String? = "...") -> String {
         guard self.characters.count > length else { return self }
-        return self.substring(to: self.characters.index(self.startIndex, offsetBy: length)) + (trailing ?? "")
+        let substring = String(self[..<self.characters.index(self.startIndex, offsetBy: length)])
+        return substring + (trailing ?? "")
     }
     
     func encodeString() -> String {
