@@ -73,7 +73,7 @@ class SettingsViewController: BaseViewController {
     }
 
     private func setupRx() {
-        viewModel.avatarLoadingProgress.asObservable().bindNext { [weak self] progress in
+        viewModel.avatarLoadingProgress.asObservable().bind { [weak self] progress in
             if let progress = progress {
                 onMainThread { [weak self] in
                     self?.settingProfileImageProgressView.setProgress(progress, animated: true)
@@ -84,7 +84,7 @@ class SettingsViewController: BaseViewController {
             }
         }.disposed(by: disposeBag)
 
-        viewModel.sections.asObservable().bindNext { [weak self] _ in
+        viewModel.sections.asObservable().bind { [weak self] _ in
             self?.tableView?.reloadData()
         }.disposed(by: disposeBag)
     }

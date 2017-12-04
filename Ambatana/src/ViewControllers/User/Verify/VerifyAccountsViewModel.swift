@@ -163,7 +163,7 @@ class VerifyAccountsViewModel: BaseViewModel {
                 return actionState != .loading && buttonState == .hidden
             }
             .map{ $0.isEmail() ? VerifyButtonState.enabled : VerifyButtonState.disabled }
-            .bindNext { [weak self] state in
+            .bind { [weak self] state in
                 self?.typedEmailState.value = state
             }.disposed(by: disposeBag)
     }

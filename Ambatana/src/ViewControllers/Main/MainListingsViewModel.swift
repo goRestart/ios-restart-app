@@ -520,10 +520,10 @@ class MainListingsViewModel: BaseViewModel {
     }
    
     private func setupRx() {
-        listViewModel.isListingListEmpty.asObservable().bindNext { [weak self] _ in
+        listViewModel.isListingListEmpty.asObservable().bind { [weak self] _ in
             self?.updateCategoriesHeader()
         }.disposed(by: disposeBag) 
-        shouldShowPrices.asObservable().bindNext { [weak self] shouldShowPrices in
+        shouldShowPrices.asObservable().bind { [weak self] shouldShowPrices in
             self?.listViewModel.updateShouldShowPrices(shouldShowPrices)
         }.disposed(by: disposeBag)
     }
@@ -613,7 +613,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     func setupProductList() {
         listViewModel.dataDelegate = self
 
-        listingRepository.events.bindNext { [weak self] event in
+        listingRepository.events.bind { [weak self] event in
             switch event {
             case let .update(listing):
                 self?.listViewModel.update(listing: listing)
@@ -626,7 +626,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             }
         }.disposed(by: disposeBag)
         
-        monetizationRepository.events.bindNext { [weak self] event in
+        monetizationRepository.events.bind { [weak self] event in
             switch event {
             case .freeBump, .pricedBump:
                 self?.listViewModel.refresh()
@@ -799,8 +799,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
 extension MainListingsViewModel {
     fileprivate func setupSessionAndLocation() {
-        sessionManager.sessionEvents.bindNext { [weak self] _ in self?.sessionDidChange() }.disposed(by: disposeBag)
-        locationManager.locationEvents.filter { $0 == .locationUpdate }.bindNext { [weak self] _ in
+        sessionManager.sessionEvents.bind { [weak self] _ in self?.sessionDidChange() }.disposed(by: disposeBag)
+        locationManager.locationEvents.filter { $0 == .locationUpdate }.bind { [weak self] _ in
             self?.locationDidChange()
         }.disposed(by: disposeBag)
     }

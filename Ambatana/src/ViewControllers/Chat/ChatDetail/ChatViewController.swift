@@ -234,7 +234,7 @@ class ChatViewController: TextViewController {
         relatedListingsView.setupOnTopOfView(textViewBar)
         relatedListingsView.title.value = LGLocalizedString.chatRelatedProductsTitle
         relatedListingsView.delegate = viewModel
-        relatedListingsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
+        relatedListingsView.visibleHeight.asObservable().distinctUntilChanged().bind { [weak self] _ in
             self?.configureBottomMargin(animated: true)
         }.disposed(by: disposeBag)
     }
@@ -292,7 +292,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         let frame = CGRect(x: 0, y: view.frame.height - height, width: view.frame.width, height: height)
         stickersView.frame = frame
         stickersView.delegate = self
-        viewModel.stickers.asObservable().bindNext { [weak self] stickers in
+        viewModel.stickers.asObservable().bind { [weak self] stickers in
             self?.stickersView.reloadStickers(stickers)
             }.disposed(by: disposeBag)
         stickersView.isHidden = true
@@ -318,7 +318,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         stickersView.isHidden = true
         showingStickers = false
 
-        keyboardChanges.bindNext { [weak self] change in
+        keyboardChanges.bind { [weak self] change in
             guard let `self` = self else { return }
             let origin = change.origin
             let height = change.height
@@ -408,12 +408,12 @@ extension ChatViewController: ChatBannerDelegate {
 fileprivate extension ChatViewController {
 
     func setupRxBindings() {
-        viewModel.chatEnabled.asObservable().bindNext { [weak self] enabled in
+        viewModel.chatEnabled.asObservable().bind { [weak self] enabled in
             self?.setTextViewBarHidden(!enabled, animated: true)
             self?.textView.isUserInteractionEnabled = enabled
             }.disposed(by: disposeBag)
 
-        viewModel.chatStatus.asObservable().bindNext { [weak self] status in
+        viewModel.chatStatus.asObservable().bind { [weak self] status in
             self?.relationInfoView.setupUIForStatus(status, otherUserName: self?.viewModel.interlocutorName.value)
             switch status {
             case .listingDeleted:
@@ -438,7 +438,7 @@ fileprivate extension ChatViewController {
         viewModel.listingName.asObservable().bind(to: listingView.listingName.rx.text).disposed(by: disposeBag)
         viewModel.interlocutorName.asObservable().bind(to: listingView.userName.rx.text).disposed(by: disposeBag)
         viewModel.listingPrice.asObservable().bind(to: listingView.listingPrice.rx.text).disposed(by: disposeBag)
-        viewModel.listingImageUrl.asObservable().bindNext { [weak self] imageUrl in
+        viewModel.listingImageUrl.asObservable().bind { [weak self] imageUrl in
             guard let url = imageUrl else { return }
             self?.listingView.listingImage.lg_setImageWithURL(url)
             }.disposed(by: disposeBag)
@@ -452,7 +452,7 @@ fileprivate extension ChatViewController {
                                                     return LetgoAvatar.avatarWithID(id, name: name)
         }
         Observable.combineLatest(placeHolder, viewModel.interlocutorAvatarURL.asObservable()) { ($0, $1) }
-            .bindNext { [weak self] (placeholder, avatarUrl) in
+            .bind { [weak self] (placeholder, avatarUrl) in
                 if let url = avatarUrl {
                     self?.listingView.userAvatar.lg_setImageWithURL(url, placeholderImage: placeholder)
                 } else {
@@ -460,7 +460,7 @@ fileprivate extension ChatViewController {
                 }
             }.disposed(by: disposeBag)
 
-        viewModel.shouldShowExpressBanner.asObservable().skip(1).bindNext { [weak self] showBanner in
+        viewModel.shouldShowExpressBanner.asObservable().skip(1).bind { [weak self] showBanner in
             if showBanner {
                 self?.showBanner()
             } else {
@@ -468,24 +468,24 @@ fileprivate extension ChatViewController {
             }
         }.disposed(by: disposeBag)
 
-        viewModel.directAnswersState.asObservable().bindNext { [weak self] state in
+        viewModel.directAnswersState.asObservable().bind { [weak self] state in
             guard let strongSelf = self else { return }
             let visible = state == .visible
             strongSelf.directAnswersPresenter.hidden = !visible
             strongSelf.configureBottomMargin(animated: true)
             }.disposed(by: disposeBag)
 
-        keyboardChanges.bindNext { [weak self] change in
+        keyboardChanges.bind { [weak self] change in
             if !change.visible {
                 self?.hideStickers()
             }
         }.disposed(by: disposeBag)
         
-        viewModel.showStickerBadge.asObservable().bindNext { [weak self] _ in
+        viewModel.showStickerBadge.asObservable().bind { [weak self] _ in
             self?.reloadLeftActions()
         }.disposed(by: disposeBag)
         
-        viewModel.relatedListingsState.asObservable().bindNext { [weak self] state in
+        viewModel.relatedListingsState.asObservable().bind { [weak self] state in
             switch state {
             case .visible(let productId):
                 self?.relatedListingsView.listingId.value = productId

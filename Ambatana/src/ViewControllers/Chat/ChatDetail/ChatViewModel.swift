@@ -432,7 +432,7 @@ class ChatViewModel: BaseViewModel {
                                         }).distinctUntilChanged()
         directAnswers.bind(to: directAnswersState).disposed(by: disposeBag)
 
-        interlocutorId.asObservable().bindNext { [weak self] interlocutorId in
+        interlocutorId.asObservable().bind { [weak self] interlocutorId in
             guard let interlocutorId = interlocutorId, self?.interlocutor?.objectId != interlocutorId else { return }
             self?.userRepository.show(interlocutorId) { [weak self] result in
                 guard let strongSelf = self else { return }
@@ -475,7 +475,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func setupChatEventsRx() {
-        chatRepository.chatStatus.bindNext { [weak self] wsChatStatus in
+        chatRepository.chatStatus.bind { [weak self] wsChatStatus in
             guard let strongSelf = self else { return }
             switch wsChatStatus {
             case .openAuthenticated:

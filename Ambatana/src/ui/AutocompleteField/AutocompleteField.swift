@@ -69,7 +69,7 @@ fileprivate extension AutocompleteField {
      Sets up the reactive bindings.
     */
     func setupRx() {
-        rx.text.bindNext { [weak self] text in
+        rx.text.bind { [weak self] text in
             self?.updateLabel()
         }.disposed(by: disposeBag)
     }

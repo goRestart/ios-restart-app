@@ -430,7 +430,7 @@ fileprivate extension UserViewModel {
     
     func setupUserInfoRxBindings() {
         if itsMe {
-            myUserRepository.rx_myUser.bindNext { [weak self] myUser in
+            myUserRepository.rx_myUser.bind { [weak self] myUser in
                 self?.user.value = myUser
                 self?.refreshIfLoading()
                 }.disposed(by: disposeBag)
@@ -545,7 +545,7 @@ fileprivate extension UserViewModel {
         }.disposed(by: disposeBag)
 
         if itsMe {
-            listingRepository.events.bindNext { [weak self] event in
+            listingRepository.events.bind { [weak self] event in
                 switch event {
                 case let .update(listing):
                     self?.sellingListingListViewModel.update(listing: listing)

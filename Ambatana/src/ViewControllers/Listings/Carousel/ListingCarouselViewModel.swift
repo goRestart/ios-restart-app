@@ -509,7 +509,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-        moreInfoState.asObservable().map { $0 == .shown }.distinctUntilChanged().filter { $0 }.bindNext { [weak self] _ in
+        moreInfoState.asObservable().map { $0 == .shown }.distinctUntilChanged().filter { $0 }.bind { [weak self] _ in
             if let adActive = self?.adActive, !adActive {
                 self?.currentListingViewModel?.trackVisitMoreInfo(isMine: EventParameterBoolean(bool: self?.currentListingViewModel?.isMine),
                                                                   adShown: .notAvailable,
@@ -527,7 +527,7 @@ class ListingCarouselViewModel: BaseViewModel {
     private func setupCurrentProductVMRxBindings(forIndex index: Int) {
         activeDisposeBag = DisposeBag()
         guard let currentVM = currentListingViewModel else { return }
-        currentVM.listing.asObservable().skip(1).bindNext { [weak self] updatedListing in
+        currentVM.listing.asObservable().skip(1).bind { [weak self] updatedListing in
             guard let strongSelf = self else { return }
             strongSelf.currentViewModelIsBeingUpdated.value = true
             strongSelf.objects.replace(index, with: ListingCarouselCellModel(listing:updatedListing))

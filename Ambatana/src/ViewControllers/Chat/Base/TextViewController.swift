@@ -257,7 +257,7 @@ extension TextViewController: UITextViewDelegate {
     private func setupTextAreaRx() {
         let emptyText = textView.rx.text.map { ($0 ?? "").trim.isEmpty }
         emptyText.bind(to: sendButton.rx.isHidden).disposed(by: disposeBag)
-        emptyText.bindNext { [weak self] empty in
+        emptyText.bind { [weak self] empty in
                 guard let strongSelf = self, let margin = self?.viewMargins else { return }
                 let rightConstraint = empty ? margin : margin + strongSelf.sendButton.width + margin
                 guard strongSelf.textRightMargin != rightConstraint else { return }
@@ -266,16 +266,16 @@ extension TextViewController: UITextViewDelegate {
                                animations: { [weak self] in self?.view.layoutIfNeeded() }, completion: nil)
                 }.disposed(by: disposeBag)
 
-        textView.rx.text.bindNext { [weak self] text in
+        textView.rx.text.bind { [weak self] text in
             self?.fitTextView()
         }.disposed(by: disposeBag)
 
-        textView.rx.text.skip(1).bindNext { [weak self] text in
+        textView.rx.text.skip(1).bind { [weak self] text in
             guard let keyTextCache = self?.keyForTextCaching() else { return }
             TextViewController.keyTextCache[keyTextCache] = text
         }.disposed(by: disposeBag)
 
-        sendButton.rx.tap.bindNext { [weak self] in self?.sendButtonPressed() }.disposed(by: disposeBag)
+        sendButton.rx.tap.bind { [weak self] in self?.sendButtonPressed() }.disposed(by: disposeBag)
     }
 
     fileprivate func updateLeftActions() {

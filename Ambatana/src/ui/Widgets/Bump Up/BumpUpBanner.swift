@@ -216,7 +216,7 @@ class BumpUpBanner: UIView {
         
         timeIntervalLeft.asObservable().map { $0 <= 1 }.bind(to: readyToBump).disposed(by: disposeBag)
 
-        timeIntervalLeft.asObservable().skip(1).bindNext { [weak self] secondsLeft in
+        timeIntervalLeft.asObservable().skip(1).bind { [weak self] secondsLeft in
             guard let strongSelf = self else { return }
             let localizedText: String
             var descriptionFont = BumpUpBanner.bannerDefaultFont

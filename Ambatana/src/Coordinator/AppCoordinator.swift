@@ -561,7 +561,7 @@ fileprivate extension AppCoordinator {
 
 
     func setupCoreEventsRx() {
-        sessionManager.sessionEvents.bindNext { [weak self] event in
+        sessionManager.sessionEvents.bind { [weak self] event in
             switch event {
             case .login:
                 break
@@ -574,12 +574,12 @@ fileprivate extension AppCoordinator {
             }
             }.disposed(by: disposeBag)
 
-        locationManager.locationEvents.filter { $0 == .movedFarFromSavedManualLocation }.take(1).bindNext {
+        locationManager.locationEvents.filter { $0 == .movedFarFromSavedManualLocation }.take(1).bind {
             [weak self] _ in
             self?.askUserToUpdateLocation()
             }.disposed(by: disposeBag)
 
-        locationManager.locationEvents.filter { $0 == .locationUpdate }.take(1).bindNext {
+        locationManager.locationEvents.filter { $0 == .locationUpdate }.take(1).bind {
             [weak self] _ in
             guard let strongSelf = self else { return }
             if strongSelf.featureFlags.locationRequiresManualChangeSuggestion {

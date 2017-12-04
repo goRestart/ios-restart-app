@@ -150,11 +150,11 @@ class RateUserViewController: KeyboardViewController {
     }
     
     private func setupRx() {
-        viewModel.state.asObservable().bindNext { [weak self] state in
+        viewModel.state.asObservable().bind { [weak self] state in
             self?.updateUI(with: state)
         }.disposed(by: disposeBag)
         
-        viewModel.rating.asObservable().bindNext { [weak self] rating in
+        viewModel.rating.asObservable().bind { [weak self] rating in
             onMainThread { [weak self] in
                 let value = rating ?? 0
                 self?.stars.forEach { $0.isHighlighted = ($0.tag <= value) }
@@ -170,7 +170,7 @@ class RateUserViewController: KeyboardViewController {
             .bind(to: descriptionCharCounter.rx.text)
             .disposed(by: disposeBag)
 
-        keyboardChanges.bindNext { [weak self] change in
+        keyboardChanges.bind { [weak self] change in
             guard let strongSelf = self, change.visible else { return }
 
             // Current scroll view frame (as it gets resized) at the bottom

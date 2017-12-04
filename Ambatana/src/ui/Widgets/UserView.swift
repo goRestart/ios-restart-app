@@ -208,7 +208,7 @@ class UserView: UIView {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(avatarLongPressed(_:)))
         addGestureRecognizer(longPressGesture)
 
-        userRatings.asObservable().bindNext { [weak self] userRating in
+        userRatings.asObservable().bind { [weak self] userRating in
             let rating = userRating ?? 0
             if rating > 0 {
                 self?.ratingsContainerHeight.constant = UserView.ratingsViewVisibleHeight

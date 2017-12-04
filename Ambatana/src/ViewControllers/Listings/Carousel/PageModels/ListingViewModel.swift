@@ -244,12 +244,12 @@ class ListingViewModel: BaseViewModel {
     private func setupRxBindings() {
 
         if let productId = listing.value.objectId {
-            listingRepository.updateEvents(for: productId).bindNext { [weak self] listing in
+            listingRepository.updateEvents(for: productId).bind { [weak self] listing in
                 self?.listing.value = listing
             }.disposed(by: disposeBag)
         }
 
-        status.asObservable().bindNext { [weak self] status in
+        status.asObservable().bind { [weak self] status in
             guard let strongSelf = self else { return }
             strongSelf.refreshActionButtons(status)
             strongSelf.refreshNavBarButtons()
@@ -257,7 +257,7 @@ class ListingViewModel: BaseViewModel {
         }.disposed(by: disposeBag)
 
         // bumpeable listing check
-        status.asObservable().bindNext { [weak self] status in
+        status.asObservable().bind { [weak self] status in
             if status.shouldRefreshBumpBanner {
                 self?.refreshBumpeableBanner()
             } else {
@@ -290,22 +290,22 @@ class ListingViewModel: BaseViewModel {
 
         }.disposed(by: disposeBag)
 
-        status.asObservable().bindNext { [weak self] status in
+        status.asObservable().bind { [weak self] status in
             guard let isMine = self?.isMine else { return }
             self?.shareButtonState.value = isMine ? .enabled : .hidden
         }.disposed(by: disposeBag)
 
-        myUserRepository.rx_myUser.bindNext { [weak self] _ in
+        myUserRepository.rx_myUser.bind { [weak self] _ in
             self?.refreshStatus()
         }.disposed(by: disposeBag)
 
-        productIsFavoriteable.asObservable().bindNext { [weak self] favoriteable in
+        productIsFavoriteable.asObservable().bind { [weak self] favoriteable in
             self?.favoriteButtonState.value = favoriteable ? .enabled : .hidden
         }.disposed(by: disposeBag)
 
         moreInfoState.asObservable().map { (state: MoreInfoState) in
             return state == .shown
-        }.distinctUntilChanged().bindNext { [weak self] shown in
+        }.distinctUntilChanged().bind { [weak self] shown in
             self?.refreshNavBarButtons()
         }.disposed(by: disposeBag)
     }

@@ -437,7 +437,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
 
     private func setupRx() {
         var previousKbOrigin: CGFloat = CGFloat.greatestFiniteMagnitude
-        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
+        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bind { [weak self] origin in
             guard let strongSelf = self else { return }
             let viewHeight = strongSelf.view.height
             let animationTime = strongSelf.keyboardHelper.animationTime

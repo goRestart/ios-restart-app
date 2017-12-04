@@ -70,8 +70,8 @@ class TourPostingViewController: BaseViewController {
     }
 
     private func setupRx() {
-        okButton.rx.tap.bindNext { [weak self] in self?.viewModel.okButtonPressed() }.disposed(by: disposeBag)
-        closeButton.rx.tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.disposed(by: disposeBag)
+        okButton.rx.tap.bind { [weak self] in self?.viewModel.okButtonPressed() }.disposed(by: disposeBag)
+        closeButton.rx.tap.bind { [weak self] in self?.viewModel.closeButtonPressed() }.disposed(by: disposeBag)
     }
 
     @objc dynamic private func cameraContainerPressed() {

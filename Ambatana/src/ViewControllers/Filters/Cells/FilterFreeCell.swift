@@ -47,7 +47,7 @@ class FilterFreeCell: UICollectionViewCell {
     }
     
     private func setupRx() {
-        freeSwitch.rx.value.asObservable().bindNext { [weak self] isOn in
+        freeSwitch.rx.value.asObservable().bind { [weak self] isOn in
             if let imageView = self?.freeSwitch.firstSubview(ofType: UIImageView.self) {
                 imageView.contentMode = .center
                 imageView.image = isOn ? #imageLiteral(resourceName: "free_switch_active") : #imageLiteral(resourceName: "free_switch_inactive")

@@ -356,7 +356,7 @@ extension PostListingGalleryView {
             strongSelf.updateTopRightButton(state: state)
         }.disposed(by: disposeBag)
 
-        viewModel.imagesSelected.asObservable().observeOn(MainScheduler.instance).bindNext { [weak self] imgsSelected in
+        viewModel.imagesSelected.asObservable().observeOn(MainScheduler.instance).bind { [weak self] imgsSelected in
             guard let strongSelf = self else { return }
             strongSelf.collectionView.isUserInteractionEnabled = false
             guard !strongSelf.viewModel.shouldUpdateDisabledCells else {
@@ -382,7 +382,7 @@ extension PostListingGalleryView {
             strongSelf.collectionView.isUserInteractionEnabled = true
         }.disposed(by: disposeBag)
 
-        viewModel.imageSelection.distinctUntilChanged().bindNext { [weak self] selection in
+        viewModel.imageSelection.distinctUntilChanged().bind { [weak self] selection in
             self?.delegate?.listingGallerySelection(selection: selection)
         }.disposed(by: disposeBag)
     }

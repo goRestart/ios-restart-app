@@ -49,7 +49,7 @@ class CarAttributeSelectionViewController : BaseViewController, CarAttributeSele
     private func setupRx() {
 
         // Rx to fill the table
-        viewModel.wrappedInfoList.asObservable().bindNext { [weak self] carInfoList in
+        viewModel.wrappedInfoList.asObservable().bind { [weak self] carInfoList in
             guard let strongSelf = self else { return }
             var addOtherString: String?
             switch strongSelf.viewModel.style {
@@ -62,7 +62,7 @@ class CarAttributeSelectionViewController : BaseViewController, CarAttributeSele
         }.disposed(by: disposeBag)
 
         // Rx to select info
-        tableView.selectedDetail.asObservable().bindNext { [weak self] detailSelectedInfo in
+        tableView.selectedDetail.asObservable().bind { [weak self] detailSelectedInfo in
             guard let strongSelf = self else { return }
             guard !strongSelf.isDrawingInitialSelection else {
                 strongSelf.isDrawingInitialSelection = false

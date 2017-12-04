@@ -347,7 +347,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     }
 
     private func setupRx() {
-        viewModel.state.asObservable().bindNext { [weak self] state in
+        viewModel.state.asObservable().bind { [weak self] state in
             self?.update(state: state)
         }.disposed(by: disposeBag)
 
@@ -355,7 +355,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             .bind(to: viewModel.category)
             .disposed(by: disposeBag)
         
-        keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
+        keyboardHelper.rx_keyboardOrigin.asObservable().bind { [weak self] origin in
             guard origin > 0 else { return }
             guard let strongSelf = self else { return }
             let nextKeyboardHeight = strongSelf.view.height - origin

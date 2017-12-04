@@ -297,7 +297,7 @@ class LGAlertViewController: UIViewController {
             button.setStyle(action.buttonStyle ?? .primary(fontSize: .medium))
         }
         
-        button.rx.tap.bindNext { [weak self] in
+        button.rx.tap.bind { [weak self] in
             self?.dismissAlert(pushTransition: true) {
                 action.action()
             }

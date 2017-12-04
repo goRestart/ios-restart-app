@@ -56,11 +56,11 @@ class TaxonomiesViewController : BaseViewController, TaxonomiesViewModelDelegate
     
     private func setupRx() {
         // Rx to select info
-        tableView.taxonomySelection.asObservable().bindNext { [weak self] taxonomy in
+        tableView.taxonomySelection.asObservable().bind { [weak self] taxonomy in
             guard let taxonomy = taxonomy else { return }
             self?.viewModel.taxonomySelected(taxonomy: taxonomy)
             }.disposed(by: disposeBag)
-        tableView.taxonomyChildSelection.asObservable().bindNext { [weak self] taxonomyChild in
+        tableView.taxonomyChildSelection.asObservable().bind { [weak self] taxonomyChild in
             guard let taxonomyChild = taxonomyChild else { return }
             self?.viewModel.taxonomyChildSelected(taxonomyChild: taxonomyChild)
         }.disposed(by: disposeBag)

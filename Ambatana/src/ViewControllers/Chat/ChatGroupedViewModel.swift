@@ -301,7 +301,7 @@ extension ChatGroupedViewModel {
 
         chatRepository.chatStatus.map { $0 == .openAuthenticated }.bind(to: editButtonEnabled).disposed(by: disposeBag)
 
-        chatRepository.chatStatus.bindNext { [weak self] (status) in
+        chatRepository.chatStatus.bind { [weak self] (status) in
             if status == .openNotVerified {
                 self?.verificationPending.value = true
             } else if status == .openAuthenticated || status == .closed {

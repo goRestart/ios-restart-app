@@ -133,7 +133,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
             self?.viewModel.searchText.value = (text, autoSelect:false)
             }.disposed(by: disposeBag)
         
-        viewModel.placeLocation.asObservable().bindNext { [weak self] (place) in
+        viewModel.placeLocation.asObservable().bind { [weak self] (place) in
             guard let place = place else { return }
             self?.updateCenterMap(location: place.location)
         }.disposed(by: disposeBag)

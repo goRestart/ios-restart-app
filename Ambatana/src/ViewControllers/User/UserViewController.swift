@@ -426,7 +426,7 @@ extension UserViewController {
             navBarButtons.forEach { navBarButton in
                 let button = UIButton(type: .system)
                 button.setImage(navBarButton.image, for: .normal)
-                button.rx.tap.bindNext { _ in
+                button.rx.tap.bind { _ in
                     navBarButton.action()
                 }.disposed(by: strongSelf.disposeBag)
                 buttons.append(button)
@@ -537,7 +537,7 @@ extension UserViewController {
     }
     
     private func setupUserLabelsContainerRx() {
-        viewModel.navBarButtons.asObservable().bindNext { [weak self] buttons in
+        viewModel.navBarButtons.asObservable().bind { [weak self] buttons in
             let margin = buttons.count > 1 ? UserViewController.userLabelsContainerMarginLong : UserViewController.userLabelsContainerMarginShort
             self?.userLabelsSideMargin.forEach { $0.constant = margin }
             }.disposed(by: disposeBag)
@@ -569,7 +569,7 @@ extension UserViewController: ScrollableToTop {
 extension UserViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate {
 
     func setupPermissionsRx() {
-        viewModel.pushPermissionsDisabledWarning.asObservable().filter {$0 != nil} .bindNext { [weak self] _ in
+        viewModel.pushPermissionsDisabledWarning.asObservable().filter {$0 != nil} .bind { [weak self] _ in
             self?.listingListView.refreshDataView()
         }.disposed(by: disposeBag)
     }

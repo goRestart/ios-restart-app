@@ -433,15 +433,15 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         viewModel.infoBubbleText.asObservable().bind(to: infoBubbleLabel.rx.text).disposed(by: disposeBag)
         viewModel.infoBubbleVisible.asObservable().map { !$0 }.bind(to: infoBubbleShadow.rx.isHidden).disposed(by: disposeBag)
 
-        topInset.asObservable().bindNext { [weak self] topInset in
+        topInset.asObservable().bind { [weak self] topInset in
             self?.listingListView.collectionViewContentInset.top = topInset
         }.disposed(by: disposeBag)
 
-        viewModel.mainListingsHeader.asObservable().bindNext { [weak self] header in
+        viewModel.mainListingsHeader.asObservable().bind { [weak self] header in
             self?.listingListView.refreshDataView()
         }.disposed(by: disposeBag)
 
-        viewModel.errorMessage.asObservable().bindNext { [weak self] errorMessage in
+        viewModel.errorMessage.asObservable().bind { [weak self] errorMessage in
             if let toastTitle = errorMessage {
                 self?.toastView?.title = toastTitle
                 self?.setToastViewHidden(false)
@@ -452,14 +452,14 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         viewModel.filterTitle.asObservable().distinctUntilChanged { (s1, s2) -> Bool in
             s1 == s2
-        }.bindNext { [weak self] filterTitle in
+        }.bind { [weak self] filterTitle in
             guard let strongSelf = self else { return }
             strongSelf.filterTitleHeaderView.text = filterTitle
             let tagsHeight = strongSelf.primaryTagsShowing ? strongSelf.filterTagsViewHeight : 0
             strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
         }.disposed(by: disposeBag)
 
-        viewModel.filterDescription.asObservable().bindNext { [weak self] filterDescr in
+        viewModel.filterDescription.asObservable().bind { [weak self] filterDescr in
             guard let strongSelf = self else { return }
             strongSelf.filterDescriptionHeaderView.text = filterDescr
             let tagsHeight = strongSelf.primaryTagsShowing ? strongSelf.filterTagsViewHeight : 0
@@ -508,7 +508,7 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             categoriesHeader = CategoriesHeaderCollectionView(categories: viewModel.categoryHeaderElements,
                                                               frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight))
             categoriesHeader?.delegateCategoryHeader = viewModel
-            categoriesHeader?.categorySelected.asObservable().bindNext { [weak self] categoryHeaderInfo in
+            categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }
                 self?.viewModel.updateFiltersFromHeaderCategories(category)
             }.disposed(by: disposeBag)
@@ -552,7 +552,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
                                  viewModel.suggestiveSearchInfo.asObservable(),
                                  viewModel.lastSearches.asObservable()) { trendings, suggestiveSearches, lastSearches in
             return trendings.count + suggestiveSearches.count + lastSearches.count
-            }.bindNext { [weak self] totalCount in
+            }.bind { [weak self] totalCount in
                 self?.suggestionsSearchesTable.reloadData()
                 self?.suggestionsSearchesTable.isHidden = totalCount == 0
         }.disposed(by: disposeBag)

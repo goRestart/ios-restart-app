@@ -72,7 +72,7 @@ class NotificationsViewController: BaseViewController {
     }
 
     private func setupRX() {
-        viewModel.viewState.asObservable().bindNext { [weak self] state in
+        viewModel.viewState.asObservable().bind { [weak self] state in
             switch state {
             case .loading:
                 self?.activityIndicator.startAnimating()

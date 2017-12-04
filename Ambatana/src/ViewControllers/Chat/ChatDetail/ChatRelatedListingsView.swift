@@ -111,7 +111,7 @@ class ChatRelatedListingsView: UIView {
         visible.asObservable().map{!$0}.bind(to: self.rx.isHidden).disposed(by: disposeBag)
         visible.asObservable().map{ [weak self] in $0 ? self?.height ?? 0 : 0 }.bind(to: visibleHeight).disposed(by: disposeBag)
         listingId.asObservable().bind(to: relatedListingsView.listingId).disposed(by: disposeBag)
-        relatedListingsView.hasListings.asObservable().bindNext { [weak self] hasListings in
+        relatedListingsView.hasListings.asObservable().bind { [weak self] hasListings in
             self?.animateToVisible(hasListings)
         }.disposed(by: disposeBag)
     }

@@ -50,7 +50,7 @@ final class TourLocationViewModel: BaseViewModel {
         super.init()
 
         locationManager.locationEvents.map { $0 == .changedPermissions }.observeOn(MainScheduler.instance)
-            .bindNext { [weak self] _ in
+            .bind { [weak self] _ in
                 self?.nextStep()
         }.disposed(by: disposeBag)
     }

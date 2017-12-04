@@ -438,7 +438,7 @@ extension UserViewHeader {
     }
 
     private func setupAccountsRxBindings() {
-        buildTrustButton.rx.tap.bindNext { [weak self] in
+        buildTrustButton.rx.tap.bind { [weak self] in
             self?.delegate?.buildTrustAction()
         }.disposed(by: disposeBag)
     }

@@ -107,19 +107,19 @@ class SellNavigationController: UINavigationController {
         viewModel.currentStep.asObservable().map { [weak self] currentStep -> Bool in
             guard let totalSteps = self?.viewModel.numberOfSteps.value else { return false }
             return currentStep == 0 || currentStep > totalSteps
-            }.bindNext { [weak self] isHidden in
+            }.bind { [weak self] isHidden in
                 self?.animateStep(isHidden: isHidden)
             }.disposed(by: disposeBag)
         
         viewModel.categorySelected.asObservable().map { [weak self] category in
                 guard let strongSelf = self else { return nil }
                 return category?.numberOfSteps(shouldShowPrice: strongSelf.viewModel.shouldShowPriceStep)
-            }.bindNext { [weak self] number in
+            }.bind { [weak self] number in
                 self?.viewModel.numberOfSteps.value = number ?? 0
             }.disposed(by: disposeBag)
         
         Observable.combineLatest(viewModel.currentStep.asObservable(), viewModel.numberOfSteps.asObservable()) { ($0, $1) }
-            .bindNext { [weak self] (currentStep, totalSteps) in
+            .bind { [weak self] (currentStep, totalSteps) in
                 let current = Int(min(currentStep, totalSteps))
                 let totalStep = Int(totalSteps)
                 self?.stepLabel.text = LGLocalizedString.realEstateCurrentStepOfTotal(current, totalStep)

@@ -101,7 +101,7 @@ class LGNotificationsManager: NotificationsManager {
     // MARK: - Private
 
     private func setupRxBindings() {
-        sessionManager.sessionEvents.bindNext { [weak self] event in
+        sessionManager.sessionEvents.bind { [weak self] event in
             switch event {
             case .login:
                 self?.updateCounters()
@@ -112,7 +112,7 @@ class LGNotificationsManager: NotificationsManager {
 
         sessionManager.sessionEvents.map { $0.isLogin }.bind(to: loggedIn).disposed(by: disposeBag)
 
-        globalCount.bindNext { count in
+        globalCount.bind { count in
             UIApplication.shared.applicationIconBadgeNumber = count
         }.disposed(by: disposeBag)
 
@@ -127,14 +127,14 @@ class LGNotificationsManager: NotificationsManager {
             self?.requestChatCounters()
         }.disposed(by: disposeBag)
 
-        chatRepository.chatStatus.bindNext { [weak self] in
+        chatRepository.chatStatus.bind { [weak self] in
             self?.chatStatus = $0
         }.disposed(by: disposeBag)
 
         deepLinksRouter.chatDeepLinks.filter { [weak self] _ in
             if let status = self?.chatStatus, status == .openAuthenticated { return false }
             return true
-        }.bindNext { [weak self] _ in
+        }.bind { [weak self] _ in
             self?.requestChatCounters()
         }.disposed(by: disposeBag)
     }
@@ -175,11 +175,11 @@ class LGNotificationsManager: NotificationsManager {
 
 fileprivate extension LGNotificationsManager {
     func setupMarketingNotifications() {
-        marketingNotifications.asObservable().skip(1).bindNext { [weak self] value in
+        marketingNotifications.asObservable().skip(1).bind { [weak self] value in
             self?.keyValueStorage.userMarketingNotifications = value
         }.disposed(by: disposeBag)
 
-        loggedIn.asObservable().skip(1).filter { $0 }.bindNext { [weak self] _ in
+        loggedIn.asObservable().skip(1).filter { $0 }.bind { [weak self] _ in
             guard let keyValueStorage = self?.keyValueStorage else { return }
             self?.marketingNotifications.value = keyValueStorage.userMarketingNotifications
         }.disposed(by: disposeBag)

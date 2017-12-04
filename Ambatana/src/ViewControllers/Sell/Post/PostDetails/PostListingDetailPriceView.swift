@@ -99,7 +99,7 @@ class PostListingDetailPriceView: BaseView {
         viewModel.isFree.asObservable().bindNext{[weak self] active in
             self?.showPriceTextContainer(!active)
             }.disposed(by: disposeBag)
-        doneButton.rx.tap.bindNext { [weak self] in
+        doneButton.rx.tap.bind { [weak self] in
             self?.priceTextField.resignFirstResponder()
             self?.viewModel.doneButtonPressed()
         }.disposed(by: disposeBag)

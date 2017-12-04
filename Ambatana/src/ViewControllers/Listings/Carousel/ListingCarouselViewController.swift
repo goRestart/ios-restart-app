@@ -385,7 +385,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     private func setupCollectionRx() {
-        viewModel.objectChanges.observeOn(MainScheduler.instance).bindNext { [weak self] change in
+        viewModel.objectChanges.observeOn(MainScheduler.instance).bind { [weak self] change in
             guard let strongSelf = self else { return }
 
             self?.imageBackground.isHidden = true
@@ -396,7 +396,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     private func setupZoomRx() {
-        cellZooming.asObservable().distinctUntilChanged().bindNext { [weak self] zooming in
+        cellZooming.asObservable().distinctUntilChanged().bind { [weak self] zooming in
             UIApplication.shared.setStatusBarHidden(zooming, with: .fade)
             UIView.animate(withDuration: 0.3) {
                 self?.itemsAlpha.value = zooming ? 0 : 1
@@ -411,7 +411,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         itemsAlpha.asObservable().bind(to: buttonTop.rx.alpha).disposed(by: disposeBag)
         itemsAlpha.asObservable().bind(to: userView.rx.alpha).disposed(by: disposeBag)
 
-        itemsAlpha.asObservable().bindNext { [weak self] itemsAlpha in
+        itemsAlpha.asObservable().bind { [weak self] itemsAlpha in
             self?.pageControl.alpha = itemsAlpha
         }
 
@@ -422,7 +422,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         itemsAlpha.asObservable().bind(to: bannerContainer.rx.alpha).disposed(by: disposeBag)
 
         Observable.combineLatest(viewModel.favoriteButtonState.asObservable(), itemsAlpha.asObservable()) { ($0, $1) }
-            .bindNext { [weak self] (buttonState, itemsAlpha) in
+            .bind { [weak self] (buttonState, itemsAlpha) in
                 guard let strongButton = self?.favoriteButton else { return }
                 guard itemsAlpha != 0 else {
                     strongButton.alpha = 0
@@ -471,7 +471,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         }
         indexSignal
             .distinctUntilChanged()
-            .bindNext { [weak self] index in
+            .bind { [weak self] index in
                 guard let strongSelf = self else { return }
                 let movement: CarouselMovement
                 if let pendingMovement = strongSelf.pendingMovement {
@@ -497,7 +497,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         //Event when scroll reaches one entire page (alpha == 1) so that we can delay some tasks until then.
         alphaSignal.map { $0 == 1 }.distinctUntilChanged().filter { $0 }
             .debounce(0.5, scheduler: MainScheduler.instance)
-            .bindNext { [weak self] _ in
+            .bind { [weak self] _ in
                 self?.finishedTransition()
             }.disposed(by: disposeBag)
     }
@@ -536,7 +536,7 @@ extension ListingCarouselViewController {
     }
 
     private func setupPageControlRx() {
-        viewModel.productImageURLs.asObservable().bindNext { [weak self] images in
+        viewModel.productImageURLs.asObservable().bind { [weak self] images in
             guard let pageControl = self?.pageControl else { return }
             pageControl.currentPage = 0
             pageControl.numberOfPages = images.count
@@ -547,7 +547,7 @@ extension ListingCarouselViewController {
 
     fileprivate func setupUserInfoRx() {
         let productAndUserInfos = Observable.combineLatest(viewModel.productInfo.asObservable(), viewModel.userInfo.asObservable()) { ($0, $1) }
-        productAndUserInfos.bindNext { [weak self] (productInfo, userInfo) in
+        productAndUserInfos.bind { [weak self] (productInfo, userInfo) in
             self?.userView.setupWith(userAvatar: userInfo?.avatar,
                                      userName: userInfo?.name,
                                      productTitle: productInfo?.title,
@@ -555,7 +555,7 @@ extension ListingCarouselViewController {
                                      userId: userInfo?.userId)
             }.disposed(by: disposeBag)
 
-        viewModel.userInfo.asObservable().bindNext { [weak self] userInfo in
+        viewModel.userInfo.asObservable().bind { [weak self] userInfo in
             self?.fullScreenAvatarView.alpha = 0
             self?.fullScreenAvatarView.image = userInfo?.avatarPlaceholder
             if let avatar = userInfo?.avatar {
@@ -598,7 +598,7 @@ extension ListingCarouselViewController {
                 navBarButtons.forEach { navBarButton in
                     let button = UIButton(type: .system)
                     button.setImage(navBarButton.image, for: .normal)
-                    button.rx.tap.takeUntil(takeUntilAction).bindNext { _ in
+                    button.rx.tap.takeUntil(takeUntilAction).bind { _ in
                         navBarButton.action()
                         }.disposed(by: strongSelf.disposeBag)
                     buttons.append(button)
@@ -609,7 +609,7 @@ extension ListingCarouselViewController {
     }
 
     private func setupBottomButtonsRx() {
-        viewModel.actionButtons.asObservable().bindNext { [weak self] actionButtons in
+        viewModel.actionButtons.asObservable().bind { [weak self] actionButtons in
             guard let strongSelf = self else { return }
             strongSelf.buttonBottomHeight.constant = actionButtons.isEmpty ? 0 : CarouselUI.buttonHeight
             strongSelf.buttonTopBottomConstraint.constant = actionButtons.isEmpty ? 0 : CarouselUI.itemsMargin
@@ -619,12 +619,12 @@ extension ListingCarouselViewController {
             let takeUntilAction = strongSelf.viewModel.actionButtons.asObservable().skip(1)
             guard let bottomAction = actionButtons.first else { return }
             strongSelf.buttonBottom.configureWith(uiAction: bottomAction)
-            strongSelf.buttonBottom.rx.tap.takeUntil(takeUntilAction).bindNext {
+            strongSelf.buttonBottom.rx.tap.takeUntil(takeUntilAction).bind {
                 bottomAction.action()
                 }.disposed(by: strongSelf.disposeBag)
             guard let topAction = actionButtons.last, actionButtons.count > 1 else { return }
             strongSelf.buttonTop.configureWith(uiAction: topAction)
-            strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bindNext {
+            strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bind {
                 topAction.action()
                 }.disposed(by: strongSelf.disposeBag)
         }.disposed(by: disposeBag)
@@ -636,17 +636,17 @@ extension ListingCarouselViewController {
             chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
         }
 
-        viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
+        viewModel.directChatEnabled.asObservable().bind { [weak self] enabled in
             self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
             self?.chatContainerHeight.constant = enabled ? CarouselUI.chatContainerMaxHeight : 0
             }.disposed(by: disposeBag)
 
-        viewModel.quickAnswers.asObservable().bindNext { [weak self] quickAnswers in
+        viewModel.quickAnswers.asObservable().bind { [weak self] quickAnswers in
             let isDynamic = self?.viewModel.currentListingViewModel?.areQuickAnswersDynamic ?? false
             self?.directAnswersView.update(answers: quickAnswers, isDynamic: isDynamic)
             }.disposed(by: disposeBag)
 
-        viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
+        viewModel.directChatMessages.changesObservable.bind { [weak self] change in
             guard let strongSelf = self else { return }
             switch change {
             case .insert(_, let message):
@@ -658,7 +658,7 @@ extension ListingCarouselViewController {
             }
             }.disposed(by: disposeBag)
 
-        chatTextView.rx.send.bindNext { [weak self] textToSend in
+        chatTextView.rx.send.bind { [weak self] textToSend in
             guard let strongSelf = self else { return }
             strongSelf.viewModel.send(directMessage: textToSend, isDefaultText: strongSelf.chatTextView.isInitialText)
             strongSelf.chatTextView.clear()
@@ -668,7 +668,7 @@ extension ListingCarouselViewController {
     private func setupProductStatusLabelRx() {
 
         let statusAndFeatured = Observable.combineLatest(viewModel.status.asObservable(), viewModel.isFeatured.asObservable()) { ($0, $1) }
-        statusAndFeatured.bindNext { [weak self] (status, isFeatured) in
+        statusAndFeatured.bind { [weak self] (status, isFeatured) in
             guard let strongSelf = self else { return }
             if isFeatured {
                 strongSelf.productStatusView.backgroundColor = UIColor.white
@@ -707,7 +707,7 @@ extension ListingCarouselViewController {
             .map { UIImage(named: $0 ? "ic_favorite_big_on" : "ic_favorite_big_off") }
             .bind(to: favoriteButton.rx.image).disposed(by: disposeBag)
 
-        favoriteButton.rx.tap.bindNext { [weak self] in
+        favoriteButton.rx.tap.bind { [weak self] in
             self?.viewModel.favoriteButtonPressed()
             }.disposed(by: disposeBag)
     }
@@ -715,7 +715,7 @@ extension ListingCarouselViewController {
     private func setupShareButtonRx() {
         viewModel.shareButtonState.asObservable().bind(to: shareButton.rx.state).disposed(by: disposeBag)
 
-        shareButton.rx.tap.bindNext { [weak self] in
+        shareButton.rx.tap.bind { [weak self] in
             self?.viewModel.shareButtonPressed()
             }.disposed(by: disposeBag)
     }
@@ -1090,7 +1090,7 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         chatTextView.layout(with: directAnswersView).top(to: .bottom, by: directAnswersBottom,
                                                          constraintBlock: { [weak self] in self?.directAnswersBottom = $0 })
 
-        keyboardChanges.bindNext { [weak self] change in
+        keyboardChanges.bind { [weak self] change in
             guard let strongSelf = self else { return }
             let viewHeight = strongSelf.view.height
             self?.contentBottomMargin = viewHeight - change.origin

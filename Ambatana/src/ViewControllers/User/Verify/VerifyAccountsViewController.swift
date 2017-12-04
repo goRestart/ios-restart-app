@@ -120,19 +120,19 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
             case .loading, .enabled, .disabled:
                 return false
             }
-        }.bindNext { [weak self] (hidden:Bool) in
+        }.bind { [weak self] (hidden:Bool) in
             self?.emailButtonLogo.isHidden = !hidden
             self?.emailTextField.isHidden = hidden
             self?.emailTextFieldLogo.isHidden = hidden
         }.disposed(by: disposeBag)
 
-        backgroundButton.rx.tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.disposed(by: disposeBag)
-        fbButton.rx.tap.bindNext { [weak self] in self?.viewModel.fbButtonPressed()}.disposed(by: disposeBag)
-        googleButton.rx.tap.bindNext { [weak self] in self?.googleButtonPressed() }.disposed(by: disposeBag)
-        emailButton.rx.tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.disposed(by: disposeBag)
-        emailTextFieldButton.rx.tap.bindNext { [weak self] in self?.viewModel.typedEmailButtonPressed() }.disposed(by: disposeBag)
+        backgroundButton.rx.tap.bind { [weak self] in self?.viewModel.closeButtonPressed() }.disposed(by: disposeBag)
+        fbButton.rx.tap.bind { [weak self] in self?.viewModel.fbButtonPressed()}.disposed(by: disposeBag)
+        googleButton.rx.tap.bind { [weak self] in self?.googleButtonPressed() }.disposed(by: disposeBag)
+        emailButton.rx.tap.bind { [weak self] in self?.viewModel.emailButtonPressed() }.disposed(by: disposeBag)
+        emailTextFieldButton.rx.tap.bind { [weak self] in self?.viewModel.typedEmailButtonPressed() }.disposed(by: disposeBag)
         emailTextField.rx.text.map { ($0 ?? "") }.bind(to: viewModel.typedEmail).disposed(by: disposeBag)
-        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
+        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bind { [weak self] origin in
             guard let viewHeight = self?.view.height, let animationTime = self?.keyboardHelper.animationTime, viewHeight >= origin else { return }
             self?.contentContainerCenterY.constant = -((viewHeight - origin)/2)
             UIView.animate(withDuration: Double(animationTime), animations: {[weak self] in self?.view.layoutIfNeeded()})
