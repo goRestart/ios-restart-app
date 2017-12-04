@@ -84,7 +84,7 @@ class RelatedListingsView: UIView {
     }
 
     private func setupRx() {
-        listingId.asObservable().bindNext{ [weak self] listingId in
+        listingId.asObservable().bind{ [weak self] listingId in
              guard let listingId = listingId else {
                 self?.clear()
                 return

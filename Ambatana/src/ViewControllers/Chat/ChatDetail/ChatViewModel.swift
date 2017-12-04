@@ -396,7 +396,7 @@ class ChatViewModel: BaseViewModel {
             self?.updateMessagesCounts(change)
         }.disposed(by: disposeBag)
         
-        conversation.asObservable().map { $0.lastMessageSentAt == nil }.bindNext{ [weak self] result in
+        conversation.asObservable().map { $0.lastMessageSentAt == nil }.bind{ [weak self] result in
             self?.shouldTrackFirstMessage = result
         }.disposed(by: disposeBag)
 

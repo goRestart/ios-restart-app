@@ -129,7 +129,7 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable {
     
     private func setupRx() {
         freeActive.asObservable().bind(to: freeSwitch.rx.value(animated: true)).disposed(by: disposeBag)
-        freeActive.asObservable().bindNext{[weak self] active in
+        freeActive.asObservable().bind{[weak self] active in
             self?.showPriceContainer(hide: active)
             }.disposed(by: disposeBag)
         freeSwitch.rx.isOn.asObservable().bind(to: freeActive).disposed(by: disposeBag)

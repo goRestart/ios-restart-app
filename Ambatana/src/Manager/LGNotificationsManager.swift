@@ -123,7 +123,7 @@ class LGNotificationsManager: NotificationsManager {
             default:
                 return false
             }
-        }.bindNext{ [weak self] event in
+            }.bind{ [weak self] event in
             self?.requestChatCounters()
         }.disposed(by: disposeBag)
 

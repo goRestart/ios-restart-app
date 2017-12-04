@@ -531,11 +531,11 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         
         viewModel.isFreePosting.asObservable().bind(to: freePostingSwitch.rx.value).disposed(by: disposeBag)
         freePostingSwitch.rx.value.bind(to: viewModel.isFreePosting).disposed(by: disposeBag)
-        viewModel.isFreePosting.asObservable().bindNext{[weak self] active in
+        viewModel.isFreePosting.asObservable().bind{[weak self] active in
             self?.updateFreePostViews(active)
             }.disposed(by: disposeBag)
 
-        viewModel.category.asObservable().bindNext{ [weak self] category in
+        viewModel.category.asObservable().bind{ [weak self] category in
             guard let strongSelf = self else { return }
             guard let category = category else {
                 strongSelf.categorySelectedLabel.text = ""
@@ -547,7 +547,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         }.disposed(by: disposeBag)
 
         viewModel.carMakeName.asObservable().bind(to: carsMakeSelectedLabel.rx.text).disposed(by: disposeBag)
-        viewModel.carMakeId.asObservable().bindNext{ [weak self] makeId in
+        viewModel.carMakeId.asObservable().bind{ [weak self] makeId in
             if let _ = makeId {
                 self?.carsModelButton.isEnabled = true
                 self?.carsModelTitleLabel.isEnabled = true
@@ -559,7 +559,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
 
         viewModel.carModelName.asObservable().bind(to: carsModelSelectedLabel.rx.text).disposed(by: disposeBag)
 
-        viewModel.carYear.asObservable().bindNext{ [weak self] year in
+        viewModel.carYear.asObservable().bind{ [weak self] year in
             guard let year = year, year != CarAttributes.emptyYear else {
                 self?.carsYearSelectedLabel.text = ""
                 return
