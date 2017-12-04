@@ -59,13 +59,13 @@
 "bump_up_free_success" = "Bumped Up! Keep Bumping Up your listing and it'll be even more visible.";
 
 // Payment bump up success message
-"bump_up_pay_success" = "Featured! Now your item has extra visibility.";
+"bump_up_pay_success" = "Featured! Now your listing has extra visibility.";
 
 // Error when bumping
-"bump_up_error_bump_generic" = "An error occurred while featuring your item. Please try again.";
+"bump_up_error_bump_generic" = "An error occurred while featuring your listing. Please try again.";
 
 // Token error when bumping
-"bump_up_error_bump_token" = "Your payment has been processed but your item hasn't been featured.";
+"bump_up_error_bump_token" = "Your payment has been processed but your listing hasn't been featured.";
 
 // Error shown when payment fails
 "bump_up_error_payment_failed" = "Couldn't connect to the App Store. Your payment hasn't been processed. Please try again.";
@@ -95,7 +95,7 @@
 "bump_up_view_pay_title" = "Attract 2x more buyers";
 
 // Subtitle for payment bump up view
-"bump_up_view_pay_subtitle" = "We’ll feature your item for 24 hours so more buyers will see your item and you’ll sell faster";
+"bump_up_view_pay_subtitle" = "We’ll feature your listing for 24 hours so more buyers will see your listing and you’ll sell faster";
 
 // Button title for payment bump up view
 "bump_up_view_pay_button_title" = "Feature it for %@";
@@ -110,7 +110,7 @@
 "bump_up_old_view_pay_button_title" = "Activate for %@";
 
 // Text for alert when bump is not allowed
-"bump_up_not_allowed_alert_text" = "Featuring this item isn't possible at this time.  For more information, contact us.";
+"bump_up_not_allowed_alert_text" = "Featuring this listing isn't possible at this time. For more information, contact us.";
 
 // Conatct Us button for alert when bump is not allowed
 "bump_up_not_allowed_alert_contact_button" = "Contact Us";
@@ -329,10 +329,10 @@
 "chat_blocked_disclaimer_scammer_wo_name" = "For safety reasons, this account has been deleted by the letgo team and these messages have been removed.";
 
 // Message to a seller when is chatting with a scammer
-"chat_forbidden_disclaimer_seller_wo_name" = "Looks like this user is no longer interested in buying your product.";
+"chat_forbidden_disclaimer_seller_wo_name" = "Looks like this user is no longer interested in your listing.";
 
 // Message to a seller when is chatting with a scammer (with buyer name)
-"chat_forbidden_disclaimer_seller_w_name" = "Looks like %@ is no longer interested in buying your product.";
+"chat_forbidden_disclaimer_seller_w_name" = "Looks like %@ is no longer interested in your listing.";
 
 // Message to a buyer when is chatting with a scammer
 "chat_forbidden_disclaimer_buyer_wo_name" = "This account is under review by the letgo team.";
@@ -407,7 +407,7 @@
 "chat_list_blocked_users_title" = "BLOCKED USERS";
 
 // Chat List buying button
-"chat_list_buying_empty_button" = "Browse products";
+"chat_list_buying_empty_button" = "Browse listings";
 
 // Chat List buying title
 "chat_list_buying_empty_title" = "NO CHATS (YET!)";
@@ -470,13 +470,13 @@
 "chat_message_field_hint" = "Type your message here";
 
 // Chat detail, the product is given away.
-"chat_product_given_away_label" = "Product given away";
+"chat_product_given_away_label" = "Given away";
 
 // Chat message load generic error. Message displayal is like the other error messages.
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again.";
 
 // Chat detail, the product is sold
-"chat_product_sold_label" = "Product sold";
+"chat_product_sold_label" = "Sold";
 
 // Section inside chat that offers related products 
 "chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
@@ -497,7 +497,7 @@
 "chat_send_error_generic" = "An error occurred while sending the message. Please try again.";
 
 // Chat send error, users in different country
-"chat_send_error_different_country" = "You can't start a conversation about an item posted in a different country.";
+"chat_send_error_different_country" = "You can't start a conversation about a listing posted in a different country.";
 
 // Chat tooltip add stickers "NEW"
 "chat_stickers_tooltip_new" = "NEW!";
@@ -536,7 +536,7 @@
 "chat_not_verified_alert_message" = "Connect with Facebook, Google or Email to verify your identity.";
 
 // Alert to show when user started chat with himself
-"chat_with_yourself_alert_msg" = "You can't start a conversation about your own product.";
+"chat_with_yourself_alert_msg" = "You can't start a conversation about your own listing.";
 
 // Title of transport collection
 "collection_transport_title" = "Travel in style";
@@ -638,13 +638,13 @@
 "common_ok" = "OK";
 
 // Common product given away
-"common_product_given_away" = "Product given away";
+"common_product_given_away" = "Given away";
 
 // Common product not available.
-"common_product_not_available" = "Oops! This item is no longer available";
+"common_product_not_available" = "Oops! This listing is no longer available";
 
 // Common product sold.
-"common_product_sold" = "Product sold";
+"common_product_sold" = "Sold";
 
 // Common settings
 "common_settings" = "Settings";
@@ -715,7 +715,7 @@
 "contact_subject_option_other" = "Other issues";
 
 // Contact subject option product edit. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_option_product_edit" = "Edit or delete product";
+"contact_subject_option_product_edit" = "Edit or delete listing";
 
 // Contact subject option profile edit. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_profile_edit" = "Edit or delete profile";
@@ -724,7 +724,7 @@
 "contact_subject_option_report" = "Report user or spam";
 
 // Chat direct answer as buyer
-"direct_answer_condition" = "What condition is this item in?";
+"direct_answer_condition" = "What condition is it in?";
 
 // Chat direct answer as a seller - free listing. yours
 "direct_answer_free_yours" = "It's yours!";
@@ -760,13 +760,13 @@
 "direct_answer_not_interested" = "I'm not interested";
 
 // Chat direct answer as seller
-"direct_answer_product_sold" = "Sorry, the product has been sold!";
+"direct_answer_product_sold" = "Sorry, it has been sold!";
 
 // Alert to ask the user to mark the product as sold - message
-"direct_answer_sold_question_message" = "Mark your product as sold so all letgo users know";
+"direct_answer_sold_question_message" = "Mark your listing as sold so all letgo users know";
 
 // Alert to ask the user to mark the product as given away - message
-"direct_answer_given_away_question_message" = "Mark your product as given away so all letgo users know";
+"direct_answer_given_away_question_message" = "Mark your item as given away so all letgo users know";
 
 // Alert to ask the user to mark the product as sold - possitive btn
 "direct_answer_sold_question_ok" = "Mark as sold";
@@ -775,7 +775,7 @@
 "direct_answer_given_away_question_ok" = "Mark as given away";
 
 // Chat direct answer as buyer
-"direct_answer_still_available" = "Is this item still available?";
+"direct_answer_still_available" = "Is it still available?";
 
 // Alert to ask the user to mark the product as sold - title
 "direct_answer_sold_question_title" = "Already sold it?";
@@ -850,7 +850,7 @@
 "direct_answer_not_negotiable_title" = "Not negotiable...";
 
 // Text for Edit Product Location Alert
-"edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
+"edit_product_location_alert_text" = "To change where your listing is posted, allow access to your location";
 
 // Title for Edit Product Location Alert
 "edit_product_location_alert_title" = "CHANGE LOCATION";
@@ -859,16 +859,16 @@
 "edit_product_send_button" = "Save changes";
 
 // Edit product send error uploading product. Message displayal is like the other error messages.
-"edit_product_send_error_uploading_product" = "An error occurred while updating your product.";
+"edit_product_send_error_uploading_product" = "An error occurred while updating your listing.";
 
 // Edit product send ok. Message displayal is like the other messages.
-"edit_product_send_ok" = "Congratulations! Your product has been updated. It will appear in our listings shortly.";
+"edit_product_send_ok" = "Congratulations! Your listing has been updated.";
 
 // Text for title disclaimer when suggesting title
 "edit_product_suggesting_title" = "Suggesting title...";
 
 // Edit product title. Check image @ "sell_send_error_invalid_category" segment
-"edit_product_title" = "Edit Product";
+"edit_product_title" = "Edit listing";
 
 // When closing edit product with unsaved changes
 "edit_product_unsaved_changes_alert" = "Are you sure you want to discard these changes?";
@@ -946,7 +946,7 @@
 "filters_title" = "Filters";
 
 // Filters within option All
-"filters_within_all" = "All products";
+"filters_within_all" = "All listings";
 
 // Filters within option 1 day
 "filters_within_day" = "The last 24h";
@@ -968,6 +968,21 @@
 
 // Filters For Year, before year X
 "filters_car_year_before_year" = "Before %i";
+
+// Filters section title
+"filters_section_real_estate_info" = "Property info";
+
+// Filters property type not set
+"filters_real_estate_property_type_not_set" = "Not set";
+
+// Filters Type of Listing not set
+"filters_real_estate_offer_type_not_set" = "Not set";
+
+// Filters Nº of Bedrooms type not set
+"filters_real_estate_bedrooms_not_set" = "Not set";
+
+// Filters Nº of Bathrooms not set
+"filters_real_estate_bathrooms_not_set" = "Not set";
 
 // Selected location text when there is no postal address. 
 "filters_tag_location_selected" = "Selected location";
@@ -1013,7 +1028,7 @@
 "location_permissions_title_v2" = "Allow Location";
 
 // Subtitle asking for Location permission in onboarding
-"location_permissons_subtitle" = "Do you want to see products near you?";
+"location_permissons_subtitle" = "Do you want to see listings posted near you?";
 
 // Allow button on the example to allow location permissions
 "location_permissions_allow_button" = "Allow";
@@ -1229,19 +1244,19 @@
 "notifications_title" = "Notifications";
 
 // User likes your product
-"notifications_type_like_w_name" = "%@ favorited your product";
+"notifications_type_like_w_name" = "%@ favorited your listing";
 
 // User likes your product
-"notifications_type_like_w_name_w_title" = "%1$@ favorited your product: \"%2$@\"";
+"notifications_type_like_w_name_w_title" = "%1$@ favorited your listing: \"%2$@\"";
 
 // User likes your product
 "notifications_type_like_button" = "Check out their profile";
 
 // User sold a product you favorited
-"notifications_type_sold" = "A product you favorited has been sold";
+"notifications_type_sold" = "A listing you favorited has been sold";
 
 // User sold a product you favorited
-"notifications_type_sold_button" = "Check out the product";
+"notifications_type_sold_button" = "Check out the listing";
 
 // User has rated you
 "notifications_type_rating" = "%@ has reviewed you";
@@ -1253,19 +1268,19 @@
 "notifications_type_rating_updated" = "%@ has updated their review";
 
 // Notifications product suggested
-"notifications_type_product_suggested" = "%@ just published an item you might be interested in";
+"notifications_type_product_suggested" = "%@ just published a listing you might be interested in";
 
 // Notifications product suggested
-"notifications_type_product_suggested_w_title" = "%1$@ just published an item you might be interested in: \"%2$@\"";
+"notifications_type_product_suggested_w_title" = "%1$@ just published a listing you might be interested in: \"%2$@\"";
 
 // Notifications product suggested button
-"notifications_type_product_suggested_button" = "See the item";
+"notifications_type_product_suggested_button" = "See the listing";
 
 // Notifications buyers interested
-"notifications_type_buyers_interested" = "%d buyers might be interested in your product";
+"notifications_type_buyers_interested" = "%d buyers might be interested in your listing";
 
 // Notifications buyers interested
-"notifications_type_buyers_interested_w_title" = "%1$d buyers might be interested in your product: \"%2$@\"";
+"notifications_type_buyers_interested_w_title" = "%1$d buyers might be interested in your listing: \"%2$@\"";
 
 // Notifications buyers interested button
 "notifications_type_buyers_interested_button" = "Find out who they are";
@@ -1301,7 +1316,7 @@
 "survey_confirmation" = "Thank you! Your feedback helps us improve";
 
 // Title to select categories on onboarding
-"onboarding_categories_title" = "What kind of items are you interested in?";
+"onboarding_categories_title" = "What are you interested in?";
 
 // Button title when no category selected
 "onboarding_categories_button_title_initial" = "Pick at least %i categories";
@@ -1313,16 +1328,16 @@
 "onboarding_categories_button_title_finish" = "Next";
 
 // Onboarding direct camera subtitle
-"onboarding_direct_camera_alert_subtitle" = "Post your first product and start selling to people near you";
+"onboarding_direct_camera_alert_subtitle" = "Post your first listing and start selling to people near you";
 
 // Onboarding incentivize posting variant A title
 "onboarding_posting_title_a" = "Start Making Cash!";
 
 // Onboarding incentivize posting variant B title
-"onboarding_posting_title_b" = "Post your first product";
+"onboarding_posting_title_b" = "Post your first listing";
 
 // Onboarding incentivize posting variant A subtitle
-"onboarding_posting_subtitle_a" = "Post your first product and start selling to people near you";
+"onboarding_posting_subtitle_a" = "Post your first listing and start selling to people near you";
 
 // Onboarding incentivize posting variant B subtitle
 "onboarding_posting_subtitle_b" = "Sell stuff you no longer need and make extra cash";
@@ -1346,7 +1361,7 @@
 "onboarding_posting_improvement_e_title" = "Selling is easy: just take a picture and we'll do the rest!";
 
 // Onbarding improvement copies variant F title
-"onboarding_posting_improvement_f_title" = "Post an item in just seconds!";
+"onboarding_posting_improvement_f_title" = "Post a listing in just seconds!";
 
 // Onbarding improvement copies variant C button
 "onboarding_posting_improvement_c_button" = "Try it out";
@@ -1355,7 +1370,7 @@
 "onboarding_location_permissions_alert_title" = "Are you sure?";
 
 // Onboarding shows alert if user click on close permission request. 
-"onboarding_location_permissions_alert_subtitle" = "You'll see items posted in all locations instead of near you";
+"onboarding_location_permissions_alert_subtitle" = "You'll see listings posted in all locations instead of near you";
 
 // Onboarding shows alert if user click on close permission request. 
 "onboarding_notifications_permissions_alert_title" = "Are you sure?";
@@ -1392,6 +1407,9 @@
 
 //  Passive buyers screen for seller -> Contact success
 "passive_buyers_contact_success" = "Buyers contacted!";
+
+// Button to initiate chat from the full screen photo viewer
+"photo_viewer_chat_button" = "Chat";
 
 // Add Details navigation title
 "post_category_details_navigation_title" = "Add Details";
@@ -1436,7 +1454,7 @@
 "product_bubble_several_users_interested" = "%i other buyers are interested!";
 
 // product detail added to favorites notification description
-"product_bubble_favorite_text" = "This product has been added to your favorites!";
+"product_bubble_favorite_text" = "This listing has been added to your favorites!";
 
 // product detail added to favorites notification action button text
 "product_bubble_favorite_button" = "Let the seller know!";
@@ -1484,7 +1502,7 @@
 "product_delete_confirm_cancel_button" = "Cancel";
 
 // Product delete alert message. Check attached image @ segment "product_delete_confirm_cancel_button"
-"product_delete_confirm_message" = "Why do you want to delete your product?";
+"product_delete_confirm_message" = "Why do you want to delete your listing?";
 
 // Product delete alert ok button. Check attached image @ segment "product_delete_confirm_cancel_button"
 "product_delete_confirm_ok_button" = "I don't want to sell it";
@@ -1493,13 +1511,13 @@
 "product_delete_confirm_sold_button" = "I already sold it";
 
 // Product delete alert title. Check attached image @ segment "product_delete_confirm_cancel_button"
-"product_delete_confirm_title" = "Delete Product";
+"product_delete_confirm_title" = "Delete listing";
 
 // Product delete send error generic. Message displayal is like the other error messages.
-"product_delete_send_error_generic" = "Oops! An error occurred while deleting your product. Please try again.";
+"product_delete_send_error_generic" = "Oops! An error occurred while deleting your listing. Please try again.";
 
 // Product delete when product is already sold.
-"product_delete_sold_confirm_message" = "Are you sure you want to delete this product?";
+"product_delete_sold_confirm_message" = "Are you sure you want to delete this listing?";
 
 // Incentivate post after delete fullscreen button title
 "product_delete_post_button_title" = "Post Another Item";
@@ -1535,13 +1553,13 @@
 "product_sell_again_free_confirm_cancel_button" = "Cancel";
 
 // Alert message when product is mark as ready to give away (mark as available)
-"product_sell_again_free_confirm_message" = "Do you want to mark your product as available?";
+"product_sell_again_free_confirm_message" = "Do you want to mark your item as available?";
 
 // Product ready to give away again ok button. (mark as available)
 "product_sell_again_free_confirm_ok_button" = "Give Away";
 
 // Confirmation message when product is again available to give away
-"product_sell_again_free_success_message" = "Congratulations! Your product is available to give away again.";
+"product_sell_again_free_success_message" = "Congratulations! Your item is available to give away again.";
 
 // Alert title when product is mark as ready to give away (mark as available)
 "product_sell_again_free_confirm_title" = "Mark as available";
@@ -1571,7 +1589,7 @@
 "product_mark_as_sold_free_button" = "Mark as given away";
 
 // Title fo the alert  to let the seller know that can not undo the action of mark as sold
-"product_mark_as_sold_alert_title" = "Mark item as sold";
+"product_mark_as_sold_alert_title" = "Mark as sold";
 
 // Message to let the seller know that can not undo the action of mark as sold
 "product_mark_as_sold_alert_message" = "This action can't be undone. Only select this when you have met the buyer and received payment. Continue?";
@@ -1589,7 +1607,7 @@
 "product_mark_as_given_away_alert_message" = "This action can‘t be undone. Only select this when you have met the buyer and given the item away. Continue?";
 
 // Alert message when product is mark as given away
-"product_mark_as_sold_free_confirm_message" = "Mark your product as already given away";
+"product_mark_as_sold_free_confirm_message" = "Mark your item as already given away";
 
 // Product marked as given away ok button 
 "product_mark_as_sold_free_confirm_ok_button" = "Mark";
@@ -1598,7 +1616,7 @@
 "product_mark_as_sold_free_confirm_title" = "Mark it as given away";
 
 // Confirmation message when product has been set as given away again
-"product_mark_as_sold_free_success_message" = "Congratulations! Your product has been marked as given away.";
+"product_mark_as_sold_free_success_message" = "Congratulations! Your item has been marked as given away.";
 
 // Product mark as sold button. Check attached image "product (seller).png"
 "product_mark_as_sold_button" = "Mark as Sold";
@@ -1607,7 +1625,7 @@
 "product_mark_as_sold_confirm_cancel_button" = "Cancel";
 
 // Product mark as sold confirm message. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
-"product_mark_as_sold_confirm_message" = "Congratulations! Are you sure you want to mark your product as sold?";
+"product_mark_as_sold_confirm_message" = "Are you sure you want to mark your listing as sold?";
 
 // Product mark as sold confirm ok button. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
 "product_mark_as_sold_confirm_ok_button" = "Mark as Sold";
@@ -1616,10 +1634,10 @@
 "product_mark_as_sold_confirm_title" = "Mark as Sold";
 
 // Product mark as sold error generic. Message displayal is like the other error messages
-"product_mark_as_sold_error_generic" = "An error occurred while marking your product as sold. Please try again.";
+"product_mark_as_sold_error_generic" = "An error occurred while marking your listing as sold. Please try again.";
 
 // Product mark as sold success message. Message displayal is like the other error messages
-"product_mark_as_sold_success_message" = "Congratulations, your product has been marked as sold!";
+"product_mark_as_sold_success_message" = "Congratulations, your listing has been marked as sold!";
 
 // Rate the buyer when product is marked as sold.
 "product_menu_rate_buyer" = "Rate buyer";
@@ -1643,22 +1661,22 @@
 "product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
 
 // Product onboarding, swipe to go to next or previous product label
-"product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";
+"product_onboarding_finger_swipe_label" = "Swipe to go to the next listing or to the previous one";
 
 // Product onboarding, tap to go to next product label
-"product_onboarding_finger_tap_label" = "Tap to go to the next product";
+"product_onboarding_finger_tap_label" = "Tap to go to the next listing";
 
 // Button to show again the Onboarding in the new Product Detail
 "product_onboarding_show_again_button_title" = "How to Browse";
 
 // Product new onboarding, keep swipping to go to next or previous product regular text
-"product_new_onboarding_finger_keep_swipe_label" = "%@ back or forward to go to the previous or next item";
+"product_new_onboarding_finger_keep_swipe_label" = "%@ back or forward to go to the previous or next listing";
 
 // Product new onboarding, swipe to see more pictures label regular text
 "product_new_onboarding_finger_swipe_label" = "%@ to see more pictures";
 
 // Product new onboarding, tap to go to next product label regular text
-"product_new_onboarding_finger_tap_label" = "%@ to go to the next item";
+"product_new_onboarding_finger_tap_label" = "%@ to go to the next listing";
 
 // Product new onboarding, tap left to go to the next image
 "product_new_onboarding_tap_right_label" = "%@ or %@ to see the next picture";
@@ -1682,10 +1700,10 @@
 "product_new_onboarding_finger_swipe_next_product_highlighted_label" = "Swipe";
 
 // Option to edit product
-"product_option_edit" = "Edit Product";
+"product_option_edit" = "Edit listing";
 
 // Option button to share product
-"product_option_share" = "Share Product";
+"product_option_share" = "Share listing";
 
 // Info bubble on product list when 'newest' ordering is selected
 "product_popular_near_you" = "Popular near you";
@@ -1715,10 +1733,10 @@
 "product_post_close_alert_description" = "Do you still want to list it for sale?";
 
 // When closing without posting alert ok button
-"product_post_close_alert_ok_button" = "Post Product";
+"product_post_close_alert_ok_button" = "Post listing";
 
 // When closing without posting alert title
-"product_post_close_alert_title" = "Product not posted";
+"product_post_close_alert_title" = "Listing not posted";
 
 // Post another item separator
 "product_post_confirmation_another" = "Or";
@@ -1736,13 +1754,13 @@
 "product_post_empty_gallery_button" = "Take Photo";
 
 // Message subtitle when there are no photos on gallery
-"product_post_empty_gallery_subtitle" = "Take a photo of the product you want to post";
+"product_post_empty_gallery_subtitle" = "Take a photo of what you want to post";
 
 // Message title when there are no photos on gallery
 "product_post_empty_gallery_title" = "No photos found";
 
 // Message subtitle when camera appears on free posting. 
-"product_post_free_camera_first_time_alert_subtitle" = "Take a good picture and find your item a new home!";
+"product_post_free_camera_first_time_alert_subtitle" = "Take a good picture to attract more buyers!";
 
 // Pos another item button (free Version)
 "product_post_free_confirmation_another_button" = "Give another item away";
@@ -1775,7 +1793,7 @@
 "product_post_gallery_tab" = "GALLERY";
 
 // When posting failed but it's our fault
-"product_post_generic_error" = "An error occurred while posting your product.";
+"product_post_generic_error" = "An error occurred while posting your listing.";
 
 // product name bikes
 "product_post_incentive_bike" = "Bikes";
@@ -1829,13 +1847,13 @@
 "product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 
 // When posting failed due to network connection errors
-"product_post_network_error" = "Your product hasn't been posted.\nPlease check your network settings.";
+"product_post_network_error" = "Your listing hasn't been posted.\nPlease check your network settings.";
 
 // Question to add a price
 "product_post_price_label" = "Want to add a price?";
 
 // Confirmation BEFORE setting the price
-"product_post_product_posted" = "Product posted. Congrats!";
+"product_post_product_posted" = "Listing posted. Congrats!";
 
 // Confirmation BEFORE setting the price when not logged in
 "product_post_product_posted_not_logged" = "Photo Uploaded!";
@@ -1898,7 +1916,7 @@
 "product_sell_again_confirm_cancel_button" = "Cancel";
 
 // Product sell again confirm message. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
-"product_sell_again_confirm_message" = "Do you want to mark this product as available so it's visible to buyers again?";
+"product_sell_again_confirm_message" = "Do you want to mark this listing as available so it's visible to buyers again?";
 
 // Product sell again confirm ok button. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
 "product_sell_again_confirm_ok_button" = "Sell It Again";
@@ -1907,10 +1925,10 @@
 "product_sell_again_confirm_title" = "Sell It Again";
 
 // Product sell again error generic. Message displayal is like the other error messages
-"product_sell_again_error_generic" = "An error occurred while marking your product as available. Please try again.";
+"product_sell_again_error_generic" = "An error occurred while marking your listing as available. Please try again.";
 
 // Product sell again success message. Message displayal is like the other error messages
-"product_sell_again_success_message" = "Congratulations! Your product has been marked as available.";
+"product_sell_again_success_message" = "Your listing has been marked as available.";
 
 // Ask the user to activate Camera access in setting because it was denied before
 "product_sell_camera_permissions_error" = "To snap a picture, give letgo access to your Camera in your settings.";
@@ -1946,7 +1964,7 @@
 "product_share_email_error" = "Oops! You don't seem to have an account set up in the Mail app.";
 
 // Product share generic OK. Message displayal is like the other error messages
-"product_share_generic_ok" = "Product shared!";
+"product_share_generic_ok" = "Listing shared!";
 
 // Product share via sms error message
 "product_share_sms_error" = "An error occurred while sending your message.";
@@ -1955,7 +1973,7 @@
 "product_share_sms_ok" = "Sending...";
 
 // Product detail share title label.
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "SHARE THIS LISTING";
 
 // String to add at the end of the body when the product is from other people
 "product_share_posted_by" = "posted by %@";
@@ -1967,10 +1985,10 @@
 "product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
 
 // Login message when asking for login after clicking on favorite
-"product_favorite_login_popup_text" = "To favorite this item, you have to log in";
+"product_favorite_login_popup_text" = "To favorite this listing, you have to log in";
 
 // Login message when asking for login after clicking on report
-"product_report_login_popup_text" = "To report an item, you have to log in";
+"product_report_login_popup_text" = "To report a listing, you have to log in";
 
 // Profile, you blocked this user label (wo username)
 "profile_blocked_by_me_label" = "You've blocked this user";
@@ -2009,7 +2027,7 @@
 "profile_reviews_count" = "Reviews";
 
 // Profile selling tab (both my user and other user) empty title.
-"profile_selling_no_products_label" = "NO PRODUCTS (YET!)";
+"profile_selling_no_products_label" = "NO LISTINGS (YET!)";
 
 // Profile selling tab (other user) empty button.
 "profile_selling_other_user_no_products_button" = "Keep Browsing";
@@ -2018,7 +2036,7 @@
 "profile_selling_products_tab" = "Selling";
 
 // Profile sold tab (both my user and other user) empty title.
-"profile_sold_no_products_label" = "NO PRODUCTS (YET!)";
+"profile_sold_no_products_label" = "NO LISTINGS (YET!)";
 
 // Profile sold tab (other user) empty button.
 "profile_sold_other_no_products_button" = "Keep Browsing";
@@ -2058,6 +2076,15 @@
 
 // Text to verify accounts
 "profile_connect_accounts_message" = "You still haven't verified your account with:";
+
+// Promote bump up title text
+"promote_bump_title" = "Attract more buyers";
+
+// Promote bump up main button text
+"promote_bump_sell_faster_button" = "Sell faster";
+
+// Promote bump up later button text
+"promote_bump_later_button" = "Later";
 
 // Navigation bar title "Set Location"
 "quick_filter_location_title" = "Set Location";
@@ -2157,13 +2184,13 @@
 "rating_list_loading_error_message" = "An error occurred while loading ratings.";
 
 // Text for rating of type "buyer" ( %s will be the username)
-"rating_list_rating_type_buyer_text_label" = "%@ bought a product";
+"rating_list_rating_type_buyer_text_label" = "%@ bought something";
 
 // Text for rating of type "conversation" ( %s will be the username)
-"rating_list_rating_type_conversation_text_label" = "%@ chatted about a product";
+"rating_list_rating_type_conversation_text_label" = "%@ chatted about a listing";
 
 // Text for rating of type "seller" ( %s will be the username)
-"rating_list_rating_type_seller_text_label" = "%@ sold a product";
+"rating_list_rating_type_seller_text_label" = "%@ sold something";
 
 // Text when a rating is pending review
 "rating_list_rating_status_pending" = "This review is being verified";
@@ -2364,7 +2391,7 @@
 "real_estate_current_step_of_total" = "%d of %d";
 
 // Title when showing list of related items
-"related_items_title" = "Related items";
+"related_items_title" = "Related listings";
 
 // Type Counterfeit items
 "report_user_counterfeit" = "Counterfeit items";
@@ -2490,22 +2517,22 @@
 "sell_post_free_label" = "Free";
 
 // Sell send error invalid category. Check attached image "sell_send_error.png"
-"sell_send_error_invalid_category" = "Please choose a category for the product.";
+"sell_send_error_invalid_category" = "Please choose a category for your listing.";
 
 // Sell send error invalid description. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_description" = "Please enter a valid description for your product.";
+"sell_send_error_invalid_description" = "Please enter a valid description for your listing.";
 
 // Sell send error invalid description too long. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_description_too_long" = "Please enter a valid description for your product. It must be under %d characters.";
+"sell_send_error_invalid_description_too_long" = "Please enter a valid description for your listing. It must be under %d characters.";
 
 // Sell send error invalid image count. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_image_count" = "At least one photo is required to sell a product.";
+"sell_send_error_invalid_image_count" = "At least one photo is required to post a listing.";
 
 // Sell send error invalid price. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_price" = "Please enter a valid price for the product. It should only include numbers.";
+"sell_send_error_invalid_price" = "Please enter a valid price for your listing. It should only include numbers.";
 
 // Sell send error invalid title. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_title" = "Please enter a valid title for your product.";
+"sell_send_error_invalid_title" = "Please enter a valid title for your listing.";
 
 // Sell send error sharing facebook. Check image @ "sell_send_error_invalid_category" segment
 "sell_send_error_sharing_facebook" = "An error occurred while sharing on Facebook. Please try again.";
@@ -2523,7 +2550,7 @@
 "sell_title_field_hint" = "Title (optional)";
 
 // Sell uploading label
-"sell_uploading_label" = "Uploading product. Please wait...";
+"sell_uploading_label" = "Posting your listing...";
 
 // Settings change location button. Check image @ "settings_change_password_button" segment
 "settings_change_location_button" = "Location";

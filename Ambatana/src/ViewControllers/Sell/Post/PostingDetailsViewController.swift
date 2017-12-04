@@ -123,7 +123,7 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         } else {
             buttonNext.layout(with: view).bottom(by: -Metrics.bigMargin)
         }
-        if viewModel.isSummaryStep {
+        if viewModel.buttonFullWidth {
             buttonNext.layout(with: keyboardView).left(by: Metrics.bigMargin)
         }
         buttonNext.layout(with: view).right(by: -Metrics.bigMargin)

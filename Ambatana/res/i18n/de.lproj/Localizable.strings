@@ -202,7 +202,7 @@
 "common_error_generic_body" = "Ein Fehler ist aufgetreten.";
 "common_error_list_retry_button" = "Wiederholen";
 "common_error_network_body" = "Bitte überprüfe deine Verbindung und probiere es erneut";
-"common_error_posting_loaded_image" = "Hoppla! Dein Produkt wurde nicht eingestellt. Bitte überprüfe deine Netzwerkeinstellungen.";
+"common_error_posting_loaded_image" = "Hoppla! Dein Angebot wurde nicht eingestellt. Bitte überprüfe deine Verbindung.";
 "common_error_retry_button" = "Versuch's noch einmal";
 "common_error_title" = "HOPPLA!";
 "common_expand" = "Mehr anzeigen";
@@ -308,6 +308,10 @@
 "filters_price_from" = "Von";
 "filters_price_to" = "Bis";
 "filters_price_wrong_range_error" = "Der Mindestpreis kann nicht höher sein als der Höchstpreis.";
+"filters_real_estate_bathrooms_not_set" = "Nicht ausgewählt";
+"filters_real_estate_bedrooms_not_set" = "Nicht ausgewählt";
+"filters_real_estate_offer_type_not_set" = "Nicht ausgewählt";
+"filters_real_estate_property_type_not_set" = "Nicht ausgewählt";
 "filters_save_button" = "Filter speichern";
 "filters_section_car_info" = "Auto-Infos";
 "filters_section_categories" = "Kategorien";
@@ -315,6 +319,7 @@
 "filters_section_location" = "Standort";
 "filters_section_price" = "Preis";
 "filters_section_price_free_title" = "Nur kostenlose Artikel anzeigen";
+"filters_section_real_estate_info" = "Property info";
 "filters_section_sortby" = "Sortiert nach";
 "filters_section_within" = "Eingestellt innerhalb";
 "filters_sort_closest" = "Nächste zuerst";
@@ -678,6 +683,9 @@
 "profile_verify_facebook_title" = "FACEBOOK";
 "profile_verify_google_button" = "Google";
 "profile_verify_google_title" = "GOOGLE";
+"promote_bump_later_button" = "Später";
+"promote_bump_sell_faster_button" = "Schneller verkaufen";
+"promote_bump_title" = "Locke mehr Käufer an";
 "quick_filter_location_title" = "Standort einstellen";
 "rate_buyers_message" = "Gratuliere!";
 "rate_buyers_not_on_letgo_button" = "Ich habe es nicht über letgo verkauft";
@@ -734,7 +742,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Zahl der Schlafzimmer";
-"real_estate_current_step_of_total" = "%d of %d";
+"real_estate_current_step_of_total" = "%d von %d";
 "real_estate_location_notification_message" = "Wir werden anderen Nutzern niemals deinen genauen Standort anzeigen";
 "real_estate_location_title" = "Standort";
 "real_estate_offer_type_rent" = "Zur Miete";

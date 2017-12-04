@@ -1311,6 +1311,26 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_car_year_before_year", comment: "")
 	}
 
+	static var filtersSectionRealEstateInfo: String {
+		return NSLocalizedString("filters_section_real_estate_info", comment: "")
+	}
+
+	static var filtersRealEstatePropertyTypeNotSet: String {
+		return NSLocalizedString("filters_real_estate_property_type_not_set", comment: "")
+	}
+
+	static var filtersRealEstateOfferTypeNotSet: String {
+		return NSLocalizedString("filters_real_estate_offer_type_not_set", comment: "")
+	}
+
+	static var filtersRealEstateBedroomsNotSet: String {
+		return NSLocalizedString("filters_real_estate_bedrooms_not_set", comment: "")
+	}
+
+	static var filtersRealEstateBathroomsNotSet: String {
+		return NSLocalizedString("filters_real_estate_bathrooms_not_set", comment: "")
+	}
+
 	static var filtersTagLocationSelected: String {
 		return NSLocalizedString("filters_tag_location_selected", comment: "")
 	}
@@ -1877,6 +1897,10 @@ struct LGLocalizedString {
 
 	static var passiveBuyersContactSuccess: String {
 		return NSLocalizedString("passive_buyers_contact_success", comment: "")
+	}
+
+	static var photoViewerChatButton: String {
+		return NSLocalizedString("photo_viewer_chat_button", comment: "")
 	}
 
 	static var postCategoryDetailsNavigationTitle: String {
@@ -2765,6 +2789,18 @@ struct LGLocalizedString {
 
 	static var profileConnectAccountsMessage: String {
 		return NSLocalizedString("profile_connect_accounts_message", comment: "")
+	}
+
+	static var promoteBumpTitle: String {
+		return NSLocalizedString("promote_bump_title", comment: "")
+	}
+
+	static var promoteBumpSellFasterButton: String {
+		return NSLocalizedString("promote_bump_sell_faster_button", comment: "")
+	}
+
+	static var promoteBumpLaterButton: String {
+		return NSLocalizedString("promote_bump_later_button", comment: "")
 	}
 
 	static var quickFilterLocationTitle: String {

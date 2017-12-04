@@ -308,6 +308,10 @@
 "filters_price_from" = "Fra";
 "filters_price_to" = "Til";
 "filters_price_wrong_range_error" = "Minimal pris kan ikke være høyere enn maksimal pris.";
+"filters_real_estate_bathrooms_not_set" = "ikke satt";
+"filters_real_estate_bedrooms_not_set" = "ikke satt";
+"filters_real_estate_offer_type_not_set" = "ikke satt";
+"filters_real_estate_property_type_not_set" = "ikke satt";
 "filters_save_button" = "Lagre filtre";
 "filters_section_car_info" = "Bilinfo";
 "filters_section_categories" = "Kategorier";
@@ -315,6 +319,7 @@
 "filters_section_location" = "Sted";
 "filters_section_price" = "Pris";
 "filters_section_price_free_title" = "Vis kun gratisprodukter";
+"filters_section_real_estate_info" = "Property info";
 "filters_section_sortby" = "Sorter etter";
 "filters_section_within" = "Publisert";
 "filters_sort_closest" = "Nærmest først";
@@ -678,6 +683,9 @@
 "profile_verify_facebook_title" = "FACEBOOK";
 "profile_verify_google_button" = "Google";
 "profile_verify_google_title" = "GOOGLE";
+"promote_bump_later_button" = "Senere";
+"promote_bump_sell_faster_button" = "Selg raskere";
+"promote_bump_title" = "Tiltrekk flere kjøpere";
 "quick_filter_location_title" = "Velg plassering";
 "rate_buyers_message" = "Gratulerer!";
 "rate_buyers_not_on_letgo_button" = "Jeg solgte ikke dette produktet på letgo";
