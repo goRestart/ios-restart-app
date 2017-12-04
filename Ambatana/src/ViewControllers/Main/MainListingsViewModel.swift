@@ -351,7 +351,6 @@ class MainListingsViewModel: BaseViewModel {
     */
     func updateFiltersFromTags(_ tags: [FilterTag], removedTag: FilterTag?) {
 
-        var place: Place? = nil
         var categories: [FilterCategoryItem] = []
         var taxonomyChild: TaxonomyChild? = nil
         var taxonomy: Taxonomy? = nil
@@ -361,7 +360,6 @@ class MainListingsViewModel: BaseViewModel {
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
         var free: Bool = false
-        var distance: Int? = nil
         var makeId: String? = nil
         var makeName: String? = nil
         var modelId: String? = nil

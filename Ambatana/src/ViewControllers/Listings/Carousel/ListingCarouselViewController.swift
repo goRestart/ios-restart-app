@@ -456,7 +456,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         alphaSignal.bind(to: itemsAlpha).disposed(by: disposeBag)
         alphaSignal.bind(to: moreInfoAlpha).disposed(by: disposeBag)
 
-        alphaSignal.bindNext{ [weak self] alpha in
+        alphaSignal.bind{ [weak self] alpha in
             self?.moreInfoTooltip?.alpha = alpha
             }.disposed(by: disposeBag)
 
@@ -580,7 +580,7 @@ extension ListingCarouselViewController {
                     let shareButton = CarouselUIHelper.buildShareButton(action.text, icon: action.image)
                     let rightItem = UIBarButtonItem(customView: shareButton)
                     rightItem.style = .plain
-                    shareButton.rx.tap.takeUntil(takeUntilAction).bindNext{
+                    shareButton.rx.tap.takeUntil(takeUntilAction).bind{
                         action.action()
                         }.disposed(by: strongSelf.disposeBag)
                     strongSelf.navigationItem.rightBarButtonItems = nil
@@ -588,7 +588,7 @@ extension ListingCarouselViewController {
                 default:
                     strongSelf.setLetGoRightButtonWith(action, buttonTintColor: UIColor.white,
                                                        tapBlock: { tapEvent in
-                                                        tapEvent.takeUntil(takeUntilAction).bindNext{
+                                                        tapEvent.takeUntil(takeUntilAction).bind{
                                                             action.action()
                                                             }.disposed(by: strongSelf.disposeBag)
                     })
@@ -723,7 +723,7 @@ extension ListingCarouselViewController {
     private func setupBumpUpBannerRx() {
         bumpUpBanner.layoutIfNeeded()
         closeBumpUpBanner()
-        viewModel.bumpUpBannerInfo.asObservable().bindNext{ [weak self] info in
+        viewModel.bumpUpBannerInfo.asObservable().bind{ [weak self] info in
             if let info = info {
                 self?.showBumpUpBanner(bumpInfo: info)
             } else {

@@ -102,7 +102,7 @@ extension AppDelegate: UIApplicationDelegate {
         window.makeKeyAndVisible()
 
         let fbApplicationDelegate = FBSDKApplicationDelegate.sharedInstance()
-        let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions) ?? false
+        let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions)
         let fbSdkContinuation = fbApplicationDelegate?.application(application,
                                                                    didFinishLaunchingWithOptions: launchOptions) ?? false
 
