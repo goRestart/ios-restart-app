@@ -413,7 +413,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
         itemsAlpha.asObservable().bind { [weak self] itemsAlpha in
             self?.pageControl.alpha = itemsAlpha
-        }
+        }.disposed(by: disposeBag)
 
         itemsAlpha.asObservable().bind(to: productStatusView.rx.alpha).disposed(by: disposeBag)
         itemsAlpha.asObservable().bind(to: directChatTable.rx.alpha).disposed(by: disposeBag)
