@@ -13,9 +13,8 @@ protocol FilterFreeCellDelegate: class {
 }
 
 
-class FilterFreeCell: UICollectionViewCell {
+class FilterFreeCell: UICollectionViewCell, ReusableCell {
     
-    static let identifier = "\(FilterFreeCell.self)"
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var freeSwitch: UISwitch!

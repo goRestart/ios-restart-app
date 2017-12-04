@@ -13,9 +13,8 @@ protocol FilterPriceCellDelegate: class {
     func priceTextFieldValueChanged(_ value: String?, tag: Int)
 }
 
-class FilterPriceCell: UICollectionViewCell {
+class FilterPriceCell: UICollectionViewCell, ReusableCell {
     
-    static let identifier = "\(FilterPriceCell.self)"
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var textField: UITextField!

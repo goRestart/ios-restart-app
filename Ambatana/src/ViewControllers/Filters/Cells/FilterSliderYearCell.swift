@@ -12,9 +12,8 @@ protocol FilterCarInfoYearCellDelegate: class {
     func filterYearChanged(withStartYear startYear: Int?, endYear: Int?)
 }
 
-class FilterSliderYearCell: UICollectionViewCell, LGSliderDelegate {
+class FilterSliderYearCell: UICollectionViewCell, ReusableCell, LGSliderDelegate {
     
-    static let identifier = "\(FilterSliderYearCell.self)"
     var slider: LGSlider?
     
     weak var delegate: FilterCarInfoYearCellDelegate?

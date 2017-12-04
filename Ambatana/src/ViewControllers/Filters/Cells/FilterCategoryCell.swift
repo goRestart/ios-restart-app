@@ -8,10 +8,8 @@
 
 import UIKit
 
-class FilterCategoryCell: UICollectionViewCell {
+class FilterCategoryCell: UICollectionViewCell, ReusableCell {
     
-    static let identifier = "\(FilterCategoryCell.self)"
-
     @IBOutlet weak var categoryIcon: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
 

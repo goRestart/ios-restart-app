@@ -8,9 +8,8 @@
 
 import UIKit
 
-class FilterSingleCheckCell: UICollectionViewCell {
+class FilterSingleCheckCell: UICollectionViewCell, ReusableCell {
 
-    static let identifier = "\(FilterSingleCheckCell.self)"
     struct Metrics {
         static let marginHeight: CGFloat = 12
         static let separatorColor: UIColor = UIColor(rgb: 0xcccccc)
