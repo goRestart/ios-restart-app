@@ -202,7 +202,7 @@
 "common_error_generic_body" = "Произошла ошибка.";
 "common_error_list_retry_button" = "Еще раз";
 "common_error_network_body" = "Пожалуйста, проверьте настройки сети и попробуйте еще раз";
-"common_error_posting_loaded_image" = "Упс! Ваш товар не был размещен. Пожалуйста, проверьте сетевые настройки.";
+"common_error_posting_loaded_image" = "Упс! Ваше объявление не было размещено. Пожалуйста, проверьте сетевые настройки.";
 "common_error_retry_button" = "Попробуйте еще раз";
 "common_error_title" = "УПС!";
 "common_expand" = "Показать еще";
@@ -308,6 +308,10 @@
 "filters_price_from" = "От";
 "filters_price_to" = "До";
 "filters_price_wrong_range_error" = "Минимальная цена не может быть выше максимальной.";
+"filters_real_estate_bathrooms_not_set" = "не установлен";
+"filters_real_estate_bedrooms_not_set" = "не установлен";
+"filters_real_estate_offer_type_not_set" = "не установлен";
+"filters_real_estate_property_type_not_set" = "не установлен";
 "filters_save_button" = "Сохранить фильтры";
 "filters_section_car_info" = "Информация о машине";
 "filters_section_categories" = "Категории";
@@ -315,6 +319,7 @@
 "filters_section_location" = "Местоположение";
 "filters_section_price" = "Цена";
 "filters_section_price_free_title" = "Показывать только бесплатные товары";
+"filters_section_real_estate_info" = "Property info";
 "filters_section_sortby" = "Сортировка по";
 "filters_section_within" = "Размещено за";
 "filters_sort_closest" = "Сначала ближайшее";
@@ -678,6 +683,9 @@
 "profile_verify_facebook_title" = "FACEBOOK";
 "profile_verify_google_button" = "Google";
 "profile_verify_google_title" = "GOOGLE";
+"promote_bump_later_button" = "Позже";
+"promote_bump_sell_faster_button" = "Продать быстрее";
+"promote_bump_title" = "Привлечь больше покупателей";
 "quick_filter_location_title" = "Задать местоположение";
 "rate_buyers_message" = "Поздравляем!";
 "rate_buyers_not_on_letgo_button" = "Я продал не на letgo";
@@ -734,7 +742,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Количество спален";
-"real_estate_current_step_of_total" = "%d of %d";
+"real_estate_current_step_of_total" = "%d из %d";
 "real_estate_location_notification_message" = "Мы никогда не показываем ваше точное местоположение другим пользователям";
 "real_estate_location_title" = "Местоположение";
 "real_estate_offer_type_rent" = "Аренда";

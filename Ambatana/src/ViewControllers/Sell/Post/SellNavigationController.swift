@@ -67,6 +67,10 @@ class SellNavigationController: UINavigationController {
         view.layoutIfNeeded()
     }
     
+    func setupInitialCategory(postCategory: PostCategory?) {
+        viewModel.hasInitialCategory = postCategory != nil
+    }
+    
     func startDetails(category: PostCategory?) {
         viewModel.shouldModifyProgress = true
         viewModel.categorySelected.value = category

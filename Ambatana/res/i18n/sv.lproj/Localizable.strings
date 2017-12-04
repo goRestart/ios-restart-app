@@ -202,7 +202,7 @@
 "common_error_generic_body" = "Ett fel uppstod.";
 "common_error_list_retry_button" = "Prova igen";
 "common_error_network_body" = "Var vänlig kolla dina nätverksinställningar och försök igen";
-"common_error_posting_loaded_image" = "Hoppsan! Din produkt har inte lagts upp. Vänligen kolla dina nätverksinställningar.";
+"common_error_posting_loaded_image" = "Hoppsan! Din annons har inte lagts upp. Vänligen kontrollera dina nätverksinställningar.";
 "common_error_retry_button" = "Försök igen";
 "common_error_title" = "HOPPSAN!";
 "common_expand" = "Visa mer";
@@ -308,6 +308,10 @@
 "filters_price_from" = "Från";
 "filters_price_to" = "Till";
 "filters_price_wrong_range_error" = "Lägsta pris kan inte vara högre än högsta pris.";
+"filters_real_estate_bathrooms_not_set" = "inte vald";
+"filters_real_estate_bedrooms_not_set" = "inte vald";
+"filters_real_estate_offer_type_not_set" = "inte vald";
+"filters_real_estate_property_type_not_set" = "inte vald";
 "filters_save_button" = "Spara filter";
 "filters_section_car_info" = "Biluppgifter";
 "filters_section_categories" = "Kategorier";
@@ -315,6 +319,7 @@
 "filters_section_location" = "Plats";
 "filters_section_price" = "Pris";
 "filters_section_price_free_title" = "Visa endast gratis produkter";
+"filters_section_real_estate_info" = "Property info";
 "filters_section_sortby" = "Sortera efter";
 "filters_section_within" = "Annonserade under";
 "filters_sort_closest" = "Närmast först";
@@ -678,6 +683,9 @@
 "profile_verify_facebook_title" = "FACEBOOK";
 "profile_verify_google_button" = "Google";
 "profile_verify_google_title" = "GOOGLE";
+"promote_bump_later_button" = "Senare";
+"promote_bump_sell_faster_button" = "Sälj snabbare";
+"promote_bump_title" = "Locka flera köpare";
 "quick_filter_location_title" = "Välj plats";
 "rate_buyers_message" = "Grattis!";
 "rate_buyers_not_on_letgo_button" = "Jag sålde det inte på letgo";
@@ -734,7 +742,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Antal sovrum";
-"real_estate_current_step_of_total" = "%d of %d";
+"real_estate_current_step_of_total" = "%d av %d";
 "real_estate_location_notification_message" = "Vi visar aldrig din exakta plats till andra användare";
 "real_estate_location_title" = "Plats";
 "real_estate_offer_type_rent" = "Uthyres";

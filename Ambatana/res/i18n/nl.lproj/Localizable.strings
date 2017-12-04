@@ -202,7 +202,7 @@
 "common_error_generic_body" = "Er is een fout opgetreden.";
 "common_error_list_retry_button" = "Probeer het nogmaals";
 "common_error_network_body" = "Controleer je netwerkinstellingen en probeer het opnieuw";
-"common_error_posting_loaded_image" = "Oeps! Je product werd niet geplaatst. Gelieve je netwerkinstellingen te controleren.";
+"common_error_posting_loaded_image" = "Oeps! Je advertentie werd niet geplaatst. Gelieve je netwerkinstellingen te controleren.";
 "common_error_retry_button" = "Probeer opnieuw";
 "common_error_title" = "OEPS!";
 "common_expand" = "Toon meer";
@@ -308,6 +308,10 @@
 "filters_price_from" = "Van";
 "filters_price_to" = "Tot";
 "filters_price_wrong_range_error" = "De minimumprijs mag niet hoger zijn dan de maximumprijs.";
+"filters_real_estate_bathrooms_not_set" = "Niet ingesteld";
+"filters_real_estate_bedrooms_not_set" = "Niet ingesteld";
+"filters_real_estate_offer_type_not_set" = "Niet ingesteld";
+"filters_real_estate_property_type_not_set" = "Niet ingesteld";
 "filters_save_button" = "Filters opslaan";
 "filters_section_car_info" = "Info Auto";
 "filters_section_categories" = "Categorieen";
@@ -315,6 +319,7 @@
 "filters_section_location" = "Plaats";
 "filters_section_price" = "Prijs";
 "filters_section_price_free_title" = "Vis kun gratis varer";
+"filters_section_real_estate_info" = "Property info";
 "filters_section_sortby" = "Sorteer op";
 "filters_section_within" = "Gepost in";
 "filters_sort_closest" = "Dichtstbijzijnde eerst";
@@ -678,6 +683,9 @@
 "profile_verify_facebook_title" = "FACEBOOK";
 "profile_verify_google_button" = "Google";
 "profile_verify_google_title" = "GOOGLE";
+"promote_bump_later_button" = "Later";
+"promote_bump_sell_faster_button" = "Verkoop Sneller";
+"promote_bump_title" = "Trek meer kopers aan";
 "quick_filter_location_title" = "Locatie Instellen";
 "rate_buyers_message" = "Gefeliciteerd!";
 "rate_buyers_not_on_letgo_button" = "Ik heb het niet verkocht op letgo";
@@ -734,7 +742,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Aantal Slaapkamers";
-"real_estate_current_step_of_total" = "%d of %d";
+"real_estate_current_step_of_total" = "%d van %d";
 "real_estate_location_notification_message" = "We zullen jouw exacte locatie nooit aan andere gebruikers laten zien";
 "real_estate_location_title" = "Plaats";
 "real_estate_offer_type_rent" = "Te Huur";

@@ -308,6 +308,10 @@
 "filters_price_from" = "Da";
 "filters_price_to" = "A";
 "filters_price_wrong_range_error" = "Il prezzo minimo non può superare quello massimo.";
+"filters_real_estate_bathrooms_not_set" = "non impostato";
+"filters_real_estate_bedrooms_not_set" = "non impostato";
+"filters_real_estate_offer_type_not_set" = "non impostato";
+"filters_real_estate_property_type_not_set" = "non impostato";
 "filters_save_button" = "Salva filtri";
 "filters_section_car_info" = "Informazioni auto";
 "filters_section_categories" = "Categorie";
@@ -315,6 +319,7 @@
 "filters_section_location" = "Posizione";
 "filters_section_price" = "Prezzo";
 "filters_section_price_free_title" = "Mostra solo oggetti gratuiti";
+"filters_section_real_estate_info" = "Property info";
 "filters_section_sortby" = "Ordina per";
 "filters_section_within" = "Periodo di pubblicazione";
 "filters_sort_closest" = "Prima i più vicini";
@@ -678,6 +683,9 @@
 "profile_verify_facebook_title" = "FACEBOOK";
 "profile_verify_google_button" = "Google";
 "profile_verify_google_title" = "GOOGLE";
+"promote_bump_later_button" = "Dopo";
+"promote_bump_sell_faster_button" = "Vendi più velocemente";
+"promote_bump_title" = "Attira più compratori";
 "quick_filter_location_title" = "Imposta posizione";
 "rate_buyers_message" = "Complimenti!";
 "rate_buyers_not_on_letgo_button" = "Non l'ho venduto su letgo";
