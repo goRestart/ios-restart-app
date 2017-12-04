@@ -46,6 +46,7 @@ protocol FeatureFlaggeable: class {
     var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation { get }
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
+    var forcePostListingOnboarding: ForcePostListingOnboarding { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -91,6 +92,10 @@ extension ShowPriceStepRealEstatePosting {
 }
 
 extension BumpUpPriceDifferentiation {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension ForcePostListingOnboarding {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -346,6 +351,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return BumpUpPriceDifferentiation.fromPosition(abTests.bumpUpPriceDifferentiation.value)
     }
+    
+    var forcePostListingOnboarding: ForcePostListingOnboarding {
+        if Bumper.enabled {
+            return Bumper.forcePostListingOnboarding
+        }
+        return ForcePostListingOnboarding.fromPosition(abTests.forcePostListingOnboarding.value)
+    }
+    
 
     // MARK: - Country features
 

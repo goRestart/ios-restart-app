@@ -134,5 +134,10 @@
         "name": "BumpUpPriceDifferentiation",
         "values": ["control", "baseline", "active"],
         "description": "Scale bump prices according to listing price"
+    },
+    {
+        "name": "ForcePostListingOnboarding",
+        "values": ["control", "baseline", "active"],
+        "description": "Force user to post a product in the onboarding"
     }
 ]

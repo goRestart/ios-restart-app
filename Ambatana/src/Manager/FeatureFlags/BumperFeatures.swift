@@ -40,6 +40,7 @@ extension Bumper  {
         flags.append(ShowPriceStepRealEstatePosting.self)
         flags.append(ShowClockInDirectAnswer.self)
         flags.append(BumpUpPriceDifferentiation.self)
+        flags.append(ForcePostListingOnboarding.self)
         Bumper.initialize(flags)
     } 
 
@@ -176,6 +177,11 @@ extension Bumper  {
     static var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation {
         guard let value = Bumper.value(for: BumpUpPriceDifferentiation.key) else { return .control }
         return BumpUpPriceDifferentiation(rawValue: value) ?? .control 
+    }
+
+    static var forcePostListingOnboarding: ForcePostListingOnboarding {
+        guard let value = Bumper.value(for: ForcePostListingOnboarding.key) else { return .control }
+        return ForcePostListingOnboarding(rawValue: value) ?? .control 
     } 
 }
 
@@ -541,6 +547,22 @@ enum BumpUpPriceDifferentiation: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Scale bump prices according to listing price" } 
     static func fromPosition(_ position: Int) -> BumpUpPriceDifferentiation {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ForcePostListingOnboarding: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ForcePostListingOnboarding.control.rawValue }
+    static var enumValues: [ForcePostListingOnboarding] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Force user to post a product in the onboarding" } 
+    static func fromPosition(_ position: Int) -> ForcePostListingOnboarding {
         switch position { 
             case 0: return .control
             case 1: return .baseline
