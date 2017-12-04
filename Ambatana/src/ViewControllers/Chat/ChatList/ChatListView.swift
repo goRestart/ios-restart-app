@@ -32,18 +32,18 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     // MARK: - Lifecycle
 
-    convenience init<T: BaseViewModel>(viewModel: T) where T: ChatListViewModel {
+    convenience init<T: ChatListViewModel>(viewModel: T) {
         self.init(viewModel: viewModel, sessionManager: Core.sessionManager, frame: CGRect.zero)
     }
 
-    override init<T: BaseViewModel>(viewModel: T, sessionManager: SessionManager, frame: CGRect) where T: ChatListViewModel {
+    override init<T: ChatListViewModel>(viewModel: T, sessionManager: SessionManager, frame: CGRect) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, sessionManager: sessionManager, frame: frame)
 
         viewModel.delegate = self
     }
 
-    override init?<T: BaseViewModel>(viewModel: T, sessionManager: SessionManager, coder aDecoder: NSCoder) where T: ChatListViewModel {
+    override init?<T: ChatListViewModel>(viewModel: T, sessionManager: SessionManager, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, sessionManager: sessionManager, coder: aDecoder)
 

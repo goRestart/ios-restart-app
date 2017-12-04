@@ -26,7 +26,7 @@ protocol ChatGroupedListViewModelDelegate: class {
     func chatGroupedListViewModelDidSucceedRetrievingObjectList(_ page: Int)
 }
 
-protocol ChatGroupedListViewModel: class, RxPaginable, ChatGroupedListViewModelType {
+protocol ChatGroupedListViewModel: class, ChatGroupedListViewModelType {
     var chatGroupedDelegate: ChatGroupedListViewModelDelegate? { get set }
     var emptyStatusViewModel: LGEmptyViewModel? { get set }
     var activityIndicatorAnimating: Bool { get }
