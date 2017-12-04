@@ -74,7 +74,7 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
     private func setupRx() {
         viewModel.visibilityFormat.asObservable().bindNext { [weak self] _ in
             self?.tableView.reloadData()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     @objc dynamic private func closeButtonPressed() {

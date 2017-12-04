@@ -98,7 +98,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         if firstTime {
             sessionManager.sessionEvents.filter { $0.isLogout }.bindNext { [weak self] _ in
                 self?.clear()
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
             
             viewModel.retrieveFirstPage()
         } else if viewModel.shouldRefreshConversationsTabTrigger {
@@ -250,7 +250,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         guard let viewModel = viewModel as? BaseChatGroupedListViewModel<ChatConversation> else { return }
         viewModel.objects.changesObservable.subscribeNext { [weak self] change in
             self?.tableView.reloadData()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     func setFooterHidden(_ hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {

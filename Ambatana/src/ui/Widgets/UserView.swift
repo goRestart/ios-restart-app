@@ -217,7 +217,7 @@ class UserView: UIView {
                 self?.ratingsContainerHeight.constant = 0
             }
             self?.subtitleLabel.isHidden = rating > 0
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         setAccesibilityIds()
     }

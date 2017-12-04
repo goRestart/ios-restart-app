@@ -291,7 +291,7 @@ extension ChatGroupedViewController {
             editButton.isEnabled = strongSelf.viewModel.editButtonEnabled.value
             strongSelf.editButton = editButton
             strongSelf.navigationItem.rightBarButtonItem = editButton
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.editButtonEnabled.asObservable().subscribeNext { [weak self] enabled in
             guard let strongSelf = self else { return }
@@ -303,13 +303,13 @@ extension ChatGroupedViewController {
             }
 
             strongSelf.editButton?.isEnabled = enabled
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setupRxVerificationViewBindings() {
-        viewModel.verificationPending.asObservable().bind(to: viewPager.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.verificationPending.asObservable().bind(to: viewPager.rx.isHidden).disposed(by: disposeBag)
         viewModel.verificationPending.asObservable().map { !$0 }.bind(to: validationPendingEmptyView.rx.isHidden)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     }
 }
 

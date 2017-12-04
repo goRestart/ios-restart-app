@@ -71,7 +71,7 @@ fileprivate extension AutocompleteField {
     func setupRx() {
         rx.text.bindNext { [weak self] text in
             self?.updateLabel()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     /**

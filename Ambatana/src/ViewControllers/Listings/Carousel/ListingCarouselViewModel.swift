@@ -521,7 +521,7 @@ class ListingCarouselViewModel: BaseViewModel {
             }
             self?.keyValueStorage[.listingMoreInfoTooltipDismissed] = true
             self?.delegate?.vmRemoveMoreInfoTooltip()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setupCurrentProductVMRxBindings(forIndex index: Int) {
@@ -532,38 +532,38 @@ class ListingCarouselViewModel: BaseViewModel {
             strongSelf.currentViewModelIsBeingUpdated.value = true
             strongSelf.objects.replace(index, with: ListingCarouselCellModel(listing:updatedListing))
             strongSelf.currentViewModelIsBeingUpdated.value = false
-        }.addDisposableTo(activeDisposeBag)
+        }.disposed(by: activeDisposeBag)
 
-        currentVM.status.asObservable().bind(to: status).addDisposableTo(activeDisposeBag)
-        currentVM.isShowingFeaturedStripe.asObservable().bind(to: isFeatured).addDisposableTo(activeDisposeBag)
+        currentVM.status.asObservable().bind(to: status).disposed(by: activeDisposeBag)
+        currentVM.isShowingFeaturedStripe.asObservable().bind(to: isFeatured).disposed(by: activeDisposeBag)
 
-        currentVM.productInfo.asObservable().bind(to: productInfo).addDisposableTo(activeDisposeBag)
-        currentVM.productImageURLs.asObservable().bind(to: productImageURLs).addDisposableTo(activeDisposeBag)
-        currentVM.userInfo.asObservable().bind(to: userInfo).addDisposableTo(activeDisposeBag)
-        currentVM.listingStats.asObservable().bind(to: listingStats).addDisposableTo(activeDisposeBag)
+        currentVM.productInfo.asObservable().bind(to: productInfo).disposed(by: activeDisposeBag)
+        currentVM.productImageURLs.asObservable().bind(to: productImageURLs).disposed(by: activeDisposeBag)
+        currentVM.userInfo.asObservable().bind(to: userInfo).disposed(by: activeDisposeBag)
+        currentVM.listingStats.asObservable().bind(to: listingStats).disposed(by: activeDisposeBag)
 
-        currentVM.actionButtons.asObservable().bind(to: actionButtons).addDisposableTo(activeDisposeBag)
-        currentVM.navBarButtons.asObservable().bind(to: navBarButtons).addDisposableTo(activeDisposeBag)
+        currentVM.actionButtons.asObservable().bind(to: actionButtons).disposed(by: activeDisposeBag)
+        currentVM.navBarButtons.asObservable().bind(to: navBarButtons).disposed(by: activeDisposeBag)
 
         quickAnswers.value = currentVM.quickAnswers
-        currentVM.directChatEnabled.asObservable().bind(to: quickAnswersAvailable).addDisposableTo(activeDisposeBag)
+        currentVM.directChatEnabled.asObservable().bind(to: quickAnswersAvailable).disposed(by: activeDisposeBag)
 
-        currentVM.directChatEnabled.asObservable().bind(to: directChatEnabled).addDisposableTo(activeDisposeBag)
+        currentVM.directChatEnabled.asObservable().bind(to: directChatEnabled).disposed(by: activeDisposeBag)
         directChatMessages.removeAll()
         currentVM.directChatMessages.changesObservable.subscribeNext { [weak self] change in
             self?.performCollectionChange(change: change)
-        }.addDisposableTo(activeDisposeBag)
+        }.disposed(by: activeDisposeBag)
         directChatPlaceholder.value = currentVM.directChatPlaceholder
 
-        currentVM.isFavorite.asObservable().bind(to: isFavorite).addDisposableTo(activeDisposeBag)
-        currentVM.favoriteButtonState.asObservable().bind(to: favoriteButtonState).addDisposableTo(activeDisposeBag)
-        currentVM.shareButtonState.asObservable().bind(to: shareButtonState).addDisposableTo(activeDisposeBag)
-        currentVM.bumpUpBannerInfo.asObservable().bind(to: bumpUpBannerInfo).addDisposableTo(activeDisposeBag)
+        currentVM.isFavorite.asObservable().bind(to: isFavorite).disposed(by: activeDisposeBag)
+        currentVM.favoriteButtonState.asObservable().bind(to: favoriteButtonState).disposed(by: activeDisposeBag)
+        currentVM.shareButtonState.asObservable().bind(to: shareButtonState).disposed(by: activeDisposeBag)
+        currentVM.bumpUpBannerInfo.asObservable().bind(to: bumpUpBannerInfo).disposed(by: activeDisposeBag)
 
-        currentVM.socialMessage.asObservable().bind(to: socialMessage).addDisposableTo(activeDisposeBag)
+        currentVM.socialMessage.asObservable().bind(to: socialMessage).disposed(by: activeDisposeBag)
         socialSharer.value = currentVM.socialSharer
 
-        moreInfoState.asObservable().bind(to: currentVM.moreInfoState).addDisposableTo(activeDisposeBag)
+        moreInfoState.asObservable().bind(to: currentVM.moreInfoState).disposed(by: activeDisposeBag)
     }
 
     private func performCollectionChange(change: CollectionChange<ChatViewMessage>) {

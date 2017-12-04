@@ -185,7 +185,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
                     return LGLocalizedString.mainSignUpFacebookConnectButton
                 }
             }.bind(to: connectFBButton.rx.title)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
 
         // Google button title
         viewModel.previousGoogleUsername.asObservable()
@@ -196,7 +196,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
                     return LGLocalizedString.mainSignUpGoogleConnectButton
                 }
             }.bind(to: connectGoogleButton.rx.title)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     }
     
     private func adaptConstraintsToiPhone4() {

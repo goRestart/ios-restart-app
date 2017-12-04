@@ -163,6 +163,6 @@ final class AmplitudeTracker: Tracker {
             let trackingDataValue = NSArray(array: trackingData)
             identify.set(AmplitudeTracker.userPropABTests, value: trackingDataValue)
             Amplitude.instance().identify(identify)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }

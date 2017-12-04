@@ -153,23 +153,23 @@ class PostListingCameraViewModel: BaseViewModel {
                 strongSelf.infoShown.value = false
                 strongSelf.showFirstTimeAlertIfNeeded()
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         cameraState.asObservable().map{ $0.previewMode }.subscribeNext{ [weak self] previewMode in
             self?.cameraDelegate?.productCameraRequestHideTabs(previewMode)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         cameraState.asObservable().map{ $0.cameraLock }.subscribeNext{ [weak self] cameraLock in
             self?.cameraDelegate?.productCameraRequestsScrollLock(cameraLock)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         visible.asObservable().distinctUntilChanged().filter{ $0 }
             .subscribeNext{ [weak self] _ in self?.didBecomeVisible() }
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         shouldShowFirstTimeAlert.asObservable().filter {$0}.bindNext { [weak self] _ in
             self?.firstTimeAlertDidShow()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func setupFirstShownLiterals() {

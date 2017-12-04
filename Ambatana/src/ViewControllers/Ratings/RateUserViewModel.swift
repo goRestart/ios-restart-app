@@ -221,11 +221,11 @@ fileprivate extension RateUserViewModel {
                 guard let stars = stars else { return true }
                 return stars >= Constants.userRatingMinStarsPositive }
             .distinctUntilChanged()
-            .bind(to: isReviewPositive).addDisposableTo(disposeBag)
+            .bind(to: isReviewPositive).disposed(by: disposeBag)
         
         isReviewPositive.asObservable().subscribeNext { [weak self] positive in
             self?.reviewStateDidChange(positive: positive)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         Observable.combineLatest(isLoading.asObservable(),
                                  state.asObservable(), resultSelector: { ($0, $1) })
@@ -242,7 +242,7 @@ fileprivate extension RateUserViewModel {
                         return LGLocalizedString.userRatingAddCommentButton
                     }
                 }
-            }.bind(to: sendText).addDisposableTo(disposeBag)
+            }.bind(to: sendText).disposed(by: disposeBag)
         
         let ratingValid = rating.asObservable()
             .map { $0 != nil }
@@ -273,9 +273,9 @@ fileprivate extension RateUserViewModel {
                 }
             }
             .distinctUntilChanged()
-            .bind(to: sendEnabled).addDisposableTo(disposeBag)
+            .bind(to: sendEnabled).disposed(by: disposeBag)
         
-        commentLength.bind(to: descriptionCharLimit).addDisposableTo(disposeBag)
+        commentLength.bind(to: descriptionCharLimit).disposed(by: disposeBag)
     }
 }
 

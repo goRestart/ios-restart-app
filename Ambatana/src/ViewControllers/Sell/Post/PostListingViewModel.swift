@@ -296,7 +296,7 @@ extension PostListingViewModel {
             case .year:
                 strongSelf.selectedCarAttributes = strongSelf.selectedCarAttributes.updating(year: Int(categoryDetail.id))
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }
 
@@ -316,15 +316,15 @@ fileprivate extension PostListingViewModel {
         category.asObservable().subscribeNext { [weak self] category in
             guard let strongSelf = self, let category = category else { return }
             strongSelf.state.value = strongSelf.state.value.updating(category: category)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         state.asObservable().filter { $0.step == .finished }.bindNext { [weak self] _ in
             self?.postListing()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         state.asObservable().filter { $0.step == .addingDetails }.bindNext { [weak self] _ in
             self?.openPostingDetails()
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         
         state.asObservable().filter { $0.step == .uploadSuccess }.bindNext { [weak self] _ in
             // Keep one second delay in order to give time to read the product posted message.
@@ -332,7 +332,7 @@ fileprivate extension PostListingViewModel {
                 guard let strongSelf = self else { return }
                 strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess()
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     func openPostAbandonAlertNotLoggedIn() {

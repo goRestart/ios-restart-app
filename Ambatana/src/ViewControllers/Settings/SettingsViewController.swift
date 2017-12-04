@@ -82,11 +82,11 @@ class SettingsViewController: BaseViewController {
             } else {
                 self?.settingProfileImageView.isHidden = true
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.sections.asObservable().bindNext { [weak self] _ in
             self?.tableView?.reloadData()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }
 

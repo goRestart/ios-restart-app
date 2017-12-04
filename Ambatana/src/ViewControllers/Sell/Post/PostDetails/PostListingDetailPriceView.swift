@@ -94,15 +94,15 @@ class PostListingDetailPriceView: BaseView {
     }
 
     private func setupRx() {
-        priceTextField.rx.text.asObservable().map { $0 ?? "" }.bind(to: viewModel.price).addDisposableTo(disposeBag)
-        viewModel.isFree.asObservable().bind(to: freePostSwitch.rx.value(animated: true)).addDisposableTo(disposeBag)
+        priceTextField.rx.text.asObservable().map { $0 ?? "" }.bind(to: viewModel.price).disposed(by: disposeBag)
+        viewModel.isFree.asObservable().bind(to: freePostSwitch.rx.value(animated: true)).disposed(by: disposeBag)
         viewModel.isFree.asObservable().bindNext{[weak self] active in
             self?.showPriceTextContainer(!active)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         doneButton.rx.tap.bindNext { [weak self] in
             self?.priceTextField.resignFirstResponder()
             self?.viewModel.doneButtonPressed()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func showFreeOption(_ show: Bool) {

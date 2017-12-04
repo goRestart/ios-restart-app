@@ -107,7 +107,7 @@ fileprivate extension PostCategorySelectionView {
         button.contentHorizontalAlignment = .left
         button.rx.tap.subscribeNext { [weak self] in
             self?.selectedCategoryPublishSubject.onNext(postCategoryLink)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         categoriesContainerView.addSubview(button)
     }
     

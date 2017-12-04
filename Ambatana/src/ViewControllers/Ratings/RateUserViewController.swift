@@ -152,23 +152,23 @@ class RateUserViewController: KeyboardViewController {
     private func setupRx() {
         viewModel.state.asObservable().bindNext { [weak self] state in
             self?.updateUI(with: state)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         viewModel.rating.asObservable().bindNext { [weak self] rating in
             onMainThread { [weak self] in
                 let value = rating ?? 0
                 self?.stars.forEach { $0.isHighlighted = ($0.tag <= value) }
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        viewModel.sendText.asObservable().bind(to: sendButton.rx.title(for: .normal)).addDisposableTo(disposeBag)
-        viewModel.sendEnabled.asObservable().bind(to: sendButton.rx.isEnabled).addDisposableTo(disposeBag)
-        viewModel.isLoading.asObservable().bind(to: activityIndicator.rx.isAnimating).addDisposableTo(disposeBag)
+        viewModel.sendText.asObservable().bind(to: sendButton.rx.title(for: .normal)).disposed(by: disposeBag)
+        viewModel.sendEnabled.asObservable().bind(to: sendButton.rx.isEnabled).disposed(by: disposeBag)
+        viewModel.isLoading.asObservable().bind(to: activityIndicator.rx.isAnimating).disposed(by: disposeBag)
         
         viewModel.descriptionCharLimit.asObservable()
             .map { return String($0) }
             .bind(to: descriptionCharCounter.rx.text)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
 
         keyboardChanges.bindNext { [weak self] change in
             guard let strongSelf = self, change.visible else { return }
@@ -185,7 +185,7 @@ class RateUserViewController: KeyboardViewController {
             
             strongSelf.scrollView.setContentOffset(offset, animated: true)
             
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func updateUI(with state: RateUserState) {

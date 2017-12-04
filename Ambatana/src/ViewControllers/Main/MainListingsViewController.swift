@@ -430,16 +430,16 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func setupRxBindings() {
-        viewModel.infoBubbleText.asObservable().bind(to: infoBubbleLabel.rx.text).addDisposableTo(disposeBag)
-        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bind(to: infoBubbleShadow.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.infoBubbleText.asObservable().bind(to: infoBubbleLabel.rx.text).disposed(by: disposeBag)
+        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bind(to: infoBubbleShadow.rx.isHidden).disposed(by: disposeBag)
 
         topInset.asObservable().bindNext { [weak self] topInset in
             self?.listingListView.collectionViewContentInset.top = topInset
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.mainListingsHeader.asObservable().bindNext { [weak self] header in
             self?.listingListView.refreshDataView()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.errorMessage.asObservable().bindNext { [weak self] errorMessage in
             if let toastTitle = errorMessage {
@@ -448,7 +448,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             } else {
                 self?.setToastViewHidden(true)
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.filterTitle.asObservable().distinctUntilChanged { (s1, s2) -> Bool in
             s1 == s2
@@ -457,21 +457,21 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             strongSelf.filterTitleHeaderView.text = filterTitle
             let tagsHeight = strongSelf.primaryTagsShowing ? strongSelf.filterTagsViewHeight : 0
             strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.filterDescription.asObservable().bindNext { [weak self] filterDescr in
             guard let strongSelf = self else { return }
             strongSelf.filterDescriptionHeaderView.text = filterDescr
             let tagsHeight = strongSelf.primaryTagsShowing ? strongSelf.filterTagsViewHeight : 0
             strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         navbarSearch.searchTextField?.rx.text.asObservable()
             .subscribeNext { [weak self] text in
                 self?.navBarSearchTextFieldDidUpdate(text: text ?? "")
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        navbarSearch.searchTextField.rx.text.asObservable().bind(to: viewModel.searchText).addDisposableTo(disposeBag)
+        navbarSearch.searchTextField.rx.text.asObservable().bind(to: viewModel.searchText).disposed(by: disposeBag)
     }
     
     func navBarSearchTextFieldDidUpdate(text: String) {
@@ -511,7 +511,7 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             categoriesHeader?.categorySelected.asObservable().bindNext { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }
                 self?.viewModel.updateFiltersFromHeaderCategories(category)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
             if let categoriesHeader = categoriesHeader {
                 categoriesHeader.tag = 1
                 header.addHeader(categoriesHeader, height: CategoriesHeaderCollectionView.viewHeight)
@@ -555,7 +555,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
             }.bindNext { [weak self] totalCount in
                 self?.suggestionsSearchesTable.reloadData()
                 self?.suggestionsSearchesTable.isHidden = totalCount == 0
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
                                                          name: NSNotification.Name.UIKeyboardWillShow, object: nil)

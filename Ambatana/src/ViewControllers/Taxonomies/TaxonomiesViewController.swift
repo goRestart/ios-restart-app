@@ -59,10 +59,10 @@ class TaxonomiesViewController : BaseViewController, TaxonomiesViewModelDelegate
         tableView.taxonomySelection.asObservable().bindNext { [weak self] taxonomy in
             guard let taxonomy = taxonomy else { return }
             self?.viewModel.taxonomySelected(taxonomy: taxonomy)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         tableView.taxonomyChildSelection.asObservable().bindNext { [weak self] taxonomyChild in
             guard let taxonomyChild = taxonomyChild else { return }
             self?.viewModel.taxonomyChildSelected(taxonomyChild: taxonomyChild)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }

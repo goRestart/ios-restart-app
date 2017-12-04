@@ -256,7 +256,7 @@ extension TextViewController: UITextViewDelegate {
 
     private func setupTextAreaRx() {
         let emptyText = textView.rx.text.map { ($0 ?? "").trim.isEmpty }
-        emptyText.bind(to: sendButton.rx.isHidden).addDisposableTo(disposeBag)
+        emptyText.bind(to: sendButton.rx.isHidden).disposed(by: disposeBag)
         emptyText.bindNext { [weak self] empty in
                 guard let strongSelf = self, let margin = self?.viewMargins else { return }
                 let rightConstraint = empty ? margin : margin + strongSelf.sendButton.width + margin
@@ -264,18 +264,18 @@ extension TextViewController: UITextViewDelegate {
                 self?.textRightMargin = rightConstraint
                 UIView.animate(withDuration: TextViewController.animationTime, delay: 0, options: [.beginFromCurrentState],
                                animations: { [weak self] in self?.view.layoutIfNeeded() }, completion: nil)
-                }.addDisposableTo(disposeBag)
+                }.disposed(by: disposeBag)
 
         textView.rx.text.bindNext { [weak self] text in
             self?.fitTextView()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         textView.rx.text.skip(1).bindNext { [weak self] text in
             guard let keyTextCache = self?.keyForTextCaching() else { return }
             TextViewController.keyTextCache[keyTextCache] = text
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        sendButton.rx.tap.bindNext { [weak self] in self?.sendButtonPressed() }.addDisposableTo(disposeBag)
+        sendButton.rx.tap.bindNext { [weak self] in self?.sendButtonPressed() }.disposed(by: disposeBag)
     }
 
     fileprivate func updateLeftActions() {
@@ -291,7 +291,7 @@ extension TextViewController: UITextViewDelegate {
             if let tint = action.imageTint {
                 button.tintColor = tint
             }
-            button.rx.tap.subscribeNext(onNext: action.action).addDisposableTo(leftActionsDisposeBag)
+            button.rx.tap.subscribeNext(onNext: action.action).disposed(by: leftActionsDisposeBag)
             button.translatesAutoresizingMaskIntoConstraints = false
             leftButtonsContainer.addSubview(button)
             button.layout().width(buttonDiameter).widthProportionalToHeight()

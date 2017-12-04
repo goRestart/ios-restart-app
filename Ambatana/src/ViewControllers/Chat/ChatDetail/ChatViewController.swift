@@ -236,7 +236,7 @@ class ChatViewController: TextViewController {
         relatedListingsView.delegate = viewModel
         relatedListingsView.visibleHeight.asObservable().distinctUntilChanged().bindNext { [weak self] _ in
             self?.configureBottomMargin(animated: true)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     fileprivate func setupDirectAnswers() {
@@ -294,7 +294,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         stickersView.delegate = self
         viewModel.stickers.asObservable().bindNext { [weak self] stickers in
             self?.stickersView.reloadStickers(stickers)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         stickersView.isHidden = true
         singleTapGesture?.addTarget(self, action: #selector(hideStickers))
         let textTapGesture = UITapGestureRecognizer(target: self, action: #selector(hideStickers))
@@ -326,7 +326,7 @@ extension ChatViewController: UIGestureRecognizerDelegate {
             let stickersFrame = CGRect(x: 0, y: 0, width: self.view.width, height: height)
             self.stickersWindow?.frame = windowFrame
             self.stickersView.frame = stickersFrame
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     func showStickers() {
@@ -411,7 +411,7 @@ fileprivate extension ChatViewController {
         viewModel.chatEnabled.asObservable().bindNext { [weak self] enabled in
             self?.setTextViewBarHidden(!enabled, animated: true)
             self?.textView.isUserInteractionEnabled = enabled
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         viewModel.chatStatus.asObservable().bindNext { [weak self] status in
             self?.relationInfoView.setupUIForStatus(status, otherUserName: self?.viewModel.interlocutorName.value)
@@ -424,7 +424,7 @@ fileprivate extension ChatViewController {
             case .available, .blocked, .blockedBy, .listingSold, .listingGivenAway:
                 break
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         viewModel.messages.changesObservable.subscribeNext { [weak self] change in
             switch change {
@@ -433,18 +433,18 @@ fileprivate extension ChatViewController {
             case .insert, .remove, .composite, .swap, .move:
                 self?.tableView.handleCollectionChange(change)
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         
-        viewModel.listingName.asObservable().bind(to: listingView.listingName.rx.text).addDisposableTo(disposeBag)
-        viewModel.interlocutorName.asObservable().bind(to: listingView.userName.rx.text).addDisposableTo(disposeBag)
-        viewModel.listingPrice.asObservable().bind(to: listingView.listingPrice.rx.text).addDisposableTo(disposeBag)
+        viewModel.listingName.asObservable().bind(to: listingView.listingName.rx.text).disposed(by: disposeBag)
+        viewModel.interlocutorName.asObservable().bind(to: listingView.userName.rx.text).disposed(by: disposeBag)
+        viewModel.listingPrice.asObservable().bind(to: listingView.listingPrice.rx.text).disposed(by: disposeBag)
         viewModel.listingImageUrl.asObservable().bindNext { [weak self] imageUrl in
             guard let url = imageUrl else { return }
             self?.listingView.listingImage.lg_setImageWithURL(url)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         viewModel.shouldUpdateQuickAnswers.asObservable().filter{ $0 }.distinctUntilChanged().subscribeNext { [weak self] _ in
             self?.setupDirectAnswers()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         let placeHolder = Observable.combineLatest(viewModel.interlocutorId.asObservable(),
                                                    viewModel.interlocutorName.asObservable()) {
@@ -458,7 +458,7 @@ fileprivate extension ChatViewController {
                 } else {
                     self?.listingView.userAvatar.image = placeholder
                 }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         viewModel.shouldShowExpressBanner.asObservable().skip(1).bindNext { [weak self] showBanner in
             if showBanner {
@@ -466,24 +466,24 @@ fileprivate extension ChatViewController {
             } else {
                 self?.hideBanner()
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.directAnswersState.asObservable().bindNext { [weak self] state in
             guard let strongSelf = self else { return }
             let visible = state == .visible
             strongSelf.directAnswersPresenter.hidden = !visible
             strongSelf.configureBottomMargin(animated: true)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         keyboardChanges.bindNext { [weak self] change in
             if !change.visible {
                 self?.hideStickers()
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         viewModel.showStickerBadge.asObservable().bindNext { [weak self] _ in
             self?.reloadLeftActions()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         viewModel.relatedListingsState.asObservable().bindNext { [weak self] state in
             switch state {
@@ -492,7 +492,7 @@ fileprivate extension ChatViewController {
             case .hidden, .loading:
                 self?.relatedListingsView.listingId.value = nil
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }
 

@@ -53,13 +53,13 @@ class TabBarViewModel: BaseViewModel {
     private func setupRx() {
         notificationsManager.unreadMessagesCount.asObservable()
             .map { $0.flatMap { $0 > 0 ? String($0) : nil } }
-            .bind(to: chatsBadge).addDisposableTo(disposeBag)
+            .bind(to: chatsBadge).disposed(by: disposeBag)
         
         Observable.combineLatest(myUserRepository.rx_myUser,
             notificationsManager.unreadNotificationsCount.asObservable(),
             resultSelector: { (myUser, count) -> String? in
                 guard myUser != nil else { return String(1) }
                 return count.flatMap { $0 > 0 ? String($0) : nil }
-            }).bind(to: notificationsBadge).addDisposableTo(disposeBag)
+            }).bind(to: notificationsBadge).disposed(by: disposeBag)
     }
 }

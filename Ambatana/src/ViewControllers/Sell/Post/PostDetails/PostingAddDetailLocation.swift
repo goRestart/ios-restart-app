@@ -62,7 +62,7 @@ final class PostingAddDetailLocation: UIView, PostingViewConfigurable {
             .bindNext({ [weak self] place in
                 guard let place = place else { return }
                 self?.locationSelected.value = place
-            }).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
     }
     
     // MARK: - PostingViewConfigurable

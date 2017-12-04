@@ -281,32 +281,32 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         
         carDetailsView.navigationBackButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carDetailsNavigationBackButtonPressed()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         carDetailsView.navigationMakeButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carMakeButtonPressed()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         carDetailsView.navigationModelButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carModelButtonPressed()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         carDetailsView.navigationYearButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carYearButtonPressed()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         carDetailsView.makeRowView.button.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carMakeButtonPressed()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         carDetailsView.modelRowView.button.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carModelButtonPressed()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         carDetailsView.yearRowView.button.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carYearButtonPressed()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         carDetailsView.doneButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carDetailsDoneButtonPressed()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         carDetailsView.tableView.selectedDetail.asObservable().bind(to: viewModel.selectedDetail)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         viewModel.selectedDetail.asObservable().subscribeNext { [weak self] (categoryDetailSelectedInfo) in
             guard let strongSelf = self else { return }
             guard let categoryDetail = categoryDetailSelectedInfo else { return }
@@ -325,7 +325,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
                 }
             }
             strongSelf.carDetailsView.updateProgress(withPercentage: strongSelf.viewModel.currentCarDetailsProgress)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func setupFooter() {
@@ -338,22 +338,22 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         
         footer.galleryButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.galleryButtonPressed()
-        }.addDisposableTo(disposeBag)
-        cameraView.takePhotoEnabled.asObservable().bind(to: footer.cameraButton.rx.isEnabled).addDisposableTo(disposeBag)
-        cameraView.takePhotoEnabled.asObservable().bind(to: footer.galleryButton.rx.isEnabled).addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
+        cameraView.takePhotoEnabled.asObservable().bind(to: footer.cameraButton.rx.isEnabled).disposed(by: disposeBag)
+        cameraView.takePhotoEnabled.asObservable().bind(to: footer.galleryButton.rx.isEnabled).disposed(by: disposeBag)
         footer.cameraButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.cameraButtonPressed()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setupRx() {
         viewModel.state.asObservable().bindNext { [weak self] state in
             self?.update(state: state)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         categorySelectionView.selectedCategory.asObservable()
             .bind(to: viewModel.category)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
             guard origin > 0 else { return }
@@ -368,7 +368,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             })
             let willShowKeyboard = nextKeyboardHeight > 0
             strongSelf.loadingViewHidden(showingKeyboard: willShowKeyboard)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func loadingViewHidden(showingKeyboard: Bool) {

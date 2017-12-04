@@ -149,17 +149,17 @@ class ExpressChatViewModel: BaseViewModel {
 
         selectedListings.asObservable().subscribeNext { [weak self] listings in
             self?.selectedItemsCount.value = listings.count
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         selectedItemsCount.asObservable().subscribeNext { [weak self] numSelected in
             self?.sendMessageTitle.value = numSelected > 1 ?
                 LGLocalizedString.chatExpressContactVariousButtonText(String(numSelected)) :
                 LGLocalizedString.chatExpressContactOneButtonText
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         selectedItemsCount.asObservable().subscribeNext { [weak self] selectedCount in
             self?.sendButtonEnabled.value = selectedCount > 0
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }
 

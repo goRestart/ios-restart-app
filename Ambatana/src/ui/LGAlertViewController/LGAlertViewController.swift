@@ -301,7 +301,7 @@ class LGAlertViewController: UIViewController {
             self?.dismissAlert(pushTransition: true) {
                 action.action()
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     @objc dynamic private func tapOutside() {

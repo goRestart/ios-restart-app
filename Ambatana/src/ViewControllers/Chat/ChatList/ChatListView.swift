@@ -73,7 +73,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
             guard let tableView = self?.tableView, tableView.numberOfRows(inSection: 0) > 0 else { return }
             let indexPath = IndexPath(row: 0, section: 0)
             tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
 

@@ -246,7 +246,7 @@ class ListingViewModel: BaseViewModel {
         if let productId = listing.value.objectId {
             listingRepository.updateEvents(for: productId).bindNext { [weak self] listing in
                 self?.listing.value = listing
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         }
 
         status.asObservable().bindNext { [weak self] status in
@@ -254,7 +254,7 @@ class ListingViewModel: BaseViewModel {
             strongSelf.refreshActionButtons(status)
             strongSelf.refreshNavBarButtons()
             strongSelf.directChatEnabled.value = status.directChatsAvailable
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         // bumpeable listing check
         status.asObservable().bindNext { [weak self] status in
@@ -263,11 +263,11 @@ class ListingViewModel: BaseViewModel {
             } else {
                 self?.bumpUpBannerInfo.value = nil
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         isFavorite.asObservable().subscribeNext { [weak self] _ in
             self?.refreshNavBarButtons()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         listing.asObservable().subscribeNext { [weak self] listing in
             guard let strongSelf = self else { return }
@@ -288,26 +288,26 @@ class ListingViewModel: BaseViewModel {
                                                    freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed)
             strongSelf.productInfo.value = productInfo
 
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         status.asObservable().bindNext { [weak self] status in
             guard let isMine = self?.isMine else { return }
             self?.shareButtonState.value = isMine ? .enabled : .hidden
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         myUserRepository.rx_myUser.bindNext { [weak self] _ in
             self?.refreshStatus()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         productIsFavoriteable.asObservable().bindNext { [weak self] favoriteable in
             self?.favoriteButtonState.value = favoriteable ? .enabled : .hidden
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         moreInfoState.asObservable().map { (state: MoreInfoState) in
             return state == .shown
         }.distinctUntilChanged().bindNext { [weak self] shown in
             self?.refreshNavBarButtons()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func distanceString(_ listing: Listing) -> String? {

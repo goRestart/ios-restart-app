@@ -214,7 +214,7 @@ class BumpUpBanner: UIView {
 
     private func setupRx() {
         
-        timeIntervalLeft.asObservable().map { $0 <= 1 }.bind(to: readyToBump).addDisposableTo(disposeBag)
+        timeIntervalLeft.asObservable().map { $0 <= 1 }.bind(to: readyToBump).disposed(by: disposeBag)
 
         timeIntervalLeft.asObservable().skip(1).bindNext { [weak self] secondsLeft in
             guard let strongSelf = self else { return }
@@ -251,10 +251,10 @@ class BumpUpBanner: UIView {
             }
             strongSelf.descriptionLabelText.value = localizedText
             strongSelf.descriptionLabel.font = descriptionFont
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        timeLabelText.asObservable().bind(to: timeLabel.rx.text).addDisposableTo(disposeBag)
-        descriptionLabelText.asObservable().bind(to: descriptionLabel.rx.text).addDisposableTo(disposeBag)
+        timeLabelText.asObservable().bind(to: timeLabel.rx.text).disposed(by: disposeBag)
+        descriptionLabelText.asObservable().bind(to: descriptionLabel.rx.text).disposed(by: disposeBag)
     }
 
     private func setupUI() {

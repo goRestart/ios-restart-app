@@ -384,27 +384,27 @@ extension UserViewController {
     private func setupBackgroundRxBindings() {
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
             self?.view.backgroundColor = bgColor
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setupUserBgViewRxBindings() {
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
             self?.userBgTintView.backgroundColor = bgColor
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         let userAvatarPresent: Observable<Bool> = viewModel.userAvatarURL.asObservable().map { url in
             guard let urlString = url?.absoluteString else { return false }
             return !urlString.isEmpty
         }
         // Pattern overlay is hidden if there's no avatar and user background view is shown if so
-        userAvatarPresent.bind(to: patternView.rx.isHidden).addDisposableTo(disposeBag)
-        userAvatarPresent.map{ !$0 }.bind(to: userBgView.rx.isHidden).addDisposableTo(disposeBag)
+        userAvatarPresent.bind(to: patternView.rx.isHidden).disposed(by: disposeBag)
+        userAvatarPresent.map{ !$0 }.bind(to: userBgView.rx.isHidden).disposed(by: disposeBag)
 
         // Load avatar image
         viewModel.userAvatarURL.asObservable().subscribeNext { [weak self] url in
             guard let url = url else { return }
             self?.userBgImageView.lg_setImageWithURL(url)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setupNavBarRxBindings() {
@@ -417,7 +417,7 @@ extension UserViewController {
             guard let navBarUserView = self?.navBarUserView else { return }
             navBarUserView.setupWith(userAvatar: avatar, placeholder: placeholder, userName: userName,
                 subtitle: userLocation)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
             guard let strongSelf = self else { return }
@@ -428,61 +428,61 @@ extension UserViewController {
                 button.setImage(navBarButton.image, for: .normal)
                 button.rx.tap.bindNext { _ in
                     navBarButton.action()
-                }.addDisposableTo(strongSelf.disposeBag)
+                }.disposed(by: strongSelf.disposeBag)
                 buttons.append(button)
             }
             strongSelf.setNavigationBarRightButtons(buttons)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setupHeaderRxBindings() {
         // Name, location, avatar & bg
-        viewModel.userName.asObservable().bind(to: userNameLabel.rx.optionalText).addDisposableTo(disposeBag)
-        viewModel.userLocation.asObservable().bind(to: userLocationLabel.rx.optionalText).addDisposableTo(disposeBag)
+        viewModel.userName.asObservable().bind(to: userNameLabel.rx.optionalText).disposed(by: disposeBag)
+        viewModel.userLocation.asObservable().bind(to: userLocationLabel.rx.optionalText).disposed(by: disposeBag)
 
         Observable.combineLatest(viewModel.userAvatarURL.asObservable(),
             viewModel.userAvatarPlaceholder.asObservable()) { ($0, $1) }
             .subscribeNext { [weak self] (avatar, placeholder) in
                 self?.headerContainer.header.setAvatar(avatar, placeholderImage: placeholder)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
             self?.headerContainer.header.selectedColor = bgColor
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         // Ratings
         viewModel.userRatingAverage.asObservable().subscribeNext { [weak self] userRatingAverage in
             self?.setupRatingAverage(userRatingAverage)
-        }.addDisposableTo(disposeBag)
-        viewModel.userRatingAverage.asObservable().bind(to: navBarUserView.userRatings).addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
+        viewModel.userRatingAverage.asObservable().bind(to: navBarUserView.userRatings).disposed(by: disposeBag)
 
         viewModel.userRatingCount.asObservable().subscribeNext { [weak self] userRatingCount in
             self?.headerContainer.header.setRatingCount(userRatingCount)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         // User relation
         viewModel.userRelationText.asObservable().subscribeNext { [weak self] userRelationText in
             self?.headerContainer.header.setUserRelationText(userRelationText)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         // Accounts
         viewModel.userAccounts.asObservable().subscribeNext { [weak self] accounts in
             self?.headerContainer.header.accounts = accounts
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         // Header mode
         viewModel.headerMode.asObservable().subscribeNext { [weak self] mode in
             self?.headerContainer.header.mode = mode
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         // Header collapse notify percentage
         headerExpandedPercentage.asObservable().map { percentage -> CGFloat in
             let max = UserViewController.userBgTintViewHeaderCollapsedAlpha
             let min = UserViewController.userBgTintViewHeaderExpandedAlpha
             return min + 1 - (percentage * max)
-        }.bind(to: userBgTintViewAlpha).addDisposableTo(disposeBag)
+        }.bind(to: userBgTintViewAlpha).disposed(by: disposeBag)
         
-        userBgTintViewAlpha.asObservable().bind(to: userBgTintView.rx.alpha).addDisposableTo(disposeBag)
+        userBgTintViewAlpha.asObservable().bind(to: userBgTintView.rx.alpha).disposed(by: disposeBag)
 
         headerExpandedPercentage.asObservable().map { percentage -> CGFloat in
             let collapsedAlpha = UserViewController.userEffectViewHeaderCollapsedAlpha
@@ -494,7 +494,7 @@ extension UserViewController {
                 alpha += (percentage - 1) * (UserViewController.userEffectViewHeaderExpandedDoubleAlpha - expandedAlpha)
             }
             return alpha
-        }.bind(to: userBgEffectView.rx.alpha).addDisposableTo(disposeBag)
+        }.bind(to: userBgEffectView.rx.alpha).disposed(by: disposeBag)
 
         // Header elements alpha selection
         headerExpandedPercentage.asObservable()
@@ -512,7 +512,7 @@ extension UserViewController {
                     self?.userLabelsContainer.alpha =
                         expandedPerc.percentageBetween(start: UserViewController.userLabelsMinThreshold, end: 1.0)
                 }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         // Header sticky to expanded/collapsed
         let listViewDragging = listingListView.isDragging.asObservable().distinctUntilChanged()
@@ -530,17 +530,17 @@ extension UserViewController {
                 guard expand || !expand && strongSelf.headerExpandedPercentage.value > 0 else { return }
                 self?.scrollToTopWithExpandedState(expand, animated: true)
             }
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
 
         // Tab switch
-        headerContainer.header.tab.asObservable().bind(to: viewModel.tab).addDisposableTo(disposeBag)
+        headerContainer.header.tab.asObservable().bind(to: viewModel.tab).disposed(by: disposeBag)
     }
     
     private func setupUserLabelsContainerRx() {
         viewModel.navBarButtons.asObservable().bindNext { [weak self] buttons in
             let margin = buttons.count > 1 ? UserViewController.userLabelsContainerMarginLong : UserViewController.userLabelsContainerMarginShort
             self?.userLabelsSideMargin.forEach { $0.constant = margin }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     private func setupListingListViewRxBindings() {
@@ -550,7 +550,7 @@ extension UserViewController {
             strongSelf.listingListView.refreshDataView()
             let expanded = strongSelf.headerExpandedPercentage.value > 0
             strongSelf.scrollToTopWithExpandedState(expanded, animated: false)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }
 
@@ -571,7 +571,7 @@ extension UserViewController: ListingListViewHeaderDelegate, PushPermissionsHead
     func setupPermissionsRx() {
         viewModel.pushPermissionsDisabledWarning.asObservable().filter {$0 != nil} .bindNext { [weak self] _ in
             self?.listingListView.refreshDataView()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     func totalHeaderHeight() -> CGFloat {

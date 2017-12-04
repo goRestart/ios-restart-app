@@ -35,6 +35,6 @@ class StickersManager {
             .map { $0.flatMap { URL(string: $0.url) }
             }.bindNext { [weak self] urls in
                 self?.imageDownloader.downloadImagesWithURLs(urls)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 }

@@ -453,7 +453,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 self?.updateTapRecognizer(false)
             }
             previousKbOrigin = origin
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     @objc private dynamic func collectionTapped() {

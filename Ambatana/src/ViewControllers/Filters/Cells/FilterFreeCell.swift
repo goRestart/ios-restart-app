@@ -52,7 +52,7 @@ class FilterFreeCell: UICollectionViewCell {
                 imageView.contentMode = .center
                 imageView.image = isOn ? #imageLiteral(resourceName: "free_switch_active") : #imageLiteral(resourceName: "free_switch_inactive")
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     

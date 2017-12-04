@@ -556,7 +556,7 @@ fileprivate extension AppCoordinator {
                 } else {
                     self?.openExternalDeepLink(deepLink)
                 }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
 
@@ -572,12 +572,12 @@ fileprivate extension AppCoordinator {
                     }
                 }
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         locationManager.locationEvents.filter { $0 == .movedFarFromSavedManualLocation }.take(1).bindNext {
             [weak self] _ in
             self?.askUserToUpdateLocation()
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         locationManager.locationEvents.filter { $0 == .locationUpdate }.take(1).bindNext {
             [weak self] _ in
@@ -585,7 +585,7 @@ fileprivate extension AppCoordinator {
             if strongSelf.featureFlags.locationRequiresManualChangeSuggestion {
                 strongSelf.askUserToUpdateLocationManually()
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     func askUserToUpdateLocation() {

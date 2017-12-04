@@ -89,7 +89,7 @@ class NotificationsViewController: BaseViewController {
             case .empty(let emptyViewModel):
                 self?.setEmptyViewState(emptyViewModel)
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
     }
 

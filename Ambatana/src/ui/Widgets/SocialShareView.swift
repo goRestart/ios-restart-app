@@ -140,7 +140,7 @@ class SocialShareView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(image, for: .normal)
         button.accessibilityId = accessibilityId
-        button.rx.tap.subscribeNext { _ in action() }.addDisposableTo(disposeBag)
+        button.rx.tap.subscribeNext { _ in action() }.disposed(by: disposeBag)
         let width = NSLayoutConstraint(item: button, attribute: .width, relatedBy: .equal, toItem: nil,
                                     attribute: .notAnAttribute, multiplier: 1.0, constant: buttonsSide)
         let height = NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: nil,

@@ -435,7 +435,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                     return LGLocalizedString.mainSignUpFacebookConnectButton
                 }
             }.bind(to: connectFBButton.rx.title)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
 
         // Google button title
         viewModel.previousGoogleUsername.asObservable()
@@ -446,21 +446,21 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                     return LGLocalizedString.mainSignUpGoogleConnectButton
                 }
             }.bind(to: connectGoogleButton.rx.title)
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
 
         // Autosuggest
         viewModel.suggestedEmail.subscribeNext { [weak self] suggestion in
             self?.emailTextField.suggestion = suggestion
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         // Send button enable
-        viewModel.sendButtonEnabled.bind(to: sendButton.rx.isEnabled).addDisposableTo(disposeBag)
+        viewModel.sendButtonEnabled.bind(to: sendButton.rx.isEnabled).disposed(by: disposeBag)
         
         // Show password hide
         viewModel.password.asObservable().map { password -> Bool in
             guard let password = password else { return true }
             return password.isEmpty
-        }.bind(to: showPasswordButton.rx.isHidden).addDisposableTo(disposeBag)
+        }.bind(to: showPasswordButton.rx.isHidden).disposed(by: disposeBag)
     }
 
     private func updateUI() {

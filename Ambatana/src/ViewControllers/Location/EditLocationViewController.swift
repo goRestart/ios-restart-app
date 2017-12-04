@@ -267,32 +267,32 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
             guard let searchField = self?.searchField, searchField.isFirstResponder else { return }
             guard let text = text else { return }
             self?.viewModel.searchText.value = (text, autoSelect:false)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         //When infoText changes and we're in approxLocation mode, set the info on search field
         viewModel.placeInfoText.asObservable().subscribeNext { [weak self] infoText in
             let approxLocation = self?.viewModel.approxLocation.value ?? false
             self?.searchField.text = approxLocation ? infoText : ""
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setupInfoViewsRx() {
-        viewModel.placeInfoText.asObservable().bind(to: searchField.rx.text).addDisposableTo(disposeBag)
+        viewModel.placeInfoText.asObservable().bind(to: searchField.rx.text).disposed(by: disposeBag)
         //When approx location changes show/hide views accordingly
         viewModel.approxLocation.asObservable().subscribeNext { [weak self] approximate in
             self?.poiImage.isHidden = approximate
             self?.aproxLocationArea.isHidden = !approximate
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setupLocationRx() {
-        viewModel.approxLocation.asObservable().bind(to: approximateLocationSwitch.rx.value).addDisposableTo(disposeBag)
-        approximateLocationSwitch.rx.value.bind(to: viewModel.approxLocation).addDisposableTo(disposeBag)
+        viewModel.approxLocation.asObservable().bind(to: approximateLocationSwitch.rx.value).disposed(by: disposeBag)
+        approximateLocationSwitch.rx.value.bind(to: viewModel.approxLocation).disposed(by: disposeBag)
 
         viewModel.approxLocationHidden.asObservable().subscribeNext { [weak self] hidden in
             self?.approxLocationContainer.isHidden = hidden
             self?.approxLocationHeight.constant = hidden ? 0 : 50
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         //When place changes on viewModel map must follow its location
         //Each time approxLocation or distance value changes, map must zoom-in/out map accordingly
@@ -307,7 +307,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
                 }
                 self?.centerMapInLocation(location, radius: radius)
             }
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
     }
 
     private func setupSetLocationButtonRx() {
@@ -321,9 +321,9 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
                     for: .normal)
                 self?.setLocationLoading.stopAnimating()
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
-        viewModel.setLocationEnabled.asObservable().bind(to: setLocationButton.rx.isEnabled).addDisposableTo(disposeBag)
+        viewModel.setLocationEnabled.asObservable().bind(to: setLocationButton.rx.isEnabled).disposed(by: disposeBag)
     }
 
     /**

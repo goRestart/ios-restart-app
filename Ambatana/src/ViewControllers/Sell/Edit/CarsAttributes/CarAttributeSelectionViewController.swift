@@ -59,7 +59,7 @@ class CarAttributeSelectionViewController : BaseViewController, CarAttributeSele
                 break
             }
             self?.updateTableView(values: carInfoList, selectedValueIndex: strongSelf.viewModel.selectedIndex, addOtherString: addOtherString)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         // Rx to select info
         tableView.selectedDetail.asObservable().bindNext { [weak self] detailSelectedInfo in
@@ -73,7 +73,7 @@ class CarAttributeSelectionViewController : BaseViewController, CarAttributeSele
                 let selectedType = detailSelectedInfo?.type else { return }
 
             self?.viewModel.carInfoSelected(id: selectedId, name: selectedName, type: selectedType)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func updateTableView(values: [CarInfoWrapper], selectedValueIndex: Int?, addOtherString: String?) {

@@ -291,7 +291,7 @@ fileprivate extension AppDelegate {
                 locationDataSourceType = .niord
             }
             self?.locationRepository?.setLocationDataSourceType(locationDataSourceType: locationDataSourceType)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         // LGCoreKit
         let coreEnvironment = environmentHelper.coreEnvironment
@@ -349,14 +349,14 @@ fileprivate extension AppDelegate {
             } else {
                 self.locationManager?.stopSensorLocationUpdates()
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         // Force update check
         appActive.filter { $0 }.subscribeNext { [weak self] active in
             self?.configManager?.updateWithCompletion {
                 self?.navigator?.openForceUpdateAlertIfNeeded()
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         if let featureFlags = featureFlags {
             let featureFlagsSynced = featureFlags.syncedData.asObservable().distinctUntilChanged()
@@ -371,7 +371,7 @@ fileprivate extension AppDelegate {
                         // stop observing payment transactions
                         self?.purchasesShopper?.stopObservingTransactions()
                     }
-                }.addDisposableTo(disposeBag)
+                }.disposed(by: disposeBag)
         }
     }
 }

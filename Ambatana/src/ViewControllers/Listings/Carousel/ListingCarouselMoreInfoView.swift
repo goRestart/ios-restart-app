@@ -167,7 +167,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
             self?.setupMapExpanded(false)
             self?.locationZone = MKCircle(center:coordinate.coordinates2DfromLocation(),
                                     radius: Constants.accurateRegionRadius)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func layoutMapView(inside container: UIView) {
@@ -423,7 +423,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         statusAndChat.bindNext { [weak self] (status, chatEnabled) in
             self?.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0,
                                                          bottom: status.scrollBottomInset(chatEnabled: chatEnabled), right: 0)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.productInfo.asObservable().unwrap().bindNext { [weak self] info in
             self?.titleText.attributedText = info.styledTitle
@@ -434,7 +434,7 @@ fileprivate extension ListingCarouselMoreInfoView {
             self?.distanceLabel.text = info.distance
             self?.descriptionLabel.mainAttributedText = info.styledDescription
             self?.descriptionLabel.setNeedsLayout()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     func setupStatsRx(viewModel: ListingCarouselViewModel) {
@@ -446,22 +446,22 @@ fileprivate extension ListingCarouselMoreInfoView {
         statsViewVisible.asObservable().distinctUntilChanged().bindNext { [weak self] visible in
             self?.statsContainerViewHeightConstraint.constant = visible ? self?.statsContainerViewHeight ?? 0 : 0
             self?.statsContainerViewTopConstraint.constant = visible ? self?.statsContainerViewTop ?? 0 : 0
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         statsAndCreation.bindNext { [weak self] (stats, creation) in
             guard let statsView = self?.statsView else { return }
             statsView.updateStatsWithInfo(stats.viewsCount, favouritesCount: stats.favouritesCount, postedDate: creation)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     func setupBottomPanelRx(viewModel: ListingCarouselViewModel) {
         viewModel.socialSharer.asObservable().bindNext { [weak self] socialSharer in
             self?.socialShareView.socialSharer = socialSharer
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         viewModel.socialMessage.asObservable().bindNext { [weak self] socialMessage in
             self?.socialShareView.socialMessage = socialMessage
             self?.socialShareView.isHidden = socialMessage == nil
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     func setupBannerWith(viewModel: ListingCarouselViewModel) {

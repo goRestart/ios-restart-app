@@ -340,8 +340,8 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     private func setupMoreInfo() {
         view.addSubview(moreInfoView)
-        moreInfoAlpha.asObservable().bind(to: moreInfoView.rx.alpha).addDisposableTo(disposeBag)
-        moreInfoAlpha.asObservable().bind(to: moreInfoView.dragView.rx.alpha).addDisposableTo(disposeBag)
+        moreInfoAlpha.asObservable().bind(to: moreInfoView.rx.alpha).disposed(by: disposeBag)
+        moreInfoAlpha.asObservable().bind(to: moreInfoView.dragView.rx.alpha).disposed(by: disposeBag)
 
         view.bringSubview(toFront: buttonBottom)
         view.bringSubview(toFront: chatContainer)
@@ -392,7 +392,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                 self?.collectionView.handleCollectionChange(change) { _ in
                     self?.imageBackground.isHidden = false
                 }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     private func setupZoomRx() {
@@ -403,23 +403,23 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                 self?.moreInfoAlpha.value = zooming ? 0 : 1
                 self?.navigationController?.navigationBar.alpha = zooming ? 0 : 1
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     private func setupAlphaRxBindings() {
-        itemsAlpha.asObservable().bind(to: buttonBottom.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bind(to: buttonTop.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bind(to: userView.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bind(to: buttonBottom.rx.alpha).disposed(by: disposeBag)
+        itemsAlpha.asObservable().bind(to: buttonTop.rx.alpha).disposed(by: disposeBag)
+        itemsAlpha.asObservable().bind(to: userView.rx.alpha).disposed(by: disposeBag)
 
         itemsAlpha.asObservable().bindNext { [weak self] itemsAlpha in
             self?.pageControl.alpha = itemsAlpha
         }
 
-        itemsAlpha.asObservable().bind(to: productStatusView.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bind(to: directChatTable.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bind(to: chatContainer.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bind(to: shareButton.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bind(to: bannerContainer.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bind(to: productStatusView.rx.alpha).disposed(by: disposeBag)
+        itemsAlpha.asObservable().bind(to: directChatTable.rx.alpha).disposed(by: disposeBag)
+        itemsAlpha.asObservable().bind(to: chatContainer.rx.alpha).disposed(by: disposeBag)
+        itemsAlpha.asObservable().bind(to: shareButton.rx.alpha).disposed(by: disposeBag)
+        itemsAlpha.asObservable().bind(to: bannerContainer.rx.alpha).disposed(by: disposeBag)
 
         Observable.combineLatest(viewModel.favoriteButtonState.asObservable(), itemsAlpha.asObservable()) { ($0, $1) }
             .bindNext { [weak self] (buttonState, itemsAlpha) in
@@ -438,7 +438,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                     strongButton.isHidden = false
                     strongButton.alpha = 0.6
                 }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         let width = view.bounds.width
         let midPoint = width/2
@@ -453,15 +453,15 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                 return newValue
         }
 
-        alphaSignal.bind(to: itemsAlpha).addDisposableTo(disposeBag)
-        alphaSignal.bind(to: moreInfoAlpha).addDisposableTo(disposeBag)
+        alphaSignal.bind(to: itemsAlpha).disposed(by: disposeBag)
+        alphaSignal.bind(to: moreInfoAlpha).disposed(by: disposeBag)
 
         alphaSignal.bindNext{ [weak self] alpha in
             self?.moreInfoTooltip?.alpha = alpha
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         if let navBar = navigationController?.navigationBar {
-            alphaSignal.bind(to: navBar.rx.alpha).addDisposableTo(disposeBag)
+            alphaSignal.bind(to: navBar.rx.alpha).disposed(by: disposeBag)
         }
 
         var indexSignal: Observable<Int> = collectionContentOffset.asObservable().map { Int(($0.x + midPoint) / width) }
@@ -492,14 +492,14 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                 }
                 strongSelf.returnCellToFirstImage()
             }
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
 
         //Event when scroll reaches one entire page (alpha == 1) so that we can delay some tasks until then.
         alphaSignal.map { $0 == 1 }.distinctUntilChanged().filter { $0 }
             .debounce(0.5, scheduler: MainScheduler.instance)
             .bindNext { [weak self] _ in
                 self?.finishedTransition()
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     private func returnCellToFirstImage() {
@@ -532,7 +532,7 @@ extension ListingCarouselViewController {
 
     private func setupMoreInfoRx() {
         moreInfoView.setupWith(viewModel: viewModel)
-        moreInfoState.asObservable().bind(to: viewModel.moreInfoState).addDisposableTo(disposeBag)
+        moreInfoState.asObservable().bind(to: viewModel.moreInfoState).disposed(by: disposeBag)
     }
 
     private func setupPageControlRx() {
@@ -542,7 +542,7 @@ extension ListingCarouselViewController {
             pageControl.numberOfPages = images.count
             pageControl.frame.size = CGSize(width: CarouselUI.pageControlWidth, height:
                 pageControl.size(forNumberOfPages: images.count).width + CarouselUI.pageControlWidth)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     fileprivate func setupUserInfoRx() {
@@ -553,7 +553,7 @@ extension ListingCarouselViewController {
                                      productTitle: productInfo?.title,
                                      productPrice: productInfo?.price,
                                      userId: userInfo?.userId)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         viewModel.userInfo.asObservable().bindNext { [weak self] userInfo in
             self?.fullScreenAvatarView.alpha = 0
@@ -564,7 +564,7 @@ extension ListingCarouselViewController {
                     self?.fullScreenAvatarView.image = imageWithSource.image
                 }
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
 
@@ -582,7 +582,7 @@ extension ListingCarouselViewController {
                     rightItem.style = .plain
                     shareButton.rx.tap.takeUntil(takeUntilAction).bindNext{
                         action.action()
-                        }.addDisposableTo(strongSelf.disposeBag)
+                        }.disposed(by: strongSelf.disposeBag)
                     strongSelf.navigationItem.rightBarButtonItems = nil
                     strongSelf.navigationItem.rightBarButtonItem = rightItem
                 default:
@@ -590,7 +590,7 @@ extension ListingCarouselViewController {
                                                        tapBlock: { tapEvent in
                                                         tapEvent.takeUntil(takeUntilAction).bindNext{
                                                             action.action()
-                                                            }.addDisposableTo(strongSelf.disposeBag)
+                                                            }.disposed(by: strongSelf.disposeBag)
                     })
                 }
             } else if navBarButtons.count > 1 {
@@ -600,12 +600,12 @@ extension ListingCarouselViewController {
                     button.setImage(navBarButton.image, for: .normal)
                     button.rx.tap.takeUntil(takeUntilAction).bindNext { _ in
                         navBarButton.action()
-                        }.addDisposableTo(strongSelf.disposeBag)
+                        }.disposed(by: strongSelf.disposeBag)
                     buttons.append(button)
                 }
                 strongSelf.setNavigationBarRightButtons(buttons)
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     private func setupBottomButtonsRx() {
@@ -621,17 +621,17 @@ extension ListingCarouselViewController {
             strongSelf.buttonBottom.configureWith(uiAction: bottomAction)
             strongSelf.buttonBottom.rx.tap.takeUntil(takeUntilAction).bindNext {
                 bottomAction.action()
-                }.addDisposableTo(strongSelf.disposeBag)
+                }.disposed(by: strongSelf.disposeBag)
             guard let topAction = actionButtons.last, actionButtons.count > 1 else { return }
             strongSelf.buttonTop.configureWith(uiAction: topAction)
             strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bindNext {
                 topAction.action()
-                }.addDisposableTo(strongSelf.disposeBag)
-        }.addDisposableTo(disposeBag)
+                }.disposed(by: strongSelf.disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setupDirectChatElementsRx() {
-        viewModel.directChatPlaceholder.asObservable().bind(to: chatTextView.rx.placeholder).addDisposableTo(disposeBag)
+        viewModel.directChatPlaceholder.asObservable().bind(to: chatTextView.rx.placeholder).disposed(by: disposeBag)
         if let productVM = viewModel.currentListingViewModel, !productVM.areQuickAnswersDynamic {
             chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
         }
@@ -639,12 +639,12 @@ extension ListingCarouselViewController {
         viewModel.directChatEnabled.asObservable().bindNext { [weak self] enabled in
             self?.buttonBottomBottomConstraint.constant = enabled ? CarouselUI.itemsMargin : 0
             self?.chatContainerHeight.constant = enabled ? CarouselUI.chatContainerMaxHeight : 0
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         viewModel.quickAnswers.asObservable().bindNext { [weak self] quickAnswers in
             let isDynamic = self?.viewModel.currentListingViewModel?.areQuickAnswersDynamic ?? false
             self?.directAnswersView.update(answers: quickAnswers, isDynamic: isDynamic)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         viewModel.directChatMessages.changesObservable.bindNext { [weak self] change in
             guard let strongSelf = self else { return }
@@ -656,13 +656,13 @@ extension ListingCarouselViewController {
             default:
                 strongSelf.directChatTable.handleCollectionChange(change, animation: .none)
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         chatTextView.rx.send.bindNext { [weak self] textToSend in
             guard let strongSelf = self else { return }
             strongSelf.viewModel.send(directMessage: textToSend, isDefaultText: strongSelf.chatTextView.isInitialText)
             strongSelf.chatTextView.clear()
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     private func setupProductStatusLabelRx() {
@@ -690,7 +690,7 @@ extension ListingCarouselViewController {
                 strongSelf.productStatusImageViewWidthConstraint.constant = 0
             }
             strongSelf.productStatusView.isHidden = strongSelf.productStatusLabel.text?.isEmpty ?? true
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     private func addTapRecognizerToStatusLabel() {
@@ -705,19 +705,19 @@ extension ListingCarouselViewController {
     private func setupFavoriteButtonRx() {
         viewModel.isFavorite.asObservable()
             .map { UIImage(named: $0 ? "ic_favorite_big_on" : "ic_favorite_big_off") }
-            .bind(to: favoriteButton.rx.image).addDisposableTo(disposeBag)
+            .bind(to: favoriteButton.rx.image).disposed(by: disposeBag)
 
         favoriteButton.rx.tap.bindNext { [weak self] in
             self?.viewModel.favoriteButtonPressed()
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     private func setupShareButtonRx() {
-        viewModel.shareButtonState.asObservable().bind(to: shareButton.rx.state).addDisposableTo(disposeBag)
+        viewModel.shareButtonState.asObservable().bind(to: shareButton.rx.state).disposed(by: disposeBag)
 
         shareButton.rx.tap.bindNext { [weak self] in
             self?.viewModel.shareButtonPressed()
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     private func setupBumpUpBannerRx() {
@@ -729,11 +729,11 @@ extension ListingCarouselViewController {
             } else {
                 self?.closeBumpUpBanner()
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     private func setupUserInteractionRxBindings() {
-        cellAnimating.asObservable().map { !$0 } .bind(to: view.rx.userInteractionEnabled).addDisposableTo(disposeBag)
+        cellAnimating.asObservable().map { !$0 } .bind(to: view.rx.userInteractionEnabled).disposed(by: disposeBag)
     }
 
     fileprivate func resetMoreInfoState() {
@@ -1097,7 +1097,7 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
             UIView.animate(withDuration: Double(change.animationTime)) {
                 strongSelf.view.layoutIfNeeded()
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

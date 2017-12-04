@@ -99,7 +99,7 @@ fileprivate extension ChatDisclaimerCell {
     func setupRxBindings() {
         button.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.buttonAction?()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     @objc dynamic func tapped() {

@@ -101,7 +101,7 @@ class LGSearchMapViewModel: BaseViewModel {
             .debounce(0.3, scheduler: MainScheduler.instance)
             .subscribeNext{ [weak self] searchText, autoSelect in
                 self?.resultsForSearchText(searchText, autoSelectFirst: autoSelect)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         
         locationToFetch.asObservable()
             .filter { coordinates, gpsLocation in return coordinates != nil }
@@ -113,7 +113,7 @@ class LGSearchMapViewModel: BaseViewModel {
             .subscribeNext { [weak self] place, gpsLocation in
                 self?.setPlace(place, forceLocation: false, fromGps: gpsLocation, enableSave: true)
             }
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         userMovedLocation.asObservable()
             .subscribeNext { [weak self] coordinates in
@@ -121,7 +121,7 @@ class LGSearchMapViewModel: BaseViewModel {
                 DispatchQueue.main.async {
                     self?.locationToFetch.value = (coordinates, false)
                 }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     func placeResumedDataAtPosition(_ position: Int) -> String? {

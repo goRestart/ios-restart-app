@@ -278,7 +278,7 @@ extension ChatGroupedViewModel {
             case .blockedUsers:
                 return self?.blockedUsersListViewModel
             }
-        }.bind(to: currentPageViewModel).addDisposableTo(disposeBag)
+        }.bind(to: currentPageViewModel).disposed(by: disposeBag)
 
         // Observe current page view model changes
         currentPageViewModel.asObservable().subscribeNext { [weak self] viewModel in
@@ -289,17 +289,17 @@ extension ChatGroupedViewModel {
                 .takeUntil(strongSelf.currentPageViewModel.asObservable().skip(1))
                 .map { $0 > 0 }
                 .bind(to: strongSelf.editButtonEnabled)
-                .addDisposableTo(strongSelf.disposeBag)
+                .disposed(by: strongSelf.disposeBag)
 
             viewModel?.editing.asObservable()
                 .takeUntil(strongSelf.currentPageViewModel.asObservable().skip(1))
                 .map { editing in return strongSelf.currentTab.value.editButtonText(editing) }
                 .bind(to: strongSelf.editButtonText)
-                .addDisposableTo(strongSelf.disposeBag)
+                .disposed(by: strongSelf.disposeBag)
 
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        chatRepository.chatStatus.map { $0 == .openAuthenticated }.bind(to: editButtonEnabled).addDisposableTo(disposeBag)
+        chatRepository.chatStatus.map { $0 == .openAuthenticated }.bind(to: editButtonEnabled).disposed(by: disposeBag)
 
         chatRepository.chatStatus.bindNext { [weak self] (status) in
             if status == .openNotVerified {
@@ -307,13 +307,13 @@ extension ChatGroupedViewModel {
             } else if status == .openAuthenticated || status == .closed {
                 self?.verificationPending.value = false
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         chatRepository.chatStatus.map { $0 == .openNotVerified }.distinctUntilChanged().filter { $0 }.subscribeNext { [weak self] _ in
             self?.tabNavigator?.openVerifyAccounts([.facebook, .google, .email(self?.myUserRepository.myUser?.email)],
                 source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
                     description: LGLocalizedString.chatNotVerifiedAlertMessage),
                 completionBlock: nil)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }

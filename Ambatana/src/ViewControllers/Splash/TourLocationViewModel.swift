@@ -52,7 +52,7 @@ final class TourLocationViewModel: BaseViewModel {
         locationManager.locationEvents.map { $0 == .changedPermissions }.observeOn(MainScheduler.instance)
             .bindNext { [weak self] _ in
                 self?.nextStep()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     func nextStep() {

@@ -65,9 +65,9 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 sut.delegate = self
                 sut.navigator = self
                 disposeBag = DisposeBag()
-                sut.actionButtons.asObservable().bind(to: bottomButtonsObserver).addDisposableTo(disposeBag)
-                sut.isFavorite.asObservable().bind(to: isFavoriteObserver).addDisposableTo(disposeBag)
-                sut.directChatMessages.observable.bind(to: directChatMessagesObserver).addDisposableTo(disposeBag)
+                sut.actionButtons.asObservable().bind(to: bottomButtonsObserver).disposed(by: disposeBag)
+                sut.isFavorite.asObservable().bind(to: isFavoriteObserver).disposed(by: disposeBag)
+                sut.directChatMessages.observable.bind(to: directChatMessagesObserver).disposed(by: disposeBag)
             }
 
             beforeEach {

@@ -108,13 +108,13 @@ class LGNotificationsManager: NotificationsManager {
             case .logout:
                 self?.clearCounters()
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        sessionManager.sessionEvents.map { $0.isLogin }.bind(to: loggedIn).addDisposableTo(disposeBag)
+        sessionManager.sessionEvents.map { $0.isLogin }.bind(to: loggedIn).disposed(by: disposeBag)
 
         globalCount.bindNext { count in
             UIApplication.shared.applicationIconBadgeNumber = count
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         chatRepository.chatEvents.filter { event in
             switch event.type {
@@ -125,18 +125,18 @@ class LGNotificationsManager: NotificationsManager {
             }
         }.bindNext{ [weak self] event in
             self?.requestChatCounters()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         chatRepository.chatStatus.bindNext { [weak self] in
             self?.chatStatus = $0
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         deepLinksRouter.chatDeepLinks.filter { [weak self] _ in
             if let status = self?.chatStatus, status == .openAuthenticated { return false }
             return true
         }.bindNext { [weak self] _ in
             self?.requestChatCounters()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     @objc dynamic private func applicationWillEnterForeground() {
@@ -177,16 +177,16 @@ fileprivate extension LGNotificationsManager {
     func setupMarketingNotifications() {
         marketingNotifications.asObservable().skip(1).bindNext { [weak self] value in
             self?.keyValueStorage.userMarketingNotifications = value
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         loggedIn.asObservable().skip(1).filter { $0 }.bindNext { [weak self] _ in
             guard let keyValueStorage = self?.keyValueStorage else { return }
             self?.marketingNotifications.value = keyValueStorage.userMarketingNotifications
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         let loggedInMkt: Observable<Bool> = Observable.combineLatest(marketingNotifications.asObservable(),
                                                                      loggedIn.asObservable(),
             resultSelector: { enabled, loggedIn in return !loggedIn || enabled }).skip(1)
-        loggedInMkt.bind(to: loggedInMktNofitications).addDisposableTo(disposeBag)
+        loggedInMkt.bind(to: loggedInMktNofitications).disposed(by: disposeBag)
     }
 }

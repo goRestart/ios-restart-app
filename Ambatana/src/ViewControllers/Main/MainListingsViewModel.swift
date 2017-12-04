@@ -522,10 +522,10 @@ class MainListingsViewModel: BaseViewModel {
     private func setupRx() {
         listViewModel.isListingListEmpty.asObservable().bindNext { [weak self] _ in
             self?.updateCategoriesHeader()
-        }.addDisposableTo(disposeBag) 
+        }.disposed(by: disposeBag) 
         shouldShowPrices.asObservable().bindNext { [weak self] shouldShowPrices in
             self?.listViewModel.updateShouldShowPrices(shouldShowPrices)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     /**
@@ -624,14 +624,14 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             case .favorite, .unFavorite, .sold, .unSold:
                 break
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         monetizationRepository.events.bindNext { [weak self] event in
             switch event {
             case .freeBump, .pricedBump:
                 self?.listViewModel.refresh()
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     // MARK: > ListingListViewCellsDelegate
@@ -799,10 +799,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
 extension MainListingsViewModel {
     fileprivate func setupSessionAndLocation() {
-        sessionManager.sessionEvents.bindNext { [weak self] _ in self?.sessionDidChange() }.addDisposableTo(disposeBag)
+        sessionManager.sessionEvents.bindNext { [weak self] _ in self?.sessionDidChange() }.disposed(by: disposeBag)
         locationManager.locationEvents.filter { $0 == .locationUpdate }.bindNext { [weak self] _ in
             self?.locationDidChange()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     fileprivate func sessionDidChange() {

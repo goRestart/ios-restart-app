@@ -71,7 +71,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 disposeBag = DisposeBag()
                 sut.sendButtonEnabled.subscribeNext { enabled in
                     sendButtonEnabled = enabled
-                }.addDisposableTo(disposeBag)
+                }.disposed(by: disposeBag)
             }
 
             describe("initialization") {
