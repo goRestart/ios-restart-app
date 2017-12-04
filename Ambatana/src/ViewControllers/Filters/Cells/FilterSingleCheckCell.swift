@@ -95,11 +95,17 @@ class FilterSingleCheckCell: UICollectionViewCell, ReusableCell {
         bottomSeparator.layout(with: mainView).bottom()
         bottomSeparator.layout().height(LGUIKitConstants.onePixelSize)
         
-        titleLabel.layout(with: mainView).top(by: FilterSingleCheckCell.Metrics.cellSmallMargin).left(by: FilterSingleCheckCell.Metrics.cellBigMargin).bottom(by: -FilterSingleCheckCell.Metrics.cellSmallMargin)
+        titleLabel.layout(with: mainView)
+            .top(by: FilterSingleCheckCell.Metrics.cellSmallMargin)
+            .left(by: FilterSingleCheckCell.Metrics.cellBigMargin)
+            .bottom(by: -FilterSingleCheckCell.Metrics.cellSmallMargin)
         titleLabel.layout(with: tickIcon).right(to: .left, by: FilterSingleCheckCell.Metrics.cellBigMargin)
         
-        tickIcon.layout().height(FilterSingleCheckCell.Metrics.tickIconHeight).width(FilterSingleCheckCell.Metrics.tickIconWidth)
-        tickIcon.layout(with: mainView).right(by: -FilterSingleCheckCell.Metrics.cellBigMargin)
+        tickIcon.layout()
+            .height(FilterSingleCheckCell.Metrics.tickIconHeight)
+            .width(FilterSingleCheckCell.Metrics.tickIconWidth)
+        tickIcon.layout(with: mainView)
+            .right(by: -FilterSingleCheckCell.Metrics.cellBigMargin)
         tickIcon.layout(with: mainView).centerY()
     }
     
