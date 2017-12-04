@@ -10,11 +10,12 @@ import Foundation
 import LGCoreKit
 final class PhotoViewerViewModel: BaseViewModel {
 
-    private let urls: [URL]
     let imageDownloader: ImageDownloaderType
     var itemsCount: Int { return urls.count }
 
-    convenience init(with urls: [URL], currentIndex: Int) {
+    private let urls: [URL]
+
+    convenience init(with urls: [URL]) {
         self.init(imageDownloader: ImageDownloader.sharedInstance, urls: urls)
     }
 
@@ -23,7 +24,6 @@ final class PhotoViewerViewModel: BaseViewModel {
         self.imageDownloader = imageDownloader
         super.init()
     }
-
 
     func urlsAtIndex(_ index: Int) -> URL? {
         guard index >= 0 && index < urls.count else { return nil }

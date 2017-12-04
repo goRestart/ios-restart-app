@@ -9,19 +9,27 @@
 import Foundation
 import RxSwift
 
-final class PhotoViewerView: UIView, PhotoViewerViewType {
+protocol PhotoViewerViewType: class {
+    func updateCurrentPage(_ current: Int)
+    func updateNumberOfPages(_ pagesCount: Int)
+    func register(_ cellClass: Swift.AnyClass?, forCellWithReuseIdentifier identifier: String)
+}
+
+final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewType {
 
     var rx_closeButton: Reactive<UIControl>? { return (closeButton as UIControl).rx }
     var rx_chatButton: Reactive<UIControl>? { return (chatButton as UIControl).rx }
-
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: ListingDeckImagePreviewLayout())
-    let pageControl = UIPageControl()
-    private let chatButton = ChatButton()
-    private let closeButton = UIButton(type: .custom)
-
-    convenience init() {
-        self.init(frame: .zero)
+    var rx_collectionView: Reactive<UICollectionView> { return collectionView.rx }
+    
+    weak var dataSource: UICollectionViewDataSource? {
+        didSet { collectionView.dataSource = dataSource }
     }
+    fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: ListingDeckImagePreviewLayout())
+    fileprivate let pageControl = UIPageControl()
+    fileprivate let chatButton = ChatButton()
+    fileprivate let closeButton = UIButton(type: .custom)
+
+    convenience init() { self.init(frame: .zero) }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,6 +37,24 @@ final class PhotoViewerView: UIView, PhotoViewerViewType {
     }
     
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+    func reloadData() {
+        collectionView.reloadData()
+    }
+
+    func register(_ cellClass: AnyClass?, forCellWithReuseIdentifier identifier: String) {
+        collectionView.register(cellClass, forCellWithReuseIdentifier: identifier)
+    }
+
+    func updateCurrentPage(_ current: Int) {
+        pageControl.currentPage = current
+    }
+
+    func updateNumberOfPages(_ pagesCount: Int) {
+        pageControl.numberOfPages = pagesCount
+    }
+
+    // MARK: Setup
 
     private func setupUI() {
         setupCollectionView()
@@ -42,11 +68,12 @@ final class PhotoViewerView: UIView, PhotoViewerViewType {
         addSubview(collectionView)
         collectionView.layout(with: self).fill()
 
-        collectionView.backgroundColor = UIColo.grayLight
+        collectionView.backgroundColor = UIColor.grayLight
+        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
     }
 
     private func setupPageControl() {
-        // TODO: View not finished yet.
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         addSubview(pageControl)
 

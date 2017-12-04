@@ -15,6 +15,7 @@ final class PhotoViewerViewController: BaseViewController, PhotoViewerVCType, UI
 
     let photoViewer = PhotoViewerView()
     private let viewModel: PhotoViewerViewModel
+    private let binder = PhotoViewerViewControllerBinder()
 
     init(viewModel: PhotoViewerViewModel) {
         self.viewModel = viewModel
@@ -27,10 +28,27 @@ final class PhotoViewerViewController: BaseViewController, PhotoViewerVCType, UI
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        photoViewer.collectionView.register(ListingDeckImagePreviewCell.self,
-                                            forCellWithReuseIdentifier: Identifiers.reusableID)
-        photoViewer.collectionView.dataSource = self
-        photoViewer.pageControl.numberOfPages = viewModel.itemsCount
+        photoViewer.register(ListingDeckImagePreviewCell.self, forCellWithReuseIdentifier: Identifiers.reusableID)
+        photoViewer.dataSource = self
+        photoViewer.updateNumberOfPages(viewModel.itemsCount)
+
+        binder.viewController = self
+        binder.bind(toView: photoViewer)
+    }
+
+    func updateCurrentPage(_ currentPage: Int) {
+        photoViewer.updateCurrentPage(currentPage)
+    }
+
+    func updatePage(fromContentOffset offset: CGFloat) {
+        updateCurrentPage(pageIndex(fromContentOffset: offset))
+    }
+
+    private func pageIndex(fromContentOffset offset: CGFloat) -> Int {
+        let width = photoViewer.width
+        guard width > 0 else { return 0 }
+        let page = offset / width
+        return Int(page)
     }
 
     func showChat() {
@@ -64,6 +82,6 @@ final class PhotoViewerViewController: BaseViewController, PhotoViewerVCType, UI
             return cell
         }
         imageCell.imageView.image = cache
-        return cell
+        return imageCell
     }
 }

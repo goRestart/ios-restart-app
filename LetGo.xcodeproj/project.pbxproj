@@ -46,6 +46,7 @@
 		0A760FEF1FA08EFD0055F2B6 /* ListingDeckActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A760FED1FA08E0C0055F2B6 /* ListingDeckActionsView.swift */; };
 		0A760FF11FA0B7480055F2B6 /* ListingDeckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A760FF01FA0B7480055F2B6 /* ListingDeckViewModel.swift */; };
 		0A760FF21FA0B7930055F2B6 /* ListingDeckViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A760FF01FA0B7480055F2B6 /* ListingDeckViewModel.swift */; };
+		0A7724141FCEED6300BD322C /* PhotoViewerViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7724131FCEED6300BD322C /* PhotoViewerViewModelSpec.swift */; };
 		0A7D9CD21FB1FC3300BA8E5C /* ListingDeckImagePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7D9CD01FB1FB8B00BA8E5C /* ListingDeckImagePreviewCell.swift */; };
 		0A82750A1F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8275091F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift */; };
 		0A82750B1F7D0DA400A6A0C5 /* DeferredDeepLinkTargetSearchQuery.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D88C81F7D058B00819E89 /* DeferredDeepLinkTargetSearchQuery.json */; };
@@ -1561,6 +1562,7 @@
 		0A759E961FB472F60030FDE0 /* ListingCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewModel.swift; sourceTree = "<group>"; };
 		0A760FED1FA08E0C0055F2B6 /* ListingDeckActionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckActionsView.swift; sourceTree = "<group>"; };
 		0A760FF01FA0B7480055F2B6 /* ListingDeckViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewModel.swift; sourceTree = "<group>"; };
+		0A7724131FCEED6300BD322C /* PhotoViewerViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewModelSpec.swift; sourceTree = "<group>"; };
 		0A7D9CD01FB1FB8B00BA8E5C /* ListingDeckImagePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckImagePreviewCell.swift; sourceTree = "<group>"; };
 		0A8275091F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockDeferredDeepLinkMaker.swift; sourceTree = "<group>"; };
 		0A82750D1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetSearchQuery.json; sourceTree = "<group>"; };
@@ -2478,6 +2480,7 @@
 				0A0AF97B1FA864900024EF22 /* ListingDeckViewModelBinderSpec.swift */,
 				0A653BBF1FAB7C8600C2AA77 /* ListingDeckViewModelSpec.swift */,
 				0A93E2011FCE95A000955A3A /* PhotoViewerViewControllerBinderSpec.swift */,
+				0A7724131FCEED6300BD322C /* PhotoViewerViewModelSpec.swift */,
 			);
 			path = ListingDeck;
 			sourceTree = "<group>";
@@ -5631,6 +5634,7 @@
 				72D928E71E83ED300030F4C3 /* MockRatingManager.swift in Sources */,
 				50D08DCB1E69AF14009CC260 /* CrashManagerSpec.swift in Sources */,
 				0A82750A1F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift in Sources */,
+				0A7724141FCEED6300BD322C /* PhotoViewerViewModelSpec.swift in Sources */,
 				724D77A91FC3467700DB43C0 /* CarAttributes+LGSpec.swift in Sources */,
 				50D08DCD1E69AF14009CC260 /* NotificationsManagerSpec.swift in Sources */,
 				50D08DDB1E69AF14009CC260 /* BaseViewModelSpec.swift in Sources */,

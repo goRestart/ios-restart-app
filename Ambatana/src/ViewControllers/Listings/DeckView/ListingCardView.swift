@@ -12,7 +12,6 @@ import RxSwift
 import LGCoreKit
 import MapKit
 
-
 protocol ListingCardViewDelegate {
     func didTapOnStatusView()
     func didTapOnPreview()
@@ -173,6 +172,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
     private func setupPreviewImageView() {
         previewImageView.translatesAutoresizingMaskIntoConstraints = false
         previewImageView.clipsToBounds = true
+        previewImageView.contentMode = .scaleAspectFill
         contentView.addSubview(previewImageView)
         previewImageView.layout(with: contentView)
             .fillHorizontal().top().proportionalHeight(multiplier: Layout.Height.previewFactor) { [weak self] in
@@ -295,3 +295,4 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
         }, completion: nil)
     }
 }
+

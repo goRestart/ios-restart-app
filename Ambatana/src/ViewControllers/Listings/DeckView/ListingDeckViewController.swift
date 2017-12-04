@@ -15,11 +15,15 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         static let cardView = "ListingCardView"
     }
 
+    override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
+
     var contentOffset: Observable<CGFloat> { return  contentOffsetVar.asObservable() }
     private let contentOffsetVar = Variable<CGFloat>(0)
     fileprivate let listingDeckView = ListingDeckView()
     fileprivate let viewModel: ListingDeckViewModel
     fileprivate let binder = ListingDeckViewControllerBinder()
+
+    fileprivate var transitioner: PhotoViewerTransitionAnimator?
 
     init(viewModel: ListingDeckViewModel) {
         self.viewModel = viewModel
@@ -48,7 +52,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
-        UIApplication.shared.setStatusBarStyle(.default, animated: true)
     }
 
     // MARK: Rx
@@ -267,7 +270,7 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
 
     func displayPhotoViewer() {
         let urls = viewModel.currentListingViewModel?.productImageURLs.value ?? []
-        let photoVM = PhotoViewerViewModel(with: urls, currentIndex: 0)
+        let photoVM = PhotoViewerViewModel(with: urls)
         let photoViewer = PhotoViewerViewController(viewModel: photoVM)
         photoViewer.transitioningDelegate = self
 
@@ -297,10 +300,11 @@ extension ListingDeckViewController: UIViewControllerTransitioningDelegate {
 
         guard let url = viewModel.urlAtIndex(0),
             let cached = viewModel.imageDownloader.cachedImageForUrl(url) else { return nil }
-        return PhotoViewerTransitionAnimator(image: cached, initialFrame: frame)
+        transitioner = PhotoViewerTransitionAnimator(image: cached, initialFrame: frame)
+        return transitioner
     }
 
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return nil
+        return transitioner
     }
 }

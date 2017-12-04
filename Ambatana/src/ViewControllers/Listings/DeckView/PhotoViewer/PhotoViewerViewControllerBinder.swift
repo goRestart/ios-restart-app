@@ -12,11 +12,13 @@ import RxSwift
 protocol PhotoViewerVCType: class {
     func showChat()
     func closeView()
+    func updatePage(fromContentOffset offset: CGFloat)
 }
 
-protocol PhotoViewerViewType: class {
+protocol PhotoViewerBinderViewType: class {
     var rx_closeButton: Reactive<UIControl>? { get }
     var rx_chatButton: Reactive<UIControl>? { get }
+    var rx_collectionView: Reactive<UICollectionView> { get }
 }
 
 final class PhotoViewerViewControllerBinder {
@@ -24,7 +26,7 @@ final class PhotoViewerViewControllerBinder {
     weak var viewController: PhotoViewerVCType?
     private var disposeBag: DisposeBag?
 
-    func bind(toView: PhotoViewerViewType) {
+    func bind(toView: PhotoViewerBinderViewType) {
         disposeBag = DisposeBag()
 
         guard let bag = disposeBag else { return }
@@ -32,10 +34,11 @@ final class PhotoViewerViewControllerBinder {
 
         bindChatButton(toViewController: vc, view: toView, withDisposeBag: bag)
         bindCloseButton(toViewController: vc, view: toView, withDisposeBag: bag)
+        bindContentOffset(toViewController: vc, view: toView, withDisposeBag: bag)
     }
 
-    func bindChatButton(toViewController viewController: PhotoViewerVCType,
-                        view: PhotoViewerViewType, withDisposeBag disposeBag: DisposeBag) {
+    private func bindChatButton(toViewController viewController: PhotoViewerVCType,
+                        view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
         view.rx_chatButton?.controlEvent(.touchUpInside)
             .debounce(0.3, scheduler: MainScheduler.instance)
             .bindNext { [weak viewController] in
@@ -43,12 +46,19 @@ final class PhotoViewerViewControllerBinder {
         }.addDisposableTo(disposeBag)
     }
 
-    func bindCloseButton(toViewController viewController: PhotoViewerVCType?,
-                        view: PhotoViewerViewType, withDisposeBag disposeBag: DisposeBag) {
+    private func bindCloseButton(toViewController viewController: PhotoViewerVCType?,
+                        view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
         view.rx_closeButton?.controlEvent(.touchUpInside)
             .debounce(0.3, scheduler: MainScheduler.instance)
             .bindNext { [weak viewController] in
             viewController?.closeView()
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func bindContentOffset(toViewController viewController: PhotoViewerVCType?,
+                                   view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
+        view.rx_collectionView.contentOffset.asObservable().bindNext { [weak viewController] offset in
+            viewController?.updatePage(fromContentOffset: offset.x)
         }.addDisposableTo(disposeBag)
     }
 }
