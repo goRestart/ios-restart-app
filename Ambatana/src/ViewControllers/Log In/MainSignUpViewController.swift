@@ -184,7 +184,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
                 } else {
                     return LGLocalizedString.mainSignUpFacebookConnectButton
                 }
-            }.bindTo(connectFBButton.rx.title)
+            }.bind(to: connectFBButton.rx.title)
             .addDisposableTo(disposeBag)
 
         // Google button title
@@ -195,7 +195,7 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
                 } else {
                     return LGLocalizedString.mainSignUpGoogleConnectButton
                 }
-            }.bindTo(connectGoogleButton.rx.title)
+            }.bind(to: connectGoogleButton.rx.title)
             .addDisposableTo(disposeBag)
     }
     

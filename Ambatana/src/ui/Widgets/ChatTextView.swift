@@ -176,8 +176,8 @@ class ChatTextView: UIView {
     }
 
     private func setupRX() {
-        textView.rx.text.map { !($0 ?? "").trim.isEmpty }.bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
-        sendButton.rx.tap.bindTo(tapEvents).addDisposableTo(disposeBag)
+        textView.rx.text.map { !($0 ?? "").trim.isEmpty }.bind(to: sendButton.rx.isEnabled).addDisposableTo(disposeBag)
+        sendButton.rx.tap.bind(to: tapEvents).addDisposableTo(disposeBag)
     }
 
     private func setupBackgroundsWCorners() {

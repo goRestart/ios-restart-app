@@ -342,7 +342,7 @@ fileprivate extension BaseChatGroupedListViewModel {
     func setupRx() {
         objects.observable.map { messages in
             return messages.count
-        }.bindTo(rx_objectCount).addDisposableTo(disposeBag)
+        }.bind(to: rx_objectCount).addDisposableTo(disposeBag)
         
         editing.asObservable().subscribeNext { [weak self] editing in
             self?.chatGroupedDelegate?.chatGroupedListViewModelSetEditing(editing)

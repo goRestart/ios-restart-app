@@ -278,7 +278,7 @@ extension ChatGroupedViewModel {
             case .blockedUsers:
                 return self?.blockedUsersListViewModel
             }
-        }.bindTo(currentPageViewModel).addDisposableTo(disposeBag)
+        }.bind(to: currentPageViewModel).addDisposableTo(disposeBag)
 
         // Observe current page view model changes
         currentPageViewModel.asObservable().subscribeNext { [weak self] viewModel in
@@ -288,18 +288,18 @@ extension ChatGroupedViewModel {
             viewModel?.rx_objectCount.asObservable()
                 .takeUntil(strongSelf.currentPageViewModel.asObservable().skip(1))
                 .map { $0 > 0 }
-                .bindTo(strongSelf.editButtonEnabled)
+                .bind(to: strongSelf.editButtonEnabled)
                 .addDisposableTo(strongSelf.disposeBag)
 
             viewModel?.editing.asObservable()
                 .takeUntil(strongSelf.currentPageViewModel.asObservable().skip(1))
                 .map { editing in return strongSelf.currentTab.value.editButtonText(editing) }
-                .bindTo(strongSelf.editButtonText)
+                .bind(to: strongSelf.editButtonText)
                 .addDisposableTo(strongSelf.disposeBag)
 
         }.addDisposableTo(disposeBag)
 
-        chatRepository.chatStatus.map { $0 == .openAuthenticated }.bindTo(editButtonEnabled).addDisposableTo(disposeBag)
+        chatRepository.chatStatus.map { $0 == .openAuthenticated }.bind(to: editButtonEnabled).addDisposableTo(disposeBag)
 
         chatRepository.chatStatus.bindNext { [weak self] (status) in
             if status == .openNotVerified {

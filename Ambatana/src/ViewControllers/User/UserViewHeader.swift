@@ -428,9 +428,9 @@ extension UserViewHeader {
             self?.tab.value = .favorites
         }.addDisposableTo(disposeBag)
 
-        tab.asObservable().map { $0 == .selling }.bindTo(sellingButton.rx.isSelected).addDisposableTo(disposeBag)
-        tab.asObservable().map { $0 == .sold }.bindTo(soldButton.rx.isSelected).addDisposableTo(disposeBag)
-        tab.asObservable().map { $0 == .favorites }.bindTo(favoritesButton.rx.isSelected).addDisposableTo(disposeBag)
+        tab.asObservable().map { $0 == .selling }.bind(to: sellingButton.rx.isSelected).addDisposableTo(disposeBag)
+        tab.asObservable().map { $0 == .sold }.bind(to: soldButton.rx.isSelected).addDisposableTo(disposeBag)
+        tab.asObservable().map { $0 == .favorites }.bind(to: favoritesButton.rx.isSelected).addDisposableTo(disposeBag)
 
         tab.asObservable().skip(1).subscribeNext { [weak self] tab in
             self?.setIndicatorAtTab(tab, animated: true)

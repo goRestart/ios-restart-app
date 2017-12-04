@@ -109,10 +109,10 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
     }
 
     private func setupRx() {
-        viewModel.fbButtonState.asObservable().bindTo(fbButton.rx.verifyState).addDisposableTo(disposeBag)
-        viewModel.googleButtonState.asObservable().bindTo(googleButton.rx.verifyState).addDisposableTo(disposeBag)
-        viewModel.emailButtonState.asObservable().bindTo(emailButton.rx.verifyState).addDisposableTo(disposeBag)
-        viewModel.typedEmailState.asObservable().bindTo(emailTextFieldButton.rx.verifyState).addDisposableTo(disposeBag)
+        viewModel.fbButtonState.asObservable().bind(to: fbButton.rx.verifyState).addDisposableTo(disposeBag)
+        viewModel.googleButtonState.asObservable().bind(to: googleButton.rx.verifyState).addDisposableTo(disposeBag)
+        viewModel.emailButtonState.asObservable().bind(to: emailButton.rx.verifyState).addDisposableTo(disposeBag)
+        viewModel.typedEmailState.asObservable().bind(to: emailTextFieldButton.rx.verifyState).addDisposableTo(disposeBag)
         viewModel.typedEmailState.asObservable().map { state in
             switch state {
             case .hidden:
@@ -131,7 +131,7 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         googleButton.rx.tap.bindNext { [weak self] in self?.googleButtonPressed() }.addDisposableTo(disposeBag)
         emailButton.rx.tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.addDisposableTo(disposeBag)
         emailTextFieldButton.rx.tap.bindNext { [weak self] in self?.viewModel.typedEmailButtonPressed() }.addDisposableTo(disposeBag)
-        emailTextField.rx.text.map { ($0 ?? "") }.bindTo(viewModel.typedEmail).addDisposableTo(disposeBag)
+        emailTextField.rx.text.map { ($0 ?? "") }.bind(to: viewModel.typedEmail).addDisposableTo(disposeBag)
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
             guard let viewHeight = self?.view.height, let animationTime = self?.keyboardHelper.animationTime, viewHeight >= origin else { return }
             self?.contentContainerCenterY.constant = -((viewHeight - origin)/2)

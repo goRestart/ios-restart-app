@@ -41,7 +41,7 @@ class SettingsSwitchCell: UITableViewCell, ReusableCell {
         label.text = setting.title
         label.textColor = UIColor.darkGray
         iconImageView.image = setting.image
-        setting.switchValue.asObservable().bindTo(settingSwitch.rx.value).addDisposableTo(disposeBag)
+        setting.switchValue.asObservable().bind(to: settingSwitch.rx.value).addDisposableTo(disposeBag)
         switchAction = setting.switchAction
     }
     

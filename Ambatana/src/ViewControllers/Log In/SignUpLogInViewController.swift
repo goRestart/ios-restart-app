@@ -434,7 +434,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                 } else {
                     return LGLocalizedString.mainSignUpFacebookConnectButton
                 }
-            }.bindTo(connectFBButton.rx.title)
+            }.bind(to: connectFBButton.rx.title)
             .addDisposableTo(disposeBag)
 
         // Google button title
@@ -445,7 +445,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                 } else {
                     return LGLocalizedString.mainSignUpGoogleConnectButton
                 }
-            }.bindTo(connectGoogleButton.rx.title)
+            }.bind(to: connectGoogleButton.rx.title)
             .addDisposableTo(disposeBag)
 
         // Autosuggest
@@ -454,13 +454,13 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         }.addDisposableTo(disposeBag)
         
         // Send button enable
-        viewModel.sendButtonEnabled.bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
+        viewModel.sendButtonEnabled.bind(to: sendButton.rx.isEnabled).addDisposableTo(disposeBag)
         
         // Show password hide
         viewModel.password.asObservable().map { password -> Bool in
             guard let password = password else { return true }
             return password.isEmpty
-        }.bindTo(showPasswordButton.rx.isHidden).addDisposableTo(disposeBag)
+        }.bind(to: showPasswordButton.rx.isHidden).addDisposableTo(disposeBag)
     }
 
     private func updateUI() {

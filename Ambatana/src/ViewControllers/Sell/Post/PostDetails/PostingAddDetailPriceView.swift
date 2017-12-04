@@ -128,11 +128,11 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable {
     }
     
     private func setupRx() {
-        freeActive.asObservable().bindTo(freeSwitch.rx.value(animated: true)).addDisposableTo(disposeBag)
+        freeActive.asObservable().bind(to: freeSwitch.rx.value(animated: true)).addDisposableTo(disposeBag)
         freeActive.asObservable().bindNext{[weak self] active in
             self?.showPriceContainer(hide: active)
             }.addDisposableTo(disposeBag)
-        freeSwitch.rx.isOn.asObservable().bindTo(freeActive).addDisposableTo(disposeBag)
+        freeSwitch.rx.isOn.asObservable().bind(to: freeActive).addDisposableTo(disposeBag)
         
         Observable.combineLatest(freeSwitch.rx.isOn.asObservable(), priceTextField.rx.text.asObservable()) { ($0, $1) }.bindNext { [weak self] (isOn, textFieldValue) in
             guard let strongSelf = self else { return }

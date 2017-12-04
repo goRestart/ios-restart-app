@@ -357,7 +357,7 @@ class EditLocationViewModel: BaseViewModel {
             .skip(1)
             .unwrap()
             .map { _ in true }
-            .bindTo(setLocationEnabled).addDisposableTo(disposeBag)
+            .bind(to: setLocationEnabled).addDisposableTo(disposeBag)
         
     }
 

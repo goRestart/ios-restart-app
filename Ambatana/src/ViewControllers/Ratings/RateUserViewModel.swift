@@ -221,7 +221,7 @@ fileprivate extension RateUserViewModel {
                 guard let stars = stars else { return true }
                 return stars >= Constants.userRatingMinStarsPositive }
             .distinctUntilChanged()
-            .bindTo(isReviewPositive).addDisposableTo(disposeBag)
+            .bind(to: isReviewPositive).addDisposableTo(disposeBag)
         
         isReviewPositive.asObservable().subscribeNext { [weak self] positive in
             self?.reviewStateDidChange(positive: positive)
@@ -242,7 +242,7 @@ fileprivate extension RateUserViewModel {
                         return LGLocalizedString.userRatingAddCommentButton
                     }
                 }
-            }.bindTo(sendText).addDisposableTo(disposeBag)
+            }.bind(to: sendText).addDisposableTo(disposeBag)
         
         let ratingValid = rating.asObservable()
             .map { $0 != nil }
@@ -273,9 +273,9 @@ fileprivate extension RateUserViewModel {
                 }
             }
             .distinctUntilChanged()
-            .bindTo(sendEnabled).addDisposableTo(disposeBag)
+            .bind(to: sendEnabled).addDisposableTo(disposeBag)
         
-        commentLength.bindTo(descriptionCharLimit).addDisposableTo(disposeBag)
+        commentLength.bind(to: descriptionCharLimit).addDisposableTo(disposeBag)
     }
 }
 

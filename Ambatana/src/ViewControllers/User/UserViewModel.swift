@@ -508,7 +508,7 @@ fileprivate extension UserViewModel {
                                         return LGLocalizedString.profileBlockedByOtherLabel
                                     }
                                     return nil
-            }.bindTo(userRelationText).addDisposableTo(disposeBag)
+            }.bind(to: userRelationText).addDisposableTo(disposeBag)
         
         if !itsMe {
             userRelationText.asObservable().subscribeNext { [weak self] relation in

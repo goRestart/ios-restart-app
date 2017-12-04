@@ -534,36 +534,36 @@ class ListingCarouselViewModel: BaseViewModel {
             strongSelf.currentViewModelIsBeingUpdated.value = false
         }.addDisposableTo(activeDisposeBag)
 
-        currentVM.status.asObservable().bindTo(status).addDisposableTo(activeDisposeBag)
-        currentVM.isShowingFeaturedStripe.asObservable().bindTo(isFeatured).addDisposableTo(activeDisposeBag)
+        currentVM.status.asObservable().bind(to: status).addDisposableTo(activeDisposeBag)
+        currentVM.isShowingFeaturedStripe.asObservable().bind(to: isFeatured).addDisposableTo(activeDisposeBag)
 
-        currentVM.productInfo.asObservable().bindTo(productInfo).addDisposableTo(activeDisposeBag)
-        currentVM.productImageURLs.asObservable().bindTo(productImageURLs).addDisposableTo(activeDisposeBag)
-        currentVM.userInfo.asObservable().bindTo(userInfo).addDisposableTo(activeDisposeBag)
-        currentVM.listingStats.asObservable().bindTo(listingStats).addDisposableTo(activeDisposeBag)
+        currentVM.productInfo.asObservable().bind(to: productInfo).addDisposableTo(activeDisposeBag)
+        currentVM.productImageURLs.asObservable().bind(to: productImageURLs).addDisposableTo(activeDisposeBag)
+        currentVM.userInfo.asObservable().bind(to: userInfo).addDisposableTo(activeDisposeBag)
+        currentVM.listingStats.asObservable().bind(to: listingStats).addDisposableTo(activeDisposeBag)
 
-        currentVM.actionButtons.asObservable().bindTo(actionButtons).addDisposableTo(activeDisposeBag)
-        currentVM.navBarButtons.asObservable().bindTo(navBarButtons).addDisposableTo(activeDisposeBag)
+        currentVM.actionButtons.asObservable().bind(to: actionButtons).addDisposableTo(activeDisposeBag)
+        currentVM.navBarButtons.asObservable().bind(to: navBarButtons).addDisposableTo(activeDisposeBag)
 
         quickAnswers.value = currentVM.quickAnswers
-        currentVM.directChatEnabled.asObservable().bindTo(quickAnswersAvailable).addDisposableTo(activeDisposeBag)
+        currentVM.directChatEnabled.asObservable().bind(to: quickAnswersAvailable).addDisposableTo(activeDisposeBag)
 
-        currentVM.directChatEnabled.asObservable().bindTo(directChatEnabled).addDisposableTo(activeDisposeBag)
+        currentVM.directChatEnabled.asObservable().bind(to: directChatEnabled).addDisposableTo(activeDisposeBag)
         directChatMessages.removeAll()
         currentVM.directChatMessages.changesObservable.subscribeNext { [weak self] change in
             self?.performCollectionChange(change: change)
         }.addDisposableTo(activeDisposeBag)
         directChatPlaceholder.value = currentVM.directChatPlaceholder
 
-        currentVM.isFavorite.asObservable().bindTo(isFavorite).addDisposableTo(activeDisposeBag)
-        currentVM.favoriteButtonState.asObservable().bindTo(favoriteButtonState).addDisposableTo(activeDisposeBag)
-        currentVM.shareButtonState.asObservable().bindTo(shareButtonState).addDisposableTo(activeDisposeBag)
-        currentVM.bumpUpBannerInfo.asObservable().bindTo(bumpUpBannerInfo).addDisposableTo(activeDisposeBag)
+        currentVM.isFavorite.asObservable().bind(to: isFavorite).addDisposableTo(activeDisposeBag)
+        currentVM.favoriteButtonState.asObservable().bind(to: favoriteButtonState).addDisposableTo(activeDisposeBag)
+        currentVM.shareButtonState.asObservable().bind(to: shareButtonState).addDisposableTo(activeDisposeBag)
+        currentVM.bumpUpBannerInfo.asObservable().bind(to: bumpUpBannerInfo).addDisposableTo(activeDisposeBag)
 
-        currentVM.socialMessage.asObservable().bindTo(socialMessage).addDisposableTo(activeDisposeBag)
+        currentVM.socialMessage.asObservable().bind(to: socialMessage).addDisposableTo(activeDisposeBag)
         socialSharer.value = currentVM.socialSharer
 
-        moreInfoState.asObservable().bindTo(currentVM.moreInfoState).addDisposableTo(activeDisposeBag)
+        moreInfoState.asObservable().bind(to: currentVM.moreInfoState).addDisposableTo(activeDisposeBag)
     }
 
     private func performCollectionChange(change: CollectionChange<ChatViewMessage>) {

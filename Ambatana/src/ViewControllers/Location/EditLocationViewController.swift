@@ -277,7 +277,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     }
 
     private func setupInfoViewsRx() {
-        viewModel.placeInfoText.asObservable().bindTo(searchField.rx.text).addDisposableTo(disposeBag)
+        viewModel.placeInfoText.asObservable().bind(to: searchField.rx.text).addDisposableTo(disposeBag)
         //When approx location changes show/hide views accordingly
         viewModel.approxLocation.asObservable().subscribeNext { [weak self] approximate in
             self?.poiImage.isHidden = approximate
@@ -286,8 +286,8 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     }
 
     private func setupLocationRx() {
-        viewModel.approxLocation.asObservable().bindTo(approximateLocationSwitch.rx.value).addDisposableTo(disposeBag)
-        approximateLocationSwitch.rx.value.bindTo(viewModel.approxLocation).addDisposableTo(disposeBag)
+        viewModel.approxLocation.asObservable().bind(to: approximateLocationSwitch.rx.value).addDisposableTo(disposeBag)
+        approximateLocationSwitch.rx.value.bind(to: viewModel.approxLocation).addDisposableTo(disposeBag)
 
         viewModel.approxLocationHidden.asObservable().subscribeNext { [weak self] hidden in
             self?.approxLocationContainer.isHidden = hidden
@@ -323,7 +323,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
             }
             }.addDisposableTo(disposeBag)
 
-        viewModel.setLocationEnabled.asObservable().bindTo(setLocationButton.rx.isEnabled).addDisposableTo(disposeBag)
+        viewModel.setLocationEnabled.asObservable().bind(to: setLocationButton.rx.isEnabled).addDisposableTo(disposeBag)
     }
 
     /**

@@ -390,7 +390,7 @@ class ChatViewModel: BaseViewModel {
             if $0 { return .visible(listingId: listingId) }
             guard let didntAnswer = $1 else { return .loading } // If still checking if seller didn't answer. set loading state
             return didntAnswer ? .visible(listingId: listingId) : .hidden
-        }.bindTo(relatedListingsState).addDisposableTo(disposeBag)
+        }.bind(to: relatedListingsState).addDisposableTo(disposeBag)
         
         messages.changesObservable.subscribeNext { [weak self] change in
             self?.updateMessagesCounts(change)
@@ -403,7 +403,7 @@ class ChatViewModel: BaseViewModel {
         let emptyMyMessages = myMessagesCount.asObservable().map { $0 == 0 }
         let emptyOtherMessages = otherMessagesCount.asObservable().map { $0 == 0 }
         Observable.combineLatest(emptyMyMessages, emptyOtherMessages){ $0 && $1 }.distinctUntilChanged()
-            .bindTo(isEmptyConversation).addDisposableTo(disposeBag)
+            .bind(to: isEmptyConversation).addDisposableTo(disposeBag)
 
         let expressBannerTriggered = Observable.combineLatest(firstInteractionDone.asObservable(),
                                                               expressBannerTimerFinished.asObservable()) { $0 || $1 }
@@ -417,7 +417,7 @@ class ChatViewModel: BaseViewModel {
             hasRelatedListings.asObservable(),
             relatedListingsState.asObservable().map { $0.isVisible },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
-            .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
+            .distinctUntilChanged().bind(to: shouldShowExpressBanner).addDisposableTo(disposeBag)
 
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
                                         relatedListingsState.asObservable(),
@@ -430,7 +430,7 @@ class ChatViewModel: BaseViewModel {
                                                 return .visible
                                             }
                                         }).distinctUntilChanged()
-        directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
+        directAnswers.bind(to: directAnswersState).addDisposableTo(disposeBag)
 
         interlocutorId.asObservable().bindNext { [weak self] interlocutorId in
             guard let interlocutorId = interlocutorId, self?.interlocutor?.objectId != interlocutorId else { return }

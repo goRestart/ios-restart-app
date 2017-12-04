@@ -91,7 +91,7 @@ class RelatedListingsView: UIView {
             }
             self?.loadListings(listingId)
         }.addDisposableTo(disposeBag)
-        hasListings.asObservable().map { !$0 }.bindTo(self.rx.isHidden).addDisposableTo(disposeBag)
+        hasListings.asObservable().map { !$0 }.bind(to: self.rx.isHidden).addDisposableTo(disposeBag)
     }
 }
 

@@ -202,28 +202,28 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         let state = viewModel.cameraState.asObservable()
         state.subscribeNext{ [weak self] state in self?.updateCamera() }.addDisposableTo(disposeBag)
         let previewModeHidden = state.map{ !$0.previewMode }
-        previewModeHidden.bindTo(imagePreview.rx.isHidden).addDisposableTo(disposeBag)
-        previewModeHidden.bindTo(retryPhotoButton.rx.isHidden).addDisposableTo(disposeBag)
-        previewModeHidden.bindTo(usePhotoButton.rx.isHidden).addDisposableTo(disposeBag)
+        previewModeHidden.bind(to: imagePreview.rx.isHidden).addDisposableTo(disposeBag)
+        previewModeHidden.bind(to: retryPhotoButton.rx.isHidden).addDisposableTo(disposeBag)
+        previewModeHidden.bind(to: usePhotoButton.rx.isHidden).addDisposableTo(disposeBag)
         let captureModeHidden = state.map{ !$0.captureMode }
-        captureModeHidden.bindTo(cornersContainer.rx.isHidden).addDisposableTo(disposeBag)
-        captureModeHidden.bindTo(switchCamButton.rx.isHidden).addDisposableTo(disposeBag)
-        captureModeHidden.bindTo(flashButton.rx.isHidden).addDisposableTo(disposeBag)
+        captureModeHidden.bind(to: cornersContainer.rx.isHidden).addDisposableTo(disposeBag)
+        captureModeHidden.bind(to: switchCamButton.rx.isHidden).addDisposableTo(disposeBag)
+        captureModeHidden.bind(to: flashButton.rx.isHidden).addDisposableTo(disposeBag)
         
-        viewModel.imageSelected.asObservable().bindTo(imagePreview.rx.image).addDisposableTo(disposeBag)
+        viewModel.imageSelected.asObservable().bind(to: imagePreview.rx.image).addDisposableTo(disposeBag)
 
         let flashMode = viewModel.cameraFlashState.asObservable()
         flashMode.subscribeNext{ [weak self] flashMode in
             guard let cameraWrapper = self?.cameraWrapper, cameraWrapper.hasFlash else { return }
             cameraWrapper.flashMode = flashMode
         }.addDisposableTo(disposeBag)
-        flashMode.map{ $0.imageIcon }.bindTo(flashButton.rx.image).addDisposableTo(disposeBag)
+        flashMode.map{ $0.imageIcon }.bind(to: flashButton.rx.image).addDisposableTo(disposeBag)
 
         viewModel.cameraSource.asObservable().subscribeNext{ [weak self] cameraSource in
             self?.cameraWrapper.cameraSource = cameraSource
         }.addDisposableTo(disposeBag)
 
-        viewModel.shouldShowFirstTimeAlert.asObservable().map { !$0 }.bindTo(firstTimeAlertContainer.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.shouldShowFirstTimeAlert.asObservable().map { !$0 }.bind(to: firstTimeAlertContainer.rx.isHidden).addDisposableTo(disposeBag)
     }
 
     @objc private dynamic func hideFirstTimeAlert() {
@@ -259,10 +259,10 @@ extension PostListingCameraView {
     fileprivate func setupInfoView() {
         infoButton.setStyle(.primary(fontSize: .medium))
 
-        viewModel.infoShown.asObservable().map{ !$0 }.bindTo(infoContainer.rx.isHidden).addDisposableTo(disposeBag)
-        viewModel.infoTitle.asObservable().bindTo(infoTitle.rx.text).addDisposableTo(disposeBag)
-        viewModel.infoSubtitle.asObservable().bindTo(infoSubtitle.rx.text).addDisposableTo(disposeBag)
-        viewModel.infoButton.asObservable().bindTo(infoButton.rx.title).addDisposableTo(disposeBag)
+        viewModel.infoShown.asObservable().map{ !$0 }.bind(to: infoContainer.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.infoTitle.asObservable().bind(to: infoTitle.rx.text).addDisposableTo(disposeBag)
+        viewModel.infoSubtitle.asObservable().bind(to: infoSubtitle.rx.text).addDisposableTo(disposeBag)
+        viewModel.infoButton.asObservable().bind(to: infoButton.rx.title).addDisposableTo(disposeBag)
     }
 
     @IBAction func onInfoButtonPressed(_ sender: AnyObject) {

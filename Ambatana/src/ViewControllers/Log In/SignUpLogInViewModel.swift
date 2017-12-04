@@ -450,18 +450,18 @@ class SignUpLogInViewModel: BaseViewModel {
                 guard let username = username else { return false }
                 return email.characters.count > 0 && password.characters.count > 0 && username.characters.count > 0
             }
-        }.bindTo(sendButtonEnabledVar).addDisposableTo(disposeBag)
+        }.bind(to: sendButtonEnabledVar).addDisposableTo(disposeBag)
         
         // Email trim
         email.asObservable()
             .map { $0?.trim }
-            .bindTo(emailTrimmed)
+            .bind(to: emailTrimmed)
             .addDisposableTo(disposeBag)
         
         // Email auto suggest
         emailTrimmed.asObservable()
             .map { $0?.suggestEmail(domains: Constants.emailSuggestedDomains) }
-            .bindTo(suggestedEmailVar)
+            .bind(to: suggestedEmailVar)
             .addDisposableTo(disposeBag)
     }
 

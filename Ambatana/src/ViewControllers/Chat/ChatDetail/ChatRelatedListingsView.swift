@@ -107,10 +107,10 @@ class ChatRelatedListingsView: UIView {
     }
 
     private func setupRx() {
-        title.asObservable().bindTo(infoLabel.rx.text).addDisposableTo(disposeBag)
-        visible.asObservable().map{!$0}.bindTo(self.rx.isHidden).addDisposableTo(disposeBag)
-        visible.asObservable().map{ [weak self] in $0 ? self?.height ?? 0 : 0 }.bindTo(visibleHeight).addDisposableTo(disposeBag)
-        listingId.asObservable().bindTo(relatedListingsView.listingId).addDisposableTo(disposeBag)
+        title.asObservable().bind(to: infoLabel.rx.text).addDisposableTo(disposeBag)
+        visible.asObservable().map{!$0}.bind(to: self.rx.isHidden).addDisposableTo(disposeBag)
+        visible.asObservable().map{ [weak self] in $0 ? self?.height ?? 0 : 0 }.bind(to: visibleHeight).addDisposableTo(disposeBag)
+        listingId.asObservable().bind(to: relatedListingsView.listingId).addDisposableTo(disposeBag)
         relatedListingsView.hasListings.asObservable().bindNext { [weak self] hasListings in
             self?.animateToVisible(hasListings)
         }.addDisposableTo(disposeBag)

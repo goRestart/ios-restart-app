@@ -430,8 +430,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func setupRxBindings() {
-        viewModel.infoBubbleText.asObservable().bindTo(infoBubbleLabel.rx.text).addDisposableTo(disposeBag)
-        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bindTo(infoBubbleShadow.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.infoBubbleText.asObservable().bind(to: infoBubbleLabel.rx.text).addDisposableTo(disposeBag)
+        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bind(to: infoBubbleShadow.rx.isHidden).addDisposableTo(disposeBag)
 
         topInset.asObservable().bindNext { [weak self] topInset in
             self?.listingListView.collectionViewContentInset.top = topInset
@@ -471,7 +471,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
                 self?.navBarSearchTextFieldDidUpdate(text: text ?? "")
         }.addDisposableTo(disposeBag)
         
-        navbarSearch.searchTextField.rx.text.asObservable().bindTo(viewModel.searchText).addDisposableTo(disposeBag)
+        navbarSearch.searchTextField.rx.text.asObservable().bind(to: viewModel.searchText).addDisposableTo(disposeBag)
     }
     
     func navBarSearchTextFieldDidUpdate(text: String) {

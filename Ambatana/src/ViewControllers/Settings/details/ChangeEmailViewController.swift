@@ -73,8 +73,8 @@ class ChangeEmailViewController: BaseViewController, UITextFieldDelegate {
         customView.saveButton.rx.tap.subscribeNext { [weak self] in
             self?.viewModel.updateEmail()
         }.addDisposableTo(disposeBag)
-        customView.emailTextField.rx.text.bindTo(viewModel.newEmail).addDisposableTo(disposeBag)
-        viewModel.shouldAllowToContinue.distinctUntilChanged().bindTo(customView.saveButton.rx.isEnabled)
+        customView.emailTextField.rx.text.bind(to: viewModel.newEmail).addDisposableTo(disposeBag)
+        viewModel.shouldAllowToContinue.distinctUntilChanged().bind(to: customView.saveButton.rx.isEnabled)
             .addDisposableTo(disposeBag)
     }
     

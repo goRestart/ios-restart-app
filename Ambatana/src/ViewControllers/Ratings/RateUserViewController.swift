@@ -161,13 +161,13 @@ class RateUserViewController: KeyboardViewController {
             }
         }.addDisposableTo(disposeBag)
         
-        viewModel.sendText.asObservable().bindTo(sendButton.rx.title(for: .normal)).addDisposableTo(disposeBag)
-        viewModel.sendEnabled.asObservable().bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
-        viewModel.isLoading.asObservable().bindTo(activityIndicator.rx.isAnimating).addDisposableTo(disposeBag)
+        viewModel.sendText.asObservable().bind(to: sendButton.rx.title(for: .normal)).addDisposableTo(disposeBag)
+        viewModel.sendEnabled.asObservable().bind(to: sendButton.rx.isEnabled).addDisposableTo(disposeBag)
+        viewModel.isLoading.asObservable().bind(to: activityIndicator.rx.isAnimating).addDisposableTo(disposeBag)
         
         viewModel.descriptionCharLimit.asObservable()
             .map { return String($0) }
-            .bindTo(descriptionCharCounter.rx.text)
+            .bind(to: descriptionCharCounter.rx.text)
             .addDisposableTo(disposeBag)
 
         keyboardChanges.bindNext { [weak self] change in

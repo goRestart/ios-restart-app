@@ -435,9 +435,9 @@ fileprivate extension ChatViewController {
             }
             }.addDisposableTo(disposeBag)
         
-        viewModel.listingName.asObservable().bindTo(listingView.listingName.rx.text).addDisposableTo(disposeBag)
-        viewModel.interlocutorName.asObservable().bindTo(listingView.userName.rx.text).addDisposableTo(disposeBag)
-        viewModel.listingPrice.asObservable().bindTo(listingView.listingPrice.rx.text).addDisposableTo(disposeBag)
+        viewModel.listingName.asObservable().bind(to: listingView.listingName.rx.text).addDisposableTo(disposeBag)
+        viewModel.interlocutorName.asObservable().bind(to: listingView.userName.rx.text).addDisposableTo(disposeBag)
+        viewModel.listingPrice.asObservable().bind(to: listingView.listingPrice.rx.text).addDisposableTo(disposeBag)
         viewModel.listingImageUrl.asObservable().bindNext { [weak self] imageUrl in
             guard let url = imageUrl else { return }
             self?.listingView.listingImage.lg_setImageWithURL(url)

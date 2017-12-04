@@ -397,8 +397,8 @@ extension UserViewController {
             return !urlString.isEmpty
         }
         // Pattern overlay is hidden if there's no avatar and user background view is shown if so
-        userAvatarPresent.bindTo(patternView.rx.isHidden).addDisposableTo(disposeBag)
-        userAvatarPresent.map{ !$0 }.bindTo(userBgView.rx.isHidden).addDisposableTo(disposeBag)
+        userAvatarPresent.bind(to: patternView.rx.isHidden).addDisposableTo(disposeBag)
+        userAvatarPresent.map{ !$0 }.bind(to: userBgView.rx.isHidden).addDisposableTo(disposeBag)
 
         // Load avatar image
         viewModel.userAvatarURL.asObservable().subscribeNext { [weak self] url in
@@ -437,8 +437,8 @@ extension UserViewController {
 
     private func setupHeaderRxBindings() {
         // Name, location, avatar & bg
-        viewModel.userName.asObservable().bindTo(userNameLabel.rx.optionalText).addDisposableTo(disposeBag)
-        viewModel.userLocation.asObservable().bindTo(userLocationLabel.rx.optionalText).addDisposableTo(disposeBag)
+        viewModel.userName.asObservable().bind(to: userNameLabel.rx.optionalText).addDisposableTo(disposeBag)
+        viewModel.userLocation.asObservable().bind(to: userLocationLabel.rx.optionalText).addDisposableTo(disposeBag)
 
         Observable.combineLatest(viewModel.userAvatarURL.asObservable(),
             viewModel.userAvatarPlaceholder.asObservable()) { ($0, $1) }
@@ -454,7 +454,7 @@ extension UserViewController {
         viewModel.userRatingAverage.asObservable().subscribeNext { [weak self] userRatingAverage in
             self?.setupRatingAverage(userRatingAverage)
         }.addDisposableTo(disposeBag)
-        viewModel.userRatingAverage.asObservable().bindTo(navBarUserView.userRatings).addDisposableTo(disposeBag)
+        viewModel.userRatingAverage.asObservable().bind(to: navBarUserView.userRatings).addDisposableTo(disposeBag)
 
         viewModel.userRatingCount.asObservable().subscribeNext { [weak self] userRatingCount in
             self?.headerContainer.header.setRatingCount(userRatingCount)
@@ -480,9 +480,9 @@ extension UserViewController {
             let max = UserViewController.userBgTintViewHeaderCollapsedAlpha
             let min = UserViewController.userBgTintViewHeaderExpandedAlpha
             return min + 1 - (percentage * max)
-        }.bindTo(userBgTintViewAlpha).addDisposableTo(disposeBag)
+        }.bind(to: userBgTintViewAlpha).addDisposableTo(disposeBag)
         
-        userBgTintViewAlpha.asObservable().bindTo(userBgTintView.rx.alpha).addDisposableTo(disposeBag)
+        userBgTintViewAlpha.asObservable().bind(to: userBgTintView.rx.alpha).addDisposableTo(disposeBag)
 
         headerExpandedPercentage.asObservable().map { percentage -> CGFloat in
             let collapsedAlpha = UserViewController.userEffectViewHeaderCollapsedAlpha
@@ -494,7 +494,7 @@ extension UserViewController {
                 alpha += (percentage - 1) * (UserViewController.userEffectViewHeaderExpandedDoubleAlpha - expandedAlpha)
             }
             return alpha
-        }.bindTo(userBgEffectView.rx.alpha).addDisposableTo(disposeBag)
+        }.bind(to: userBgEffectView.rx.alpha).addDisposableTo(disposeBag)
 
         // Header elements alpha selection
         headerExpandedPercentage.asObservable()
@@ -533,7 +533,7 @@ extension UserViewController {
             .addDisposableTo(disposeBag)
 
         // Tab switch
-        headerContainer.header.tab.asObservable().bindTo(viewModel.tab).addDisposableTo(disposeBag)
+        headerContainer.header.tab.asObservable().bind(to: viewModel.tab).addDisposableTo(disposeBag)
     }
     
     private func setupUserLabelsContainerRx() {

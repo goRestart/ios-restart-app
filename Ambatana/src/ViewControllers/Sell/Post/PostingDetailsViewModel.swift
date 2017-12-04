@@ -77,7 +77,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             
             let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol,
                                                       freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
-            priceView.priceListing.asObservable().bindTo(priceListing).addDisposableTo(disposeBag)
+            priceView.priceListing.asObservable().bind(to: priceListing).addDisposableTo(disposeBag)
             return priceView
         case .summary:
             let summaryView = PostingAddDetailSummaryTableView(postCategory: postListingState.category)
@@ -86,7 +86,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .location:
             let locationView = PostingAddDetailLocation(viewControllerDelegate: viewControllerDelegate,
                                                         currentPlace: postListingState.place)
-            locationView.locationSelected.asObservable().bindTo(placeSelected).addDisposableTo(disposeBag)
+            locationView.locationSelected.asObservable().bind(to: placeSelected).addDisposableTo(disposeBag)
             return locationView
         case .year, .make, .model:
             return nil

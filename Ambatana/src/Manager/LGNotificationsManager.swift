@@ -110,7 +110,7 @@ class LGNotificationsManager: NotificationsManager {
             }
         }.addDisposableTo(disposeBag)
 
-        sessionManager.sessionEvents.map { $0.isLogin }.bindTo(loggedIn).addDisposableTo(disposeBag)
+        sessionManager.sessionEvents.map { $0.isLogin }.bind(to: loggedIn).addDisposableTo(disposeBag)
 
         globalCount.bindNext { count in
             UIApplication.shared.applicationIconBadgeNumber = count
@@ -187,6 +187,6 @@ fileprivate extension LGNotificationsManager {
         let loggedInMkt: Observable<Bool> = Observable.combineLatest(marketingNotifications.asObservable(),
                                                                      loggedIn.asObservable(),
             resultSelector: { enabled, loggedIn in return !loggedIn || enabled }).skip(1)
-        loggedInMkt.bindTo(loggedInMktNofitications).addDisposableTo(disposeBag)
+        loggedInMkt.bind(to: loggedInMktNofitications).addDisposableTo(disposeBag)
     }
 }

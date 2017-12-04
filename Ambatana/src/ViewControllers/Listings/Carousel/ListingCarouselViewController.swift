@@ -340,8 +340,8 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     private func setupMoreInfo() {
         view.addSubview(moreInfoView)
-        moreInfoAlpha.asObservable().bindTo(moreInfoView.rx.alpha).addDisposableTo(disposeBag)
-        moreInfoAlpha.asObservable().bindTo(moreInfoView.dragView.rx.alpha).addDisposableTo(disposeBag)
+        moreInfoAlpha.asObservable().bind(to: moreInfoView.rx.alpha).addDisposableTo(disposeBag)
+        moreInfoAlpha.asObservable().bind(to: moreInfoView.dragView.rx.alpha).addDisposableTo(disposeBag)
 
         view.bringSubview(toFront: buttonBottom)
         view.bringSubview(toFront: chatContainer)
@@ -407,19 +407,19 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     private func setupAlphaRxBindings() {
-        itemsAlpha.asObservable().bindTo(buttonBottom.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bindTo(buttonTop.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bindTo(userView.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bind(to: buttonBottom.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bind(to: buttonTop.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bind(to: userView.rx.alpha).addDisposableTo(disposeBag)
 
         itemsAlpha.asObservable().bindNext { [weak self] itemsAlpha in
             self?.pageControl.alpha = itemsAlpha
         }
 
-        itemsAlpha.asObservable().bindTo(productStatusView.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bindTo(directChatTable.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bindTo(chatContainer.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bindTo(shareButton.rx.alpha).addDisposableTo(disposeBag)
-        itemsAlpha.asObservable().bindTo(bannerContainer.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bind(to: productStatusView.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bind(to: directChatTable.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bind(to: chatContainer.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bind(to: shareButton.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bind(to: bannerContainer.rx.alpha).addDisposableTo(disposeBag)
 
         Observable.combineLatest(viewModel.favoriteButtonState.asObservable(), itemsAlpha.asObservable()) { ($0, $1) }
             .bindNext { [weak self] (buttonState, itemsAlpha) in
@@ -453,15 +453,15 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                 return newValue
         }
 
-        alphaSignal.bindTo(itemsAlpha).addDisposableTo(disposeBag)
-        alphaSignal.bindTo(moreInfoAlpha).addDisposableTo(disposeBag)
+        alphaSignal.bind(to: itemsAlpha).addDisposableTo(disposeBag)
+        alphaSignal.bind(to: moreInfoAlpha).addDisposableTo(disposeBag)
 
         alphaSignal.bindNext{ [weak self] alpha in
             self?.moreInfoTooltip?.alpha = alpha
             }.addDisposableTo(disposeBag)
 
         if let navBar = navigationController?.navigationBar {
-            alphaSignal.bindTo(navBar.rx.alpha).addDisposableTo(disposeBag)
+            alphaSignal.bind(to: navBar.rx.alpha).addDisposableTo(disposeBag)
         }
 
         var indexSignal: Observable<Int> = collectionContentOffset.asObservable().map { Int(($0.x + midPoint) / width) }
@@ -532,7 +532,7 @@ extension ListingCarouselViewController {
 
     private func setupMoreInfoRx() {
         moreInfoView.setupWith(viewModel: viewModel)
-        moreInfoState.asObservable().bindTo(viewModel.moreInfoState).addDisposableTo(disposeBag)
+        moreInfoState.asObservable().bind(to: viewModel.moreInfoState).addDisposableTo(disposeBag)
     }
 
     private func setupPageControlRx() {
@@ -631,7 +631,7 @@ extension ListingCarouselViewController {
     }
 
     private func setupDirectChatElementsRx() {
-        viewModel.directChatPlaceholder.asObservable().bindTo(chatTextView.rx.placeholder).addDisposableTo(disposeBag)
+        viewModel.directChatPlaceholder.asObservable().bind(to: chatTextView.rx.placeholder).addDisposableTo(disposeBag)
         if let productVM = viewModel.currentListingViewModel, !productVM.areQuickAnswersDynamic {
             chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
         }
@@ -705,7 +705,7 @@ extension ListingCarouselViewController {
     private func setupFavoriteButtonRx() {
         viewModel.isFavorite.asObservable()
             .map { UIImage(named: $0 ? "ic_favorite_big_on" : "ic_favorite_big_off") }
-            .bindTo(favoriteButton.rx.image).addDisposableTo(disposeBag)
+            .bind(to: favoriteButton.rx.image).addDisposableTo(disposeBag)
 
         favoriteButton.rx.tap.bindNext { [weak self] in
             self?.viewModel.favoriteButtonPressed()
@@ -713,7 +713,7 @@ extension ListingCarouselViewController {
     }
 
     private func setupShareButtonRx() {
-        viewModel.shareButtonState.asObservable().bindTo(shareButton.rx.state).addDisposableTo(disposeBag)
+        viewModel.shareButtonState.asObservable().bind(to: shareButton.rx.state).addDisposableTo(disposeBag)
 
         shareButton.rx.tap.bindNext { [weak self] in
             self?.viewModel.shareButtonPressed()
@@ -733,7 +733,7 @@ extension ListingCarouselViewController {
     }
 
     private func setupUserInteractionRxBindings() {
-        cellAnimating.asObservable().map { !$0 } .bindTo(view.rx.userInteractionEnabled).addDisposableTo(disposeBag)
+        cellAnimating.asObservable().map { !$0 } .bind(to: view.rx.userInteractionEnabled).addDisposableTo(disposeBag)
     }
 
     fileprivate func resetMoreInfoState() {

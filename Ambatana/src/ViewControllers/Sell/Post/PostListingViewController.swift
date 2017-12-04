@@ -305,7 +305,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             self?.carDetailsDoneButtonPressed()
         }.addDisposableTo(disposeBag)
         
-        carDetailsView.tableView.selectedDetail.asObservable().bindTo(viewModel.selectedDetail)
+        carDetailsView.tableView.selectedDetail.asObservable().bind(to: viewModel.selectedDetail)
             .addDisposableTo(disposeBag)
         viewModel.selectedDetail.asObservable().subscribeNext { [weak self] (categoryDetailSelectedInfo) in
             guard let strongSelf = self else { return }
@@ -339,8 +339,8 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         footer.galleryButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.galleryButtonPressed()
         }.addDisposableTo(disposeBag)
-        cameraView.takePhotoEnabled.asObservable().bindTo(footer.cameraButton.rx.isEnabled).addDisposableTo(disposeBag)
-        cameraView.takePhotoEnabled.asObservable().bindTo(footer.galleryButton.rx.isEnabled).addDisposableTo(disposeBag)
+        cameraView.takePhotoEnabled.asObservable().bind(to: footer.cameraButton.rx.isEnabled).addDisposableTo(disposeBag)
+        cameraView.takePhotoEnabled.asObservable().bind(to: footer.galleryButton.rx.isEnabled).addDisposableTo(disposeBag)
         footer.cameraButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.cameraButtonPressed()
         }.addDisposableTo(disposeBag)
@@ -352,7 +352,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         }.addDisposableTo(disposeBag)
 
         categorySelectionView.selectedCategory.asObservable()
-            .bindTo(viewModel.category)
+            .bind(to: viewModel.category)
             .addDisposableTo(disposeBag)
         
         keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
