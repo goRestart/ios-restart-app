@@ -299,7 +299,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         Observable.combineLatest(viewModel.approxLocation.asObservable(),
                                  viewModel.placeLocation.asObservable().unwrap(),
                                  viewModel.currentDistanceRadius.asObservable()) { ($0, $1, $2) }
-            .bindNext { [weak self] (approximate, location, currentRadius) in
+            .bind { [weak self] (approximate, location, currentRadius) in
                 var radius = approximate ? Constants.nonAccurateRegionRadius : Constants.accurateRegionRadius
                 if let _ = currentRadius, let distanceMeters = self?.viewModel.distanceMeters {
                     radius = distanceMeters * (EditLocationMetrics.mapRegionMarginMutiplier +

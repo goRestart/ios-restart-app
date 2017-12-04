@@ -250,7 +250,7 @@ fileprivate extension RateUserViewModel {
         let tagsValid = selectedTagIndexes.observable
             .map { !$0.isEmpty }
             .distinctUntilChanged()
-        let comment = Observable.combineLatest(description.asObservable(), selectedTagIndexes.observable) { ($0, $1) }
+        let comment = Observable.combineLatest(description.asObservable(), selectedTagIndexes.observable) { _,_ in }
             .map ({ [weak self] in return self?.makeComment() })
         let commentLength = comment.asObservable()
             .map ({ Constants.userRatingDescriptionMaxLength - ($0?.characters.count ?? 0) })

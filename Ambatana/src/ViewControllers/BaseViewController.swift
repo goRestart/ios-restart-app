@@ -449,7 +449,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         NotificationCenter.default.removeObserver(self)
     }
 
-    @objc override func popBackViewController() {
+    override func popBackViewController() {
         let viewModelDidHandleBack = viewModel?.backButtonPressed() ?? false
         if !viewModelDidHandleBack {
             super.popBackViewController()

@@ -372,7 +372,7 @@ fileprivate extension BaseChatGroupedListViewModel {
             
             return index == 0
         }
-        isFirstObjectUpdated.distinctUntilChanged().bindTo(shouldScrollToTopVar).disposed(by: inactiveDisposeBag)
+        isFirstObjectUpdated.distinctUntilChanged().bind(to: shouldScrollToTopVar).disposed(by: inactiveDisposeBag)
     }
 }
 

@@ -197,7 +197,7 @@ class PostListingGalleryViewModel: BaseViewModel {
             }
         }
         let hasImagesSelected = imagesSelected.asObservable().map { $0.count > 0 }
-        Observable.combineLatest(galleryStateIsNormal, hasImagesSelected) { $0 && !$1 }.bindNext { [weak self] in
+        Observable.combineLatest(galleryStateIsNormal, hasImagesSelected) { $0 && !$1 }.bind { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.albumIconState.value = $0 ? .down : .hidden
         }.disposed(by: disposeBag)
@@ -215,7 +215,7 @@ class PostListingGalleryViewModel: BaseViewModel {
             .subscribeNext{ [weak self] _ in self?.didBecomeVisible() }
             .disposed(by: disposeBag)
 
-        imagesSelected.asObservable().bindNext { [weak self] imgsSelected in
+        imagesSelected.asObservable().bind { [weak self] imgsSelected in
             let numImgs = imgsSelected.count
             guard let strongSelf = self else { return }
             if numImgs < 1 {
