@@ -349,7 +349,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.bumpUpPriceDifferentiation
         }
-        return BumpUpPriceDifferentiation.fromPosition(abTests.bumpUpPriceDifferentiation.value)
+        return .control
     }
     
     var forcePostListingOnboarding: ForcePostListingOnboarding {
