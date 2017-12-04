@@ -308,10 +308,10 @@
 "filters_price_from" = "De";
 "filters_price_to" = "À";
 "filters_price_wrong_range_error" = "Le prix minimum ne peux pas être supérieur au prix maximum.";
-"filters_real_estate_bathrooms_not_set" = "Not set";
-"filters_real_estate_bedrooms_not_set" = "Not set";
-"filters_real_estate_offer_type_not_set" = "Not set";
-"filters_real_estate_property_type_not_set" = "Not set";
+"filters_real_estate_bathrooms_not_set" = "Aucun";
+"filters_real_estate_bedrooms_not_set" = "Aucun";
+"filters_real_estate_offer_type_not_set" = "Aucun";
+"filters_real_estate_property_type_not_set" = "Aucun";
 "filters_save_button" = "Sauvegarder les filtres";
 "filters_section_car_info" = "Informations sur la voiture";
 "filters_section_categories" = "Catégories";

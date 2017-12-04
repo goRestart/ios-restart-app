@@ -308,10 +308,10 @@
 "filters_price_from" = "De";
 "filters_price_to" = "A";
 "filters_price_wrong_range_error" = "El precio mínimo no puede ser más alto que el precio máximo.";
-"filters_real_estate_bathrooms_not_set" = "Not set";
-"filters_real_estate_bedrooms_not_set" = "Not set";
-"filters_real_estate_offer_type_not_set" = "Not set";
-"filters_real_estate_property_type_not_set" = "Not set";
+"filters_real_estate_bathrooms_not_set" = "No definido";
+"filters_real_estate_bedrooms_not_set" = "No definido";
+"filters_real_estate_offer_type_not_set" = "No definido";
+"filters_real_estate_property_type_not_set" = "No definido";
 "filters_save_button" = "Guardar filtros";
 "filters_section_car_info" = "Características del coche";
 "filters_section_categories" = "Categorías";
@@ -319,7 +319,7 @@
 "filters_section_location" = "Ubicación";
 "filters_section_price" = "Precio";
 "filters_section_price_free_title" = "Mostrar sólo productos gratuitos";
-"filters_section_real_estate_info" = "Property info";
+"filters_section_real_estate_info" = "Características de la propiedad";
 "filters_section_sortby" = "Ordenar por";
 "filters_section_within" = "Publicado en";
 "filters_sort_closest" = "Más cercanos primero";

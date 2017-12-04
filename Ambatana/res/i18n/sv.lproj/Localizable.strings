@@ -308,10 +308,10 @@
 "filters_price_from" = "Från";
 "filters_price_to" = "Till";
 "filters_price_wrong_range_error" = "Lägsta pris kan inte vara högre än högsta pris.";
-"filters_real_estate_bathrooms_not_set" = "Not set";
-"filters_real_estate_bedrooms_not_set" = "Not set";
-"filters_real_estate_offer_type_not_set" = "Not set";
-"filters_real_estate_property_type_not_set" = "Not set";
+"filters_real_estate_bathrooms_not_set" = "inte vald";
+"filters_real_estate_bedrooms_not_set" = "inte vald";
+"filters_real_estate_offer_type_not_set" = "inte vald";
+"filters_real_estate_property_type_not_set" = "inte vald";
 "filters_save_button" = "Spara filter";
 "filters_section_car_info" = "Biluppgifter";
 "filters_section_categories" = "Kategorier";

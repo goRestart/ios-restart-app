@@ -308,10 +308,10 @@
 "filters_price_from" = "Fra";
 "filters_price_to" = "Til";
 "filters_price_wrong_range_error" = "Minimal pris kan ikke være høyere enn maksimal pris.";
-"filters_real_estate_bathrooms_not_set" = "Not set";
-"filters_real_estate_bedrooms_not_set" = "Not set";
-"filters_real_estate_offer_type_not_set" = "Not set";
-"filters_real_estate_property_type_not_set" = "Not set";
+"filters_real_estate_bathrooms_not_set" = "ikke satt";
+"filters_real_estate_bedrooms_not_set" = "ikke satt";
+"filters_real_estate_offer_type_not_set" = "ikke satt";
+"filters_real_estate_property_type_not_set" = "ikke satt";
 "filters_save_button" = "Lagre filtre";
 "filters_section_car_info" = "Bilinfo";
 "filters_section_categories" = "Kategorier";

@@ -145,7 +145,7 @@ class FiltersViewModel: BaseViewModel {
     }
 
     var priceCellsDisabled: Bool {
-        if featureFlags.addSuperKeywordsOnFeed.isActive {
+        if featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive {
             return false
         } else {
             return self.productFilter.priceRange.free
@@ -198,10 +198,6 @@ class FiltersViewModel: BaseViewModel {
     
     var isFreeActive: Bool {
         return productFilter.priceRange.free
-    }
-    
-    var isSuperKeywordsActive: Bool {
-        return featureFlags.addSuperKeywordsOnFeed.isActive
     }
     
     var isTaxonomiesAndTaxonomyChildrenInFeedEnabled: Bool {
@@ -270,7 +266,7 @@ class FiltersViewModel: BaseViewModel {
     // MARK: - Actions
 
     fileprivate func generateSections() -> [FilterSection] {
-        var updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.addSuperKeywordsOnFeed.isActive)
+        var updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive)
 
         // Don't show price cells if necessary
         if let idx = updatedSections.index(of: FilterSection.price), priceCellsDisabled {
@@ -372,7 +368,7 @@ class FiltersViewModel: BaseViewModel {
     private func buildFilterCategoryItemsWithCategories(_ categories: [ListingCategory]) -> [FilterCategoryItem] {
 
         var filterCatItems: [FilterCategoryItem] = [.category(category: .cars)]
-        if featureFlags.freePostingModeAllowed && !featureFlags.addSuperKeywordsOnFeed.isActive {
+        if featureFlags.freePostingModeAllowed && !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive {
             filterCatItems.append(.free)
         }
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }

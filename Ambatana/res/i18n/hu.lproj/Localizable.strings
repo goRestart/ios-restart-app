@@ -202,7 +202,7 @@
 "common_error_generic_body" = "Hiba történt.";
 "common_error_list_retry_button" = "Újra";
 "common_error_network_body" = "Ellenőrizd a hálózati beállításokat, majd próbálkozz újra";
-"common_error_posting_loaded_image" = "Hoppá! Portékád meghirdetése sikertelen. Ellenőrizd a hálózati beállításokat.";
+"common_error_posting_loaded_image" = "Hoppá! A hirdetésed feltöltése sikertelen. Ellenőrizd a hálózati beállításokat.";
 "common_error_retry_button" = "Próbálkozz újra";
 "common_error_title" = "HOPPÁ!";
 "common_expand" = "Többet";
@@ -308,10 +308,10 @@
 "filters_price_from" = "Ettől";
 "filters_price_to" = "Eddig";
 "filters_price_wrong_range_error" = "A minimális ár nem lehet magasabb a maximális árnál.";
-"filters_real_estate_bathrooms_not_set" = "Not set";
-"filters_real_estate_bedrooms_not_set" = "Not set";
-"filters_real_estate_offer_type_not_set" = "Not set";
-"filters_real_estate_property_type_not_set" = "Not set";
+"filters_real_estate_bathrooms_not_set" = "Nincs megadva";
+"filters_real_estate_bedrooms_not_set" = "Nincs megadva";
+"filters_real_estate_offer_type_not_set" = "Nincs megadva";
+"filters_real_estate_property_type_not_set" = "Nincs megadva";
 "filters_save_button" = "Szűrők mentése";
 "filters_section_car_info" = "Autóinfók";
 "filters_section_categories" = "Kategóriák";
@@ -319,7 +319,7 @@
 "filters_section_location" = "Tartózkodási hely";
 "filters_section_price" = "Ár";
 "filters_section_price_free_title" = "Csak ingyenes portékák";
-"filters_section_real_estate_info" = "Property info";
+"filters_section_real_estate_info" = "Ingatlaninformációk";
 "filters_section_sortby" = "Rendezés";
 "filters_section_within" = "Közzétéve";
 "filters_sort_closest" = "Legközelebbiek elöl";
@@ -742,7 +742,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Hálószobák száma";
-"real_estate_current_step_of_total" = "%d of %d";
+"real_estate_current_step_of_total" = "%d/%d";
 "real_estate_location_notification_message" = "Sosem mutatjuk meg más felhasználóknak a pontos tartózkodási helyedet";
 "real_estate_location_title" = "Hely";
 "real_estate_offer_type_rent" = "Kiadó";

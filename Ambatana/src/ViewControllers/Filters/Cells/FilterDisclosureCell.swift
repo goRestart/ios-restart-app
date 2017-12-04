@@ -43,6 +43,8 @@ class FilterDisclosureCell: UICollectionViewCell {
     private func resetUI() {
         titleLabel.text = nil
         subtitleLabel.text = nil
+        titleLabel.isEnabled = true
+        isUserInteractionEnabled = true
     }
 
     private func setAccessibilityIds() {

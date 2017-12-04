@@ -272,8 +272,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     // make
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.identifier,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
-                    cell.isUserInteractionEnabled = true
-                    cell.titleLabel.isEnabled = true
+
                     cell.titleLabel.text = LGLocalizedString.postCategoryDetailCarMake
                     cell.subtitleLabel.text = viewModel.currentCarMakeName ?? LGLocalizedString.filtersCarMakeNotSet
                     return cell
