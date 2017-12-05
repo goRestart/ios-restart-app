@@ -64,8 +64,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
         super.prepareForReuse()
         disposeBag = DisposeBag()
 
-        fullMapConstraints.forEach { detailsView.detailMapView.removeConstraint($0) }
-        fullMapConstraints.removeAll()
+        deactivateFullMap()
         previewImageView.image = nil
         layoutVerticalContentInset(animated: false)
     }
@@ -129,8 +128,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
     }
 
     func hideFullMap() {
-        fullMapConstraints.forEach { detailsView.detailMapView.removeConstraint($0) }
-        fullMapConstraints.removeAll()
+        deactivateFullMap()
         UIView.animate(withDuration: 0.3) {
             self.detailsView.detailMapView.hideMap(animated: true)
             self.detailsView.detailMapView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0)
@@ -141,6 +139,13 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
     @objc private func didTapOnScrollView(sender: UITapGestureRecognizer) {
         guard sender.location(in: previewImageView).y <= previewImageView.height else { return }
         delegate?.didTapOnPreview()
+    }
+
+    private func deactivateFullMap() {
+        fullMapConstraints.forEach {
+            contentView.removeConstraint($0)
+            detailsView.detailMapView.removeConstraint($0)
+        }
     }
 
     private func setupUI() {
