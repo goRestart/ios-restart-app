@@ -10,6 +10,7 @@
 
 class MockPurchasesShopper: PurchasesShopper {
     weak var delegate: PurchasesShopperDelegate?
+    weak var bumpInfoRequesterDelegate: BumpInfoRequesterDelegate?
 
     var isBumpUpPending: Bool = false
     var paymentSucceeds: Bool = false
@@ -38,7 +39,7 @@ class MockPurchasesShopper: PurchasesShopper {
             purchaseableProducts.append(purchaseableProduct)
         }
 
-        delegate?.shopperFinishedProductsRequestForListingId(listingId, withProducts: purchaseableProducts)
+        bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(listingId, withProducts: purchaseableProducts)
     }
 
     func requestPayment(forListingId listingId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String) {

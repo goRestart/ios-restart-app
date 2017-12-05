@@ -54,6 +54,7 @@ extension DefaultsKeys {
     static let postListingLastGalleryAlbumSelected = DefaultsKey<String?>("postProductLastGalleryAlbumSelected")
 
     static let lastShownSurveyDate = DefaultsKey<Date?>("lastShownSurveyDate")
+    static let lastShownPromoteBumpDate = DefaultsKey<Date?>("lastShownPromoteBumpDate")
 }
 
 

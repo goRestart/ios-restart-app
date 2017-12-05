@@ -1053,13 +1053,15 @@ struct TrackerEvent {
     }
 
     static func listingBumpUpStart(_ listing: Listing, price: EventParameterBumpUpPrice,
-                                   type: EventParameterBumpUpType, storeProductId: String?) -> TrackerEvent {
+                                   type: EventParameterBumpUpType, storeProductId: String?,
+                                   isPromotedBump: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
 
         params[.bumpUpPrice] = price.description
         params[.bumpUpType] = type.rawValue
         params[.storeProductId] = storeProductId ?? TrackerEvent.notApply
+        params[.promotedBump] = isPromotedBump.rawValue
         return TrackerEvent(name: .bumpUpStart, params: params)
     }
 
@@ -1067,7 +1069,8 @@ struct TrackerEvent {
                                       type: EventParameterBumpUpType, restoreRetriesCount: Int,
                                       network: EventParameterShareNetwork,
                                       transactionStatus: EventParameterTransactionStatus?,
-                                      storeProductId: String?) -> TrackerEvent {
+                                      storeProductId: String?,
+                                      isPromotedBump: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.bumpUpPrice] = price.description
@@ -1076,6 +1079,7 @@ struct TrackerEvent {
         params[.shareNetwork] = network.rawValue
         params[.transactionStatus] = transactionStatus?.rawValue ?? TrackerEvent.notApply
         params[.storeProductId] = storeProductId ?? TrackerEvent.notApply
+        params[.promotedBump] = isPromotedBump.rawValue
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }
 
@@ -1118,6 +1122,11 @@ struct TrackerEvent {
         var params = EventParameters()
         params[.reason] = reason.rawValue
         return TrackerEvent(name: .bumpNotAllowedContactUs, params: params)
+    }
+
+    static func bumpUpPromo() -> TrackerEvent {
+        var params = EventParameters()
+        return TrackerEvent(name: .bumpUpPromo, params: params)
     }
 
     static func chatWindowVisit(_ typePage: EventParameterTypePage, chatEnabled: Bool) -> TrackerEvent {
