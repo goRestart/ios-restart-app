@@ -13,12 +13,14 @@ final class PhotoViewerViewController: BaseViewController, PhotoViewerVCType, UI
 
     override var prefersStatusBarHidden: Bool { return true }
 
+    let chatView: QuickChatView
     let photoViewer = PhotoViewerView()
     private let viewModel: PhotoViewerViewModel
     private let binder = PhotoViewerViewControllerBinder()
 
-    init(viewModel: PhotoViewerViewModel) {
+    init(viewModel: PhotoViewerViewModel, quickChatViewModel: QuickChatViewModel) {
         self.viewModel = viewModel
+        self.chatView = QuickChatView(chatViewModel: quickChatViewModel)
         super.init(viewModel: viewModel, nibName: nil)
     }
 
@@ -35,7 +37,6 @@ final class PhotoViewerViewController: BaseViewController, PhotoViewerVCType, UI
         binder.viewController = self
         binder.bind(toView: photoViewer)
     }
-
     func updateCurrentPage(_ currentPage: Int) {
         photoViewer.updateCurrentPage(currentPage)
     }
@@ -52,7 +53,11 @@ final class PhotoViewerViewController: BaseViewController, PhotoViewerVCType, UI
     }
 
     func showChat() {
-        viewModel.showChat()
+        chatView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(chatView)
+        chatView.layout(with: photoViewer).fill()
+        photoViewer.layoutIfNeeded()
+        photoViewer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissChat)))
     }
 
     func closeView() {
@@ -83,5 +88,12 @@ final class PhotoViewerViewController: BaseViewController, PhotoViewerVCType, UI
         }
         imageCell.imageView.image = cache
         return imageCell
+    }
+
+    // MARK: Actions
+
+    @objc func dismissChat() {
+        chatView.removeFromSuperview()
+
     }
 }

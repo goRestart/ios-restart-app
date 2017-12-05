@@ -66,14 +66,7 @@ final class ListingDeckViewModel: BaseViewModel {
     let actionButtons = Variable<[UIAction]>([])
     let altActions = Variable<[UIAction]>([])
 
-    // TODO: Need to deifne where we will show this info
-    let status = Variable<ListingViewModelStatus>(.pending)
-    let isFeatured = Variable<Bool>(false)
-
-    let chatEnabled = Variable<Bool>(false)
-    let quickAnswers = Variable<[[QuickAnswer]]>([[]])
-    var directChatPlaceholder = Variable<String>("")
-    let directChatMessages = CollectionVariable<ChatViewMessage>([])
+    let quickChatViewModel = QuickChatViewModel()
 
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
 
@@ -191,7 +184,7 @@ final class ListingDeckViewModel: BaseViewModel {
         currentListingViewModel = viewModel
         currentListingViewModel?.delegate = self
 
-        binder.bindTo(listingViewModel: viewModel)
+        binder.bindTo(listingViewModel: viewModel, quickChatViewModel: quickChatViewModel)
         currentListingViewModel?.active = active
 
         currentIndex = index
@@ -247,13 +240,13 @@ final class ListingDeckViewModel: BaseViewModel {
     func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
         switch change {
         case let .insert(index, value):
-            directChatMessages.insert(value, atIndex: index)
+            quickChatViewModel.directChatMessages.insert(value, atIndex: index)
         case let .remove(index, _):
-            directChatMessages.removeAtIndex(index)
+            quickChatViewModel.directChatMessages.removeAtIndex(index)
         case let .swap(fromIndex, toIndex, replacingWith):
-            directChatMessages.swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
+            quickChatViewModel.directChatMessages.swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
         case let .move(fromIndex, toIndex, replacingWith):
-            directChatMessages.move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
+            quickChatViewModel.directChatMessages.move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
         case let .composite(changes):
             for change in changes {
                 performCollectionChange(change: change)

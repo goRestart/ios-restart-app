@@ -14,7 +14,7 @@ final class ListingDeckViewModelBinder {
     weak var viewModel: ListingDeckViewModel? = nil
     var disposeBag: DisposeBag = DisposeBag()
 
-    func bindTo(listingViewModel currentVM: ListingCardViewCellModel) {
+    func bindTo(listingViewModel currentVM: ListingCardViewCellModel, quickChatViewModel: QuickChatViewModel) {
         guard let theOneViewModel = viewModel else { return }
         self.disposeBag = DisposeBag()
 
@@ -23,22 +23,22 @@ final class ListingDeckViewModelBinder {
             theOneViewModel.objects.replace(theOneViewModel.currentIndex, with: newModel)
         }.addDisposableTo(disposeBag)
 
-        currentVM.cardStatus.bindTo(theOneViewModel.status).addDisposableTo(disposeBag)
-        currentVM.cardIsShowingFeaturedStripe.bindTo(theOneViewModel.isFeatured).addDisposableTo(disposeBag)
-
         currentVM.cardActionButtons.bindTo(theOneViewModel.actionButtons).addDisposableTo(disposeBag)
         currentVM.cardNavBarButtons.bindTo(theOneViewModel.navBarButtons).addDisposableTo(disposeBag)
         currentVM.cardAltActions.bindTo(theOneViewModel.altActions).addDisposableTo(disposeBag)
-
-        theOneViewModel.quickAnswers.value = currentVM.cardQuickAnswers
-        currentVM.cardDirectChatEnabled.bindTo(theOneViewModel.chatEnabled).addDisposableTo(disposeBag)
-
-        theOneViewModel.directChatMessages.removeAll()
-        currentVM.cardDirectChatMessages.subscribeNext { change in
-            theOneViewModel.performCollectionChange(change: change)
-        }.addDisposableTo(disposeBag)
-        theOneViewModel.directChatPlaceholder.value = currentVM.cardDirectChatPlaceholder
+        bind(listingViewModel: currentVM, quickChatViewModel: quickChatViewModel)
 
         currentVM.cardBumpUpBannerInfo.bindTo(theOneViewModel.bumpUpBannerInfo).addDisposableTo(disposeBag)
+    }
+
+    private func bind(listingViewModel currentVM: ListingCardViewCellModel, quickChatViewModel: QuickChatViewModel) {
+        quickChatViewModel.quickAnswers.value = currentVM.cardQuickAnswers
+        currentVM.cardDirectChatEnabled.bindTo(quickChatViewModel.chatEnabled).addDisposableTo(disposeBag)
+
+        quickChatViewModel.directChatMessages.removeAll()
+        currentVM.cardDirectChatMessages.subscribeNext { change in
+            quickChatViewModel.performCollectionChange(change: change)
+        }.addDisposableTo(disposeBag)
+        quickChatViewModel.directChatPlaceholder.value = currentVM.cardDirectChatPlaceholder
     }
 }

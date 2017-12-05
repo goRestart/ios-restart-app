@@ -8,11 +8,14 @@
 
 import Foundation
 import LGCoreKit
+import RxSwift
+
 final class PhotoViewerViewModel: BaseViewModel {
 
     let imageDownloader: ImageDownloaderType
     var itemsCount: Int { return urls.count }
 
+    let quickAnswers = Variable<[[QuickAnswer]]>([[]])
     private let urls: [URL]
 
     convenience init(with urls: [URL]) {
@@ -28,9 +31,5 @@ final class PhotoViewerViewModel: BaseViewModel {
     func urlsAtIndex(_ index: Int) -> URL? {
         guard index >= 0 && index < urls.count else { return nil }
         return urls[index]
-    }
-
-    func showChat() {
-        // TODO: ABIOS-3107
     }
 }

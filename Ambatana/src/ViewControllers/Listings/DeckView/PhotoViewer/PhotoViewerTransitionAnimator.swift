@@ -31,15 +31,6 @@ final class PhotoViewerTransitionAnimator: NSObject, UIViewControllerAnimatedTra
         transitioner = transitioner.opposite
     }
 
-    private func animationCornerRardius(from: CGFloat, to: CGFloat) -> CABasicAnimation {
-        let animation = CABasicAnimation(keyPath: "cornerRadius")
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-        animation.fillMode = kCAFillModeBackwards
-
-        animation.fromValue = from
-        animation.toValue = to
-        return animation
-    }
 }
 
 private protocol PhotoViewerTransitionMode {
@@ -57,7 +48,6 @@ private class PhotoViewerTransitionDismisser: PhotoViewerTransitionMode {
                            withDuration duration: TimeInterval,
                            initialFrame: CGRect,
                            image: UIImage) {
-
         let containerView = transitionContext.containerView
         let fromView = transitionContext.view(forKey: .from)!
         let toView = transitionContext.view(forKey: .to)!

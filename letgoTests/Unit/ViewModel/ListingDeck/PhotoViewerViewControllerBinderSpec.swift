@@ -20,7 +20,7 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
         var photoViewerVC: MockPhotoViewerViewController!
         var photoView: MockPhotoViewerView!
 
-        fdescribe("PhotoViewerViewControllerBinderSpec") {
+        describe("PhotoViewerViewControllerBinderSpec") {
             beforeEach {
                 photoViewerVC = MockPhotoViewerViewController()
                 photoView = MockPhotoViewerView()

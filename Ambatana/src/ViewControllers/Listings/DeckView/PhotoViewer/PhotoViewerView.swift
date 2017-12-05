@@ -20,7 +20,7 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
     var rx_closeButton: Reactive<UIControl>? { return (closeButton as UIControl).rx }
     var rx_chatButton: Reactive<UIControl>? { return (chatButton as UIControl).rx }
     var rx_collectionView: Reactive<UICollectionView> { return collectionView.rx }
-    
+
     weak var dataSource: UICollectionViewDataSource? {
         didSet { collectionView.dataSource = dataSource }
     }
@@ -35,7 +35,7 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
         super.init(frame: frame)
         setupUI()
     }
-    
+
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     func reloadData() {
@@ -121,7 +121,7 @@ class ChatButton: UIControl {
         let width = (LGLocalizedString.photoViewerChatButton as NSString)
             .size(attributes: [NSFontAttributeName: textFont]).width
         return CGSize(width: width + 2*Metrics.margin + 44, height: 44) }
-    
+
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     private func setupUI() {
@@ -154,7 +154,7 @@ class ChatButton: UIControl {
         stackView.alignment = .center
         stackView.layout(with: self).fill()
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = min(height, width) / 2.0

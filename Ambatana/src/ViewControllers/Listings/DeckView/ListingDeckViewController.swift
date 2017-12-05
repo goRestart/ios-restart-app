@@ -143,8 +143,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
 
     func updateViewWith(alpha: CGFloat) {
-        let chatAlpha = viewModel.chatEnabled.value ? alpha : 0
-        let actionsAlpha = viewModel.chatEnabled.value ? 0 : alpha
+        let chatAlpha = viewModel.quickChatViewModel.chatEnabled.value ? alpha : 0
+        let actionsAlpha = viewModel.quickChatViewModel.chatEnabled.value ? 0 : alpha
 
         listingDeckView.updatePrivateActionsWith(alpha: actionsAlpha)
         listingDeckView.updateChatWith(alpha: chatAlpha)
@@ -203,11 +203,11 @@ extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate,
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.directChatMessages.value.count
+        return viewModel.quickChatViewModel.directChatMessages.value.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let messages = viewModel.directChatMessages.value
+        let messages = viewModel.quickChatViewModel.directChatMessages.value
         guard 0..<messages.count ~= indexPath.row else { return UITableViewCell() }
         let message = messages[indexPath.row]
         let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true, disclosure: true)
@@ -271,9 +271,9 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
     func displayPhotoViewer() {
         let urls = viewModel.currentListingViewModel?.productImageURLs.value ?? []
         let photoVM = PhotoViewerViewModel(with: urls)
-        let photoViewer = PhotoViewerViewController(viewModel: photoVM)
+        let photoViewer = PhotoViewerViewController(viewModel: photoVM,
+                                                    quickChatViewModel: viewModel.quickChatViewModel)
         photoViewer.transitioningDelegate = self
-
         self.present(photoViewer, animated: true, completion: nil)
     }
 

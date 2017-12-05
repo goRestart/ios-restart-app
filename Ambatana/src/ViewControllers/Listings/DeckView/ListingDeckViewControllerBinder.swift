@@ -124,19 +124,19 @@ final class ListingDeckViewControllerBinder {
 
     private func bindChat(withViewController viewController: ListingDeckViewController,
                           viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewModel.directChatPlaceholder.asObservable()
+        viewModel.quickChatViewModel.directChatPlaceholder.asObservable()
             .bindTo(listingDeckView.rx_chatTextView.placeholder)
             .addDisposableTo(disposeBag)
         if let productVM = viewModel.currentListingViewModel, !productVM.areQuickAnswersDynamic {
             listingDeckView.setChatInitialText(LGLocalizedString.chatExpressTextFieldText)
         }
 
-        viewModel.quickAnswers.asObservable().bindNext { [unowned listingDeckView, unowned viewModel] quickAnswers in
+        viewModel.quickChatViewModel.quickAnswers.asObservable().bindNext { [unowned listingDeckView, unowned viewModel] quickAnswers in
             let isDynamic = viewModel.currentListingViewModel?.areQuickAnswersDynamic ?? false
             listingDeckView.updateDirectChatWith(answers: quickAnswers, isDynamic: isDynamic)
         }.addDisposableTo(disposeBag)
 
-        viewModel.chatEnabled.asObservable().bindNext { [unowned listingDeckView] enabled in
+        viewModel.quickChatViewModel.chatEnabled.asObservable().bindNext { [unowned listingDeckView] enabled in
             if enabled {
                 listingDeckView.showChat()
                 listingDeckView.hideActions()
@@ -147,11 +147,12 @@ final class ListingDeckViewControllerBinder {
 
         }.addDisposableTo(disposeBag)
 
-        viewModel.directChatMessages.changesObservable.bindNext { [unowned listingDeckView, unowned viewModel] change in
+        viewModel.quickChatViewModel.directChatMessages
+            .changesObservable.bindNext { [unowned listingDeckView, unowned viewModel] change in
             switch change {
             case .insert(_, let message):
                 // if the message is already in the table we don't perform animations
-                let chatMessageExists = viewModel.directChatMessages.value
+                let chatMessageExists = viewModel.quickChatViewModel.directChatMessages.value
                     .filter({ $0.objectId == message.objectId }).count >= 1
                 listingDeckView.directChatTable.handleCollectionChange(change,
                                                                        animation: chatMessageExists
