@@ -4,6 +4,10 @@ class ListingAttributePickerViewModel: BaseViewModel {
     let title: String
     let attributes: [String]
     weak var delegate: BaseViewModelDelegate?
+    var selectedIndex: Int? {
+        guard let selectedAttribute = selectedAttribute?.lowercased() else { return nil }
+        return attributes.map({ $0.lowercased() }).index(of: selectedAttribute)
+    }
 
     fileprivate var selectedAttribute: String?
     fileprivate let selectionUpdate: ((_ selectedIndex: Int?) -> Void)
@@ -32,10 +36,5 @@ class ListingAttributePickerViewModel: BaseViewModel {
     func deselectAttribute() {
         selectedAttribute = nil
         selectionUpdate(nil)
-    }
-    
-    func selectedIndex() -> Int? {
-        guard let selectedAttribute = selectedAttribute?.lowercased() else { return nil }
-        return attributes.map({ $0.lowercased() }).index(of: selectedAttribute)
     }
 }

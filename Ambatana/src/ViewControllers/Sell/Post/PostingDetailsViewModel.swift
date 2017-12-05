@@ -327,7 +327,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         }
     }
     
-    func findValueSelected() -> Int? {
+    func indexForValueSelected() -> Int? {
         var positionSelected: Int? = nil
         switch step {
         case .propertyType:

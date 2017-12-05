@@ -4,7 +4,7 @@ import LGCoreKit
 protocol ListingAttributePickerTableViewDelegate: class {
     func indexSelected(index: Int)
     func indexDeselected(index: Int)
-    func findValueSelected() -> Int?
+    func indexForValueSelected() -> Int?
 }
 
 class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewDataSource {
@@ -136,7 +136,7 @@ class PostingAttributePickerTableView: ListingAttributePickerTableView, PostingV
     }
     
     func setupView(viewModel: PostingDetailsViewModel) {
-        guard let positionSelected = viewModel.findValueSelected() else { return }
+        guard let positionSelected = viewModel.indexForValueSelected() else { return }
         let indexPath = IndexPath(row: positionSelected, section: 0)
         selectedValue = indexPath
         tableView.reloadRows(at: [indexPath], with: .none)

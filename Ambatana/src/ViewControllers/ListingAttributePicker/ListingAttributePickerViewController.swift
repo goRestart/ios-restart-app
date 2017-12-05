@@ -7,7 +7,7 @@ class ListingAttributePickerViewController: BaseViewController {
     init(viewModel: ListingAttributePickerViewModel) {
         self.viewModel = viewModel
         var selectedIndexPath: IndexPath?
-        if let index = viewModel.selectedIndex() {
+        if let index = viewModel.selectedIndex {
             selectedIndexPath = IndexPath(row: index, section: 0)
         }
         tableView = ListingAttributePickerTableView(
@@ -53,7 +53,7 @@ extension ListingAttributePickerViewController: ListingAttributePickerTableViewD
         viewModel.deselectAttribute()
     }
     
-    func findValueSelected() -> Int? {
-        return viewModel.selectedIndex()
+    func indexForValueSelected() -> Int? {
+        return viewModel.selectedIndex
     }
 }
