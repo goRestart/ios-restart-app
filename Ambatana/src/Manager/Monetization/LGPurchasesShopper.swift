@@ -170,9 +170,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let failedBumps = keyValueStorage.userFailedBumpsInfo
 
         for (listingId, bumpInfo) in failedBumps {
-            guard let bumpDict = bumpInfo,
-                let bump = FailedBumpInfo(dictionary: bumpDict)
-                else { continue }
+            guard let bump = FailedBumpInfo(dictionary: bumpInfo) else { continue }
 
             let transactionStatus = EventParameterTransactionStatus(purchasesShopperState: .restoring,
                                                                     transactionState: nil)
