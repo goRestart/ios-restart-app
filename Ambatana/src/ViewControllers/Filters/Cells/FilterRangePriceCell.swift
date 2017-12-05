@@ -18,7 +18,8 @@ enum TextFieldPriceType: Int {
     case priceTo = 1
 }
 
-class FilterRangePriceCell: UICollectionViewCell {
+class FilterRangePriceCell: UICollectionViewCell, ReusableCell {
+    
 
     @IBOutlet weak var titleLabelFrom: UILabel!
     @IBOutlet weak var titleLabelTo: UILabel!
