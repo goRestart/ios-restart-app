@@ -100,6 +100,10 @@ open class MockListingRepository: ListingRepository {
     public func indexRealEstate(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
         delay(result: indexResult, completion: completion)
     }
+    
+    public func indexRealEstateRelatedSearch(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        delay(result: indexResult, completion: completion)
+    }
 
     public func indexFavorites(userId: String, numberOfResults: Int?, resultsOffset: Int?, completion: ListingsCompletion?) {
         delay(result: indexResult, completion: completion)

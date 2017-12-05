@@ -128,12 +128,6 @@ public struct RetrieveListingParams {
         params["since"] = timeCriteria?.string
         params["abtest"] = abtest
         
-        // Real Estate attributes
-        params["propertyType"] = propertyType
-        params["offerType"] = offerType
-        params["numberOfBedrooms"] = numberOfBedrooms
-        params["numberOfBathrooms"] = numberOfBathrooms
-        
         // Car attributes
         var carsPositiveAttrs = [String: Any]()
         var carsNegativeAttrs = [String: Any]()
