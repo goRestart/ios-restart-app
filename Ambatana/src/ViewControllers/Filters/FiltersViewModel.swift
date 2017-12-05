@@ -300,7 +300,61 @@ class FiltersViewModel: BaseViewModel {
         vm.carAttributeSelectionDelegate = self
         navigator?.openCarAttributeSelection(withViewModel: vm)
     }
-
+    
+    func propertyTypeButtonPressed() {
+        let attributeValues = RealEstatePropertyType.allValues
+        let values = attributeValues.map { $0.localizedString }
+        let vm = ListingAttributePickerViewModel(
+            title: LGLocalizedString.realEstateTypePropertyTitle,
+            attributes: values,
+            selectedAttribute: productFilter.propertyType?.rawValue
+        ) { [weak self] selectedIndex in
+            if let selectedIndex = selectedIndex {
+                self?.productFilter.propertyType = attributeValues[selectedIndex]
+            } else {
+                self?.productFilter.propertyType = nil
+            }
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func numberOfBedroomsPressed() {
+        let attributeValues = NumberOfBedrooms.allValues
+        let values = attributeValues.map { $0.localizedString }
+        let vm = ListingAttributePickerViewModel(
+            title: LGLocalizedString.realEstateBedroomsTitle,
+            attributes: values,
+            selectedAttribute: productFilter.numberOfBedrooms?.localizedString
+        ) { [weak self] selectedIndex in
+            if let selectedIndex = selectedIndex {
+                self?.productFilter.numberOfBedrooms = attributeValues[selectedIndex]
+            } else {
+                self?.productFilter.numberOfBedrooms = nil
+            }
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func numberOfBathroomsPressed() {
+        let attributeValues = NumberOfBathrooms.allValues
+        let values = attributeValues.map { $0.localizedString }
+        let vm = ListingAttributePickerViewModel(
+            title: LGLocalizedString.realEstateBathroomsTitle,
+            attributes: values,
+            selectedAttribute: productFilter.numberOfBathrooms?.localizedString
+        ) { [weak self] selectedIndex in
+            if let selectedIndex = selectedIndex {
+                self?.productFilter.numberOfBathrooms = attributeValues[selectedIndex]
+            } else {
+                self?.productFilter.numberOfBathrooms = nil
+            }
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
     func resetFilters() {
         productFilter = ListingFilters()
         sections = generateSections()
