@@ -65,10 +65,6 @@ class MainListingsViewModel: BaseViewModel {
     }
     
     fileprivate var shouldShowPrices = Variable<Bool>(false)
-    
-    var isAddSuperKeywordsEnabled: Bool {
-        return featureFlags.addSuperKeywordsOnFeed.isActive
-    }
 
     var isTaxonomiesAndTaxonomyChildrenInFeedEnabled: Bool {
         return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive

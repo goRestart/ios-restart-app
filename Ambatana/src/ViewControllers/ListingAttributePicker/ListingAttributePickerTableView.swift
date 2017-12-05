@@ -85,37 +85,42 @@ final class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITabl
         }
         let value = detailInfo[indexPath.row]
         cell.configure(with: value, theme: .light)
+        if selectedValue == indexPath {
+            select(cell: cell)
+        } else {
+            deselect(cell: cell)
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         guard let selectedValue = selectedValue else { return indexPath }
-        deselectCell(indexPath: selectedValue)
+        deselect(cell: tableView.cellForRow(at: selectedValue))
         return indexPath
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectCell(indexPath: indexPath)
         delegate?.indexSelected(index: indexPath.row)
+        selectedValue = indexPath
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        select(cell: tableView.cellForRow(at: indexPath))
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        deselectCell(indexPath: indexPath)
-    }
-   
-    func deselectCell(indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? ListingAttributePickerCell else { return }
-        cell.deselect()
         selectedValue = nil
         delegate?.indexDeselected(index: indexPath.row)
         tableView.deselectRow(at: indexPath, animated: false)
+        deselect(cell: tableView.cellForRow(at: indexPath))
+    }
+   
+    func deselect(cell: UITableViewCell?) {
+        guard let cell = cell as? ListingAttributePickerCell else { return }
+        cell.deselect()
     }
     
-    func selectCell(indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? ListingAttributePickerCell else { return }
+    func select(cell: UITableViewCell?) {
+        guard let cell = cell as? ListingAttributePickerCell else { return }
         cell.select()
-        selectedValue = indexPath
-        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
     }
     
     func setupTableView(values: [String]) {
@@ -127,8 +132,9 @@ final class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITabl
     
     func setupView(viewModel: PostingDetailsViewModel) {
         guard let positionSelected = viewModel.findValueSelected() else { return }
-        selectCell(indexPath: IndexPath(item: positionSelected, section: 0))
-
+        let indexPath = IndexPath(row: positionSelected, section: 0)
+        selectedValue = indexPath
+        tableView.reloadRows(at: [indexPath], with: .none)
     }
     
     func setupContainerView(view: UIView) {

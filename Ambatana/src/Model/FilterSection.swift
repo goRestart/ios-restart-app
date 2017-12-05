@@ -29,7 +29,7 @@ extension FilterSection {
         case .price:
             return LGLocalizedString.filtersSectionPrice.localizedUppercase
         case .realEstateInfo:
-            return "Real estate section"
+            return LGLocalizedString.filtersSectionRealEstateInfo.localizedUppercase
         }
     }
 

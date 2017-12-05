@@ -1311,6 +1311,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_car_year_before_year", comment: "")
 	}
 
+	static var filtersSectionRealEstateInfo: String {
+		return NSLocalizedString("filters_section_real_estate_info", comment: "")
+	}
+
 	static var filtersRealEstatePropertyTypeNotSet: String {
 		return NSLocalizedString("filters_real_estate_property_type_not_set", comment: "")
 	}
@@ -1325,22 +1329,6 @@ struct LGLocalizedString {
 
 	static var filtersRealEstateBathroomsNotSet: String {
 		return NSLocalizedString("filters_real_estate_bathrooms_not_set", comment: "")
-	}
-
-	static var filtersRealEstatePropertyTypeTitle: String {
-		return NSLocalizedString("filters_real_estate_property_type_title", comment: "")
-	}
-
-	static var filtersRealEstateOfferTypeTitle: String {
-		return NSLocalizedString("filters_real_estate_offer_type_title", comment: "")
-	}
-
-	static var filtersRealEstateBedroomsTitle: String {
-		return NSLocalizedString("filters_real_estate_bedrooms_title", comment: "")
-	}
-
-	static var filtersRealEstateBathroomsTitle: String {
-		return NSLocalizedString("filters_real_estate_bathrooms_title", comment: "")
 	}
 
 	static var filtersTagLocationSelected: String {

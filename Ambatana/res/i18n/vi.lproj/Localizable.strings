@@ -308,6 +308,10 @@
 "filters_price_from" = "Từ";
 "filters_price_to" = "Tới";
 "filters_price_wrong_range_error" = "Giá tối thiểu không thể cao hơn giá tối đa.";
+"filters_real_estate_bathrooms_not_set" = "Chưa được cài đặt";
+"filters_real_estate_bedrooms_not_set" = "Chưa được cài đặt";
+"filters_real_estate_offer_type_not_set" = "Chưa được cài đặt";
+"filters_real_estate_property_type_not_set" = "Chưa được cài đặt";
 "filters_save_button" = "Lưu bộ lọc";
 "filters_section_car_info" = "Thông tin ô tô";
 "filters_section_categories" = "Danh mục";
@@ -315,6 +319,7 @@
 "filters_section_location" = "Địa điểm";
 "filters_section_price" = "Giá";
 "filters_section_price_free_title" = "Chỉ hiện các sản phẩm miễn phí";
+"filters_section_real_estate_info" = "Property info";
 "filters_section_sortby" = "Sắp xếp theo";
 "filters_section_within" = "Được đăng trong vòng";
 "filters_sort_closest" = "Gần nhất trước tiên";

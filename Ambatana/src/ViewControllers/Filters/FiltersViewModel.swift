@@ -93,6 +93,19 @@ class FiltersViewModel: BaseViewModel {
     var currentCarModelName: String? {
         return productFilter.carModelName
     }
+    
+    var currentPropertyTypeName: String? {
+        return productFilter.propertyType?.localizedString
+    }
+    
+    var currentNumberOfBathroomsName: String? {
+        return productFilter.numberOfBathrooms?.summaryLocalizedString
+    }
+    
+    var currentNumberOfBedroomsName: String? {
+        return productFilter.numberOfBedrooms?.summaryLocalizedString
+    }
+    
     var modelCellEnabled: Bool {
         return currentCarMakeName != nil
     }
@@ -131,27 +144,28 @@ class FiltersViewModel: BaseViewModel {
         return self.categories.count%2 == 1
     }
 
-    var priceCellsDisabled: Bool {
-        if featureFlags.addSuperKeywordsOnFeed.isActive {
-            return false
-        } else {
-            return self.productFilter.priceRange.free
-        }
+    var isPriceCellEnabled: Bool {
+        return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive || !productFilter.priceRange.free
     }
 
-    var carsInfoCellsDisabled: Bool {
+    var isCarsInfoCellEnabled: Bool {
         let isTaxonomyCars = productFilter.selectedTaxonomyChildren.contains(where: { $0.isCarsTaxonomy } )
-        return !(productFilter.selectedCategories.contains(.cars) || isTaxonomyCars)
+        return productFilter.selectedCategories.contains(.cars) || isTaxonomyCars
     }
     
-    var realEstateInfoCellsDisabled: Bool {
-        return !productFilter.selectedCategories.contains(.realEstate)
+    var isRealEstateInfoCellEnabled: Bool {
+        return productFilter.selectedCategories.contains(.realEstate)
     }
 
     var numOfWithinTimes : Int {
         return self.withinTimes.count
     }
     private var withinTimes : [ListingTimeCriteria]
+    
+    var offerTypeOptionsCount : Int {
+        return self.offerTypeOptions.count
+    }
+    private var offerTypeOptions : [RealEstateOfferType]
     
     var numOfSortOptions : Int {
         return self.sortOptions.count
@@ -180,10 +194,6 @@ class FiltersViewModel: BaseViewModel {
     
     var isFreeActive: Bool {
         return productFilter.priceRange.free
-    }
-    
-    var isSuperKeywordsActive: Bool {
-        return featureFlags.addSuperKeywordsOnFeed.isActive
     }
     
     var isTaxonomiesAndTaxonomyChildrenInFeedEnabled: Bool {
@@ -218,18 +228,29 @@ class FiltersViewModel: BaseViewModel {
     }
     
     convenience init(currentFilters: ListingFilters) {
-        self.init(categoryRepository: Core.categoryRepository, categories: [],
-            withinTimes: ListingTimeCriteria.allValues(), sortOptions: ListingSortCriteria.allValues(),
-            currentFilters: currentFilters, featureFlags: FeatureFlags.sharedInstance, carsInfoRepository: Core.carsInfoRepository)
+        self.init(categoryRepository: Core.categoryRepository,
+                  categories: [],
+                  withinTimes: ListingTimeCriteria.allValues(),
+                  sortOptions: ListingSortCriteria.allValues(),
+                  offerTypeOptions: RealEstateOfferType.allValues,
+                  currentFilters: currentFilters,
+                  featureFlags: FeatureFlags.sharedInstance,
+                  carsInfoRepository: Core.carsInfoRepository)
     }
     
-    required init(categoryRepository: CategoryRepository, categories: [FilterCategoryItem],
-                  withinTimes: [ListingTimeCriteria], sortOptions: [ListingSortCriteria], currentFilters: ListingFilters,
-        featureFlags: FeatureFlaggeable, carsInfoRepository: CarsInfoRepository) {
+    required init(categoryRepository: CategoryRepository,
+                  categories: [FilterCategoryItem],
+                  withinTimes: [ListingTimeCriteria],
+                  sortOptions: [ListingSortCriteria],
+                  offerTypeOptions: [RealEstateOfferType],
+                  currentFilters: ListingFilters,
+                  featureFlags: FeatureFlaggeable,
+                  carsInfoRepository: CarsInfoRepository) {
         self.categoryRepository = categoryRepository
         self.categories = categories
         self.withinTimes = withinTimes
         self.sortOptions = sortOptions
+        self.offerTypeOptions = offerTypeOptions
         self.productFilter = currentFilters
         self.sections = []
         self.featureFlags = featureFlags
@@ -241,22 +262,11 @@ class FiltersViewModel: BaseViewModel {
     // MARK: - Actions
 
     fileprivate func generateSections() -> [FilterSection] {
-        var updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.addSuperKeywordsOnFeed.isActive)
+        let updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive)
 
-        // Don't show price cells if necessary
-        if let idx = updatedSections.index(of: FilterSection.price), priceCellsDisabled {
-            updatedSections.remove(at: idx)
-        }
-        // Don't show car info cells if necessary
-        if let idx = updatedSections.index(of: FilterSection.carsInfo), carsInfoCellsDisabled {
-            updatedSections.remove(at: idx)
-        }
-        
-        // Don't show real Estate info cells if necessary
-        if let idx = updatedSections.index(of: FilterSection.realEstateInfo), realEstateInfoCellsDisabled {
-            updatedSections.remove(at: idx)
-        }
-        return updatedSections
+        return updatedSections.filter { $0 != .price ||  isPriceCellEnabled }
+            .filter {$0 != .carsInfo ||  isCarsInfoCellEnabled }
+            .filter {$0 != .realEstateInfo || isRealEstateInfoCellEnabled }
     }
 
     func locationButtonPressed() {
@@ -343,7 +353,7 @@ class FiltersViewModel: BaseViewModel {
     private func buildFilterCategoryItemsWithCategories(_ categories: [ListingCategory]) -> [FilterCategoryItem] {
 
         var filterCatItems: [FilterCategoryItem] = [.category(category: .cars)]
-        if featureFlags.freePostingModeAllowed && !featureFlags.addSuperKeywordsOnFeed.isActive {
+        if featureFlags.freePostingModeAllowed && !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive {
             filterCatItems.append(.free)
         }
         let builtCategories = categories.map { FilterCategoryItem(category: $0) }
@@ -437,7 +447,27 @@ class FiltersViewModel: BaseViewModel {
         return withinTimes[index] == productFilter.selectedWithin
     }
     
-    // MARK: Filter by
+    // MARK: Real Estate offer type
+    func selectOfferTypeAtIndex(_ index: Int) {
+        guard index < offerTypeOptionsCount else { return }
+        productFilter.offerType = offerTypeOptions[index]
+        delegate?.vmDidUpdate()
+    }
+    
+    func offerTypeNameAtIndex(_ index: Int) -> String? {
+        guard index < offerTypeOptionsCount else { return nil }
+        
+        return offerTypeOptions[index].localizedString
+    }
+    
+    func offerTypeSelectedAtIndex(_ index: Int) -> Bool {
+        guard index < numOfWithinTimes else { return false }
+        
+        return offerTypeOptions[index] == productFilter.offerType
+    }
+    
+    
+    // MARK: Sort by
     
     func selectSortOptionAtIndex(_ index: Int) {
         guard index < numOfSortOptions else { return }
@@ -467,6 +497,10 @@ class FiltersViewModel: BaseViewModel {
 
     var numberOfPriceRows: Int {
         return priceRangeAvailable ? 2 : 1
+    }
+    
+    var numberOfRealEstateRows: Int {
+        return 5
     }
     
     func setMinPrice(_ value: String?) {

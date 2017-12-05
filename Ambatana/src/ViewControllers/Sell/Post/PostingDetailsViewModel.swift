@@ -53,6 +53,15 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         }
     }
     
+    var buttonFullWidth: Bool {
+        switch step {
+        case .bathrooms, .bedrooms, .offerType, .propertyType, .make, .model, .year, .price:
+            return false
+        case .location, .summary:
+            return true
+        }
+    }
+    
     private var currencySymbol: String? {
         guard let countryCode = locationManager.currentLocation?.countryCode else { return nil }
         return currencyHelper.currencyWithCountryCode(countryCode).symbol
@@ -277,7 +286,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .summary, .location, .make, .model, .year:
             return
         }
-
+        
         var realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes()
         realEstateInfo = realEstateInfo.updating(propertyType: realEstatePropertyType,
                                                  offerType: realEstateOfferType,
@@ -343,6 +352,10 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     // MARK: - PostingAddDetailSummaryTableViewDelegate
     
     func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView, didSelectIndex: PostingSummaryOption) {
+        
+        let event = TrackerEvent.openOptionOnSummary(fieldOpen: EventParameterOptionSummary(optionSelected: didSelectIndex),
+                                                     postingType: EventParameterPostingType(category: postListingState.category ?? .unassigned))
+        tracker.trackEvent(event)
         navigator?.nextPostingDetailStep(step: didSelectIndex.postingDetailStep, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, previousStepIsSummary: true)
     }
     

@@ -28,6 +28,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     private var distanceCellSize = CGSize.zero
     private var categoryCellSize = CGSize.zero
     private var singleCheckCellSize = CGSize.zero
+    private var singleCheckCellWithMarginSize = CGSize.zero
     private var priceCellSize = CGSize.zero
     private var yearRangeCellSize = CGSize.zero
 
@@ -169,6 +170,14 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     return singleCheckCellSize
                 }
             case .realEstateInfo:
+                switch indexPath.item {
+                case 0:
+                    return singleCheckCellSize
+                case 1, 2:
+                    return singleCheckCellWithMarginSize
+                default:
+                    return singleCheckCellSize
+                }
                 return singleCheckCellSize
             case .sortBy, .within, .location:
                 return singleCheckCellSize
@@ -198,7 +207,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         case .price:
             return viewModel.numberOfPriceRows
         case .realEstateInfo:
-            return 4
+            return viewModel.numberOfRealEstateRows
         }
     }
     
@@ -222,16 +231,15 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
-            // ABIOS-2721: CellDrawer pattern
             switch viewModel.sections[indexPath.section] {
             case .location:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                     for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                 cell.titleLabel.text = LGLocalizedString.changeLocationTitle
                 cell.subtitleLabel.text = viewModel.place?.fullText(showAddress: false)
                 return cell
             case .distance:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDistanceCell",
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDistanceCell.reusableID,
                     for: indexPath) as? FilterDistanceCell else { return UICollectionViewCell() }
                 cell.delegate = self
                 cell.distanceType = viewModel.distanceType
@@ -239,13 +247,13 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 return cell
             case .categories:
                 if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.titleLabel.text = LGLocalizedString.categoriesTitle
                     cell.subtitleLabel.text = viewModel.currentCategoryNameSelected
                     return cell
                 } else {
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCategoryCell",
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterCategoryCell.reusableID,
                                                                         for: indexPath) as? FilterCategoryCell else { return UICollectionViewCell() }
                     cell.titleLabel.text = viewModel.categoryTextAtIndex(indexPath.row)
                     cell.categoryIcon.image = viewModel.categoryIconAtIndex(indexPath.row)
@@ -262,16 +270,15 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 switch indexPath.item {
                 case 0:
                     // make
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
-                    cell.isUserInteractionEnabled = true
-                    cell.titleLabel.isEnabled = true
+
                     cell.titleLabel.text = LGLocalizedString.postCategoryDetailCarMake
                     cell.subtitleLabel.text = viewModel.currentCarMakeName ?? LGLocalizedString.filtersCarMakeNotSet
                     return cell
                 case 1:
                     // Model
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = viewModel.modelCellEnabled
                     cell.titleLabel.isEnabled = viewModel.modelCellEnabled
@@ -280,7 +287,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     return cell
                 case 2:
                     // Year
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCarInfoYearCell",
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSliderYearCell.reusableID,
                                                                         for: indexPath) as? FilterSliderYearCell else { return UICollectionViewCell() }
                     cell.setupSlider(minimumValue: Constants.filterMinCarYear, 
                                      maximumValue: Date().year,
@@ -295,45 +302,57 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 switch indexPath.item {
                 case 0:
                     // propertyType
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = true
                     cell.titleLabel.isEnabled = true
-                    cell.titleLabel.text = LGLocalizedString.filtersRealEstatePropertyTypeTitle
-                    cell.subtitleLabel.text = viewModel.currentCarMakeName ?? LGLocalizedString.filtersRealEstatePropertyTypeNotSet
+                    cell.titleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
+                    cell.subtitleLabel.text = viewModel.currentPropertyTypeName ?? LGLocalizedString.filtersRealEstatePropertyTypeNotSet
                     return cell
                 case 1:
-                    // OfferType
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
-                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
-                    cell.isUserInteractionEnabled = viewModel.modelCellEnabled
-                    cell.titleLabel.isEnabled = viewModel.modelCellEnabled
-                    cell.titleLabel.text = LGLocalizedString.filtersRealEstateOfferTypeTitle
-                    cell.subtitleLabel.text = viewModel.currentCarModelName ?? LGLocalizedString.filtersRealEstateOfferTypeNotSet
+                    // For sale option
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
+                                                                        for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
+                    cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
+                    cell.isSelected = viewModel.offerTypeSelectedAtIndex(indexPath.row - 1)
+                    cell.topSeparator.isHidden = false
+                    cell.bottomSeparator.isHidden = true
+                    cell.setMargin(top: true)
                     return cell
                 case 2:
-                    // Number of bedrooms
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
-                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
-                    cell.isUserInteractionEnabled = viewModel.modelCellEnabled
-                    cell.titleLabel.isEnabled = viewModel.modelCellEnabled
-                    cell.titleLabel.text = LGLocalizedString.filtersRealEstateBedroomsTitle
-                    cell.subtitleLabel.text = viewModel.currentCarModelName ?? LGLocalizedString.filtersRealEstateBedroomsNotSet
+                    // For rent option
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
+                                                                        for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
+                    cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
+                    cell.isSelected = viewModel.offerTypeSelectedAtIndex(indexPath.row - 1)
+                    cell.topSeparator.isHidden = false
+                    cell.bottomSeparator.isHidden = false
+                    cell.setMargin(bottom: true)
                     return cell
                 case 3:
-                    // Number of bathrooms
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterDisclosureCell",
+                    // Number of bedrooms
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
-                    cell.isUserInteractionEnabled = viewModel.modelCellEnabled
-                    cell.titleLabel.isEnabled = viewModel.modelCellEnabled
-                    cell.titleLabel.text = LGLocalizedString.filtersRealEstateBathroomsTitle
-                    cell.subtitleLabel.text = viewModel.currentCarModelName ?? LGLocalizedString.filtersRealEstateBathroomsNotSet
+                    cell.isUserInteractionEnabled = true
+                    cell.titleLabel.isEnabled = true
+                    cell.titleLabel.text = LGLocalizedString.realEstateBedroomsTitle
+                    cell.subtitleLabel.text = viewModel.currentNumberOfBedroomsName ?? LGLocalizedString.filtersRealEstateBedroomsNotSet
+                    cell.topSeparator.isHidden = false
+                    return cell
+                case 4:
+                    // Number of bathrooms
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
+                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
+                    cell.isUserInteractionEnabled = true
+                    cell.titleLabel.isEnabled = true
+                    cell.titleLabel.text = LGLocalizedString.realEstateBathroomsTitle
+                    cell.subtitleLabel.text = viewModel.currentNumberOfBathroomsName ?? LGLocalizedString.filtersRealEstateBathroomsNotSet
                     return cell
                 default:
                     return UICollectionViewCell()
                 }
             case .within:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterSingleCheckCell",
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
                     for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
                 cell.titleLabel.text = viewModel.withinTimeNameAtIndex(indexPath.row)
                 cell.isSelected = viewModel.withinTimeSelectedAtIndex(indexPath.row)
@@ -341,7 +360,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 return cell
                 
             case .sortBy:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterSingleCheckCell",
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
                     for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
                 cell.titleLabel.text = viewModel.sortOptionTextAtIndex(indexPath.row)
                 cell.isSelected = viewModel.sortOptionSelectedAtIndex(indexPath.row)
@@ -350,7 +369,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             case .price:
                 if viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
                     if indexPath.row == 0 {
-                        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterFreeCell",
+                        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterFreeCell.reusableID,
                                                                             for: indexPath) as? FilterFreeCell else { return UICollectionViewCell() }
                         cell.bottomSeparator.isHidden = true
                         cell.topSeparator.isHidden = false
@@ -359,7 +378,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                         cell.freeSwitch.setOn(viewModel.isFreeActive, animated: false)
                         return cell
                     } else if indexPath.row == 1 {
-                        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterRangePriceCell",
+                        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterRangePriceCell.reusableID,
                                                                             for: indexPath) as? FilterRangePriceCell else { return UICollectionViewCell() }
                         cell.titleLabelFrom.text = LGLocalizedString.filtersPriceFrom
                         cell.titleLabelTo.text = LGLocalizedString.filtersPriceTo
@@ -373,7 +392,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                         return UICollectionViewCell()
                     }
                 } else {
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterPriceCell",
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterPriceCell.reusableID,
                                                                         for: indexPath) as? FilterPriceCell else { return UICollectionViewCell() }
                     cell.tag = indexPath.row
                     cell.titleLabel.text = indexPath.row == 0 ? LGLocalizedString.filtersPriceFrom :
@@ -425,13 +444,18 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 // propertyType
                 break
             case 1:
-                // Offer type
+                // for sale
+                viewModel.selectOfferTypeAtIndex(indexPath.row - 1)
                 break
             case 2:
-                // Bedrooms
+                // for rent
+                viewModel.selectOfferTypeAtIndex(indexPath.row - 1)
                 break
             case 3:
-                // Bathrooms
+                // bedrooms
+                break
+            case 4:
+                // bathrooms
                 break
             default:
                 break
@@ -451,24 +475,26 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     
     private func setupUI(){
         // CollectionView cells
-        let categoryNib = UINib(nibName: "FilterCategoryCell", bundle: nil)
-        collectionView.register(categoryNib, forCellWithReuseIdentifier: "FilterCategoryCell")
-        let sortByNib = UINib(nibName: "FilterSingleCheckCell", bundle: nil)
-        collectionView.register(sortByNib, forCellWithReuseIdentifier: "FilterSingleCheckCell")
-        let distanceNib = UINib(nibName: "FilterDistanceCell", bundle: nil)
-        collectionView.register(distanceNib, forCellWithReuseIdentifier: "FilterDistanceCell")
-        let disclosureNib = UINib(nibName: "FilterDisclosureCell", bundle: nil)
-        collectionView.register(disclosureNib, forCellWithReuseIdentifier: "FilterDisclosureCell")
-        collectionView.register(FilterSliderYearCell.self, forCellWithReuseIdentifier: "FilterCarInfoYearCell")
+        let categoryNib = UINib(nibName: FilterCategoryCell.reusableID, bundle: nil)
+        collectionView.register(categoryNib, forCellWithReuseIdentifier: FilterCategoryCell.reusableID)
+        let sortByNib = UINib(nibName: FilterSingleCheckCell.reusableID, bundle: nil)
+        collectionView.register(sortByNib, forCellWithReuseIdentifier: FilterSingleCheckCell.reusableID)
+        let distanceNib = UINib(nibName: FilterDistanceCell.reusableID, bundle: nil)
+        collectionView.register(distanceNib, forCellWithReuseIdentifier: FilterDistanceCell.reusableID)
+        let disclosureNib = UINib(nibName: FilterDisclosureCell.reusableID, bundle: nil)
+        collectionView.register(disclosureNib, forCellWithReuseIdentifier: FilterDisclosureCell.reusableID)
+        collectionView.register(FilterSliderYearCell.self, forCellWithReuseIdentifier: FilterSliderYearCell.reusableID)
         let headerNib = UINib(nibName: "FilterHeaderCell", bundle: nil)
         collectionView.register(headerNib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
             withReuseIdentifier: "FilterHeaderCell")
-        let rangePriceNib = UINib(nibName: "FilterRangePriceCell", bundle: nil)
-        collectionView.register(rangePriceNib, forCellWithReuseIdentifier: "FilterRangePriceCell")
-        let priceNib = UINib(nibName: "FilterPriceCell", bundle: nil)
-        collectionView.register(priceNib, forCellWithReuseIdentifier: "FilterPriceCell")
-        let freeNib = UINib(nibName: "FilterFreeCell", bundle: nil)
-        collectionView.register(freeNib, forCellWithReuseIdentifier: "FilterFreeCell")
+        let rangePriceNib = UINib(nibName: FilterRangePriceCell.reusableID, bundle: nil)
+        collectionView.register(rangePriceNib, forCellWithReuseIdentifier: FilterRangePriceCell.reusableID)
+        let priceNib = UINib(nibName: FilterPriceCell.reusableID, bundle: nil)
+        collectionView.register(priceNib, forCellWithReuseIdentifier: FilterPriceCell.reusableID)
+        let freeNib = UINib(nibName:  FilterFreeCell.reusableID, bundle: nil)
+        collectionView.register(freeNib, forCellWithReuseIdentifier: FilterFreeCell.reusableID)
+        
+        collectionView.register(FilterSingleCheckCell.self, forCellWithReuseIdentifier: FilterSingleCheckCell.reusableID)
 
         // Navbar
         setNavBarTitle(LGLocalizedString.filtersTitle)
@@ -487,6 +513,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         let categoryWidth = viewModel.isTaxonomiesAndTaxonomyChildrenInFeedEnabled ? screenWidth : screenWidth * 0.5
         categoryCellSize = CGSize(width: categoryWidth, height: 50.0)
         singleCheckCellSize = CGSize(width: screenWidth, height: 50.0)
+        singleCheckCellWithMarginSize = CGSize(width: screenWidth, height: 62.0)
         priceCellSize = CGSize(width: screenWidth, height: 50.0)
         yearRangeCellSize = CGSize(width: screenWidth, height: 90)
 

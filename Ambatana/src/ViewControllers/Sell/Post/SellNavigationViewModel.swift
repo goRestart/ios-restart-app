@@ -14,6 +14,7 @@ class SellNavigationViewModel : BaseViewModel {
     let currentStep = Variable<CGFloat>(0)
     let categorySelected = Variable<PostCategory?>(nil)
     var shouldModifyProgress: Bool = false
+    var hasInitialCategory: Bool = false
     
     let featureFlags: FeatureFlags
     
@@ -22,10 +23,8 @@ class SellNavigationViewModel : BaseViewModel {
     }
     
     var shouldShowPriceStep: Bool {
-        return featureFlags.showPriceStepRealEstatePosting.isActive
+        return featureFlags.showPriceStepRealEstatePosting.isActive && hasInitialCategory
     }
-    
-    
     
     init(featureFlags: FeatureFlags) {
         self.featureFlags = featureFlags
