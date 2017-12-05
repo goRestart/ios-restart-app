@@ -169,8 +169,8 @@ class PostListingViewModel: BaseViewModel {
 //                strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
 //            }
 //        }
-        //guard let listingParams = makeListingParams(images: images) else { return }
-        navigator?.openQueuedRequestsLoading(images: images)
+        guard let listingParams = makeListingParams() else { return }
+        navigator?.openQueuedRequestsLoading(images: images, listingCreationParams: listingParams)
     }
     
     func closeButtonPressed() {
@@ -182,7 +182,7 @@ class PostListingViewModel: BaseViewModel {
                 return
             }
             
-            if let listingParams = makeListingParams(images: images) {
+            if let listingParams = makeListingParams() {
                 let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                            sellButtonPosition: postingSource.sellButtonPosition,
                                                            imageSource: uploadedImageSource,
@@ -354,12 +354,12 @@ fileprivate extension PostListingViewModel {
                                                    imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
         if sessionManager.loggedIn {
             guard let images = state.value.lastImagesUploadResult?.value,
-                let listingCreationParams = makeListingParams(images: images) else { return }
+                let listingCreationParams = makeListingParams() else { return }
             navigator?.closePostProductAndPostInBackground(params: listingCreationParams,
                                                            trackingInfo: trackingInfo)
         } else if let images = state.value.pendingToUploadImages {
             let loggedInAction = { [weak self] in
-                guard let listingParams = self?.makeListingParams(images: []) else { return }
+                guard let listingParams = self?.makeListingParams() else { return }
                 self?.navigator?.closePostProductAndPostLater(params: listingParams,
                                                               images: images,
                                                               trackingInfo: trackingInfo)
@@ -381,7 +381,7 @@ fileprivate extension PostListingViewModel {
                                 postListingBasicInfo: postDetailViewModel)
     }
     
-    func makeListingParams(images: [File]) -> ListingCreationParams? {
+    func makeListingParams() -> ListingCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
         let title = postDetailViewModel.listingTitle
         let description = postDetailViewModel.listingDescription ?? ""

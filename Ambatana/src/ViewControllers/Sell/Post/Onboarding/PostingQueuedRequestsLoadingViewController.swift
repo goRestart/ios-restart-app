@@ -1,5 +1,5 @@
 //
-//  PostQueuedRequestsLoadingViewController.swift
+//  PostingQueuedRequestsLoadingViewController.swift
 //  LetGo
 //
 //  Created by Raúl de Oñate Blanco on 04/12/2017.
@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-class PostQueuedRequestsLoadingViewController: BaseViewController {
+class PostingQueuedRequestsLoadingViewController: BaseViewController {
     
     struct LoadingMetrics {
         static var heightLoadingView: CGFloat = 60
@@ -17,14 +17,14 @@ class PostQueuedRequestsLoadingViewController: BaseViewController {
     }
     
     private var loadingView = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: LoadingMetrics.widthLoadingView, height: LoadingMetrics.widthLoadingView))
-    private let viewModel: PostQueuedRequestsLoadingViewModel
+    private let viewModel: PostingQueuedRequestsLoadingViewModel
     
     private let disposeBag = DisposeBag()
     
     
-    // MARK: - LifeCycle
+    // MARK: - Lifecycle
     
-    init(viewModel: PostQueuedRequestsLoadingViewModel) {
+    init(viewModel: PostingQueuedRequestsLoadingViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
     }
@@ -39,7 +39,7 @@ class PostQueuedRequestsLoadingViewController: BaseViewController {
         setupConstraints()
         setupUI()
         setupRx()
-//        viewModel.createListing()
+        viewModel.createListing()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,28 +47,16 @@ class PostQueuedRequestsLoadingViewController: BaseViewController {
         //setStatusBarHidden(true)
     }
     
+    
     // MARK: - UI
     
     private func setupUI() {
-        view.clipsToBounds = true
-        view.backgroundColor = .clear
-        loadingView.color = .white
-        loadingView.startAnimating()
     }
     
     private func setupConstraints() {
-        loadingView.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(loadingView)
-        
-        loadingView.layout().height(LoadingMetrics.heightLoadingView).width(LoadingMetrics.widthLoadingView)
-        loadingView.layout(with: view).centerY().centerX()
     }
     
     private func setupRx() {
-        //        viewModel.finishRequest.asObservable().filter{ $0 == true }.bindNext { [weak self] finished in
-        //            self?.viewModel.nextStep()
-        //        }.addDisposableTo(disposeBag)
     }
 }
 
