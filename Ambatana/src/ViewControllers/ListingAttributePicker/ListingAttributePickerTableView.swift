@@ -46,7 +46,7 @@ class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewD
         tableView.tintColor = UIColor.white
         tableView.indicatorStyle = .white
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.margin, right: 0)
-        tableView.allowsMultipleSelection = true
+        tableView.allowsMultipleSelection = false
     }
     
     private func setupLayout() {
@@ -97,8 +97,21 @@ class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewD
         return cell
     }
     
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        tableView.cellForRow(at: indexPath)?.isSelected = false
+        tableView.deselectRow(at: indexPath, animated: false)
+        if selectedValue == indexPath {
+            selectedValue = nil
+            delegate?.indexDeselected(index: indexPath.row)
+            return nil // cancel the selection that triggered the event
+        }
+        return indexPath
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard selectedValue != indexPath else { return }
         selectedValue = indexPath
+        tableView.cellForRow(at: indexPath)?.isSelected = true
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         delegate?.indexSelected(index: indexPath.row)
     }
@@ -106,6 +119,7 @@ class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         selectedValue = nil
         tableView.cellForRow(at: indexPath)?.isSelected = false
+        tableView.deselectRow(at: indexPath, animated: false)
         delegate?.indexDeselected(index: indexPath.row)
     }
     

@@ -24,7 +24,9 @@ class ListingAttributePickerViewModel: BaseViewModel {
     func selectedAttribute(at index: Int) {
         selectedAttribute = attributes[index]
         selectionUpdate(index)
-        delegate?.vmPop()
+        delay(0.3) { [weak self] in
+            self?.delegate?.vmPop()
+        }
     }
     
     func deselectAttribute() {
