@@ -39,6 +39,10 @@ public struct RetrieveListingParams {
     public var startYear: RetrieveListingParam<Int>?
     public var endYear: RetrieveListingParam<Int>?
     public var abtest: String?
+    public var propertyType: String?
+    public var offerType: String?
+    public var numberOfBedrooms: Int?
+    public var numberOfBathrooms: Float?
     
     public init() { }
     
@@ -63,6 +67,35 @@ public struct RetrieveListingParams {
                 params["status"] = UserListingStatus.selling.rawValue
             }
         }
+        return params
+    }
+    
+    var realEstateApiParams: Dictionary<String, Any> {
+        var params = Dictionary<String, Any>()
+        params["searchTerm"] = queryString
+        params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
+        // In case country code is empty we send the request without it.
+        if countryCode != "" {
+            params["countryCode"] = countryCode
+        }
+        if let freePrice = freePrice, freePrice {
+            params["priceFlag"] = ListingPriceFlag.free.rawValue
+        }
+        params["maxPrice"] = maxPrice
+        params["minPrice"] = minPrice
+        params["distanceRadius"] = distanceRadius
+        params["distanceType"] = distanceType?.string
+        params["numResults"] = numListings
+        params["offset"] = offset
+        params["sort"] = sortCriteria?.string
+        params["since"] = timeCriteria?.string
+        
+        // Real Estate attributes
+        params["propertyType"] = [propertyType]
+        params["offerType"] = [offerType]
+        params["numberOfBedrooms"] = numberOfBedrooms
+        params["numberOfBathrooms"] = numberOfBathrooms
+       
         return params
     }
     
@@ -94,6 +127,12 @@ public struct RetrieveListingParams {
         params["sort"] = sortCriteria?.string
         params["since"] = timeCriteria?.string
         params["abtest"] = abtest
+        
+        // Real Estate attributes
+        params["propertyType"] = propertyType
+        params["offerType"] = offerType
+        params["numberOfBedrooms"] = numberOfBedrooms
+        params["numberOfBathrooms"] = numberOfBathrooms
         
         // Car attributes
         var carsPositiveAttrs = [String: Any]()
