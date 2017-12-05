@@ -3736,7 +3736,8 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
-                    sut = TrackerEvent.listingBumpUpStart(.product(product), price: .free, type: .free, storeProductId: nil)
+                    sut = TrackerEvent.listingBumpUpStart(.product(product), price: .free, type: .free,
+                                                          storeProductId: nil, isPromotedBump: .falseParameter)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-start"))
@@ -3753,6 +3754,9 @@ class TrackerEventSpec: QuickSpec {
                 it("storeProductId is N/A") {
                     expect(sut.params?.stringKeyParams["store-productId"] as? String) == TrackerEvent.notApply
                 }
+                it("promotedBump param is false") {
+                    expect(sut.params?.stringKeyParams["promoted-bump"] as? String) == "false"
+                }
             }
             describe("bump up complete") {
                 beforeEach {
@@ -3760,7 +3764,7 @@ class TrackerEventSpec: QuickSpec {
                     product.objectId = "12345"
                     sut = TrackerEvent.listingBumpUpComplete(.product(product), price: .free, type: .free, restoreRetriesCount: 8,
                                                              network: .facebook, transactionStatus: .purchasingPurchased,
-                                                             storeProductId: nil)
+                                                             storeProductId: nil, isPromotedBump: .falseParameter)
                 }
                 it("has its event name ") {
                     expect(sut.name.rawValue).to(equal("bump-up-complete"))
@@ -3782,6 +3786,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("storeProductId is N/A") {
                     expect(sut.params?.stringKeyParams["store-productId"] as? String) == TrackerEvent.notApply
+                }
+                it("promotedBump param is false") {
+                    expect(sut.params?.stringKeyParams["promoted-bump"] as? String) == "false"
                 }
             }
             describe("bump up fail") {
@@ -3861,6 +3868,14 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("reason matches") {
                     expect(sut.params?.stringKeyParams["reason"] as? String) == "internal"
+                }
+            }
+            describe("promote bump up shown") {
+                beforeEach {
+                    sut = TrackerEvent.bumpUpPromo()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("bump-up-promo"))
                 }
             }
             describe("chat-window-open") {
