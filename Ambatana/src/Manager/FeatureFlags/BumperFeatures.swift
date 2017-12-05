@@ -40,6 +40,7 @@ extension Bumper  {
         flags.append(ShowPriceStepRealEstatePosting.self)
         flags.append(ShowClockInDirectAnswer.self)
         flags.append(BumpUpPriceDifferentiation.self)
+        flags.append(PromoteBumpUpAfterSell.self)
         flags.append(ForcePostListingOnboarding.self)
         Bumper.initialize(flags)
     } 
@@ -177,6 +178,11 @@ extension Bumper  {
     static var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation {
         guard let value = Bumper.value(for: BumpUpPriceDifferentiation.key) else { return .control }
         return BumpUpPriceDifferentiation(rawValue: value) ?? .control 
+    }
+
+    static var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
+        guard let value = Bumper.value(for: PromoteBumpUpAfterSell.key) else { return .control }
+        return PromoteBumpUpAfterSell(rawValue: value) ?? .control 
     }
 
     static var forcePostListingOnboarding: ForcePostListingOnboarding {
@@ -547,6 +553,22 @@ enum BumpUpPriceDifferentiation: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Scale bump prices according to listing price" } 
     static func fromPosition(_ position: Int) -> BumpUpPriceDifferentiation {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum PromoteBumpUpAfterSell: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return PromoteBumpUpAfterSell.control.rawValue }
+    static var enumValues: [PromoteBumpUpAfterSell] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show a bump up alert after posting (once every 24h)" } 
+    static func fromPosition(_ position: Int) -> PromoteBumpUpAfterSell {
         switch position { 
             case 0: return .control
             case 1: return .baseline

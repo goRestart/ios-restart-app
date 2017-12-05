@@ -140,7 +140,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                         }
                         
                         it("updates the step to details selection") {
-                            expect(sut.step) == PostListingStep.errorUpload(message: "An error occurred while posting your product.")
+                            expect(sut.step) == PostListingStep.errorUpload(message: LGLocalizedString.productPostGenericError)
                         }
                     }
                     

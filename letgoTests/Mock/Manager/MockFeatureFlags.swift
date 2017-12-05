@@ -48,6 +48,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation = .control
+    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell = .control
     var forcePostListingOnboarding: ForcePostListingOnboarding = .control
 
     // Country dependant features
