@@ -570,6 +570,7 @@
 "product_post_close_alert_title" = "Listing not posted";
 "product_post_confirmation_another" = "Or";
 "product_post_confirmation_another_button" = "Post another item";
+"product_post_confirmation_another_listing_button" = "Post another listing";
 "product_post_confirmation_edit" = "Add more details";
 "product_post_different_country_error" = "You can’t post in a country where you’re not currently located.";
 "product_post_done" = "Done";
@@ -686,7 +687,7 @@
 "promote_bump_later_button" = "Later";
 "promote_bump_sell_faster_button" = "Sell faster";
 "promote_bump_title" = "Attract more buyers";
-"quick_filter_location_title" = "Set Location";
+"quick_filter_location_title" = "Change Location";
 "rate_buyers_message" = "Congratulations!";
 "rate_buyers_not_on_letgo_button" = "I didn't sell this on letgo";
 "rate_buyers_not_on_letgo_title_button" = "Sold it somewhere else";

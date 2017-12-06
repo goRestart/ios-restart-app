@@ -1744,6 +1744,9 @@
 // Post another item button
 "product_post_confirmation_another_button" = "Post another item";
 
+// Post another listing button
+"product_post_confirmation_another_listing_button" = "Post another listing";
+
 // Add more details button (max 20 chars) 
 "product_post_confirmation_edit" = "Add more details";
 
@@ -2087,7 +2090,7 @@
 "promote_bump_later_button" = "Later";
 
 // Navigation bar title "Set Location"
-"quick_filter_location_title" = "Set Location";
+"quick_filter_location_title" = "Change Location";
 
 // Screen to select which buyer you sold the item before rating him/her
 "rate_buyers_message" = "Congratulations!";

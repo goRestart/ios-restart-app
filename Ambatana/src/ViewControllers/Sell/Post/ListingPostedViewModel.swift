@@ -101,13 +101,17 @@ class ListingPostedViewModel: BaseViewModel {
 
 
     // MARK: - Public
+    
+    var listingPostConfirmationButtonText: String {
+        return featureFlags.copyListingAnotherConfirmation.isActive ? LGLocalizedString.productPostConfirmationAnotherListingButton : LGLocalizedString.productPostConfirmationAnotherButton
+    }
 
     var mainButtonText: String? {
         switch status {
         case .posting:
             return nil
         case .success:
-            return wasFreePosting ? LGLocalizedString.productPostFreeConfirmationAnotherButton : LGLocalizedString.productPostConfirmationAnotherButton
+            return wasFreePosting ? LGLocalizedString.productPostFreeConfirmationAnotherButton : listingPostConfirmationButtonText
         case .error:
             return LGLocalizedString.productPostRetryButton
         }
