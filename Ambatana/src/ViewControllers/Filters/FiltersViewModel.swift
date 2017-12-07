@@ -447,22 +447,22 @@ class FiltersViewModel: BaseViewModel {
         return withinTimes[index] == productFilter.selectedWithin
     }
     
+    
     // MARK: Real Estate offer type
+    
     func selectOfferTypeAtIndex(_ index: Int) {
         guard index < offerTypeOptionsCount else { return }
-        productFilter.offerType = offerTypeOptions[index]
+        productFilter.offerType = offerTypeSelectedAtIndex(index) ? nil : offerTypeOptions[index]
         delegate?.vmDidUpdate()
     }
     
     func offerTypeNameAtIndex(_ index: Int) -> String? {
         guard index < offerTypeOptionsCount else { return nil }
-        
         return offerTypeOptions[index].localizedString
     }
     
     func offerTypeSelectedAtIndex(_ index: Int) -> Bool {
-        guard index < numOfWithinTimes else { return false }
-        
+        guard index < offerTypeOptionsCount else { return false }
         return offerTypeOptions[index] == productFilter.offerType
     }
     
