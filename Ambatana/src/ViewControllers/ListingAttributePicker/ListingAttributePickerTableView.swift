@@ -38,7 +38,7 @@ class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewD
     // MARK: - Layout
     
     private func setupUI() {
-        tableView.register(ListingAttributePickerCell.self, forCellReuseIdentifier: ListingAttributePickerCell.identifier)
+        tableView.register(ListingAttributePickerCell.self, forCellReuseIdentifier: ListingAttributePickerCell.reusableID)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
@@ -83,7 +83,7 @@ class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let identifier = ListingAttributePickerCell.identifier
+        let identifier = ListingAttributePickerCell.reusableID
         guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? ListingAttributePickerCell else {
             return UITableViewCell()
         }

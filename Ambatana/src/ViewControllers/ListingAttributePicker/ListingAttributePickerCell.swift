@@ -1,5 +1,5 @@
 
-final class ListingAttributePickerCell: UITableViewCell {
+final class ListingAttributePickerCell: UITableViewCell, ReusableCell {
     
     /// Defines a cell style
     ///
@@ -44,8 +44,6 @@ final class ListingAttributePickerCell: UITableViewCell {
             }
         }
     }
-    
-    static let identifier = "\(ListingAttributePickerCell.self)"
     
     fileprivate let checkMarkSize: CGSize = CGSize(width: 17, height: 12)
     fileprivate var theme: Theme = .light
