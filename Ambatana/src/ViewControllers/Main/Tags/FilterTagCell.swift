@@ -60,6 +60,14 @@ class FilterTagCell: UICollectionViewCell {
             return FilterTagCell.sizeForText(name)
         case .yearsRange(let startYear, let endYear):
             return FilterTagCell.sizeForText(FilterTagCell.stringForYearsRange(startYear, endYear: endYear))
+        case .realEstatePropertyType(let propertyType):
+            return FilterTagCell.sizeForText(propertyType.shortLocalizedString)
+        case .realEstateOfferType(let offerType):
+            return FilterTagCell.sizeForText(offerType.shortLocalizedString)
+        case .realEstateNumberOfBedrooms(let numberOfBedrooms):
+            return FilterTagCell.sizeForText(numberOfBedrooms.shortLocalizedString)
+        case .realEstateNumberOfBathrooms(let numberOfBathrooms):
+            return FilterTagCell.sizeForText(numberOfBathrooms.shortLocalizedString)
         }
     }
     
@@ -207,7 +215,20 @@ class FilterTagCell: UICollectionViewCell {
         case .yearsRange(let startYear, let endYear):
             setDefaultCellStyle()
             tagLabel.text = FilterTagCell.stringForYearsRange(startYear, endYear: endYear)
+        case .realEstatePropertyType(let propertyType):
+            setDefaultCellStyle()
+            tagLabel.text = propertyType.shortLocalizedString
+        case .realEstateOfferType(let offerType):
+            setDefaultCellStyle()
+            tagLabel.text = offerType.shortLocalizedString
+        case .realEstateNumberOfBedrooms(let numberOfBedrooms):
+            setDefaultCellStyle()
+            tagLabel.text = numberOfBedrooms.shortLocalizedString
+        case .realEstateNumberOfBathrooms(let numberOfBathrooms):
+            setDefaultCellStyle()
+            tagLabel.text = numberOfBathrooms.shortLocalizedString
         }
+       
     }
 
 
