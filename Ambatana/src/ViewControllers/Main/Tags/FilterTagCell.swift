@@ -172,60 +172,44 @@ class FilterTagCell: UICollectionViewCell {
     
     func setupWithTag(_ tag : FilterTag) {
         filterTag = tag
-        
+        setDefaultCellStyle()
         switch tag {
         case .location(let place):
-            setDefaultCellStyle()
             tagLabel.text = place.fullText(showAddress: false)
         case .orderBy(let sortOption):
-            setDefaultCellStyle()
             tagLabel.text = sortOption.name
         case .within(let timeOption):
-            setDefaultCellStyle()
             tagLabel.text = timeOption.name
         case .category(let category):
-            setDefaultCellStyle()
             tagIconWidth.constant = FilterTagCell.iconWidth
             tagIcon.image = category.imageTag
         case .taxonomyChild(let taxonomyChild):
-            setDefaultCellStyle()
             tagLabel.text = taxonomyChild.name
         case .taxonomy(let taxonomy):
             setColoredCellStyle(taxonomy.color)
             tagLabel.text = taxonomy.name
         case .secondaryTaxonomyChild(let secondaryTaxonomyChild):
-            setDefaultCellStyle()
             tagLabel.text = secondaryTaxonomyChild.name
         case .priceRange(let minPrice, let maxPrice, let currency):
-            setDefaultCellStyle()
             tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
         case .freeStuff:
-            setDefaultCellStyle()
             tagIconWidth.constant = FilterTagCell.iconWidth
             tagIcon.image = UIImage(named: "categories_free_tag")
         case .distance(let distance):
-            setDefaultCellStyle()
             tagLabel.text = distance.intToDistanteFormat()
         case .make(_, let name):
-            setDefaultCellStyle()
             tagLabel.text = name
         case .model(_, let name):
-            setDefaultCellStyle()
             tagLabel.text = name
         case .yearsRange(let startYear, let endYear):
-            setDefaultCellStyle()
             tagLabel.text = FilterTagCell.stringForYearsRange(startYear, endYear: endYear)
         case .realEstatePropertyType(let propertyType):
-            setDefaultCellStyle()
             tagLabel.text = propertyType.shortLocalizedString
         case .realEstateOfferType(let offerType):
-            setDefaultCellStyle()
             tagLabel.text = offerType.shortLocalizedString
         case .realEstateNumberOfBedrooms(let numberOfBedrooms):
-            setDefaultCellStyle()
             tagLabel.text = numberOfBedrooms.shortLocalizedString
         case .realEstateNumberOfBathrooms(let numberOfBathrooms):
-            setDefaultCellStyle()
             tagLabel.text = numberOfBathrooms.shortLocalizedString
         }
        

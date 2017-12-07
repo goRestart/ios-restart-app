@@ -192,8 +192,8 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         case .category(let listingCategory):
             switch listingCategory {
             case .cars:
-                for i in 0..<tags.count {
-                    switch tags[i] {
+                for (i, tag) in tags.enumerated() {
+                    switch tag {
                     case .make, .model, .yearsRange:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
                     case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
@@ -204,8 +204,8 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
                  .fashionAndAccesories, .babyAndChild, .other, .unassigned:
                 break
             case .realEstate:
-                for i in 0..<tags.count {
-                    switch tags[i] {
+                for (i, tag) in tags.enumerated() {
+                    switch tag {
                     case .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
                     case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .make, .model, .yearsRange:
@@ -214,8 +214,8 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
                 }
             }
         case .make:
-            for i in 0..<tags.count {
-                switch tags[i] {
+            for (i, tag) in tags.enumerated() {
+                switch tag {
                 case .model:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
                 case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .make, .yearsRange, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
@@ -223,8 +223,8 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
                 }
             }
         case .taxonomy:
-            for i in 0..<tags.count {
-                switch tags[i] {
+            for (i, tag) in tags.enumerated() {
+                switch tag {
                 case .secondaryTaxonomyChild, .taxonomyChild:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
                 case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .category, .make,
