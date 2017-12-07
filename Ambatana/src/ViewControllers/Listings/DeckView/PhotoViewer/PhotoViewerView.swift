@@ -52,6 +52,7 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
 
     func updateNumberOfPages(_ pagesCount: Int) {
         pageControl.numberOfPages = pagesCount
+        pageControl.alpha = pagesCount <= 1 ? 0 : 1
     }
 
     // MARK: Setup

@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class PhotoViewerViewController: BaseViewController, PhotoViewerVCType, UICollectionViewDataSource, UICollectionViewDelegate {
+final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType, UICollectionViewDataSource, UICollectionViewDelegate {
     private struct Identifiers { static let reusableID = ListingDeckImagePreviewCell.reusableID }
 
     override var prefersStatusBarHidden: Bool { return true }
@@ -37,8 +37,12 @@ final class PhotoViewerViewController: BaseViewController, PhotoViewerVCType, UI
         binder.viewController = self
         binder.bind(toView: photoViewer)
     }
-    func updateCurrentPage(_ currentPage: Int) {
+    private func updateCurrentPage(_ currentPage: Int) {
         photoViewer.updateCurrentPage(currentPage)
+
+    }
+    func updateWith(keyboardChange: KeyboardChange) {
+        chatView.updateWith(keyboardChange: keyboardChange)
     }
 
     func updatePage(fromContentOffset offset: CGFloat) {
@@ -57,7 +61,9 @@ final class PhotoViewerViewController: BaseViewController, PhotoViewerVCType, UI
         view.addSubview(chatView)
         chatView.layout(with: photoViewer).fill()
         photoViewer.layoutIfNeeded()
-        photoViewer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissChat)))
+
+        chatView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissChat)))
+        chatView.becomeFirstResponder()
     }
 
     func closeView() {
@@ -93,7 +99,12 @@ final class PhotoViewerViewController: BaseViewController, PhotoViewerVCType, UI
     // MARK: Actions
 
     @objc func dismissChat() {
-        chatView.removeFromSuperview()
-
+        chatView.resignFirstResponder()
+        UIView.animate(withDuration: 0.3, animations: {
+            self.chatView.alpha = 0
+        }) { (completion) in
+            self.chatView.removeFromSuperview()
+            self.chatView.alpha = 1
+        }
     }
 }

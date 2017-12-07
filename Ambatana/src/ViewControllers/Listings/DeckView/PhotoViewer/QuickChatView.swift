@@ -9,7 +9,7 @@
 import Foundation
 
 final class QuickChatView: UIView {
-
+    private struct Layout { static let outsideKeyboard: CGFloat = 60 }
     let quickChatViewModel: QuickChatViewModel
 
     private let textView = ChatTextView()
@@ -31,6 +31,28 @@ final class QuickChatView: UIView {
         return textView.resignFirstResponder()
     }
 
+    override func willMove(toSuperview newSuperview: UIView?) {
+        guard newSuperview != nil else { return }
+        textViewBottom?.constant = Layout.outsideKeyboard
+    }
+
+    @discardableResult
+    override func becomeFirstResponder() -> Bool {
+        return textView.becomeFirstResponder()
+    }
+
+    func updateWith(keyboardChange: KeyboardChange) {
+        layoutIfNeeded()
+        let height = bounds.height - keyboardChange.origin
+        textViewBottom?.constant = -height - Metrics.margin
+        UIView.animate(withDuration: TimeInterval(keyboardChange.animationTime),
+                       delay: 0,
+                       options: keyboardChange.animationOptions,
+                       animations: { 
+                        self.layoutIfNeeded()
+        }, completion: nil)
+    }
+
     // MARK: UI
 
 
@@ -46,7 +68,7 @@ final class QuickChatView: UIView {
         textView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(textView)
         textView.layout(with: self).fillHorizontal(by: Metrics.margin)
-        textViewBottom = textView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metrics.margin)
+        textViewBottom = textView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: Layout.outsideKeyboard)
         textViewBottom?.isActive = true
 
         textView.backgroundColor = .clear

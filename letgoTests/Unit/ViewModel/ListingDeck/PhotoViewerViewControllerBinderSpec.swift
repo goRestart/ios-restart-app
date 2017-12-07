@@ -110,6 +110,12 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
                 }
             }
 
+            context("keyboard event is") {
+                it("showChat is called only once") {
+                    expect(photoViewerVC.keyboardIsCalled).toEventually(equal(1))
+                }
+            }
+
             context("we dealloc the viewcontroller") {
                 beforeEach {
                     photoViewerVC = MockPhotoViewerViewController()
@@ -133,10 +139,29 @@ private class MockPhotoViewerView: PhotoViewerBinderViewType {
 }
 
 private class MockPhotoViewerViewController: PhotoViewerVCType {
+    var keyboardChanges: Observable<KeyboardChange> { return keyboardChange.asObservable() }
 
     var showChatCalled: Int = 0
     var closeViewCalled: Int = 0
     var updatePageCalled: Int = 0
+    var keyboardIsCalled: Int = 0
+
+    private let keyboardChange: Variable<KeyboardChange>
+
+    private let change = KeyboardChange(height: 0,
+                                        origin: 0,
+                                        animationTime: 0,
+                                        animationOptions: .beginFromCurrentState,
+                                        visible: true,
+                                        isLocal: true)
+
+    init() {
+        keyboardChange = Variable<KeyboardChange>(change)
+    }
+
+    func updateWith(keyboardChange: KeyboardChange) {
+        keyboardIsCalled = keyboardIsCalled + 1
+    }
 
     func showChat() {
         showChatCalled = showChatCalled + 1

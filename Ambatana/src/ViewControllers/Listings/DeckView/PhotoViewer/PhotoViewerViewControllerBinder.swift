@@ -10,6 +10,9 @@ import Foundation
 import RxSwift
 
 protocol PhotoViewerVCType: class {
+    var keyboardChanges: Observable<KeyboardChange> { get }
+    func updateWith(keyboardChange: KeyboardChange)
+    
     func showChat()
     func closeView()
     func updatePage(fromContentOffset offset: CGFloat)
@@ -35,6 +38,7 @@ final class PhotoViewerViewControllerBinder {
         bindChatButton(toViewController: vc, view: toView, withDisposeBag: bag)
         bindCloseButton(toViewController: vc, view: toView, withDisposeBag: bag)
         bindContentOffset(toViewController: vc, view: toView, withDisposeBag: bag)
+        bindKeyboard(toViewController: vc, view: toView, withDisposeBag: bag)
     }
 
     private func bindChatButton(toViewController viewController: PhotoViewerVCType,
@@ -59,6 +63,13 @@ final class PhotoViewerViewControllerBinder {
                                    view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
         view.rx_collectionView.contentOffset.asObservable().bindNext { [weak viewController] offset in
             viewController?.updatePage(fromContentOffset: offset.x)
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func bindKeyboard(toViewController viewController: PhotoViewerVCType?,
+                              view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
+        viewController?.keyboardChanges.bindNext {
+            viewController?.updateWith(keyboardChange: $0)
         }.addDisposableTo(disposeBag)
     }
 }
