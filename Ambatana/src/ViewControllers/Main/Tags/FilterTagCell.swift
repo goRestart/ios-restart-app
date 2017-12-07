@@ -154,6 +154,15 @@ class FilterTagCell: UICollectionViewCell {
         contentView.backgroundColor = .white
     }
     
+    private func applyCellStyle(tag: FilterTag) {
+        switch tag {
+        case .taxonomy(let taxonomy):
+            setColoredCellStyle(taxonomy.color)
+        case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
+            setDefaultCellStyle()
+        }
+    }
+    
     private func setAccessibilityIds() {
         accessibilityId = .filterTagCell
         tagIcon.accessibilityId = .filterTagCellTagIcon
@@ -172,7 +181,7 @@ class FilterTagCell: UICollectionViewCell {
     
     func setupWithTag(_ tag : FilterTag) {
         filterTag = tag
-        setDefaultCellStyle()
+        applyCellStyle(tag: tag)
         switch tag {
         case .location(let place):
             tagLabel.text = place.fullText(showAddress: false)
@@ -186,7 +195,6 @@ class FilterTagCell: UICollectionViewCell {
         case .taxonomyChild(let taxonomyChild):
             tagLabel.text = taxonomyChild.name
         case .taxonomy(let taxonomy):
-            setColoredCellStyle(taxonomy.color)
             tagLabel.text = taxonomy.name
         case .secondaryTaxonomyChild(let secondaryTaxonomyChild):
             tagLabel.text = secondaryTaxonomyChild.name
