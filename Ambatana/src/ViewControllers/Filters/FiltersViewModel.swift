@@ -452,7 +452,7 @@ class FiltersViewModel: BaseViewModel {
     
     func selectOfferTypeAtIndex(_ index: Int) {
         guard index < offerTypeOptionsCount else { return }
-        productFilter.offerType = offerTypeSelectedAtIndex(index) ? nil : offerTypeOptions[index]
+        productFilter.offerType = isOfferTypeSelectedAtIndex(index) ? nil : offerTypeOptions[index]
         delegate?.vmDidUpdate()
     }
     
@@ -461,7 +461,7 @@ class FiltersViewModel: BaseViewModel {
         return offerTypeOptions[index].localizedString
     }
     
-    func offerTypeSelectedAtIndex(_ index: Int) -> Bool {
+    func isOfferTypeSelectedAtIndex(_ index: Int) -> Bool {
         guard index < offerTypeOptionsCount else { return false }
         return offerTypeOptions[index] == productFilter.offerType
     }
