@@ -314,7 +314,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
                                                                         for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
                     cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
-                    cell.isSelected = viewModel.offerTypeSelectedAtIndex(indexPath.row - 1)
+                    cell.isSelected = viewModel.isOfferTypeSelectedAtIndex(indexPath.row - 1)
                     cell.topSeparator.isHidden = false
                     cell.bottomSeparator.isHidden = true
                     cell.setMargin(top: true)
@@ -324,7 +324,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
                                                                         for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
                     cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
-                    cell.isSelected = viewModel.offerTypeSelectedAtIndex(indexPath.row - 1)
+                    cell.isSelected = viewModel.isOfferTypeSelectedAtIndex(indexPath.row - 1)
                     cell.topSeparator.isHidden = false
                     cell.bottomSeparator.isHidden = false
                     cell.setMargin(bottom: true)
