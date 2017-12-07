@@ -75,7 +75,7 @@ public struct RetrieveListingParams {
         params["searchTerm"] = queryString
         params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
         // In case country code is empty we send the request without it.
-        if countryCode != "" {
+        if let countryCode = countryCode, !countryCode.isEmpty {
             params["countryCode"] = countryCode
         }
         if let freePrice = freePrice, freePrice {
@@ -104,7 +104,7 @@ public struct RetrieveListingParams {
         params["search_term"] = queryString
         params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
         // In case country code is empty we send the request without it.
-        if countryCode != "" {
+        if let countryCode = countryCode, !countryCode.isEmpty {
             params["country_code"] = countryCode
         }
         let categories = categoryIds?.map { String($0) }.joined(separator: ",")
