@@ -68,9 +68,9 @@ func ==(a: FilterTag, b: FilterTag) -> Bool {
     case (.model(let idA, let nameA), .model(let idB, let nameB)) where idA == idB && nameA == nameB: return true
     case (.yearsRange(let a, let b), .yearsRange(let c, let d)) where a == c && b == d: return true
     case (.realEstateNumberOfBedrooms(let idA), .realEstateNumberOfBedrooms(let idB)) where idA == idB: return true
-        case (.realEstateNumberOfBathrooms(let idA), .realEstateNumberOfBathrooms(let idB)) where idA == idB: return true
-        case (.realEstatePropertyType(let idA), .realEstatePropertyType(let idB)) where idA == idB: return true
-        case (.realEstateOfferType(let idA), .realEstateOfferType(let idB)) where idA == idB: return true
+    case (.realEstateNumberOfBathrooms(let idA), .realEstateNumberOfBathrooms(let idB)) where idA == idB: return true
+    case (.realEstatePropertyType(let idA), .realEstatePropertyType(let idB)) where idA == idB: return true
+    case (.realEstateOfferType(let idA), .realEstateOfferType(let idB)) where idA == idB: return true
     default: return false
         
     }
