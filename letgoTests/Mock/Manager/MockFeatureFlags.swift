@@ -49,6 +49,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation = .control
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell = .control
+    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation = .control
 
     // Country dependant features
     var freePostingModeAllowed = false

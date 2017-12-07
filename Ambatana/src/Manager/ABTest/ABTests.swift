@@ -45,6 +45,7 @@ class ABTests {
     let showClockInDirectAnswer = IntABDynamicVar(key: "20171031ShowClockInDirectAnswer", defaultValue: 0)
     let bumpUpPriceDifferentiation = IntABDynamicVar(key: "20171114BumpUpPriceDifferentiation", defaultValue: 0)
     let promoteBumpUpAfterSell = IntABDynamicVar(key: "20171127PromoteBumpUpAfterSell", defaultValue: 0)
+    let copyListingAnotherConfirmation = IntABDynamicVar(key: "20171205CopyListingAnotherConfirmation", defaultValue: 0)
     
     init() {
     }
@@ -82,6 +83,7 @@ class ABTests {
         result.append(showClockInDirectAnswer)
         result.append(bumpUpPriceDifferentiation)
         result.append(promoteBumpUpAfterSell)
+        result.append(copyListingAnotherConfirmation)
         
         return result
     }
