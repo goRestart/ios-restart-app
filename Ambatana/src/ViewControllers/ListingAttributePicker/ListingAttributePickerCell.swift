@@ -30,6 +30,13 @@ final class ListingAttributePickerCell: UITableViewCell {
             }
         }
         
+        var textColorSelected: UIColor {
+            switch self {
+            case .light: return .white
+            case .dark: return .blackText
+            }
+        }
+        
         var checkTintColor: UIColor {
             switch self {
             case .light: return .white
@@ -42,6 +49,12 @@ final class ListingAttributePickerCell: UITableViewCell {
     
     fileprivate let checkMarkSize: CGSize = CGSize(width: 17, height: 12)
     fileprivate var theme: Theme = .light
+    
+    override var isSelected: Bool {
+        didSet {
+            isSelected ? select() : deselect()
+        }
+    }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -63,20 +76,20 @@ final class ListingAttributePickerCell: UITableViewCell {
         textLabel?.text = text
     }
     
-    func select() {
+    fileprivate func select() {
         let image = #imageLiteral(resourceName: "ic_checkmark").withRenderingMode(.alwaysTemplate)
         let checkmark  = UIImageView(frame: CGRect(origin: .zero, size: checkMarkSize))
         checkmark.image = image
         checkmark.tintColor = theme.checkTintColor
         accessoryView = checkmark
         accessoryType = .checkmark
-        textLabel?.textColor = .white
+        textLabel?.textColor = theme.textColorSelected
     }
     
-    func deselect() {
+    fileprivate func deselect() {
         accessoryType = .none
         accessoryView = nil
-        textLabel?.textColor = .grayLight
+        textLabel?.textColor = theme.textColor
     }
 }
 

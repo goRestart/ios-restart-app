@@ -4,22 +4,26 @@ import LGCoreKit
 protocol ListingAttributePickerTableViewDelegate: class {
     func indexSelected(index: Int)
     func indexDeselected(index: Int)
-    func findValueSelected() -> Int?
+    func indexForValueSelected() -> Int?
 }
 
-final class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewDataSource, PostingViewConfigurable {
+class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewDataSource {
     
+    var theme: ListingAttributePickerCell.Theme {
+        return .dark
+    }
     private var detailInfo: [String]
-    private let tableView = UITableView()
-    private var selectedValue: IndexPath?
+    fileprivate let tableView = UITableView()
+    fileprivate var selectedValue: IndexPath?
     weak var delegate: ListingAttributePickerTableViewDelegate?
     
     
     // MARK: - Lifecycle
     
-    init(values: [String], delegate: ListingAttributePickerTableViewDelegate) {
+    init(values: [String], selectedIndex: IndexPath?, delegate: ListingAttributePickerTableViewDelegate?) {
         self.detailInfo = values
         self.delegate = delegate
+        self.selectedValue = selectedIndex
         super.init(frame: CGRect.zero)
         setupUI()
         setupAccessibilityIds()
@@ -42,7 +46,7 @@ final class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITabl
         tableView.tintColor = UIColor.white
         tableView.indicatorStyle = .white
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: Metrics.margin, right: 0)
-        tableView.allowsMultipleSelection = true
+        tableView.allowsMultipleSelection = false
     }
     
     private func setupLayout() {
@@ -84,54 +88,55 @@ final class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITabl
             return UITableViewCell()
         }
         let value = detailInfo[indexPath.row]
-        cell.configure(with: value, theme: .light)
+        cell.configure(with: value, theme: theme)
         if selectedValue == indexPath {
-            select(cell: cell)
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         } else {
-            deselect(cell: cell)
+            tableView.deselectRow(at: indexPath, animated: false)
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        guard let selectedValue = selectedValue else { return indexPath }
-        deselect(cell: tableView.cellForRow(at: selectedValue))
+        tableView.cellForRow(at: indexPath)?.isSelected = false
+        tableView.deselectRow(at: indexPath, animated: false)
+        if selectedValue == indexPath {
+            selectedValue = nil
+            delegate?.indexDeselected(index: indexPath.row)
+            return nil // cancel the selection that triggered the event
+        }
         return indexPath
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.indexSelected(index: indexPath.row)
+        guard selectedValue != indexPath else { return }
         selectedValue = indexPath
+        tableView.cellForRow(at: indexPath)?.isSelected = true
         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-        select(cell: tableView.cellForRow(at: indexPath))
+        delegate?.indexSelected(index: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         selectedValue = nil
-        delegate?.indexDeselected(index: indexPath.row)
+        tableView.cellForRow(at: indexPath)?.isSelected = false
         tableView.deselectRow(at: indexPath, animated: false)
-        deselect(cell: tableView.cellForRow(at: indexPath))
-    }
-   
-    func deselect(cell: UITableViewCell?) {
-        guard let cell = cell as? ListingAttributePickerCell else { return }
-        cell.deselect()
+        delegate?.indexDeselected(index: indexPath.row)
     }
     
-    func select(cell: UITableViewCell?) {
-        guard let cell = cell as? ListingAttributePickerCell else { return }
-        cell.select()
-    }
-    
-    func setupTableView(values: [String]) {
+    fileprivate func setupTableView(values: [String]) {
         detailInfo = values
         tableView.reloadData()
     }
+}
+
+class PostingAttributePickerTableView: ListingAttributePickerTableView, PostingViewConfigurable {
     
-    // MARK - PostingStepConfigurable
+    override var theme: ListingAttributePickerCell.Theme {
+        return .light
+    }
     
     func setupView(viewModel: PostingDetailsViewModel) {
-        guard let positionSelected = viewModel.findValueSelected() else { return }
+        guard let positionSelected = viewModel.indexForValueSelected() else { return }
         let indexPath = IndexPath(row: positionSelected, section: 0)
         selectedValue = indexPath
         tableView.reloadRows(at: [indexPath], with: .none)

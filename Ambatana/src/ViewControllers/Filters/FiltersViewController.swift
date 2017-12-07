@@ -442,21 +442,19 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             switch indexPath.item {
             case 0:
                 // propertyType
-                break
+                viewModel.propertyTypeButtonPressed()
             case 1:
                 // for sale
                 viewModel.selectOfferTypeAtIndex(indexPath.row - 1)
-                break
             case 2:
                 // for rent
                 viewModel.selectOfferTypeAtIndex(indexPath.row - 1)
-                break
             case 3:
                 // bedrooms
-                break
+                viewModel.numberOfBedroomsPressed()
             case 4:
                 // bathrooms
-                break
+                viewModel.numberOfBathroomsPressed()
             default:
                 break
             }

@@ -100,7 +100,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .year, .make, .model:
             return nil
         }
-        let view: ListingAttributePickerTableView = ListingAttributePickerTableView(values: values, delegate: self)
+        let view = PostingAttributePickerTableView(values: values, selectedIndex: nil, delegate: self)
         return view
     }
     
@@ -327,7 +327,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         }
     }
     
-    func findValueSelected() -> Int? {
+    func indexForValueSelected() -> Int? {
         var positionSelected: Int? = nil
         switch step {
         case .propertyType:
