@@ -116,8 +116,8 @@ final class ListingDeckViewControllerBinder {
             }.bindNext { viewController.updateViewWith(alpha: $0) }
         .addDisposableTo(disposeBag)
 
-        viewController.contentOffset.bindNext { _ in
-            // TODO: Tracking
+        viewController.contentOffset.skip(1).bindNext { _ in
+            // TODO: Tracking 3109
             viewModel.moveToProductAtIndex(listingDeckView.currentPage, movement: .swipeRight)
         }.addDisposableTo(disposeBag)
     }

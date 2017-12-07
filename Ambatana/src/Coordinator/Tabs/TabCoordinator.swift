@@ -243,8 +243,8 @@ fileprivate extension TabCoordinator {
             // TODO: ABIOS-3100 check all the other parameters
             let viewModel = ListingDeckViewModel(listing: listing,
                                                  listingListRequester: requester,
-                                                 source: source)
-            viewModel.navigator = self
+                                                 source: source,
+                                                 detailNavigator: self)
             let deckViewController = ListingDeckViewController(viewModel: viewModel)
             viewModel.delegate = deckViewController
             navigationController.pushViewController(deckViewController, animated: true)

@@ -38,7 +38,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
         var disposeBag: DisposeBag!
         var scheduler: TestScheduler!
 
-        var cellModelsObserver: TestableObserver<[ListingCardViewCellModel]>!
+        var cellModelsObserver: TestableObserver<[ListingViewModel]>!
         var navBarButtonsObserver: TestableObserver<[UIAction]>!
         var actionButtonsObserver: TestableObserver<[UIAction]>!
         var statusObserver: TestableObserver<ListingViewModelStatus>!
@@ -50,7 +50,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
         var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
         var bumpUpBannerInfoObserver: TestableObserver<BumpUpInfo?>!
 
-        xdescribe("ListingDeckViewModelSpec") {
+        describe("ListingDeckViewModelSpec") {
 
             func startObserving() {
                 disposeBag = DisposeBag()
@@ -82,6 +82,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 sut = ListingDeckViewModel(productListModels: productListModels,
                                            initialListing: initialListing,
                                            listingListRequester: listingListRequester,
+                                           detailNavigator: self,
                                            source: source,
                                            imageDownloader: imageDownloader,
                                            listingViewModelMaker: listingViewModelMaker,
@@ -119,7 +120,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
-                cellModelsObserver = scheduler.createObserver(Array<ListingCardViewCellModel>.self)
+                cellModelsObserver = scheduler.createObserver(Array<ListingViewModel>.self)
                 navBarButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 actionButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 statusObserver = scheduler.createObserver(ListingViewModelStatus.self)
@@ -136,6 +137,42 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
             afterEach {
                 scheduler.stop()
                 disposeBag = nil
+            }
+            describe("A user that opens the deck") {
+                context("The first product he sees") {
+                    beforeEach {
+                        let myUser = MockMyUser.makeMock()
+                        myUserRepository.myUserVar.value = myUser
+                        var productUser = MockUserListing.makeMock()
+                        productUser.objectId = myUser.objectId
+                        product.user = productUser
+                        product.status = .approved
+                        buildSut(initialProduct: product)
+                        sut.active = true
+                        startObserving()
+                        it("Is the initial product") {
+                            expect(sut.currentListingViewModel?.listing.value.objectId).toEventually(equal(product.objectId))
+                        }
+                    }
+                }
+                context("The viewmodel becomes active") {
+                    beforeEach {
+                        let myUser = MockMyUser.makeMock()
+                        myUserRepository.myUserVar.value = myUser
+                        var productUser = MockUserListing.makeMock()
+                        productUser.objectId = myUser.objectId
+                        product.user = productUser
+                        product.status = .approved
+                        buildSut(initialProduct: product)
+                        sut.active = true
+                        startObserving()
+                        it("the initial product is properly exposed") {
+                            let objectId = sut.currentListingViewModel?.listing.value.objectId
+                            let viewModelObjectId = sut.viewModelFor(listing: .product(product))?.listing.value.objectId
+                            expect(objectId).toEventually(equal(viewModelObjectId))
+                        }
+                    }
+                }
             }
             describe("quick answers") {
                 describe("ab test non-dynamic") {
@@ -945,7 +982,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
 extension ListingDeckViewModelSpec: ListingDeckViewModelDelegate {
     func vmRemoveMoreInfoTooltip() { }
     func vmShowOnboarding() { }
-
+    
     // Forward from ListingViewModelDelegate
     func vmAskForRating() {}
     func vmShowCarouselOptions(_ cancelLabel: String, actions: [UIAction]) {}
@@ -953,4 +990,31 @@ extension ListingDeckViewModelSpec: ListingDeckViewModelDelegate {
         return (UIViewController(), nil)
     }
     func vmResetBumpUpBannerCountdown() {}
+}
+
+extension ListingDeckViewModelSpec: ListingDetailNavigator {
+    func closeProductDetail() {}
+    func editListing(_ listing: Listing) {}
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage) {}
+    func closeListingAfterDelete(_ listing: Listing) {}
+    func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String) {}
+    func openPayBumpUp(forListing listing: Listing,
+                       purchaseableProduct: PurchaseableProduct,
+                       paymentItemId: String) {}
+    func selectBuyerToRate(source: RateUserSource,
+                           buyers: [UserListing],
+                           listingId: String,
+                           sourceRateBuyers: SourceRateBuyers?,
+                           trackingInfo: MarkAsSoldTrackingInfo) {}
+    func showProductFavoriteBubble(with data: BubbleNotificationData) {}
+    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
+                                            loggedInAction: @escaping (() -> Void)) {}
+    func showBumpUpNotAvailableAlertWithTitle(title: String,
+                                              text: String,
+                                              alertType: AlertType,
+                                              buttonsLayout: AlertButtonsLayout,
+                                              actions: [UIAction]) {}
+    func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {}
+    func openFeaturedInfo() {}
+    func closeFeaturedInfo() {}
 }

@@ -57,8 +57,8 @@ final class ListingDeckViewModel: BaseViewModel {
     var shouldSyncFirstListing: Bool = false
     fileprivate var trackingIndex: Int?
 
-    let objects = CollectionVariable<ListingCardViewCellModel>([])
-    var objectChanges: Observable<CollectionChange<ListingCardViewCellModel>> { return objects.changesObservable }
+    let objects = CollectionVariable<ListingViewModel>([])
+    var objectChanges: Observable<CollectionChange<ListingViewModel>> { return objects.changesObservable }
 
     let binder: ListingDeckViewModelBinder
 
@@ -81,16 +81,18 @@ final class ListingDeckViewModel: BaseViewModel {
     weak var delegate: ListingDeckViewModelDelegate?
 
     var currentListingViewModel: ListingViewModel?
-    weak var navigator: ListingDetailNavigator? { didSet { currentListingViewModel?.navigator = navigator } }
+    weak private var navigator: ListingDetailNavigator? { didSet { currentListingViewModel?.navigator = navigator } }
 
     convenience init(listing: Listing,
                      listingListRequester: ListingListRequester,
-                     source: EventParameterListingVisitSource) {
+                     source: EventParameterListingVisitSource,
+                     detailNavigator: ListingDetailNavigator) {
         let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
         let prefetching = Prefetching(previousCount: 1, nextCount: 3)
         self.init(productListModels: nil,
                   initialListing: listing,
                   listingListRequester: listingListRequester,
+                  detailNavigator: detailNavigator,
                   source: source, imageDownloader: ImageDownloader.make(usingImagePool: true),
                   listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
                   myUserRepository: Core.myUserRepository,
@@ -103,6 +105,7 @@ final class ListingDeckViewModel: BaseViewModel {
     convenience init(productListModels: [ListingCellModel]?,
                      initialListing: Listing?,
                      listingListRequester: ListingListRequester,
+                     detailNavigator: ListingDetailNavigator,
                      source: EventParameterListingVisitSource,
                      imageDownloader: ImageDownloaderType,
                      listingViewModelMaker: ListingViewModelMaker,
@@ -113,6 +116,7 @@ final class ListingDeckViewModel: BaseViewModel {
         self.init(productListModels: productListModels,
                   initialListing: initialListing,
                   listingListRequester: listingListRequester,
+                  detailNavigator: detailNavigator,
                   source: source,
                   imageDownloader: imageDownloader,
                   listingViewModelMaker: listingViewModelMaker,
@@ -126,6 +130,7 @@ final class ListingDeckViewModel: BaseViewModel {
     init(productListModels: [ListingCellModel]?,
          initialListing: Listing?,
          listingListRequester: ListingListRequester,
+         detailNavigator: ListingDetailNavigator,
          source: EventParameterListingVisitSource,
          imageDownloader: ImageDownloaderType,
          listingViewModelMaker: ListingViewModelMaker,
@@ -142,16 +147,17 @@ final class ListingDeckViewModel: BaseViewModel {
         self.source = source
         self.binder = binder
         self.userRepository = myUserRepository
+        self.navigator = detailNavigator
 
         if let productListModels = productListModels {
             self.objects.appendContentsOf(productListModels
                 .flatMap { $0.listing }
-                .flatMap { listingViewModelMaker.make(listing: $0, visitSource: source) })
+                .flatMap { listingViewModelMaker.make(listing: $0, navigator: detailNavigator, visitSource: source) })
             self.pagination.isLast = listingListRequester.isLastPage(productListModels.count)
         } else {
             self.objects.appendContentsOf([initialListing]
                 .flatMap { $0 }
-                .flatMap { listingViewModelMaker.make(listing: $0, visitSource: source) })
+                .flatMap { listingViewModelMaker.make(listing: $0, navigator: detailNavigator, visitSource: source) })
             self.pagination.isLast = false
         }
         if let listing = initialListing {
@@ -221,18 +227,25 @@ final class ListingDeckViewModel: BaseViewModel {
         return listingCellModelAt(index: index)?.cardListing
     }
 
-    func viewModelAt(index: Int) -> ListingViewModel? {
+    fileprivate func viewModelAt(index: Int) -> ListingViewModel? {
         guard let listing = listingAt(index: index) else { return nil }
         return viewModelFor(listing: listing)
     }
 
     func viewModelFor(listing: Listing) -> ListingViewModel? {
         guard let listingId = listing.objectId else { return nil }
-        if let vm = productsViewModels[listingId] {
-            return vm
+        if let viewModel = productsViewModels[listingId] {
+            return viewModel
         }
-        let vm = listingViewModelMaker.make(listing: listing, visitSource: source)
-        vm.navigator = navigator
+        let vm: ListingViewModel
+        let filtered = objects.value.filter({ $0.cardListing.objectId == listing.objectId })
+        guard filtered.count == 0 else { return filtered.first }
+        if let nav = navigator {
+            vm = listingViewModelMaker.make(listing: listing, navigator: nav, visitSource: source)
+        } else {
+            vm = listingViewModelMaker.make(listing: listing, visitSource: source)
+            vm.navigator = navigator
+        }
         productsViewModels[listingId] = vm
         return vm
     }

@@ -13,9 +13,7 @@ import RxSwift
 final class ListingCardViewBinder {
 
     weak var cardView: ListingCardView?
-    var viewModelBag: DisposeBag?
-
-    private let isFavoritable = Variable<Bool>(false)
+    private var viewModelBag: DisposeBag?
 
     func bind(withViewModel viewModel: ListingCardViewCellModel) {
         viewModelBag = DisposeBag()

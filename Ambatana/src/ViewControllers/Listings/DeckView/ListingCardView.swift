@@ -92,7 +92,6 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
                 self?.previewImageView.image = value.image
             }
         }
-
         update(pageCount: imagesURLs.count)
     }
 

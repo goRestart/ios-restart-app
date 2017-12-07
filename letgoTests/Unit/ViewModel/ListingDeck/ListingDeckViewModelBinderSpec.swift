@@ -74,6 +74,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 listingDeckViewModel = ListingDeckViewModel(productListModels: nil,
                                                             initialListing: listing,
                                                             listingListRequester: listingListRequester,
+                                                            detailNavigator: self,
                                                             source: .listingList,
                                                             imageDownloader: imageDownloader,
                                                             listingViewModelMaker: listingViewModelMaker,
@@ -194,3 +195,42 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
         }
     }
 }
+
+extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
+    func openHome() {}
+    func openSell(source: PostingSource, postCategory: PostCategory?) {}
+    func openAppRating(_ source: EventParameterRatingSource) {}
+    func openUserRating(_ source: RateUserSource, data: RateUserData) {}
+    func openUser(_ data: UserDetailData) {}
+    func openListing(_ data: ListingDetailData, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {}
+    func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?) {}
+    func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?) {}
+    func openAppInvite() {}
+    func canOpenAppInvite() -> Bool { return true }
+    func openRatingList(_ userId: String) {}
+    func closeProductDetail() {}
+    func editListing(_ listing: Listing) {}
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage) {}
+    func closeListingAfterDelete(_ listing: Listing) {}
+    func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String) {}
+    func openPayBumpUp(forListing listing: Listing,
+                       purchaseableProduct: PurchaseableProduct,
+                       paymentItemId: String) {}
+    func selectBuyerToRate(source: RateUserSource,
+                           buyers: [UserListing],
+                           listingId: String,
+                           sourceRateBuyers: SourceRateBuyers?,
+                           trackingInfo: MarkAsSoldTrackingInfo) {}
+    func showProductFavoriteBubble(with data: BubbleNotificationData) {}
+    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
+                                            loggedInAction: @escaping (() -> Void)) {}
+    func showBumpUpNotAvailableAlertWithTitle(title: String,
+                                              text: String,
+                                              alertType: AlertType,
+                                              buttonsLayout: AlertButtonsLayout,
+                                              actions: [UIAction]) {}
+    func openContactUs(forListing listing: Listing, contactUstype: ContactUsType) {}
+    func openFeaturedInfo() {}
+    func closeFeaturedInfo() {}
+}
+

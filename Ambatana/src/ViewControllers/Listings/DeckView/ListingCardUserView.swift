@@ -24,7 +24,9 @@ final class ListingCardUserView: UIView {
         }
     }
     struct Images {
-        static let favourite = #imageLiteral(resourceName: "nit_favourite").withRenderingMode(.alwaysTemplate)
+        static let favourite = #imageLiteral(resourceName: "nit_favourite")
+        static let favouriteOn = #imageLiteral(resourceName: "nit_favourite_on")
+
         static let edit = #imageLiteral(resourceName: "nit_edit")
         static let placeholder = #imageLiteral(resourceName: "user_placeholder")
         static let share = #imageLiteral(resourceName: "nit_share")
@@ -80,13 +82,10 @@ final class ListingCardUserView: UIView {
     }
 
     fileprivate func set(favourite isFavourite: Bool) {
-        actionButton.setImage(Images.favourite, for: .normal)
         if isFavourite {
-            actionButton.tintColor = .red
-            actionButton.imageView?.tintColor = .red
+            actionButton.setImage(Images.favouriteOn, for: .normal)
         } else {
-            actionButton.tintColor = .white
-            actionButton.imageView?.tintColor = .white
+            actionButton.setImage(Images.favourite, for: .normal)
         }
     }
 
@@ -95,25 +94,11 @@ final class ListingCardUserView: UIView {
     }
 
     @objc private func didTouchUpShareButton() {
-        animateTouchUpInside(sender: actionButton)
+        shareButton.bounce()
     }
 
     @objc private func didTouchUpActionButton() {
-        animateTouchUpInside(sender: actionButton)
-    }
-
-    private func animateTouchUpInside(sender: UIButton) {
-        sender.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        UIView.animate(withDuration: 0.3,
-                       delay: 0,
-                       usingSpringWithDamping: 0.2,
-                       initialSpringVelocity: 6.0,
-                       options: .allowUserInteraction,
-                       animations: { _ in
-                        sender.transform = .identity
-            },
-                       completion: nil)
-
+        actionButton.bounce()
     }
 
     private func setupUI() {

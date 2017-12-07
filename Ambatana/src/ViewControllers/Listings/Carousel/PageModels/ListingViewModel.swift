@@ -25,6 +25,8 @@ protocol ListingViewModelDelegate: class, BaseViewModelDelegate {
 
 protocol ListingViewModelMaker {
     func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel
+    func make(listing: Listing, navigator: ListingDetailNavigator, visitSource: EventParameterListingVisitSource) -> ListingViewModel
+
 }
 
 class ListingViewModel: BaseViewModel {
@@ -44,6 +46,14 @@ class ListingViewModel: BaseViewModel {
                                     monetizationRepository: Core.monetizationRepository,
                                     tracker: TrackerProxy.sharedInstance)
         }
+
+        func make(listing: Listing, navigator: ListingDetailNavigator,
+                  visitSource: EventParameterListingVisitSource) -> ListingViewModel {
+            let viewModel = make(listing: listing, visitSource: visitSource)
+            viewModel.navigator = navigator
+            return viewModel
+        }
+
     }
 
     // Delegate

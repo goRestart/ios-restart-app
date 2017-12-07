@@ -42,6 +42,12 @@ class MockListingViewModelMaker: ListingViewModelMaker {
         self.tracker = tracker
     }
 
+    func make(listing: Listing, navigator: ListingDetailNavigator, visitSource: EventParameterListingVisitSource) -> ListingViewModel {
+        let viewModel = make(listing: listing, visitSource: visitSource)
+        viewModel.navigator = navigator
+        return viewModel
+    }
+
     func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel {
         return ListingViewModel(listing: listing,
                                 visitSource: visitSource,
