@@ -73,7 +73,11 @@ class FilteredListingListRequester: ListingListRequester {
     }
     
     private func retrieve(_ completion: ListingsCompletion?) {
-        listingRepository.index(retrieveListingsParams, completion: completion)
+        if let categories = filters?.selectedCategories, categories.contains(.realEstate) {
+             listingRepository.indexRealEstate(retrieveListingsParams, completion: completion)
+        } else {
+            listingRepository.index(retrieveListingsParams, completion: completion)
+        }
     }
 
     func isLastPage(_ resultCount: Int) -> Bool {

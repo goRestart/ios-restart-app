@@ -130,6 +130,19 @@ class MainListingsViewModel: BaseViewModel {
                 resultTags.append(.yearsRange(from: filters.carYearStart?.value, to: filters.carYearEnd?.value))
             }
         }
+        
+        if let propertyType = filters.propertyType {
+            resultTags.append(.realEstatePropertyType(propertyType))
+        }
+        if let offerType = filters.offerType {
+            resultTags.append(.realEstateOfferType(offerType))
+        }
+        if let numberOfBedrooms = filters.numberOfBedrooms {
+            resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
+        }
+        if let numberOfBathrooms = filters.numberOfBathrooms {
+            resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
+        }
 
         return resultTags
     }
@@ -364,6 +377,10 @@ class MainListingsViewModel: BaseViewModel {
         var modelName: String? = nil
         var carYearStart: Int? = nil
         var carYearEnd: Int? = nil
+        var realEstatePropertyType: RealEstatePropertyType? = nil
+        var realEstateOfferType: RealEstateOfferType? = nil
+        var realEstateNumberOfBedrooms: NumberOfBedrooms? = nil
+        var realEstateNumberOfBathrooms: NumberOfBathrooms? = nil
 
         for filterTag in tags {
             switch filterTag {
@@ -397,6 +414,14 @@ class MainListingsViewModel: BaseViewModel {
             case .yearsRange(let startYear, let endYear):
                 carYearStart = startYear
                 carYearEnd = endYear
+            case .realEstatePropertyType(let propertyType):
+                realEstatePropertyType = propertyType
+            case .realEstateOfferType(let offerType):
+                realEstateOfferType = offerType
+            case .realEstateNumberOfBedrooms(let numberOfBedrooms):
+                realEstateNumberOfBedrooms = numberOfBedrooms
+            case .realEstateNumberOfBathrooms(let numberOfBathrooms):
+                realEstateNumberOfBathrooms = numberOfBathrooms
             }
         }
 
@@ -463,6 +488,10 @@ class MainListingsViewModel: BaseViewModel {
             filters.carYearEnd = nil
         }
         
+        filters.propertyType = realEstatePropertyType
+        filters.offerType = realEstateOfferType
+        filters.numberOfBedrooms = realEstateNumberOfBedrooms
+        filters.numberOfBathrooms = realEstateNumberOfBathrooms
         
         updateCategoriesHeader()
         updateListView()
