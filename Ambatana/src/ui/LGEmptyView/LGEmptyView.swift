@@ -284,11 +284,11 @@ class LGEmptyView: UIView {
         }
     }
 
-    @objc dynamic private func actionButtonPressed() {
+    @objc private func actionButtonPressed() {
         action?()
     }
     
-    @objc dynamic private func secondaryActionButtonPressed() {
+    @objc private func secondaryActionButtonPressed() {
         secondaryAction?()
     }
 }

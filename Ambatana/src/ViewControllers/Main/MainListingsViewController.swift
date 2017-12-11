@@ -340,7 +340,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     /**
         Called when the search button is pressed.
     */
-    @objc dynamic private func filtersButtonPressed(_ sender: AnyObject) {
+    @objc private func filtersButtonPressed(_ sender: AnyObject) {
         navbarSearch.searchTextField.resignFirstResponder()
         viewModel.showFilters()
     }
@@ -386,7 +386,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
                                                            action: #selector(openInvite))
     }
     
-    @objc dynamic private func openInvite() {
+    @objc private func openInvite() {
         viewModel.vmUserDidTapInvite()
     }
     
@@ -419,7 +419,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
     }
 
-    @objc dynamic private func onBubbleTapped() {
+    @objc private func onBubbleTapped() {
         viewModel.bubbleTapped()
     }
 
@@ -625,7 +625,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
         return container
     }
     
-    @objc dynamic private func cleanSearchesButtonPressed() {
+    @objc private func cleanSearchesButtonPressed() {
         viewModel.cleanUpLastSearches()
     }
     

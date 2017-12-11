@@ -264,11 +264,11 @@ class ChatViewController: TextViewController {
 
     // MARK: > Navigation
     
-    @objc dynamic private func listingInfoPressed() {
+    @objc private func listingInfoPressed() {
         viewModel.listingInfoPressed()
     }
 
-    @objc dynamic private func optionsBtnPressed() {
+    @objc private func optionsBtnPressed() {
         viewModel.openOptionsMenu()
     }
 }

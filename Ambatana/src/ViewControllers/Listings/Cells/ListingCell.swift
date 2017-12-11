@@ -278,7 +278,7 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         relatedListingButton.compress()
     }
 
-    @objc dynamic private func openChat() {
+    @objc private func openChat() {
         guard let listing = listing else { return }
         delegate?.chatButtonPressedFor(listing: listing)
     }

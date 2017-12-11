@@ -278,7 +278,7 @@ extension UIViewController {
     }
     
     
-    @objc dynamic private func onReachabilityChanged(_ notification: Notification) {
+    @objc private func onReachabilityChanged(_ notification: Notification) {
         updateReachableAndToastViewVisibilityIfNeeded()
     }
     
@@ -570,11 +570,11 @@ class BaseViewController: UIViewController, TabBarShowable {
     
     // MARK: > NSNotificationCenter
     
-    @objc dynamic private func applicationDidEnterBackground(_ notification: Notification) {
+    @objc private func applicationDidEnterBackground(_ notification: Notification) {
         viewWillDisappearToBackground(true)
     }
     
-    @objc dynamic private func applicationWillEnterForeground(_ notification: Notification) {
+    @objc private func applicationWillEnterForeground(_ notification: Notification) {
         viewWillAppearFromBackground(true)
     }
 

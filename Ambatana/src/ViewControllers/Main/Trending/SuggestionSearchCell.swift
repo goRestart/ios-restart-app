@@ -116,7 +116,7 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
         fillSearchButton.isHidden = true
     }
     
-    @objc dynamic private func fillSearchButtonPressed(sender: AnyObject) {
+    @objc private func fillSearchButtonPressed(sender: AnyObject) {
         fillSearchButtonBlock?()
     }
     

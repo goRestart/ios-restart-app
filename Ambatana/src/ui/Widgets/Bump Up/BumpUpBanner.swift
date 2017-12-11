@@ -196,15 +196,15 @@ class BumpUpBanner: UIView {
         timer = Timer.scheduledTimer(timeInterval: BumpUpBanner.timerUpdateInterval, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
 
-    @objc dynamic private func bannerTapped() {
+    @objc private func bannerTapped() {
         executeBannerInteractionBlock()
     }
 
-    @objc dynamic private func bannerSwipped() {
+    @objc private func bannerSwipped() {
         executeBannerInteractionBlock()
     }
 
-    @objc dynamic private func bumpButtonPressed() {
+    @objc private func bumpButtonPressed() {
         guard readyToBump.value else { return }
         buttonBlock()
     }

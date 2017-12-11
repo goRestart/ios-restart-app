@@ -94,11 +94,11 @@ class RateUserViewController: KeyboardViewController {
         viewModel.ratingStarPressed(button.tag)
     }
 
-    @objc dynamic private func closeButtonPressed() {
+    @objc private func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
 
-    @objc dynamic private func skipButtonPressed() {
+    @objc private func skipButtonPressed() {
         viewModel.skipButtonPressed()
     }
 

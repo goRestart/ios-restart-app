@@ -102,7 +102,7 @@ class PostIncentivatorView: UIView {
 
     // MARK: - Private methods
 
-    @objc dynamic private func onTap() {
+    @objc private func onTap() {
         delegate?.incentivatorTapped()
     }
 }

@@ -338,7 +338,7 @@ extension UserViewController {
         listingListView.errorPadding = errorPadding
     }
 
-    @objc dynamic private func handleHeaderPan(_ gestureRecognizer: UIPanGestureRecognizer) {
+    @objc private func handleHeaderPan(_ gestureRecognizer: UIPanGestureRecognizer) {
         let translation = gestureRecognizer.translation(in: view)
         gestureRecognizer.setTranslation(CGPoint.zero, in: view)
 

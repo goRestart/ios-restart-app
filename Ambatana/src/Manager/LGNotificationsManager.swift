@@ -139,7 +139,7 @@ class LGNotificationsManager: NotificationsManager {
         }.disposed(by: disposeBag)
     }
 
-    @objc dynamic private func applicationWillEnterForeground() {
+    @objc private func applicationWillEnterForeground() {
         updateCounters()
     }
 

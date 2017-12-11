@@ -158,11 +158,11 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable {
     
     // MARK: - Actions
     
-    @objc dynamic private func freeContainerPressed() {
+    @objc private func freeContainerPressed() {
         freeActive.value = !freeSwitch.isOn
     }
     
-    @objc dynamic private func closeKeyboard() {
+    @objc private func closeKeyboard() {
         priceTextField.resignFirstResponder()
     }
     

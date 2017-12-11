@@ -361,7 +361,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         self.navigationItem.leftBarButtonItem = backButton
     }
 
-    @objc dynamic private func backButtonClose() {
+    @objc private func backButtonClose() {
         close()
     }
 

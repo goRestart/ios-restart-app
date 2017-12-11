@@ -128,7 +128,7 @@ class PostListingDetailPriceView: BaseView {
         } )
     }
 
-    @objc dynamic private func freeCellPressed() {
+    @objc private func freeCellPressed() {
         viewModel.freeCellPressed()
     }
 }
