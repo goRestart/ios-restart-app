@@ -230,8 +230,8 @@ extension AppDelegate: AppNavigatorDelegate {
 fileprivate extension AppDelegate {
     func setupAppearance() {
         UINavigationBar.appearance().tintColor = UIColor.lightBarButton
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.font : UIFont.pageTitleFont,
-                                                            NSAttributedStringKey.foregroundColor : UIColor.lightBarTitle]
+        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont.pageTitleFont,
+                                                            .foregroundColor : UIColor.lightBarTitle]
         UITabBar.appearance().tintColor = UIColor.tabBarIconSelectedColor
 
         UIPageControl.appearance().pageIndicatorTintColor = UIColor.pageIndicatorTintColor
