@@ -1,16 +1,15 @@
 //
-//  FilteredListingListRequester.swift
+//  SearchRelatedListingListRequester.swift
 //  LetGo
 //
-//  Created by Eli Kohen on 20/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
+//  Created by Juan Iglesias on 11/12/2017.
+//  Copyright © 2017 Ambatana. All rights reserved.
 //
 
 import LGCoreKit
-import CoreLocation
 
-class FilteredListingListRequester: ListingListRequester {
-
+class SearchRelatedListingListRequester: ListingListRequester {
+    
     let itemsPerPage: Int
     fileprivate let listingRepository: ListingRepository
     fileprivate let locationManager: LocationManager
@@ -19,14 +18,14 @@ class FilteredListingListRequester: ListingListRequester {
     fileprivate var queryFirstCallCountryCode: String?
     fileprivate var offset: Int = 0
     fileprivate var initialOffset: Int
-
+    
     var queryString: String?
     var filters: ListingFilters?
-
+    
     convenience init(itemsPerPage: Int, offset: Int = 0) {
         self.init(listingRepository: Core.listingRepository, locationManager: Core.locationManager, featureFlags: FeatureFlags.sharedInstance, itemsPerPage: itemsPerPage, offset: offset)
     }
-
+    
     init(listingRepository: ListingRepository, locationManager: LocationManager, featureFlags: FeatureFlaggeable, itemsPerPage: Int, offset: Int) {
         self.listingRepository = listingRepository
         self.locationManager = locationManager
@@ -34,10 +33,10 @@ class FilteredListingListRequester: ListingListRequester {
         self.initialOffset = offset
         self.itemsPerPage = itemsPerPage
     }
-
-
+    
+    
     // MARK: - ListingListRequester
-
+    
     func canRetrieve() -> Bool { return queryCoordinates != nil }
     
     func retrieveFirstPage(_ completion: ListingsRequesterCompletion?) {
@@ -48,18 +47,8 @@ class FilteredListingListRequester: ListingListRequester {
         }
         
         retrieve() { [weak self] result in
-            guard let indexListings = result.value, let useLimbo = self?.prependLimbo, useLimbo else {
-                self?.offset = result.value?.count ?? self?.offset ?? 0
-                completion?(ListingsRequesterResult(listingsResult: result, context: self?.requesterTitle, verticalTrackingInfo: self?.generateVerticalTrackingInfo()))
-                return
-            }
-            self?.listingRepository.indexLimbo { [weak self] limboResult in
-                var finalListings: [Listing] = limboResult.value ?? []
-                finalListings += indexListings
-                self?.offset = indexListings.count
-                let listingsResult = ListingsResult(finalListings)
-                completion?(ListingsRequesterResult(listingsResult: listingsResult, context: self?.requesterTitle))
-            }
+            self?.offset = result.value?.count ?? self?.offset ?? 0
+            completion?(ListingsRequesterResult(listingsResult: result, context: self?.requesterTitle))
         }
     }
     
@@ -74,22 +63,20 @@ class FilteredListingListRequester: ListingListRequester {
     
     private func retrieve(_ completion: ListingsCompletion?) {
         if let categories = filters?.selectedCategories, categories.contains(.realEstate) {
-             listingRepository.indexRealEstate(retrieveListingsParams, completion: completion)
-        } else {
-            listingRepository.index(retrieveListingsParams, completion: completion)
+            listingRepository.indexRealEstate(retrieveListingsParams, completion: completion)
         }
     }
-
+    
     func isLastPage(_ resultCount: Int) -> Bool {
         return resultCount == 0
     }
-
+    
     func updateInitialOffset(_ newOffset: Int) {
         initialOffset = newOffset
     }
-
+    
     func duplicate() -> ListingListRequester {
-        let requester = FilteredListingListRequester(itemsPerPage: itemsPerPage)
+        let requester = SearchRelatedListingListRequester(itemsPerPage: itemsPerPage)
         requester.offset = offset
         requester.queryFirstCallCoordinates = queryFirstCallCoordinates
         requester.queryFirstCallCountryCode = queryFirstCallCountryCode
@@ -97,10 +84,10 @@ class FilteredListingListRequester: ListingListRequester {
         requester.filters = filters
         return requester
     }
-
-
+    
+    
     // MARK: - MainListingListRequester
-
+    
     var countryCode: String? {
         if let countryCode = filters?.place?.postalAddress?.countryCode {
             return countryCode
@@ -109,64 +96,11 @@ class FilteredListingListRequester: ListingListRequester {
     }
     
     private var requesterTitle: String? {
-        guard let filters = filters, filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy  else { return nil }
-        var titleFromFilters: String = ""
-
-        if let makeName = filters.carMakeName {
-            titleFromFilters += makeName
-        }
-        if let modelName = filters.carModelName {
-            titleFromFilters += " " + modelName
-        }
-        if let rangeYearTitle = rangeYearTitle(forFilters: filters) {
-            titleFromFilters += " " + rangeYearTitle
-        }
-
-        let filtersHasAnyCarAttributes: Bool = filters.carMakeId != nil ||
-                                            filters.carModelId != nil ||
-                                            filters.carYearStart != nil ||
-                                            filters.carYearEnd != nil
-
-        if  filtersHasAnyCarAttributes && titleFromFilters.isEmpty {
-            // if there's a make filter active but no title, is "Other Results"
-            titleFromFilters = LGLocalizedString.filterResultsCarsOtherResults
-        }
-
-        return titleFromFilters.isEmpty ? nil : titleFromFilters.localizedUppercase
+        return LGLocalizedString.realEstateRelatedSearchTitle
     }
-
-    private func rangeYearTitle(forFilters filters: ListingFilters?) -> String? {
-        guard let filters = filters else { return nil }
-
-        if let startYear = filters.carYearStart, let endYear = filters.carYearEnd, !startYear.isNegated, !endYear.isNegated {
-            // both years specified
-            if startYear.value == endYear.value {
-                return String(startYear.value)
-            } else {
-                return String(startYear.value) + " - " + String(endYear.value)
-            }
-        } else if let startYear = filters.carYearStart, !startYear.isNegated {
-            // only start specified
-            if startYear.value == Date().year {
-                return String(startYear.value)
-            } else {
-             return String(startYear.value) + " - " + String(Date().year)
-            }
-        } else if let endYear = filters.carYearEnd, !endYear.isNegated {
-            // only end specified
-            if endYear.value == Constants.filterMinCarYear {
-                return String(format: LGLocalizedString.filtersCarYearBeforeYear, Constants.filterMinCarYear)
-            } else {
-                return String(format: LGLocalizedString.filtersCarYearBeforeYear, Constants.filterMinCarYear) + " - " + String(endYear.value)
-            }
-        } else {
-            // no year specified
-            return nil
-        }
-    }
-
+    
     func distanceFromListingCoordinates(_ listingCoords: LGLocationCoordinates2D) -> Double? {
-
+        
         var meters = 0.0
         if let coordinates = queryCoordinates {
             let quadKeyStr = coordinates.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision)
@@ -175,7 +109,7 @@ class FilteredListingListRequester: ListingListRequester {
         }
         return meters
     }
-
+    
     func isEqual(toRequester requester: ListingListRequester) -> Bool {
         guard let requester = requester as? FilteredListingListRequester else { return false }
         return queryString == requester.queryString && filters == requester.filters
@@ -185,8 +119,8 @@ class FilteredListingListRequester: ListingListRequester {
 
 // MARK: - Private methods
 
-fileprivate extension FilteredListingListRequester {
-
+fileprivate extension SearchRelatedListingListRequester {
+    
     var queryCoordinates: LGLocationCoordinates2D? {
         if let coordinates = filters?.place?.location {
             return coordinates
@@ -199,7 +133,7 @@ fileprivate extension FilteredListingListRequester {
         }
         return nil
     }
-
+    
     var retrieveListingsParams: RetrieveListingParams {
         var params: RetrieveListingParams = RetrieveListingParams()
         params.numListings = itemsPerPage
@@ -243,7 +177,7 @@ fileprivate extension FilteredListingListRequester {
         }
         params.numberOfBedrooms = filters?.numberOfBedrooms?.rawValue
         params.numberOfBathrooms = filters?.numberOfBathrooms?.rawValue
-
+        
         if let priceRange = filters?.priceRange {
             switch priceRange {
             case .freePrice:
@@ -254,86 +188,5 @@ fileprivate extension FilteredListingListRequester {
             }
         }
         return params
-    }
-
-    var prependLimbo: Bool {
-        return isEmptyQueryAndDefaultFilters
-    }
-
-    var isEmptyQueryAndDefaultFilters: Bool {
-        if let queryString = queryString, !queryString.isEmpty { return false }
-        guard let filters = filters else { return true }
-        return filters.isDefault()
-    }
-}
-
-// Tracking Helpers
-
-fileprivate extension FilteredListingListRequester {
-
-    func generateVerticalTrackingInfo() -> VerticalTrackingInfo? {
-        let vertical: ListingCategory = ListingCategory.cars
-        guard let filters = filters, filters.selectedCategories.contains(vertical) else { return nil }
-
-        var keywords: [String] = []
-        var matchingFields: [String] = []
-        var nonMatchingFields: [String] = []
-
-        if let makeId = filters.carMakeId {
-            keywords.append(EventParameterName.make.rawValue)
-            if makeId.isNegated {
-                nonMatchingFields.append(EventParameterName.make.rawValue)
-            } else {
-                matchingFields.append(EventParameterName.make.rawValue)
-            }
-        }
-
-        if let modelId = filters.carModelId {
-            keywords.append(EventParameterName.model.rawValue)
-            if modelId.isNegated {
-                nonMatchingFields.append(EventParameterName.model.rawValue)
-            } else {
-                matchingFields.append(EventParameterName.model.rawValue)
-            }
-        }
-
-        if let yearStart = filters.carYearStart {
-            keywords.append(EventParameterName.yearStart.rawValue)
-            if yearStart.isNegated {
-                nonMatchingFields.append(EventParameterName.yearStart.rawValue)
-            } else {
-                matchingFields.append(EventParameterName.yearStart.rawValue)
-            }
-        }
-
-        if let yearEnd = filters.carYearEnd {
-            keywords.append(EventParameterName.yearEnd.rawValue)
-            if yearEnd.isNegated {
-                nonMatchingFields.append(EventParameterName.yearEnd.rawValue)
-            } else {
-                matchingFields.append(EventParameterName.yearEnd.rawValue)
-            }
-        }
-
-        return VerticalTrackingInfo(category: vertical, keywords: keywords, matchingFields: matchingFields, nonMatchingFields: nonMatchingFields)
-    }
-}
-
-extension DefaultRadiusDistanceFeed {
-    var stringValue: String {
-        switch self {
-        case .control:
-            return "tbimkt1218-e"
-        case .baseline:
-            return "tbimkt1218-a"
-        case .two:
-            return "tbimkt1218-b"
-        case .five:
-            return "tbimkt1218-c"
-        case .ten:
-            return "tbimkt1218-d"
-        case .thirty:
-            return "tbimkt1218-f"
-        }
     }
 }

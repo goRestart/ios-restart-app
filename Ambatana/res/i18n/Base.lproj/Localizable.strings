@@ -1744,6 +1744,9 @@
 // Post another item button
 "product_post_confirmation_another_button" = "Post another item";
 
+// Post another listing button
+"product_post_confirmation_another_listing_button" = "Post another listing";
+
 // Add more details button (max 20 chars) 
 "product_post_confirmation_edit" = "Add more details";
 
@@ -2087,7 +2090,7 @@
 "promote_bump_later_button" = "Later";
 
 // Navigation bar title "Set Location"
-"quick_filter_location_title" = "Set Location";
+"quick_filter_location_title" = "Change Location";
 
 // Screen to select which buyer you sold the item before rating him/her
 "rate_buyers_message" = "Congratulations!";
@@ -2389,6 +2392,9 @@
 
 // Show the current step of total steps
 "real_estate_current_step_of_total" = "%d of %d";
+
+// Title for section on related search. 
+"real_estate_related_search_title" = "Related results";
 
 // Title when showing list of related items
 "related_items_title" = "Related listings";

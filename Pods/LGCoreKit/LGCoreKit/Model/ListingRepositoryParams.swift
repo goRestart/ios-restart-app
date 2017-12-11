@@ -91,8 +91,8 @@ public struct RetrieveListingParams {
         params["since"] = timeCriteria?.string
         
         // Real Estate attributes
-        params["propertyType"] = [propertyType]
-        params["offerType"] = [offerType]
+        params["propertyType"] = [propertyType ?? nil].flatMap { $0 }
+        params["offerType"] = [offerType ?? nil].flatMap { $0 }
         params["numberOfBedrooms"] = numberOfBedrooms
         params["numberOfBathrooms"] = numberOfBathrooms
        

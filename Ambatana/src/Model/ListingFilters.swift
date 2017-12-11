@@ -176,6 +176,14 @@ struct ListingFilters {
     func hasSelectedCategory(_ category: ListingCategory) -> Bool {
         return indexForCategory(category) != nil
     }
+    
+    var hasAnyRealEstateAttributes: Bool {
+        return offerType != nil || propertyType != nil || numberOfBathrooms != nil || numberOfBedrooms != nil
+    }
+    
+    var hasAnyCarAttributes: Bool {
+        return carMakeId != nil || carMakeId != nil || carYearStart != nil || carYearEnd != nil
+    }
 
     func isDefault() -> Bool {
         if let _ = place { return false } //Default is nil
@@ -186,8 +194,8 @@ struct ListingFilters {
         if selectedWithin != ListingTimeCriteria.defaultOption { return false }
         if selectedOrdering != ListingSortCriteria.defaultOption { return false }
         if priceRange != .priceRange(min: nil, max: nil) { return false }
-        if carMakeId != nil || carModelId != nil || carYearStart != nil || carYearEnd != nil { return false }
-        if propertyType != nil || offerType != nil || numberOfBedrooms != nil || numberOfBathrooms != nil { return false }
+        if hasAnyCarAttributes { return false }
+        if hasAnyRealEstateAttributes { return false }
         return true
     }
     

@@ -162,13 +162,20 @@ class MainListingsViewModel: BaseViewModel {
     var shouldShowInviteButton: Bool {
         return navigator?.canOpenAppInvite() ?? false
     }
-
-    fileprivate var shouldShowNoExactMatchesDisclaimer: Bool {
+    
+    private var carSelectedWithFilter: Bool {
         guard filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy else { return false }
-        if filters.carMakeId != nil || filters.carModelId != nil || filters.carYearStart != nil || filters.carYearEnd != nil {
-            return true
-        }
-        return false
+        return filters.hasAnyCarAttributes
+    }
+    
+    private var realEstateSelectedWithFilter: Bool {
+        guard filters.selectedCategories.contains(.realEstate) else { return false }
+        return filters.hasAnyRealEstateAttributes
+    }
+    
+    fileprivate var shouldShowNoExactMatchesDisclaimer: Bool {
+        guard realEstateSelectedWithFilter || carSelectedWithFilter else { return false }
+        return true
     }
 
     let mainListingsHeader = Variable<MainListingsHeader>([])

@@ -2347,6 +2347,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_confirmation_another_button", comment: "")
 	}
 
+	static var productPostConfirmationAnotherListingButton: String {
+		return NSLocalizedString("product_post_confirmation_another_listing_button", comment: "")
+	}
+
 	static var productPostConfirmationEdit: String {
 		return NSLocalizedString("product_post_confirmation_edit", comment: "")
 	}
@@ -3209,6 +3213,10 @@ struct LGLocalizedString {
 
 	static func realEstateCurrentStepOfTotal(_ var1: Int, _ var2: Int) -> String {
 		return String(format: NSLocalizedString("real_estate_current_step_of_total", comment: ""), var1, var2)
+	}
+
+	static var realEstateRelatedSearchTitle: String {
+		return NSLocalizedString("real_estate_related_search_title", comment: "")
 	}
 
 	static var relatedItemsTitle: String {
