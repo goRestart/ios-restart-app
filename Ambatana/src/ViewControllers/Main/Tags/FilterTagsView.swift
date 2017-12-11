@@ -110,7 +110,7 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
     
     // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+    @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         if collectionView == self.collectionView {
             return FilterTagCell.cellSizeForTag(tags[indexPath.row])
