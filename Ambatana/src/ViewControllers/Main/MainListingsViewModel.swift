@@ -163,18 +163,18 @@ class MainListingsViewModel: BaseViewModel {
         return navigator?.canOpenAppInvite() ?? false
     }
     
-    private var carSelectedWithFilter: Bool {
+    private var carSelectedWithFilters: Bool {
         guard filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy else { return false }
         return filters.hasAnyCarAttributes
     }
     
-    private var realEstateSelectedWithFilter: Bool {
+    private var realEstateSelectedWithFilters: Bool {
         guard filters.selectedCategories.contains(.realEstate) else { return false }
         return filters.hasAnyRealEstateAttributes
     }
     
     fileprivate var shouldShowNoExactMatchesDisclaimer: Bool {
-        guard realEstateSelectedWithFilter || carSelectedWithFilter else { return false }
+        guard realEstateSelectedWithFilters || carSelectedWithFilters else { return false }
         return true
     }
 
