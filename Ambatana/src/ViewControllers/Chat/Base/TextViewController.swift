@@ -218,7 +218,7 @@ extension TextViewController: UITextViewDelegate {
         leftButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(leftButtonsContainer)
         leftButtonsContainer.layout(with: textViewBar).left(by: viewMargins).bottom(by: -textViewMargin)
-        leftButtonsContainer.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
+        leftButtonsContainer.setContentHuggingPriority(.required, for: .horizontal)
 
         textView.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(textView)
