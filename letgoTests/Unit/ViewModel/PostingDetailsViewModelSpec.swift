@@ -231,4 +231,5 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
     func backToSummary() { }
     func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo) { }
     func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool) {}
+    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams, postState: PostListingState) {}
 }

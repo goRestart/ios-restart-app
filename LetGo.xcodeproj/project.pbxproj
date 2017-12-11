@@ -18,6 +18,10 @@
 		0187407B1FD59391009C1363 /* PostingQueuedRequestsLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018740791FD59391009C1363 /* PostingQueuedRequestsLoadingViewController.swift */; };
 		0187407D1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0187407C1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift */; };
 		0187407E1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0187407C1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift */; };
+		018B6BF71FD6AB4000740030 /* PostingQueuedRequestsLoadingViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B6BF61FD6AB4000740030 /* PostingQueuedRequestsLoadingViewModelSpec.swift */; };
+		018B6BF91FD6B50F00740030 /* MockListingCreationParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B6BF81FD6B50F00740030 /* MockListingCreationParams.swift */; };
+		018B6BFB1FD70C2F00740030 /* PostOnboardingListingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B6BFA1FD70C2F00740030 /* PostOnboardingListingState.swift */; };
+		018B6BFC1FD70C2F00740030 /* PostOnboardingListingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B6BFA1FD70C2F00740030 /* PostOnboardingListingState.swift */; };
 		0A6D88BF1F7CED6900819E89 /* DeepLinksRouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D88BE1F7CED6900819E89 /* DeepLinksRouterSpec.swift */; };
 		0A6D88C41F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D88C31F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json */; };
 		0A6D88C51F7CFECA00819E89 /* DeferredDeepLinkTargetCategory.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A6D88C31F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json */; };
@@ -1504,6 +1508,9 @@
 		0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UriSchemeSpec.swift; path = DeepLinks/UriSchemeSpec.swift; sourceTree = "<group>"; };
 		018740791FD59391009C1363 /* PostingQueuedRequestsLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingQueuedRequestsLoadingViewController.swift; path = Onboarding/PostingQueuedRequestsLoadingViewController.swift; sourceTree = "<group>"; };
 		0187407C1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingQueuedRequestsLoadingViewModel.swift; path = Onboarding/PostingQueuedRequestsLoadingViewModel.swift; sourceTree = "<group>"; };
+		018B6BF61FD6AB4000740030 /* PostingQueuedRequestsLoadingViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingQueuedRequestsLoadingViewModelSpec.swift; sourceTree = "<group>"; };
+		018B6BF81FD6B50F00740030 /* MockListingCreationParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockListingCreationParams.swift; sourceTree = "<group>"; };
+		018B6BFA1FD70C2F00740030 /* PostOnboardingListingState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostOnboardingListingState.swift; path = Onboarding/PostOnboardingListingState.swift; sourceTree = "<group>"; };
 		0A6D88BE1F7CED6900819E89 /* DeepLinksRouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinksRouterSpec.swift; sourceTree = "<group>"; };
 		0A6D88C31F7CF82900819E89 /* DeferredDeepLinkTargetCategory.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkTargetCategory.json; sourceTree = "<group>"; };
 		0A6D88C81F7D058B00819E89 /* DeferredDeepLinkTargetSearchQuery.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkTargetSearchQuery.json; sourceTree = "<group>"; };
@@ -2415,6 +2422,7 @@
 			children = (
 				018740791FD59391009C1363 /* PostingQueuedRequestsLoadingViewController.swift */,
 				0187407C1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift */,
+				018B6BFA1FD70C2F00740030 /* PostOnboardingListingState.swift */,
 			);
 			name = Onboarding;
 			sourceTree = "<group>";
@@ -3259,6 +3267,7 @@
 				C765EE481E7FEA4500063750 /* DeepLink+MockFactory.swift */,
 				C765EE4A1E7FEEE200063750 /* MockChatEvent.swift */,
 				0A8275091F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift */,
+				018B6BF81FD6B50F00740030 /* MockListingCreationParams.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3381,6 +3390,7 @@
 				50D08DA21E69AF14009CC260 /* SignUpViewModelSpec.swift */,
 				C7AFFB0F1E7176BC0052A9CA /* WebSurveyViewModelSpec.swift */,
 				8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */,
+				018B6BF61FD6AB4000740030 /* PostingQueuedRequestsLoadingViewModelSpec.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -5529,6 +5539,7 @@
 				50D08DCB1E69AF14009CC260 /* CrashManagerSpec.swift in Sources */,
 				0A82750A1F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift in Sources */,
 				724D77A91FC3467700DB43C0 /* CarAttributes+LGSpec.swift in Sources */,
+				018B6BF91FD6B50F00740030 /* MockListingCreationParams.swift in Sources */,
 				50D08DCD1E69AF14009CC260 /* NotificationsManagerSpec.swift in Sources */,
 				50D08DDB1E69AF14009CC260 /* BaseViewModelSpec.swift in Sources */,
 				50D08DD21E69AF14009CC260 /* ConfigSpec.swift in Sources */,
@@ -5545,6 +5556,7 @@
 				0A6D88BF1F7CED6900819E89 /* DeepLinksRouterSpec.swift in Sources */,
 				C750AA8B1E6D76DC005F87C5 /* MockListingViewModelMaker.swift in Sources */,
 				50D08DE11E69AF14009CC260 /* ListingCarouselViewModelSpec.swift in Sources */,
+				018B6BF71FD6AB4000740030 /* PostingQueuedRequestsLoadingViewModelSpec.swift in Sources */,
 				2EF0BB131E784468006808B5 /* MockPaymentQueue.swift in Sources */,
 				C765EE4B1E7FEEE200063750 /* MockChatEvent.swift in Sources */,
 				72C7A1BF1FA0ECF60089F175 /* PostingDetailsViewModelSpec.swift in Sources */,
@@ -5695,6 +5707,7 @@
 				2E4EBFC31EADF63A005FE040 /* CarAttributeSelectionViewController.swift in Sources */,
 				72AAA5A21DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */,
 				C7732F751D8842B800EAD5B7 /* OnboardingNavigator.swift in Sources */,
+				018B6BFB1FD70C2F00740030 /* PostOnboardingListingState.swift in Sources */,
 				7226F0FB1E962CA200B54D01 /* ChatRelatedItemsState.swift in Sources */,
 				D4BFE5B61B640C36006A8CB6 /* MainListingsViewModel.swift in Sources */,
 				C727FBBE1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */,
@@ -6237,6 +6250,7 @@
 				2E4EBFC41EADF63A005FE040 /* CarAttributeSelectionViewController.swift in Sources */,
 				C7DB41A91C5138B500400945 /* ListingTimeCriteria+LG.swift in Sources */,
 				6A879DA91C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */,
+				018B6BFC1FD70C2F00740030 /* PostOnboardingListingState.swift in Sources */,
 				72AAA5A31DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */,
 				7226F0FC1E962CA200B54D01 /* ChatRelatedItemsState.swift in Sources */,
 				C7732F761D8842B800EAD5B7 /* OnboardingNavigator.swift in Sources */,

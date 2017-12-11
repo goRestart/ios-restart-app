@@ -31,7 +31,7 @@ public enum VerticalAttributes {
     }
 }
 
-final class PostListingState {
+class PostListingState {
     let step: PostListingStep
     let previousStep: PostListingStep?
     let category: PostCategory?
@@ -62,7 +62,7 @@ final class PostListingState {
                   place: nil)
     }
     
-    private init(step: PostListingStep,
+    init(step: PostListingStep,
                  previousStep: PostListingStep?,
                  category: PostCategory?,
                  pendingToUploadImages: [UIImage]?,

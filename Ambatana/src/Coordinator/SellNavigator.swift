@@ -29,7 +29,7 @@ protocol PostListingNavigator: class {
     func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool)
     func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo)
     func backToSummary()
-    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams)
+    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams, postState: PostListingState)
 }
 
 protocol ListingPostedNavigator: class {

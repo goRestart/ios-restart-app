@@ -39,7 +39,7 @@ class PostingQueuedRequestsLoadingViewController: BaseViewController {
         setupConstraints()
         setupUI()
         setupRx()
-        viewModel.createListing()
+        viewModel.createListingAfterUploadingImages()
     }
     
     override func viewWillAppear(_ animated: Bool) {

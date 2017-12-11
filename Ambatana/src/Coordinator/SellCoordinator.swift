@@ -221,8 +221,8 @@ extension SellCoordinator: PostListingNavigator {
         let _ = navigationController.popViewController(animated: true)
     }
     
-    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams) {
-        let viewModel = PostingQueuedRequestsLoadingViewModel(images: images, listingCreationParams: listingCreationParams)
+    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams, postState: PostListingState) {
+        let viewModel = PostingQueuedRequestsLoadingViewModel(images: images, listingCreationParams: listingCreationParams, postState: postState)
         viewModel.navigator = self
         let vc = PostingQueuedRequestsLoadingViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)
