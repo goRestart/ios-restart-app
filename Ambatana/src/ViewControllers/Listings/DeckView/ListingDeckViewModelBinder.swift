@@ -26,8 +26,8 @@ final class ListingDeckViewModelBinder {
         currentVM.cardActionButtons.bindTo(theOneViewModel.actionButtons).addDisposableTo(disposeBag)
         currentVM.cardNavBarButtons.bindTo(theOneViewModel.navBarButtons).addDisposableTo(disposeBag)
         currentVM.cardAltActions.bindTo(theOneViewModel.altActions).addDisposableTo(disposeBag)
-        bind(listingViewModel: currentVM, quickChatViewModel: quickChatViewModel)
 
+        bind(listingViewModel: currentVM, quickChatViewModel: quickChatViewModel)
         currentVM.cardBumpUpBannerInfo.bindTo(theOneViewModel.bumpUpBannerInfo).addDisposableTo(disposeBag)
     }
 
@@ -36,6 +36,7 @@ final class ListingDeckViewModelBinder {
         currentVM.cardDirectChatEnabled.bindTo(quickChatViewModel.chatEnabled).addDisposableTo(disposeBag)
 
         quickChatViewModel.directChatMessages.removeAll()
+        
         currentVM.cardDirectChatMessages.subscribeNext { change in
             quickChatViewModel.performCollectionChange(change: change)
         }.addDisposableTo(disposeBag)

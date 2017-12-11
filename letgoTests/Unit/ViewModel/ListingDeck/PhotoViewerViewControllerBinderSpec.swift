@@ -116,6 +116,12 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
                 }
             }
 
+            context("keyboard event is") {
+                it("showChat is called only once") {
+                    expect(photoViewerVC.keyboardIsCalled).toEventually(equal(1))
+                }
+            }
+
             context("we dealloc the viewcontroller") {
                 beforeEach {
                     photoViewerVC = MockPhotoViewerViewController()

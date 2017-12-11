@@ -24,7 +24,7 @@ final class ListingDeckViewControllerBinder {
         bindKeyboardChanges(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindCollectionView(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindContentOffset(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
-        bindChat(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
+//        bindChat(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindActions(withViewModel: viewModel, listingDeckView: listingDeckView)
         bindAltActions(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindNavigationBarActions(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)

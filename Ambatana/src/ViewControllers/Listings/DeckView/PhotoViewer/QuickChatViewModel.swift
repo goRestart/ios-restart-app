@@ -10,12 +10,30 @@ import Foundation
 import RxSwift
 import LGCoreKit
 
-final class QuickChatViewModel {
+protocol QuickChatViewModelType: class {
+    var directAnswersCount: Int { get }
+    var directChatMessages: [ChatViewMessage] { get }
+}
+
+final class QuickChatViewModel: QuickChatViewModelRx, DirectAnswersHorizontalViewDelegate {
+
+    var listingViewModel: ListingViewModel?
+
+    var areAnswersDynamic: Bool { return true } // TODO: not done
+
+    var rx_directChatPlaceholder: Observable<String> { return directChatPlaceholder.asObservable() }
+    var rx_quickAnswers: Observable<[[QuickAnswer]]> { return quickAnswers.asObservable() }
+    var isChatEnabled: Observable<Bool> { return chatEnabled.asObservable() }
+    var rx_directMessages: Observable<CollectionChange<ChatViewMessage>> { return directChatMessages.changesObservable }
 
     let chatEnabled = Variable<Bool>(false)
     let quickAnswers = Variable<[[QuickAnswer]]>([[]])
     var directChatPlaceholder = Variable<String>("")
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
+
+    func messageExists(_ messageID: String) -> Bool {
+        return directChatMessages.value.filter({ $0.objectId == messageID }).count >= 1
+    }
 
     func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
         switch change {
@@ -32,5 +50,13 @@ final class QuickChatViewModel {
                 performCollectionChange(change: change)
             }
         }
+    }
+
+    func directMessagesItemPressed() {
+        listingViewModel?.chatWithSeller()
+    }
+
+    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
+        listingViewModel?.sendQuickAnswer(quickAnswer: answer)
     }
 }

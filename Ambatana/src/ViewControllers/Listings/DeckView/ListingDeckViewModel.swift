@@ -192,7 +192,8 @@ final class ListingDeckViewModel: BaseViewModel {
 
         binder.bindTo(listingViewModel: viewModel, quickChatViewModel: quickChatViewModel)
         currentListingViewModel?.active = active
-
+        quickChatViewModel.listingViewModel = currentListingViewModel
+        
         currentIndex = index
         prefetchNeighborsImages(index, movement: movement)
 

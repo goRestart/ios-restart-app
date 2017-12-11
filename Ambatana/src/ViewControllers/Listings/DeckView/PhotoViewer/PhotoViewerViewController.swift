@@ -17,6 +17,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     let photoViewer = PhotoViewerView()
     private let viewModel: PhotoViewerViewModel
     private let binder = PhotoViewerViewControllerBinder()
+    private var tap: UITapGestureRecognizer?
 
     init(viewModel: PhotoViewerViewModel, quickChatViewModel: QuickChatViewModel) {
         self.viewModel = viewModel
@@ -41,8 +42,12 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         photoViewer.updateCurrentPage(currentPage)
 
     }
+
     func updateWith(keyboardChange: KeyboardChange) {
-        chatView.updateWith(keyboardChange: keyboardChange)
+        let height = photoViewer.bounds.height - keyboardChange.origin
+        chatView.updateWith(bottomInset: height,
+                            animationTime: TimeInterval(keyboardChange.animationTime),
+                            animationOptions: keyboardChange.animationOptions)
     }
 
     func updatePage(fromContentOffset offset: CGFloat) {
@@ -57,12 +62,14 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     }
 
     func showChat() {
+        chatView.frame = photoViewer.frame
         chatView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(chatView)
         chatView.layout(with: photoViewer).fill()
-        photoViewer.layoutIfNeeded()
 
-        chatView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissChat)))
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+
         chatView.becomeFirstResponder()
     }
 
@@ -100,11 +107,11 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     @objc func dismissChat() {
         chatView.resignFirstResponder()
-        UIView.animate(withDuration: 0.3, animations: {
+        UIView.animate(withDuration: 0.3, delay: 0.1, options: .curveEaseIn, animations: { 
             self.chatView.alpha = 0
-        }) { (completion) in
+        }, completion: { (completion) in
             self.chatView.removeFromSuperview()
             self.chatView.alpha = 1
-        }
+        })
     }
 }

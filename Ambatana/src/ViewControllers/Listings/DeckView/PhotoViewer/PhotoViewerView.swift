@@ -78,9 +78,6 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         addSubview(pageControl)
 
-        pageControl.numberOfPages = 4
-        pageControl.currentPage = 1
-
         pageControl.centerYAnchor.constraint(equalTo: chatButton.bottomAnchor,
                                              constant: -Metrics.shortMargin).isActive = true
         pageControl.layout(with: self).centerX()
@@ -91,7 +88,7 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
         addSubview(chatButton)
 
         chatButton.layout(with: self)
-            .leadingMargin(by: Metrics.margin).bottomMargin(by: -Metrics.margin)
+            .leadingMargin(by: Metrics.margin).bottomMargin(by: -Metrics.bigMargin)
     }
 
     private func setupCloseButton() {
@@ -155,7 +152,7 @@ class ChatButton: UIControl {
         stackView.alignment = .center
         stackView.layout(with: self).fill()
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = min(height, width) / 2.0

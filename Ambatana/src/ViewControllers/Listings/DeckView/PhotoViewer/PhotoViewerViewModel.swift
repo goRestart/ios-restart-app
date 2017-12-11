@@ -16,6 +16,7 @@ final class PhotoViewerViewModel: BaseViewModel {
     var itemsCount: Int { return urls.count }
 
     let quickAnswers = Variable<[[QuickAnswer]]>([[]])
+
     private let urls: [URL]
 
     convenience init(with urls: [URL]) {

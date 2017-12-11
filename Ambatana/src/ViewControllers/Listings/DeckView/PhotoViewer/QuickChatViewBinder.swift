@@ -44,17 +44,12 @@ final class QuickChatViewBinder {
             chatView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
         }
 
-        viewModel.rx_quickAnswers.skip(1).bindNext { [weak chatView] quickAnswers in
+        viewModel.rx_quickAnswers.bindNext { [weak chatView] quickAnswers in
             chatView?.updateDirectChatWith(answers: quickAnswers, isDynamic: viewModel.areAnswersDynamic)
         }.addDisposableTo(bag)
 
-        viewModel.rx_directMessages.bindNext { [weak chatView] change in
-                switch change {
-                case .insert(_, _):
-                    chatView?.handleChatChange(change)
-                default:
-                    chatView?.handleChatChange(change)
-                }
+        viewModel.rx_directMessages.bindNext { change in
+            self.quickChatView?.handleChatChange(change)
         }.addDisposableTo(bag)
     }
 
