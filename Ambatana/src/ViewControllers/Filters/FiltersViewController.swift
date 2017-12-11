@@ -438,7 +438,6 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 break
             }
         case .realEstateInfo:
-            // TODO: define actions when click: https://ambatana.atlassian.net/browse/ABIOS-3212
             switch indexPath.item {
             case 0:
                 // propertyType
