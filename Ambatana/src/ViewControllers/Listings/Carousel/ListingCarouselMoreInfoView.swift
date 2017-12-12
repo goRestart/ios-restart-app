@@ -22,6 +22,7 @@ protocol ProductCarouselMoreInfoDelegate: class {
     func didEndScrolling(_ topOverScroll: CGFloat, bottomOverScroll: CGFloat)
     func request(fullScreen: Bool)
     func viewControllerToShowShareOptions() -> UIViewController
+    func rootViewControllerForDFPBanner() -> UIViewController
 }
 
 extension MKMapView {
@@ -493,7 +494,7 @@ fileprivate extension ListingCarouselMoreInfoView {
             dfpBannerView = DFPBannerView(adSize: kGADAdSizeLargeBanner)
 
             guard let dfpBanner = dfpBannerView else { return }
-            dfpBanner.rootViewController = viewController()
+            dfpBanner.rootViewController = delegate?.rootViewControllerForDFPBanner()
             dfpBanner.delegate = self
 
             bannerContainerView.addSubview(dfpBanner)
