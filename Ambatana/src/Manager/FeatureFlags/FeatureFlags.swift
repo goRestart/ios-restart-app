@@ -48,6 +48,7 @@ protocol FeatureFlaggeable: class {
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
+    var moreInfoDFPActive: MoreInfoDFPActive { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -55,6 +56,7 @@ protocol FeatureFlaggeable: class {
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
     var moreInfoShoppingAdUnitId: String { get }
+    var moreInfoDFPAdUnitId: String { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -82,6 +84,10 @@ extension ShowPriceAfterSearchOrFilter {
 
 extension MoreInfoAdActive {
     var isActive: Bool { get { return self == .titleFirst || self == .cloudsightFirst } }
+}
+
+extension MoreInfoDFPActive {
+    var isActive: Bool { get { return self == .active } }
 }
 
 extension HomeRelatedEnabled {
@@ -371,6 +377,14 @@ class FeatureFlags: FeatureFlaggeable {
         return PromoteBumpUpAfterSell.fromPosition(abTests.promoteBumpUpAfterSell.value)
     }
 
+    var moreInfoDFPActive: MoreInfoDFPActive {
+        if Bumper.enabled {
+            return Bumper.moreInfoDFPActive
+        }
+        return MoreInfoDFPActive.fromPosition(abTests.moreInfoDFPActive.value)
+    }
+    
+
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
@@ -429,6 +443,15 @@ class FeatureFlags: FeatureFlaggeable {
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShoppingUSA
         default:
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShopping
+        }
+    }
+
+    var moreInfoDFPAdUnitId: String {
+        switch sensorLocationCountryCode {
+        case .usa?:
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFPUSA
+        default:
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFP
         }
     }
 

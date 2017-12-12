@@ -42,6 +42,7 @@ extension Bumper  {
         flags.append(ShowClockInDirectAnswer.self)
         flags.append(BumpUpPriceDifferentiation.self)
         flags.append(PromoteBumpUpAfterSell.self)
+        flags.append(MoreInfoDFPActive.self)
         Bumper.initialize(flags)
     } 
 
@@ -188,6 +189,11 @@ extension Bumper  {
     static var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
         guard let value = Bumper.value(for: PromoteBumpUpAfterSell.key) else { return .control }
         return PromoteBumpUpAfterSell(rawValue: value) ?? .control 
+    }
+
+    static var moreInfoDFPActive: MoreInfoDFPActive {
+        guard let value = Bumper.value(for: MoreInfoDFPActive.key) else { return .control }
+        return MoreInfoDFPActive(rawValue: value) ?? .control 
     } 
 }
 
@@ -585,6 +591,22 @@ enum PromoteBumpUpAfterSell: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show a bump up alert after posting (once every 24h)" } 
     static func fromPosition(_ position: Int) -> PromoteBumpUpAfterSell {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum MoreInfoDFPActive: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return MoreInfoDFPActive.control.rawValue }
+    static var enumValues: [MoreInfoDFPActive] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show the ad in more info using DFP" } 
+    static func fromPosition(_ position: Int) -> MoreInfoDFPActive {
         switch position { 
             case 0: return .control
             case 1: return .baseline

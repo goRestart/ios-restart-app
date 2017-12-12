@@ -165,14 +165,39 @@ class ListingCarouselViewModel: BaseViewModel {
     var shoppingAdUnitId: String {
         return featureFlags.moreInfoShoppingAdUnitId
     }
+    var dfpAdUnitId: String {
+        return featureFlags.moreInfoDFPAdUnitId
+    }
     var adActive: Bool {
+        let listingIsMine: Bool = currentListingViewModel?.isMine ?? false
+        return !listingIsMine && (afshAdActive || dfpAdActive)
+    }
+    var afshAdActive: Bool {
         return featureFlags.moreInfoAdActive.isActive
+    }
+    var dfpAdActive: Bool {
+        return featureFlags.moreInfoDFPActive.isActive
+    }
+    var dfpContentURL: String? {
+        guard let listingId = currentListingViewModel?.listing.value.objectId else { return nil}
+        return LetgoURLHelper.buildProductURL(listingId: listingId)?.absoluteString
     }
     var randomHardcodedAdQuery: String {
         let popularItems = ["ps4", "iphone", LGLocalizedString.productPostIncentiveDresser]
         let term = popularItems.random() ?? "iphone"
         return term
     }
+    var adRequestChannel: String? {
+        switch featureFlags.moreInfoAdActive {
+        case .titleFirst:
+            return "ios_moreinfo_var_a"
+        case .cloudsightFirst:
+            return "ios_moreinfo_var_b"
+        case .control, .baseline:
+            return nil
+        }
+    }
+
     var currentAdRequestType: AdRequestType? = .shopping
     var currentAdRequestQueryType: AdRequestQueryType? = .listingTitle
     var adRequestQuery: String? = nil
@@ -408,7 +433,7 @@ class ListingCarouselViewModel: BaseViewModel {
         adRequestQuery = makeAdsRequestQuery()
         let adWidth = width-(2*sideMargin)
         let adsRequest = adsRequester.makeAFShoppingRequestWithQuery(query: adRequestQuery, width: adWidth)
-        
+        adsRequest.channel = adRequestChannel
         return adsRequest
     }
 
