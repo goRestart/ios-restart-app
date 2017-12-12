@@ -26,7 +26,6 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var newCarsMultiRequesterEnabled: Bool { get }
     var inAppRatingIOS10: Bool { get }
-    var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed { get }
     var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
@@ -49,6 +48,7 @@ protocol FeatureFlaggeable: class {
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
     var moreInfoDFPActive: MoreInfoDFPActive { get }
+    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -64,10 +64,6 @@ extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
     }
-}
-
-extension AddSuperKeywordsOnFeed {
-    var isActive: Bool { get { return self == .active } }
 }
 
 extension TweaksCarPostingFlow {
@@ -110,7 +106,12 @@ extension PromoteBumpUpAfterSell {
     var isActive: Bool { get { return self == .active } }
 }
 
+extension CopyListingAnotherConfirmation {
+    var isActive: Bool { get { return self == .active } }
+}
+
 class FeatureFlags: FeatureFlaggeable {
+
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
     let requestTimeOut: RequestsTimeOut
@@ -228,13 +229,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.inAppRatingIOS10
         }
         return abTests.inAppRatingIOS10.value
-    }
-
-    var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed {
-        if Bumper.enabled {
-            return Bumper.addSuperKeywordsOnFeed
-        }
-        return AddSuperKeywordsOnFeed.fromPosition(abTests.addSuperKeywordsOnFeed.value)
     }
 
     var tweaksCarPostingFlow: TweaksCarPostingFlow {
@@ -375,6 +369,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.promoteBumpUpAfterSell
         }
         return PromoteBumpUpAfterSell.fromPosition(abTests.promoteBumpUpAfterSell.value)
+    }
+    
+    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation {
+        if Bumper.enabled {
+            return Bumper.copyListingAnotherConfirmation
+        }
+        return CopyListingAnotherConfirmation.fromPosition(abTests.copyListingAnotherConfirmation.value)
     }
 
     var moreInfoDFPActive: MoreInfoDFPActive {

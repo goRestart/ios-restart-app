@@ -27,7 +27,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var pricedBumpUpEnabled: Bool = false
     var newCarsMultiRequesterEnabled: Bool = false
     var inAppRatingIOS10: Bool = false
-    var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed = .control
     var tweaksCarPostingFlow: TweaksCarPostingFlow = .control
     var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
@@ -51,6 +50,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation = .control
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell = .control
     var moreInfoDFPActive: MoreInfoDFPActive = .control
+    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation = .control
 
     // Country dependant features
     var freePostingModeAllowed = false

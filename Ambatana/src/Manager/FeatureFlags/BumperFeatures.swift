@@ -20,7 +20,6 @@ extension Bumper  {
         flags.append(CaptchaTransparent.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
         flags.append(InAppRatingIOS10.self)
-        flags.append(AddSuperKeywordsOnFeed.self)
         flags.append(TweaksCarPostingFlow.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
@@ -43,6 +42,7 @@ extension Bumper  {
         flags.append(BumpUpPriceDifferentiation.self)
         flags.append(PromoteBumpUpAfterSell.self)
         flags.append(MoreInfoDFPActive.self)
+        flags.append(CopyListingAnotherConfirmation.self)
         Bumper.initialize(flags)
     } 
 
@@ -79,11 +79,6 @@ extension Bumper  {
     static var inAppRatingIOS10: Bool {
         guard let value = Bumper.value(for: InAppRatingIOS10.key) else { return false }
         return InAppRatingIOS10(rawValue: value)?.asBool ?? false
-    }
-
-    static var addSuperKeywordsOnFeed: AddSuperKeywordsOnFeed {
-        guard let value = Bumper.value(for: AddSuperKeywordsOnFeed.key) else { return .control }
-        return AddSuperKeywordsOnFeed(rawValue: value) ?? .control 
     }
 
     static var tweaksCarPostingFlow: TweaksCarPostingFlow {
@@ -194,6 +189,11 @@ extension Bumper  {
     static var moreInfoDFPActive: MoreInfoDFPActive {
         guard let value = Bumper.value(for: MoreInfoDFPActive.key) else { return .control }
         return MoreInfoDFPActive(rawValue: value) ?? .control 
+    }
+
+    static var copyListingAnotherConfirmation: CopyListingAnotherConfirmation {
+        guard let value = Bumper.value(for: CopyListingAnotherConfirmation.key) else { return .control }
+        return CopyListingAnotherConfirmation(rawValue: value) ?? .control 
     } 
 }
 
@@ -259,22 +259,6 @@ enum InAppRatingIOS10: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New in-app rating for iOS 10.3+" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum AddSuperKeywordsOnFeed: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return AddSuperKeywordsOnFeed.control.rawValue }
-    static var enumValues: [AddSuperKeywordsOnFeed] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Add super keywords in feed and filters" } 
-    static func fromPosition(_ position: Int) -> AddSuperKeywordsOnFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
 }
 
 enum TweaksCarPostingFlow: String, BumperFeature  {
@@ -607,6 +591,22 @@ enum MoreInfoDFPActive: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "show the ad in more info using DFP" } 
     static func fromPosition(_ position: Int) -> MoreInfoDFPActive {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum CopyListingAnotherConfirmation: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return CopyListingAnotherConfirmation.control.rawValue }
+    static var enumValues: [CopyListingAnotherConfirmation] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show listing instead of product on confirmation screen" } 
+    static func fromPosition(_ position: Int) -> CopyListingAnotherConfirmation {
         switch position { 
             case 0: return .control
             case 1: return .baseline

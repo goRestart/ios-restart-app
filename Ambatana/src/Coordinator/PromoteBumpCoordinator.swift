@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 
 protocol PromoteBumpCoordinatorDelegate: class {
-    func openSellFasterForListingId(listingId: String, purchaseableProduct: PurchaseableProduct)
+    func openSellFaster(listingId: String, purchaseableProduct: PurchaseableProduct)
 }
 
 final class PromoteBumpCoordinator: Coordinator {
@@ -60,9 +60,9 @@ extension PromoteBumpCoordinator : PromoteBumpNavigator {
         closeCoordinator(animated: true, completion: nil)
     }
 
-    func openSellFasterForListingId(listingId: String, purchaseableProduct: PurchaseableProduct) {
+    func openSellFaster(listingId: String, purchaseableProduct: PurchaseableProduct) {
         closeCoordinator(animated: true) { [weak self] in
-            self?.delegate?.openSellFasterForListingId(listingId: listingId, purchaseableProduct: purchaseableProduct)
+            self?.delegate?.openSellFaster(listingId: listingId, purchaseableProduct: purchaseableProduct)
         }
     }
 }

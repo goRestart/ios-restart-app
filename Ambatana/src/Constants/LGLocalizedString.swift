@@ -1311,6 +1311,26 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_car_year_before_year", comment: "")
 	}
 
+	static var filtersSectionRealEstateInfo: String {
+		return NSLocalizedString("filters_section_real_estate_info", comment: "")
+	}
+
+	static var filtersRealEstatePropertyTypeNotSet: String {
+		return NSLocalizedString("filters_real_estate_property_type_not_set", comment: "")
+	}
+
+	static var filtersRealEstateOfferTypeNotSet: String {
+		return NSLocalizedString("filters_real_estate_offer_type_not_set", comment: "")
+	}
+
+	static var filtersRealEstateBedroomsNotSet: String {
+		return NSLocalizedString("filters_real_estate_bedrooms_not_set", comment: "")
+	}
+
+	static var filtersRealEstateBathroomsNotSet: String {
+		return NSLocalizedString("filters_real_estate_bathrooms_not_set", comment: "")
+	}
+
 	static var filtersTagLocationSelected: String {
 		return NSLocalizedString("filters_tag_location_selected", comment: "")
 	}
@@ -2325,6 +2345,10 @@ struct LGLocalizedString {
 
 	static var productPostConfirmationAnotherButton: String {
 		return NSLocalizedString("product_post_confirmation_another_button", comment: "")
+	}
+
+	static var productPostConfirmationAnotherListingButton: String {
+		return NSLocalizedString("product_post_confirmation_another_listing_button", comment: "")
 	}
 
 	static var productPostConfirmationEdit: String {

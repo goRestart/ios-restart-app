@@ -24,7 +24,6 @@ class ABTests {
     let pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
     let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
     let inAppRatingIOS10 = BoolABDynamicVar(key: "20170711inAppRatingIOS10", defaultValue: false)
-    let addSuperKeywordsOnFeed = IntABDynamicVar(key: "20170719AddSuperKeywordsOnFeed", defaultValue: 0)
     let tweaksCarPostingFlow = IntABDynamicVar(key: "20170810tweaksCarPostingFlow", defaultValue: 0)
     let userReviewsReportEnabled = BoolABDynamicVar(key: "20170823userReviewsReportEnabled", defaultValue: true)
     let dynamicQuickAnswers = IntABDynamicVar(key: "20170816DynamicQuickAnswers", defaultValue: 0)
@@ -47,8 +46,8 @@ class ABTests {
     let bumpUpPriceDifferentiation = IntABDynamicVar(key: "20171114BumpUpPriceDifferentiation", defaultValue: 0)
     let promoteBumpUpAfterSell = IntABDynamicVar(key: "20171127PromoteBumpUpAfterSell", defaultValue: 0)
     let moreInfoDFPActive = IntABDynamicVar(key: "20171211MoreInfoDFPActive", defaultValue: 0)
-
-
+    let copyListingAnotherConfirmation = IntABDynamicVar(key: "20171205CopyListingAnotherConfirmation", defaultValue: 0)
+    
     init() {
     }
     
@@ -64,7 +63,6 @@ class ABTests {
         result.append(pricedBumpUpEnabled)
         result.append(newCarsMultiRequesterEnabled)
         result.append(inAppRatingIOS10)
-        result.append(addSuperKeywordsOnFeed)
         result.append(tweaksCarPostingFlow)
         result.append(userReviewsReportEnabled)
         result.append(dynamicQuickAnswers)
@@ -87,6 +85,7 @@ class ABTests {
         result.append(bumpUpPriceDifferentiation)
         result.append(promoteBumpUpAfterSell)
         result.append(moreInfoDFPActive)
+        result.append(copyListingAnotherConfirmation)
         
         return result
     }

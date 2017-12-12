@@ -119,10 +119,7 @@ class ListingViewModel: BaseViewModel {
     fileprivate var userIsSoftBlocked: Bool = false
     fileprivate var bumpUpSource: BumpUpSource?
     fileprivate var isPromotedBump: Bool {
-        if let bumpUpSource = bumpUpSource, bumpUpSource == .promoted {
-            return true
-        }
-        return false
+        return bumpUpSource == .promoted
     }
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
@@ -411,7 +408,7 @@ class ListingViewModel: BaseViewModel {
                 guard let listing = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
 
-                self?.openPricedBumpUpViewWithPurchaseableProduct(purchaseableProduct: purchaseableProduct,
+                self?.openPricedBumpUpView(purchaseableProduct: purchaseableProduct,
                                                                   paymentItemId: paymentItemId,
                                                                   storeProductId: paymentProviderItemId)
             }
@@ -476,7 +473,7 @@ class ListingViewModel: BaseViewModel {
         switch bumpUpType {
         case .priced:
             guard let paymentItemId = paymentItemId else { return }
-            openPricedBumpUpViewWithPurchaseableProduct(purchaseableProduct: purchaseableProduct,
+            openPricedBumpUpView(purchaseableProduct: purchaseableProduct,
                                                         paymentItemId: paymentItemId,
                                                         storeProductId: paymentProviderItemId)
         case .free, .hidden, .restore:
@@ -484,7 +481,7 @@ class ListingViewModel: BaseViewModel {
         }
     }
 
-    func openPricedBumpUpViewWithPurchaseableProduct(purchaseableProduct: PurchaseableProduct,
+    func openPricedBumpUpView(purchaseableProduct: PurchaseableProduct,
                                                      paymentItemId: String,
                                                      storeProductId: String?) {
 

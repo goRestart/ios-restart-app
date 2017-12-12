@@ -8,5 +8,5 @@
 
 protocol PromoteBumpNavigator {
     func promoteBumpDidCancel()
-    func openSellFasterForListingId(listingId: String, purchaseableProduct: PurchaseableProduct)
+    func openSellFaster(listingId: String, purchaseableProduct: PurchaseableProduct)
 }

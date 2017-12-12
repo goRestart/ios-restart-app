@@ -18,7 +18,7 @@
 "bump_up_banner_pay_text_improvement" = "Add el gyorsabban";
 "bump_up_banner_wait_text" = "a következő kiemelésig";
 "bump_up_error_bump_generic" = "Hiba történt a hirdetésed kiemelése során. Próbálkozz újra.";
-"bump_up_error_bump_token" = "A tranzakciót feldolgoztuk, de portékád nincs felugrasztva.";
+"bump_up_error_bump_token" = "A tranzakciót feldolgoztuk, de hirdetésed nincs kiemelve.";
 "bump_up_error_payment_failed" = "Nem sikerült kapcsolódni az App Store-hoz. Feldolgozatlan befizetés. Próbálkozz újra.";
 "bump_up_free_success" = "Felugrasztva! Ugraszd fel többször, hogy még láthatóbb legyen.";
 "bump_up_not_allowed_alert_contact_button" = "Kapcsolat";
@@ -161,8 +161,8 @@
 "chat_not_verified_state_check_button" = "Ellenőrzés";
 "chat_not_verified_state_message" = "A csevegéshez ellenőrizd, hogy visszaigazoltad-e magadat.";
 "chat_not_verified_state_title" = "VISSZAIGAZOLTAD MAGADAT?";
-"chat_product_given_away_label" = "Portéka elajándékozva";
-"chat_product_sold_label" = "Portéka eladva";
+"chat_product_given_away_label" = "Már elajándékozták";
+"chat_product_sold_label" = "ELADVA";
 "chat_related_products_title" = "TALÁN ÉRDEKEL:";
 "chat_safety_tips" = "Biztonsági tanácsaink";
 "chat_safety_tips_message" = "• Találkozzatok személyesen, készpénzt használjatok.\n\n• A letgo chaten beszéljétek meg a tranzakciót.\n\n• Túl szép, hogy igaz legyen? Keress valaki mást!";
@@ -202,7 +202,7 @@
 "common_error_generic_body" = "Hiba történt.";
 "common_error_list_retry_button" = "Újra";
 "common_error_network_body" = "Ellenőrizd a hálózati beállításokat, majd próbálkozz újra";
-"common_error_posting_loaded_image" = "Hoppá! Portékád meghirdetése sikertelen. Ellenőrizd a hálózati beállításokat.";
+"common_error_posting_loaded_image" = "Hoppá! A hirdetésed feltöltése sikertelen. Ellenőrizd a hálózati beállításokat.";
 "common_error_retry_button" = "Próbálkozz újra";
 "common_error_title" = "HOPPÁ!";
 "common_expand" = "Többet";
@@ -211,9 +211,9 @@
 "common_new" = "ÚJ!";
 "common_no" = "Nem";
 "common_ok" = "OK";
-"common_product_given_away" = "Portéka elajándékozva";
+"common_product_given_away" = "Már elajándékozták";
 "common_product_not_available" = "Hoppá! A portéka már nem elérhető";
-"common_product_sold" = "Portéka eladva";
+"common_product_sold" = "ELADVA";
 "common_settings" = "Beállítások";
 "common_short_time_day_ago_label" = "%d nap";
 "common_short_time_days_ago_label" = "%d nap";
@@ -270,7 +270,7 @@
 "direct_answer_not_negotiable_title" = "Nem alkudható...";
 "direct_answer_price_firm" = "Fix ára van?";
 "direct_answer_price_title" = "Ár...";
-"direct_answer_product_sold" = "Sajnálom, a portékát már eladtam!";
+"direct_answer_product_sold" = "Sajnálom, már eladtam!";
 "direct_answer_sold_question_message" = "Jelöld a portékát eladottként, hogy mindenki tudjon róla";
 "direct_answer_sold_question_ok" = "Megjelölés eladottként";
 "direct_answer_sold_question_title" = "Már eladtad?";
@@ -308,6 +308,10 @@
 "filters_price_from" = "Ettől";
 "filters_price_to" = "Eddig";
 "filters_price_wrong_range_error" = "A minimális ár nem lehet magasabb a maximális árnál.";
+"filters_real_estate_bathrooms_not_set" = "nincs megadva";
+"filters_real_estate_bedrooms_not_set" = "nincs megadva";
+"filters_real_estate_offer_type_not_set" = "nincs megadva";
+"filters_real_estate_property_type_not_set" = "nincs megadva";
 "filters_save_button" = "Szűrők mentése";
 "filters_section_car_info" = "Autóinfók";
 "filters_section_categories" = "Kategóriák";
@@ -315,6 +319,7 @@
 "filters_section_location" = "Tartózkodási hely";
 "filters_section_price" = "Ár";
 "filters_section_price_free_title" = "Csak ingyenes portékák";
+"filters_section_real_estate_info" = "Ingatlaninformációk";
 "filters_section_sortby" = "Rendezés";
 "filters_section_within" = "Közzétéve";
 "filters_sort_closest" = "Legközelebbiek elöl";
@@ -547,8 +552,8 @@
 "product_new_onboarding_tap_right_highlighted_label_2" = "középre";
 "product_new_onboarding_tap_right_label" = "A következő képhez %@ vagy %@";
 "product_onboarding_finger_scroll_label" = "Csúsztatással további képeket jeleníthetsz meg";
-"product_onboarding_finger_swipe_label" = "Suhintással a következő vagy az előző portékára ugorhatsz";
-"product_onboarding_finger_tap_label" = "Koppintással a következő portékára ugorhatsz";
+"product_onboarding_finger_swipe_label" = "A következő vagy az előző hirdetéshez suhints oldalra";
+"product_onboarding_finger_tap_label" = "A következő hirdetéshez koppints egyet";
 "product_onboarding_show_again_button_title" = "A böngészés menete";
 "product_option_edit" = "Portéka szerkesztése";
 "product_option_share" = "Portéka megosztása";
@@ -565,6 +570,7 @@
 "product_post_close_alert_title" = "Portéka nincs meghirdetve";
 "product_post_confirmation_another" = "vagy";
 "product_post_confirmation_another_button" = "Mást is meghirdetek";
+"product_post_confirmation_another_listing_button" = "Post another listing";
 "product_post_confirmation_edit" = "Részletek hozzáadása";
 "product_post_different_country_error" = "Csak abban az országban tehetsz fel hirdetést, amelyben tartózkodsz";
 "product_post_done" = "Kész";
@@ -582,7 +588,7 @@
 "product_post_gallery_select_pictures_subtitle" = "Válassz legfeljebb 5 feltöltendő fotót";
 "product_post_gallery_select_pictures_title" = "Válassz fotókat";
 "product_post_gallery_tab" = "GALÉRIA";
-"product_post_generic_error" = "Hiba történt a portéka meghirdetése során.";
+"product_post_generic_error" = "Hiba történt a hirdetés feltöltése során.";
 "product_post_incentive_bike" = "Kerékpárok";
 "product_post_incentive_car" = "Autók";
 "product_post_incentive_dresser" = "Szekrények";
@@ -601,7 +607,7 @@
 "product_post_login_message" = "Dolgaid eladásához be kell jelentkezned";
 "product_post_network_error" = "Portékád meghirdetése sikertelen.\nEllenőrizd a hálózati beállításokat.";
 "product_post_price_label" = "Hozzáadod az árát?";
-"product_post_product_posted" = "Portéka meghirdetve. Gratulálunk!";
+"product_post_product_posted" = "Hirdetés feltöltve. Tapsvihar!";
 "product_post_product_posted_not_logged" = "Fotó feltöltve!";
 "product_post_retake" = "Újra";
 "product_post_retry_button" = "Újra";
@@ -737,7 +743,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Hálószobák száma";
-"real_estate_current_step_of_total" = "%d of %d";
+"real_estate_current_step_of_total" = "%d/%d";
 "real_estate_location_notification_message" = "Sosem mutatjuk meg más felhasználóknak a pontos tartózkodási helyedet";
 "real_estate_location_title" = "Hely";
 "real_estate_offer_type_rent" = "Kiadó";
@@ -827,7 +833,7 @@
 "sell_send_error_invalid_category" = "Kérjük, válassz kategóriát a termékednek!";
 "sell_send_error_invalid_description" = "Kérjük, érvényes leírást adj meg a portékához.";
 "sell_send_error_invalid_description_too_long" = "Kérjük, érvényes leírást adj meg a portékához. Legfeljebb %d karakterből álljon!";
-"sell_send_error_invalid_image_count" = "Legalább egy kép szükséges a portéka meghirdetéséhez.";
+"sell_send_error_invalid_image_count" = "Legalább egy kép szükséges a hirdetés feltöltéséhez.";
 "sell_send_error_invalid_price" = "Kérjük, érvényes árat adj meg a portékához. Csak szám lehet.";
 "sell_send_error_invalid_title" = "Kérjük, érvényes címet adj a portékának.";
 "sell_send_error_sharing_facebook" = "Hiba történt a Facebook-megosztás során. Próbálkozz újra.";

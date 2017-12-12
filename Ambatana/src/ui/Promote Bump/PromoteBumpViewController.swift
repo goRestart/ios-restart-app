@@ -1,5 +1,5 @@
 //
-//  PromoteBumpView.swift
+//  PromoteBumpViewController.swift
 //  LetGo
 //
 //  Created by Dídac on 10/11/2017.
@@ -21,6 +21,7 @@ class PromoteBumpViewController: BaseViewController {
 
     private weak var viewModel: PromoteBumpViewModel?
 
+    
     // MARK: - Lifecycle
 
     required init(viewModel: PromoteBumpViewModel) {
@@ -39,6 +40,7 @@ class PromoteBumpViewController: BaseViewController {
         setupConstraints()
         setupAccessibilityIds()
     }
+
 
     // MARK: - Private methods
 
@@ -120,14 +122,15 @@ class PromoteBumpViewController: BaseViewController {
         laterButton.accessibilityId = .promoteBumpUpLaterButton
     }
 
+
     // MARK: - Actions
 
     dynamic func sellFaster() {
         // open product detail & bump
-        viewModel?.sellFaster()
+        viewModel?.sellFasterButtonPressed()
     }
 
     dynamic func laterPressed() {
-        viewModel?.later()
+        viewModel?.laterButtonPressed()
     }
 }
