@@ -117,6 +117,10 @@ class ListingViewModel: BaseViewModel {
     fileprivate var paymentItemId: String?
     var paymentProviderItemId: String?
     fileprivate var userIsSoftBlocked: Bool = false
+    fileprivate var bumpUpSource: BumpUpSource?
+    fileprivate var isPromotedBump: Bool {
+        return bumpUpSource == .promoted
+    }
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -212,6 +216,7 @@ class ListingViewModel: BaseViewModel {
         }
 
         purchasesShopper.delegate = self
+        purchasesShopper.bumpInfoRequesterDelegate = self
 
         if bumpUpBannerInfo.value == nil {
             refreshBumpeableBanner()
@@ -403,11 +408,9 @@ class ListingViewModel: BaseViewModel {
                 guard let listing = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
 
-                self?.trackBumpBannerInfoShown(type: bumpUpType, storeProductId: paymentProviderItemId)
-
-                self?.navigator?.openPayBumpUp(forListing: listing,
-                                               purchaseableProduct: purchaseableProduct,
-                                               paymentItemId: paymentItemId)
+                self?.openPricedBumpUpView(purchaseableProduct: purchaseableProduct,
+                                                                  paymentItemId: paymentItemId,
+                                                                  storeProductId: paymentProviderItemId)
             }
             buttonBlock = { [weak self] in
                 self?.bumpUpProduct(productId: listingId)
@@ -458,6 +461,35 @@ class ListingViewModel: BaseViewModel {
     func bumpUpHiddenProductContactUs() {
         trackBumpUpNotAllowedContactUs(reason: .notAllowedInternal)
         navigator?.openContactUs(forListing: listing.value, contactUstype: .bumpUpNotAllowed)
+    }
+
+
+    func showBumpUpView(purchaseableProduct: PurchaseableProduct,
+                        paymentItemId: String?,
+                        paymentProviderItemId: String?,
+                        bumpUpType: BumpUpType,
+                        bumpUpSource: BumpUpSource?) {
+        self.bumpUpSource = bumpUpSource
+        switch bumpUpType {
+        case .priced:
+            guard let paymentItemId = paymentItemId else { return }
+            openPricedBumpUpView(purchaseableProduct: purchaseableProduct,
+                                                        paymentItemId: paymentItemId,
+                                                        storeProductId: paymentProviderItemId)
+        case .free, .hidden, .restore:
+            break
+        }
+    }
+
+    func openPricedBumpUpView(purchaseableProduct: PurchaseableProduct,
+                                                     paymentItemId: String,
+                                                     storeProductId: String?) {
+
+        trackBumpBannerInfoShown(type: .priced, storeProductId: paymentProviderItemId)
+
+        navigator?.openPayBumpUp(forListing: listing.value,
+                                 purchaseableProduct: purchaseableProduct,
+                                 paymentItemId: paymentItemId)
     }
 }
 
@@ -1028,7 +1060,7 @@ extension ListingViewModel: SocialSharerDelegate {
 
 // MARK: PurchasesShopperDelegate
 
-extension ListingViewModel: PurchasesShopperDelegate {
+extension ListingViewModel: BumpInfoRequesterDelegate {
     func shopperFinishedProductsRequestForListingId(_ listingId: String?, withProducts products: [PurchaseableProduct]) {
         guard let requestProdId = listingId, let currentProdId = listing.value.objectId,
             requestProdId == currentProdId else { return }
@@ -1042,18 +1074,19 @@ extension ListingViewModel: PurchasesShopperDelegate {
                               paymentProviderItemId: paymentProviderItemId,
                               bumpUpType: bumpUpType)
     }
+}
 
-
+extension ListingViewModel: PurchasesShopperDelegate {
     // Free Bump Up
 
     func freeBumpDidStart() {
-        trackBumpUpStarted(.free, type: .free, storeProductId: paymentProviderItemId)
+        trackBumpUpStarted(.free, type: .free, storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
 
     func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork) {
         trackBumpUpCompleted(.free, type: .free, restoreRetriesCount: 0, network: network, transactionStatus: nil,
-                             storeProductId: paymentProviderItemId)
+                             storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
             self?.isShowingFeaturedStripe.value = true
@@ -1070,7 +1103,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
 
     func pricedBumpDidStart() {
         trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: .priced,
-                           storeProductId: paymentProviderItemId)
+                           storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingPricedText)
     }
 
@@ -1089,7 +1122,8 @@ extension ListingViewModel: PurchasesShopperDelegate {
                              restoreRetriesCount: restoreRetriesCount,
                              network: .notAvailable,
                              transactionStatus: transactionStatus,
-                             storeProductId: paymentProviderItemId)
+                             storeProductId: paymentProviderItemId,
+                             isPromotedBump: isPromotedBump)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
             self?.isShowingFeaturedStripe.value = true
@@ -1108,7 +1142,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
 
     func restoreBumpDidStart() {
         trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: .restore,
-                           storeProductId: paymentProviderItemId)
+                           storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
 }

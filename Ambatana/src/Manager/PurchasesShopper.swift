@@ -8,7 +8,8 @@
 
 protocol PurchasesShopper: class {
     var delegate: PurchasesShopperDelegate? { get set }
-
+    var bumpInfoRequesterDelegate: BumpInfoRequesterDelegate? { get set }
+    
     /**
      Sets itself as the payment transactions observer
      */

@@ -238,9 +238,7 @@ class BumpUpBanner: UIView {
                 strongSelf.timeLabelText.value = Int(secondsLeft).secondsToCountdownFormat()
                 strongSelf.timeLabelRightMarginConstraint.constant = -Metrics.shortMargin
                 strongSelf.timeLabelWidthConstraint.constant = BumpUpBanner.timeLabelWidth
-                if strongSelf.type == .restore {
-                    strongSelf.textContainerCenterConstraint.isActive = false
-                }
+                strongSelf.textContainerCenterConstraint.isActive = false
             } else {
                 strongSelf.timeLabelText.value = nil
                 strongSelf.timeLabelRightMarginConstraint.constant = 0

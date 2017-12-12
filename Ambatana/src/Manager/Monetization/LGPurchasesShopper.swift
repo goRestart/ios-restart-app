@@ -43,9 +43,11 @@ enum PurchasesShopperState {
     case purchasing
 }
 
-protocol PurchasesShopperDelegate: class {
+protocol BumpInfoRequesterDelegate: class {
     func shopperFinishedProductsRequestForListingId(_ listingId: String?, withProducts products: [PurchaseableProduct])
+}
 
+protocol PurchasesShopperDelegate: class {
     func freeBumpDidStart()
     func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork)
     func freeBumpDidFail(withNetwork network: EventParameterShareNetwork)
@@ -89,6 +91,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     fileprivate var appstoreProductsCache: [String : SKProduct] = [:]
 
     weak var delegate: PurchasesShopperDelegate?
+    weak var bumpInfoRequesterDelegate: BumpInfoRequesterDelegate?
     private var isObservingPaymentsQueue: Bool = false
 
     var numPendingTransactions: Int {
@@ -193,7 +196,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         guard alreadyChosenProducts.isEmpty else {
             // if product has been previously requested, we don't repeat the request, so the banner loads faster
             letgoProductsDict[listingId] = alreadyChosenProducts
-            delegate?.shopperFinishedProductsRequestForListingId(listingId, withProducts: alreadyChosenProducts)
+            bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(listingId, withProducts: alreadyChosenProducts)
             return
         }
 
@@ -524,7 +527,7 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
             appstoreProductsCache[product.productIdentifier] = product
         }
         letgoProductsDict[currentRequestListingId] = appstoreProducts
-        delegate?.shopperFinishedProductsRequestForListingId(currentRequestListingId, withProducts: response.purchaseableProducts)
+        bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(currentRequestListingId, withProducts: response.purchaseableProducts)
         self.currentRequestListingId = nil
     }
 

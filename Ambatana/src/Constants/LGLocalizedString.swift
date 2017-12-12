@@ -2347,6 +2347,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_confirmation_another_button", comment: "")
 	}
 
+	static var productPostConfirmationAnotherListingButton: String {
+		return NSLocalizedString("product_post_confirmation_another_listing_button", comment: "")
+	}
+
 	static var productPostConfirmationEdit: String {
 		return NSLocalizedString("product_post_confirmation_edit", comment: "")
 	}
