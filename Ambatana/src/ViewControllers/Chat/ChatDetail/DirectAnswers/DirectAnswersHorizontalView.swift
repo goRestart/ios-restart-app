@@ -89,7 +89,7 @@ class DirectAnswersHorizontalView: UIView {
 
 
 // MARK: - UICollectionView methods
-extension DirectAnswersHorizontalView: UICollectionViewDataSource & UICollectionViewDelegate & UICollectionViewDelegateFlowLayout{
+extension DirectAnswersHorizontalView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
 
     fileprivate func setupCollection(sideMargin: CGFloat) {
         // CollectionView cells
