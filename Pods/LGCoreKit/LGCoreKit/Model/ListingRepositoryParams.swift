@@ -91,8 +91,12 @@ public struct RetrieveListingParams {
         params["since"] = timeCriteria?.string
         
         // Real Estate attributes
-        params["propertyType"] = [propertyType]
-        params["offerType"] = [offerType]
+        if let propertyType = propertyType {
+            params["propertyType"] = [propertyType]
+        }
+        if let offerType = offerType {
+            params["offerType"] = [offerType]
+        }
         params["numberOfBedrooms"] = numberOfBedrooms
         params["numberOfBathrooms"] = numberOfBathrooms
        
