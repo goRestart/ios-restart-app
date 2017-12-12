@@ -171,7 +171,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         // ⚠️ while not visible (ABIOS-2696)
         showTagsView(showPrimaryTags: viewModel.primaryTags.count > 0, showSecondaryTags: viewModel.secondaryTags.count > 0, updateInsets: true)
     }
-
     
     // MARK: - ScrollableToTop
 
@@ -330,8 +329,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         guard suggestionsSearchesContainer.isHidden else { return }
 
         viewModel.searchBegan()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel , target: self,
-                                                            action: #selector(endEdit))
+        let spacing = makeSpacingButton(withFixedWidth: Metrics.navBarDefaultSpacing)
+        let cancel = UIBarButtonItem(barButtonSystemItem: .cancel , target: self,
+                                     action: #selector(endEdit))
+        navigationItem.setRightBarButtonItems([cancel, spacing], animated: false)
         suggestionsSearchesContainer.isHidden = false
         viewModel.retrieveLastUserSearch()
         navbarSearch.beginEdit()
@@ -378,12 +379,15 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     private func setInviteNavBarButton() {
         guard isRootViewController() else { return }
-        guard viewModel.shouldShowInviteButton else { return }
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: LGLocalizedString.mainProductsInviteNavigationBarButton,
-                                                           style: .plain, 
-                                                           target: self, 
-                                                           action: #selector(openInvite))
+        guard viewModel.shouldShowInviteButton  else { return }
+
+        let invite = UIBarButtonItem(title: LGLocalizedString.mainProductsInviteNavigationBarButton,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(openInvite))
+        let spacing = makeSpacingButton(withFixedWidth: Metrics.navBarDefaultSpacing)
+
+        navigationItem.setLeftBarButtonItems([invite, spacing], animated: false)
     }
     
     @objc private func openInvite() {
