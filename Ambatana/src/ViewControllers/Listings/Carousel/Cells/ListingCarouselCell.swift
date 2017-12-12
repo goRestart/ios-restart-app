@@ -49,23 +49,32 @@ class ListingCarouselCell: UICollectionViewCell {
         layout.itemSize = frame.size
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
-        self.collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
+        if #available(iOS 11.0, *) {
+            // TODO: This was introduced to work with safe areas and IphoneXes
+            // we will tackle this later 💥
+            collectionView.contentInsetAdjustmentBehavior = .never
+        }
         super.init(frame: frame)
         setupUI()
         setAccessibilityIds()
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     func setupUI() {
         addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        let constraints = [
+            collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+        ]
+        NSLayoutConstraint.activate(constraints)
 
         collectionView.keyboardDismissMode = .onDrag
-        collectionView.frame = bounds
         collectionView.backgroundColor = .clear
-        collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.isPagingEnabled = true
@@ -74,11 +83,17 @@ class ListingCarouselCell: UICollectionViewCell {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.allowsSelection = false
         collectionView.isDirectionalLockEnabled = true
-        collectionView.register(ListingCarouselImageCell.self, forCellWithReuseIdentifier:
-            ListingCarouselImageCell.identifier)
+        collectionView.register(ListingCarouselImageCell.self,
+                                forCellWithReuseIdentifier: ListingCarouselImageCell.identifier)
         
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(doSingleTapAction))
         collectionView.addGestureRecognizer(singleTap)
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        delegate = nil
+        collectionView.setContentOffset(CGPoint.zero, animated: false)
     }
     
     @objc func doSingleTapAction(_ gestureRecognizer: UITapGestureRecognizer) {
@@ -126,8 +141,6 @@ class ListingCarouselCell: UICollectionViewCell {
         }
         
         collectionView.isScrollEnabled = (imageScrollDirection != .horizontal)
-        
-        collectionView.setContentOffset(CGPoint.zero, animated: false) //Resetting images
         collectionView.reloadData()
     }
     
@@ -142,7 +155,6 @@ class ListingCarouselCell: UICollectionViewCell {
         return productImages[index]
     }
 }
-
 
 // MARK: - UICollectionViewDataSource & UICollectionViewDelegate 
 

@@ -287,7 +287,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         mainViewBlurEffectView.layout(with: imageBackground).fill()
         fullScreenAvatarEffectView.layout(with: view).fill()
 
-
         userView.delegate = self
 
         userView.layout().height(CarouselUI.buttonHeight)
@@ -324,7 +323,9 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         productStatusLabel.textColor = UIColor.soldColor
         productStatusLabel.font = UIFont.productStatusSoldFont
 
-        CarouselUIHelper.setupShareButton(shareButton, text: LGLocalizedString.productShareNavbarButton, icon: UIImage(named:"ic_share"))
+        CarouselUIHelper.setupShareButton(shareButton,
+                                          text: LGLocalizedString.productShareNavbarButton,
+                                          icon: UIImage(named:"ic_share"))
 
         mainResponder = chatTextView
         setupDirectMessages()
@@ -748,7 +749,6 @@ extension ListingCarouselViewController {
     }
 }
 
-
 extension ListingCarouselViewController: UserViewDelegate {
     func userViewAvatarPressed(_ userView: UserView) {
         viewModel.userAvatarPressed()
@@ -941,7 +941,7 @@ extension ListingCarouselViewController {
     
     fileprivate func dragMoreInfoView(offset: CGFloat, bottomLimit: CGFloat) {
         guard moreInfoState.value != .shown && !cellZooming.value else { return }
-        if moreInfoView.frame.origin.y-offset > -view.frame.height {
+        if moreInfoView.frame.origin.y - offset > -view.frame.height {
             moreInfoState.value = .moving
             moreInfoView.frame.origin.y = moreInfoView.frame.origin.y-offset
         } else {
@@ -1052,6 +1052,7 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        hideMoreInfo()
         collectionContentOffset.value = scrollView.contentOffset
         
         if viewModel.imageScrollDirection == .horizontal {
@@ -1203,7 +1204,6 @@ extension ListingCarouselViewController: ListingCarouselViewModelDelegate {
     func vmResetBumpUpBannerCountdown() {
         bumpUpBanner.resetCountdown()
     }
-    
 
     // Loadings and alerts overrides to remove keyboard before showing
 
