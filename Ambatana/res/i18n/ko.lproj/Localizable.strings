@@ -552,8 +552,8 @@
 "product_new_onboarding_tap_right_highlighted_label_2" = "화면 중간";
 "product_new_onboarding_tap_right_label" = "다음 사진을 확인하기 위해 %@ 혹은 %@ 확인";
 "product_onboarding_finger_scroll_label" = "더 많은 사진을 확인하기 위해 스크롤을 내려보세요";
-"product_onboarding_finger_swipe_label" = "다음 상품 혹은 이전 상품으로 가기위해 터치하기";
-"product_onboarding_finger_tap_label" = "다음 상품으로 가기 위해 누르기";
+"product_onboarding_finger_swipe_label" = "다음 상품 목록 혹은 이전 상품 목록으로 이동하기 위해 누르기";
+"product_onboarding_finger_tap_label" = "눌러서 다음 상품 목록으로 이동하기";
 "product_onboarding_show_again_button_title" = "검색하는 방법";
 "product_option_edit" = "상품 수정";
 "product_option_share" = "상품 공유하기";
@@ -575,7 +575,7 @@
 "product_post_different_country_error" = "현재 거주하고 계신 국가로만 게시글을 작성하실 수 있습니다";
 "product_post_done" = "완료되었습니다";
 "product_post_empty_gallery_button" = "사진 촬영";
-"product_post_empty_gallery_subtitle" = "게시하고자 하는 상품의 사진을 촬영합니다";
+"product_post_empty_gallery_subtitle" = "게시하고자 하는 것의 사진을 촬영합니다";
 "product_post_empty_gallery_title" = "어떠한 사진도 찾을 수 없습니다";
 "product_post_free_camera_first_time_alert_subtitle" = "훌륭한 사진을 촬영하고 새 집을 위한 새 상품을 찾아보세요!";
 "product_post_free_confirmation_another_button" = "다른 상품을 증정하세요";
@@ -588,7 +588,7 @@
 "product_post_gallery_select_pictures_subtitle" = "업로드를 위해 최대 5장의 사진을 선택해주세요";
 "product_post_gallery_select_pictures_title" = "사진 선택";
 "product_post_gallery_tab" = "사진첩";
-"product_post_generic_error" = "회원님의 상품을 게시하는데 오류가 발생했습니다.";
+"product_post_generic_error" = "회원님의 상품 목록을 등록하는데 오류가 발생했습니다.";
 "product_post_incentive_bike" = "자전거";
 "product_post_incentive_car" = "자동차";
 "product_post_incentive_dresser" = "드레서";
@@ -652,7 +652,7 @@
 "product_share_posted_by" = "%@에 의해 게시됨";
 "product_share_sms_error" = "메세지를 발송하는 동안 오류가 발생했습니다.";
 "product_share_sms_ok" = "발송중...";
-"product_share_title_label" = "이 상품 공유하기";
+"product_share_title_label" = "이 상품 목록 공유하기";
 "product_share_title_on_letgo" = "%@님이 letgo에 있습니다!";
 "product_stickers_selection_wo_name" = "판매자에게 발송하고자 하는 스티커를 선택하세요.";
 "profile_blocked_by_me_label" = "회원님께서는 이 사용자를 차단하셨습니다";
@@ -669,7 +669,7 @@
 "profile_permissions_alert_title" = "대답하는 것을 잊지 마세요!";
 "profile_permissions_header_message" = "메세지 알림 활성화";
 "profile_reviews_count" = "리뷰";
-"profile_selling_no_products_label" = "상품이 없습니다 (아직이에요!)";
+"profile_selling_no_products_label" = "상품 목록이 없습니다 (아직이에요!)";
 "profile_selling_other_user_no_products_button" = "계속 검색하기";
 "profile_selling_products_tab" = "판매중";
 "profile_sold_no_products_label" = "상품이 없습니다 (아직이에요!)";
