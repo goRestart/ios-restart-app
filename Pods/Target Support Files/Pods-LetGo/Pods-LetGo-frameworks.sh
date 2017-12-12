@@ -134,7 +134,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/RxSwiftExt/RxSwiftExt.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/TMReachability/TMReachability.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/bumper/bumper.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -170,7 +169,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/RxSwiftExt/RxSwiftExt.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/TMReachability/TMReachability.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/bumper/bumper.framework"
 fi
 if [[ "$CONFIGURATION" == "Adhoc" ]]; then
@@ -206,7 +204,6 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/RxSwiftExt/RxSwiftExt.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyUserDefaults/SwiftyUserDefaults.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/TMReachability/TMReachability.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/bumper/bumper.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
