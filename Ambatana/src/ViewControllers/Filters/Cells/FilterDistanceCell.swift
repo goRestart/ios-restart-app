@@ -9,38 +9,34 @@
 import UIKit
 import LGCoreKit
 
-class FilterDistanceCell: UICollectionViewCell {
-    
-    @IBOutlet weak var separatorHeight: NSLayoutConstraint!
+class FilterDistanceCell: UICollectionViewCell, ReusableCell, FilterCell {
+    var topSeparator: UIView?
+    var bottomSeparator: UIView?
+    var rightSeparator: UIView?
+
     private let filterDistanceSlider = FilterDistanceSlider()
 
     var distanceType: DistanceType {
-        set {
-            filterDistanceSlider.distanceType = newValue
-        }
-        get {
-            return filterDistanceSlider.distanceType
-        }
+        set { filterDistanceSlider.distanceType = newValue }
+        get { return filterDistanceSlider.distanceType }
     }
     
     var delegate: FilterDistanceSliderDelegate? {
-        set {
-            filterDistanceSlider.delegate = newValue
-        }
-        get {
-            return filterDistanceSlider.delegate
-        }
+        set { filterDistanceSlider.delegate = newValue }
+        get { return filterDistanceSlider.delegate }
     }
     
     // MARK: - Lifecycle
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupUI()
         resetUI()
         setAccessibilityIds()
     }
-    
+
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
     override func prepareForReuse() {
         super.prepareForReuse()
         resetUI()
@@ -55,7 +51,8 @@ class FilterDistanceCell: UICollectionViewCell {
     // MARK: - Private methods
     
     private func setupUI() {
-        separatorHeight.constant = LGUIKitConstants.onePixelSize
+        addTopSeparator(toContainerView: contentView)
+
         filterDistanceSlider.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(filterDistanceSlider)
         filterDistanceSlider.layout(with: contentView).top(by: 1).right().left().bottom()
