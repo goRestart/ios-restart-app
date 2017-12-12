@@ -125,7 +125,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     @objc private func didTapClose() {
         closeBumpUpBanner()
-        UIView.animate(withDuration: 0.3, animations: { 
+        UIView.animate(withDuration: 0.3, animations: {
             self.listingDeckView.resignFirstResponder()
         }) { (completion) in
             self.viewModel.close()
@@ -269,12 +269,7 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
     }
 
     func displayPhotoViewer() {
-        let urls = viewModel.currentListingViewModel?.productImageURLs.value ?? []
-        let photoVM = PhotoViewerViewModel(with: urls)
-        let photoViewer = PhotoViewerViewController(viewModel: photoVM,
-                                                    quickChatViewModel: viewModel.quickChatViewModel)
-        photoViewer.transitioningDelegate = self
-        self.present(photoViewer, animated: true, completion: nil)
+        viewModel.openPhotoViewer()
     }
 
     func didTapMapView() {
@@ -290,21 +285,18 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
     }
 }
 
-extension ListingDeckViewController: UIViewControllerTransitioningDelegate {
-    func animationController(forPresented presented: UIViewController,
-                             presenting: UIViewController,
-                             source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        let current = listingDeckView.currentPage
-        let cell = listingDeckView.collectionView.cellForItem(at: IndexPath(row: current, section: 0)) as! ListingCardView
-        let frame = cell.convert(cell.previewImageViewFrame, to: listingDeckView)
+extension ListingDeckViewController {
 
-        guard let url = viewModel.urlAtIndex(0),
-            let cached = viewModel.imageDownloader.cachedImageForUrl(url) else { return nil }
-        transitioner = PhotoViewerTransitionAnimator(image: cached, initialFrame: frame)
-        return transitioner
-    }
+    var animationController: UIViewControllerAnimatedTransitioning? {
+            if transitioner == nil {
+                let current = listingDeckView.currentPage
+                let cell = listingDeckView.collectionView.cellForItem(at: IndexPath(row: current, section: 0)) as! ListingCardView
+                let frame = cell.convert(cell.previewImageViewFrame, to: listingDeckView)
 
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return transitioner
+                guard let url = viewModel.urlAtIndex(0),
+                    let cached = viewModel.imageDownloader.cachedImageForUrl(url) else { return nil }
+                transitioner = PhotoViewerTransitionAnimator(image: cached, initialFrame: frame)
+            }
+            return transitioner
     }
 }

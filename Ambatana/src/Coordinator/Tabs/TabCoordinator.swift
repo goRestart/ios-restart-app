@@ -241,13 +241,12 @@ fileprivate extension TabCoordinator {
                      source: EventParameterListingVisitSource, index: Int) {
         if featureFlags.newItemPage.isActive {
             // TODO: ABIOS-3100 check all the other parameters
-            let viewModel = ListingDeckViewModel(listing: listing,
-                                                 listingListRequester: requester,
-                                                 source: source,
-                                                 detailNavigator: self)
-            let deckViewController = ListingDeckViewController(viewModel: viewModel)
-            viewModel.delegate = deckViewController
-            navigationController.pushViewController(deckViewController, animated: true)
+            let coordinator = DeckCoordinator(listing: listing,
+                                              listingListRequester: requester,
+                                              source: source, listingNavigator: self)
+            coordinator.coordinatorDelegate = self
+            openChild(coordinator: coordinator, parent: navigationController,
+                      animated: true, forceCloseChild: true, completion: nil)
         } else if showRelated {
             //Same as single product opening
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,

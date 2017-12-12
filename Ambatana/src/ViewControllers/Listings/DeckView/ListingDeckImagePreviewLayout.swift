@@ -18,6 +18,7 @@ final class ListingDeckImagePreviewLayout: UICollectionViewFlowLayout {
         itemSize = cellSize
         minimumLineSpacing = 0
         minimumInteritemSpacing = 0
+        sectionInset = .zero
     }
     
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }

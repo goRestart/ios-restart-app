@@ -30,7 +30,6 @@ final class PhotoViewerTransitionAnimator: NSObject, UIViewControllerAnimatedTra
                                        initialFrame: initialFrame, image: image)
         transitioner = transitioner.opposite
     }
-
 }
 
 private protocol PhotoViewerTransitionMode {
@@ -43,7 +42,6 @@ private protocol PhotoViewerTransitionMode {
 
 private class PhotoViewerTransitionDismisser: PhotoViewerTransitionMode {
     lazy var opposite: PhotoViewerTransitionMode = PhotoViewerTransitionPresenter()
-
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning,
                            withDuration duration: TimeInterval,
                            initialFrame: CGRect,

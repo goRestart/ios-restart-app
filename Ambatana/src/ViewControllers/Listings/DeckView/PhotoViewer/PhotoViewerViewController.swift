@@ -31,6 +31,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        edgesForExtendedLayout = []
         photoViewer.register(ListingDeckImagePreviewCell.self, forCellWithReuseIdentifier: Identifiers.reusableID)
         photoViewer.dataSource = self
         photoViewer.updateNumberOfPages(viewModel.itemsCount)
@@ -38,6 +39,28 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         binder.viewController = self
         binder.bind(toView: photoViewer)
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNavigationBar()
+        setStatusBarHidden(true)
+    }
+    
+    // MARK: NavBar
+
+    private func setupNavigationBar() {
+        setNavBarBackgroundStyle(.transparent(substyle: .light))
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
+
+        let leftButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_carousel"),
+                                         style: .plain,
+                                         target: self, action: #selector(dismissChat))
+        self.navigationItem.leftBarButtonItem  = leftButton
+
+        setNavigationBarRightButtons([])
+    }
+
     private func updateCurrentPage(_ currentPage: Int) {
         photoViewer.updateCurrentPage(currentPage)
 
@@ -105,13 +128,8 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     // MARK: Actions
 
+    
     @objc func dismissChat() {
-        chatView.resignFirstResponder()
-        UIView.animate(withDuration: 0.3, delay: 0.1, options: .curveEaseIn, animations: { 
-            self.chatView.alpha = 0
-        }, completion: { (completion) in
-            self.chatView.removeFromSuperview()
-            self.chatView.alpha = 1
-        })
+        viewModel.dismiss()
     }
 }

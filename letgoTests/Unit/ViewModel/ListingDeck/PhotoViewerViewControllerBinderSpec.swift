@@ -110,13 +110,7 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
                 }
             }
 
-            context("keyboard event is") {
-                it("showChat is called only once") {
-                    expect(photoViewerVC.keyboardIsCalled).toEventually(equal(1))
-                }
-            }
-
-            context("keyboard event is") {
+            context("keyboard event is sent") {
                 it("showChat is called only once") {
                     expect(photoViewerVC.keyboardIsCalled).toEventually(equal(1))
                 }

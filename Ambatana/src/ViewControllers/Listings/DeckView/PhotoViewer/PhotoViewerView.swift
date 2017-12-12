@@ -17,7 +17,6 @@ protocol PhotoViewerViewType: class {
 
 final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewType {
 
-    var rx_closeButton: Reactive<UIControl>? { return (closeButton as UIControl).rx }
     var rx_chatButton: Reactive<UIControl>? { return (chatButton as UIControl).rx }
     var rx_collectionView: Reactive<UICollectionView> { return collectionView.rx }
 
@@ -61,7 +60,6 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
         setupCollectionView()
         setupChatbutton()
         setupPageControl()
-        setupCloseButton()
     }
 
     private func setupCollectionView() {
@@ -89,15 +87,6 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
 
         chatButton.layout(with: self)
             .leadingMargin(by: Metrics.margin).bottomMargin(by: -Metrics.bigMargin)
-    }
-
-    private func setupCloseButton() {
-        closeButton.setImage(#imageLiteral(resourceName: "ic_close_carousel"), for: .normal)
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
-
-        addSubview(closeButton)
-        closeButton.layout().width(48).widthProportionalToHeight()
-        closeButton.layout(with: self).topMargin(by: 2*Metrics.margin).leadingMargin()
     }
 }
 

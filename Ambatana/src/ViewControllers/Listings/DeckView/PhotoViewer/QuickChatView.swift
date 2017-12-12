@@ -16,7 +16,6 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType {
     private struct Layout { static let outsideKeyboard: CGFloat = 60 }
 
     var rx_chatTextView: Reactive<ChatTextView> { return textView.rx }
-
     let quickChatViewModel: QuickChatViewModel
 
     private let textView = ChatTextView()
@@ -42,15 +41,15 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType {
         return textView.resignFirstResponder()
     }
 
-    override func willMove(toSuperview newSuperview: UIView?) {
-        guard newSuperview != nil else { return }
-        backgroundColor = .clear
-        textViewBottom?.constant = Layout.outsideKeyboard
-    }
-
     @discardableResult
     override func becomeFirstResponder() -> Bool {
         return textView.becomeFirstResponder()
+    }
+
+    override func willMove(toSuperview newSuperview: UIView?) {
+        guard newSuperview != nil else { return }
+        textViewBottom?.constant = 4*Metrics.margin
+        backgroundColor = UIColor.clear
     }
 
     func updateWith(bottomInset: CGFloat, animationTime: TimeInterval, animationOptions: UIViewAnimationOptions) {
@@ -64,7 +63,6 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType {
                         self.superview?.layoutIfNeeded()
         }, completion: nil)
     }
-
 
     func setInitialText(_ text: String) {
         textView.setText(text)
@@ -137,6 +135,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType {
         tableView.dataSource = self
         tableView.delegate = self
         ChatCellDrawerFactory.registerCells(tableView)
+
         // TODO: Check what is this shit
         tableView.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
         tableView.rowHeight = UITableViewAutomaticDimension

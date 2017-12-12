@@ -81,7 +81,8 @@ final class ListingDeckViewModel: BaseViewModel {
     weak var delegate: ListingDeckViewModelDelegate?
 
     var currentListingViewModel: ListingViewModel?
-    weak private var navigator: ListingDetailNavigator? { didSet { currentListingViewModel?.navigator = navigator } }
+    weak var navigator: ListingDetailNavigator? { didSet { currentListingViewModel?.navigator = navigator } }
+    weak var deckNavigator: DeckNavigator?
 
     convenience init(listing: Listing,
                      listingListRequester: ListingListRequester,
@@ -319,8 +320,14 @@ final class ListingDeckViewModel: BaseViewModel {
     }
 
     func close() {
-        navigator?.closeProductDetail()
+        deckNavigator?.closeDeck()
     }
+
+    func openPhotoViewer() {
+        guard let urls = currentListingViewModel?.productImageURLs.value else { return }
+        deckNavigator?.openPhotoViewer(withURLs: urls, quickChatViewModel: quickChatViewModel)
+    }
+
 
     func urlAtIndex(_ index: Int) -> URL? {
         guard let urls = currentListingViewModel?.productImageURLs.value else { return nil }
