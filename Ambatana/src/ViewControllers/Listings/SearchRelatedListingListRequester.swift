@@ -63,7 +63,7 @@ class SearchRelatedListingListRequester: ListingListRequester {
     
     private func retrieve(_ completion: ListingsCompletion?) {
         if let categories = filters?.selectedCategories, categories.contains(.realEstate) {
-            listingRepository.indexRealEstate(retrieveListingsParams, completion: completion)
+            listingRepository.indexRealEstateRelatedSearch(retrieveListingsParams, completion: completion)
         }
     }
     
