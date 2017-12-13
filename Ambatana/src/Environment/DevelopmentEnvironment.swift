@@ -42,4 +42,6 @@ class DevelopmentEnvironment: AppEnvironment {
     let moreInfoAdUnitIdShopping = "partner-vert-pla-mobile-app-letgo-pdp"
     let moreInfoAdUnitIdShoppingUSA = "partner-vert-pla-mobile-app-letgo-us-pdp"
     let adTestModeActive = true
+    let moreInfoAdUnitIdDFP = "/21636273254/turkey/iOS/moreinfo/320x100"
+    let moreInfoAdUnitIdDFPUSA = "/21666124832/us/iOS/moreinfo/320x100"
 }
