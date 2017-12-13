@@ -246,13 +246,13 @@ extension PostListingGalleryView: PostListingGalleryViewModelDelegate {
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 
-extension PostListingGalleryView: UICollectionViewDataSource, UICollectionViewDelegate {
+extension PostListingGalleryView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.imagesCount
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        sizeForItemAt indexPath: IndexPath) -> CGSize {
             return viewModel.cellSize
     }
 
