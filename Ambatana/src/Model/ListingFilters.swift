@@ -70,10 +70,10 @@ struct ListingFilters {
     var carYearStart: RetrieveListingParam<Int>?
     var carYearEnd: RetrieveListingParam<Int>?
     
-    var propertyType: RealEstatePropertyType?
-    var offerType: RealEstateOfferType?
-    var numberOfBedrooms: NumberOfBedrooms?
-    var numberOfBathrooms: NumberOfBathrooms?
+    var realEstatePropertyType: RealEstatePropertyType?
+    var realEstateOfferType: RealEstateOfferType?
+    var realEstateNumberOfBedrooms: NumberOfBedrooms?
+    var realEstateNumberOfBathrooms: NumberOfBathrooms?
 
     init() {
         self.init(
@@ -92,10 +92,10 @@ struct ListingFilters {
             carModelName: nil,
             carYearStart: nil,
             carYearEnd: nil,
-            propertyType: nil,
-            offerType: nil,
-            numberOfBedrooms: nil,
-            numberOfBathrooms: nil
+            realEstatePropertyType: nil,
+            realEstateOfferType: nil,
+            realEstateNumberOfBedrooms: nil,
+            realEstateNumberOfBathrooms: nil
         )
     }
     
@@ -114,10 +114,10 @@ struct ListingFilters {
          carModelName: String?,
          carYearStart: RetrieveListingParam<Int>?,
          carYearEnd: RetrieveListingParam<Int>?,
-         propertyType: RealEstatePropertyType?,
-         offerType: RealEstateOfferType?,
-         numberOfBedrooms: NumberOfBedrooms?,
-         numberOfBathrooms: NumberOfBathrooms?
+         realEstatePropertyType: RealEstatePropertyType?,
+         realEstateOfferType: RealEstateOfferType?,
+         realEstateNumberOfBedrooms: NumberOfBedrooms?,
+         realEstateNumberOfBathrooms: NumberOfBathrooms?
          ) {
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
@@ -134,10 +134,10 @@ struct ListingFilters {
         self.carModelName = carModelName
         self.carYearStart = carYearStart
         self.carYearEnd = carYearEnd
-        self.propertyType = propertyType
-        self.offerType = offerType
-        self.numberOfBedrooms = numberOfBedrooms
-        self.numberOfBathrooms = numberOfBathrooms
+        self.realEstatePropertyType = realEstatePropertyType
+        self.realEstateOfferType = realEstateOfferType
+        self.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
+        self.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
     }
     
     func updating(selectedCategories: [ListingCategory]) -> ListingFilters {
@@ -156,10 +156,10 @@ struct ListingFilters {
                               carModelName: carModelName,
                               carYearStart: carYearStart,
                               carYearEnd: carYearEnd,
-                              propertyType: propertyType,
-                              offerType: offerType,
-                              numberOfBedrooms: numberOfBedrooms,
-                              numberOfBathrooms: numberOfBathrooms)
+                              realEstatePropertyType: realEstatePropertyType,
+                              realEstateOfferType: realEstateOfferType,
+                              realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
+                              realEstateNumberOfBathrooms: realEstateNumberOfBathrooms)
     }
     
     
@@ -178,7 +178,7 @@ struct ListingFilters {
     }
     
     var hasAnyRealEstateAttributes: Bool {
-        return offerType != nil || propertyType != nil || numberOfBathrooms != nil || numberOfBedrooms != nil
+        return realEstateOfferType != nil || realEstatePropertyType != nil || realEstateNumberOfBathrooms != nil || realEstateNumberOfBedrooms != nil
     }
     
     var hasAnyCarAttributes: Bool {
@@ -244,10 +244,10 @@ extension ListingFilters: Equatable {
         a.carModelId == b.carModelId &&
         a.carYearStart == b.carYearStart &&
         a.carYearEnd == b.carYearEnd &&
-        a.propertyType == b.propertyType &&
-        a.offerType == b.offerType &&
-        a.numberOfBedrooms == b.numberOfBedrooms &&
-        a.numberOfBathrooms == b.numberOfBathrooms
+        a.realEstatePropertyType == b.realEstatePropertyType &&
+        a.realEstateOfferType == b.realEstateOfferType &&
+        a.realEstateNumberOfBedrooms == b.realEstateNumberOfBedrooms &&
+        a.realEstateNumberOfBathrooms == b.realEstateNumberOfBathrooms
     }
 }
 
