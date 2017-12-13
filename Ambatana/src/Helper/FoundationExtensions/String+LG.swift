@@ -82,7 +82,7 @@ extension String {
 
     func isEmail() -> Bool {
         let regex = try? NSRegularExpression(pattern: "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]+$", options: .caseInsensitive)
-        return regex?.firstMatch(in: self, options: [], range: NSMakeRange(0, self.characters.count)) != nil
+        return regex?.firstMatch(in: self, options: [], range: NSMakeRange(0, count)) != nil
     }
 
     func suggestEmail(domains: [String]) -> String? {
@@ -130,7 +130,7 @@ extension String {
         formatter.numberStyle = NumberFormatter.Style.decimal
         formatter.locale = locale
         if separator.isEmpty {
-            return characters.count <= Constants.maxPriceIntegerCharacters
+            return count <= Constants.maxPriceIntegerCharacters
         } else if acceptsSeparator && separator != formatter.decimalSeparator {
             return false
         } else if !acceptsSeparator && !separator.isEmpty {
@@ -140,17 +140,17 @@ extension String {
         let parts = components(separatedBy: separator)
         guard parts.count == 2 else { return false }
 
-        return parts[0].characters.count <= Constants.maxPriceIntegerCharacters &&
-               parts[1].characters.count <= Constants.maxPriceFractionalCharacters
+        return parts[0].count <= Constants.maxPriceIntegerCharacters &&
+               parts[1].count <= Constants.maxPriceFractionalCharacters
     }
 
     func toNameReduced(maxChars: Int) -> String {
-        guard characters.count > maxChars else { return self }
-        let substring =  String(self[..<characters.index(startIndex, offsetBy: maxChars)])
+        guard count > maxChars else { return self }
+        let substring =  String(self[..<self.index(startIndex, offsetBy: maxChars)])
         let words = substring.byWords
         guard words.count > 1 else { return substring+"." }
         let firstPart = words.prefix(words.count - 1).joined(separator: " ")
-        guard let lastWordFirstChar = words.last?.characters.first else { return firstPart }
+        guard let lastWordFirstChar = words.last?.first else { return firstPart }
         return firstPart + " " + String(lastWordFirstChar) + "."
     }
 
@@ -193,7 +193,7 @@ extension String {
     }
     
     func stringByRemovingEmoji() -> String {
-        return String(self.characters.filter { !$0.isEmoji })
+        return String(self.filter { !$0.isEmoji })
     }
     
     func hasEmojis() -> Bool {
@@ -202,8 +202,8 @@ extension String {
     }
     
     func trunc(_ length: Int, trailing: String? = "...") -> String {
-        guard self.characters.count > length else { return self }
-        let substring = String(self[..<self.characters.index(self.startIndex, offsetBy: length)])
+        guard count > length else { return self }
+        let substring = String(self[..<self.index(self.startIndex, offsetBy: length)])
         return substring + (trailing ?? "")
     }
     
@@ -275,11 +275,11 @@ extension String {
     func makeBold(ignoringText: String, font: UIFont) -> NSAttributedString {
         let attributedString = NSMutableAttributedString(string: self,
                                                          attributes: [NSAttributedStringKey.font: font])
-        let ignoreTextCount = contains(ignoringText) ? ignoringText.characters.count : 0
+        let ignoreTextCount = contains(ignoringText) ? ignoringText.count : 0
         attributedString.addAttribute(
             NSAttributedStringKey.font,
             value: UIFont.boldSystemFont(ofSize: font.pointSize),
-            range: NSMakeRange(ignoreTextCount, characters.count-ignoreTextCount)
+            range: NSMakeRange(ignoreTextCount, count-ignoreTextCount)
         )
         return attributedString
     }

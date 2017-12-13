@@ -68,8 +68,8 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard !string.hasEmojis() else { return false }
         guard let text = textField.text else { return false }
-        let newLength = text.characters.count + string.characters.count - range.length
-        let removing = text.characters.count > newLength
+        let newLength = text.count + string.count - range.length
+        let removing = text.count > newLength
         if !removing && newLength > Constants.maxUserNameLength { return false }
 
         let updatedText =  (text as NSString).replacingCharacters(in: range, with: string)

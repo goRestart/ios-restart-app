@@ -223,7 +223,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     private func updateSendButtonEnabledState() {
         if let email = emailTextField.text {
-            resetPasswordButton.isEnabled = email.characters.count > 0
+            resetPasswordButton.isEnabled = email.count > 0
         } else {
             resetPasswordButton.isEnabled = false
         }

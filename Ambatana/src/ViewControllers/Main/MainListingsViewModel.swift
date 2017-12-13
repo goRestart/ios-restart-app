@@ -324,7 +324,7 @@ class MainListingsViewModel: BaseViewModel {
         Search action.
     */
     func search(_ query: String) {
-        guard !query.characters.isEmpty else { return }
+        guard !query.isEmpty else { return }
     
         delegate?.vmDidSearch()
         navigator?.openMainListings(withSearchType: .user(query: query), listingFilters: filters)
@@ -944,7 +944,7 @@ extension MainListingsViewModel {
     }
     
     func searchTextFieldDidUpdate(text: String) {
-        let charactersCount = text.characters.count
+        let charactersCount = text.count
         if charactersCount > 0 {
             retrieveSuggestiveSearches(term: text)
         } else {

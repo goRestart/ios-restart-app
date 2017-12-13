@@ -101,11 +101,11 @@ fileprivate extension AutocompleteField {
         // Hide the letters that are under the fields text.
         // If the suggestion is abcdefgh and the user has written abcd
         // we want to hide those letters from the suggestion.
-        if let inputText = self.text, attributedString.length >= inputText.characters.count {
+        if let inputText = self.text, attributedString.length >= inputText.count {
             attributedString.addAttribute(NSAttributedStringKey.foregroundColor,
                                           value: UIColor.clear,
                                           range: NSRange(location: 0,
-                                                         length: inputText.characters.count)
+                                                         length: inputText.count)
             )
         }
 

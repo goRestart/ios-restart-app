@@ -601,7 +601,7 @@ extension ChatViewModel {
         }
 
         let message = type.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        guard message.characters.count > 0 else { return }
+        guard message.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
         

@@ -67,7 +67,7 @@ class LGNavBarSearchField: UIView {
     func endEdit() {
         searchTextField.text = initialSearchValue
         
-        if let characters = searchTextField.text?.characters, characters.count > 0 {
+        if let text = searchTextField.text, text.count > 0 {
             setupTextFieldEditMode()
         } else {
             setupTextFieldCleanMode()

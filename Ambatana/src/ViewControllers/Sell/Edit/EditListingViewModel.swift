@@ -280,7 +280,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     var descriptionCharCount: Int {
         guard let descr = descr else { return Constants.listingDescriptionMaxLength }
-        return Constants.listingDescriptionMaxLength-descr.characters.count
+        return Constants.listingDescriptionMaxLength-descr.count
     }
     
     func appendImage(_ image: UIImage) {

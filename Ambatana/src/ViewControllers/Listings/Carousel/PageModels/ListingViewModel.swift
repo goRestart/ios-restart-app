@@ -13,7 +13,7 @@ import Result
 import RxSwift
 
 
-protocol ListingViewModelDelegate: class, BaseViewModelDelegate {
+protocol ListingViewModelDelegate: BaseViewModelDelegate {
 
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction])
 

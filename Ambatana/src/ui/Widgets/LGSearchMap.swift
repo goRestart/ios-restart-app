@@ -263,7 +263,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if let textFieldText = textField.text, textFieldText.characters.count < 1 {
+        if let textFieldText = textField.text, textFieldText.count < 1 {
             return true
         }
         suggestionsTableView.isHidden = true
