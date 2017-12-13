@@ -125,12 +125,12 @@ class PromoteBumpViewController: BaseViewController {
 
     // MARK: - Actions
 
-    dynamic func sellFaster() {
+    @objc func sellFaster() {
         // open product detail & bump
         viewModel?.sellFasterButtonPressed()
     }
 
-    dynamic func laterPressed() {
+    @objc func laterPressed() {
         viewModel?.laterButtonPressed()
     }
 }
