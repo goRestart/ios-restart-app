@@ -33,7 +33,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
 
     // MARK: - Lifecycle
 
-    @objc dynamic fileprivate func edit() {
+    @objc fileprivate func edit() {
         setEditing(!isEditing, animated: true)
     }
 

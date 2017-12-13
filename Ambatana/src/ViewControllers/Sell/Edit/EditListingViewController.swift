@@ -644,7 +644,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         })
     }
 
-    @objc dynamic func closeButtonPressed() {
+    @objc func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
     

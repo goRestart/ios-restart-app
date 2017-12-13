@@ -862,7 +862,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
 
 extension ListingCarouselViewController {
 
-    @objc dynamic func didTapMoreInfo() {
+    @objc func didTapMoreInfo() {
         chatTextView.resignFirstResponder()
     }
 

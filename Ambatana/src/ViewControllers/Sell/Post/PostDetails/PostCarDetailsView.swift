@@ -334,7 +334,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     
     // MARK: UI Actions
     
-    @objc dynamic func navigationButtonOkPressed() {
+    @objc func navigationButtonOkPressed() {
         tableView.hideKeyboard()
         showSelectDetail()
     }

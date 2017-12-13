@@ -289,12 +289,12 @@ class Tooltip: UIView {
 
     }
 
-    @objc dynamic func titleTapped() {
+    @objc func titleTapped() {
         actionBlock()
         removeFromSuperview()
     }
 
-    @objc dynamic func closeTooltip() {
+    @objc func closeTooltip() {
         closeBlock?()
         removeFromSuperview()
     }

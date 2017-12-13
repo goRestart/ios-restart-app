@@ -476,7 +476,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         viewWillAppearFromBackground(true)
     }
 
-    @objc dynamic func statusBarDidShow(_ notification: Notification) {
+    @objc func statusBarDidShow(_ notification: Notification) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.01 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { [weak self] in
                 self?.view.setNeedsLayout()
                 self?.view.layoutIfNeeded()

@@ -318,7 +318,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         self.navigationController?.setNavigationBarHidden(hidden, animated: animated)
     }
 
-    @objc dynamic fileprivate func endEdit() {
+    @objc fileprivate func endEdit() {
         suggestionsSearchesContainer.isHidden = true
         setFiltersNavBarButton()
         setInviteNavBarButton()

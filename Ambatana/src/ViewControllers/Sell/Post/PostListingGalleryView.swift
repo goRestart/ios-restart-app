@@ -148,7 +148,7 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
         delegate?.listingGalleryCloseButton()
     }
    
-    @objc dynamic func postButtonPressed() {
+    @objc func postButtonPressed() {
         viewModel.postButtonPressed()
     }
     

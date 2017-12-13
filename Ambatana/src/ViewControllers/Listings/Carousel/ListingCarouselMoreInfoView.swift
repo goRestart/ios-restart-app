@@ -208,7 +208,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         }
     }
     
-    @objc dynamic func didTapMap() {
+    @objc func didTapMap() {
         mapExpanded ? compressMap() : expandMap()
     }
 

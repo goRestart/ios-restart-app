@@ -110,11 +110,11 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
     // MARK: - Public Methods
 
-    @objc dynamic func refresh() {
+    @objc func refresh() {
         viewModel.refresh(completion: nil)
     }
 
-    @objc dynamic func clear() {
+    @objc func clear() {
         viewModel.clear()
         tableView.reloadData()
     }

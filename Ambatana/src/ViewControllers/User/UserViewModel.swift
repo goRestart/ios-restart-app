@@ -644,7 +644,7 @@ fileprivate extension UserViewModel {
                                                name: NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
     }
     
-    @objc dynamic func updatePermissionsWarning() {
+    @objc func updatePermissionsWarning() {
         guard isMyProfile else { return }
         pushPermissionsDisabledWarning.value = !UIApplication.shared.areRemoteNotificationsEnabled
     }

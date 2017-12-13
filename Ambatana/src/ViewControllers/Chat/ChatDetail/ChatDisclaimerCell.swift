@@ -102,7 +102,7 @@ fileprivate extension ChatDisclaimerCell {
         }.disposed(by: disposeBag)
     }
     
-    @objc dynamic func tapped() {
+    @objc func tapped() {
         buttonAction?()
     }
 

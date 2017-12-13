@@ -189,7 +189,7 @@ extension TextViewController {
         tableView.transform = invertedTable ? CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0) : CGAffineTransform.identity
     }
 
-    @objc dynamic fileprivate func scrollViewTap() {
+    @objc fileprivate func scrollViewTap() {
         dismissKeyboard(true)
         scrollViewDidTap()
     }

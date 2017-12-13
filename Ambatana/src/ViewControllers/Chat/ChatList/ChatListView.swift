@@ -166,7 +166,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     // MARK: - Private Methods
 
-    @objc dynamic func deleteButtonPressed() {
+    @objc func deleteButtonPressed() {
         viewModel.deleteButtonPressed()
     }
 }

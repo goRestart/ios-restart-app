@@ -170,16 +170,16 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         viewModel.closeButtonPressed()
     }
 
-    @objc dynamic func galleryButtonPressed() {
+    @objc func galleryButtonPressed() {
         guard viewPager.scrollEnabled else { return }
         viewPager.selectTabAtIndex(Tab.gallery.index, animated: true)
     }
     
-    @objc dynamic func galleryPostButtonPressed() {
+    @objc func galleryPostButtonPressed() {
         galleryView.postButtonPressed()
     }
 
-    @objc dynamic func cameraButtonPressed() {
+    @objc func cameraButtonPressed() {
         if viewPager.currentPage == Tab.camera.index {
             cameraView.takePhoto()
         } else {
@@ -385,7 +385,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
 
 extension PostListingViewController {
     
-    @objc dynamic func carDetailsNavigationBackButtonPressed() {
+    @objc func carDetailsNavigationBackButtonPressed() {
         if let previousState = carDetailsView.previousState, previousState.isSummary {
             didFinishEnteringDetails()
         } else {
@@ -412,19 +412,19 @@ extension PostListingViewController {
         }
     }
     
-    @objc dynamic func carMakeButtonPressed() {
+    @objc func carMakeButtonPressed() {
         showCarMakes()
     }
     
-    @objc dynamic func carModelButtonPressed() {
+    @objc func carModelButtonPressed() {
         showCarModels()
     }
     
-    @objc dynamic func carYearButtonPressed() {
+    @objc func carYearButtonPressed() {
         showCarYears()
     }
     
-    @objc dynamic func carDetailsDoneButtonPressed() {
+    @objc func carDetailsDoneButtonPressed() {
         carDetailsView.hideKeyboard()
         viewModel.postCarDetailDone()
     }
