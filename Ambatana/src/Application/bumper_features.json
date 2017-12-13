@@ -141,6 +141,11 @@
         "description": "Show a bump up alert after posting (once every 24h)"
     },
     {
+        "name": "MoreInfoDFPActive",
+        "values": ["control", "baseline", "active"],
+        "description": "show the ad in more info using DFP"
+    },
+    {
         "name": "CopyListingAnotherConfirmation",
         "values": ["control", "baseline", "active"],
         "description": "Show listing instead of product on confirmation screen"
