@@ -219,6 +219,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     // MARK: > UI
 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        }
+    }
+
     /**
         Refreshes the user interface.
     */
