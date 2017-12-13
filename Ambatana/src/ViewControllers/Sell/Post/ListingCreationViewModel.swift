@@ -51,13 +51,13 @@ class ListingCreationViewModel : BaseViewModel {
     }
     
     func createListing() {
-        listingRepository.create(listingParams: listingParams) { [weak self] (listingResult) in
-            if let listing = self?.listingResult?.value, let trackingInfo = self?.trackingInfo {
+        listingRepository.create(listingParams: listingParams) { [weak self] result in
+            if let listing = result.value, let trackingInfo = self?.trackingInfo {
                 self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
-            } else if let error = self?.listingResult?.error {
+            } else if let error = result.error {
                 self?.trackPostSellError(error: error)
             }
-            self?.listingResult = listingResult
+            self?.listingResult = result
             self?.finishRequest.value = true
         }
     }
