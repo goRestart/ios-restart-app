@@ -26,7 +26,8 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     private static let separatorOptionsViewDistance = LGUIKitConstants.onePixelSize
     private static let viewOptionGenericHeight: CGFloat = 50
     private static let carsInfoContainerHeight: CGFloat = 134 // (3 x 44 + 2 separators)
-
+    private static let realEstateInfoContainerHeight: CGFloat = 179 // (4 x 44 + 3 separators)
+    
     enum TextFieldTag: Int {
         case listingTitle = 1000, listingPrice, listingDescription
     }
@@ -72,6 +73,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var categoryTitleLabel: UILabel!
     @IBOutlet weak var categorySelectedLabel: UILabel!
     @IBOutlet weak var categoryButton: UIButton!
+    
+    @IBOutlet weak var verticalFieldsContainer: UIView!
+    @IBOutlet weak var verticalFieldsContainerConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var carInfoContainer: UIView!
+    @IBOutlet weak var realEstateInfoContainer: UIView!
 
     @IBOutlet weak var carsMakeTitleLabel: UILabel!
     @IBOutlet weak var carsMakeSelectedLabel: UILabel!
@@ -84,9 +91,23 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var carsYearTitleLabel: UILabel!
     @IBOutlet weak var carsYearSelectedLabel: UILabel!
     @IBOutlet weak var carsYearButton: UIButton!
-
-    @IBOutlet weak var carsInfoContainerHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var carsInfoContainerSeparatorTopConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var propertyTypeTitleLabel: UILabel!
+    @IBOutlet weak var propertyTypeSelectedLabel: UILabel!
+    @IBOutlet weak var propertyTypeButton: UIButton!
+    
+    @IBOutlet weak var offerTypeTitleLabel: UILabel!
+    @IBOutlet weak var offerTypeSelectedLabel: UILabel!
+    @IBOutlet weak var offerTypeButton: UIButton!
+    
+    @IBOutlet weak var numberOfBedroomsTitleLabel: UILabel!
+    @IBOutlet weak var numberOfBedroomsSelectedLabel: UILabel!
+    @IBOutlet weak var numberOfBedroomsButton: UIButton!
+    
+    @IBOutlet weak var numberOfBathroomsTitleLabel: UILabel!
+    @IBOutlet weak var numberOfBathroomsSelectedLabel: UILabel!
+    @IBOutlet weak var numberOfBathroomsButton: UIButton!
+    
 
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var shareFBSwitch: UISwitch!
@@ -430,7 +451,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         carsMakeTitleLabel.text = LGLocalizedString.postCategoryDetailCarMake
         carsModelTitleLabel.text = LGLocalizedString.postCategoryDetailCarModel
         carsYearTitleLabel.text = LGLocalizedString.postCategoryDetailCarYear
-
+        
+        propertyTypeTitleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
+        offerTypeTitleLabel.text = LGLocalizedString.realEstateOfferTypeTitle
+        numberOfBedroomsTitleLabel.text = LGLocalizedString.realEstateBedroomsTitle
+        numberOfBathroomsTitleLabel.text = LGLocalizedString.realEstateBathroomsTitle
+        
         sendButton.setTitle(LGLocalizedString.editProductSendButton, for: .normal)
         sendButton.setStyle(.primary(fontSize:.big))
         
@@ -537,13 +563,8 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
 
         viewModel.category.asObservable().bindNext{ [weak self] category in
             guard let strongSelf = self else { return }
-            guard let category = category else {
-                strongSelf.categorySelectedLabel.text = ""
-                strongSelf.updateCarsFields(isCar: false)
-                return
-            }
-            strongSelf.categorySelectedLabel.text = category.name
-            strongSelf.updateCarsFields(isCar: category == .cars)
+            strongSelf.categorySelectedLabel.text = category?.name ?? ""
+            strongSelf.updateVerticalFields(category: category)
         }.addDisposableTo(disposeBag)
 
         viewModel.carMakeName.asObservable().bindTo(carsMakeSelectedLabel.rx.text).addDisposableTo(disposeBag)
@@ -629,16 +650,29 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             self.view.layoutIfNeeded()
         })
     }
-
-    private func updateCarsFields(isCar: Bool) {
-        if isCar {
-            carsInfoContainerHeightConstraint.constant = EditListingViewController.carsInfoContainerHeight
-            carsInfoContainerSeparatorTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
-        } else {
-            carsInfoContainerHeightConstraint.constant = 0
-            carsInfoContainerSeparatorTopConstraint.constant = 0
+    
+    private func hideVerticalFields() {
+        verticalFieldsContainerConstraint.constant = 0
+    }
+    
+    private func updateVerticalFields(category: ListingCategory?) {
+        guard let category = category else {
+            hideVerticalFields()
+            return
         }
-
+        switch category {
+        case .cars:
+            carInfoContainer.isHidden = false
+            realEstateInfoContainer.isHidden = true
+            verticalFieldsContainerConstraint.constant = EditListingViewController.carsInfoContainerHeight
+        case .realEstate:
+            carInfoContainer.isHidden = true
+            realEstateInfoContainer.isHidden = false
+            verticalFieldsContainerConstraint.constant = EditListingViewController.realEstateInfoContainerHeight
+        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
+            hideVerticalFields()
+        }
+        
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
         })
