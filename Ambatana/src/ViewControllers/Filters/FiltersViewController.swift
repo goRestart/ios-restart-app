@@ -277,7 +277,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     return cell
                 case 2:
                     // Year
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCarInfoYearCell",
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSliderYearCell.reusableID,
                                                                         for: indexPath) as? FilterSliderYearCell else { return UICollectionViewCell() }
                     cell.setupSlider(minimumValue: Constants.filterMinCarYear, 
                                      maximumValue: Date().year,
@@ -289,7 +289,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     return UICollectionViewCell()
                 }
             case .within:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterSingleCheckCell",
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
                     for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
                 cell.titleLabel.text = viewModel.withinTimeNameAtIndex(indexPath.row)
                 cell.isSelected = viewModel.withinTimeSelectedAtIndex(indexPath.row)
@@ -297,7 +297,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 return cell
                 
             case .sortBy:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterSingleCheckCell",
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
                     for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
                 cell.titleLabel.text = viewModel.sortOptionTextAtIndex(indexPath.row)
                 cell.isSelected = viewModel.sortOptionSelectedAtIndex(indexPath.row)
