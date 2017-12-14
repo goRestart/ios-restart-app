@@ -208,19 +208,6 @@ enum ButtonState {
 
 extension UIButton {
 
-    func setState(_ state: ButtonState) {
-        switch state {
-        case .hidden:
-            isHidden = true
-        case .enabled:
-            isHidden = false
-            isEnabled = true
-        case .disabled:
-            isHidden = false
-            isEnabled = false
-        }
-    }
-
     func setStyle(_ style: ButtonStyle) {
         guard buttonType == UIButtonType.custom else {
             print("💣 => Styles can only be applied to customStyle Buttons")
