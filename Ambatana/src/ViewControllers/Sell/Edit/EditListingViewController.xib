@@ -35,15 +35,6 @@
                 <outlet property="loadingLabel" destination="DIJ-41-73M" id="hi4-iG-Esf"/>
                 <outlet property="loadingProgressView" destination="U7G-g9-Rhv" id="GjB-C1-Cfm"/>
                 <outlet property="loadingView" destination="0ZP-zJ-OwV" id="5bP-zo-5nJ"/>
-                <outlet property="numberOfBathroomsButton" destination="sXn-zc-e3m" id="7xC-3B-DfA"/>
-                <outlet property="numberOfBathroomsSelectedLabel" destination="5vA-kq-4wh" id="Sfp-VM-xxg"/>
-                <outlet property="numberOfBathroomsTitleLabel" destination="Jei-cc-ndx" id="qK0-nL-Y6r"/>
-                <outlet property="numberOfBedroomsButton" destination="hBs-Oi-9Fo" id="wyy-KS-qjc"/>
-                <outlet property="numberOfBedroomsSelectedLabel" destination="yJm-IA-vUh" id="RZg-6r-b1x"/>
-                <outlet property="numberOfBedroomsTitleLabel" destination="XIa-gu-pr7" id="sL3-zy-oPE"/>
-                <outlet property="offerTypeButton" destination="kac-aV-eR9" id="ydq-SJ-x6N"/>
-                <outlet property="offerTypeSelectedLabel" destination="VOQ-Xs-P4h" id="cTi-3S-Hzv"/>
-                <outlet property="offerTypeTitleLabel" destination="8Iq-Rz-A47" id="AIb-bd-HM3"/>
                 <outlet property="postFreeLabel" destination="KS3-nC-5kF" id="pxw-UM-Kqc"/>
                 <outlet property="postFreeView" destination="Emx-A9-HZ6" id="WRl-76-CIY"/>
                 <outlet property="postFreeViewHeightConstraint" destination="gRv-Ec-BLx" id="u0z-hQ-CTX"/>
@@ -51,10 +42,19 @@
                 <outlet property="priceTextField" destination="toV-Ym-Hah" id="Oqr-Id-M30"/>
                 <outlet property="priceView" destination="l4Q-8i-j8o" id="rlZ-9k-z9X"/>
                 <outlet property="priceViewSeparatorTopConstraint" destination="EFv-qm-TLS" id="Hpq-HD-9ga"/>
-                <outlet property="propertyTypeButton" destination="2HH-t2-OD1" id="HCB-H6-cLn"/>
-                <outlet property="propertyTypeSelectedLabel" destination="tUd-pe-jd5" id="CPD-4e-7uG"/>
-                <outlet property="propertyTypeTitleLabel" destination="8e8-Mb-aMh" id="sgZ-fO-mfm"/>
                 <outlet property="realEstateInfoContainer" destination="sTN-dB-k1n" id="PP2-xy-WQA"/>
+                <outlet property="realEstateNumberOfBathroomsButton" destination="sXn-zc-e3m" id="mTP-fa-d5E"/>
+                <outlet property="realEstateNumberOfBathroomsSelectedLabel" destination="5vA-kq-4wh" id="YjK-ff-Fb6"/>
+                <outlet property="realEstateNumberOfBathroomsTitleLabel" destination="Jei-cc-ndx" id="Akg-1a-maR"/>
+                <outlet property="realEstateNumberOfBedroomsButton" destination="hBs-Oi-9Fo" id="Cjb-Fq-jRk"/>
+                <outlet property="realEstateNumberOfBedroomsSelectedLabel" destination="yJm-IA-vUh" id="ZVw-uq-YNR"/>
+                <outlet property="realEstateNumberOfBedroomsTitleLabel" destination="XIa-gu-pr7" id="ZKT-uO-ejs"/>
+                <outlet property="realEstateOfferTypeButton" destination="kac-aV-eR9" id="f8u-vr-rwT"/>
+                <outlet property="realEstateOfferTypeSelectedLabel" destination="VOQ-Xs-P4h" id="J4W-Dm-HSL"/>
+                <outlet property="realEstateOfferTypeTitleLabel" destination="8Iq-Rz-A47" id="zLI-zt-IQn"/>
+                <outlet property="realEstatePropertyTypeButton" destination="2HH-t2-OD1" id="gwZ-Wk-2cG"/>
+                <outlet property="realEstatePropertyTypeSelectedLabel" destination="tUd-pe-jd5" id="QQN-H7-pRs"/>
+                <outlet property="realEstatePropertyTypeTitleLabel" destination="8e8-Mb-aMh" id="wrZ-2s-zup"/>
                 <outlet property="scrollView" destination="eiL-oq-GEV" id="z8N-fc-MOp"/>
                 <outlet property="sendButton" destination="hgl-q6-NPc" id="9Zb-L5-cVr"/>
                 <outlet property="setLocationButton" destination="qik-S1-pbF" id="0z0-r1-KNy"/>

@@ -92,21 +92,21 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var carsYearSelectedLabel: UILabel!
     @IBOutlet weak var carsYearButton: UIButton!
     
-    @IBOutlet weak var propertyTypeTitleLabel: UILabel!
-    @IBOutlet weak var propertyTypeSelectedLabel: UILabel!
-    @IBOutlet weak var propertyTypeButton: UIButton!
+    @IBOutlet weak var realEstatePropertyTypeTitleLabel: UILabel!
+    @IBOutlet weak var realEstatePropertyTypeSelectedLabel: UILabel!
+    @IBOutlet weak var realEstatePropertyTypeButton: UIButton!
     
-    @IBOutlet weak var offerTypeTitleLabel: UILabel!
-    @IBOutlet weak var offerTypeSelectedLabel: UILabel!
-    @IBOutlet weak var offerTypeButton: UIButton!
+    @IBOutlet weak var realEstateOfferTypeTitleLabel: UILabel!
+    @IBOutlet weak var realEstateOfferTypeSelectedLabel: UILabel!
+    @IBOutlet weak var realEstateOfferTypeButton: UIButton!
     
-    @IBOutlet weak var numberOfBedroomsTitleLabel: UILabel!
-    @IBOutlet weak var numberOfBedroomsSelectedLabel: UILabel!
-    @IBOutlet weak var numberOfBedroomsButton: UIButton!
+    @IBOutlet weak var realEstateNumberOfBedroomsTitleLabel: UILabel!
+    @IBOutlet weak var realEstateNumberOfBedroomsSelectedLabel: UILabel!
+    @IBOutlet weak var realEstateNumberOfBedroomsButton: UIButton!
     
-    @IBOutlet weak var numberOfBathroomsTitleLabel: UILabel!
-    @IBOutlet weak var numberOfBathroomsSelectedLabel: UILabel!
-    @IBOutlet weak var numberOfBathroomsButton: UIButton!
+    @IBOutlet weak var realEstateNumberOfBathroomsTitleLabel: UILabel!
+    @IBOutlet weak var realEstateNumberOfBathroomsSelectedLabel: UILabel!
+    @IBOutlet weak var realEstateNumberOfBathroomsButton: UIButton!
     
 
     @IBOutlet weak var sendButton: UIButton!
@@ -452,10 +452,10 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         carsModelTitleLabel.text = LGLocalizedString.postCategoryDetailCarModel
         carsYearTitleLabel.text = LGLocalizedString.postCategoryDetailCarYear
         
-        propertyTypeTitleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
-        offerTypeTitleLabel.text = LGLocalizedString.realEstateOfferTypeTitle
-        numberOfBedroomsTitleLabel.text = LGLocalizedString.realEstateBedroomsTitle
-        numberOfBathroomsTitleLabel.text = LGLocalizedString.realEstateBathroomsTitle
+        realEstatePropertyTypeTitleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
+        realEstateOfferTypeTitleLabel.text = LGLocalizedString.realEstateOfferTypeTitle
+        realEstateNumberOfBedroomsTitleLabel.text = LGLocalizedString.realEstateBedroomsTitle
+        realEstateNumberOfBathroomsTitleLabel.text = LGLocalizedString.realEstateBathroomsTitle
         
         sendButton.setTitle(LGLocalizedString.editProductSendButton, for: .normal)
         sendButton.setStyle(.primary(fontSize:.big))
@@ -566,6 +566,11 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             strongSelf.categorySelectedLabel.text = category?.name ?? ""
             strongSelf.updateVerticalFields(category: category)
         }.addDisposableTo(disposeBag)
+        
+        viewModel.category.asObservable().filter { $0 == .realEstate }.bindNext { [weak self] _ in
+            self?.categoryButton.isEnabled = false
+            self?.categoryTitleLabel.isEnabled = false
+        }.addDisposableTo(disposeBag)
 
         viewModel.carMakeName.asObservable().bindTo(carsMakeSelectedLabel.rx.text).addDisposableTo(disposeBag)
         viewModel.carMakeId.asObservable().bindNext{ [weak self] makeId in
@@ -587,6 +592,22 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             }
             self?.carsYearSelectedLabel.text = String(year)
         }.addDisposableTo(disposeBag)
+        
+        viewModel.realEstateOfferType.asObservable().bindNext { [weak self] realEstateOfferType in
+            self?.realEstateOfferTypeSelectedLabel.text = realEstateOfferType?.localizedString
+        }.addDisposableTo(disposeBag)
+        
+        viewModel.realEstatePropertyType.asObservable().bindNext { [weak self] realEstatePropertyType in
+            self?.realEstatePropertyTypeSelectedLabel.text = realEstatePropertyType?.localizedString
+            }.addDisposableTo(disposeBag)
+        
+        viewModel.realEstateNumberOfBedrooms.asObservable().bindNext { [weak self] realEstateNumberOfBedrooms in
+            self?.realEstateNumberOfBedroomsSelectedLabel.text = realEstateNumberOfBedrooms?.localizedString
+            }.addDisposableTo(disposeBag)
+        
+        viewModel.realEstateNumberOfBathrooms.asObservable().bindNext { [weak self] realEstateNumberOfBathrooms in
+            self?.realEstateNumberOfBathroomsSelectedLabel.text = realEstateNumberOfBathrooms?.localizedString
+            }.addDisposableTo(disposeBag)
 
         carsMakeButton.rx.tap.bindNext { [weak self] in
             self?.viewModel.carMakeButtonPressed()
@@ -596,6 +617,19 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             }.addDisposableTo(disposeBag)
         carsYearButton.rx.tap.bindNext { [weak self] in
             self?.viewModel.carYearButtonPressed()
+            }.addDisposableTo(disposeBag)
+        
+        realEstatePropertyTypeButton.rx.tap.bindNext { [weak self] in
+            self?.viewModel.realEstatePropertyTypeButtonPressed()
+            }.addDisposableTo(disposeBag)
+        realEstateOfferTypeButton.rx.tap.bindNext { [weak self] in
+            self?.viewModel.realEstateOfferTypeButtonPressed()
+            }.addDisposableTo(disposeBag)
+        realEstateNumberOfBedroomsButton.rx.tap.bindNext { [weak self] in
+            self?.viewModel.realEstateNumberOfBedroomsButtonPressed()
+            }.addDisposableTo(disposeBag)
+        realEstateNumberOfBathroomsButton.rx.tap.bindNext { [weak self] in
+            self?.viewModel.realEstateNumberOfBathroomsButtonPressed()
             }.addDisposableTo(disposeBag)
 
         viewModel.loadingProgress.asObservable().map { $0 == nil }.bindTo(loadingView.rx.isHidden).addDisposableTo(disposeBag)

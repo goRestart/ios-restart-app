@@ -18,11 +18,14 @@ final class EditListingCoordinator: Coordinator, EditListingNavigator {
 
     var child: Coordinator?
     weak var coordinatorDelegate: CoordinatorDelegate?
-    var viewController: UIViewController
+    var viewController: UIViewController {
+        return navigationController
+    }
     weak var presentedAlertController: UIAlertController?
     var bubbleNotificationManager: BubbleNotificationManager
     var sessionManager: SessionManager
-
+    fileprivate var navigationController = UINavigationController()
+    
     weak var delegate: EditListingCoordinatorDelegate?
 
     convenience init(listing: Listing) {
@@ -36,7 +39,7 @@ final class EditListingCoordinator: Coordinator, EditListingNavigator {
         let editVC = EditListingViewController(viewModel: editVM)
         let navCtl = UINavigationController(rootViewController: editVC)
 
-        self.viewController = navCtl
+        self.navigationController = navCtl
         self.bubbleNotificationManager = bubbleNotificationManager
         self.sessionManager = sessionManager
         editVM.navigator = self
@@ -65,5 +68,11 @@ final class EditListingCoordinator: Coordinator, EditListingNavigator {
             guard let strongSelf = self else { return }
             strongSelf.delegate?.editListingCoordinator(strongSelf, didFinishWithListing: editedListing)
         }
+    }
+    
+    func openListingAttributePicker(viewModel: ListingAttributePickerViewModel) {
+        let vc = ListingAttributePickerViewController(viewModel: viewModel)
+        viewModel.delegate = vc
+        navigationController.pushViewController(vc, animated: true)
     }
 }
