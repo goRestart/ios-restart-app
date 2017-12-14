@@ -114,8 +114,6 @@
 		2E4952EA1E268AC300188880 /* BumpUpPayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4952E01E26810D00188880 /* BumpUpPayViewController.swift */; };
 		2E4952EB1E268AC300188880 /* BumpUpPayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4952E11E26810D00188880 /* BumpUpPayViewController.xib */; };
 		2E4952EC1E268AC300188880 /* BumpUpPayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4952E21E26810D00188880 /* BumpUpPayViewModel.swift */; };
-		2E4A94E61E49D66000218916 /* UIView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4A94E51E49D66000218916 /* UIView+Rx.swift */; };
-		2E4A94E71E49D73F00218916 /* UIView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4A94E51E49D66000218916 /* UIView+Rx.swift */; };
 		2E4A94EE1E4C8D4200218916 /* ShowFeaturedStripeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4A94ED1E4C8D4200218916 /* ShowFeaturedStripeHelper.swift */; };
 		2E4A94EF1E4C8D4200218916 /* ShowFeaturedStripeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4A94ED1E4C8D4200218916 /* ShowFeaturedStripeHelper.swift */; };
 		2E4A9DBA1D8054DE00F99026 /* ListingListMultiRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4A9DB91D8054DE00F99026 /* ListingListMultiRequester.swift */; };
@@ -1541,7 +1539,6 @@
 		2E4952E01E26810D00188880 /* BumpUpPayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BumpUpPayViewController.swift; path = Monetization/BumpUpPayViewController.swift; sourceTree = "<group>"; };
 		2E4952E11E26810D00188880 /* BumpUpPayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BumpUpPayViewController.xib; path = Monetization/BumpUpPayViewController.xib; sourceTree = "<group>"; };
 		2E4952E21E26810D00188880 /* BumpUpPayViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BumpUpPayViewModel.swift; path = Monetization/BumpUpPayViewModel.swift; sourceTree = "<group>"; };
-		2E4A94E51E49D66000218916 /* UIView+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Rx.swift"; sourceTree = "<group>"; };
 		2E4A94ED1E4C8D4200218916 /* ShowFeaturedStripeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowFeaturedStripeHelper.swift; sourceTree = "<group>"; };
 		2E4A9DB91D8054DE00F99026 /* ListingListMultiRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListingListMultiRequester.swift; path = "Products Requester/ListingListMultiRequester.swift"; sourceTree = "<group>"; };
 		2E4B359B1CC90A9500B8CB64 /* RelatedListingListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatedListingListRequester.swift; sourceTree = "<group>"; };
@@ -3525,7 +3522,6 @@
 				6A5E19D01D548F5400F92692 /* LGCollapsibleLabel+Rx.swift */,
 				6A5E19D11D548F5400F92692 /* UIBarItem+Rx.swift */,
 				6A5E19D21D548F5400F92692 /* UIButton+Rx.swift */,
-				2E4A94E51E49D66000218916 /* UIView+Rx.swift */,
 			);
 			path = RxExtensions;
 			sourceTree = "<group>";
@@ -5846,7 +5842,6 @@
 				6A672C161CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
 				2E6691B51FBDF2E100FC2A77 /* PromoteBumpCoordinator.swift in Sources */,
 				C74016DF1D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift in Sources */,
-				2E4A94E61E49D66000218916 /* UIView+Rx.swift in Sources */,
 				C7F3F1E11DE5A95F00652447 /* ChatRelatedListingsView.swift in Sources */,
 				C727943C1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,
 				72E8A58A1EB34D93000524E6 /* CategoriesHeaderCell.swift in Sources */,
@@ -6391,7 +6386,6 @@
 				50E0E84C1D40B11600A6397C /* UserViewHeaderContainer.swift in Sources */,
 				2E6691B61FBDF2E100FC2A77 /* PromoteBumpCoordinator.swift in Sources */,
 				C7C61E051D633FDB00F9505D /* SearchType.swift in Sources */,
-				2E4A94E71E49D73F00218916 /* UIView+Rx.swift in Sources */,
 				C7111EFA1CA43822000C5C5A /* DeepLinksRouter.swift in Sources */,
 				C74016E01D6468A7004C1E9D /* PostListingBasicDetailViewModel.swift in Sources */,
 				C727943D1D549342009C25AB /* ChangeUsernameViewController.swift in Sources */,

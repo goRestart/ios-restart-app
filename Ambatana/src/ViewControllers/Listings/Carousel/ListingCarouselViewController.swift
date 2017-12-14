@@ -735,7 +735,7 @@ extension ListingCarouselViewController {
     }
 
     private func setupUserInteractionRxBindings() {
-        cellAnimating.asObservable().map { !$0 } .bind(to: view.rx.userInteractionEnabled).disposed(by: disposeBag)
+        cellAnimating.asObservable().map { !$0 } .bind(to: view.rx.isUserInteractionEnabled).disposed(by: disposeBag)
     }
 
     fileprivate func resetMoreInfoState() {
