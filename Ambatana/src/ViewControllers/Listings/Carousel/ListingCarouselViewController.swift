@@ -633,7 +633,9 @@ extension ListingCarouselViewController {
     }
 
     private func setupDirectChatElementsRx() {
-        viewModel.directChatPlaceholder.asObservable().bind(to: chatTextView.rx.placeholder).disposed(by: disposeBag)
+        viewModel.directChatPlaceholder.asObservable().bind { [weak self] placeholder in
+            self?.chatTextView.placeholder = placeholder
+            }.disposed(by: disposeBag)
         if let productVM = viewModel.currentListingViewModel, !productVM.areQuickAnswersDynamic {
             chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
         }
