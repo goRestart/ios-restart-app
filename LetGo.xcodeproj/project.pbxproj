@@ -591,8 +591,6 @@
 		6A5E1A011D548F5400F92692 /* MapZoomBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19CB1D548F5400F92692 /* MapZoomBlocker.swift */; };
 		6A5E1A041D548F5400F92692 /* TypeAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19CD1D548F5400F92692 /* TypeAliases.swift */; };
 		6A5E1A051D548F5400F92692 /* TypeAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19CD1D548F5400F92692 /* TypeAliases.swift */; };
-		6A5E1A0C1D548F5400F92692 /* UIButton+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D21D548F5400F92692 /* UIButton+Rx.swift */; };
-		6A5E1A0D1D548F5400F92692 /* UIButton+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D21D548F5400F92692 /* UIButton+Rx.swift */; };
 		6A5E1A101D548F5400F92692 /* UIImage+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D51D548F5400F92692 /* UIImage+LG.swift */; };
 		6A5E1A111D548F5400F92692 /* UIImage+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D51D548F5400F92692 /* UIImage+LG.swift */; };
 		6A5E1A121D548F5400F92692 /* UINavigationController+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5E19D61D548F5400F92692 /* UINavigationController+LG.swift */; };
@@ -1866,7 +1864,6 @@
 		6A5E19CA1D548F5400F92692 /* LGLocationCoordinates2D+Distance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGLocationCoordinates2D+Distance.swift"; sourceTree = "<group>"; };
 		6A5E19CB1D548F5400F92692 /* MapZoomBlocker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapZoomBlocker.swift; sourceTree = "<group>"; };
 		6A5E19CD1D548F5400F92692 /* TypeAliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeAliases.swift; sourceTree = "<group>"; };
-		6A5E19D21D548F5400F92692 /* UIButton+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Rx.swift"; sourceTree = "<group>"; };
 		6A5E19D51D548F5400F92692 /* UIImage+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+LG.swift"; sourceTree = "<group>"; };
 		6A5E19D61D548F5400F92692 /* UINavigationController+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+LG.swift"; sourceTree = "<group>"; };
 		6A5E19D71D548F5400F92692 /* UIScrollView+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+LG.swift"; sourceTree = "<group>"; };
@@ -3510,14 +3507,6 @@
 			path = LetgoExtensions;
 			sourceTree = "<group>";
 		};
-		6A5E19CF1D548F5400F92692 /* RxExtensions */ = {
-			isa = PBXGroup;
-			children = (
-				6A5E19D21D548F5400F92692 /* UIButton+Rx.swift */,
-			);
-			path = RxExtensions;
-			sourceTree = "<group>";
-		};
 		6A5E19D41D548F5400F92692 /* UIkitExtensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -4251,7 +4240,6 @@
 				6A5E19B61D548F5400F92692 /* 3rdPartyExtensions */,
 				6A5E19BB1D548F5400F92692 /* FoundationExtensions */,
 				6A5E19C41D548F5400F92692 /* LetgoExtensions */,
-				6A5E19CF1D548F5400F92692 /* RxExtensions */,
 				50C63B6E1DC3A76D00836D85 /* SocialSharer */,
 				6A5E19D41D548F5400F92692 /* UIkitExtensions */,
 				C7E590311E5EC9F1002921B2 /* MultiPageRequester.swift */,
@@ -5546,7 +5534,6 @@
 				C7C328411C907267008078EC /* PostListingGalleryViewModel.swift in Sources */,
 				509CFF351DCCE8DF0068E518 /* CGPoint+LG.swift in Sources */,
 				C707D44A1E96799000042C03 /* TextHiddenTags.swift in Sources */,
-				6A5E1A0C1D548F5400F92692 /* UIButton+Rx.swift in Sources */,
 				50EC64041C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
 				2E75EC491FA0959A00C5F48F /* FeaturedInfoViewController.swift in Sources */,
 				C7B5882B1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift in Sources */,
@@ -6092,7 +6079,6 @@
 				50EC64051C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
 				509CFF361DCCE8DF0068E518 /* CGPoint+LG.swift in Sources */,
 				2E75EC4A1FA0959A00C5F48F /* FeaturedInfoViewController.swift in Sources */,
-				6A5E1A0D1D548F5400F92692 /* UIButton+Rx.swift in Sources */,
 				C7B5882C1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift in Sources */,
 				50D4C3231F8CBF39000E8069 /* SuggestiveSearch+LG.swift in Sources */,
 				2E373FB01D3E6F5100AC811C /* UserRatingListViewModel.swift in Sources */,

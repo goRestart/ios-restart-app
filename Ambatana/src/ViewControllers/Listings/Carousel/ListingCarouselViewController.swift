@@ -436,7 +436,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                 case .enabled:
                     strongButton.isHidden = false
                     strongButton.alpha = itemsAlpha
-                case .disabled:
+                case .disabled, .loading:
                     strongButton.isHidden = false
                     strongButton.alpha = 0.6
                 }
