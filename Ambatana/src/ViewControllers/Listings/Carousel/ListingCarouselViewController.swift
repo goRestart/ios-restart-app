@@ -715,7 +715,9 @@ extension ListingCarouselViewController {
     }
 
     private func setupShareButtonRx() {
-        viewModel.shareButtonState.asObservable().bind(to: shareButton.rx.state).disposed(by: disposeBag)
+        viewModel.shareButtonState.asObservable().bind { [weak self] state in
+            self.shareButton.setState(state)
+            }.disposed(by: disposeBag)
 
         shareButton.rx.tap.bind { [weak self] in
             self?.viewModel.shareButtonPressed()
