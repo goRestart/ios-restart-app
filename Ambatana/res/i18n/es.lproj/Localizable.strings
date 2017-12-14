@@ -570,7 +570,7 @@
 "product_post_close_alert_title" = "Anuncio no publicado";
 "product_post_confirmation_another" = "O";
 "product_post_confirmation_another_button" = "Publica otro producto";
-"product_post_confirmation_another_listing_button" = "Post another listing";
+"product_post_confirmation_another_listing_button" = "Publicar otro anuncio";
 "product_post_confirmation_edit" = "Añade más detalles";
 "product_post_different_country_error" = "No puedes publicar en un país distinto al que te encuentras actualmente.";
 "product_post_done" = "Hecho";
@@ -687,7 +687,7 @@
 "promote_bump_later_button" = "Más tarde";
 "promote_bump_sell_faster_button" = "Vende rápido";
 "promote_bump_title" = "Atrae más compradores";
-"quick_filter_location_title" = "Aplicar ubicación";
+"quick_filter_location_title" = "Cambiar ubicación";
 "rate_buyers_message" = "¡Enhorabuena!";
 "rate_buyers_not_on_letgo_button" = "No lo he vendido en letgo";
 "rate_buyers_not_on_letgo_title_button" = "Lo he vendido en otro lugar";
@@ -750,6 +750,7 @@
 "real_estate_offer_type_sale" = "En venta";
 "real_estate_offer_type_title" = "Tipo de anuncio";
 "real_estate_price_title" = "Precio";
+"real_estate_related_search_title" = "Resultados relacionados";
 "real_estate_summary_bathroom_title" = "baño";
 "real_estate_summary_bathrooms_empty" = "Añadir nº de baños";
 "real_estate_summary_bathrooms_title" = "baños";
