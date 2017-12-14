@@ -319,7 +319,7 @@
 "filters_section_location" = "Sted";
 "filters_section_price" = "Pris";
 "filters_section_price_free_title" = "Vis kun gratisprodukter";
-"filters_section_real_estate_info" = "Property info";
+"filters_section_real_estate_info" = "Eiendomsdetaljer";
 "filters_section_sortby" = "Sorter etter";
 "filters_section_within" = "Publisert";
 "filters_sort_closest" = "Nærmest først";
@@ -570,7 +570,7 @@
 "product_post_close_alert_title" = "Produktet er ikke publisert";
 "product_post_confirmation_another" = "Eller";
 "product_post_confirmation_another_button" = "Publiser enda et produkt";
-"product_post_confirmation_another_listing_button" = "Post another listing";
+"product_post_confirmation_another_listing_button" = "Publiser en ny annonse";
 "product_post_confirmation_edit" = "Legg til flere detaljer";
 "product_post_different_country_error" = "Du kan ikke publisere i et land du ikke befinner deg i.";
 "product_post_done" = "Fullfør";
@@ -687,7 +687,7 @@
 "promote_bump_later_button" = "Senere";
 "promote_bump_sell_faster_button" = "Selg raskere";
 "promote_bump_title" = "Tiltrekk flere kjøpere";
-"quick_filter_location_title" = "Velg plassering";
+"quick_filter_location_title" = "Endre plassering";
 "rate_buyers_message" = "Gratulerer!";
 "rate_buyers_not_on_letgo_button" = "Jeg solgte ikke dette produktet på letgo";
 "rate_buyers_not_on_letgo_title_button" = "Jeg solgte produktet et annet sted";
@@ -743,13 +743,14 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Antall soverom";
-"real_estate_current_step_of_total" = "%d of %d";
+"real_estate_current_step_of_total" = "%d av %d";
 "real_estate_location_notification_message" = "Vi viser aldri din nøyaktige plassering til andre brukere";
 "real_estate_location_title" = "Sted";
 "real_estate_offer_type_rent" = "Til utleie";
 "real_estate_offer_type_sale" = "Til salg";
 "real_estate_offer_type_title" = "Annonsetype";
 "real_estate_price_title" = "Pris";
+"real_estate_related_search_title" = "Related results";
 "real_estate_summary_bathroom_title" = "bad";
 "real_estate_summary_bathrooms_empty" = "Legg til antall bad";
 "real_estate_summary_bathrooms_title" = "bad";
