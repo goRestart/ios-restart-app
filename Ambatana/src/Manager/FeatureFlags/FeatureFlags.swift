@@ -38,7 +38,6 @@ protocol FeatureFlaggeable: class {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
-    var moreInfoAdActive: MoreInfoAdActive { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
@@ -47,8 +46,8 @@ protocol FeatureFlaggeable: class {
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
-    var moreInfoDFPActive: MoreInfoDFPActive { get }
     var copyListingAnotherConfirmation: CopyListingAnotherConfirmation { get }
+    var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -76,14 +75,6 @@ extension ExpandableCategorySelectionMenu {
 
 extension ShowPriceAfterSearchOrFilter {
     var isActive: Bool { get { return self == .priceOnSearchOrFilter } }
-}
-
-extension MoreInfoAdActive {
-    var isActive: Bool { get { return self == .titleFirst || self == .cloudsightFirst } }
-}
-
-extension MoreInfoDFPActive {
-    var isActive: Bool { get { return self == .active } }
 }
 
 extension HomeRelatedEnabled {
@@ -322,13 +313,6 @@ class FeatureFlags: FeatureFlaggeable {
         return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
     }
 
-    var moreInfoAdActive: MoreInfoAdActive {
-        if Bumper.enabled {
-            return Bumper.moreInfoAdActive
-        }
-        return MoreInfoAdActive.fromPosition(abTests.moreInfoAdActive.value)
-    }
-  
     var newItemPage: NewItemPage {
         if Bumper.enabled {
             return Bumper.newItemPage
@@ -378,13 +362,12 @@ class FeatureFlags: FeatureFlaggeable {
         return CopyListingAnotherConfirmation.fromPosition(abTests.copyListingAnotherConfirmation.value)
     }
 
-    var moreInfoDFPActive: MoreInfoDFPActive {
+    var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
         if Bumper.enabled {
-            return Bumper.moreInfoDFPActive
+            return Bumper.moreInfoAFShOrDFP
         }
-        return MoreInfoDFPActive.fromPosition(abTests.moreInfoDFPActive.value)
+        return MoreInfoAFShOrDFP.fromPosition(abTests.moreInfoAFShOrDFP.value)
     }
-    
 
     // MARK: - Country features
 
