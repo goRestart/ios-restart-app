@@ -570,7 +570,7 @@
 "product_post_close_alert_title" = "Advertentie niet geplaatst";
 "product_post_confirmation_another" = "Of";
 "product_post_confirmation_another_button" = "Plaats een ander item";
-"product_post_confirmation_another_listing_button" = "Post another listing";
+"product_post_confirmation_another_listing_button" = "Plaats nog een advertentie";
 "product_post_confirmation_edit" = "Voeg meer details toe";
 "product_post_different_country_error" = "Je kunt geen artikelen plaatsen in een land waar je bent op dit moment niet bent.";
 "product_post_done" = "Klaar";
@@ -687,7 +687,7 @@
 "promote_bump_later_button" = "Later";
 "promote_bump_sell_faster_button" = "Verkoop Sneller";
 "promote_bump_title" = "Trek meer kopers aan";
-"quick_filter_location_title" = "Locatie Instellen";
+"quick_filter_location_title" = "Wijzig locatie";
 "rate_buyers_message" = "Gefeliciteerd!";
 "rate_buyers_not_on_letgo_button" = "Ik heb het niet verkocht op letgo";
 "rate_buyers_not_on_letgo_title_button" = "Ik heb het ergens anders verkocht";
@@ -750,6 +750,7 @@
 "real_estate_offer_type_sale" = "Te Koop";
 "real_estate_offer_type_title" = "Soort Advertentie";
 "real_estate_price_title" = "Prijs";
+"real_estate_related_search_title" = "Related results";
 "real_estate_summary_bathroom_title" = "badkamer";
 "real_estate_summary_bathrooms_empty" = "Aantal badkamers toevoegen";
 "real_estate_summary_bathrooms_title" = "badkamers";

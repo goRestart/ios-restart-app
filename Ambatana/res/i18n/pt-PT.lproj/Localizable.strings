@@ -570,7 +570,7 @@
 "product_post_close_alert_title" = "Anúncio não publicado";
 "product_post_confirmation_another" = "Ou";
 "product_post_confirmation_another_button" = "Publique outro item";
-"product_post_confirmation_another_listing_button" = "Post another listing";
+"product_post_confirmation_another_listing_button" = "Publicar outro anúncio";
 "product_post_confirmation_edit" = "Adicionar mais detalhes";
 "product_post_different_country_error" = "Não pode publicar num país onde não está atualmente localizado.";
 "product_post_done" = "Feito";
@@ -750,6 +750,7 @@
 "real_estate_offer_type_sale" = "Para venda";
 "real_estate_offer_type_title" = "Tipo de publicação";
 "real_estate_price_title" = "Preço";
+"real_estate_related_search_title" = "Related results";
 "real_estate_summary_bathroom_title" = "casa de banho";
 "real_estate_summary_bathrooms_empty" = "Adicionar nº de casas de banho";
 "real_estate_summary_bathrooms_title" = "casas de banho";

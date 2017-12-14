@@ -9,6 +9,7 @@
 struct EscrowEnvironment: Environment {
     let apiBaseURL = "https://api.escrowverification.com"
     let realEstateBaseURL = "https://listingrealestate.escrowverification.com"
+    let searchRealEstateBaseURL = "https://searchrealestate.escrowverification.com"
     let bouncerBaseURL = "https://bouncer.escrowverification.com/api"
     let userRatingsBaseURL = "https://rating.escrowverification.com/api"
     let chatBaseURL = "chat.escrowverification.com"

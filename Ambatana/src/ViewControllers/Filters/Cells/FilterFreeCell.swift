@@ -13,7 +13,8 @@ protocol FilterFreeCellDelegate: class {
 }
 
 
-class FilterFreeCell: UICollectionViewCell {
+class FilterFreeCell: UICollectionViewCell, ReusableCell {
+    
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var freeSwitch: UISwitch!

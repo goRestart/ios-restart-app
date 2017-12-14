@@ -3215,6 +3215,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("real_estate_current_step_of_total", comment: ""), var1, var2)
 	}
 
+	static var realEstateRelatedSearchTitle: String {
+		return NSLocalizedString("real_estate_related_search_title", comment: "")
+	}
+
 	static var relatedItemsTitle: String {
 		return NSLocalizedString("related_items_title", comment: "")
 	}

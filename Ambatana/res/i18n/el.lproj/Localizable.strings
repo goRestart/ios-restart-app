@@ -570,7 +570,7 @@
 "product_post_close_alert_title" = "Η καταχώρηση δεν έχει δημοσιευθεί";
 "product_post_confirmation_another" = "'Η";
 "product_post_confirmation_another_button" = "Δημοσιεύστε άλλο προϊόν";
-"product_post_confirmation_another_listing_button" = "Post another listing";
+"product_post_confirmation_another_listing_button" = "Καταχωρήστε κι άλλη δημοσίευση";
 "product_post_confirmation_edit" = "Προσθέστε λεπτομέρειες";
 "product_post_different_country_error" = "Δεν μπορείτε να δημοσιεύσετε σε χώρα στην οποία δε βρίσκεστε πια.";
 "product_post_done" = "Έτοιμο";
@@ -687,7 +687,7 @@
 "promote_bump_later_button" = "Αργότερα";
 "promote_bump_sell_faster_button" = "ΓΡΗΓΟΡΗ ΠΩΛΗΣΗ";
 "promote_bump_title" = "Προσελκύστε περισσότερους αγοραστές";
-"quick_filter_location_title" = "Ορισμός Τοποθεσίας";
+"quick_filter_location_title" = "Αλλαγή Τοποθεσίας";
 "rate_buyers_message" = "Συγχαρητήρια!";
 "rate_buyers_not_on_letgo_button" = "Δεν το πούλησα στο letgo";
 "rate_buyers_not_on_letgo_title_button" = "Το πούλησα κάπου αλλού";
@@ -750,6 +750,7 @@
 "real_estate_offer_type_sale" = "Για Πώληση";
 "real_estate_offer_type_title" = "Τύπος Καταχώρησης";
 "real_estate_price_title" = "Τιμή";
+"real_estate_related_search_title" = "Related results";
 "real_estate_summary_bathroom_title" = "μπάνιο";
 "real_estate_summary_bathrooms_empty" = "Προσθήκη αριθμού μπάνιων";
 "real_estate_summary_bathrooms_title" = "μπάνια";

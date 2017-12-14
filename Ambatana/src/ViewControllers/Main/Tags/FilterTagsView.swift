@@ -192,41 +192,48 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
         case .category(let listingCategory):
             switch listingCategory {
             case .cars:
-                for i in 0..<tags.count {
-                    switch tags[i] {
+                for (i, tag) in tags.enumerated() {
+                    switch tag {
                     case .make, .model, .yearsRange:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild,
-                         .taxonomy, .secondaryTaxonomyChild:
+                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
                         continue
                     }
                 }
             case .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                 .fashionAndAccesories, .babyAndChild, .other, .realEstate, .unassigned:
+                 .fashionAndAccesories, .babyAndChild, .other, .unassigned:
                 break
+            case .realEstate:
+                for (i, tag) in tags.enumerated() {
+                    switch tag {
+                    case .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
+                        relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
+                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .make, .model, .yearsRange:
+                        continue
+                    }
+                }
             }
         case .make:
-            for i in 0..<tags.count {
-                switch tags[i] {
+            for (i, tag) in tags.enumerated() {
+                switch tag {
                 case .model:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .make, .yearsRange,
-                     .taxonomyChild, .taxonomy, .secondaryTaxonomyChild:
+                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .make, .yearsRange, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
                     continue
                 }
             }
         case .taxonomy:
-            for i in 0..<tags.count {
-                switch tags[i] {
+            for (i, tag) in tags.enumerated() {
+                switch tag {
                 case .secondaryTaxonomyChild, .taxonomyChild:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
                 case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .category, .make,
-                     .yearsRange, .taxonomy:
+                     .yearsRange, .taxonomy, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
                     continue
                 }
             }
         case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .yearsRange, .taxonomyChild,
-             .secondaryTaxonomyChild:
+             .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
             break
         }
         return relatedIndexesToDelete
