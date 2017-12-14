@@ -405,12 +405,12 @@ class ListingViewModel: BaseViewModel {
         case .priced:
             guard let paymentItemId = paymentItemId else { return }
             bannerInteractionBlock = { [weak self] in
-                guard let listing = self?.listing.value else { return }
+                guard _ = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
-
+                
                 self?.openPricedBumpUpView(purchaseableProduct: purchaseableProduct,
-                                                                  paymentItemId: paymentItemId,
-                                                                  storeProductId: paymentProviderItemId)
+                                           paymentItemId: paymentItemId,
+                                           storeProductId: paymentProviderItemId)
             }
             buttonBlock = { [weak self] in
                 self?.bumpUpProduct(productId: listingId)
