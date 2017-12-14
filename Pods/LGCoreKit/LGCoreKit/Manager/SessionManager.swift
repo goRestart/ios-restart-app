@@ -38,8 +38,11 @@ public protocol SessionManager: class {
     - parameter newsletter: Whether or not the user accepted newsletter sending. Send to nil if user wasn't asked about it
     - parameter completion: The completion closure.
     */
-    func signUp(_ email: String, password: String, name: String, newsletter: Bool?,
-        completion: SignupCompletion?)
+    func signUp(_ email: String,
+                password: String,
+                name: String,
+                newsletter: Bool?,
+                completion: SignupCompletion?)
 
     /**
      Signs up with the given credentials and public user name, if recaptcha verification is ok.
@@ -50,8 +53,12 @@ public protocol SessionManager: class {
      - parameter recaptchaToken: Recaptcha token.
      - parameter completion: The completion closure.
      */
-    func signUp(_ email: String, password: String, name: String, newsletter: Bool?, recaptchaToken: String,
-                       completion: SignupCompletion?)
+    func signUp(_ email: String,
+                password: String,
+                name: String,
+                newsletter: Bool?,
+                recaptchaToken: String,
+                completion: SignupCompletion?)
 
     /**
     Logs the user in via email.
@@ -59,14 +66,17 @@ public protocol SessionManager: class {
     - parameter password: The password.
     - parameter completion: The completion closure.
     */
-    func login(_ email: String, password: String, completion: LoginCompletion?)
+    func login(_ email: String,
+               password: String,
+               completion: LoginCompletion?)
 
     /**
     Logs the user in via Facebook.
     - parameter token: The Facebook token.
     - parameter completion: The completion closure.
     */
-    func loginFacebook(_ token: String, completion: LoginCompletion?)
+    func loginFacebook(_ token: String,
+                       completion: LoginCompletion?)
     
     /**
      Logs the user in via Google
@@ -74,14 +84,16 @@ public protocol SessionManager: class {
      - parameter token:      The Google token
      - parameter completion: The completion closure
      */
-    func loginGoogle(_ token: String, completion: LoginCompletion?)
+    func loginGoogle(_ token: String,
+                     completion: LoginCompletion?)
 
     /**
     Requests a password recovery.
     - parameter email: The email.
     - parameter completion: The completion closure.
     */
-    func recoverPassword(_ email: String, completion: RecoverPasswordCompletion?)
+    func recoverPassword(_ email: String,
+                         completion: RecoverPasswordCompletion?)
 
     /**
     Logs the user out.

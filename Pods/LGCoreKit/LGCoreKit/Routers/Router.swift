@@ -23,12 +23,7 @@ struct APIBaseURL: BaseURL {
 
 struct RealEstateBaseURL: BaseURL {
     static let baseURL = EnvironmentProxy.sharedInstance.realEstateBaseURL
-    static let acceptHeader: String? = "application/json"
-    static let contentTypeHeader: String? = nil
-}
-
-struct SearchRealEstateBaseURL: BaseURL {
-    static let baseURL = EnvironmentProxy.sharedInstance.searchRealEstateBaseURL
+    //TODO: waiting for accepted header for realEstate
     static let acceptHeader: String? = "application/json"
     static let contentTypeHeader: String? = nil
 }

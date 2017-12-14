@@ -19,9 +19,7 @@ enum ListingRouter: URLRequestAuthenticable {
     case create(params: [String : Any])
     case createRealEstate(params: [String : Any])
     case index(params: [String : Any])
-    case indexRealEstate(params: [String : Any])
-    case indexRealEstateRelatedSearch(params: [String : Any])
-    
+
     case indexRelatedListings(listingId: String, params: [String : Any])
     case indexDiscoverListings(listingId: String, params: [String : Any])
     case indexForUser(userId: String, params: [String : Any])
@@ -55,10 +53,6 @@ enum ListingRouter: URLRequestAuthenticable {
             return ListingRouter.listingBaseUrl + "/\(listingId)/related"
         case let .indexDiscoverListings(listingId, _):
             return ListingRouter.listingBaseUrl + "/\(listingId)/discover"
-        case .indexRealEstate:
-            return ListingRouter.listingRealEstateBaseUrl
-        case .indexRealEstateRelatedSearch:
-            return ListingRouter.listingRealEstateBaseUrl + "/related"
         case let .deleteFavorite(userId, _):
             return UserRouter.userBaseUrl       + "/\(userId)/favorites/products/"
         case let .saveFavorite(userId, _):
@@ -93,7 +87,7 @@ enum ListingRouter: URLRequestAuthenticable {
         case .delete, .update, .updateRealEstate, .patch, .create, .createRealEstate, .deleteFavorite, .saveFavorite, .userRelation, .saveReport,
              .indexLimbo, .possibleBuyers, .createTransactionOf, .retrieveTransactionsOf:
             return .user
-        case .show, .index, .indexRealEstate, .indexRealEstateRelatedSearch, .indexForUser, .indexFavorites, .indexRelatedListings, .indexDiscoverListings,
+        case .show, .index, .indexForUser, .indexFavorites, .indexRelatedListings, .indexDiscoverListings,
              .indexTrending, .showStats, .updateStats:
             return .nonexistent
         }
@@ -140,10 +134,6 @@ enum ListingRouter: URLRequestAuthenticable {
                                              encoding: nil).asURLRequest()
         case let .index(params):
             return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
-        case let .indexRealEstate(params):
-            return try Router<SearchRealEstateBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
-        case let .indexRealEstateRelatedSearch(params):
-            return try Router<SearchRealEstateBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexForUser(_, params):
             return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexFavorites(_, params):

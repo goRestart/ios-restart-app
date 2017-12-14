@@ -87,8 +87,6 @@ public protocol ListingRepository {
     func indexRelated(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?)
     func indexDiscover(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?)
     func indexFavorites(userId: String, numberOfResults: Int?, resultsOffset: Int?, completion: ListingsCompletion?)
-    func indexRealEstate(_ params: RetrieveListingParams, completion: ListingsCompletion?)
-    func indexRealEstateRelatedSearch(_ params: RetrieveListingParams, completion: ListingsCompletion?)
     func retrieve(_ listingId: String, completion: ListingCompletion?)
 
     func create(listingParams: ListingCreationParams, completion: ListingCompletion?)

@@ -63,40 +63,25 @@ extension Listing: Decodable  {
      */
 
     public static func decode(_ j: JSON) -> Decoded<Listing> {
-        //TODO:  TO BE REMOVE WHEN MERGE WITH SWIFT4
-        var category: ListingCategory
-        var result:  Decoded<Listing>
+        let category: ListingCategory
         if let categoryId: Int = j.decode("category_id"),
             let listingCategory: ListingCategory = ListingCategory(rawValue: categoryId) {
             category = listingCategory
-
-            switch category {
-            case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                 .fashionAndAccesories, .babyAndChild, .other, .realEstate:
-                result = curry(Listing.product) <^> LGProduct.decode(j)
-            case .cars:
-                result = curry(Listing.car) <^> LGCar.decode(j)
-            }
-            if let error = result.error {
-                logMessage(.error, type: CoreLoggingOptions.parsing, message: "Listing parse error: \(error)")
-            }
-            
-        } else if let categoryId: Int = j.decode("categoryId"),
-            let listingCategory: ListingCategory = ListingCategory(rawValue: categoryId) {
-            category = listingCategory
-            switch category {
-            case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                 .fashionAndAccesories, .babyAndChild, .other, .cars:
-                result = curry(Listing.product) <^> LGProduct.decode(j)
-            case .realEstate:
-                result = curry(Listing.realEstate) <^> LGRealEstate.decode(j)
-            }
-            if let error = result.error {
-                logMessage(.error, type: CoreLoggingOptions.parsing, message: "Listing parse error: \(error)")
-            }
         } else {
+            // to guarantee compatibility with future categories
             category = .unassigned
+        }
+
+        let result: Decoded<Listing>
+        switch category {
+        case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
+             .fashionAndAccesories, .babyAndChild, .other, .realEstate:
             result = curry(Listing.product) <^> LGProduct.decode(j)
+        case .cars:
+            result = curry(Listing.car) <^> LGCar.decode(j)
+        }
+        if let error = result.error {
+            logMessage(.error, type: CoreLoggingOptions.parsing, message: "Listing parse error: \(error)")
         }
         return result
     }

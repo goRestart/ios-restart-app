@@ -196,7 +196,6 @@ extension LGRealEstate : Decodable {
                 return Decoded<LGRealEstate>.failure(DecodeError.custom("category_id: is not valid"))
         }
         let geo: JSON? = j.decode("geo")
-        let owner: JSON? = j.decode("owner")
         let result01 = curry(LGRealEstate.make)
         let result02 = result01 <^> j <|? "id"                                          // objectId : String?
         let result03 = result02 <*> j <|? "updatedAt"                                  // updatedAt : Date?
@@ -215,7 +214,7 @@ extension LGRealEstate : Decodable {
         let result16 = result15 <*> j <|? ["thumb", "url"]                              // thumbnail : String?
         let result17 = result16 <*> j <|? "thumb"                                       // thumbnailSize : LGSize?
         let result18 = result17 <*> (j <||? "images" >>- LGArgo.jsonArrayToFileArray)   // images : [LGFile]
-        let result19 = result18 <*> LGArgo.ownerRealEstateToUserListing(owner)          // user : LGUserListing?
+        let result19 = result18 <*> j <| "owner"                                        // user : LGUserListing?
         let result20 = result19 <*> j <|? "featured"                                    // featured : Bool
         let result   = result20 <*> j <|? "realEstateAttributes"                        // realEstateAttributes : RealEstateAttributes
         if let error = result.error {

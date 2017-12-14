@@ -39,10 +39,6 @@ public struct RetrieveListingParams {
     public var startYear: RetrieveListingParam<Int>?
     public var endYear: RetrieveListingParam<Int>?
     public var abtest: String?
-    public var propertyType: String?
-    public var offerType: String?
-    public var numberOfBedrooms: Int?
-    public var numberOfBathrooms: Float?
     
     public init() { }
     
@@ -70,45 +66,12 @@ public struct RetrieveListingParams {
         return params
     }
     
-    var realEstateApiParams: Dictionary<String, Any> {
-        var params = Dictionary<String, Any>()
-        params["searchTerm"] = queryString
-        params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
-        // In case country code is empty we send the request without it.
-        if let countryCode = countryCode, !countryCode.isEmpty {
-            params["countryCode"] = countryCode
-        }
-        if let freePrice = freePrice, freePrice {
-            params["priceFlag"] = ListingPriceFlag.free.rawValue
-        }
-        params["maxPrice"] = maxPrice
-        params["minPrice"] = minPrice
-        params["distanceRadius"] = distanceRadius
-        params["distanceType"] = distanceType?.string
-        params["numResults"] = numListings
-        params["offset"] = offset
-        params["sort"] = sortCriteria?.string
-        params["since"] = timeCriteria?.string
-        
-        // Real Estate attributes
-        if let propertyType = propertyType {
-            params["propertyType"] = [propertyType]
-        }
-        if let offerType = offerType {
-            params["offerType"] = [offerType]
-        }
-        params["numberOfBedrooms"] = numberOfBedrooms
-        params["numberOfBathrooms"] = numberOfBathrooms
-       
-        return params
-    }
-    
     var letgoApiParams: Dictionary<String, Any> {
         var params = Dictionary<String, Any>()
         params["search_term"] = queryString
         params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKit.quadKeyZoomLevel)
         // In case country code is empty we send the request without it.
-        if let countryCode = countryCode, !countryCode.isEmpty {
+        if countryCode != "" {
             params["country_code"] = countryCode
         }
         let categories = categoryIds?.map { String($0) }.joined(separator: ",")

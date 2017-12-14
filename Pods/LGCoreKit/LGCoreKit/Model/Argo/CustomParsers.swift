@@ -50,20 +50,6 @@ class LGArgo {
         let postalAddress = PostalAddress(address: nil, city: city, zipCode: zipCode, state: nil, countryCode: countryCode, country: nil)
         return Decoded<PostalAddress>.success(postalAddress)
     }
-    
-    static func ownerRealEstateToUserListing(_ input: JSON?) -> Decoded<LGUserListing> {
-        guard let jsonInput = input else { return Decoded<LGUserListing>.customError("Missing Json input") }
-        let countryCode: String? = jsonInput.decode("countryCode")
-        let city: String? = jsonInput.decode("city")
-        let zipCode: String? =  jsonInput.decode("zipCode")
-        let objectId: String? = jsonInput.decode("id")
-        let name: String? = jsonInput.decode("name")
-        let avatar: String? = jsonInput.decode("avatarUrl")
-        let isDummy: Bool = jsonInput.decode("isRichy") ?? false
-        let postalAddress = PostalAddress(address: nil, city: city, zipCode: zipCode, state: nil, countryCode: countryCode, country: nil)
-        let userListing = LGUserListing(objectId: objectId, name: name, avatar: avatar, postalAddress: postalAddress, isDummy: isDummy, banned: nil, status: nil)
-        return Decoded<LGUserListing>.success(userListing)
-    }
 
     static func jsonToLocation(_ json: JSON, latKey: String, lonKey: String, typeKey: String) -> Decoded<LGLocation?> {
         guard let latitude: Double = json.decode(latKey) else { return Decoded<LGLocation?>.success(nil) }
