@@ -68,11 +68,6 @@ final class ListingApiDataSource: ListingDataSource {
         let request = ListingRouter.show(listingId: listingId)
         apiClient.request(request, decoder: ListingApiDataSource.decoder, completion: completion)
     }
-    
-    func retrieveRealEstate(_ listingId: String, completion: ListingDataSourceCompletion?) {
-        let request = ListingRouter.showRealEstate(listingId: listingId)
-        apiClient.request(request, decoder: ListingApiDataSource.decoder, completion: completion)
-    }
 
     func createListing(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?) {
         let request: URLRequestAuthenticable
@@ -99,8 +94,8 @@ final class ListingApiDataSource: ListingDataSource {
             request = ListingRouter.update(listingId: productParams.productId, params: productParams.apiEditionEncode())
             apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
         case .realEstate(let realEstateParams):
-            request = ListingRouter.updateRealEstate(listingId: realEstateParams.realEstateId, params: realEstateParams.apiEditionEncode())
-            apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
+            request = ListingRouter.update(listingId: realEstateParams.realEstateId, params: realEstateParams.apiEditionEncode())
+            apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
         }
     }
 

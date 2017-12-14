@@ -39,8 +39,7 @@ protocol ListingDataSource {
     func indexRealEstateRelatedSearch(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
 
     func retrieve(_ listingId: String, completion: ListingDataSourceCompletion?)
-    func retrieveRealEstate(_ listingId: String, completion: ListingDataSourceCompletion?)
-    
+
     func createListing(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?)
     func updateListing(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?)
 
