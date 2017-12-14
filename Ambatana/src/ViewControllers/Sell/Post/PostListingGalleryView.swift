@@ -410,7 +410,7 @@ extension PostListingGalleryView {
         albumButton.addConstraints([left,centerV])
 
 
-        viewModel.albumTitle.asObservable().bind(to: albumButton.rx.title).disposed(by: disposeBag)
+        viewModel.albumTitle.asObservable().bind(to: albumButton.rx.title(for: .normal)).disposed(by: disposeBag)
         viewModel.albumButtonEnabled.asObservable().bind(to: albumButton.rx.isEnabled).disposed(by: disposeBag)
         viewModel.lastImageSelected.asObservable().bind(to: selectedImage.rx.image).disposed(by: disposeBag)
 

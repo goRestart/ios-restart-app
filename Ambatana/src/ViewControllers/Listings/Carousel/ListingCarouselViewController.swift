@@ -707,7 +707,7 @@ extension ListingCarouselViewController {
     private func setupFavoriteButtonRx() {
         viewModel.isFavorite.asObservable()
             .map { UIImage(named: $0 ? "ic_favorite_big_on" : "ic_favorite_big_off") }
-            .bind(to: favoriteButton.rx.image).disposed(by: disposeBag)
+            .bind(to: favoriteButton.rx.image(for: .normal)).disposed(by: disposeBag)
 
         favoriteButton.rx.tap.bind { [weak self] in
             self?.viewModel.favoriteButtonPressed()

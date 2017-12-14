@@ -10,23 +10,23 @@ import RxCocoa
 import RxSwift
 
 extension Reactive where Base: UIButton {
-    var title: UIBindingObserver<Base, String> {
-        return UIBindingObserver<Base, String>(UIElement: self.base) { (button, title) -> () in
-            button.setTitle(title, for: .normal)
-        }
-    }
-    
-    var optionalTitle: UIBindingObserver<Base, String?> {
-        return UIBindingObserver<Base, String?>(UIElement: self.base) { (button, title) -> () in
-            button.setTitle(title, for: .normal)
-        }
-    }
-
-    var image: UIBindingObserver<Base, UIImage?> {
-        return UIBindingObserver<Base, UIImage?>(UIElement: self.base) { (button, image) -> () in
-            button.setImage(image, for: .normal)
-        }
-    }
+//    var title: UIBindingObserver<Base, String> {
+//        return UIBindingObserver<Base, String>(UIElement: self.base) { (button, title) -> () in
+//            button.setTitle(title, for: .normal)
+//        }
+//    }
+//    
+//    var optionalTitle: UIBindingObserver<Base, String?> {
+//        return UIBindingObserver<Base, String?>(UIElement: self.base) { (button, title) -> () in
+//            button.setTitle(title, for: .normal)
+//        }
+//    }
+//
+//    var image: UIBindingObserver<Base, UIImage?> {
+//        return UIBindingObserver<Base, UIImage?>(UIElement: self.base) { (button, image) -> () in
+//            button.setImage(image, for: .normal)
+//        }
+//    }
 
     var state: UIBindingObserver<Base, ButtonState> {
         return UIBindingObserver<Base, ButtonState>(UIElement: self.base) { (button, state) -> () in
