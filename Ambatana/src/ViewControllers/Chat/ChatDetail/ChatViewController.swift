@@ -14,7 +14,6 @@ import RxSwift
 class ChatViewController: TextViewController {
 
     let navBarHeight: CGFloat = 64
-    let inputBarHeight: CGFloat = 44
     let expressBannerHeight: CGFloat = 44
     let listingView: ChatListingView
     var selectedCellIndexPath: IndexPath?
@@ -164,6 +163,9 @@ class ChatViewController: TextViewController {
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor.grayBackground
         tableView.allowsSelection = false
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
+        }
         textView.placeholder = LGLocalizedString.chatMessageFieldHint
         textView.placeholderColor = UIColor.gray
         textView.placeholderFont = UIFont.systemFont(ofSize: 17)
