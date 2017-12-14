@@ -70,5 +70,11 @@ extension FiltersCoordinator: FiltersNavigator {
         let vc = TaxonomiesViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    func openListingAttributePicker(viewModel: ListingAttributePickerViewModel) {
+        let vc = ListingAttributePickerViewController(viewModel: viewModel)
+        viewModel.delegate = vc
+        navigationController.pushViewController(vc, animated: true)
+    }
 }
 

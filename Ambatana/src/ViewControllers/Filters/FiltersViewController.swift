@@ -19,6 +19,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             static let distance: CGFloat = 78.0
             static let category: CGFloat = 50.0
             static let singleCheck: CGFloat = 50.0
+            static let singleCheckWithMargin: CGFloat = 62.0
             static let prices: CGFloat = 50.0
             static let year: CGFloat = 90.0
         }
@@ -174,6 +175,11 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
         case .price:
             return CGSize(width: view.bounds.width, height: Layout.Height.prices)
+        case .realEstateInfo:
+            if indexPath.item == 1 || indexPath.item == 2 {
+                return CGSize(width: view.bounds.width, height: Layout.Height.singleCheckWithMargin)
+            }
+            return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
         }
     }
     
@@ -197,6 +203,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             return viewModel.numOfSortOptions
         case .price:
             return viewModel.numberOfPriceRows
+        case .realEstateInfo:
+            return viewModel.numberOfRealEstateRows
         }
     }
     
@@ -220,7 +228,6 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
         -> UICollectionViewCell {
-            // ABIOS-2721: CellDrawer pattern
             switch viewModel.sections[indexPath.section] {
             case .location:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
@@ -284,6 +291,59 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                                      minimumValueSelected: viewModel.carYearStart,
                                      maximumValueSelected: viewModel.carYearEnd)
                     cell.delegate = self
+                    return cell
+                default:
+                    return UICollectionViewCell()
+                }
+            case .realEstateInfo:
+                switch indexPath.item {
+                case 0:
+                    // propertyType
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
+                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
+                    cell.isUserInteractionEnabled = true
+                    cell.titleLabel.isEnabled = true
+                    cell.titleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
+                    cell.subtitleLabel.text = viewModel.currentPropertyTypeName ?? LGLocalizedString.filtersRealEstatePropertyTypeNotSet
+                    return cell
+                case 1:
+                    // For sale option
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
+                                                                        for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
+                    cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
+                    cell.isSelected = viewModel.isOfferTypeSelectedAtIndex(indexPath.row - 1)
+                    cell.topSeparator.isHidden = false
+                    cell.bottomSeparator.isHidden = true
+                    cell.setMargin(top: true)
+                    return cell
+                case 2:
+                    // For rent option
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
+                                                                        for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
+                    cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
+                    cell.isSelected = viewModel.isOfferTypeSelectedAtIndex(indexPath.row - 1)
+                    cell.topSeparator.isHidden = false
+                    cell.bottomSeparator.isHidden = false
+                    cell.setMargin(bottom: true)
+                    return cell
+                case 3:
+                    // Number of bedrooms
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
+                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
+                    cell.isUserInteractionEnabled = true
+                    cell.titleLabel.isEnabled = true
+                    cell.titleLabel.text = LGLocalizedString.realEstateBedroomsTitle
+                    cell.subtitleLabel.text = viewModel.currentNumberOfBedroomsName ?? LGLocalizedString.filtersRealEstateBedroomsNotSet
+                    cell.topSeparator?.isHidden = false
+                    return cell
+                case 4:
+                    // Number of bathrooms
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
+                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
+                    cell.isUserInteractionEnabled = true
+                    cell.titleLabel.isEnabled = true
+                    cell.titleLabel.text = LGLocalizedString.realEstateBathroomsTitle
+                    cell.subtitleLabel.text = viewModel.currentNumberOfBathroomsName ?? LGLocalizedString.filtersRealEstateBathroomsNotSet
                     return cell
                 default:
                     return UICollectionViewCell()
@@ -371,6 +431,26 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             case 2:
                 // Do nothing for year
                 break
+            default:
+                break
+            }
+        case .realEstateInfo:
+            switch indexPath.item {
+            case 0:
+                // propertyType
+                viewModel.propertyTypeButtonPressed()
+            case 1:
+                // for sale
+                viewModel.selectOfferTypeAtIndex(indexPath.row - 1)
+            case 2:
+                // for rent
+                viewModel.selectOfferTypeAtIndex(indexPath.row - 1)
+            case 3:
+                // bedrooms
+                viewModel.numberOfBedroomsPressed()
+            case 4:
+                // bathrooms
+                viewModel.numberOfBathroomsPressed()
             default:
                 break
             }

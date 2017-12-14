@@ -19,6 +19,7 @@ class FilterFreeCell: UICollectionViewCell, FilterCell, ReusableCell {
 
     let titleLabel = UILabel()
     let freeSwitch = UISwitch()
+
     
     weak var delegate: FilterFreeCellDelegate?
     let disposeBag = DisposeBag()
@@ -63,7 +64,7 @@ class FilterFreeCell: UICollectionViewCell, FilterCell, ReusableCell {
                 imageView.contentMode = .center
                 imageView.image = isOn ? #imageLiteral(resourceName: "free_switch_active") : #imageLiteral(resourceName: "free_switch_inactive")
             }
-        }.disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
     
     

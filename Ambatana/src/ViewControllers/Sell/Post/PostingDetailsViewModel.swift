@@ -9,7 +9,7 @@
 import RxSwift
 import LGCoreKit
 
-class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
+class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
     
     var title: String {
         return step.title
@@ -100,7 +100,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .year, .make, .model:
             return nil
         }
-        let view: PostingAddDetailTableView = PostingAddDetailTableView(values: values, delegate: self)
+        let view = PostingAttributePickerTableView(values: values, selectedIndex: nil, delegate: self)
         return view
     }
     
@@ -327,7 +327,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         }
     }
     
-    func findValueSelected() -> Int? {
+    func indexForValueSelected() -> Int? {
         var positionSelected: Int? = nil
         switch step {
         case .propertyType:

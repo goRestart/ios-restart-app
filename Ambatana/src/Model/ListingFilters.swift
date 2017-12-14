@@ -69,6 +69,11 @@ struct ListingFilters {
     var carModelName: String?
     var carYearStart: RetrieveListingParam<Int>?
     var carYearEnd: RetrieveListingParam<Int>?
+    
+    var realEstatePropertyType: RealEstatePropertyType?
+    var realEstateOfferType: RealEstateOfferType?
+    var realEstateNumberOfBedrooms: NumberOfBedrooms?
+    var realEstateNumberOfBathrooms: NumberOfBathrooms?
 
     init() {
         self.init(
@@ -86,7 +91,11 @@ struct ListingFilters {
             carModelId: nil,
             carModelName: nil,
             carYearStart: nil,
-            carYearEnd: nil
+            carYearEnd: nil,
+            realEstatePropertyType: nil,
+            realEstateOfferType: nil,
+            realEstateNumberOfBedrooms: nil,
+            realEstateNumberOfBathrooms: nil
         )
     }
     
@@ -104,7 +113,12 @@ struct ListingFilters {
          carModelId: RetrieveListingParam<String>?,
          carModelName: String?,
          carYearStart: RetrieveListingParam<Int>?,
-         carYearEnd: RetrieveListingParam<Int>?) {
+         carYearEnd: RetrieveListingParam<Int>?,
+         realEstatePropertyType: RealEstatePropertyType?,
+         realEstateOfferType: RealEstateOfferType?,
+         realEstateNumberOfBedrooms: NumberOfBedrooms?,
+         realEstateNumberOfBathrooms: NumberOfBathrooms?
+         ) {
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
@@ -120,6 +134,10 @@ struct ListingFilters {
         self.carModelName = carModelName
         self.carYearStart = carYearStart
         self.carYearEnd = carYearEnd
+        self.realEstatePropertyType = realEstatePropertyType
+        self.realEstateOfferType = realEstateOfferType
+        self.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
+        self.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
     }
     
     func updating(selectedCategories: [ListingCategory]) -> ListingFilters {
@@ -137,7 +155,11 @@ struct ListingFilters {
                               carModelId: carModelId,
                               carModelName: carModelName,
                               carYearStart: carYearStart,
-                              carYearEnd: carYearEnd)
+                              carYearEnd: carYearEnd,
+                              realEstatePropertyType: realEstatePropertyType,
+                              realEstateOfferType: realEstateOfferType,
+                              realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
+                              realEstateNumberOfBathrooms: realEstateNumberOfBathrooms)
     }
     
     
@@ -154,6 +176,14 @@ struct ListingFilters {
     func hasSelectedCategory(_ category: ListingCategory) -> Bool {
         return indexForCategory(category) != nil
     }
+    
+    var hasAnyRealEstateAttributes: Bool {
+        return realEstateOfferType != nil || realEstatePropertyType != nil || realEstateNumberOfBathrooms != nil || realEstateNumberOfBedrooms != nil
+    }
+    
+    var hasAnyCarAttributes: Bool {
+        return carMakeId != nil || carMakeId != nil || carYearStart != nil || carYearEnd != nil
+    }
 
     func isDefault() -> Bool {
         if let _ = place { return false } //Default is nil
@@ -164,7 +194,8 @@ struct ListingFilters {
         if selectedWithin != ListingTimeCriteria.defaultOption { return false }
         if selectedOrdering != ListingSortCriteria.defaultOption { return false }
         if priceRange != .priceRange(min: nil, max: nil) { return false }
-        if carMakeId != nil || carModelId != nil || carYearStart != nil || carYearEnd != nil { return false }
+        if hasAnyCarAttributes { return false }
+        if hasAnyRealEstateAttributes { return false }
         return true
     }
     
@@ -212,7 +243,11 @@ extension ListingFilters: Equatable {
         a.carMakeId == b.carMakeId &&
         a.carModelId == b.carModelId &&
         a.carYearStart == b.carYearStart &&
-        a.carYearEnd == b.carYearEnd
+        a.carYearEnd == b.carYearEnd &&
+        a.realEstatePropertyType == b.realEstatePropertyType &&
+        a.realEstateOfferType == b.realEstateOfferType &&
+        a.realEstateNumberOfBedrooms == b.realEstateNumberOfBedrooms &&
+        a.realEstateNumberOfBathrooms == b.realEstateNumberOfBathrooms
     }
 }
 
