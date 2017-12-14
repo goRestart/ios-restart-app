@@ -43,7 +43,9 @@ class ABTests {
     let showPriceStepRealEstatePosting = IntABDynamicVar(key: "20171106RealEstatePostingOrder", defaultValue: 0)
     let showClockInDirectAnswer = IntABDynamicVar(key: "20171031ShowClockInDirectAnswer", defaultValue: 0)
     let bumpUpPriceDifferentiation = IntABDynamicVar(key: "20171114BumpUpPriceDifferentiation", defaultValue: 0)
-
+    let promoteBumpUpAfterSell = IntABDynamicVar(key: "20171127PromoteBumpUpAfterSell", defaultValue: 0)
+    let moreInfoDFPActive = IntABDynamicVar(key: "20171211MoreInfoDFPActive", defaultValue: 0)
+    let copyListingAnotherConfirmation = IntABDynamicVar(key: "20171205CopyListingAnotherConfirmation", defaultValue: 0)
     
     init() {
     }
@@ -79,6 +81,9 @@ class ABTests {
         result.append(showPriceStepRealEstatePosting)
         result.append(showClockInDirectAnswer)
         result.append(bumpUpPriceDifferentiation)
+        result.append(promoteBumpUpAfterSell)
+        result.append(moreInfoDFPActive)
+        result.append(copyListingAnotherConfirmation)
         
         return result
     }

@@ -84,8 +84,9 @@ extension ListingViewModel {
         trackHelper.trackBumpBannerInfoShown(type: type, storeProductId: storeProductId)
     }
 
-    func trackBumpUpStarted(_ price: EventParameterBumpUpPrice, type: BumpUpType, storeProductId: String?) {
-        trackHelper.trackBumpUpStarted(price, type: type, storeProductId: storeProductId)
+    func trackBumpUpStarted(_ price: EventParameterBumpUpPrice, type: BumpUpType, storeProductId: String?,
+                            isPromotedBump: Bool) {
+        trackHelper.trackBumpUpStarted(price, type: type, storeProductId: storeProductId, isPromotedBump: isPromotedBump)
     }
 
     func trackBumpUpCompleted(_ price: EventParameterBumpUpPrice,
@@ -93,9 +94,11 @@ extension ListingViewModel {
                               restoreRetriesCount: Int,
                               network: EventParameterShareNetwork,
                               transactionStatus: EventParameterTransactionStatus?,
-                              storeProductId: String?) {
+                              storeProductId: String?,
+                              isPromotedBump: Bool) {
         trackHelper.trackBumpUpCompleted(price, type: type, restoreRetriesCount: restoreRetriesCount, network: network,
-                                         transactionStatus: transactionStatus, storeProductId: storeProductId)
+                                         transactionStatus: transactionStatus, storeProductId: storeProductId,
+                                         isPromotedBump: isPromotedBump)
     }
 
     func trackBumpUpFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus?, storeProductId: String?) {
@@ -169,10 +172,14 @@ extension ProductVMTrackHelper {
         tracker.trackEvent(trackerEvent)
     }
 
-    func trackBumpUpStarted(_ price: EventParameterBumpUpPrice, type: BumpUpType, storeProductId: String?) {
+    func trackBumpUpStarted(_ price: EventParameterBumpUpPrice,
+                            type: BumpUpType,
+                            storeProductId: String?,
+                            isPromotedBump: Bool) {
         let trackerEvent = TrackerEvent.listingBumpUpStart(listing, price: price,
                                                            type: EventParameterBumpUpType(bumpType: type),
-                                                           storeProductId: storeProductId)
+                                                           storeProductId: storeProductId,
+                                                           isPromotedBump: EventParameterBoolean(bool: isPromotedBump))
         tracker.trackEvent(trackerEvent)
     }
 
@@ -181,13 +188,15 @@ extension ProductVMTrackHelper {
                               restoreRetriesCount: Int,
                               network: EventParameterShareNetwork,
                               transactionStatus: EventParameterTransactionStatus?,
-                              storeProductId: String?) {
+                              storeProductId: String?,
+                              isPromotedBump: Bool) {
         let trackerEvent = TrackerEvent.listingBumpUpComplete(listing, price: price,
                                                               type: EventParameterBumpUpType(bumpType: type),
                                                               restoreRetriesCount: restoreRetriesCount,
                                                               network: network,
                                                               transactionStatus: transactionStatus,
-                                                              storeProductId: storeProductId)
+                                                              storeProductId: storeProductId,
+                                                              isPromotedBump: EventParameterBoolean(bool: isPromotedBump))
         tracker.trackEvent(trackerEvent)
     }
 

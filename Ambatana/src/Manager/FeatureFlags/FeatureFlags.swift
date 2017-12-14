@@ -45,6 +45,9 @@ protocol FeatureFlaggeable: class {
     var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation { get }
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
+    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
+    var moreInfoDFPActive: MoreInfoDFPActive { get }
+    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -52,6 +55,7 @@ protocol FeatureFlaggeable: class {
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
     var moreInfoShoppingAdUnitId: String { get }
+    var moreInfoDFPAdUnitId: String { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -77,6 +81,10 @@ extension MoreInfoAdActive {
     var isActive: Bool { get { return self == .titleFirst || self == .cloudsightFirst } }
 }
 
+extension MoreInfoDFPActive {
+    var isActive: Bool { get { return self == .active } }
+}
+
 extension HomeRelatedEnabled {
     var isActive: Bool { get { return self == .active } }
 }
@@ -93,7 +101,16 @@ extension BumpUpPriceDifferentiation {
     var isActive: Bool { get { return self == .active } }
 }
 
+extension PromoteBumpUpAfterSell {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension CopyListingAnotherConfirmation {
+    var isActive: Bool { get { return self == .active } }
+}
+
 class FeatureFlags: FeatureFlaggeable {
+
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
     let requestTimeOut: RequestsTimeOut
@@ -339,6 +356,28 @@ class FeatureFlags: FeatureFlaggeable {
         return BumpUpPriceDifferentiation.fromPosition(abTests.bumpUpPriceDifferentiation.value)
     }
 
+    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
+        if Bumper.enabled {
+            return Bumper.promoteBumpUpAfterSell
+        }
+        return PromoteBumpUpAfterSell.fromPosition(abTests.promoteBumpUpAfterSell.value)
+    }
+    
+    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation {
+        if Bumper.enabled {
+            return Bumper.copyListingAnotherConfirmation
+        }
+        return CopyListingAnotherConfirmation.fromPosition(abTests.copyListingAnotherConfirmation.value)
+    }
+
+    var moreInfoDFPActive: MoreInfoDFPActive {
+        if Bumper.enabled {
+            return Bumper.moreInfoDFPActive
+        }
+        return MoreInfoDFPActive.fromPosition(abTests.moreInfoDFPActive.value)
+    }
+    
+
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
@@ -397,6 +436,15 @@ class FeatureFlags: FeatureFlaggeable {
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShoppingUSA
         default:
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShopping
+        }
+    }
+
+    var moreInfoDFPAdUnitId: String {
+        switch sensorLocationCountryCode {
+        case .usa?:
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFPUSA
+        default:
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFP
         }
     }
 

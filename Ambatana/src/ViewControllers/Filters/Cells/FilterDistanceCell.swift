@@ -9,7 +9,8 @@
 import UIKit
 import LGCoreKit
 
-class FilterDistanceCell: UICollectionViewCell {
+class FilterDistanceCell: UICollectionViewCell, ReusableCell {
+    
     
     @IBOutlet weak var separatorHeight: NSLayoutConstraint!
     private let filterDistanceSlider = FilterDistanceSlider()

@@ -39,6 +39,9 @@ extension Bumper  {
         flags.append(ShowPriceStepRealEstatePosting.self)
         flags.append(ShowClockInDirectAnswer.self)
         flags.append(BumpUpPriceDifferentiation.self)
+        flags.append(PromoteBumpUpAfterSell.self)
+        flags.append(MoreInfoDFPActive.self)
+        flags.append(CopyListingAnotherConfirmation.self)
         Bumper.initialize(flags)
     } 
 
@@ -170,6 +173,21 @@ extension Bumper  {
     static var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation {
         guard let value = Bumper.value(for: BumpUpPriceDifferentiation.key) else { return .control }
         return BumpUpPriceDifferentiation(rawValue: value) ?? .control 
+    }
+
+    static var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
+        guard let value = Bumper.value(for: PromoteBumpUpAfterSell.key) else { return .control }
+        return PromoteBumpUpAfterSell(rawValue: value) ?? .control 
+    }
+
+    static var moreInfoDFPActive: MoreInfoDFPActive {
+        guard let value = Bumper.value(for: MoreInfoDFPActive.key) else { return .control }
+        return MoreInfoDFPActive(rawValue: value) ?? .control 
+    }
+
+    static var copyListingAnotherConfirmation: CopyListingAnotherConfirmation {
+        guard let value = Bumper.value(for: CopyListingAnotherConfirmation.key) else { return .control }
+        return CopyListingAnotherConfirmation(rawValue: value) ?? .control 
     } 
 }
 
@@ -526,6 +544,54 @@ enum BumpUpPriceDifferentiation: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Scale bump prices according to listing price" } 
     static func fromPosition(_ position: Int) -> BumpUpPriceDifferentiation {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum PromoteBumpUpAfterSell: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return PromoteBumpUpAfterSell.control.rawValue }
+    static var enumValues: [PromoteBumpUpAfterSell] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show a bump up alert after posting (once every 24h)" } 
+    static func fromPosition(_ position: Int) -> PromoteBumpUpAfterSell {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum MoreInfoDFPActive: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return MoreInfoDFPActive.control.rawValue }
+    static var enumValues: [MoreInfoDFPActive] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show the ad in more info using DFP" } 
+    static func fromPosition(_ position: Int) -> MoreInfoDFPActive {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum CopyListingAnotherConfirmation: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return CopyListingAnotherConfirmation.control.rawValue }
+    static var enumValues: [CopyListingAnotherConfirmation] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show listing instead of product on confirmation screen" } 
+    static func fromPosition(_ position: Int) -> CopyListingAnotherConfirmation {
         switch position { 
             case 0: return .control
             case 1: return .baseline

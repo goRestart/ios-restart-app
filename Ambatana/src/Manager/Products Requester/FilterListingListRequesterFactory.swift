@@ -12,7 +12,7 @@ import LGCoreKit
 class FilterListingListRequesterFactory {
 
     static func generateRequester(withFilters filters: ListingFilters, queryString: String?, itemsPerPage: Int, multiRequesterEnabled: Bool) -> ListingListMultiRequester {
-
+        
         var filtersArray: [ListingFilters] = [filters]
         var requestersArray: [ListingListRequester] = []
 
@@ -26,12 +26,19 @@ class FilterListingListRequesterFactory {
             filteredRequester.queryString = queryString
             requestersArray.append(filteredRequester)
         }
+        
+        if filters.selectedCategories.contains(.realEstate) && filters.hasAnyRealEstateAttributes {
+            let filteredRequester = SearchRelatedListingListRequester(itemsPerPage: itemsPerPage)
+            filteredRequester.filters = filters
+            filteredRequester.queryString = queryString
+            requestersArray.append(filteredRequester)
+        }
 
         let multiRequester = ListingListMultiRequester(requesters: requestersArray)
 
         return multiRequester
     }
-
+    
     private static func generateCarsNegativeFilters(fromFilters filters: ListingFilters) -> [ListingFilters] {
 
         var finalCarFiltersArray: [ListingFilters] = [filters]

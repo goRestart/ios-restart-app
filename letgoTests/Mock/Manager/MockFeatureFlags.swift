@@ -47,6 +47,9 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation = .control
+    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell = .control
+    var moreInfoDFPActive: MoreInfoDFPActive = .control
+    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
@@ -54,6 +57,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
     var moreInfoShoppingAdUnitId = ""
+    var moreInfoDFPAdUnitId = ""
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

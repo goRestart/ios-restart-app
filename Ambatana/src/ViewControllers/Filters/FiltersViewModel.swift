@@ -93,6 +93,19 @@ class FiltersViewModel: BaseViewModel {
     var currentCarModelName: String? {
         return productFilter.carModelName
     }
+    
+    var currentPropertyTypeName: String? {
+        return productFilter.realEstatePropertyType?.localizedString
+    }
+    
+    var currentNumberOfBathroomsName: String? {
+        return productFilter.realEstateNumberOfBathrooms?.summaryLocalizedString
+    }
+    
+    var currentNumberOfBedroomsName: String? {
+        return productFilter.realEstateNumberOfBedrooms?.summaryLocalizedString
+    }
+    
     var modelCellEnabled: Bool {
         return currentCarMakeName != nil
     }
@@ -131,23 +144,28 @@ class FiltersViewModel: BaseViewModel {
         return self.categories.count%2 == 1
     }
 
-    var priceCellsDisabled: Bool {
-        if featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive {
-            return false
-        } else {
-            return self.productFilter.priceRange.free
-        }
+    var isPriceCellEnabled: Bool {
+        return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive || !productFilter.priceRange.free
     }
 
-    var carsInfoCellsDisabled: Bool {
+    var isCarsInfoCellEnabled: Bool {
         let isTaxonomyCars = productFilter.selectedTaxonomyChildren.contains(where: { $0.isCarsTaxonomy } )
-        return !(productFilter.selectedCategories.contains(.cars) || isTaxonomyCars)
+        return productFilter.selectedCategories.contains(.cars) || isTaxonomyCars
+    }
+    
+    var isRealEstateInfoCellEnabled: Bool {
+        return productFilter.selectedCategories.contains(.realEstate)
     }
 
     var numOfWithinTimes : Int {
         return self.withinTimes.count
     }
     private var withinTimes : [ListingTimeCriteria]
+    
+    var offerTypeOptionsCount : Int {
+        return self.offerTypeOptions.count
+    }
+    private var offerTypeOptions : [RealEstateOfferType]
     
     var numOfSortOptions : Int {
         return self.sortOptions.count
@@ -210,18 +228,29 @@ class FiltersViewModel: BaseViewModel {
     }
     
     convenience init(currentFilters: ListingFilters) {
-        self.init(categoryRepository: Core.categoryRepository, categories: [],
-            withinTimes: ListingTimeCriteria.allValues(), sortOptions: ListingSortCriteria.allValues(),
-            currentFilters: currentFilters, featureFlags: FeatureFlags.sharedInstance, carsInfoRepository: Core.carsInfoRepository)
+        self.init(categoryRepository: Core.categoryRepository,
+                  categories: [],
+                  withinTimes: ListingTimeCriteria.allValues(),
+                  sortOptions: ListingSortCriteria.allValues(),
+                  offerTypeOptions: RealEstateOfferType.allValues,
+                  currentFilters: currentFilters,
+                  featureFlags: FeatureFlags.sharedInstance,
+                  carsInfoRepository: Core.carsInfoRepository)
     }
     
-    required init(categoryRepository: CategoryRepository, categories: [FilterCategoryItem],
-                  withinTimes: [ListingTimeCriteria], sortOptions: [ListingSortCriteria], currentFilters: ListingFilters,
-        featureFlags: FeatureFlaggeable, carsInfoRepository: CarsInfoRepository) {
+    required init(categoryRepository: CategoryRepository,
+                  categories: [FilterCategoryItem],
+                  withinTimes: [ListingTimeCriteria],
+                  sortOptions: [ListingSortCriteria],
+                  offerTypeOptions: [RealEstateOfferType],
+                  currentFilters: ListingFilters,
+                  featureFlags: FeatureFlaggeable,
+                  carsInfoRepository: CarsInfoRepository) {
         self.categoryRepository = categoryRepository
         self.categories = categories
         self.withinTimes = withinTimes
         self.sortOptions = sortOptions
+        self.offerTypeOptions = offerTypeOptions
         self.productFilter = currentFilters
         self.sections = []
         self.featureFlags = featureFlags
@@ -233,17 +262,11 @@ class FiltersViewModel: BaseViewModel {
     // MARK: - Actions
 
     fileprivate func generateSections() -> [FilterSection] {
-        var updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive)
+        let updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive)
 
-        // Don't show price cells if necessary
-        if let idx = updatedSections.index(of: FilterSection.price), priceCellsDisabled {
-            updatedSections.remove(at: idx)
-        }
-        // Don't show car info cells if necessary
-        if let idx = updatedSections.index(of: FilterSection.carsInfo), carsInfoCellsDisabled {
-            updatedSections.remove(at: idx)
-        }
-        return updatedSections
+        return updatedSections.filter { $0 != .price ||  isPriceCellEnabled }
+            .filter {$0 != .carsInfo ||  isCarsInfoCellEnabled }
+            .filter {$0 != .realEstateInfo || isRealEstateInfoCellEnabled }
     }
 
     func locationButtonPressed() {
@@ -277,7 +300,61 @@ class FiltersViewModel: BaseViewModel {
         vm.carAttributeSelectionDelegate = self
         navigator?.openCarAttributeSelection(withViewModel: vm)
     }
-
+    
+    func propertyTypeButtonPressed() {
+        let attributeValues = RealEstatePropertyType.allValues
+        let values = attributeValues.map { $0.localizedString }
+        let vm = ListingAttributePickerViewModel(
+            title: LGLocalizedString.realEstateTypePropertyTitle,
+            attributes: values,
+            selectedAttribute: productFilter.realEstatePropertyType?.rawValue
+        ) { [weak self] selectedIndex in
+            if let selectedIndex = selectedIndex {
+                self?.productFilter.realEstatePropertyType = attributeValues[selectedIndex]
+            } else {
+                self?.productFilter.realEstatePropertyType = nil
+            }
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func numberOfBedroomsPressed() {
+        let attributeValues = NumberOfBedrooms.allValues
+        let values = attributeValues.map { $0.localizedString }
+        let vm = ListingAttributePickerViewModel(
+            title: LGLocalizedString.realEstateBedroomsTitle,
+            attributes: values,
+            selectedAttribute: productFilter.realEstateNumberOfBedrooms?.localizedString
+        ) { [weak self] selectedIndex in
+            if let selectedIndex = selectedIndex {
+                self?.productFilter.realEstateNumberOfBedrooms = attributeValues[selectedIndex]
+            } else {
+                self?.productFilter.realEstateNumberOfBedrooms = nil
+            }
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func numberOfBathroomsPressed() {
+        let attributeValues = NumberOfBathrooms.allValues
+        let values = attributeValues.map { $0.localizedString }
+        let vm = ListingAttributePickerViewModel(
+            title: LGLocalizedString.realEstateBathroomsTitle,
+            attributes: values,
+            selectedAttribute: productFilter.realEstateNumberOfBathrooms?.localizedString
+        ) { [weak self] selectedIndex in
+            if let selectedIndex = selectedIndex {
+                self?.productFilter.realEstateNumberOfBathrooms = attributeValues[selectedIndex]
+            } else {
+                self?.productFilter.realEstateNumberOfBathrooms = nil
+            }
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
     func resetFilters() {
         productFilter = ListingFilters()
         sections = generateSections()
@@ -319,7 +396,7 @@ class FiltersViewModel: BaseViewModel {
     Retrieves the list of categories
     */
     func retrieveCategories() {
-        categoryRepository.index(filterVisible: true) { [weak self] result in
+        categoryRepository.index(carsIncluded: false, realEstateIncluded: featureFlags.realEstateEnabled) { [weak self] result in
             guard let strongSelf = self else { return }
             guard let categories = result.value else { return }
             strongSelf.categories = strongSelf.buildFilterCategoryItemsWithCategories(categories)
@@ -424,7 +501,27 @@ class FiltersViewModel: BaseViewModel {
         return withinTimes[index] == productFilter.selectedWithin
     }
     
-    // MARK: Filter by
+    
+    // MARK: Real Estate offer type
+    
+    func selectOfferTypeAtIndex(_ index: Int) {
+        guard index < offerTypeOptionsCount else { return }
+        productFilter.realEstateOfferType = isOfferTypeSelectedAtIndex(index) ? nil : offerTypeOptions[index]
+        delegate?.vmDidUpdate()
+    }
+    
+    func offerTypeNameAtIndex(_ index: Int) -> String? {
+        guard index < offerTypeOptionsCount else { return nil }
+        return offerTypeOptions[index].localizedString
+    }
+    
+    func isOfferTypeSelectedAtIndex(_ index: Int) -> Bool {
+        guard index < offerTypeOptionsCount else { return false }
+        return offerTypeOptions[index] == productFilter.realEstateOfferType
+    }
+    
+    
+    // MARK: Sort by
     
     func selectSortOptionAtIndex(_ index: Int) {
         guard index < numOfSortOptions else { return }
@@ -454,6 +551,10 @@ class FiltersViewModel: BaseViewModel {
 
     var numberOfPriceRows: Int {
         return priceRangeAvailable ? 2 : 1
+    }
+    
+    var numberOfRealEstateRows: Int {
+        return 5
     }
     
     func setMinPrice(_ value: String?) {

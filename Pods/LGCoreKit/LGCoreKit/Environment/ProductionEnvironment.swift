@@ -9,7 +9,8 @@
 struct ProductionEnvironment: Environment {
     
     let apiBaseURL = "https://letgo-a.akamaihd.net"
-    let realEstateBaseURL = "https://listingrealestate.origin.letgo.com"
+    let realEstateBaseURL = "https://listingrealestate.letgo.com"
+    let searchRealEstateBaseURL = "https://searchrealestate.letgo.com"
     let bouncerBaseURL = "https://bouncer.letgo.com/api"
     let userRatingsBaseURL = "https://rating.letgo.com/api"
     let chatBaseURL = "https://chat.letgo.com"
