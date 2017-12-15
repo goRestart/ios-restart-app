@@ -95,15 +95,15 @@ class FiltersViewModel: BaseViewModel {
     }
     
     var currentPropertyTypeName: String? {
-        return productFilter.propertyType?.localizedString
+        return productFilter.realEstatePropertyType?.localizedString
     }
     
     var currentNumberOfBathroomsName: String? {
-        return productFilter.numberOfBathrooms?.summaryLocalizedString
+        return productFilter.realEstateNumberOfBathrooms?.summaryLocalizedString
     }
     
     var currentNumberOfBedroomsName: String? {
-        return productFilter.numberOfBedrooms?.summaryLocalizedString
+        return productFilter.realEstateNumberOfBedrooms?.summaryLocalizedString
     }
     
     var modelCellEnabled: Bool {
@@ -307,12 +307,12 @@ class FiltersViewModel: BaseViewModel {
         let vm = ListingAttributePickerViewModel(
             title: LGLocalizedString.realEstateTypePropertyTitle,
             attributes: values,
-            selectedAttribute: productFilter.propertyType?.rawValue
+            selectedAttribute: productFilter.realEstatePropertyType?.rawValue
         ) { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
-                self?.productFilter.propertyType = attributeValues[selectedIndex]
+                self?.productFilter.realEstatePropertyType = attributeValues[selectedIndex]
             } else {
-                self?.productFilter.propertyType = nil
+                self?.productFilter.realEstatePropertyType = nil
             }
             self?.delegate?.vmDidUpdate()
         }
@@ -325,12 +325,12 @@ class FiltersViewModel: BaseViewModel {
         let vm = ListingAttributePickerViewModel(
             title: LGLocalizedString.realEstateBedroomsTitle,
             attributes: values,
-            selectedAttribute: productFilter.numberOfBedrooms?.localizedString
+            selectedAttribute: productFilter.realEstateNumberOfBedrooms?.localizedString
         ) { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
-                self?.productFilter.numberOfBedrooms = attributeValues[selectedIndex]
+                self?.productFilter.realEstateNumberOfBedrooms = attributeValues[selectedIndex]
             } else {
-                self?.productFilter.numberOfBedrooms = nil
+                self?.productFilter.realEstateNumberOfBedrooms = nil
             }
             self?.delegate?.vmDidUpdate()
         }
@@ -343,12 +343,12 @@ class FiltersViewModel: BaseViewModel {
         let vm = ListingAttributePickerViewModel(
             title: LGLocalizedString.realEstateBathroomsTitle,
             attributes: values,
-            selectedAttribute: productFilter.numberOfBathrooms?.localizedString
+            selectedAttribute: productFilter.realEstateNumberOfBathrooms?.localizedString
         ) { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
-                self?.productFilter.numberOfBathrooms = attributeValues[selectedIndex]
+                self?.productFilter.realEstateNumberOfBathrooms = attributeValues[selectedIndex]
             } else {
-                self?.productFilter.numberOfBathrooms = nil
+                self?.productFilter.realEstateNumberOfBathrooms = nil
             }
             self?.delegate?.vmDidUpdate()
         }
@@ -506,7 +506,7 @@ class FiltersViewModel: BaseViewModel {
     
     func selectOfferTypeAtIndex(_ index: Int) {
         guard index < offerTypeOptionsCount else { return }
-        productFilter.offerType = isOfferTypeSelectedAtIndex(index) ? nil : offerTypeOptions[index]
+        productFilter.realEstateOfferType = isOfferTypeSelectedAtIndex(index) ? nil : offerTypeOptions[index]
         delegate?.vmDidUpdate()
     }
     
@@ -517,7 +517,7 @@ class FiltersViewModel: BaseViewModel {
     
     func isOfferTypeSelectedAtIndex(_ index: Int) -> Bool {
         guard index < offerTypeOptionsCount else { return false }
-        return offerTypeOptions[index] == productFilter.offerType
+        return offerTypeOptions[index] == productFilter.realEstateOfferType
     }
     
     

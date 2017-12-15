@@ -131,16 +131,16 @@ class MainListingsViewModel: BaseViewModel {
             }
         }
         
-        if let propertyType = filters.propertyType {
+        if let propertyType = filters.realEstatePropertyType {
             resultTags.append(.realEstatePropertyType(propertyType))
         }
-        if let offerType = filters.offerType {
+        if let offerType = filters.realEstateOfferType {
             resultTags.append(.realEstateOfferType(offerType))
         }
-        if let numberOfBedrooms = filters.numberOfBedrooms {
+        if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
             resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
         }
-        if let numberOfBathrooms = filters.numberOfBathrooms {
+        if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
             resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
         }
 
@@ -495,10 +495,10 @@ class MainListingsViewModel: BaseViewModel {
             filters.carYearEnd = nil
         }
         
-        filters.propertyType = realEstatePropertyType
-        filters.offerType = realEstateOfferType
-        filters.numberOfBedrooms = realEstateNumberOfBedrooms
-        filters.numberOfBathrooms = realEstateNumberOfBathrooms
+        filters.realEstatePropertyType = realEstatePropertyType
+        filters.realEstateOfferType = realEstateOfferType
+        filters.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
+        filters.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
         
         updateCategoriesHeader()
         updateListView()

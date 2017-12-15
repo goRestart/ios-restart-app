@@ -992,6 +992,10 @@ extension ListingCarouselViewController: ProductCarouselMoreInfoDelegate {
             }
         }
     }
+
+    func rootViewControllerForDFPBanner() -> UIViewController {
+        return self
+    }
 }
 
 
