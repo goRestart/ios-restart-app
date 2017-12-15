@@ -144,6 +144,7 @@ class ListingViewModel: BaseViewModel {
     fileprivate let visitSource: EventParameterListingVisitSource
 
     let isShowingFeaturedStripe = Variable<Bool>(false)
+    fileprivate var isListingDetailsCompleted = Variable<Bool>(false)
 
     // Retrieval status
     private var relationRetrieved = false
@@ -192,6 +193,12 @@ class ListingViewModel: BaseViewModel {
     
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
+        
+        if listing.value.category == .realEstate && listing.value.isProduct {
+            retrieveRealEstateDetails(listingId: listingId)
+        } else {
+            isListingDetailsCompleted.value = true
+        }
 
         listingRepository.incrementViews(listingId: listingId, visitSource: visitSource.rawValue, visitTimestamp: Date().millisecondsSince1970, completion: nil)
 
@@ -260,6 +267,10 @@ class ListingViewModel: BaseViewModel {
             strongSelf.refreshNavBarButtons()
             strongSelf.directChatEnabled.value = status.directChatsAvailable
         }.addDisposableTo(disposeBag)
+        
+        isListingDetailsCompleted.asObservable().filter {$0}.bindNext{ [weak self] _ in
+            self?.refreshNavBarButtons()
+        }.addDisposableTo(disposeBag)
 
         // bumpeable listing check
         status.asObservable().bindNext { [weak self] status in
@@ -324,6 +335,14 @@ class ListingViewModel: BaseViewModel {
 
     private func refreshStatus() {
         status.value = ListingViewModelStatus(listing: listing.value, isMine: isMine, featureFlags: featureFlags)
+    }
+    
+    private func retrieveRealEstateDetails(listingId: String) {
+        listingRepository.retrieveRealEstate(listingId) { [weak self] (result) in
+            guard let realEstateListing = result.value else { return }
+            self?.listing.value = realEstateListing
+            self?.isListingDetailsCompleted.value = true
+        }
     }
 
     func refreshBumpeableBanner() {
@@ -405,7 +424,7 @@ class ListingViewModel: BaseViewModel {
         case .priced:
             guard let paymentItemId = paymentItemId else { return }
             bannerInteractionBlock = { [weak self] in
-                guard let listing = self?.listing.value else { return }
+                guard let _ = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
 
                 self?.openPricedBumpUpView(purchaseableProduct: purchaseableProduct,
@@ -589,7 +608,7 @@ extension ListingViewModel {
         var navBarButtons = [UIAction]()
 
         if isMine {
-            if status.value.isEditable {
+            if status.value.isEditable && isListingDetailsCompleted.value {
                 navBarButtons.append(buildEditNavBarAction())
             }
             navBarButtons.append(buildMoreNavBarAction())

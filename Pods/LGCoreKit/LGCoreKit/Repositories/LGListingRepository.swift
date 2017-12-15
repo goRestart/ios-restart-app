@@ -109,6 +109,16 @@ final class LGListingRepository: ListingRepository {
             }
         }
     }
+    
+    func retrieveRealEstate(_ listingId: String, completion: ListingCompletion?) {
+        dataSource.retrieveRealEstate(listingId) { result in
+            if let value = result.value {
+                completion?(ListingResult(value: value))
+            } else if let error = result.error {
+                completion?(ListingResult(error: RepositoryError(apiError: error)))
+            }
+        }
+    }
 
 
     func create(listingParams: ListingCreationParams, completion: ListingCompletion?) {

@@ -390,10 +390,9 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     private func setupCollectionRx() {
         viewModel.objectChanges.observeOn(MainScheduler.instance).bindNext { [weak self] change in
             guard let strongSelf = self else { return }
-
-            self?.imageBackground.isHidden = true
-                self?.collectionView.handleCollectionChange(change) { _ in
-                    self?.imageBackground.isHidden = false
+            strongSelf.imageBackground.isHidden = true
+                strongSelf.collectionView.handleCollectionChange(change) { _ in
+                    strongSelf.imageBackground.isHidden = false
                 }
             }.addDisposableTo(disposeBag)
     }
@@ -416,7 +415,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
         itemsAlpha.asObservable().bindNext { [weak self] itemsAlpha in
             self?.pageControl.alpha = itemsAlpha
-        }
+        }.addDisposableTo(disposeBag)
 
         itemsAlpha.asObservable().bindTo(productStatusView.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(directChatTable.rx.alpha).addDisposableTo(disposeBag)
