@@ -12,6 +12,7 @@ import RxSwift
 class PostListingViewController: BaseViewController, PostListingViewModelDelegate {
     
     private static let retryButtonHeight: CGFloat = 50
+    private static let retryButtonWidth: CGFloat = 100
     private static let loadingViewHeight: CGFloat = 100
     private static let loadingViewWidth: CGFloat = 100
     
@@ -223,7 +224,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         messageLabelUploadingImage.textColor = UIColor.white
         messageLabelUploadingImage.font = UIFont.body
         messageLabelUploadingImage.numberOfLines = 0
-        retryButtonUploadingImageRealEstate.layout().height(PostListingViewController.retryButtonHeight)
+        retryButtonUploadingImageRealEstate.layout().height(PostListingViewController.retryButtonHeight).width(PostListingViewController.retryButtonWidth)
         retryButtonUploadingImageRealEstate.setStyle(.primary(fontSize: .medium))
         retryButtonUploadingImageRealEstate.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
         retryButtonUploadingImageRealEstate.addTarget(self, action: #selector(PostListingViewController.onRetryButton), for: .touchUpInside)
