@@ -150,7 +150,10 @@ class ListingCarouselMoreInfoView: UIView {
         cleanMapView()
     }
     
-    func updateDragViewVerticalLayout(statusBarHeight: CGFloat) {
+    
+    // MARK: - UI
+    
+    func updateDragViewVerticalConstraint(statusBarHeight: CGFloat) {
         dragViewToVisualEffectConstraint.constant = statusBarHeight + ListingCarouselMoreInfoView.dragViewVerticalExtraMargin
     }
 }

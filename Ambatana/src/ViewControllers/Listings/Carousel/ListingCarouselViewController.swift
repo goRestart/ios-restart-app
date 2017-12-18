@@ -334,7 +334,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         setupDirectMessages()
         setupBumpUpBanner()
         
-        moreInfoView.updateDragViewVerticalLayout(statusBarHeight: statusBarHeight)
+        moreInfoView.updateDragViewVerticalConstraint(statusBarHeight: statusBarHeight)
     }
 
     func setupBumpUpBanner() {
