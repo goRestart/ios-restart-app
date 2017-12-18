@@ -24,7 +24,7 @@ final class EditListingCoordinator: Coordinator, EditListingNavigator {
     weak var presentedAlertController: UIAlertController?
     var bubbleNotificationManager: BubbleNotificationManager
     var sessionManager: SessionManager
-    fileprivate var navigationController = UINavigationController()
+    fileprivate let navigationController: UINavigationController
     
     weak var delegate: EditListingCoordinatorDelegate?
 
@@ -38,10 +38,10 @@ final class EditListingCoordinator: Coordinator, EditListingNavigator {
         let editVM = EditListingViewModel(listing: listing)
         let editVC = EditListingViewController(viewModel: editVM)
         let navCtl = UINavigationController(rootViewController: editVC)
-
         self.navigationController = navCtl
         self.bubbleNotificationManager = bubbleNotificationManager
         self.sessionManager = sessionManager
+        
         editVM.navigator = self
     }
 
