@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Ocorreu um erro ao desarquivar estas conversas. Por favor tente novamente.";
 "chat_list_unblock" = "Desbloquear";
 "chat_login_popup_text" = "Para começar a conversar deve primeiro fazer login";
+"chat_message_disclaimer_meeting_security" = "Remember, busy public places like coffee shops and bank lobbies are safe, convenient meeting spots. Consider bringing a friend.";
 "chat_message_disclaimer_scammer_append_blocked" = "Toque aqui para bloquear este utilizador.";
 "chat_message_disclaimer_scammer_base_blocked" = "Seja extremamente cuidadoso ao trocar contactos de telefone/email. Os utilizadores fraudulentos pedem com frequência para abandonar o chat do letgo. %@";
 "chat_message_field_hint" = "Escreva a sua mensagem aqui";
@@ -750,7 +751,7 @@
 "real_estate_offer_type_sale" = "Para venda";
 "real_estate_offer_type_title" = "Tipo de publicação";
 "real_estate_price_title" = "Preço";
-"real_estate_related_search_title" = "Related results";
+"real_estate_related_search_title" = "Resultados relacionados";
 "real_estate_summary_bathroom_title" = "casa de banho";
 "real_estate_summary_bathrooms_empty" = "Adicionar nº de casas de banho";
 "real_estate_summary_bathrooms_title" = "casas de banho";
