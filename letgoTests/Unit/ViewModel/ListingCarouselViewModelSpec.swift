@@ -575,7 +575,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(userInfoObserver.eventValues.count) == 3
                         }
                         it("navbarButtons changed twice") {
-                            expect(navBarButtonsObserver.eventValues.count) == 3
+                            expect(navBarButtonsObserver.eventValues.count) == 4
                         }
                         it("actionButtons changed twice") {
                             expect(actionButtonsObserver.eventValues.count) == 3
