@@ -1,34 +1,43 @@
-//
-//  RelatedListingListRequester.swift
-//  LetGo
-//
-//  Created by Dídac on 21/04/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
-//
-
 import LGCoreKit
 
 class RelatedListingListRequester: ListingListRequester {
+    
+    enum ListingType {
+        case product, realEstate
+    }
+    
+    fileprivate let listingType: ListingType
     let itemsPerPage: Int
     fileprivate let listingObjectId: String
-    private let listingRepository: ListingRepository
-    private var offset: Int = 0
+    fileprivate let listingRepository: ListingRepository
+    fileprivate var offset: Int = 0
+    fileprivate let featureFlags: FeatureFlags
 
-    private var retrieveListingParams: RetrieveListingParams {
+    fileprivate var retrieveListingParams: RetrieveListingParams {
         var params = RetrieveListingParams()
         params.numListings = itemsPerPage
         params.offset = offset
         return params
     }
 
-    convenience init(listingId: String, itemsPerPage: Int) {
-        self.init(listingId: listingId, itemsPerPage: itemsPerPage, listingRepository: Core.listingRepository)
+    convenience init(listingType: ListingType, listingId: String, itemsPerPage: Int) {
+        self.init(listingType: listingType,
+                  listingId: listingId,
+                  itemsPerPage: itemsPerPage,
+                  listingRepository: Core.listingRepository,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(listingId: String, itemsPerPage: Int, listingRepository: ListingRepository) {
+    init(listingType: ListingType,
+         listingId: String,
+         itemsPerPage: Int,
+         listingRepository: ListingRepository,
+         featureFlags: FeatureFlags) {
+        self.listingType = listingType
         self.listingObjectId = listingId
         self.listingRepository = listingRepository
         self.itemsPerPage = itemsPerPage
+        self.featureFlags = featureFlags
     }
 
     func canRetrieve() -> Bool {
@@ -44,16 +53,6 @@ class RelatedListingListRequester: ListingListRequester {
         listingsRetrieval(completion)
     }
 
-    func listingsRetrieval(_ completion: ListingsRequesterCompletion?) {
-        listingRepository.indexRelated(listingId: listingObjectId, params: retrieveListingParams) {
-            [weak self] result in
-            if let value = result.value {
-                self?.offset += value.count
-            }
-            completion?(ListingsRequesterResult(listingsResult: result, context: nil))
-        }
-    }
-
     func isLastPage(_ resultCount: Int) -> Bool {
         return resultCount == 0
     }
@@ -61,16 +60,14 @@ class RelatedListingListRequester: ListingListRequester {
     func updateInitialOffset(_ newOffset: Int) {}
 
     func duplicate() -> ListingListRequester {
-        let r = RelatedListingListRequester(listingId: listingObjectId, itemsPerPage: itemsPerPage)
+        let r = RelatedListingListRequester(listingType: listingType, listingId: listingObjectId, itemsPerPage: itemsPerPage)
         r.offset = offset
         return r
     }
     func distanceFromListingCoordinates(_ listingCoords: LGLocationCoordinates2D) -> Double? {
-        // method needed for protocol implementation, not used for related
         return nil
     }
     var countryCode: String? {
-        // method needed for protocol implementation, not used for related
         return nil
     }
 
@@ -80,3 +77,24 @@ class RelatedListingListRequester: ListingListRequester {
     }
 }
 
+fileprivate extension RelatedListingListRequester {
+    
+    func listingsRetrieval(_ completion: ListingsRequesterCompletion?) {
+        let requestCompletion: ListingsCompletion = { [weak self] result in
+            if let value = result.value {
+                self?.offset += value.count
+            }
+            completion?(ListingsRequesterResult(listingsResult: result, context: nil))
+        }
+
+        if case .realEstate = listingType, featureFlags.realEstateEnabled {
+            listingRepository.indexRelatedRealEstate(listingId: listingObjectId,
+                                                     params: retrieveListingParams,
+                                                     completion: requestCompletion)
+        } else {
+            listingRepository.indexRelated(listingId: listingObjectId,
+                                           params: retrieveListingParams,
+                                           completion: requestCompletion)
+        }
+    }
+}
