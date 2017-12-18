@@ -194,7 +194,7 @@ class ListingViewModel: BaseViewModel {
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
         
-        if listing.value.category == .realEstate && listing.value.isProduct {
+        if listing.value.isRealEstate && listing.value.realEstate?.realEstateAttributes == RealEstateAttributes.emptyRealEstateAttributes() {
             retrieveRealEstateDetails(listingId: listingId)
         } else {
             isListingDetailsCompleted.value = true
