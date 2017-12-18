@@ -13,6 +13,9 @@ import LGCoreKit
 class ListingCreationViewModel : BaseViewModel {
     
     private let listingRepository: ListingRepository
+    private let tracker: Tracker
+    private let keyValueStorage: KeyValueStorage
+    private let featureFlags: FeatureFlags
     private let listingParams: ListingCreationParams
     private let trackingInfo: PostListingTrackingInfo
     private var listingResult: ListingResult?
@@ -26,21 +29,35 @@ class ListingCreationViewModel : BaseViewModel {
     
     convenience init(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo) {
         self.init(listingRepository: Core.listingRepository,
+                  tracker: TrackerProxy.sharedInstance,
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance,
                   listingParams: listingParams,
                   trackingInfo: trackingInfo)
     }
     
     init(listingRepository: ListingRepository,
-        listingParams: ListingCreationParams,
-        trackingInfo: PostListingTrackingInfo) {
+         tracker: Tracker,
+         keyValueStorage: KeyValueStorage,
+         featureFlags: FeatureFlags,
+         listingParams: ListingCreationParams,
+         trackingInfo: PostListingTrackingInfo) {
         self.listingRepository = listingRepository
+        self.tracker = tracker
+        self.keyValueStorage = keyValueStorage
+        self.featureFlags = featureFlags
         self.listingParams = listingParams
         self.trackingInfo = trackingInfo
     }
     
     func createListing() {
-        listingRepository.create(listingParams: listingParams) { [weak self] (listingResult) in
-            self?.listingResult = listingResult
+        listingRepository.create(listingParams: listingParams) { [weak self] result in
+            if let listing = result.value, let trackingInfo = self?.trackingInfo {
+                self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
+            } else if let error = result.error {
+                self?.trackPostSellError(error: error)
+            }
+            self?.listingResult = result
             self?.finishRequest.value = true
         }
     }
@@ -50,6 +67,37 @@ class ListingCreationViewModel : BaseViewModel {
             navigator?.cancelPostListing() // It should never happen
             return }
         navigator?.showConfirmation(listingResult: result, trackingInfo: trackingInfo, modalStyle: false)
+    }
+    
+    private func trackPost(withListing listing: Listing, trackingInfo: PostListingTrackingInfo) {
+        let event = TrackerEvent.listingSellComplete(listing, buttonName: trackingInfo.buttonName, sellButtonPosition: trackingInfo.sellButtonPosition,
+                                                     negotiable: trackingInfo.negotiablePrice, pictureSource: trackingInfo.imageSource,
+                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+        
+        tracker.trackEvent(event)
+        
+        // Track product was sold in the first 24h (and not tracked before)
+        if let firstOpenDate = keyValueStorage[.firstRunDate], Date().timeIntervalSince(firstOpenDate) <= 86400 &&
+            !keyValueStorage.userTrackingProductSellComplete24hTracked {
+            keyValueStorage.userTrackingProductSellComplete24hTracked = true
+            
+            let event = TrackerEvent.listingSellComplete24h(listing)
+            tracker.trackEvent(event)
+        }
+    }
+    
+    private func trackPostSellError(error: RepositoryError) {
+        let sellError: EventParameterPostListingError
+        switch error {
+        case .network:
+            sellError = .network
+        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified:
+            sellError = .serverError(code: error.errorCode)
+        case .internalError, .wsChatError:
+            sellError = .internalError
+        }
+        let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
+        tracker.trackEvent(sellErrorDataEvent)
     }
 }
 

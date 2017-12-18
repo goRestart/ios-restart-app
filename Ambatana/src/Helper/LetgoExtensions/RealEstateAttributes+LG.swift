@@ -20,7 +20,9 @@ extension RealEstateAttributes {
             bedroomsString = bedroomsValue.shortLocalizedString.localizedUppercase
         }
         var bathroomsString: String? = nil
-        if let bathroomsRawValue = bathrooms, let bathroomsValue = NumberOfBathrooms(rawValue: bathroomsRawValue) {
+        if let bathroomsRawValue = bathrooms,
+            let bathroomsValue = NumberOfBathrooms(rawValue: bathroomsRawValue),
+            bathroomsValue != .zero {
              bathroomsString = bathroomsValue.shortLocalizedString.localizedUppercase
         }
         title = [propertyTypeString, offerTypeString, bedroomsString, bathroomsString].flatMap{ $0 }.joined(separator: separator)

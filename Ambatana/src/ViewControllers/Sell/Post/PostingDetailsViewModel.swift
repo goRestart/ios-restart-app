@@ -181,7 +181,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     func nextbuttonPressed() {
         guard let next = step.nextStep else {
-            post()
+            post(buttonNameType: .summary)
             return
         }
         switch step {
@@ -199,12 +199,12 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         advanceNextStep(next: nextStep)
     }
     
-    private func post() {
+    private func post(buttonNameType: EventParameterButtonNameType) {
         guard let listingCreationParams = retrieveListingParams() else {
             navigator?.cancelPostListing()
             return
         }
-        let trackingInfo = retrieveTrackingInfo()
+        let trackingInfo = retrieveTrackingInfo(buttonNameType: buttonNameType)
         navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: { [weak self] in
             self?.navigator?.openListingCreation(listingParams: listingCreationParams, trackingInfo: trackingInfo)
             }, cancelAction: { [weak self] in
@@ -217,7 +217,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             navigator?.cancelPostListing()
             return
         }
-        let trackingInfo = retrieveTrackingInfo()
+        let trackingInfo = retrieveTrackingInfo(buttonNameType: .close)
         navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: { [weak self] in
             self?.navigator?.closePostProductAndPostInBackground(params: listingCreationParams, trackingInfo: trackingInfo)
             }, cancelAction: { [weak self] in
@@ -229,21 +229,12 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, previousStepIsSummary: false)
     }
     
-    private func postListing() {
-        guard let listingCreationParams = retrieveListingParams() else {
-            navigator?.cancelPostListing()
-            return
-        }
-        let trackingInfo = retrieveTrackingInfo()
-        navigator?.closePostProductAndPostInBackground(params: listingCreationParams, trackingInfo: trackingInfo)
-    }
-    
     private func set(price: ListingPrice) {
         postListingState = postListingState.updating(price: price)
     }
     
-    private func retrieveTrackingInfo() -> PostListingTrackingInfo {
-        return PostListingTrackingInfo(buttonName: .summary, sellButtonPosition: postingSource.sellButtonPosition, imageSource: uploadedImageSource, price: String(describing: postListingState.price?.value))
+    private func retrieveTrackingInfo(buttonNameType: EventParameterButtonNameType) -> PostListingTrackingInfo {
+        return PostListingTrackingInfo(buttonName: buttonNameType, sellButtonPosition: postingSource.sellButtonPosition, imageSource: uploadedImageSource, price: String(describing: postListingState.price?.value))
     }
     
     private func retrieveListingParams() -> ListingCreationParams? {
