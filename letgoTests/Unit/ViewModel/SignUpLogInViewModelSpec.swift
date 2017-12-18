@@ -17,6 +17,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
     var finishedSuccessfully: Bool = false
     var finishedScammer: Bool = false
     var finishedDeviceNotAllowed: Bool = false
+    var openRecaptchaCalled: Bool = false
     
     var delegateReceivedShowGodModeAlert = false
     var navigatorReceivedOpenRememberPassword = false
@@ -60,6 +61,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 self.finishedSuccessfully = false
                 self.finishedScammer = false
                 self.finishedDeviceNotAllowed = false
+                self.openRecaptchaCalled = false
                 
                 self.delegateReceivedShowGodModeAlert = false
                 self.delegateReceivedHideLoading = false
@@ -323,6 +325,33 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             expect(self.finishedDeviceNotAllowed).toEventually(beTrue())
                         }
                     }
+                    context("user not verified") {
+                        beforeEach {
+                            sut.currentActionType = .login
+                            let email = "albert@letgo.com"
+                            sessionManager.logInResult = LoginResult(error: .userNotVerified)
+                            
+                            sut.email.value = email
+                            sut.password.value = "123456"
+                            sut.logIn()
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
+                        
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("does not track a login-error event") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == []
+                        }
+                        it("asks to open recaptcha") {
+                            expect(self.openRecaptchaCalled).toEventually(beTrue())
+                        }
+                    }
                 }
             }
 
@@ -417,6 +446,33 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                             expect(self.finishedDeviceNotAllowed).toEventually(beTrue())
                         }
                     }
+                    context("user not verified") {
+                        beforeEach {
+                            sut.currentActionType = .login
+                            let email = "albert@letgo.com"
+                            sessionManager.logInResult = LoginResult(error: .userNotVerified)
+                            
+                            sut.email.value = email
+                            sut.password.value = "123456"
+                            sut.logIn()
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
+                        
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("does not track a login-error event") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == []
+                        }
+                        it("asks to open recaptcha") {
+                            expect(self.openRecaptchaCalled).toEventually(beTrue())
+                        }
+                    }
                 }
             }
 
@@ -509,6 +565,33 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                         }
                         it("asks to show device not allowed error alert") {
                             expect(self.finishedDeviceNotAllowed).toEventually(beTrue())
+                        }
+                    }
+                    context("user not verified") {
+                        beforeEach {
+                            sut.currentActionType = .login
+                            let email = "albert@letgo.com"
+                            sessionManager.logInResult = LoginResult(error: .userNotVerified)
+                            
+                            sut.email.value = email
+                            sut.password.value = "123456"
+                            sut.logIn()
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
+                        
+                        it("does not save a user account provider") {
+                            let provider = keyValueStorage[.previousUserAccountProvider]
+                            expect(provider).to(beNil())
+                        }
+                        it("does not save a previous user name") {
+                            let username = keyValueStorage[.previousUserEmailOrName]
+                            expect(username).to(beNil())
+                        }
+                        it("does not track a login-error event") {
+                            expect(tracker.trackedEvents.map({ $0.actualName })) == []
+                        }
+                        it("asks to open recaptcha") {
+                            expect(self.openRecaptchaCalled).toEventually(beTrue())
                         }
                     }
                 }
@@ -1352,7 +1435,9 @@ extension SignUpLogInViewModelSpec: SignUpLogInNavigator {
         finishedSuccessfully = false
         finishedDeviceNotAllowed = true
     }
-    func openRecaptcha(transparentMode: Bool) {}
+    func openRecaptcha(action: LoginActionType) {
+        openRecaptchaCalled = true
+    }
 
     func openRememberPasswordFromSignUpLogIn(email: String?) {
         navigatorReceivedOpenRememberPassword = true

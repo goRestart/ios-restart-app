@@ -348,7 +348,7 @@ class SignUpLogInViewModel: BaseViewModel {
         }
     }
     
-    func logIn() {
+    func logIn(recaptchaToken: String? = nil) {
         guard sendButtonEnabledVar.value else { return }
         
         if emailTrimmed.value == "admin" && password.value == "wat" {
@@ -361,14 +361,14 @@ class SignUpLogInViewModel: BaseViewModel {
         let errors = logInEmailForm.checkErrors()
         
         if errors.isEmpty {
-            sendLogIn(logInEmailForm)
+            sendLogIn(logInEmailForm, recaptchaToken: recaptchaToken)
         } else {
             trackFormLogInValidationFailed(errors: errors)
             delegate?.vmShowAutoFadingMessage(errors.errorMessage, completion: nil)
         }
     }
     
-    func sendLogIn(_ logInForm: LogInEmailForm) {
+    func sendLogIn(_ logInForm: LogInEmailForm, recaptchaToken: String?) {
         delegate?.vmShowLoading(nil)
         
         sessionManager.login(logInForm.email, password: logInForm.password) { [weak self] loginResult in
@@ -683,7 +683,7 @@ extension SignUpLogInViewModel: RecaptchaTokenDelegate {
     func recaptchaTokenObtained(token: String, action: LoginActionType) {
         switch action {
         case .login:
-            break // TODO: 💥 add login with recaptcha token
+            logIn(recaptchaToken: token)
         case .signup:
             signUp(recaptchaToken: token)
         }
