@@ -26,11 +26,14 @@ enum CarouselMovement {
 
 enum AdRequestType {
     case shopping
+    case dfp
 
     var trackingParamValue: EventParameterAdType {
         switch self {
         case .shopping:
             return .shopping
+        case .dfp:
+            return .dfp
         }
     }
 }
@@ -56,6 +59,9 @@ enum AdRequestQueryType {
 }
 
 class ListingCarouselViewModel: BaseViewModel {
+
+    // Static vars
+    static var adRequestChannel: String = "ios_moreinfo_var_a"
 
     // Paginable
     let firstPage: Int = 0
@@ -165,16 +171,38 @@ class ListingCarouselViewModel: BaseViewModel {
     var shoppingAdUnitId: String {
         return featureFlags.moreInfoShoppingAdUnitId
     }
+    var dfpAdUnitId: String {
+        return featureFlags.moreInfoDFPAdUnitId
+    }
     var adActive: Bool {
-        return featureFlags.moreInfoAdActive.isActive
+        let listingIsMine: Bool = currentListingViewModel?.isMine ?? false
+        return !listingIsMine && (afshAdActive || dfpAdActive)
+    }
+    var afshAdActive: Bool {
+        return featureFlags.moreInfoAFShOrDFP == .afsh
+    }
+    var dfpAdActive: Bool {
+        return featureFlags.moreInfoAFShOrDFP == .dfp
+    }
+    var dfpContentURL: String? {
+        guard let listingId = currentListingViewModel?.listing.value.objectId else { return nil}
+        return LetgoURLHelper.buildProductURL(listingId: listingId)?.absoluteString
     }
     var randomHardcodedAdQuery: String {
         let popularItems = ["ps4", "iphone", LGLocalizedString.productPostIncentiveDresser]
         let term = popularItems.random() ?? "iphone"
         return term
     }
-    var currentAdRequestType: AdRequestType? = .shopping
-    var currentAdRequestQueryType: AdRequestQueryType? = .listingTitle
+
+    var currentAdRequestType: AdRequestType? {
+        if afshAdActive {
+            return .shopping
+        } else if dfpAdActive {
+            return .dfp
+        }
+        return nil
+    }
+    var currentAdRequestQueryType: AdRequestQueryType? = nil
     var adRequestQuery: String? = nil
     var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
     let sideMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6) ? Metrics.margin : 0
@@ -311,7 +339,6 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
         guard let viewModel = viewModelAt(index: index) else { return }
-        currentAdRequestType = .shopping
         adBannerTrackingStatus = nil
         currentListingViewModel?.active = false
         currentListingViewModel?.delegate = nil
@@ -384,19 +411,30 @@ class ListingCarouselViewModel: BaseViewModel {
     func bumpUpBannerShown(type: BumpUpType) {
         currentListingViewModel?.trackBumpUpBannerShown(type: type, storeProductId: currentListingViewModel?.paymentProviderItemId)
     }
-    
+
+    func showBumpUpView(purchaseableProduct: PurchaseableProduct,
+                        paymentItemId: String?,
+                        paymentProviderItemId: String?,
+                        bumpUpType: BumpUpType,
+                        bumpUpSource: BumpUpSource?) {
+        currentListingViewModel?.showBumpUpView(purchaseableProduct: purchaseableProduct,
+                                                paymentItemId: paymentItemId,
+                                                paymentProviderItemId: paymentProviderItemId,
+                                                bumpUpType: bumpUpType,
+                                                bumpUpSource: bumpUpSource)
+    }
+
     func moveQuickAnswerToTheEnd(_ index: Int) {
         guard index >= 0 else { return }
         quickAnswers.value.move(fromIndex: index, toIndex: quickAnswers.value.count-1)
     }
 
     func makeAFShoppingRequestWithWidth(width: CGFloat) -> GADDynamicHeightSearchRequest {
-        currentAdRequestType = .shopping
-
-        adRequestQuery = makeAdsRequestQuery()
+        adRequestQuery = makeAFShRequestQuery()
         let adWidth = width-(2*sideMargin)
-        let adsRequest = adsRequester.makeAFShoppingRequestWithQuery(query: adRequestQuery, width: adWidth)
-        
+        let adsRequest = adsRequester.makeAFShoppingRequestWithQuery(query: adRequestQuery,
+                                                                     width: adWidth,
+                                                                     channel: ListingCarouselViewModel.adRequestChannel)
         return adsRequest
     }
 
@@ -583,11 +621,9 @@ class ListingCarouselViewModel: BaseViewModel {
         }
     }
 
-    private func makeAdsRequestQuery() -> String {
+    private func makeAFShRequestQuery() -> String {
 
-        let useTitleForQuery = featureFlags.moreInfoAdActive == .titleFirst
-
-        if let title = productInfo.value?.title, useTitleForQuery {
+        if let title = productInfo.value?.title {
             currentAdRequestQueryType = .listingTitle
             return title
         } else if let autoTitle = productInfo.value?.titleAuto {

@@ -20,23 +20,33 @@ public enum ListingCategory: Int {
     case realEstate = 10
 
     
-    static func visibleValues(filtered: Bool) -> [ListingCategory] {
-        if filtered {
-            return previousCategories()
+    static func visibleValues(carsIncluded: Bool, realEstateIncluded: Bool) -> [ListingCategory] {
+        if carsIncluded {
+            return [.cars] + previousCategories(realEstateIncluded: realEstateIncluded)
         } else {
-            return [.cars] + previousCategories()
+            return previousCategories(realEstateIncluded: realEstateIncluded)
         }
     }
     
-    static func previousCategories() -> [ListingCategory] {
-        return [.electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                .fashionAndAccesories, .babyAndChild, .other]
+    static func previousCategories(realEstateIncluded: Bool) -> [ListingCategory] {
+        if realEstateIncluded {
+            return [.electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
+                    .fashionAndAccesories, .babyAndChild, .realEstate, .other]
+        } else {
+            return [.electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
+                    .fashionAndAccesories, .babyAndChild, .other]
+        }
     }
     
     
-    public static func visibleValuesInFeed() -> [ListingCategory] {
-        return [.cars, .electronics, .homeAndGarden, .sportsLeisureAndGames, .motorsAndAccessories,
-                .fashionAndAccesories, .babyAndChild, .moviesBooksAndMusic, .other]
+    public static func visibleValuesInFeed(realEstateIncluded: Bool) -> [ListingCategory] {
+        if realEstateIncluded {
+            return [.cars, .electronics, .homeAndGarden, .sportsLeisureAndGames, .motorsAndAccessories,
+                    .fashionAndAccesories, .babyAndChild, .moviesBooksAndMusic, .realEstate, .other]
+        } else {
+            return [.cars, .electronics, .homeAndGarden, .sportsLeisureAndGames, .motorsAndAccessories,
+                    .fashionAndAccesories, .babyAndChild, .moviesBooksAndMusic, .other]
+        }
     }
     
     public var isProduct: Bool {

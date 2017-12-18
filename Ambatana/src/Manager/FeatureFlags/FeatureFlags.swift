@@ -37,7 +37,6 @@ protocol FeatureFlaggeable: class {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
-    var moreInfoAdActive: MoreInfoAdActive { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
@@ -45,6 +44,9 @@ protocol FeatureFlaggeable: class {
     var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation { get }
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
+    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
+    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation { get }
+    var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -52,6 +54,7 @@ protocol FeatureFlaggeable: class {
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
     var moreInfoShoppingAdUnitId: String { get }
+    var moreInfoDFPAdUnitId: String { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -73,10 +76,6 @@ extension ShowPriceAfterSearchOrFilter {
     var isActive: Bool { get { return self == .priceOnSearchOrFilter } }
 }
 
-extension MoreInfoAdActive {
-    var isActive: Bool { get { return self == .titleFirst || self == .cloudsightFirst } }
-}
-
 extension HomeRelatedEnabled {
     var isActive: Bool { get { return self == .active } }
 }
@@ -93,7 +92,16 @@ extension BumpUpPriceDifferentiation {
     var isActive: Bool { get { return self == .active } }
 }
 
+extension PromoteBumpUpAfterSell {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension CopyListingAnotherConfirmation {
+    var isActive: Bool { get { return self == .active } }
+}
+
 class FeatureFlags: FeatureFlaggeable {
+
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
     let requestTimeOut: RequestsTimeOut
@@ -297,13 +305,6 @@ class FeatureFlags: FeatureFlaggeable {
         return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
     }
 
-    var moreInfoAdActive: MoreInfoAdActive {
-        if Bumper.enabled {
-            return Bumper.moreInfoAdActive
-        }
-        return MoreInfoAdActive.fromPosition(abTests.moreInfoAdActive.value)
-    }
-  
     var newItemPage: NewItemPage {
         if Bumper.enabled {
             return Bumper.newItemPage
@@ -337,6 +338,27 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.bumpUpPriceDifferentiation
         }
         return BumpUpPriceDifferentiation.fromPosition(abTests.bumpUpPriceDifferentiation.value)
+    }
+
+    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
+        if Bumper.enabled {
+            return Bumper.promoteBumpUpAfterSell
+        }
+        return PromoteBumpUpAfterSell.fromPosition(abTests.promoteBumpUpAfterSell.value)
+    }
+    
+    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation {
+        if Bumper.enabled {
+            return Bumper.copyListingAnotherConfirmation
+        }
+        return CopyListingAnotherConfirmation.fromPosition(abTests.copyListingAnotherConfirmation.value)
+    }
+
+    var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
+        if Bumper.enabled {
+            return Bumper.moreInfoAFShOrDFP
+        }
+        return MoreInfoAFShOrDFP.fromPosition(abTests.moreInfoAFShOrDFP.value)
     }
 
     // MARK: - Country features
@@ -397,6 +419,15 @@ class FeatureFlags: FeatureFlaggeable {
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShoppingUSA
         default:
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShopping
+        }
+    }
+
+    var moreInfoDFPAdUnitId: String {
+        switch sensorLocationCountryCode {
+        case .usa?:
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFPUSA
+        default:
+            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFP
         }
     }
 

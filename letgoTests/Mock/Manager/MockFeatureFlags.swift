@@ -40,13 +40,15 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
     var newBumpUpExplanation: NewBumpUpExplanation = .control
-    var moreInfoAdActive: MoreInfoAdActive = .control
     var homeRelatedEnabled: HomeRelatedEnabled = .control
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells = .control
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation = .control
+    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell = .control
+    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation = .control
+    var moreInfoAFShOrDFP: MoreInfoAFShOrDFP = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
@@ -54,6 +56,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
     var moreInfoShoppingAdUnitId = ""
+    var moreInfoDFPAdUnitId = ""
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

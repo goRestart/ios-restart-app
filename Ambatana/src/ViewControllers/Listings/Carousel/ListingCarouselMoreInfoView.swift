@@ -22,6 +22,7 @@ protocol ProductCarouselMoreInfoDelegate: class {
     func didEndScrolling(_ topOverScroll: CGFloat, bottomOverScroll: CGFloat)
     func request(fullScreen: Bool)
     func viewControllerToShowShareOptions() -> UIViewController
+    func rootViewControllerForDFPBanner() -> UIViewController
 }
 
 extension MKMapView {
@@ -32,6 +33,8 @@ extension MKMapView {
 class ListingCarouselMoreInfoView: UIView {
 
     fileprivate static let relatedItemsHeight: CGFloat = 80
+    fileprivate static let shareViewToMapMargin: CGFloat = 30
+    fileprivate static let shareViewToBannerMargin = Metrics.margin
 
     @IBOutlet weak var titleText: UITextView!
     @IBOutlet weak var priceLabel: UILabel!
@@ -62,7 +65,11 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var bannerContainerViewLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var bannerContainerViewRightConstraint: NSLayoutConstraint!
 
+    @IBOutlet var shareViewToMapTopConstraint: NSLayoutConstraint!
+    @IBOutlet var shareViewToBannerTopConstraint: NSLayoutConstraint!
+
     var bannerView: GADSearchBannerView?
+    var dfpBannerView: DFPBannerView?
 
     @IBOutlet weak var socialShareContainer: UIView!
     @IBOutlet weak var socialShareTitleLabel: UILabel!
@@ -108,7 +115,7 @@ class ListingCarouselMoreInfoView: UIView {
         setupBottomPanelRx(viewModel: viewModel)
         self.viewModel = viewModel
         if viewModel.adActive {
-            setupBannerWith(viewModel: viewModel)
+            setupAdBannerWith(viewModel: viewModel)
         }
     }
 
@@ -118,7 +125,13 @@ class ListingCarouselMoreInfoView: UIView {
             if let adBannerTrackingStatus = viewModel?.adBannerTrackingStatus {
                 viewModel?.adAlreadyRequestedWithStatus(adBannerTrackingStatus: adBannerTrackingStatus)
             } else {
-                loadAFShoppingRequest()
+                shareViewToMapTopConstraint.isActive = true
+                shareViewToBannerTopConstraint.isActive = true
+                if let useAFSh = viewModel?.afshAdActive, useAFSh {
+                    loadAFShoppingRequest()
+                } else {
+                    loadDFPRequest()
+                }
             }
         }
     }
@@ -464,24 +477,52 @@ fileprivate extension ListingCarouselMoreInfoView {
         }.addDisposableTo(disposeBag)
     }
 
-    func setupBannerWith(viewModel: ListingCarouselViewModel) {
+    func setupAdBannerWith(viewModel: ListingCarouselViewModel) {
 
-        bannerView = GADSearchBannerView.init(adSize: kGADAdSizeFluid)
-        guard let bannerView = bannerView else { return }
-        bannerView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 0)
+        if viewModel.afshAdActive {
+            bannerView = GADSearchBannerView.init(adSize: kGADAdSizeFluid)
+            guard let bannerView = bannerView else { return }
+            bannerView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 0)
+            bannerView.autoresizingMask = .flexibleWidth
+            bannerView.adSizeDelegate = self
+            bannerView.delegate = self
 
-        bannerView.autoresizingMask = .flexibleWidth
-        bannerView.adSizeDelegate = self
-        bannerView.delegate = self
+            bannerContainerView.addSubview(bannerView)
+            bannerView.translatesAutoresizingMaskIntoConstraints = false
+            bannerView.layout(with: bannerContainerView).fill()
+        } else {
+            dfpBannerView = DFPBannerView(adSize: kGADAdSizeLargeBanner)
 
-        bannerContainerView.addSubview(bannerView)
-        bannerView.translatesAutoresizingMaskIntoConstraints = false
-        bannerView.layout(with: bannerContainerView).fill()
+            guard let dfpBanner = dfpBannerView else { return }
+            dfpBanner.rootViewController = delegate?.rootViewControllerForDFPBanner()
+            dfpBanner.delegate = self
+
+            bannerContainerView.addSubview(dfpBanner)
+            dfpBanner.translatesAutoresizingMaskIntoConstraints = false
+            dfpBanner.layout(with: bannerContainerView).top().bottom().centerX()
+
+            dfpBanner.delegate = self
+        }
     }
 
     func loadAFShoppingRequest() {
+        bannerContainerViewHeightConstraint.constant = 0
+        shareViewToMapTopConstraint.isActive = false
+        shareViewToBannerTopConstraint.isActive = true
+
         bannerView?.adUnitID = viewModel?.shoppingAdUnitId
         bannerView?.load(viewModel?.makeAFShoppingRequestWithWidth(width: frame.width))
+    }
+
+    func loadDFPRequest() {
+        bannerContainerViewHeightConstraint.constant = kGADAdSizeLargeBanner.size.height
+        shareViewToMapTopConstraint.isActive = true
+        shareViewToBannerTopConstraint.isActive = false
+
+        dfpBannerView?.adUnitID = viewModel?.dfpAdUnitId
+        let dfpRequest = DFPRequest()
+        dfpRequest.contentURL = viewModel?.dfpContentURL
+        dfpBannerView?.load(dfpRequest)
     }
 }
 
@@ -501,6 +542,20 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
             let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
             let bannerTop = absolutePosition.y
             let bannerBottom = bannerTop + size.size.height
+            viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
+                                    bannerBottomPosition: bannerBottom,
+                                    screenHeight: UIScreen.main.bounds.height)
+        }
+    }
+
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        bannerContainerViewHeightConstraint.constant = bannerView.height
+        shareViewToMapTopConstraint.constant = bannerView.height + ListingCarouselMoreInfoView.shareViewToMapMargin
+
+        if bannerView.frame.size.height > 0 {
+            let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
+            let bannerTop = absolutePosition.y
+            let bannerBottom = bannerTop + bannerView.frame.size.height
             viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
                                     bannerBottomPosition: bannerBottom,
                                     screenHeight: UIScreen.main.bounds.height)

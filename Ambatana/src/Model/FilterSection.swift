@@ -7,7 +7,7 @@
 //
 
 enum FilterSection: Int {
-    case location, categories, carsInfo, distance, sortBy, within, price
+    case location, categories, carsInfo, distance, sortBy, within, price, realEstateInfo
 }
 
 extension FilterSection {
@@ -15,7 +15,6 @@ extension FilterSection {
     var name : String {
         switch(self) {
         case .location:
-
             return LGLocalizedString.filtersSectionLocation.localizedUppercase
         case .distance:
             return LGLocalizedString.filtersSectionDistance.localizedUppercase
@@ -29,14 +28,16 @@ extension FilterSection {
             return LGLocalizedString.filtersSectionSortby.localizedUppercase
         case .price:
             return LGLocalizedString.filtersSectionPrice.localizedUppercase
+        case .realEstateInfo:
+            return LGLocalizedString.filtersSectionRealEstateInfo.localizedUppercase
         }
     }
 
     static func allValues(priceAsLast: Bool) -> [FilterSection] {
         if priceAsLast {
-            return [.location, .categories, .carsInfo, .distance, .sortBy, .within, .price]
+            return [.location, .categories, .carsInfo, .realEstateInfo, .distance, .sortBy, .within, .price]
         } else {
-            return [.location, .distance, .categories, .price, .carsInfo, .sortBy, .within]
+            return [.location, .distance, .categories, .price, .carsInfo, .realEstateInfo, .sortBy, .within]
         }
     }
 }
