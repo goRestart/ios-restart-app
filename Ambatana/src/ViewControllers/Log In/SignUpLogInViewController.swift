@@ -434,7 +434,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                 } else {
                     return LGLocalizedString.mainSignUpFacebookConnectButton
                 }
-            }.bind(to: connectFBButton.rx.title)
+            }.bind(to: connectFBButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
 
         // Google button title
@@ -445,7 +445,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                 } else {
                     return LGLocalizedString.mainSignUpGoogleConnectButton
                 }
-            }.bind(to: connectGoogleButton.rx.title)
+            }.bind(to: connectGoogleButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
 
         // Autosuggest

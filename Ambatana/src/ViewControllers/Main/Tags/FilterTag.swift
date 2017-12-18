@@ -19,15 +19,21 @@ enum FilterTag: Equatable {
     case priceRange(from: Int?, to: Int?, currency: Currency?)
     case freeStuff
     case distance(distance: Int)
+    
     case make(id: String, name: String)
     case model(id: String, name: String)
     case yearsRange(from: Int?, to: Int?)
+    
+    case realEstateNumberOfBedrooms(NumberOfBedrooms)
+    case realEstateNumberOfBathrooms(NumberOfBathrooms)
+    case realEstatePropertyType(RealEstatePropertyType)
+    case realEstateOfferType(RealEstateOfferType)
 }
 
 extension FilterTag {
     var isTaxonomy: Bool {
         switch self {
-        case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange:
+        case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
             return false
         case .taxonomy:
             return true
@@ -36,7 +42,7 @@ extension FilterTag {
     
     var taxonomyChild: TaxonomyChild? {
         switch self {
-        case .location, .within, .orderBy, .category, .taxonomy, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange:
+        case .location, .within, .orderBy, .category, .taxonomy, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
             return nil
         case .taxonomyChild(let taxonomyChild):
             return taxonomyChild
@@ -61,6 +67,11 @@ func ==(a: FilterTag, b: FilterTag) -> Bool {
     case (.make(let idA, let nameA), .make(let idB, let nameB)) where idA == idB && nameA == nameB: return true
     case (.model(let idA, let nameA), .model(let idB, let nameB)) where idA == idB && nameA == nameB: return true
     case (.yearsRange(let a, let b), .yearsRange(let c, let d)) where a == c && b == d: return true
+    case (.realEstateNumberOfBedrooms(let idA), .realEstateNumberOfBedrooms(let idB)) where idA == idB: return true
+    case (.realEstateNumberOfBathrooms(let idA), .realEstateNumberOfBathrooms(let idB)) where idA == idB: return true
+    case (.realEstatePropertyType(let idA), .realEstatePropertyType(let idB)) where idA == idB: return true
+    case (.realEstateOfferType(let idA), .realEstateOfferType(let idB)) where idA == idB: return true
     default: return false
+        
     }
 }

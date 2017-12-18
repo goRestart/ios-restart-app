@@ -217,7 +217,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
             guard let cameraWrapper = self?.cameraWrapper, cameraWrapper.hasFlash else { return }
             cameraWrapper.flashMode = flashMode
         }.disposed(by: disposeBag)
-        flashMode.map{ $0.imageIcon }.bind(to: flashButton.rx.image).disposed(by: disposeBag)
+        flashMode.map{ $0.imageIcon }.bind(to: flashButton.rx.image(for: .normal)).disposed(by: disposeBag)
 
         viewModel.cameraSource.asObservable().subscribeNext{ [weak self] cameraSource in
             self?.cameraWrapper.cameraSource = cameraSource
@@ -262,7 +262,7 @@ extension PostListingCameraView {
         viewModel.infoShown.asObservable().map{ !$0 }.bind(to: infoContainer.rx.isHidden).disposed(by: disposeBag)
         viewModel.infoTitle.asObservable().bind(to: infoTitle.rx.text).disposed(by: disposeBag)
         viewModel.infoSubtitle.asObservable().bind(to: infoSubtitle.rx.text).disposed(by: disposeBag)
-        viewModel.infoButton.asObservable().bind(to: infoButton.rx.title).disposed(by: disposeBag)
+        viewModel.infoButton.asObservable().bind(to: infoButton.rx.title(for: .normal)).disposed(by: disposeBag)
     }
 
     @IBAction func onInfoButtonPressed(_ sender: AnyObject) {

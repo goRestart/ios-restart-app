@@ -390,8 +390,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     private func setupCollectionRx() {
         viewModel.objectChanges.observeOn(MainScheduler.instance).bind { [weak self] change in
-            guard let strongSelf = self else { return }
-
             self?.imageBackground.isHidden = true
                 self?.collectionView.handleCollectionChange(change) { _ in
                     self?.imageBackground.isHidden = false
@@ -438,7 +436,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
                 case .enabled:
                     strongButton.isHidden = false
                     strongButton.alpha = itemsAlpha
-                case .disabled:
+                case .disabled, .loading:
                     strongButton.isHidden = false
                     strongButton.alpha = 0.6
                 }
@@ -635,7 +633,9 @@ extension ListingCarouselViewController {
     }
 
     private func setupDirectChatElementsRx() {
-        viewModel.directChatPlaceholder.asObservable().bind(to: chatTextView.rx.placeholder).disposed(by: disposeBag)
+        viewModel.directChatPlaceholder.asObservable().bind { [weak self] placeholder in
+            self?.chatTextView.placeholder = placeholder
+            }.disposed(by: disposeBag)
         if let productVM = viewModel.currentListingViewModel, !productVM.areQuickAnswersDynamic {
             chatTextView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
         }
@@ -709,7 +709,7 @@ extension ListingCarouselViewController {
     private func setupFavoriteButtonRx() {
         viewModel.isFavorite.asObservable()
             .map { UIImage(named: $0 ? "ic_favorite_big_on" : "ic_favorite_big_off") }
-            .bind(to: favoriteButton.rx.image).disposed(by: disposeBag)
+            .bind(to: favoriteButton.rx.image(for: .normal)).disposed(by: disposeBag)
 
         favoriteButton.rx.tap.bind { [weak self] in
             self?.viewModel.favoriteButtonPressed()
@@ -717,7 +717,9 @@ extension ListingCarouselViewController {
     }
 
     private func setupShareButtonRx() {
-        viewModel.shareButtonState.asObservable().bind(to: shareButton.rx.state).disposed(by: disposeBag)
+        viewModel.shareButtonState.asObservable().bind { [weak self] state in
+            self?.shareButton.setState(state)
+            }.disposed(by: disposeBag)
 
         shareButton.rx.tap.bind { [weak self] in
             self?.viewModel.shareButtonPressed()
@@ -737,7 +739,7 @@ extension ListingCarouselViewController {
     }
 
     private func setupUserInteractionRxBindings() {
-        cellAnimating.asObservable().map { !$0 } .bind(to: view.rx.userInteractionEnabled).disposed(by: disposeBag)
+        cellAnimating.asObservable().map { !$0 } .bind(to: view.rx.isUserInteractionEnabled).disposed(by: disposeBag)
     }
 
     fileprivate func resetMoreInfoState() {
@@ -992,6 +994,10 @@ extension ListingCarouselViewController: ProductCarouselMoreInfoDelegate {
                 $0.customView?.alpha = fullScreen ? 0 : 1
             }
         }
+    }
+
+    func rootViewControllerForDFPBanner() -> UIViewController {
+        return self
     }
 }
 
