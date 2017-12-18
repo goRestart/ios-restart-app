@@ -34,7 +34,9 @@ class ListingCarouselMoreInfoView: UIView {
 
     fileprivate static let relatedItemsHeight: CGFloat = 80
     fileprivate static let shareViewToMapMargin: CGFloat = 30
+    fileprivate static let navBarDefaultHeight: CGFloat = 64
     fileprivate static let shareViewToBannerMargin = Metrics.margin
+    fileprivate static let dragViewVerticalExtraMargin: CGFloat = 7 // Center purposes to the custom navigation bar in carousel view
 
     @IBOutlet weak var titleText: UITextView!
     @IBOutlet weak var priceLabel: UILabel!
@@ -67,7 +69,9 @@ class ListingCarouselMoreInfoView: UIView {
 
     @IBOutlet var shareViewToMapTopConstraint: NSLayoutConstraint!
     @IBOutlet var shareViewToBannerTopConstraint: NSLayoutConstraint!
-
+    @IBOutlet weak var dragViewToVisualEffectConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scrollViewToSuperviewTopConstraint: NSLayoutConstraint!
+    
     var bannerView: GADSearchBannerView?
     var dfpBannerView: DFPBannerView?
 
@@ -144,6 +148,10 @@ class ListingCarouselMoreInfoView: UIView {
     deinit {
         // MapView is a shared instance and all references must be removed
         cleanMapView()
+    }
+    
+    func updateDragViewVerticalLayout(statusBarHeight: CGFloat) {
+        dragViewToVisualEffectConstraint.constant = statusBarHeight + ListingCarouselMoreInfoView.dragViewVerticalExtraMargin
     }
 }
 
@@ -389,6 +397,12 @@ fileprivate extension ListingCarouselMoreInfoView {
             view?.layer.masksToBounds = false
         }
         
+        if #available(iOS 11, *) {
+            scrollViewToSuperviewTopConstraint.constant = safeAreaInsets.top
+        } else {
+            scrollViewToSuperviewTopConstraint.constant = ListingCarouselMoreInfoView.navBarDefaultHeight
+        }
+
         scrollView.delegate = self
     }
 
