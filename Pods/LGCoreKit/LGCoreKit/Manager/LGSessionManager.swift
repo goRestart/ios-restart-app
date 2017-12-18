@@ -100,8 +100,11 @@ class LGSessionManager: InternalSessionManager {
      - parameter newsletter: Whether or not the user accepted newsletter sending. Send to nil if user wasn't asked about it
      - parameter completion: The completion closure.
      */
-    func signUp(_ email: String, password: String, name: String, newsletter: Bool?,
-                       completion: SignupCompletion?) {
+    func signUp(_ email: String,
+                password: String,
+                name: String,
+                newsletter: Bool?,
+                completion: SignupCompletion?) {
 
         logMessage(.info, type: CoreLoggingOptions.session, message: "Sign up email")
 
@@ -139,15 +142,23 @@ class LGSessionManager: InternalSessionManager {
      - parameter recaptchaToken: Recaptcha token.
      - parameter completion: The completion closure.
      */
-    func signUp(_ email: String, password: String, name: String, newsletter: Bool?, recaptchaToken: String,
-                       completion: SignupCompletion?) {
+    func signUp(_ email: String,
+                password: String,
+                name: String,
+                newsletter: Bool?,
+                recaptchaToken: String,
+                completion: SignupCompletion?) {
         verifyWithRecaptcha(recaptchaToken) { [weak self] result in
-            if let _ = result.value {
-                self?.signUp(email, password: password, name: name, newsletter: newsletter, completion: completion)
-            } else if let apiError = result.error {
-                let error = SignupError(apiError: apiError)
-                completion?(SignupResult(error: error))
+            guard let _ = result.value else {
+                let apiError = result.error ?? .internalError(description: "missing value and error")
+                completion?(SignupResult(error: SignupError(apiError: apiError)))
+                return
             }
+            self?.signUp(email,
+                         password: password,
+                         name: name,
+                         newsletter: newsletter,
+                         completion: completion)
         }
     }
 
@@ -157,9 +168,34 @@ class LGSessionManager: InternalSessionManager {
      - parameter password: The password.
      - parameter completion: The completion closure.
      */
-    func login(_ email: String, password: String, completion: LoginCompletion?) {
+    func login(_ email: String,
+               password: String,
+               completion: LoginCompletion?) {
         let provider: UserSessionProvider = .email(email: email, password: password)
         login(provider, completion: completion)
+    }
+    
+    /**
+     Logs the user in via email, if recaptcha verification is ok.
+     - parameter email: The email.
+     - parameter password: The password.
+     - parameter recaptchaToken: Recaptcha token.
+     - parameter completion: The completion closure.
+     */
+    func login(_ email: String,
+               password: String,
+               recaptchaToken: String,
+               completion: LoginCompletion?) {
+        verifyWithRecaptcha(recaptchaToken) { [weak self] result in
+            guard let _ = result.value else {
+                let apiError = result.error ?? .internalError(description: "missing value and error")
+                completion?(LoginResult(error: LoginError(apiError: apiError)))
+                return
+            }
+            self?.login(email,
+                        password: password,
+                        completion: completion)
+        }
     }
 
     /**
@@ -167,7 +203,8 @@ class LGSessionManager: InternalSessionManager {
      - parameter token: The Facebook token.
      - parameter completion: The completion closure.
      */
-    func loginFacebook(_ token: String, completion: LoginCompletion?) {
+    func loginFacebook(_ token: String,
+                       completion: LoginCompletion?) {
         let provider: UserSessionProvider = .facebook(facebookToken: token)
         login(provider, completion: completion)
     }
@@ -178,7 +215,8 @@ class LGSessionManager: InternalSessionManager {
      - parameter token:      The Google token
      - parameter completion: The completion closure
      */
-    func loginGoogle(_ token: String, completion: LoginCompletion?) {
+    func loginGoogle(_ token: String,
+                     completion: LoginCompletion?) {
         let provider: UserSessionProvider = .google(googleToken: token)
         login(provider, completion: completion)
     }
@@ -188,7 +226,8 @@ class LGSessionManager: InternalSessionManager {
      - parameter email: The email.
      - parameter completion: The completion closure.
      */
-    func recoverPassword(_ email: String, completion: RecoverPasswordCompletion?) {
+    func recoverPassword(_ email: String,
+                         completion: RecoverPasswordCompletion?) {
         logMessage(.info, type: CoreLoggingOptions.session, message: "Recover password")
 
         let request = SessionRouter.recoverPassword(email: email)
@@ -307,7 +346,7 @@ class LGSessionManager: InternalSessionManager {
      - parameter completion:        The completion closure.
      */
     private func authenticateInstallation(createIfNotFound: Bool,
-                                                           completion: ((Result<Installation, ApiError>) -> ())?) {
+                                          completion: ((Result<Installation, ApiError>) -> ())?) {
         logMessage(.info, type: CoreLoggingOptions.session, message: "Authenticate installation")
 
         let request = SessionRouter.createInstallation(installationId: installationRepository.installationId)
@@ -437,7 +476,8 @@ class LGSessionManager: InternalSessionManager {
 
     // MARK: > Verify
 
-    private func verifyWithRecaptcha(_ recaptchaToken: String, completion: ((Result<Void, ApiError>) -> ())?) {
+    private func verifyWithRecaptcha(_ recaptchaToken: String,
+                                     completion: ((Result<Void, ApiError>) -> ())?) {
         logMessage(.info, type: CoreLoggingOptions.session, message: "Verify with recaptcha")
 
         let request = SessionRouter.verify(recaptchaToken: recaptchaToken)
