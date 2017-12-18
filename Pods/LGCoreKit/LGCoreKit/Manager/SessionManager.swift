@@ -69,6 +69,18 @@ public protocol SessionManager: class {
     func login(_ email: String,
                password: String,
                completion: LoginCompletion?)
+    
+    /**
+     Logs the user in via email, if recaptcha verification is ok.
+     - parameter email: The email.
+     - parameter password: The password.
+     - parameter recaptchaToken: Recaptcha token.
+     - parameter completion: The completion closure.
+     */
+    func login(_ email: String,
+               password: String,
+               recaptchaToken: String,
+               completion: LoginCompletion?)
 
     /**
     Logs the user in via Facebook.
