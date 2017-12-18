@@ -48,6 +48,11 @@ final class ListingApiDataSource: ListingDataSource {
         let request = ListingRouter.indexRelatedListings(listingId: listingId, params: parameters)
         apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
     }
+    
+    func indexRelatedRealEstate(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?) {
+        let request = ListingRouter.indexRelatedRealEstate(listingId: listingId, params: parameters)
+        apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
+    }
 
     func indexDiscoverListings(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?) {
         let request = ListingRouter.indexDiscoverListings(listingId: listingId, params: parameters)

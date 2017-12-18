@@ -140,7 +140,7 @@ struct LGRealEstate: RealEstate {
                             featured: featured, realEstateAttributes: realEstateAttributes)
     }
     
-    public func updating(realEstateAttributes: RealEstateAttributes) -> LGRealEstate {
+    func updating(realEstateAttributes: RealEstateAttributes) -> LGRealEstate {
         return LGRealEstate(objectId: objectId, updatedAt: updatedAt, createdAt: createdAt, name: name,
                             nameAuto: nameAuto, descr: descr, price: price, currency: currency, location: location,
                             postalAddress: postalAddress, languageCode: languageCode, category: category,

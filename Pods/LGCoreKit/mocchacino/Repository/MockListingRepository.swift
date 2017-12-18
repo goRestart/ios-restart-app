@@ -92,6 +92,10 @@ open class MockListingRepository: ListingRepository {
     public func indexRelated(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?) {
         delay(result: indexResult, completion: completion)
     }
+    
+    public func indexRelatedRealEstate(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?) {
+        delay(result: indexResult, completion: completion)
+    }
 
     public func indexDiscover(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?) {
         delay(result: indexResult, completion: completion)
