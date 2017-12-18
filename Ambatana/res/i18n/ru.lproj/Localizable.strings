@@ -570,7 +570,7 @@
 "product_post_close_alert_title" = "Объявление не размещено";
 "product_post_confirmation_another" = "Или";
 "product_post_confirmation_another_button" = "Разместить другой товар";
-"product_post_confirmation_another_listing_button" = "Post another listing";
+"product_post_confirmation_another_listing_button" = "Разместить другое объявление";
 "product_post_confirmation_edit" = "Добавить еще детали";
 "product_post_different_country_error" = "Вы не можете размещать объявления в стране, в которой вы не находитесь в текущий момент.";
 "product_post_done" = "Готово";
@@ -687,7 +687,7 @@
 "promote_bump_later_button" = "Позже";
 "promote_bump_sell_faster_button" = "Продать быстрее";
 "promote_bump_title" = "Привлечь больше покупателей";
-"quick_filter_location_title" = "Задать местоположение";
+"quick_filter_location_title" = "Изменить локацию";
 "rate_buyers_message" = "Поздравляем!";
 "rate_buyers_not_on_letgo_button" = "Я продал не на letgo";
 "rate_buyers_not_on_letgo_title_button" = "Продал где-то еще";
@@ -750,6 +750,7 @@
 "real_estate_offer_type_sale" = "Продажа";
 "real_estate_offer_type_title" = "Тип объявления";
 "real_estate_price_title" = "Цена";
+"real_estate_related_search_title" = "Related results";
 "real_estate_summary_bathroom_title" = "ванная";
 "real_estate_summary_bathrooms_empty" = "Добавьте количество ванных";
 "real_estate_summary_bathrooms_title" = "ванных";

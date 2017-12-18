@@ -109,10 +109,19 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
     }
 
     private func setupRx() {
-        viewModel.fbButtonState.asObservable().bind(to: fbButton.rx.verifyState).disposed(by: disposeBag)
-        viewModel.googleButtonState.asObservable().bind(to: googleButton.rx.verifyState).disposed(by: disposeBag)
-        viewModel.emailButtonState.asObservable().bind(to: emailButton.rx.verifyState).disposed(by: disposeBag)
-        viewModel.typedEmailState.asObservable().bind(to: emailTextFieldButton.rx.verifyState).disposed(by: disposeBag)
+        viewModel.fbButtonState.asObservable().bind { [weak self] state in
+            self?.fbButton.setState(state)
+            }.disposed(by: disposeBag)
+        viewModel.googleButtonState.asObservable().bind { [weak self] state in
+            self?.googleButton.setState(state)
+            }.disposed(by: disposeBag)
+        viewModel.emailButtonState.asObservable().bind { [weak self] state in
+            self?.emailButton.setState(state)
+            }.disposed(by: disposeBag)
+        viewModel.typedEmailState.asObservable().bind { [weak self] state in
+            self?.emailTextFieldButton.setState(state)
+            }.disposed(by: disposeBag)
+        
         viewModel.typedEmailState.asObservable().map { state in
             switch state {
             case .hidden:

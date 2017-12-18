@@ -2393,6 +2393,9 @@
 // Show the current step of total steps
 "real_estate_current_step_of_total" = "%d of %d";
 
+// Title for section on related search. 
+"real_estate_related_search_title" = "Related results";
+
 // Title when showing list of related items
 "related_items_title" = "Related listings";
 

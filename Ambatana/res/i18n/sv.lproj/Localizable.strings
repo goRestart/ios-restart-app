@@ -77,7 +77,7 @@
 "change_location_error_updating_location_message" = "Ett fel uppstod under uppdateringen av din plats.";
 "change_location_recommend_update_location_message" = "Vi rekommenderar dig att uppdatera din plats för att hitta de bästa erbjudandena nära dig!";
 "change_location_search_field_hint" = "Ange stad eller postnummer";
-"change_location_title" = "Ändra plats";
+"change_location_title" = "Byt plats";
 "change_location_zip_not_found_error_message" = "Ingen ort motsvarar postnumret du angett. Var god kontrollera numret och försök igen.";
 "change_location_zip_placeholder" = "Postnummer";
 "change_password_confirm_password_field_hint" = "Bekräfta lösenord";
@@ -285,7 +285,7 @@
 "direct_answers_hide" = "Göm Snabba Svar";
 "direct_answers_show" = "Visa Snabba Svar";
 "edit_product_location_alert_text" = "För att ändra plats på din annons, tillåt tillgång till din platsinfo";
-"edit_product_location_alert_title" = "ÄNDRA PLATS";
+"edit_product_location_alert_title" = "BYT PLATS";
 "edit_product_send_button" = "Spara ändringar";
 "edit_product_send_error_uploading_product" = "Ett fel uppstod när din annons skulle uppdateras.";
 "edit_product_send_ok" = "Grattis! Din annons är nu uppdaterad.";
@@ -570,7 +570,7 @@
 "product_post_close_alert_title" = "Annonsen är inte upplagd";
 "product_post_confirmation_another" = "Eller";
 "product_post_confirmation_another_button" = "Lägg upp en till annons";
-"product_post_confirmation_another_listing_button" = "Post another listing";
+"product_post_confirmation_another_listing_button" = "Lägg till en annan produkt";
 "product_post_confirmation_edit" = "Lägg till mer information";
 "product_post_different_country_error" = "Du kan inte lägga upp produkter i ett land som du inte befinner dig i.";
 "product_post_done" = "Klar";
@@ -687,7 +687,7 @@
 "promote_bump_later_button" = "Senare";
 "promote_bump_sell_faster_button" = "Sälj snabbare";
 "promote_bump_title" = "Locka flera köpare";
-"quick_filter_location_title" = "Välj plats";
+"quick_filter_location_title" = "Byt plats";
 "rate_buyers_message" = "Grattis!";
 "rate_buyers_not_on_letgo_button" = "Jag sålde det inte på letgo";
 "rate_buyers_not_on_letgo_title_button" = "Har sålts någon annanstans";
@@ -750,6 +750,7 @@
 "real_estate_offer_type_sale" = "Till salu";
 "real_estate_offer_type_title" = "Typ av annons";
 "real_estate_price_title" = "Pris";
+"real_estate_related_search_title" = "Related results";
 "real_estate_summary_bathroom_title" = "badrum";
 "real_estate_summary_bathrooms_empty" = "Lägg till antal badrum";
 "real_estate_summary_bathrooms_title" = "badrum";

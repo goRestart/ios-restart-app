@@ -13,7 +13,6 @@ protocol FilterCarInfoYearCellDelegate: class {
 }
 
 class FilterSliderYearCell: UICollectionViewCell, LGSliderDelegate, ReusableCell {
-    
     var slider: LGSlider?
     
     weak var delegate: FilterCarInfoYearCellDelegate?

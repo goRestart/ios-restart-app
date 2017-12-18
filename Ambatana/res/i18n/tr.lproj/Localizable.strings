@@ -77,7 +77,7 @@
 "change_location_error_updating_location_message" = "Konumunu güncellerken bir hata oluştu.";
 "change_location_recommend_update_location_message" = "Yakınındaki en iyi fırsatları görmen için konumunu güncellemeni öneriyoruz!";
 "change_location_search_field_hint" = "Şehir adı veya posta kodu gir";
-"change_location_title" = "Konum değiştir";
+"change_location_title" = "Konum Değiştir";
 "change_location_zip_not_found_error_message" = "Girmiş olduğun posta koduyla eşleşen bir konum bulamadık. Lütfen kontrol edip tekrar dene.";
 "change_location_zip_placeholder" = "Posta kodu";
 "change_password_confirm_password_field_hint" = "Şifreyi onayla";
@@ -570,7 +570,7 @@
 "product_post_close_alert_title" = "İlan yayınlanmadı";
 "product_post_confirmation_another" = "veya";
 "product_post_confirmation_another_button" = "Başka bir ürün listele";
-"product_post_confirmation_another_listing_button" = "Post another listing";
+"product_post_confirmation_another_listing_button" = "Başka bir ilan yükle";
 "product_post_confirmation_edit" = "Daha fazla bilgi gir";
 "product_post_different_country_error" = "Şu anda ikamet etmediğin bir ülkeden ürün yükleyemezsin.";
 "product_post_done" = "Onayla";
@@ -687,7 +687,7 @@
 "promote_bump_later_button" = "Daha Sonra";
 "promote_bump_sell_faster_button" = "Hemen sat";
 "promote_bump_title" = "Daha çok alıcıyı çek";
-"quick_filter_location_title" = "Konum seç";
+"quick_filter_location_title" = "Konumu Değiştir";
 "rate_buyers_message" = "Tebrikler!";
 "rate_buyers_not_on_letgo_button" = "Bu ürünü letgo'da satmadım";
 "rate_buyers_not_on_letgo_title_button" = "Bu ürünü başka bir yerde sattım";
@@ -750,6 +750,7 @@
 "real_estate_offer_type_sale" = "Satılık";
 "real_estate_offer_type_title" = "İlan Türü";
 "real_estate_price_title" = "Fiyat";
+"real_estate_related_search_title" = "Related results";
 "real_estate_summary_bathroom_title" = "banyo";
 "real_estate_summary_bathrooms_empty" = "Banyo sayısı ekle";
 "real_estate_summary_bathrooms_title" = "banyo";

@@ -73,7 +73,11 @@ class FilteredListingListRequester: ListingListRequester {
     }
     
     private func retrieve(_ completion: ListingsCompletion?) {
-        listingRepository.index(retrieveListingsParams, completion: completion)
+        if let categories = filters?.selectedCategories, categories.contains(.realEstate) {
+             listingRepository.indexRealEstate(retrieveListingsParams, completion: completion)
+        } else {
+            listingRepository.index(retrieveListingsParams, completion: completion)
+        }
     }
 
     func isLastPage(_ resultCount: Int) -> Bool {
@@ -103,7 +107,7 @@ class FilteredListingListRequester: ListingListRequester {
         }
         return queryFirstCallCountryCode ?? locationManager.currentLocation?.countryCode
     }
-
+    
     private var requesterTitle: String? {
         guard let filters = filters, filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy  else { return nil }
         var titleFromFilters: String = ""
@@ -198,48 +202,17 @@ fileprivate extension FilteredListingListRequester {
 
     var retrieveListingsParams: RetrieveListingParams {
         var params: RetrieveListingParams = RetrieveListingParams()
+        
         params.numListings = itemsPerPage
         params.offset = offset
         params.coordinates = queryCoordinates
         params.queryString = queryString
         params.countryCode = countryCode
-        params.categoryIds = filters?.selectedCategories.flatMap { $0.rawValue }
         
-        let idCategoriesFromTaxonomies = filters?.selectedTaxonomyChildren.getIds(withType: .category)
-        params.categoryIds?.append(contentsOf: idCategoriesFromTaxonomies ?? [])
-        params.superKeywordIds = filters?.selectedTaxonomyChildren.getIds(withType: .superKeyword)
+        params.populate(with: filters)
         
-        if let selectedTaxonomyChild = filters?.selectedTaxonomyChildren.first {
-            switch selectedTaxonomyChild.type {
-            case .category:
-                params.categoryIds = [selectedTaxonomyChild.id]
-            case .superKeyword:
-                params.superKeywordIds = [selectedTaxonomyChild.id]
-            }
-        } else if let selectedTaxonomy = filters?.selectedTaxonomy {
-            params.categoryIds = selectedTaxonomy.children.getIds(withType: .category)
-            params.superKeywordIds = selectedTaxonomy.children.getIds(withType: .superKeyword)
-        }
-        
-        params.timeCriteria = filters?.selectedWithin
-        params.sortCriteria = filters?.selectedOrdering
-        params.distanceRadius = filters?.distanceRadius
-        params.distanceType = filters?.distanceType
-        params.makeId = filters?.carMakeId
-        params.modelId = filters?.carModelId
-        params.startYear = filters?.carYearStart
-        params.endYear = filters?.carYearEnd
         params.abtest = featureFlags.defaultRadiusDistanceFeed.stringValue
-
-        if let priceRange = filters?.priceRange {
-            switch priceRange {
-            case .freePrice:
-                params.freePrice = true
-            case let .priceRange(min, max):
-                params.minPrice = min
-                params.maxPrice = max
-            }
-        }
+       
         return params
     }
 

@@ -750,6 +750,7 @@
 "real_estate_offer_type_sale" = "For Sale";
 "real_estate_offer_type_title" = "Type of Listing";
 "real_estate_price_title" = "Price";
+"real_estate_related_search_title" = "Related results";
 "real_estate_summary_bathroom_title" = "bathroom";
 "real_estate_summary_bathrooms_empty" = "Add no. of bathrooms";
 "real_estate_summary_bathrooms_title" = "bathrooms";

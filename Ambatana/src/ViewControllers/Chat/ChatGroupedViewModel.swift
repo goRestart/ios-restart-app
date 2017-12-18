@@ -192,7 +192,7 @@ class ChatGroupedViewModel: BaseViewModel {
 
     func chatListViewModelForTabAtIndex(_ index: Int) -> ChatListViewModel? {
         guard let chatListVM = viewModelAtIndex(index) else { return nil }
-        return chatListVM as? ChatListViewModel
+        return chatListVM
     }
 
 
