@@ -19,7 +19,6 @@ class ABTests {
     let surveyURL = StringABDynamicVar(key: "surveyURL", defaultValue: "")
     let surveyEnabled = BoolABDynamicVar(key: "surveyEnabled", defaultValue: false)
 
-    let captchaTransparent = BoolABDynamicVar(key: "captchaTransparent", defaultValue: false)
     let freeBumpUpEnabled = BoolABDynamicVar(key: "freeBumpUpEnabled", defaultValue: false)
     let pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
     let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
@@ -58,7 +57,6 @@ class ABTests {
         result.append(showNPSSurvey)
         result.append(surveyURL)
         result.append(surveyEnabled)
-        result.append(captchaTransparent)
         result.append(freeBumpUpEnabled)
         result.append(pricedBumpUpEnabled)
         result.append(newCarsMultiRequesterEnabled)

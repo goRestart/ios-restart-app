@@ -25,7 +25,7 @@ protocol SignUpLogInNavigator: class {
     func closeSignUpLogInSuccessful(with myUser: MyUser)
     func closeSignUpLogInAndOpenScammerAlert(contactURL: URL, network: EventParameterAccountNetwork)
     func closeSignUpLogInAndOpenDeviceNotAllowedAlert(contactURL: URL, network: EventParameterAccountNetwork)
-    func openRecaptcha(transparentMode: Bool)
+    func openRecaptcha(action: LoginActionType)
 
     func openRememberPasswordFromSignUpLogIn(email: String?)
     func openHelpFromSignUpLogin()
