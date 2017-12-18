@@ -371,7 +371,7 @@ class SignUpLogInViewModel: BaseViewModel {
     func sendLogIn(_ logInForm: LogInEmailForm, recaptchaToken: String?) {
         delegate?.vmShowLoading(nil)
         
-        sessionManager.login(logInForm.email, password: logInForm.password) { [weak self] loginResult in
+        let completion: LoginCompletion? = { [weak self] loginResult in
             guard let strongSelf = self else { return }
             
             if let user = loginResult.value {
@@ -388,6 +388,18 @@ class SignUpLogInViewModel: BaseViewModel {
                 strongSelf.processLoginSessionError(sessionManagerError)
             }
         }
+        
+        if let recaptchaToken = recaptchaToken {
+            sessionManager.login(logInForm.email,
+                                 password: logInForm.password,
+                                 recaptchaToken: recaptchaToken,
+                                 completion: completion)
+        } else {
+            sessionManager.login(logInForm.email,
+                                 password: logInForm.password,
+                                 completion: completion)
+        }
+        
     }
     
     func godLogIn(_ password: String) {
