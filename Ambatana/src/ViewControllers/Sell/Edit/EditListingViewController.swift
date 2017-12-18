@@ -563,9 +563,16 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
 
         viewModel.category.asObservable().bindNext{ [weak self] category in
             guard let strongSelf = self else { return }
-            strongSelf.categorySelectedLabel.text = category?.name ?? ""
+            strongSelf.categorySelectedLabel.text = category?.name ?? LGLocalizedString.categoriesUnassigned
             strongSelf.updateVerticalFields(category: category)
         }.addDisposableTo(disposeBag)
+        
+        let categoryIsRealEstate = viewModel.category.asObservable().flatMap { x in
+            return x.map(Observable.just) ?? Observable.empty()
+            }.map { $0.isRealEstate }
+        let categoryIsEnabled = categoryIsRealEstate.asObservable().filter { !$0 }
+        categoryIsEnabled.bindTo(categoryButton.rx.isEnabled).addDisposableTo(disposeBag)
+        categoryIsEnabled.bindTo(categoryTitleLabel.rx.isEnabled).addDisposableTo(disposeBag)
         
         viewModel.category.asObservable().filter { $0 == .realEstate }.bindNext { [weak self] _ in
             self?.categoryButton.isEnabled = false
@@ -593,21 +600,25 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             self?.carsYearSelectedLabel.text = String(year)
         }.addDisposableTo(disposeBag)
         
-        viewModel.realEstateOfferType.asObservable().bindNext { [weak self] realEstateOfferType in
-            self?.realEstateOfferTypeSelectedLabel.text = realEstateOfferType?.localizedString
-        }.addDisposableTo(disposeBag)
+        viewModel.realEstateOfferType.asObservable()
+            .map {$0?.localizedString }
+            .bindTo(realEstateOfferTypeSelectedLabel.rx.text)
+            .addDisposableTo(disposeBag)
         
-        viewModel.realEstatePropertyType.asObservable().bindNext { [weak self] realEstatePropertyType in
-            self?.realEstatePropertyTypeSelectedLabel.text = realEstatePropertyType?.localizedString
-            }.addDisposableTo(disposeBag)
+        viewModel.realEstatePropertyType.asObservable()
+            .map {$0?.localizedString }
+            .bindTo(realEstatePropertyTypeSelectedLabel.rx.text)
+            .addDisposableTo(disposeBag)
         
-        viewModel.realEstateNumberOfBedrooms.asObservable().bindNext { [weak self] realEstateNumberOfBedrooms in
-            self?.realEstateNumberOfBedroomsSelectedLabel.text = realEstateNumberOfBedrooms?.localizedString
-            }.addDisposableTo(disposeBag)
+        viewModel.realEstateNumberOfBedrooms.asObservable()
+            .map {$0?.localizedString }
+            .bindTo(realEstateNumberOfBedroomsSelectedLabel.rx.text)
+            .addDisposableTo(disposeBag)
         
-        viewModel.realEstateNumberOfBathrooms.asObservable().bindNext { [weak self] realEstateNumberOfBathrooms in
-            self?.realEstateNumberOfBathroomsSelectedLabel.text = realEstateNumberOfBathrooms?.localizedString
-            }.addDisposableTo(disposeBag)
+        viewModel.realEstateNumberOfBathrooms.asObservable()
+            .map {$0?.localizedString }
+            .bindTo(realEstateNumberOfBathroomsSelectedLabel.rx.text)
+            .addDisposableTo(disposeBag)
 
         carsMakeButton.rx.tap.bindNext { [weak self] in
             self?.viewModel.carMakeButtonPressed()

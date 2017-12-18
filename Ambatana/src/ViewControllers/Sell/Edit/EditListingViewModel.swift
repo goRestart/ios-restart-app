@@ -505,15 +505,20 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func setupRxBindings() {
-        isFreePosting.asObservable().bindNext { [weak self] _ in self?.checkChanges() }.addDisposableTo(disposeBag)
-        category.asObservable().bindNext { [weak self] _ in self?.checkChanges() }.addDisposableTo(disposeBag)
-        carMakeName.asObservable().bindNext { [weak self] _ in self?.checkChanges() }.addDisposableTo(disposeBag)
-        carModelName.asObservable().bindNext { [weak self] _ in self?.checkChanges() }.addDisposableTo(disposeBag)
-        carYear.asObservable().bindNext { [weak self] _ in self?.checkChanges() }.addDisposableTo(disposeBag)
-        realEstatePropertyType.asObservable().bindNext { [weak self] _ in self?.checkChanges() }.addDisposableTo(disposeBag)
-        realEstateOfferType.asObservable().asObservable().bindNext { [weak self] _ in self?.checkChanges() }.addDisposableTo(disposeBag)
-        realEstateNumberOfBathrooms.asObservable().bindNext { [weak self] _ in self?.checkChanges() }.addDisposableTo(disposeBag)
-        realEstateNumberOfBedrooms.asObservable().bindNext { [weak self] _ in self?.checkChanges() }.addDisposableTo(disposeBag)
+        
+        let checkingCarChanges = Observable.combineLatest(isFreePosting.asObservable(),
+                                                       category.asObservable(),
+                                                       carMakeName.asObservable(),
+                                                       carModelName.asObservable(),
+                                                       carYear.asObservable()) { $0 }
+        let checkingRealEstateChanges = Observable.combineLatest(realEstatePropertyType.asObservable(),
+                                                                 realEstateOfferType.asObservable(),
+                                                                 realEstateNumberOfBathrooms.asObservable(),
+                                                                 realEstateNumberOfBedrooms.asObservable()) { $0 }
+        let checkAllChanges = Observable.combineLatest(checkingCarChanges.asObservable(), checkingRealEstateChanges.asObservable()) { $0 }
+        checkAllChanges.asObservable().bindNext { [weak self] _ in
+            self?.checkChanges()
+        }.addDisposableTo(disposeBag)
     }
 
     private func checkChanges() {
