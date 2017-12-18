@@ -224,7 +224,9 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         messageLabelUploadingImage.textColor = UIColor.white
         messageLabelUploadingImage.font = UIFont.body
         messageLabelUploadingImage.numberOfLines = 0
-        retryButtonUploadingImageRealEstate.layout().height(PostListingViewController.retryButtonHeight).width(PostListingViewController.retryButtonWidth)
+        retryButtonUploadingImageRealEstate.layout()
+            .height(PostListingViewController.retryButtonHeight)
+            .width(PostListingViewController.retryButtonWidth, relatedBy: .greaterThanOrEqual)
         retryButtonUploadingImageRealEstate.setStyle(.primary(fontSize: .medium))
         retryButtonUploadingImageRealEstate.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
         retryButtonUploadingImageRealEstate.addTarget(self, action: #selector(PostListingViewController.onRetryButton), for: .touchUpInside)
