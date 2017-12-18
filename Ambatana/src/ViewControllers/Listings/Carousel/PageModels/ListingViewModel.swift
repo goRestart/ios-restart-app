@@ -144,7 +144,7 @@ class ListingViewModel: BaseViewModel {
     fileprivate let visitSource: EventParameterListingVisitSource
 
     let isShowingFeaturedStripe = Variable<Bool>(false)
-    fileprivate var isListingDetailsCompleted = Variable<Bool>(false)
+    fileprivate let isListingDetailsCompleted = Variable<Bool>(false)
 
     // Retrieval status
     private var relationRetrieved = false
