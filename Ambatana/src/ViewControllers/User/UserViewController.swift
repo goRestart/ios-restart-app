@@ -131,22 +131,26 @@ class UserViewController: BaseViewController {
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        defer { deferedUpdateNavigationBar() }
         super.viewWillAppearFromBackground(fromBackground)
         view.backgroundColor = viewModel.backgroundColor.value
         userBgTintView.alpha = userBgTintViewAlpha.value
 
         userBgImageView.alpha = 1
-        
-        // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
-        let currentAlpha: CGFloat = navBarUserViewAlpha
-        navBarUserView.isHidden = true
-        delay(0.01) { [weak self] in
-            self?.navBarUserView.alpha = currentAlpha
-            self?.navBarUserView.isHidden = false
+    }
+
+    private func deferedUpdateNavigationBar() {
+        if navBarUserViewAlpha == 0 {
+            // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
+            let currentAlpha: CGFloat = navBarUserViewAlpha
+            navBarUserView.isHidden = true
+            delay(1.0) { [weak self] in
+                self?.navBarUserView.alpha = currentAlpha
+                self?.navBarUserView.isHidden = false
+            }
         }
     }
 
-    
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
         
