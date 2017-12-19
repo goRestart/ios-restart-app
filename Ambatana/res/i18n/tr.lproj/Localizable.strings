@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Konuşmalar arşivden çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_unblock" = "Engeli Kaldır";
 "chat_login_popup_text" = "Mesajlaşmaya başlamak için giriş yapmalısın";
+"chat_message_disclaimer_meeting_security" = "Remember, busy public places like coffee shops and bank lobbies are safe, convenient meeting spots. Consider bringing a friend.";
 "chat_message_disclaimer_scammer_append_blocked" = "Bu kullanıcıyı engellemek için buraya tıkla.";
 "chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
 "chat_message_field_hint" = "Mesajını buraya yaz";
@@ -750,7 +751,7 @@
 "real_estate_offer_type_sale" = "Satılık";
 "real_estate_offer_type_title" = "İlan Türü";
 "real_estate_price_title" = "Fiyat";
-"real_estate_related_search_title" = "Related results";
+"real_estate_related_search_title" = "Benzer sonuçlar";
 "real_estate_summary_bathroom_title" = "banyo";
 "real_estate_summary_bathrooms_empty" = "Banyo sayısı ekle";
 "real_estate_summary_bathrooms_title" = "banyo";

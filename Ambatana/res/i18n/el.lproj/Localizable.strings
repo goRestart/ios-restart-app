@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Παρουσιάστηκε σφάλμα κατά την αφαίρεση των συνομιλιών από τα αρχειοθετημένα. Παρακαλώ προσπαθήστε ξανά.";
 "chat_list_unblock" = "Ξεμπλοκάρισμα";
 "chat_login_popup_text" = "Για να ξεκινήσετε να συνομιλείτε, θα πρέπει να συνδεθείτε";
+"chat_message_disclaimer_meeting_security" = "Remember, busy public places like coffee shops and bank lobbies are safe, convenient meeting spots. Consider bringing a friend.";
 "chat_message_disclaimer_scammer_append_blocked" = "Πατήστε εδώ για να μπλοκάρετε αυτόν το χρήστη.";
 "chat_message_disclaimer_scammer_base_blocked" = "Να είστε ιδαίτερα προσεκτικοί όταν ανταλλάζετε πληροφορίες τηλεφώνου/email. Οι χρήστες που θέλουν να σας εξαπατήσουν, συχνά ζητούν να αποχωρήσετε από τη letgo συνομιλία. %@";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
@@ -570,7 +571,7 @@
 "product_post_close_alert_title" = "Η καταχώρηση δεν έχει δημοσιευθεί";
 "product_post_confirmation_another" = "'Η";
 "product_post_confirmation_another_button" = "Δημοσιεύστε άλλο προϊόν";
-"product_post_confirmation_another_listing_button" = "Καταχωρήστε κι άλλη δημοσίευση";
+"product_post_confirmation_another_listing_button" = "Δημοσιεύστε κι άλλη καταχώρηση";
 "product_post_confirmation_edit" = "Προσθέστε λεπτομέρειες";
 "product_post_different_country_error" = "Δεν μπορείτε να δημοσιεύσετε σε χώρα στην οποία δε βρίσκεστε πια.";
 "product_post_done" = "Έτοιμο";
@@ -750,7 +751,7 @@
 "real_estate_offer_type_sale" = "Για Πώληση";
 "real_estate_offer_type_title" = "Τύπος Καταχώρησης";
 "real_estate_price_title" = "Τιμή";
-"real_estate_related_search_title" = "Related results";
+"real_estate_related_search_title" = "Συναφή αποτελέσματα";
 "real_estate_summary_bathroom_title" = "μπάνιο";
 "real_estate_summary_bathrooms_empty" = "Προσθήκη αριθμού μπάνιων";
 "real_estate_summary_bathrooms_title" = "μπάνια";

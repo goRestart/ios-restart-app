@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Er is een fout opgetreden tijdens het terugplaatsen van deze gesprekken. Probeer het nog eens.";
 "chat_list_unblock" = "Deblokkeer";
 "chat_login_popup_text" = "Om te beginnen met chatten, moet je inloggen";
+"chat_message_disclaimer_meeting_security" = "Remember, busy public places like coffee shops and bank lobbies are safe, convenient meeting spots. Consider bringing a friend.";
 "chat_message_disclaimer_scammer_append_blocked" = "Klik hier om deze gebruiker te blokkeren.";
 "chat_message_disclaimer_scammer_base_blocked" = "Wees extra voorzichtig bij het uitwisselen van telefoon/e-mailgegevens. Frauduleuze gebruikers vragen je vaak om de letgo chat te verlaten. %@";
 "chat_message_field_hint" = "Schrijf hier je bericht...";
@@ -750,7 +751,7 @@
 "real_estate_offer_type_sale" = "Te Koop";
 "real_estate_offer_type_title" = "Soort Advertentie";
 "real_estate_price_title" = "Prijs";
-"real_estate_related_search_title" = "Related results";
+"real_estate_related_search_title" = "Gerelateerde resultaten";
 "real_estate_summary_bathroom_title" = "badkamer";
 "real_estate_summary_bathrooms_empty" = "Aantal badkamers toevoegen";
 "real_estate_summary_bathrooms_title" = "badkamers";
