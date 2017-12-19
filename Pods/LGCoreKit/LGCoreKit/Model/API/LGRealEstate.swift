@@ -80,6 +80,14 @@ struct LGRealEstate: RealEstate {
         self.realEstateAttributes = realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes()
     }
     
+    init(product: Product) {
+        self.init(objectId: product.objectId, updatedAt: product.updatedAt, createdAt: product.createdAt, name: product.name,
+                  nameAuto: product.nameAuto, descr: product.descr, price: product.price, currency: product.currency, location: product.location,
+                  postalAddress: product.postalAddress, languageCode: product.languageCode, category: product.category,
+                  status: product.status, thumbnail: product.thumbnail, thumbnailSize: product.thumbnailSize,
+                  images: product.images, user: product.user, featured: product.featured, realEstateAttributes: nil)
+    }
+    
     init(chatListing: ChatListing, chatInterlocutor: ChatInterlocutor) {
         let user = LGUserListing(chatInterlocutor: chatInterlocutor)
         let images = [chatListing.image].flatMap{$0}

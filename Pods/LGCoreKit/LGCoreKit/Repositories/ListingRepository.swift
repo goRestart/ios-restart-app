@@ -91,7 +91,8 @@ public protocol ListingRepository {
     func indexRealEstate(_ params: RetrieveListingParams, completion: ListingsCompletion?)
     func indexRealEstateRelatedSearch(_ params: RetrieveListingParams, completion: ListingsCompletion?)
     func retrieve(_ listingId: String, completion: ListingCompletion?)
-
+    func retrieveRealEstate(_ listingId: String, completion: ListingCompletion?)
+    
     func create(listingParams: ListingCreationParams, completion: ListingCompletion?)
     func update(listingParams: ListingEditionParams, completion: ListingCompletion?)
 
