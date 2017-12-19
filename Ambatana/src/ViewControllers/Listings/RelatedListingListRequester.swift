@@ -2,7 +2,7 @@ import LGCoreKit
 
 class RelatedListingListRequester: ListingListRequester {
     
-    enum ListingType {
+    fileprivate enum ListingType {
         case product, realEstate
     }
     
@@ -20,15 +20,25 @@ class RelatedListingListRequester: ListingListRequester {
         return params
     }
 
-    convenience init(listingType: ListingType, listingId: String, itemsPerPage: Int) {
-        self.init(listingType: listingType,
+    convenience init(listingId: String, itemsPerPage: Int) {
+        self.init(listingType: .product,
                   listingId: listingId,
                   itemsPerPage: itemsPerPage,
                   listingRepository: Core.listingRepository,
                   featureFlags: FeatureFlags.sharedInstance)
     }
+    
+    convenience init?(listing: Listing, itemsPerPage: Int) {
+        guard let objectId = listing.objectId else { return nil }
+        let type: RelatedListingListRequester.ListingType = listing.isRealEstate ? .realEstate : .product
+        self.init(listingType: type,
+                  listingId: objectId,
+                  itemsPerPage: itemsPerPage,
+                  listingRepository: Core.listingRepository,
+                  featureFlags: FeatureFlags.sharedInstance)
+    }
 
-    init(listingType: ListingType,
+    fileprivate init(listingType: ListingType,
          listingId: String,
          itemsPerPage: Int,
          listingRepository: ListingRepository,
@@ -60,7 +70,11 @@ class RelatedListingListRequester: ListingListRequester {
     func updateInitialOffset(_ newOffset: Int) {}
 
     func duplicate() -> ListingListRequester {
-        let r = RelatedListingListRequester(listingType: listingType, listingId: listingObjectId, itemsPerPage: itemsPerPage)
+        let r = RelatedListingListRequester(listingType: listingType,
+                                            listingId: listingObjectId,
+                                            itemsPerPage: itemsPerPage,
+                                            listingRepository: listingRepository,
+                                            featureFlags: FeatureFlags.sharedInstance)
         r.offset = offset
         return r
     }

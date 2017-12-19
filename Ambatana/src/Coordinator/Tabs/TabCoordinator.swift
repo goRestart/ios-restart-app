@@ -187,8 +187,7 @@ fileprivate extension TabCoordinator {
                         self?.navigationController.showAutoFadingOutMessageAlert(LGLocalizedString.commonProductNotAvailable)
                     }
                 case .notFound, .forbidden:
-                    let relatedRequester = RelatedListingListRequester(listingType: .product,
-                                                                       listingId: listingId,
+                    let relatedRequester = RelatedListingListRequester(listingId: listingId,
                                                                        itemsPerPage: Constants.numListingsPerPageDefault)
                     relatedRequester.retrieveFirstPage { result in
                         self?.navigationController.dismissLoadingMessageAlert {
@@ -212,16 +211,15 @@ fileprivate extension TabCoordinator {
                              discover: Bool, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         guard let listingId = listing.objectId else { return }
         var requestersArray: [ListingListRequester] = []
-        let relatedRequester: ListingListRequester
+        let listingListRequester: ListingListRequester?
         if discover {
-            relatedRequester = DiscoverListingListRequester(listingId: listingId,
-                                                            itemsPerPage: Constants.numListingsPerPageDefault)
+            listingListRequester = DiscoverListingListRequester(listingId: listingId,
+                                                                itemsPerPage: Constants.numListingsPerPageDefault)
         } else {
-            let type: RelatedListingListRequester.ListingType = listing.isRealEstate ? .realEstate : .product
-            relatedRequester = RelatedListingListRequester(listingType: type,
-                                        listingId: listingId,
-                                        itemsPerPage: Constants.numListingsPerPageDefault)
+            listingListRequester = RelatedListingListRequester(listing: listing,
+                                                               itemsPerPage: Constants.numListingsPerPageDefault)
         }
+        guard let relatedRequester = listingListRequester else { return }
         requestersArray.append(relatedRequester)
 
         // Adding product list after related
@@ -265,8 +263,7 @@ fileprivate extension TabCoordinator {
     func openListing(chatConversation: ChatConversation, source: EventParameterListingVisitSource) {
         guard let localProduct = LocalProduct(chatConversation: chatConversation, myUser: myUserRepository.myUser),
             let listingId = localProduct.objectId else { return }
-        let relatedRequester = RelatedListingListRequester(listingType: .product,
-                                                           listingId: listingId,
+        let relatedRequester = RelatedListingListRequester(listingId: listingId,
                                                            itemsPerPage: Constants.numListingsPerPageDefault)
         let filteredRequester = FilteredListingListRequester( itemsPerPage: Constants.numListingsPerPageDefault, offset: 0)
         let requester = ListingListMultiRequester(requesters: [relatedRequester, filteredRequester])

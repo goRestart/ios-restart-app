@@ -170,7 +170,7 @@ fileprivate extension RelatedListingsView {
 
     func loadListings(_ listingId: String) {
         clear()
-        requester = RelatedListingListRequester(listingType: .product, listingId: listingId, itemsPerPage: Constants.numListingsPerPageDefault)
+        requester = RelatedListingListRequester(listingId: listingId, itemsPerPage: Constants.numListingsPerPageDefault)
         requester?.retrieveFirstPage { [weak self] result in
             guard let listings = result.listingsResult.value else { return }
             if !listings.isEmpty {
