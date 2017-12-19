@@ -45,7 +45,7 @@ class ABTests {
     let promoteBumpUpAfterSell = IntABDynamicVar(key: "20171127PromoteBumpUpAfterSell", defaultValue: 0)
     let copyListingAnotherConfirmation = IntABDynamicVar(key: "20171205CopyListingAnotherConfirmation", defaultValue: 0)
     let moreInfoAFShOrDFP = IntABDynamicVar(key: "20171213MoreInfoAFShOrDFP", defaultValue: 0)
-
+    let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20171219ShowSecurityMeetingChatMessage", defaultValue: 0)
 
     init() {
     }
@@ -83,6 +83,7 @@ class ABTests {
         result.append(promoteBumpUpAfterSell)
         result.append(copyListingAnotherConfirmation)
         result.append(moreInfoAFShOrDFP)
+        result.append(showSecurityMeetingChatMessage)
         
         return result
     }
