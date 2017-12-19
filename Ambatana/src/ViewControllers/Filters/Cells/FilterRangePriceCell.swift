@@ -48,6 +48,15 @@ class FilterRangePriceCell: UICollectionViewCell, ReusableCell, FilterCell {
     }
     
     private func setupUI() {
+        contentView.addSubview(titleLabelFrom)
+        titleLabelFrom.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(titleLabelTo)
+        titleLabelTo.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(textFieldFrom)
+        textFieldFrom.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(textFieldTo)
+        textFieldTo.translatesAutoresizingMaskIntoConstraints = false
+
         addTopSeparator(toContainerView: contentView)
         addBottomSeparator(toContainerView: contentView)
         
@@ -67,7 +76,7 @@ class FilterRangePriceCell: UICollectionViewCell, ReusableCell, FilterCell {
             textFieldTo.leadingAnchor.constraint(equalTo: titleLabelTo.trailingAnchor, constant: Metrics.shortMargin),
             textFieldTo.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Margins.standard),
             textFieldTo.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Margins.standard),
-            textFieldTo.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Metrics.margin)
+            textFieldTo.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Metrics.margin)
         ]
         NSLayoutConstraint.activate(constraints)
         

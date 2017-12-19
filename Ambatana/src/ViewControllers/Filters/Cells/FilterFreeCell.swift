@@ -20,7 +20,6 @@ class FilterFreeCell: UICollectionViewCell, FilterCell, ReusableCell {
     let titleLabel = UILabel()
     let freeSwitch = UISwitch()
 
-    
     weak var delegate: FilterFreeCellDelegate?
     let disposeBag = DisposeBag()
     
@@ -40,6 +39,10 @@ class FilterFreeCell: UICollectionViewCell, FilterCell, ReusableCell {
     }
     
     private func setupUI() {
+        contentView.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(freeSwitch)
+        freeSwitch.translatesAutoresizingMaskIntoConstraints = false
         addTopSeparator(toContainerView: contentView)
         addBottomSeparator(toContainerView: contentView)
 
@@ -64,7 +67,7 @@ class FilterFreeCell: UICollectionViewCell, FilterCell, ReusableCell {
                 imageView.contentMode = .center
                 imageView.image = isOn ? #imageLiteral(resourceName: "free_switch_active") : #imageLiteral(resourceName: "free_switch_inactive")
             }
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     
