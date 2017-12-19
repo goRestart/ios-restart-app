@@ -348,7 +348,7 @@ class SignUpLogInViewModel: BaseViewModel {
         }
     }
     
-    func logIn() {
+    func logIn(recaptchaToken: String? = nil) {
         guard sendButtonEnabledVar.value else { return }
         
         if emailTrimmed.value == "admin" && password.value == "wat" {
@@ -361,17 +361,17 @@ class SignUpLogInViewModel: BaseViewModel {
         let errors = logInEmailForm.checkErrors()
         
         if errors.isEmpty {
-            sendLogIn(logInEmailForm)
+            sendLogIn(logInEmailForm, recaptchaToken: recaptchaToken)
         } else {
             trackFormLogInValidationFailed(errors: errors)
             delegate?.vmShowAutoFadingMessage(errors.errorMessage, completion: nil)
         }
     }
     
-    func sendLogIn(_ logInForm: LogInEmailForm) {
+    func sendLogIn(_ logInForm: LogInEmailForm, recaptchaToken: String?) {
         delegate?.vmShowLoading(nil)
         
-        sessionManager.login(logInForm.email, password: logInForm.password) { [weak self] loginResult in
+        let completion: LoginCompletion? = { [weak self] loginResult in
             guard let strongSelf = self else { return }
             
             if let user = loginResult.value {
@@ -388,6 +388,18 @@ class SignUpLogInViewModel: BaseViewModel {
                 strongSelf.processLoginSessionError(sessionManagerError)
             }
         }
+        
+        if let recaptchaToken = recaptchaToken {
+            sessionManager.login(logInForm.email,
+                                 password: logInForm.password,
+                                 recaptchaToken: recaptchaToken,
+                                 completion: completion)
+        } else {
+            sessionManager.login(logInForm.email,
+                                 password: logInForm.password,
+                                 completion: completion)
+        }
+        
     }
     
     func godLogIn(_ password: String) {
@@ -469,7 +481,7 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     private func processLoginSessionError(_ error: LoginError) {
-        trackLoginEmailFailedWithError(error.trackingError)
+        var showCaptcha = false
         var afterMessageCompletion: (() -> ())? = nil
         switch error {
         case .scammer:
@@ -487,11 +499,20 @@ class SignUpLogInViewModel: BaseViewModel {
                     self?.showRememberPasswordAlert()
                 }
             }
-        case .network, .badRequest, .notFound, .forbidden, .conflict, .tooManyRequests, .userNotVerified, .internalError:
+        case .userNotVerified:
+            showCaptcha = true
+        case .network, .badRequest, .notFound, .forbidden, .conflict, .tooManyRequests, .internalError:
             break
         }
-
-        delegate?.vmHideLoading(error.errorMessage, afterMessageCompletion: afterMessageCompletion)
+       
+        if showCaptcha {
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.navigator?.openRecaptcha(action: .login)
+            }
+        } else {
+            trackLoginEmailFailedWithError(error.trackingError)
+            delegate?.vmHideLoading(error.errorMessage, afterMessageCompletion: afterMessageCompletion)
+        }
     }
 
     private func process(signupError: SignupError) {
@@ -504,7 +525,7 @@ class SignUpLogInViewModel: BaseViewModel {
             }
         case .userNotVerified:
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.navigator?.openRecaptcha(transparentMode: self?.featureFlags.captchaTransparent ?? false)
+                self?.navigator?.openRecaptcha(action: .signup)
             }
         case .network, .badRequest, .notFound, .forbidden, .unauthorized, .conflict, .nonExistingEmail,
              .tooManyRequests, .internalError:
@@ -671,8 +692,13 @@ fileprivate extension SignUpFormErrors {
 // MARK: - RecaptchaTokenDelegate
 
 extension SignUpLogInViewModel: RecaptchaTokenDelegate {
-    func recaptchaTokenObtained(token: String) {
-        signUp(recaptchaToken: token)
+    func recaptchaTokenObtained(token: String, action: LoginActionType) {
+        switch action {
+        case .login:
+            logIn(recaptchaToken: token)
+        case .signup:
+            signUp(recaptchaToken: token)
+        }
     }
 }
 

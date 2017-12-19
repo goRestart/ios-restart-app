@@ -10,7 +10,7 @@ import LGCoreKit
 import RxSwift
 
 
-class PostingAddDetailPriceView: UIView, PostingViewConfigurable {
+class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDelegate {
     
     static private let currencyWidth: CGFloat = 20
     static private let priceViewMargin: CGFloat = 20
@@ -54,21 +54,22 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable {
     // MARK: - UI
     
     private func setupUI() {
-        
         separatorView.backgroundColor = UIColor.whiteTextLowAlpha
         currencyLabel.numberOfLines = 1
         currencyLabel.adjustsFontSizeToFitWidth = false
         currencyLabel.textAlignment = .center
         currencyLabel.textColor = UIColor.white
         currencyLabel.font = UIFont.systemBoldFont(size: 26)
-        
         priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
                                                                   attributes: [NSAttributedStringKey.foregroundColor: UIColor.grayLight,
                                                                                NSAttributedStringKey.font: UIFont.systemBoldFont(size: 26)])
         priceTextField.keyboardType = .decimalPad
         priceTextField.font = UIFont.systemBoldFont(size: 26)
         priceTextField.textColor = UIColor.white
-        
+        priceTextField.keyboardType = .decimalPad
+        priceTextField.autocorrectionType = .no
+        priceTextField.autocapitalizationType = .none
+        priceTextField.delegate = self
         freeLabel.numberOfLines = 1
         freeLabel.adjustsFontSizeToFitWidth = false
         freeLabel.textAlignment = .left
@@ -138,6 +139,7 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable {
             guard let strongSelf = self else { return }
             if isOn {
                 strongSelf.priceListing.value = .free
+                strongSelf.priceTextField.resignFirstResponder()
             } else if let value = textFieldValue, let price = Double(value) {
                 strongSelf.priceListing.value = .normal(price)
             } else {
@@ -153,6 +155,16 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable {
             self?.currencyLabel.alpha = hide ? 0.0 : 1.0
             self?.layoutIfNeeded()
         })
+    }
+    
+    
+    
+    // MARK: - UITextFieldDelegate
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+        guard textField == priceTextField else { return true }
+        return textField.shouldChangePriceInRange(range, replacementString: string, acceptsSeparator: true)
     }
     
     
@@ -179,7 +191,7 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable {
         guard let price = viewModel.currentPrice else { return }
         switch price {
         case .firmPrice, .normal:
-            priceTextField.text = String(price.value)
+            priceTextField.text = String.fromPriceDouble(price.value)
         case .free:
             freeActive.value = true
         case .negotiable:
