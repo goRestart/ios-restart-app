@@ -101,14 +101,15 @@ fileprivate extension RelatedListingListRequester {
             completion?(ListingsRequesterResult(listingsResult: result, context: nil))
         }
 
-        if case .realEstate = listingType, featureFlags.realEstateEnabled {
-            listingRepository.indexRelatedRealEstate(listingId: listingObjectId,
-                                                     params: retrieveListingParams,
-                                                     completion: requestCompletion)
-        } else {
+        switch (listingType, featureFlags.realEstateEnabled) {
+        case (.product, _), (.realEstate, false):
             listingRepository.indexRelated(listingId: listingObjectId,
                                            params: retrieveListingParams,
                                            completion: requestCompletion)
+        case (.realEstate, true):
+            listingRepository.indexRelatedRealEstate(listingId: listingObjectId,
+                                                     params: retrieveListingParams,
+                                                     completion: requestCompletion)
         }
     }
 }
