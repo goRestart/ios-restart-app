@@ -94,6 +94,14 @@ struct LGRealEstate: RealEstate, Decodable {
         self.realEstateAttributes = realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes()
     }
     
+    init(product: Product) {
+        self.init(objectId: product.objectId, updatedAt: product.updatedAt, createdAt: product.createdAt, name: product.name,
+                  nameAuto: product.nameAuto, descr: product.descr, price: product.price, currency: product.currency, location: product.location,
+                  postalAddress: product.postalAddress, languageCode: product.languageCode, category: product.category,
+                  status: product.status, thumbnail: product.thumbnail, thumbnailSize: product.thumbnailSize,
+                  images: product.images, user: product.user, featured: product.featured, realEstateAttributes: nil)
+    }
+    
     init(chatListing: ChatListing, chatInterlocutor: ChatInterlocutor) {
         let user = LGUserListing(chatInterlocutor: chatInterlocutor)
         let images = [chatListing.image].flatMap{$0}
@@ -242,47 +250,56 @@ struct LGRealEstate: RealEstate, Decodable {
     // MARK: Decodable
     
     /*
-     {
-     "id": "string",
-     "name": "string",
-     "categoryId": 10,
-     "languageCode": "string",
-     "description": "string",
-     "price": 1.75,
-     "currency": "USD|EUR",
-     "priceFlag": "0(normal)|1(free)|2(negotiable)|3(firm)",
-     "status": 0,
-     "realEstateAttributes": {
-     "typeOfProperty": "apartment|house|room|commercial|others",
-     "typeOfListing": "rent|sell",
-     "numberOfBedrooms": 1,
-     "numberOfBathrooms": 1.5
-     },
-     "geo": {
-     "lat": 41.54061842,
-     "lng": 2.43402958,
-     "countryCode": "string",
-     "city": "string",
-     "zipCode": "string"
-     },
-     "owner": {
-     "id": "string"
-     },
-     "images": [
-     {
-     "id": "string",
-     "url": "string"
-     }
-     ],
-     "thumb": {
-     "url": "string",
-     "width": 200,
-     "height": 200
-     },
-     "createdAt": "string",
-     "updatedAt": "string",
-     "featured": true
-     }
+      {
+      "id": "c204a867-1d92-467d-9ab6-5830ba358289",
+      "name": "Clip on lamp",
+      "categoryId": 10,
+      "languageCode": "en_US",
+      "description": "Lamp to light up your room",
+      "price": 5,
+      "currency": "USD",
+      "status": 1,
+      "geo": {
+      "lat": 38.6858795,
+      "lng": -77.3207672,
+      "countryCode": "US",
+      "city": "Lake Ridge",
+      "zipCode": "22192"
+      },
+      "owner": {
+        "id": "string",
+        "name": "string",
+        "avatarUrl": "string",
+        "zipCode": "string",
+        "countryCode": "string",
+        "city": "string"
+      },
+      "images": [{
+                 "url": "http://cdn.letgo.com/images/10/98/cf/16/1098cf160db986f4288d3b5f6c8b72bf.jpeg",
+                 "id": "f6609638-cf73-4d34-9a8f-e4d11ec9ba81"
+                 }, {
+                 "url": "http://cdn.letgo.com/images/1d/b1/8e/42/1db18e42ed7219841f5a57bbda3c034a.jpeg",
+                 "id": "e40b4110-0c26-4184-8a85-4ed755f2c4d1"
+                 }, {
+                 "url": "http://cdn.letgo.com/images/c6/b7/82/c8/c6b782c8f10603420fc4b808482549b7.jpeg",
+                 "id": "90033803-fb11-4017-962a-b7bb6c809c80"
+                 }],
+      "thumb": {
+      "url": "http://cdn.letgo.com/images/10/98/cf/16/1098cf160db986f4288d3b5f6c8b72bf_thumb.jpeg",
+      "width": 720,
+      "height": 1280
+      },
+      "createdAt": "2017-03-16T02:18:02+00:00",
+      "updatedAt": "2017-03-29T14:07:36+00:00",
+      "priceFlag": 2,
+      "featured": false,
+      "realEstateAttributes": {
+      "typeOfProperty": "room",
+      "typeOfListing": "rent",
+      "numberOfBedrooms": 1,
+      "numberOfBathrooms": 2
+      }
+      }
      */
     
     public init(from decoder: Decoder) throws {
@@ -326,7 +343,7 @@ struct LGRealEstate: RealEstate, Decodable {
         location = LGLocationCoordinates2D(latitude: latitude, longitude: longitude)
         
         let postalAddressKeyedContainer = try keyedContainer.nestedContainer(keyedBy: PostalAddressCodingKeys.self,
-                                                                        forKey: .location)
+                                                                             forKey: .location)
         postalAddress = PostalAddress(address: try postalAddressKeyedContainer.decodeIfPresent(String.self, forKey: .address),
                                       city: try postalAddressKeyedContainer.decodeIfPresent(String.self, forKey: .city),
                                       zipCode: try postalAddressKeyedContainer.decodeIfPresent(String.self, forKey: .zipCode),
@@ -354,7 +371,21 @@ struct LGRealEstate: RealEstate, Decodable {
         let imagesArray = (try keyedContainer.decode(FailableDecodableArray<LGListingImage>.self, forKey: .images)).validElements
         images = LGListingImage.mapToFiles(imagesArray)
         
-        user = try keyedContainer.decode(LGUserListing.self, forKey: .user)
+        let userKeyedContainer = try keyedContainer.nestedContainer(keyedBy: UserCodingKeys.self,
+                                                                    forKey: .user)
+        let userPostalAddress = PostalAddress(address: nil,
+                                              city: try userKeyedContainer.decodeIfPresent(String.self, forKey: .city),
+                                              zipCode: try userKeyedContainer.decodeIfPresent(String.self, forKey: .zipCode),
+                                              state: nil,
+                                              countryCode: try userKeyedContainer.decodeIfPresent(String.self, forKey: .countryCode),
+                                              country: nil)
+        user = LGUserListing(objectId: try userKeyedContainer.decodeIfPresent(String.self, forKey: .id),
+                             name: try userKeyedContainer.decodeIfPresent(String.self, forKey: .name),
+                             avatar: try userKeyedContainer.decodeIfPresent(String.self, forKey: .avatarUrl),
+                             postalAddress: userPostalAddress,
+                             isDummy: false,
+                             banned: nil,
+                             status: nil)
         featured = try keyedContainer.decodeIfPresent(Bool.self, forKey: .featured)
         
         realEstateAttributes = (try keyedContainer.decodeIfPresent(RealEstateAttributes.self, forKey: .realEstateAttributes))
@@ -402,5 +433,14 @@ struct LGRealEstate: RealEstate, Decodable {
         case url
         case width
         case height
+    }
+    
+    enum UserCodingKeys: String, CodingKey {
+        case id
+        case name
+        case avatarUrl
+        case zipCode
+        case countryCode
+        case city
     }
 }

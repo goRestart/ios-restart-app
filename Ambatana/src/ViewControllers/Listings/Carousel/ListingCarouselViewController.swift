@@ -390,9 +390,10 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     private func setupCollectionRx() {
         viewModel.objectChanges.observeOn(MainScheduler.instance).bind { [weak self] change in
-            self?.imageBackground.isHidden = true
-                self?.collectionView.handleCollectionChange(change) { _ in
-                    self?.imageBackground.isHidden = false
+            guard let strongSelf = self else { return }
+            strongSelf.imageBackground.isHidden = true
+                strongSelf.collectionView.handleCollectionChange(change) { _ in
+                    strongSelf.imageBackground.isHidden = false
                 }
             }.disposed(by: disposeBag)
     }

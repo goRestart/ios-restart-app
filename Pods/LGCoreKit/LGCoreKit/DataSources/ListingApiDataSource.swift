@@ -72,6 +72,11 @@ final class ListingApiDataSource: ListingDataSource {
         let request = ListingRouter.show(listingId: listingId)
         apiClient.request(request, decoder: ListingApiDataSource.decoder, completion: completion)
     }
+    
+    func retrieveRealEstate(_ listingId: String, completion: ListingDataSourceCompletion?) {
+        let request = ListingRouter.showRealEstate(listingId: listingId)
+        apiClient.request(request, decoder: ListingApiDataSource.decoder, completion: completion)
+    }
 
     func createListing(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?) {
         let request: URLRequestAuthenticable
@@ -98,8 +103,8 @@ final class ListingApiDataSource: ListingDataSource {
             request = ListingRouter.update(listingId: productParams.productId, params: productParams.apiEditionEncode())
             apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
         case .realEstate(let realEstateParams):
-            request = ListingRouter.update(listingId: realEstateParams.realEstateId, params: realEstateParams.apiEditionEncode())
-            apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
+            request = ListingRouter.updateRealEstate(listingId: realEstateParams.realEstateId, params: realEstateParams.apiEditionEncode())
+            apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
         }
     }
 
@@ -210,8 +215,8 @@ final class ListingApiDataSource: ListingDataSource {
         guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
         // Ignore listings that can't be decoded
         do {
-            let stickers = try JSONDecoder().decode(FailableDecodableArray<Listing>.self, from: data)
-            return stickers.validElements
+            let listings = try JSONDecoder().decode(FailableDecodableArray<Listing>.self, from: data)
+            return listings.validElements
         } catch {
             logMessage(.debug, type: .parsing, message: "could not parse Listing \(object)")
         }

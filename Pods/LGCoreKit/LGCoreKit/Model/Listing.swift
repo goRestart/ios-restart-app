@@ -278,12 +278,16 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
             let category: ListingCategory = ListingCategory(rawValue: categoryIdFeedAndProductsAndCars) ?? .unassigned
             switch category {
             case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                 .fashionAndAccesories, .babyAndChild, .other, .realEstate:
+                 .fashionAndAccesories, .babyAndChild, .other:
                 let product = try LGProduct(from: decoder)
                 self = Listing.product(product)
             case .cars:
                 let car = try LGCar(from: decoder)
                 self = Listing.car(car)
+            case .realEstate:
+                let product = try LGProduct(from: decoder)
+                let realEstate = LGRealEstate(product: product)
+                self = Listing.realEstate(realEstate)
             }
             // New verticals listings, from New verticals search/filters
         } else if let categoryIdRealEstate: Int = try keyedContainer.decodeIfPresent(Int.self, forKey: .categoryIdNewVerticals) {

@@ -20,13 +20,13 @@ struct LGUserListing: UserListing, Decodable {
     
     // MARK: - Lifecycle
     
-    private init(objectId: String?,
-                 name: String?,
-                 avatar: String?,
-                 postalAddress: PostalAddress,
-                 isDummy: Bool,
-                 banned: Bool?,
-                 status: UserStatus?) {
+    init(objectId: String?,
+         name: String?,
+         avatar: String?,
+         postalAddress: PostalAddress,
+         isDummy: Bool,
+         banned: Bool?,
+         status: UserStatus?) {
         self.objectId = objectId
         self.name = name
         self.avatar = LGFile(id: nil, urlString: avatar)
