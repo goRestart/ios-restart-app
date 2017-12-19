@@ -36,15 +36,15 @@ class LGSearchMapViewModel: BaseViewModel {
     private let initialPlace: Place
     
     let placeLocation = Variable<Place?>(nil)
+    let placeGPSLocation = Variable<Place?>(nil)
     let placeInfoText = Variable<String>("")
     let setLocationEnabled = Variable<Bool>(false)
     let loading = Variable<Bool>(false)
     let currentDistanceRadius = Variable<Int?>(nil)
     let userMovedLocation = Variable<CLLocationCoordinate2D?>(nil)
-    
     let searchText = Variable<(String, autoSelect: Bool)>("", autoSelect: false)
     
-    private let locationToFetch = Variable<(CLLocationCoordinate2D?, fromGps: Bool)>(nil, fromGps: false)
+    let locationToFetch = Variable<(CLLocationCoordinate2D?, fromGps: Bool)>(nil, fromGps: false)
     
     convenience init(currentPlace: Place?) {
         let locationManager = Core.locationManager
@@ -94,6 +94,7 @@ class LGSearchMapViewModel: BaseViewModel {
         guard let location = locationManager.currentAutoLocation else { return }
         placeLocation.value = Place(postalAddress: location.postalAddress, location: LGLocationCoordinates2D(coordinates: location.coordinate))
         locationToFetch.value = (location.coordinate, fromGps: true)
+        placeGPSLocation.value = placeLocation.value
     }
     
     private func setupRX() {
@@ -205,12 +206,6 @@ class LGSearchMapViewModel: BaseViewModel {
 
     
     private func setPlace(_ place: Place, forceLocation: Bool, fromGps: Bool, enableSave: Bool) {
-        guard currentPlace.postalAddress?.countryCode == place.postalAddress?.countryCode else {
-            viewControllerDelegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorCountryAlertMessage) { [weak self] in
-                self?.updateMapToPreviousKnownPlace()
-            }
-            return
-        }
         currentPlace = place
         usingGPSLocation = fromGps
         setLocationEnabled.value = enableSave
