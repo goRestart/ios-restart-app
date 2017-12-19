@@ -12,4 +12,5 @@ import LGCoreKit
 protocol EditListingNavigator: class {
     func editingListingDidCancel()
     func editingListingDidFinish(_ editedListing: Listing)
+    func openListingAttributePicker(viewModel: ListingAttributePickerViewModel)
 }
