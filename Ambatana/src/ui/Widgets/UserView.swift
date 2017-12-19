@@ -109,6 +109,11 @@ class UserView: UIView {
     weak var delegate: UserViewDelegate?
 
     private let disposeBag = DisposeBag()
+    
+    // iOS 11+ draws with auto layout, it looks for the intrinsic content size
+    override var intrinsicContentSize: CGSize {
+        return UILayoutFittingExpandedSize
+    }
 
     
     // MARK: - Lifecycle
