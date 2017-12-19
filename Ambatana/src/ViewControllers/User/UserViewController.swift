@@ -177,12 +177,6 @@ class UserViewController: BaseViewController {
         
         averageRatingView.rounded = true
     }
-    
-//    override func viewSafeAreaInsetsDidChange() {
-//        guard #available(iOS 11, *) else { return }
-//        super.viewSafeAreaInsetsDidChange()
-//        listingListViewTopMargin = view.safeAreaInsets.top
-//    }
 }
 
 
