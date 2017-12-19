@@ -17,8 +17,8 @@
 "bump_up_banner_pay_text" = "상품을 빨리 판매해보세요";
 "bump_up_banner_pay_text_improvement" = "지금 빨리 판매하기";
 "bump_up_banner_wait_text" = "다시 강조하기";
-"bump_up_error_bump_generic" = "상품을 강조하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
-"bump_up_error_bump_token" = "결제가 진행되었지만, 상품이 강조되지 않았습니다.";
+"bump_up_error_bump_generic" = "상품 목록을 강조하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
+"bump_up_error_bump_token" = "결제가 진행되었지만, 상품 목록이 강조되지 않았습니다.";
 "bump_up_error_payment_failed" = "앱 스토어에 연결할 수 없습니다. 귀하의 결제가 진행되지 않았습니다. 다시 시도해주세요.";
 "bump_up_free_success" = "상품이 강조되었습니다! 리스트를 계속 강조하시면 사람들이 확인할 수 있습니다.";
 "bump_up_not_allowed_alert_contact_button" = "문의하기";
@@ -35,7 +35,7 @@
 "bump_up_view_free_subtitle" = "더 많이 공유할 수록, 판매 상품이 더 잘보이게 될 것입니다.";
 "bump_up_view_free_title" = "리스팅 강조하기";
 "bump_up_view_pay_button_title" = "%@ 상품 강조하기";
-"bump_up_view_pay_subtitle" = "강조된 상품 기능은 24시간동안 지속됩니다. 상품을 더 잘보이는 곳으로 옮겨 좀 더 많은 사람들의 관심을 끌어보세요.";
+"bump_up_view_pay_subtitle" = "더 많은 사용자가 상품 목록을 확인하고 판매를 빠르게 진행할 수 있도록 사용자 분의 상품 목록은 24시간 동안 강조됩니다.";
 "bump_up_view_pay_title" = "2배 더 많은 구매자들의 관심을 끌어보세요";
 "categories_baby_and_child" = "유아동";
 "categories_car" = "자동차";
@@ -153,7 +153,7 @@
 "chat_list_unarchive_error_multiple" = "저장하신 대화들에 대한 저장을 취소하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_list_unblock" = "차단해제";
 "chat_login_popup_text" = "채팅을 시작하기 위해서, 사용자께서는 반드시 로그인 하셔야합니다";
-"chat_message_disclaimer_meeting_security" = "Remember, busy public places like coffee shops and bank lobbies are safe, convenient meeting spots. Consider bringing a friend.";
+"chat_message_disclaimer_meeting_security" = "커피숍, 은행 로비와 같은 장소는 안전하고, 편리하게 구매자 혹은 판매자를 만날 수 있는 장소라는 것을 기억해주세요. 친구를 데리고 가는 것도 좋은 방법입니다.";
 "chat_message_disclaimer_scammer_append_blocked" = "이곳을 클릭하여 해당 사용자를 차단하세요.";
 "chat_message_disclaimer_scammer_base_blocked" = "휴대전화 정보/이메일 정보를 교환할 때는 조심하여 주십시오. 사기를 계획하는 사용자가 letgo 채팅으로 물어볼 수도 있습니다. %@";
 "chat_message_field_hint" = "메세지를 이곳에 입력하세요";
@@ -409,7 +409,7 @@
 "notifications_permissions_settings_yes_button" = "네, 설정합니다";
 "notifications_permissions_yes_button" = "네, 알려주세요";
 "notifications_title" = "알림";
-"notifications_type_buyers_interested" = "%d 구매자들이 상품에 관심있는 것 같습니다";
+"notifications_type_buyers_interested" = "%d 구매자들이 사용자 분의 상품 목록에 관심있는 것 같습니다";
 "notifications_type_buyers_interested_button" = "누구인지 알아보세요";
 "notifications_type_buyers_interested_button_done" = "구매자가 연락을 하였습니다!";
 "notifications_type_buyers_interested_w_title" = "%1$d 구매자들이 상품에 관심이 있는 것 같습니다: \"%2$@\"";
@@ -418,8 +418,8 @@
 "notifications_type_like_button" = "프로필 확인하세요";
 "notifications_type_like_w_name" = "%@이 상품 목록에 관심을 표시했습니다";
 "notifications_type_like_w_name_w_title" = "%1$@관심가는 상품 목록:\"%2$@\"";
-"notifications_type_product_suggested" = "%@께서 관심을 가지실 만한 상품을 게시하였습니다";
-"notifications_type_product_suggested_button" = "상품 확인하기";
+"notifications_type_product_suggested" = "%@께서 관심을 가지실 만한 상품 게시글을 등록하였습니다";
+"notifications_type_product_suggested_button" = "상품 목록 확인하기";
 "notifications_type_product_suggested_w_title" = "%1$@께서 관심을 가지실 만한 상품을 게시하였습니다: \"%2$@\"";
 "notifications_type_rating" = "%@가 회원님을 확인했습니다";
 "notifications_type_rating_button" = "리뷰 확인하기";
