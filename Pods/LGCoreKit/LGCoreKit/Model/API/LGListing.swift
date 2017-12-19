@@ -72,10 +72,23 @@ extension Listing: Decodable  {
 
             switch category {
             case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                 .fashionAndAccesories, .babyAndChild, .other, .realEstate:
+                 .fashionAndAccesories, .babyAndChild, .other:
                 result = curry(Listing.product) <^> LGProduct.decode(j)
             case .cars:
                 result = curry(Listing.car) <^> LGCar.decode(j)
+            case .realEstate:
+                let listingResult = curry(Listing.product) <^> LGProduct.decode(j)
+                switch listingResult {
+                case .success(let listing):
+                    if let product = listing.product {
+                        let realEstateListing = LGRealEstate(product: product)
+                        result = Decoded.success(Listing.realEstate(realEstateListing))
+                    } else {
+                        result = Decoded.failure(DecodeError.custom("Could not get product from listing result"))
+                    }
+                case .failure(let error):
+                    result = Decoded.failure(error)
+                }
             }
             if let error = result.error {
                 logMessage(.error, type: CoreLoggingOptions.parsing, message: "Listing parse error: \(error)")

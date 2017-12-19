@@ -2659,31 +2659,109 @@ class TrackerEventSpec: QuickSpec {
             }
             
             describe("listingEditComplete") {
-                it("has its event name") {
-                    let product = MockProduct.makeMock()
-                    sut = TrackerEvent.listingEditComplete(nil, listing: .product(product), category: nil, editedFields: [])
-                    expect(sut.name.rawValue).to(equal("product-edit-complete"))
+                context("edit product") {
+                    beforeEach {
+                        var product = MockProduct.makeMock()
+                        product.objectId = "r4nd0m1D"
+                        product.name = "name"
+                        product.descr = nil
+                        product.category = .motorsAndAccessories
+                        product.price = .negotiable(20)
+                        product.images = MockFile.makeMocks(count: 2)
+                        product.descr = String.makeRandom()
+                        sut = TrackerEvent.listingEditComplete(nil, listing: .product(product), category: .homeAndGarden, editedFields: [.title, .category])
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue).to(equal("product-edit-complete"))
+                    }
+                    it("contains the product related params when passing by a product, name & category") {
+                        expect(sut.params).notTo(beNil())
+                    }
+                    it ("contains category-id parameter") {
+                        expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
+                        let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
+                        expect(categoryId).to(equal(4))
+                    }
+                    it ("containts product-id") {
+                        expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                        let productId = sut.params!.stringKeyParams["product-id"] as? String
+                        expect(productId).to(equal("r4nd0m1D"))
+                    }
+                    it ("containts product-id") {
+                        expect(sut.params!.stringKeyParams["edited-fields"]).notTo(beNil())
+                        let editedFields = sut.params!.stringKeyParams["edited-fields"] as? String
+                        expect(editedFields).to(equal("title,category"))
+                    }
+                    it("contains property type") {
+                        let data = sut.params!.stringKeyParams["property-type"] as? String
+                        expect(data).to(equal("N/A"))
+                    }
+                    it("contains deal type") {
+                        let data = sut.params!.stringKeyParams["deal-type"] as? String
+                        expect(data).to(equal("N/A"))
+                    }
+                    it("contains bedrooms") {
+                        let data = sut.params!.stringKeyParams["bedroom-number"] as? String
+                        expect(data).to(equal("N/A"))
+                    }
+                    it("contains bathrooms") {
+                        let data = sut.params!.stringKeyParams["bathroom-number"] as? String
+                        expect(data).to(equal("N/A"))
+                    }
                 }
-                it("contains the product related params when passing by a product, name & category") {
-                    var product = MockProduct.makeMock()
-                    let newCategory = ListingCategory.motorsAndAccessories
-                    product.objectId = "q1w2e3"
-
-                    sut = TrackerEvent.listingEditComplete(nil, listing: .product(product), category: newCategory,
-                        editedFields: [.title, .category])
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
-                    let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(categoryId).to(equal(newCategory.rawValue))
-
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-
-                    expect(sut.params!.stringKeyParams["edited-fields"]).notTo(beNil())
-                    let editedFields = sut.params!.stringKeyParams["edited-fields"] as? String
-                    expect(editedFields).to(equal("title,category"))
+            }
+            
+            describe("listingEditComplete") {
+                context("edit real estate") {
+                    beforeEach {
+                        var realEstate = MockRealEstate.makeMock()
+                        realEstate.objectId = "r4nd0m1D"
+                        realEstate.name = "name"
+                        realEstate.descr = nil
+                        realEstate.price = .negotiable(20)
+                        realEstate.images = MockFile.makeMocks(count: 2)
+                        realEstate.descr = String.makeRandom()
+                        let realEstateAttributes = RealEstateAttributes(propertyType: .room, offerType: .rent, bedrooms: 3, bathrooms: 1.0)
+                        realEstate.realEstateAttributes = realEstateAttributes
+                        sut = TrackerEvent.listingEditComplete(nil, listing: .realEstate(realEstate), category: nil, editedFields: [.title, .category])
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue).to(equal("product-edit-complete"))
+                    }
+                    it("contains the product related params when passing by a product, name & category") {
+                        expect(sut.params).notTo(beNil())
+                    }
+                    it ("contains category-id parameter") {
+                        expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
+                        let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
+                        expect(categoryId).notTo(beNil())
+                    }
+                    it ("containts product-id") {
+                        expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                        let productId = sut.params!.stringKeyParams["product-id"] as? String
+                        expect(productId).to(equal("r4nd0m1D"))
+                    }
+                    it ("containts edited-fields") {
+                        expect(sut.params!.stringKeyParams["edited-fields"]).notTo(beNil())
+                        let editedFields = sut.params!.stringKeyParams["edited-fields"] as? String
+                        expect(editedFields).to(equal("title,category"))
+                    }
+                    it("contains property type") {
+                        let data = sut.params!.stringKeyParams["property-type"] as? String
+                        expect(data).to(equal("room"))
+                    }
+                    it("contains deal type") {
+                        let data = sut.params!.stringKeyParams["deal-type"] as? String
+                        expect(data).to(equal("rent"))
+                    }
+                    it("contains bedrooms") {
+                        let data = sut.params!.stringKeyParams["bedroom-number"] as? String
+                        expect(data).to(equal("3"))
+                    }
+                    it("contains bathrooms") {
+                        let data = sut.params!.stringKeyParams["bathroom-number"] as? String
+                        expect(data).to(equal("1.0"))
+                    }
                 }
             }
             
