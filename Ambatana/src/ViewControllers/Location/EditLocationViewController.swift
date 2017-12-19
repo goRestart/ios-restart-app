@@ -14,12 +14,15 @@ import RxSwiftExt
 import RxCocoa
 import Result
 
-
 class EditLocationViewController: BaseViewController, EditLocationViewModelDelegate {
 
-    struct EditLocationMetrics {
+    private struct Layout {
+        static let iOS11NavBar: CGFloat = 44
+        static let defaultNavBar: CGFloat = 64
+        static let defaultTitleTop: CGFloat = 20
         static let mapRegionMarginMutiplier = 0.5
         static let mapRegionDiameterMutiplier = 2.0
+        static let closeWidth: CGFloat = 40
     }
     
     // UI
@@ -151,36 +154,44 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     // MARK: - Private methods
     
     private func setupUI() {
-        
+        let topAnchor: NSLayoutYAxisAnchor
+        var constraints: [NSLayoutConstraint] = []
         if viewModel.shouldShowCustomNavigationBar {
-            navBarContainer.layout(with: view)
-                .top()
-            navBarContainerHeight.constant = 64
-            
             let closeButton = UIButton()
+            navBarContainer.addSubview(closeButton)
+            closeButton.translatesAutoresizingMaskIntoConstraints = false
             closeButton.setImage(UIImage(named: "ic_close_red"), for: .normal)
             closeButton.addTarget(self, action: #selector(setLocationCloseButtonPressed), for: .touchUpInside)
+
             let titleLabel = UILabel()
+            navBarContainer.addSubview(titleLabel)
+            titleLabel.translatesAutoresizingMaskIntoConstraints = false
             titleLabel.font = UIFont.pageTitleFont
             titleLabel.textColor = UIColor.blackText
             titleLabel.text = LGLocalizedString.quickFilterLocationTitle
             titleLabel.textAlignment = .center
-            
-            closeButton.translatesAutoresizingMaskIntoConstraints = false
-            titleLabel.translatesAutoresizingMaskIntoConstraints = false
-            navBarContainer.addSubview(closeButton)
-            navBarContainer.addSubview(titleLabel)
 
-            closeButton.layout(with: navBarContainer)
-                .left(by: Metrics.veryShortMargin)
-            closeButton.layout()
-                .width(40).widthProportionalToHeight()
+            if #available(iOS 11.0, *) {
+                topAnchor = view.safeAreaLayoutGuide.topAnchor
+                navBarContainerHeight.constant = Layout.iOS11NavBar
+                constraints.append(titleLabel.topAnchor.constraint(equalTo: topAnchor,
+                                                                   constant: Metrics.veryShortMargin))
+            } else {
+                topAnchor = view.topAnchor
+                navBarContainerHeight.constant = Layout.defaultNavBar
+                constraints.append(titleLabel.topAnchor.constraint(equalTo: topAnchor,
+                                                                   constant: Layout.defaultTitleTop))
+            }
+
+            constraints.append(navBarContainer.topAnchor.constraint(equalTo: topAnchor))
+
+            closeButton.layout(with: navBarContainer).left(by: Metrics.veryShortMargin)
+            closeButton.layout().width(Layout.closeWidth).widthProportionalToHeight()
             closeButton.layout(with: titleLabel)
                 .centerY()
                 .right(to: .left, by: -Metrics.margin, relatedBy: .lessThanOrEqual)
-            
+
             titleLabel.layout(with: navBarContainer)
-                .top(by: 20)
                 .right(by: -Metrics.margin, relatedBy: .lessThanOrEqual)
                 .bottom()
                 .centerX()
@@ -188,9 +199,9 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
             navBarContainer.layoutIfNeeded()
             _ = navBarContainer.addBottomBorderWithWidth(1, color: UIColor.gray)
         } else {
-            navBarContainer.layout(with: topLayoutGuide)
-                .top(to: .bottom, by: 0)
+            navBarContainer.layout(with: topLayoutGuide).top(to: .bottom)
         }
+        NSLayoutConstraint.activate(constraints)
         
         if viewModel.shouldShowDistanceSlider {
             let sliderContainer = UIView()
@@ -302,8 +313,8 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
             .bind { [weak self] (approximate, location, currentRadius) in
                 var radius = approximate ? Constants.nonAccurateRegionRadius : Constants.accurateRegionRadius
                 if let _ = currentRadius, let distanceMeters = self?.viewModel.distanceMeters {
-                    radius = distanceMeters * (EditLocationMetrics.mapRegionMarginMutiplier +
-                                              EditLocationMetrics.mapRegionDiameterMutiplier)
+                    radius = distanceMeters * (Layout.mapRegionMarginMutiplier +
+                                              Layout.mapRegionDiameterMutiplier)
                 }
                 self?.centerMapInLocation(location, radius: radius)
             }
@@ -360,8 +371,8 @@ extension EditLocationViewController: FilterDistanceSliderDelegate {
         viewModel.currentDistanceRadius.value = distance
         updateCircleOverlay()
         centerMapInLocation(mapView.centerCoordinate, radius: viewModel.distanceMeters *
-                                                                (EditLocationMetrics.mapRegionMarginMutiplier +
-                                                                EditLocationMetrics.mapRegionDiameterMutiplier))
+                                                                (Layout.mapRegionMarginMutiplier +
+                                                                Layout.mapRegionDiameterMutiplier))
     }
 }
 
