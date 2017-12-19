@@ -1094,7 +1094,7 @@ extension ChatViewModel {
                                                                  disclaimerMessage: defaultDisclaimerMessage)
 
         // Add security meeting disclaimer after first response from interlocutor. Ignore if we have more then one page
-        if isLastPage,
+        if featureFlags.showSecurityMeetingChatMessage.isActive && newMessages.count < Constants.numMessagesPerPage,
             let lastInterlocutorMessageIndex = chatMessages.reversed().index(where: {
                 switch $0.type {
                 case .disclaimer, .userInfo:
