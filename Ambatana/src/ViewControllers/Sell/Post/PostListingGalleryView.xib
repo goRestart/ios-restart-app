@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -164,7 +165,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C1C-GN-TOi" userLabel="TopControlsContainer">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="52"/>
+                    <rect key="frame" x="0.0" y="20" width="375" height="52"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bFH-yn-92t" userLabel="CloseBtn">
                             <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
@@ -233,11 +234,12 @@
                 <constraint firstAttribute="trailing" secondItem="C1C-GN-TOi" secondAttribute="trailing" id="Yfc-P6-jeR"/>
                 <constraint firstItem="xQZ-r9-np6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eqy-st-1CH"/>
                 <constraint firstItem="bGK-ev-gOY" firstAttribute="top" secondItem="xQZ-r9-np6" secondAttribute="bottom" id="ftB-2b-vBX"/>
-                <constraint firstItem="C1C-GN-TOi" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ltn-bC-WkL"/>
+                <constraint firstItem="KXF-7r-fmX" firstAttribute="top" secondItem="C1C-GN-TOi" secondAttribute="top" id="iU0-1I-IxI"/>
                 <constraint firstAttribute="trailing" secondItem="bGK-ev-gOY" secondAttribute="trailing" id="o7l-TL-lbb"/>
                 <constraint firstAttribute="trailing" secondItem="M9w-br-XHH" secondAttribute="trailing" id="oSI-xG-npt"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
+            <viewLayoutGuide key="safeArea" id="KXF-7r-fmX"/>
             <connections>
                 <outletCollection property="gestureRecognizers" destination="Inw-dW-V2K" appends="YES" id="LGw-UZ-Dfn"/>
             </connections>

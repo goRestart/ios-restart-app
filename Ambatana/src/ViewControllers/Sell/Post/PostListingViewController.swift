@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 
 class PostListingViewController: BaseViewController, PostListingViewModelDelegate {
-    
+
     private static let retryButtonHeight: CGFloat = 50
     private static let retryButtonWidth: CGFloat = 100
     private static let loadingViewHeight: CGFloat = 100
@@ -33,12 +33,12 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     var messageLabelUploadingImage: UILabel = UILabel()
     var retryButtonUploadingImageRealEstate: UIButton = UIButton(type: .custom)
     
-    fileprivate var closeButton: UIButton
+    fileprivate let closeButton = UIButton()
 
     // contained in cameraGalleryContainer
     fileprivate var viewPager: LGViewPager
     fileprivate var cameraView: PostListingCameraView
-    fileprivate var galleryView: PostListingGalleryView
+    fileprivate var galleryView: PostListingGalleryView = PostListingGalleryView()
 
     // contained in detailsContainer
     fileprivate let priceView: UIView
@@ -66,7 +66,6 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
 
     private let disposeBag = DisposeBag()
 
-    // ViewModel
     fileprivate var viewModel: PostListingViewModel
 
 
@@ -83,17 +82,14 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
                   forcedInitialTab: Tab?,
                   keyboardHelper: KeyboardHelper) {
         
-        let tabPosition: LGViewPagerTabPosition
-        tabPosition = .hidden
+        let tabPosition: LGViewPagerTabPosition = .hidden
         let postFooter = PostListingRedCamButtonFooter()
         self.footer = postFooter
         self.footerView = postFooter
-        self.closeButton = UIButton()
-        
+
         let viewPagerConfig = LGViewPagerConfig(tabPosition: tabPosition, tabLayout: .fixed, tabHeight: 50)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostListingCameraView(viewModel: viewModel.postListingCameraViewModel)
-        self.galleryView = PostListingGalleryView()
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forcedInitialTab = forcedInitialTab
@@ -106,10 +102,6 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         modalPresentationStyle = .overCurrentContext
         viewModel.delegate = self
-
-        self.closeButton.addTarget(self, action: #selector(onCloseButton),
-                                   for: .touchUpInside)
-        self.closeButton.setImage(UIImage(named: "ic_post_close"), for: .normal)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -118,7 +110,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupView()
         setAccesibilityIds()
         view.layoutIfNeeded()
@@ -195,7 +187,6 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     // MARK: - Private methods
 
     private func setupView() {
-        
         cameraView.delegate = self
         cameraView.usePhotoButtonText = viewModel.usePhotoButtonText
 
@@ -204,7 +195,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         galleryView.collectionViewBottomInset = Metrics.margin + PostListingRedCamButtonFooter.cameraIconSide
         
         detailsContainerBottomConstraint.constant = 0
-        
+
         setupViewPager()
         setupCategorySelectionView()
         setupPriceView()
@@ -252,7 +243,16 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     private func setupCloseButton() {
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(closeButton)
-        closeButton.layout(with: view).left(by: Metrics.margin).top(by: Metrics.margin)
+        if #available(iOS 11.0, *) {
+            closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                                             constant:Metrics.margin).isActive = true
+        } else {
+            closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant:Metrics.margin).isActive = true
+        }
+        closeButton.layout(with: view).left(by: Metrics.margin)
+
+        closeButton.addTarget(self, action: #selector(onCloseButton), for: .touchUpInside)
+        closeButton.setImage(UIImage(named: "ic_post_close"), for: .normal)
     }
 
     private func setupPriceView() {
@@ -268,7 +268,12 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     private func setupCategorySelectionView() {
         categorySelectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(categorySelectionView)
-        categorySelectionView.layout(with: view).fill()
+        if #available(iOS 11, *) {
+            categorySelectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        } else {
+            categorySelectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        }
+        categorySelectionView.layout(with: view).fillHorizontal().bottom()
     }
     
     private func setupAddCarDetailsView() {
@@ -277,8 +282,12 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         carDetailsView.layout(with: view)
             .left()
             .right()
-            .top()
             .bottom()
+        if #available(iOS 11.0, *) {
+            carDetailsView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        } else {
+            carDetailsView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        }
         
         carDetailsView.updateProgress(withPercentage: viewModel.currentCarDetailsProgress)
         
