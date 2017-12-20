@@ -335,20 +335,28 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         productStatusLabel.textColor = UIColor.soldColor
         productStatusLabel.font = UIFont.productStatusSoldFont
 
-        CarouselUIHelper.setupShareButton(shareButton, text: LGLocalizedString.productShareNavbarButton, icon: UIImage(named:"ic_share"))
+        setupCallButton()
 
-        // 🦄 call button
-        buttonCall.frame = CGRect(x: 0, y: 0, width: 0, height: 50)
-        buttonCall.setStyle(.primary(fontSize: .big))
-        buttonCall.setTitle("_Call", for: .normal)
-        buttonCall.isHidden = true
-        buttonCallRightMarginToSuperviewConstraint.isActive = false
-        buttonBottomRightMarginToSuperviewConstraint.isActive = true
-        buttonCall.addTarget(self, action: #selector(callButtonPressed), for: .touchUpInside)
+        CarouselUIHelper.setupShareButton(shareButton, text: LGLocalizedString.productShareNavbarButton, icon: UIImage(named:"ic_share"))
 
         mainResponder = chatTextView
         setupDirectMessages()
         setupBumpUpBanner()
+    }
+
+    private func setupCallButton() {
+        // 🦄 call button
+        buttonCall.frame = CGRect(x: 0, y: 0, width: 0, height: 50)
+        buttonCall.setStyle(.primary(fontSize: .big))
+        buttonCall.setTitle("Call", for: .normal)
+        buttonCall.setImage(UIImage(named: "ic_phone_call"), for: .normal)
+        buttonCall.imageEdgeInsets = UIEdgeInsets(top: 15,left: -10,bottom: 15,right: 0)
+        buttonCall.titleEdgeInsets = UIEdgeInsets(top: 0,left: 10,bottom: 0,right: 0)
+        buttonCall.isHidden = true
+        // 🦄🦄🦄🦄🦄🦄🦄🦄 check if those constraints are necessary... :/
+//        buttonCallRightMarginToSuperviewConstraint.isActive = false
+//        buttonBottomRightMarginToSuperviewConstraint.isActive = true
+        buttonCall.addTarget(self, action: #selector(callButtonPressed), for: .touchUpInside)
     }
 
     func setupBumpUpBanner() {
@@ -364,6 +372,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         moreInfoAlpha.asObservable().bindTo(moreInfoView.dragView.rx.alpha).addDisposableTo(disposeBag)
 
         view.bringSubview(toFront: buttonBottom)
+        view.bringSubview(toFront: buttonCall)
         view.bringSubview(toFront: chatContainer)
         view.bringSubview(toFront: bannerContainer)
         view.bringSubview(toFront: fullScreenAvatarEffectView)
@@ -667,7 +676,7 @@ extension ListingCarouselViewController {
                 let twoButtonsWidth: CGFloat = (strongSelf.view.width - (Metrics.margin*3))/2
                 strongSelf.buttonBottomWidthConstraint.constant = twoButtonsWidth
                 strongSelf.buttonCallWidthConstraint.constant = twoButtonsWidth
-                strongSelf.buttonCall.setStyle(.primary(fontSize: .big))
+//                strongSelf.buttonCall.setStyle(.primary(fontSize: .big))
             } else {
                 strongSelf.buttonCall.isHidden = true
                 strongSelf.buttonCallRightMarginToSuperviewConstraint.constant = 0
