@@ -106,6 +106,14 @@ class ListingCarouselViewModel: BaseViewModel {
     let status = Variable<ListingViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)
 
+    let ownerIsProfessional = Variable<Bool>(false)
+    let ownerPhoneNumber = Variable<String?>(nil)
+    var deviceCanCall: Bool {
+        return true
+        guard let callUrl = URL(string: "tel://") else { return false }
+        return UIApplication.shared.canOpenURL(callUrl)
+    }
+
     let quickAnswers = Variable<[[QuickAnswer]]>([[]])
     let quickAnswersAvailable = Variable<Bool>(false)
 
@@ -522,7 +530,14 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.trackOpenFeaturedInfo()
     }
     
-    
+    func callSeller() {
+        print("📞📞📞📞📞 -> \(ownerPhoneNumber.value)")
+        guard let phoneNum = ownerPhoneNumber.value,
+            let phoneUrl = URL(string: "tel://\(phoneNum)") else { return }
+        UIApplication.shared.openURL(phoneUrl)
+    }
+
+
     // MARK: - Private Methods
 
     fileprivate func listingAt(index: Int) -> Listing? {
@@ -577,6 +592,8 @@ class ListingCarouselViewModel: BaseViewModel {
         currentVM.productInfo.asObservable().bindTo(productInfo).addDisposableTo(activeDisposeBag)
         currentVM.productImageURLs.asObservable().bindTo(productImageURLs).addDisposableTo(activeDisposeBag)
         currentVM.userInfo.asObservable().bindTo(userInfo).addDisposableTo(activeDisposeBag)
+        currentVM.isProfessional.asObservable().bindTo(ownerIsProfessional).addDisposableTo(activeDisposeBag)
+        currentVM.phoneNumber.asObservable().bindTo(ownerPhoneNumber).addDisposableTo(activeDisposeBag)
         currentVM.listingStats.asObservable().bindTo(listingStats).addDisposableTo(activeDisposeBag)
 
         currentVM.actionButtons.asObservable().bindTo(actionButtons).addDisposableTo(activeDisposeBag)

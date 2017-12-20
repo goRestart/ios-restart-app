@@ -17,6 +17,14 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var buttonBottom: UIButton!
     @IBOutlet weak var buttonBottomHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomBottomConstraint: NSLayoutConstraint!
+    // 🦄
+    @IBOutlet weak var buttonBottomRightMarginToSuperviewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var buttonBottomWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var buttonCall: UIButton!
+    @IBOutlet weak var buttonBottomAndCallEqualWidthsConstraint: NSLayoutConstraint!
+    @IBOutlet weak var buttonCallWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var buttonCallRightMarginToSuperviewConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var buttonTop: UIButton!
     @IBOutlet weak var buttonTopHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonTopBottomConstraint: NSLayoutConstraint!
@@ -329,6 +337,15 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
         CarouselUIHelper.setupShareButton(shareButton, text: LGLocalizedString.productShareNavbarButton, icon: UIImage(named:"ic_share"))
 
+        // 🦄 call button
+        buttonCall.frame = CGRect(x: 0, y: 0, width: 0, height: 50)
+        buttonCall.setStyle(.primary(fontSize: .big))
+        buttonCall.setTitle("_Call", for: .normal)
+        buttonCall.isHidden = true
+        buttonCallRightMarginToSuperviewConstraint.isActive = false
+        buttonBottomRightMarginToSuperviewConstraint.isActive = true
+        buttonCall.addTarget(self, action: #selector(callButtonPressed), for: .touchUpInside)
+
         mainResponder = chatTextView
         setupDirectMessages()
         setupBumpUpBanner()
@@ -377,6 +394,10 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         }
     }
 
+    dynamic private func callButtonPressed() {
+        viewModel.callSeller()
+    }
+
     private func setupGradientView() {
         let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.black, alphas:[0.4, 0], locations: [0, 1])
         shadowLayer.frame = gradientShadowView.bounds
@@ -389,8 +410,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     private func setupCollectionRx() {
         viewModel.objectChanges.observeOn(MainScheduler.instance).bindNext { [weak self] change in
-            guard let strongSelf = self else { return }
-
             self?.imageBackground.isHidden = true
                 self?.collectionView.handleCollectionChange(change) { _ in
                     self?.imageBackground.isHidden = false
@@ -413,10 +432,11 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         itemsAlpha.asObservable().bindTo(buttonBottom.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(buttonTop.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(userView.rx.alpha).addDisposableTo(disposeBag)
+        itemsAlpha.asObservable().bindTo(buttonCall.rx.alpha).addDisposableTo(disposeBag)
 
         itemsAlpha.asObservable().bindNext { [weak self] itemsAlpha in
             self?.pageControl.alpha = itemsAlpha
-        }
+        }.addDisposableTo(disposeBag)
 
         itemsAlpha.asObservable().bindTo(productStatusView.rx.alpha).addDisposableTo(disposeBag)
         itemsAlpha.asObservable().bindTo(directChatTable.rx.alpha).addDisposableTo(disposeBag)
@@ -549,13 +569,16 @@ extension ListingCarouselViewController {
     }
 
     fileprivate func setupUserInfoRx() {
-        let productAndUserInfos = Observable.combineLatest(viewModel.productInfo.asObservable(), viewModel.userInfo.asObservable()) { $0 }
-        productAndUserInfos.bindNext { [weak self] (productInfo, userInfo) in
+        let productAndUserInfos = Observable.combineLatest(viewModel.productInfo.asObservable(),
+                                                           viewModel.userInfo.asObservable(),
+                                                           viewModel.ownerIsProfessional.asObservable()) { $0 }
+        productAndUserInfos.bindNext { [weak self] (productInfo, userInfo, isProfessional) in
             self?.userView.setupWith(userAvatar: userInfo?.avatar,
                                      userName: userInfo?.name,
                                      productTitle: productInfo?.title,
                                      productPrice: productInfo?.price,
-                                     userId: userInfo?.userId)
+                                     userId: userInfo?.userId,
+                                     isProfessional: isProfessional)
             }.addDisposableTo(disposeBag)
 
         viewModel.userInfo.asObservable().bindNext { [weak self] userInfo in
@@ -630,6 +653,29 @@ extension ListingCarouselViewController {
             strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bindNext {
                 topAction.action()
                 }.addDisposableTo(strongSelf.disposeBag)
+        }.addDisposableTo(disposeBag)
+
+        let allowCalls = Observable.combineLatest(viewModel.ownerIsProfessional.asObservable(),
+                                                  viewModel.ownerPhoneNumber.asObservable()) { $0 }
+        allowCalls.asObservable().bindNext { [weak self] (isPro, phoneNum) in
+            guard let strongSelf = self else { return }
+            if let _ = phoneNum, isPro && strongSelf.viewModel.deviceCanCall {
+                strongSelf.buttonCall.isHidden = false
+                strongSelf.buttonCallRightMarginToSuperviewConstraint.constant = Metrics.margin
+                strongSelf.buttonBottomRightMarginToSuperviewConstraint.constant = 0
+
+                let twoButtonsWidth: CGFloat = (strongSelf.view.width - (Metrics.margin*3))/2
+                strongSelf.buttonBottomWidthConstraint.constant = twoButtonsWidth
+                strongSelf.buttonCallWidthConstraint.constant = twoButtonsWidth
+                strongSelf.buttonCall.setStyle(.primary(fontSize: .big))
+            } else {
+                strongSelf.buttonCall.isHidden = true
+                strongSelf.buttonCallRightMarginToSuperviewConstraint.constant = 0
+                strongSelf.buttonBottomRightMarginToSuperviewConstraint.constant = Metrics.margin
+                let oneButtonWidth: CGFloat = strongSelf.view.width - (Metrics.margin*2)
+                strongSelf.buttonBottomWidthConstraint.constant = oneButtonWidth
+                strongSelf.buttonCallWidthConstraint.constant = 0
+            }
         }.addDisposableTo(disposeBag)
     }
 

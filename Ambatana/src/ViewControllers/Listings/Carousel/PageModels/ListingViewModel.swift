@@ -35,6 +35,7 @@ class ListingViewModel: BaseViewModel {
             return ListingViewModel(listing: listing,
                                     visitSource: source,
                                     myUserRepository: Core.myUserRepository,
+                                    userRepository: Core.userRepository,
                                     listingRepository: Core.listingRepository,
                                     chatWrapper: LGChatWrapper(),
                                     chatViewMessageAdapter: ChatViewMessageAdapter(),
@@ -57,6 +58,8 @@ class ListingViewModel: BaseViewModel {
     var isMine: Bool {
         return listing.value.isMine(myUserRepository: myUserRepository)
     }
+    let isProfessional = Variable<Bool>(false)
+    let phoneNumber = Variable<String?>(nil)
     let isFavorite = Variable<Bool>(false)
     let listingStats = Variable<ListingStats?>(nil)
 
@@ -132,6 +135,7 @@ class ListingViewModel: BaseViewModel {
     let trackHelper: ProductVMTrackHelper
 
     fileprivate let myUserRepository: MyUserRepository
+    fileprivate let userRepository: UserRepository
     fileprivate let listingRepository: ListingRepository
     fileprivate let chatWrapper: ChatWrapper
     fileprivate let countryHelper: CountryHelper
@@ -157,6 +161,7 @@ class ListingViewModel: BaseViewModel {
     init(listing: Listing,
          visitSource: EventParameterListingVisitSource,
          myUserRepository: MyUserRepository,
+         userRepository: UserRepository,
          listingRepository: ListingRepository,
          chatWrapper: ChatWrapper,
          chatViewMessageAdapter: ChatViewMessageAdapter,
@@ -171,6 +176,7 @@ class ListingViewModel: BaseViewModel {
         self.visitSource = visitSource
         self.socialSharer = socialSharer
         self.myUserRepository = myUserRepository
+        self.userRepository = userRepository
         self.listingRepository = listingRepository
         self.countryHelper = countryHelper
         self.trackHelper = ProductVMTrackHelper(tracker: tracker, listing: listing, featureFlags: featureFlags)
@@ -192,6 +198,19 @@ class ListingViewModel: BaseViewModel {
     
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
+
+        if isMine {
+            isProfessional.value = myUserRepository.myUser?.type == .pro
+            phoneNumber.value = myUserRepository.myUser?.phone
+        } else if let userId = userInfo.value.userId {
+            userRepository.show(userId) { [weak self] result in
+                guard let strongSelf = self else { return }
+                if let value = result.value {
+                    strongSelf.isProfessional.value = value.type == .pro
+                    strongSelf.phoneNumber.value = value.phone
+                }
+            }
+        }
 
         listingRepository.incrementViews(listingId: listingId, visitSource: visitSource.rawValue, visitTimestamp: Date().millisecondsSince1970, completion: nil)
 
@@ -254,11 +273,13 @@ class ListingViewModel: BaseViewModel {
             }.addDisposableTo(disposeBag)
         }
 
-        status.asObservable().bindNext { [weak self] status in
+        let listingActions = Observable.combineLatest(status.asObservable(), isProfessional.asObservable()) { $0 }
+
+        listingActions.asObservable().bindNext { [weak self] (status, isPro) in
             guard let strongSelf = self else { return }
-            strongSelf.refreshActionButtons(status)
+            strongSelf.refreshActionButtons(status, isProfessional: isPro)
             strongSelf.refreshNavBarButtons()
-            strongSelf.directChatEnabled.value = status.directChatsAvailable
+            strongSelf.directChatEnabled.value = status.directChatsAvailable && !isPro
         }.addDisposableTo(disposeBag)
 
         // bumpeable listing check
@@ -744,30 +765,35 @@ extension ListingViewModel {
 
 extension ListingViewModel {
 
-    fileprivate func refreshActionButtons(_ status: ListingViewModelStatus) {
-        actionButtons.value = buildActionButtons(status)
+    fileprivate func refreshActionButtons(_ status: ListingViewModelStatus, isProfessional: Bool) {
+        actionButtons.value = buildActionButtons(status, isProfessional: isProfessional)
     }
 
-    private func buildActionButtons(_ status: ListingViewModelStatus) -> [UIAction] {
+    private func buildActionButtons(_ status: ListingViewModelStatus, isProfessional: Bool) -> [UIAction] {
         var actionButtons = [UIAction]()
         switch status {
         case .pending, .notAvailable, .otherSold, .otherSoldFree, .pendingAndFeatured:
             break
         case .available:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldButton, .terciary),
-                action: { [weak self] in self?.confirmToMarkAsSold() }))
+                                          action: { [weak self] in self?.confirmToMarkAsSold() }))
         case .sold:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainButton, .secondary(fontSize: .big, withBorder: false)),
-                action: { [weak self] in self?.confirmToMarkAsUnSold(free: false) }))
+                                          action: { [weak self] in self?.confirmToMarkAsUnSold(free: false) }))
         case .otherAvailable, .otherAvailableFree:
-            break
+            // 🦄
+            if isProfessional {
+                actionButtons.append(UIAction(interface: .button("_Chat", .secondary(fontSize: .big, withBorder: false)),
+                                              action: { [weak self] in self?.chatWithSeller() }))
+            }
         case .availableFree:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldFreeButton, .terciary),
-                action: { [weak self] in self?.confirmToMarkAsSold() }))
+                                          action: { [weak self] in self?.confirmToMarkAsSold() }))
         case .soldFree:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainFreeButton, .secondary(fontSize: .big, withBorder: false)),
-                action: { [weak self] in self?.confirmToMarkAsUnSold(free: true) }))
+                                          action: { [weak self] in self?.confirmToMarkAsUnSold(free: true) }))
         }
+
         return actionButtons
     }
 }
