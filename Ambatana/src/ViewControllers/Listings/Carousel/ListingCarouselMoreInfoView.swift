@@ -133,6 +133,13 @@ class ListingCarouselMoreInfoView: UIView {
                     loadDFPRequest()
                 }
             }
+        } else {
+            // hide the banner in case it was showing, if ads not active 
+            bannerContainerView.isHidden = true
+            bannerContainerViewHeightConstraint.constant = 0
+            if shareViewToMapTopConstraint.isActive {
+                shareViewToMapTopConstraint.constant = ListingCarouselMoreInfoView.shareViewToMapMargin
+            }
         }
     }
 
@@ -549,6 +556,8 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
     }
 
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        bannerContainerView.isHidden = false
+
         bannerContainerViewHeightConstraint.constant = bannerView.height
         shareViewToMapTopConstraint.constant = bannerView.height + ListingCarouselMoreInfoView.shareViewToMapMargin
 
