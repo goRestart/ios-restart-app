@@ -23,9 +23,9 @@ class UserViewController: BaseViewController {
 
     fileprivate var headerCollapsedBottom: CGFloat {
         if #available(iOS 11, *) {
-            return -(view.safeAreaInsets.top+headerCollapsedHeight)
+            return -(view.safeAreaInsets.top + headerCollapsedHeight)
         } else {
-            return -(20+44+headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
+            return -(20 + 44 + headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
         }
     }
     fileprivate let headerCollapsedHeight: CGFloat = 44
