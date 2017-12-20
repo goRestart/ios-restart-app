@@ -37,14 +37,16 @@ class LGSearchMapViewModel: BaseViewModel {
     
     let placeLocation = Variable<Place?>(nil)
     let placeGPSLocation = Variable<Place?>(nil)
+    let placeSuggestedSelected = Variable<Place?>(nil)
     let placeInfoText = Variable<String>("")
     let setLocationEnabled = Variable<Bool>(false)
+    
     let loading = Variable<Bool>(false)
     let currentDistanceRadius = Variable<Int?>(nil)
     let userMovedLocation = Variable<CLLocationCoordinate2D?>(nil)
     let searchText = Variable<(String, autoSelect: Bool)>("", autoSelect: false)
     
-    let locationToFetch = Variable<(CLLocationCoordinate2D?, fromGps: Bool)>(nil, fromGps: false)
+    private let locationToFetch = Variable<(CLLocationCoordinate2D?, fromGps: Bool)>(nil, fromGps: false)
     
     convenience init(currentPlace: Place?) {
         let locationManager = Core.locationManager
@@ -148,6 +150,7 @@ class LGSearchMapViewModel: BaseViewModel {
                 strongSelf.viewControllerDelegate?.vmHideLoading(nil, afterMessageCompletion: nil)
                 if let updatedPlace = result.value {
                     strongSelf.setPlace(updatedPlace, forceLocation: true, fromGps: false, enableSave: true)
+                    strongSelf.placeSuggestedSelected.value = updatedPlace
                 } else {
                     strongSelf.viewControllerDelegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage) {
                         strongSelf.updateMapToPreviousKnownPlace()
@@ -155,7 +158,8 @@ class LGSearchMapViewModel: BaseViewModel {
                 }
             }
         } else {
-                setPlace(place, forceLocation: true, fromGps: false, enableSave: true)
+            setPlace(place, forceLocation: true, fromGps: false, enableSave: true)
+            placeSuggestedSelected.value = place
         }
     }
 
