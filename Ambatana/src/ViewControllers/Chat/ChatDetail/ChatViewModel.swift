@@ -737,6 +737,7 @@ extension ChatViewModel {
         let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent(date: sentAt).markAsReceived().markAsRead()
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
+        addSecurityMeetingDisclaimerIfNeeded()
         guard isBuyer else { return }
         sellerDidntAnswer.value = false
     }
@@ -1092,7 +1093,6 @@ extension ChatViewModel {
 
         var chatMessages = chatViewMessageAdapter.addDisclaimers(filteredViewMessages,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
-
         // Add security meeting disclaimer after first response from interlocutor. Ignore if we have more then one page
         if featureFlags.showSecurityMeetingChatMessage.isActive && newMessages.count < Constants.numMessagesPerPage,
             let lastInterlocutorMessageIndex = chatMessages.reversed().index(where: {
@@ -1124,6 +1124,24 @@ extension ChatViewModel {
                                                                  disclaimerMessage: defaultDisclaimerMessage)
         messages.removeAll()
         messages.appendContentsOf(chatMessages)
+    }
+    
+    fileprivate func addSecurityMeetingDisclaimerIfNeeded() {
+        // Add security meeting disclaimer after first response from interlocutor. Ignore if we have more then one page
+        guard messages.value.count < Constants.numMessagesPerPage else { return }
+        let meetingSecurityDisclaimerMessage = chatViewMessageAdapter.createMeetingSecurityDisclaimerMessage()
+        guard messages.value.filter({ $0 == meetingSecurityDisclaimerMessage }).count == 0 else { return }
+        if featureFlags.showSecurityMeetingChatMessage.isActive,
+            let lastInterlocutorMessageIndex = messages.value.reversed().index(where: {
+                switch $0.type {
+                case .disclaimer, .userInfo:
+                    return false
+                case .offer, .sticker, .text:
+                    return $0.talkerId != myUserRepository.myUser?.objectId
+                }
+            })?.base {
+            messages.value.insert(meetingSecurityDisclaimerMessage, at: messages.value.index(before: lastInterlocutorMessageIndex))
+        }
     }
 
     private func afterRetrieveChatMessagesEvents() {
