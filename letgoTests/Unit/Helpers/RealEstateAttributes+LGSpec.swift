@@ -30,8 +30,8 @@ class RealEstateAttributesLGSpec: QuickSpec {
                         realEstateAttributes = RealEstateAttributes(propertyType: .other, offerType: .rent, bedrooms: nil, bathrooms: nil)
                         sut = realEstateAttributes.generatedTitle
                     }
-                    it ("result should equal: OTHER FOR RENT") {
-                        expect(sut) == "OTHER FOR RENT"
+                    it ("result should equal: OTHER For rent") {
+                        expect(sut) == "OTHER For rent"
                     }
                 }
                 context("attributes with bedrooms") {
@@ -48,8 +48,8 @@ class RealEstateAttributesLGSpec: QuickSpec {
                         realEstateAttributes = RealEstateAttributes(propertyType: .other, offerType: .rent, bedrooms: nil, bathrooms: 3)
                         sut = realEstateAttributes.generatedTitle
                     }
-                    it ("result should equal: OTHER FOR RENT 3BA") {
-                        expect(sut) == "OTHER FOR RENT 3BA"
+                    it ("result should equal: OTHER For rent 3BA") {
+                        expect(sut) == "OTHER For rent 3BA"
                     }
                 }
             }

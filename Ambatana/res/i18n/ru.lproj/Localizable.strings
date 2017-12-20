@@ -153,7 +153,7 @@
 "chat_list_unarchive_error_multiple" = "При разархивировании чатов произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_list_unblock" = "Разблокировать";
 "chat_login_popup_text" = "Для того, чтобы начать переписку, Вам необходимо войти в систему";
-"chat_message_disclaimer_meeting_security" = "Remember, busy public places like coffee shops and bank lobbies are safe, convenient meeting spots. Consider bringing a friend.";
+"chat_message_disclaimer_meeting_security" = "Помните, публичные места вроде кофейни и холла банка - это безопасные места для встречи. Постарайтесь приходить с другом.";
 "chat_message_disclaimer_scammer_append_blocked" = "Нажмите здесь, чтобы заблокировать такого пользователя.";
 "chat_message_disclaimer_scammer_base_blocked" = "Будьте особенно осторожны, когда обмениваетесь телефонами или е-мейлами. Мошенники часто просят пообщаться вне чата letgo. %@";
 "chat_message_field_hint" = "Введите сообщение";
