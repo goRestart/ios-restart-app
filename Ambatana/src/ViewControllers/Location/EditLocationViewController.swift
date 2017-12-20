@@ -34,6 +34,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     @IBOutlet weak var approxLocationHeight: NSLayoutConstraint!
     @IBOutlet weak var approximateLocationSwitch: UISwitch!
     @IBOutlet weak var approximateLocationLabel: UILabel!
+    @IBOutlet weak var bottomToContainer: NSLayoutConstraint!
 
     @IBOutlet weak var gpsLocationButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
@@ -84,6 +85,12 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         aproxLocationArea.layer.cornerRadius = aproxLocationArea.width / 2
+    }
+
+    @available(iOS 11.0, *)
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        bottomToContainer.constant = view.safeAreaInsets.bottom
     }
 
 

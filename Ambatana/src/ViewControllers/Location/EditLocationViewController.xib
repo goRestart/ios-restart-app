@@ -24,6 +24,7 @@
                 <outlet property="approximateLocationLabel" destination="lex-KD-9Xu" id="k8a-HI-HFa"/>
                 <outlet property="approximateLocationSwitch" destination="pg2-Su-t0S" id="NTK-YY-s16"/>
                 <outlet property="aproxLocationArea" destination="5mT-0n-6Va" id="ubI-qE-gXi"/>
+                <outlet property="bottomToContainer" destination="d94-d7-Ie9" id="85c-Vx-EwW"/>
                 <outlet property="gpsLocationButton" destination="Xdz-OU-TYS" id="19x-vF-NLS"/>
                 <outlet property="mapView" destination="qRX-bt-ebX" id="vNl-LL-lel"/>
                 <outlet property="navBarContainer" destination="biU-QI-ngN" id="U4e-Ak-u0p"/>
@@ -65,15 +66,26 @@
                             <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WOX-jR-i6p">
+                            <rect key="frame" x="0.0" y="41" width="375" height="9"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="9" id="d94-d7-Ie9"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
+                        <constraint firstItem="WOX-jR-i6p" firstAttribute="leading" secondItem="Zil-yY-5DX" secondAttribute="leading" id="0eK-bz-bpA"/>
+                        <constraint firstItem="lex-KD-9Xu" firstAttribute="centerY" secondItem="pg2-Su-t0S" secondAttribute="centerY" id="0sp-XH-Mwp"/>
+                        <constraint firstAttribute="bottom" secondItem="WOX-jR-i6p" secondAttribute="bottom" id="9vP-ib-fSB"/>
                         <constraint firstAttribute="trailing" secondItem="pg2-Su-t0S" secondAttribute="trailing" constant="14" id="Hby-Zj-TNz"/>
+                        <constraint firstItem="pg2-Su-t0S" firstAttribute="top" secondItem="Zil-yY-5DX" secondAttribute="top" constant="10" id="YNg-yn-mLD"/>
                         <constraint firstItem="lex-KD-9Xu" firstAttribute="leading" secondItem="Zil-yY-5DX" secondAttribute="leading" constant="16" id="b7V-F6-FpM"/>
                         <constraint firstItem="pg2-Su-t0S" firstAttribute="leading" secondItem="lex-KD-9Xu" secondAttribute="trailing" constant="8" id="cNJ-Gt-sL7"/>
-                        <constraint firstAttribute="height" constant="50" id="jRO-7F-PeM"/>
-                        <constraint firstItem="pg2-Su-t0S" firstAttribute="centerY" secondItem="Zil-yY-5DX" secondAttribute="centerY" id="kAa-UP-7Cm"/>
-                        <constraint firstItem="lex-KD-9Xu" firstAttribute="centerY" secondItem="Zil-yY-5DX" secondAttribute="centerY" id="uGj-wy-Ag6"/>
+                        <constraint firstAttribute="trailing" secondItem="WOX-jR-i6p" secondAttribute="trailing" id="dcK-Us-jua"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="jRO-7F-PeM"/>
+                        <constraint firstItem="pg2-Su-t0S" firstAttribute="bottom" secondItem="WOX-jR-i6p" secondAttribute="top" id="xam-5O-zYA"/>
                     </constraints>
                 </view>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="sJJ-hc-CQp" userLabel="search field" customClass="LGTextField" customModule="LetGo" customModuleProvider="target">
