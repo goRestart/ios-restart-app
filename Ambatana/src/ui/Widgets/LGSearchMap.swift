@@ -133,7 +133,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
             self?.viewModel.searchText.value = (text, autoSelect:false)
             }.addDisposableTo(disposeBag)
         
-        viewModel.placeGPSLocation.asObservable().bindNext { [weak self] (place) in
+        viewModel.placeGPSObservable.bindNext { [weak self] (place) in
             guard let location = place?.location else { return }
             self?.updateCenterMap(location: location)
         }.addDisposableTo(disposeBag)
@@ -142,7 +142,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
             self?.searchField.text = infoText
         }.addDisposableTo(disposeBag)
         
-        viewModel.placeSuggestedSelected.asObservable().bindNext { [weak self] place in
+        viewModel.placeSuggestedObservable.bindNext { [weak self] place in
             guard let location = place?.location else { return }
             self?.updateCenterMap(location: location)
         }.addDisposableTo(disposeBag)

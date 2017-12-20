@@ -36,8 +36,14 @@ class LGSearchMapViewModel: BaseViewModel {
     private let initialPlace: Place
     
     let placeLocation = Variable<Place?>(nil)
-    let placeGPSLocation = Variable<Place?>(nil)
-    let placeSuggestedSelected = Variable<Place?>(nil)
+    private let placeGPSLocation = Variable<Place?>(nil)
+    var placeGPSObservable: Observable<Place?> {
+        return placeGPSLocation.asObservable()
+    }
+    private let placeSuggestedSelected = Variable<Place?>(nil)
+    var placeSuggestedObservable: Observable<Place?> {
+        return placeSuggestedSelected.asObservable()
+    }
     let placeInfoText = Variable<String>("")
     let setLocationEnabled = Variable<Bool>(false)
     
