@@ -11,7 +11,8 @@ import UIKit
 @IBDesignable
 class LGNavBarSearchField: UIView {
     override var intrinsicContentSize: CGSize { return UILayoutFittingExpandedSize }
-    
+
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var searchTextField: LGTextField!
     @IBOutlet weak var magnifierIcon: UIImageView!
     @IBOutlet weak var logoIcon: UIImageView!
@@ -79,8 +80,8 @@ class LGNavBarSearchField: UIView {
     // MARK: - Private Methods
     
     private func setupContentView() {
-        backgroundColor = UIColor.black.withAlphaComponent(0.07)
-        layer.cornerRadius = searchTextField.frame.height/2
+        containerView.backgroundColor = UIColor.black.withAlphaComponent(0.07)
+        containerView.layer.cornerRadius = searchTextField.frame.height/2
     }
 
     private func setupTextField() {
@@ -142,4 +143,5 @@ class LGNavBarSearchField: UIView {
                 self.searchTextField.showCursor = false
             }) 
     }
+
 }
