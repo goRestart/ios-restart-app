@@ -153,7 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Si è verificato un errore durante il tentativo di annullare l'archiviazione di queste conversazioni. Riprova.";
 "chat_list_unblock" = "Sblocca";
 "chat_login_popup_text" = "Devi effettuare l'accesso per iniziare a chattare";
-"chat_message_disclaimer_meeting_security" = "Remember, busy public places like coffee shops and bank lobbies are safe, convenient meeting spots. Consider bringing a friend.";
+"chat_message_disclaimer_meeting_security" = "Ricorda che i luoghi pubblici come bar o centri commerciali sono i più sicuri dove incontrarsi. Se desideri puoi anche portare un amico.";
 "chat_message_disclaimer_scammer_append_blocked" = "Tocca qui per bloccare questo utente.";
 "chat_message_disclaimer_scammer_base_blocked" = "Fai particolare attenzione quando scambi dettagli telefonici o email. Utenti disonesti chiedono spesso di lasciare la chat di letgo. %@";
 "chat_message_field_hint" = "Digita qui il tuo messaggio";
