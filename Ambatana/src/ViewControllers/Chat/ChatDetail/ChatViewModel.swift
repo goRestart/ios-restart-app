@@ -1127,7 +1127,6 @@ extension ChatViewModel {
     }
     
     fileprivate func addSecurityMeetingDisclaimerIfNeeded() {
-        // Add security meeting disclaimer after first response from interlocutor. Ignore if we have more then one page
         guard messages.value.count < Constants.numMessagesPerPage else { return }
         let meetingSecurityDisclaimerMessage = chatViewMessageAdapter.createMeetingSecurityDisclaimerMessage()
         guard messages.value.filter({ $0 == meetingSecurityDisclaimerMessage }).count == 0 else { return }
