@@ -153,7 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Une erreur est survenue lors du désarchivage de ces conversations. Veuillez réessayer.";
 "chat_list_unblock" = "Débloquer";
 "chat_login_popup_text" = "Pour commencer à clavarder, vous devez vous connecter";
-"chat_message_disclaimer_meeting_security" = "Remember, busy public places like coffee shops and bank lobbies are safe, convenient meeting spots. Consider bringing a friend.";
+"chat_message_disclaimer_meeting_security" = "Souvenez-vous que les lieux publics achalandés comme les cafés et les halls des banques sont des endroits pratiques et sécuritaires pour se rencontrer. Envisagez de venir avec un(e) ami(e).";
 "chat_message_disclaimer_scammer_append_blocked" = "Sélectionnez ici pour bloquer cet utilisateur.";
 "chat_message_disclaimer_scammer_base_blocked" = "Soyez très prudents lorsque vous donnez votre courriel/téléphone. Les fraudeurs demandent souvent de clavarder en dehors de letgo. %@";
 "chat_message_field_hint" = "Entrez votre message ici";

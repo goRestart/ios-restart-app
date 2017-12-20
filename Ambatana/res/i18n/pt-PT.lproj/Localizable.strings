@@ -153,7 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Ocorreu um erro ao desarquivar estas conversas. Por favor tente novamente.";
 "chat_list_unblock" = "Desbloquear";
 "chat_login_popup_text" = "Para começar a conversar deve primeiro fazer login";
-"chat_message_disclaimer_meeting_security" = "Remember, busy public places like coffee shops and bank lobbies are safe, convenient meeting spots. Consider bringing a friend.";
+"chat_message_disclaimer_meeting_security" = "Lembre-se, espaços públicos movimentados tais como cafés ou halls de bancos são espaços de encontro convenientes e seguros. Considere levar consigo um amigo.";
 "chat_message_disclaimer_scammer_append_blocked" = "Toque aqui para bloquear este utilizador.";
 "chat_message_disclaimer_scammer_base_blocked" = "Seja extremamente cuidadoso ao trocar contactos de telefone/email. Os utilizadores fraudulentos pedem com frequência para abandonar o chat do letgo. %@";
 "chat_message_field_hint" = "Escreva a sua mensagem aqui";
