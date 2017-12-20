@@ -138,6 +138,12 @@ class ChatViewMessageAdapter {
         messageSuspiciousMessage.append(secondPhrase)
         return createDisclaimerMessage(messageSuspiciousMessage, showAvatar: false, actionTitle: nil, action: action)
     }
+    
+    func createMeetingSecurityDisclaimerMessage() -> ChatViewMessage {
+        let meetingSecurityMessage = ChatViewMessageAdapter.alertMutableAttributedString
+        meetingSecurityMessage.append(NSAttributedString(string: LGLocalizedString.chatMessageDisclaimerMeetingSecurity))
+        return createDisclaimerMessage(meetingSecurityMessage, showAvatar: false, actionTitle: nil, action: nil)
+    }
 
     func createUserInfoMessage(_ user: User?) -> ChatViewMessage? {
         guard let user = user else { return nil }

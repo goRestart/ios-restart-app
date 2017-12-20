@@ -47,6 +47,7 @@ protocol FeatureFlaggeable: class {
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
     var copyListingAnotherConfirmation: CopyListingAnotherConfirmation { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
+    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -97,6 +98,10 @@ extension PromoteBumpUpAfterSell {
 }
 
 extension CopyListingAnotherConfirmation {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension ShowSecurityMeetingChatMessage {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -359,6 +364,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.moreInfoAFShOrDFP
         }
         return MoreInfoAFShOrDFP.fromPosition(abTests.moreInfoAFShOrDFP.value)
+    }
+    
+    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
+        if Bumper.enabled {
+            return Bumper.showSecurityMeetingChatMessage
+        }
+        return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
     }
 
     // MARK: - Country features

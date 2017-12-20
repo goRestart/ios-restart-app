@@ -41,6 +41,7 @@ extension Bumper  {
         flags.append(PromoteBumpUpAfterSell.self)
         flags.append(CopyListingAnotherConfirmation.self)
         flags.append(MoreInfoAFShOrDFP.self)
+        flags.append(ShowSecurityMeetingChatMessage.self)
         Bumper.initialize(flags)
     } 
 
@@ -182,6 +183,11 @@ extension Bumper  {
     static var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
         guard let value = Bumper.value(for: MoreInfoAFShOrDFP.key) else { return .control }
         return MoreInfoAFShOrDFP(rawValue: value) ?? .control 
+    }
+
+    static var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
+        guard let value = Bumper.value(for: ShowSecurityMeetingChatMessage.key) else { return .control }
+        return ShowSecurityMeetingChatMessage(rawValue: value) ?? .control 
     } 
 }
 
@@ -574,6 +580,22 @@ enum MoreInfoAFShOrDFP: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .afsh
             case 3: return .dfp
+            default: return .control
+        }
+    }
+}
+
+enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowSecurityMeetingChatMessage.control.rawValue }
+    static var enumValues: [ShowSecurityMeetingChatMessage] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show a disclaimer message on chat after the first conversation from the interlocutor" } 
+    static func fromPosition(_ position: Int) -> ShowSecurityMeetingChatMessage {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }
