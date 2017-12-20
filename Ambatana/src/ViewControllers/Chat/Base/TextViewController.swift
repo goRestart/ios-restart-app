@@ -12,7 +12,6 @@ import RxSwift
 
 class TextViewController: KeyboardViewController {
 
-
     var viewMargins: CGFloat = 10
     var textViewMargin: CGFloat = 5
     var tableBottomMargin: CGFloat = 0 {
@@ -43,6 +42,9 @@ class TextViewController: KeyboardViewController {
     var singleTapGesture: UITapGestureRecognizer?
     let textViewBar = UIView()
     let textView = KMPlaceholderTextView()
+    let bottomSafeArea = UIView()
+    var bottomSafeAreaHeight: NSLayoutConstraint?
+
     let leftButtonsContainer = UIView()
     let sendButton = UIButton(type: .custom)
     var leftActions: [UIAction] = [] {
@@ -158,6 +160,20 @@ class TextViewController: KeyboardViewController {
         view.bringSubview(toFront: textViewBar)
 
         updateLeftActions()
+
+        let margin = textViewMargin
+
+        keyboardChanges.asObservable().bind { [weak self] change in
+            if change.visible {
+                self?.bottomSafeAreaHeight?.constant = margin
+            } else {
+                var safeArea: CGFloat = margin
+                if #available(iOS 11, *), let safeAreaBottom = self?.view.safeAreaInsets.bottom {
+                    safeArea = max(safeAreaBottom, margin)
+                }
+                self?.bottomSafeAreaHeight?.constant = safeArea
+            }
+        }.disposed(by: disposeBag)
     }
 }
 
@@ -217,21 +233,29 @@ extension TextViewController: UITextViewDelegate {
 
         leftButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(leftButtonsContainer)
-        leftButtonsContainer.layout(with: textViewBar).left(by: viewMargins).bottom(by: -textViewMargin)
+        leftButtonsContainer.layout(with: textViewBar).left(by: viewMargins)
         leftButtonsContainer.setContentHuggingPriority(.required, for: .horizontal)
 
         textView.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(textView)
-        textView.layout(with: textViewBar).fillVertical(by: textViewMargin)
+        textView.layout(with: textViewBar).top(by: textViewMargin)
             .right(by: -viewMargins, constraintBlock: {[weak self] in self?.textViewRightConstraint = $0 })
         textView.layout(with: leftButtonsContainer).left(to: .right, by: viewMargins)
         textView.layout().height(textView.minimumHeight, constraintBlock: {[weak self] in self?.textViewHeight = $0 })
 
+        leftButtonsContainer.layout(with: textView).centerY()
+
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(sendButton)
-        sendButton.layout(with: textViewBar).bottom()
-        sendButton.layout(with: textView).left(to: .right, by: viewMargins)
+        sendButton.layout(with: textView).left(to: .right, by: viewMargins).centerY()
         sendButton.layout().height(minHeight)
+
+        bottomSafeArea.translatesAutoresizingMaskIntoConstraints = false
+        textViewBar.addSubview(bottomSafeArea)
+        bottomSafeArea.layout(with: textView).below()
+        bottomSafeArea.layout(with: textViewBar).fillHorizontal().bottom()
+        bottomSafeAreaHeight = bottomSafeArea.heightAnchor.constraint(equalToConstant: 0)
+        bottomSafeAreaHeight?.isActive = true
 
         textViewBar.addTopViewBorderWith(width: LGUIKitConstants.onePixelSize, color: UIColor.lineGray)
 
@@ -252,6 +276,12 @@ extension TextViewController: UITextViewDelegate {
         if let keyTextCache = keyForTextCaching() {
             textView.text = TextViewController.keyTextCache[keyTextCache]
         }
+    }
+
+    @available(iOS 11.0, *)
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        bottomSafeAreaHeight?.constant = view.safeAreaInsets.bottom
     }
 
     private func setupTextAreaRx() {
