@@ -134,12 +134,7 @@ class ListingCarouselMoreInfoView: UIView {
                 }
             }
         } else {
-            // hide the banner in case it was showing, if ads not active 
-            bannerContainerView.isHidden = true
-            bannerContainerViewHeightConstraint.constant = 0
-            if shareViewToMapTopConstraint.isActive {
-                shareViewToMapTopConstraint.constant = ListingCarouselMoreInfoView.shareViewToMapMargin
-            }
+            hideAdsBanner()
         }
     }
 
@@ -434,6 +429,13 @@ fileprivate extension ListingCarouselMoreInfoView {
         }
     }
 
+    fileprivate func hideAdsBanner() {
+        bannerContainerView.isHidden = true
+        bannerContainerViewHeightConstraint.constant = 0
+        if shareViewToMapTopConstraint.isActive {
+            shareViewToMapTopConstraint.constant = ListingCarouselMoreInfoView.shareViewToMapMargin
+        }
+    }
 
     // MARK: > Configuration (each view model)
 
