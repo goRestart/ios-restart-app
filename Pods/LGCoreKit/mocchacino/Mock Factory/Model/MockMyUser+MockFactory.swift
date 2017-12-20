@@ -9,6 +9,8 @@ extension MockMyUser: MockFactory {
                           ratingCount: Int.makeRandom(),
                           status: UserStatus.makeMock(),
                           isDummy: Bool.makeRandom(),
+                          phone: String.makeRandomPhoneNumber(),
+                          type: Bool.makeRandom() ? .user : .pro,
                           email: String.makeRandomEmail(),
                           location: LGLocation?.makeMock(),
                           localeIdentifier: String?.makeRandom())

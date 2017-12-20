@@ -18,4 +18,7 @@ public protocol User: BaseModel {
     var status: UserStatus { get }
     
     var isDummy: Bool { get }
+
+    var type: UserType { get }
+    var phone: String? { get }
 }

@@ -28,9 +28,12 @@ struct LGUser: User {
 
     var isDummy: Bool
 
+    var phone: String?
+    var type: UserType
+
 
     init(objectId: String?, name: String?, avatar: String?, postalAddress: PostalAddress, ratingAverage: Float?,
-         ratingCount: Int, accounts: [LGAccount], status: UserStatus?, isDummy: Bool) {
+         ratingCount: Int, accounts: [LGAccount], status: UserStatus?, isDummy: Bool, phone: String?, type: UserType?) {
         self.objectId = objectId
         self.name = name
         self.avatar = LGFile(id: nil, urlString: avatar)
@@ -40,6 +43,8 @@ struct LGUser: User {
         self.accounts = accounts
         self.status = status ?? .active
         self.isDummy = isDummy
+        self.phone = phone
+        self.type = type ?? .user
     }
     
     init(chatInterlocutor: ChatInterlocutor) {
@@ -47,7 +52,8 @@ struct LGUser: User {
         self.init(objectId: chatInterlocutor.objectId, name: chatInterlocutor.name,
                   avatar: chatInterlocutor.avatar?.fileURL?.absoluteString,
                   postalAddress: postalAddress, ratingAverage: nil, ratingCount: 0, accounts: [],
-                  status: chatInterlocutor.status, isDummy: false)
+                  status: chatInterlocutor.status, isDummy: false, phone: nil,
+                  type: nil)
     }
 }
 
@@ -63,6 +69,8 @@ extension LGUser : Decodable {
     	"username": "119750508403100",      // not parsed
     	"name": "Sara G.",
     	"email": "aras_0212@hotmail.com",
+        "phone": string,
+        "type": string ("professional"/"user"),
     	"avatar_url": "https:\/\/s3.amazonaws.com\/letgo-avatars-pro\/images\/98\/ef\/d3\/4a\/98efd34ae8ba6a879dba60706152b131b8a64d45bf0c4ae043a39caa5d3774bc.jpg",
     	"zip_code": "",
     	"address": "New York NY",
@@ -91,7 +99,10 @@ extension LGUser : Decodable {
         let result7 = result6 <*> j <| "num_ratings"
         let result8 = result7 <*> j <|| "accounts"
         let result9 = result8 <*> j <|? "status"
-        let result  = result9 <*> LGArgo.mandatoryWithFallback(json: j, key: "is_richy", fallback: false)
+        let result10  = result9 <*> LGArgo.mandatoryWithFallback(json: j, key: "is_richy", fallback: false)
+        let result11 = result10 <*> j <|? "phone"
+        let result = result11 <*> j <|? "type"
+
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGUser parse error: \(error)")
         }

@@ -8,6 +8,8 @@ extension MockUser: MockFactory {
                         ratingAverage: Float?.makeRandom(),
                         ratingCount: Int.makeRandom(),
                         status: UserStatus.makeMock(),
-                        isDummy: Bool.makeRandom())
+                        isDummy: Bool.makeRandom(),
+                        phone: String.makeRandomPhoneNumber(),
+                        type: Bool.makeRandom() ? .user : .pro)
     }
 }

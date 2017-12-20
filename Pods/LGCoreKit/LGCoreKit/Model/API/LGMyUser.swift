@@ -28,6 +28,8 @@ protocol LGMyUserKeys {
     var ratingCount: String { get }
     var accounts: String { get }
     var status: String { get }
+    var phone: String { get }
+    var type: String { get }
     var localeIdentifier: String { get }
 }
 
@@ -40,6 +42,7 @@ protocol LGMyUserApiKeys: LGMyUserKeys {
 // MARK: - LGMyUser
 
 struct LGMyUser: MyUser {
+
     // BaseModel
     var objectId: String?
 
@@ -51,14 +54,17 @@ struct LGMyUser: MyUser {
     var ratingCount: Int
     var status: UserStatus
 
+    var phone: String?
+    var type: UserType
+
     // MyUser
     var email: String?
     var location: LGLocation?
     var localeIdentifier: String?
 
     init(objectId: String?, name: String?, avatar: LGFile?, accounts: [LGAccount],
-         ratingAverage: Float?, ratingCount: Int, status: UserStatus?, email: String?, location: LGLocation?,
-         localeIdentifier: String?) {
+         ratingAverage: Float?, ratingCount: Int, status: UserStatus?, phone: String?, type: UserType?,
+         email: String?, location: LGLocation?, localeIdentifier: String?) {
         self.objectId = objectId
 
         self.name = name
@@ -69,6 +75,9 @@ struct LGMyUser: MyUser {
         self.ratingCount = ratingCount
 
         self.status = status ?? .active
+
+        self.phone = phone
+        self.type = type ?? .user
 
         self.email = email
         self.location = location
@@ -99,6 +108,8 @@ extension LGMyUser: Decodable {
         let ratingCount = "num_ratings"
         let accounts = "accounts"
         let status = "status"
+        let phone = "phone"
+        let type = "type"
         let localeIdentifier = "locale"
     }
 
@@ -112,6 +123,8 @@ extension LGMyUser: Decodable {
     	"username": "119750508403100",      // not parsed
     	"name": "Sara G.",
     	"email": "aras_0212@hotmail.com",
+        "phone": string,
+        "type": string ("professional"/"user"),
     	"avatar_url": "https:\/\/s3.amazonaws.com\/letgo-avatars-pro\/images\/98\/ef\/d3\/4a\/98efd34ae8ba6a879dba60706152b131b8a64d45bf0c4ae043a39caa5d3774bc.jpg",
     	"zip_code": "",
     	"address": "New York NY",
@@ -143,10 +156,12 @@ extension LGMyUser: Decodable {
         let result06 = result05 <*> j <|? keys.ratingAverage
         let result07 = result06 <*> j <| keys.ratingCount
         let result08 = result07 <*> j <|? keys.status
-        let result09 = result08 <*> j <|? keys.email
-        let result10 = result09 <*> LGArgo.jsonToLocation(j, latKey: keys.latitude, lonKey: keys.longitude,
+        let result09 = result08 <*> j <|? keys.phone
+        let result10 = result09 <*> j <|? keys.type
+        let result11 = result10 <*> j <|? keys.email
+        let result12 = result11 <*> LGArgo.jsonToLocation(j, latKey: keys.latitude, lonKey: keys.longitude,
                                                           typeKey: keys.locationType)
-        let result   = result10 <*> j <|? keys.localeIdentifier
+        let result   = result12 <*> j <|? keys.localeIdentifier
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGMyUser parse error: \(error)")
         }

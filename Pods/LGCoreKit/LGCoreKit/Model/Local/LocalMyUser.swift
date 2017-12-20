@@ -19,15 +19,18 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
     var ratingAverage: Float?
     var ratingCount: Int
     var status: UserStatus
-    
+
+    var phone: String?
+    var type: UserType
+
     // MyUser
     var email: String?
     var location: LGLocation?
     var localeIdentifier: String?
     
     init(objectId: String?, name: String?, avatar: File?, accounts: [LocalAccount],
-         ratingAverage: Float?, ratingCount: Int, status: UserStatus, email: String?, location: LGLocation?,
-         localeIdentifier: String?) {
+         ratingAverage: Float?, ratingCount: Int, status: UserStatus, phone: String?, type: UserType?,
+         email: String?, location: LGLocation?, localeIdentifier: String?) {
         self.objectId = objectId
         
         self.name = name
@@ -36,6 +39,9 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
         self.ratingCount = ratingCount
         self.accounts = accounts
         self.status = status
+
+        self.phone = phone
+        self.type = type ?? .user
         
         self.email = email
         self.location = location
@@ -46,7 +52,8 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
         let localAccounts = myUser.accounts.map { LocalAccount(account: $0) }
         self.init(objectId: myUser.objectId, name: myUser.name, avatar: myUser.avatar, accounts: localAccounts,
                   ratingAverage: myUser.ratingAverage, ratingCount: myUser.ratingCount, status: myUser.status,
-                  email: myUser.email, location: myUser.location, localeIdentifier: myUser.localeIdentifier)
+                  phone: myUser.phone, type: myUser.type, email: myUser.email, location: myUser.location,
+                  localeIdentifier: myUser.localeIdentifier)
     }
 }
 
@@ -75,6 +82,8 @@ private struct MyUserUDKeys: LGMyUserUDKeys {
     let ratingAverage = "ratingAverage"
     let ratingCount = "ratingCount"
     let status = "status"
+    let phone = "phone"
+    let type = "type"
     let localeIdentifier = "localeIdentifier"
 }
 
@@ -115,10 +124,18 @@ extension LocalMyUser {
             let udStatus = UserStatus(rawValue: statusStr) {
             status = udStatus
         }
+        let phone = dictionary[keys.phone] as? String
+
+        var type = UserType.user
+        if let userTypeString = dictionary[keys.type] as? String,
+            let userType = UserType(rawValue: userTypeString) {
+            type = userType
+        }
+
         let localeIdentifier = dictionary[keys.localeIdentifier] as? String
         return self.init(objectId: objectId, name: name, avatar: avatar,
                          accounts: accounts, ratingAverage: ratingAverage, ratingCount: ratingCount, status: status,
-                         email: email, location: location, localeIdentifier: localeIdentifier)
+                         phone: phone, type: type, email: email, location: location, localeIdentifier: localeIdentifier)
     }
     
     func encode() -> [String: Any] {
