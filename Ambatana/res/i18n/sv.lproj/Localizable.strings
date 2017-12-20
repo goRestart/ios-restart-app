@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Ett fel uppstod när dessa konversationer skulle tas bort från arkivet. Var god försök igen.";
 "chat_list_unblock" = "Avblockera";
 "chat_login_popup_text" = "För att börja chatta, måste du logga in";
+"chat_message_disclaimer_meeting_security" = "Tänk på att välbesökta offentliga platser som caféer eller bankkontor är lämpliga mötesplatser. Du kan även ta med dig en vän.";
 "chat_message_disclaimer_scammer_append_blocked" = "Klicka här för att blockera användaren.";
 "chat_message_disclaimer_scammer_base_blocked" = "Var extra försiktig när du delar med dig av telefonnummer/e-postadress. Bedragare ber ofta om att lämna letgo-chatten. %@";
 "chat_message_field_hint" = "Skriv ditt meddelande här";
@@ -570,7 +571,7 @@
 "product_post_close_alert_title" = "Annonsen är inte upplagd";
 "product_post_confirmation_another" = "Eller";
 "product_post_confirmation_another_button" = "Lägg upp en till annons";
-"product_post_confirmation_another_listing_button" = "Lägg till en annan produkt";
+"product_post_confirmation_another_listing_button" = "Lägg upp en annan annons";
 "product_post_confirmation_edit" = "Lägg till mer information";
 "product_post_different_country_error" = "Du kan inte lägga upp produkter i ett land som du inte befinner dig i.";
 "product_post_done" = "Klar";
@@ -750,7 +751,7 @@
 "real_estate_offer_type_sale" = "Till salu";
 "real_estate_offer_type_title" = "Typ av annons";
 "real_estate_price_title" = "Pris";
-"real_estate_related_search_title" = "Related results";
+"real_estate_related_search_title" = "Liknande resultat";
 "real_estate_summary_bathroom_title" = "badrum";
 "real_estate_summary_bathrooms_empty" = "Lägg till antal badrum";
 "real_estate_summary_bathrooms_title" = "badrum";
@@ -762,7 +763,7 @@
 "real_estate_summary_price_empty" = "Lägg till pris";
 "real_estate_summary_price_title" = "Pris: %@";
 "real_estate_summary_title" = "Sammanfattning";
-"real_estate_summary_type_property_empty" = "Lägg till typ av lokal";
+"real_estate_summary_type_property_empty" = "Lägg till fastighetstyp";
 "real_estate_title_generator_bathrooms_0" = "0";
 "real_estate_title_generator_bathrooms_1" = "1BA";
 "real_estate_title_generator_bathrooms_1_5" = "1,5BA";
@@ -788,7 +789,7 @@
 "real_estate_type_property_house" = "Hus";
 "real_estate_type_property_others" = "Annat";
 "real_estate_type_property_room" = "Rum";
-"real_estate_type_property_title" = "Typ av bostad";
+"real_estate_type_property_title" = "Typ av fastighet";
 "related_items_title" = "Liknande annonser";
 "report_user_counterfeit" = "Oäkta varor";
 "report_user_error_already_reported" = "Du har redan rapporterat denna användare!";

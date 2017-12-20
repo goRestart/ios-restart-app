@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Có lỗi xảy ra khi bỏ lưu trữ các hội thoại. Vui lòng thử lại sau.";
 "chat_list_unblock" = "Bỏ chặn";
 "chat_login_popup_text" = "Bạn cần đăng nhập để bắt đầu trò chuyện";
+"chat_message_disclaimer_meeting_security" = "Hãy nhớ rằng, những nơi công cộng đông đúc như quán cà phê và sảnh ngân hàng là những điểm gặp gỡ an toàn và thuận tiện. Hãy cân nhắc việc đi cùng một người bạn.";
 "chat_message_disclaimer_scammer_append_blocked" = "Nhấp vào đây để chặn người dùng này.";
 "chat_message_disclaimer_scammer_base_blocked" = "Hãy đặc biệt cẩn thận khi trao đổi thông tin số điện thoại/email. Người dùng lừa đảo thường muốn bạn rời khỏi trò chuyện trong letgo. %@";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
@@ -750,7 +751,7 @@
 "real_estate_offer_type_sale" = "Bán";
 "real_estate_offer_type_title" = "Loại Bài đăng";
 "real_estate_price_title" = "Giá";
-"real_estate_related_search_title" = "Related results";
+"real_estate_related_search_title" = "Kết quả liên quan";
 "real_estate_summary_bathroom_title" = "phòng tắm";
 "real_estate_summary_bathrooms_empty" = "Thêm số phòng tắm";
 "real_estate_summary_bathrooms_title" = "phòng tắm";

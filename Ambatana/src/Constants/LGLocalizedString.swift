@@ -623,6 +623,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_login_popup_text", comment: "")
 	}
 
+	static var chatMessageDisclaimerMeetingSecurity: String {
+		return NSLocalizedString("chat_message_disclaimer_meeting_security", comment: "")
+	}
+
 	static func chatMessageDisclaimerScammerBaseBlocked(_ var1: String) -> String {
 		return String(format: NSLocalizedString("chat_message_disclaimer_scammer_base_blocked", comment: ""), var1)
 	}

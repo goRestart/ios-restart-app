@@ -87,9 +87,9 @@ extension MainTabCoordinator: MainTabNavigator {
     }
 
     func openRelatedItems(relatedToListing listing: Listing) {
-        guard let objectId = listing.objectId else { return }
-        let relatedRequester = RelatedListingListRequester(listingId: objectId,
-                                                           itemsPerPage: Constants.numListingsPerPageDefault)
+        guard let relatedRequester = RelatedListingListRequester(listing: listing,
+                                                                 itemsPerPage: Constants.numListingsPerPageDefault)
+            else { return }
         let simpleRelatedListingsVM = RelatedListingsViewModel(requester: relatedRequester,
                                                                originListing: listing,
                                                                title: LGLocalizedString.relatedItemsTitle,
