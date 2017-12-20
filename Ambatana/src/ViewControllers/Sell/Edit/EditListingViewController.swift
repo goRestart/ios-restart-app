@@ -572,7 +572,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             }.map { $0.isRealEstate }
         let categoryIsEnabled = categoryIsRealEstate.asObservable().filter { !$0 }
         categoryIsEnabled.bind(to: categoryButton.rx.isEnabled).disposed(by: disposeBag)
-//        categoryIsEnabled.bind(to: categoryTitleLabel.rx.isEnabled).disposed(by: disposeBag) 🥑
+        categoryIsEnabled.bind(to: categoryTitleLabel.rx.isEnabled).disposed(by: disposeBag) 
         
         viewModel.category.asObservable().filter { $0 == .realEstate }.bind { [weak self] _ in
             self?.categoryButton.isEnabled = false
