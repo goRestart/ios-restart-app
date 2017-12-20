@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -94,7 +95,7 @@
                     </constraints>
                 </view>
                 <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IPt-yE-B8T">
-                    <rect key="frame" x="308" y="65" width="67" height="67"/>
+                    <rect key="frame" x="308" y="20" width="67" height="67"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="67" id="Qg4-Bo-0iy"/>
                         <constraint firstAttribute="height" constant="67" id="XKO-Hk-S6V"/>
@@ -102,7 +103,7 @@
                     <state key="normal" image="ic_favorite_big_off"/>
                 </button>
                 <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k8u-9M-4kc" userLabel="Share Button">
-                    <rect key="frame" x="305" y="65" width="55" height="34"/>
+                    <rect key="frame" x="305" y="20" width="55" height="34"/>
                     <state key="normal" title="_Share"/>
                 </button>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bn0-dg-QsD">
@@ -147,7 +148,7 @@
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="k8u-9M-4kc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="65" id="042-hi-lxQ"/>
+                <constraint firstItem="k8u-9M-4kc" firstAttribute="top" secondItem="g8H-X5-wER" secondAttribute="top" id="042-hi-lxQ"/>
                 <constraint firstItem="KRQ-9w-aXE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="IpU-G3-HED"/>
                 <constraint firstAttribute="trailing" secondItem="v46-dz-RxO" secondAttribute="trailing" id="JyA-NP-pAb"/>
                 <constraint firstAttribute="bottom" secondItem="v46-dz-RxO" secondAttribute="bottom" id="Mxb-g0-Xqa"/>
@@ -160,7 +161,7 @@
                 <constraint firstItem="QTG-7L-pof" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VRd-PN-doI"/>
                 <constraint firstItem="cLW-LX-KUg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="VYu-gQ-F7J"/>
                 <constraint firstItem="v46-dz-RxO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Vdl-Ex-mGL"/>
-                <constraint firstItem="IPt-yE-B8T" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="65" id="WbY-7w-9VA"/>
+                <constraint firstItem="IPt-yE-B8T" firstAttribute="top" secondItem="g8H-X5-wER" secondAttribute="top" id="WbY-7w-9VA"/>
                 <constraint firstItem="v46-dz-RxO" firstAttribute="height" secondItem="KRQ-9w-aXE" secondAttribute="height" multiplier="1:4" id="Z1w-E2-gHK"/>
                 <constraint firstAttribute="trailing" secondItem="k8u-9M-4kc" secondAttribute="trailing" constant="15" id="ZO9-Vf-oJW"/>
                 <constraint firstItem="QTG-7L-pof" firstAttribute="top" secondItem="nEH-Ai-mnV" secondAttribute="bottom" constant="10" id="Zrc-3E-1wp"/>
@@ -188,6 +189,7 @@
                 <constraint firstItem="nEH-Ai-mnV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="y74-dp-ujo"/>
                 <constraint firstAttribute="bottom" secondItem="a9q-ok-5NH" secondAttribute="bottom" id="yDB-1u-d6E"/>
             </constraints>
+            <viewLayoutGuide key="safeArea" id="g8H-X5-wER"/>
             <point key="canvasLocation" x="-507" y="518"/>
         </view>
     </objects>
