@@ -16,7 +16,9 @@ class UserViewController: BaseViewController {
     fileprivate static let userLabelsVerticalMargin: CGFloat = 10
     private static let userBgViewDefaultHeight: CGFloat = headerExpandedHeight
 
-    fileprivate var listingListViewTopMargin: CGFloat = 64
+    fileprivate var listingListViewTopMargin: CGFloat {
+        return navigationBarHeight + statusBarHeight
+    }
 
     fileprivate static let headerExpandedBottom: CGFloat = -(headerExpandedHeight+userBgViewDefaultHeight)
     fileprivate static let headerExpandedHeight: CGFloat = 150
@@ -291,9 +293,7 @@ extension UserViewController {
     private func setupListingListView() {
         listingListView.headerDelegate = self
         listingListViewBackgroundView.backgroundColor = UIColor.listBackgroundColor
-        
-        listingListViewTopMargin = navigationBarHeight + statusBarHeight
-
+    
         // Remove pull to refresh
         listingListView.refreshControl.removeFromSuperview()
         listingListView.setErrorViewStyle(bgColor: nil, borderColor: nil, containerColor: nil)
