@@ -13,15 +13,24 @@ import RxSwift
 
 class UserViewController: BaseViewController {
     fileprivate static let navBarUserViewHeight: CGFloat = 36
+    fileprivate static let userLabelsVerticalMargin: CGFloat = 10
     private static let userBgViewDefaultHeight: CGFloat = headerExpandedHeight
 
-    fileprivate static let listingListViewTopMargin: CGFloat = 64
+    fileprivate var listingListViewTopMargin: CGFloat {
+        return navigationBarHeight + statusBarHeight
+    }
 
     fileprivate static let headerExpandedBottom: CGFloat = -(headerExpandedHeight+userBgViewDefaultHeight)
     fileprivate static let headerExpandedHeight: CGFloat = 150
 
-    fileprivate static let headerCollapsedBottom: CGFloat = -(20+44+headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
-    fileprivate static let headerCollapsedHeight: CGFloat = 44
+    fileprivate var headerCollapsedBottom: CGFloat {
+        if #available(iOS 11, *) {
+            return -(view.safeAreaInsets.top + headerCollapsedHeight)
+        } else {
+            return -(20 + 44 + headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
+        }
+    }
+    fileprivate let headerCollapsedHeight: CGFloat = 44
 
     fileprivate static let navbarHeaderMaxThresold: CGFloat = 0.5
     fileprivate static let userLabelsMinThreshold: CGFloat = 0.5
@@ -65,6 +74,7 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var averageRatingContainerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var averageRatingView: UIView!
     @IBOutlet var userLabelsSideMargin: [NSLayoutConstraint]!
+    @IBOutlet weak var userLabelsTopMargin: NSLayoutConstraint!
     @IBOutlet weak var userLocationLabel: UILabel!
     @IBOutlet weak var userBgImageView: UIImageView!
     @IBOutlet weak var userBgTintView: UIView!
@@ -165,7 +175,7 @@ class UserViewController: BaseViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        listingListView.minimumContentHeight = listingListView.collectionView.frame.height - UserViewController.headerCollapsedHeight
+        listingListView.minimumContentHeight = listingListView.collectionView.frame.height - headerCollapsedHeight
         
         averageRatingView.rounded = true
     }
@@ -237,6 +247,7 @@ extension UserViewController {
         setupHeader()
         setupNavigationBar()
         setupListingListView()
+        setupConstraints()
     }
 
     fileprivate func setupAccessibilityIds() {
@@ -282,20 +293,24 @@ extension UserViewController {
     private func setupListingListView() {
         listingListView.headerDelegate = self
         listingListViewBackgroundView.backgroundColor = UIColor.listBackgroundColor
-
+    
         // Remove pull to refresh
         listingListView.refreshControl.removeFromSuperview()
         listingListView.setErrorViewStyle(bgColor: nil, borderColor: nil, containerColor: nil)
         listingListView.shouldScrollToTopOnFirstPageReload = false
-        listingListView.padding = UIEdgeInsets(top: UserViewController.listingListViewTopMargin, left: 0, bottom: 0, right: 0)
+        listingListView.padding = UIEdgeInsets(top: listingListViewTopMargin, left: 0, bottom: 0, right: 0)
 
-        let top = abs(UserViewController.headerExpandedBottom + UserViewController.listingListViewTopMargin)
+        let top = abs(UserViewController.headerExpandedBottom + listingListViewTopMargin)
         let contentInset = UIEdgeInsets(top: top, left: 0, bottom: bottomInset, right: 0)
         listingListView.collectionViewContentInset = contentInset
         listingListView.collectionView.scrollIndicatorInsets.top = contentInset.top
         listingListView.firstLoadPadding = contentInset
         listingListView.errorPadding = contentInset
         listingListView.scrollDelegate = self
+    }
+    
+    private func setupConstraints() {
+        userLabelsTopMargin.constant = statusBarHeight + UserViewController.userLabelsVerticalMargin
     }
 
     func setupRatingAverage(_ ratingAverage: Float?) {
@@ -312,14 +327,14 @@ extension UserViewController {
 
     fileprivate func scrollDidChange(_ contentOffsetInsetY: CGFloat) {
         let minBottom = UserViewController.headerExpandedBottom
-        let maxBottom = UserViewController.headerCollapsedBottom
+        let maxBottom = headerCollapsedBottom
 
-        let bottom = min(maxBottom, contentOffsetInsetY - UserViewController.listingListViewTopMargin)
+        let bottom = min(maxBottom, contentOffsetInsetY - listingListViewTopMargin)
         headerContainerBottom.constant = bottom
 
         let percentage = min(1, abs(bottom - maxBottom) / abs(maxBottom - minBottom))
 
-        let height = UserViewController.headerCollapsedHeight + percentage * (UserViewController.headerExpandedHeight - UserViewController.headerCollapsedHeight)
+        let height = headerCollapsedHeight + percentage * (UserViewController.headerExpandedHeight - headerCollapsedHeight)
         headerContainerHeight.constant = height
 
         // header expands more than 100% to hide the avatar when pulling
@@ -327,8 +342,8 @@ extension UserViewController {
         headerExpandedPercentage.value = headerPercentage
 
         // update top on error/first load views
-        let maxTop = abs(UserViewController.headerExpandedBottom + UserViewController.listingListViewTopMargin)
-        let minTop = abs(UserViewController.headerCollapsedBottom)
+        let maxTop = abs(UserViewController.headerExpandedBottom + listingListViewTopMargin)
+        let minTop = abs(headerCollapsedBottom)
         let top = minTop + percentage * (maxTop - minTop)
         let firstLoadPadding = UIEdgeInsets(top: top,
                                             left: listingListView.firstLoadPadding.left,
@@ -346,8 +361,8 @@ extension UserViewController {
         let translation = gestureRecognizer.translation(in: view)
         gestureRecognizer.setTranslation(CGPoint.zero, in: view)
 
-        let mininum: CGFloat = -(UserViewController.headerCollapsedHeight + view.frame.width)
-        let maximum: CGFloat = -UserViewController.headerCollapsedHeight
+        let mininum: CGFloat = -(headerCollapsedHeight + view.frame.width)
+        let maximum: CGFloat = -headerCollapsedHeight
         let y = min(maximum, max(mininum, listingListView.collectionView.contentOffset.y  - translation.y))
 
         listingListView.collectionView.contentOffset.y = y
@@ -363,8 +378,8 @@ extension UserViewController {
     }
 
     fileprivate func scrollToTopWithExpandedState(_ expanded: Bool, animated: Bool) {
-        let mininum: CGFloat = UserViewController.headerExpandedBottom + UserViewController.listingListViewTopMargin
-        let maximum: CGFloat = -UserViewController.headerCollapsedHeight
+        let mininum: CGFloat = UserViewController.headerExpandedBottom + listingListViewTopMargin
+        let maximum: CGFloat = -headerCollapsedHeight
         let y = expanded ? mininum : maximum
         let contentOffset = CGPoint(x: 0, y: y)
         listingListView.collectionView.setContentOffset(contentOffset, animated: animated)
