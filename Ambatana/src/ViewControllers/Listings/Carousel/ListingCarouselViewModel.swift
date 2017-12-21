@@ -175,8 +175,7 @@ class ListingCarouselViewModel: BaseViewModel {
         return featureFlags.moreInfoDFPAdUnitId
     }
     var adActive: Bool {
-        let listingIsMine: Bool = currentListingViewModel?.isMine ?? false
-        return !listingIsMine && (afshAdActive || dfpAdActive)
+        return !isMyListing && (afshAdActive || dfpAdActive)
     }
     var afshAdActive: Bool {
         return featureFlags.moreInfoAFShOrDFP == .afsh
