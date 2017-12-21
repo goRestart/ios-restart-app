@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -242,7 +243,6 @@
                             <constraint firstItem="zbC-cJ-1Dr" firstAttribute="top" secondItem="AJ9-Mr-fTy" secondAttribute="bottom" constant="36" id="l6s-wU-sxQ"/>
                             <constraint firstItem="Blx-QB-ulX" firstAttribute="centerY" secondItem="naH-1U-zAK" secondAttribute="centerY" id="nRb-Nb-A2r"/>
                             <constraint firstItem="AJ9-Mr-fTy" firstAttribute="leading" secondItem="Ffu-Kw-Zed" secondAttribute="leading" constant="8" id="o9o-ch-8W2"/>
-                            <constraint firstItem="h4F-Ow-rJi" firstAttribute="top" secondItem="Ffu-Kw-Zed" secondAttribute="top" constant="20" id="qQv-ht-xq1"/>
                             <constraint firstItem="zbC-cJ-1Dr" firstAttribute="centerX" secondItem="Ffu-Kw-Zed" secondAttribute="centerX" id="toR-el-z48"/>
                             <constraint firstItem="naH-1U-zAK" firstAttribute="centerX" secondItem="Ffu-Kw-Zed" secondAttribute="centerX" id="yg0-A4-KRA"/>
                             <constraint firstItem="naH-1U-zAK" firstAttribute="top" secondItem="zbC-cJ-1Dr" secondAttribute="bottom" constant="39" id="yla-7w-TBN"/>
@@ -254,12 +254,14 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="bsM-so-tit" firstAttribute="top" secondItem="h4F-Ow-rJi" secondAttribute="top" id="7Q3-Nk-Btp"/>
                 <constraint firstAttribute="trailing" secondItem="Jtg-Yw-wsg" secondAttribute="trailing" id="7Yd-PG-Jcb"/>
                 <constraint firstItem="Jtg-Yw-wsg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="CrY-rl-A0d"/>
                 <constraint firstItem="Jtg-Yw-wsg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Kce-Bh-KdA"/>
                 <constraint firstAttribute="bottom" secondItem="Jtg-Yw-wsg" secondAttribute="bottom" id="jRe-Qr-Vc3"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
+            <viewLayoutGuide key="safeArea" id="bsM-so-tit"/>
             <point key="canvasLocation" x="808.5" y="585.5"/>
         </view>
     </objects>
