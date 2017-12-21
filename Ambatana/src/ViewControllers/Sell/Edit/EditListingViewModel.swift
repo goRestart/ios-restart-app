@@ -529,7 +529,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         else if (initialListing.title ?? "") != (title ?? "") {
             hasChanges = true
         }
-        else if initialListing.price.value != Double(price ?? "0") {
+        else if initialListing.price.value != price?.toPriceDouble() {
             hasChanges = true
         }
         else if (initialListing.descr ?? "") != (descr ?? "") {
