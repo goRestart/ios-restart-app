@@ -258,7 +258,10 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        if !initialListing.isRealEstate {
+        switch initialListing {
+        case .realEstate:
+            break
+        case .car, .product:
             startTimer()
         }
     }
