@@ -569,7 +569,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         }.addDisposableTo(disposeBag)
         
         let categoryIsEnabled = viewModel.category.asObservable().map { category -> Bool in
-            guard let categoryValue = category, !categoryValue.isRealEstate else { return true }
+            guard let categoryValue = category, categoryValue.isRealEstate else { return true }
             return false
         }
         
