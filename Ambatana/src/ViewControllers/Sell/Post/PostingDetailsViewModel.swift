@@ -192,9 +192,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .bathrooms, .bedrooms, .make, .model, .year, .offerType, .propertyType, .summary:
             break
         }
-        if step == .price {
-            set(price: priceListing.value)
-        }
         let nextStep = previousStepIsSummary ? .summary : next
         advanceNextStep(next: nextStep)
     }
