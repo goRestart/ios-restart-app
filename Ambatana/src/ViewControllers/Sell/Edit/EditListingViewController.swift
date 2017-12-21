@@ -170,10 +170,11 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         alert.popoverPresentationController?.sourceView = categoryButton
         alert.popoverPresentationController?.sourceRect = categoryButton.frame
 
-        for i in 0..<viewModel.numberOfCategories {
-            alert.addAction(UIAlertAction(title: viewModel.categoryNameAtIndex(i), style: .default,
-                handler: { (categoryAction) -> Void in
-                    self.viewModel.selectCategoryAtIndex(i)
+        viewModel.categories.enumerated().forEach { (index, category) in
+            guard !category.isRealEstate else { return }
+            alert.addAction(UIAlertAction(title: viewModel.categoryNameAtIndex(index), style: .default,
+                                          handler: { (categoryAction) -> Void in
+                                            self.viewModel.selectCategoryAtIndex(index)
             }))
         }
         

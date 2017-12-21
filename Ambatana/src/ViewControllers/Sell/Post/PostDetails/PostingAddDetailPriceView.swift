@@ -140,8 +140,8 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
             if isOn {
                 strongSelf.priceListing.value = .free
                 strongSelf.priceTextField.resignFirstResponder()
-            } else if let value = textFieldValue, let price = Double(value) {
-                strongSelf.priceListing.value = .normal(price)
+            } else if let value = textFieldValue {
+                strongSelf.priceListing.value = .normal(value.toPriceDouble())
             } else {
                 strongSelf.priceListing.value = Constants.defaultPrice
             }
