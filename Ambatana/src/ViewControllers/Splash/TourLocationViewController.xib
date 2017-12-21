@@ -242,7 +242,6 @@
                             <constraint firstItem="amp-1O-xsr" firstAttribute="centerX" secondItem="tok-TJ-iIH" secondAttribute="centerX" id="PC2-ec-Log"/>
                             <constraint firstItem="plb-hW-26Q" firstAttribute="top" secondItem="QeX-8c-ueg" secondAttribute="bottom" constant="-10" id="Y10-3E-tUH"/>
                             <constraint firstItem="7C7-6n-sMz" firstAttribute="top" secondItem="qfw-UY-vsg" secondAttribute="bottom" constant="39" id="cSH-ci-ccg"/>
-                            <constraint firstAttribute="bottom" secondItem="qXo-NK-5Ht" secondAttribute="bottom" constant="17" id="eNU-X3-RTE"/>
                             <constraint firstItem="1TT-u3-nwZ" firstAttribute="centerX" secondItem="tok-TJ-iIH" secondAttribute="centerX" id="eUJ-nr-iPr"/>
                             <constraint firstAttribute="trailing" secondItem="qXo-NK-5Ht" secondAttribute="trailing" constant="15" id="h1n-yr-hFJ"/>
                             <constraint firstItem="qXo-NK-5Ht" firstAttribute="leading" secondItem="tok-TJ-iIH" secondAttribute="leading" constant="15" id="pLl-zc-8Zj"/>
@@ -261,6 +260,7 @@
                 <constraint firstItem="hbZ-mn-WxI" firstAttribute="top" secondItem="UaZ-9e-JXN" secondAttribute="top" id="VRv-kU-9cQ"/>
                 <constraint firstItem="nAO-hM-vBg" firstAttribute="top" secondItem="QeX-8c-ueg" secondAttribute="top" id="XBM-Y0-LbU"/>
                 <constraint firstItem="hbZ-mn-WxI" firstAttribute="leading" secondItem="UaZ-9e-JXN" secondAttribute="leading" id="nEp-dd-qVr"/>
+                <constraint firstItem="qXo-NK-5Ht" firstAttribute="bottom" secondItem="nAO-hM-vBg" secondAttribute="bottom" constant="-17" id="yIs-mR-qyw"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <viewLayoutGuide key="safeArea" id="nAO-hM-vBg"/>

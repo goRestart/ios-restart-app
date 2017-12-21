@@ -238,7 +238,6 @@
                             <constraint firstItem="Blx-QB-ulX" firstAttribute="centerX" secondItem="Ffu-Kw-Zed" secondAttribute="centerX" id="S8i-FW-Fxm"/>
                             <constraint firstItem="AJ9-Mr-fTy" firstAttribute="top" secondItem="h4F-Ow-rJi" secondAttribute="bottom" constant="10" id="SWG-kr-NWd"/>
                             <constraint firstAttribute="trailing" secondItem="u0D-Fq-hAN" secondAttribute="trailing" constant="15" id="Z5Y-DQ-Kdf"/>
-                            <constraint firstAttribute="bottom" secondItem="u0D-Fq-hAN" secondAttribute="bottom" constant="17" id="cCU-IN-pcx"/>
                             <constraint firstItem="naH-1U-zAK" firstAttribute="top" secondItem="vTT-Ha-41J" secondAttribute="bottom" constant="-114" id="d1L-1A-2vU"/>
                             <constraint firstItem="zbC-cJ-1Dr" firstAttribute="top" secondItem="AJ9-Mr-fTy" secondAttribute="bottom" constant="36" id="l6s-wU-sxQ"/>
                             <constraint firstItem="Blx-QB-ulX" firstAttribute="centerY" secondItem="naH-1U-zAK" secondAttribute="centerY" id="nRb-Nb-A2r"/>
@@ -258,6 +257,7 @@
                 <constraint firstAttribute="trailing" secondItem="Jtg-Yw-wsg" secondAttribute="trailing" id="7Yd-PG-Jcb"/>
                 <constraint firstItem="Jtg-Yw-wsg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="CrY-rl-A0d"/>
                 <constraint firstItem="Jtg-Yw-wsg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Kce-Bh-KdA"/>
+                <constraint firstItem="u0D-Fq-hAN" firstAttribute="bottom" secondItem="bsM-so-tit" secondAttribute="bottom" constant="-17" id="QEw-6U-vpP"/>
                 <constraint firstAttribute="bottom" secondItem="Jtg-Yw-wsg" secondAttribute="bottom" id="jRe-Qr-Vc3"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
