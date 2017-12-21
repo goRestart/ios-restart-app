@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Beim Rückgängigmachen der Archivierung dieser Gespräche ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_unblock" = "Blockierung aufheben";
 "chat_login_popup_text" = "Bitte melde dich an, um ein Gespräch zu beginnen";
+"chat_message_disclaimer_meeting_security" = "Denke daran, dass gutbesuchte, öffentliche Plätze wie Cafés und Banken sichere, praktische Treffpunkte sind. Bringe gegebenenfalls auch einen Freund mit.";
 "chat_message_disclaimer_scammer_append_blocked" = "Drücke hier, um diesen Nutzer zu blockieren";
 "chat_message_disclaimer_scammer_base_blocked" = "Sei besonders vorsichtig, wenn du Kontaktinformationen wie Telefonnummern oder E-Mail-Adressen austauschst. Betrügerische Nutzer wollen häufig außerhalb des letgo-Systems kommunizieren. %@";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
@@ -570,7 +571,7 @@
 "product_post_close_alert_title" = "Angebot nicht eingestellt";
 "product_post_confirmation_another" = "Oder";
 "product_post_confirmation_another_button" = "Stell noch ein Produkt ein";
-"product_post_confirmation_another_listing_button" = "Post another listing";
+"product_post_confirmation_another_listing_button" = "Stelle ein weiteres Angebot ein";
 "product_post_confirmation_edit" = "Details hinzufügen";
 "product_post_different_country_error" = "Du kannst keine Produkte in einem Land einstellen, in dem du dich momentan nicht befindest.";
 "product_post_done" = "Fertig";
@@ -618,12 +619,14 @@
 "product_post_select_category_title" = "Was stellst du ein?";
 "product_post_use_photo" = "Foto verwenden";
 "product_post_use_photo_not_logged" = "Foto nutzen";
+"product_professional_call_button" = "Call";
+"product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Bist du sicher, dass du dieses Produkt melden möchtest?";
 "product_report_confirm_title" = "Produkt melden";
 "product_report_login_popup_text" = "Melde dich an, um ein Angebot zu melden";
 "product_report_product_button" = "Produkt melden";
 "product_reported_error_generic" = "Das Produkt konnte nicht gemeldet werden. Bitte versuche es noch einmal.";
-"product_reported_success_message" = "Das Produkt wurde gemeldet. Danke!";
+"product_reported_success_message" = "Das Angebot wurde erfolgreich gemeldet. Danke!";
 "product_reporting_loading_message" = "Produkt melden...";
 "product_search_no_products_body" = "Suche nach etwas anderem oder probiere es später noch mal!";
 "product_search_no_products_title" = "HOPPLA! KEINE ERGEBNISSE IN DEINER NÄHE";
@@ -750,6 +753,7 @@
 "real_estate_offer_type_sale" = "Zum Verkauf";
 "real_estate_offer_type_title" = "Art des Angebots";
 "real_estate_price_title" = "Preis";
+"real_estate_related_search_title" = "Ähnliche Ergebnisse";
 "real_estate_summary_bathroom_title" = "Badezimmer";
 "real_estate_summary_bathrooms_empty" = "Zahl der Badezimmer hinzufügen";
 "real_estate_summary_bathrooms_title" = "Badezimmer";

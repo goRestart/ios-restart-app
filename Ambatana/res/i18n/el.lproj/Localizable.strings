@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Παρουσιάστηκε σφάλμα κατά την αφαίρεση των συνομιλιών από τα αρχειοθετημένα. Παρακαλώ προσπαθήστε ξανά.";
 "chat_list_unblock" = "Ξεμπλοκάρισμα";
 "chat_login_popup_text" = "Για να ξεκινήσετε να συνομιλείτε, θα πρέπει να συνδεθείτε";
+"chat_message_disclaimer_meeting_security" = "Να θυμάστε, οι δημόσιοι χώροι και οι καφετέριες είναι ασφαλή και βολικά σημεία συνάντησης. Σκεφτείτε μήπως φέρετε κάποιον φίλο.";
 "chat_message_disclaimer_scammer_append_blocked" = "Πατήστε εδώ για να μπλοκάρετε αυτόν το χρήστη.";
 "chat_message_disclaimer_scammer_base_blocked" = "Να είστε ιδαίτερα προσεκτικοί όταν ανταλλάζετε πληροφορίες τηλεφώνου/email. Οι χρήστες που θέλουν να σας εξαπατήσουν, συχνά ζητούν να αποχωρήσετε από τη letgo συνομιλία. %@";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
@@ -570,7 +571,7 @@
 "product_post_close_alert_title" = "Η καταχώρηση δεν έχει δημοσιευθεί";
 "product_post_confirmation_another" = "'Η";
 "product_post_confirmation_another_button" = "Δημοσιεύστε άλλο προϊόν";
-"product_post_confirmation_another_listing_button" = "Post another listing";
+"product_post_confirmation_another_listing_button" = "Δημοσιεύστε κι άλλη καταχώρηση";
 "product_post_confirmation_edit" = "Προσθέστε λεπτομέρειες";
 "product_post_different_country_error" = "Δεν μπορείτε να δημοσιεύσετε σε χώρα στην οποία δε βρίσκεστε πια.";
 "product_post_done" = "Έτοιμο";
@@ -618,12 +619,14 @@
 "product_post_select_category_title" = "Τί δημοσιεύετε;";
 "product_post_use_photo" = "Δημοσιεύστε";
 "product_post_use_photo_not_logged" = "Χρήση Φωτογραφίας";
+"product_professional_call_button" = "Call";
+"product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Είστε σίγουροι πως θέλετε να αναφέρετε αυτό το προϊόν;";
 "product_report_confirm_title" = "Αναφορά Προϊόντος";
 "product_report_login_popup_text" = "Για να κάνετε αναφορά μιας καταχώρησης, θα πρέπει να συνδεθείτε";
 "product_report_product_button" = "Αναφορά Προϊόντος";
 "product_reported_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αναφορά του προϊόντος. Παρακαλώ, δοκιμάστε ξανά.";
-"product_reported_success_message" = "Έχει γίνει αναφορά του προϊόντος. Ευχαριστούμε!";
+"product_reported_success_message" = "Έχει γίνει επιτυχής αναφορά της καταχώρησης. Ευχαριστούμε!";
 "product_reporting_loading_message" = "Αναφορά προϊόντος...";
 "product_search_no_products_body" = "Ψάξτε για κάτι άλλο ή κάντε αναζήτηση ξανά αργότερα!";
 "product_search_no_products_title" = "ΌΠΑ! ΔΕ ΒΡΕΘΗΚΑΝ ΑΠΟΤΕΛΕΣΜΑΤΑ ΚΟΝΤΑ ΣΑΣ";
@@ -687,7 +690,7 @@
 "promote_bump_later_button" = "Αργότερα";
 "promote_bump_sell_faster_button" = "ΓΡΗΓΟΡΗ ΠΩΛΗΣΗ";
 "promote_bump_title" = "Προσελκύστε περισσότερους αγοραστές";
-"quick_filter_location_title" = "Ορισμός Τοποθεσίας";
+"quick_filter_location_title" = "Αλλαγή Τοποθεσίας";
 "rate_buyers_message" = "Συγχαρητήρια!";
 "rate_buyers_not_on_letgo_button" = "Δεν το πούλησα στο letgo";
 "rate_buyers_not_on_letgo_title_button" = "Το πούλησα κάπου αλλού";
@@ -750,6 +753,7 @@
 "real_estate_offer_type_sale" = "Για Πώληση";
 "real_estate_offer_type_title" = "Τύπος Καταχώρησης";
 "real_estate_price_title" = "Τιμή";
+"real_estate_related_search_title" = "Συναφή αποτελέσματα";
 "real_estate_summary_bathroom_title" = "μπάνιο";
 "real_estate_summary_bathrooms_empty" = "Προσθήκη αριθμού μπάνιων";
 "real_estate_summary_bathrooms_title" = "μπάνια";

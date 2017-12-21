@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Une erreur est survenue lors du désarchivage de ces conversations. Veuillez réessayer.";
 "chat_list_unblock" = "Débloquer";
 "chat_login_popup_text" = "Pour commencer à clavarder, vous devez vous connecter";
+"chat_message_disclaimer_meeting_security" = "Souvenez-vous que les lieux publics achalandés comme les cafés et les halls des banques sont des endroits pratiques et sécuritaires pour se rencontrer. Envisagez de venir avec un(e) ami(e).";
 "chat_message_disclaimer_scammer_append_blocked" = "Sélectionnez ici pour bloquer cet utilisateur.";
 "chat_message_disclaimer_scammer_base_blocked" = "Soyez très prudents lorsque vous donnez votre courriel/téléphone. Les fraudeurs demandent souvent de clavarder en dehors de letgo. %@";
 "chat_message_field_hint" = "Entrez votre message ici";
@@ -285,7 +286,7 @@
 "direct_answers_hide" = "Masquer Réponses Rapides";
 "direct_answers_show" = "Afficher Réponses Rapides";
 "edit_product_location_alert_text" = "Pour changer le lieu de publication de votre annonce, autorisez l'accès à votre localisation.";
-"edit_product_location_alert_title" = "CHANGER LOCALISATION";
+"edit_product_location_alert_title" = "CHANGER LA LOCALISATION";
 "edit_product_send_button" = "Sauvegarder les changements";
 "edit_product_send_error_uploading_product" = "Une erreur est survenue lors de la modification de votre annonce.";
 "edit_product_send_ok" = "Félicitations ! Votre annonce a été mise à jour.";
@@ -570,7 +571,7 @@
 "product_post_close_alert_title" = "Annonce non publiée";
 "product_post_confirmation_another" = "Ou";
 "product_post_confirmation_another_button" = "Publiez un autre produit";
-"product_post_confirmation_another_listing_button" = "Post another listing";
+"product_post_confirmation_another_listing_button" = "Publier une autre annonce";
 "product_post_confirmation_edit" = "Ajouter plus de détails";
 "product_post_different_country_error" = "Vous ne pouvez pas publier une annonce dans un pays où vous n'êtes pas situé.";
 "product_post_done" = "Terminé";
@@ -618,13 +619,15 @@
 "product_post_select_category_title" = "Que publiez-vous ?";
 "product_post_use_photo" = "Publier";
 "product_post_use_photo_not_logged" = "Utiliser la Photo";
+"product_professional_call_button" = "Call";
+"product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Êtes-vous certain de vouloir signaler ce produit ?";
-"product_report_confirm_title" = "Signaler Produit";
+"product_report_confirm_title" = "Signaler l'annonce";
 "product_report_login_popup_text" = "Pour signaler une annonce, vous devez vous connecter";
-"product_report_product_button" = "Signaler le Produit";
-"product_reported_error_generic" = "Une erreur est survenue lors du signalement du produit. Veuillez réessayer.";
-"product_reported_success_message" = "Le produit a été signalé. Merci !";
-"product_reporting_loading_message" = "Signalement Produit...";
+"product_report_product_button" = "Signaler l'annonce";
+"product_reported_error_generic" = "Une erreur est survenue lors du signalement du bien. Veuillez réessayer.";
+"product_reported_success_message" = "Cette annonce a été signalée. Merci !";
+"product_reporting_loading_message" = "Signalement du bien...";
 "product_search_no_products_body" = "Essayez de chercher quelque chose d'autre ou vérifiez à nouveau prochainement !";
 "product_search_no_products_title" = "OUPS ! AUCUN RÉSULTAT PRÈS DE CHEZ VOUS";
 "product_sell_again_button" = "Le Vendre à Nouveau";
@@ -687,7 +690,7 @@
 "promote_bump_later_button" = "Plus tard";
 "promote_bump_sell_faster_button" = "Vendez plus vite";
 "promote_bump_title" = "Attirez plus d'acheteurs";
-"quick_filter_location_title" = "Changer Localisation";
+"quick_filter_location_title" = "Changer la localisation";
 "rate_buyers_message" = "Félicitations !";
 "rate_buyers_not_on_letgo_button" = "Je ne l'ai pas vendu sur letgo";
 "rate_buyers_not_on_letgo_title_button" = "Je l'ai vendu ailleurs";
@@ -750,6 +753,7 @@
 "real_estate_offer_type_sale" = "À vendre";
 "real_estate_offer_type_title" = "Type d'annonce";
 "real_estate_price_title" = "Prix";
+"real_estate_related_search_title" = "Résultats associés";
 "real_estate_summary_bathroom_title" = "salle de bains";
 "real_estate_summary_bathrooms_empty" = "Ajouter nombre de salles de bains";
 "real_estate_summary_bathrooms_title" = "salles de bains";

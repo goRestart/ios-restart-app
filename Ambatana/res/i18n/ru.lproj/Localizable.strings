@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "При разархивировании чатов произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_list_unblock" = "Разблокировать";
 "chat_login_popup_text" = "Для того, чтобы начать переписку, Вам необходимо войти в систему";
+"chat_message_disclaimer_meeting_security" = "Помните, публичные места вроде кофейни и холла банка - это безопасные места для встречи. Постарайтесь приходить с другом.";
 "chat_message_disclaimer_scammer_append_blocked" = "Нажмите здесь, чтобы заблокировать такого пользователя.";
 "chat_message_disclaimer_scammer_base_blocked" = "Будьте особенно осторожны, когда обмениваетесь телефонами или е-мейлами. Мошенники часто просят пообщаться вне чата letgo. %@";
 "chat_message_field_hint" = "Введите сообщение";
@@ -570,7 +571,7 @@
 "product_post_close_alert_title" = "Объявление не размещено";
 "product_post_confirmation_another" = "Или";
 "product_post_confirmation_another_button" = "Разместить другой товар";
-"product_post_confirmation_another_listing_button" = "Post another listing";
+"product_post_confirmation_another_listing_button" = "Разместить другое объявление";
 "product_post_confirmation_edit" = "Добавить еще детали";
 "product_post_different_country_error" = "Вы не можете размещать объявления в стране, в которой вы не находитесь в текущий момент.";
 "product_post_done" = "Готово";
@@ -618,6 +619,8 @@
 "product_post_select_category_title" = "Что вы размещаете?";
 "product_post_use_photo" = "Разместить";
 "product_post_use_photo_not_logged" = "Загрузить фото";
+"product_professional_call_button" = "Call";
+"product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Вы уверены, что хотите пожаловаться на продукт?";
 "product_report_confirm_title" = "Пожаловаться на продукт";
 "product_report_login_popup_text" = "Чтобы пожаловаться на это объявление, вы должны войти";
@@ -687,7 +690,7 @@
 "promote_bump_later_button" = "Позже";
 "promote_bump_sell_faster_button" = "Продать быстрее";
 "promote_bump_title" = "Привлечь больше покупателей";
-"quick_filter_location_title" = "Задать местоположение";
+"quick_filter_location_title" = "Изменить локацию";
 "rate_buyers_message" = "Поздравляем!";
 "rate_buyers_not_on_letgo_button" = "Я продал не на letgo";
 "rate_buyers_not_on_letgo_title_button" = "Продал где-то еще";
@@ -750,6 +753,7 @@
 "real_estate_offer_type_sale" = "Продажа";
 "real_estate_offer_type_title" = "Тип объявления";
 "real_estate_price_title" = "Цена";
+"real_estate_related_search_title" = "Похожие результаты";
 "real_estate_summary_bathroom_title" = "ванная";
 "real_estate_summary_bathrooms_empty" = "Добавьте количество ванных";
 "real_estate_summary_bathrooms_title" = "ванных";

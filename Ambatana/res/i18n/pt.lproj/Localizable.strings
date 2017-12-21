@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
 "chat_list_unblock" = "Unblock";
 "chat_login_popup_text" = "To start chatting, you have to log in";
+"chat_message_disclaimer_meeting_security" = "Remember, busy public places like coffee shops and bank lobbies are safe, convenient meeting spots. Consider bringing a friend.";
 "chat_message_disclaimer_scammer_append_blocked" = "Tap here to block this user.";
 "chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
 "chat_message_field_hint" = "Type your message here";
@@ -618,13 +619,15 @@
 "product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Post";
 "product_post_use_photo_not_logged" = "Use Photo";
-"product_report_confirm_message" = "Are you sure you want to report this product?";
-"product_report_confirm_title" = "Report Product";
+"product_professional_call_button" = "Call";
+"product_professional_chat_button" = "Chat";
+"product_report_confirm_message" = "Are you sure you want to report this listing?";
+"product_report_confirm_title" = "Report listing";
 "product_report_login_popup_text" = "To report a listing, you have to log in";
-"product_report_product_button" = "Report Product";
-"product_reported_error_generic" = "An error occurred while reporting the product. Please try again.";
-"product_reported_success_message" = "The product has been reported. Thanks!";
-"product_reporting_loading_message" = "Reporting product...";
+"product_report_product_button" = "Report listing";
+"product_reported_error_generic" = "An error occurred while reporting the listing. Please try again.";
+"product_reported_success_message" = "This listing has been reported. Thanks!";
+"product_reporting_loading_message" = "Reporting listing...";
 "product_search_no_products_body" = "Try looking for something else or check again soon!";
 "product_search_no_products_title" = "OOPS! NO RESULTS NEAR YOU";
 "product_sell_again_button" = "Sell It Again";
@@ -750,6 +753,7 @@
 "real_estate_offer_type_sale" = "For Sale";
 "real_estate_offer_type_title" = "Type of Listing";
 "real_estate_price_title" = "Price";
+"real_estate_related_search_title" = "Related results";
 "real_estate_summary_bathroom_title" = "bathroom";
 "real_estate_summary_bathrooms_empty" = "Add no. of bathrooms";
 "real_estate_summary_bathrooms_title" = "bathrooms";

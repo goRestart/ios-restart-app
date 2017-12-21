@@ -460,6 +460,9 @@
 // Login info when trying to chat logged-out
 "chat_login_popup_text" = "To start chatting, you have to log in";
 
+// Disclaimer message shown on the first message receive from the interlocutor
+"chat_message_disclaimer_meeting_security" = "Remember, busy public places like coffee shops and bank lobbies are safe, convenient meeting spots. Consider bringing a friend.";
+
 // Disclaimer shown for each suspicious message received in chat with no blocked user
 "chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
 
@@ -1546,6 +1549,12 @@
 // Message to show on Free product
 "product_free_price" = "Free";
 
+// Text for chat with professional users button
+"product_professional_chat_button" = "Chat";
+
+// Text for call professional users button
+"product_professional_call_button" = "Call";
+
 // Product mark as ready to give away button
 "product_sell_again_free_button" = "Mark as available";
 
@@ -1889,22 +1898,22 @@
 "product_post_select_category_housing" = "Housing";
 
 // Product report confirm message. Message displayal is like the other dialog messages
-"product_report_confirm_message" = "Are you sure you want to report this product?";
+"product_report_confirm_message" = "Are you sure you want to report this listing?";
 
 // Product report confirm title. Message displayal is like the other dialog messages
-"product_report_confirm_title" = "Report Product";
+"product_report_confirm_title" = "Report listing";
 
 // Product report product button. Check image @ "product_ask_a_question_button" segment
-"product_report_product_button" = "Report Product";
+"product_report_product_button" = "Report listing";
 
 // Product reported fail message. Message displayal is like the other dialog messages
-"product_reported_error_generic" = "An error occurred while reporting the product. Please try again.";
+"product_reported_error_generic" = "An error occurred while reporting the listing. Please try again.";
 
 // Product reported success message. Message displayal is like the other dialog messages
-"product_reported_success_message" = "The product has been reported. Thanks!";
+"product_reported_success_message" = "This listing has been reported. Thanks!";
 
 // Product reporting laoding message. Message displayal is like the other dialog messages
-"product_reporting_loading_message" = "Reporting product...";
+"product_reporting_loading_message" = "Reporting listing...";
 
 // Product search no products body.
 "product_search_no_products_body" = "Try looking for something else or check again soon!";
@@ -2392,6 +2401,9 @@
 
 // Show the current step of total steps
 "real_estate_current_step_of_total" = "%d of %d";
+
+// Title for section on related search. 
+"real_estate_related_search_title" = "Related results";
 
 // Title when showing list of related items
 "related_items_title" = "Related listings";

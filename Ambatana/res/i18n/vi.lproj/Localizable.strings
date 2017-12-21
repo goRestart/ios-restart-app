@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Có lỗi xảy ra khi bỏ lưu trữ các hội thoại. Vui lòng thử lại sau.";
 "chat_list_unblock" = "Bỏ chặn";
 "chat_login_popup_text" = "Bạn cần đăng nhập để bắt đầu trò chuyện";
+"chat_message_disclaimer_meeting_security" = "Hãy nhớ rằng, những nơi công cộng đông đúc như quán cà phê và sảnh ngân hàng là những điểm gặp gỡ an toàn và thuận tiện. Hãy cân nhắc việc đi cùng một người bạn.";
 "chat_message_disclaimer_scammer_append_blocked" = "Nhấp vào đây để chặn người dùng này.";
 "chat_message_disclaimer_scammer_base_blocked" = "Hãy đặc biệt cẩn thận khi trao đổi thông tin số điện thoại/email. Người dùng lừa đảo thường muốn bạn rời khỏi trò chuyện trong letgo. %@";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
@@ -570,7 +571,7 @@
 "product_post_close_alert_title" = "Bài chưa được đăng";
 "product_post_confirmation_another" = "Hoặc";
 "product_post_confirmation_another_button" = "Đăng sản phẩm khác";
-"product_post_confirmation_another_listing_button" = "Post another listing";
+"product_post_confirmation_another_listing_button" = "Đăng một bài khác";
 "product_post_confirmation_edit" = "Thêm thông tin";
 "product_post_different_country_error" = "Bạn không thể đăng tại một quốc gia mà hiện bạn không cư trú.";
 "product_post_done" = "Hoàn thành";
@@ -618,12 +619,14 @@
 "product_post_select_category_title" = "Bạn đang đăng gì?";
 "product_post_use_photo" = "Đăng";
 "product_post_use_photo_not_logged" = "Sử dụng Hình ảnh";
+"product_professional_call_button" = "Call";
+"product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Bạn có chắc chắn muốn báo cáo sản phẩm này không?";
 "product_report_confirm_title" = "Báo cáo Sản phẩm";
 "product_report_login_popup_text" = "Bạn cần đăng nhập để báo cáo một bài đăng";
 "product_report_product_button" = "Báo cáo Sản phẩm";
 "product_reported_error_generic" = "Có lỗi xảy ra trong khi báo cáo sản phẩm. Xin vui lòng thử lại.";
-"product_reported_success_message" = "Sản phẩm vừa được báo cáo. Xin cảm ơn!";
+"product_reported_success_message" = "Bài đăng đã được báo cáo thành công. Cảm ơn bạn!";
 "product_reporting_loading_message" = "Đang báo cáo sản phẩm...";
 "product_search_no_products_body" = "Hãy thử tìm kiếm một sản phẩm khác hoặc thử lại sau!";
 "product_search_no_products_title" = "Ồ! KHÔNG CÓ KẾT QUẢ NÀO Ở GẦN BẠN";
@@ -687,7 +690,7 @@
 "promote_bump_later_button" = "Để sau";
 "promote_bump_sell_faster_button" = "Bán nhanh hơn";
 "promote_bump_title" = "Thu hút thêm người mua";
-"quick_filter_location_title" = "Thay đổi Địa điểm";
+"quick_filter_location_title" = "Thay đổi địa điểm";
 "rate_buyers_message" = "Chúc mừng!";
 "rate_buyers_not_on_letgo_button" = "Tôi không bán sản phẩm này trên letgo";
 "rate_buyers_not_on_letgo_title_button" = "Đã bán ở chỗ khác";
@@ -750,6 +753,7 @@
 "real_estate_offer_type_sale" = "Bán";
 "real_estate_offer_type_title" = "Loại Bài đăng";
 "real_estate_price_title" = "Giá";
+"real_estate_related_search_title" = "Kết quả liên quan";
 "real_estate_summary_bathroom_title" = "phòng tắm";
 "real_estate_summary_bathrooms_empty" = "Thêm số phòng tắm";
 "real_estate_summary_bathrooms_title" = "phòng tắm";

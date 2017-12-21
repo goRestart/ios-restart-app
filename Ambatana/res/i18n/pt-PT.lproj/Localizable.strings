@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Ocorreu um erro ao desarquivar estas conversas. Por favor tente novamente.";
 "chat_list_unblock" = "Desbloquear";
 "chat_login_popup_text" = "Para começar a conversar deve primeiro fazer login";
+"chat_message_disclaimer_meeting_security" = "Lembre-se, espaços públicos movimentados tais como cafés ou halls de bancos são espaços de encontro convenientes e seguros. Considere levar consigo um amigo.";
 "chat_message_disclaimer_scammer_append_blocked" = "Toque aqui para bloquear este utilizador.";
 "chat_message_disclaimer_scammer_base_blocked" = "Seja extremamente cuidadoso ao trocar contactos de telefone/email. Os utilizadores fraudulentos pedem com frequência para abandonar o chat do letgo. %@";
 "chat_message_field_hint" = "Escreva a sua mensagem aqui";
@@ -570,7 +571,7 @@
 "product_post_close_alert_title" = "Anúncio não publicado";
 "product_post_confirmation_another" = "Ou";
 "product_post_confirmation_another_button" = "Publique outro item";
-"product_post_confirmation_another_listing_button" = "Post another listing";
+"product_post_confirmation_another_listing_button" = "Publicar outro anúncio";
 "product_post_confirmation_edit" = "Adicionar mais detalhes";
 "product_post_different_country_error" = "Não pode publicar num país onde não está atualmente localizado.";
 "product_post_done" = "Feito";
@@ -618,12 +619,14 @@
 "product_post_select_category_title" = "O que está a publicar?";
 "product_post_use_photo" = "Publicar";
 "product_post_use_photo_not_logged" = "Usar a foto";
-"product_report_confirm_message" = "Tem a certeza que deseja denunciar este artigo?";
-"product_report_confirm_title" = "Denunciar artigo";
+"product_professional_call_button" = "Call";
+"product_professional_chat_button" = "Chat";
+"product_report_confirm_message" = "Deseja mesmo denunciar esta publicação?";
+"product_report_confirm_title" = "Denunciar produto";
 "product_report_login_popup_text" = "Para denunciar uma publicação tem que efetuar o login";
-"product_report_product_button" = "Denunciar artigo";
+"product_report_product_button" = "Denunciar produto";
 "product_reported_error_generic" = "Surgiu um erro ao reportar o produto. Por favor tente novamente.";
-"product_reported_success_message" = "O produto foi denunciado. Obrigado!";
+"product_reported_success_message" = "Esta publicação foi denunciada. Obrigado!";
 "product_reporting_loading_message" = "A denunciar o produto...";
 "product_search_no_products_body" = "Experimente procurar outra coisa ou volte mais tarde!";
 "product_search_no_products_title" = "OPS! NENHUM RESULTADO PERTO DE SI";
@@ -646,7 +649,7 @@
 "product_sell_photolibrary_restricted_error" = "O acesso ao seu álbum de fotos é restrito. Por favor verifique as suas definições e tente de novo.";
 "product_share_body" = "Vê o que acabei de encontrar no letgo!";
 "product_share_copylink_ok" = "O seu link foi copiado!";
-"product_share_email_error" = "Ops, aparentemente não configurou uma conta na app de email.";
+"product_share_email_error" = "Ups! Aparentemente não configurou uma conta na app de email.";
 "product_share_generic_ok" = "Publicação partilhada!";
 "product_share_navbar_button" = "Partilhar";
 "product_share_posted_by" = "publicado por %@";
@@ -750,6 +753,7 @@
 "real_estate_offer_type_sale" = "Para venda";
 "real_estate_offer_type_title" = "Tipo de publicação";
 "real_estate_price_title" = "Preço";
+"real_estate_related_search_title" = "Resultados relacionados";
 "real_estate_summary_bathroom_title" = "casa de banho";
 "real_estate_summary_bathrooms_empty" = "Adicionar nº de casas de banho";
 "real_estate_summary_bathrooms_title" = "casas de banho";

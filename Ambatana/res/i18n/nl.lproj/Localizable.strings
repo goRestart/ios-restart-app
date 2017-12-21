@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Er is een fout opgetreden tijdens het terugplaatsen van deze gesprekken. Probeer het nog eens.";
 "chat_list_unblock" = "Deblokkeer";
 "chat_login_popup_text" = "Om te beginnen met chatten, moet je inloggen";
+"chat_message_disclaimer_meeting_security" = "Drukke openbare plaatsen zoals coffeeshops en banklobby's zijn veilige, handige ontmoetingsplekken. Je kunt een vriend(in) meenemen.";
 "chat_message_disclaimer_scammer_append_blocked" = "Klik hier om deze gebruiker te blokkeren.";
 "chat_message_disclaimer_scammer_base_blocked" = "Wees extra voorzichtig bij het uitwisselen van telefoon/e-mailgegevens. Frauduleuze gebruikers vragen je vaak om de letgo chat te verlaten. %@";
 "chat_message_field_hint" = "Schrijf hier je bericht...";
@@ -570,7 +571,7 @@
 "product_post_close_alert_title" = "Advertentie niet geplaatst";
 "product_post_confirmation_another" = "Of";
 "product_post_confirmation_another_button" = "Plaats een ander item";
-"product_post_confirmation_another_listing_button" = "Post another listing";
+"product_post_confirmation_another_listing_button" = "Plaats nog een advertentie";
 "product_post_confirmation_edit" = "Voeg meer details toe";
 "product_post_different_country_error" = "Je kunt geen artikelen plaatsen in een land waar je bent op dit moment niet bent.";
 "product_post_done" = "Klaar";
@@ -618,12 +619,14 @@
 "product_post_select_category_title" = "Wat wil je verkopen?";
 "product_post_use_photo" = "Plaats";
 "product_post_use_photo_not_logged" = "Gebruik foto";
+"product_professional_call_button" = "Call";
+"product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Weet je zeker dat je dit product wil rapporteren?";
 "product_report_confirm_title" = "Rapporteer product";
 "product_report_login_popup_text" = "Om een advertentie te rapporteren, moet je eerst inloggen";
 "product_report_product_button" = "Rapporteer product";
 "product_reported_error_generic" = "Er is een fout opgetreden tijdens het rapporteren van het product. Probeer het nog eens.";
-"product_reported_success_message" = "Het product werd gerapporteerd. Bedankt!";
+"product_reported_success_message" = "Deze advertentie is succesvol gerapporteerd. Bedankt!";
 "product_reporting_loading_message" = "Rapporteren van product...";
 "product_search_no_products_body" = "Probeer om iets anders te zoeken of probeer het binnenkort nog eens!";
 "product_search_no_products_title" = "OEPS! GEEN RESULTATEN IN JOUW OMGEVING";
@@ -687,7 +690,7 @@
 "promote_bump_later_button" = "Later";
 "promote_bump_sell_faster_button" = "Verkoop Sneller";
 "promote_bump_title" = "Trek meer kopers aan";
-"quick_filter_location_title" = "Locatie Instellen";
+"quick_filter_location_title" = "Wijzig locatie";
 "rate_buyers_message" = "Gefeliciteerd!";
 "rate_buyers_not_on_letgo_button" = "Ik heb het niet verkocht op letgo";
 "rate_buyers_not_on_letgo_title_button" = "Ik heb het ergens anders verkocht";
@@ -750,6 +753,7 @@
 "real_estate_offer_type_sale" = "Te Koop";
 "real_estate_offer_type_title" = "Soort Advertentie";
 "real_estate_price_title" = "Prijs";
+"real_estate_related_search_title" = "Gerelateerde resultaten";
 "real_estate_summary_bathroom_title" = "badkamer";
 "real_estate_summary_bathrooms_empty" = "Aantal badkamers toevoegen";
 "real_estate_summary_bathrooms_title" = "badkamers";
