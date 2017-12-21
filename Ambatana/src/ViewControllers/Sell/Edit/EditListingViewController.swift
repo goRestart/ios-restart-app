@@ -170,10 +170,11 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         alert.popoverPresentationController?.sourceView = categoryButton
         alert.popoverPresentationController?.sourceRect = categoryButton.frame
 
-        for i in 0..<viewModel.numberOfCategories {
-            alert.addAction(UIAlertAction(title: viewModel.categoryNameAtIndex(i), style: .default,
-                handler: { (categoryAction) -> Void in
-                    self.viewModel.selectCategoryAtIndex(i)
+        viewModel.categories.enumerated().forEach { (index, category) in
+            guard !category.isRealEstate else { return }
+            alert.addAction(UIAlertAction(title: viewModel.categoryNameAtIndex(index), style: .default,
+                                          handler: { (categoryAction) -> Void in
+                                            self.viewModel.selectCategoryAtIndex(index)
             }))
         }
         
@@ -567,10 +568,11 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             strongSelf.updateVerticalFields(category: category)
         }.addDisposableTo(disposeBag)
         
-        let categoryIsRealEstate = viewModel.category.asObservable().flatMap { x in
-            return x.map(Observable.just) ?? Observable.empty()
-            }.map { $0.isRealEstate }
-        let categoryIsEnabled = categoryIsRealEstate.asObservable().filter { !$0 }
+        let categoryIsEnabled = viewModel.category.asObservable().map { category -> Bool in
+            guard let categoryValue = category, categoryValue.isRealEstate else { return true }
+            return false
+        }
+        
         categoryIsEnabled.bindTo(categoryButton.rx.isEnabled).addDisposableTo(disposeBag)
         categoryIsEnabled.bindTo(categoryTitleLabel.rx.isEnabled).addDisposableTo(disposeBag)
         
