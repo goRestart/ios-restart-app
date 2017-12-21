@@ -568,11 +568,10 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             strongSelf.updateVerticalFields(category: category)
         }.addDisposableTo(disposeBag)
         
-        let categoryIsRealEstate = viewModel.category.asObservable().map{ category -> Bool in
-            guard let categoryValue = category, !categoryValue.isRealEstate else { return false }
-            return true
+        let categoryIsEnabled = viewModel.category.asObservable().map { category -> Bool in
+            guard let categoryValue = category, !categoryValue.isRealEstate else { return true }
+            return false
         }
-        let categoryIsEnabled = categoryIsRealEstate.asObservable().filter { !$0 }
         
         categoryIsEnabled.bindTo(categoryButton.rx.isEnabled).addDisposableTo(disposeBag)
         categoryIsEnabled.bindTo(categoryTitleLabel.rx.isEnabled).addDisposableTo(disposeBag)
