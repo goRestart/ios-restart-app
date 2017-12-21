@@ -17,11 +17,10 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var buttonBottom: UIButton!
     @IBOutlet weak var buttonBottomHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomBottomConstraint: NSLayoutConstraint!
-    // 🦄
+
     @IBOutlet weak var buttonBottomRightMarginToSuperviewConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonCall: UIButton!
-    @IBOutlet weak var buttonBottomAndCallEqualWidthsConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonCallWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonCallRightMarginToSuperviewConstraint: NSLayoutConstraint!
 
@@ -345,17 +344,13 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     private func setupCallButton() {
-        // 🦄 call button
         buttonCall.frame = CGRect(x: 0, y: 0, width: 0, height: 50)
         buttonCall.setStyle(.primary(fontSize: .big))
-        buttonCall.setTitle("Call", for: .normal)
+        buttonCall.setTitle(LGLocalizedString.productProfessionalCallButton, for: .normal)
         buttonCall.setImage(UIImage(named: "ic_phone_call"), for: .normal)
         buttonCall.imageEdgeInsets = UIEdgeInsets(top: 15,left: -10,bottom: 15,right: 0)
         buttonCall.titleEdgeInsets = UIEdgeInsets(top: 0,left: 10,bottom: 0,right: 0)
         buttonCall.isHidden = true
-        // 🦄🦄🦄🦄🦄🦄🦄🦄 check if those constraints are necessary... :/
-//        buttonCallRightMarginToSuperviewConstraint.isActive = false
-//        buttonBottomRightMarginToSuperviewConstraint.isActive = true
         buttonCall.addTarget(self, action: #selector(callButtonPressed), for: .touchUpInside)
     }
 
@@ -668,7 +663,7 @@ extension ListingCarouselViewController {
                                                   viewModel.ownerPhoneNumber.asObservable()) { $0 }
         allowCalls.asObservable().bindNext { [weak self] (isPro, phoneNum) in
             guard let strongSelf = self else { return }
-            if let _ = phoneNum, isPro && strongSelf.viewModel.deviceCanCall {
+            if let phone = phoneNum, phone.isPhoneNumber && isPro && strongSelf.viewModel.deviceCanCall {
                 strongSelf.buttonCall.isHidden = false
                 strongSelf.buttonCallRightMarginToSuperviewConstraint.constant = Metrics.margin
                 strongSelf.buttonBottomRightMarginToSuperviewConstraint.constant = 0
@@ -676,7 +671,6 @@ extension ListingCarouselViewController {
                 let twoButtonsWidth: CGFloat = (strongSelf.view.width - (Metrics.margin*3))/2
                 strongSelf.buttonBottomWidthConstraint.constant = twoButtonsWidth
                 strongSelf.buttonCallWidthConstraint.constant = twoButtonsWidth
-//                strongSelf.buttonCall.setStyle(.primary(fontSize: .big))
             } else {
                 strongSelf.buttonCall.isHidden = true
                 strongSelf.buttonCallRightMarginToSuperviewConstraint.constant = 0

@@ -14,7 +14,6 @@
                 <outlet property="bannerContainer" destination="G8H-Az-QBo" id="p83-Mn-5JX"/>
                 <outlet property="bannerContainerBottomConstraint" destination="cW1-mD-DaV" id="7TA-Cc-9o3"/>
                 <outlet property="buttonBottom" destination="ibM-CY-XRt" id="VOT-6P-Mmb"/>
-                <outlet property="buttonBottomAndCallEqualWidthsConstraint" destination="xgF-h0-y6A" id="g2p-rk-5Y5"/>
                 <outlet property="buttonBottomBottomConstraint" destination="xy2-xd-eOf" id="ifU-90-OpV"/>
                 <outlet property="buttonBottomHeight" destination="qTj-cW-IDe" id="4N1-Rl-PlK"/>
                 <outlet property="buttonBottomRightMarginToSuperviewConstraint" destination="IgH-Cu-C9f" id="sek-l8-UJW"/>

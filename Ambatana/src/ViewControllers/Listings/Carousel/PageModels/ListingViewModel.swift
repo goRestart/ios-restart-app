@@ -781,9 +781,8 @@ extension ListingViewModel {
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainButton, .secondary(fontSize: .big, withBorder: false)),
                                           action: { [weak self] in self?.confirmToMarkAsUnSold(free: false) }))
         case .otherAvailable, .otherAvailableFree:
-            // 🦄
             if isProfessional {
-                actionButtons.append(UIAction(interface: .button("_Chat", .secondary(fontSize: .big, withBorder: false)),
+                actionButtons.append(UIAction(interface: .button(LGLocalizedString.productProfessionalChatButton, .secondary(fontSize: .big, withBorder: false)),
                                               action: { [weak self] in self?.chatWithSeller() }))
             }
         case .availableFree:

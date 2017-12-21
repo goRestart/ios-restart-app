@@ -109,7 +109,6 @@ class ListingCarouselViewModel: BaseViewModel {
     let ownerIsProfessional = Variable<Bool>(false)
     let ownerPhoneNumber = Variable<String?>(nil)
     var deviceCanCall: Bool {
-        // 🦄
         return true
         guard let callUrl = URL(string: "tel://") else { return false }
         return UIApplication.shared.canOpenURL(callUrl)
@@ -532,7 +531,6 @@ class ListingCarouselViewModel: BaseViewModel {
     }
     
     func callSeller() {
-        print("📞📞📞📞📞 -> \(ownerPhoneNumber.value)")
         guard let phoneNum = ownerPhoneNumber.value,
             let phoneUrl = URL(string: "tel://\(phoneNum)") else { return }
         UIApplication.shared.openURL(phoneUrl)
