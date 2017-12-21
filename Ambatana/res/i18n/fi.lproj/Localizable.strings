@@ -619,12 +619,12 @@
 "product_post_select_category_title" = "Mitä olet julkaisemassa?";
 "product_post_use_photo" = "Käytä";
 "product_post_use_photo_not_logged" = "Käytä kuvaa";
-"product_report_confirm_message" = "Oletko varma että haluat tehdä ilmoituksen tästä tuotteesta?";
+"product_report_confirm_message" = "Oletko varma että haluat ilmiantaa tämän ilmoituksen?";
 "product_report_confirm_title" = "Ilmianna tuote";
 "product_report_login_popup_text" = "Sinun on kirjauduttava sisään ilmiantaaksesi ilmoituksen";
 "product_report_product_button" = "Ilmianna tuote";
 "product_reported_error_generic" = "Tuotetta ilmiannettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
-"product_reported_success_message" = "Tuote on ilmiannettu. Kiitos!";
+"product_reported_success_message" = "Ilmoitus on ilmiannettu onnistuneesti. Kiitos!";
 "product_reporting_loading_message" = "Ilmiannetaan tuotetta...";
 "product_search_no_products_body" = "Yritä hakea jotain muuta tai tee hakusi pian uudelleen!";
 "product_search_no_products_title" = "HUPS! EI TULOKSIA LÄHELLÄSI";

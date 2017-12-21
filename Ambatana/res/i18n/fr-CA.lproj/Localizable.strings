@@ -620,12 +620,12 @@
 "product_post_use_photo" = "Publier";
 "product_post_use_photo_not_logged" = "Utiliser la Photo";
 "product_report_confirm_message" = "Êtes-vous certain de vouloir signaler ce produit ?";
-"product_report_confirm_title" = "Signaler Produit";
+"product_report_confirm_title" = "Signaler l'annonce";
 "product_report_login_popup_text" = "Pour signaler une annonce, vous devez vous connecter";
-"product_report_product_button" = "Signaler le Produit";
-"product_reported_error_generic" = "Une erreur est survenue lors du signalement du produit. Veuillez réessayer.";
-"product_reported_success_message" = "Le produit a été signalé. Merci !";
-"product_reporting_loading_message" = "Signalement Produit...";
+"product_report_product_button" = "Signaler l'annonce";
+"product_reported_error_generic" = "Une erreur est survenue lors du signalement du bien. Veuillez réessayer.";
+"product_reported_success_message" = "Cette annonce a été signalée. Merci !";
+"product_reporting_loading_message" = "Signalement du bien...";
 "product_search_no_products_body" = "Essayez de chercher quelque chose d'autre ou vérifiez à nouveau prochainement !";
 "product_search_no_products_title" = "OUPS ! AUCUN RÉSULTAT PRÈS DE CHEZ VOUS";
 "product_sell_again_button" = "Le Vendre à Nouveau";

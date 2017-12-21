@@ -1892,22 +1892,22 @@
 "product_post_select_category_housing" = "Housing";
 
 // Product report confirm message. Message displayal is like the other dialog messages
-"product_report_confirm_message" = "Are you sure you want to report this product?";
+"product_report_confirm_message" = "Are you sure you want to report this listing?";
 
 // Product report confirm title. Message displayal is like the other dialog messages
-"product_report_confirm_title" = "Report Product";
+"product_report_confirm_title" = "Report listing";
 
 // Product report product button. Check image @ "product_ask_a_question_button" segment
-"product_report_product_button" = "Report Product";
+"product_report_product_button" = "Report listing";
 
 // Product reported fail message. Message displayal is like the other dialog messages
-"product_reported_error_generic" = "An error occurred while reporting the product. Please try again.";
+"product_reported_error_generic" = "An error occurred while reporting the listing. Please try again.";
 
 // Product reported success message. Message displayal is like the other dialog messages
-"product_reported_success_message" = "The product has been reported. Thanks!";
+"product_reported_success_message" = "This listing has been reported. Thanks!";
 
 // Product reporting laoding message. Message displayal is like the other dialog messages
-"product_reporting_loading_message" = "Reporting product...";
+"product_reporting_loading_message" = "Reporting listing...";
 
 // Product search no products body.
 "product_search_no_products_body" = "Try looking for something else or check again soon!";
