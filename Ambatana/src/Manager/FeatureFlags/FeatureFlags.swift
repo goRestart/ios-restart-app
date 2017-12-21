@@ -279,7 +279,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.realEstateEnabled
         }
-        return false
+        return abTests.realEstateEnabled.value
     }
     
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
