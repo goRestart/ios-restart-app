@@ -144,7 +144,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         return listingImages.images
     }
     
-    var categories: [ListingCategory] = []
+    fileprivate(set) var categories: [ListingCategory] = []
     fileprivate let initialListing: Listing
     fileprivate var savedListing: Listing?
     fileprivate var shouldTrack: Bool = true
