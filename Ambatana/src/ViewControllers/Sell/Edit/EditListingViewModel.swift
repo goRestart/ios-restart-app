@@ -143,9 +143,10 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     var images: [EditListingImageType] {
         return listingImages.images
     }
+    
+    var categories: [ListingCategory] = []
     fileprivate let initialListing: Listing
     fileprivate var savedListing: Listing?
-    fileprivate var categories: [ListingCategory] = []
     fileprivate var shouldTrack: Bool = true
     
     // Repositories
@@ -257,7 +258,9 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        startTimer()
+        if !initialListing.isRealEstate {
+            startTimer()
+        }
     }
 
     override func didBecomeInactive() {
