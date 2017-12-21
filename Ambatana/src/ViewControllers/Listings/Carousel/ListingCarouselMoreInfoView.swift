@@ -133,6 +133,8 @@ class ListingCarouselMoreInfoView: UIView {
                     loadDFPRequest()
                 }
             }
+        } else {
+            hideAdsBanner()
         }
     }
 
@@ -427,6 +429,13 @@ fileprivate extension ListingCarouselMoreInfoView {
         }
     }
 
+    fileprivate func hideAdsBanner() {
+        bannerContainerView.isHidden = true
+        bannerContainerViewHeightConstraint.constant = 0
+        if shareViewToMapTopConstraint.isActive {
+            shareViewToMapTopConstraint.constant = ListingCarouselMoreInfoView.shareViewToMapMargin
+        }
+    }
 
     // MARK: > Configuration (each view model)
 
@@ -549,6 +558,8 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
     }
 
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        bannerContainerView.isHidden = false
+
         bannerContainerViewHeightConstraint.constant = bannerView.height
         shareViewToMapTopConstraint.constant = bannerView.height + ListingCarouselMoreInfoView.shareViewToMapMargin
 
