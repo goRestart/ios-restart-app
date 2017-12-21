@@ -14,7 +14,7 @@ extension RealEstateAttributes {
         var title: String = ""
         
         let propertyTypeString = propertyType?.shortLocalizedString.localizedUppercase
-        let offerTypeString = offerType?.shortLocalizedString.localizedUppercase
+        let offerTypeString = offerType?.shortLocalizedString.capitalizedFirstLetterOnly
         var bedroomsString: String? = nil
         if let bedroomsRawValue = bedrooms, let bedroomsValue = NumberOfBedrooms(rawValue: bedroomsRawValue) {
             bedroomsString = bedroomsValue.shortLocalizedString.localizedUppercase

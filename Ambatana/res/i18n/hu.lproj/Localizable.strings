@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Hiba történt a csevegések dearchiválása során. Próbálkozz újra.";
 "chat_list_unblock" = "Feloldás";
 "chat_login_popup_text" = "A csevegéshez be kell jelentkezned";
+"chat_message_disclaimer_meeting_security" = "Ne feledd, a forgalmas helyek (pl. kávézók, bankfiókok) biztonságos, kényelmes találkozóhelyek. Érdemes nem egyedül menned.";
 "chat_message_disclaimer_scammer_append_blocked" = "Koppints ide a felhasználó letiltásához.";
 "chat_message_disclaimer_scammer_base_blocked" = "Légy extra óvatos, ha megosztod telefonszámodat vagy e-mail címedet. A csalók gyakran próbálják meg rávenni kiszemeltjeiket a letgo csevegőjének elhagyására. %@";
 "chat_message_field_hint" = "Ide írd az üzeneted…";
@@ -750,7 +751,7 @@
 "real_estate_offer_type_sale" = "Eladó";
 "real_estate_offer_type_title" = "Hirdetés típusa";
 "real_estate_price_title" = "Ár";
-"real_estate_related_search_title" = "Related results";
+"real_estate_related_search_title" = "Kapcsolódó eredmények";
 "real_estate_summary_bathroom_title" = "fürdőszoba";
 "real_estate_summary_bathrooms_empty" = "Fürdőszobaszám hozzáadása";
 "real_estate_summary_bathrooms_title" = "fürdőszoba";

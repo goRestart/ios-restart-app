@@ -153,6 +153,7 @@
 "chat_list_unarchive_error_multiple" = "Une erreur est survenue lors du désarchivage de ces conversations. Veuillez réessayer.";
 "chat_list_unblock" = "Débloquer";
 "chat_login_popup_text" = "Pour commencer à clavarder, vous devez vous connecter";
+"chat_message_disclaimer_meeting_security" = "Souvenez-vous que les lieux publics achalandés comme les cafés et les halls des banques sont des endroits pratiques et sécuritaires pour se rencontrer. Envisagez de venir avec un(e) ami(e).";
 "chat_message_disclaimer_scammer_append_blocked" = "Sélectionnez ici pour bloquer cet utilisateur.";
 "chat_message_disclaimer_scammer_base_blocked" = "Soyez très prudents lorsque vous donnez votre courriel/téléphone. Les fraudeurs demandent souvent de clavarder en dehors de letgo. %@";
 "chat_message_field_hint" = "Entrez votre message ici";
@@ -750,7 +751,7 @@
 "real_estate_offer_type_sale" = "À vendre";
 "real_estate_offer_type_title" = "Type d'annonce";
 "real_estate_price_title" = "Prix";
-"real_estate_related_search_title" = "Related results";
+"real_estate_related_search_title" = "Résultats associés";
 "real_estate_summary_bathroom_title" = "salle de bains";
 "real_estate_summary_bathrooms_empty" = "Ajouter nombre de salles de bains";
 "real_estate_summary_bathrooms_title" = "salles de bains";

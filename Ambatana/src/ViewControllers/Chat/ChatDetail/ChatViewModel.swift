@@ -737,6 +737,7 @@ extension ChatViewModel {
         let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent(date: sentAt).markAsReceived().markAsRead()
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
+        addSecurityMeetingDisclaimerIfNeeded()
         guard isBuyer else { return }
         sellerDidntAnswer.value = false
     }
@@ -1075,7 +1076,7 @@ extension ChatViewModel {
         let newViewMessages = newMessages.map(chatViewMessageAdapter.adapt)
         guard !newViewMessages.isEmpty else { return }
 
-        //We need to remove extra messages & disclaimers to be able to merge correctly. Will be added back before returning
+        // We need to remove extra messages & disclaimers to be able to merge correctly. Will be added back before returning
         var filteredViewMessages = messages.value.filter { $0.objectId != nil }
 
         filteredViewMessages.merge(
@@ -1083,14 +1084,28 @@ extension ChatViewModel {
             matcher: { $0.objectId == $1.objectId },
             sortBy: { (message1, message2) -> Bool in
                 if message1.sentAt == nil && message2.sentAt != nil { return true }
-                guard let sentAt1 = message1.sentAt, let sentAt2 = message2.sentAt else { return false }
+                guard let sentAt1 = message1.sentAt,
+                    let sentAt2 = message2.sentAt
+                    else { return false }
                 return sentAt1 > sentAt2
             }
         )
 
         var chatMessages = chatViewMessageAdapter.addDisclaimers(filteredViewMessages,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
-
+        // Add security meeting disclaimer after first response from interlocutor. Ignore if we have more then one page
+        if featureFlags.showSecurityMeetingChatMessage.isActive && newMessages.count < Constants.numMessagesPerPage,
+            let lastInterlocutorMessageIndex = chatMessages.reversed().index(where: {
+                switch $0.type {
+                case .disclaimer, .userInfo:
+                    return false
+                case .offer, .sticker, .text:
+                    return $0.talkerId != myUserRepository.myUser?.objectId
+                }
+            })?.base {
+            let meetingSecurityDisclaimerMessage = chatViewMessageAdapter.createMeetingSecurityDisclaimerMessage()
+            chatMessages.insert(meetingSecurityDisclaimerMessage, at: chatMessages.index(before: lastInterlocutorMessageIndex))
+        }
         // Add user info as 1st message
         if let userInfoMessage = userInfoMessage, isLastPage {
             chatMessages.append(userInfoMessage)
@@ -1109,6 +1124,23 @@ extension ChatViewModel {
                                                                  disclaimerMessage: defaultDisclaimerMessage)
         messages.removeAll()
         messages.appendContentsOf(chatMessages)
+    }
+    
+    fileprivate func addSecurityMeetingDisclaimerIfNeeded() {
+        guard messages.value.count < Constants.numMessagesPerPage else { return }
+        let meetingSecurityDisclaimerMessage = chatViewMessageAdapter.createMeetingSecurityDisclaimerMessage()
+        guard messages.value.filter({ $0 == meetingSecurityDisclaimerMessage }).count == 0 else { return }
+        if featureFlags.showSecurityMeetingChatMessage.isActive,
+            let lastInterlocutorMessageIndex = messages.value.reversed().index(where: {
+                switch $0.type {
+                case .disclaimer, .userInfo:
+                    return false
+                case .offer, .sticker, .text:
+                    return $0.talkerId != myUserRepository.myUser?.objectId
+                }
+            })?.base {
+            messages.value.insert(meetingSecurityDisclaimerMessage, at: messages.value.index(before: lastInterlocutorMessageIndex))
+        }
     }
 
     private func afterRetrieveChatMessagesEvents() {

@@ -49,6 +49,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell = .control
     var copyListingAnotherConfirmation: CopyListingAnotherConfirmation = .control
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP = .control
+    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
+    
 
     // Country dependant features
     var freePostingModeAllowed = false

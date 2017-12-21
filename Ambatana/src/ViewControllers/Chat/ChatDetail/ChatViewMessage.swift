@@ -71,6 +71,10 @@ struct ChatViewMessage: BaseModel {
             return name
         }
     }
+    
+    public static func ==(lhs: ChatViewMessage, rhs: ChatViewMessage) -> Bool {
+        return lhs.value == rhs.value
+    }
 }
 
 extension ChatViewMessage {
