@@ -242,24 +242,38 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         let trackingInfo = PostListingTrackingInfo(buttonName: buttonNameType, sellButtonPosition: postingSource.sellButtonPosition,
                                                    imageSource: uploadedImageSource, price: String.fromPriceDouble(postListingState.price?.value ?? 0))
         if sessionManager.loggedIn {
-            guard let _ = postListingState.lastImagesUploadResult?.value,
-                let listingCreationParams = retrieveListingParams() else { return }
-            navigator?.openListingCreation(listingParams: listingCreationParams, trackingInfo: trackingInfo)
+            openListingPosting(trackingInfo: trackingInfo)
         } else if let images = postListingState.pendingToUploadImages {
             let loggedInAction = { [weak self] in
-                guard let listingParams = self?.retrieveListingParams() else { return }
-                self?.navigator?.closePostProductAndPostLater(params: listingParams,
-                                                              images: images,
-                                                              trackingInfo: trackingInfo)
+                self?.postActionAfterLogin(images: images, trackingInfo: trackingInfo)
+                return
             }
             let cancelAction = { [weak self] in
-                guard let _ = self?.postListingState else { return }
-                self?.navigator?.cancelPostListing()
+                self?.cancelPostListing()
+                return
             }
             navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
         } else {
             navigator?.cancelPostListing()
         }
+    }
+    
+    
+    private func openListingPosting(trackingInfo: PostListingTrackingInfo) {
+        guard let _ = postListingState.lastImagesUploadResult?.value, let listingCreationParams = retrieveListingParams() else { return }
+        navigator?.openListingCreation(listingParams: listingCreationParams, trackingInfo: trackingInfo)
+    }
+    
+    private func cancelPostListing() {
+        navigator?.cancelPostListing()
+    }
+    
+    private func postActionAfterLogin(images: [UIImage]?,
+                                      trackingInfo: PostListingTrackingInfo) {
+        guard let listingParams = retrieveListingParams(), let images = images else { return }
+        navigator?.closePostProductAndPostLater(params: listingParams,
+                                                      images: images,
+                                                      trackingInfo: trackingInfo)
     }
     
     private func advanceNextStep(next: PostingDetailStep) {
