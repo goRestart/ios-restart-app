@@ -624,7 +624,7 @@
 "product_report_login_popup_text" = "Melde dich an, um ein Angebot zu melden";
 "product_report_product_button" = "Produkt melden";
 "product_reported_error_generic" = "Das Produkt konnte nicht gemeldet werden. Bitte versuche es noch einmal.";
-"product_reported_success_message" = "Das Produkt wurde gemeldet. Danke!";
+"product_reported_success_message" = "Das Angebot wurde erfolgreich gemeldet. Danke!";
 "product_reporting_loading_message" = "Produkt melden...";
 "product_search_no_products_body" = "Suche nach etwas anderem oder probiere es später noch mal!";
 "product_search_no_products_title" = "HOPPLA! KEINE ERGEBNISSE IN DEINER NÄHE";

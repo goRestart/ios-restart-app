@@ -619,12 +619,12 @@
 "product_post_select_category_title" = "Vad lägger du upp?";
 "product_post_use_photo" = "Lägg upp";
 "product_post_use_photo_not_logged" = "Använd foto";
-"product_report_confirm_message" = "Är du säker på att du vill rapportera denna produkt?";
-"product_report_confirm_title" = "Rapporterar produkt";
+"product_report_confirm_message" = "Är du säker på att du vill rapportera denna annons?";
+"product_report_confirm_title" = "Rapportera annons";
 "product_report_login_popup_text" = "Du måste vara inloggad för att rapportera en annons";
-"product_report_product_button" = "Rapporterar produkt";
+"product_report_product_button" = "Rapportera annons";
 "product_reported_error_generic" = "Vi kunde tyvärr inte rapportera produkten just nu. Var vänlig försök igen.";
-"product_reported_success_message" = "Denna produkt har rapporterats. Tack!";
+"product_reported_success_message" = "Annonsen har rapporterats. Tack!";
 "product_reporting_loading_message" = "Rapporterar produkt...";
 "product_search_no_products_body" = "Försök att söka efter något annat eller kom tillbaka och kolla snart igen!";
 "product_search_no_products_title" = "HOPPSAN! VI HITTADE INGET NÄRA DIG";
