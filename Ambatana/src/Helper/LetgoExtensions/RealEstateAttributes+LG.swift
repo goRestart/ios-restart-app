@@ -10,7 +10,7 @@ import LGCoreKit
 
 extension RealEstateAttributes {
     
-    private var sortedAttributesForGeneratedTitle: [String] {
+    var generatedTitle: String {
         let propertyTypeString = propertyType?.shortLocalizedString.localizedUppercase
         let offerTypeString = offerType?.shortLocalizedString.capitalizedFirstLetterOnly
         var bedroomsString: String?
@@ -27,15 +27,25 @@ extension RealEstateAttributes {
             bathroomsString = bathroomsValue.shortLocalizedString.localizedUppercase
         }
         let attributes = [propertyTypeString, offerTypeString, bedroomsString, bathroomsString]
-        return attributes.flatMap{ $0 }
-    }
-    
-    var generatedTitle: String {
-        return sortedAttributesForGeneratedTitle.joined(separator: " ")
+        return attributes.flatMap{ $0 }.joined(separator: " ")
     }
     
     var tags: [String] {
-        return sortedAttributesForGeneratedTitle
+        var tags = [String]()
+        if let propertyType = propertyType {
+            tags.append(propertyType.shortLocalizedString.localizedUppercase)
+        }
+        if let offerType = offerType {
+            tags.append(offerType.shortLocalizedString.capitalizedFirstLetterOnly)
+        }
+        if let bedrooms = bedrooms, let numBedrooms = NumberOfBedrooms(rawValue: bedrooms) {
+            tags.append(numBedrooms.shortLocalizedString.localizedUppercase)
+        }
+        if let bathrooms = bathrooms, let numBathrooms = NumberOfBathrooms(rawValue: bathrooms) {
+            let bathroomsTag = bathrooms == 0 ? "0BA" : numBathrooms.shortLocalizedString.localizedUppercase
+            tags.append(bathroomsTag)
+        }
+        return tags
     }
     
 }
