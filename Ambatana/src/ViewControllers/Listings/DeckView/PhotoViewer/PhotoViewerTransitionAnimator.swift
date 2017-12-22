@@ -13,8 +13,8 @@ final class PhotoViewerTransitionAnimator: NSObject, UIViewControllerAnimatedTra
     private let image: UIImage
     private let initialFrame: CGRect
 
+    var isInteractive: Bool { return transitioner.isInteractive }
     private var transitioner: PhotoViewerTransitionMode = PhotoViewerTransitionPresenter()
-
     init(image: UIImage, initialFrame: CGRect) {
         self.image = image
         self.initialFrame = initialFrame
@@ -34,6 +34,7 @@ final class PhotoViewerTransitionAnimator: NSObject, UIViewControllerAnimatedTra
 
 private protocol PhotoViewerTransitionMode {
     var opposite: PhotoViewerTransitionMode { get }
+    var isInteractive: Bool { get }
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning,
                            withDuration duration: TimeInterval,
                            initialFrame: CGRect,
@@ -42,6 +43,8 @@ private protocol PhotoViewerTransitionMode {
 
 private class PhotoViewerTransitionDismisser: PhotoViewerTransitionMode {
     lazy var opposite: PhotoViewerTransitionMode = PhotoViewerTransitionPresenter()
+    var isInteractive: Bool { return true }
+
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning,
                            withDuration duration: TimeInterval,
                            initialFrame: CGRect,
@@ -75,6 +78,7 @@ private class PhotoViewerTransitionDismisser: PhotoViewerTransitionMode {
 
 private class PhotoViewerTransitionPresenter: PhotoViewerTransitionMode {
     lazy var opposite: PhotoViewerTransitionMode = PhotoViewerTransitionDismisser()
+    var isInteractive: Bool { return false }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning,
                            withDuration duration: TimeInterval,

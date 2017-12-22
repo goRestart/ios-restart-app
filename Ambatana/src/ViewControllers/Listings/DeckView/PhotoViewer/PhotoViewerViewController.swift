@@ -12,12 +12,13 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     private struct Identifiers { static let reusableID = ListingDeckImagePreviewCell.reusableID }
 
     override var prefersStatusBarHidden: Bool { return true }
-
     let chatView: QuickChatView
     let photoViewer = PhotoViewerView()
     private let viewModel: PhotoViewerViewModel
     private let binder = PhotoViewerViewControllerBinder()
     private var tap: UITapGestureRecognizer?
+
+    private var edgeGesture: UIScreenEdgePanGestureRecognizer?
 
     init(viewModel: PhotoViewerViewModel, quickChatViewModel: QuickChatViewModel) {
         self.viewModel = viewModel
@@ -131,5 +132,12 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     
     @objc func dismissChat() {
         viewModel.dismiss()
+    }
+
+    func addEdgeGesture(_ edgeGesture: UIScreenEdgePanGestureRecognizer) {
+        if let gesture = self.edgeGesture {
+            view.removeGestureRecognizer(gesture)
+        }
+        view.addGestureRecognizer(edgeGesture)
     }
 }

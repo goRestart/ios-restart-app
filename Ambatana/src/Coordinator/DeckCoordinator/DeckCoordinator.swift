@@ -27,6 +27,10 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator {
     fileprivate weak var previousNavigationDelegate: UINavigationControllerDelegate?
     fileprivate let deckViewController: ListingDeckViewController
 
+    fileprivate var interactiveTransitioner: UIPercentDrivenInteractiveTransition?
+    fileprivate var navigationController: UINavigationController? { return deckViewController.navigationController }
+
+
     convenience init(listing: Listing,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
@@ -65,14 +69,17 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator {
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         guard viewController.parent == nil else { return }
         guard let navController = parent as? UINavigationController else { return }
+
         previousNavigationDelegate = navController.delegate
         navController.delegate = self
         navController.pushViewController(viewController, animated: true)
+
         completion?()
     }
 
     func dismissViewController(animated: Bool, completion: (() -> Void)?) {
-        guard let navController = viewController.parent as? UINavigationController else { return }
+        guard let navController = navigationController else { return }
+
         navController.popViewController(animated: true)
         completion?()
         navController.delegate = previousNavigationDelegate
@@ -123,9 +130,46 @@ extension DeckCoordinator: UINavigationControllerDelegate {
 
     func navigationController(_ navigationController: UINavigationController,
                               didShow viewController: UIViewController, animated: Bool) {
+        if let photoViewer = viewController as? PhotoViewerViewController {
+            let edgeGesture = UIScreenEdgePanGestureRecognizer(target: self,
+                                                               action: #selector(handleEdgeGesture))
+            edgeGesture.edges = .left
+            photoViewer.addEdgeGesture(edgeGesture)
+        }
+
         previousNavigationDelegate?.navigationController?(navigationController,
                                                           didShow: viewController,
                                                           animated: true)
+    }
+
+    func navigationController(_ navigationController: UINavigationController,
+                              interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        guard let animator = animationController as? PhotoViewerTransitionAnimator, animator.isInteractive else { return nil }
+        return interactiveTransitioner
+    }
+
+    @objc fileprivate func handleEdgeGesture(_ gesture: UIScreenEdgePanGestureRecognizer) {
+        if interactiveTransitioner == nil {
+            interactiveTransitioner = UIPercentDrivenInteractiveTransition()
+        }
+
+        guard let view = navigationController?.view else { return }
+        let translation = gesture.translation(in: view)
+        let progress = min(1.0, (translation.x / view.width))
+        switch gesture.state {
+        case .began:
+            navigationController?.popViewController(animated: true)
+        case .changed:
+            interactiveTransitioner?.update(progress)
+        case .cancelled:
+            fallthrough
+        case .ended:
+            progress > 0.5 ? interactiveTransitioner?.finish() : interactiveTransitioner?.cancel()
+            interactiveTransitioner = nil
+        default:
+            break
+            // do nothing, know nothing
+        }
     }
 
 }
