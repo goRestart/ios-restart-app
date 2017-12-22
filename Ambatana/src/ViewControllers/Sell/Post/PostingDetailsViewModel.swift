@@ -244,8 +244,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         if sessionManager.loggedIn {
             guard let _ = postListingState.lastImagesUploadResult?.value,
                 let listingCreationParams = retrieveListingParams() else { return }
-            navigator?.closePostProductAndPostInBackground(params: listingCreationParams,
-                                                           trackingInfo: trackingInfo)
+            navigator?.openListingCreation(listingParams: listingCreationParams, trackingInfo: trackingInfo)
         } else if let images = postListingState.pendingToUploadImages {
             let loggedInAction = { [weak self] in
                 guard let listingParams = self?.retrieveListingParams() else { return }

@@ -31,7 +31,7 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     
     init(viewModel: PostingDetailsViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: nil)
+        super.init(viewModel: viewModel, nibName: nil, swipeBackGestureEnabled: false)
     }
     
     required init?(coder aDecoder: NSCoder) {
