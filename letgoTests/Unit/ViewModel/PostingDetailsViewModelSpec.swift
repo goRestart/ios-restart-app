@@ -20,6 +20,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
     var closePostProductAndPostInBackgroundCalled: Bool = false
     var closePostProductAndPostLaterCalled: Bool = false
     var openLoginIfNeededFromListingPosted: Bool = false
+    var openListingCreationCalled: Bool = false
     
     override func spec() {
         var sut: PostingDetailsViewModel!
@@ -29,6 +30,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
         var currencyHelper: CurrencyHelper!
         var featureFlags: MockFeatureFlags!
         var myUserRepository: MockMyUserRepository!
+        var sessionManager: MockSessionManager!
         
         var postingDetailsStep: PostingDetailStep!
         var postListingState: PostListingState!
@@ -49,7 +51,8 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                                               currencyHelper: currencyHelper,
                                               locationManager: locationManager,
                                               featureFlags: featureFlags,
-                                              myUserRepository: myUserRepository)
+                                              myUserRepository: myUserRepository,
+                                              sessionManager: sessionManager)
                 
                 sut.navigator = self
             }
@@ -61,18 +64,23 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                 currencyHelper = Core.currencyHelper
                 featureFlags = MockFeatureFlags()
                 myUserRepository = MockMyUserRepository()
+                sessionManager = MockSessionManager()
                 
                 self.cancelPostingCalled = false
                 self.nextPostingDetailStepCalled = false
                 self.closePostProductAndPostInBackgroundCalled = false
                 self.closePostProductAndPostLaterCalled = false
                 self.openLoginIfNeededFromListingPosted = false
+                self.openListingCreationCalled = false
+                
             }
             
             context("init with bathroom step") {
                 beforeEach {
                     postingDetailsStep = .bathrooms
                     postListingState = PostListingState(postCategory: .realEstate)
+                    postListingState = postListingState.updatingStepToUploadingImages()
+                    postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                     buildPostingDetailsViewModel()
                 }
                 
@@ -89,7 +97,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                         sut.closeButtonPressed()
                     }
                     it("post the item and close") {
-                        expect(self.openLoginIfNeededFromListingPosted) == true
+                        expect(self.closePostProductAndPostInBackgroundCalled) == true
                     }
                 }
                 context("index 0 selected") {
@@ -114,14 +122,16 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                 beforeEach {
                     postingDetailsStep = .summary
                     postListingState = PostListingState(postCategory: .realEstate)
+                    postListingState = postListingState.updatingStepToUploadingImages()
+                    postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                     buildPostingDetailsViewModel()
                 }
                 context("press next button") {
                     beforeEach {
                         sut.nextbuttonPressed()
                     }
-                    it("posts the item and close") {
-                        expect(self.openLoginIfNeededFromListingPosted) == true
+                    it("cancel the posting process. no possible to have pending image an no logged in") {
+                        expect(self.cancelPostingCalled) == true
                     }
                     it("calls navigator to next detail step") {
                         expect(self.nextPostingDetailStepCalled) == false
@@ -132,7 +142,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                         sut.closeButtonPressed()
                     }
                     it("posts the item and close") {
-                        expect(self.openLoginIfNeededFromListingPosted) == true
+                        expect(self.closePostProductAndPostInBackgroundCalled) == true
                     }
                 }
                 context("index 0 selected") {
@@ -156,6 +166,8 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                 beforeEach {
                     postingDetailsStep = .price
                     postListingState = PostListingState(postCategory: .realEstate)
+                    postListingState = postListingState.updatingStepToUploadingImages()
+                    postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                     buildPostingDetailsViewModel()
                 }
                 
@@ -175,7 +187,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                         sut.closeButtonPressed()
                     }
                     it("post the item and close") {
-                        expect(self.openLoginIfNeededFromListingPosted) == true
+                        expect(self.closePostProductAndPostInBackgroundCalled) == true
                     }
                 }
                 context("index 0 selected") {
@@ -229,6 +241,8 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
         openLoginIfNeededFromListingPosted = true
     }
     func backToSummary() { }
-    func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo) { }
+    func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo) {
+        openListingCreationCalled = true
+    }
     func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool) {}
 }
