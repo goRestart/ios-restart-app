@@ -114,7 +114,7 @@
                     <subviews>
                         <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="YDb-eR-n02" userLabel="Image Collection View">
                             <rect key="frame" x="10" y="10" width="420" height="100"/>
-                            <color key="backgroundColor" red="0.94097667932510376" green="0.940948486328125" blue="0.9409644603729248" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" red="0.96862745098039216" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="100" id="wdf-KX-r1y"/>
                             </constraints>
@@ -980,7 +980,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.96862745098039216" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="N90-tC-SCX"/>
                         <constraint firstItem="hgl-q6-NPc" firstAttribute="top" secondItem="RHn-Oh-ilJ" secondAttribute="top" constant="15" id="evi-Ix-BYa"/>
