@@ -21,6 +21,7 @@ class ChatListingView: UIView {
     @IBOutlet weak var listingPrice: UILabel!
     @IBOutlet weak var listingImage: UIImageView!
     @IBOutlet weak var backgroundView: UIView!
+    @IBOutlet weak var proTag: UIImageView!
 
     @IBOutlet weak var listingButton: UIButton!
     @IBOutlet weak var userButton: UIButton!
@@ -62,6 +63,7 @@ class ChatListingView: UIView {
         listingPrice.font = UIFont.chatListingViewPriceFont
         
         userAvatar.layer.minificationFilter = kCAFilterTrilinear
+        proTag.isHidden = true
     }
 
     func disableListingInteraction() {

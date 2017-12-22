@@ -348,8 +348,8 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         buttonCall.setStyle(.primary(fontSize: .big))
         buttonCall.setTitle(LGLocalizedString.productProfessionalCallButton, for: .normal)
         buttonCall.setImage(UIImage(named: "ic_phone_call"), for: .normal)
-        buttonCall.imageEdgeInsets = UIEdgeInsets(top: 15,left: -10,bottom: 15,right: 0)
-        buttonCall.titleEdgeInsets = UIEdgeInsets(top: 0,left: 10,bottom: 0,right: 0)
+        buttonCall.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Metrics.shortMargin, bottom: 0, right: 0)
+        buttonCall.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.shortMargin, bottom: 0, right: 0)
         buttonCall.isHidden = true
         buttonCall.addTarget(self, action: #selector(callButtonPressed), for: .touchUpInside)
     }
