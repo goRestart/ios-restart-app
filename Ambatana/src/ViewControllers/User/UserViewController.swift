@@ -154,7 +154,7 @@ class UserViewController: BaseViewController {
             // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
             let currentAlpha: CGFloat = navBarUserViewAlpha
             navBarUserView.isHidden = true
-            delay(1.0) { [weak self] in
+            delay(0.4) { [weak self] in
                 self?.navBarUserView.alpha = currentAlpha
                 self?.navBarUserView.isHidden = false
             }
