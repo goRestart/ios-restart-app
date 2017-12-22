@@ -284,10 +284,6 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         postListingState = postListingState.updating(price: price)
     }
     
-    private func retrieveTrackingInfo(buttonNameType: EventParameterButtonNameType) -> PostListingTrackingInfo {
-        return PostListingTrackingInfo(buttonName: buttonNameType, sellButtonPosition: postingSource.sellButtonPosition, imageSource: uploadedImageSource, price: String(describing: postListingState.price?.value))
-    }
-    
     private func retrieveListingParams() -> ListingCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
         
