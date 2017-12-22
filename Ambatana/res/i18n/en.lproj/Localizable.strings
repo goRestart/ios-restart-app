@@ -379,6 +379,12 @@
 // Alert text for express chat messages send success
 "chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
 
+// text in chat professional banner action button
+"chat_professional_banner_button_title" = "Call";
+
+// text in chat professional banner title label
+"chat_professional_banner_title" = "You're talking to a professional car dealer";
+
 // When a user asked to delete his account (state)
 "chat_list_account_deleted" = "Deleted account";
 

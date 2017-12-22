@@ -619,8 +619,8 @@
 "product_post_select_category_title" = "무엇을 게시하시나요?";
 "product_post_use_photo" = "게시하기";
 "product_post_use_photo_not_logged" = "사진 사용하기";
-"product_professional_call_button" = "Call";
-"product_professional_chat_button" = "Chat";
+"product_professional_call_button" = "통화";
+"product_professional_chat_button" = "대화";
 "product_report_confirm_message" = "이 상품 목록을 신고할까요?";
 "product_report_confirm_title" = "상품 목록 신고";
 "product_report_login_popup_text" = "이 상품 목록을 신고하고자 하신다면, 로그인하셔야 합니다.";

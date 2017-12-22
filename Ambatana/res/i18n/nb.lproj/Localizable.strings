@@ -622,12 +622,12 @@
 "product_professional_call_button" = "Call";
 "product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Er du sikker på at du ønsker å rapportere denne annonsen?";
-"product_report_confirm_title" = "Rapporter produkt";
+"product_report_confirm_title" = "Rapporter annonse";
 "product_report_login_popup_text" = "Du må være innlogget for å rapportere en annonse";
-"product_report_product_button" = "Rapporter produkt";
-"product_reported_error_generic" = "En feil oppstod ved rapportering av produktet. Vennligst prøv igjen.";
+"product_report_product_button" = "Rapporter annonse";
+"product_reported_error_generic" = "En feil oppstod ved rapportering av annonsen. Vennligst prøv igjen.";
 "product_reported_success_message" = "Annonsen har blitt rapportert. Takk!";
-"product_reporting_loading_message" = "Rapporterer produktet…";
+"product_reporting_loading_message" = "Rapporterer annonsen…";
 "product_search_no_products_body" = "Prøv å se etter noe annet eller se igjen snart!";
 "product_search_no_products_title" = "OOPS! INGEN RESULTATER I DITT NÆROMRÅDE";
 "product_sell_again_button" = "Selg på nytt";

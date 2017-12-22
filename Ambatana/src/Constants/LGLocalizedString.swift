@@ -515,6 +515,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_express_several_messages_sent_success_alert", comment: "")
 	}
 
+	static var chatProfessionalBannerButtonTitle: String {
+		return NSLocalizedString("chat_professional_banner_button_title", comment: "")
+	}
+
+	static var chatProfessionalBannerTitle: String {
+		return NSLocalizedString("chat_professional_banner_title", comment: "")
+	}
+
 	static var chatListAccountDeleted: String {
 		return NSLocalizedString("chat_list_account_deleted", comment: "")
 	}
