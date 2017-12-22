@@ -94,26 +94,26 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 sut.delegate = self
 
                 disposeBag = DisposeBag()
-                sut.objects.observable.bindTo(cellModelsObserver).addDisposableTo(disposeBag)
-                sut.productInfo.asObservable().bindTo(productInfoObserver).addDisposableTo(disposeBag)
-                sut.productImageURLs.asObservable().bindTo(productImageUrlsObserver).addDisposableTo(disposeBag)
-                sut.userInfo.asObservable().bindTo(userInfoObserver).addDisposableTo(disposeBag)
-                sut.listingStats.asObservable().bindTo(productStatsObserver).addDisposableTo(disposeBag)
-                sut.navBarButtons.asObservable().bindTo(navBarButtonsObserver).addDisposableTo(disposeBag)
-                sut.actionButtons.asObservable().bindTo(actionButtonsObserver).addDisposableTo(disposeBag)
-                sut.status.asObservable().bindTo(statusObserver).addDisposableTo(disposeBag)
-                sut.isFeatured.asObservable().bindTo(isFeaturedObserver).addDisposableTo(disposeBag)
-                sut.quickAnswers.asObservable().bindTo(quickAnswersObserver).addDisposableTo(disposeBag)
-                sut.quickAnswersAvailable.asObservable().bindTo(quickAnswersAvailableObserver).addDisposableTo(disposeBag)
-                sut.directChatEnabled.asObservable().bindTo(directChatEnabledObserver).addDisposableTo(disposeBag)
-                sut.directChatPlaceholder.asObservable().bindTo(directChatPlaceholderObserver).addDisposableTo(disposeBag)
-                sut.directChatMessages.observable.bindTo(directChatMessagesObserver).addDisposableTo(disposeBag)
-                sut.isFavorite.asObservable().bindTo(isFavoriteObserver).addDisposableTo(disposeBag)
-                sut.favoriteButtonState.asObservable().bindTo(favoriteButtonStateObserver).addDisposableTo(disposeBag)
-                sut.shareButtonState.asObservable().bindTo(shareButtonStateObserver).addDisposableTo(disposeBag)
-                sut.bumpUpBannerInfo.asObservable().bindTo(bumpUpBannerInfoObserver).addDisposableTo(disposeBag)
-                sut.socialMessage.asObservable().bindTo(socialMessageObserver).addDisposableTo(disposeBag)
-                sut.socialSharer.asObservable().bindTo(socialSharerObserver).addDisposableTo(disposeBag)
+                sut.objects.observable.bind(to: cellModelsObserver).disposed(by: disposeBag)
+                sut.productInfo.asObservable().bind(to: productInfoObserver).disposed(by: disposeBag)
+                sut.productImageURLs.asObservable().bind(to: productImageUrlsObserver).disposed(by: disposeBag)
+                sut.userInfo.asObservable().bind(to: userInfoObserver).disposed(by: disposeBag)
+                sut.listingStats.asObservable().bind(to: productStatsObserver).disposed(by: disposeBag)
+                sut.navBarButtons.asObservable().bind(to: navBarButtonsObserver).disposed(by: disposeBag)
+                sut.actionButtons.asObservable().bind(to: actionButtonsObserver).disposed(by: disposeBag)
+                sut.status.asObservable().bind(to: statusObserver).disposed(by: disposeBag)
+                sut.isFeatured.asObservable().bind(to: isFeaturedObserver).disposed(by: disposeBag)
+                sut.quickAnswers.asObservable().bind(to: quickAnswersObserver).disposed(by: disposeBag)
+                sut.quickAnswersAvailable.asObservable().bind(to: quickAnswersAvailableObserver).disposed(by: disposeBag)
+                sut.directChatEnabled.asObservable().bind(to: directChatEnabledObserver).disposed(by: disposeBag)
+                sut.directChatPlaceholder.asObservable().bind(to: directChatPlaceholderObserver).disposed(by: disposeBag)
+                sut.directChatMessages.observable.bind(to: directChatMessagesObserver).disposed(by: disposeBag)
+                sut.isFavorite.asObservable().bind(to: isFavoriteObserver).disposed(by: disposeBag)
+                sut.favoriteButtonState.asObservable().bind(to: favoriteButtonStateObserver).disposed(by: disposeBag)
+                sut.shareButtonState.asObservable().bind(to: shareButtonStateObserver).disposed(by: disposeBag)
+                sut.bumpUpBannerInfo.asObservable().bind(to: bumpUpBannerInfoObserver).disposed(by: disposeBag)
+                sut.socialMessage.asObservable().bind(to: socialMessageObserver).disposed(by: disposeBag)
+                sut.socialSharer.asObservable().bind(to: socialSharerObserver).disposed(by: disposeBag)
             }
 
             beforeEach {
@@ -637,7 +637,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                             expect(userInfoObserver.eventValues.count) == 3
                         }
                         it("navbarButtons changed twice") {
-                            expect(navBarButtonsObserver.eventValues.count) == 3
+                            expect(navBarButtonsObserver.eventValues.count) == 4
                         }
                         it("actionButtons changed twice") {
                             expect(actionButtonsObserver.eventValues.count) == 3

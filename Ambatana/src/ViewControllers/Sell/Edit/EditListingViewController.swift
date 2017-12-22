@@ -26,7 +26,8 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     private static let separatorOptionsViewDistance = LGUIKitConstants.onePixelSize
     private static let viewOptionGenericHeight: CGFloat = 50
     private static let carsInfoContainerHeight: CGFloat = 134 // (3 x 44 + 2 separators)
-
+    private static let realEstateInfoContainerHeight: CGFloat = 179 // (4 x 44 + 3 separators)
+    
     enum TextFieldTag: Int {
         case listingTitle = 1000, listingPrice, listingDescription
     }
@@ -72,6 +73,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var categoryTitleLabel: UILabel!
     @IBOutlet weak var categorySelectedLabel: UILabel!
     @IBOutlet weak var categoryButton: UIButton!
+    
+    @IBOutlet weak var verticalFieldsContainer: UIView!
+    @IBOutlet weak var verticalFieldsContainerConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var carInfoContainer: UIView!
+    @IBOutlet weak var realEstateInfoContainer: UIView!
 
     @IBOutlet weak var carsMakeTitleLabel: UILabel!
     @IBOutlet weak var carsMakeSelectedLabel: UILabel!
@@ -84,9 +91,23 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var carsYearTitleLabel: UILabel!
     @IBOutlet weak var carsYearSelectedLabel: UILabel!
     @IBOutlet weak var carsYearButton: UIButton!
-
-    @IBOutlet weak var carsInfoContainerHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var carsInfoContainerSeparatorTopConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var realEstatePropertyTypeTitleLabel: UILabel!
+    @IBOutlet weak var realEstatePropertyTypeSelectedLabel: UILabel!
+    @IBOutlet weak var realEstatePropertyTypeButton: UIButton!
+    
+    @IBOutlet weak var realEstateOfferTypeTitleLabel: UILabel!
+    @IBOutlet weak var realEstateOfferTypeSelectedLabel: UILabel!
+    @IBOutlet weak var realEstateOfferTypeButton: UIButton!
+    
+    @IBOutlet weak var realEstateNumberOfBedroomsTitleLabel: UILabel!
+    @IBOutlet weak var realEstateNumberOfBedroomsSelectedLabel: UILabel!
+    @IBOutlet weak var realEstateNumberOfBedroomsButton: UIButton!
+    
+    @IBOutlet weak var realEstateNumberOfBathroomsTitleLabel: UILabel!
+    @IBOutlet weak var realEstateNumberOfBathroomsSelectedLabel: UILabel!
+    @IBOutlet weak var realEstateNumberOfBathroomsButton: UIButton!
+    
 
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var shareFBSwitch: UISwitch!
@@ -149,10 +170,11 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         alert.popoverPresentationController?.sourceView = categoryButton
         alert.popoverPresentationController?.sourceRect = categoryButton.frame
 
-        for i in 0..<viewModel.numberOfCategories {
-            alert.addAction(UIAlertAction(title: viewModel.categoryNameAtIndex(i), style: .default,
-                handler: { (categoryAction) -> Void in
-                    self.viewModel.selectCategoryAtIndex(i)
+        viewModel.categories.enumerated().forEach { (index, category) in
+            guard !category.isRealEstate else { return }
+            alert.addAction(UIAlertAction(title: viewModel.categoryNameAtIndex(index), style: .default,
+                                          handler: { (categoryAction) -> Void in
+                                            self.viewModel.selectCategoryAtIndex(index)
             }))
         }
         
@@ -371,7 +393,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         }
     }
     
-    func image(_ image: UIImage!, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutableRawPointer) {
+    @objc func image(_ image: UIImage!, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutableRawPointer) {
         self.dismissLoadingMessageAlert(){
             if error == nil { // success
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollOk)
@@ -430,7 +452,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         carsMakeTitleLabel.text = LGLocalizedString.postCategoryDetailCarMake
         carsModelTitleLabel.text = LGLocalizedString.postCategoryDetailCarModel
         carsYearTitleLabel.text = LGLocalizedString.postCategoryDetailCarYear
-
+        
+        realEstatePropertyTypeTitleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
+        realEstateOfferTypeTitleLabel.text = LGLocalizedString.realEstateOfferTypeTitle
+        realEstateNumberOfBedroomsTitleLabel.text = LGLocalizedString.realEstateBedroomsTitle
+        realEstateNumberOfBathroomsTitleLabel.text = LGLocalizedString.realEstateBathroomsTitle
+        
         sendButton.setTitle(LGLocalizedString.editProductSendButton, for: .normal)
         sendButton.setStyle(.primary(fontSize:.big))
         
@@ -470,10 +497,10 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
                     return nil
                 }
             }
-            .bindTo(titleDisclaimer.rx.optionalText)
-            .addDisposableTo(disposeBag)
+            .bind(to: titleDisclaimer.rx.text)
+            .disposed(by: disposeBag)
 
-        viewModel.titleDisclaimerStatus.asObservable().bindNext { [weak self] status in
+        viewModel.titleDisclaimerStatus.asObservable().bind { [weak self] status in
             guard let strongSelf = self else { return }
             switch status {
             case .completed:
@@ -513,41 +540,48 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
                 strongSelf.titleDisclaimerBottomConstraint.constant = EditListingViewController.titleDisclaimerBottomConstraintHidden
             }
             strongSelf.view.layoutIfNeeded()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        viewModel.proposedTitle.asObservable().bindTo(autoGeneratedTitleButton.rx.title).addDisposableTo(disposeBag)
+        viewModel.proposedTitle.asObservable().bind(to: autoGeneratedTitleButton.rx.title()).disposed(by: disposeBag)
 
-        autoGeneratedTitleButton.rx.tap.bindNext { [weak self] in
+        autoGeneratedTitleButton.rx.tap.bind { [weak self] in
             self?.titleTextField.text = self?.autoGeneratedTitleButton.titleLabel?.text
             self?.viewModel.title = self?.titleTextField.text
             self?.viewModel.userSelectedSuggestedTitle()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
 
-        viewModel.locationInfo.asObservable().bindTo(setLocationLocationLabel.rx.text).addDisposableTo(disposeBag)
-        setLocationButton.rx.tap.bindNext { [weak self] in
+        viewModel.locationInfo.asObservable().bind(to: setLocationLocationLabel.rx.text).disposed(by: disposeBag)
+        setLocationButton.rx.tap.bind { [weak self] in
             self?.viewModel.openMap()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        viewModel.isFreePosting.asObservable().bindTo(freePostingSwitch.rx.value).addDisposableTo(disposeBag)
-        freePostingSwitch.rx.value.bindTo(viewModel.isFreePosting).addDisposableTo(disposeBag)
-        viewModel.isFreePosting.asObservable().bindNext{[weak self] active in
+        viewModel.isFreePosting.asObservable().bind(to: freePostingSwitch.rx.value).disposed(by: disposeBag)
+        freePostingSwitch.rx.value.bind(to: viewModel.isFreePosting).disposed(by: disposeBag)
+        viewModel.isFreePosting.asObservable().bind{[weak self] active in
             self?.updateFreePostViews(active)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
-        viewModel.category.asObservable().bindNext{ [weak self] category in
+        viewModel.category.asObservable().bind{ [weak self] category in
             guard let strongSelf = self else { return }
-            guard let category = category else {
-                strongSelf.categorySelectedLabel.text = ""
-                strongSelf.updateCarsFields(isCar: false)
-                return
-            }
-            strongSelf.categorySelectedLabel.text = category.name
-            strongSelf.updateCarsFields(isCar: category == .cars)
-        }.addDisposableTo(disposeBag)
+            strongSelf.categorySelectedLabel.text = category?.name ?? LGLocalizedString.categoriesUnassigned
+            strongSelf.updateVerticalFields(category: category)
+        }.disposed(by: disposeBag)
 
-        viewModel.carMakeName.asObservable().bindTo(carsMakeSelectedLabel.rx.text).addDisposableTo(disposeBag)
-        viewModel.carMakeId.asObservable().bindNext{ [weak self] makeId in
+        let categoryIsRealEstate = viewModel.category.asObservable().flatMap { x in
+            return x.map(Observable.just) ?? Observable.empty()
+            }.map { $0.isRealEstate }
+        let categoryIsEnabled = categoryIsRealEstate.asObservable().filter { !$0 }
+        categoryIsEnabled.bind(to: categoryButton.rx.isEnabled).disposed(by: disposeBag)
+        categoryIsEnabled.bind(to: categoryTitleLabel.rx.isEnabled).disposed(by: disposeBag) 
+        
+        viewModel.category.asObservable().filter { $0 == .realEstate }.bind { [weak self] _ in
+            self?.categoryButton.isEnabled = false
+            self?.categoryTitleLabel.isEnabled = false
+        }.disposed(by: disposeBag)
+
+        viewModel.carMakeName.asObservable().bind(to: carsMakeSelectedLabel.rx.text).disposed(by: disposeBag)
+        viewModel.carMakeId.asObservable().bind{ [weak self] makeId in
             if let _ = makeId {
                 self?.carsModelButton.isEnabled = true
                 self?.carsModelTitleLabel.isEnabled = true
@@ -555,35 +589,68 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
                 self?.carsModelButton.isEnabled = false
                 self?.carsModelTitleLabel.isEnabled = false
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        viewModel.carModelName.asObservable().bindTo(carsModelSelectedLabel.rx.text).addDisposableTo(disposeBag)
+        viewModel.carModelName.asObservable().bind(to: carsModelSelectedLabel.rx.text).disposed(by: disposeBag)
 
-        viewModel.carYear.asObservable().bindNext{ [weak self] year in
+        viewModel.carYear.asObservable().bind{ [weak self] year in
             guard let year = year, year != CarAttributes.emptyYear else {
                 self?.carsYearSelectedLabel.text = ""
                 return
             }
             self?.carsYearSelectedLabel.text = String(year)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
+        
+        viewModel.realEstateOfferType.asObservable()
+            .map {$0?.localizedString }
+            .bind(to: realEstateOfferTypeSelectedLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.realEstatePropertyType.asObservable()
+            .map {$0?.localizedString }
+            .bind(to: realEstatePropertyTypeSelectedLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.realEstateNumberOfBedrooms.asObservable()
+            .map {$0?.localizedString }
+            .bind(to: realEstateNumberOfBedroomsSelectedLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.realEstateNumberOfBathrooms.asObservable()
+            .map {$0?.localizedString }
+            .bind(to: realEstateNumberOfBathroomsSelectedLabel.rx.text)
+            .disposed(by: disposeBag)
 
-        carsMakeButton.rx.tap.bindNext { [weak self] in
+        carsMakeButton.rx.tap.bind { [weak self] in
             self?.viewModel.carMakeButtonPressed()
-            }.addDisposableTo(disposeBag)
-        carsModelButton.rx.tap.bindNext { [weak self] in
+            }.disposed(by: disposeBag)
+        carsModelButton.rx.tap.bind { [weak self] in
             self?.viewModel.carModelButtonPressed()
-            }.addDisposableTo(disposeBag)
-        carsYearButton.rx.tap.bindNext { [weak self] in
+            }.disposed(by: disposeBag)
+        carsYearButton.rx.tap.bind { [weak self] in
             self?.viewModel.carYearButtonPressed()
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
+        
+        realEstatePropertyTypeButton.rx.tap.bind { [weak self] in
+            self?.viewModel.realEstatePropertyTypeButtonPressed()
+            }.disposed(by: disposeBag)
+        realEstateOfferTypeButton.rx.tap.bind { [weak self] in
+            self?.viewModel.realEstateOfferTypeButtonPressed()
+            }.disposed(by: disposeBag)
+        realEstateNumberOfBedroomsButton.rx.tap.bind { [weak self] in
+            self?.viewModel.realEstateNumberOfBedroomsButtonPressed()
+            }.disposed(by: disposeBag)
+        realEstateNumberOfBathroomsButton.rx.tap.bind { [weak self] in
+            self?.viewModel.realEstateNumberOfBathroomsButtonPressed()
+            }.disposed(by: disposeBag)
 
-        viewModel.loadingProgress.asObservable().map { $0 == nil }.bindTo(loadingView.rx.isHidden).addDisposableTo(disposeBag)
-        viewModel.loadingProgress.asObservable().ignoreNil().bindTo(loadingProgressView.rx.progress).addDisposableTo(disposeBag)
+        viewModel.loadingProgress.asObservable().map { $0 == nil }.bind(to: loadingView.rx.isHidden).disposed(by: disposeBag)
+        viewModel.loadingProgress.asObservable().ignoreNil().bind(to: loadingProgressView.rx.progress).disposed(by: disposeBag)
 
-        viewModel.saveButtonEnabled.asObservable().bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
+        viewModel.saveButtonEnabled.asObservable().bind(to: sendButton.rx.isEnabled).disposed(by: disposeBag)
         
         var previousKbOrigin: CGFloat = CGFloat.greatestFiniteMagnitude
-        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
+        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bind { [weak self] origin in
             guard let strongSelf = self else { return }
             let viewHeight = strongSelf.view.height
             let animationTime = strongSelf.keyboardHelper.animationTime
@@ -599,11 +666,11 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
                 }
                 previousKbOrigin = origin
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        keyboardHelper.rx_keyboardVisible.asObservable().distinctUntilChanged().bindNext { [weak self] kbVisible in
+        keyboardHelper.rx_keyboardVisible.asObservable().distinctUntilChanged().bind { [weak self] kbVisible in
             self?.updateTapRecognizer(kbVisible)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func updateTapRecognizer(_ add: Bool) {
@@ -629,26 +696,39 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             self.view.layoutIfNeeded()
         })
     }
-
-    private func updateCarsFields(isCar: Bool) {
-        if isCar {
-            carsInfoContainerHeightConstraint.constant = EditListingViewController.carsInfoContainerHeight
-            carsInfoContainerSeparatorTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
-        } else {
-            carsInfoContainerHeightConstraint.constant = 0
-            carsInfoContainerSeparatorTopConstraint.constant = 0
+    
+    private func hideVerticalFields() {
+        verticalFieldsContainerConstraint.constant = 0
+    }
+    
+    private func updateVerticalFields(category: ListingCategory?) {
+        guard let category = category else {
+            hideVerticalFields()
+            return
         }
-
+        switch category {
+        case .cars:
+            carInfoContainer.isHidden = false
+            realEstateInfoContainer.isHidden = true
+            verticalFieldsContainerConstraint.constant = EditListingViewController.carsInfoContainerHeight
+        case .realEstate:
+            carInfoContainer.isHidden = true
+            realEstateInfoContainer.isHidden = false
+            verticalFieldsContainerConstraint.constant = EditListingViewController.realEstateInfoContainerHeight
+        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
+            hideVerticalFields()
+        }
+        
         UIView.animate(withDuration: 0.3, animations: {
             self.view.layoutIfNeeded()
         })
     }
 
-    dynamic func closeButtonPressed() {
+    @objc func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
     
-    private dynamic func scrollViewTapped() {
+    @objc private dynamic func scrollViewTapped() {
         activeField?.endEditing(true)
     }
 }

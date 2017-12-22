@@ -60,7 +60,7 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = PossibleBuyerCell.cellHeight
-        tableView.backgroundColor = UIColor.clear
+        tableView.backgroundColor = .clear
         tableView.contentInset = UIEdgeInsets(top: RateBuyersViewController.topContentInsetTableView,
                                               left: 0,
                                               bottom: Metrics.shortMargin,
@@ -72,12 +72,12 @@ class RateBuyersViewController: BaseViewController, RateBuyersViewModelDelegate 
     }
 
     private func setupRx() {
-        viewModel.visibilityFormat.asObservable().bindNext { [weak self] _ in
+        viewModel.visibilityFormat.asObservable().bind { [weak self] _ in
             self?.tableView.reloadData()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
-    dynamic private func closeButtonPressed() {
+    @objc private func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
 }

@@ -64,6 +64,11 @@ class SellNavigationController: UINavigationController {
         view.addSubview(background)
         background.layout(with: view).fill()
         view.sendSubview(toBack:background)
+        view.layoutIfNeeded()
+    }
+    
+    func setupInitialCategory(postCategory: PostCategory?) {
+        viewModel.hasInitialCategory = postCategory != nil
     }
     
     func startDetails(category: PostCategory?) {
@@ -95,7 +100,7 @@ class SellNavigationController: UINavigationController {
     
     private func animateStep(isHidden: Bool) {
         let alpha: CGFloat = isHidden ? 0.0 : 1.0
-        UIView.animate(withDuration: 0.3, animations: { [weak self] _ in
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.progressView.alpha = alpha
             self?.backgroundProgressView.alpha = alpha
             self?.stepLabel.alpha = alpha
@@ -106,23 +111,23 @@ class SellNavigationController: UINavigationController {
         viewModel.currentStep.asObservable().map { [weak self] currentStep -> Bool in
             guard let totalSteps = self?.viewModel.numberOfSteps.value else { return false }
             return currentStep == 0 || currentStep > totalSteps
-            }.bindNext { [weak self] isHidden in
+            }.bind { [weak self] isHidden in
                 self?.animateStep(isHidden: isHidden)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         
         viewModel.categorySelected.asObservable().map { [weak self] category in
                 guard let strongSelf = self else { return nil }
                 return category?.numberOfSteps(shouldShowPrice: strongSelf.viewModel.shouldShowPriceStep)
-            }.bindNext { [weak self] number in
+            }.bind { [weak self] number in
                 self?.viewModel.numberOfSteps.value = number ?? 0
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         
         Observable.combineLatest(viewModel.currentStep.asObservable(), viewModel.numberOfSteps.asObservable()) { ($0, $1) }
-            .bindNext { [weak self] (currentStep, totalSteps) in
+            .bind { [weak self] (currentStep, totalSteps) in
                 let current = Int(min(currentStep, totalSteps))
                 let totalStep = Int(totalSteps)
                 self?.stepLabel.text = LGLocalizedString.realEstateCurrentStepOfTotal(current, totalStep)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         
     }
     

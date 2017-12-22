@@ -102,7 +102,7 @@ extension AppDelegate: UIApplicationDelegate {
         window.makeKeyAndVisible()
 
         let fbApplicationDelegate = FBSDKApplicationDelegate.sharedInstance()
-        let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions) ?? false
+        let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions)
         let fbSdkContinuation = fbApplicationDelegate?.application(application,
                                                                    didFinishLaunchingWithOptions: launchOptions) ?? false
 
@@ -230,8 +230,8 @@ extension AppDelegate: AppNavigatorDelegate {
 fileprivate extension AppDelegate {
     func setupAppearance() {
         UINavigationBar.appearance().tintColor = UIColor.lightBarButton
-        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : UIFont.pageTitleFont,
-                                                            NSForegroundColorAttributeName : UIColor.lightBarTitle]
+        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont.pageTitleFont,
+                                                            .foregroundColor : UIColor.lightBarTitle]
         UITabBar.appearance().tintColor = UIColor.tabBarIconSelectedColor
 
         UIPageControl.appearance().pageIndicatorTintColor = UIColor.pageIndicatorTintColor
@@ -256,9 +256,9 @@ fileprivate extension AppDelegate {
 
         // Logging
         #if GOD_MODE
-            DDLog.add(DDTTYLogger.sharedInstance())       // TTY = Xcode console
-            DDTTYLogger.sharedInstance().colorsEnabled =  true
-            DDLog.add(DDASLLogger.sharedInstance())       // ASL = Apple System Logs
+            DDLog.add(DDTTYLogger.sharedInstance)       // TTY = Xcode console
+            DDTTYLogger.sharedInstance.colorsEnabled =  true
+            DDLog.add(DDASLLogger.sharedInstance)       // ASL = Apple System Logs
         #endif
 
         // New Relic
@@ -291,7 +291,7 @@ fileprivate extension AppDelegate {
                 locationDataSourceType = .niord
             }
             self?.locationRepository?.setLocationDataSourceType(locationDataSourceType: locationDataSourceType)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         // LGCoreKit
         let coreEnvironment = environmentHelper.coreEnvironment
@@ -349,19 +349,19 @@ fileprivate extension AppDelegate {
             } else {
                 self.locationManager?.stopSensorLocationUpdates()
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         // Force update check
         appActive.filter { $0 }.subscribeNext { [weak self] active in
-            self?.configManager?.updateWithCompletion { _ in
+            self?.configManager?.updateWithCompletion {
                 self?.navigator?.openForceUpdateAlertIfNeeded()
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         if let featureFlags = featureFlags {
             let featureFlagsSynced = featureFlags.syncedData.asObservable().distinctUntilChanged()
             Observable.combineLatest(appActive.asObservable().distinctUntilChanged(), featureFlagsSynced.asObservable()) { ($0, $1) }
-                .bindNext { [weak self] (appActive, _) in
+                .bind { [weak self] (appActive, _) in
                     guard featureFlags.pricedBumpUpEnabled else { return }
                     if appActive {
                         // observe payment transactions
@@ -371,7 +371,7 @@ fileprivate extension AppDelegate {
                         // stop observing payment transactions
                         self?.purchasesShopper?.stopObservingTransactions()
                     }
-                }.addDisposableTo(disposeBag)
+                }.disposed(by: disposeBag)
         }
     }
 }

@@ -69,7 +69,6 @@ class CameraWrapper {
         cameraManager.cameraOutputQuality = recommendedQuality
         cameraManager.showAccessPermissionPopupAutomatically = false
         cameraManager.writeFilesToPhoneLibrary = false
-        cameraManager.saveLocationOnImages = false
         cameraManager.shouldKeepViewAtOrientationChanges = true
 
         cameraManager.flashMode = flashMode.cameraFlashMode

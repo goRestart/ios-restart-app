@@ -106,7 +106,7 @@ class ChatButton: UIControl {
     override var intrinsicContentSize: CGSize {
 
         let width = (LGLocalizedString.photoViewerChatButton as NSString)
-            .size(attributes: [NSFontAttributeName: textFont]).width
+            .size(withAttributes: [NSAttributedStringKey.font: textFont]).width
         return CGSize(width: width + 2*Metrics.margin + 44, height: 44) }
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -116,14 +116,14 @@ class ChatButton: UIControl {
         layer.borderColor = UIColor.white.cgColor
 
         let imageView = UIImageView(image: #imageLiteral(resourceName: "nit_photo_chat"))
-        imageView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        imageView.setContentHuggingPriority(.required, for: .horizontal)
         imageView.isUserInteractionEnabled = false
 
         let label = UILabel()
         label.text = LGLocalizedString.photoViewerChatButton
         label.textColor = UIColor.white
-        label.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: .horizontal)
-        label.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         label.font = textFont
         label.isUserInteractionEnabled = false
 

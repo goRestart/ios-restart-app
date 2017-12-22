@@ -34,10 +34,14 @@ protocol ListingDataSource {
     func indexForUser(_ userId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?)
     func indexFavorites(userId: String, numberOfResults: Int?, resultsOffset: Int?, completion: ListingsDataSourceCompletion?)
     func indexRelatedListings(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?)
+    func indexRelatedRealEstate(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?)
     func indexDiscoverListings(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?)
+    func indexRealEstate(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
+    func indexRealEstateRelatedSearch(_ parameters: [String: Any], completion: ListingsDataSourceCompletion?)
 
     func retrieve(_ listingId: String, completion: ListingDataSourceCompletion?)
-
+    func retrieveRealEstate(_ listingId: String, completion: ListingDataSourceCompletion?)
+    
     func createListing(userId: String, listingParams: ListingCreationParams, completion: ListingDataSourceCompletion?)
     func updateListing(listingParams: ListingEditionParams, completion: ListingDataSourceCompletion?)
 

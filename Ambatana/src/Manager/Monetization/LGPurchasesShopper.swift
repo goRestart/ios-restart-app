@@ -10,6 +10,7 @@ import LGCoreKit
 import StoreKit
 import AdSupport
 import AppsFlyerLib
+import CommonCrypto
 
 enum BumpFailedErrorCode {
     case receiptInvalid
@@ -42,9 +43,11 @@ enum PurchasesShopperState {
     case purchasing
 }
 
-protocol PurchasesShopperDelegate: class {
+protocol BumpInfoRequesterDelegate: class {
     func shopperFinishedProductsRequestForListingId(_ listingId: String?, withProducts products: [PurchaseableProduct])
+}
 
+protocol PurchasesShopperDelegate: class {
     func freeBumpDidStart()
     func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork)
     func freeBumpDidFail(withNetwork network: EventParameterShareNetwork)
@@ -88,6 +91,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     fileprivate var appstoreProductsCache: [String : SKProduct] = [:]
 
     weak var delegate: PurchasesShopperDelegate?
+    weak var bumpInfoRequesterDelegate: BumpInfoRequesterDelegate?
     private var isObservingPaymentsQueue: Bool = false
 
     var numPendingTransactions: Int {
@@ -169,9 +173,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let failedBumps = keyValueStorage.userFailedBumpsInfo
 
         for (listingId, bumpInfo) in failedBumps {
-            guard let bumpDict = bumpInfo as? [String:String?],
-                let bump = FailedBumpInfo(dictionary: bumpDict)
-                else { continue }
+            guard let bump = FailedBumpInfo(dictionary: bumpInfo) else { continue }
 
             let transactionStatus = EventParameterTransactionStatus(purchasesShopperState: .restoring,
                                                                     transactionState: nil)
@@ -194,7 +196,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         guard alreadyChosenProducts.isEmpty else {
             // if product has been previously requested, we don't repeat the request, so the banner loads faster
             letgoProductsDict[listingId] = alreadyChosenProducts
-            delegate?.shopperFinishedProductsRequestForListingId(listingId, withProducts: alreadyChosenProducts)
+            bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(listingId, withProducts: alreadyChosenProducts)
             return
         }
 
@@ -244,7 +246,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let payment = SKMutablePayment(product: appstoreChosenProduct)
         if let myUserId = myUserRepository.myUser?.objectId {
             // add encrypted user id to help appstore prevent fraud
-            let hashedUserName = myUserId.sha256()
+            let hashedUserName = myUserId
             payment.applicationUsername = hashedUserName
         }
 
@@ -525,7 +527,7 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
             appstoreProductsCache[product.productIdentifier] = product
         }
         letgoProductsDict[currentRequestListingId] = appstoreProducts
-        delegate?.shopperFinishedProductsRequestForListingId(currentRequestListingId, withProducts: response.purchaseableProducts)
+        bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(currentRequestListingId, withProducts: response.purchaseableProducts)
         self.currentRequestListingId = nil
     }
 

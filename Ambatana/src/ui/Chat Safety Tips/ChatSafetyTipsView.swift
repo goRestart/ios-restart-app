@@ -17,7 +17,7 @@ class ChatSafetyTipsView: UIView {
     @IBOutlet weak var okButton: UIButton!
     
     // > Data
-    var dismissBlock: ((Void) -> Void)?
+    var dismissBlock: (() -> Void)?
 
 
     // MARK: - Lifecycle

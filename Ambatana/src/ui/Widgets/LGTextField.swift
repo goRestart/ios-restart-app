@@ -11,7 +11,7 @@ import Foundation
 
 class LGTextField: UITextField {
     
-    var insetX: CGFloat = 0
+    @objc var insetX: CGFloat = 0
     var insetY: CGFloat = 0
     var clearButtonOffset: CGFloat = 0
     var showCursor = true {
@@ -20,7 +20,7 @@ class LGTextField: UITextField {
                 self.tintColor = UIColor.primaryColor
             }
             else {
-                self.tintColor = UIColor.clear
+                self.tintColor = .clear
             }
         }
     }

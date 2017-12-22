@@ -511,10 +511,23 @@ struct TrackerEvent {
             params[.postingType] = EventParameterPostingType.realEstate.rawValue
         }
 
+        
         params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
         params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
         params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
-
+        
+        if let realEstateAttributes = listing.realEstate?.realEstateAttributes {
+            params[.propertyType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.propertyType?.rawValue).name
+            params[.offerType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.offerType?.rawValue).name
+            params[.bathrooms] = EventParameterBathroomsRealEstate.bathrooms(value: realEstateAttributes.bathrooms).name
+            params[.bedrooms] = EventParameterBedroomsRealEstate.bedrooms(value: realEstateAttributes.bedrooms).name
+        } else {
+            params[.propertyType] = EventParameterStringRealEstate.notApply.name
+            params[.offerType] = EventParameterStringRealEstate.notApply.name
+            params[.bathrooms] = EventParameterBathroomsRealEstate.notApply.name
+            params[.bedrooms] = EventParameterBedroomsRealEstate.notApply.name
+        }
+        
         return TrackerEvent(name: .listingSellComplete, params: params)
     }
     
@@ -635,6 +648,18 @@ struct TrackerEvent {
         params[.make] = EventParameterMake.make(name: listing.car?.carAttributes.make).name
         params[.model] = EventParameterModel.model(name: listing.car?.carAttributes.model).name
         params[.year] = EventParameterYear.year(year: listing.car?.carAttributes.year).year
+        
+        if let realEstateAttributes = listing.realEstate?.realEstateAttributes {
+            params[.propertyType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.propertyType?.rawValue).name
+            params[.offerType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.offerType?.rawValue).name
+            params[.bathrooms] = EventParameterBathroomsRealEstate.bathrooms(value: realEstateAttributes.bathrooms).name
+            params[.bedrooms] = EventParameterBedroomsRealEstate.bedrooms(value: realEstateAttributes.bedrooms).name
+        } else {
+            params[.propertyType] = EventParameterStringRealEstate.notApply.name
+            params[.offerType] = EventParameterStringRealEstate.notApply.name
+            params[.bathrooms] = EventParameterBathroomsRealEstate.notApply.name
+            params[.bedrooms] = EventParameterBedroomsRealEstate.notApply.name
+        }
 
         return TrackerEvent(name: .listingEditComplete, params: params)
     }
@@ -1040,13 +1065,15 @@ struct TrackerEvent {
     }
 
     static func listingBumpUpStart(_ listing: Listing, price: EventParameterBumpUpPrice,
-                                   type: EventParameterBumpUpType, storeProductId: String?) -> TrackerEvent {
+                                   type: EventParameterBumpUpType, storeProductId: String?,
+                                   isPromotedBump: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
 
         params[.bumpUpPrice] = price.description
         params[.bumpUpType] = type.rawValue
         params[.storeProductId] = storeProductId ?? TrackerEvent.notApply
+        params[.promotedBump] = isPromotedBump.rawValue
         return TrackerEvent(name: .bumpUpStart, params: params)
     }
 
@@ -1054,7 +1081,8 @@ struct TrackerEvent {
                                       type: EventParameterBumpUpType, restoreRetriesCount: Int,
                                       network: EventParameterShareNetwork,
                                       transactionStatus: EventParameterTransactionStatus?,
-                                      storeProductId: String?) -> TrackerEvent {
+                                      storeProductId: String?,
+                                      isPromotedBump: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.bumpUpPrice] = price.description
@@ -1063,6 +1091,7 @@ struct TrackerEvent {
         params[.shareNetwork] = network.rawValue
         params[.transactionStatus] = transactionStatus?.rawValue ?? TrackerEvent.notApply
         params[.storeProductId] = storeProductId ?? TrackerEvent.notApply
+        params[.promotedBump] = isPromotedBump.rawValue
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }
 
@@ -1105,6 +1134,11 @@ struct TrackerEvent {
         var params = EventParameters()
         params[.reason] = reason.rawValue
         return TrackerEvent(name: .bumpNotAllowedContactUs, params: params)
+    }
+
+    static func bumpUpPromo() -> TrackerEvent {
+        let params = EventParameters()
+        return TrackerEvent(name: .bumpUpPromo, params: params)
     }
 
     static func chatWindowVisit(_ typePage: EventParameterTypePage, chatEnabled: Bool) -> TrackerEvent {
@@ -1171,6 +1205,13 @@ struct TrackerEvent {
         var params = EventParameters()
         params[.listingId] = listingId ?? ""
         return TrackerEvent(name: .featuredMoreInfo, params: params)
+    }
+    
+    static func openOptionOnSummary(fieldOpen: EventParameterOptionSummary, postingType: EventParameterPostingType) -> TrackerEvent {
+        var params = EventParameters()
+        params[.openField] = fieldOpen.rawValue
+        params[.postingType] = postingType.rawValue
+        return TrackerEvent(name: .openOptionOnSummary, params: params)
     }
 
 

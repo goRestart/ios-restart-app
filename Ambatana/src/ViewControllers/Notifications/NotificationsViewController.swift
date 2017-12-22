@@ -72,7 +72,7 @@ class NotificationsViewController: BaseViewController {
     }
 
     private func setupRX() {
-        viewModel.viewState.asObservable().bindNext { [weak self] state in
+        viewModel.viewState.asObservable().bind { [weak self] state in
             switch state {
             case .loading:
                 self?.activityIndicator.startAnimating()
@@ -89,14 +89,14 @@ class NotificationsViewController: BaseViewController {
             case .empty(let emptyViewModel):
                 self?.setEmptyViewState(emptyViewModel)
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
     }
 
 
     // MARK: > Actions
 
-    dynamic private func refreshControlTriggered() {
+    @objc private func refreshControlTriggered() {
         viewModel.refresh()
     }
 

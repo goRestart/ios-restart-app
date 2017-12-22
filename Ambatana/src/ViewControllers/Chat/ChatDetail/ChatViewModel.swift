@@ -368,7 +368,7 @@ class ChatViewModel: BaseViewModel {
             self?.interlocutorAvatarURL.value = conversation.interlocutor?.avatar?.fileURL
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
             self?.interlocutorId.value = conversation.interlocutor?.objectId
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         chatStatus.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
@@ -380,7 +380,7 @@ class ChatViewModel: BaseViewModel {
                 self?.messages.removeAll()
                 self?.messages.append(disclaimer)
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         let relatedListingsConversation = conversation.asObservable().map { $0.relatedListingsEnabled }
         Observable.combineLatest(relatedListingsConversation, sellerDidntAnswer.asObservable()) { [weak self] in
@@ -390,20 +390,20 @@ class ChatViewModel: BaseViewModel {
             if $0 { return .visible(listingId: listingId) }
             guard let didntAnswer = $1 else { return .loading } // If still checking if seller didn't answer. set loading state
             return didntAnswer ? .visible(listingId: listingId) : .hidden
-        }.bindTo(relatedListingsState).addDisposableTo(disposeBag)
+        }.bind(to: relatedListingsState).disposed(by: disposeBag)
         
         messages.changesObservable.subscribeNext { [weak self] change in
             self?.updateMessagesCounts(change)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        conversation.asObservable().map { $0.lastMessageSentAt == nil }.bindNext{ [weak self] result in
+        conversation.asObservable().map { $0.lastMessageSentAt == nil }.bind{ [weak self] result in
             self?.shouldTrackFirstMessage = result
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         let emptyMyMessages = myMessagesCount.asObservable().map { $0 == 0 }
         let emptyOtherMessages = otherMessagesCount.asObservable().map { $0 == 0 }
         Observable.combineLatest(emptyMyMessages, emptyOtherMessages){ $0 && $1 }.distinctUntilChanged()
-            .bindTo(isEmptyConversation).addDisposableTo(disposeBag)
+            .bind(to: isEmptyConversation).disposed(by: disposeBag)
 
         let expressBannerTriggered = Observable.combineLatest(firstInteractionDone.asObservable(),
                                                               expressBannerTimerFinished.asObservable()) { $0 || $1 }
@@ -417,7 +417,7 @@ class ChatViewModel: BaseViewModel {
             hasRelatedListings.asObservable(),
             relatedListingsState.asObservable().map { $0.isVisible },
         expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
-            .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
+            .distinctUntilChanged().bind(to: shouldShowExpressBanner).disposed(by: disposeBag)
 
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
                                         relatedListingsState.asObservable(),
@@ -430,9 +430,9 @@ class ChatViewModel: BaseViewModel {
                                                 return .visible
                                             }
                                         }).distinctUntilChanged()
-        directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
+        directAnswers.bind(to: directAnswersState).disposed(by: disposeBag)
 
-        interlocutorId.asObservable().bindNext { [weak self] interlocutorId in
+        interlocutorId.asObservable().bind { [weak self] interlocutorId in
             guard let interlocutorId = interlocutorId, self?.interlocutor?.objectId != interlocutorId else { return }
             self?.userRepository.show(interlocutorId) { [weak self] result in
                 guard let strongSelf = self else { return }
@@ -442,7 +442,7 @@ class ChatViewModel: BaseViewModel {
                     strongSelf.messages.append(userInfoMessage)
                 }
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         setupChatEventsRx()
     }
@@ -475,7 +475,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func setupChatEventsRx() {
-        chatRepository.chatStatus.bindNext { [weak self] wsChatStatus in
+        chatRepository.chatStatus.bind { [weak self] wsChatStatus in
             guard let strongSelf = self else { return }
             switch wsChatStatus {
             case .openAuthenticated:
@@ -488,7 +488,7 @@ class ChatViewModel: BaseViewModel {
             case .closed, .closing, .opening, .openNotAuthenticated:
                 break
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         guard let convId = conversation.value.objectId else { return }
         chatRepository.chatEventsIn(convId).subscribeNext { [weak self] event in
@@ -506,7 +506,7 @@ class ChatViewModel: BaseViewModel {
             case .authenticationTokenExpired, .talkerUnauthenticated:
                 break
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     
@@ -601,7 +601,7 @@ extension ChatViewModel {
         }
 
         let message = type.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        guard message.characters.count > 0 else { return }
+        guard message.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
         
@@ -737,6 +737,7 @@ extension ChatViewModel {
         let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent(date: sentAt).markAsReceived().markAsRead()
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
+        addSecurityMeetingDisclaimerIfNeeded()
         guard isBuyer else { return }
         sellerDidntAnswer.value = false
     }
@@ -1075,7 +1076,7 @@ extension ChatViewModel {
         let newViewMessages = newMessages.map(chatViewMessageAdapter.adapt)
         guard !newViewMessages.isEmpty else { return }
 
-        //We need to remove extra messages & disclaimers to be able to merge correctly. Will be added back before returning
+        // We need to remove extra messages & disclaimers to be able to merge correctly. Will be added back before returning
         var filteredViewMessages = messages.value.filter { $0.objectId != nil }
 
         filteredViewMessages.merge(
@@ -1083,14 +1084,28 @@ extension ChatViewModel {
             matcher: { $0.objectId == $1.objectId },
             sortBy: { (message1, message2) -> Bool in
                 if message1.sentAt == nil && message2.sentAt != nil { return true }
-                guard let sentAt1 = message1.sentAt, let sentAt2 = message2.sentAt else { return false }
+                guard let sentAt1 = message1.sentAt,
+                    let sentAt2 = message2.sentAt
+                    else { return false }
                 return sentAt1 > sentAt2
             }
         )
 
         var chatMessages = chatViewMessageAdapter.addDisclaimers(filteredViewMessages,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
-
+        // Add security meeting disclaimer after first response from interlocutor. Ignore if we have more then one page
+        if featureFlags.showSecurityMeetingChatMessage.isActive && newMessages.count < Constants.numMessagesPerPage,
+            let lastInterlocutorMessageIndex = chatMessages.reversed().index(where: {
+                switch $0.type {
+                case .disclaimer, .userInfo:
+                    return false
+                case .offer, .sticker, .text:
+                    return $0.talkerId != myUserRepository.myUser?.objectId
+                }
+            })?.base {
+            let meetingSecurityDisclaimerMessage = chatViewMessageAdapter.createMeetingSecurityDisclaimerMessage()
+            chatMessages.insert(meetingSecurityDisclaimerMessage, at: chatMessages.index(before: lastInterlocutorMessageIndex))
+        }
         // Add user info as 1st message
         if let userInfoMessage = userInfoMessage, isLastPage {
             chatMessages.append(userInfoMessage)
@@ -1109,6 +1124,23 @@ extension ChatViewModel {
                                                                  disclaimerMessage: defaultDisclaimerMessage)
         messages.removeAll()
         messages.appendContentsOf(chatMessages)
+    }
+    
+    fileprivate func addSecurityMeetingDisclaimerIfNeeded() {
+        guard messages.value.count < Constants.numMessagesPerPage else { return }
+        let meetingSecurityDisclaimerMessage = chatViewMessageAdapter.createMeetingSecurityDisclaimerMessage()
+        guard messages.value.filter({ $0 == meetingSecurityDisclaimerMessage }).count == 0 else { return }
+        if featureFlags.showSecurityMeetingChatMessage.isActive,
+            let lastInterlocutorMessageIndex = messages.value.reversed().index(where: {
+                switch $0.type {
+                case .disclaimer, .userInfo:
+                    return false
+                case .offer, .sticker, .text:
+                    return $0.talkerId != myUserRepository.myUser?.objectId
+                }
+            })?.base {
+            messages.value.insert(meetingSecurityDisclaimerMessage, at: messages.value.index(before: lastInterlocutorMessageIndex))
+        }
     }
 
     private func afterRetrieveChatMessagesEvents() {

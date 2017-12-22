@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,6 +20,7 @@
                 <outlet property="postErrorLabel" destination="ceY-sz-ePA" id="She-qR-gcK"/>
                 <outlet property="postedInfoLabel" destination="bb0-id-OIx" id="ibe-jQ-ayN"/>
                 <outlet property="retryButton" destination="hZ2-Pa-uBQ" id="uKM-Hn-SwA"/>
+                <outlet property="uploadImageStackView" destination="zwu-9h-4uc" id="3DI-c8-1Mt"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -126,12 +127,30 @@
                                             <constraint firstAttribute="trailing" secondItem="01Y-DA-8gw" secondAttribute="trailing" id="r5v-iv-3MO"/>
                                         </constraints>
                                     </scrollView>
+                                    <view contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="195" translatesAutoresizingMaskIntoConstraints="NO" id="ask-kI-lGs">
+                                        <rect key="frame" x="0.0" y="236" width="375" height="195"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="zwu-9h-4uc">
+                                                <rect key="frame" x="15" y="0.0" width="360" height="195"/>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="zwu-9h-4uc" secondAttribute="trailing" id="721-oq-NKb"/>
+                                            <constraint firstItem="zwu-9h-4uc" firstAttribute="top" secondItem="ask-kI-lGs" secondAttribute="top" id="JnL-Tj-aeg"/>
+                                            <constraint firstAttribute="bottom" secondItem="zwu-9h-4uc" secondAttribute="bottom" id="RiK-zL-oDj"/>
+                                            <constraint firstItem="zwu-9h-4uc" firstAttribute="leading" secondItem="ask-kI-lGs" secondAttribute="leading" constant="15" id="uJg-0k-wwe"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="5Qq-I7-zHx" secondAttribute="bottom" id="A8j-yc-jni"/>
+                                    <constraint firstItem="ask-kI-lGs" firstAttribute="centerY" secondItem="hB7-6T-u18" secondAttribute="centerY" id="KHr-f4-i6b"/>
                                     <constraint firstItem="5Qq-I7-zHx" firstAttribute="leading" secondItem="hB7-6T-u18" secondAttribute="leading" id="SQ7-M5-qXc"/>
+                                    <constraint firstItem="ask-kI-lGs" firstAttribute="leading" secondItem="hB7-6T-u18" secondAttribute="leading" id="ar0-z0-jNd"/>
                                     <constraint firstAttribute="trailing" secondItem="5Qq-I7-zHx" secondAttribute="trailing" id="bgL-6x-cGp"/>
                                     <constraint firstAttribute="trailing" secondItem="c23-Uc-PaC" secondAttribute="trailing" id="cqE-Q4-BZG"/>
+                                    <constraint firstItem="ask-kI-lGs" firstAttribute="centerX" secondItem="hB7-6T-u18" secondAttribute="centerX" id="wbD-iL-kDm"/>
+                                    <constraint firstAttribute="trailing" secondItem="ask-kI-lGs" secondAttribute="trailing" id="yWy-p1-txW"/>
                                     <constraint firstItem="c23-Uc-PaC" firstAttribute="leading" secondItem="hB7-6T-u18" secondAttribute="leading" id="ywW-ah-nty"/>
                                     <constraint firstItem="5Qq-I7-zHx" firstAttribute="top" secondItem="c23-Uc-PaC" secondAttribute="bottom" id="yxE-nI-8WW"/>
                                     <constraint firstItem="c23-Uc-PaC" firstAttribute="top" secondItem="hB7-6T-u18" secondAttribute="top" id="zyC-ft-xPw"/>
@@ -152,13 +171,13 @@
             <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="ZCG-gR-EN6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="2ZE-TX-hCC"/>
+                <constraint firstItem="ZCG-gR-EN6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="6Zi-ZL-Wl9"/>
                 <constraint firstItem="o7t-oA-DP2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="HPp-HR-sOu"/>
                 <constraint firstAttribute="bottom" secondItem="ZCG-gR-EN6" secondAttribute="bottom" id="NGI-hv-444"/>
                 <constraint firstAttribute="trailing" secondItem="ZCG-gR-EN6" secondAttribute="trailing" id="PLb-mJ-Q5x"/>
+                <constraint firstItem="o7t-oA-DP2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" priority="999" id="Yeb-ak-v2e"/>
                 <constraint firstAttribute="trailing" secondItem="o7t-oA-DP2" secondAttribute="trailing" id="hGQ-FS-oPO"/>
-                <constraint firstItem="o7t-oA-DP2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ll7-Wz-8yt"/>
                 <constraint firstAttribute="bottom" secondItem="o7t-oA-DP2" secondAttribute="bottom" id="mWS-lk-mFn"/>
-                <constraint firstItem="ZCG-gR-EN6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="qkY-Xz-HF1"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <point key="canvasLocation" x="844.5" y="455.5"/>

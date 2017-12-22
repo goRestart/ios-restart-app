@@ -6,10 +6,8 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-public struct LGFile: File {
-
+public struct LGFile: File, Equatable {
     public var objectId: String?
-
     public var fileURL: URL?
 }
 
@@ -31,4 +29,9 @@ extension LGFile: CustomStringConvertible {
     public var description: String {
         return "fileURL: \(String(describing: fileURL)); token: \(String(describing: objectId)); isSaved: \(isSaved);"
     }
+}
+
+public func ==(lhs: LGFile, rhs: LGFile) -> Bool {
+    return lhs.fileURL == rhs.fileURL &&
+        lhs.objectId == rhs.objectId
 }

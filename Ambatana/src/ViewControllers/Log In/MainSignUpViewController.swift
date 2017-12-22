@@ -101,11 +101,11 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
     
     // MARK: - Actions
     
-    func closeButtonPressed() {
+    @objc func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
     
-    func helpButtonPressed() {
+    @objc func helpButtonPressed() {
         viewModel.helpButtonPressed()
     }
      
@@ -184,8 +184,8 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
                 } else {
                     return LGLocalizedString.mainSignUpFacebookConnectButton
                 }
-            }.bindTo(connectFBButton.rx.title)
-            .addDisposableTo(disposeBag)
+            }.bind(to: connectFBButton.rx.title(for: .normal))
+            .disposed(by: disposeBag)
 
         // Google button title
         viewModel.previousGoogleUsername.asObservable()
@@ -195,8 +195,8 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
                 } else {
                     return LGLocalizedString.mainSignUpGoogleConnectButton
                 }
-            }.bindTo(connectGoogleButton.rx.title)
-            .addDisposableTo(disposeBag)
+            }.bind(to: connectGoogleButton.rx.title(for: .normal))
+            .disposed(by: disposeBag)
     }
     
     private func adaptConstraintsToiPhone4() {

@@ -73,7 +73,13 @@ public enum ListingPrice: Equatable {
     }
 }
 
-enum ListingPriceFlag: Int {
+struct ListingPriceDecodable: Decodable {
+    let amount: Double
+    let currency: String
+    let flag: ListingPriceFlag
+}
+
+enum ListingPriceFlag: Int, Decodable {
     case normal = 0
     case free = 1
     case negotiable = 2

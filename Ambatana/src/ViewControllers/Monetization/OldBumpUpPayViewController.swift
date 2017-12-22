@@ -78,7 +78,7 @@ class OldBumpUpPayViewController: BaseViewController {
         view.addGestureRecognizer(swipeDownGesture)
     }
 
-    private dynamic func gestureClose() {
+    @objc private dynamic func gestureClose() {
         viewModel.closeActionPressed()
     }
 

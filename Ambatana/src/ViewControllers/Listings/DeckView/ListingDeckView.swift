@@ -78,8 +78,8 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
 
         itemActionsView.centerYAnchor.constraint(equalTo: layoutGuide.centerYAnchor).isActive = true
 
-        itemActionsView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-        itemActionsView.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+        itemActionsView.setContentCompressionResistancePriority(.required, for: .vertical)
+        itemActionsView.setContentHuggingPriority(.required, for: .vertical)
         itemActionsView.alpha = 0
         itemActionsView.backgroundColor = UIColor.viewControllerBackground
     }

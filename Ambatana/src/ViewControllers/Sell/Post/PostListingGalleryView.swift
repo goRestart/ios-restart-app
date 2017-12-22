@@ -148,7 +148,7 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
         delegate?.listingGalleryCloseButton()
     }
    
-    dynamic func postButtonPressed() {
+    @objc func postButtonPressed() {
         viewModel.postButtonPressed()
     }
     
@@ -246,13 +246,13 @@ extension PostListingGalleryView: PostListingGalleryViewModelDelegate {
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 
-extension PostListingGalleryView: UICollectionViewDataSource, UICollectionViewDelegate {
+extension PostListingGalleryView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.imagesCount
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        sizeForItemAt indexPath: IndexPath) -> CGSize {
             return viewModel.cellSize
     }
 
@@ -354,9 +354,9 @@ extension PostListingGalleryView {
                 strongSelf.imageLoadActivityIndicator.startAnimating()
             }
             strongSelf.updateTopRightButton(state: state)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        viewModel.imagesSelected.asObservable().observeOn(MainScheduler.instance).bindNext { [weak self] imgsSelected in
+        viewModel.imagesSelected.asObservable().observeOn(MainScheduler.instance).bind { [weak self] imgsSelected in
             guard let strongSelf = self else { return }
             strongSelf.collectionView.isUserInteractionEnabled = false
             guard !strongSelf.viewModel.shouldUpdateDisabledCells else {
@@ -380,11 +380,11 @@ extension PostListingGalleryView {
                 strongSelf.loadImageErrorView.isHidden = true
             }
             strongSelf.collectionView.isUserInteractionEnabled = true
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        viewModel.imageSelection.distinctUntilChanged().bindNext { [weak self] selection in
+        viewModel.imageSelection.distinctUntilChanged().bind { [weak self] selection in
             self?.delegate?.listingGallerySelection(selection: selection)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     @IBAction func onInfoButtonPressed(_ sender: AnyObject) {
@@ -410,9 +410,9 @@ extension PostListingGalleryView {
         albumButton.addConstraints([left,centerV])
 
 
-        viewModel.albumTitle.asObservable().bindTo(albumButton.rx.title).addDisposableTo(disposeBag)
-        viewModel.albumButtonEnabled.asObservable().bindTo(albumButton.rx.isEnabled).addDisposableTo(disposeBag)
-        viewModel.lastImageSelected.asObservable().bindTo(selectedImage.rx.image).addDisposableTo(disposeBag)
+        viewModel.albumTitle.asObservable().bind(to: albumButton.rx.title(for: .normal)).disposed(by: disposeBag)
+        viewModel.albumButtonEnabled.asObservable().bind(to: albumButton.rx.isEnabled).disposed(by: disposeBag)
+        viewModel.lastImageSelected.asObservable().bind(to: selectedImage.rx.image).disposed(by: disposeBag)
 
         viewModel.albumIconState.asObservable().subscribeNext{ [weak self] status in
             switch status{
@@ -425,7 +425,7 @@ extension PostListingGalleryView {
                 self?.albumButtonTick.isHidden = false
                 self?.animateAlbumTickDirectionTop(true)
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     @IBAction func albumButtonPressed(_ sender: AnyObject) {

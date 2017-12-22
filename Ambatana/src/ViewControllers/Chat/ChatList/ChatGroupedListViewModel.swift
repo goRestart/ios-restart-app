@@ -26,7 +26,7 @@ protocol ChatGroupedListViewModelDelegate: class {
     func chatGroupedListViewModelDidSucceedRetrievingObjectList(_ page: Int)
 }
 
-protocol ChatGroupedListViewModel: class, RxPaginable, ChatGroupedListViewModelType {
+protocol ChatGroupedListViewModel: class, ChatGroupedListViewModelType {
     var chatGroupedDelegate: ChatGroupedListViewModelDelegate? { get set }
     var emptyStatusViewModel: LGEmptyViewModel? { get set }
     var activityIndicatorAnimating: Bool { get }
@@ -342,17 +342,17 @@ fileprivate extension BaseChatGroupedListViewModel {
     func setupRx() {
         objects.observable.map { messages in
             return messages.count
-        }.bindTo(rx_objectCount).addDisposableTo(disposeBag)
+        }.bind(to: rx_objectCount).disposed(by: disposeBag)
         
         editing.asObservable().subscribeNext { [weak self] editing in
             self?.chatGroupedDelegate?.chatGroupedListViewModelSetEditing(editing)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         if shouldWriteInCollectionVariable {
             objects.changesObservable.subscribeNext { [weak self] _ in
                 self?.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
                 self?.notificationsManager.updateChatCounters()
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         }
     }
     
@@ -372,7 +372,7 @@ fileprivate extension BaseChatGroupedListViewModel {
             
             return index == 0
         }
-        isFirstObjectUpdated.distinctUntilChanged().bindTo(shouldScrollToTopVar).addDisposableTo(inactiveDisposeBag)
+        isFirstObjectUpdated.distinctUntilChanged().bind(to: shouldScrollToTopVar).disposed(by: inactiveDisposeBag)
     }
 }
 

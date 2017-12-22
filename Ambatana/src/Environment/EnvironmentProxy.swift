@@ -113,4 +113,12 @@ class EnvironmentProxy: AppEnvironment {
     var adTestModeActive: Bool {
         return environment.adTestModeActive
     }
+
+    var moreInfoAdUnitIdDFP: String {
+        return environment.moreInfoAdUnitIdDFP
+    }
+
+    var moreInfoAdUnitIdDFPUSA: String {
+        return environment.moreInfoAdUnitIdDFPUSA
+    }
 }

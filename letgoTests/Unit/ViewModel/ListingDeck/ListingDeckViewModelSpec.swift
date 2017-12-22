@@ -55,16 +55,16 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
             func startObserving() {
                 disposeBag = DisposeBag()
 
-                sut.objects.observable.bindTo(cellModelsObserver).addDisposableTo(disposeBag)
-                sut.navBarButtons.asObservable().bindTo(navBarButtonsObserver).addDisposableTo(disposeBag)
-                sut.actionButtons.asObservable().bindTo(actionButtonsObserver).addDisposableTo(disposeBag)
-                sut.quickChatViewModel.quickAnswers.asObservable().bindTo(quickAnswersObserver).addDisposableTo(disposeBag)
+                sut.objects.observable.bindTo(cellModelsObserver).disposed(by:disposeBag)
+                sut.navBarButtons.asObservable().bindTo(navBarButtonsObserver).disposed(by:disposeBag)
+                sut.actionButtons.asObservable().bindTo(actionButtonsObserver).disposed(by:disposeBag)
+                sut.quickChatViewModel.quickAnswers.asObservable().bindTo(quickAnswersObserver).disposed(by:disposeBag)
 
-                sut.quickChatViewModel.chatEnabled.asObservable().bindTo(quickAnswersAvailableObserver).addDisposableTo(disposeBag)
-                sut.quickChatViewModel.chatEnabled.asObservable().bindTo(directChatEnabledObserver).addDisposableTo(disposeBag)
-                sut.quickChatViewModel.directChatPlaceholder.asObservable().bindTo(directChatPlaceholderObserver).addDisposableTo(disposeBag)
-                sut.quickChatViewModel.directChatMessages.observable.bindTo(directChatMessagesObserver).addDisposableTo(disposeBag)
-                sut.bumpUpBannerInfo.asObservable().bindTo(bumpUpBannerInfoObserver).addDisposableTo(disposeBag)
+                sut.quickChatViewModel.chatEnabled.asObservable().bindTo(quickAnswersAvailableObserver).disposed(by:disposeBag)
+                sut.quickChatViewModel.chatEnabled.asObservable().bindTo(directChatEnabledObserver).disposed(by:disposeBag)
+                sut.quickChatViewModel.directChatPlaceholder.asObservable().bindTo(directChatPlaceholderObserver).disposed(by:disposeBag)
+                sut.quickChatViewModel.directChatMessages.observable.bindTo(directChatMessagesObserver).disposed(by:disposeBag)
+                sut.bumpUpBannerInfo.asObservable().bindTo(bumpUpBannerInfoObserver).disposed(by:disposeBag)
             }
 
             func buildSut(productListModels: [ListingCellModel]? = nil,

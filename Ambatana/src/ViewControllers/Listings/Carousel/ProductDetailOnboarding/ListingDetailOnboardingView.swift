@@ -56,9 +56,8 @@ class ListingDetailOnboardingView: BaseView {
 
     // MARK: - Tap actions
 
-    dynamic private func closeView() {
+    @objc private func closeView() {
         active = false
-        UIApplication.shared.setStatusBarHidden(false, with: .fade)
         removeFromSuperview()
         viewModel.close()
     }
@@ -76,7 +75,6 @@ class ListingDetailOnboardingView: BaseView {
     }
 
     private func setupViewsVisibility() {
-        UIApplication.shared.setStatusBarHidden(true, with: .fade)
         fingersView.alpha = 1
     }
 

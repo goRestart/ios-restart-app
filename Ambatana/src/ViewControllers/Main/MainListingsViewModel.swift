@@ -65,10 +65,6 @@ class MainListingsViewModel: BaseViewModel {
     }
     
     fileprivate var shouldShowPrices = Variable<Bool>(false)
-    
-    var isAddSuperKeywordsEnabled: Bool {
-        return featureFlags.addSuperKeywordsOnFeed.isActive
-    }
 
     var isTaxonomiesAndTaxonomyChildrenInFeedEnabled: Bool {
         return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive
@@ -134,6 +130,19 @@ class MainListingsViewModel: BaseViewModel {
                 resultTags.append(.yearsRange(from: filters.carYearStart?.value, to: filters.carYearEnd?.value))
             }
         }
+        
+        if let propertyType = filters.realEstatePropertyType {
+            resultTags.append(.realEstatePropertyType(propertyType))
+        }
+        if let offerType = filters.realEstateOfferType {
+            resultTags.append(.realEstateOfferType(offerType))
+        }
+        if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
+            resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
+        }
+        if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
+            resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
+        }
 
         return resultTags
     }
@@ -153,13 +162,20 @@ class MainListingsViewModel: BaseViewModel {
     var shouldShowInviteButton: Bool {
         return navigator?.canOpenAppInvite() ?? false
     }
-
-    fileprivate var shouldShowNoExactMatchesDisclaimer: Bool {
+    
+    private var carSelectedWithFilters: Bool {
         guard filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy else { return false }
-        if filters.carMakeId != nil || filters.carModelId != nil || filters.carYearStart != nil || filters.carYearEnd != nil {
-            return true
-        }
-        return false
+        return filters.hasAnyCarAttributes
+    }
+    
+    private var realEstateSelectedWithFilters: Bool {
+        guard filters.selectedCategories.contains(.realEstate) else { return false }
+        return filters.hasAnyRealEstateAttributes
+    }
+    
+    fileprivate var shouldShowNoExactMatchesDisclaimer: Bool {
+        guard realEstateSelectedWithFilters || carSelectedWithFilters else { return false }
+        return true
     }
 
     let mainListingsHeader = Variable<MainListingsHeader>([])
@@ -328,7 +344,7 @@ class MainListingsViewModel: BaseViewModel {
         Search action.
     */
     func search(_ query: String) {
-        guard !query.characters.isEmpty else { return }
+        guard !query.isEmpty else { return }
     
         delegate?.vmDidSearch()
         navigator?.openMainListings(withSearchType: .user(query: query), listingFilters: filters)
@@ -368,6 +384,10 @@ class MainListingsViewModel: BaseViewModel {
         var modelName: String? = nil
         var carYearStart: Int? = nil
         var carYearEnd: Int? = nil
+        var realEstatePropertyType: RealEstatePropertyType? = nil
+        var realEstateOfferType: RealEstateOfferType? = nil
+        var realEstateNumberOfBedrooms: NumberOfBedrooms? = nil
+        var realEstateNumberOfBathrooms: NumberOfBathrooms? = nil
 
         for filterTag in tags {
             switch filterTag {
@@ -401,6 +421,14 @@ class MainListingsViewModel: BaseViewModel {
             case .yearsRange(let startYear, let endYear):
                 carYearStart = startYear
                 carYearEnd = endYear
+            case .realEstatePropertyType(let propertyType):
+                realEstatePropertyType = propertyType
+            case .realEstateOfferType(let offerType):
+                realEstateOfferType = offerType
+            case .realEstateNumberOfBedrooms(let numberOfBedrooms):
+                realEstateNumberOfBedrooms = numberOfBedrooms
+            case .realEstateNumberOfBathrooms(let numberOfBathrooms):
+                realEstateNumberOfBathrooms = numberOfBathrooms
             }
         }
 
@@ -467,6 +495,10 @@ class MainListingsViewModel: BaseViewModel {
             filters.carYearEnd = nil
         }
         
+        filters.realEstatePropertyType = realEstatePropertyType
+        filters.realEstateOfferType = realEstateOfferType
+        filters.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
+        filters.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
         
         updateCategoriesHeader()
         updateListView()
@@ -520,12 +552,12 @@ class MainListingsViewModel: BaseViewModel {
     }
    
     private func setupRx() {
-        listViewModel.isListingListEmpty.asObservable().bindNext { [weak self] _ in
+        listViewModel.isListingListEmpty.asObservable().bind { [weak self] _ in
             self?.updateCategoriesHeader()
-        }.addDisposableTo(disposeBag) 
-        shouldShowPrices.asObservable().bindNext { [weak self] shouldShowPrices in
+        }.disposed(by: disposeBag) 
+        shouldShowPrices.asObservable().bind { [weak self] shouldShowPrices in
             self?.listViewModel.updateShouldShowPrices(shouldShowPrices)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     /**
@@ -587,7 +619,7 @@ class MainListingsViewModel: BaseViewModel {
         if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
             categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
         } else {
-            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed().map { CategoryHeaderElement.listingCategory($0) })
+            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(realEstateIncluded: featureFlags.realEstateEnabled).map { CategoryHeaderElement.listingCategory($0) })
         }
         return categoryHeaderElements
     }
@@ -613,7 +645,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     func setupProductList() {
         listViewModel.dataDelegate = self
 
-        listingRepository.events.bindNext { [weak self] event in
+        listingRepository.events.bind { [weak self] event in
             switch event {
             case let .update(listing):
                 self?.listViewModel.update(listing: listing)
@@ -624,14 +656,14 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             case .favorite, .unFavorite, .sold, .unSold:
                 break
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        monetizationRepository.events.bindNext { [weak self] event in
+        monetizationRepository.events.bind { [weak self] event in
             switch event {
             case .freeBump, .pricedBump:
                 self?.listViewModel.refresh()
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     // MARK: > ListingListViewCellsDelegate
@@ -799,10 +831,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
 extension MainListingsViewModel {
     fileprivate func setupSessionAndLocation() {
-        sessionManager.sessionEvents.bindNext { [weak self] _ in self?.sessionDidChange() }.addDisposableTo(disposeBag)
-        locationManager.locationEvents.filter { $0 == .locationUpdate }.bindNext { [weak self] _ in
+        sessionManager.sessionEvents.bind { [weak self] _ in self?.sessionDidChange() }.disposed(by: disposeBag)
+        locationManager.locationEvents.filter { $0 == .locationUpdate }.bind { [weak self] _ in
             self?.locationDidChange()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     fileprivate func sessionDidChange() {
@@ -948,7 +980,7 @@ extension MainListingsViewModel {
     }
     
     func searchTextFieldDidUpdate(text: String) {
-        let charactersCount = text.characters.count
+        let charactersCount = text.count
         if charactersCount > 0 {
             retrieveSuggestiveSearches(term: text)
         } else {
@@ -1037,7 +1069,7 @@ extension MainListingsViewModel {
                          name: NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
     }
 
-    fileprivate dynamic func updatePermissionsWarning() {
+    @objc fileprivate dynamic func updatePermissionsWarning() {
         var currentHeader = mainListingsHeader.value
         if UIApplication.shared.areRemoteNotificationsEnabled {
             currentHeader.remove(MainListingsHeader.PushPermissions)
@@ -1048,7 +1080,7 @@ extension MainListingsViewModel {
         mainListingsHeader.value = currentHeader
     }
     
-    fileprivate dynamic func updateCategoriesHeader() {
+    @objc fileprivate dynamic func updateCategoriesHeader() {
         var currentHeader = mainListingsHeader.value
         if showCategoriesCollectionBanner {
             currentHeader.insert(MainListingsHeader.CategoriesCollectionBanner)
@@ -1146,7 +1178,7 @@ fileprivate extension MainListingsViewModel {
         if let search = searchType, search.isCollection {
             return .collection
         }
-        if searchType.isEmpty() {
+        if searchType == nil {
             if hasFilters {
                 return .filter
             }

@@ -8,46 +8,234 @@
 
 import Quick
 import Nimble
-import Argo
 @testable import LetGoGodMode
 
 
 class ConfigSpec: QuickSpec {
    
     override func spec() {
-     
         var sut : Config!
-        var json : JSON!
-
-        describe("init") {
-            beforeEach {
-                let path = Bundle(for: self.classForCoder).path(forResource: "iOScfgMockOK", ofType: "json")
-                let data = try! Data(contentsOf: URL(fileURLWithPath: path!))
-                let jsonObject = try! JSONSerialization.jsonObject(with: data, options: [])
-                json = JSON(jsonObject)
+        
+        describe("decode") {
+            var json : Data!
+            
+            context("with a correct json") {
+                beforeEach {
+                    json = """
+                    {
+                        "currentVersionInfo": {
+                            "buildNumber": 312,
+                            "forceUpdateVersions": [1, 2, 3]
+                        },
+                        "configURL": "http://cdn.letgo.com/config/ios.json",
+                        "quadKeyZoomLevel": 15
+                    }
+                    """.data(using: .utf8)!
+                    sut = try? JSONDecoder().decode(Config.self, from: json)
+                }
                 
-                sut = Config(json: json)
-            }
-            context("init with data") {
-                it("object not nil") {
+                it("returns a config object") {
                     expect(sut).notTo(beNil())
                 }
-                it("should have buildNumber set") {
-                    expect(sut.buildNumber).notTo(beNil())
+                it("has build number") {
+                    expect(sut.buildNumber) == 312
                 }
-                it("should have forceUpdateVersions set") {
-                    expect(sut.forceUpdateVersions).notTo(beNil())
+                it("has force update versions") {
+                    expect(sut.forceUpdateVersions) == [1,2,3]
                 }
-                it("should have configURL set") {
-                    expect(sut.configURL).notTo(beNil())
+                it("has config url") {
+                    expect(sut.configURL) == "http://cdn.letgo.com/config/ios.json"
+                }
+                it("has quad key zoom level") {
+                    expect(sut.quadKeyZoomLevel) == 15
                 }
             }
-            context("object to json") {
-                
-                it("should create a json representation from object") {
-                    let jsonRepresentation = sut.jsonRepresentation()
-                    expect(JSON(jsonRepresentation)).to(equal(json))
+            
+            context("with a json has not current version info key") {
+                beforeEach {
+                    json = """
+                    {
+                        "configURL": "http://cdn.letgo.com/config/ios.json",
+                        "quadKeyZoomLevel": 15
+                    }
+                    """.data(using: .utf8)!
+                    sut = try? JSONDecoder().decode(Config.self, from: json)
                 }
+                
+                it("returns a config object") {
+                    expect(sut).notTo(beNil())
+                }
+                it("has build number with default value") {
+                    expect(sut.buildNumber) == 0
+                }
+                it("has update versions with default value") {
+                    expect(sut.forceUpdateVersions) == []
+                }
+                it("has config url") {
+                    expect(sut.configURL) == "http://cdn.letgo.com/config/ios.json"
+                }
+                it("has quad key zoom level") {
+                    expect(sut.quadKeyZoomLevel) == 15
+                }
+            }
+            
+            context("with a json has not build number key") {
+                beforeEach {
+                    json = """
+                    {
+                        "currentVersionInfo": {
+                            "forceUpdateVersions": [1, 2, 3]
+                        },
+                        "configURL": "http://cdn.letgo.com/config/ios.json",
+                        "quadKeyZoomLevel": 15
+                    }
+                    """.data(using: .utf8)!
+                    sut = try? JSONDecoder().decode(Config.self, from: json)
+                }
+                
+                it("returns a config object") {
+                    expect(sut).notTo(beNil())
+                }
+                it("has build number with default value") {
+                    expect(sut.buildNumber) == 0
+                }
+                it("has force update versions") {
+                    expect(sut.forceUpdateVersions) == [1,2,3]
+                }
+                it("has config url") {
+                    expect(sut.configURL) == "http://cdn.letgo.com/config/ios.json"
+                }
+                it("has quad key zoom level") {
+                    expect(sut.quadKeyZoomLevel) == 15
+                }
+            }
+            
+            context("with a json that has not force update versions key") {
+                beforeEach {
+                    json = """
+                    {
+                        "currentVersionInfo": {
+                            "buildNumber": 312
+                        },
+                        "configURL": "http://cdn.letgo.com/config/ios.json",
+                        "quadKeyZoomLevel": 15
+                    }
+                    """.data(using: .utf8)!
+                    sut = try? JSONDecoder().decode(Config.self, from: json)
+                }
+                
+                it("returns a config object") {
+                    expect(sut).notTo(beNil())
+                }
+                it("has build number") {
+                    expect(sut.buildNumber) == 312
+                }
+                it("has force update versions with default value") {
+                    expect(sut.forceUpdateVersions) == []
+                }
+                it("has config url") {
+                    expect(sut.configURL) == "http://cdn.letgo.com/config/ios.json"
+                }
+                it("has quad key zoom level") {
+                    expect(sut.quadKeyZoomLevel) == 15
+                }
+            }
+            
+            context("with a json that has not config url key") {
+                beforeEach {
+                    json = """
+                    {
+                        "currentVersionInfo": {
+                            "buildNumber": 312,
+                            "forceUpdateVersions": [1, 2, 3]
+                        },
+                        "quadKeyZoomLevel": 15
+                    }
+                    """.data(using: .utf8)!
+                    sut = try? JSONDecoder().decode(Config.self, from: json)
+                }
+                
+                it("returns a config object") {
+                    expect(sut).notTo(beNil())
+                }
+                it("has build number") {
+                    expect(sut.buildNumber) == 312
+                }
+                it("has force update versions") {
+                    expect(sut.forceUpdateVersions) == [1,2,3]
+                }
+                it("has config url with default value") {
+                    expect(sut.configURL) == ""
+                }
+                it("has quad key zoom level") {
+                    expect(sut.quadKeyZoomLevel) == 15
+                }
+            }
+            
+            context("with a json that has not quad key zoom level key") {
+                beforeEach {
+                    json = """
+                    {
+                        "currentVersionInfo": {
+                            "buildNumber": 312,
+                            "forceUpdateVersions": [1, 2, 3]
+                        },
+                        "configURL": "http://cdn.letgo.com/config/ios.json"
+                    }
+                    """.data(using: .utf8)!
+                    sut = try? JSONDecoder().decode(Config.self, from: json)
+                }
+                
+                it("returns a config object") {
+                    expect(sut).notTo(beNil())
+                }
+                it("has build number") {
+                    expect(sut.buildNumber) == 312
+                }
+                it("has force update versions") {
+                    expect(sut.forceUpdateVersions) == [1,2,3]
+                }
+                it("has config url") {
+                    expect(sut.configURL) == "http://cdn.letgo.com/config/ios.json"
+                }
+                it("has quad key zoom level with default value") {
+                    expect(sut.quadKeyZoomLevel) == 13
+                }
+            }
+        }
+        
+        describe("encode") {
+            beforeEach {
+                let json = """
+                {
+                    "currentVersionInfo": {
+                        "buildNumber": 312,
+                        "forceUpdateVersions": [1, 2, 3]
+                    },
+                    "configURL": "http://cdn.letgo.com/config/ios.json",
+                    "quadKeyZoomLevel": 15
+                }
+                """.data(using: .utf8)!
+                sut = try? JSONDecoder().decode(Config.self, from: json)
+                let encoder = JSONEncoder()
+                let newJSON: Data! = try? encoder.encode(decoded)
+                sut = try? JSONDecoder().decode(Config.self, from: newJSON)
+            }
+            
+            it("returns a config object") {
+                expect(sut).notTo(beNil())
+            }
+            it("has build number") {
+                expect(sut.buildNumber) == 312
+            }
+            it("has force update versions") {
+                expect(sut.forceUpdateVersions) == [1,2,3]
+            }
+            it("has config url") {
+                expect(sut.configURL) == "http://cdn.letgo.com/config/ios.json"
+            }
+            it("has quad key zoom level") {
+                expect(sut.quadKeyZoomLevel) == 15
             }
         }
     }

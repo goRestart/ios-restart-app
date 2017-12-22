@@ -8,20 +8,22 @@
 
 import UIKit
 
-class FilterHeaderCell: UICollectionReusableView {
+class FilterHeaderCell: UICollectionReusableView, FilterCell, ReusableCell {
+    var topSeparator: UIView?
+    var bottomSeparator: UIView?
+    var rightSeparator: UIView?
 
-    @IBOutlet weak var titleLabel: UILabel!
-    
-    @IBOutlet weak var separator: UIView!
-    @IBOutlet weak var separatorHeight: NSLayoutConstraint!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.setupUI()
-        self.resetUI()
+    let titleLabel = UILabel()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+        resetUI()
         setAccessibilityIds()
     }
-    
+
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
     override func prepareForReuse() {
         super.prepareForReuse()
         self.resetUI()
@@ -30,7 +32,19 @@ class FilterHeaderCell: UICollectionReusableView {
     // MARK: - Private methods
     
     private func setupUI() {
-        separatorHeight.constant = LGUIKitConstants.onePixelSize
+        addTopSeparator(toContainerView: self)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(titleLabel)
+
+        let constraints = [
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.margin),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.margin),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metrics.shortMargin),
+            titleLabel.heightAnchor.constraint(equalToConstant: Metrics.margin)
+        ]
+        NSLayoutConstraint.activate(constraints)
+        titleLabel.font = UIFont.systemLightFont(size: 13)
+        titleLabel.textColor = UIColor.filterCellsGrey
     }
     
     // Resets the UI to the initial state

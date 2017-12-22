@@ -65,8 +65,8 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         titleLabel.text = viewModel.title
         buttonNext.setTitle(viewModel.buttonTitle, for: .normal)
         
-        view.backgroundColor = UIColor.clear
-        contentView.backgroundColor = UIColor.clear
+        view.backgroundColor = .clear
+        contentView.backgroundColor = .clear
         
         titleLabel.font = UIFont.headline
         titleLabel.textColor = UIColor.white
@@ -123,7 +123,7 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         } else {
             buttonNext.layout(with: view).bottom(by: -Metrics.bigMargin)
         }
-        if viewModel.isSummaryStep {
+        if viewModel.buttonFullWidth {
             buttonNext.layout(with: keyboardView).left(by: Metrics.bigMargin)
         }
         buttonNext.layout(with: view).right(by: -Metrics.bigMargin)
@@ -132,11 +132,11 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     
     // MARK: - UIActions
     
-    func closeButtonPressed() {
+    @objc func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
     
-    func nextButtonPressed() {
+    @objc func nextButtonPressed() {
         viewModel.nextbuttonPressed()
     }
 }

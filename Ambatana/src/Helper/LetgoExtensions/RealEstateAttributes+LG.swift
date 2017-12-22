@@ -14,13 +14,15 @@ extension RealEstateAttributes {
         var title: String = ""
         
         let propertyTypeString = propertyType?.shortLocalizedString.localizedUppercase
-        let offerTypeString = offerType?.shortLocalizedString.localizedUppercase
+        let offerTypeString = offerType?.shortLocalizedString.capitalizedFirstLetterOnly
         var bedroomsString: String? = nil
         if let bedroomsRawValue = bedrooms, let bedroomsValue = NumberOfBedrooms(rawValue: bedroomsRawValue) {
             bedroomsString = bedroomsValue.shortLocalizedString.localizedUppercase
         }
         var bathroomsString: String? = nil
-        if let bathroomsRawValue = bathrooms, let bathroomsValue = NumberOfBathrooms(rawValue: bathroomsRawValue) {
+        if let bathroomsRawValue = bathrooms,
+            let bathroomsValue = NumberOfBathrooms(rawValue: bathroomsRawValue),
+            bathroomsValue != .zero {
              bathroomsString = bathroomsValue.shortLocalizedString.localizedUppercase
         }
         title = [propertyTypeString, offerTypeString, bedroomsString, bathroomsString].flatMap{ $0 }.joined(separator: separator)

@@ -131,7 +131,7 @@ enum ListingViewModelStatus {
             return UIColor.white
         case .pending, .available, .otherAvailable,
              .notAvailable, .availableFree, .otherAvailableFree, .pendingAndFeatured:
-            return UIColor.clear
+            return .clear
         }
     }
 
@@ -143,7 +143,7 @@ enum ListingViewModelStatus {
             return UIColor.soldFreeColor
         case .pending, .available, .otherAvailable,
              .notAvailable, .availableFree, .otherAvailableFree, .pendingAndFeatured:
-            return UIColor.clear
+            return .clear
         }
     }
 

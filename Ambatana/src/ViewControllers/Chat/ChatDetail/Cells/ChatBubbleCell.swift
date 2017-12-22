@@ -38,10 +38,10 @@ class ChatBubbleCell: UITableViewCell {
         
         bubbleView.layer.shouldRasterize = true
         bubbleView.layer.rasterizationScale = UIScreen.main.scale
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
     }
     
-    func menuControllerWillHide(_ notification: Notification) {
+    @objc func menuControllerWillHide(_ notification: Notification) {
         setSelected(false, animated: true)
     }
     

@@ -6,10 +6,6 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-import Curry
-import Runes
-
 public enum RealEstateOfferType: String {
     case rent = "rent"
     case sale = "sale"
@@ -20,7 +16,7 @@ public enum RealEstatePropertyType: String {
     case house = "house"
     case room = "room"
     case commercial = "commercial"
-    case other = "other"
+    case other = "others"
 }
 
 public struct RealEstateAttributes: Equatable {
@@ -73,12 +69,12 @@ public func ==(lhs: RealEstateAttributes, rhs: RealEstateAttributes) -> Bool {
         lhs.bedrooms == rhs.bedrooms && lhs.bathrooms == rhs.bathrooms
 }
 
-extension RealEstateAttributes : Decodable {
+extension RealEstateAttributes: Decodable {
     
-    /**
-     Expects a json in the form:
-     
-     "realEstateAttributes": {
+    // MARK: Decodable
+    
+    /*
+     {
      "typeOfProperty": "room",
      "typeOfListing": "rent",
      "numberOfBedrooms": 1,
@@ -86,15 +82,28 @@ extension RealEstateAttributes : Decodable {
      }
      */
     
-    public static func decode(_ j: JSON) -> Decoded<RealEstateAttributes> {
-        let result1 = curry(RealEstateAttributes.make)
-        let result2 = result1 <^> j <|? "typeOfProperty"
-        let result3 = result2 <*> j <|? "typeOfListing"
-        let result4 = result3 <*> j <|? "numberOfBedrooms"
-        let result  = result4 <*> j <|? "numberOfBathrooms"
-        if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.parsing, message: "RealEstateAttributes parse error: \(error)")
+    public init(from decoder: Decoder) throws {
+        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        if let propertyTypeDecoded = try keyedContainer.decodeIfPresent(String.self, forKey: .typeOfProperty),
+            let propertyType = RealEstatePropertyType(rawValue: propertyTypeDecoded) {
+            self.propertyType = propertyType
+        } else {
+            propertyType = nil
         }
-        return result
+        if let offerTypeDecoded = try keyedContainer.decodeIfPresent(String.self, forKey: .typeOfListing),
+            let offerType = RealEstateOfferType(rawValue: offerTypeDecoded) {
+            self.offerType = offerType
+        } else {
+            offerType = nil
+        }
+        bedrooms = try keyedContainer.decodeIfPresent(Int.self, forKey: .numberOfBedrooms)
+        bathrooms = try keyedContainer.decodeIfPresent(Float.self, forKey: .numberOfBathrooms)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case typeOfProperty
+        case typeOfListing
+        case numberOfBedrooms
+        case numberOfBathrooms
     }
 }

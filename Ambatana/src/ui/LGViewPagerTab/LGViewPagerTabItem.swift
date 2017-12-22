@@ -53,13 +53,13 @@ class LGViewPagerTabItem: UIButton {
 
     var indicatorSelectedColor: UIColor {
         didSet {
-            indicator.backgroundColor = isSelected ? indicatorSelectedColor : UIColor.clear
+            indicator.backgroundColor = isSelected ? indicatorSelectedColor : .clear
         }
     }
 
     override var isSelected: Bool {
         didSet {
-            indicator.backgroundColor = isSelected ? indicatorSelectedColor : UIColor.clear
+            indicator.backgroundColor = isSelected ? indicatorSelectedColor : .clear
         }
     }
 
@@ -85,7 +85,7 @@ class LGViewPagerTabItem: UIButton {
 
     private func setupUI(_ indicatorHeight: CGFloat) {
         contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8 + indicatorHeight, right: 16)
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
         setAttributedTitle(unselectedTitle, for: .normal)
 
         indicator.translatesAutoresizingMaskIntoConstraints = false

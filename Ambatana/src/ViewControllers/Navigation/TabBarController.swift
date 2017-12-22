@@ -218,15 +218,15 @@ final class TabBarController: UITabBarController {
         guard let vcs = viewControllers, 0..<vcs.count ~= Tab.chats.index else { return }
 
         if let chatsTab = vcs[Tab.chats.index].tabBarItem {
-            viewModel.chatsBadge.asObservable().bindTo(chatsTab.rx.badgeValue).addDisposableTo(disposeBag)
+            viewModel.chatsBadge.asObservable().bind(to: chatsTab.rx.badgeValue).disposed(by: disposeBag)
         }
 
         if let profileTab = vcs[Tab.profile.index].tabBarItem {
-            viewModel.favoriteBadge.asObservable().bindTo(profileTab.rx.badgeValue).addDisposableTo(disposeBag)
+            viewModel.favoriteBadge.asObservable().bind(to: profileTab.rx.badgeValue).disposed(by: disposeBag)
         }
        
         if let notificationsTab = vcs[Tab.notifications.index].tabBarItem {
-            viewModel.notificationsBadge.asObservable().bindTo(notificationsTab.rx.badgeValue).addDisposableTo(disposeBag)
+            viewModel.notificationsBadge.asObservable().bind(to: notificationsTab.rx.badgeValue).disposed(by: disposeBag)
         }
     }
     
@@ -245,7 +245,7 @@ extension TabBarController: UIGestureRecognizerDelegate {
         self.tabBar.addGestureRecognizer(longPress)
     }
 
-    func longPressProfileItem(_ recognizer: UILongPressGestureRecognizer) {
+    @objc func longPressProfileItem(_ recognizer: UILongPressGestureRecognizer) {
         guard AdminViewController.canOpenAdminPanel() else { return }
         let admin = AdminViewController()
         let nav = UINavigationController(rootViewController: admin)

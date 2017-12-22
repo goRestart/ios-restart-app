@@ -59,7 +59,7 @@ class PostCategoryDetailRowView: UIView, UITextFieldDelegate {
             if let value = newValue {
                 textField.attributedPlaceholder =
                     NSAttributedString(string: value,
-                                       attributes: [NSForegroundColorAttributeName: UIColor.whiteTextHighAlpha])
+                                       attributes: [NSAttributedStringKey.foregroundColor: UIColor.whiteTextHighAlpha])
             }
         }
         get {
@@ -105,7 +105,7 @@ class PostCategoryDetailRowView: UIView, UITextFieldDelegate {
         case .textEntryRow:
             textField.textAlignment = .left
             textField.clearButtonMode = .never
-            textField.backgroundColor = UIColor.clear
+            textField.backgroundColor = .clear
             textField.textColor = UIColor.white
             textField.keyboardType = .numberPad
             textField.delegate = self

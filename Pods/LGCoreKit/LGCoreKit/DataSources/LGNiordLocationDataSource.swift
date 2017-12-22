@@ -7,7 +7,6 @@
 //
 
 import Result
-import Argo
 import CoreLocation
 
 class LGNiordLocationDataSource: LocationDataSource {

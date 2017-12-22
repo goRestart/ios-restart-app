@@ -219,7 +219,7 @@ class AFApiClient: ApiClient {
     func privateRequest<T>(_ req: URLRequestAuthenticable, decoder: @escaping (Any) -> T?,
         completion: ((ResultResult<T, ApiError>.t) -> ())?) {
 
-        logMessage(.verbose, type: CoreLoggingOptions.networking, message: req.logMessage)
+        logMessage(.verbose, type: CoreLoggingOptions.networking, message: req.debugMessage)
 
         alamofireManager.request(req).validate(statusCode: req.acceptedStatus).responseObject(decoder) {
             [weak self] (response: DataResponse<T>) in
@@ -237,7 +237,7 @@ class AFApiClient: ApiClient {
                 return
             }
 
-            logMessage(.verbose, type: CoreLoggingOptions.networking, message: request.logMessage)
+            logMessage(.verbose, type: CoreLoggingOptions.networking, message: request.debugMessage)
 
             alamofireManager.upload(multipartFormData: multipart, with: request) { result in
                 switch result {
@@ -245,10 +245,10 @@ class AFApiClient: ApiClient {
                     let dataRequest = upload.validate(statusCode: 200..<400)
                         .responseObject(decoder) { [weak self] (response: DataResponse<T>) in
                             if let actualError = self?.errorFromAlamofireResponse(errorDecoderType: request.errorDecoderType, response: response) {
-                                logMessage(.info, type: CoreLoggingOptions.networking, message: response.logMessage)
+                                logMessage(.info, type: CoreLoggingOptions.networking, message: response.debugMessage)
                                 completion?(ResultResult<T, ApiError>.t(error: actualError))
                             } else if let uploadFileResponse = response.result.value {
-                                logMessage(.verbose, type: CoreLoggingOptions.networking, message: response.logMessage)
+                                logMessage(.verbose, type: CoreLoggingOptions.networking, message: response.debugMessage)
                                 completion?(ResultResult<T, ApiError>.t(value: uploadFileResponse))
                             }
                         }

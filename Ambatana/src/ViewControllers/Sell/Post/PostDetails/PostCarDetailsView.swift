@@ -194,12 +194,12 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
             .top(by: Metrics.shortMargin)
         navigationYearButton.layout(with: navigationOkButton)
             .trailing(to: .leading, by: -Metrics.margin, relatedBy: .lessThanOrEqual)
-        navigationYearButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        navigationYearButton.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
         
         navigationOkButton.layout(with: navigationView)
             .right(by: -Metrics.margin)
             .top(by: Metrics.shortMargin)
-        navigationOkButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        navigationOkButton.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
         
         descriptionLabel.layout(with: contentView)
             .leadingMargin()
@@ -300,7 +300,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         yearRowView.value = year
     }
     
-    func hideKeyboard() {
+    @objc func hideKeyboard() {
         tableView.hideKeyboard()
     }
     
@@ -334,7 +334,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     
     // MARK: UI Actions
     
-    dynamic func navigationButtonOkPressed() {
+    @objc func navigationButtonOkPressed() {
         tableView.hideKeyboard()
         showSelectDetail()
     }

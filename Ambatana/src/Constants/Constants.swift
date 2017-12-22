@@ -143,4 +143,9 @@ struct Constants {
     // Bump Ups
     static let maxRetriesForBumpUpRestore = 20
     static let maxRetriesForFirstTimeBumpUp = 3
+    static let promoteAfterPostWaitTime = TimeInterval.make(days: 1)
+
+    // Tracking
+    static let parameterNotApply = "N/A"
+    static let parameterSkipValue = "skip"
 }

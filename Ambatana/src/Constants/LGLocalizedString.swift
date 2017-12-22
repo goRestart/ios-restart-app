@@ -623,6 +623,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_login_popup_text", comment: "")
 	}
 
+	static var chatMessageDisclaimerMeetingSecurity: String {
+		return NSLocalizedString("chat_message_disclaimer_meeting_security", comment: "")
+	}
+
 	static func chatMessageDisclaimerScammerBaseBlocked(_ var1: String) -> String {
 		return String(format: NSLocalizedString("chat_message_disclaimer_scammer_base_blocked", comment: ""), var1)
 	}
@@ -1309,6 +1313,26 @@ struct LGLocalizedString {
 
 	static var filtersCarYearBeforeYear: String {
 		return NSLocalizedString("filters_car_year_before_year", comment: "")
+	}
+
+	static var filtersSectionRealEstateInfo: String {
+		return NSLocalizedString("filters_section_real_estate_info", comment: "")
+	}
+
+	static var filtersRealEstatePropertyTypeNotSet: String {
+		return NSLocalizedString("filters_real_estate_property_type_not_set", comment: "")
+	}
+
+	static var filtersRealEstateOfferTypeNotSet: String {
+		return NSLocalizedString("filters_real_estate_offer_type_not_set", comment: "")
+	}
+
+	static var filtersRealEstateBedroomsNotSet: String {
+		return NSLocalizedString("filters_real_estate_bedrooms_not_set", comment: "")
+	}
+
+	static var filtersRealEstateBathroomsNotSet: String {
+		return NSLocalizedString("filters_real_estate_bathrooms_not_set", comment: "")
 	}
 
 	static var filtersTagLocationSelected: String {
@@ -2327,6 +2351,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_confirmation_another_button", comment: "")
 	}
 
+	static var productPostConfirmationAnotherListingButton: String {
+		return NSLocalizedString("product_post_confirmation_another_listing_button", comment: "")
+	}
+
 	static var productPostConfirmationEdit: String {
 		return NSLocalizedString("product_post_confirmation_edit", comment: "")
 	}
@@ -2771,6 +2799,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_connect_accounts_message", comment: "")
 	}
 
+	static var promoteBumpTitle: String {
+		return NSLocalizedString("promote_bump_title", comment: "")
+	}
+
+	static var promoteBumpSellFasterButton: String {
+		return NSLocalizedString("promote_bump_sell_faster_button", comment: "")
+	}
+
+	static var promoteBumpLaterButton: String {
+		return NSLocalizedString("promote_bump_later_button", comment: "")
+	}
+
 	static var quickFilterLocationTitle: String {
 		return NSLocalizedString("quick_filter_location_title", comment: "")
 	}
@@ -3177,6 +3217,10 @@ struct LGLocalizedString {
 
 	static func realEstateCurrentStepOfTotal(_ var1: Int, _ var2: Int) -> String {
 		return String(format: NSLocalizedString("real_estate_current_step_of_total", comment: ""), var1, var2)
+	}
+
+	static var realEstateRelatedSearchTitle: String {
+		return NSLocalizedString("real_estate_related_search_title", comment: "")
 	}
 
 	static var relatedItemsTitle: String {

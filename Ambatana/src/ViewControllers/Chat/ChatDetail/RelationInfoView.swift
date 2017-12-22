@@ -67,7 +67,7 @@ enum ChatInfoViewStatus: Int {
         case .listingSold, .listingGivenAway:
             return UIColor.soldColor
         case .available:
-            return UIColor.clear
+            return .clear
         }
     }
 
@@ -142,7 +142,7 @@ class RelationInfoView: UIView {
 
     func setupBasicUI() {
         // Non-Status dependant setup
-        containerView.backgroundColor = UIColor.clear
+        containerView.backgroundColor = .clear
         chatInfoLabel.font = UIFont.smallBodyFont
         chatInfoLabel.textAlignment = .left
         chatInfoIcon.contentMode = .scaleAspectFill

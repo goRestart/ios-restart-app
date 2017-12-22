@@ -21,6 +21,17 @@ public enum UserRatingType {
     case conversation
     case seller(listingId: String)
     case buyer(listingId: String)
+    
+    public var listingId: String? {
+        switch self {
+        case .conversation:
+            return nil
+        case .seller(let listingId):
+            return listingId
+        case .buyer(let listingId):
+            return listingId
+        }
+    }
 }
 
 public enum UserRatingStatus: Int {

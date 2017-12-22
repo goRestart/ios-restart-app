@@ -2,35 +2,33 @@
 //  LGAccount.swift
 //  LGCoreKit
 //
-//  Created by Albert Hernández López on 14/04/16.
-//  Copyright © 2016 Ambatana Inc. All rights reserved.
+//  Created by Nestor on 24/10/2017.
+//  Copyright © 2017 Nestor. All rights reserved.
 //
 
-import Argo
-import Curry
-import Runes
+import Foundation
 
-struct LGAccount: Account {
+struct LGAccount: Account, Decodable {
     let provider: AccountProvider
     let verified: Bool
-}
 
-extension LGAccount : Decodable {
-
-    /**
-     Expects a json in the form:
+    // MARK: - Decodable
+    
+    /*
      {
-        "type": "letgo",
-        "verified": true
+     "type": "letgo",
+     "verified": true
      }
      */
-    static func decode(_ j: JSON) -> Decoded<LGAccount> {
-        let result1 = curry(LGAccount.init)
-        let result2 = result1 <^> j <| "type"
-        let result  = result2 <*> j <| "verified"
-        if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGAccount parse error: \(error)")
-        }
-        return result
+    
+    public init(from decoder: Decoder) throws {
+        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        provider = try keyedContainer.decode(AccountProvider.self, forKey: .provider)
+        verified = try keyedContainer.decode(Bool.self, forKey: .verified)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case provider = "type"
+        case verified
     }
 }

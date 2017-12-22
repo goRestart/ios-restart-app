@@ -54,7 +54,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     
     
     // MARK: - UICollectionViewDelegate & DataSource methods
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+    @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         return CategoryHeaderCell.cellSize()
     }
     
@@ -104,7 +104,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
         scrollsToTop = false
         showsHorizontalScrollIndicator = false
         
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
         
         // CollectionView cells
         register(CategoryHeaderCell.self, forCellWithReuseIdentifier: CategoryHeaderCell.reuseIdentifier)

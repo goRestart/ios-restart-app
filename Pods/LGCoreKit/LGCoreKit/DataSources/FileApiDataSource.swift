@@ -8,8 +8,6 @@
 
 import Foundation
 import Result
-import Argo
-
 
 final class FileApiDataSource: FileDataSource {
     let apiClient: ApiClient
@@ -47,7 +45,9 @@ final class FileApiDataSource: FileDataSource {
     // MARK: - Decoders
     
     static func decoder(_ object: Any) -> String? {
-        let imageId: Decoded<String> = JSON(object) <| "imageId"
-        return imageId.value
+        guard let dict = object as? [String: Any],
+            let imageId = dict["imageId"] as? String
+            else { return nil }
+        return imageId
     }
 }

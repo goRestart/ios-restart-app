@@ -274,6 +274,9 @@ enum AccessibilityId: String {
     case editListingShareFBSwitch
     case editListingLoadingView
     case editListingPostFreeSwitch
+    case editListingOptionSelector
+    case editListingOptionSelectorTitleLabel
+    case editListingOptionSelectorCurrentValueLabel
 
     // ReportUser
     case reportUserCollection
@@ -581,6 +584,12 @@ enum AccessibilityId: String {
 
     // Featured Info View
     case featuredInfoCloseButton
+
+    // Promote Bump Up view
+    case promoteBumpUpView
+    case promoteBumpUpTitle
+    case promoteBumpUpSellFasterButton
+    case promoteBumpUpLaterButton
 }
 
 extension UIAccessibilityIdentification {

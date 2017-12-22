@@ -356,10 +356,10 @@ class StringLGSpec: QuickSpec {
                             
                             regularAttributes = result.attributes(at: 0,
                                                                   longestEffectiveRange: nil,
-                                                                  in: NSRange(location: 0, length: ignoreText.characters.count))
+                                                                  in: NSRange(location: 0, length: ignoreText.count))
                             
-                            let boldStarIndex = ignoreText.characters.count > 0 ? ignoreText.characters.count + 1 : 0
-                            let boldLength = result.string.characters.count-ignoreText.characters.count
+                            let boldStarIndex = ignoreText.count > 0 ? ignoreText.count + 1 : 0
+                            let boldLength = result.string.count-ignoreText.count
                             boldAttributes = result.attributes(at: boldStarIndex,
                                                                longestEffectiveRange: nil,
                                                                in: NSRange(location: boldStarIndex, length: boldLength))
@@ -390,10 +390,10 @@ class StringLGSpec: QuickSpec {
                             
                             regularAttributes = result.attributes(at: 0,
                                                                   longestEffectiveRange: nil,
-                                                                  in: NSRange(location: 0, length: ignoreText.characters.count))
+                                                                  in: NSRange(location: 0, length: ignoreText.count))
                             
-                            let boldStarIndex = ignoreText.characters.count > 0 ? ignoreText.characters.count + 1 : 0
-                            let boldLength = result.string.characters.count-ignoreText.characters.count
+                            let boldStarIndex = ignoreText.count > 0 ? ignoreText.count + 1 : 0
+                            let boldLength = result.string.count-ignoreText.count
                             boldAttributes = result.attributes(at: boldStarIndex,
                                                                longestEffectiveRange: nil,
                                                                in: NSRange(location: boldStarIndex, length: boldLength))
@@ -424,7 +424,7 @@ class StringLGSpec: QuickSpec {
                             
                             regularAttributes = result.attributes(at: 0,
                                                                   longestEffectiveRange: nil,
-                                                                  in: NSRange(location: 0, length: sut.characters.count))
+                                                                  in: NSRange(location: 0, length: sut.count))
                         }
                         it("has the specified point size on regular attributes") {
                             expect((regularAttributes[NSFontAttributeName] as! UIFont).pointSize) == 15

@@ -92,8 +92,20 @@ open class MockListingRepository: ListingRepository {
     public func indexRelated(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?) {
         delay(result: indexResult, completion: completion)
     }
+    
+    public func indexRelatedRealEstate(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?) {
+        delay(result: indexResult, completion: completion)
+    }
 
     public func indexDiscover(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?) {
+        delay(result: indexResult, completion: completion)
+    }
+    
+    public func indexRealEstate(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
+        delay(result: indexResult, completion: completion)
+    }
+    
+    public func indexRealEstateRelatedSearch(_ params: RetrieveListingParams, completion: ListingsCompletion?) {
         delay(result: indexResult, completion: completion)
     }
 
@@ -102,6 +114,10 @@ open class MockListingRepository: ListingRepository {
     }
 
     public func retrieve(_ listingId: String, completion: ListingCompletion?) {
+        delay(result: listingResult, completion: completion)
+    }
+    
+    public func retrieveRealEstate(_ listingId: String, completion: ListingCompletion?) {
         delay(result: listingResult, completion: completion)
     }
 

@@ -44,20 +44,20 @@ final class PhotoViewerViewControllerBinder {
             .debounce(0.3, scheduler: MainScheduler.instance)
             .bindNext { [weak viewController] in
             viewController?.showChat()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by:disposeBag)
     }
 
     private func bindContentOffset(toViewController viewController: PhotoViewerVCType?,
                                    view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
         view.rx_collectionView.contentOffset.asObservable().bindNext { [weak viewController] offset in
             viewController?.updatePage(fromContentOffset: offset.x)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by:disposeBag)
     }
 
     private func bindKeyboard(toViewController viewController: PhotoViewerVCType?,
                               view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
         viewController?.keyboardChanges.bindNext {
             viewController?.updateWith(keyboardChange: $0)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by:disposeBag)
     }
 }

@@ -47,7 +47,7 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     // MARK: - UI
     
     private func setupUI() {
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
         
         searchIconImageView.contentMode = .center
         searchIconImageView.image = #imageLiteral(resourceName: "ic_search")
@@ -116,7 +116,7 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
         fillSearchButton.isHidden = true
     }
     
-    dynamic private func fillSearchButtonPressed(sender: AnyObject) {
+    @objc private func fillSearchButtonPressed(sender: AnyObject) {
         fillSearchButtonBlock?()
     }
     
@@ -130,12 +130,12 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
         if let titleLabelFont = titleLabel.font,
            let titleSkipHighlight = titleSkipHighlight {
             let titleWithHighlight = NSMutableAttributedString(string: title,
-                                                               attributes: [NSFontAttributeName: titleLabelFont])
+                                                               attributes: [NSAttributedStringKey.font: titleLabelFont])
             let range = NSString(string: title).range(of: titleSkipHighlight,
                                                       options: [.caseInsensitive, .diacriticInsensitive])
             
             titleWithHighlight.addAttribute(
-                NSForegroundColorAttributeName,
+                NSAttributedStringKey.foregroundColor,
                 value: UIColor.gray,
                 range: range)
             titleLabel.attributedText = titleWithHighlight

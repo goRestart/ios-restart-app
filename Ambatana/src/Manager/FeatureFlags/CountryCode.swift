@@ -28,7 +28,7 @@ enum CountryCode: String {
     func isValidZipCode(zipCode: String) -> Bool {
         switch self {
         case .usa, .turkey:
-            return zipCode.characters.count == zipCodeLenght && zipCode.isOnlyDigits
+            return zipCode.count == zipCodeLenght && zipCode.isOnlyDigits
         }
     }
 }

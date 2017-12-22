@@ -58,9 +58,9 @@ struct SignUpForm {
     
     private func checkPassword() -> SignUpFormErrors {
         var errors: SignUpFormErrors = []
-        if password.characters.count < Constants.passwordMinLength {
+        if password.count < Constants.passwordMinLength {
             errors.insert(.shortPassword)
-        } else if password.characters.count > Constants.passwordMaxLength {
+        } else if password.count > Constants.passwordMaxLength {
             errors.insert(.longPassword)
         }
         return errors
@@ -70,7 +70,7 @@ struct SignUpForm {
         var errors: SignUpFormErrors = []
         if username.containsLetgo() {
             errors.insert(.usernameTaken)
-        } else if username.characters.count < Constants.fullNameMinLength {
+        } else if username.count < Constants.fullNameMinLength {
             errors.insert(.invalidUsername)
         }
         return errors
@@ -104,7 +104,7 @@ struct LogInEmailForm {
     
     private func checkPassword() -> LogInEmailFormErrors {
         var errors: LogInEmailFormErrors = []
-        if password.characters.count < Constants.passwordMinLength {
+        if password.count < Constants.passwordMinLength {
             errors.insert(.shortPassword)
         }
         return errors
@@ -167,7 +167,7 @@ class SignUpLogInViewModel: BaseViewModel {
         let localizedLegalText = LGLocalizedString.signUpTermsConditions
         let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
             textColor: linkColor)
-        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont.mediumBodyFont,
+        attributtedLegalText.addAttribute(NSAttributedStringKey.font, value: UIFont.mediumBodyFont,
             range: NSMakeRange(0, attributtedLegalText.length))
         return attributtedLegalText
     }
@@ -348,7 +348,7 @@ class SignUpLogInViewModel: BaseViewModel {
         }
     }
     
-    func logIn() {
+    func logIn(recaptchaToken: String? = nil) {
         guard sendButtonEnabledVar.value else { return }
         
         if emailTrimmed.value == "admin" && password.value == "wat" {
@@ -361,17 +361,17 @@ class SignUpLogInViewModel: BaseViewModel {
         let errors = logInEmailForm.checkErrors()
         
         if errors.isEmpty {
-            sendLogIn(logInEmailForm)
+            sendLogIn(logInEmailForm, recaptchaToken: recaptchaToken)
         } else {
             trackFormLogInValidationFailed(errors: errors)
             delegate?.vmShowAutoFadingMessage(errors.errorMessage, completion: nil)
         }
     }
     
-    func sendLogIn(_ logInForm: LogInEmailForm) {
+    func sendLogIn(_ logInForm: LogInEmailForm, recaptchaToken: String?) {
         delegate?.vmShowLoading(nil)
         
-        sessionManager.login(logInForm.email, password: logInForm.password) { [weak self] loginResult in
+        let completion: LoginCompletion? = { [weak self] loginResult in
             guard let strongSelf = self else { return }
             
             if let user = loginResult.value {
@@ -388,6 +388,18 @@ class SignUpLogInViewModel: BaseViewModel {
                 strongSelf.processLoginSessionError(sessionManagerError)
             }
         }
+        
+        if let recaptchaToken = recaptchaToken {
+            sessionManager.login(logInForm.email,
+                                 password: logInForm.password,
+                                 recaptchaToken: recaptchaToken,
+                                 completion: completion)
+        } else {
+            sessionManager.login(logInForm.email,
+                                 password: logInForm.password,
+                                 completion: completion)
+        }
+        
     }
     
     func godLogIn(_ password: String) {
@@ -399,16 +411,16 @@ class SignUpLogInViewModel: BaseViewModel {
     }
     
     func logInWithFacebook() {
-        fbLoginHelper.login({ [weak self] _ in
+        fbLoginHelper.login({ [weak self] in
             self?.delegate?.vmShowLoading(nil)
-        }, loginCompletion: { [weak self] result in
+        }) { [weak self] result in
             self?.processExternalServiceAuthResult(result, accountProvider: .facebook)
             if result.isSuccess {
                 self?.trackLoginFBOK()
             } else if let trackingError = result.trackingError {
                 self?.trackLoginFBFailedWithError(trackingError)
             }
-        })
+        }
     }
 
     func logInWithGoogle() {
@@ -435,24 +447,24 @@ class SignUpLogInViewModel: BaseViewModel {
             guard let email = email, let password = password else { return false }
             switch strongSelf.currentActionType {
             case .login:
-                return email.characters.count > 0 && password.characters.count > 0
+                return email.count > 0 && password.count > 0
             case .signup:
                 guard let username = username else { return false }
-                return email.characters.count > 0 && password.characters.count > 0 && username.characters.count > 0
+                return email.count > 0 && password.count > 0 && username.count > 0
             }
-        }.bindTo(sendButtonEnabledVar).addDisposableTo(disposeBag)
+        }.bind(to: sendButtonEnabledVar).disposed(by: disposeBag)
         
         // Email trim
         email.asObservable()
             .map { $0?.trim }
-            .bindTo(emailTrimmed)
-            .addDisposableTo(disposeBag)
+            .bind(to: emailTrimmed)
+            .disposed(by: disposeBag)
         
         // Email auto suggest
         emailTrimmed.asObservable()
             .map { $0?.suggestEmail(domains: Constants.emailSuggestedDomains) }
-            .bindTo(suggestedEmailVar)
-            .addDisposableTo(disposeBag)
+            .bind(to: suggestedEmailVar)
+            .disposed(by: disposeBag)
     }
 
     /**
@@ -469,7 +481,7 @@ class SignUpLogInViewModel: BaseViewModel {
     }
 
     private func processLoginSessionError(_ error: LoginError) {
-        trackLoginEmailFailedWithError(error.trackingError)
+        var showCaptcha = false
         var afterMessageCompletion: (() -> ())? = nil
         switch error {
         case .scammer:
@@ -487,11 +499,20 @@ class SignUpLogInViewModel: BaseViewModel {
                     self?.showRememberPasswordAlert()
                 }
             }
-        case .network, .badRequest, .notFound, .forbidden, .conflict, .tooManyRequests, .userNotVerified, .internalError:
+        case .userNotVerified:
+            showCaptcha = true
+        case .network, .badRequest, .notFound, .forbidden, .conflict, .tooManyRequests, .internalError:
             break
         }
-
-        delegate?.vmHideLoading(error.errorMessage, afterMessageCompletion: afterMessageCompletion)
+       
+        if showCaptcha {
+            delegate?.vmHideLoading(nil) { [weak self] in
+                self?.navigator?.openRecaptcha(action: .login)
+            }
+        } else {
+            trackLoginEmailFailedWithError(error.trackingError)
+            delegate?.vmHideLoading(error.errorMessage, afterMessageCompletion: afterMessageCompletion)
+        }
     }
 
     private func process(signupError: SignupError) {
@@ -504,7 +525,7 @@ class SignUpLogInViewModel: BaseViewModel {
             }
         case .userNotVerified:
             delegate?.vmHideLoading(nil) { [weak self] in
-                self?.navigator?.openRecaptcha(transparentMode: self?.featureFlags.captchaTransparent ?? false)
+                self?.navigator?.openRecaptcha(action: .signup)
             }
         case .network, .badRequest, .notFound, .forbidden, .unauthorized, .conflict, .nonExistingEmail,
              .tooManyRequests, .internalError:
@@ -671,8 +692,13 @@ fileprivate extension SignUpFormErrors {
 // MARK: - RecaptchaTokenDelegate
 
 extension SignUpLogInViewModel: RecaptchaTokenDelegate {
-    func recaptchaTokenObtained(token: String) {
-        signUp(recaptchaToken: token)
+    func recaptchaTokenObtained(token: String, action: LoginActionType) {
+        switch action {
+        case .login:
+            logIn(recaptchaToken: token)
+        case .signup:
+            signUp(recaptchaToken: token)
+        }
     }
 }
 

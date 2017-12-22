@@ -73,6 +73,7 @@ final class SellCoordinator: Coordinator {
         let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                       forcedInitialTab: forcedInitialTab)
         navigationController = SellNavigationController(rootViewController: postListingVC)
+        navigationController.setupInitialCategory(postCategory: postCategory)
         self.viewController = navigationController
         postListingVM.navigator = self
     }
@@ -109,11 +110,11 @@ extension SellCoordinator: PostListingNavigator {
                     self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
                     self?.keyValueStorage.userPostProductPostedPreviously = true
                     self?.showConfirmation(listingResult: ListingResult(value: listing),
-                                           trackingInfo: trackingInfo)
+                                           trackingInfo: trackingInfo, modalStyle: true)
                 } else if let error = result.error {
                     self?.trackListingPostedInBackground(withError: error)
                     self?.showConfirmation(listingResult: ListingResult(error: error),
-                                           trackingInfo: trackingInfo)
+                                           trackingInfo: trackingInfo, modalStyle: true)
                 }
             }
         }
@@ -175,15 +176,27 @@ extension SellCoordinator: PostListingNavigator {
         let sellErrorDataEvent = TrackerEvent.listingSellErrorData(sellError)
         TrackerProxy.sharedInstance.trackEvent(sellErrorDataEvent)
     }
+    
+    func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo) {
+        let viewModel = ListingCreationViewModel(listingParams: listingParams, trackingInfo: trackingInfo)
+        viewModel.navigator = self
+        let vc = ListingCreationViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: false)
+    }
 
-    fileprivate func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo) {
+    func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool) {
         guard let parentVC = parentViewController else { return }
         
         let listingPostedVM = ListingPostedViewModel(listingResult: listingResult, trackingInfo: trackingInfo)
         listingPostedVM.navigator = self
         let listingPostedVC = ListingPostedViewController(viewModel: listingPostedVM)
         viewController = listingPostedVC
-        parentVC.present(listingPostedVC, animated: true, completion: nil)
+        if modalStyle {
+            parentVC.present(listingPostedVC, animated: true, completion: nil)
+        } else {
+            navigationController.pushViewController(listingPostedVC, animated: false)
+        }
+        
     }
 
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
@@ -249,6 +262,7 @@ extension SellCoordinator: ListingPostedNavigator {
             strongSelf.viewController = postListingVC
             postListingVM.navigator = self
             strongSelf.navigationController = SellNavigationController(rootViewController: postListingVC)
+            strongSelf.navigationController.setupInitialCategory(postCategory: nil)
             strongSelf.viewController = strongSelf.navigationController
             strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)
         }

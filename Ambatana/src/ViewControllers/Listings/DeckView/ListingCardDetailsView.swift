@@ -149,14 +149,14 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
             titleLabel.font = UIFont.systemMediumFont(size: 17)
             titleLabel.textAlignment = .left
             titleLabel.numberOfLines = 1
-            titleLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+            titleLabel.setContentHuggingPriority(.required, for: .vertical)
         }
 
         func setupPriceLabel() {
             priceLabel.font = UIFont.systemBoldFont(size: 27)
             priceLabel.textAlignment = .left
             priceLabel.numberOfLines = 1
-            priceLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+            priceLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         }
 
         setupHeaderStackView()
@@ -170,7 +170,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
 
         detailLabel.layout(with: headerStackView).below(by: Metrics.veryShortMargin)
         detailLabel.layout(with: scrollView).leadingMargin(by: Metrics.shortMargin).trailingMargin(by: -Metrics.shortMargin)
-        detailLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+        detailLabel.setContentCompressionResistancePriority(.required, for: .vertical)
 
         detailLabel.isUserInteractionEnabled = true
         detailLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toggleDetailLines)))
@@ -195,8 +195,8 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
             locationLabel.textAlignment = .left
             locationLabel.textColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
 
-            locationLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-            locationLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+            locationLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+            locationLabel.setContentHuggingPriority(.required, for: .vertical)
         }
         func setupMapHeader() {
             mapHeader.translatesAutoresizingMaskIntoConstraints = false
@@ -205,7 +205,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
             scrollView.addSubview(mapHeader)
             mapHeader.layout(with: scrollView).leadingMargin().trailingMargin()
             mapHeader.layout(with: statsView).below(by: Metrics.margin)
-            mapHeader.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
+            mapHeader.setContentCompressionResistancePriority(.required, for: .vertical)
 
             let location = UIImageView(image: #imageLiteral(resourceName: "nit_location"))
             location.contentMode = .center
@@ -230,13 +230,13 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
             mapPlaceHolder.backgroundColor = backgroundColor
             
             let centerY = detailMapView.centerYAnchor.constraint(equalTo: mapPlaceHolder.centerYAnchor)
-            centerY.priority = UILayoutPriorityRequired - 1
+            centerY.priority = UILayoutPriority(rawValue: 999)
             centerY.isActive = true
             
             detailMapView.layout(with: scrollView).fillHorizontal()
             let mapHeightConstraint = detailMapView.heightAnchor.constraint(equalToConstant: Layout.Height.mapView)
             mapHeightConstraint.isActive = true
-            mapHeightConstraint.priority = UILayoutPriorityRequired - 1
+            mapHeightConstraint.priority = UILayoutPriority(rawValue: 999)
             
             mapSnapShotToBottom = mapPlaceHolder.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor,
                                                                           constant: -2*Metrics.margin)
@@ -262,8 +262,8 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
             socialMediaHeader.font = UIFont.systemRegularFont(size: 13)
             socialMediaHeader.textAlignment = .left
             socialMediaHeader.text = LGLocalizedString.productShareTitleLabel
-            socialMediaHeader.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-            socialMediaHeader.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+            socialMediaHeader.setContentCompressionResistancePriority(.required, for: .vertical)
+            socialMediaHeader.setContentHuggingPriority(.required, for: .vertical)
         }
 
         func setupSocialView() {

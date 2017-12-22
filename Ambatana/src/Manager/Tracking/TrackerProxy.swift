@@ -137,16 +137,16 @@ final class TrackerProxy: Tracker {
     // MARK: Private methods
 
     private func setupEventsRx() {
-        myUserRepository.rx_myUser.bindNext { [weak self] myUser in
+        myUserRepository.rx_myUser.bind { [weak self] myUser in
             let user = (self?.sessionManager.loggedIn ?? false) ? myUser : nil
             self?.setUser(user)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        installationRepository.rx_installation.bindNext { [weak self] installation in
+        installationRepository.rx_installation.bind { [weak self] installation in
             self?.setInstallation(installation)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        locationManager.locationEvents.bindNext { [weak self] event in
+        locationManager.locationEvents.bind { [weak self] event in
             switch event {
             case .changedPermissions:
                 self?.locationManagerDidChangePermissions()
@@ -155,7 +155,7 @@ final class TrackerProxy: Tracker {
             case .movedFarFromSavedManualLocation:
                 break
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func locationManagerDidChangePermissions() {
@@ -169,8 +169,8 @@ final class TrackerProxy: Tracker {
     }
 
     private func setupMktNotificationsRx() {
-        notificationsManager.loggedInMktNofitications.asObservable().bindNext { [weak self] enabled in
+        notificationsManager.loggedInMktNofitications.asObservable().bind { [weak self] enabled in
             self?.setMarketingNotifications(enabled)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }

@@ -9,7 +9,7 @@
 import RxSwift
 import LGCoreKit
 
-class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
+class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
     
     var title: String {
         return step.title
@@ -53,6 +53,15 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         }
     }
     
+    var buttonFullWidth: Bool {
+        switch step {
+        case .bathrooms, .bedrooms, .offerType, .propertyType, .make, .model, .year, .price:
+            return false
+        case .location, .summary:
+            return true
+        }
+    }
+    
     private var currencySymbol: String? {
         guard let countryCode = locationManager.currentLocation?.countryCode else { return nil }
         return currencyHelper.currencyWithCountryCode(countryCode).symbol
@@ -77,7 +86,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
             
             let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol,
                                                       freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
-            priceView.priceListing.asObservable().bindTo(priceListing).addDisposableTo(disposeBag)
+            priceView.priceListing.asObservable().bind(to: priceListing).disposed(by: disposeBag)
             return priceView
         case .summary:
             let summaryView = PostingAddDetailSummaryTableView(postCategory: postListingState.category)
@@ -86,12 +95,12 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .location:
             let locationView = PostingAddDetailLocation(viewControllerDelegate: viewControllerDelegate,
                                                         currentPlace: postListingState.place)
-            locationView.locationSelected.asObservable().bindTo(placeSelected).addDisposableTo(disposeBag)
+            locationView.locationSelected.asObservable().bind(to: placeSelected).disposed(by: disposeBag)
             return locationView
         case .year, .make, .model:
             return nil
         }
-        let view: PostingAddDetailTableView = PostingAddDetailTableView(values: values, delegate: self)
+        let view = PostingAttributePickerTableView(values: values, selectedIndex: nil, delegate: self)
         return view
     }
     
@@ -167,12 +176,12 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     }
     
     func closeButtonPressed() {
-        postAndClose()
+        closeAndPost()
     }
     
     func nextbuttonPressed() {
         guard let next = step.nextStep else {
-            postAndClose()
+            post(buttonNameType: .summary)
             return
         }
         switch step {
@@ -183,18 +192,33 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .bathrooms, .bedrooms, .make, .model, .year, .offerType, .propertyType, .summary:
             break
         }
-        if step == .price {
-            set(price: priceListing.value)
-        }
         let nextStep = previousStepIsSummary ? .summary : next
         advanceNextStep(next: nextStep)
     }
     
-    private func postAndClose() {
+    private func post(buttonNameType: EventParameterButtonNameType) {
+        guard let listingCreationParams = retrieveListingParams() else {
+            navigator?.cancelPostListing()
+            return
+        }
+        let trackingInfo = retrieveTrackingInfo(buttonNameType: buttonNameType)
         navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: { [weak self] in
-            self?.postListing()
-        }, cancelAction: { [weak self] in
-            self?.navigator?.cancelPostListing()
+            self?.navigator?.openListingCreation(listingParams: listingCreationParams, trackingInfo: trackingInfo)
+            }, cancelAction: { [weak self] in
+                self?.navigator?.cancelPostListing()
+        })
+    }
+    
+    private func closeAndPost() {
+        guard let listingCreationParams = retrieveListingParams() else {
+            navigator?.cancelPostListing()
+            return
+        }
+        let trackingInfo = retrieveTrackingInfo(buttonNameType: .close)
+        navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: { [weak self] in
+            self?.navigator?.closePostProductAndPostInBackground(params: listingCreationParams, trackingInfo: trackingInfo)
+            }, cancelAction: { [weak self] in
+                self?.navigator?.cancelPostListing()
         })
     }
     
@@ -202,26 +226,25 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, previousStepIsSummary: false)
     }
     
-    private func postListing() {
-        guard let location = locationManager.currentLocation?.location else {
-            navigator?.cancelPostListing()
-            return
-        }
+    private func set(price: ListingPrice) {
+        postListingState = postListingState.updating(price: price)
+    }
+    
+    private func retrieveTrackingInfo(buttonNameType: EventParameterButtonNameType) -> PostListingTrackingInfo {
+        return PostListingTrackingInfo(buttonName: buttonNameType, sellButtonPosition: postingSource.sellButtonPosition, imageSource: uploadedImageSource, price: String(describing: postListingState.price?.value))
+    }
+    
+    private func retrieveListingParams() -> ListingCreationParams? {
+        guard let location = locationManager.currentLocation?.location else { return nil }
+        
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
-        let listingCreationParams =  ListingCreationParams.make(title: postListingBasicInfo.title.value,
+        return ListingCreationParams.make(title: postListingBasicInfo.title.value,
                                                                 description: postListingBasicInfo.description.value,
                                                                 currency: currency,
                                                                 location: location,
                                                                 postalAddress: postalAddress,
                                                                 postListingState: postListingState)
-        
-        let trackingInfo: PostListingTrackingInfo = PostListingTrackingInfo(buttonName: .summary, sellButtonPosition: postingSource.sellButtonPosition, imageSource: uploadedImageSource, price: String(describing: postListingState.price?.value))
-        navigator?.closePostProductAndPostInBackground(params: listingCreationParams, trackingInfo: trackingInfo)
-    }
-    
-    private func set(price: ListingPrice) {
-        postListingState = postListingState.updating(price: price)
     }
     
     private func update(place: Place?) {
@@ -251,7 +274,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .summary, .location, .make, .model, .year:
             return
         }
-
+        
         var realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes()
         realEstateInfo = realEstateInfo.updating(propertyType: realEstatePropertyType,
                                                  offerType: realEstateOfferType,
@@ -292,7 +315,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         }
     }
     
-    func findValueSelected() -> Int? {
+    func indexForValueSelected() -> Int? {
         var positionSelected: Int? = nil
         switch step {
         case .propertyType:
@@ -317,6 +340,10 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     // MARK: - PostingAddDetailSummaryTableViewDelegate
     
     func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView, didSelectIndex: PostingSummaryOption) {
+        
+        let event = TrackerEvent.openOptionOnSummary(fieldOpen: EventParameterOptionSummary(optionSelected: didSelectIndex),
+                                                     postingType: EventParameterPostingType(category: postListingState.category ?? .unassigned))
+        tracker.trackEvent(event)
         navigator?.nextPostingDetailStep(step: didSelectIndex.postingDetailStep, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, previousStepIsSummary: true)
     }
     

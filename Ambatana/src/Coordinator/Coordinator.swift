@@ -66,7 +66,7 @@ extension Coordinator {
 // MARK: - Helpers
 
 extension Coordinator {
-    final func openChild(coordinator: Coordinator, parent: UIViewController, animated: Bool, forceCloseChild: Bool,
+    func openChild(coordinator: Coordinator, parent: UIViewController, animated: Bool, forceCloseChild: Bool,
                          completion: (() -> Void)?) {
         let presentBlock = {
             self.child?.coordinatorDelegate = nil
@@ -90,7 +90,7 @@ extension Coordinator {
         }
     }
 
-    final func closeCoordinator(animated: Bool, completion: (() -> Void)?) {
+    func closeCoordinator(animated: Bool, completion: (() -> Void)?) {
         let dismiss: () -> Void = { [weak self] in
             self?.dismissViewController(animated: animated) {
                 guard let strongSelf = self else { return }
@@ -175,7 +175,7 @@ extension Coordinator {
     func openAutocloseMessage(animated: Bool = true,
                               message: String,
                               time: TimeInterval = Constants.autocloseMessageDefaultTime,
-                              completion: ((Void) -> Void)? = nil) {
+                              completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         openAlertController(alert)
         delay(time) { [weak self] in

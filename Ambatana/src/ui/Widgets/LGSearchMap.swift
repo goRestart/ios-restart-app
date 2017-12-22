@@ -131,16 +131,16 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
             guard let searchField = self?.searchField, searchField.isFirstResponder else { return }
             guard let text = text else { return }
             self?.viewModel.searchText.value = (text, autoSelect:false)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         
-        viewModel.placeLocation.asObservable().bindNext { [weak self] (place) in
+        viewModel.placeLocation.asObservable().bind { [weak self] (place) in
             guard let place = place else { return }
             self?.updateCenterMap(location: place.location)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         viewModel.placeInfoText.asObservable().subscribeNext { [weak self] infoText in
             self?.searchField.text = infoText
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     
@@ -169,7 +169,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         mapView.setRegion(region, animated: false)
     }
     
-    dynamic func gpsButtonPressed() {
+    @objc func gpsButtonPressed() {
         viewModel.showGPSLocation()
     }
     
@@ -263,7 +263,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if let textFieldText = textField.text, textFieldText.characters.count < 1 {
+        if let textFieldText = textField.text, textFieldText.count < 1 {
             return true
         }
         suggestionsTableView.isHidden = true

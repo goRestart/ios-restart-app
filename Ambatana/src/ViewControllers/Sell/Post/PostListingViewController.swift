@@ -10,6 +10,12 @@ import UIKit
 import RxSwift
 
 class PostListingViewController: BaseViewController, PostListingViewModelDelegate {
+
+    private static let retryButtonHeight: CGFloat = 50
+    private static let retryButtonWidth: CGFloat = 100
+    private static let loadingViewHeight: CGFloat = 100
+    private static let loadingViewWidth: CGFloat = 100
+    
     @IBOutlet weak var cameraGalleryContainer: UIView!
     
     @IBOutlet weak var otherStepsContainer: UIView!
@@ -22,13 +28,17 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     @IBOutlet weak var postedInfoLabel: UILabel!
     @IBOutlet weak var postErrorLabel: UILabel!
     @IBOutlet weak var retryButton: UIButton!
+    @IBOutlet weak var uploadImageStackView: UIStackView!
+    var loadingViewRealEstate: LoadingIndicator?
+    var messageLabelUploadingImage: UILabel = UILabel()
+    var retryButtonUploadingImageRealEstate: UIButton = UIButton(type: .custom)
     
-    fileprivate var closeButton: UIButton
+    fileprivate let closeButton = UIButton()
 
     // contained in cameraGalleryContainer
     fileprivate var viewPager: LGViewPager
     fileprivate var cameraView: PostListingCameraView
-    fileprivate var galleryView: PostListingGalleryView
+    fileprivate var galleryView: PostListingGalleryView = PostListingGalleryView()
 
     // contained in detailsContainer
     fileprivate let priceView: UIView
@@ -56,7 +66,6 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
 
     private let disposeBag = DisposeBag()
 
-    // ViewModel
     fileprivate var viewModel: PostListingViewModel
 
 
@@ -73,17 +82,14 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
                   forcedInitialTab: Tab?,
                   keyboardHelper: KeyboardHelper) {
         
-        let tabPosition: LGViewPagerTabPosition
-        tabPosition = .hidden
+        let tabPosition: LGViewPagerTabPosition = .hidden
         let postFooter = PostListingRedCamButtonFooter()
         self.footer = postFooter
         self.footerView = postFooter
-        self.closeButton = UIButton()
-        
+
         let viewPagerConfig = LGViewPagerConfig(tabPosition: tabPosition, tabLayout: .fixed, tabHeight: 50)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostListingCameraView(viewModel: viewModel.postListingCameraViewModel)
-        self.galleryView = PostListingGalleryView()
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forcedInitialTab = forcedInitialTab
@@ -96,10 +102,6 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         modalPresentationStyle = .overCurrentContext
         viewModel.delegate = self
-
-        self.closeButton.addTarget(self, action: #selector(onCloseButton),
-                                   for: .touchUpInside)
-        self.closeButton.setImage(UIImage(named: "ic_post_close"), for: .normal)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -108,7 +110,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupView()
         setAccesibilityIds()
         view.layoutIfNeeded()
@@ -136,6 +138,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         navigationController?.setNavigationBarHidden(true, animated: false)
         if viewModel.state.value.isLoading {
             customLoadingView.startAnimating()
+            loadingViewRealEstate?.startAnimating()
         }
     }
 
@@ -160,16 +163,16 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         viewModel.closeButtonPressed()
     }
 
-    dynamic func galleryButtonPressed() {
+    @objc func galleryButtonPressed() {
         guard viewPager.scrollEnabled else { return }
         viewPager.selectTabAtIndex(Tab.gallery.index, animated: true)
     }
     
-    dynamic func galleryPostButtonPressed() {
+    @objc func galleryPostButtonPressed() {
         galleryView.postButtonPressed()
     }
 
-    dynamic func cameraButtonPressed() {
+    @objc func cameraButtonPressed() {
         if viewPager.currentPage == Tab.camera.index {
             cameraView.takePhoto()
         } else {
@@ -180,12 +183,10 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     @IBAction func onRetryButton(_ sender: AnyObject) {
         viewModel.retryButtonPressed()
     }
-
-
+    
     // MARK: - Private methods
 
     private func setupView() {
-        
         cameraView.delegate = self
         cameraView.usePhotoButtonText = viewModel.usePhotoButtonText
 
@@ -194,19 +195,64 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         galleryView.collectionViewBottomInset = Metrics.margin + PostListingRedCamButtonFooter.cameraIconSide
         
         detailsContainerBottomConstraint.constant = 0
-        
+
         setupViewPager()
         setupCategorySelectionView()
         setupPriceView()
         setupAddCarDetailsView()
         setupCloseButton()
         setupFooter()
+        setupLoadingStackView()
+    }
+    
+    private func setupLoadingStackView() {
+        guard viewModel.isRealEstate else { return }
+        loadingViewRealEstate = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: PostListingViewController.loadingViewWidth, height: PostListingViewController.loadingViewHeight))
+        loadingViewRealEstate?.layout().height(PostListingViewController.loadingViewHeight).width(PostListingViewController.loadingViewWidth)
+        if let loadingView = loadingViewRealEstate {
+            uploadImageStackView.addArrangedSubview(loadingView)
+        }
+        messageLabelUploadingImage.textColor = UIColor.white
+        messageLabelUploadingImage.font = UIFont.body
+        messageLabelUploadingImage.numberOfLines = 0
+        retryButtonUploadingImageRealEstate.layout()
+            .height(PostListingViewController.retryButtonHeight)
+            .width(PostListingViewController.retryButtonWidth, relatedBy: .greaterThanOrEqual)
+        retryButtonUploadingImageRealEstate.setStyle(.primary(fontSize: .medium))
+        retryButtonUploadingImageRealEstate.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
+        retryButtonUploadingImageRealEstate.addTarget(self, action: #selector(PostListingViewController.onRetryButton), for: .touchUpInside)
+        uploadImageStackView.addArrangedSubview(messageLabelUploadingImage)
+        uploadImageStackView.addArrangedSubview(retryButtonUploadingImageRealEstate)
+        messageLabelUploadingImage.isHidden = true
+        retryButtonUploadingImageRealEstate.isHidden = true
+    }
+    
+    fileprivate func addMessageToStackView(textMessage: String?, success: Bool) {
+        guard viewModel.isRealEstate else { return }
+        messageLabelUploadingImage.text = textMessage
+        messageLabelUploadingImage.isHidden = false
+        if !success {
+            retryButtonUploadingImageRealEstate.isHidden = false
+            retryButtonUploadingImageRealEstate.setStyle(.primary(fontSize: .medium))
+        }
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            self?.uploadImageStackView.layoutIfNeeded()
+        })
     }
     
     private func setupCloseButton() {
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(closeButton)
-        closeButton.layout(with: view).left(by: Metrics.margin).top(by: Metrics.margin)
+        if #available(iOS 11.0, *) {
+            closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                                             constant:Metrics.margin).isActive = true
+        } else {
+            closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant:Metrics.margin).isActive = true
+        }
+        closeButton.layout(with: view).left(by: Metrics.margin)
+
+        closeButton.addTarget(self, action: #selector(onCloseButton), for: .touchUpInside)
+        closeButton.setImage(UIImage(named: "ic_post_close"), for: .normal)
     }
 
     private func setupPriceView() {
@@ -222,7 +268,12 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     private func setupCategorySelectionView() {
         categorySelectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(categorySelectionView)
-        categorySelectionView.layout(with: view).fill()
+        if #available(iOS 11, *) {
+            categorySelectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        } else {
+            categorySelectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        }
+        categorySelectionView.layout(with: view).fillHorizontal().bottom()
     }
     
     private func setupAddCarDetailsView() {
@@ -231,39 +282,43 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         carDetailsView.layout(with: view)
             .left()
             .right()
-            .top()
             .bottom()
+        if #available(iOS 11.0, *) {
+            carDetailsView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        } else {
+            carDetailsView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        }
         
         carDetailsView.updateProgress(withPercentage: viewModel.currentCarDetailsProgress)
         
-        carDetailsView.navigationBackButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        carDetailsView.navigationBackButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carDetailsNavigationBackButtonPressed()
-        }.addDisposableTo(disposeBag)
-        carDetailsView.navigationMakeButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        }.disposed(by: disposeBag)
+        carDetailsView.navigationMakeButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carMakeButtonPressed()
-        }.addDisposableTo(disposeBag)
-        carDetailsView.navigationModelButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        }.disposed(by: disposeBag)
+        carDetailsView.navigationModelButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carModelButtonPressed()
-        }.addDisposableTo(disposeBag)
-        carDetailsView.navigationYearButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        }.disposed(by: disposeBag)
+        carDetailsView.navigationYearButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carYearButtonPressed()
-        }.addDisposableTo(disposeBag)
-        carDetailsView.makeRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        }.disposed(by: disposeBag)
+        carDetailsView.makeRowView.button.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carMakeButtonPressed()
-        }.addDisposableTo(disposeBag)
-        carDetailsView.modelRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        }.disposed(by: disposeBag)
+        carDetailsView.modelRowView.button.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carModelButtonPressed()
-        }.addDisposableTo(disposeBag)
-        carDetailsView.yearRowView.button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        }.disposed(by: disposeBag)
+        carDetailsView.yearRowView.button.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carYearButtonPressed()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        carDetailsView.doneButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        carDetailsView.doneButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.carDetailsDoneButtonPressed()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        carDetailsView.tableView.selectedDetail.asObservable().bindTo(viewModel.selectedDetail)
-            .addDisposableTo(disposeBag)
+        carDetailsView.tableView.selectedDetail.asObservable().bind(to: viewModel.selectedDetail)
+            .disposed(by: disposeBag)
         viewModel.selectedDetail.asObservable().subscribeNext { [weak self] (categoryDetailSelectedInfo) in
             guard let strongSelf = self else { return }
             guard let categoryDetail = categoryDetailSelectedInfo else { return }
@@ -277,12 +332,12 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
                 strongSelf.showCarYears()
             case .year:
                 strongSelf.carDetailsView.updateYear(withYear: categoryDetail.name)
-                delay(0.3) { _ in // requested by designers
+                delay(0.3) {  // requested by designers
                     strongSelf.didFinishEnteringDetails()
                 }
             }
             strongSelf.carDetailsView.updateProgress(withPercentage: strongSelf.viewModel.currentCarDetailsProgress)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func setupFooter() {
@@ -293,26 +348,26 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             .trailing()
             .bottom()
         
-        footer.galleryButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        footer.galleryButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.galleryButtonPressed()
-        }.addDisposableTo(disposeBag)
-        cameraView.takePhotoEnabled.asObservable().bindTo(footer.cameraButton.rx.isEnabled).addDisposableTo(disposeBag)
-        cameraView.takePhotoEnabled.asObservable().bindTo(footer.galleryButton.rx.isEnabled).addDisposableTo(disposeBag)
-        footer.cameraButton.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        }.disposed(by: disposeBag)
+        cameraView.takePhotoEnabled.asObservable().bind(to: footer.cameraButton.rx.isEnabled).disposed(by: disposeBag)
+        cameraView.takePhotoEnabled.asObservable().bind(to: footer.galleryButton.rx.isEnabled).disposed(by: disposeBag)
+        footer.cameraButton.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.cameraButtonPressed()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setupRx() {
-        viewModel.state.asObservable().bindNext { [weak self] state in
+        viewModel.state.asObservable().bind { [weak self] state in
             self?.update(state: state)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         categorySelectionView.selectedCategory.asObservable()
-            .bindTo(viewModel.category)
-            .addDisposableTo(disposeBag)
+            .bind(to: viewModel.category)
+            .disposed(by: disposeBag)
         
-        keyboardHelper.rx_keyboardOrigin.asObservable().bindNext { [weak self] origin in
+        keyboardHelper.rx_keyboardOrigin.asObservable().bind { [weak self] origin in
             guard origin > 0 else { return }
             guard let strongSelf = self else { return }
             let nextKeyboardHeight = strongSelf.view.height - origin
@@ -325,7 +380,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             })
             let willShowKeyboard = nextKeyboardHeight > 0
             strongSelf.loadingViewHidden(showingKeyboard: willShowKeyboard)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func loadingViewHidden(showingKeyboard: Bool) {
@@ -342,7 +397,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
 
 extension PostListingViewController {
     
-    dynamic func carDetailsNavigationBackButtonPressed() {
+    @objc func carDetailsNavigationBackButtonPressed() {
         if let previousState = carDetailsView.previousState, previousState.isSummary {
             didFinishEnteringDetails()
         } else {
@@ -369,19 +424,19 @@ extension PostListingViewController {
         }
     }
     
-    dynamic func carMakeButtonPressed() {
+    @objc func carMakeButtonPressed() {
         showCarMakes()
     }
     
-    dynamic func carModelButtonPressed() {
+    @objc func carModelButtonPressed() {
         showCarModels()
     }
     
-    dynamic func carYearButtonPressed() {
+    @objc func carYearButtonPressed() {
         showCarYears()
     }
     
-    dynamic func carDetailsDoneButtonPressed() {
+    @objc func carDetailsDoneButtonPressed() {
         carDetailsView.hideKeyboard()
         viewModel.postCarDetailDone()
     }
@@ -443,6 +498,16 @@ fileprivate extension PostListingState {
     }
     
     var customLoadingViewAlpha: CGFloat {
+        guard !isRealEstate else { return 0 }
+        switch step {
+        case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
+            return 0
+        case .uploadingImage, .errorUpload, .detailsSelection, .uploadSuccess:
+            return 1
+        }
+    }
+    
+    var stackViewLoadingAlpha: CGFloat {
         switch step {
         case .imageSelection, .categorySelection, .carDetailsSelection, .finished, .addingDetails:
             return 0
@@ -452,6 +517,7 @@ fileprivate extension PostListingState {
     }
     
     var postedInfoLabelAlpha: CGFloat {
+        guard !isRealEstate else { return 0 }
         switch step {
         case .imageSelection, .categorySelection, .uploadingImage, .errorUpload, .carDetailsSelection, .finished, .addingDetails:
             return 0
@@ -464,8 +530,13 @@ fileprivate extension PostListingState {
         return isError ? LGLocalizedString.commonErrorTitle.localizedCapitalized : confirmationText
     }
     
+    func messageForLoadedImage(confirmationText: String?) -> String? {
+        return isError ? LGLocalizedString.commonErrorPostingLoadedImage : confirmationText
+    }
+    
     var postErrorLabelAlpha: CGFloat {
-        return isError ? 1 : 0
+        guard let category = category, category == .realEstate else { return isError ? 1 : 0 }
+        return 0
     }
     
     var postErrorLabelText: String? {
@@ -478,7 +549,8 @@ fileprivate extension PostListingState {
     }
     
     var retryButtonAlpha: CGFloat {
-        return isError ? 1 : 0
+        guard isRealEstate else { return isError ? 1 : 0 }
+        return 0
     }
     
     var priceViewAlpha: CGFloat {
@@ -551,6 +623,7 @@ extension PostListingViewController {
             strongSelf.closeButton.alpha = state.closeButtonAlpha
             strongSelf.otherStepsContainer.alpha = state.isOtherStepsContainerAlpha
             strongSelf.customLoadingView.alpha = state.customLoadingViewAlpha
+            strongSelf.uploadImageStackView.alpha = state.stackViewLoadingAlpha
             strongSelf.postedInfoLabel.alpha = state.postedInfoLabelAlpha
             strongSelf.postedInfoLabel.text = state.postedInfoLabelText(confirmationText: strongSelf.viewModel.confirmationOkText)
             strongSelf.postErrorLabel.alpha = state.postErrorLabelAlpha
@@ -572,18 +645,28 @@ extension PostListingViewController {
                                 updateVisibility()
                            })
             customLoadingView.startAnimating()
+            loadingViewRealEstate?.startAnimating()
             isLoading = true
         } else if isLoading {
-            customLoadingView.stopAnimating(!state.isError, completion: updateVisibility)
+            stopAnimationLoaders(text: state.messageForLoadedImage(confirmationText: viewModel.confirmationOkText), isError: state.isError, action: updateVisibility)
             isLoading = false
         } else {
             updateVisibility()
         }
         if state.priceViewShouldBecomeFirstResponder() {
             priceView.becomeFirstResponder()
-            customLoadingView.stopAnimating(!state.isError, completion: nil)
+            stopAnimationLoaders(text: state.messageForLoadedImage(confirmationText: viewModel.confirmationOkText),isError: state.isError, action: updateVisibility)
         } else if state.priceViewShouldResignFirstResponder() {
             priceView.resignFirstResponder()
+        }
+    }
+    
+    private func stopAnimationLoaders(text: String?, isError: Bool, action: @escaping ()->()) {
+        if viewModel.isRealEstate {
+            loadingViewRealEstate?.stopAnimating(!isError, completion: action)
+            addMessageToStackView(textMessage:text , success: !isError)
+        } else {
+            customLoadingView.stopAnimating(!isError, completion: action)
         }
     }
     
@@ -674,8 +757,8 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         viewPager.dataSource = self
         viewPager.scrollDelegate = self
         viewPager.indicatorSelectedColor = UIColor.white
-        viewPager.tabsBackgroundColor = UIColor.clear
-        viewPager.tabsSeparatorColor = UIColor.clear
+        viewPager.tabsBackgroundColor = .clear
+        viewPager.tabsSeparatorColor = .clear
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         cameraGalleryContainer.insertSubview(viewPager, at: 0)
         
@@ -755,16 +838,16 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         return title
     }
     
-    private func tabTitleTextAttributes()-> [String : Any] {
+    private func tabTitleTextAttributes()-> [NSAttributedStringKey : Any] {
         let shadow = NSShadow()
         shadow.shadowColor = UIColor.black.withAlphaComponent(0.5)
         shadow.shadowBlurRadius = 2
         shadow.shadowOffset = CGSize(width: 0, height: 0)
         
-        var titleAttributes = [String : Any]()
-        titleAttributes[NSShadowAttributeName] = shadow
-        titleAttributes[NSForegroundColorAttributeName] = UIColor.white
-        titleAttributes[NSFontAttributeName] = UIFont.activeTabFont
+        var titleAttributes = [NSAttributedStringKey : Any]()
+        titleAttributes[NSAttributedStringKey.shadow] = shadow
+        titleAttributes[NSAttributedStringKey.foregroundColor] = UIColor.white
+        titleAttributes[NSAttributedStringKey.font] = UIFont.activeTabFont
         return titleAttributes
     }
 }

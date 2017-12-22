@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Argo
 import Result
 
 class MonetizationApiDataSource : MonetizationDataSource {
@@ -86,8 +85,14 @@ class MonetizationApiDataSource : MonetizationDataSource {
     // Private methods
 
     private static func decoderBumpeableListing(object: Any) -> BumpeableListing? {
-        let bumpeableListing: LGBumpeableListing? = decode(object)
-        return bumpeableListing
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let bumpeableListing = try LGBumpeableListing.decode(jsonData: data)
+            return bumpeableListing
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGBumpeableListing \(object)")
+        }
+        return nil
     }
 
     private func buildAnalyticsParams(amplitudeId: String?, appsflyerId: String?, idfa: String?, bundleId: String?) -> [String : Any] {

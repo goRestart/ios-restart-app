@@ -13,7 +13,7 @@ import Result
 import RxSwift
 
 
-protocol ListingViewModelDelegate: class, BaseViewModelDelegate {
+protocol ListingViewModelDelegate: BaseViewModelDelegate {
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
 
@@ -127,6 +127,10 @@ class ListingViewModel: BaseViewModel {
     fileprivate var paymentItemId: String?
     var paymentProviderItemId: String?
     fileprivate var userIsSoftBlocked: Bool = false
+    fileprivate var bumpUpSource: BumpUpSource?
+    fileprivate var isPromotedBump: Bool {
+        return bumpUpSource == .promoted
+    }
 
     fileprivate var alreadyTrackedFirstMessageSent: Bool = false
     fileprivate static let bubbleTagGroup = "favorite.bubble.group"
@@ -150,6 +154,7 @@ class ListingViewModel: BaseViewModel {
     fileprivate let visitSource: EventParameterListingVisitSource
 
     let isShowingFeaturedStripe = Variable<Bool>(false)
+    fileprivate let isListingDetailsCompleted = Variable<Bool>(false)
 
     // Retrieval status
     private var relationRetrieved = false
@@ -198,6 +203,12 @@ class ListingViewModel: BaseViewModel {
     
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
+        
+        if listing.value.isRealEstate && listing.value.realEstate?.realEstateAttributes == RealEstateAttributes.emptyRealEstateAttributes() {
+            retrieveRealEstateDetails(listingId: listingId)
+        } else {
+            isListingDetailsCompleted.value = true
+        }
 
         listingRepository.incrementViews(listingId: listingId, visitSource: visitSource.rawValue, visitTimestamp: Date().millisecondsSince1970, completion: nil)
 
@@ -222,6 +233,7 @@ class ListingViewModel: BaseViewModel {
         }
 
         purchasesShopper.delegate = self
+        purchasesShopper.bumpInfoRequesterDelegate = self
 
         if bumpUpBannerInfo.value == nil {
             refreshBumpeableBanner()
@@ -254,30 +266,34 @@ class ListingViewModel: BaseViewModel {
     private func setupRxBindings() {
 
         if let productId = listing.value.objectId {
-            listingRepository.updateEvents(for: productId).bindNext { [weak self] listing in
+            listingRepository.updateEvents(for: productId).bind { [weak self] listing in
                 self?.listing.value = listing
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         }
 
-        status.asObservable().bindNext { [weak self] status in
+        status.asObservable().bind { [weak self] status in
             guard let strongSelf = self else { return }
             strongSelf.refreshActionButtons(status)
             strongSelf.refreshNavBarButtons()
             strongSelf.directChatEnabled.value = status.directChatsAvailable
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
+        
+        isListingDetailsCompleted.asObservable().filter {$0}.bind { [weak self] _ in
+            self?.refreshNavBarButtons()
+        }.disposed(by: disposeBag)
 
         // bumpeable listing check
-        status.asObservable().bindNext { [weak self] status in
+        status.asObservable().bind { [weak self] status in
             if status.shouldRefreshBumpBanner {
                 self?.refreshBumpeableBanner()
             } else {
                 self?.bumpUpBannerInfo.value = nil
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         isFavorite.asObservable().subscribeNext { [weak self] _ in
             self?.refreshNavBarButtons()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         listing.asObservable().subscribeNext { [weak self] listing in
             guard let strongSelf = self else { return }
@@ -298,26 +314,26 @@ class ListingViewModel: BaseViewModel {
                                                    freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed)
             strongSelf.productInfo.value = productInfo
 
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        status.asObservable().bindNext { [weak self] status in
+        status.asObservable().bind { [weak self] status in
             guard let isMine = self?.isMine else { return }
             self?.shareButtonState.value = isMine ? .enabled : .hidden
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        myUserRepository.rx_myUser.bindNext { [weak self] _ in
+        myUserRepository.rx_myUser.bind { [weak self] _ in
             self?.refreshStatus()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        productIsFavoriteable.asObservable().bindNext { [weak self] favoriteable in
+        productIsFavoriteable.asObservable().bind { [weak self] favoriteable in
             self?.favoriteButtonState.value = favoriteable ? .enabled : .hidden
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         moreInfoState.asObservable().map { (state: MoreInfoState) in
             return state == .shown
-        }.distinctUntilChanged().bindNext { [weak self] shown in
+        }.distinctUntilChanged().bind { [weak self] shown in
             self?.refreshNavBarButtons()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func distanceString(_ listing: Listing) -> String? {
@@ -329,6 +345,14 @@ class ListingViewModel: BaseViewModel {
 
     private func refreshStatus() {
         status.value = ListingViewModelStatus(listing: listing.value, isMine: isMine, featureFlags: featureFlags)
+    }
+    
+    private func retrieveRealEstateDetails(listingId: String) {
+        listingRepository.retrieveRealEstate(listingId) { [weak self] (result) in
+            guard let realEstateListing = result.value else { return }
+            self?.listing.value = realEstateListing
+            self?.isListingDetailsCompleted.value = true
+        }
     }
 
     func refreshBumpeableBanner() {
@@ -410,14 +434,12 @@ class ListingViewModel: BaseViewModel {
         case .priced:
             guard let paymentItemId = paymentItemId else { return }
             bannerInteractionBlock = { [weak self] in
-                guard let listing = self?.listing.value else { return }
+                guard let _ = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
-
-                self?.trackBumpBannerInfoShown(type: bumpUpType, storeProductId: paymentProviderItemId)
-
-                self?.navigator?.openPayBumpUp(forListing: listing,
-                                               purchaseableProduct: purchaseableProduct,
-                                               paymentItemId: paymentItemId)
+                
+                self?.openPricedBumpUpView(purchaseableProduct: purchaseableProduct,
+                                           paymentItemId: paymentItemId,
+                                           storeProductId: paymentProviderItemId)
             }
             buttonBlock = { [weak self] in
                 self?.bumpUpProduct(productId: listingId)
@@ -468,6 +490,35 @@ class ListingViewModel: BaseViewModel {
     func bumpUpHiddenProductContactUs() {
         trackBumpUpNotAllowedContactUs(reason: .notAllowedInternal)
         navigator?.openContactUs(forListing: listing.value, contactUstype: .bumpUpNotAllowed)
+    }
+
+
+    func showBumpUpView(purchaseableProduct: PurchaseableProduct,
+                        paymentItemId: String?,
+                        paymentProviderItemId: String?,
+                        bumpUpType: BumpUpType,
+                        bumpUpSource: BumpUpSource?) {
+        self.bumpUpSource = bumpUpSource
+        switch bumpUpType {
+        case .priced:
+            guard let paymentItemId = paymentItemId else { return }
+            openPricedBumpUpView(purchaseableProduct: purchaseableProduct,
+                                                        paymentItemId: paymentItemId,
+                                                        storeProductId: paymentProviderItemId)
+        case .free, .hidden, .restore:
+            break
+        }
+    }
+
+    func openPricedBumpUpView(purchaseableProduct: PurchaseableProduct,
+                                                     paymentItemId: String,
+                                                     storeProductId: String?) {
+
+        trackBumpBannerInfoShown(type: .priced, storeProductId: paymentProviderItemId)
+
+        navigator?.openPayBumpUp(forListing: listing.value,
+                                 purchaseableProduct: purchaseableProduct,
+                                 paymentItemId: paymentItemId)
     }
 }
 
@@ -575,7 +626,7 @@ extension ListingViewModel {
         var navBarButtons = [UIAction]()
 
         if isMine {
-            if status.value.isEditable {
+            if status.value.isEditable && isListingDetailsCompleted.value {
                 navBarButtons.append(buildEditNavBarAction())
             }
             navBarButtons.append(buildMoreNavBarAction())
@@ -1046,7 +1097,7 @@ extension ListingViewModel: SocialSharerDelegate {
 
 // MARK: PurchasesShopperDelegate
 
-extension ListingViewModel: PurchasesShopperDelegate {
+extension ListingViewModel: BumpInfoRequesterDelegate {
     func shopperFinishedProductsRequestForListingId(_ listingId: String?, withProducts products: [PurchaseableProduct]) {
         guard let requestProdId = listingId, let currentProdId = listing.value.objectId,
             requestProdId == currentProdId else { return }
@@ -1060,18 +1111,19 @@ extension ListingViewModel: PurchasesShopperDelegate {
                               paymentProviderItemId: paymentProviderItemId,
                               bumpUpType: bumpUpType)
     }
+}
 
-
+extension ListingViewModel: PurchasesShopperDelegate {
     // Free Bump Up
 
     func freeBumpDidStart() {
-        trackBumpUpStarted(.free, type: .free, storeProductId: paymentProviderItemId)
+        trackBumpUpStarted(.free, type: .free, storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
 
     func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork) {
         trackBumpUpCompleted(.free, type: .free, restoreRetriesCount: 0, network: network, transactionStatus: nil,
-                             storeProductId: paymentProviderItemId)
+                             storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpFreeSuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
             self?.isShowingFeaturedStripe.value = true
@@ -1088,7 +1140,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
 
     func pricedBumpDidStart() {
         trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: .priced,
-                           storeProductId: paymentProviderItemId)
+                           storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingPricedText)
     }
 
@@ -1107,7 +1159,8 @@ extension ListingViewModel: PurchasesShopperDelegate {
                              restoreRetriesCount: restoreRetriesCount,
                              network: .notAvailable,
                              transactionStatus: transactionStatus,
-                             storeProductId: paymentProviderItemId)
+                             storeProductId: paymentProviderItemId,
+                             isPromotedBump: isPromotedBump)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
             self?.delegate?.vmResetBumpUpBannerCountdown()
             self?.isShowingFeaturedStripe.value = true
@@ -1126,7 +1179,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
 
     func restoreBumpDidStart() {
         trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: .restore,
-                           storeProductId: paymentProviderItemId)
+                           storeProductId: paymentProviderItemId, isPromotedBump: isPromotedBump)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingFreeText)
     }
 }

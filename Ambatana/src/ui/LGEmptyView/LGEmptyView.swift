@@ -60,7 +60,7 @@ class LGEmptyView: UIView {
         }
     }
 
-    var title: String? {
+    @objc var title: String? {
         didSet {
             titleLabel.text = title
         }
@@ -284,11 +284,11 @@ class LGEmptyView: UIView {
         }
     }
 
-    dynamic private func actionButtonPressed() {
+    @objc private func actionButtonPressed() {
         action?()
     }
     
-    dynamic private func secondaryActionButtonPressed() {
+    @objc private func secondaryActionButtonPressed() {
         secondaryAction?()
     }
 }

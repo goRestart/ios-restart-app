@@ -12,47 +12,62 @@ protocol FilterFreeCellDelegate: class {
     func freeSwitchChanged(isOn: Bool)
 }
 
+class FilterFreeCell: UICollectionViewCell, FilterCell, ReusableCell {
+    var topSeparator: UIView?
+    var bottomSeparator: UIView?
+    var rightSeparator: UIView?
 
-class FilterFreeCell: UICollectionViewCell {
-    
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var freeSwitch: UISwitch!
-    @IBOutlet weak var topSeparator: UIView!
-    @IBOutlet weak var bottomSeparator: UIView!
-    
-    @IBOutlet weak var bottomSeparatorHeight: NSLayoutConstraint!
-    @IBOutlet weak var topSeparatorHeight: NSLayoutConstraint!
-    
+    let titleLabel = UILabel()
+    let freeSwitch = UISwitch()
+
     weak var delegate: FilterFreeCellDelegate?
     let disposeBag = DisposeBag()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupUI()
         setupRx()
         resetUI()
         setAccessibilityIds()
     }
-    
+
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
     override func prepareForReuse() {
         super.prepareForReuse()
         self.resetUI()
     }
     
     private func setupUI() {
-        bottomSeparatorHeight.constant = LGUIKitConstants.onePixelSize
-        topSeparatorHeight.constant = LGUIKitConstants.onePixelSize
+        contentView.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(freeSwitch)
+        freeSwitch.translatesAutoresizingMaskIntoConstraints = false
+        addTopSeparator(toContainerView: contentView)
+        addBottomSeparator(toContainerView: contentView)
+
+        let constraints = [
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            freeSwitch.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            freeSwitch.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            freeSwitch.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 10)
+        ]
+        NSLayoutConstraint.activate(constraints)
+
+        titleLabel.font = UIFont.systemFont(size: 16)
         titleLabel.textColor = UIColor.blackText
         freeSwitch.onTintColor = UIColor.primaryColor
     }
     
     private func setupRx() {
-        freeSwitch.rx.value.asObservable().bindNext { [weak self] isOn in
+        freeSwitch.rx.value.asObservable().bind { [weak self] isOn in
             if let imageView = self?.freeSwitch.firstSubview(ofType: UIImageView.self) {
                 imageView.contentMode = .center
                 imageView.image = isOn ? #imageLiteral(resourceName: "free_switch_active") : #imageLiteral(resourceName: "free_switch_inactive")
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     

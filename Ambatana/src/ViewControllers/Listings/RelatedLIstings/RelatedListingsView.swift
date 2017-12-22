@@ -65,7 +65,7 @@ class RelatedListingsView: UIView {
     // MARK: - Private
 
     private func setup() {
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(collectionView)
@@ -84,14 +84,14 @@ class RelatedListingsView: UIView {
     }
 
     private func setupRx() {
-        listingId.asObservable().bindNext{ [weak self] listingId in
+        listingId.asObservable().bind{ [weak self] listingId in
              guard let listingId = listingId else {
                 self?.clear()
                 return
             }
             self?.loadListings(listingId)
-        }.addDisposableTo(disposeBag)
-        hasListings.asObservable().map { !$0 }.bindTo(self.rx.isHidden).addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
+        hasListings.asObservable().map { !$0 }.bind(to: self.rx.isHidden).disposed(by: disposeBag)
     }
 }
 
@@ -103,7 +103,7 @@ extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSou
     fileprivate func setupCollection() {
         drawerManager.cellStyle = .relatedListings
         drawerManager.registerCell(inCollectionView: collectionView)
-        collectionView.backgroundColor = UIColor.clear
+        collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.scrollsToTop = false

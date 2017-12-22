@@ -61,7 +61,7 @@ class ExpressChatViewController: BaseViewController {
     }
 
     func setupUI() {
-        scrollView.backgroundColor = UIColor.clear
+        scrollView.backgroundColor = .clear
         automaticallyAdjustsScrollViewInsets = false
 
         dontMissLabel.text = LGLocalizedString.chatExpressDontMissLabel.uppercased()
@@ -87,8 +87,8 @@ class ExpressChatViewController: BaseViewController {
     }
 
     func setupRX() {
-        viewModel.sendMessageTitle.asObservable().bindTo(sendMessageButton.rx.title).addDisposableTo(disposeBag)
-        viewModel.sendButtonEnabled.asObservable().bindTo(sendMessageButton.rx.isEnabled).addDisposableTo(disposeBag)
+        viewModel.sendMessageTitle.asObservable().bind(to: sendMessageButton.rx.title(for: .normal)).disposed(by: disposeBag)
+        viewModel.sendButtonEnabled.asObservable().bind(to: sendMessageButton.rx.isEnabled).disposed(by: disposeBag)
     }
 
     @IBAction func closeButtonPressed(_ sender: AnyObject) {

@@ -42,9 +42,9 @@ class LGSearchMapViewModel: BaseViewModel {
     let currentDistanceRadius = Variable<Int?>(nil)
     let userMovedLocation = Variable<CLLocationCoordinate2D?>(nil)
     
-    let searchText = Variable<(String, autoSelect: Bool)>("", autoSelect: false)
+    let searchText = Variable<(String, autoSelect: Bool)>(("", autoSelect: false))
     
-    private let locationToFetch = Variable<(CLLocationCoordinate2D?, fromGps: Bool)>(nil, fromGps: false)
+    private let locationToFetch = Variable<(CLLocationCoordinate2D?, fromGps: Bool)>((nil, fromGps: false))
     
     convenience init(currentPlace: Place?) {
         let locationManager = Core.locationManager
@@ -101,7 +101,7 @@ class LGSearchMapViewModel: BaseViewModel {
             .debounce(0.3, scheduler: MainScheduler.instance)
             .subscribeNext{ [weak self] searchText, autoSelect in
                 self?.resultsForSearchText(searchText, autoSelectFirst: autoSelect)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         
         locationToFetch.asObservable()
             .filter { coordinates, gpsLocation in return coordinates != nil }
@@ -113,7 +113,7 @@ class LGSearchMapViewModel: BaseViewModel {
             .subscribeNext { [weak self] place, gpsLocation in
                 self?.setPlace(place, forceLocation: false, fromGps: gpsLocation, enableSave: true)
             }
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         userMovedLocation.asObservable()
             .subscribeNext { [weak self] coordinates in
@@ -121,7 +121,7 @@ class LGSearchMapViewModel: BaseViewModel {
                 DispatchQueue.main.async {
                     self?.locationToFetch.value = (coordinates, false)
                 }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     func placeResumedDataAtPosition(_ position: Int) -> String? {

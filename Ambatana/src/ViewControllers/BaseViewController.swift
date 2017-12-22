@@ -6,8 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import TMReachability
-
+import LGCoreKit
 
 // MARK: - ToastView
 
@@ -208,97 +207,6 @@ extension UIViewController {
     }
 }
 
-
-// MARK: - Reachability
-
-private struct ReachableKeys {
-    static var ReachabilityEnabledKey = 0
-    static var ReachableKey = 0
-}
-
-extension UIViewController {
-   
-    
-    private var reachabilityEnabled : Bool? {
-        get {
-            return (objc_getAssociatedObject(self, &ReachableKeys.ReachabilityEnabledKey) as? NSNumber)?.boolValue
-        }
-        set {
-            if let newValue = newValue {
-                objc_setAssociatedObject(
-                    self,
-                    &ReachableKeys.ReachabilityEnabledKey,
-                    NSNumber(value: newValue as Bool),
-                    .OBJC_ASSOCIATION_RETAIN_NONATOMIC
-                )
-            }
-        }
-    }
-    
-    private var reachable : Bool? {
-        get {
-            return (objc_getAssociatedObject(self, &ReachableKeys.ReachableKey) as? NSNumber)?.boolValue
-        }
-        
-        set {
-            if let newValue = newValue {
-                objc_setAssociatedObject(
-                    self,
-                    &ReachableKeys.ReachableKey,
-                    NSNumber(value: newValue as Bool),
-                    .OBJC_ASSOCIATION_RETAIN_NONATOMIC
-                )
-            }
-        }
-    }
-    
-    private static var reachability: TMReachability? = {
-        let result = TMReachability.forInternetConnection()
-        result?.startNotifier()
-        return result
-    } ()
-    
-    /**
-    Enables/disables reachability notifications.
-    
-    - parameter enabled: If reachability notifications should be enabled.
-    */
-    internal func setReachabilityEnabled(_ enabled: Bool) {
-        guard enabled != reachabilityEnabled else { return }
-        
-        reachabilityEnabled = enabled
-        if enabled {
-            NotificationCenter.default.addObserver(self, selector: #selector(UIViewController.onReachabilityChanged(_:)), name: NSNotification.Name.reachabilityChanged, object: nil)
-        }
-        else {
-            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.reachabilityChanged, object: nil)
-        }
-    }
-    
-    
-    dynamic private func onReachabilityChanged(_ notification: Notification) {
-        updateReachableAndToastViewVisibilityIfNeeded()
-    }
-    
-    
-    func updateReachableAndToastViewVisibilityIfNeeded() {
-        // Update reachable if changed
-        let newReachableValue = UIViewController.reachability?.isReachable() ?? false
-        guard newReachableValue != reachable else { return }
-        reachable = UIViewController.reachability?.isReachable() ?? false
-        
-        // Show/hide toast
-        guard let reachable = reachable, let reachabilityEnabled = reachabilityEnabled else { return }
-        guard reachabilityEnabled else { return }
-        
-        if !reachable {
-            toastView?.title = LGLocalizedString.toastNoNetwork
-        }
-        setToastViewHidden(reachable)
-    }
-}
-
-
 // MARK: - NavigationBar
 
 enum NavBarTransparentSubStyle {
@@ -315,7 +223,7 @@ enum NavBarBackgroundStyle {
         case let .transparent(substyle):
             switch substyle {
             case .dark:
-                return UIColor.clearBarButton
+                return .clearBarButton
             case .light:
                 return UIColor.lightBarButton
             }
@@ -329,7 +237,7 @@ enum NavBarBackgroundStyle {
         case let .transparent(substyle):
             switch substyle {
             case .dark:
-                return UIColor.clearBarTitle
+                return .clearBarTitle
             case .light:
                 return UIColor.lightBarTitle
             }
@@ -384,8 +292,8 @@ extension UIViewController {
         }
 
         navigationController?.navigationBar.tintColor = style.tintColor
-        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName : UIFont.pageTitleFont,
-                                                                   NSForegroundColorAttributeName : style.titleColor]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.font : UIFont.pageTitleFont,
+                                                                   NSAttributedStringKey.foregroundColor : style.titleColor]
     }
 }
 
@@ -419,7 +327,6 @@ class BaseViewController: UIViewController, TabBarShowable {
     private var swipeBackGestureEnabled: Bool
     var floatingSellButtonHidden: Bool
     private(set) var didCallViewDidLoaded: Bool = false
-
 
     // MARK: Lifecycle
 
@@ -510,9 +417,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         // implement in subclasses
     }
     
-    // MARK: Internal methods
-    
-    // MARK: > Extended lifecycle
+    // MARK: Extended lifecycle
     
     internal func viewWillAppearFromBackground(_ fromBackground: Bool) {
         setNavBarBackgroundStyle(navBarBackgroundStyle)
@@ -523,8 +428,6 @@ class BaseViewController: UIViewController, TabBarShowable {
             NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground(_:)), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         }
-        
-        updateReachableAndToastViewVisibilityIfNeeded()
         active = true
     }
     
@@ -542,7 +445,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         active = false
     }
     
-    // MARK: > Subview handling
+    // MARK: Subview handling
     
     func addSubview(_ subview: BaseView) {
         //Adding to managed subviews
@@ -563,23 +466,43 @@ class BaseViewController: UIViewController, TabBarShowable {
         }
     }
     
+    // MARK: NSNotificationCenter
     
-    // MARK: Private methods
-    
-    // MARK: > NSNotificationCenter
-    
-    dynamic private func applicationDidEnterBackground(_ notification: Notification) {
+    @objc private func applicationDidEnterBackground(_ notification: Notification) {
         viewWillDisappearToBackground(true)
     }
     
-    dynamic private func applicationWillEnterForeground(_ notification: Notification) {
+    @objc private func applicationWillEnterForeground(_ notification: Notification) {
         viewWillAppearFromBackground(true)
     }
 
-    dynamic func statusBarDidShow(_ notification: Notification) {
+    @objc func statusBarDidShow(_ notification: Notification) {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.01 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { [weak self] in
                 self?.view.setNeedsLayout()
                 self?.view.layoutIfNeeded()
+        }
+    }
+    
+    // MARK: Reachability
+    
+    private var reachability: ReachabilityProtocol?
+    private var reachabilityEnabled: Bool?
+    private var reachable: Bool? {
+        return reachability?.isReachable
+    }
+    func setReachabilityEnabled(_ enabled: Bool) {
+        if enabled {
+            reachability = LGReachability()
+            reachability?.reachableBlock = { [weak self] in
+                self?.setToastViewHidden(true)
+            }
+            reachability?.unreachableBlock = { [weak self] in
+                self?.setToastViewHidden(false)
+                self?.toastView?.title = LGLocalizedString.toastNoNetwork
+            }
+            reachability?.start()
+        } else {
+            reachability = nil
         }
     }
 }

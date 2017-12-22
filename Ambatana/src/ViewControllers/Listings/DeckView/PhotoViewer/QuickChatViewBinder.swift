@@ -37,20 +37,19 @@ final class QuickChatViewBinder {
         guard let chatView = quickChatView else { return }
 
         viewModel.rx_directChatPlaceholder
-            .bindTo(chatView.rx_chatTextView.placeholder)
-        .addDisposableTo(bag)
+            .bind(to: chatView.rx_chatTextView.placeholder)
+        .disposed(by:bag)
 
         if viewModel.areAnswersDynamic {
             chatView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
         }
-
-        viewModel.rx_quickAnswers.bindNext { [weak chatView] quickAnswers in
+        viewModel.rx_quickAnswers.bind {  [weak chatView] quickAnswers in
             chatView?.updateDirectChatWith(answers: quickAnswers, isDynamic: viewModel.areAnswersDynamic)
-        }.addDisposableTo(bag)
+        }.disposed(by: bag)
 
-        viewModel.rx_directMessages.bindNext { change in
+        viewModel.rx_directMessages.bind { change in
             self.quickChatView?.handleChatChange(change)
-        }.addDisposableTo(bag)
+        }.disposed(by: bag)
     }
 
 }

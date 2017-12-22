@@ -192,7 +192,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
         gradient.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
 
         countImageView.contentMode = .center
-        countImageView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        countImageView.setContentHuggingPriority(.required, for: .horizontal)
 
         gradient.addSubview(countImageView)
         gradient.addSubview(imageCountLabel)

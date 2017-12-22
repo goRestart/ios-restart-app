@@ -211,9 +211,15 @@ fileprivate extension TabCoordinator {
                              discover: Bool, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         guard let listingId = listing.objectId else { return }
         var requestersArray: [ListingListRequester] = []
-        let relatedRequester: ListingListRequester = discover ?
-            DiscoverListingListRequester(listingId: listingId, itemsPerPage: Constants.numListingsPerPageDefault) :
-            RelatedListingListRequester(listingId: listingId, itemsPerPage: Constants.numListingsPerPageDefault)
+        let listingListRequester: ListingListRequester?
+        if discover {
+            listingListRequester = DiscoverListingListRequester(listingId: listingId,
+                                                                itemsPerPage: Constants.numListingsPerPageDefault)
+        } else {
+            listingListRequester = RelatedListingListRequester(listing: listing,
+                                                               itemsPerPage: Constants.numListingsPerPageDefault)
+        }
+        guard let relatedRequester = listingListRequester else { return }
         requestersArray.append(relatedRequester)
 
         // Adding product list after related
@@ -265,7 +271,8 @@ fileprivate extension TabCoordinator {
     func openListing(chatConversation: ChatConversation, source: EventParameterListingVisitSource) {
         guard let localProduct = LocalProduct(chatConversation: chatConversation, myUser: myUserRepository.myUser),
             let listingId = localProduct.objectId else { return }
-        let relatedRequester = RelatedListingListRequester(listingId: listingId, itemsPerPage: Constants.numListingsPerPageDefault)
+        let relatedRequester = RelatedListingListRequester(listingId: listingId,
+                                                           itemsPerPage: Constants.numListingsPerPageDefault)
         let filteredRequester = FilteredListingListRequester( itemsPerPage: Constants.numListingsPerPageDefault, offset: 0)
         let requester = ListingListMultiRequester(requesters: [relatedRequester, filteredRequester])
         let vm = ListingCarouselViewModel(listing: .product(localProduct), listingListRequester: requester,

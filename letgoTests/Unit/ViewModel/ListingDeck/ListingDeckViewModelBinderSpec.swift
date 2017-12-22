@@ -108,12 +108,12 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 socialSharerObserver = scheduler.createObserver(SocialSharer.self)
 
                 disposeBag = DisposeBag()
-                listingDeckViewModel.navBarButtons.asObservable().skip(1).bindTo(navBarButtonsObserver).addDisposableTo(disposeBag)
-                listingDeckViewModel.actionButtons.asObservable().skip(1).bindTo(actionButtonsObserver).addDisposableTo(disposeBag)
-                listingDeckViewModel.quickChatViewModel.quickAnswers.asObservable().skip(1).bindTo(quickAnswersObserver).addDisposableTo(disposeBag)
-                listingDeckViewModel.quickChatViewModel.chatEnabled.asObservable().skip(1).bindTo(chatEnabled).addDisposableTo(disposeBag)
-                listingDeckViewModel.quickChatViewModel.directChatPlaceholder.asObservable().skip(1).bindTo(directChatPlaceholderObserver).addDisposableTo(disposeBag)
-                listingDeckViewModel.bumpUpBannerInfo.asObservable().skip(1).bindTo(bumpUpBannerInfoObserver).addDisposableTo(disposeBag)
+                listingDeckViewModel.navBarButtons.asObservable().skip(1).bindTo(navBarButtonsObserver).disposed(by:disposeBag)
+                listingDeckViewModel.actionButtons.asObservable().skip(1).bindTo(actionButtonsObserver).disposed(by:disposeBag)
+                listingDeckViewModel.quickChatViewModel.quickAnswers.asObservable().skip(1).bindTo(quickAnswersObserver).disposed(by:disposeBag)
+                listingDeckViewModel.quickChatViewModel.chatEnabled.asObservable().skip(1).bindTo(chatEnabled).disposed(by:disposeBag)
+                listingDeckViewModel.quickChatViewModel.directChatPlaceholder.asObservable().skip(1).bindTo(directChatPlaceholderObserver).disposed(by:disposeBag)
+                listingDeckViewModel.bumpUpBannerInfo.asObservable().skip(1).bindTo(bumpUpBannerInfoObserver).disposed(by:disposeBag)
 
                 listingDeckViewModel.moveToProductAtIndex(0, movement: .initial)
             }

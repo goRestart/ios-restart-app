@@ -7,7 +7,6 @@
 //
 
 import Result
-import Argo
 
 final class UserApiDataSource: UserDataSource {
     
@@ -59,18 +58,37 @@ final class UserApiDataSource: UserDataSource {
     // MARK: - Private methods
 
     private static func decoderArray(_ object: Any) -> [User]? {
-        guard let theProduct : [LGUser] = decode(object) else { return nil }
-        return theProduct.map{$0}
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let users = try JSONDecoder().decode(FailableDecodableArray<LGUser>.self, from: data)
+            return users.validElements
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGUser \(object)")
+        }
+        return nil
+
     }
 
     private func decoder(_ object: Any) -> User? {
-        let apiUser: LGUser? = decode(object)
-        return apiUser
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let user = try LGUser.decode(jsonData: data)
+            return user
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGUser \(object)")
+        }
+        return nil
     }
 
     static func decoderUserRelation(_ object: Any) -> UserUserRelation? {
-        let relation: LGUserUserRelation? = LGUserUserRelation.decode(JSON(object))
-        return relation
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let userRelation = try LGUserUserRelation.decode(jsonData: data)
+            return userRelation
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGUserUserRelation \(object)")
+        }
+        return nil
     }
 
 }

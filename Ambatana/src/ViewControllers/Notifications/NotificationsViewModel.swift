@@ -90,7 +90,7 @@ class NotificationsViewModel: BaseViewModel {
         let loggedOut = myUserRepository.rx_myUser.filter { return $0 == nil }
         loggedOut.subscribeNext { [weak self] _ in
             self?.viewState.value = .loading
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func reloadNotifications() {

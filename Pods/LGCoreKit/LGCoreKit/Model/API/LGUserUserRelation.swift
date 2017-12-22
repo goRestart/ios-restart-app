@@ -6,53 +6,45 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-import Curry
-
-struct LGUserUserRelation: UserUserRelation {
+struct LGUserUserRelation: UserUserRelation, Decodable {
     var isBlocked: Bool
     var isBlockedBy: Bool
-}
 
-extension LGUserUserRelation {
+    static func decodeFrom(data: Data) throws -> LGUserUserRelation {
+        let decoder = JSONDecoder()
+        if let elements = try? decoder.decode([LGUserUserRelation].self, from: data), let first = elements.first {
+            return elements.reduce(first, { (previous, next) -> LGUserUserRelation in
+                var element = previous
+                element.isBlocked = next.isBlocked
+                element.isBlockedBy = next.isBlockedBy
+                return element
+            })
+        } else {
+            return try decoder.decode(LGUserUserRelation.self, from: data)
+        }
+    }
+
+    // MARK: Decodable
 
     /**
      Expects a json in the form:
 
      {
-     "is_blocked": false,
-     "is_blocking": false
+     "blocked": false,
+     "blocked_by": false
      }
      */
-    static func decode(_ j: JSON) -> LGUserUserRelation? {
 
-        var userRelation = LGUserUserRelation(isBlocked: false, isBlockedBy: false)
-
-        switch j {
-        case let .array(responseArray):
-            for item in responseArray {
-                switch item {
-                case .object:
-                    guard let relation = LGUserUserRelation.decode(item) else { break }
-                    userRelation.isBlocked = userRelation.isBlocked || relation.isBlocked
-                    userRelation.isBlockedBy = userRelation.isBlockedBy || relation.isBlockedBy
-                default:
-                    break
-                }
-            }
-        case let .object(element):
-            guard let link_name = element["link_name"] else { break }
-            switch link_name {
-            case let .string(value):
-                userRelation.isBlocked = value == "blocked"
-                userRelation.isBlockedBy = value == "blocked_by"
-            default:
-                break
-            }
-        default:
-            break
-        }
-
-        return userRelation
+    public init(from decoder: Decoder) throws {
+        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        isBlocked = try keyedContainer.decode(Bool.self, forKey: .isBlocked)
+        isBlockedBy = try keyedContainer.decode(Bool.self, forKey: .isBlockedBy)
     }
+
+    enum CodingKeys: String, CodingKey {
+        case isBlocked = "blocked"
+        case isBlockedBy = "blocked_by"
+    }
+
 }
+

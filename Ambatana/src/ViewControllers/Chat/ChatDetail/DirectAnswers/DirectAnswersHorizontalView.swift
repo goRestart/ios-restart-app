@@ -77,7 +77,7 @@ class DirectAnswersHorizontalView: UIView {
     }
 
     private func setupUI(sideMargin: CGFloat) {
-        backgroundColor = UIColor.clear
+        backgroundColor = .clear
         clipsToBounds = true
         let height = Layout.Height.standard
         layout().height(height, constraintBlock: { [weak self] in self?.heightConstraint = $0 })
@@ -93,18 +93,18 @@ class DirectAnswersHorizontalView: UIView {
 
 
 // MARK: - UICollectionView methods
-
-extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionViewDataSource {
+extension DirectAnswersHorizontalView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
 
     fileprivate func setupCollection(sideMargin: CGFloat) {
         // CollectionView cells
         let filterNib = UINib(nibName: DirectAnswerCell.reusableID, bundle: nil)
         collectionView.register(filterNib, forCellWithReuseIdentifier: DirectAnswerCell.reusableID)
 
-        collectionView.backgroundColor = UIColor.clear
+        collectionView.backgroundColor = .clear
         collectionView.allowsSelection = true
         collectionView.allowsMultipleSelection = false
         collectionView.dataSource = self
+        
         collectionView.delegate = self
         collectionView.scrollsToTop = false
         collectionView.showsHorizontalScrollIndicator = false
@@ -118,7 +118,10 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
         collectionView.accessibilityId = .directAnswersPresenterCollectionView
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         return DirectAnswerCell.sizeForDirectAnswer(answers[indexPath.row].random(), isDynamic: isDynamic)
     }
 

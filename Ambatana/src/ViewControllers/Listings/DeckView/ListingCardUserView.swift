@@ -139,7 +139,7 @@ final class ListingCardUserView: UIView {
     private func setupUserInfo() {
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(userNameLabel)
-        userNameLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: .horizontal)
+        userNameLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
 
         userNameLabel.layout(with: userIcon).leading(to: .trailingMargin, by: Metrics.margin).top()
         userNameLabel.layout(with: userIcon).bottom(relatedBy: .greaterThanOrEqual)

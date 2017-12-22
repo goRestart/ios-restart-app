@@ -79,13 +79,13 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                 descriptionCharLimitObserver = scheduler.createObserver(Int.self)
                 disposeBag = DisposeBag()
                 
-                sut.isLoading.asObservable().bindTo(isLoadingObserver).addDisposableTo(disposeBag)
-                sut.state.asObservable().bindTo(stateObserver).addDisposableTo(disposeBag)
-                sut.sendText.asObservable().bindTo(sendTextObserver).addDisposableTo(disposeBag)
-                sut.sendEnabled.asObservable().bindTo(sendEnabledObserver).addDisposableTo(disposeBag)
-                sut.rating.asObservable().bindTo(ratingObserver).addDisposableTo(disposeBag)
-                sut.description.asObservable().bindTo(descriptionObserver).addDisposableTo(disposeBag)
-                sut.descriptionCharLimit.asObservable().bindTo(descriptionCharLimitObserver).addDisposableTo(disposeBag)
+                sut.isLoading.asObservable().bind(to: isLoadingObserver).disposed(by: disposeBag)
+                sut.state.asObservable().bind(to: stateObserver).disposed(by: disposeBag)
+                sut.sendText.asObservable().bind(to: sendTextObserver).disposed(by: disposeBag)
+                sut.sendEnabled.asObservable().bind(to: sendEnabledObserver).disposed(by: disposeBag)
+                sut.rating.asObservable().bind(to: ratingObserver).disposed(by: disposeBag)
+                sut.description.asObservable().bind(to: descriptionObserver).disposed(by: disposeBag)
+                sut.descriptionCharLimit.asObservable().bind(to: descriptionCharLimitObserver).disposed(by: disposeBag)
             }
             
             describe("initialization") {

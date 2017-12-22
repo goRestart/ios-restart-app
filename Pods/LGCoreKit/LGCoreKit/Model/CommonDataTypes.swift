@@ -83,7 +83,7 @@ public struct LGLocationCoordinates2D: Equatable {
         }
 
         var finalString = ""
-        let maxLength = max(latBin.characters.count, longBin.characters.count)
+        let maxLength = max(latBin.count, longBin.count)
 
         for i in 0...maxLength-1 {
             let lat = latBin.getCharInt(at: i)
@@ -134,7 +134,7 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
 }
 
 // @see: https://ambatana.atlassian.net/wiki/display/BAPI/IDs+reference
-@objc public enum ListingStatus: Int, CustomStringConvertible {
+@objc public enum ListingStatus: Int, CustomStringConvertible, Decodable {
     case pending = 0, approved = 1, discarded = 2, sold = 3, soldOld = 5, deleted = 6
     public var string: String {
         get {

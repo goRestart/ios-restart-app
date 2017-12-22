@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Argo
 
 class SearchApiDataSource: SearchDataSource {
 
@@ -41,16 +40,30 @@ class SearchApiDataSource: SearchDataSource {
     // MARK: - Decoders
 
     private static func decoder(_ object: Any) -> [String]? {
-        return decode(object)
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let strings = try [String].decode(jsonData: data)
+            return strings
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse Strings \(object)")
+        }
+        return nil
     }
     
     private static func decoderSuggestiveResult(_ object: Any) -> [SuggestiveSearch]? {
         guard let dict = object as? [String : Any] else { return nil }
-        guard let itemsArray = dict["items"] else { return nil }
-        
+        guard let itemsArray = dict["items"] as? [[String : Any]] else { return nil }
+        guard let data = try? JSONSerialization.data(withJSONObject: itemsArray, options: .prettyPrinted) else { return nil }
+
         // Ignore suggestive searches that can't be decoded
-        guard let suggestiveSearches = [SuggestiveSearch].filteredDecode(JSON(itemsArray)).value else { return nil }
-        return suggestiveSearches.map { $0 }
+        do {
+            let suggestiveSearches = try JSONDecoder().decode(FailableDecodableArray<SuggestiveSearch>.self, from: data)
+            return suggestiveSearches.validElements
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse SuggestiveResult \(object)")
+        }
+        return nil
     }
 }
+
 

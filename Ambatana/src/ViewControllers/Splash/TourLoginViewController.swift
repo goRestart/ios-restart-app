@@ -120,7 +120,7 @@ fileprivate extension TourLoginViewController {
     }
 
     func setupUI() {
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = .clear
         if AdminViewController.canOpenAdminPanel() {
             let tap = UITapGestureRecognizer(target: self, action: #selector(openAdminPanel))
             topLogoImage.addGestureRecognizer(tap)
@@ -168,7 +168,7 @@ fileprivate extension TourLoginViewController {
         orDividerViews.forEach { lines.append($0.addBottomBorderWithWidth(1, color: UIColor.white)) }
     }
 
-    dynamic func openAdminPanel() {
+    @objc func openAdminPanel() {
         guard AdminViewController.canOpenAdminPanel() else { return }
         let admin = AdminViewController()
         let nav = UINavigationController(rootViewController: admin)

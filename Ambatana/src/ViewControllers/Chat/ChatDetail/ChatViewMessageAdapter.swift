@@ -94,7 +94,7 @@ class ChatViewMessageAdapter {
 
             let secondPhrase = NSMutableAttributedString(string: secondPhraseStr)
             if range.location != NSNotFound {
-                secondPhrase.addAttribute(NSForegroundColorAttributeName, value: UIColor.primaryColor, range: range)
+                secondPhrase.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.primaryColor, range: range)
             }
             chatBlockedMessage.append(secondPhrase)
         } else {
@@ -133,10 +133,16 @@ class ChatViewMessageAdapter {
 
         let secondPhrase = NSMutableAttributedString(string: secondPhraseStr)
         if range.location != NSNotFound {
-            secondPhrase.addAttribute(NSForegroundColorAttributeName, value: UIColor.primaryColor, range: range)
+            secondPhrase.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.primaryColor, range: range)
         }
         messageSuspiciousMessage.append(secondPhrase)
         return createDisclaimerMessage(messageSuspiciousMessage, showAvatar: false, actionTitle: nil, action: action)
+    }
+    
+    func createMeetingSecurityDisclaimerMessage() -> ChatViewMessage {
+        let meetingSecurityMessage = ChatViewMessageAdapter.alertMutableAttributedString
+        meetingSecurityMessage.append(NSAttributedString(string: LGLocalizedString.chatMessageDisclaimerMeetingSecurity))
+        return createDisclaimerMessage(meetingSecurityMessage, showAvatar: false, actionTitle: nil, action: nil)
     }
 
     func createUserInfoMessage(_ user: User?) -> ChatViewMessage? {

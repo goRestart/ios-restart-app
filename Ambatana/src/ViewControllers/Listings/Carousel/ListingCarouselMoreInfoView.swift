@@ -23,6 +23,7 @@ protocol ProductCarouselMoreInfoDelegate: class {
     func didEndScrolling(_ topOverScroll: CGFloat, bottomOverScroll: CGFloat)
     func request(fullScreen: Bool)
     func viewControllerToShowShareOptions() -> UIViewController
+    func rootViewControllerForDFPBanner() -> UIViewController
 }
 
 extension MKMapView {
@@ -33,6 +34,10 @@ extension MKMapView {
 class ListingCarouselMoreInfoView: UIView {
 
     fileprivate static let relatedItemsHeight: CGFloat = 80
+    fileprivate static let shareViewToMapMargin: CGFloat = 30
+    fileprivate static let navBarDefaultHeight: CGFloat = 64
+    fileprivate static let shareViewToBannerMargin = Metrics.margin
+    fileprivate static let dragViewVerticalExtraMargin: CGFloat = 7 // Center purposes to the custom navigation bar in carousel view
 
     @IBOutlet weak var titleText: UITextView!
     @IBOutlet weak var priceLabel: UILabel!
@@ -63,7 +68,13 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var bannerContainerViewLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var bannerContainerViewRightConstraint: NSLayoutConstraint!
 
+    @IBOutlet var shareViewToMapTopConstraint: NSLayoutConstraint!
+    @IBOutlet var shareViewToBannerTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var dragViewToVisualEffectConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scrollViewToSuperviewTopConstraint: NSLayoutConstraint!
+    
     var bannerView: GADSearchBannerView?
+    var dfpBannerView: DFPBannerView?
 
     @IBOutlet weak var socialShareContainer: UIView!
     @IBOutlet weak var socialShareTitleLabel: UILabel!
@@ -109,7 +120,7 @@ class ListingCarouselMoreInfoView: UIView {
         setupBottomPanelRx(viewModel: viewModel)
         self.viewModel = viewModel
         if viewModel.adActive {
-            setupBannerWith(viewModel: viewModel)
+            setupAdBannerWith(viewModel: viewModel)
         }
     }
 
@@ -119,8 +130,16 @@ class ListingCarouselMoreInfoView: UIView {
             if let adBannerTrackingStatus = viewModel?.adBannerTrackingStatus {
                 viewModel?.adAlreadyRequestedWithStatus(adBannerTrackingStatus: adBannerTrackingStatus)
             } else {
-                loadAFShoppingRequest()
+                shareViewToMapTopConstraint.isActive = true
+                shareViewToBannerTopConstraint.isActive = true
+                if let useAFSh = viewModel?.afshAdActive, useAFSh {
+                    loadAFShoppingRequest()
+                } else {
+                    loadDFPRequest()
+                }
             }
+        } else {
+            hideAdsBanner()
         }
     }
 
@@ -132,6 +151,13 @@ class ListingCarouselMoreInfoView: UIView {
     deinit {
         // MapView is a shared instance and all references must be removed
         cleanMapView()
+    }
+    
+    
+    // MARK: - UI
+    
+    func updateDragViewVerticalConstraint(statusBarHeight: CGFloat) {
+        dragViewToVisualEffectConstraint.constant = statusBarHeight + ListingCarouselMoreInfoView.dragViewVerticalExtraMargin
     }
 }
 
@@ -163,12 +189,12 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
 
     fileprivate func setupMapRx(viewModel: ListingCarouselViewModel) {
         let productLocation = viewModel.productInfo.asObservable().map { $0?.location }.unwrap()
-        productLocation.bindNext { [weak self] coordinate in
+        productLocation.bind { [weak self] coordinate in
             self?.addRegion(with: coordinate, zoomBlocker: true)
             self?.setupMapExpanded(false)
             self?.locationZone = MKCircle(center:coordinate.coordinates2DfromLocation(),
                                     radius: Constants.accurateRegionRadius)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func layoutMapView(inside container: UIView) {
@@ -209,7 +235,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         }
     }
     
-    dynamic func didTapMap() {
+    @objc func didTapMap() {
         mapExpanded ? compressMap() : expandMap()
     }
 
@@ -259,7 +285,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         })
     }
     
-    func compressMap() {
+    @objc func compressMap() {
         guard mapExpanded else { return }
 
         self.delegate?.request(fullScreen: false)
@@ -355,7 +381,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         descriptionLabel.addGestureRecognizer(tapGesture)
         descriptionLabel.expandText = LGLocalizedString.commonExpand.localizedUppercase
         descriptionLabel.collapseText = LGLocalizedString.commonCollapse.localizedUppercase
-        descriptionLabel.gradientColor = UIColor.clear
+        descriptionLabel.gradientColor = .clear
         descriptionLabel.expandTextColor = UIColor.white
 
         setupSocialShareView()
@@ -363,7 +389,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         dragView.rounded = true
         dragView.layer.borderColor = UIColor.white.cgColor
         dragView.layer.borderWidth = 1
-        dragView.backgroundColor = UIColor.clear
+        dragView.backgroundColor = .clear
         
         dragViewTitle.text = LGLocalizedString.productMoreInfoOpenButton
         dragViewTitle.textColor = UIColor.white
@@ -377,6 +403,12 @@ fileprivate extension ListingCarouselMoreInfoView {
             view?.layer.masksToBounds = false
         }
         
+        if #available(iOS 11, *) {
+            scrollViewToSuperviewTopConstraint.constant = safeAreaInsets.top
+        } else {
+            scrollViewToSuperviewTopConstraint.constant = ListingCarouselMoreInfoView.navBarDefaultHeight
+        }
+
         scrollView.delegate = self
     }
 
@@ -415,18 +447,25 @@ fileprivate extension ListingCarouselMoreInfoView {
         }
     }
 
+    fileprivate func hideAdsBanner() {
+        bannerContainerView.isHidden = true
+        bannerContainerViewHeightConstraint.constant = 0
+        if shareViewToMapTopConstraint.isActive {
+            shareViewToMapTopConstraint.constant = ListingCarouselMoreInfoView.shareViewToMapMargin
+        }
+    }
 
     // MARK: > Configuration (each view model)
 
     func setupContentRx(viewModel: ListingCarouselViewModel) {
 
-        let statusAndChat = Observable.combineLatest(viewModel.status.asObservable(), viewModel.directChatEnabled.asObservable()) { $0 }
-        statusAndChat.bindNext { [weak self] (status, chatEnabled) in
+        let statusAndChat = Observable.combineLatest(viewModel.status.asObservable(), viewModel.directChatEnabled.asObservable()) { ($0, $1) }
+        statusAndChat.bind { [weak self] (status, chatEnabled) in
             self?.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0,
                                                          bottom: status.scrollBottomInset(chatEnabled: chatEnabled), right: 0)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        viewModel.productInfo.asObservable().unwrap().bindNext { [weak self] info in
+        viewModel.productInfo.asObservable().unwrap().bind { [weak self] info in
             self?.titleText.attributedText = info.styledTitle
             self?.priceLabel.text = info.price
             self?.autoTitleLabel.text = info.titleAutoGenerated ? LGLocalizedString.productAutoGeneratedTitleLabel : nil
@@ -435,54 +474,82 @@ fileprivate extension ListingCarouselMoreInfoView {
             self?.distanceLabel.text = info.distance
             self?.descriptionLabel.mainAttributedText = info.styledDescription
             self?.descriptionLabel.setNeedsLayout()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     func setupStatsRx(viewModel: ListingCarouselViewModel) {
         let productCreation = viewModel.productInfo.asObservable().map { $0?.creationDate }
-        let statsAndCreation = Observable.combineLatest(viewModel.listingStats.asObservable().unwrap(), productCreation) { $0 }
+        let statsAndCreation = Observable.combineLatest(viewModel.listingStats.asObservable().unwrap(), productCreation) { ($0, $1) }
         let statsViewVisible = statsAndCreation.map { (stats, creation) in
             return stats.viewsCount >= Constants.minimumStatsCountToShow || stats.favouritesCount >= Constants.minimumStatsCountToShow || creation != nil
         }
-        statsViewVisible.asObservable().distinctUntilChanged().bindNext { [weak self] visible in
+        statsViewVisible.asObservable().distinctUntilChanged().bind { [weak self] visible in
             self?.statsContainerViewHeightConstraint.constant = visible ? self?.statsContainerViewHeight ?? 0 : 0
             self?.statsContainerViewTopConstraint.constant = visible ? self?.statsContainerViewTop ?? 0 : 0
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        statsAndCreation.bindNext { [weak self] (stats, creation) in
+        statsAndCreation.bind { [weak self] (stats, creation) in
             guard let statsView = self?.statsView else { return }
             statsView.updateStatsWithInfo(stats.viewsCount, favouritesCount: stats.favouritesCount, postedDate: creation)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     func setupBottomPanelRx(viewModel: ListingCarouselViewModel) {
-        viewModel.socialSharer.asObservable().bindNext { [weak self] socialSharer in
+        viewModel.socialSharer.asObservable().bind { [weak self] socialSharer in
             self?.socialShareView.socialSharer = socialSharer
-        }.addDisposableTo(disposeBag)
-        viewModel.socialMessage.asObservable().bindNext { [weak self] socialMessage in
+        }.disposed(by: disposeBag)
+        viewModel.socialMessage.asObservable().bind { [weak self] socialMessage in
             self?.socialShareView.socialMessage = socialMessage
             self?.socialShareView.isHidden = socialMessage == nil
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
-    func setupBannerWith(viewModel: ListingCarouselViewModel) {
+    func setupAdBannerWith(viewModel: ListingCarouselViewModel) {
 
-        bannerView = GADSearchBannerView.init(adSize: kGADAdSizeFluid)
-        guard let bannerView = bannerView else { return }
-        bannerView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 0)
+        if viewModel.afshAdActive {
+            bannerView = GADSearchBannerView.init(adSize: kGADAdSizeFluid)
+            guard let bannerView = bannerView else { return }
+            bannerView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 0)
+            bannerView.autoresizingMask = .flexibleWidth
+            bannerView.adSizeDelegate = self
+            bannerView.delegate = self
 
-        bannerView.autoresizingMask = .flexibleWidth
-        bannerView.adSizeDelegate = self
-        bannerView.delegate = self
+            bannerContainerView.addSubview(bannerView)
+            bannerView.translatesAutoresizingMaskIntoConstraints = false
+            bannerView.layout(with: bannerContainerView).fill()
+        } else {
+            dfpBannerView = DFPBannerView(adSize: kGADAdSizeLargeBanner)
 
-        bannerContainerView.addSubview(bannerView)
-        bannerView.translatesAutoresizingMaskIntoConstraints = false
-        bannerView.layout(with: bannerContainerView).fill()
+            guard let dfpBanner = dfpBannerView else { return }
+            dfpBanner.rootViewController = delegate?.rootViewControllerForDFPBanner()
+            dfpBanner.delegate = self
+
+            bannerContainerView.addSubview(dfpBanner)
+            dfpBanner.translatesAutoresizingMaskIntoConstraints = false
+            dfpBanner.layout(with: bannerContainerView).top().bottom().centerX()
+
+            dfpBanner.delegate = self
+        }
     }
 
     func loadAFShoppingRequest() {
+        bannerContainerViewHeightConstraint.constant = 0
+        shareViewToMapTopConstraint.isActive = false
+        shareViewToBannerTopConstraint.isActive = true
+
         bannerView?.adUnitID = viewModel?.shoppingAdUnitId
         bannerView?.load(viewModel?.makeAFShoppingRequestWithWidth(width: frame.width))
+    }
+
+    func loadDFPRequest() {
+        bannerContainerViewHeightConstraint.constant = kGADAdSizeLargeBanner.size.height
+        shareViewToMapTopConstraint.isActive = true
+        shareViewToBannerTopConstraint.isActive = false
+
+        dfpBannerView?.adUnitID = viewModel?.dfpAdUnitId
+        let dfpRequest = DFPRequest()
+        dfpRequest.contentURL = viewModel?.dfpContentURL
+        dfpBannerView?.load(dfpRequest)
     }
 }
 
@@ -502,6 +569,22 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
             let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
             let bannerTop = absolutePosition.y
             let bannerBottom = bannerTop + size.size.height
+            viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
+                                    bannerBottomPosition: bannerBottom,
+                                    screenHeight: UIScreen.main.bounds.height)
+        }
+    }
+
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        bannerContainerView.isHidden = false
+
+        bannerContainerViewHeightConstraint.constant = bannerView.height
+        shareViewToMapTopConstraint.constant = bannerView.height + ListingCarouselMoreInfoView.shareViewToMapMargin
+
+        if bannerView.frame.size.height > 0 {
+            let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
+            let bannerTop = absolutePosition.y
+            let bannerBottom = bannerTop + bannerView.frame.size.height
             viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
                                     bannerBottomPosition: bannerBottom,
                                     screenHeight: UIScreen.main.bounds.height)
@@ -530,7 +613,7 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
 // MARK: - LGCollapsibleLabel
 
 extension ListingCarouselMoreInfoView {
-    func toggleDescriptionState() {
+    @objc func toggleDescriptionState() {
         UIView.animate(withDuration: 0.25, animations: {
             self.descriptionLabel.toggleState()
             self.layoutIfNeeded()
@@ -585,9 +668,9 @@ extension ListingVMProductInfo {
     var styledDescription: NSAttributedString? {
         guard let description = description else { return nil }
         let result = NSMutableAttributedString(attributedString: description)
-        result.addAttribute(NSForegroundColorAttributeName, value: UIColor.grayLight,
-                                range: NSMakeRange(0, result.length))
-        result.addAttribute(NSFontAttributeName, value: UIFont.productDescriptionFont,
+        result.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.grayLight,
+                            range: NSMakeRange(0, result.length))
+        result.addAttribute(NSAttributedStringKey.font, value: UIFont.productDescriptionFont,
                             range: NSMakeRange(0, result.length))
         return result
     }
@@ -595,9 +678,9 @@ extension ListingVMProductInfo {
     var styledTitle: NSAttributedString? {
         guard let linkedTitle = linkedTitle else { return nil }
         let result = NSMutableAttributedString(attributedString: linkedTitle)
-        result.addAttribute(NSForegroundColorAttributeName, value: UIColor.white,
+        result.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white,
                             range: NSMakeRange(0, result.length))
-        result.addAttribute(NSFontAttributeName, value: UIFont.productTitleFont,
+        result.addAttribute(NSAttributedStringKey.font, value: UIFont.productTitleFont,
                             range: NSMakeRange(0, result.length))
         return result
     }

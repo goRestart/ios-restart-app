@@ -197,10 +197,10 @@ class PostListingGalleryViewModel: BaseViewModel {
             }
         }
         let hasImagesSelected = imagesSelected.asObservable().map { $0.count > 0 }
-        Observable.combineLatest(galleryStateIsNormal, hasImagesSelected) { $0 && !$1 }.bindNext { [weak self] in
+        Observable.combineLatest(galleryStateIsNormal, hasImagesSelected) { $0 && !$1 }.bind { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.albumIconState.value = $0 ? .down : .hidden
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         galleryState.asObservable().subscribeNext{ [weak self] state in
             switch state {
@@ -209,13 +209,13 @@ class PostListingGalleryViewModel: BaseViewModel {
             case .pendingAskPermissions, .loading, .loadImageError, .normal, .empty:
                 break
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         visible.asObservable().distinctUntilChanged().filter{ $0 }
             .subscribeNext{ [weak self] _ in self?.didBecomeVisible() }
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
 
-        imagesSelected.asObservable().bindNext { [weak self] imgsSelected in
+        imagesSelected.asObservable().bind { [weak self] imgsSelected in
             let numImgs = imgsSelected.count
             guard let strongSelf = self else { return }
             if numImgs < 1 {
@@ -229,7 +229,7 @@ class PostListingGalleryViewModel: BaseViewModel {
                 strongSelf.albumButtonEnabled.value = false
                 strongSelf.albumTitle.value =  String(format: LGLocalizedString.productPostGalleryMultiplePicsSelected, numImgs)
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private static func collectAlbumsOfType(_ type: PHAssetCollectionType,

@@ -219,6 +219,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     // MARK: > UI
 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        }
+    }
+
     /**
         Refreshes the user interface.
     */
@@ -297,6 +304,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.numberOfListings
     }
+    
 
     func collectionView(_ collectionView: UICollectionView,
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -563,7 +571,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         errorView.updateConstraintsIfNeeded()
     }
 
-    dynamic private func refreshControlTriggered() {
+    @objc private func refreshControlTriggered() {
         viewModel.refreshControlTriggered()
     }
 
@@ -612,7 +620,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     /**
         Called when the error button is pressed.
     */
-    dynamic private func errorButtonPressed() {
+    @objc private func errorButtonPressed() {
         switch viewModel.state {
         case .empty(let emptyVM):
             emptyVM.action?()
