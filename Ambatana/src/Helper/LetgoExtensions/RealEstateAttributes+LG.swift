@@ -31,9 +31,7 @@ extension RealEstateAttributes {
     }
     
     var generatedTitle: String {
-        let separator = " "
-        let title = sortedAttributesForGeneratedTitle.joined(separator: separator)
-        return title
+        return sortedAttributesForGeneratedTitle.joined(separator: " ")
     }
     
     var tags: [String] {

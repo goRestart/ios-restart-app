@@ -57,12 +57,9 @@
                                     <rect key="frame" x="10" y="88.5" width="340" height="19"/>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0q8-D2-b1O" userLabel="Tags Collection" customClass="TagCollectionView" customModule="LetGo" customModuleProvider="target">
+                                <view contentMode="scaleToFill" placeholderIntrinsicWidth="336" placeholderIntrinsicHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="0q8-D2-b1O" userLabel="Tags Collection" customClass="TagCollectionView" customModule="LetGo" customModuleProvider="target">
                                     <rect key="frame" x="14" y="133" width="336" height="20"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="20" id="SD2-of-iR9"/>
-                                    </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wTN-H3-8cr" userLabel="Stats Container View">
                                     <rect key="frame" x="15" y="179.5" width="330" height="24"/>

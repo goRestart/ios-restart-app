@@ -399,7 +399,7 @@ fileprivate extension ListingCarouselMoreInfoView {
     }
     
     func setupTagCollectionView() {
-        tagCollectionViewModel = TagCollectionViewModel(tags: [String](), delegate: tagCollectionView)
+        tagCollectionViewModel = TagCollectionViewModel(tags: [], delegate: tagCollectionView)
         tagCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.reusableID)
         tagCollectionView.dataSource = tagCollectionViewModel
         tagCollectionView.defaultSetup()
@@ -467,7 +467,7 @@ fileprivate extension ListingCarouselMoreInfoView {
             self?.distanceLabel.text = info.distance
             self?.descriptionLabel.mainAttributedText = info.styledDescription
             self?.descriptionLabel.setNeedsLayout()
-            self?.tagCollectionViewModel?.tags = info.attributeTags ?? [String]()
+            self?.tagCollectionViewModel?.tags = info.attributeTags ?? []
         }.addDisposableTo(disposeBag)
     }
     
