@@ -42,7 +42,7 @@ extension RealEstateAttributes {
             tags.append(numBedrooms.shortLocalizedString.localizedUppercase)
         }
         if let bathrooms = bathrooms, let numBathrooms = NumberOfBathrooms(rawValue: bathrooms) {
-            let bathroomsTag = bathrooms == 0 ? "0BA" : numBathrooms.shortLocalizedString.localizedUppercase
+            let bathroomsTag = bathrooms == 0 ? LGLocalizedString.realEstateAttributeTagBathroom0.localizedUppercase : numBathrooms.shortLocalizedString.localizedUppercase
             tags.append(bathroomsTag)
         }
         return tags
