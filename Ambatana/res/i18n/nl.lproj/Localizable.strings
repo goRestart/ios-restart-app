@@ -624,7 +624,7 @@
 "product_report_login_popup_text" = "Om een advertentie te rapporteren, moet je eerst inloggen";
 "product_report_product_button" = "Rapporteer product";
 "product_reported_error_generic" = "Er is een fout opgetreden tijdens het rapporteren van het product. Probeer het nog eens.";
-"product_reported_success_message" = "Het product werd gerapporteerd. Bedankt!";
+"product_reported_success_message" = "Deze advertentie is succesvol gerapporteerd. Bedankt!";
 "product_reporting_loading_message" = "Rapporteren van product...";
 "product_search_no_products_body" = "Probeer om iets anders te zoeken of probeer het binnenkort nog eens!";
 "product_search_no_products_title" = "OEPS! GEEN RESULTATEN IN JOUW OMGEVING";

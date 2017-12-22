@@ -624,7 +624,7 @@
 "product_report_login_popup_text" = "Για να κάνετε αναφορά μιας καταχώρησης, θα πρέπει να συνδεθείτε";
 "product_report_product_button" = "Αναφορά Προϊόντος";
 "product_reported_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αναφορά του προϊόντος. Παρακαλώ, δοκιμάστε ξανά.";
-"product_reported_success_message" = "Έχει γίνει αναφορά του προϊόντος. Ευχαριστούμε!";
+"product_reported_success_message" = "Έχει γίνει επιτυχής αναφορά της καταχώρησης. Ευχαριστούμε!";
 "product_reporting_loading_message" = "Αναφορά προϊόντος...";
 "product_search_no_products_body" = "Ψάξτε για κάτι άλλο ή κάντε αναζήτηση ξανά αργότερα!";
 "product_search_no_products_title" = "ΌΠΑ! ΔΕ ΒΡΕΘΗΚΑΝ ΑΠΟΤΕΛΕΣΜΑΤΑ ΚΟΝΤΑ ΣΑΣ";

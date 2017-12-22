@@ -619,12 +619,12 @@
 "product_post_select_category_title" = "O que está a publicar?";
 "product_post_use_photo" = "Publicar";
 "product_post_use_photo_not_logged" = "Usar a foto";
-"product_report_confirm_message" = "Tem a certeza que deseja denunciar este artigo?";
-"product_report_confirm_title" = "Denunciar artigo";
+"product_report_confirm_message" = "Deseja mesmo denunciar esta publicação?";
+"product_report_confirm_title" = "Denunciar produto";
 "product_report_login_popup_text" = "Para denunciar uma publicação tem que efetuar o login";
-"product_report_product_button" = "Denunciar artigo";
+"product_report_product_button" = "Denunciar produto";
 "product_reported_error_generic" = "Surgiu um erro ao reportar o produto. Por favor tente novamente.";
-"product_reported_success_message" = "O produto foi denunciado. Obrigado!";
+"product_reported_success_message" = "Esta publicação foi denunciada. Obrigado!";
 "product_reporting_loading_message" = "A denunciar o produto...";
 "product_search_no_products_body" = "Experimente procurar outra coisa ou volte mais tarde!";
 "product_search_no_products_title" = "OPS! NENHUM RESULTADO PERTO DE SI";
@@ -647,7 +647,7 @@
 "product_sell_photolibrary_restricted_error" = "O acesso ao seu álbum de fotos é restrito. Por favor verifique as suas definições e tente de novo.";
 "product_share_body" = "Vê o que acabei de encontrar no letgo!";
 "product_share_copylink_ok" = "O seu link foi copiado!";
-"product_share_email_error" = "Ops, aparentemente não configurou uma conta na app de email.";
+"product_share_email_error" = "Ups! Aparentemente não configurou uma conta na app de email.";
 "product_share_generic_ok" = "Publicação partilhada!";
 "product_share_navbar_button" = "Partilhar";
 "product_share_posted_by" = "publicado por %@";

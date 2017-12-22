@@ -92,10 +92,10 @@ public struct RetrieveListingParams {
         
         // Real Estate attributes
         if let propertyType = propertyType {
-            params["propertyType"] = [propertyType]
+            params["typeOfProperty"] = [propertyType]
         }
         if let offerType = offerType {
-            params["offerType"] = [offerType]
+            params["typeOfListing"] = [offerType]
         }
         params["numberOfBedrooms"] = numberOfBedrooms
         params["numberOfBathrooms"] = numberOfBathrooms
