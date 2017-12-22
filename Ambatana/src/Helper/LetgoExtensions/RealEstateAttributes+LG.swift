@@ -36,7 +36,7 @@ extension RealEstateAttributes {
             tags.append(propertyType.shortLocalizedString.localizedUppercase)
         }
         if let offerType = offerType {
-            tags.append(offerType.shortLocalizedString.capitalizedFirstLetterOnly)
+            tags.append(offerType.shortLocalizedString.localizedCapitalized)
         }
         if let bedrooms = bedrooms, let numBedrooms = NumberOfBedrooms(rawValue: bedrooms) {
             tags.append(numBedrooms.shortLocalizedString.localizedUppercase)
