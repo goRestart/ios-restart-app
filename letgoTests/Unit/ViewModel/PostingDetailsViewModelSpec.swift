@@ -29,6 +29,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
         var currencyHelper: CurrencyHelper!
         var featureFlags: MockFeatureFlags!
         var myUserRepository: MockMyUserRepository!
+        var sessionManager: MockSessionManager!
         
         var postingDetailsStep: PostingDetailStep!
         var postListingState: PostListingState!
@@ -49,7 +50,8 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                                               currencyHelper: currencyHelper,
                                               locationManager: locationManager,
                                               featureFlags: featureFlags,
-                                              myUserRepository: myUserRepository)
+                                              myUserRepository: myUserRepository,
+                                              sessionManager: sessionManager)
                 
                 sut.navigator = self
             }
@@ -61,6 +63,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
                 currencyHelper = Core.currencyHelper
                 featureFlags = MockFeatureFlags()
                 myUserRepository = MockMyUserRepository()
+                sessionManager = MockSessionManager()
                 
                 self.cancelPostingCalled = false
                 self.nextPostingDetailStepCalled = false
