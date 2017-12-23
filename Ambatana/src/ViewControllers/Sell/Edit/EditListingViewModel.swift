@@ -559,7 +559,6 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func validate() -> ListingCreateValidationError? {
-        
         if images.count < 1 {
             return .noImages
         } else if descriptionCharCount < 0 {
