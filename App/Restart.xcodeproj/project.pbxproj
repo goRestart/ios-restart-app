@@ -13,8 +13,8 @@
 		1C3B45491FEFCC54008B7B87 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C3B45481FEFCC54008B7B87 /* Assets.xcassets */; };
 		1C3B454C1FEFCC54008B7B87 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C3B454A1FEFCC54008B7B87 /* LaunchScreen.storyboard */; };
 		1C3B45571FEFCC55008B7B87 /* RestartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3B45561FEFCC55008B7B87 /* RestartTests.swift */; };
-		3A0FEE73257CF822620F5EC8 /* Pods_RestartTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9783F7F74F0D35E696795488 /* Pods_RestartTests.framework */; };
-		CAA3F46DA582232D52A7A389 /* Pods_Restart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67074ED127E1E6F7BE720ABC /* Pods_Restart.framework */; };
+		2506316F2E5AF1D9A7FFEBBE /* Pods_Restart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 349F28E9BEBBFEC217C9575E /* Pods_Restart.framework */; };
+		DD55FF608FC7D21DD0C0871A /* Pods_RestartTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE32975C46E2D63AB4A812CE /* Pods_RestartTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,7 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		148967C35C3DDD3F73942789 /* Pods-RestartTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestartTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RestartTests/Pods-RestartTests.release.xcconfig"; sourceTree = "<group>"; };
+		12F9D557ACD33FCB22554F1E /* Pods-Restart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Restart.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-Restart/Pods-Restart.debug.xcconfig"; sourceTree = "<group>"; };
 		1C3B453E1FEFCC54008B7B87 /* Restart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Restart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C3B45411FEFCC54008B7B87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1C3B45431FEFCC54008B7B87 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -39,11 +39,11 @@
 		1C3B45521FEFCC55008B7B87 /* RestartTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RestartTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C3B45561FEFCC55008B7B87 /* RestartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestartTests.swift; sourceTree = "<group>"; };
 		1C3B45581FEFCC55008B7B87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		67074ED127E1E6F7BE720ABC /* Pods_Restart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Restart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6DCCD40D7F0E689683A410EC /* Pods-Restart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Restart.release.xcconfig"; path = "Pods/Target Support Files/Pods-Restart/Pods-Restart.release.xcconfig"; sourceTree = "<group>"; };
-		6E806DA66F3D30227935A068 /* Pods-Restart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Restart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Restart/Pods-Restart.debug.xcconfig"; sourceTree = "<group>"; };
-		8DF828E85ABEA0ECE3A7E4BB /* Pods-RestartTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestartTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RestartTests/Pods-RestartTests.debug.xcconfig"; sourceTree = "<group>"; };
-		9783F7F74F0D35E696795488 /* Pods_RestartTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RestartTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		349F28E9BEBBFEC217C9575E /* Pods_Restart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Restart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C7D7B2F6D01C1C49CA2A5D7 /* Pods-RestartTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestartTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-RestartTests/Pods-RestartTests.release.xcconfig"; sourceTree = "<group>"; };
+		59CE222FE803006A552A50A9 /* Pods-RestartTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestartTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-RestartTests/Pods-RestartTests.debug.xcconfig"; sourceTree = "<group>"; };
+		84306D21D152859D78F4BF87 /* Pods-Restart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Restart.release.xcconfig"; path = "../Pods/Target Support Files/Pods-Restart/Pods-Restart.release.xcconfig"; sourceTree = "<group>"; };
+		AE32975C46E2D63AB4A812CE /* Pods_RestartTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RestartTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAA3F46DA582232D52A7A389 /* Pods_Restart.framework in Frameworks */,
+				2506316F2E5AF1D9A7FFEBBE /* Pods_Restart.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A0FEE73257CF822620F5EC8 /* Pods_RestartTests.framework in Frameworks */,
+				DD55FF608FC7D21DD0C0871A /* Pods_RestartTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,8 +72,8 @@
 				1C3B45401FEFCC54008B7B87 /* Restart */,
 				1C3B45551FEFCC55008B7B87 /* RestartTests */,
 				1C3B453F1FEFCC54008B7B87 /* Products */,
-				65AE033E19FB83EC4284B0B6 /* Pods */,
 				33B833E5CD9AFE167B3E165E /* Frameworks */,
+				95E2DCB32AC5421BED64D599 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,19 +111,19 @@
 		33B833E5CD9AFE167B3E165E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				67074ED127E1E6F7BE720ABC /* Pods_Restart.framework */,
-				9783F7F74F0D35E696795488 /* Pods_RestartTests.framework */,
+				349F28E9BEBBFEC217C9575E /* Pods_Restart.framework */,
+				AE32975C46E2D63AB4A812CE /* Pods_RestartTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		65AE033E19FB83EC4284B0B6 /* Pods */ = {
+		95E2DCB32AC5421BED64D599 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6E806DA66F3D30227935A068 /* Pods-Restart.debug.xcconfig */,
-				6DCCD40D7F0E689683A410EC /* Pods-Restart.release.xcconfig */,
-				8DF828E85ABEA0ECE3A7E4BB /* Pods-RestartTests.debug.xcconfig */,
-				148967C35C3DDD3F73942789 /* Pods-RestartTests.release.xcconfig */,
+				12F9D557ACD33FCB22554F1E /* Pods-Restart.debug.xcconfig */,
+				84306D21D152859D78F4BF87 /* Pods-Restart.release.xcconfig */,
+				59CE222FE803006A552A50A9 /* Pods-RestartTests.debug.xcconfig */,
+				4C7D7B2F6D01C1C49CA2A5D7 /* Pods-RestartTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -135,12 +135,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C3B455B1FEFCC55008B7B87 /* Build configuration list for PBXNativeTarget "Restart" */;
 			buildPhases = (
-				E88EE0592B0E73418153D78D /* [CP] Check Pods Manifest.lock */,
+				AD0DC0BA9B614121AA755268 /* [CP] Check Pods Manifest.lock */,
 				1C3B453A1FEFCC54008B7B87 /* Sources */,
 				1C3B453B1FEFCC54008B7B87 /* Frameworks */,
 				1C3B453C1FEFCC54008B7B87 /* Resources */,
-				D7CA9C609EDF6AEF02531963 /* [CP] Embed Pods Frameworks */,
-				4BCBCD38CA9B730407EF09ED /* [CP] Copy Pods Resources */,
+				2665D1907CC95E46BA704EAB /* [CP] Embed Pods Frameworks */,
+				B99A031D9E4AB3BC9382ADFA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -245,7 +245,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RestartTests/Pods-RestartTests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-RestartTests/Pods-RestartTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2665D1907CC95E46BA704EAB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-Restart/Pods-Restart-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		47C3F8D8D21F4F012AFA80C5 /* [CP] Check Pods Manifest.lock */ = {
@@ -266,21 +281,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4BCBCD38CA9B730407EF09ED /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Restart/Pods-Restart-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		AA78D4A41A78DE8EE15B67CE /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -293,25 +293,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RestartTests/Pods-RestartTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-RestartTests/Pods-RestartTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D7CA9C609EDF6AEF02531963 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Restart/Pods-Restart-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E88EE0592B0E73418153D78D /* [CP] Check Pods Manifest.lock */ = {
+		AD0DC0BA9B614121AA755268 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -327,6 +312,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B99A031D9E4AB3BC9382ADFA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-Restart/Pods-Restart-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -488,7 +488,7 @@
 		};
 		1C3B455C1FEFCC55008B7B87 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6E806DA66F3D30227935A068 /* Pods-Restart.debug.xcconfig */;
+			baseConfigurationReference = 12F9D557ACD33FCB22554F1E /* Pods-Restart.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -505,7 +505,7 @@
 		};
 		1C3B455D1FEFCC55008B7B87 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6DCCD40D7F0E689683A410EC /* Pods-Restart.release.xcconfig */;
+			baseConfigurationReference = 84306D21D152859D78F4BF87 /* Pods-Restart.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -522,7 +522,7 @@
 		};
 		1C3B455F1FEFCC55008B7B87 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8DF828E85ABEA0ECE3A7E4BB /* Pods-RestartTests.debug.xcconfig */;
+			baseConfigurationReference = 59CE222FE803006A552A50A9 /* Pods-RestartTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -540,7 +540,7 @@
 		};
 		1C3B45601FEFCC55008B7B87 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 148967C35C3DDD3F73942789 /* Pods-RestartTests.release.xcconfig */;
+			baseConfigurationReference = 4C7D7B2F6D01C1C49CA2A5D7 /* Pods-RestartTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
