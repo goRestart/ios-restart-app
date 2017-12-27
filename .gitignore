@@ -2,6 +2,7 @@
 build/
 DerivedData/
 Pods/
+Carthage/
 
 ## Various settings
 *.pbxuser
