@@ -6,7 +6,7 @@ target 'Restart' do
 
   # Pods for Restart
 
-  target 'RestartTests' do
-    inherit! :search_paths
-  end
+  # target 'RestartTests' do
+  #   inherit! :search_paths
+  # end
 end
