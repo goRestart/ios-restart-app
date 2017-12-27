@@ -12,7 +12,6 @@
 		1C3B45471FEFCC54008B7B87 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C3B45451FEFCC54008B7B87 /* Main.storyboard */; };
 		1C3B45491FEFCC54008B7B87 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C3B45481FEFCC54008B7B87 /* Assets.xcassets */; };
 		1C3B454C1FEFCC54008B7B87 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C3B454A1FEFCC54008B7B87 /* LaunchScreen.storyboard */; };
-		1C3B45571FEFCC55008B7B87 /* RestartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3B45561FEFCC55008B7B87 /* RestartTests.swift */; };
 		2506316F2E5AF1D9A7FFEBBE /* Pods_Restart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 349F28E9BEBBFEC217C9575E /* Pods_Restart.framework */; };
 		DD55FF608FC7D21DD0C0871A /* Pods_RestartTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE32975C46E2D63AB4A812CE /* Pods_RestartTests.framework */; };
 /* End PBXBuildFile section */
@@ -27,6 +26,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1C9139BC1FF017C300646884 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		12F9D557ACD33FCB22554F1E /* Pods-Restart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Restart.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-Restart/Pods-Restart.debug.xcconfig"; sourceTree = "<group>"; };
 		1C3B453E1FEFCC54008B7B87 /* Restart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Restart.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,8 +49,9 @@
 		1C3B454B1FEFCC54008B7B87 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1C3B454D1FEFCC54008B7B87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C3B45521FEFCC55008B7B87 /* RestartTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RestartTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1C3B45561FEFCC55008B7B87 /* RestartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestartTests.swift; sourceTree = "<group>"; };
 		1C3B45581FEFCC55008B7B87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1C9139B01FEFED2B00646884 /* Moya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Moya.framework; path = ../Carthage/Build/iOS/Moya.framework; sourceTree = "<group>"; };
+		1CACCE6D1FF2D0320001B321 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		349F28E9BEBBFEC217C9575E /* Pods_Restart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Restart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C7D7B2F6D01C1C49CA2A5D7 /* Pods-RestartTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestartTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-RestartTests/Pods-RestartTests.release.xcconfig"; sourceTree = "<group>"; };
 		59CE222FE803006A552A50A9 /* Pods-RestartTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RestartTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-RestartTests/Pods-RestartTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -102,7 +115,6 @@
 		1C3B45551FEFCC55008B7B87 /* RestartTests */ = {
 			isa = PBXGroup;
 			children = (
-				1C3B45561FEFCC55008B7B87 /* RestartTests.swift */,
 				1C3B45581FEFCC55008B7B87 /* Info.plist */,
 			);
 			path = RestartTests;
@@ -111,6 +123,8 @@
 		33B833E5CD9AFE167B3E165E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1CACCE6D1FF2D0320001B321 /* Data.framework */,
+				1C9139B01FEFED2B00646884 /* Moya.framework */,
 				349F28E9BEBBFEC217C9575E /* Pods_Restart.framework */,
 				AE32975C46E2D63AB4A812CE /* Pods_RestartTests.framework */,
 			);
@@ -136,11 +150,13 @@
 			buildConfigurationList = 1C3B455B1FEFCC55008B7B87 /* Build configuration list for PBXNativeTarget "Restart" */;
 			buildPhases = (
 				AD0DC0BA9B614121AA755268 /* [CP] Check Pods Manifest.lock */,
-				1C3B453A1FEFCC54008B7B87 /* Sources */,
+				1C9139B21FEFED4300646884 /* [Carthage] Copy Frameworks */,
 				1C3B453B1FEFCC54008B7B87 /* Frameworks */,
+				1C3B453A1FEFCC54008B7B87 /* Sources */,
 				1C3B453C1FEFCC54008B7B87 /* Resources */,
 				2665D1907CC95E46BA704EAB /* [CP] Embed Pods Frameworks */,
 				B99A031D9E4AB3BC9382ADFA /* [CP] Copy Pods Resources */,
+				1C9139BC1FF017C300646884 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -248,6 +264,20 @@
 			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-RestartTests/Pods-RestartTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		1C9139B21FEFED4300646884 /* [Carthage] Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[Carthage] Copy Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
 		2665D1907CC95E46BA704EAB /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -345,7 +375,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C3B45571FEFCC55008B7B87 /* RestartTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,6 +522,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = Restart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -510,6 +540,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = Restart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -5,6 +5,18 @@
       location = "group:App/Restart.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:App/Features/Foundation/Application/Application.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:App/Features/Foundation/Domain/Domain.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:App/Features/Foundation/Core/Core.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:App/Features/Foundation/Data/Data.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
