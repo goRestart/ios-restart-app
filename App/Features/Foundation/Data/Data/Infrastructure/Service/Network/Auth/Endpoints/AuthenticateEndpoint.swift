@@ -13,9 +13,11 @@ struct AuthenticateEndpoint: Endpoint {
   var path: String {
     return "/login"
   }
+  
   var method: Moya.Method {
     return .post
   }
+  
   var task: Task {
     let parameters = [
       "username": credentials.username,
