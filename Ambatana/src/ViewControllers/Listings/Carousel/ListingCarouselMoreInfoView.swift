@@ -141,6 +141,13 @@ class ListingCarouselMoreInfoView: UIView {
             hideAdsBanner()
         }
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // We need to call invalidateLayout in the CollectionView to fix what appears to be an iOS 10 UIKit bug:
+        // https://stackoverflow.com/a/44467194
+        tagCollectionView.collectionViewLayout.invalidateLayout()
+    }
 
     func dismissed() {
         scrollView.contentOffset = CGPoint.zero
