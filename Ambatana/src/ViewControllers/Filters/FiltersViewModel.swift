@@ -361,6 +361,10 @@ class FiltersViewModel: BaseViewModel {
         delegate?.vmDidUpdate()
     }
 
+    func close() {
+        navigator?.closeFilters()
+    }
+
     func validateFilters() -> Bool {
         guard validatePriceRange() else {
             delegate?.vmShowAutoFadingMessage(LGLocalizedString.filtersPriceWrongRangeError, completion: { [weak self] in

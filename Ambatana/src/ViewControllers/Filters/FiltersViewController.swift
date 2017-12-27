@@ -62,7 +62,6 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupUI()
         setupRx()
         setAccessibilityIds()
@@ -80,7 +79,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     // MARK: - IBActions & Navbar
     
     @objc func onNavbarCancel() {
-        self.navigationController?.dismiss(animated: true, completion: nil)
+        viewModel.close()
     }
     
     @objc func onNavbarReset() {
@@ -90,7 +89,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     @IBAction func onSaveFiltersBtn(_ sender: AnyObject) {
         guard viewModel.validateFilters() else { return }
         viewModel.saveFilters()
-        self.navigationController?.dismiss(animated: true, completion: nil)
+        viewModel.close()
     }
     
     
@@ -507,7 +506,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             let viewHeight = strongSelf.view.height
             let animationTime = strongSelf.keyboardHelper.animationTime
             guard viewHeight >= origin else { return }
-            self?.saveFiltersBtnContainerBottomConstraint.constant = viewHeight - origin
+            self?.saveFiltersBtnContainerBottomConstraint.constant = -(viewHeight - origin)
             UIView.animate(withDuration: Double(animationTime), animations: {
                 strongSelf.view.layoutIfNeeded()
             })

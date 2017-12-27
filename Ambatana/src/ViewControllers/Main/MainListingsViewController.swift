@@ -161,8 +161,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         super.viewWillDisappear(animated)
         guard didCallViewDidLoaded else { return }
         self.navigationController?.setNavigationBarHidden(false, animated: false)
-        endEdit()
     }
+
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -170,6 +170,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         // ⚠️ not showing the tags collection view causes a crash when trying to reload the collection data
         // ⚠️ while not visible (ABIOS-2696)
         showTagsView(showPrimaryTags: viewModel.primaryTags.count > 0, showSecondaryTags: viewModel.secondaryTags.count > 0, updateInsets: true)
+        endEdit()
     }
     
     // MARK: - ScrollableToTop
