@@ -191,7 +191,7 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
         guard let price = viewModel.currentPrice else { return }
         switch price {
         case .firmPrice, .normal:
-            let priceString = price.value == 0 ? LGLocalizedString.productNegotiablePrice : String.fromPriceDouble(price.value)
+            let priceString = price.value == 0 ? "" : String.fromPriceDouble(price.value)
             priceTextField.text = priceString
         case .free:
             freeActive.value = true
