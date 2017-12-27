@@ -11,11 +11,15 @@ import RxSwift
 import UIKit
 
 class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UITextViewDelegate, GIDSignInUIDelegate {
+    
+    private static let loginSegmentedControlTopMargin: CGFloat = 16
+    
     @IBOutlet weak var darkAppereanceBgView: UIView!
     @IBOutlet weak var kenBurnsView: JBKenBurnsView!
     
     @IBOutlet weak var loginSegmentedControl: UISegmentedControl!
-
+    @IBOutlet weak var loginSegmentedControlTopConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var scrollView: UIScrollView!
 
     @IBOutlet weak var textFieldsView: UIView!
@@ -415,6 +419,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         if DeviceFamily.current == .iPhone4 {
             adaptConstraintsToiPhone4()
         }
+        
+        loginSegmentedControlTopConstraint.constant = navigationBarHeight + statusBarHeight +
+            SignUpLogInViewController.loginSegmentedControlTopMargin
 
         // action type
         loginSegmentedControl.selectedSegmentIndex = viewModel.currentActionType.rawValue
