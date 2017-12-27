@@ -1,0 +1,6 @@
+github "Alamofire/Alamofire" "4.6.0"
+github "AliSoftware/OHHTTPStubs" "6.1.0"
+github "Moya/Moya" "10.0.1"
+github "ReactiveCocoa/ReactiveSwift" "2.0.1"
+github "ReactiveX/RxSwift" "4.0.0"
+github "antitypical/Result" "3.2.4"

@@ -2,6 +2,7 @@
 build/
 DerivedData/
 Pods/
+Carthage/
 
 ## Various settings
 *.pbxuser
@@ -19,13 +20,6 @@ xcuserdata/
 *.ipa
 *.dSYM.zip
 *.dSYM
-
-### Xcode Patch ###
-*.xcodeproj
-!*.xcodeproj/project.pbxproj
-!*.xcodeproj/xcshareddata/
-!*.xcworkspace/contents.xcworkspacedata
-/*.gcno
 
 ## Playgrounds
 timeline.xctimeline
