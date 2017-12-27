@@ -164,6 +164,8 @@
 "chat_not_verified_state_title" = "AVEZ-VOUS ÉTÉ VALIDÉ ?";
 "chat_product_given_away_label" = "Donné";
 "chat_product_sold_label" = "Vendu";
+"chat_professional_banner_button_title" = "Call";
+"chat_professional_banner_title" = "You're talking to a professional car dealer";
 "chat_related_products_title" = "VOUS POURRIEZ ÊTRE INTÉRESSÉ PAR :";
 "chat_safety_tips" = "Conseils de sécurité";
 "chat_safety_tips_message" = "• Rencontrez en personne et payez en argent comptant.\n\n• Clavardez toujours dans l'appli letgo.\n\n• Cela semble trop beau por être vrai ? Trouvez un autre acheteur/vendeur.";
@@ -619,13 +621,15 @@
 "product_post_select_category_title" = "Que publiez-vous ?";
 "product_post_use_photo" = "Publier";
 "product_post_use_photo_not_logged" = "Utiliser la Photo";
-"product_report_confirm_message" = "Êtes-vous certain de vouloir signaler ce produit ?";
+"product_professional_call_button" = "Appel";
+"product_professional_chat_button" = "Clavardage";
+"product_report_confirm_message" = "Êtes-vous certain de vouloir signaler cette annonce ?";
 "product_report_confirm_title" = "Signaler l'annonce";
 "product_report_login_popup_text" = "Pour signaler une annonce, vous devez vous connecter";
 "product_report_product_button" = "Signaler l'annonce";
-"product_reported_error_generic" = "Une erreur est survenue lors du signalement du bien. Veuillez réessayer.";
+"product_reported_error_generic" = "Une erreur est survenue lors du signalement de l'annonce. Veuillez réessayer.";
 "product_reported_success_message" = "Cette annonce a été signalée. Merci !";
-"product_reporting_loading_message" = "Signalement du bien...";
+"product_reporting_loading_message" = "Signalement de l'annonce...";
 "product_search_no_products_body" = "Essayez de chercher quelque chose d'autre ou vérifiez à nouveau prochainement !";
 "product_search_no_products_title" = "OUPS ! AUCUN RÉSULTAT PRÈS DE CHEZ VOUS";
 "product_sell_again_button" = "Le Vendre à Nouveau";
@@ -729,6 +733,7 @@
 "rating_view_rate_us_label" = "Évaluez-nous :";
 "rating_view_remind_later_button" = "Me le rappeler plus tard";
 "rating_view_title_label_uppercase" = "DONNEZ-NOUS 5 ÉTOILES !";
+"real_estate_attribute_tag_bathroom_0" = "0BA";
 "real_estate_bathrooms_0" = "Aucune";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1.5";

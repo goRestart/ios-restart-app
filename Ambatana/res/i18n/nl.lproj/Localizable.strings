@@ -164,6 +164,8 @@
 "chat_not_verified_state_title" = "BEN JE GEVERIFIEERD?";
 "chat_product_given_away_label" = "Weggegeven";
 "chat_product_sold_label" = "Verkocht";
+"chat_professional_banner_button_title" = "Call";
+"chat_professional_banner_title" = "You're talking to a professional car dealer";
 "chat_related_products_title" = "MISSCHIEN HEB JE INTERESSE IN:";
 "chat_safety_tips" = "Veiligheidstips";
 "chat_safety_tips_message" = "• Persoonlijk ontmoeten en contant betalen.\n \n• Voer gesprekken in de letgo chat.\n \n• Klinkt het te mooi om waar te zijn? Vind een andere koper/verkoper.";
@@ -619,13 +621,15 @@
 "product_post_select_category_title" = "Wat wil je verkopen?";
 "product_post_use_photo" = "Plaats";
 "product_post_use_photo_not_logged" = "Gebruik foto";
-"product_report_confirm_message" = "Weet je zeker dat je dit product wil rapporteren?";
-"product_report_confirm_title" = "Rapporteer product";
+"product_professional_call_button" = "Bel";
+"product_professional_chat_button" = "Chat";
+"product_report_confirm_message" = "Weet je zeker dat je deze advertentie wilt rapporteren?";
+"product_report_confirm_title" = "Rapporteer advertentie";
 "product_report_login_popup_text" = "Om een advertentie te rapporteren, moet je eerst inloggen";
-"product_report_product_button" = "Rapporteer product";
-"product_reported_error_generic" = "Er is een fout opgetreden tijdens het rapporteren van het product. Probeer het nog eens.";
+"product_report_product_button" = "Rapporteer advertentie";
+"product_reported_error_generic" = "Er is een fout opgetreden tijdens het rapporteren van de advertentie. Probeer het nog eens.";
 "product_reported_success_message" = "Deze advertentie is succesvol gerapporteerd. Bedankt!";
-"product_reporting_loading_message" = "Rapporteren van product...";
+"product_reporting_loading_message" = "Rapporteren van advertentie...";
 "product_search_no_products_body" = "Probeer om iets anders te zoeken of probeer het binnenkort nog eens!";
 "product_search_no_products_title" = "OEPS! GEEN RESULTATEN IN JOUW OMGEVING";
 "product_sell_again_button" = "Verkoop het opnieuw";
@@ -729,6 +733,7 @@
 "rating_view_rate_us_label" = "Beoordeel ons:";
 "rating_view_remind_later_button" = "Herinner me later";
 "rating_view_title_label_uppercase" = "GEEF ONS 5 STERREN!";
+"real_estate_attribute_tag_bathroom_0" = "0BA";
 "real_estate_bathrooms_0" = "Geen";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1,5";

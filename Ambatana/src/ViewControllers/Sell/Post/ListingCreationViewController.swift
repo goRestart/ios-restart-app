@@ -49,6 +49,12 @@ class ListingCreationViewController: BaseViewController {
         setStatusBarHidden(true)
     }
     
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        guard let requestFinished = viewModel.finishRequest.value, !requestFinished else { return }
+        loadingView.startAnimating()
+    }
+    
     // MARK: - UI
     
     private func setupUI() {

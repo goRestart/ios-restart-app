@@ -21,7 +21,7 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
     // MARK: - View lifecycle
     
     init(realEstateEnabled: Bool) {
-        self.categoriesAvailable = realEstateEnabled ? [.unassigned, .motorsAndAccessories, .realEstate, .cars] : [.unassigned, .motorsAndAccessories, .cars]
+        self.categoriesAvailable = realEstateEnabled ? [.unassigned, .realEstate, .motorsAndAccessories, .cars] : [.unassigned, .motorsAndAccessories, .cars]
         super.init()
     }
     

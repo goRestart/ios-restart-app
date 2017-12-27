@@ -164,6 +164,8 @@
 "chat_not_verified_state_title" = "΄ΕΧΕΤΕ ΚΑΝΕΙ ΕΠΙΒΕΒΑΙΩΣΗ;";
 "chat_product_given_away_label" = "Χαρισμένο";
 "chat_product_sold_label" = "Πωλήθηκε";
+"chat_professional_banner_button_title" = "Call";
+"chat_professional_banner_title" = "You're talking to a professional car dealer";
 "chat_related_products_title" = "ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΕΣΤΕ ΓΙΑ:";
 "chat_safety_tips" = "Συμβουλές ασφαλείας";
 "chat_safety_tips_message" = "• Συναντηθείτε πρόσωπο με πρόσωπο και πληρώστε μετρητά.\n\n• Αποθηκεύστε τις συνομιλίες σας στο chat του letgo.\n\n• Πολύ καλό για να είναι αληθινό; Βρείτε κάποιον άλλο αγοραστή/πωλητή!";
@@ -619,13 +621,15 @@
 "product_post_select_category_title" = "Τί δημοσιεύετε;";
 "product_post_use_photo" = "Δημοσιεύστε";
 "product_post_use_photo_not_logged" = "Χρήση Φωτογραφίας";
-"product_report_confirm_message" = "Είστε σίγουροι πως θέλετε να αναφέρετε αυτό το προϊόν;";
-"product_report_confirm_title" = "Αναφορά Προϊόντος";
+"product_professional_call_button" = "Κλήση";
+"product_professional_chat_button" = "Συνομιλία";
+"product_report_confirm_message" = "Είστε σίγουροι πως θέλετε να αναφέρετε αυτήν την καταχώρηση;";
+"product_report_confirm_title" = "Αναφορά καταχώρησης";
 "product_report_login_popup_text" = "Για να κάνετε αναφορά μιας καταχώρησης, θα πρέπει να συνδεθείτε";
-"product_report_product_button" = "Αναφορά Προϊόντος";
-"product_reported_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αναφορά του προϊόντος. Παρακαλώ, δοκιμάστε ξανά.";
+"product_report_product_button" = "Αναφορά καταχώρησης";
+"product_reported_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αναφορά της καταχώρησης. Παρακαλώ, δοκιμάστε ξανά.";
 "product_reported_success_message" = "Έχει γίνει επιτυχής αναφορά της καταχώρησης. Ευχαριστούμε!";
-"product_reporting_loading_message" = "Αναφορά προϊόντος...";
+"product_reporting_loading_message" = "Αναφορά καταχώρησης...";
 "product_search_no_products_body" = "Ψάξτε για κάτι άλλο ή κάντε αναζήτηση ξανά αργότερα!";
 "product_search_no_products_title" = "ΌΠΑ! ΔΕ ΒΡΕΘΗΚΑΝ ΑΠΟΤΕΛΕΣΜΑΤΑ ΚΟΝΤΑ ΣΑΣ";
 "product_sell_again_button" = "Πουλήστε το Ξανά";
@@ -729,6 +733,7 @@
 "rating_view_rate_us_label" = "Βαθμολόγησε μας:";
 "rating_view_remind_later_button" = "Θύμισέ το μου αργότερα";
 "rating_view_title_label_uppercase" = "ΔΩΣΤΕ ΜΑΣ 5 ΑΣΤΕΡΙΑ!";
+"real_estate_attribute_tag_bathroom_0" = "0BA";
 "real_estate_bathrooms_0" = "Κανένα";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1.5";

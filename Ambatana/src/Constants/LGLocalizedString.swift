@@ -515,6 +515,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_express_several_messages_sent_success_alert", comment: "")
 	}
 
+	static var chatProfessionalBannerButtonTitle: String {
+		return NSLocalizedString("chat_professional_banner_button_title", comment: "")
+	}
+
+	static var chatProfessionalBannerTitle: String {
+		return NSLocalizedString("chat_professional_banner_title", comment: "")
+	}
+
 	static var chatListAccountDeleted: String {
 		return NSLocalizedString("chat_list_account_deleted", comment: "")
 	}
@@ -2087,6 +2095,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_free_price", comment: "")
 	}
 
+	static var productProfessionalChatButton: String {
+		return NSLocalizedString("product_professional_chat_button", comment: "")
+	}
+
+	static var productProfessionalCallButton: String {
+		return NSLocalizedString("product_professional_call_button", comment: "")
+	}
+
 	static var productSellAgainFreeButton: String {
 		return NSLocalizedString("product_sell_again_free_button", comment: "")
 	}
@@ -3213,6 +3229,10 @@ struct LGLocalizedString {
 
 	static var realEstateTitleGeneratorBathrooms4: String {
 		return NSLocalizedString("real_estate_title_generator_bathrooms_4", comment: "")
+	}
+
+	static var realEstateAttributeTagBathroom0: String {
+		return NSLocalizedString("real_estate_attribute_tag_bathroom_0", comment: "")
 	}
 
 	static func realEstateCurrentStepOfTotal(_ var1: Int, _ var2: Int) -> String {
