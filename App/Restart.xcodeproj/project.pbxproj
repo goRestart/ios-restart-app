@@ -13,18 +13,7 @@
 		1C3B45491FEFCC54008B7B87 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C3B45481FEFCC54008B7B87 /* Assets.xcassets */; };
 		1C3B454C1FEFCC54008B7B87 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C3B454A1FEFCC54008B7B87 /* LaunchScreen.storyboard */; };
 		2506316F2E5AF1D9A7FFEBBE /* Pods_Restart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 349F28E9BEBBFEC217C9575E /* Pods_Restart.framework */; };
-		DD55FF608FC7D21DD0C0871A /* Pods_RestartTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE32975C46E2D63AB4A812CE /* Pods_RestartTests.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		1C3B45531FEFCC55008B7B87 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1C3B45361FEFCC54008B7B87 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1C3B453D1FEFCC54008B7B87;
-			remoteInfo = Restart;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		1C9139BC1FF017C300646884 /* Embed Frameworks */ = {
@@ -48,8 +37,6 @@
 		1C3B45481FEFCC54008B7B87 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1C3B454B1FEFCC54008B7B87 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1C3B454D1FEFCC54008B7B87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1C3B45521FEFCC55008B7B87 /* RestartTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RestartTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1C3B45581FEFCC55008B7B87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C9139B01FEFED2B00646884 /* Moya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Moya.framework; path = ../Carthage/Build/iOS/Moya.framework; sourceTree = "<group>"; };
 		1CACCE6D1FF2D0320001B321 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		349F28E9BEBBFEC217C9575E /* Pods_Restart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Restart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,14 +55,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1C3B454F1FEFCC55008B7B87 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DD55FF608FC7D21DD0C0871A /* Pods_RestartTests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -83,7 +62,6 @@
 			isa = PBXGroup;
 			children = (
 				1C3B45401FEFCC54008B7B87 /* Restart */,
-				1C3B45551FEFCC55008B7B87 /* RestartTests */,
 				1C3B453F1FEFCC54008B7B87 /* Products */,
 				33B833E5CD9AFE167B3E165E /* Frameworks */,
 				95E2DCB32AC5421BED64D599 /* Pods */,
@@ -94,7 +72,6 @@
 			isa = PBXGroup;
 			children = (
 				1C3B453E1FEFCC54008B7B87 /* Restart.app */,
-				1C3B45521FEFCC55008B7B87 /* RestartTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -110,14 +87,6 @@
 				1C3B454D1FEFCC54008B7B87 /* Info.plist */,
 			);
 			path = Restart;
-			sourceTree = "<group>";
-		};
-		1C3B45551FEFCC55008B7B87 /* RestartTests */ = {
-			isa = PBXGroup;
-			children = (
-				1C3B45581FEFCC55008B7B87 /* Info.plist */,
-			);
-			path = RestartTests;
 			sourceTree = "<group>";
 		};
 		33B833E5CD9AFE167B3E165E /* Frameworks */ = {
@@ -167,27 +136,6 @@
 			productReference = 1C3B453E1FEFCC54008B7B87 /* Restart.app */;
 			productType = "com.apple.product-type.application";
 		};
-		1C3B45511FEFCC55008B7B87 /* RestartTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1C3B455E1FEFCC55008B7B87 /* Build configuration list for PBXNativeTarget "RestartTests" */;
-			buildPhases = (
-				47C3F8D8D21F4F012AFA80C5 /* [CP] Check Pods Manifest.lock */,
-				1C3B454E1FEFCC55008B7B87 /* Sources */,
-				1C3B454F1FEFCC55008B7B87 /* Frameworks */,
-				1C3B45501FEFCC55008B7B87 /* Resources */,
-				AA78D4A41A78DE8EE15B67CE /* [CP] Embed Pods Frameworks */,
-				0CFB4B2ECDBAE27C61338D3F /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				1C3B45541FEFCC55008B7B87 /* PBXTargetDependency */,
-			);
-			name = RestartTests;
-			productName = RestartTests;
-			productReference = 1C3B45521FEFCC55008B7B87 /* RestartTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -201,11 +149,6 @@
 					1C3B453D1FEFCC54008B7B87 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
-					};
-					1C3B45511FEFCC55008B7B87 = {
-						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 1C3B453D1FEFCC54008B7B87;
 					};
 				};
 			};
@@ -223,7 +166,6 @@
 			projectRoot = "";
 			targets = (
 				1C3B453D1FEFCC54008B7B87 /* Restart */,
-				1C3B45511FEFCC55008B7B87 /* RestartTests */,
 			);
 		};
 /* End PBXProject section */
@@ -239,31 +181,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1C3B45501FEFCC55008B7B87 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0CFB4B2ECDBAE27C61338D3F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-RestartTests/Pods-RestartTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		1C9139B21FEFED4300646884 /* [Carthage] Copy Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
@@ -291,39 +211,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-Restart/Pods-Restart-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		47C3F8D8D21F4F012AFA80C5 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RestartTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AA78D4A41A78DE8EE15B67CE /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-RestartTests/Pods-RestartTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AD0DC0BA9B614121AA755268 /* [CP] Check Pods Manifest.lock */ = {
@@ -371,22 +258,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1C3B454E1FEFCC55008B7B87 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		1C3B45541FEFCC55008B7B87 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1C3B453D1FEFCC54008B7B87 /* Restart */;
-			targetProxy = 1C3B45531FEFCC55008B7B87 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		1C3B45451FEFCC54008B7B87 /* Main.storyboard */ = {
@@ -551,42 +423,6 @@
 			};
 			name = Release;
 		};
-		1C3B455F1FEFCC55008B7B87 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 59CE222FE803006A552A50A9 /* Pods-RestartTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
-				INFOPLIST_FILE = RestartTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = in.skydev.RestartTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Restart.app/Restart";
-			};
-			name = Debug;
-		};
-		1C3B45601FEFCC55008B7B87 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C7D7B2F6D01C1C49CA2A5D7 /* Pods-RestartTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
-				INFOPLIST_FILE = RestartTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = in.skydev.RestartTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Restart.app/Restart";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -604,15 +440,6 @@
 			buildConfigurations = (
 				1C3B455C1FEFCC55008B7B87 /* Debug */,
 				1C3B455D1FEFCC55008B7B87 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		1C3B455E1FEFCC55008B7B87 /* Build configuration list for PBXNativeTarget "RestartTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1C3B455F1FEFCC55008B7B87 /* Debug */,
-				1C3B45601FEFCC55008B7B87 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
