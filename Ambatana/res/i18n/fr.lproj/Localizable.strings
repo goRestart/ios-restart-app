@@ -620,11 +620,11 @@
 "product_post_use_photo" = "Poster";
 "product_post_use_photo_not_logged" = "Utiliser la Photo";
 "product_report_confirm_message" = "Êtes-vous certain de vouloir signaler ce produit ?";
-"product_report_confirm_title" = "Signaler le produit";
+"product_report_confirm_title" = "Signaler l'annonce";
 "product_report_login_popup_text" = "Pour signaler une annonce, vous devez vous connecter";
-"product_report_product_button" = "Signaler le produit";
+"product_report_product_button" = "Signaler l'annonce";
 "product_reported_error_generic" = "Une erreur est survenue lors du signalement du bien. Veuillez réessayer.";
-"product_reported_success_message" = "Ce bien a été signalé. Merci !";
+"product_reported_success_message" = "Cette annonce a été signalée. Merci !";
 "product_reporting_loading_message" = "Signalement du bien...";
 "product_search_no_products_body" = "Essayez de rechercher quelque chose d'autre ou vérifiez à nouveau prochainement !";
 "product_search_no_products_title" = "OOPS ! AUCUN RÉSULTAT PRES DE VOUS";
@@ -647,7 +647,7 @@
 "product_sell_photolibrary_restricted_error" = "L'accès à votre galerie d'images est restreint. Veuillez vérifier vos réglages et réessayer.";
 "product_share_body" = "Regarde ce que j'ai trouvé sur letgo !";
 "product_share_copylink_ok" = "Votre lien a été copié !";
-"product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
+"product_share_email_error" = "Oups ! Il semble que vous n'ayez pas paramétré de compte dans l'application Courriel.";
 "product_share_generic_ok" = "Annonce partagée !";
 "product_share_navbar_button" = "Partager";
 "product_share_posted_by" = "posté par %@";

@@ -624,7 +624,7 @@
 "product_report_login_popup_text" = "A hirdetés jelentéséhez be kell jelentkezned";
 "product_report_product_button" = "Portéka jelentése";
 "product_reported_error_generic" = "Hiba történt a portéka jelentése során. Próbálkozz újra.";
-"product_reported_success_message" = "Portéka jelentve. Köszönjük!";
+"product_reported_success_message" = "A hirdetést sikeresen jelentetted. Köszönjük!";
 "product_reporting_loading_message" = "Portéka jelentése...";
 "product_search_no_products_body" = "Keress valami másra, vagy próbálkozz később!";
 "product_search_no_products_title" = "HOPPÁ! NINCS TALÁLAT A KÖRNYÉKEDRŐL";

@@ -624,7 +624,7 @@
 "product_report_login_popup_text" = "Bạn cần đăng nhập để báo cáo một bài đăng";
 "product_report_product_button" = "Báo cáo Sản phẩm";
 "product_reported_error_generic" = "Có lỗi xảy ra trong khi báo cáo sản phẩm. Xin vui lòng thử lại.";
-"product_reported_success_message" = "Sản phẩm vừa được báo cáo. Xin cảm ơn!";
+"product_reported_success_message" = "Bài đăng đã được báo cáo thành công. Cảm ơn bạn!";
 "product_reporting_loading_message" = "Đang báo cáo sản phẩm...";
 "product_search_no_products_body" = "Hãy thử tìm kiếm một sản phẩm khác hoặc thử lại sau!";
 "product_search_no_products_title" = "Ồ! KHÔNG CÓ KẾT QUẢ NÀO Ở GẦN BẠN";
