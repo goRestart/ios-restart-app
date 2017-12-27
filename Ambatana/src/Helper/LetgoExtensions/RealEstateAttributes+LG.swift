@@ -10,7 +10,7 @@ import LGCoreKit
 
 extension RealEstateAttributes {
     
-    var generatedTitle: String {
+    func generateTitle() -> String {
         let propertyTypeString = propertyType?.shortLocalizedString.localizedUppercase
         let offerTypeString = offerType?.shortLocalizedString.capitalizedFirstLetterOnly
         var bedroomsString: String?
@@ -30,7 +30,7 @@ extension RealEstateAttributes {
         return attributes.flatMap{ $0 }.joined(separator: " ")
     }
     
-    var tags: [String] {
+    func generateTags() ->  [String] {
         var tags = [String]()
         if let propertyType = propertyType {
             tags.append(propertyType.shortLocalizedString.localizedUppercase)
