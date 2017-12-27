@@ -164,6 +164,8 @@
 "chat_not_verified_state_title" = "OLETKO VAHVISTANUT HENKILÖLLISYYTESI?";
 "chat_product_given_away_label" = "Annettu pois";
 "chat_product_sold_label" = "Myyty";
+"chat_professional_banner_button_title" = "Call";
+"chat_professional_banner_title" = "You're talking to a professional car dealer";
 "chat_related_products_title" = "SINUA SAATTAISI KIINNOSTAA:";
 "chat_safety_tips" = "Turvallisuusvinkit";
 "chat_safety_tips_message" = "• Tavatkaa kasvokkain ja maksakaa käteisellä.\n\n• Käy keskusteluja vain letgon chatissä.\n\n• Kuulostaako liian hyvältä ollakseen totta? Etsi toinen ostaja/myyjä.";
@@ -619,13 +621,15 @@
 "product_post_select_category_title" = "Mitä olet julkaisemassa?";
 "product_post_use_photo" = "Käytä";
 "product_post_use_photo_not_logged" = "Käytä kuvaa";
+"product_professional_call_button" = "Soita";
+"product_professional_chat_button" = "Keskustele";
 "product_report_confirm_message" = "Oletko varma että haluat ilmiantaa tämän ilmoituksen?";
-"product_report_confirm_title" = "Ilmianna tuote";
+"product_report_confirm_title" = "Ilmianna ilmoitus";
 "product_report_login_popup_text" = "Sinun on kirjauduttava sisään ilmiantaaksesi ilmoituksen";
-"product_report_product_button" = "Ilmianna tuote";
-"product_reported_error_generic" = "Tuotetta ilmiannettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
+"product_report_product_button" = "Ilmianna ilmoitus";
+"product_reported_error_generic" = "Ilmoitusta ilmiannettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "product_reported_success_message" = "Ilmoitus on ilmiannettu onnistuneesti. Kiitos!";
-"product_reporting_loading_message" = "Ilmiannetaan tuotetta...";
+"product_reporting_loading_message" = "Ilmiannetaan ilmoitusta...";
 "product_search_no_products_body" = "Yritä hakea jotain muuta tai tee hakusi pian uudelleen!";
 "product_search_no_products_title" = "HUPS! EI TULOKSIA LÄHELLÄSI";
 "product_sell_again_button" = "Myy uudelleen";
@@ -729,6 +733,7 @@
 "rating_view_rate_us_label" = "Anna meille arvosana:";
 "rating_view_remind_later_button" = "Muistuta minua myöhemmin";
 "rating_view_title_label_uppercase" = "ANNA MEILLE 5 TÄHTEÄ!";
+"real_estate_attribute_tag_bathroom_0" = "0BA";
 "real_estate_bathrooms_0" = "Ei ole";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1,5";

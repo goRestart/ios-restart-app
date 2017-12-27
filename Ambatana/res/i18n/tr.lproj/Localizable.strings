@@ -164,6 +164,8 @@
 "chat_not_verified_state_title" = "HESABINI DOĞRULADIN MI?";
 "chat_product_given_away_label" = "Bağışlandı";
 "chat_product_sold_label" = "Satıldı";
+"chat_professional_banner_button_title" = "Call";
+"chat_professional_banner_title" = "You're talking to a professional car dealer";
 "chat_related_products_title" = "ŞU ÜRÜNLER DE İLGİNİ ÇEKEBİLİR:";
 "chat_safety_tips" = "Güvenlik Önerilerimiz";
 "chat_safety_tips_message" = "• Birebir görüş ve elden nakit öde.\n\n• Mesajlaşmayı letgo sistemi içerisinde yap.\n\n• Kulağa gerçek olamayacak kadar hoş geliyorsa, başka bir alıcı/satıcı bul.";
@@ -619,13 +621,15 @@
 "product_post_select_category_title" = "Ne satıyorsun?";
 "product_post_use_photo" = "Yayınla";
 "product_post_use_photo_not_logged" = "Fotoğrafı Kullan";
+"product_professional_call_button" = "Ara";
+"product_professional_chat_button" = "Sohbet";
 "product_report_confirm_message" = "Bu ilanı bildirmek istediğine emin misin?";
 "product_report_confirm_title" = "İlanı bildir";
 "product_report_login_popup_text" = "Bir ilanı şikayet etmek için giriş yapmalısın";
 "product_report_product_button" = "İlanı bildir";
-"product_reported_error_generic" = "Ürün rapor edilirken bir hata oluştu. Lütfen tekrar dene.";
+"product_reported_error_generic" = "İlan bildirilirken bir hata oluştu. Lütfen tekrar dene.";
 "product_reported_success_message" = "Şikayetin bildirildi. Teşekkürler!";
-"product_reporting_loading_message" = "Ürün rapor ediliyor...";
+"product_reporting_loading_message" = "İlan bildiriliyor...";
 "product_search_no_products_body" = "Başka bir arama yap ya da daha sonra tekrar dene!";
 "product_search_no_products_title" = "OOPS! ARAMANA UYGUN BİR SONUÇ BULAMADIK";
 "product_sell_again_button" = "Tekrar Sat";
@@ -729,6 +733,7 @@
 "rating_view_rate_us_label" = "Bize puan ver:";
 "rating_view_remind_later_button" = "Daha sonra hatırlat";
 "rating_view_title_label_uppercase" = "BİZE 5 YILDIZ VER!";
+"real_estate_attribute_tag_bathroom_0" = "0BA";
 "real_estate_bathrooms_0" = "Yok";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1.5";

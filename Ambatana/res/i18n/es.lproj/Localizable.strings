@@ -164,6 +164,8 @@
 "chat_not_verified_state_title" = "¿ESTÁS VERIFICADO?";
 "chat_product_given_away_label" = "Ya regalado";
 "chat_product_sold_label" = "Vendido";
+"chat_professional_banner_button_title" = "Call";
+"chat_professional_banner_title" = "You're talking to a professional car dealer";
 "chat_related_products_title" = "TAMBIÉN TE PODRÍA INTERESAR:";
 "chat_safety_tips" = "Consejos de seguridad";
 "chat_safety_tips_message" = "• Queda en persona y paga en efectivo.\n\n• Mantén las conversaciones dentro del chat de letgo.\n\n• ¿Demasiado bueno para ser cierto? Encuentra otro comprador o vendedor.";
@@ -619,13 +621,15 @@
 "product_post_select_category_title" = "¿Qué estás publicando?";
 "product_post_use_photo" = "Publicar";
 "product_post_use_photo_not_logged" = "Usar foto";
+"product_professional_call_button" = "Llamar";
+"product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "¿Estás seguro de que quieres denunciar este anuncio?";
 "product_report_confirm_title" = "Denunciar anuncio";
 "product_report_login_popup_text" = "Para denunciar un anuncio, tienes que iniciar sesión";
 "product_report_product_button" = "Denunciar anuncio";
-"product_reported_error_generic" = "Se ha producido un error al enviar la denuncia del artículo. Por favor, inténtalo de nuevo.";
+"product_reported_error_generic" = "Se ha producido un error al denunciar el anuncio. Por favor, inténtalo de nuevo.";
 "product_reported_success_message" = "Tu denuncia ha sido enviada. ¡Gracias!";
-"product_reporting_loading_message" = "Denunciando el artículo...";
+"product_reporting_loading_message" = "Denunciando el anuncio...";
 "product_search_no_products_body" = "Prueba buscando algo distinto o vuelve a intentarlo pronto.";
 "product_search_no_products_title" = "¡UPS! NO HAY RESULTADOS CERCA DE TI";
 "product_sell_again_button" = "Venderlo de nuevo";
@@ -729,6 +733,7 @@
 "rating_view_rate_us_label" = "Puntúanos:";
 "rating_view_remind_later_button" = "Recuérdamelo más tarde";
 "rating_view_title_label_uppercase" = "¡PUNTÚANOS CON 5 ESTRELLAS!";
+"real_estate_attribute_tag_bathroom_0" = "0BA";
 "real_estate_bathrooms_0" = "Ninguno";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1,5";

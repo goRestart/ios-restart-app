@@ -164,6 +164,8 @@
 "chat_not_verified_state_title" = "SEI UN UTENTE VERIFICATO?";
 "chat_product_given_away_label" = "Regalato";
 "chat_product_sold_label" = "Venduto";
+"chat_professional_banner_button_title" = "Call";
+"chat_professional_banner_title" = "You're talking to a professional car dealer";
 "chat_related_products_title" = "POTRESTI ESSERE INTERESSATO A:";
 "chat_safety_tips" = "Consigli utili";
 "chat_safety_tips_message" = "• Incontra di persona e paga in contanti.\n\n• Continua le conversazioni nella chat di letgo.\n\n• Troppo bello per essere vero? Trova un altro venditore/acquirente,";
@@ -619,6 +621,8 @@
 "product_post_select_category_title" = "Che cosa stai pubblicando?";
 "product_post_use_photo" = "Pubblica";
 "product_post_use_photo_not_logged" = "Utilizza Foto";
+"product_professional_call_button" = "Call";
+"product_professional_chat_button" = "Chat";
 "product_report_confirm_message" = "Sei sicuro di voler segnalare questo annuncio?";
 "product_report_confirm_title" = "Segnala annuncio";
 "product_report_login_popup_text" = "Per segnalare un annuncio, devi effettuare l'accesso";
@@ -729,6 +733,7 @@
 "rating_view_rate_us_label" = "Lasciaci un giudizio:";
 "rating_view_remind_later_button" = "Ricordamelo più tardi";
 "rating_view_title_label_uppercase" = "LASCIACI 5 STELLE!";
+"real_estate_attribute_tag_bathroom_0" = "0BA";
 "real_estate_bathrooms_0" = "Nessuno";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1 1/2";

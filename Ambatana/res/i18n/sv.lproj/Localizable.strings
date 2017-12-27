@@ -164,6 +164,8 @@
 "chat_not_verified_state_title" = "ÄR DU VERIFIERAD?";
 "chat_product_given_away_label" = "Bortskänkt";
 "chat_product_sold_label" = "Såld";
+"chat_professional_banner_button_title" = "Call";
+"chat_professional_banner_title" = "You're talking to a professional car dealer";
 "chat_related_products_title" = "DU KANSKE ÄR INTRESSERAD AV:";
 "chat_safety_tips" = "Säkerhetstips";
 "chat_safety_tips_message" = "• Möt varandra och betala kontant.\n\n• Håll samtalen i letgo-chatten.\n\n• För bra för att vara sant? Hitta en annan köpare/säljare.";
@@ -619,13 +621,15 @@
 "product_post_select_category_title" = "Vad lägger du upp?";
 "product_post_use_photo" = "Lägg upp";
 "product_post_use_photo_not_logged" = "Använd foto";
+"product_professional_call_button" = "Ring";
+"product_professional_chat_button" = "Chatt";
 "product_report_confirm_message" = "Är du säker på att du vill rapportera denna annons?";
 "product_report_confirm_title" = "Rapportera annons";
 "product_report_login_popup_text" = "Du måste vara inloggad för att rapportera en annons";
 "product_report_product_button" = "Rapportera annons";
-"product_reported_error_generic" = "Vi kunde tyvärr inte rapportera produkten just nu. Var vänlig försök igen.";
+"product_reported_error_generic" = "Vi kunde tyvärr inte rapportera annonsen just nu. Var vänlig försök igen.";
 "product_reported_success_message" = "Annonsen har rapporterats. Tack!";
-"product_reporting_loading_message" = "Rapporterar produkt...";
+"product_reporting_loading_message" = "Rapporterar annons...";
 "product_search_no_products_body" = "Försök att söka efter något annat eller kom tillbaka och kolla snart igen!";
 "product_search_no_products_title" = "HOPPSAN! VI HITTADE INGET NÄRA DIG";
 "product_sell_again_button" = "Sälj den igen";
@@ -729,6 +733,7 @@
 "rating_view_rate_us_label" = "Bedöm oss:";
 "rating_view_remind_later_button" = "Påminn mig senare";
 "rating_view_title_label_uppercase" = "GE OSS 5 STJÄRNOR!";
+"real_estate_attribute_tag_bathroom_0" = "0BA";
 "real_estate_bathrooms_0" = "0";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1,5";

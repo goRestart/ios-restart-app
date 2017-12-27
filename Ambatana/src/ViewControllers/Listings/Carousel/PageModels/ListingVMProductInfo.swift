@@ -48,7 +48,7 @@ fileprivate extension ListingVMProductInfo {
         case .product, .car:
             return nil
         case .realEstate(let realEstate):
-            return realEstate.realEstateAttributes.tags
+            return realEstate.realEstateAttributes.generateTags()
         }
     }
 }
