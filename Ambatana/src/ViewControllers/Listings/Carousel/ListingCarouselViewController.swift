@@ -1012,7 +1012,7 @@ extension ListingCarouselViewController {
                                       style: .blue(closeEnabled: false), peakOnTop: true,
                                       actionBlock: { [weak self] in self?.showMoreInfo() }, closeBlock: nil)
         view.addSubview(moreInfoTooltip)
-        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view)
+        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView.dragView, containerView: view)
         self.moreInfoTooltip = moreInfoTooltip
     }
 
