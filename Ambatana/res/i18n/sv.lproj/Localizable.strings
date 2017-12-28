@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Det här kontot är under granskning av letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Det verkar som att %@ inte längre är intresserad av din annons";
 "chat_forbidden_disclaimer_seller_wo_name" = "Det verkar som att den här användaren inte längre är intresserad av din annons.";
+"chat_inactive_conversations_button" = "View archived chats";
+"chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
 "chat_list_account_deleted" = "Kontot har avslutats";
 "chat_list_account_deleted_username" = "Inaktiv";
 "chat_list_all_empty_title" = "INGEN CHATT (ÄNNU!)";
@@ -164,7 +166,7 @@
 "chat_not_verified_state_title" = "ÄR DU VERIFIERAD?";
 "chat_product_given_away_label" = "Bortskänkt";
 "chat_product_sold_label" = "Såld";
-"chat_professional_banner_button_title" = "Call";
+"chat_professional_banner_button_title" = "Ring";
 "chat_professional_banner_title" = "You're talking to a professional car dealer";
 "chat_related_products_title" = "DU KANSKE ÄR INTRESSERAD AV:";
 "chat_safety_tips" = "Säkerhetstips";
