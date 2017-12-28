@@ -29,6 +29,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
         var imageDownloader: MockImageDownloader!
 
         var myUserRepository: MockMyUserRepository!
+        var userRepository: MockUserRepository!
         var listingRepository: MockListingRepository!
         var chatWrapper: MockChatWrapper!
         var locationManager: MockLocationManager!
@@ -118,6 +119,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
 
             beforeEach {
                 myUserRepository = MockMyUserRepository.makeMock()
+                userRepository = MockUserRepository.makeMock()
                 listingRepository = MockListingRepository.makeMock()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
@@ -134,6 +136,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 imageDownloader = MockImageDownloader()
 
                 listingViewModelMaker = MockListingViewModelMaker(myUserRepository: myUserRepository,
+                                                                  userRepository: userRepository,
                                                                   listingRepository: listingRepository,
                                                                   chatWrapper: chatWrapper,
                                                                   locationManager: locationManager,

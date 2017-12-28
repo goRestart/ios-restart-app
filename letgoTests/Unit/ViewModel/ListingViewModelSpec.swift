@@ -27,6 +27,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
         var sut: ListingViewModel!
 
         var myUserRepository: MockMyUserRepository!
+        var userRepository: MockUserRepository!
         var listingRepository: MockListingRepository!
         var chatWrapper: MockChatWrapper!
         var locationManager: MockLocationManager!
@@ -52,6 +53,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 sut = ListingViewModel(listing: .product(product),
                                        visitSource: .listingList,
                                         myUserRepository: myUserRepository,
+                                        userRepository: userRepository,
                                         listingRepository: listingRepository,
                                         chatWrapper: chatWrapper,
                                         chatViewMessageAdapter: ChatViewMessageAdapter(),
@@ -73,6 +75,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
             beforeEach {
                 sut = nil
                 myUserRepository = MockMyUserRepository.makeMock()
+                userRepository = MockUserRepository.makeMock()
                 listingRepository = MockListingRepository.makeMock()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
