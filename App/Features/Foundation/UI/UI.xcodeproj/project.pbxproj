@@ -10,6 +10,9 @@
 		1C15A1EA1FF42E9600FA0E47 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C15A1E91FF42E9600FA0E47 /* SnapKit.framework */; };
 		1C89D7BD1FF427B700B3FA98 /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7B31FF427B600B3FA98 /* UI.framework */; };
 		1C89D7C41FF427B700B3FA98 /* UI.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C89D7B61FF427B600B3FA98 /* UI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1CD7A9641FF51C5700CB895D /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9631FF51C5700CB895D /* UIColor+Hex.swift */; };
+		1CD7A9661FF51D0800CB895D /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9651FF51D0800CB895D /* Palette.swift */; };
+		1CD7A9681FF5238600CB895D /* UIColor+Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9671FF5238600CB895D /* UIColor+Palette.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +33,9 @@
 		1C89D7B71FF427B600B3FA98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C89D7BC1FF427B700B3FA98 /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C89D7C31FF427B700B3FA98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1CD7A9631FF51C5700CB895D /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		1CD7A9651FF51D0800CB895D /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
+		1CD7A9671FF5238600CB895D /* UIColor+Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Palette.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +98,8 @@
 		1C89D7B51FF427B600B3FA98 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				1CD7A95D1FF51BDE00CB895D /* Components */,
+				1CD7A9611FF51C4A00CB895D /* Extension */,
 				1C15A1E21FF4281600FA0E47 /* Resources */,
 			);
 			path = UI;
@@ -103,6 +111,39 @@
 				1C89D7C31FF427B700B3FA98 /* Info.plist */,
 			);
 			path = UITests;
+			sourceTree = "<group>";
+		};
+		1CD7A95D1FF51BDE00CB895D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				1CD7A95E1FF51BE500CB895D /* Color */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		1CD7A95E1FF51BE500CB895D /* Color */ = {
+			isa = PBXGroup;
+			children = (
+				1CD7A9651FF51D0800CB895D /* Palette.swift */,
+				1CD7A9671FF5238600CB895D /* UIColor+Palette.swift */,
+			);
+			path = Color;
+			sourceTree = "<group>";
+		};
+		1CD7A9611FF51C4A00CB895D /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				1CD7A9621FF51C4A00CB895D /* UIColor */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		1CD7A9621FF51C4A00CB895D /* UIColor */ = {
+			isa = PBXGroup;
+			children = (
+				1CD7A9631FF51C5700CB895D /* UIColor+Hex.swift */,
+			);
+			path = UIColor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,6 +210,7 @@
 				TargetAttributes = {
 					1C89D7B21FF427B600B3FA98 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					1C89D7BB1FF427B700B3FA98 = {
@@ -251,6 +293,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CD7A9661FF51D0800CB895D /* Palette.swift in Sources */,
+				1CD7A9681FF5238600CB895D /* UIColor+Palette.swift in Sources */,
+				1CD7A9641FF51C5700CB895D /* UIColor+Hex.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,6 +433,7 @@
 		1C89D7C81FF427B700B3FA98 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -403,6 +449,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = in.skydev.UI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -411,6 +458,7 @@
 		1C89D7C91FF427B700B3FA98 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -434,6 +482,7 @@
 		1C89D7CB1FF427B700B3FA98 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
@@ -451,6 +500,7 @@
 		1C89D7CC1FF427B700B3FA98 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
