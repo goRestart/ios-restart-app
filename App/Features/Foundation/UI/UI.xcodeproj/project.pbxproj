@@ -13,6 +13,7 @@
 		1CD7A9641FF51C5700CB895D /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9631FF51C5700CB895D /* UIColor+Hex.swift */; };
 		1CD7A9661FF51D0800CB895D /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9651FF51D0800CB895D /* Palette.swift */; };
 		1CD7A9681FF5238600CB895D /* UIColor+Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9671FF5238600CB895D /* UIColor+Palette.swift */; };
+		1CD7A96C1FF5257200CB895D /* PaletteSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A96B1FF5257200CB895D /* PaletteSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		1CD7A9631FF51C5700CB895D /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		1CD7A9651FF51D0800CB895D /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		1CD7A9671FF5238600CB895D /* UIColor+Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Palette.swift"; sourceTree = "<group>"; };
+		1CD7A96B1FF5257200CB895D /* PaletteSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 		1C89D7C01FF427B700B3FA98 /* UITests */ = {
 			isa = PBXGroup;
 			children = (
+				1CD7A9691FF5255C00CB895D /* Components */,
 				1C89D7C31FF427B700B3FA98 /* Info.plist */,
 			);
 			path = UITests;
@@ -144,6 +147,22 @@
 				1CD7A9631FF51C5700CB895D /* UIColor+Hex.swift */,
 			);
 			path = UIColor;
+			sourceTree = "<group>";
+		};
+		1CD7A9691FF5255C00CB895D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				1CD7A96A1FF5255C00CB895D /* Color */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		1CD7A96A1FF5255C00CB895D /* Color */ = {
+			isa = PBXGroup;
+			children = (
+				1CD7A96B1FF5257200CB895D /* PaletteSpec.swift */,
+			);
+			path = Color;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,6 +322,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CD7A96C1FF5257200CB895D /* PaletteSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
