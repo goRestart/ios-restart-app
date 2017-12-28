@@ -19,6 +19,7 @@
 		1CD7A9981FF55D7000CB895D /* FontableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9971FF55D7000CB895D /* FontableSpec.swift */; };
 		1CD7A9A01FF5626B00CB895D /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A99F1FF5626B00CB895D /* Gradient.swift */; };
 		1CD7A9A21FF562E800CB895D /* CAGradientLayer+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9A11FF562E800CB895D /* CAGradientLayer+Gradient.swift */; };
+		1CD7A9A41FF5635900CB895D /* GradientSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9A31FF5635900CB895D /* GradientSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		1CD7A9971FF55D7000CB895D /* FontableSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontableSpec.swift; sourceTree = "<group>"; };
 		1CD7A99F1FF5626B00CB895D /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		1CD7A9A11FF562E800CB895D /* CAGradientLayer+Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Gradient.swift"; sourceTree = "<group>"; };
+		1CD7A9A31FF5635900CB895D /* GradientSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				1CD7A96B1FF5257200CB895D /* PaletteSpec.swift */,
+				1CD7A9A31FF5635900CB895D /* GradientSpec.swift */,
 			);
 			path = Color;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 			files = (
 				1CD7A96C1FF5257200CB895D /* PaletteSpec.swift in Sources */,
 				1CD7A9981FF55D7000CB895D /* FontableSpec.swift in Sources */,
+				1CD7A9A41FF5635900CB895D /* GradientSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
