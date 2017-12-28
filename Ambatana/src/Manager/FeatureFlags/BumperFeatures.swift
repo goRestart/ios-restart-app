@@ -110,9 +110,9 @@ extension Bumper  {
         return DefaultRadiusDistanceFeed(rawValue: value) ?? .control 
     }
 
-    static var realEstateEnabled: Bool {
-        guard let value = Bumper.value(for: RealEstateEnabled.key) else { return false }
-        return RealEstateEnabled(rawValue: value)?.asBool ?? false
+    static var realEstateEnabled: RealEstateEnabled {
+        guard let value = Bumper.value(for: RealEstateEnabled.key) else { return .control }
+        return RealEstateEnabled(rawValue: value) ?? .control 
     }
 
     static var searchAutocomplete: SearchAutocomplete {
@@ -350,12 +350,19 @@ enum DefaultRadiusDistanceFeed: String, BumperFeature  {
 }
 
 enum RealEstateEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return RealEstateEnabled.no.rawValue }
-    static var enumValues: [RealEstateEnabled] { return [.no, .yes]}
+    case control, baseline, active
+    static var defaultValue: String { return RealEstateEnabled.control.rawValue }
+    static var enumValues: [RealEstateEnabled] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Allow to see Real Estate category" } 
-    var asBool: Bool { return self == .yes }
+    static func fromPosition(_ position: Int) -> RealEstateEnabled {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
 }
 
 enum SearchAutocomplete: String, BumperFeature  {

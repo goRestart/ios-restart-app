@@ -101,7 +101,7 @@ fileprivate extension RelatedListingListRequester {
             completion?(ListingsRequesterResult(listingsResult: result, context: nil))
         }
 
-        switch (listingType, featureFlags.realEstateEnabled) {
+        switch (listingType, featureFlags.realEstateEnabled.isActive) {
         case (.product, _), (.realEstate, false):
             listingRepository.indexRelated(listingId: listingObjectId,
                                            params: retrieveListingParams,

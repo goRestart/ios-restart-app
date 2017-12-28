@@ -78,7 +78,7 @@ class PostListingViewModel: BaseViewModel {
     }
     
     var realEstateEnabled: Bool {
-        return featureFlags.realEstateEnabled
+        return featureFlags.realEstateEnabled.isActive
     }
     
     fileprivate let disposeBag: DisposeBag

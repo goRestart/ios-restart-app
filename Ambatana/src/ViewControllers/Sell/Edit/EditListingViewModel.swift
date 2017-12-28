@@ -729,7 +729,7 @@ extension EditListingViewModel {
     }
 
     fileprivate func setupCategories() {
-        categoryRepository.index(carsIncluded: true, realEstateIncluded: featureFlags.realEstateEnabled) { [weak self] result in
+        categoryRepository.index(carsIncluded: true, realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
             guard let categories = result.value else { return }
             self?.categories = categories
         }
