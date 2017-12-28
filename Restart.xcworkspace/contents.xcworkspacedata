@@ -8,6 +8,9 @@
       location = "group:App/Features/Foundation/Application/Application.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:App/Features/Foundation/UI/UI.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:App/Features/Foundation/Domain/Domain.xcodeproj">
    </FileRef>
    <FileRef
