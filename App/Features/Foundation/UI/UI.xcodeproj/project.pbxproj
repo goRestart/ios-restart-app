@@ -14,6 +14,8 @@
 		1CD7A9661FF51D0800CB895D /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9651FF51D0800CB895D /* Palette.swift */; };
 		1CD7A9681FF5238600CB895D /* UIColor+Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9671FF5238600CB895D /* UIColor+Palette.swift */; };
 		1CD7A96C1FF5257200CB895D /* PaletteSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A96B1FF5257200CB895D /* PaletteSpec.swift */; };
+		1CD7A9931FF55AD000CB895D /* Fontable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9921FF55AD000CB895D /* Fontable.swift */; };
+		1CD7A9951FF55BD900CB895D /* UIFont+Fontable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9941FF55BD900CB895D /* UIFont+Fontable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +40,8 @@
 		1CD7A9651FF51D0800CB895D /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		1CD7A9671FF5238600CB895D /* UIColor+Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Palette.swift"; sourceTree = "<group>"; };
 		1CD7A96B1FF5257200CB895D /* PaletteSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteSpec.swift; sourceTree = "<group>"; };
+		1CD7A9921FF55AD000CB895D /* Fontable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fontable.swift; sourceTree = "<group>"; };
+		1CD7A9941FF55BD900CB895D /* UIFont+Fontable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Fontable.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				1CD7A95E1FF51BE500CB895D /* Color */,
+				1CD7A9911FF55ABA00CB895D /* Font */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -163,6 +168,15 @@
 				1CD7A96B1FF5257200CB895D /* PaletteSpec.swift */,
 			);
 			path = Color;
+			sourceTree = "<group>";
+		};
+		1CD7A9911FF55ABA00CB895D /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				1CD7A9921FF55AD000CB895D /* Fontable.swift */,
+				1CD7A9941FF55BD900CB895D /* UIFont+Fontable.swift */,
+			);
+			path = Font;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,9 +326,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CD7A9931FF55AD000CB895D /* Fontable.swift in Sources */,
 				1CD7A9661FF51D0800CB895D /* Palette.swift in Sources */,
 				1CD7A9681FF5238600CB895D /* UIColor+Palette.swift in Sources */,
 				1CD7A9641FF51C5700CB895D /* UIColor+Hex.swift in Sources */,
+				1CD7A9951FF55BD900CB895D /* UIFont+Fontable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
