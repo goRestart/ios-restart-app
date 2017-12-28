@@ -3,7 +3,7 @@ import Snap
 @testable import UI
 
 class PaletteSpec: XCTestCase {
-
+ 
   func test_color_palette_is_valid() {
     let colorPalette: [(UIColor, String)] = [
       (.primary, "primary"), (.primaryAlt, "primary_alt"), (.danger, "danger"),
