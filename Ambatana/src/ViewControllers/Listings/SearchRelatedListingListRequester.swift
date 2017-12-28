@@ -96,7 +96,7 @@ class SearchRelatedListingListRequester: ListingListRequester {
     }
     
     private var requesterTitle: String? {
-        return LGLocalizedString.realEstateRelatedSearchTitle
+        return LGLocalizedString.realEstateRelatedSearchTitle.localizedUppercase
     }
     
     func distanceFromListingCoordinates(_ listingCoords: LGLocationCoordinates2D) -> Double? {
