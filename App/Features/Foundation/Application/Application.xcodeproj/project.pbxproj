@@ -44,6 +44,20 @@
 			remoteGlobalIDString = 1C9139FE1FF0607600646884;
 			remoteInfo = DataTests;
 		};
+		1CD7A9801FF5293500CB895D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1CD7A9771FF5293500CB895D /* UI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1C89D7B31FF427B600B3FA98;
+			remoteInfo = UI;
+		};
+		1CD7A9821FF5293500CB895D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1CD7A9771FF5293500CB895D /* UI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1C89D7BC1FF427B700B3FA98;
+			remoteInfo = UITests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +74,7 @@
 		1C89D7551FF3DE0E00B3FA98 /* Core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Core.xcodeproj; path = ../Core/Core.xcodeproj; sourceTree = "<group>"; };
 		1C89D75E1FF3DE1F00B3FA98 /* Data.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Data.xcodeproj; path = ../Data/Data.xcodeproj; sourceTree = "<group>"; };
 		1C89D7771FF3E1BC00B3FA98 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; };
+		1CD7A9771FF5293500CB895D /* UI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UI.xcodeproj; path = ../UI/UI.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,9 +95,10 @@
 		1C89D70E1FF3D63100B3FA98 = {
 			isa = PBXGroup;
 			children = (
+				1CD7A9771FF5293500CB895D /* UI.xcodeproj */,
+				1C89D74F1FF3DDF900B3FA98 /* Domain.xcodeproj */,
 				1C89D75E1FF3DE1F00B3FA98 /* Data.xcodeproj */,
 				1C89D7551FF3DE0E00B3FA98 /* Core.xcodeproj */,
-				1C89D74F1FF3DDF900B3FA98 /* Domain.xcodeproj */,
 				1C89D71A1FF3D63100B3FA98 /* Application */,
 				1C89D7191FF3D63100B3FA98 /* Products */,
 				1C89D7281FF3D6BE00B3FA98 /* Frameworks */,
@@ -177,6 +193,15 @@
 			path = Playgrounds;
 			sourceTree = "<group>";
 		};
+		1CD7A9781FF5293500CB895D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1CD7A9811FF5293500CB895D /* UI.framework */,
+				1CD7A9831FF5293500CB895D /* UITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -249,6 +274,10 @@
 					ProductGroup = 1C89D7501FF3DDF900B3FA98 /* Products */;
 					ProjectRef = 1C89D74F1FF3DDF900B3FA98 /* Domain.xcodeproj */;
 				},
+				{
+					ProductGroup = 1CD7A9781FF5293500CB895D /* Products */;
+					ProjectRef = 1CD7A9771FF5293500CB895D /* UI.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -284,6 +313,20 @@
 			fileType = wrapper.cfbundle;
 			path = DataTests.xctest;
 			remoteRef = 1C89D7671FF3DE1F00B3FA98 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1CD7A9811FF5293500CB895D /* UI.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = UI.framework;
+			remoteRef = 1CD7A9801FF5293500CB895D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1CD7A9831FF5293500CB895D /* UITests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = UITests.xctest;
+			remoteRef = 1CD7A9821FF5293500CB895D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
