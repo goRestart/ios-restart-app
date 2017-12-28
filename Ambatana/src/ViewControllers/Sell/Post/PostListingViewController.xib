@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -50,13 +50,13 @@
                                         </constraints>
                                     </view>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="5Qq-I7-zHx" userLabel="contentScroll">
-                                        <rect key="frame" x="0.0" y="52" width="375" height="615"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="01Y-DA-8gw">
-                                                <rect key="frame" x="0.0" y="0.0" width="374" height="615"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="667"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xup-cr-6f7" userLabel="ContentContainer">
-                                                        <rect key="frame" x="0.0" y="210" width="374" height="195"/>
+                                                        <rect key="frame" x="0.0" y="236" width="374" height="195"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" placeholderIntrinsicWidth="48" placeholderIntrinsicHeight="48" translatesAutoresizingMaskIntoConstraints="NO" id="wW5-ZX-UqE" userLabel="customLoadingView" customClass="LoadingIndicator" customModule="LetGo" customModuleProvider="target">
                                                                 <rect key="frame" x="163.5" y="0.0" width="48" height="48"/>
@@ -149,10 +149,10 @@
                                     <constraint firstItem="ask-kI-lGs" firstAttribute="leading" secondItem="hB7-6T-u18" secondAttribute="leading" id="ar0-z0-jNd"/>
                                     <constraint firstAttribute="trailing" secondItem="5Qq-I7-zHx" secondAttribute="trailing" id="bgL-6x-cGp"/>
                                     <constraint firstAttribute="trailing" secondItem="c23-Uc-PaC" secondAttribute="trailing" id="cqE-Q4-BZG"/>
+                                    <constraint firstItem="5Qq-I7-zHx" firstAttribute="top" secondItem="hB7-6T-u18" secondAttribute="top" id="qPf-f6-Gvx"/>
                                     <constraint firstItem="ask-kI-lGs" firstAttribute="centerX" secondItem="hB7-6T-u18" secondAttribute="centerX" id="wbD-iL-kDm"/>
                                     <constraint firstAttribute="trailing" secondItem="ask-kI-lGs" secondAttribute="trailing" id="yWy-p1-txW"/>
                                     <constraint firstItem="c23-Uc-PaC" firstAttribute="leading" secondItem="hB7-6T-u18" secondAttribute="leading" id="ywW-ah-nty"/>
-                                    <constraint firstItem="5Qq-I7-zHx" firstAttribute="top" secondItem="c23-Uc-PaC" secondAttribute="bottom" id="yxE-nI-8WW"/>
                                     <constraint firstItem="c23-Uc-PaC" firstAttribute="top" secondItem="hB7-6T-u18" secondAttribute="top" id="zyC-ft-xPw"/>
                                 </constraints>
                             </view>
