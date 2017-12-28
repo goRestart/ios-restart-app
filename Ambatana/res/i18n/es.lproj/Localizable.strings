@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Esta cuenta está siendo revisada por el equipo de letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Parece que %@ ya no está interesado en tu anuncio.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Parece que este usuario ya no está interesado en tu anuncio.";
+"chat_inactive_conversations_button" = "Ver chats archivados";
+"chat_inactive_conversations_explanation_label" = "Los chats anteriores a 3 meses se archivan automáticamente.";
 "chat_list_account_deleted" = "Cuenta eliminada";
 "chat_list_account_deleted_username" = "Inactivo";
 "chat_list_all_empty_title" = "NO HAY CHATS (¡TODAVÍA!)";
@@ -164,6 +166,8 @@
 "chat_not_verified_state_title" = "¿ESTÁS VERIFICADO?";
 "chat_product_given_away_label" = "Ya regalado";
 "chat_product_sold_label" = "Vendido";
+"chat_professional_banner_button_title" = "Llamar";
+"chat_professional_banner_title" = "Estás hablando con un vendedor de coches profesional";
 "chat_related_products_title" = "TAMBIÉN TE PODRÍA INTERESAR:";
 "chat_safety_tips" = "Consejos de seguridad";
 "chat_safety_tips_message" = "• Queda en persona y paga en efectivo.\n\n• Mantén las conversaciones dentro del chat de letgo.\n\n• ¿Demasiado bueno para ser cierto? Encuentra otro comprador o vendedor.";
@@ -731,6 +735,7 @@
 "rating_view_rate_us_label" = "Puntúanos:";
 "rating_view_remind_later_button" = "Recuérdamelo más tarde";
 "rating_view_title_label_uppercase" = "¡PUNTÚANOS CON 5 ESTRELLAS!";
+"real_estate_attribute_tag_bathroom_0" = "0 baños";
 "real_estate_bathrooms_0" = "Ninguno";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1,5";

@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Этот аккаунт проверяется командой letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Похоже, %@ больше не заинтересован в вашем объявлении.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Похоже, этот пользователь больше не заинтересован в вашем объявлении.";
+"chat_inactive_conversations_button" = "View archived chats";
+"chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
 "chat_list_account_deleted" = "Удаленный аккаунт";
 "chat_list_account_deleted_username" = "Неактивно";
 "chat_list_all_empty_title" = "НЕТ ЧАТОВ (ПОКА ЧТО!)";
@@ -164,6 +166,8 @@
 "chat_not_verified_state_title" = "ВАШ АККАУНТ ПОДТВЕРЖДЕН?";
 "chat_product_given_away_label" = "Уже отдан";
 "chat_product_sold_label" = "Продано";
+"chat_professional_banner_button_title" = "Call";
+"chat_professional_banner_title" = "You're talking to a professional car dealer";
 "chat_related_products_title" = "ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ:";
 "chat_safety_tips" = "Советами по безопасности";
 "chat_safety_tips_message" = "• Встречайтесь лично и платите наличными.\n\n• Общайтесь в чате letgo.\n\n• Есть подозрения? Найди другого продавца/покупателя.";
@@ -731,6 +735,7 @@
 "rating_view_rate_us_label" = "Ваша оценка:";
 "rating_view_remind_later_button" = "Напомнить позже";
 "rating_view_title_label_uppercase" = "ПОСТАВЬТЕ НАМ 5 ЗВЕЗД!";
+"real_estate_attribute_tag_bathroom_0" = "1 ванная";
 "real_estate_bathrooms_0" = "Нет";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1.5";

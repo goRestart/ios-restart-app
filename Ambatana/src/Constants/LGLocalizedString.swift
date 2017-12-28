@@ -395,6 +395,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_email_error_already_registered", comment: "")
 	}
 
+	static var chatInactiveConversationsExplanationLabel: String {
+		return NSLocalizedString("chat_inactive_conversations_explanation_label", comment: "")
+	}
+
+	static var chatInactiveConversationsButton: String {
+		return NSLocalizedString("chat_inactive_conversations_button", comment: "")
+	}
+
 	static func chatAccountDeletedWName(_ var1: String) -> String {
 		return String(format: NSLocalizedString("chat_account_deleted_w_name", comment: ""), var1)
 	}
@@ -3229,6 +3237,10 @@ struct LGLocalizedString {
 
 	static var realEstateTitleGeneratorBathrooms4: String {
 		return NSLocalizedString("real_estate_title_generator_bathrooms_4", comment: "")
+	}
+
+	static var realEstateAttributeTagBathroom0: String {
+		return NSLocalizedString("real_estate_attribute_tag_bathroom_0", comment: "")
 	}
 
 	static func realEstateCurrentStepOfTotal(_ var1: Int, _ var2: Int) -> String {

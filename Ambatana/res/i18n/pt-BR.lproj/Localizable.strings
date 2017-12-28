@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "This account is under review by the letgo team.";
 "chat_forbidden_disclaimer_seller_w_name" = "Looks like %@ is no longer interested in your listing.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Looks like this user is no longer interested in your listing.";
+"chat_inactive_conversations_button" = "View archived chats";
+"chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
 "chat_list_account_deleted" = "Deleted account";
 "chat_list_account_deleted_username" = "Inactive";
 "chat_list_all_empty_title" = "NO CHATS (YET!)";
@@ -164,6 +166,8 @@
 "chat_not_verified_state_title" = "ARE YOU VERIFIED?";
 "chat_product_given_away_label" = "Given away";
 "chat_product_sold_label" = "Sold";
+"chat_professional_banner_button_title" = "Call";
+"chat_professional_banner_title" = "You're talking to a professional car dealer";
 "chat_related_products_title" = "YOU MIGHT BE INTERESTED IN:";
 "chat_safety_tips" = "Safety Tips";
 "chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Find another buyer/seller!";
@@ -248,7 +252,7 @@
 "direct_answer_condition_title" = "Condition...";
 "direct_answer_describe_condition" = "Can you describe its condition?";
 "direct_answer_free_available" = "Yes, it's still available";
-"direct_answer_free_no_available" = "Sorry, I've already given it away!";
+"direct_answer_free_no_available" = "Sorry, the item has been given away!";
 "direct_answer_free_still_have" = "Still have it?";
 "direct_answer_free_yours" = "It's yours!";
 "direct_answer_given_away_question_message" = "Mark your item as given away so all letgo users know";
@@ -731,6 +735,7 @@
 "rating_view_rate_us_label" = "Rate us:";
 "rating_view_remind_later_button" = "Remind me later";
 "rating_view_title_label_uppercase" = "GIVE US 5 STARS!";
+"real_estate_attribute_tag_bathroom_0" = "0BA";
 "real_estate_bathrooms_0" = "None";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1.5";

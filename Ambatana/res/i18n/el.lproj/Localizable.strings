@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Ο λογαριασμός βρίσκεται υπό έλεγχο από την ομάδα του letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Φαίνεται πως ο %@ δεν ενδιαφέρεται πια για την καταχώρησή σας.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Φαίνεται πώς αυτός ο χρήστης δεν ενδιαφέρεται πια για την καταχώρησή σας.";
+"chat_inactive_conversations_button" = "View archived chats";
+"chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
 "chat_list_account_deleted" = "Διαγραμμένος λογαριασμός";
 "chat_list_account_deleted_username" = "Ανενεργός";
 "chat_list_all_empty_title" = "ΚΑΜΙΑ ΣΥΝΟΜΙΛΙΑ (ΑΚΟΜΗ!)";
@@ -164,6 +166,8 @@
 "chat_not_verified_state_title" = "΄ΕΧΕΤΕ ΚΑΝΕΙ ΕΠΙΒΕΒΑΙΩΣΗ;";
 "chat_product_given_away_label" = "Χαρισμένο";
 "chat_product_sold_label" = "Πωλήθηκε";
+"chat_professional_banner_button_title" = "Κλήση";
+"chat_professional_banner_title" = "You're talking to a professional car dealer";
 "chat_related_products_title" = "ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΕΣΤΕ ΓΙΑ:";
 "chat_safety_tips" = "Συμβουλές ασφαλείας";
 "chat_safety_tips_message" = "• Συναντηθείτε πρόσωπο με πρόσωπο και πληρώστε μετρητά.\n\n• Αποθηκεύστε τις συνομιλίες σας στο chat του letgo.\n\n• Πολύ καλό για να είναι αληθινό; Βρείτε κάποιον άλλο αγοραστή/πωλητή!";
@@ -731,6 +735,7 @@
 "rating_view_rate_us_label" = "Βαθμολόγησε μας:";
 "rating_view_remind_later_button" = "Θύμισέ το μου αργότερα";
 "rating_view_title_label_uppercase" = "ΔΩΣΤΕ ΜΑΣ 5 ΑΣΤΕΡΙΑ!";
+"real_estate_attribute_tag_bathroom_0" = "0ΜΠ";
 "real_estate_bathrooms_0" = "Κανένα";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1.5";

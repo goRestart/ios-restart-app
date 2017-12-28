@@ -289,6 +289,12 @@
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
 
+// Chat inactive conversations cell
+"chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
+
+// Chat inactive conversations cell
+"chat_inactive_conversations_button" = "View archived chats";
+
 // When a user asked to delete his account (short info message)
 "chat_account_deleted_w_name" = "%@'s account has been deleted";
 
@@ -742,7 +748,7 @@
 "direct_answer_free_available" = "Yes, it's still available";
 
 // Chat direct answer as a seller - free listing- no available
-"direct_answer_free_no_available" = "Sorry, I've already given it away!";
+"direct_answer_free_no_available" = "Sorry, the item has been given away!";
 
 // Chat direct answer as buyer - still have it
 "direct_answer_free_still_have" = "Still have it?";
@@ -2404,6 +2410,9 @@
 
 // Real Estate number of bathrooms 4 short version
 "real_estate_title_generator_bathrooms_4" = "4+BA";
+
+// Real Estate number of bathrooms 0 for attributes tag
+"real_estate_attribute_tag_bathroom_0" = "0BA";
 
 // Show the current step of total steps
 "real_estate_current_step_of_total" = "%d of %d";
