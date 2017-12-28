@@ -16,6 +16,7 @@
 		1CD7A96C1FF5257200CB895D /* PaletteSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A96B1FF5257200CB895D /* PaletteSpec.swift */; };
 		1CD7A9931FF55AD000CB895D /* Fontable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9921FF55AD000CB895D /* Fontable.swift */; };
 		1CD7A9951FF55BD900CB895D /* UIFont+Fontable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9941FF55BD900CB895D /* UIFont+Fontable.swift */; };
+		1CD7A9981FF55D7000CB895D /* FontableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9971FF55D7000CB895D /* FontableSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		1CD7A96B1FF5257200CB895D /* PaletteSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteSpec.swift; sourceTree = "<group>"; };
 		1CD7A9921FF55AD000CB895D /* Fontable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fontable.swift; sourceTree = "<group>"; };
 		1CD7A9941FF55BD900CB895D /* UIFont+Fontable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Fontable.swift"; sourceTree = "<group>"; };
+		1CD7A9971FF55D7000CB895D /* FontableSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontableSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				1CD7A96A1FF5255C00CB895D /* Color */,
+				1CD7A9961FF55D6600CB895D /* Font */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -175,6 +178,14 @@
 			children = (
 				1CD7A9921FF55AD000CB895D /* Fontable.swift */,
 				1CD7A9941FF55BD900CB895D /* UIFont+Fontable.swift */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		1CD7A9961FF55D6600CB895D /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				1CD7A9971FF55D7000CB895D /* FontableSpec.swift */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -339,6 +350,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CD7A96C1FF5257200CB895D /* PaletteSpec.swift in Sources */,
+				1CD7A9981FF55D7000CB895D /* FontableSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
