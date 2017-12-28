@@ -44,7 +44,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
         var bottomButtonsObserver: TestableObserver<[UIAction]>!
         var isFavoriteObserver: TestableObserver<Bool>!
         var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
-
+        var isProfessionalObserver: TestableObserver<Bool>!
 
         describe("ListingViewModelSpec") {
 
@@ -70,6 +70,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 sut.actionButtons.asObservable().bindTo(bottomButtonsObserver).addDisposableTo(disposeBag)
                 sut.isFavorite.asObservable().bindTo(isFavoriteObserver).addDisposableTo(disposeBag)
                 sut.directChatMessages.observable.bindTo(directChatMessagesObserver).addDisposableTo(disposeBag)
+                sut.isProfessional.asObservable().bindTo(isProfessionalObserver).addDisposableTo(disposeBag)
             }
 
             beforeEach {
@@ -91,6 +92,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 bottomButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 isFavoriteObserver = scheduler.createObserver(Bool.self)
                 directChatMessagesObserver = scheduler.createObserver(Array<ChatViewMessage>.self)
+                isProfessionalObserver = scheduler.createObserver(Bool.self)
 
                 self.resetViewModelSpec()
             }
@@ -129,7 +131,9 @@ class ListingViewModelSpec: BaseViewModelSpec {
                     }
                     it("has mark as sold and then sell it again button") {
                         let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
-                        expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
+                        expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton,
+                                                LGLocalizedString.productMarkAsSoldButton,
+                                                LGLocalizedString.productSellAgainButton]
                     }
                     it("requests buyer selection") {
                         expect(self.selectBuyersCalled).toEventually(beTrue())
@@ -309,6 +313,56 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 expect(tracker.trackedEvents.map { $0.actualName }) == ["user-sent-message-error"]
                             }
                         }
+                    }
+                }
+            }
+
+            describe ("check user type") {
+                context ("User is professional and has a phone number") {
+                    beforeEach {
+                        var user = MockUser.makeMock()
+                        user.type = .pro
+                        user.phone = "666-666-666"
+                        userRepository.userResult = UserResult(value: user)
+                        buildListingViewModel()
+                        sut.active = true
+                        expect(isProfessionalObserver.eventValues).toEventually(equal([false, true]))
+                    }
+                    it ("isProfessional var is updated") {
+                        expect(isProfessionalObserver.lastValue) == true
+                    }
+                    it ("phoneNumber var has a value") {
+                        expect(sut.phoneNumber.value).toEventually(equal("666-666-666"))
+                    }
+                }
+                context ("User is professional and doesn't have a phone number") {
+                    beforeEach {
+                        var user = MockUser.makeMock()
+                        user.type = .pro
+                        user.phone = nil
+                        userRepository.userResult = UserResult(value: user)
+                        buildListingViewModel()
+                        sut.active = true
+                        expect(isProfessionalObserver.eventValues).toEventually(equal([false, true]))
+                    }
+                    it ("isProfessional var is updated") {
+                        expect(isProfessionalObserver.lastValue) == true
+                    }
+                    it ("phoneNumber var has no value") {
+                        expect(sut.phoneNumber.value).toEventually(beNil())
+                    }
+                }
+                context ("User is not professional") {
+                    beforeEach {
+                        var user = MockUser.makeMock()
+                        user.type = .user
+                        userRepository.userResult = UserResult(value: user)
+                        buildListingViewModel()
+                        sut.active = true
+                        expect(isProfessionalObserver.eventValues).toEventually(equal([false, false]))
+                    }
+                    it ("isProfessional var is updated") {
+                        expect(sut.isProfessional.value).toEventually(equal(false))
                     }
                 }
             }

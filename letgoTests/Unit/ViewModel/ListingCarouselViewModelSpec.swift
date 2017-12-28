@@ -64,6 +64,8 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
         var bumpUpBannerInfoObserver: TestableObserver<BumpUpInfo?>!
         var socialMessageObserver: TestableObserver<SocialMessage?>!
         var socialSharerObserver: TestableObserver<SocialSharer>!
+        var isProfessionalObserver: TestableObserver<Bool>!
+
 
         describe("ListingCarouselViewModelSpec") {
 
@@ -115,6 +117,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 sut.bumpUpBannerInfo.asObservable().bindTo(bumpUpBannerInfoObserver).addDisposableTo(disposeBag)
                 sut.socialMessage.asObservable().bindTo(socialMessageObserver).addDisposableTo(disposeBag)
                 sut.socialSharer.asObservable().bindTo(socialSharerObserver).addDisposableTo(disposeBag)
+                sut.ownerIsProfessional.asObservable().bindTo(isProfessionalObserver).addDisposableTo(disposeBag)
             }
 
             beforeEach {
@@ -168,6 +171,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 bumpUpBannerInfoObserver = scheduler.createObserver(Optional<BumpUpInfo>.self)
                 socialMessageObserver = scheduler.createObserver(Optional<SocialMessage>.self)
                 socialSharerObserver = scheduler.createObserver(SocialSharer.self)
+                isProfessionalObserver = scheduler.createObserver(Bool.self)
 
                 self.resetViewModelSpec()
             }
@@ -245,160 +249,191 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 }
             }
             describe("quick answers") {
-                describe("ab test non-dynamic") {
+                beforeEach {
+                    featureFlags.allowCallsForProfessionals = .active
+                }
+                describe ("seller is not professional") {
                     beforeEach {
-                        featureFlags.dynamicQuickAnswers = .control
+                        var user = MockUser.makeMock()
+                        user.type = .user
+                        userRepository.userResult = UserResult(value: user)
                     }
-                    context("product is mine and available") {
+                    describe("ab test non-dynamic") {
                         beforeEach {
-                            let myUser = MockMyUser.makeMock()
-                            myUserRepository.myUserVar.value = myUser
-                            var productUser = MockUserListing.makeMock()
-                            productUser.objectId = myUser.objectId
-                            product.user = productUser
-                            product.status = .approved
-                            buildSut(initialProduct: product)
-                            sut.active = true
+                            featureFlags.dynamicQuickAnswers = .control
                         }
-                        it("quick answers are not available") {
-                            expect(quickAnswersAvailableObserver.eventValues) == [false] //first product
+                        context("product is mine and available") {
+                            beforeEach {
+                                let myUser = MockMyUser.makeMock()
+                                myUserRepository.myUserVar.value = myUser
+                                var productUser = MockUserListing.makeMock()
+                                productUser.objectId = myUser.objectId
+                                product.user = productUser
+                                product.status = .approved
+                                buildSut(initialProduct: product)
+                                sut.active = true
+                            }
+                            it("quick answers are not available") {
+                                expect(quickAnswersAvailableObserver.eventValues) == [false, false] //first product
+                            }
+                            it("quickAnswers are empty") {
+                                expect(quickAnswersObserver.eventValues.map { $0.isEmpty }) == [true] //first product
+                            }
                         }
-                        it("quickAnswers are empty") {
-                            expect(quickAnswersObserver.eventValues.map { $0.isEmpty }) == [true] //first product
+                        context("product is not mine and available") {
+                            context("non free product") {
+                                beforeEach {
+                                    let myUser = MockMyUser.makeMock()
+                                    myUserRepository.myUserVar.value = myUser
+                                    product.status = .approved
+                                    product.price = .normal(25)
+                                    buildSut(initialProduct: product)
+                                    sut.active = true
+                                    expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
+                                }
+                                it("quick answers are available") {
+                                    expect(quickAnswersAvailableObserver.eventValues) == [true, true] //first product
+                                }
+                                it("receives 3 groups of quick answers") {
+                                    expect(quickAnswersObserver.lastValue?.count) == 3
+                                }
+                                it("matches first group with the right availability quick answers") {
+                                    expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable]
+                                }
+                                it("matches second group with the right negotiable quick answers") {
+                                    expect(quickAnswersObserver.lastValue?[1]) == [.isNegotiable]
+                                }
+                                it("matches third group with the right condition quick answers") {
+                                    expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition]
+                                }
+                            }
+                            context("free product") {
+                                beforeEach {
+                                    let myUser = MockMyUser.makeMock()
+                                    myUserRepository.myUserVar.value = myUser
+                                    product.status = .approved
+                                    product.price = .free
+                                    featureFlags.freePostingModeAllowed = true
+                                    buildSut(initialProduct: product)
+                                    sut.active = true
+                                    expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
+                                }
+                                it("quick answers are available") {
+                                    expect(quickAnswersAvailableObserver.eventValues) == [true, true] //first product
+                                }
+                                it("receives 3 groups of quick answers") {
+                                    expect(quickAnswersObserver.lastValue?.count) == 3
+                                }
+                                it("matches first group with the right interested quick answers") {
+                                    expect(quickAnswersObserver.lastValue?[0]) == [.interested]
+                                }
+                                it("matches second group with the right meet up quick answers") {
+                                    expect(quickAnswersObserver.lastValue?[1]) == [.meetUp]
+                                }
+                                it("matches third group with the right condition quick answers") {
+                                    expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition]
+                                }
+                            }
                         }
                     }
-                    context("product is not mine and available") {
-                        context("non free product") {
+
+                    describe("ab test dynamic") {
+                        beforeEach {
+                            featureFlags.dynamicQuickAnswers = .dynamicNoKeyboard
+                        }
+                        context("product is mine and available") {
                             beforeEach {
                                 let myUser = MockMyUser.makeMock()
                                 myUserRepository.myUserVar.value = myUser
+                                var productUser = MockUserListing.makeMock()
+                                productUser.objectId = myUser.objectId
+                                product.user = productUser
                                 product.status = .approved
-                                product.price = .normal(25)
                                 buildSut(initialProduct: product)
                                 sut.active = true
                             }
-                            it("quick answers are available") {
-                                expect(quickAnswersAvailableObserver.eventValues) == [true] //first product
+                            it("quick answers are not available") {
+                                expect(quickAnswersAvailableObserver.eventValues) == [false, false] //first product
                             }
-                            it("receives 3 groups of quick answers") {
-                                expect(quickAnswersObserver.lastValue?.count) == 3
-                            }
-                            it("matches first group with the right availability quick answers") {
-                                expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable]
-                            }
-                            it("matches second group with the right negotiable quick answers") {
-                                expect(quickAnswersObserver.lastValue?[1]) == [.isNegotiable]
-                            }
-                            it("matches third group with the right condition quick answers") {
-                                expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition]
+                            it("quickAnswers are empty") {
+                                expect(quickAnswersObserver.eventValues.map { $0.isEmpty }) == [true] //first product
                             }
                         }
-                        context("free product") {
-                            beforeEach {
-                                let myUser = MockMyUser.makeMock()
-                                myUserRepository.myUserVar.value = myUser
-                                product.status = .approved
-                                product.price = .free
-                                featureFlags.freePostingModeAllowed = true
-                                buildSut(initialProduct: product)
-                                sut.active = true
+                        context("product is not mine and available") {
+                            context("non free product") {
+                                beforeEach {
+                                    let myUser = MockMyUser.makeMock()
+                                    myUserRepository.myUserVar.value = myUser
+                                    product.status = .approved
+                                    product.price = .normal(25)
+                                    buildSut(initialProduct: product)
+                                    sut.active = true
+                                    expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
+                                }
+                                it("quick answers are available") {
+                                    expect(quickAnswersAvailableObserver.eventValues) == [true, true] //first product
+                                }
+                                it("receives 4 groups of quick answers") {
+                                    expect(quickAnswersObserver.lastValue?.count) == 4
+                                }
+                                it("matches first group with the right availability quick answers") {
+                                    expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable, .stillForSale, .freeStillHave]
+                                }
+                                it("matches second group with the right meet up quick answers") {
+                                    expect(quickAnswersObserver.lastValue?[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
+                                }
+                                it("matches third group with the right condition quick answers") {
+                                    expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
+                                }
+                                it("matches fourth group with the right price quick answers") {
+                                    expect(quickAnswersObserver.lastValue?[3]) == [.isNegotiable, .priceFirm, .priceWillingToNegotiate]
+                                }
                             }
-                            it("quick answers are available") {
-                                expect(quickAnswersAvailableObserver.eventValues) == [true] //first product
-                            }
-                            it("receives 3 groups of quick answers") {
-                                expect(quickAnswersObserver.lastValue?.count) == 3
-                            }
-                            it("matches first group with the right interested quick answers") {
-                                expect(quickAnswersObserver.lastValue?[0]) == [.interested]
-                            }
-                            it("matches second group with the right meet up quick answers") {
-                                expect(quickAnswersObserver.lastValue?[1]) == [.meetUp]
-                            }
-                            it("matches third group with the right condition quick answers") {
-                                expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition]
+                            context("free product") {
+                                beforeEach {
+                                    let myUser = MockMyUser.makeMock()
+                                    myUserRepository.myUserVar.value = myUser
+                                    product.status = .approved
+                                    product.price = .free
+                                    featureFlags.freePostingModeAllowed = true
+                                    buildSut(initialProduct: product)
+                                    sut.active = true
+                                    expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
+                                }
+                                it("quick answers are available") {
+                                    expect(quickAnswersAvailableObserver.eventValues) == [true, true] //first product
+                                }
+                                it("receives 3 groups of quick answers") {
+                                    expect(quickAnswersObserver.lastValue?.count) == 3
+                                }
+                                it("matches first group with the right availability quick answers") {
+                                    expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable, .freeStillHave]
+                                }
+                                it("matches second group with the right meet up quick answers") {
+                                    expect(quickAnswersObserver.lastValue?[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
+                                }
+                                it("matches third group with the right condition quick answers") {
+                                    expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
+                                }
                             }
                         }
                     }
                 }
-
-                describe("ab test dynamic") {
+                describe ("seller is a professional") {
                     beforeEach {
-                        featureFlags.dynamicQuickAnswers = .dynamicNoKeyboard
+                        var user = MockUser.makeMock()
+                        user.type = .pro
+                        userRepository.userResult = UserResult(value: user)
+                        let myUser = MockMyUser.makeMock()
+                        myUserRepository.myUserVar.value = myUser
+                        product.status = .approved
+                        product.price = .normal(25)
+                        buildSut(initialProduct: product)
+                        sut.active = true
+                        expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
                     }
-                    context("product is mine and available") {
-                        beforeEach {
-                            let myUser = MockMyUser.makeMock()
-                            myUserRepository.myUserVar.value = myUser
-                            var productUser = MockUserListing.makeMock()
-                            productUser.objectId = myUser.objectId
-                            product.user = productUser
-                            product.status = .approved
-                            buildSut(initialProduct: product)
-                            sut.active = true
-                        }
-                        it("quick answers are not available") {
-                            expect(quickAnswersAvailableObserver.eventValues) == [false] //first product
-                        }
-                        it("quickAnswers are empty") {
-                            expect(quickAnswersObserver.eventValues.map { $0.isEmpty }) == [true] //first product
-                        }
-                    }
-                    context("product is not mine and available") {
-                        context("non free product") {
-                            beforeEach {
-                                let myUser = MockMyUser.makeMock()
-                                myUserRepository.myUserVar.value = myUser
-                                product.status = .approved
-                                product.price = .normal(25)
-                                buildSut(initialProduct: product)
-                                sut.active = true
-                            }
-                            it("quick answers are available") {
-                                expect(quickAnswersAvailableObserver.eventValues) == [true] //first product
-                            }
-                            it("receives 4 groups of quick answers") {
-                                expect(quickAnswersObserver.lastValue?.count) == 4
-                            }
-                            it("matches first group with the right availability quick answers") {
-                                expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable, .stillForSale, .freeStillHave]
-                            }
-                            it("matches second group with the right meet up quick answers") {
-                                expect(quickAnswersObserver.lastValue?[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
-                            }
-                            it("matches third group with the right condition quick answers") {
-                                expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
-                            }
-                            it("matches fourth group with the right price quick answers") {
-                                expect(quickAnswersObserver.lastValue?[3]) == [.isNegotiable, .priceFirm, .priceWillingToNegotiate]
-                            }
-                        }
-                        context("free product") {
-                            beforeEach {
-                                let myUser = MockMyUser.makeMock()
-                                myUserRepository.myUserVar.value = myUser
-                                product.status = .approved
-                                product.price = .free
-                                featureFlags.freePostingModeAllowed = true
-                                buildSut(initialProduct: product)
-                                sut.active = true
-                            }
-                            it("quick answers are available") {
-                                expect(quickAnswersAvailableObserver.eventValues) == [true] //first product
-                            }
-                            it("receives 3 groups of quick answers") {
-                                expect(quickAnswersObserver.lastValue?.count) == 3
-                            }
-                            it("matches first group with the right availability quick answers") {
-                                expect(quickAnswersObserver.lastValue?[0]) == [.stillAvailable, .freeStillHave]
-                            }
-                            it("matches second group with the right meet up quick answers") {
-                                expect(quickAnswersObserver.lastValue?[1]) == [.meetUp, .meetUpLocated, .meetUpWhereYouWant]
-                            }
-                            it("matches third group with the right condition quick answers") {
-                                expect(quickAnswersObserver.lastValue?[2]) == [.listingCondition, .listingConditionGood, .listingConditionDescribe]
-                            }
-                        }
+                    it("quick answers are available") {
+                        expect(quickAnswersAvailableObserver.eventValues) == [true, false]
                     }
                 }
             }
@@ -1037,7 +1072,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         }
                     }
                 }
-                context("product isn't mine") {
+                fcontext("product isn't mine") {
                     context("pending") {
                         beforeEach {
                             product.status = .pending
@@ -1082,88 +1117,200 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                     }
                     context("approved - normal") {
                         beforeEach {
-                            product.status = .approved
-                            product.price = .normal(25)
-                            product.name = String.makeRandom()
-                            buildSut(initialProduct: product)
-                            sut.active = true
+                            featureFlags.allowCallsForProfessionals = .active
                         }
-                        it("product title matches") {
-                            expect(productInfoObserver.lastValue??.title) == product.title
+                        context ("non professional seller") {
+                            beforeEach {
+                                var user = MockUser.makeMock()
+                                user.type = .user
+                                userRepository.userResult = UserResult(value: user)
+                                product.status = .approved
+                                product.price = .normal(25)
+                                product.name = String.makeRandom()
+                                buildSut(initialProduct: product)
+                                sut.active = true
+                                expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
+                            }
+                            it("product title matches") {
+                                expect(productInfoObserver.lastValue??.title) == product.title
+                            }
+                            it("images match") {
+                                expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                            }
+                            it("user name matches") {
+                                expect(userInfoObserver.lastValue??.name) == product.user.shortName
+                            }
+                            it("navbar buttons has share button") {
+                                let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
+                                expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            }
+                            it("there are no action buttons") {
+                                expect(actionButtonsObserver.lastValue?.count) == 0
+                            }
+                            it("product vm status is available") {
+                                expect(statusObserver.lastValue) == .otherAvailable
+                            }
+                            it("isFeatured is false") {
+                                expect(isFeaturedObserver.lastValue) == false
+                            }
+                            it("quick answers are enabled") {
+                                expect(quickAnswersAvailableObserver.lastValue) == true
+                            }
+                            it("direct chat is enabled") {
+                                expect(directChatEnabledObserver.lastValue) == true
+                            }
+                            it("sharebutton is hidden") {
+                                expect(shareButtonStateObserver.lastValue) == .hidden
+                            }
+                            it("favorite button is enabled") {
+                                expect(favoriteButtonStateObserver.lastValue) == .enabled
+                            }
                         }
-                        it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
-                        }
-                        it("user name matches") {
-                            expect(userInfoObserver.lastValue??.name) == product.user.shortName
-                        }
-                        it("navbar buttons has share button") {
-                            let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
-                        }
-                        it("there are no action buttons") {
-                            expect(actionButtonsObserver.lastValue?.count) == 0
-                        }
-                        it("product vm status is pending") {
-                            expect(statusObserver.lastValue) == .otherAvailable
-                        }
-                        it("isFeatured is false") {
-                            expect(isFeaturedObserver.lastValue) == false
-                        }
-                        it("quick answers are enabled") {
-                            expect(quickAnswersAvailableObserver.lastValue) == true
-                        }
-                        it("direct chat is enabled") {
-                            expect(directChatEnabledObserver.lastValue) == true
-                        }
-                        it("sharebutton is hidden") {
-                            expect(shareButtonStateObserver.lastValue) == .hidden
-                        }
-                        it("favorite button is enabled") {
-                            expect(favoriteButtonStateObserver.lastValue) == .enabled
+                        context ("professional seller") {
+                            beforeEach {
+                                var user = MockUser.makeMock()
+                                user.type = .pro
+                                userRepository.userResult = UserResult(value: user)
+                                product.status = .approved
+                                product.price = .normal(25)
+                                product.name = String.makeRandom()
+                                buildSut(initialProduct: product)
+                                sut.active = true
+                                expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
+                            }
+                            it("product title matches") {
+                                expect(productInfoObserver.lastValue??.title) == product.title
+                            }
+                            it("images match") {
+                                expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                            }
+                            it("user name matches") {
+                                expect(userInfoObserver.lastValue??.name) == product.user.shortName
+                            }
+                            it("navbar buttons has share button") {
+                                let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
+                                expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            }
+                            it("there is an action button (chat)") {
+                                expect(actionButtonsObserver.lastValue?.count) == 1
+                            }
+                            it("product vm status is available") {
+                                expect(statusObserver.lastValue) == .otherAvailable
+                            }
+                            it("isFeatured is false") {
+                                expect(isFeaturedObserver.lastValue) == false
+                            }
+                            it("quick answers are disabled") {
+                                expect(quickAnswersAvailableObserver.lastValue) == false
+                            }
+                            it("direct chat is disabled") {
+                                expect(directChatEnabledObserver.lastValue) == false
+                            }
+                            it("sharebutton is hidden") {
+                                expect(shareButtonStateObserver.lastValue) == .hidden
+                            }
+                            it("favorite button is enabled") {
+                                expect(favoriteButtonStateObserver.lastValue) == .enabled
+                            }
                         }
                     }
                     context("approved - free") {
                         beforeEach {
-                            product.status = .approved
-                            product.price = .free
-                            product.name = String.makeRandom()
-                            buildSut(initialProduct: product)
-                            sut.active = true
+                            featureFlags.allowCallsForProfessionals = .active
                         }
-                        it("product title matches") {
-                            expect(productInfoObserver.lastValue??.title) == product.title
+                        context ("non professional seller") {
+                            beforeEach {
+                                var user = MockUser.makeMock()
+                                user.type = .user
+                                userRepository.userResult = UserResult(value: user)
+                                product.status = .approved
+                                product.price = .free
+                                product.name = String.makeRandom()
+                                buildSut(initialProduct: product)
+                                sut.active = true
+                                expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
+                            }
+                            it("product title matches") {
+                                expect(productInfoObserver.lastValue??.title) == product.title
+                            }
+                            it("images match") {
+                                expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                            }
+                            it("user name matches") {
+                                expect(userInfoObserver.lastValue??.name) == product.user.shortName
+                            }
+                            it("navbar buttons has share button") {
+                                let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
+                                expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            }
+                            it("there are no action buttons") {
+                                expect(actionButtonsObserver.lastValue?.count) == 0
+                            }
+                            it("product vm status is available") {
+                                expect(statusObserver.lastValue) == .otherAvailableFree
+                            }
+                            it("isFeatured is false") {
+                                expect(isFeaturedObserver.lastValue) == false
+                            }
+                            it("quick answers are enabled") {
+                                expect(quickAnswersAvailableObserver.lastValue) == true
+                            }
+                            it("direct chat is enabled") {
+                                expect(directChatEnabledObserver.lastValue) == true
+                            }
+                            it("sharebutton is hidden") {
+                                expect(shareButtonStateObserver.lastValue) == .hidden
+                            }
+                            it("favorite button is enabled") {
+                                expect(favoriteButtonStateObserver.lastValue) == .enabled
+                            }
                         }
-                        it("images match") {
-                            expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
-                        }
-                        it("user name matches") {
-                            expect(userInfoObserver.lastValue??.name) == product.user.shortName
-                        }
-                        it("navbar buttons has share button") {
-                            let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
-                        }
-                        it("there are no action buttons") {
-                            expect(actionButtonsObserver.lastValue?.count) == 0
-                        }
-                        it("product vm status is pending") {
-                            expect(statusObserver.lastValue) == .otherAvailableFree
-                        }
-                        it("isFeatured is false") {
-                            expect(isFeaturedObserver.lastValue) == false
-                        }
-                        it("quick answers are enabled") {
-                            expect(quickAnswersAvailableObserver.lastValue) == true
-                        }
-                        it("direct chat is enabled") {
-                            expect(directChatEnabledObserver.lastValue) == true
-                        }
-                        it("sharebutton is hidden") {
-                            expect(shareButtonStateObserver.lastValue) == .hidden
-                        }
-                        it("favorite button is enabled") {
-                            expect(favoriteButtonStateObserver.lastValue) == .enabled
+                        context ("professional seller") {
+                            beforeEach {
+                                var user = MockUser.makeMock()
+                                user.type = .pro
+                                userRepository.userResult = UserResult(value: user)
+                                product.status = .approved
+                                product.price = .free
+                                product.name = String.makeRandom()
+                                buildSut(initialProduct: product)
+                                sut.active = true
+                                expect(isProfessionalObserver.eventValues.count).toEventually(equal(2)) // initial + response
+                            }
+                            it("product title matches") {
+                                expect(productInfoObserver.lastValue??.title) == product.title
+                            }
+                            it("images match") {
+                                expect(productImageUrlsObserver.lastValue) == product.images.flatMap { $0.fileURL }
+                            }
+                            it("user name matches") {
+                                expect(userInfoObserver.lastValue??.name) == product.user.shortName
+                            }
+                            it("navbar buttons has share button") {
+                                let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
+                                expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
+                            }
+                            it("there is an action button (chat)") {
+                                expect(actionButtonsObserver.lastValue?.count) == 1
+                            }
+                            it("product vm status is available") {
+                                expect(statusObserver.lastValue) == .otherAvailableFree
+                            }
+                            it("isFeatured is false") {
+                                expect(isFeaturedObserver.lastValue) == false
+                            }
+                            it("quick answers are disabled") {
+                                expect(quickAnswersAvailableObserver.lastValue) == false
+                            }
+                            it("direct chat is disabled") {
+                                expect(directChatEnabledObserver.lastValue) == false
+                            }
+                            it("sharebutton is hidden") {
+                                expect(shareButtonStateObserver.lastValue) == .hidden
+                            }
+                            it("favorite button is enabled") {
+                                expect(favoriteButtonStateObserver.lastValue) == .enabled
+                            }
                         }
                     }
                     context("sold - normal") {
