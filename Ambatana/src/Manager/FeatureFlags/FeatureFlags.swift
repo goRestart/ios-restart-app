@@ -49,6 +49,7 @@ protocol FeatureFlaggeable: class {
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
     var moreInfoDFPActive: MoreInfoDFPActive { get }
     var copyListingAnotherConfirmation: CopyListingAnotherConfirmation { get }
+    var allowCallsForProfessionals: AllowCallsForProfessionals { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -109,6 +110,11 @@ extension PromoteBumpUpAfterSell {
 extension CopyListingAnotherConfirmation {
     var isActive: Bool { get { return self == .active } }
 }
+
+extension AllowCallsForProfessionals {
+    var isActive: Bool { get { return self == .active } }
+}
+
 
 class FeatureFlags: FeatureFlaggeable {
 
@@ -376,6 +382,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.copyListingAnotherConfirmation
         }
         return CopyListingAnotherConfirmation.fromPosition(abTests.copyListingAnotherConfirmation.value)
+    }
+
+    var allowCallsForProfessionals: AllowCallsForProfessionals {
+        if Bumper.enabled {
+            return Bumper.allowCallsForProfessionals
+        }
+        return AllowCallsForProfessionals.fromPosition(abTests.allowCallsForProfessionals.value)
     }
 
     var moreInfoDFPActive: MoreInfoDFPActive {

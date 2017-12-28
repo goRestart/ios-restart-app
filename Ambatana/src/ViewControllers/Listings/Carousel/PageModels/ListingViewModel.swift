@@ -199,15 +199,17 @@ class ListingViewModel: BaseViewModel {
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
 
-        if isMine {
-            isProfessional.value = myUserRepository.myUser?.type == .pro
-            phoneNumber.value = myUserRepository.myUser?.phone
-        } else if let userId = userInfo.value.userId {
-            userRepository.show(userId) { [weak self] result in
-                guard let strongSelf = self else { return }
-                if let value = result.value {
-                    strongSelf.isProfessional.value = value.type == .pro
-                    strongSelf.phoneNumber.value = value.phone
+        if featureFlags.allowCallsForProfessionals.isActive {
+            if isMine {
+                isProfessional.value = myUserRepository.myUser?.type == .pro
+                phoneNumber.value = myUserRepository.myUser?.phone
+            } else if let userId = userInfo.value.userId {
+                userRepository.show(userId) { [weak self] result in
+                    guard let strongSelf = self else { return }
+                    if let value = result.value {
+                        strongSelf.isProfessional.value = value.type == .pro
+                        strongSelf.phoneNumber.value = value.phone
+                    }
                 }
             }
         }

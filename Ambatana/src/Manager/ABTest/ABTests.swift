@@ -47,6 +47,7 @@ class ABTests {
     let promoteBumpUpAfterSell = IntABDynamicVar(key: "20171127PromoteBumpUpAfterSell", defaultValue: 0)
     let moreInfoDFPActive = IntABDynamicVar(key: "20171211MoreInfoDFPActive", defaultValue: 0)
     let copyListingAnotherConfirmation = IntABDynamicVar(key: "20171205CopyListingAnotherConfirmation", defaultValue: 0)
+    let allowCallsForProfessionals = IntABDynamicVar(key: "20171228allowCallsForProfessionals", defaultValue: 0)
     
     init() {
     }
@@ -86,6 +87,7 @@ class ABTests {
         result.append(promoteBumpUpAfterSell)
         result.append(moreInfoDFPActive)
         result.append(copyListingAnotherConfirmation)
+        result.append(allowCallsForProfessionals)
         
         return result
     }
