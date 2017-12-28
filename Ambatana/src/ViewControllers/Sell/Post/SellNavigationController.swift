@@ -6,26 +6,20 @@
 //  Copyright © 2017 Ambatana. All rights reserved.
 //
 
-
 import UIKit
 import RxSwift
 
-
 class SellNavigationController: UINavigationController {
-    
-    static let progressViewHeight: CGFloat = 5
     
     fileprivate let disposeBag = DisposeBag()
     fileprivate let viewModel: SellNavigationViewModel
     
-    let progressView = UIView()
-    let backgroundProgressView = UIView()
+    let progressView = ProgressView(backgroundColor: UIColor.whiteTextHighAlpha, progressColor: .white)
     let stepLabel = UILabel()
     
     var currentStep: CGFloat {
         return viewModel.actualStep
     }
-    
     
     override init(rootViewController: UIViewController) {
         self.viewModel = SellNavigationViewModel()
@@ -47,6 +41,7 @@ class SellNavigationController: UINavigationController {
         isNavigationBarHidden = true
         setupRx()
         setupUI()
+        setupConstraints()
     }
     
     func updateBackground(image: UIImage?) {
@@ -79,30 +74,24 @@ class SellNavigationController: UINavigationController {
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         super.pushViewController(viewController, animated: animated)
         viewModel.navigationControllerPushed()
-        let witdh = viewModel.widthToFill(totalWidth: view.width)
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.progressView.frame = CGRect(x: 0, y: 0, width: witdh, height: SellNavigationController.progressViewHeight)
-            strongSelf.progressView.layoutIfNeeded()
-        }
+        updateProgress()
     }
 
     override func popViewController(animated: Bool) -> UIViewController? {
         viewModel.navigationControllerPop()
-            let witdh = viewModel.widthToFill(totalWidth: view.width)
-            UIView.animate(withDuration: 0.3) { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.progressView.frame = CGRect(x: 0, y: 0, width: witdh, height: SellNavigationController.progressViewHeight)
-                strongSelf.progressView.layoutIfNeeded()
-            }
+        updateProgress()
         return super.popViewController(animated: animated)
+    }
+    
+    private func updateProgress() {
+        guard viewModel.numberOfSteps.value > 0 else { return }
+        progressView.updateProgress(to: CGFloat(viewModel.currentStep.value/viewModel.numberOfSteps.value), animated: true)
     }
     
     private func animateStep(isHidden: Bool) {
         let alpha: CGFloat = isHidden ? 0.0 : 1.0
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.progressView.alpha = alpha
-            self?.backgroundProgressView.alpha = alpha
             self?.stepLabel.alpha = alpha
         })
     }
@@ -132,20 +121,27 @@ class SellNavigationController: UINavigationController {
     }
     
     func setupUI() {
-        progressView.backgroundColor = UIColor.white
-        backgroundProgressView.backgroundColor = UIColor.whiteTextHighAlpha
-        let witdh = viewModel.widthToFill(totalWidth: view.width)
-        progressView.frame = CGRect(x: 0, y: 0, width: witdh, height: SellNavigationController.progressViewHeight)
         view.addSubview(progressView)
-        backgroundProgressView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: SellNavigationController.progressViewHeight)
-        view.addSubview(backgroundProgressView)
-        view.sendSubview(toBack: backgroundProgressView)
         view.addSubview(stepLabel)
-        stepLabel.translatesAutoresizingMaskIntoConstraints = false
-        stepLabel.layout(with: view).right(by: -Metrics.margin).top(by: Metrics.margin)
-        stepLabel.layout().width(100)
         stepLabel.textColor = UIColor.whiteTextHighAlpha
         stepLabel.textAlignment = .right
+    }
+    
+    func setupConstraints() {
+        stepLabel.translatesAutoresizingMaskIntoConstraints = false
+        stepLabel.layout(with: view).right(by: -Metrics.margin)
+        stepLabel.layout().width(100)
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        progressView.layout(with: view).right().left()
+        progressView.layout().height(5)
+        let topAnchor: NSLayoutYAxisAnchor
+        if #available(iOS 11, *) {
+            topAnchor = view.safeAreaLayoutGuide.topAnchor
+        } else {
+            topAnchor = view.topAnchor
+        }
+        progressView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        stepLabel.topAnchor.constraint(equalTo: topAnchor, constant: Metrics.margin).isActive = true
     }
 }
 
