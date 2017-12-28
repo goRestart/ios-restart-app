@@ -1,5 +1,5 @@
 public struct Radius {
-  public static let small = 2
-  public static let medium = 4
-  public static let big = 8
+  public static let small = CGFloat(2)
+  public static let medium = CGFloat(4)
+  public static let big = CGFloat(8)
 }
