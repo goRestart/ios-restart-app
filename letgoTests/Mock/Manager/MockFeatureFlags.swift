@@ -36,7 +36,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newItemPage: NewItemPage = .control
 
     var searchAutocomplete: SearchAutocomplete = .control
-    var realEstateEnabled: Bool = false
+    var realEstateEnabled: RealEstateEnabled = .control
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
     var newBumpUpExplanation: NewBumpUpExplanation = .control

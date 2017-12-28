@@ -33,7 +33,7 @@ protocol FeatureFlaggeable: class {
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
     var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var searchAutocomplete: SearchAutocomplete { get }
-    var realEstateEnabled: Bool { get }
+    var realEstateEnabled: RealEstateEnabled { get }
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
@@ -102,6 +102,10 @@ extension CopyListingAnotherConfirmation {
 }
 
 extension ShowSecurityMeetingChatMessage {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension RealEstateEnabled {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -275,11 +279,12 @@ class FeatureFlags: FeatureFlaggeable {
         return SearchAutocomplete.fromPosition(abTests.searchAutocomplete.value)
     }
 
-    var realEstateEnabled: Bool {
+    var realEstateEnabled: RealEstateEnabled
+    {
         if Bumper.enabled {
             return Bumper.realEstateEnabled
         }
-        return abTests.realEstateEnabled.value
+        return RealEstateEnabled.fromPosition(abTests.realEstateEnabled.value)
     }
     
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
