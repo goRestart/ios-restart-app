@@ -79,6 +79,9 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     fileprivate var hasTitle: Bool {
         return (title != nil && title != "")
     }
+    fileprivate var isRealEstate: Bool {
+        return category.value == .realEstate
+    }
     fileprivate var listingIsNew: Bool {
         guard let creationDate = initialListing.createdAt else { return true }
         return creationDate.isNewerThan(Constants.cloudsightTimeThreshold)
@@ -86,7 +89,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     fileprivate var shouldAskForAutoTitle: Bool {
         // we ask for title if the product has less than 1h (or doesn't has creation date)
         // AND doesn't has one, or the user is editing the field
-        return (!hasTitle || userIsEditingTitle) && listingIsNew
+        // AND it is not real estate
+        return (!hasTitle || userIsEditingTitle) && listingIsNew && !isRealEstate
     }
     fileprivate var requestTitleTimer: Timer?
 
@@ -258,12 +262,6 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        switch initialListing {
-        case .realEstate:
-            break
-        case .car, .product:
-            startTimer()
-        }
     }
 
     override func didBecomeInactive() {
@@ -535,7 +533,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         else if (initialListing.title ?? "") != (title ?? "") {
             hasChanges = true
         }
-        else if initialListing.price.value != price?.toPriceDouble() {
+        else if initialListing.price.value != Double(price ?? "0") {
             hasChanges = true
         }
         else if (initialListing.descr ?? "") != (descr ?? "") {
