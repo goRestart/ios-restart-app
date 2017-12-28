@@ -80,7 +80,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         return (title != nil && title != "")
     }
     fileprivate var isRealEstate: Bool {
-        return category.value != .realEstate
+        return category.value == .realEstate
     }
     fileprivate var listingIsNew: Bool {
         guard let creationDate = initialListing.createdAt else { return true }
@@ -90,7 +90,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         // we ask for title if the product has less than 1h (or doesn't has creation date)
         // AND doesn't has one, or the user is editing the field
         // AND it is not real estate
-        return (!hasTitle || userIsEditingTitle) && listingIsNew && isRealEstate
+        return (!hasTitle || userIsEditingTitle) && listingIsNew && !isRealEstate
     }
     fileprivate var requestTitleTimer: Timer?
 
