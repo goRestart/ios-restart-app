@@ -10,6 +10,8 @@
 		1C0263541FF57B3A0040346B /* Margin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0263531FF57B3A0040346B /* Margin.swift */; };
 		1C0263561FF57B630040346B /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0263551FF57B630040346B /* Radius.swift */; };
 		1C02635A1FF59AF90040346B /* FullWidthButtonSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0263591FF59AF90040346B /* FullWidthButtonSpec.swift */; };
+		1C0263631FF5B9570040346B /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0263621FF5B9570040346B /* Input.swift */; };
+		1C0263651FF5BBE50040346B /* InputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0263641FF5BBE50040346B /* InputTextField.swift */; };
 		1C15A1EA1FF42E9600FA0E47 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C15A1E91FF42E9600FA0E47 /* SnapKit.framework */; };
 		1C89D7BD1FF427B700B3FA98 /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7B31FF427B600B3FA98 /* UI.framework */; };
 		1C89D7C41FF427B700B3FA98 /* UI.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C89D7B61FF427B600B3FA98 /* UI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -39,6 +41,8 @@
 		1C0263531FF57B3A0040346B /* Margin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Margin.swift; sourceTree = "<group>"; };
 		1C0263551FF57B630040346B /* Radius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radius.swift; sourceTree = "<group>"; };
 		1C0263591FF59AF90040346B /* FullWidthButtonSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullWidthButtonSpec.swift; sourceTree = "<group>"; };
+		1C0263621FF5B9570040346B /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
+		1C0263641FF5BBE50040346B /* InputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextField.swift; sourceTree = "<group>"; };
 		1C15A1E91FF42E9600FA0E47 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = ../../../../Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		1C15A1F41FF4301500FA0E47 /* Snap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Snap.framework; path = ../../../../Carthage/Build/iOS/Snap.framework; sourceTree = "<group>"; };
 		1C89D7B31FF427B600B3FA98 /* UI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +108,15 @@
 			path = "Full Width";
 			sourceTree = "<group>";
 		};
+		1C0263611FF5B9390040346B /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				1C0263621FF5B9570040346B /* Input.swift */,
+				1C0263641FF5BBE50040346B /* InputTextField.swift */,
+			);
+			path = Input;
+			sourceTree = "<group>";
+		};
 		1C15A1E21FF4281600FA0E47 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,6 +180,7 @@
 				1CD7A95E1FF51BE500CB895D /* Color */,
 				1CD7A9911FF55ABA00CB895D /* Font */,
 				1CD7A9A51FF5654700CB895D /* Button */,
+				1C0263611FF5B9390040346B /* Input */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -405,8 +419,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C0263631FF5B9570040346B /* Input.swift in Sources */,
 				1CD7A9931FF55AD000CB895D /* Fontable.swift in Sources */,
 				1CD7A9A21FF562E800CB895D /* CAGradientLayer+Gradient.swift in Sources */,
+				1C0263651FF5BBE50040346B /* InputTextField.swift in Sources */,
 				1CD7A9661FF51D0800CB895D /* Palette.swift in Sources */,
 				1C0263561FF57B630040346B /* Radius.swift in Sources */,
 				1CD7A9681FF5238600CB895D /* UIColor+Palette.swift in Sources */,
