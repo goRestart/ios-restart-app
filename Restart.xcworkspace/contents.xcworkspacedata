@@ -20,6 +20,6 @@
       location = "group:App/Features/Foundation/Data/Data.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Pods/Pods.xcodeproj">
+      location = "group:App/Features/Product/SignUp/SignUp.xcodeproj">
    </FileRef>
 </Workspace>
