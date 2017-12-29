@@ -14,6 +14,8 @@ protocol ChatBannerDelegate: class {
 
 class ChatBanner: UIView {
 
+    static let actionButtonMinimumWidth: CGFloat = 80
+
     weak var delegate: ChatBannerDelegate?
     private var action: UIAction?
 
@@ -37,29 +39,33 @@ class ChatBanner: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.translatesAutoresizingMaskIntoConstraints = false
-        var closeButtonSize = 0
-        var closeButtonMargin = 0
-        let sideMargin = 12
+        var closeButtonSize: CGFloat = 0
+        var closeButtonMargin: CGFloat = 0
         if DeviceFamily.current == .iPhone4 {
             closeButtonSize = 15
-            closeButtonMargin = sideMargin
+            closeButtonMargin = Metrics.margin
         }
-        var views: [String : Any] = [:]
-        views["title"] = titleLabel
-        views["action"] = actionButton
-        views["close"] = closeButton
-        var metrics: [String : Any] = [:]
-        metrics["vMargin"] = 7
-        metrics["closeSize"] = closeButtonSize
-        metrics["closeMargin"] = closeButtonMargin
-        metrics["sideMargin"] = sideMargin
 
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-(sideMargin)-[title(>=20)]-(>=8)-[action(>=80)]-(sideMargin)-[close(closeSize)]-(closeMargin)-|", options: [.alignAllCenterY], metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(vMargin)-[title]-(vMargin)-|", options: [], metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(>=vMargin)-[action(30)]-(>=vMargin)-|", options: [], metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-(>=vMargin)-[close(closeSize)]-(>=vMargin)-|", options: [], metrics: metrics, views: views))
+        titleLabel.layout().width(Metrics.bigMargin, relatedBy: .greaterThanOrEqual)
+        titleLabel.layout(with: self).centerY()
+            .leftMargin(by: Metrics.margin)
+            .top(by: Metrics.veryShortMargin, relatedBy: .greaterThanOrEqual)
+            .bottom(by: -Metrics.veryShortMargin, relatedBy: .lessThanOrEqual)
+        actionButton.layout()
+            .width(ChatBanner.actionButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
+            .height(LGUIKitConstants.smallButtonHeight)
+        actionButton.layout(with: self).centerY()
+            .top(by: Metrics.veryShortMargin, relatedBy: .greaterThanOrEqual)
+            .bottom(by: -Metrics.veryShortMargin, relatedBy: .lessThanOrEqual)
+        actionButton.layout(with: titleLabel).left(to: .right, by: Metrics.shortMargin, relatedBy: .greaterThanOrEqual)
 
-        layoutIfNeeded()
+        closeButton.layout().width(closeButtonSize)
+        closeButton.layout(with: self).centerY()
+            .rightMargin(by: closeButtonMargin)
+            .top(by: Metrics.veryShortMargin, relatedBy: .greaterThanOrEqual)
+            .bottom(by: -Metrics.veryShortMargin, relatedBy: .lessThanOrEqual)
+        closeButton.layout(with: actionButton).left(to: .right, by: Metrics.shortMargin)
+
 
         // Setup data
         // title label
