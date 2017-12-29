@@ -60,7 +60,6 @@ class ABTests {
         result.append(pricedBumpUpEnabled)
         result.append(newCarsMultiRequesterEnabled)
         result.append(inAppRatingIOS10)
-        result.append(tweaksCarPostingFlow)
         result.append(userReviewsReportEnabled)
         result.append(dynamicQuickAnswers)
         result.append(appRatingDialogInactive)
