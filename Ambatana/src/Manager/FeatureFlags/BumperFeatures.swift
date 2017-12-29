@@ -22,7 +22,6 @@ extension Bumper  {
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
         flags.append(AppRatingDialogInactive.self)
-        flags.append(ExpandableCategorySelectionMenu.self)
         flags.append(LocationDataSourceEndpoint.self)
         flags.append(DefaultRadiusDistanceFeed.self)
         flags.append(RealEstateEnabled.self)
@@ -87,11 +86,6 @@ extension Bumper  {
     static var appRatingDialogInactive: Bool {
         guard let value = Bumper.value(for: AppRatingDialogInactive.key) else { return false }
         return AppRatingDialogInactive(rawValue: value)?.asBool ?? false
-    }
-
-    static var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
-        guard let value = Bumper.value(for: ExpandableCategorySelectionMenu.key) else { return .control }
-        return ExpandableCategorySelectionMenu(rawValue: value) ?? .control 
     }
 
     static var locationDataSourceEndpoint: LocationDataSourceEndpoint {
@@ -273,22 +267,6 @@ enum AppRatingDialogInactive: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "App rating dialog inactive to increase user activation" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum ExpandableCategorySelectionMenu: String, BumperFeature  {
-    case control, baseline, expandableMenu
-    static var defaultValue: String { return ExpandableCategorySelectionMenu.control.rawValue }
-    static var enumValues: [ExpandableCategorySelectionMenu] { return [.control, .baseline, .expandableMenu]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show 'salchichas' menu on sell your stuff button" } 
-    static func fromPosition(_ position: Int) -> ExpandableCategorySelectionMenu {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .expandableMenu
-            default: return .control
-        }
-    }
 }
 
 enum LocationDataSourceEndpoint: String, BumperFeature  {

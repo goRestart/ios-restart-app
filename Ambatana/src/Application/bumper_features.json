@@ -46,11 +46,6 @@
         "description": "App rating dialog inactive to increase user activation"
     },
     {
-        "name": "ExpandableCategorySelectionMenu",
-        "values": ["control", "baseline", "expandableMenu"],
-        "description": "Show 'salchichas' menu on sell your stuff button"
-    },
-    {
         "name": "LocationDataSourceEndpoint",
         "values": ["control", "baseline", "appleWithRegion", "niordWithRegion"],
         "description": "Location data source for geocode and reverse geocode"

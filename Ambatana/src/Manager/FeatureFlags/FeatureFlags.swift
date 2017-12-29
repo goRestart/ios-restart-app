@@ -28,7 +28,6 @@ protocol FeatureFlaggeable: class {
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
     var appRatingDialogInactive: Bool { get }
-    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
     var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var searchAutocomplete: SearchAutocomplete { get }
@@ -62,10 +61,6 @@ extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
     }
-}
-
-extension ExpandableCategorySelectionMenu {
-    var isActive: Bool { get { return self == .expandableMenu } }
 }
 
 extension ShowPriceAfterSearchOrFilter {
@@ -237,13 +232,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.appRatingDialogInactive
         }
         return abTests.appRatingDialogInactive.value
-    }
-
-    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
-        if Bumper.enabled {
-            return Bumper.expandableCategorySelectionMenu
-        }
-        return ExpandableCategorySelectionMenu.fromPosition(abTests.expandableCategorySelectionMenu.value)
     }
 
     var locationDataSourceEndpoint: LocationDataSourceEndpoint {
