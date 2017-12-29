@@ -69,6 +69,7 @@
 		1C7DD9811FF66C41009C574E /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				1CACD9C91FF66E6500538B78 /* Features */,
 				1CACD9C81FF66E0000538B78 /* Resources */,
 			);
 			path = SignUp;
@@ -89,6 +90,21 @@
 				1C7DD9831FF66C41009C574E /* Info.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		1CACD9C91FF66E6500538B78 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				1CACD9CA1FF66E6500538B78 /* Login */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		1CACD9CA1FF66E6500538B78 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -113,6 +129,7 @@
 				1C7DD97B1FF66C41009C574E /* Frameworks */,
 				1C7DD97C1FF66C41009C574E /* Headers */,
 				1C7DD97D1FF66C41009C574E /* Resources */,
+				1CACD9CB1FF66E8600538B78 /* [Carthage] - Copy frameworks */,
 			);
 			buildRules = (
 			);
@@ -195,6 +212,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1CACD9CB1FF66E8600538B78 /* [Carthage] - Copy frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxSwift.framework",
+			);
+			name = "[Carthage] - Copy frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1C7DD97A1FF66C41009C574E /* Sources */ = {
