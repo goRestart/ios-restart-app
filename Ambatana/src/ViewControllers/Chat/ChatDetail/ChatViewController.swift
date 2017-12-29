@@ -420,9 +420,8 @@ extension ChatViewController {
 
 extension ChatViewController: ChatBannerDelegate {
     func chatBannerDidFinish() {
-        if !viewModel.interlocutorIsProfessional.value {
-            hideExpressChatBanner()
-        }
+        guard !viewModel.interlocutorIsProfessional.value else { return }
+        hideExpressChatBanner()
     }
 }
 

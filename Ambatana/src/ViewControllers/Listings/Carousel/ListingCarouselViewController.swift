@@ -344,7 +344,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     private func setupCallButton() {
-        buttonCall.frame = CGRect(x: 0, y: 0, width: 0, height: 50)
         buttonCall.setStyle(.primary(fontSize: .big))
         buttonCall.setTitle(LGLocalizedString.productProfessionalCallButton, for: .normal)
         buttonCall.setImage(UIImage(named: "ic_phone_call"), for: .normal)
