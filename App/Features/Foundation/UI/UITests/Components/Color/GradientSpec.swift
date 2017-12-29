@@ -2,7 +2,7 @@ import XCTest
 import Snap
 @testable import UI
 
-class GradientSpec: XCTestCase {
+final class GradientSpec: XCTestCase {
 
   func test_default_gradient_is_valid() {
     expect(gradient).toMatchSnapshot(named: "default_gradient")

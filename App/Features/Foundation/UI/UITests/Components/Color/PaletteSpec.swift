@@ -2,7 +2,7 @@ import XCTest
 import Snap
 @testable import UI
 
-class PaletteSpec: XCTestCase {
+final class PaletteSpec: XCTestCase {
  
   func test_color_palette_is_valid() {
     let colorPalette: [(UIColor, String)] = [

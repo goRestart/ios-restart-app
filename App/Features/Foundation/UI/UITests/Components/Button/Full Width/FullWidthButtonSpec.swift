@@ -2,7 +2,7 @@ import XCTest
 import Snap
 @testable import UI
 
-class FullWidthButtonSpec: XCTestCase {
+final class FullWidthButtonSpec: XCTestCase {
 
   func test_button_with_normal_state_is_valid() {
     let button = givenButton(named: "normal", for: .normal)

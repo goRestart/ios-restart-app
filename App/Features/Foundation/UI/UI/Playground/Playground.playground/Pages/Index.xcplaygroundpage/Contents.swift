@@ -1,4 +1,5 @@
 /*:
  # UI Components
-  - [Buttons](Buttons)
+ - [Buttons](Buttons)
+ - [Inputs](Input)
  */
