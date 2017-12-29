@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "This account is under review by the letgo team.";
 "chat_forbidden_disclaimer_seller_w_name" = "Looks like %@ is no longer interested in your listing.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Looks like this user is no longer interested in your listing.";
+"chat_inactive_conversations_button" = "View archived chats";
+"chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
 "chat_list_account_deleted" = "Deleted account";
 "chat_list_account_deleted_username" = "Inactive";
 "chat_list_all_empty_title" = "NO CHATS (YET!)";

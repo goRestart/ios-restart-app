@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Dit account wordt onderzocht door het letgo team.";
 "chat_forbidden_disclaimer_seller_w_name" = "Het lijkt erop dat %@ niet meer geïnteresseerd is in jouw advertentie.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Het lijkt erop dat deze gebruiker niet meer geïnteresseerd is in jouw advertentie.";
+"chat_inactive_conversations_button" = "View archived chats";
+"chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
 "chat_list_account_deleted" = "Verwijderd account";
 "chat_list_account_deleted_username" = "Inactief";
 "chat_list_all_empty_title" = "(NOG!) GEEN CHATS";
@@ -164,7 +166,7 @@
 "chat_not_verified_state_title" = "BEN JE GEVERIFIEERD?";
 "chat_product_given_away_label" = "Weggegeven";
 "chat_product_sold_label" = "Verkocht";
-"chat_professional_banner_button_title" = "Call";
+"chat_professional_banner_button_title" = "Bel";
 "chat_professional_banner_title" = "You're talking to a professional car dealer";
 "chat_related_products_title" = "MISSCHIEN HEB JE INTERESSE IN:";
 "chat_safety_tips" = "Veiligheidstips";
@@ -733,7 +735,7 @@
 "rating_view_rate_us_label" = "Beoordeel ons:";
 "rating_view_remind_later_button" = "Herinner me later";
 "rating_view_title_label_uppercase" = "GEEF ONS 5 STERREN!";
-"real_estate_attribute_tag_bathroom_0" = "0BA";
+"real_estate_attribute_tag_bathroom_0" = "0BK";
 "real_estate_bathrooms_0" = "Geen";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1,5";

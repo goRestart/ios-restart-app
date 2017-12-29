@@ -32,6 +32,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
     var refreshControl = UIRefreshControl()
 
+    private let inactiveConversactionHeaderView = ChatInactiveConversationHeaderView()
     
     // > Insets
     @IBOutlet weak var tableViewBottomInset: NSLayoutConstraint!
@@ -198,6 +199,14 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         DispatchQueue.main.async { [weak self] in
             self?.viewModel.setCurrentIndex(indexPath.row)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return inactiveConversactionHeaderView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
