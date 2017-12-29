@@ -45,6 +45,7 @@ open class InputTextField: UIView {
   public lazy var input: Input = {
     let input = Input()
     input.clearButtonMode = .whileEditing
+    input.backgroundColor = .clear
     return input
   }()
   
@@ -94,11 +95,23 @@ open class InputTextField: UIView {
       input.textColor = .primary
       input.removeBorder()
     case .errored:
-      input.backgroundColor = UIColor.danger.withAlphaComponent(0.05)
+      input.backgroundColor = UIColor.danger.withAlphaComponent(0.1)
       input.tintColor = .danger
       input.textColor = .danger
       input.applyBorder()
     }
+  }
+  
+  // MARK: - Responder
+  
+  @discardableResult
+  open override func becomeFirstResponder() -> Bool {
+    return input.becomeFirstResponder()
+  }
+  
+  @discardableResult
+  open override func resignFirstResponder() -> Bool {
+    return input.resignFirstResponder()
   }
   
   // MARK: - Layout

@@ -2,7 +2,7 @@ import XCTest
 import Snap
 @testable import UI
 
-class FontableSpec: XCTestCase {
+final class FontableSpec: XCTestCase {
 
   func test_font_book_is_valid() {
     let fontBook: [(UIFont, String)] = [
