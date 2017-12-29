@@ -30,7 +30,7 @@ extension UITabBarController {
 
         UIView.animate(withDuration: duration, delay: 0, options: [.curveEaseIn], animations: { [weak self] in
             self?.tabBar.frame = frame.offsetBy(dx: 0, dy: offsetY)
-            self?.view.layoutIfNeeded()
+            self?.tabBar.layoutIfNeeded()
         }, completion: completion)
     }
 
