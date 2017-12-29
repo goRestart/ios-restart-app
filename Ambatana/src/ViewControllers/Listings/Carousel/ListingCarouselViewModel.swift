@@ -26,11 +26,14 @@ enum CarouselMovement {
 
 enum AdRequestType {
     case shopping
+    case dfp
 
     var trackingParamValue: EventParameterAdType {
         switch self {
         case .shopping:
             return .shopping
+        case .dfp:
+            return .dfp
         }
     }
 }
@@ -56,6 +59,9 @@ enum AdRequestQueryType {
 }
 
 class ListingCarouselViewModel: BaseViewModel {
+
+    // Static vars
+    static var adRequestChannel: String = "ios_moreinfo_var_a"
 
     // Paginable
     let firstPage: Int = 0
@@ -176,14 +182,13 @@ class ListingCarouselViewModel: BaseViewModel {
         return featureFlags.moreInfoDFPAdUnitId
     }
     var adActive: Bool {
-        let listingIsMine: Bool = currentListingViewModel?.isMine ?? false
-        return !listingIsMine && (afshAdActive || dfpAdActive)
+        return !isMyListing && (afshAdActive || dfpAdActive)
     }
     var afshAdActive: Bool {
-        return featureFlags.moreInfoAdActive.isActive
+        return featureFlags.moreInfoAFShOrDFP == .afsh
     }
     var dfpAdActive: Bool {
-        return featureFlags.moreInfoDFPActive.isActive
+        return featureFlags.moreInfoAFShOrDFP == .dfp
     }
     var dfpContentURL: String? {
         guard let listingId = currentListingViewModel?.listing.value.objectId else { return nil}
@@ -194,19 +199,16 @@ class ListingCarouselViewModel: BaseViewModel {
         let term = popularItems.random() ?? "iphone"
         return term
     }
-    var adRequestChannel: String? {
-        switch featureFlags.moreInfoAdActive {
-        case .titleFirst:
-            return "ios_moreinfo_var_a"
-        case .cloudsightFirst:
-            return "ios_moreinfo_var_b"
-        case .control, .baseline:
-            return nil
-        }
-    }
 
-    var currentAdRequestType: AdRequestType? = .shopping
-    var currentAdRequestQueryType: AdRequestQueryType? = .listingTitle
+    var currentAdRequestType: AdRequestType? {
+        if afshAdActive {
+            return .shopping
+        } else if dfpAdActive {
+            return .dfp
+        }
+        return nil
+    }
+    var currentAdRequestQueryType: AdRequestQueryType? = nil
     var adRequestQuery: String? = nil
     var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
     let sideMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6) ? Metrics.margin : 0
@@ -343,7 +345,6 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
         guard let viewModel = viewModelAt(index: index) else { return }
-        currentAdRequestType = .shopping
         adBannerTrackingStatus = nil
         currentListingViewModel?.active = false
         currentListingViewModel?.delegate = nil
@@ -435,12 +436,11 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func makeAFShoppingRequestWithWidth(width: CGFloat) -> GADDynamicHeightSearchRequest {
-        currentAdRequestType = .shopping
-
-        adRequestQuery = makeAdsRequestQuery()
+        adRequestQuery = makeAFShRequestQuery()
         let adWidth = width-(2*sideMargin)
-        let adsRequest = adsRequester.makeAFShoppingRequestWithQuery(query: adRequestQuery, width: adWidth)
-        adsRequest.channel = adRequestChannel
+        let adsRequest = adsRequester.makeAFShoppingRequestWithQuery(query: adRequestQuery,
+                                                                     width: adWidth,
+                                                                     channel: ListingCarouselViewModel.adRequestChannel)
         return adsRequest
     }
 
@@ -635,11 +635,9 @@ class ListingCarouselViewModel: BaseViewModel {
         }
     }
 
-    private func makeAdsRequestQuery() -> String {
+    private func makeAFShRequestQuery() -> String {
 
-        let useTitleForQuery = featureFlags.moreInfoAdActive == .titleFirst
-
-        if let title = productInfo.value?.title, useTitleForQuery {
+        if let title = productInfo.value?.title {
             currentAdRequestQueryType = .listingTitle
             return title
         } else if let autoTitle = productInfo.value?.titleAuto {

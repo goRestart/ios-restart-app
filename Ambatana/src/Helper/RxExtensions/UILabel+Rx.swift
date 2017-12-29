@@ -21,4 +21,10 @@ extension Reactive where Base: UILabel {
             label.textColor = color
         }
     }
+    
+    public var isEnabled: UIBindingObserver<Base, Bool> {
+        return UIBindingObserver(UIElement: self.base) { control, value in
+            control.isEnabled = value
+        }
+    }
 }

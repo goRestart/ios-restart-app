@@ -72,6 +72,11 @@ final class LGListingRepository: ListingRepository {
         dataSource.indexRelatedListings(listingId, parameters: params.relatedProductsApiParams,
                                         completion: updateCompletion(completion))
     }
+    
+    func indexRelatedRealEstate(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?) {
+        dataSource.indexRelatedRealEstate(listingId, parameters: params.relatedProductsApiParams,
+                                          completion: updateCompletion(completion))
+    }
 
     func indexDiscover(listingId: String, params: RetrieveListingParams, completion: ListingsCompletion?)  {
         dataSource.indexDiscoverListings(listingId, parameters: params.relatedProductsApiParams,
@@ -102,6 +107,16 @@ final class LGListingRepository: ListingRepository {
 
     func retrieve(_ listingId: String, completion: ListingCompletion?) {
         dataSource.retrieve(listingId) { result in
+            if let value = result.value {
+                completion?(ListingResult(value: value))
+            } else if let error = result.error {
+                completion?(ListingResult(error: RepositoryError(apiError: error)))
+            }
+        }
+    }
+    
+    func retrieveRealEstate(_ listingId: String, completion: ListingCompletion?) {
+        dataSource.retrieveRealEstate(listingId) { result in
             if let value = result.value {
                 completion?(ListingResult(value: value))
             } else if let error = result.error {

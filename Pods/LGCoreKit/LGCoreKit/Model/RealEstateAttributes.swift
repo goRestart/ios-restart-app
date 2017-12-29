@@ -20,7 +20,7 @@ public enum RealEstatePropertyType: String {
     case house = "house"
     case room = "room"
     case commercial = "commercial"
-    case other = "other"
+    case other = "others"
 }
 
 public struct RealEstateAttributes: Equatable {

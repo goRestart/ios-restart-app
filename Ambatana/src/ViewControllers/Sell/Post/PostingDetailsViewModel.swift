@@ -9,7 +9,11 @@
 import RxSwift
 import LGCoreKit
 
-class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
+protocol PostingDetailsViewModelDelegate: BaseViewModelDelegate {}
+
+class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDelegate, PostingAddDetailSummaryTableViewDelegate {
+    
+    weak var delegate: PostingDetailsViewModelDelegate?
     
     var title: String {
         return step.title
@@ -100,7 +104,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .year, .make, .model:
             return nil
         }
-        let view: PostingAddDetailTableView = PostingAddDetailTableView(values: values, delegate: self)
+        let view = PostingAttributePickerTableView(values: values, selectedIndex: nil, delegate: self)
         return view
     }
     
@@ -117,6 +121,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     private let locationManager: LocationManager
     private let featureFlags: FeatureFlaggeable
     private let myUserRepository: MyUserRepository
+    private let sessionManager: SessionManager
     
     private let step: PostingDetailStep
     private var postListingState: PostListingState
@@ -148,7 +153,8 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
                   currencyHelper: Core.currencyHelper,
                   locationManager: Core.locationManager,
                   featureFlags: FeatureFlags.sharedInstance,
-                  myUserRepository: Core.myUserRepository)
+                  myUserRepository: Core.myUserRepository,
+                  sessionManager: Core.sessionManager)
     }
     
     init(step: PostingDetailStep,
@@ -161,7 +167,8 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
          currencyHelper: CurrencyHelper,
          locationManager: LocationManager,
          featureFlags: FeatureFlaggeable,
-         myUserRepository: MyUserRepository) {
+         myUserRepository: MyUserRepository,
+         sessionManager: SessionManager) {
         self.step = step
         self.postListingState = postListingState
         self.uploadedImageSource = uploadedImageSource
@@ -173,6 +180,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         self.locationManager = locationManager
         self.featureFlags = featureFlags
         self.myUserRepository = myUserRepository
+        self.sessionManager = sessionManager
     }
     
     func closeButtonPressed() {
@@ -181,7 +189,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
     
     func nextbuttonPressed() {
         guard let next = step.nextStep else {
-            post()
+            postListing(buttonNameType: .summary)
             return
         }
         switch step {
@@ -192,58 +200,88 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         case .bathrooms, .bedrooms, .make, .model, .year, .offerType, .propertyType, .summary:
             break
         }
-        if step == .price {
-            set(price: priceListing.value)
-        }
         let nextStep = previousStepIsSummary ? .summary : next
         advanceNextStep(next: nextStep)
     }
     
-    private func post() {
-        guard let listingCreationParams = retrieveListingParams() else {
-            navigator?.cancelPostListing()
-            return
-        }
-        let trackingInfo = retrieveTrackingInfo()
-        navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: { [weak self] in
-            self?.navigator?.openListingCreation(listingParams: listingCreationParams, trackingInfo: trackingInfo)
-            }, cancelAction: { [weak self] in
-                self?.navigator?.cancelPostListing()
-        })
-    }
     
     private func closeAndPost() {
-        guard let listingCreationParams = retrieveListingParams() else {
-            navigator?.cancelPostListing()
-            return
+        if postListingState.pendingToUploadImages != nil {
+            openPostAbandonAlertNotLoggedIn()
+        } else {
+            guard let _ = postListingState.lastImagesUploadResult?.value else {
+                navigator?.cancelPostListing()
+                return
+            }
+            if let listingParams = retrieveListingParams() {
+                let trackingInfo = PostListingTrackingInfo(buttonName: .close,
+                                                           sellButtonPosition: postingSource.sellButtonPosition,
+                                                           imageSource: uploadedImageSource,
+                                                           price: String.fromPriceDouble(postListingState.price?.value ?? 0))
+                navigator?.closePostProductAndPostInBackground(params: listingParams,
+                                                               trackingInfo: trackingInfo)
+            } else {
+                navigator?.cancelPostListing()
+            }
         }
-        let trackingInfo = retrieveTrackingInfo()
-        navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: { [weak self] in
-            self?.navigator?.closePostProductAndPostInBackground(params: listingCreationParams, trackingInfo: trackingInfo)
-            }, cancelAction: { [weak self] in
-                self?.navigator?.cancelPostListing()
+    }
+    
+    private func openPostAbandonAlertNotLoggedIn() {
+        let title = LGLocalizedString.productPostCloseAlertTitle
+        let message = LGLocalizedString.productPostCloseAlertDescription
+        let cancelAction = UIAction(interface: .text(LGLocalizedString.productPostCloseAlertCloseButton), action: { [weak self] in
+            self?.navigator?.cancelPostListing()
         })
+        let postAction = UIAction(interface: .text(LGLocalizedString.productPostCloseAlertOkButton), action: { [weak self] in
+            self?.postListing(buttonNameType: .close)
+        })
+        delegate?.vmShowAlert(title, message: message, actions: [cancelAction, postAction])
+    }
+    
+    private  func postListing(buttonNameType: EventParameterButtonNameType) {
+        let trackingInfo = PostListingTrackingInfo(buttonName: buttonNameType, sellButtonPosition: postingSource.sellButtonPosition,
+                                                   imageSource: uploadedImageSource, price: String.fromPriceDouble(postListingState.price?.value ?? 0))
+        if sessionManager.loggedIn {
+            openListingPosting(trackingInfo: trackingInfo)
+        } else if let images = postListingState.pendingToUploadImages {
+            let loggedInAction = { [weak self] in
+                self?.postActionAfterLogin(images: images, trackingInfo: trackingInfo)
+                return
+            }
+            let cancelAction = { [weak self] in
+                self?.cancelPostListing()
+                return
+            }
+            navigator?.openLoginIfNeededFromListingPosted(from: .sell, loggedInAction: loggedInAction, cancelAction: cancelAction)
+        } else {
+            navigator?.cancelPostListing()
+        }
+    }
+    
+    
+    private func openListingPosting(trackingInfo: PostListingTrackingInfo) {
+        guard let _ = postListingState.lastImagesUploadResult?.value, let listingCreationParams = retrieveListingParams() else { return }
+        navigator?.openListingCreation(listingParams: listingCreationParams, trackingInfo: trackingInfo)
+    }
+    
+    private func cancelPostListing() {
+        navigator?.cancelPostListing()
+    }
+    
+    private func postActionAfterLogin(images: [UIImage]?,
+                                      trackingInfo: PostListingTrackingInfo) {
+        guard let listingParams = retrieveListingParams(), let images = images else { return }
+        navigator?.closePostProductAndPostLater(params: listingParams,
+                                                      images: images,
+                                                      trackingInfo: trackingInfo)
     }
     
     private func advanceNextStep(next: PostingDetailStep) {
         navigator?.nextPostingDetailStep(step: next, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, previousStepIsSummary: false)
     }
     
-    private func postListing() {
-        guard let listingCreationParams = retrieveListingParams() else {
-            navigator?.cancelPostListing()
-            return
-        }
-        let trackingInfo = retrieveTrackingInfo()
-        navigator?.closePostProductAndPostInBackground(params: listingCreationParams, trackingInfo: trackingInfo)
-    }
-    
     private func set(price: ListingPrice) {
         postListingState = postListingState.updating(price: price)
-    }
-    
-    private func retrieveTrackingInfo() -> PostListingTrackingInfo {
-        return PostListingTrackingInfo(buttonName: .summary, sellButtonPosition: postingSource.sellButtonPosition, imageSource: uploadedImageSource, price: String(describing: postListingState.price?.value))
     }
     
     private func retrieveListingParams() -> ListingCreationParams? {
@@ -327,7 +365,7 @@ class PostingDetailsViewModel : BaseViewModel, PostingAddDetailTableViewDelegate
         }
     }
     
-    func findValueSelected() -> Int? {
+    func indexForValueSelected() -> Int? {
         var positionSelected: Int? = nil
         switch step {
         case .propertyType:

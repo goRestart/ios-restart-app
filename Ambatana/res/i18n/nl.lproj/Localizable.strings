@@ -252,7 +252,7 @@
 "direct_answer_condition_title" = "Staat...";
 "direct_answer_describe_condition" = "Kun je de staat ervan beschrijven?";
 "direct_answer_free_available" = "Ja, het is nog beschikbaar";
-"direct_answer_free_no_available" = "Sorry, ik heb het al weggegeven!";
+"direct_answer_free_no_available" = "Sorry, het item is al weggegeven!";
 "direct_answer_free_still_have" = "Is het nog beschikbaar?";
 "direct_answer_free_yours" = "Het is van jou!";
 "direct_answer_given_away_question_message" = "Markeer je item als weggegeven zodat alle letgo gebruikers dit weten";

@@ -21,11 +21,6 @@
         "description": "User can bump paying"
     },
     {
-        "name": "CaptchaTransparent",
-        "values": ["No", "Yes"],
-        "description": "Captcha transparent"
-    },
-    {
         "name": "NewCarsMultiRequesterEnabled",
         "values": ["no", "yes"],
         "description": "Cars multi requester enabled"
@@ -72,7 +67,7 @@
     },
     {
         "name": "RealEstateEnabled",
-        "values": ["no", "yes"],
+        "values": ["control", "baseline", "active"],
         "description": "Allow to see Real Estate category"
     },
     {
@@ -94,11 +89,6 @@
         "name": "NewBumpUpExplanation",
         "values": ["control", "baseline", "active"],
         "description": "show new bump up explanation view"
-    },
-    {
-        "name": "MoreInfoAdActive",
-        "values": ["control", "baseline", "titleFirst", "cloudsightFirst"],
-        "description": "show the ad in more info"
     },
     {
         "name": "HomeRelatedEnabled",
@@ -141,14 +131,19 @@
         "description": "Show a bump up alert after posting (once every 24h)"
     },
     {
-        "name": "MoreInfoDFPActive",
-        "values": ["control", "baseline", "active"],
-        "description": "show the ad in more info using DFP"
-    },
-    {
         "name": "CopyListingAnotherConfirmation",
         "values": ["control", "baseline", "active"],
         "description": "Show listing instead of product on confirmation screen"
+    },
+    {
+        "name": "MoreInfoAFShOrDFP",
+        "values": ["control", "baseline", "afsh", "dfp"],
+        "description": "show ad in more info, could be Adsense for shopping or DFP"
+    },
+    {
+        "name": "ShowSecurityMeetingChatMessage",
+        "values": ["control", "baseline", "active"],
+        "description": "show a disclaimer message on chat after the first conversation from the interlocutor"
     },
     {
         "name": "AllowCallsForProfessionals",

@@ -22,6 +22,7 @@ struct ListingVMProductInfo {
     let distance: String?
     let creationDate: Date?
     let category: ListingCategory?
+    fileprivate(set) var attributeTags: [String]?
 
     init(listing: Listing, isAutoTranslated: Bool, distance: String?, freeModeAllowed: Bool) {
         self.title = listing.title
@@ -36,5 +37,18 @@ struct ListingVMProductInfo {
         self.distance = distance
         self.creationDate = listing.createdAt
         self.category = listing.category
+        self.attributeTags = tags(for: listing)
+    }
+}
+
+fileprivate extension ListingVMProductInfo {
+    
+    func tags(for listing: Listing) -> [String]? {
+        switch listing {
+        case .product, .car:
+            return nil
+        case .realEstate(let realEstate):
+            return realEstate.realEstateAttributes.generateTags()
+        }
     }
 }

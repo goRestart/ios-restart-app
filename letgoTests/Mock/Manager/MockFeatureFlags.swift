@@ -22,7 +22,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var surveyUrl: String = ""
     var surveyEnabled: Bool = false
 
-    var captchaTransparent: Bool = false
     var freeBumpUpEnabled: Bool = false
     var pricedBumpUpEnabled: Bool = false
     var newCarsMultiRequesterEnabled: Bool = false
@@ -37,11 +36,10 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newItemPage: NewItemPage = .control
 
     var searchAutocomplete: SearchAutocomplete = .control
-    var realEstateEnabled: Bool = false
+    var realEstateEnabled: RealEstateEnabled = .control
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
     var newBumpUpExplanation: NewBumpUpExplanation = .control
-    var moreInfoAdActive: MoreInfoAdActive = .control
     var homeRelatedEnabled: HomeRelatedEnabled = .control
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells = .control
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
@@ -49,9 +47,10 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation = .control
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell = .control
-    var moreInfoDFPActive: MoreInfoDFPActive = .control
     var copyListingAnotherConfirmation: CopyListingAnotherConfirmation = .control
     var allowCallsForProfessionals: AllowCallsForProfessionals = .control
+    var moreInfoAFShOrDFP: MoreInfoAFShOrDFP = .control
+    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
 
     // Country dependant features
     var freePostingModeAllowed = false

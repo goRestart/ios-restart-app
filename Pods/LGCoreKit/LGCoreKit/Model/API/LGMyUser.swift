@@ -63,7 +63,7 @@ struct LGMyUser: MyUser {
     var localeIdentifier: String?
 
     init(objectId: String?, name: String?, avatar: LGFile?, accounts: [LGAccount],
-         ratingAverage: Float?, ratingCount: Int, status: UserStatus?, phone: String?, type: UserType?,
+         ratingAverage: Float?, ratingCount: Int, status: UserStatus?, phone: String?, type: UserType,
          email: String?, location: LGLocation?, localeIdentifier: String?) {
         self.objectId = objectId
 
@@ -77,7 +77,7 @@ struct LGMyUser: MyUser {
         self.status = status ?? .active
 
         self.phone = phone
-        self.type = type ?? .user
+        self.type = type
 
         self.email = email
         self.location = location
@@ -157,7 +157,7 @@ extension LGMyUser: Decodable {
         let result07 = result06 <*> j <| keys.ratingCount
         let result08 = result07 <*> j <|? keys.status
         let result09 = result08 <*> j <|? keys.phone
-        let result10 = result09 <*> j <|? keys.type
+        let result10 = result09 <*> j <| keys.type
         let result11 = result10 <*> j <|? keys.email
         let result12 = result11 <*> LGArgo.jsonToLocation(j, latKey: keys.latitude, lonKey: keys.longitude,
                                                           typeKey: keys.locationType)

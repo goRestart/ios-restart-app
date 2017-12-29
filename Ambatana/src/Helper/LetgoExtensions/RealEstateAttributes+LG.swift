@@ -9,22 +9,43 @@
 import LGCoreKit
 
 extension RealEstateAttributes {
-    var generatedTitle: String {
-        let separator = " "
-        var title: String = ""
-        
+    
+    func generateTitle() -> String {
         let propertyTypeString = propertyType?.shortLocalizedString.localizedUppercase
-        let offerTypeString = offerType?.shortLocalizedString.localizedUppercase
-        var bedroomsString: String? = nil
-        if let bedroomsRawValue = bedrooms, let bedroomsValue = NumberOfBedrooms(rawValue: bedroomsRawValue) {
+        let offerTypeString = offerType?.shortLocalizedString.capitalizedFirstLetterOnly
+        var bedroomsString: String?
+        if let bedroomsRawValue = bedrooms,
+            let bedroomsValue = NumberOfBedrooms(rawValue: bedroomsRawValue)
+        {
             bedroomsString = bedroomsValue.shortLocalizedString.localizedUppercase
         }
-        var bathroomsString: String? = nil
-        if let bathroomsRawValue = bathrooms, let bathroomsValue = NumberOfBathrooms(rawValue: bathroomsRawValue) {
-             bathroomsString = bathroomsValue.shortLocalizedString.localizedUppercase
+        var bathroomsString: String?
+        if let bathroomsRawValue = bathrooms,
+            let bathroomsValue = NumberOfBathrooms(rawValue: bathroomsRawValue),
+            bathroomsValue != .zero
+        {
+            bathroomsString = bathroomsValue.shortLocalizedString.localizedUppercase
         }
-        title = [propertyTypeString, offerTypeString, bedroomsString, bathroomsString].flatMap{ $0 }.joined(separator: separator)
-        
-        return title
+        let attributes = [propertyTypeString, offerTypeString, bedroomsString, bathroomsString]
+        return attributes.flatMap{ $0 }.joined(separator: " ")
     }
+    
+    func generateTags() ->  [String] {
+        var tags = [String]()
+        if let propertyType = propertyType {
+            tags.append(propertyType.shortLocalizedString.localizedUppercase)
+        }
+        if let offerType = offerType {
+            tags.append(offerType.shortLocalizedString.localizedCapitalized)
+        }
+        if let bedrooms = bedrooms, let numBedrooms = NumberOfBedrooms(rawValue: bedrooms) {
+            tags.append(numBedrooms.shortLocalizedString.localizedUppercase)
+        }
+        if let bathrooms = bathrooms, let numBathrooms = NumberOfBathrooms(rawValue: bathrooms) {
+            let bathroomsTag = bathrooms == 0 ? LGLocalizedString.realEstateAttributeTagBathroom0.localizedUppercase : numBathrooms.shortLocalizedString.localizedUppercase
+            tags.append(bathroomsTag)
+        }
+        return tags
+    }
+    
 }

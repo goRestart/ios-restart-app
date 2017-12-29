@@ -32,13 +32,13 @@ final class LGUserRepository: InternalUserRepository {
      */
     func show(_ userId: String, completion: UserCompletion?) {
         if let user = cache.retrieve(userId: userId) {
-            handleApiResult(Result(value: user), success: nil, completion: completion)
+            handleApiResult(Result(value: user), completion: completion)
         } else {
             dataSource.show(userId) { [weak self] result in
                 if let user = result.value {
                     self?.cache.save(user: user)
                 }
-                handleApiResult(result, success: nil, completion: completion)
+                handleApiResult(result, completion: completion)
             }
         }
     }

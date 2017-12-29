@@ -130,6 +130,19 @@ class MainListingsViewModel: BaseViewModel {
                 resultTags.append(.yearsRange(from: filters.carYearStart?.value, to: filters.carYearEnd?.value))
             }
         }
+        
+        if let propertyType = filters.realEstatePropertyType {
+            resultTags.append(.realEstatePropertyType(propertyType))
+        }
+        if let offerType = filters.realEstateOfferType {
+            resultTags.append(.realEstateOfferType(offerType))
+        }
+        if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
+            resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
+        }
+        if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
+            resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
+        }
 
         return resultTags
     }
@@ -149,13 +162,20 @@ class MainListingsViewModel: BaseViewModel {
     var shouldShowInviteButton: Bool {
         return navigator?.canOpenAppInvite() ?? false
     }
-
-    fileprivate var shouldShowNoExactMatchesDisclaimer: Bool {
+    
+    private var carSelectedWithFilters: Bool {
         guard filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy else { return false }
-        if filters.carMakeId != nil || filters.carModelId != nil || filters.carYearStart != nil || filters.carYearEnd != nil {
-            return true
-        }
-        return false
+        return filters.hasAnyCarAttributes
+    }
+    
+    private var realEstateSelectedWithFilters: Bool {
+        guard filters.selectedCategories.contains(.realEstate) else { return false }
+        return filters.hasAnyRealEstateAttributes
+    }
+    
+    fileprivate var shouldShowNoExactMatchesDisclaimer: Bool {
+        guard realEstateSelectedWithFilters || carSelectedWithFilters else { return false }
+        return true
     }
 
     let mainListingsHeader = Variable<MainListingsHeader>([])
@@ -364,6 +384,10 @@ class MainListingsViewModel: BaseViewModel {
         var modelName: String? = nil
         var carYearStart: Int? = nil
         var carYearEnd: Int? = nil
+        var realEstatePropertyType: RealEstatePropertyType? = nil
+        var realEstateOfferType: RealEstateOfferType? = nil
+        var realEstateNumberOfBedrooms: NumberOfBedrooms? = nil
+        var realEstateNumberOfBathrooms: NumberOfBathrooms? = nil
 
         for filterTag in tags {
             switch filterTag {
@@ -397,6 +421,14 @@ class MainListingsViewModel: BaseViewModel {
             case .yearsRange(let startYear, let endYear):
                 carYearStart = startYear
                 carYearEnd = endYear
+            case .realEstatePropertyType(let propertyType):
+                realEstatePropertyType = propertyType
+            case .realEstateOfferType(let offerType):
+                realEstateOfferType = offerType
+            case .realEstateNumberOfBedrooms(let numberOfBedrooms):
+                realEstateNumberOfBedrooms = numberOfBedrooms
+            case .realEstateNumberOfBathrooms(let numberOfBathrooms):
+                realEstateNumberOfBathrooms = numberOfBathrooms
             }
         }
 
@@ -463,6 +495,10 @@ class MainListingsViewModel: BaseViewModel {
             filters.carYearEnd = nil
         }
         
+        filters.realEstatePropertyType = realEstatePropertyType
+        filters.realEstateOfferType = realEstateOfferType
+        filters.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
+        filters.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
         
         updateCategoriesHeader()
         updateListView()
@@ -583,7 +619,7 @@ class MainListingsViewModel: BaseViewModel {
         if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
             categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
         } else {
-            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(realEstateIncluded: false).map { CategoryHeaderElement.listingCategory($0) })
+            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(realEstateIncluded: featureFlags.realEstateEnabled.isActive).map { CategoryHeaderElement.listingCategory($0) })
         }
         return categoryHeaderElements
     }

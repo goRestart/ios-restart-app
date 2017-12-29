@@ -126,8 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Ezt a fiókot a letgo csapata éppen ellenőrzi.";
 "chat_forbidden_disclaimer_seller_w_name" = "Úgy tűnik, %@ már nem érdeklődik a hirdetésed iránt.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Úgy tűnik, ez a felhasználó már nem érdeklődik a hirdetésed iránt.";
-"chat_inactive_conversations_button" = "View archived chats";
-"chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
+"chat_inactive_conversations_button" = "Archivált beszélgetések megtekintése";
+"chat_inactive_conversations_explanation_label" = "A 3 hónapnál régebbi beszélgetések automatikusan archiválódnak.";
 "chat_list_account_deleted" = "Törölt fiók";
 "chat_list_account_deleted_username" = "Inaktív";
 "chat_list_all_empty_title" = "NINCS BESZÉLGETÉS (EGYELŐRE!)";
@@ -167,7 +167,7 @@
 "chat_product_given_away_label" = "Már elajándékozták";
 "chat_product_sold_label" = "Eladva";
 "chat_professional_banner_button_title" = "Hívás";
-"chat_professional_banner_title" = "You're talking to a professional car dealer";
+"chat_professional_banner_title" = "Hivatásos autókereskedővel beszélsz";
 "chat_related_products_title" = "TALÁN ÉRDEKEL:";
 "chat_safety_tips" = "Biztonsági tanácsaink";
 "chat_safety_tips_message" = "• Találkozzatok személyesen, készpénzt használjatok.\n\n• A letgo chaten beszéljétek meg a tranzakciót.\n\n• Túl szép, hogy igaz legyen? Keress valaki mást!";

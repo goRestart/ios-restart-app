@@ -48,6 +48,11 @@ final class ListingApiDataSource: ListingDataSource {
         let request = ListingRouter.indexRelatedListings(listingId: listingId, params: parameters)
         apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
     }
+    
+    func indexRelatedRealEstate(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?) {
+        let request = ListingRouter.indexRelatedRealEstate(listingId: listingId, params: parameters)
+        apiClient.request(request, decoder: ListingApiDataSource.decoderArray, completion: completion)
+    }
 
     func indexDiscoverListings(_ listingId: String, parameters: [String: Any], completion: ListingsDataSourceCompletion?) {
         let request = ListingRouter.indexDiscoverListings(listingId: listingId, params: parameters)
@@ -66,6 +71,11 @@ final class ListingApiDataSource: ListingDataSource {
 
     func retrieve(_ listingId: String, completion: ListingDataSourceCompletion?) {
         let request = ListingRouter.show(listingId: listingId)
+        apiClient.request(request, decoder: ListingApiDataSource.decoder, completion: completion)
+    }
+    
+    func retrieveRealEstate(_ listingId: String, completion: ListingDataSourceCompletion?) {
+        let request = ListingRouter.showRealEstate(listingId: listingId)
         apiClient.request(request, decoder: ListingApiDataSource.decoder, completion: completion)
     }
 
@@ -94,8 +104,8 @@ final class ListingApiDataSource: ListingDataSource {
             request = ListingRouter.update(listingId: productParams.productId, params: productParams.apiEditionEncode())
             apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
         case .realEstate(let realEstateParams):
-            request = ListingRouter.update(listingId: realEstateParams.realEstateId, params: realEstateParams.apiEditionEncode())
-            apiClient.request(request, decoder: ListingApiDataSource.productDecoder, completion: completion)
+            request = ListingRouter.updateRealEstate(listingId: realEstateParams.realEstateId, params: realEstateParams.apiEditionEncode())
+            apiClient.request(request, decoder: ListingApiDataSource.realEstateDecoder, completion: completion)
         }
     }
 

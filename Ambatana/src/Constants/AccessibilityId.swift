@@ -274,6 +274,9 @@ enum AccessibilityId: String {
     case editListingShareFBSwitch
     case editListingLoadingView
     case editListingPostFreeSwitch
+    case editListingOptionSelector
+    case editListingOptionSelectorTitleLabel
+    case editListingOptionSelectorCurrentValueLabel
 
     // ReportUser
     case reportUserCollection

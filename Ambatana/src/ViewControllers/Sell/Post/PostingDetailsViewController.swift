@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewControllerModelDelegate {
+class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewControllerModelDelegate, PostingDetailsViewModelDelegate {
     
     fileprivate static let titleHeight: CGFloat = 60
     fileprivate static let skipButtonMinimumWidth: CGFloat = 100
@@ -31,7 +31,7 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     
     init(viewModel: PostingDetailsViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: nil)
+        super.init(viewModel: viewModel, nibName: nil, swipeBackGestureEnabled: false)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,6 +40,7 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.delegate = self
         navigationController?.setNavigationBarHidden(false, animated: false)
         setupConstraints()
         setupUI()

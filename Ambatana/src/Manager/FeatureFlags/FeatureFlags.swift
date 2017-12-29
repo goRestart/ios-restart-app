@@ -21,7 +21,6 @@ protocol FeatureFlaggeable: class {
     var surveyUrl: String { get }
     var surveyEnabled: Bool { get }
 
-    var captchaTransparent: Bool { get }
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
     var newCarsMultiRequesterEnabled: Bool { get }
@@ -34,11 +33,10 @@ protocol FeatureFlaggeable: class {
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
     var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var searchAutocomplete: SearchAutocomplete { get }
-    var realEstateEnabled: Bool { get }
+    var realEstateEnabled: RealEstateEnabled { get }
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
-    var moreInfoAdActive: MoreInfoAdActive { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
     var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
@@ -47,9 +45,13 @@ protocol FeatureFlaggeable: class {
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
-    var moreInfoDFPActive: MoreInfoDFPActive { get }
     var copyListingAnotherConfirmation: CopyListingAnotherConfirmation { get }
+<<<<<<< HEAD
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
+=======
+    var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
+    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
+>>>>>>> master
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -79,14 +81,6 @@ extension ShowPriceAfterSearchOrFilter {
     var isActive: Bool { get { return self == .priceOnSearchOrFilter } }
 }
 
-extension MoreInfoAdActive {
-    var isActive: Bool { get { return self == .titleFirst || self == .cloudsightFirst } }
-}
-
-extension MoreInfoDFPActive {
-    var isActive: Bool { get { return self == .active } }
-}
-
 extension HomeRelatedEnabled {
     var isActive: Bool { get { return self == .active } }
 }
@@ -111,10 +105,20 @@ extension CopyListingAnotherConfirmation {
     var isActive: Bool { get { return self == .active } }
 }
 
+<<<<<<< HEAD
 extension AllowCallsForProfessionals {
     var isActive: Bool { get { return self == .active } }
 }
 
+=======
+extension ShowSecurityMeetingChatMessage {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension RealEstateEnabled {
+    var isActive: Bool { get { return self == .active } }
+}
+>>>>>>> master
 
 class FeatureFlags: FeatureFlaggeable {
 
@@ -202,13 +206,6 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.surveyEnabled.value
     }
 
-    var captchaTransparent: Bool {
-        if Bumper.enabled {
-            return Bumper.captchaTransparent
-        }
-        return abTests.captchaTransparent.value
-    }
-
     var freeBumpUpEnabled: Bool {
         if Bumper.enabled {
             return Bumper.freeBumpUpEnabled
@@ -293,11 +290,12 @@ class FeatureFlags: FeatureFlaggeable {
         return SearchAutocomplete.fromPosition(abTests.searchAutocomplete.value)
     }
 
-    var realEstateEnabled: Bool {
+    var realEstateEnabled: RealEstateEnabled
+    {
         if Bumper.enabled {
             return Bumper.realEstateEnabled
         }
-        return false
+        return RealEstateEnabled.fromPosition(abTests.realEstateEnabled.value)
     }
     
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
@@ -328,13 +326,6 @@ class FeatureFlags: FeatureFlaggeable {
         return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
     }
 
-    var moreInfoAdActive: MoreInfoAdActive {
-        if Bumper.enabled {
-            return Bumper.moreInfoAdActive
-        }
-        return MoreInfoAdActive.fromPosition(abTests.moreInfoAdActive.value)
-    }
-  
     var newItemPage: NewItemPage {
         if Bumper.enabled {
             return Bumper.newItemPage
@@ -391,13 +382,19 @@ class FeatureFlags: FeatureFlaggeable {
         return AllowCallsForProfessionals.fromPosition(abTests.allowCallsForProfessionals.value)
     }
 
-    var moreInfoDFPActive: MoreInfoDFPActive {
+    var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
         if Bumper.enabled {
-            return Bumper.moreInfoDFPActive
+            return Bumper.moreInfoAFShOrDFP
         }
-        return MoreInfoDFPActive.fromPosition(abTests.moreInfoDFPActive.value)
+        return MoreInfoAFShOrDFP.fromPosition(abTests.moreInfoAFShOrDFP.value)
     }
     
+    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
+        if Bumper.enabled {
+            return Bumper.showSecurityMeetingChatMessage
+        }
+        return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
+    }
 
     // MARK: - Country features
 

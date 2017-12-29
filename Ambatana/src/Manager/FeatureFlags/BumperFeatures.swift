@@ -17,7 +17,6 @@ extension Bumper  {
         flags.append(SurveyEnabled.self)
         flags.append(FreeBumpUpEnabled.self)
         flags.append(PricedBumpUpEnabled.self)
-        flags.append(CaptchaTransparent.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
         flags.append(InAppRatingIOS10.self)
         flags.append(TweaksCarPostingFlow.self)
@@ -32,7 +31,6 @@ extension Bumper  {
         flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
         flags.append(NewBumpUpExplanation.self)
-        flags.append(MoreInfoAdActive.self)
         flags.append(HomeRelatedEnabled.self)
         flags.append(HideChatButtonOnFeaturedCells.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
@@ -41,8 +39,9 @@ extension Bumper  {
         flags.append(ShowClockInDirectAnswer.self)
         flags.append(BumpUpPriceDifferentiation.self)
         flags.append(PromoteBumpUpAfterSell.self)
-        flags.append(MoreInfoDFPActive.self)
         flags.append(CopyListingAnotherConfirmation.self)
+        flags.append(MoreInfoAFShOrDFP.self)
+        flags.append(ShowSecurityMeetingChatMessage.self)
         flags.append(AllowCallsForProfessionals.self)
         Bumper.initialize(flags)
     } 
@@ -65,11 +64,6 @@ extension Bumper  {
     static var pricedBumpUpEnabled: Bool {
         guard let value = Bumper.value(for: PricedBumpUpEnabled.key) else { return false }
         return PricedBumpUpEnabled(rawValue: value)?.asBool ?? false
-    }
-
-    static var captchaTransparent: Bool {
-        guard let value = Bumper.value(for: CaptchaTransparent.key) else { return false }
-        return CaptchaTransparent(rawValue: value)?.asBool ?? false
     }
 
     static var newCarsMultiRequesterEnabled: Bool {
@@ -117,9 +111,9 @@ extension Bumper  {
         return DefaultRadiusDistanceFeed(rawValue: value) ?? .control 
     }
 
-    static var realEstateEnabled: Bool {
-        guard let value = Bumper.value(for: RealEstateEnabled.key) else { return false }
-        return RealEstateEnabled(rawValue: value)?.asBool ?? false
+    static var realEstateEnabled: RealEstateEnabled {
+        guard let value = Bumper.value(for: RealEstateEnabled.key) else { return .control }
+        return RealEstateEnabled(rawValue: value) ?? .control 
     }
 
     static var searchAutocomplete: SearchAutocomplete {
@@ -140,11 +134,6 @@ extension Bumper  {
     static var newBumpUpExplanation: NewBumpUpExplanation {
         guard let value = Bumper.value(for: NewBumpUpExplanation.key) else { return .control }
         return NewBumpUpExplanation(rawValue: value) ?? .control 
-    }
-
-    static var moreInfoAdActive: MoreInfoAdActive {
-        guard let value = Bumper.value(for: MoreInfoAdActive.key) else { return .control }
-        return MoreInfoAdActive(rawValue: value) ?? .control 
     }
 
     static var homeRelatedEnabled: HomeRelatedEnabled {
@@ -187,14 +176,19 @@ extension Bumper  {
         return PromoteBumpUpAfterSell(rawValue: value) ?? .control 
     }
 
-    static var moreInfoDFPActive: MoreInfoDFPActive {
-        guard let value = Bumper.value(for: MoreInfoDFPActive.key) else { return .control }
-        return MoreInfoDFPActive(rawValue: value) ?? .control 
-    }
-
     static var copyListingAnotherConfirmation: CopyListingAnotherConfirmation {
         guard let value = Bumper.value(for: CopyListingAnotherConfirmation.key) else { return .control }
         return CopyListingAnotherConfirmation(rawValue: value) ?? .control 
+    }
+
+    static var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
+        guard let value = Bumper.value(for: MoreInfoAFShOrDFP.key) else { return .control }
+        return MoreInfoAFShOrDFP(rawValue: value) ?? .control 
+    }
+
+    static var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
+        guard let value = Bumper.value(for: ShowSecurityMeetingChatMessage.key) else { return .control }
+        return ShowSecurityMeetingChatMessage(rawValue: value) ?? .control 
     }
 
     static var allowCallsForProfessionals: AllowCallsForProfessionals {
@@ -237,15 +231,6 @@ enum PricedBumpUpEnabled: String, BumperFeature  {
     static var enumValues: [PricedBumpUpEnabled] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "User can bump paying" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum CaptchaTransparent: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return CaptchaTransparent.no.rawValue }
-    static var enumValues: [CaptchaTransparent] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Captcha transparent" } 
     var asBool: Bool { return self == .yes }
 }
 
@@ -371,12 +356,19 @@ enum DefaultRadiusDistanceFeed: String, BumperFeature  {
 }
 
 enum RealEstateEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return RealEstateEnabled.no.rawValue }
-    static var enumValues: [RealEstateEnabled] { return [.no, .yes]}
+    case control, baseline, active
+    static var defaultValue: String { return RealEstateEnabled.control.rawValue }
+    static var enumValues: [RealEstateEnabled] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Allow to see Real Estate category" } 
-    var asBool: Bool { return self == .yes }
+    static func fromPosition(_ position: Int) -> RealEstateEnabled {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
 }
 
 enum SearchAutocomplete: String, BumperFeature  {
@@ -440,23 +432,6 @@ enum NewBumpUpExplanation: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum MoreInfoAdActive: String, BumperFeature  {
-    case control, baseline, titleFirst, cloudsightFirst
-    static var defaultValue: String { return MoreInfoAdActive.control.rawValue }
-    static var enumValues: [MoreInfoAdActive] { return [.control, .baseline, .titleFirst, .cloudsightFirst]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show the ad in more info" } 
-    static func fromPosition(_ position: Int) -> MoreInfoAdActive {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .titleFirst
-            case 3: return .cloudsightFirst
             default: return .control
         }
     }
@@ -590,13 +565,13 @@ enum PromoteBumpUpAfterSell: String, BumperFeature  {
     }
 }
 
-enum MoreInfoDFPActive: String, BumperFeature  {
+enum CopyListingAnotherConfirmation: String, BumperFeature  {
     case control, baseline, active
-    static var defaultValue: String { return MoreInfoDFPActive.control.rawValue }
-    static var enumValues: [MoreInfoDFPActive] { return [.control, .baseline, .active]}
+    static var defaultValue: String { return CopyListingAnotherConfirmation.control.rawValue }
+    static var enumValues: [CopyListingAnotherConfirmation] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show the ad in more info using DFP" } 
-    static func fromPosition(_ position: Int) -> MoreInfoDFPActive {
+    static var description: String { return "Show listing instead of product on confirmation screen" } 
+    static func fromPosition(_ position: Int) -> CopyListingAnotherConfirmation {
         switch position { 
             case 0: return .control
             case 1: return .baseline
@@ -606,13 +581,30 @@ enum MoreInfoDFPActive: String, BumperFeature  {
     }
 }
 
-enum CopyListingAnotherConfirmation: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return CopyListingAnotherConfirmation.control.rawValue }
-    static var enumValues: [CopyListingAnotherConfirmation] { return [.control, .baseline, .active]}
+enum MoreInfoAFShOrDFP: String, BumperFeature  {
+    case control, baseline, afsh, dfp
+    static var defaultValue: String { return MoreInfoAFShOrDFP.control.rawValue }
+    static var enumValues: [MoreInfoAFShOrDFP] { return [.control, .baseline, .afsh, .dfp]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show listing instead of product on confirmation screen" } 
-    static func fromPosition(_ position: Int) -> CopyListingAnotherConfirmation {
+    static var description: String { return "show ad in more info, could be Adsense for shopping or DFP" } 
+    static func fromPosition(_ position: Int) -> MoreInfoAFShOrDFP {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .afsh
+            case 3: return .dfp
+            default: return .control
+        }
+    }
+}
+
+enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowSecurityMeetingChatMessage.control.rawValue }
+    static var enumValues: [ShowSecurityMeetingChatMessage] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show a disclaimer message on chat after the first conversation from the interlocutor" } 
+    static func fromPosition(_ position: Int) -> ShowSecurityMeetingChatMessage {
         switch position { 
             case 0: return .control
             case 1: return .baseline

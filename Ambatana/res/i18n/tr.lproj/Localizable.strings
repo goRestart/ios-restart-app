@@ -252,7 +252,7 @@
 "direct_answer_condition_title" = "Durum...";
 "direct_answer_describe_condition" = "Durumu hakkında bilgi verebilir misin?";
 "direct_answer_free_available" = "Evet, hala satılık";
-"direct_answer_free_no_available" = "Üzgünüm, ürünü çoktan başkasına verdim!";
+"direct_answer_free_no_available" = "Üzgünüm, başkasına bağışladım!";
 "direct_answer_free_still_have" = "Ürün hala satılık mı?";
 "direct_answer_free_yours" = "Senin oldu!";
 "direct_answer_given_away_question_message" = "Bağışlandı olarak işaretle ki tüm letgo kullanıcıları bilsin";
