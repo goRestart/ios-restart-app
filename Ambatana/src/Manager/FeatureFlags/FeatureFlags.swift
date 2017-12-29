@@ -25,7 +25,6 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var newCarsMultiRequesterEnabled: Bool { get }
     var inAppRatingIOS10: Bool { get }
-    var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
     var appRatingDialogInactive: Bool { get }
@@ -63,10 +62,6 @@ extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
     }
-}
-
-extension TweaksCarPostingFlow {
-    var isActive: Bool { get { return self == .active } }
 }
 
 extension ExpandableCategorySelectionMenu {
@@ -221,13 +216,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.inAppRatingIOS10
         }
         return abTests.inAppRatingIOS10.value
-    }
-
-    var tweaksCarPostingFlow: TweaksCarPostingFlow {
-        if Bumper.enabled {
-            return Bumper.tweaksCarPostingFlow
-        }
-        return TweaksCarPostingFlow.fromPosition(abTests.tweaksCarPostingFlow.value)
     }
 
     var userReviewsReportEnabled: Bool {

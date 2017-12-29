@@ -19,7 +19,6 @@ extension Bumper  {
         flags.append(PricedBumpUpEnabled.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
         flags.append(InAppRatingIOS10.self)
-        flags.append(TweaksCarPostingFlow.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
         flags.append(AppRatingDialogInactive.self)
@@ -73,11 +72,6 @@ extension Bumper  {
     static var inAppRatingIOS10: Bool {
         guard let value = Bumper.value(for: InAppRatingIOS10.key) else { return false }
         return InAppRatingIOS10(rawValue: value)?.asBool ?? false
-    }
-
-    static var tweaksCarPostingFlow: TweaksCarPostingFlow {
-        guard let value = Bumper.value(for: TweaksCarPostingFlow.key) else { return .control }
-        return TweaksCarPostingFlow(rawValue: value) ?? .control 
     }
 
     static var userReviewsReportEnabled: Bool {
@@ -244,22 +238,6 @@ enum InAppRatingIOS10: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "New in-app rating for iOS 10.3+" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum TweaksCarPostingFlow: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return TweaksCarPostingFlow.control.rawValue }
-    static var enumValues: [TweaksCarPostingFlow] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "car posting summary only at the end" } 
-    static func fromPosition(_ position: Int) -> TweaksCarPostingFlow {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
 }
 
 enum UserReviewsReportEnabled: String, BumperFeature  {

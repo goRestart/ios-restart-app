@@ -73,10 +73,6 @@ class PostListingViewModel: BaseViewModel {
     var selectedCarAttributes: CarAttributes = CarAttributes.emptyCarAttributes()
     var selectedRealEstateAttributes: RealEstateAttributes = RealEstateAttributes.emptyRealEstateAttributes()
     
-    var shouldShowSummaryAfter: Bool {
-        return featureFlags.tweaksCarPostingFlow.isActive
-    }
-    
     var realEstateEnabled: Bool {
         return featureFlags.realEstateEnabled.isActive
     }

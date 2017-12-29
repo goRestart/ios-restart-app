@@ -26,7 +26,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var pricedBumpUpEnabled: Bool = false
     var newCarsMultiRequesterEnabled: Bool = false
     var inAppRatingIOS10: Bool = false
-    var tweaksCarPostingFlow: TweaksCarPostingFlow = .control
     var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
     var locationDataSourceEndpoint: LocationDataSourceEndpoint = .control
