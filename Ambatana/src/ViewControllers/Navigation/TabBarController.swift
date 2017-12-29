@@ -25,6 +25,7 @@ final class TabBarController: UITabBarController {
     // UI
     fileprivate var floatingSellButton: FloatingButton
     fileprivate var floatingSellButtonMarginConstraint = NSLayoutConstraint()
+    fileprivate var isTabbarHidden: Bool = false
 
     fileprivate let viewModel: TabBarViewModel
     fileprivate var tooltip: Tooltip?
@@ -156,11 +157,28 @@ final class TabBarController: UITabBarController {
     dissapear. Also when the tabBar is set again, is added into a different layer so the constraint cannot be set again.
     */
     override func setTabBarHidden(_ hidden:Bool, animated:Bool, completion: ((Bool) -> Void)? = nil) {
+        isTabbarHidden = hidden
         let floatingOffset : CGFloat = (hidden ? -15 : -(tabBar.frame.height + 15))
         floatingSellButtonMarginConstraint.constant = floatingOffset
         super.setTabBarHidden(hidden, animated: animated)
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateTabBarFrame()
+    }
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        updateTabBarFrame()
+    }
+
+    private func updateTabBarFrame() {
+        // We change the tabbar frame manually, so the layout cycle resets it to the natural state
+        if isTabbarHidden {
+            tabBar.frame = CGRect(x: 0, y: view.height, width: tabBar.width, height: tabBar.height)
+        }
+    }
 
     // MARK: - Private methods
     // MARK: > Setup
@@ -186,7 +204,6 @@ final class TabBarController: UITabBarController {
     }
 
     private func setupSellButton() {
-        
         if featureFlags.expandableCategorySelectionMenu.isActive {
             floatingSellButton.buttonTouchBlock = { [weak self] in
                 self?.setupExpandableCategoriesView()
@@ -197,8 +214,13 @@ final class TabBarController: UITabBarController {
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
         floatingSellButton.layout(with: view).centerX()
-        floatingSellButton.layout(with: view).bottom(by: -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance), constraintBlock: {[weak self] in self?.floatingSellButtonMarginConstraint = $0 })
-        floatingSellButton.layout(with: view).leading(by: LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .greaterThanOrEqual).trailing(by: -LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .lessThanOrEqual)
+        floatingSellButton.layout(with: view)
+            .bottom(by: -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance),
+                    constraintBlock: {[weak self] in self?.floatingSellButtonMarginConstraint = $0 })
+        floatingSellButton.layout(with: view)
+            .leading(by: LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .greaterThanOrEqual)
+            .trailing(by: -LGUIKitConstants.tabBarSellFloatingButtonDistance,
+                      relatedBy: .lessThanOrEqual)
     }
     
     
@@ -232,6 +254,8 @@ final class TabBarController: UITabBarController {
     
     
     // MARK: > UI
+    
+    
 }
 
 

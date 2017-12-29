@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -34,7 +35,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cx9-GQ-2WN" customClass="ListingListView" customModule="LetGo" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="Bcs-2y-4c3" userLabel="FilterDescriptionHeaderView">
                     <rect key="frame" x="0.0" y="24" width="375" height="40"/>
@@ -151,14 +152,15 @@
                 <constraint firstItem="quF-a1-B5k" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Yar-2u-8AD"/>
                 <constraint firstAttribute="bottom" secondItem="cx9-GQ-2WN" secondAttribute="bottom" id="eCp-yK-QmV"/>
                 <constraint firstAttribute="centerX" secondItem="xYw-ae-DlH" secondAttribute="centerX" id="ern-bv-UNB"/>
+                <constraint firstItem="m9Z-Ae-vxA" firstAttribute="top" secondItem="cx9-GQ-2WN" secondAttribute="top" id="ge0-tX-7A9"/>
                 <constraint firstAttribute="trailing" secondItem="I2g-ZN-iyr" secondAttribute="trailing" id="gq1-14-cT8"/>
                 <constraint firstItem="KVa-du-ATY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="n0U-ZX-PJn"/>
-                <constraint firstItem="cx9-GQ-2WN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="prm-YV-MFQ"/>
                 <constraint firstItem="Bcs-2y-4c3" firstAttribute="top" secondItem="I2g-ZN-iyr" secondAttribute="bottom" id="tar-Mf-9Lz"/>
                 <constraint firstItem="I2g-ZN-iyr" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" priority="750" constant="24" id="usH-VY-Mca"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+            <viewLayoutGuide key="safeArea" id="m9Z-Ae-vxA"/>
             <point key="canvasLocation" x="513.5" y="498.5"/>
         </view>
     </objects>

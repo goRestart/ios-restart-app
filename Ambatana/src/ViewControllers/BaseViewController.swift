@@ -144,6 +144,13 @@ extension UIViewController {
         }
     }
 
+    var isSafeAreaAvailable: Bool {
+        if #available(iOS 11.0, *) {
+            return true
+        }
+        return false
+    }
+
     var navigationBarHeight: CGFloat {
         guard let navController = navigationController else { return 0 }
         return navController.navigationBar.frame.size.height

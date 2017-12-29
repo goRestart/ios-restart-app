@@ -31,10 +31,11 @@ extension UITabBarController {
         UIView.animate(withDuration: duration, delay: 0, options: [.curveEaseIn], animations: { [weak self] in
             self?.tabBar.frame = frame.offsetBy(dx: 0, dy: offsetY)
             self?.tabBar.layoutIfNeeded()
-            }, completion: completion)
+        }, completion: completion)
     }
 
     func tabBarHidden() -> Bool {
         return tabBar.frame.origin.y >= self.view.frame.maxY
     }
+
 }

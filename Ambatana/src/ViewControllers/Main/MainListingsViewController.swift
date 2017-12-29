@@ -151,18 +151,11 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         view.layoutIfNeeded()
         topInset.value = topBarHeight + filterHeadersHeight
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navbarSearch.endEdit()
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        guard didCallViewDidLoaded else { return }
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -438,9 +431,12 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         viewModel.infoBubbleText.asObservable().bind(to: infoBubbleLabel.rx.text).disposed(by: disposeBag)
         viewModel.infoBubbleVisible.asObservable().map { !$0 }.bind(to: infoBubbleShadow.rx.isHidden).disposed(by: disposeBag)
 
-        topInset.asObservable().bind { [weak self] topInset in
-            self?.listingListView.collectionViewContentInset.top = topInset
-        }.disposed(by: disposeBag)
+        let isSafeAreaAvailable = self.isSafeAreaAvailable
+        topInset.asObservable()
+            .bind { [weak self] topInset in
+                guard !isSafeAreaAvailable else { return }
+                self?.listingListView.collectionViewContentInset.top = topInset
+            }.disposed(by: disposeBag)
 
         viewModel.mainListingsHeader.asObservable().bind { [weak self] header in
             self?.listingListView.refreshDataView()
