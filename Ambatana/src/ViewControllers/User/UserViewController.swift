@@ -148,7 +148,6 @@ class UserViewController: BaseViewController {
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
-        defer { deferedUpdateNavigationBar() }
         super.viewWillAppearFromBackground(fromBackground)
         view.backgroundColor = viewModel.backgroundColor.value
         userBgTintView.alpha = userBgTintViewAlpha.value
@@ -160,16 +159,15 @@ class UserViewController: BaseViewController {
         if navBarUserViewAlpha == 0 {
             // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
             let currentAlpha: CGFloat = navBarUserViewAlpha
-            navBarUserView.isHidden = true
-            delay(0.4) { [weak self] in
-                self?.navBarUserView.alpha = currentAlpha
-                self?.navBarUserView.isHidden = false
-            }
+            self.navBarUserView.alpha = currentAlpha
         }
+        navBarUserView.isHidden = false
     }
 
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
+        
+        navBarUserView.isHidden = true
         
         // Animating to clear background color as it glitches next screen translucent navBar
         // http://stackoverflow.com/questions/28245061/why-does-setting-hidesbottombarwhenpushed-to-yes-with-a-translucent-navigation
@@ -185,6 +183,10 @@ class UserViewController: BaseViewController {
         listingListView.minimumContentHeight = listingListView.collectionView.frame.height - headerCollapsedHeight
         
         averageRatingView.rounded = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        deferedUpdateNavigationBar()
     }
 }
 
