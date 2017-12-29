@@ -14,7 +14,7 @@ class SellNavigationController: UINavigationController {
     fileprivate let disposeBag = DisposeBag()
     fileprivate let viewModel: SellNavigationViewModel
     
-    let progressView = ProgressView(backgroundColor: UIColor.whiteTextHighAlpha, progressColor: .white)
+    let progressView = ProgressView(backgroundColor: UIColor.white.withAlphaComponent(0.7), progressColor: .white)
     let stepLabel = UILabel()
     
     var currentStep: CGFloat {
