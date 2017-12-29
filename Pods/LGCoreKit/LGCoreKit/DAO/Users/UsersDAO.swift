@@ -7,6 +7,7 @@
 //
 
 protocol UsersDAO {
-    func saveUser(user: User)
-    func retrieveUserWithId(userId: String) -> User?
+    func save(user: User)
+    func retrieve(userId: String) -> User?
+    func clean()
 }

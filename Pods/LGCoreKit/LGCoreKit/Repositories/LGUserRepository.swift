@@ -31,12 +31,12 @@ final class LGUserRepository: InternalUserRepository {
      - parameter completion: The completion closure.
      */
     func show(_ userId: String, completion: UserCompletion?) {
-        if let user = cache.retrieveUserWithId(userId: userId) {
+        if let user = cache.retrieve(userId: userId) {
             handleApiResult(Result(value: user), success: nil, completion: completion)
         } else {
-            dataSource.show(userId) { result in
+            dataSource.show(userId) { [weak self] result in
                 if let user = result.value {
-                    self.cache.saveUser(user: user)
+                    self?.cache.save(user: user)
                 }
                 handleApiResult(result, success: nil, completion: completion)
             }

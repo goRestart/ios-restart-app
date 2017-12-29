@@ -12,12 +12,16 @@ class UsersMemoryDAO: UsersDAO {
 
     private var usersDict: [String : User] = [:]
 
-    func saveUser(user: User) {
+    func save(user: User) {
         guard let userId = user.objectId else { return }
         usersDict[userId] = user
     }
 
-    func retrieveUserWithId(userId: String) -> User? {
+    func retrieve(userId: String) -> User? {
         return usersDict[userId]
+    }
+
+    func clean() {
+        usersDict = [:]
     }
 }

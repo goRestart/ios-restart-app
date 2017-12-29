@@ -10,6 +10,6 @@ extension MockUser: MockFactory {
                         status: UserStatus.makeMock(),
                         isDummy: Bool.makeRandom(),
                         phone: String.makeRandomPhoneNumber(),
-                        type: Bool.makeRandom() ? .user : .pro)
+                        type: UserType.makeMock())
     }
 }

@@ -10,7 +10,7 @@ extension MockMyUser: MockFactory {
                           status: UserStatus.makeMock(),
                           isDummy: Bool.makeRandom(),
                           phone: String.makeRandomPhoneNumber(),
-                          type: Bool.makeRandom() ? .user : .pro,
+                          type: UserType.makeMock(),
                           email: String.makeRandomEmail(),
                           location: LGLocation?.makeMock(),
                           localeIdentifier: String?.makeRandom())

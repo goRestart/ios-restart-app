@@ -33,7 +33,7 @@ struct LGUser: User {
 
 
     init(objectId: String?, name: String?, avatar: String?, postalAddress: PostalAddress, ratingAverage: Float?,
-         ratingCount: Int, accounts: [LGAccount], status: UserStatus?, isDummy: Bool, phone: String?, type: UserType?) {
+         ratingCount: Int, accounts: [LGAccount], status: UserStatus?, isDummy: Bool, phone: String?, type: UserType) {
         self.objectId = objectId
         self.name = name
         self.avatar = LGFile(id: nil, urlString: avatar)
@@ -44,7 +44,7 @@ struct LGUser: User {
         self.status = status ?? .active
         self.isDummy = isDummy
         self.phone = phone
-        self.type = type ?? .user
+        self.type = type
     }
     
     init(chatInterlocutor: ChatInterlocutor) {
@@ -53,7 +53,7 @@ struct LGUser: User {
                   avatar: chatInterlocutor.avatar?.fileURL?.absoluteString,
                   postalAddress: postalAddress, ratingAverage: nil, ratingCount: 0, accounts: [],
                   status: chatInterlocutor.status, isDummy: false, phone: nil,
-                  type: nil)
+                  type: .user)
     }
 }
 
@@ -101,7 +101,7 @@ extension LGUser : Decodable {
         let result9 = result8 <*> j <|? "status"
         let result10  = result9 <*> LGArgo.mandatoryWithFallback(json: j, key: "is_richy", fallback: false)
         let result11 = result10 <*> j <|? "phone"
-        let result = result11 <*> j <|? "type"
+        let result = result11 <*> j <| "type"
 
         if let error = result.error {
             logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGUser parse error: \(error)")
