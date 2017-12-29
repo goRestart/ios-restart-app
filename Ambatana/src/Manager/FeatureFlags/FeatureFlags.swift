@@ -43,7 +43,6 @@ protocol FeatureFlaggeable: class {
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
-    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
 
@@ -84,10 +83,6 @@ extension BumpUpPriceDifferentiation {
 }
 
 extension PromoteBumpUpAfterSell {
-    var isActive: Bool { get { return self == .active } }
-}
-
-extension CopyListingAnotherConfirmation {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -331,13 +326,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.promoteBumpUpAfterSell
         }
         return PromoteBumpUpAfterSell.fromPosition(abTests.promoteBumpUpAfterSell.value)
-    }
-    
-    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation {
-        if Bumper.enabled {
-            return Bumper.copyListingAnotherConfirmation
-        }
-        return CopyListingAnotherConfirmation.fromPosition(abTests.copyListingAnotherConfirmation.value)
     }
 
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {

@@ -37,7 +37,6 @@ extension Bumper  {
         flags.append(ShowClockInDirectAnswer.self)
         flags.append(BumpUpPriceDifferentiation.self)
         flags.append(PromoteBumpUpAfterSell.self)
-        flags.append(CopyListingAnotherConfirmation.self)
         flags.append(MoreInfoAFShOrDFP.self)
         flags.append(ShowSecurityMeetingChatMessage.self)
         Bumper.initialize(flags)
@@ -161,11 +160,6 @@ extension Bumper  {
     static var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
         guard let value = Bumper.value(for: PromoteBumpUpAfterSell.key) else { return .control }
         return PromoteBumpUpAfterSell(rawValue: value) ?? .control 
-    }
-
-    static var copyListingAnotherConfirmation: CopyListingAnotherConfirmation {
-        guard let value = Bumper.value(for: CopyListingAnotherConfirmation.key) else { return .control }
-        return CopyListingAnotherConfirmation(rawValue: value) ?? .control 
     }
 
     static var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
@@ -506,22 +500,6 @@ enum PromoteBumpUpAfterSell: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show a bump up alert after posting (once every 24h)" } 
     static func fromPosition(_ position: Int) -> PromoteBumpUpAfterSell {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum CopyListingAnotherConfirmation: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return CopyListingAnotherConfirmation.control.rawValue }
-    static var enumValues: [CopyListingAnotherConfirmation] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show listing instead of product on confirmation screen" } 
-    static func fromPosition(_ position: Int) -> CopyListingAnotherConfirmation {
         switch position { 
             case 0: return .control
             case 1: return .baseline
