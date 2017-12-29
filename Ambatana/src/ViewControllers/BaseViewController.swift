@@ -350,7 +350,6 @@ class BaseViewController: UIViewController, TabBarShowable {
 
         // Setup
         hidesBottomBarWhenPushed = true
-        setReachabilityEnabled(true)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -372,7 +371,10 @@ class BaseViewController: UIViewController, TabBarShowable {
         super.viewDidLoad()
         didCallViewDidLoaded = true
         setNavBarBackButton(nil)
+        
         setupToastView()
+        setReachabilityEnabled(true)
+        
         navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
         view.backgroundColor = UIColor.viewControllerBackground
         //Listen to status bar changes
