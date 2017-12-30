@@ -11,6 +11,7 @@
 		1C89D7311FF3D7FA00B3FA98 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7301FF3D7FA00B3FA98 /* RxSwift.framework */; };
 		1C913A5D1FF2C1C700646884 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C913A4F1FF2C1C700646884 /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1CACCE751FF2D37F0001B321 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE741FF2D37F0001B321 /* Mappable.swift */; };
+		1CACDA671FF7200A00538B78 /* String+Trim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACDA661FF7200A00538B78 /* String+Trim.swift */; };
 		1CC209B11FF2C26A00EE0B5B /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC209B01FF2C26A00EE0B5B /* Assembly.swift */; };
 /* End PBXBuildFile section */
 
@@ -21,6 +22,7 @@
 		1C913A4F1FF2C1C700646884 /* Core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 		1C913A501FF2C1C700646884 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1CACCE741FF2D37F0001B321 /* Mappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mappable.swift; sourceTree = "<group>"; };
+		1CACDA661FF7200A00538B78 /* String+Trim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Trim.swift"; sourceTree = "<group>"; };
 		1CC209B01FF2C26A00EE0B5B /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -39,6 +41,7 @@
 		1C89D72B1FF3D7AE00B3FA98 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				1CACDA651FF7200200538B78 /* String */,
 				1C89D72C1FF3D7AE00B3FA98 /* RxSwift */,
 			);
 			path = Extension;
@@ -100,6 +103,14 @@
 				1CACCE741FF2D37F0001B321 /* Mappable.swift */,
 			);
 			path = Mappable;
+			sourceTree = "<group>";
+		};
+		1CACDA651FF7200200538B78 /* String */ = {
+			isa = PBXGroup;
+			children = (
+				1CACDA661FF7200A00538B78 /* String+Trim.swift */,
+			);
+			path = String;
 			sourceTree = "<group>";
 		};
 		1CC209AD1FF2C22C00EE0B5B /* Resources */ = {
@@ -231,6 +242,7 @@
 			files = (
 				1CC209B11FF2C26A00EE0B5B /* Assembly.swift in Sources */,
 				1C89D72E1FF3D7C500B3FA98 /* ObservableType+Completable.swift in Sources */,
+				1CACDA671FF7200A00538B78 /* String+Trim.swift in Sources */,
 				1CACCE751FF2D37F0001B321 /* Mappable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
