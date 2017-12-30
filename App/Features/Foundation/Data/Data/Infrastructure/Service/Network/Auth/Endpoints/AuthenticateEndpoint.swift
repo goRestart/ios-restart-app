@@ -20,7 +20,7 @@ struct AuthenticateEndpoint: Endpoint {
   
   var task: Task {
     let parameters = [
-      "username": credentials.username,
+      "username": credentials.username.trimmed,
       "password": credentials.password
     ]
     return Task.requestParameters(
