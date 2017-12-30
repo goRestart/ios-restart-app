@@ -96,7 +96,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1C3B455B1FEFCC55008B7B87 /* Build configuration list for PBXNativeTarget "Restart" */;
 			buildPhases = (
-				1C9139B21FEFED4300646884 /* [Carthage] Copy Frameworks */,
 				1C3B453B1FEFCC54008B7B87 /* Frameworks */,
 				1C3B453A1FEFCC54008B7B87 /* Sources */,
 				1C3B453C1FEFCC54008B7B87 /* Resources */,
@@ -157,23 +156,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		1C9139B21FEFED4300646884 /* [Carthage] Copy Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[Carthage] Copy Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1C3B453A1FEFCC54008B7B87 /* Sources */ = {
