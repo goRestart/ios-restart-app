@@ -5,7 +5,7 @@ import UI
 
 public final class LoginViewController: ViewController {
  
-  var viewModel: LoginViewModel!
+  var viewModel: LoginViewModelType!
   
   private let loginView = LoginView()
   

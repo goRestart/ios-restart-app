@@ -8,7 +8,7 @@ extension Assembly {
     return viewController
   }
   
-  private var viewModel: LoginViewModel {
+  private var viewModel: LoginViewModelType {
     return LoginViewModel(
       authenticate: authenticate
     )

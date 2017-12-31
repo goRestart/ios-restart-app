@@ -7,7 +7,7 @@ private struct LoginViewModelConstraints {
   static let minPasswordLenght = 6
 }
 
-struct LoginViewModel: LoginViewModelIO, LoginViewModelInput, LoginViewModelOutput {
+struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOutput {
  
   var input: LoginViewModelInput { return self }
   var output: LoginViewModelOutput { return self }

@@ -13,7 +13,7 @@ protocol LoginViewModelOutput {
   var signUpEnabled: Observable<Bool> { get }
 }
 
-protocol LoginViewModelIO {
+protocol LoginViewModelType {
   var input: LoginViewModelInput { get }
   var output: LoginViewModelOutput { get }
 }
