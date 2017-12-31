@@ -11,19 +11,36 @@ open class FullWidthButton: UIButton {
     case normal
     case highlighted
     case disabled
+    case loading
   }
  
   private lazy var backgroundGradientLayer: CAGradientLayer = {
-    return .default
+    let layer = CAGradientLayer.default
+    layer.cornerRadius = Radius.medium
+    return layer
   }()
   
   private lazy var highlightedView: UIView = {
     let view = UIView()
     view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
     view.isUserInteractionEnabled = false
+    view.layer.cornerRadius = Radius.medium
     return view
   }()
  
+  private lazy var loadingActivity: UIActivityIndicatorView = {
+    let indicatorView = UIActivityIndicatorView(activityIndicatorStyle: .white)
+    indicatorView.hidesWhenStopped = true
+    return indicatorView
+  }()
+  
+  open var isLoading: Bool = false {
+    didSet {
+      if isLoading { configure(state: .loading) }
+      if !isLoading { configure(state: .normal) }
+    }
+  }
+  
   open override var isEnabled: Bool {
     didSet {
       if isEnabled { configure(state: .normal) }
@@ -82,12 +99,16 @@ open class FullWidthButton: UIButton {
   private func configure(state: State) {
     switch state {
     case .normal:
+      endLoading()
       isUserInteractionEnabled = true
       layer.insertSublayer(backgroundGradientLayer, at: 0)
     case .disabled:
+      endLoading()
       isUserInteractionEnabled = false
       backgroundColor = .darkGrey
       backgroundGradientLayer.removeFromSuperlayer()
+    case .loading:
+      startLoading()
     default: break
     }
     applyConstraints()
@@ -110,11 +131,31 @@ open class FullWidthButton: UIButton {
     }
   }
   
+  // MARK: - Loading
+  
+  private func startLoading() {
+    titleLabel?.alpha = 0
+    addSubview(loadingActivity)
+    
+    loadingActivity.startAnimating()
+    loadingActivity.snp.makeConstraints { make in
+      make.center.equalTo(self)
+    }
+  }
+  
+  private func endLoading() {
+    guard loadingActivity.isAnimating else { return }
+    loadingActivity.stopAnimating()
+    titleLabel?.alpha = 1
+    loadingActivity.removeFromSuperview()
+  }
+  
   // MARK: - Layout
   
   open override func layoutSubviews() {
     super.layoutSubviews()
     backgroundGradientLayer.frame = bounds
+    layer.cornerRadius = Radius.medium
   }
   
   private func applyConstraints() {
