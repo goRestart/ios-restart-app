@@ -90,7 +90,7 @@ class PushManagerSpec: QuickSpec {
                 }
                 
                 it("calls installation repository to update push token with the received one") {
-                    expect(installationRepository.lastUpdatePushTokenCallTokenParam) == deviceToken.toHexString()
+                    expect(installationRepository.lastUpdatePushTokenCallTokenParam) == deviceToken.hexString
                 }
             }
             

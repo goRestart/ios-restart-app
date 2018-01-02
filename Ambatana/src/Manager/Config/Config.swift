@@ -23,13 +23,24 @@ struct Config: Codable {
         case forceUpdateVersions
     }
     
+    init(buildNumber: Int, forceUpdateVersions: [Int], configURL: String, quadKeyZoomLevel: Int) {
+        self.buildNumber = buildNumber
+        self.forceUpdateVersions = forceUpdateVersions
+        self.configURL = configURL
+        self.quadKeyZoomLevel = quadKeyZoomLevel
+    }
+    
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
-        let currentVersionInfo = try values.nestedContainer(keyedBy: CurrentVersionInfoKeys.self,
-                                                            forKey: .currentVersionInfo)
-        buildNumber = (try currentVersionInfo.decodeIfPresent(Int.self, forKey: .buildNumber)) ?? 0
-        forceUpdateVersions = (try currentVersionInfo.decodeIfPresent([Int].self, forKey: .forceUpdateVersions)) ?? []
+        if let currentVersionInfo = try? values.nestedContainer(keyedBy: CurrentVersionInfoKeys.self,
+                                                                forKey: .currentVersionInfo) {
+            buildNumber = (try currentVersionInfo.decodeIfPresent(Int.self, forKey: .buildNumber)) ?? 0
+            forceUpdateVersions = (try currentVersionInfo.decodeIfPresent([Int].self, forKey: .forceUpdateVersions)) ?? []
+        } else {
+            buildNumber = 0
+            forceUpdateVersions = []
+        }
         
         configURL = (try values.decodeIfPresent(String.self, forKey: .configURL)) ?? ""
         

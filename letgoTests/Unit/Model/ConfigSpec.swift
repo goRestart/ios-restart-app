@@ -30,7 +30,7 @@ class ConfigSpec: QuickSpec {
                         "configURL": "http://cdn.letgo.com/config/ios.json",
                         "quadKeyZoomLevel": 15
                     }
-                    """.data(using: .utf8)!
+                    """.data(using: .utf8)
                     sut = try? JSONDecoder().decode(Config.self, from: json)
                 }
                 
@@ -58,7 +58,7 @@ class ConfigSpec: QuickSpec {
                         "configURL": "http://cdn.letgo.com/config/ios.json",
                         "quadKeyZoomLevel": 15
                     }
-                    """.data(using: .utf8)!
+                    """.data(using: .utf8)
                     sut = try? JSONDecoder().decode(Config.self, from: json)
                 }
                 
@@ -89,7 +89,7 @@ class ConfigSpec: QuickSpec {
                         "configURL": "http://cdn.letgo.com/config/ios.json",
                         "quadKeyZoomLevel": 15
                     }
-                    """.data(using: .utf8)!
+                    """.data(using: .utf8)
                     sut = try? JSONDecoder().decode(Config.self, from: json)
                 }
                 
@@ -120,7 +120,7 @@ class ConfigSpec: QuickSpec {
                         "configURL": "http://cdn.letgo.com/config/ios.json",
                         "quadKeyZoomLevel": 15
                     }
-                    """.data(using: .utf8)!
+                    """.data(using: .utf8)
                     sut = try? JSONDecoder().decode(Config.self, from: json)
                 }
                 
@@ -151,7 +151,7 @@ class ConfigSpec: QuickSpec {
                         },
                         "quadKeyZoomLevel": 15
                     }
-                    """.data(using: .utf8)!
+                    """.data(using: .utf8)
                     sut = try? JSONDecoder().decode(Config.self, from: json)
                 }
                 
@@ -182,7 +182,7 @@ class ConfigSpec: QuickSpec {
                         },
                         "configURL": "http://cdn.letgo.com/config/ios.json"
                     }
-                    """.data(using: .utf8)!
+                    """.data(using: .utf8)
                     sut = try? JSONDecoder().decode(Config.self, from: json)
                 }
                 
@@ -216,9 +216,8 @@ class ConfigSpec: QuickSpec {
                     "quadKeyZoomLevel": 15
                 }
                 """.data(using: .utf8)!
-                sut = try? JSONDecoder().decode(Config.self, from: json)
-                let encoder = JSONEncoder()
-                let newJSON: Data! = try? encoder.encode(decoded)
+                let configObject = try? JSONDecoder().decode(Config.self, from: json)
+                let newJSON: Data! = try? JSONEncoder().encode(configObject)
                 sut = try? JSONDecoder().decode(Config.self, from: newJSON)
             }
             
