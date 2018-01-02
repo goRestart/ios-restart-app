@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -146,6 +147,7 @@
                 <constraint firstItem="rCw-1t-eIO" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="40" id="DOG-G0-sdV"/>
                 <constraint firstItem="rCw-1t-eIO" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Fbq-fa-jTT"/>
                 <constraint firstItem="JCp-X9-hD2" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="FwU-qm-APW"/>
+                <constraint firstItem="Tjb-8g-nxG" firstAttribute="top" secondItem="c9O-uv-hpX" secondAttribute="top" id="G9Q-Xt-Pz7"/>
                 <constraint firstItem="JCp-X9-hD2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="HtP-J7-DTg"/>
                 <constraint firstItem="3oi-OT-gRE" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="80" id="KGy-NA-5Cb"/>
                 <constraint firstItem="rCw-1t-eIO" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" constant="50" id="UnO-CZ-Kfm"/>
@@ -154,8 +156,8 @@
                 <constraint firstItem="rCw-1t-eIO" firstAttribute="top" secondItem="3oi-OT-gRE" secondAttribute="bottom" constant="30" id="krP-U7-98W"/>
                 <constraint firstItem="BUh-W5-mCc" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="nbC-T4-1Vv"/>
                 <constraint firstAttribute="trailing" secondItem="BUh-W5-mCc" secondAttribute="trailing" constant="40" id="sbG-mS-BUU"/>
-                <constraint firstItem="Tjb-8g-nxG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="umw-1r-lae"/>
             </constraints>
+            <viewLayoutGuide key="safeArea" id="c9O-uv-hpX"/>
             <point key="canvasLocation" x="34.5" y="53.5"/>
         </view>
     </objects>
