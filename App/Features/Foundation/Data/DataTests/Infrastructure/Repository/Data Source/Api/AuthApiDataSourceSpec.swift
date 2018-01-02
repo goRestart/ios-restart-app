@@ -6,7 +6,7 @@ import RxBlocking
 import Domain
 @testable import Data
 
-class AuthApiDataSourceSpec: XCTestCase {
+final class AuthApiDataSourceSpec: XCTestCase {
   
   private var sut: AuthApiDataSource!
   private var provider: MoyaProvider<AuthService>!

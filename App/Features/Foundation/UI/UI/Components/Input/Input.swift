@@ -36,6 +36,10 @@ open class Input: UITextField {
   private func setup() {
     font = .body(.regular)
     layer.cornerRadius = Radius.big
+    backgroundColor = .softGrey
+    clearButtonMode = .whileEditing
+    textColor = .primary
+    tintColor = .primary
   }
   
   // MARK: - Placeholder

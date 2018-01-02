@@ -12,9 +12,12 @@
 		1C02635A1FF59AF90040346B /* FullWidthButtonSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0263591FF59AF90040346B /* FullWidthButtonSpec.swift */; };
 		1C0263631FF5B9570040346B /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0263621FF5B9570040346B /* Input.swift */; };
 		1C0263651FF5BBE50040346B /* InputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0263641FF5BBE50040346B /* InputTextField.swift */; };
-		1C15A1EA1FF42E9600FA0E47 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C15A1E91FF42E9600FA0E47 /* SnapKit.framework */; };
+		1C7F4C4F1FF7DFBB001BEB62 /* FullWidthButton+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C4E1FF7DFBB001BEB62 /* FullWidthButton+Rx.swift */; };
 		1C89D7BD1FF427B700B3FA98 /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7B31FF427B600B3FA98 /* UI.framework */; };
 		1C89D7C41FF427B700B3FA98 /* UI.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C89D7B61FF427B600B3FA98 /* UI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1CACDA401FF68E8900538B78 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACDA3F1FF68E8900538B78 /* View.swift */; };
+		1CACDA481FF691D900538B78 /* Localize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACDA471FF691D900538B78 /* Localize.swift */; };
+		1CACDA781FF7B58900538B78 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACDA771FF7B58900538B78 /* ViewController.swift */; };
 		1CD7A9661FF51D0800CB895D /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9651FF51D0800CB895D /* Palette.swift */; };
 		1CD7A9681FF5238600CB895D /* UIColor+Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9671FF5238600CB895D /* UIColor+Palette.swift */; };
 		1CD7A96C1FF5257200CB895D /* PaletteSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A96B1FF5257200CB895D /* PaletteSpec.swift */; };
@@ -46,11 +49,15 @@
 		1C0263641FF5BBE50040346B /* InputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextField.swift; sourceTree = "<group>"; };
 		1C15A1E91FF42E9600FA0E47 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = ../../../../Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		1C15A1F41FF4301500FA0E47 /* Snap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Snap.framework; path = ../../../../Carthage/Build/iOS/Snap.framework; sourceTree = "<group>"; };
+		1C7F4C4E1FF7DFBB001BEB62 /* FullWidthButton+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FullWidthButton+Rx.swift"; sourceTree = "<group>"; };
 		1C89D7B31FF427B600B3FA98 /* UI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C89D7B61FF427B600B3FA98 /* UI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UI.h; sourceTree = "<group>"; };
 		1C89D7B71FF427B600B3FA98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C89D7BC1FF427B700B3FA98 /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C89D7C31FF427B700B3FA98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1CACDA3F1FF68E8900538B78 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		1CACDA471FF691D900538B78 /* Localize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localize.swift; sourceTree = "<group>"; };
+		1CACDA771FF7B58900538B78 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1CD7A9651FF51D0800CB895D /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		1CD7A9671FF5238600CB895D /* UIColor+Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Palette.swift"; sourceTree = "<group>"; };
 		1CD7A96B1FF5257200CB895D /* PaletteSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteSpec.swift; sourceTree = "<group>"; };
@@ -70,7 +77,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C15A1EA1FF42E9600FA0E47 /* SnapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				1CD7A95D1FF51BDE00CB895D /* Components */,
+				1CACDA451FF691C600538B78 /* Utils */,
 				1CD7A9AF1FF56A5400CB895D /* Playground */,
 				1C15A1E21FF4281600FA0E47 /* Resources */,
 			);
@@ -175,9 +182,35 @@
 			path = UITests;
 			sourceTree = "<group>";
 		};
+		1CACDA3E1FF68E8300538B78 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1CACDA771FF7B58900538B78 /* ViewController.swift */,
+				1CACDA3F1FF68E8900538B78 /* View.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1CACDA451FF691C600538B78 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1CACDA461FF691D100538B78 /* Localizable */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		1CACDA461FF691D100538B78 /* Localizable */ = {
+			isa = PBXGroup;
+			children = (
+				1CACDA471FF691D900538B78 /* Localize.swift */,
+			);
+			path = Localizable;
+			sourceTree = "<group>";
+		};
 		1CD7A95D1FF51BDE00CB895D /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				1CACDA3E1FF68E8300538B78 /* View */,
 				1C0263501FF577EE0040346B /* Style */,
 				1CD7A95E1FF51BE500CB895D /* Color */,
 				1CD7A9911FF55ABA00CB895D /* Font */,
@@ -263,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				1CD7A9A71FF5654700CB895D /* FullWidthButton.swift */,
+				1C7F4C4E1FF7DFBB001BEB62 /* FullWidthButton+Rx.swift */,
 			);
 			path = "Full Width";
 			sourceTree = "<group>";
@@ -433,11 +467,15 @@
 				1C0263631FF5B9570040346B /* Input.swift in Sources */,
 				1CD7A9931FF55AD000CB895D /* Fontable.swift in Sources */,
 				1CD7A9A21FF562E800CB895D /* CAGradientLayer+Gradient.swift in Sources */,
+				1C7F4C4F1FF7DFBB001BEB62 /* FullWidthButton+Rx.swift in Sources */,
 				1C0263651FF5BBE50040346B /* InputTextField.swift in Sources */,
+				1CACDA781FF7B58900538B78 /* ViewController.swift in Sources */,
 				1CD7A9661FF51D0800CB895D /* Palette.swift in Sources */,
+				1CACDA481FF691D900538B78 /* Localize.swift in Sources */,
 				1C0263561FF57B630040346B /* Radius.swift in Sources */,
 				1CD7A9681FF5238600CB895D /* UIColor+Palette.swift in Sources */,
 				1CD7A9A01FF5626B00CB895D /* Gradient.swift in Sources */,
+				1CACDA401FF68E8900538B78 /* View.swift in Sources */,
 				1CD7A9951FF55BD900CB895D /* UIFont+Fontable.swift in Sources */,
 				1C0263541FF57B3A0040346B /* Margin.swift in Sources */,
 				1CD7A9A81FF5654700CB895D /* FullWidthButton.swift in Sources */,
