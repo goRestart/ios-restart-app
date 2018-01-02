@@ -155,7 +155,7 @@ open class FullWidthButton: UIButton {
   open override func layoutSubviews() {
     super.layoutSubviews()
     backgroundGradientLayer.frame = bounds
-    layer.cornerRadius = Radius.medium
+    layer.cornerRadius = Radius.big
   }
   
   private func applyConstraints() {
