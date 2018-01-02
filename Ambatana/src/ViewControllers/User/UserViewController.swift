@@ -158,7 +158,7 @@ class UserViewController: BaseViewController {
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
         
-        setNavBarHidden(true)
+        updateNavBarForTransition(isHidden: true)
         
         // Animating to clear background color as it glitches next screen translucent navBar
         // http://stackoverflow.com/questions/28245061/why-does-setting-hidesbottombarwhenpushed-to-yes-with-a-translucent-navigation
@@ -178,21 +178,17 @@ class UserViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        deferedUpdateNavigationBar()
+        updateNavBarForTransition(isHidden: false)
     }
     
-    private func setNavBarHidden(_ isHidden: Bool) {
-        // Hides or shows navBarUserView depending if view is appearing or disappearing because its reset in any transition
-        navBarUserView.isHidden = isHidden
-    }
-    
-    private func deferedUpdateNavigationBar() {
-        if navBarUserViewAlpha == 0 {
+    private func updateNavBarForTransition(isHidden: Bool) {
+        if !isHidden && navBarUserViewAlpha == 0 {
             // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
             let currentAlpha: CGFloat = navBarUserViewAlpha
             self.navBarUserView.alpha = currentAlpha
         }
-        setNavBarHidden(false)
+        
+        navBarUserView.isHidden = isHidden
     }
 }
 
