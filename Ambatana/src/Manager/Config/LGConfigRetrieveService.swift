@@ -30,23 +30,30 @@ class LGConfigRetrieveService: ConfigRetrieveService {
 
         Alamofire.request(configURL)
             .validate(statusCode: 200..<400)
-            .responseJSON { response in
+            .responseJSON { [weak self] response in
                 if let data = response.data {
                     do {
                         let config = try JSONDecoder().decode(Config.self, from: data)
                         completion?(ConfigRetrieveServiceResult(value: config))
                     } catch {
                         logMessage(.debug, type: .parsing, message: "Could not decode config data: \(data)")
-                        completion?(ConfigRetrieveServiceResult(error: .internalError))
+                        self?.parse(error: response.error, completion: completion)
                     }
-                } else if let afError = response.error as? AFError,
-                    let _ = afError.underlyingError as? URLError {
-                    completion?(ConfigRetrieveServiceResult(error: .network))
-                } else if let _ = response.error as? URLError {
-                    completion?(ConfigRetrieveServiceResult(error: .network))
-                } else  {
-                    completion?(ConfigRetrieveServiceResult(error: .internalError))
+                } else {
+                    self?.parse(error: response.error, completion: completion)
                 }
             }
+    }
+    
+    fileprivate func parse(error: Error?, completion: ConfigRetrieveServiceCompletion?) {
+        if let afError = error as? AFError,
+            let _ = afError.underlyingError as? URLError
+        {
+            completion?(ConfigRetrieveServiceResult(error: .network))
+        } else if let _ = error as? URLError {
+            completion?(ConfigRetrieveServiceResult(error: .network))
+        } else  {
+            completion?(ConfigRetrieveServiceResult(error: .internalError))
+        }
     }
 }

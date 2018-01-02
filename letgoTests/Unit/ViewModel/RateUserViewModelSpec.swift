@@ -90,22 +90,22 @@ class RateUserViewModelSpec: BaseViewModelSpec {
             
             describe("initialization") {
                 it("returns data's userAvatar when calling userAvatar") {
-                    expect(sut.userAvatar) == data.userAvatar
+                    expect(sut.userAvatar).to(equal(data.userAvatar))
                 }
                 it("returns data's userName when calling userName") {
-                    expect(sut.userName) == data.userName
+                    expect(sut.userName).to(equal(data.userName))
                 }
                 it("is not loading") {
-                    expect(sut.isLoading.value) == false
+                    expect(sut.isLoading.value).to(beFalse())
                 }
                 it("has review positive state") {
-                    expect(sut.state.value) == RateUserState.review(positive: true)
+                    expect(sut.state.value).to(equal(RateUserState.review(positive: true)))
                 }
                 it("has send text") {
                     expect(sut.sendText.value).notTo(beNil())
                 }
                 it("has send disabled") {
-                    expect(sut.sendEnabled.value) == false
+                    expect(sut.sendEnabled.value).to(beFalse())
                 }
                 it("has no rating") {
                     expect(sut.rating.value).to(beNil())
@@ -114,12 +114,12 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                     expect(sut.description.value).to(beNil())
                 }
                 it("has a 255 description char limit") {
-                    expect(sut.descriptionCharLimit.value) == 255
+                    expect(sut.descriptionCharLimit.value).to(equal(255))
                 }
                 it("has the positive user rating tags") {
                     let tags = (0..<sut.numberOfTags).flatMap { sut.titleForTagAt(index: $0) }
-                    let positiveTags = PositiveUserRatingTag.allValues.flatMap { $0.localizedText }
-                    expect(tags) == positiveTags
+                    let positiveTags = PositiveUserRatingTag.allValues.map { $0.localizedText }
+                    expect(tags).to(equal(positiveTags))
                 }
                 it("has no selected tag") {
                     let selectedTags = (0..<sut.numberOfTags).filter { sut.isSelectedTagAt(index: $0) }
@@ -127,7 +127,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                 }
                 it("tracks a userRatingStart event") {
                     let trackedEventNames = tracker.trackedEvents.flatMap { $0.name }
-                    expect(trackedEventNames) == [EventName.userRatingStart]
+                    expect(trackedEventNames).to(equal([EventName.userRatingStart]))
                 }
             }
             
