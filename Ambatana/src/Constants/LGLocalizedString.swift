@@ -395,6 +395,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_email_error_already_registered", comment: "")
 	}
 
+	static var chatInactiveConversationsExplanationLabel: String {
+		return NSLocalizedString("chat_inactive_conversations_explanation_label", comment: "")
+	}
+
+	static var chatInactiveConversationsButton: String {
+		return NSLocalizedString("chat_inactive_conversations_button", comment: "")
+	}
+
 	static func chatAccountDeletedWName(_ var1: String) -> String {
 		return String(format: NSLocalizedString("chat_account_deleted_w_name", comment: ""), var1)
 	}
