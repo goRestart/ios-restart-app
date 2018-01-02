@@ -157,6 +157,11 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         navbarSearch.endEdit()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         // we want to show the selected tags when the user closes the product detail too.  Also:
