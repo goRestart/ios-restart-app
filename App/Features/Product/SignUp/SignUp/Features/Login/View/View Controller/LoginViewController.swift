@@ -35,16 +35,17 @@ public final class LoginViewController: ViewController {
       })
       .disposed(by: bag)
     
-    viewModel.output.userInteractionDisabled
+    viewModel.output.userInteractionEnabled
       .bind(to: loginView.usernameInput.rx.isUserInteractionEnabled)
       .disposed(by: bag)
     
-    viewModel.output.userInteractionDisabled
+    viewModel.output.userInteractionEnabled
       .bind(to: loginView.passwordInput.rx.isUserInteractionEnabled)
       .disposed(by: bag)
     
-    viewModel.output.isLoggingIn
+    viewModel.output.state
       .asObservable()
+      .map { $0 == .loading}
       .bind(to: loginView.signInButton.rx.isLoading)
       .disposed(by: bag)
     
@@ -53,7 +54,7 @@ public final class LoginViewController: ViewController {
       .bind(to: loginView.signInButton.rx.isEnabled)
       .disposed(by: bag)
     
-    viewModel.output.userInteractionDisabled
+    viewModel.output.userInteractionEnabled
       .bind(to: loginView.signInButton.rx.isUserInteractionEnabled)
       .disposed(by: bag)
     

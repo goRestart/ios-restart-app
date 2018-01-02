@@ -1,5 +1,10 @@
 import RxSwift
 
+enum LoginState {
+  case idle
+  case loading
+}
+
 protocol LoginViewModelInput {
   func signUpButtonPressed()
 }
@@ -7,9 +12,9 @@ protocol LoginViewModelInput {
 protocol LoginViewModelOutput {
   var username: Variable<String> { get }
   var password: Variable<String> { get }
-  var isLoggingIn: Variable<Bool> { get }
+  var state: Variable<LoginState> { get }
   
-  var userInteractionDisabled: Observable<Bool> { get }
+  var userInteractionEnabled: Observable<Bool> { get }
   var signUpEnabled: Observable<Bool> { get }
 }
 

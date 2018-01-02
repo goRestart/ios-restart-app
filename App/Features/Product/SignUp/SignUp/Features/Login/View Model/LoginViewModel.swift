@@ -23,7 +23,7 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
   
   var username = Variable<String>("")
   var password = Variable<String>("")
-  var isLoggingIn = Variable<Bool>(false)
+  var state = Variable<LoginState>(.idle)
   
   var signUpEnabled: Observable<Bool> {
     return Observable.combineLatest(
@@ -33,14 +33,14 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
     }
   }
 
-  var userInteractionDisabled: Observable<Bool> {
-    return isLoggingIn.asObservable().map { !$0 }
+  var userInteractionEnabled: Observable<Bool> {
+    return state.asObservable().map { $0 == .idle }
   }
   
   // MARK: - Input
   
   func signUpButtonPressed() {
-    isLoggingIn.value = true
+    state.value = .loading
     
     let credentials = BasicCredentials(
       username: username.value,
@@ -51,7 +51,7 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
       print("Welcome :)")
     }) { error in
       print("Error :(")
-      self.isLoggingIn.value = false
+      self.state.value = .idle
     }.disposed(by: bag)
   }
 }
