@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1C40D8971FFD16F9006D5BE4 /* UserCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8961FFD16F9006D5BE4 /* UserCredentials.swift */; };
 		1C40D89A1FFD1771006D5BE4 /* RegisterUserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8991FFD1771006D5BE4 /* RegisterUserError.swift */; };
+		1C40D8D21FFD4460006D5BE4 /* RegisterUserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8D11FFD4460006D5BE4 /* RegisterUserUseCase.swift */; };
 		1C89D6D51FF3CEDF00B3FA98 /* Domain.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C89D6D31FF3CEDF00B3FA98 /* Domain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C89D6F61FF3CF3A00B3FA98 /* AuthenticateUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6EF1FF3CF3A00B3FA98 /* AuthenticateUseCase.swift */; };
 		1C89D6F81FF3CF3A00B3FA98 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6F41FF3CF3A00B3FA98 /* AuthError.swift */; };
@@ -19,6 +20,7 @@
 /* Begin PBXFileReference section */
 		1C40D8961FFD16F9006D5BE4 /* UserCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCredentials.swift; sourceTree = "<group>"; };
 		1C40D8991FFD1771006D5BE4 /* RegisterUserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserError.swift; sourceTree = "<group>"; };
+		1C40D8D11FFD4460006D5BE4 /* RegisterUserUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserUseCase.swift; sourceTree = "<group>"; };
 		1C89D6D01FF3CEDF00B3FA98 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C89D6D31FF3CEDF00B3FA98 /* Domain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Domain.h; sourceTree = "<group>"; };
 		1C89D6D41FF3CEDF00B3FA98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -65,6 +67,14 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		1C40D8D01FFD444C006D5BE4 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				1C40D8D11FFD4460006D5BE4 /* RegisterUserUseCase.swift */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
 		1C89D6C61FF3CEDF00B3FA98 = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				1C40D89B1FFD1843006D5BE4 /* Auth */,
+				1C40D8D01FFD444C006D5BE4 /* Register */,
 			);
 			path = "Use Case";
 			sourceTree = "<group>";
@@ -242,6 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C40D89A1FFD1771006D5BE4 /* RegisterUserError.swift in Sources */,
+				1C40D8D21FFD4460006D5BE4 /* RegisterUserUseCase.swift in Sources */,
 				1C89D6F81FF3CF3A00B3FA98 /* AuthError.swift in Sources */,
 				1C40D8971FFD16F9006D5BE4 /* UserCredentials.swift in Sources */,
 				1C89D6F91FF3CF3A00B3FA98 /* BasicCredentials.swift in Sources */,
