@@ -57,6 +57,14 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
+		1C40D89B1FFD1843006D5BE4 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				1C89D6EF1FF3CF3A00B3FA98 /* AuthenticateUseCase.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		1C89D6C61FF3CEDF00B3FA98 = {
 			isa = PBXGroup;
 			children = (
@@ -96,7 +104,7 @@
 		1C89D6EE1FF3CF3A00B3FA98 /* Use Case */ = {
 			isa = PBXGroup;
 			children = (
-				1C89D6EF1FF3CF3A00B3FA98 /* AuthenticateUseCase.swift */,
+				1C40D89B1FFD1843006D5BE4 /* Auth */,
 			);
 			path = "Use Case";
 			sourceTree = "<group>";
