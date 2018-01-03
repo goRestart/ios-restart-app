@@ -700,6 +700,10 @@ extension ListingViewModelSpec: ListingViewModelDelegate {
     var trackingFeedPosition: EventParameterFeedPosition {
         return .none
     }
+
+    var listingOrigin: ListingOrigin {
+        return .initial
+    }
     
     // Bump Up
     func vmResetBumpUpBannerCountdown() {}
