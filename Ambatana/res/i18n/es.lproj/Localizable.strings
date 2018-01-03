@@ -52,11 +52,11 @@
 "categories_inFeed_home" = "Hogar";
 "categories_inFeed_motors" = "Motores";
 "categories_inFeed_others" = "Otro";
-"categories_inFeed_real_estate" = "Vivienda";
+"categories_inFeed_real_estate" = "Viviendas";
 "categories_inFeed_sports_leisure_games" = "Tiempo libre";
 "categories_movies_books_and_music" = "Películas, Libros y Música";
 "categories_other" = "Otros";
-"categories_real_estate" = "Vivienda";
+"categories_real_estate" = "Viviendas";
 "categories_sports_leisure_and_games" = "Deporte, Ocio y Juegos";
 "categories_super_keywords_inFeed_show_more" = "Ver más";
 "categories_title" = "Categorías";
@@ -617,7 +617,7 @@
 "product_post_retake" = "Cambiar";
 "product_post_retry_button" = "Vuelve a intentarlo";
 "product_post_select_category_cars" = "Coches";
-"product_post_select_category_housing" = "Vivienda";
+"product_post_select_category_housing" = "Viviendas en Alquiler / Venta";
 "product_post_select_category_motors_and_accessories" = "Otros Vehículos y Accesorios";
 "product_post_select_category_other" = "Otros artículos";
 "product_post_select_category_title" = "¿Qué estás publicando?";
