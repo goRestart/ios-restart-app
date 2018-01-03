@@ -11,7 +11,7 @@ public enum LargeButtonType {
 
 open class LargeButton: UIButton {
   
-  var type: LargeButtonType = .normal {
+  public var type: LargeButtonType = .normal {
     didSet {
       configure(for: type)
     }
