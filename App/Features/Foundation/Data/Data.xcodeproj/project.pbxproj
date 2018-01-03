@@ -124,6 +124,15 @@
 			path = Endpoints;
 			sourceTree = "<group>";
 		};
+		1C40D8AB1FFD34FB006D5BE4 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				1C913A281FF0670300646884 /* AuthRepository.swift */,
+				1C913A2D1FF2B24E00646884 /* Data Source */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		1C89D6FA1FF3CF9F00B3FA98 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
@@ -265,8 +274,7 @@
 		1C913A241FF0666100646884 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
-				1C913A281FF0670300646884 /* AuthRepository.swift */,
-				1C913A2D1FF2B24E00646884 /* Data Source */,
+				1C40D8AB1FFD34FB006D5BE4 /* Auth */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
