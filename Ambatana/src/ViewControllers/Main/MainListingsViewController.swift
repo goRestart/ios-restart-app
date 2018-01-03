@@ -226,9 +226,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func updateBubbleTopConstraint() {
-        let delta = listingListView.headerBottom - topInset.value
+        let offset: CGFloat = isSafeAreaAvailable ? 0 : topInset.value
+        let delta = listingListView.headerBottom - offset
         if delta > 0 {
-                infoBubbleTopConstraint.constant = infoBubbleTopMargin + delta
+            infoBubbleTopConstraint.constant = infoBubbleTopMargin + delta
         } else {
             infoBubbleTopConstraint.constant = infoBubbleTopMargin
         }
