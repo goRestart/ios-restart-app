@@ -4,7 +4,9 @@ import RxSwift
 import UI
 
 public final class NotLoggedViewController: ViewController {
- 
+  
+  var viewModel: NotLoggedViewModelType!
+  
   private let notLoggedView = NotLoggedView()
   
   public override func loadView() {
@@ -16,6 +18,16 @@ public final class NotLoggedViewController: ViewController {
   }
   
   override public func bindViewModel() {
- 
+    notLoggedView.signInButton.rx.tap
+      .subscribe(onNext: { [weak self] _ in
+        self?.viewModel.input.signInButtonPressed()
+      })
+      .disposed(by: bag)
+    
+    notLoggedView.signUpButton.rx.tap
+      .subscribe(onNext: { [weak self] _ in
+        self?.viewModel.input.signUpButtonPressed()
+      })
+      .disposed(by: bag)
   }
 }
