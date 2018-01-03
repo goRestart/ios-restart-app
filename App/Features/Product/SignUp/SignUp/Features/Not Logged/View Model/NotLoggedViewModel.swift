@@ -4,8 +4,14 @@ struct NotLoggedViewModel: NotLoggedViewModelInput, NotLoggedViewModelType {
   
   var input: NotLoggedViewModelInput { return self }
   
+  private let loginRouter: LoginRouter
+  
+  init(loginRouter: LoginRouter) {
+    self.loginRouter = loginRouter
+  }
+  
   func signInButtonPressed() {
-    print("Opening sign in")
+    loginRouter.route()
   }
   
   func signUpButtonPressed() {

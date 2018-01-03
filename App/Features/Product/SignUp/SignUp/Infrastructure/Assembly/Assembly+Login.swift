@@ -17,4 +17,8 @@ extension Assembly {
   private var authenticate: Authenticate {
     return Authenticate()
   }
+  
+  func loginRouter(from view: UIViewController) -> LoginRouter {
+    return LoginRouter(from: view)
+  }
 }

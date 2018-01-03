@@ -20,6 +20,7 @@
 		1C7F4C9C1FFC643E001BEB62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C7F4C811FFC4ADA001BEB62 /* Assets.xcassets */; };
 		1C7F4C9F1FFCF14B001BEB62 /* NotLoggedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C9E1FFCF14B001BEB62 /* NotLoggedViewModel.swift */; };
 		1C7F4CA11FFCF172001BEB62 /* NotLoggedViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4CA01FFCF172001BEB62 /* NotLoggedViewModelType.swift */; };
+		1C7F4CA41FFCF716001BEB62 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4CA31FFCF716001BEB62 /* LoginRouter.swift */; };
 		1CACD9D51FF66F8000538B78 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACD9D41FF66F8000538B78 /* LoginViewController.swift */; };
 		1CACD9DC1FF6703200538B78 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACD9DB1FF6703200538B78 /* LoginViewModel.swift */; };
 		1CACD9E61FF67C3400538B78 /* Assembly+Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACD9E51FF67C3400538B78 /* Assembly+Login.swift */; };
@@ -147,6 +148,7 @@
 		1C7F4C9A1FFC6405001BEB62 /* NotLoggedViewSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotLoggedViewSpec.swift; sourceTree = "<group>"; };
 		1C7F4C9E1FFCF14B001BEB62 /* NotLoggedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotLoggedViewModel.swift; sourceTree = "<group>"; };
 		1C7F4CA01FFCF172001BEB62 /* NotLoggedViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotLoggedViewModelType.swift; sourceTree = "<group>"; };
+		1C7F4CA31FFCF716001BEB62 /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
 		1CACD9D41FF66F8000538B78 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1CACD9DB1FF6703200538B78 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		1CACD9DE1FF6713100538B78 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../../../Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
@@ -312,6 +314,14 @@
 			path = "View Model";
 			sourceTree = "<group>";
 		};
+		1C7F4CA21FFCF707001BEB62 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				1C7F4CA31FFCF716001BEB62 /* LoginRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 		1CACD9C81FF66E0000538B78 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -337,6 +347,7 @@
 			children = (
 				1CACDA741FF7B1D900538B78 /* View Model */,
 				1CACD9D21FF66F6600538B78 /* View */,
+				1C7F4CA21FFCF707001BEB62 /* Router */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -699,6 +710,7 @@
 			files = (
 				1C7F4CA11FFCF172001BEB62 /* NotLoggedViewModelType.swift in Sources */,
 				1C7F4C9F1FFCF14B001BEB62 /* NotLoggedViewModel.swift in Sources */,
+				1C7F4CA41FFCF716001BEB62 /* LoginRouter.swift in Sources */,
 				1C7F4C7E1FFC4954001BEB62 /* NotLoggedViewController.swift in Sources */,
 				1CACDA3D1FF68DF900538B78 /* LoginView.swift in Sources */,
 				1CACDA4E1FF698E100538B78 /* Table.swift in Sources */,
