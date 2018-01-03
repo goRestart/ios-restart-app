@@ -12,6 +12,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.rootViewController = viewController
     window?.makeKeyAndVisible()
+
+    // For testing purposes
+    UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
+    UINavigationBar.appearance().shadowImage = UIImage()
+    
     return true
   }
 }
