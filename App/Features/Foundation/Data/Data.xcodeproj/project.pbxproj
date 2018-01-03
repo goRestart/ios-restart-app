@@ -188,6 +188,14 @@
 			path = Response;
 			sourceTree = "<group>";
 		};
+		1C40D8BD1FFD3ACA006D5BE4 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				1CACCE8E1FF30B910001B321 /* Data Source */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		1C89D6FA1FF3CF9F00B3FA98 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
@@ -423,7 +431,7 @@
 		1CACCE8D1FF30B910001B321 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
-				1CACCE8E1FF30B910001B321 /* Data Source */,
+				1C40D8BD1FFD3ACA006D5BE4 /* Auth */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
