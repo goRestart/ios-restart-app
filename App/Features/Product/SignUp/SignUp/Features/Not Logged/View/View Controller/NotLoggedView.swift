@@ -27,17 +27,17 @@ final class NotLoggedView: View {
     return label
   }()
 
-  let createAccountButton: LargeButton = {
+  let signUpButton: LargeButton = {
     let button = LargeButton()
-    let title = Localize("not_logged.button.create_account.title", Table.signUp).uppercased()
+    let title = Localize("not_logged.button.signup.title", Table.signUp).uppercased()
     button.setTitle(title, for: .normal)
     return button
   }()
   
-  let loginButton: LargeButton = {
+  let signInButton: LargeButton = {
     let button = LargeButton()
     button.type = .alt
-    let title = Localize("not_logged.button.login.title", Table.signUp).uppercased()
+    let title = Localize("not_logged.button.signin.title", Table.signUp).uppercased()
     button.setTitle(title, for: .normal)
     return button
   }()
@@ -71,8 +71,8 @@ final class NotLoggedView: View {
     stackView.addArrangedSubview(logoImageView)
     topElementsStackView.addArrangedSubview(titleLabel)
     
-    buttonsStackView.addArrangedSubview(createAccountButton)
-    buttonsStackView.addArrangedSubview(loginButton)
+    buttonsStackView.addArrangedSubview(signUpButton)
+    buttonsStackView.addArrangedSubview(signInButton)
   
     stackView.addArrangedSubview(topElementsStackView)
     stackView.addArrangedSubview(buttonsStackView)
@@ -91,7 +91,7 @@ final class NotLoggedView: View {
       make.right.equalTo(self).offset(-Margin.super)
     }
     
-    [createAccountButton, loginButton].forEach { button in
+    [signUpButton, signInButton].forEach { button in
       button.snp.makeConstraints { make in
         make.left.equalTo(self).offset(Margin.super)
         make.right.equalTo(self).offset(-Margin.super)
