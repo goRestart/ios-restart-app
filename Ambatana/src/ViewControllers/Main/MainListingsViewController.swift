@@ -149,7 +149,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         setAccessibilityIds()
         
         view.layoutIfNeeded()
-        topInset.value = topBarHeight + filterHeadersHeight
+        if #available(iOS 11.0, *) {
+            listingListView.collectionView.contentInsetAdjustmentBehavior = .never
+        }
+        topInset.value = filterHeadersHeight
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -403,9 +406,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         tagsContainerViewHeightConstraint.constant = showPrimaryTags ? filterTagsViewHeight : 0
         if updateInsets {
-            topInset.value = showPrimaryTags ?
-                topBarHeight + filterTagsViewHeight + filterHeadersHeight
-                : topBarHeight
+            topInset.value = showPrimaryTags ? filterTagsViewHeight + filterHeadersHeight : 0
         }
         view.layoutIfNeeded()
         
@@ -437,10 +438,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         viewModel.infoBubbleText.asObservable().bind(to: infoBubbleLabel.rx.text).disposed(by: disposeBag)
         viewModel.infoBubbleVisible.asObservable().map { !$0 }.bind(to: infoBubbleShadow.rx.isHidden).disposed(by: disposeBag)
 
-        let isSafeAreaAvailable = self.isSafeAreaAvailable
         topInset.asObservable()
             .bind { [weak self] topInset in
-                guard !isSafeAreaAvailable else { return }
                 self?.listingListView.collectionViewContentInset.top = topInset
             }.disposed(by: disposeBag)
 
@@ -463,14 +462,14 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
             guard let strongSelf = self else { return }
             strongSelf.filterTitleHeaderView.text = filterTitle
             let tagsHeight = strongSelf.primaryTagsShowing ? strongSelf.filterTagsViewHeight : 0
-            strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
+            strongSelf.topInset.value = tagsHeight + strongSelf.filterHeadersHeight
         }.disposed(by: disposeBag)
 
         viewModel.filterDescription.asObservable().bind { [weak self] filterDescr in
             guard let strongSelf = self else { return }
             strongSelf.filterDescriptionHeaderView.text = filterDescr
             let tagsHeight = strongSelf.primaryTagsShowing ? strongSelf.filterTagsViewHeight : 0
-            strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
+            strongSelf.topInset.value = tagsHeight + strongSelf.filterHeadersHeight
         }.disposed(by: disposeBag)
         
         navbarSearch.searchTextField?.rx.text.asObservable()
