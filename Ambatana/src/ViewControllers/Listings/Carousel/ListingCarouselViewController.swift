@@ -195,11 +195,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        UIApplication.shared.setStatusBarHidden(false, with: .fade)
-    }
-
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
         removeIgnoreTouchesForMoreInfo()
@@ -1012,7 +1007,7 @@ extension ListingCarouselViewController {
                                       style: .blue(closeEnabled: false), peakOnTop: true,
                                       actionBlock: { [weak self] in self?.showMoreInfo() }, closeBlock: nil)
         view.addSubview(moreInfoTooltip)
-        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view)
+        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView.dragView, containerView: view)
         self.moreInfoTooltip = moreInfoTooltip
     }
 

@@ -398,7 +398,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         let vm = ListingAttributePickerViewModel(
             title: LGLocalizedString.realEstateBedroomsTitle,
             attributes: values,
-            selectedAttribute: realEstateNumberOfBedrooms.value?.summaryLocalizedString
+            selectedAttribute: realEstateNumberOfBedrooms.value?.localizedString
         ) { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
                 self?.realEstateNumberOfBedrooms.value = attributeValues[selectedIndex]
@@ -415,7 +415,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         let vm = ListingAttributePickerViewModel(
             title: LGLocalizedString.realEstateBathroomsTitle,
             attributes: values,
-            selectedAttribute: realEstateNumberOfBathrooms.value?.summaryLocalizedString
+            selectedAttribute: realEstateNumberOfBathrooms.value?.localizedString
         ) { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
                 self?.realEstateNumberOfBathrooms.value = attributeValues[selectedIndex]
@@ -560,7 +560,6 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func validate() -> ListingCreateValidationError? {
-        
         if images.count < 1 {
             return .noImages
         } else if descriptionCharCount < 0 {

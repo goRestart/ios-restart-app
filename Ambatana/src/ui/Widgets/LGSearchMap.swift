@@ -127,19 +127,29 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     }
     
     private func setupRx() {
-        searchField.rx.text.subscribeNext{ [weak self] text in
+        searchField.rx.text.bind { [weak self] text in
             guard let searchField = self?.searchField, searchField.isFirstResponder else { return }
             guard let text = text else { return }
             self?.viewModel.searchText.value = (text, autoSelect:false)
-            }.disposed(by: disposeBag)
+        }.disposed(by: disposeBag)
         
         viewModel.placeLocation.asObservable().bind { [weak self] (place) in
             guard let place = place else { return }
             self?.updateCenterMap(location: place.location)
         }.disposed(by: disposeBag)
         
-        viewModel.placeInfoText.asObservable().subscribeNext { [weak self] infoText in
+        viewModel.placeGPSObservable.bind { [weak self] (place) in
+            guard let location = place?.location else { return }
+            self?.updateCenterMap(location: location)
+        }.disposed(by: disposeBag)
+       
+        viewModel.placeInfoText.asObservable().bind { [weak self] infoText in
             self?.searchField.text = infoText
+        }.disposed(by: disposeBag)
+        
+        viewModel.placeSuggestedObservable.bind { [weak self] place in
+            guard let location = place?.location else { return }
+            self?.updateCenterMap(location: location)
         }.disposed(by: disposeBag)
     }
     

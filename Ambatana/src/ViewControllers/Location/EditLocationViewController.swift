@@ -31,11 +31,13 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     @IBOutlet weak var searchField: LGTextField!
     
     @IBOutlet weak var approxLocationContainer: UIView!
-    @IBOutlet weak var approxLocationHeight: NSLayoutConstraint!
     @IBOutlet weak var approximateLocationSwitch: UISwitch!
     @IBOutlet weak var approximateLocationLabel: UILabel!
-    @IBOutlet weak var bottomToContainer: NSLayoutConstraint!
 
+    @IBOutlet weak var bottomToContainer: NSLayoutConstraint!
+    @IBOutlet weak var bottomToSetLocation: NSLayoutConstraint!
+    @IBOutlet weak var bottomToApproxLocation: NSLayoutConstraint!
+    
     @IBOutlet weak var gpsLocationButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var setLocationButtonContainer: UIView!
@@ -309,7 +311,14 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
         viewModel.approxLocationHidden.asObservable().subscribeNext { [weak self] hidden in
             self?.approxLocationContainer.isHidden = hidden
-            self?.approxLocationHeight.constant = hidden ? 0 : 50
+            if hidden {
+                self?.bottomToSetLocation.priority = UILayoutPriority(rawValue: 999)
+                self?.bottomToApproxLocation.priority = .defaultLow
+            } else {
+                self?.bottomToSetLocation.priority = .defaultLow
+                self?.bottomToApproxLocation.priority = UILayoutPriority(rawValue: 999)
+            }
+            self?.view.layoutIfNeeded()
         }.disposed(by: disposeBag)
 
         //When place changes on viewModel map must follow its location

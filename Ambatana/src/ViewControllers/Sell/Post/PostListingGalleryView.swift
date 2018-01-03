@@ -21,13 +21,42 @@ protocol PostListingGalleryViewDelegate: class {
     func listingGallerySwitchToCamera()
 }
 
+fileprivate extension GalleryState {
+    func updateTopNavigationItems(withViewModel viewModel: PostListingGalleryViewModel, view: PostListingGalleryView) {
+        switch self {
+        case .empty, .pendingAskPermissions, .missingPermissions, .loading:
+            view.topRightButton.isEnabled = false
+        case .normal, .loadImageError:
+            view.topRightButton.isEnabled = viewModel.imagesSelectedCount != 0
+        }
+    }
+
+}
+
+
 enum MessageInfoType {
     case noMessage
     case noImages
     case wrongImage
+
+    func configMessageViews(title: UILabel, subtitle: UILabel) {
+        switch self {
+        case .noMessage:
+            title.text = ""
+            subtitle.text = ""
+        case .noImages:
+            title.text = LGLocalizedString.productPostGallerySelectPicturesTitle
+            subtitle.text = LGLocalizedString.productPostGallerySelectPicturesSubtitle
+        case .wrongImage:
+            title.text = LGLocalizedString.productPostGalleryLoadImageErrorTitle
+            subtitle.text = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
+        }
+    }
 }
 
 class PostListingGalleryView: BaseView, LGViewPagerPage {
+    fileprivate let imageContainerStateThreshold: CGFloat = 50
+    fileprivate let background = UIColor(red: 44.0 / 255.0, green: 44.0 / 255.0, blue: 44.0 / 255.0, alpha: 1.0)
 
     @IBOutlet var contentView: UIView!
 
@@ -89,9 +118,9 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
     private var headerShown = true
 
     // Drag & state vars
-    var dragState: GalleryDragState = .none
-    var initialDragPosition: CGFloat = 0
-    var collapsed = false
+    fileprivate var dragState: GalleryDragState = .none
+    fileprivate var initialDragPosition: CGFloat = 0
+    fileprivate var collapsed = false
 
     fileprivate var viewModel: PostListingGalleryViewModel
 
@@ -161,10 +190,10 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
 
     private func setupUI() {
         Bundle.main.loadNibNamed("PostListingGalleryView", owner: self, options: nil)
-        contentView.frame = bounds
-        contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        contentView.backgroundColor = UIColor.black
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
+        contentView.layout(with: self).fill()
+        contentView.backgroundColor = background
 
         topRightButton.setStyle(.primary(fontSize: .small))
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
@@ -175,8 +204,9 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
             layout.minimumInteritemSpacing = 4.0
         }
 
-        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.black, alphas:[0.4,0.0],
-            locations: [0.0,1.0])
+        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.black,
+                                                            alphas:[0.4,0.0],
+                                                            locations: [0.0,1.0])
         shadowLayer.frame = collectionGradientView.bounds
         collectionGradientView.layer.addSublayer(shadowLayer)
 
@@ -190,30 +220,11 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
     }
 
     fileprivate func configMessageView(_ type: MessageInfoType) {
-        var title: String
-        var subtitle: String
-        switch type {
-        case .noMessage:
-            title = ""
-            subtitle = ""
-        case .noImages:
-            title = LGLocalizedString.productPostGallerySelectPicturesTitle
-            subtitle = LGLocalizedString.productPostGallerySelectPicturesSubtitle
-        case .wrongImage:
-            title = LGLocalizedString.productPostGalleryLoadImageErrorTitle
-            subtitle = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
-        }
-        loadImageErrorTitleLabel.text = title
-        loadImageErrorSubtitleLabel.text = subtitle
+        type.configMessageViews(title: loadImageErrorTitleLabel, subtitle: loadImageErrorSubtitleLabel)
     }
     
     fileprivate func updateTopRightButton(state: GalleryState) {
-        switch state {
-        case .empty, .pendingAskPermissions, .missingPermissions, .loading:
-            topRightButton.isEnabled = false
-        case .normal, .loadImageError:
-            topRightButton.isEnabled = viewModel.imagesSelectedCount != 0
-        }
+        state.updateTopNavigationItems(withViewModel: viewModel, view: self)
     }
 }
 
@@ -274,13 +285,10 @@ extension PostListingGalleryView: UICollectionViewDataSource, UICollectionViewDe
                 if let position = selectedIndexes.index(of: indexPath.item) {
                     galleryCell.multipleSelectionCountLabel.text = "\(position + 1)"
                 }
-            } else if viewModel.imagesSelectedCount >= viewModel.maxImagesSelected {
-                galleryCell.disabled = true
-                galleryCell.isSelected = false
-            } else {
-                galleryCell.isSelected = false
-                galleryCell.disabled = false
             }
+            galleryCell.disabled = viewModel.imagesSelectedCount >= viewModel.maxImagesSelected
+            galleryCell.isSelected = false
+
             return galleryCell
     }
 
@@ -449,11 +457,7 @@ enum GalleryDragState {
 extension PostListingGalleryView: UIGestureRecognizerDelegate {
 
     var imageContainerMaxHeight: CGFloat {
-        return imageContainer.height-headerContainer.height
-    }
-
-    var imageContainerStateThreshold: CGFloat {
-        return 50
+        return imageContainer.height - headerContainer.height
     }
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
@@ -473,7 +477,7 @@ extension PostListingGalleryView: UIGestureRecognizerDelegate {
 
         switch recognizer.state {
         case .began:
-            if location.y < imageContainer.height+imageContainerTop.constant {
+            if location.y < imageContainer.height + imageContainerTop.constant {
                 dragState = .draggingImage
             } else {
                 dragState = .draggingCollection(false)
@@ -491,17 +495,21 @@ extension PostListingGalleryView: UIGestureRecognizerDelegate {
     }
 
     private func handleDrag(_ recognizer: UIPanGestureRecognizer) {
+        func clamp(_ value: CGFloat) -> CGFloat {
+            return min(max(0, value), imageContainerMaxHeight)
+        }
+
         let location = recognizer.location(in: contentView)
         let translation = recognizer.translation(in: contentView)
         switch dragState {
         case .draggingImage:
-            imageContainerTop.constant = max(min(0, initialDragPosition + translation.y), -imageContainerMaxHeight)
+            imageContainerTop.constant = clamp(initialDragPosition - translation.y)
         case .draggingCollection(let fromTop):
-            if location.y < imageContainer.height+imageContainerTop.constant {
-                imageContainerTop.constant = max(min(0, -(imageContainer.height-20-location.y)), -imageContainerMaxHeight)
+            if location.y < imageContainer.height + imageContainerTop.constant {
+                imageContainerTop.constant = clamp(imageContainer.height - 20 - location.y)
                 collectionView.isUserInteractionEnabled = false
-            } else if (imageContainerTop.constant < 0) && (collectionView.contentOffset.y <= 0 || fromTop) {
-                imageContainerTop.constant = max(min(0, initialDragPosition + translation.y), -imageContainerMaxHeight)
+            } else if (imageContainerTop.constant > 0) && (collectionView.contentOffset.y <= 0 || fromTop) {
+                imageContainerTop.constant = clamp(initialDragPosition - translation.y)
                 dragState = .draggingCollection(true)
             } else if !fromTop {
                 recognizer.setTranslation(CGPoint(x:0, y:0), in: contentView)
@@ -513,7 +521,7 @@ extension PostListingGalleryView: UIGestureRecognizerDelegate {
 
     private func finishAnimating() {
         if collapsed {
-            let shouldExpand = abs(imageContainerTop.constant) < imageContainerMaxHeight-imageContainerStateThreshold
+            let shouldExpand = abs(imageContainerTop.constant) < imageContainerMaxHeight - imageContainerStateThreshold
             animateToState(collapsed: !shouldExpand, completion: nil)
         } else {
             let shouldCollapse = abs(imageContainerTop.constant) > imageContainerStateThreshold
@@ -521,20 +529,21 @@ extension PostListingGalleryView: UIGestureRecognizerDelegate {
         }
     }
 
-    fileprivate func animateToState(collapsed: Bool, completion: (() -> Void)?) {
-        let hasChanges = collapsed != self.collapsed
-        imageContainerTop.constant = collapsed ? -imageContainerMaxHeight : 0
-        self.collapsed = collapsed
+    fileprivate func animateToState(collapsed newState: Bool, completion: (() -> Void)?) {
+        guard collapsed != newState else {
+            completion?()
+            return
+        }
+
+        imageContainerTop.constant = collapsed ? imageContainerMaxHeight : 0
+        self.collapsed = newState
 
         UIView.animate(withDuration: 0.2,
-            animations: { [weak self] in
-                if hasChanges {
-                    self?.contentView.layoutIfNeeded()
-                }
+                       animations: { [weak self] in
+                        self?.contentView.layoutIfNeeded()
             }, completion: { _ in
                 completion?()
-            }
-        )
+        })
     }
 }
 

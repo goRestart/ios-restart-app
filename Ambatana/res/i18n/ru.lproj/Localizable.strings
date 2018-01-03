@@ -164,6 +164,8 @@
 "chat_not_verified_state_title" = "ВАШ АККАУНТ ПОДТВЕРЖДЕН?";
 "chat_product_given_away_label" = "Уже отдан";
 "chat_product_sold_label" = "Продано";
+"chat_professional_banner_button_title" = "Call";
+"chat_professional_banner_title" = "You're talking to a professional car dealer";
 "chat_related_products_title" = "ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ:";
 "chat_safety_tips" = "Советами по безопасности";
 "chat_safety_tips_message" = "• Встречайтесь лично и платите наличными.\n\n• Общайтесь в чате letgo.\n\n• Есть подозрения? Найди другого продавца/покупателя.";
@@ -623,13 +625,15 @@
 "product_post_select_category_title" = "Что вы размещаете?";
 "product_post_use_photo" = "Разместить";
 "product_post_use_photo_not_logged" = "Загрузить фото";
-"product_report_confirm_message" = "Вы уверены, что хотите пожаловаться на продукт?";
-"product_report_confirm_title" = "Пожаловаться на продукт";
+"product_professional_call_button" = "Call";
+"product_professional_chat_button" = "Чат";
+"product_report_confirm_message" = "Вы уверены, что хотите пожаловаться на объявление?";
+"product_report_confirm_title" = "Пожаловаться на объявление";
 "product_report_login_popup_text" = "Чтобы пожаловаться на это объявление, вы должны войти";
-"product_report_product_button" = "Пожаловаться на продукт";
+"product_report_product_button" = "Пожаловаться на объявление";
 "product_reported_error_generic" = "Не получилось отправить жалобу. Пожалуйста, попробуйте еще раз.";
 "product_reported_success_message" = "Ваша жалоба была отправлена. Спасибо!";
-"product_reporting_loading_message" = "Жалоба на товар...";
+"product_reporting_loading_message" = "Отправляем жалобу на объявление...";
 "product_search_no_products_body" = "Попробуйте поискать что-то еще или попробуйте еще раз позже!";
 "product_search_no_products_title" = "УПС! НЕТ РЕЗУЛЬТАТОВ РЯДОМ С ВАМИ";
 "product_sell_again_button" = "Продать заново";
@@ -733,6 +737,7 @@
 "rating_view_rate_us_label" = "Ваша оценка:";
 "rating_view_remind_later_button" = "Напомнить позже";
 "rating_view_title_label_uppercase" = "ПОСТАВЬТЕ НАМ 5 ЗВЕЗД!";
+"real_estate_attribute_tag_bathroom_0" = "0BA";
 "real_estate_bathrooms_0" = "Нет";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1.5";

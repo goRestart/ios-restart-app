@@ -50,6 +50,7 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var visualEffectViewBottom: NSLayoutConstraint!
     @IBOutlet weak var descriptionLabel: LGCollapsibleLabel!
+    @IBOutlet weak var tagCollectionView: TagCollectionView!
     @IBOutlet weak var statsContainerView: UIView!
     @IBOutlet weak var statsContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var statsContainerViewTopConstraint: NSLayoutConstraint!
@@ -94,11 +95,14 @@ class ListingCarouselMoreInfoView: UIView {
 
     weak var viewModel: ListingCarouselViewModel?
     weak var delegate: ProductCarouselMoreInfoDelegate?
+    
+    fileprivate var tagCollectionViewModel: TagCollectionViewModel?
 
     static func moreInfoView() -> ListingCarouselMoreInfoView {
         guard let view = Bundle.main.loadNibNamed("ListingCarouselMoreInfoView", owner: self, options: nil)?.first
             as? ListingCarouselMoreInfoView else { return ListingCarouselMoreInfoView() }
         view.setupUI()
+        view.setupTagCollectionView()
         view.setupStatsView()
         view.setAccessibilityIds()
         view.addGestures()
@@ -141,6 +145,13 @@ class ListingCarouselMoreInfoView: UIView {
         } else {
             hideAdsBanner()
         }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // We need to call invalidateLayout in the CollectionView to fix what appears to be an iOS 10 UIKit bug:
+        // https://stackoverflow.com/a/44467194
+        tagCollectionView.collectionViewLayout.invalidateLayout()
     }
 
     func dismissed() {
@@ -411,6 +422,13 @@ fileprivate extension ListingCarouselMoreInfoView {
 
         scrollView.delegate = self
     }
+    
+    func setupTagCollectionView() {
+        tagCollectionViewModel = TagCollectionViewModel(tags: [], delegate: tagCollectionView)
+        tagCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.reusableID)
+        tagCollectionView.dataSource = tagCollectionViewModel
+        tagCollectionView.defaultSetup()
+    }
 
     func setupStatsView() {
         statsContainerViewHeightConstraint.constant = 0.0
@@ -474,9 +492,10 @@ fileprivate extension ListingCarouselMoreInfoView {
             self?.distanceLabel.text = info.distance
             self?.descriptionLabel.mainAttributedText = info.styledDescription
             self?.descriptionLabel.setNeedsLayout()
+            self?.tagCollectionViewModel?.tags = info.attributeTags ?? []
         }.disposed(by: disposeBag)
     }
-
+    
     func setupStatsRx(viewModel: ListingCarouselViewModel) {
         let productCreation = viewModel.productInfo.asObservable().map { $0?.creationDate }
         let statsAndCreation = Observable.combineLatest(viewModel.listingStats.asObservable().unwrap(), productCreation) { ($0, $1) }

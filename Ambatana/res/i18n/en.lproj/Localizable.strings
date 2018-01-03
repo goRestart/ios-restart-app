@@ -379,6 +379,12 @@
 // Alert text for express chat messages send success
 "chat_express_several_messages_sent_success_alert" = "Your messages have been sent!";
 
+// text in chat professional banner action button
+"chat_professional_banner_button_title" = "Call";
+
+// text in chat professional banner title label
+"chat_professional_banner_title" = "You're talking to a professional car dealer";
+
 // When a user asked to delete his account (state)
 "chat_list_account_deleted" = "Deleted account";
 
@@ -1549,6 +1555,12 @@
 // Message to show on Free product
 "product_free_price" = "Free";
 
+// Text for chat with professional users button
+"product_professional_chat_button" = "Chat";
+
+// Text for call professional users button
+"product_professional_call_button" = "Call";
+
 // Product mark as ready to give away button
 "product_sell_again_free_button" = "Mark as available";
 
@@ -1892,22 +1904,22 @@
 "product_post_select_category_housing" = "Housing";
 
 // Product report confirm message. Message displayal is like the other dialog messages
-"product_report_confirm_message" = "Are you sure you want to report this product?";
+"product_report_confirm_message" = "Are you sure you want to report this listing?";
 
 // Product report confirm title. Message displayal is like the other dialog messages
-"product_report_confirm_title" = "Report Product";
+"product_report_confirm_title" = "Report listing";
 
 // Product report product button. Check image @ "product_ask_a_question_button" segment
-"product_report_product_button" = "Report Product";
+"product_report_product_button" = "Report listing";
 
 // Product reported fail message. Message displayal is like the other dialog messages
-"product_reported_error_generic" = "An error occurred while reporting the product. Please try again.";
+"product_reported_error_generic" = "An error occurred while reporting the listing. Please try again.";
 
 // Product reported success message. Message displayal is like the other dialog messages
-"product_reported_success_message" = "The product has been reported. Thanks!";
+"product_reported_success_message" = "This listing has been reported. Thanks!";
 
 // Product reporting laoding message. Message displayal is like the other dialog messages
-"product_reporting_loading_message" = "Reporting product...";
+"product_reporting_loading_message" = "Reporting listing...";
 
 // Product search no products body.
 "product_search_no_products_body" = "Try looking for something else or check again soon!";
@@ -2392,6 +2404,9 @@
 
 // Real Estate number of bathrooms 4 short version
 "real_estate_title_generator_bathrooms_4" = "4+BA";
+
+// Real Estate number of bathrooms 0 for attributes tag
+"real_estate_attribute_tag_bathroom_0" = "0BA";
 
 // Show the current step of total steps
 "real_estate_current_step_of_total" = "%d of %d";

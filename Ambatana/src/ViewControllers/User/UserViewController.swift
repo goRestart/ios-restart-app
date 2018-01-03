@@ -14,14 +14,21 @@ import RxSwift
 class UserViewController: BaseViewController {
     fileprivate static let navBarUserViewHeight: CGFloat = 36
     fileprivate static let userLabelsVerticalMargin: CGFloat = 10
-    private static let userBgViewDefaultHeight: CGFloat = headerExpandedHeight
+    fileprivate var userBgViewDefaultHeight: CGFloat {
+        return headerExpandedHeight
+    }
 
     fileprivate var listingListViewTopMargin: CGFloat {
         return navigationBarHeight + statusBarHeight
     }
 
-    fileprivate static let headerExpandedBottom: CGFloat = -(headerExpandedHeight+userBgViewDefaultHeight)
-    fileprivate static let headerExpandedHeight: CGFloat = 150
+    fileprivate var headerExpandedBottom: CGFloat {
+        return -(headerExpandedHeight+userBgViewDefaultHeight)
+    }
+    fileprivate var headerExpandedHeight: CGFloat {
+        return navigationBarHeight + statusBarHeight + headerExpandedPadding
+    }
+    fileprivate let headerExpandedPadding: CGFloat = 86
 
     fileprivate var headerCollapsedBottom: CGFloat {
         if #available(iOS 11, *) {
@@ -141,7 +148,6 @@ class UserViewController: BaseViewController {
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
-        defer { deferedUpdateNavigationBar() }
         super.viewWillAppearFromBackground(fromBackground)
         view.backgroundColor = viewModel.backgroundColor.value
         userBgTintView.alpha = userBgTintViewAlpha.value
@@ -149,20 +155,10 @@ class UserViewController: BaseViewController {
         userBgImageView.alpha = 1
     }
 
-    private func deferedUpdateNavigationBar() {
-        if navBarUserViewAlpha == 0 {
-            // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
-            let currentAlpha: CGFloat = navBarUserViewAlpha
-            navBarUserView.isHidden = true
-            delay(1.0) { [weak self] in
-                self?.navBarUserView.alpha = currentAlpha
-                self?.navBarUserView.isHidden = false
-            }
-        }
-    }
-
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
+        
+        updateNavBarForTransition(isHidden: true)
         
         // Animating to clear background color as it glitches next screen translucent navBar
         // http://stackoverflow.com/questions/28245061/why-does-setting-hidesbottombarwhenpushed-to-yes-with-a-translucent-navigation
@@ -178,6 +174,21 @@ class UserViewController: BaseViewController {
         listingListView.minimumContentHeight = listingListView.collectionView.frame.height - headerCollapsedHeight
         
         averageRatingView.rounded = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateNavBarForTransition(isHidden: false)
+    }
+    
+    private func updateNavBarForTransition(isHidden: Bool) {
+        if !isHidden && navBarUserViewAlpha == 0 {
+            // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
+            let currentAlpha: CGFloat = navBarUserViewAlpha
+            self.navBarUserView.alpha = currentAlpha
+        }
+        
+        navBarUserView.isHidden = isHidden
     }
 }
 
@@ -300,7 +311,7 @@ extension UserViewController {
         listingListView.shouldScrollToTopOnFirstPageReload = false
         listingListView.padding = UIEdgeInsets(top: listingListViewTopMargin, left: 0, bottom: 0, right: 0)
 
-        let top = abs(UserViewController.headerExpandedBottom + listingListViewTopMargin)
+        let top = abs(headerExpandedBottom + listingListViewTopMargin)
         let contentInset = UIEdgeInsets(top: top, left: 0, bottom: bottomInset, right: 0)
         listingListView.collectionViewContentInset = contentInset
         listingListView.collectionView.scrollIndicatorInsets.top = contentInset.top
@@ -326,7 +337,7 @@ extension UserViewController {
     }
 
     fileprivate func scrollDidChange(_ contentOffsetInsetY: CGFloat) {
-        let minBottom = UserViewController.headerExpandedBottom
+        let minBottom = headerExpandedBottom
         let maxBottom = headerCollapsedBottom
 
         let bottom = min(maxBottom, contentOffsetInsetY - listingListViewTopMargin)
@@ -334,7 +345,7 @@ extension UserViewController {
 
         let percentage = min(1, abs(bottom - maxBottom) / abs(maxBottom - minBottom))
 
-        let height = headerCollapsedHeight + percentage * (UserViewController.headerExpandedHeight - headerCollapsedHeight)
+        let height = headerCollapsedHeight + percentage * (headerExpandedHeight - headerCollapsedHeight)
         headerContainerHeight.constant = height
 
         // header expands more than 100% to hide the avatar when pulling
@@ -342,7 +353,7 @@ extension UserViewController {
         headerExpandedPercentage.value = headerPercentage
 
         // update top on error/first load views
-        let maxTop = abs(UserViewController.headerExpandedBottom + listingListViewTopMargin)
+        let maxTop = abs(headerExpandedBottom + listingListViewTopMargin)
         let minTop = abs(headerCollapsedBottom)
         let top = minTop + percentage * (maxTop - minTop)
         let firstLoadPadding = UIEdgeInsets(top: top,
@@ -378,7 +389,7 @@ extension UserViewController {
     }
 
     fileprivate func scrollToTopWithExpandedState(_ expanded: Bool, animated: Bool) {
-        let mininum: CGFloat = UserViewController.headerExpandedBottom + listingListViewTopMargin
+        let mininum: CGFloat = headerExpandedBottom + listingListViewTopMargin
         let maximum: CGFloat = -headerCollapsedHeight
         let y = expanded ? mininum : maximum
         let contentOffset = CGPoint(x: 0, y: y)
