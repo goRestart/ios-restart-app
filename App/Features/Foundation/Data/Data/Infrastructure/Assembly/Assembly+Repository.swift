@@ -1,21 +1,43 @@
 import Core
-import Moya
+
+// MARK: - Auth
 
 extension Assembly {
   public var authRepository: AuthRepository {
     return AuthRepository(
-      apiDataSource: apiDataSource
+      apiDataSource: authApiDataSource
     )
   }
   
-  private var apiDataSource: AuthDataSource {
+  private var authApiDataSource: AuthDataSource {
     return AuthApiDataSource(
-      provider: MoyaProvider(),
-      errorAdapter: errorAdapter
+      provider: moyaProvider(),
+      errorAdapter: authErrorAdapter
     )
   }
   
-  private var errorAdapter: AuthenticateErrorAdapter {
+  private var authErrorAdapter: AuthenticateErrorAdapter {
     return AuthenticateErrorAdapter()
+  }
+}
+
+// MARK: - User
+
+extension Assembly {
+  public var userRepository: UserRepository {
+    return UserRepository(
+      apiDataSource: userApiDataSource
+    )
+  }
+  
+  private var userApiDataSource: UserDataSource {
+    return UserApiDataSource(
+      provider: moyaProvider(),
+      errorAdapter: userErrorAdapter
+    )
+  }
+  
+  private var userErrorAdapter: RegisterUserErrorAdapter {
+    return RegisterUserErrorAdapter()
   }
 }
