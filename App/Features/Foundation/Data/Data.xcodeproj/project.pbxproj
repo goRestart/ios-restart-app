@@ -10,6 +10,11 @@
 		1C40D8A71FFD18C3006D5BE4 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8A61FFD18C3006D5BE4 /* UserService.swift */; };
 		1C40D8AA1FFD1914006D5BE4 /* RegisterUserEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8A91FFD1914006D5BE4 /* RegisterUserEndpoint.swift */; };
 		1C40D8B01FFD354B006D5BE4 /* UserDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8AF1FFD354B006D5BE4 /* UserDataSource.swift */; };
+		1C40D8B21FFD3594006D5BE4 /* UserApiDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8B11FFD3594006D5BE4 /* UserApiDataSource.swift */; };
+		1C40D8B51FFD35C4006D5BE4 /* RegisterUserErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8B41FFD35C4006D5BE4 /* RegisterUserErrorAdapter.swift */; };
+		1C40D8B81FFD369B006D5BE4 /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8B71FFD369B006D5BE4 /* EmptyResponse.swift */; };
+		1C40D8BA1FFD38CA006D5BE4 /* Assembly+Moya.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8B91FFD38CA006D5BE4 /* Assembly+Moya.swift */; };
+		1C40D8BC1FFD3940006D5BE4 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8BB1FFD3940006D5BE4 /* UserRepository.swift */; };
 		1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6FD1FF3CFBF00B3FA98 /* AuthToken.swift */; };
 		1C89D7441FF3DD1900B3FA98 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7431FF3DD1000B3FA98 /* Domain.framework */; };
 		1C89D74E1FF3DD3500B3FA98 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D74B1FF3DD2F00B3FA98 /* Core.framework */; };
@@ -23,7 +28,7 @@
 		1C913A3B1FF2BA8B00646884 /* TargetType+Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A3A1FF2BA8B00646884 /* TargetType+Default.swift */; };
 		1C913A3E1FF2BB4200646884 /* AuthenticateEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C913A3D1FF2BB4200646884 /* AuthenticateEndpoint.swift */; };
 		1CACCE7A1FF2D6320001B321 /* ErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE791FF2D6320001B321 /* ErrorAdapter.swift */; };
-		1CACCE7D1FF2D69E0001B321 /* AuthenticateError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE7C1FF2D69E0001B321 /* AuthenticateError.swift */; };
+		1CACCE7D1FF2D69E0001B321 /* AuthenticateErrorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE7C1FF2D69E0001B321 /* AuthenticateErrorAdapter.swift */; };
 		1CACCE8A1FF309E60001B321 /* PrimitiveSequence+CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE891FF309E60001B321 /* PrimitiveSequence+CustomError.swift */; };
 		1CACCE911FF30BA60001B321 /* AuthApiDataSourceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE901FF30BA60001B321 /* AuthApiDataSourceSpec.swift */; };
 		1CACCE941FF31D6A0001B321 /* auth.ok.json in Resources */ = {isa = PBXBuildFile; fileRef = 1CACCE931FF31D6A0001B321 /* auth.ok.json */; };
@@ -60,6 +65,11 @@
 		1C40D8A61FFD18C3006D5BE4 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		1C40D8A91FFD1914006D5BE4 /* RegisterUserEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserEndpoint.swift; sourceTree = "<group>"; };
 		1C40D8AF1FFD354B006D5BE4 /* UserDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataSource.swift; sourceTree = "<group>"; };
+		1C40D8B11FFD3594006D5BE4 /* UserApiDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserApiDataSource.swift; sourceTree = "<group>"; };
+		1C40D8B41FFD35C4006D5BE4 /* RegisterUserErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserErrorAdapter.swift; sourceTree = "<group>"; };
+		1C40D8B71FFD369B006D5BE4 /* EmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
+		1C40D8B91FFD38CA006D5BE4 /* Assembly+Moya.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Moya.swift"; sourceTree = "<group>"; };
+		1C40D8BB1FFD3940006D5BE4 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		1C89D6FD1FF3CFBF00B3FA98 /* AuthToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthToken.swift; sourceTree = "<group>"; };
 		1C89D73E1FF3DD1000B3FA98 /* Domain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Domain.xcodeproj; path = ../Domain/Domain.xcodeproj; sourceTree = "<group>"; };
 		1C89D7451FF3DD2F00B3FA98 /* Core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Core.xcodeproj; path = ../Core/Core.xcodeproj; sourceTree = "<group>"; };
@@ -78,7 +88,7 @@
 		1C913A3D1FF2BB4200646884 /* AuthenticateEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateEndpoint.swift; sourceTree = "<group>"; };
 		1CACCE6A1FF2D01E0001B321 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../../../Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		1CACCE791FF2D6320001B321 /* ErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAdapter.swift; sourceTree = "<group>"; };
-		1CACCE7C1FF2D69E0001B321 /* AuthenticateError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateError.swift; sourceTree = "<group>"; };
+		1CACCE7C1FF2D69E0001B321 /* AuthenticateErrorAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateErrorAdapter.swift; sourceTree = "<group>"; };
 		1CACCE851FF300EC0001B321 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = ../../../../Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		1CACCE891FF309E60001B321 /* PrimitiveSequence+CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrimitiveSequence+CustomError.swift"; sourceTree = "<group>"; };
 		1CACCE901FF30BA60001B321 /* AuthApiDataSourceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthApiDataSourceSpec.swift; sourceTree = "<group>"; };
@@ -138,6 +148,7 @@
 		1C40D8AC1FFD351D006D5BE4 /* User */ = {
 			isa = PBXGroup;
 			children = (
+				1C40D8BB1FFD3940006D5BE4 /* UserRepository.swift */,
 				1C40D8AD1FFD353D006D5BE4 /* Data Source */,
 			);
 			path = User;
@@ -155,8 +166,26 @@
 		1C40D8AE1FFD353D006D5BE4 /* Api */ = {
 			isa = PBXGroup;
 			children = (
+				1C40D8B11FFD3594006D5BE4 /* UserApiDataSource.swift */,
+				1C40D8B31FFD35AA006D5BE4 /* Error */,
 			);
 			path = Api;
+			sourceTree = "<group>";
+		};
+		1C40D8B31FFD35AA006D5BE4 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				1C40D8B41FFD35C4006D5BE4 /* RegisterUserErrorAdapter.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		1C40D8B61FFD3692006D5BE4 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				1C40D8B71FFD369B006D5BE4 /* EmptyResponse.swift */,
+			);
+			path = Response;
 			sourceTree = "<group>";
 		};
 		1C89D6FA1FF3CF9F00B3FA98 /* Domain */ = {
@@ -171,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				1C89D6FC1FF3CFAA00B3FA98 /* Auth */,
+				1C40D8B61FFD3692006D5BE4 /* Response */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -368,7 +398,7 @@
 		1CACCE7B1FF2D6920001B321 /* Error */ = {
 			isa = PBXGroup;
 			children = (
-				1CACCE7C1FF2D69E0001B321 /* AuthenticateError.swift */,
+				1CACCE7C1FF2D69E0001B321 /* AuthenticateErrorAdapter.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -428,6 +458,7 @@
 			isa = PBXGroup;
 			children = (
 				1CC209B51FF2C2F500EE0B5B /* Assembly+Repository.swift */,
+				1C40D8B91FFD38CA006D5BE4 /* Assembly+Moya.swift */,
 			);
 			path = Assembly;
 			sourceTree = "<group>";
@@ -642,19 +673,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C913A2F1FF2B2D400646884 /* AuthDataSource.swift in Sources */,
+				1C40D8B51FFD35C4006D5BE4 /* RegisterUserErrorAdapter.swift in Sources */,
 				1C913A321FF2B30A00646884 /* AuthApiDataSource.swift in Sources */,
 				1C40D8AA1FFD1914006D5BE4 /* RegisterUserEndpoint.swift in Sources */,
 				1CC209B61FF2C2F500EE0B5B /* Assembly+Repository.swift in Sources */,
 				1C913A3E1FF2BB4200646884 /* AuthenticateEndpoint.swift in Sources */,
 				1CACCE8A1FF309E60001B321 /* PrimitiveSequence+CustomError.swift in Sources */,
+				1C40D8B21FFD3594006D5BE4 /* UserApiDataSource.swift in Sources */,
 				1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */,
 				1C40D8A71FFD18C3006D5BE4 /* UserService.swift in Sources */,
 				1C40D8B01FFD354B006D5BE4 /* UserDataSource.swift in Sources */,
 				1C913A351FF2B65300646884 /* Endpoint.swift in Sources */,
+				1C40D8B81FFD369B006D5BE4 /* EmptyResponse.swift in Sources */,
 				1C913A1A1FF0656800646884 /* AuthService.swift in Sources */,
+				1C40D8BA1FFD38CA006D5BE4 /* Assembly+Moya.swift in Sources */,
 				1C913A291FF0670300646884 /* AuthRepository.swift in Sources */,
 				1C913A3B1FF2BA8B00646884 /* TargetType+Default.swift in Sources */,
-				1CACCE7D1FF2D69E0001B321 /* AuthenticateError.swift in Sources */,
+				1CACCE7D1FF2D69E0001B321 /* AuthenticateErrorAdapter.swift in Sources */,
+				1C40D8BC1FFD3940006D5BE4 /* UserRepository.swift in Sources */,
 				1CACCE7A1FF2D6320001B321 /* ErrorAdapter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
