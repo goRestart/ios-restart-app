@@ -16,6 +16,8 @@
 		1C7F4C821FFC4ADA001BEB62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C7F4C811FFC4ADA001BEB62 /* Assets.xcassets */; };
 		1C7F4C841FFC4E49001BEB62 /* Assembly+NotLogged.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C831FFC4E49001BEB62 /* Assembly+NotLogged.swift */; };
 		1C7F4C851FFC4EC2001BEB62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C7F4C811FFC4ADA001BEB62 /* Assets.xcassets */; };
+		1C7F4C9B1FFC6405001BEB62 /* NotLoggedViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C9A1FFC6405001BEB62 /* NotLoggedViewSpec.swift */; };
+		1C7F4C9C1FFC643E001BEB62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C7F4C811FFC4ADA001BEB62 /* Assets.xcassets */; };
 		1CACD9D51FF66F8000538B78 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACD9D41FF66F8000538B78 /* LoginViewController.swift */; };
 		1CACD9DC1FF6703200538B78 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACD9DB1FF6703200538B78 /* LoginViewModel.swift */; };
 		1CACD9E61FF67C3400538B78 /* Assembly+Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACD9E51FF67C3400538B78 /* Assembly+Login.swift */; };
@@ -140,6 +142,7 @@
 		1C7F4C7F1FFC4980001BEB62 /* NotLoggedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotLoggedView.swift; sourceTree = "<group>"; };
 		1C7F4C811FFC4ADA001BEB62 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1C7F4C831FFC4E49001BEB62 /* Assembly+NotLogged.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+NotLogged.swift"; sourceTree = "<group>"; };
+		1C7F4C9A1FFC6405001BEB62 /* NotLoggedViewSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotLoggedViewSpec.swift; sourceTree = "<group>"; };
 		1CACD9D41FF66F8000538B78 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1CACD9DB1FF6703200538B78 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		1CACD9DE1FF6713100538B78 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../../../Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
@@ -231,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				1C7F4C501FF95B1A001BEB62 /* Features */,
+				1C7F4C991FFC63F7001BEB62 /* Snapshot */,
 				1C7DD98F1FF66C41009C574E /* Info.plist */,
 			);
 			path = SignUpTests;
@@ -283,6 +287,14 @@
 				1C7F4C7D1FFC4954001BEB62 /* NotLoggedViewController.swift */,
 			);
 			path = "View Controller";
+			sourceTree = "<group>";
+		};
+		1C7F4C991FFC63F7001BEB62 /* Snapshot */ = {
+			isa = PBXGroup;
+			children = (
+				1C7F4C9A1FFC6405001BEB62 /* NotLoggedViewSpec.swift */,
+			);
+			path = Snapshot;
 			sourceTree = "<group>";
 		};
 		1CACD9C81FF66E0000538B78 /* Resources */ = {
@@ -593,6 +605,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C7F4C9C1FFC643E001BEB62 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,6 +633,7 @@
 				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxSwift.framework",
 				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxCocoa.framework",
 				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxTest.framework",
+				"$(SRCROOT)/../../../../Carthage/Build/iOS/Snap.framework",
 			);
 			name = "[Carthage] - Copy frameworks";
 			outputPaths = (
@@ -686,6 +700,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C7F4C541FF95B47001BEB62 /* LoginViewModelSpec.swift in Sources */,
+				1C7F4C9B1FFC6405001BEB62 /* NotLoggedViewSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

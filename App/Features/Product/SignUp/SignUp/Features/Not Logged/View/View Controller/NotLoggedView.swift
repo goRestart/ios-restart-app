@@ -10,7 +10,9 @@ private struct ViewLayout {
 final class NotLoggedView: View {
   
   private let logoImageView: UIImageView = {
-    let imageView = UIImageView(image: #imageLiteral(resourceName: "icon_logo"))
+    let bundle = Bundle(for: NotLoggedView.self)
+    let image = UIImage(named: "icon_logo", in: bundle, compatibleWith: nil)
+    let imageView = UIImageView(image: image)
     imageView.contentMode = .scaleAspectFill
     return imageView
   }()
