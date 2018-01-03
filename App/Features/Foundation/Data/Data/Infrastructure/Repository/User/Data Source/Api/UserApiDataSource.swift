@@ -18,6 +18,7 @@ struct UserApiDataSource: UserDataSource {
   func register(with credentials: UserCredentials) -> Completable {
     return provider.rx
       .request(.register(credentials))
+      .filterSuccessfulStatusCodes()
       .map(EmptyResponse.self, errorAdapter.make)
       .asCompletable()
   }

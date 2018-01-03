@@ -18,6 +18,7 @@ struct AuthApiDataSource: AuthDataSource {
   func authenticate(with credentials: BasicCredentials) -> Single<AuthToken> {
     return provider.rx
       .request(.authenticate(credentials))
+      .filterSuccessfulStatusCodes()
       .map(AuthToken.self, errorAdapter.make)
   }
 }

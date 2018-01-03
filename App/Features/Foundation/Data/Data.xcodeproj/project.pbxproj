@@ -15,6 +15,13 @@
 		1C40D8B81FFD369B006D5BE4 /* EmptyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8B71FFD369B006D5BE4 /* EmptyResponse.swift */; };
 		1C40D8BA1FFD38CA006D5BE4 /* Assembly+Moya.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8B91FFD38CA006D5BE4 /* Assembly+Moya.swift */; };
 		1C40D8BC1FFD3940006D5BE4 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8BB1FFD3940006D5BE4 /* UserRepository.swift */; };
+		1C40D8C21FFD3B26006D5BE4 /* UserApiDataSourceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8C11FFD3B26006D5BE4 /* UserApiDataSourceSpec.swift */; };
+		1C40D8C51FFD3BD1006D5BE4 /* register.ok.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C40D8C41FFD3BD1006D5BE4 /* register.ok.json */; };
+		1C40D8C71FFD3CC6006D5BE4 /* register.username_already_registered.conflict.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C40D8C61FFD3CC6006D5BE4 /* register.username_already_registered.conflict.json */; };
+		1C40D8C91FFD4315006D5BE4 /* register.invalid_username.conflict.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C40D8C81FFD4315006D5BE4 /* register.invalid_username.conflict.json */; };
+		1C40D8CB1FFD434A006D5BE4 /* register.invalid_email.conflict.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C40D8CA1FFD434A006D5BE4 /* register.invalid_email.conflict.json */; };
+		1C40D8CD1FFD4388006D5BE4 /* register.invalid_password.conflict.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C40D8CC1FFD4388006D5BE4 /* register.invalid_password.conflict.json */; };
+		1C40D8CF1FFD43A3006D5BE4 /* register.email_already_registered.conflict.json in Resources */ = {isa = PBXBuildFile; fileRef = 1C40D8CE1FFD43A3006D5BE4 /* register.email_already_registered.conflict.json */; };
 		1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6FD1FF3CFBF00B3FA98 /* AuthToken.swift */; };
 		1C89D7441FF3DD1900B3FA98 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7431FF3DD1000B3FA98 /* Domain.framework */; };
 		1C89D74E1FF3DD3500B3FA98 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D74B1FF3DD2F00B3FA98 /* Core.framework */; };
@@ -70,6 +77,13 @@
 		1C40D8B71FFD369B006D5BE4 /* EmptyResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponse.swift; sourceTree = "<group>"; };
 		1C40D8B91FFD38CA006D5BE4 /* Assembly+Moya.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Moya.swift"; sourceTree = "<group>"; };
 		1C40D8BB1FFD3940006D5BE4 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		1C40D8C11FFD3B26006D5BE4 /* UserApiDataSourceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserApiDataSourceSpec.swift; sourceTree = "<group>"; };
+		1C40D8C41FFD3BD1006D5BE4 /* register.ok.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = register.ok.json; sourceTree = "<group>"; };
+		1C40D8C61FFD3CC6006D5BE4 /* register.username_already_registered.conflict.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = register.username_already_registered.conflict.json; sourceTree = "<group>"; };
+		1C40D8C81FFD4315006D5BE4 /* register.invalid_username.conflict.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = register.invalid_username.conflict.json; sourceTree = "<group>"; };
+		1C40D8CA1FFD434A006D5BE4 /* register.invalid_email.conflict.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = register.invalid_email.conflict.json; sourceTree = "<group>"; };
+		1C40D8CC1FFD4388006D5BE4 /* register.invalid_password.conflict.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = register.invalid_password.conflict.json; sourceTree = "<group>"; };
+		1C40D8CE1FFD43A3006D5BE4 /* register.email_already_registered.conflict.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = register.email_already_registered.conflict.json; sourceTree = "<group>"; };
 		1C89D6FD1FF3CFBF00B3FA98 /* AuthToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthToken.swift; sourceTree = "<group>"; };
 		1C89D73E1FF3DD1000B3FA98 /* Domain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Domain.xcodeproj; path = ../Domain/Domain.xcodeproj; sourceTree = "<group>"; };
 		1C89D7451FF3DD2F00B3FA98 /* Core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Core.xcodeproj; path = ../Core/Core.xcodeproj; sourceTree = "<group>"; };
@@ -194,6 +208,44 @@
 				1CACCE8E1FF30B910001B321 /* Data Source */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		1C40D8BE1FFD3AEE006D5BE4 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				1C40D8BF1FFD3B0B006D5BE4 /* Data Source */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		1C40D8BF1FFD3B0B006D5BE4 /* Data Source */ = {
+			isa = PBXGroup;
+			children = (
+				1C40D8C01FFD3B0B006D5BE4 /* Api */,
+			);
+			path = "Data Source";
+			sourceTree = "<group>";
+		};
+		1C40D8C01FFD3B0B006D5BE4 /* Api */ = {
+			isa = PBXGroup;
+			children = (
+				1C40D8C11FFD3B26006D5BE4 /* UserApiDataSourceSpec.swift */,
+				1C40D8C31FFD3BBA006D5BE4 /* Fixture */,
+			);
+			path = Api;
+			sourceTree = "<group>";
+		};
+		1C40D8C31FFD3BBA006D5BE4 /* Fixture */ = {
+			isa = PBXGroup;
+			children = (
+				1C40D8C41FFD3BD1006D5BE4 /* register.ok.json */,
+				1C40D8C61FFD3CC6006D5BE4 /* register.username_already_registered.conflict.json */,
+				1C40D8C81FFD4315006D5BE4 /* register.invalid_username.conflict.json */,
+				1C40D8CA1FFD434A006D5BE4 /* register.invalid_email.conflict.json */,
+				1C40D8CC1FFD4388006D5BE4 /* register.invalid_password.conflict.json */,
+				1C40D8CE1FFD43A3006D5BE4 /* register.email_already_registered.conflict.json */,
+			);
+			path = Fixture;
 			sourceTree = "<group>";
 		};
 		1C89D6FA1FF3CF9F00B3FA98 /* Domain */ = {
@@ -432,6 +484,7 @@
 			isa = PBXGroup;
 			children = (
 				1C40D8BD1FFD3ACA006D5BE4 /* Auth */,
+				1C40D8BE1FFD3AEE006D5BE4 /* User */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -626,8 +679,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C40D8C51FFD3BD1006D5BE4 /* register.ok.json in Resources */,
+				1C40D8CB1FFD434A006D5BE4 /* register.invalid_email.conflict.json in Resources */,
+				1C40D8C91FFD4315006D5BE4 /* register.invalid_username.conflict.json in Resources */,
+				1C40D8CF1FFD43A3006D5BE4 /* register.email_already_registered.conflict.json in Resources */,
 				1CE92EA11FF320DF00F762E5 /* auth.unauthorized.json in Resources */,
+				1C40D8CD1FFD4388006D5BE4 /* register.invalid_password.conflict.json in Resources */,
 				1CACCE941FF31D6A0001B321 /* auth.ok.json in Resources */,
+				1C40D8C71FFD3CC6006D5BE4 /* register.username_already_registered.conflict.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -709,6 +768,7 @@
 			files = (
 				1CACCE911FF30BA60001B321 /* AuthApiDataSourceSpec.swift in Sources */,
 				1CE92E9F1FF31E5600F762E5 /* Fixture.swift in Sources */,
+				1C40D8C21FFD3B26006D5BE4 /* UserApiDataSourceSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
