@@ -64,6 +64,7 @@ final class TabBarController: UITabBarController {
 
         setupAdminAccess()
         setupSellButton()
+        setupTooltip()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -187,6 +188,8 @@ final class TabBarController: UITabBarController {
 
     private func setupSellButton() {
         floatingSellButton.buttonTouchBlock = { [weak self] in
+            self?.tooltip?.removeFromSuperview()
+            self?.viewModel.tooltipDismissed()
             self?.setupExpandableCategoriesView()
         }
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
@@ -194,6 +197,21 @@ final class TabBarController: UITabBarController {
         floatingSellButton.layout(with: view).centerX()
         floatingSellButton.layout(with: view).bottom(by: -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance), constraintBlock: {[weak self] in self?.floatingSellButtonMarginConstraint = $0 })
         floatingSellButton.layout(with: view).leading(by: LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .greaterThanOrEqual).trailing(by: -LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .lessThanOrEqual)
+    }
+    
+    private func setupTooltip() {
+        guard viewModel.shouldShowRealEstateTooltip else { return }
+        tooltip = Tooltip(targetView: floatingSellButton, superView: view, title: viewModel.realEstateTooltipText(), style: .black(closeEnabled: true),
+                          peakOnTop: false, actionBlock: { [weak self] in
+                            self?.viewModel.tooltipDismissed()
+            }, closeBlock: { [weak self] in
+                self?.viewModel.tooltipDismissed()
+        })
+        if let toolTipShowed = tooltip {
+            view.addSubview(toolTipShowed)
+            setupExternalConstraintsForTooltip(toolTipShowed, targetView: floatingSellButton, containerView: view)
+        }
+        view.layoutIfNeeded()
     }
     
     
