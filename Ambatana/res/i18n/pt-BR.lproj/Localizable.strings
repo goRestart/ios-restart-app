@@ -617,7 +617,7 @@
 "product_post_retake" = "Retake";
 "product_post_retry_button" = "Try Again";
 "product_post_select_category_cars" = "Cars";
-"product_post_select_category_housing" = "Housing";
+"product_post_select_category_housing" = "Housing for Rent / Sale";
 "product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
 "product_post_select_category_other" = "Other items";
 "product_post_select_category_title" = "What are you posting?";
@@ -791,6 +791,7 @@
 "real_estate_title_generator_property_type_house" = "house";
 "real_estate_title_generator_property_type_other" = "other";
 "real_estate_title_generator_property_type_room" = "room";
+"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 "real_estate_type_property_apartment" = "Apartment";
 "real_estate_type_property_commercial" = "Commercial";
 "real_estate_type_property_house" = "House";

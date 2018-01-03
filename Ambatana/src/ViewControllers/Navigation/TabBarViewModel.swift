@@ -72,7 +72,7 @@ class TabBarViewModel: BaseViewModel {
         titleTextAttributes[NSForegroundColorAttributeName] = UIColor.white
         titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
         
-        let titleText = NSAttributedString(string: "New category", attributes: titleTextAttributes)
+        let titleText = NSAttributedString(string: LGLocalizedString.realEstateTooltipSellButton, attributes: titleTextAttributes)
         
         let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
         fullTitle.append(NSAttributedString(string: " "))

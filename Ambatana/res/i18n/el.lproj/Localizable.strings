@@ -126,8 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Ο λογαριασμός βρίσκεται υπό έλεγχο από την ομάδα του letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Φαίνεται πως ο %@ δεν ενδιαφέρεται πια για την καταχώρησή σας.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Φαίνεται πώς αυτός ο χρήστης δεν ενδιαφέρεται πια για την καταχώρησή σας.";
-"chat_inactive_conversations_button" = "View archived chats";
-"chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
+"chat_inactive_conversations_button" = "Δείτε αρχειοθετημένες συνομιλίες";
+"chat_inactive_conversations_explanation_label" = "Οι συνομιλίες που είναι παλιότερες από 3 μήνες θα αρχειοθετηθούν αυτόματα.";
 "chat_list_account_deleted" = "Διαγραμμένος λογαριασμός";
 "chat_list_account_deleted_username" = "Ανενεργός";
 "chat_list_all_empty_title" = "ΚΑΜΙΑ ΣΥΝΟΜΙΛΙΑ (ΑΚΟΜΗ!)";
@@ -167,7 +167,7 @@
 "chat_product_given_away_label" = "Χαρισμένο";
 "chat_product_sold_label" = "Πωλήθηκε";
 "chat_professional_banner_button_title" = "Κλήση";
-"chat_professional_banner_title" = "You're talking to a professional car dealer";
+"chat_professional_banner_title" = "Μιλάτε σε έναν επαγγελματία πωλητή αυτοκινήτων";
 "chat_related_products_title" = "ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΕΣΤΕ ΓΙΑ:";
 "chat_safety_tips" = "Συμβουλές ασφαλείας";
 "chat_safety_tips_message" = "• Συναντηθείτε πρόσωπο με πρόσωπο και πληρώστε μετρητά.\n\n• Αποθηκεύστε τις συνομιλίες σας στο chat του letgo.\n\n• Πολύ καλό για να είναι αληθινό; Βρείτε κάποιον άλλο αγοραστή/πωλητή!";
@@ -617,7 +617,7 @@
 "product_post_retake" = "Ξανατραβήξτε";
 "product_post_retry_button" = "Προσπαθήστε Ξανά";
 "product_post_select_category_cars" = "Αυτοκίνητα";
-"product_post_select_category_housing" = "Μεσιτικά";
+"product_post_select_category_housing" = "Σπίτι για Ενοικίαση / Πώληση";
 "product_post_select_category_motors_and_accessories" = "Άλλα Οχήματα και Εξαρτήματα";
 "product_post_select_category_other" = "Άλλα αντικείμενα";
 "product_post_select_category_title" = "Τί δημοσιεύετε;";
@@ -791,6 +791,7 @@
 "real_estate_title_generator_property_type_house" = "Σπίτι";
 "real_estate_title_generator_property_type_other" = "Άλλα";
 "real_estate_title_generator_property_type_room" = "Δωμάτιο";
+"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 "real_estate_type_property_apartment" = "Διαμέρισμα";
 "real_estate_type_property_commercial" = "Εμπορική";
 "real_estate_type_property_house" = "Σπίτι";
