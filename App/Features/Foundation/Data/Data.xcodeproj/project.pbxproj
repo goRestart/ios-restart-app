@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C40D8A71FFD18C3006D5BE4 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8A61FFD18C3006D5BE4 /* UserService.swift */; };
+		1C40D8AA1FFD1914006D5BE4 /* RegisterUserEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8A91FFD1914006D5BE4 /* RegisterUserEndpoint.swift */; };
 		1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6FD1FF3CFBF00B3FA98 /* AuthToken.swift */; };
 		1C89D7441FF3DD1900B3FA98 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7431FF3DD1000B3FA98 /* Domain.framework */; };
 		1C89D74E1FF3DD3500B3FA98 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D74B1FF3DD2F00B3FA98 /* Core.framework */; };
@@ -44,13 +46,6 @@
 			remoteGlobalIDString = 1C913A4C1FF2C1C700646884;
 			remoteInfo = Core;
 		};
-		1C89D74C1FF3DD2F00B3FA98 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1C89D7451FF3DD2F00B3FA98 /* Core.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1C913A551FF2C1C700646884;
-			remoteInfo = CoreTests;
-		};
 		1C913A001FF0607600646884 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1C9139EC1FF0607600646884 /* Project object */;
@@ -61,6 +56,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C40D8A61FFD18C3006D5BE4 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		1C40D8A91FFD1914006D5BE4 /* RegisterUserEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserEndpoint.swift; sourceTree = "<group>"; };
 		1C89D6FD1FF3CFBF00B3FA98 /* AuthToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthToken.swift; sourceTree = "<group>"; };
 		1C89D73E1FF3DD1000B3FA98 /* Domain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Domain.xcodeproj; path = ../Domain/Domain.xcodeproj; sourceTree = "<group>"; };
 		1C89D7451FF3DD2F00B3FA98 /* Core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Core.xcodeproj; path = ../Core/Core.xcodeproj; sourceTree = "<group>"; };
@@ -110,6 +107,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C40D8A31FFD18B2006D5BE4 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				1C40D8A61FFD18C3006D5BE4 /* UserService.swift */,
+				1C40D8A81FFD1908006D5BE4 /* Endpoints */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		1C40D8A81FFD1908006D5BE4 /* Endpoints */ = {
+			isa = PBXGroup;
+			children = (
+				1C40D8A91FFD1914006D5BE4 /* RegisterUserEndpoint.swift */,
+			);
+			path = Endpoints;
+			sourceTree = "<group>";
+		};
 		1C89D6FA1FF3CF9F00B3FA98 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,7 +160,6 @@
 			isa = PBXGroup;
 			children = (
 				1C89D74B1FF3DD2F00B3FA98 /* Core.framework */,
-				1C89D74D1FF3DD2F00B3FA98 /* CoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -224,6 +237,7 @@
 			children = (
 				1CACCE8B1FF30A380001B321 /* Protocol */,
 				1C913A181FF0652000646884 /* Auth */,
+				1C40D8A31FFD18B2006D5BE4 /* User */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -524,13 +538,6 @@
 			remoteRef = 1C89D74A1FF3DD2F00B3FA98 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1C89D74D1FF3DD2F00B3FA98 /* CoreTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = CoreTests.xctest;
-			remoteRef = 1C89D74C1FF3DD2F00B3FA98 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -601,10 +608,12 @@
 			files = (
 				1C913A2F1FF2B2D400646884 /* AuthDataSource.swift in Sources */,
 				1C913A321FF2B30A00646884 /* AuthApiDataSource.swift in Sources */,
+				1C40D8AA1FFD1914006D5BE4 /* RegisterUserEndpoint.swift in Sources */,
 				1CC209B61FF2C2F500EE0B5B /* Assembly+Repository.swift in Sources */,
 				1C913A3E1FF2BB4200646884 /* AuthenticateEndpoint.swift in Sources */,
 				1CACCE8A1FF309E60001B321 /* PrimitiveSequence+CustomError.swift in Sources */,
 				1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */,
+				1C40D8A71FFD18C3006D5BE4 /* UserService.swift in Sources */,
 				1C913A351FF2B65300646884 /* Endpoint.swift in Sources */,
 				1C913A1A1FF0656800646884 /* AuthService.swift in Sources */,
 				1C913A291FF0670300646884 /* AuthRepository.swift in Sources */,
