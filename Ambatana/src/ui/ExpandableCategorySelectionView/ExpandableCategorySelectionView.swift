@@ -187,8 +187,10 @@ fileprivate extension ListingCategory {
         switch self {
         case .unassigned:
             return LGLocalizedString.categoriesUnassignedItems
-        case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .realEstate:
+        case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
             return name
+        case .realEstate:
+            return LGLocalizedString.productPostSelectCategoryHousing
         }
     }
     var icon: UIImage? {
