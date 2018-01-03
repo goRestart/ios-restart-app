@@ -229,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				1CACD9C91FF66E6500538B78 /* Features */,
+				1CACD9E31FF67C1A00538B78 /* Infrastructure */,
 				1CACD9C81FF66E0000538B78 /* Resources */,
 			);
 			path = SignUp;
@@ -336,7 +337,6 @@
 			children = (
 				1CACDA741FF7B1D900538B78 /* View Model */,
 				1CACD9D21FF66F6600538B78 /* View */,
-				1CACD9E31FF67C1A00538B78 /* Infrastructure */,
 			);
 			path = Login;
 			sourceTree = "<group>";
