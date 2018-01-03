@@ -11,6 +11,16 @@
 		1C7DD9901FF66C41009C574E /* SignUp.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C7DD9821FF66C41009C574E /* SignUp.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C7F4C541FF95B47001BEB62 /* LoginViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C531FF95B47001BEB62 /* LoginViewModelSpec.swift */; };
 		1C7F4C571FF95DFE001BEB62 /* LoginViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C561FF95DFE001BEB62 /* LoginViewModelType.swift */; };
+		1C7F4C7E1FFC4954001BEB62 /* NotLoggedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C7D1FFC4954001BEB62 /* NotLoggedViewController.swift */; };
+		1C7F4C801FFC4980001BEB62 /* NotLoggedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C7F1FFC4980001BEB62 /* NotLoggedView.swift */; };
+		1C7F4C821FFC4ADA001BEB62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C7F4C811FFC4ADA001BEB62 /* Assets.xcassets */; };
+		1C7F4C841FFC4E49001BEB62 /* Assembly+NotLogged.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C831FFC4E49001BEB62 /* Assembly+NotLogged.swift */; };
+		1C7F4C851FFC4EC2001BEB62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C7F4C811FFC4ADA001BEB62 /* Assets.xcassets */; };
+		1C7F4C9B1FFC6405001BEB62 /* NotLoggedViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C9A1FFC6405001BEB62 /* NotLoggedViewSpec.swift */; };
+		1C7F4C9C1FFC643E001BEB62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C7F4C811FFC4ADA001BEB62 /* Assets.xcassets */; };
+		1C7F4C9F1FFCF14B001BEB62 /* NotLoggedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C9E1FFCF14B001BEB62 /* NotLoggedViewModel.swift */; };
+		1C7F4CA11FFCF172001BEB62 /* NotLoggedViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4CA01FFCF172001BEB62 /* NotLoggedViewModelType.swift */; };
+		1C7F4CA41FFCF716001BEB62 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4CA31FFCF716001BEB62 /* LoginRouter.swift */; };
 		1CACD9D51FF66F8000538B78 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACD9D41FF66F8000538B78 /* LoginViewController.swift */; };
 		1CACD9DC1FF6703200538B78 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACD9DB1FF6703200538B78 /* LoginViewModel.swift */; };
 		1CACD9E61FF67C3400538B78 /* Assembly+Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACD9E51FF67C3400538B78 /* Assembly+Login.swift */; };
@@ -131,6 +141,14 @@
 		1C7DD98F1FF66C41009C574E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C7F4C531FF95B47001BEB62 /* LoginViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelSpec.swift; sourceTree = "<group>"; };
 		1C7F4C561FF95DFE001BEB62 /* LoginViewModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModelType.swift; sourceTree = "<group>"; };
+		1C7F4C7D1FFC4954001BEB62 /* NotLoggedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotLoggedViewController.swift; sourceTree = "<group>"; };
+		1C7F4C7F1FFC4980001BEB62 /* NotLoggedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotLoggedView.swift; sourceTree = "<group>"; };
+		1C7F4C811FFC4ADA001BEB62 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1C7F4C831FFC4E49001BEB62 /* Assembly+NotLogged.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+NotLogged.swift"; sourceTree = "<group>"; };
+		1C7F4C9A1FFC6405001BEB62 /* NotLoggedViewSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotLoggedViewSpec.swift; sourceTree = "<group>"; };
+		1C7F4C9E1FFCF14B001BEB62 /* NotLoggedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotLoggedViewModel.swift; sourceTree = "<group>"; };
+		1C7F4CA01FFCF172001BEB62 /* NotLoggedViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotLoggedViewModelType.swift; sourceTree = "<group>"; };
+		1C7F4CA31FFCF716001BEB62 /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
 		1CACD9D41FF66F8000538B78 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1CACD9DB1FF6703200538B78 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		1CACD9DE1FF6713100538B78 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../../../Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
@@ -213,6 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				1CACD9C91FF66E6500538B78 /* Features */,
+				1CACD9E31FF67C1A00538B78 /* Infrastructure */,
 				1CACD9C81FF66E0000538B78 /* Resources */,
 			);
 			path = SignUp;
@@ -222,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				1C7F4C501FF95B1A001BEB62 /* Features */,
+				1C7F4C991FFC63F7001BEB62 /* Snapshot */,
 				1C7DD98F1FF66C41009C574E /* Info.plist */,
 			);
 			path = SignUpTests;
@@ -251,9 +271,61 @@
 			path = "View Model";
 			sourceTree = "<group>";
 		};
+		1C7F4C791FFC492D001BEB62 /* Not Logged */ = {
+			isa = PBXGroup;
+			children = (
+				1C7F4C9D1FFCF13B001BEB62 /* View Model */,
+				1C7F4C7B1FFC4941001BEB62 /* View */,
+			);
+			path = "Not Logged";
+			sourceTree = "<group>";
+		};
+		1C7F4C7B1FFC4941001BEB62 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1C7F4C7C1FFC4941001BEB62 /* View Controller */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1C7F4C7C1FFC4941001BEB62 /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1C7F4C7F1FFC4980001BEB62 /* NotLoggedView.swift */,
+				1C7F4C7D1FFC4954001BEB62 /* NotLoggedViewController.swift */,
+			);
+			path = "View Controller";
+			sourceTree = "<group>";
+		};
+		1C7F4C991FFC63F7001BEB62 /* Snapshot */ = {
+			isa = PBXGroup;
+			children = (
+				1C7F4C9A1FFC6405001BEB62 /* NotLoggedViewSpec.swift */,
+			);
+			path = Snapshot;
+			sourceTree = "<group>";
+		};
+		1C7F4C9D1FFCF13B001BEB62 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				1C7F4C9E1FFCF14B001BEB62 /* NotLoggedViewModel.swift */,
+				1C7F4CA01FFCF172001BEB62 /* NotLoggedViewModelType.swift */,
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
+		1C7F4CA21FFCF707001BEB62 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				1C7F4CA31FFCF716001BEB62 /* LoginRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 		1CACD9C81FF66E0000538B78 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1C7F4C811FFC4ADA001BEB62 /* Assets.xcassets */,
 				1CACDA421FF6915C00538B78 /* Languages */,
 				1C7DD9821FF66C41009C574E /* SignUp.h */,
 				1C7DD9831FF66C41009C574E /* Info.plist */,
@@ -264,6 +336,7 @@
 		1CACD9C91FF66E6500538B78 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				1C7F4C791FFC492D001BEB62 /* Not Logged */,
 				1CACD9CA1FF66E6500538B78 /* Login */,
 			);
 			path = Features;
@@ -274,7 +347,7 @@
 			children = (
 				1CACDA741FF7B1D900538B78 /* View Model */,
 				1CACD9D21FF66F6600538B78 /* View */,
-				1CACD9E31FF67C1A00538B78 /* Infrastructure */,
+				1C7F4CA21FFCF707001BEB62 /* Router */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -318,6 +391,7 @@
 			isa = PBXGroup;
 			children = (
 				1CACD9E51FF67C3400538B78 /* Assembly+Login.swift */,
+				1C7F4C831FFC4E49001BEB62 /* Assembly+NotLogged.swift */,
 			);
 			path = Assembly;
 			sourceTree = "<group>";
@@ -547,6 +621,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C7F4C821FFC4ADA001BEB62 /* Assets.xcassets in Resources */,
 				1CACDA491FF6949F00538B78 /* SignUp.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -555,6 +630,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C7F4C9C1FFC643E001BEB62 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,6 +640,7 @@
 			files = (
 				1CACDA4F1FF69AB100538B78 /* SignUp.strings in Resources */,
 				1CACDA191FF67FB900538B78 /* LaunchScreen.storyboard in Resources */,
+				1C7F4C851FFC4EC2001BEB62 /* Assets.xcassets in Resources */,
 				1CACDA161FF67FB900538B78 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -581,6 +658,7 @@
 				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxSwift.framework",
 				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxCocoa.framework",
 				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxTest.framework",
+				"$(SRCROOT)/../../../../Carthage/Build/iOS/Snap.framework",
 			);
 			name = "[Carthage] - Copy frameworks";
 			outputPaths = (
@@ -630,10 +708,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C7F4CA11FFCF172001BEB62 /* NotLoggedViewModelType.swift in Sources */,
+				1C7F4C9F1FFCF14B001BEB62 /* NotLoggedViewModel.swift in Sources */,
+				1C7F4CA41FFCF716001BEB62 /* LoginRouter.swift in Sources */,
+				1C7F4C7E1FFC4954001BEB62 /* NotLoggedViewController.swift in Sources */,
 				1CACDA3D1FF68DF900538B78 /* LoginView.swift in Sources */,
 				1CACDA4E1FF698E100538B78 /* Table.swift in Sources */,
 				1CACD9DC1FF6703200538B78 /* LoginViewModel.swift in Sources */,
+				1C7F4C801FFC4980001BEB62 /* NotLoggedView.swift in Sources */,
 				1CACD9E61FF67C3400538B78 /* Assembly+Login.swift in Sources */,
+				1C7F4C841FFC4E49001BEB62 /* Assembly+NotLogged.swift in Sources */,
 				1C7F4C571FF95DFE001BEB62 /* LoginViewModelType.swift in Sources */,
 				1CACD9D51FF66F8000538B78 /* LoginViewController.swift in Sources */,
 			);
@@ -644,6 +728,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C7F4C541FF95B47001BEB62 /* LoginViewModelSpec.swift in Sources */,
+				1C7F4C9B1FFC6405001BEB62 /* NotLoggedViewSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
