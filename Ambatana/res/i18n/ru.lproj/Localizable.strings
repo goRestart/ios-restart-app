@@ -126,8 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Этот аккаунт проверяется командой letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Похоже, %@ больше не заинтересован в вашем объявлении.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Похоже, этот пользователь больше не заинтересован в вашем объявлении.";
-"chat_inactive_conversations_button" = "View archived chats";
-"chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
+"chat_inactive_conversations_button" = "Смотреть архивные чаты";
+"chat_inactive_conversations_explanation_label" = "Чаты со сроком более 3 месяцев автоматически архивируются.";
 "chat_list_account_deleted" = "Удаленный аккаунт";
 "chat_list_account_deleted_username" = "Неактивно";
 "chat_list_all_empty_title" = "НЕТ ЧАТОВ (ПОКА ЧТО!)";
@@ -166,8 +166,8 @@
 "chat_not_verified_state_title" = "ВАШ АККАУНТ ПОДТВЕРЖДЕН?";
 "chat_product_given_away_label" = "Уже отдан";
 "chat_product_sold_label" = "Продано";
-"chat_professional_banner_button_title" = "Call";
-"chat_professional_banner_title" = "You're talking to a professional car dealer";
+"chat_professional_banner_button_title" = "Позвать";
+"chat_professional_banner_title" = "Вы общаетесь с профессиональным автодилером";
 "chat_related_products_title" = "ВАС МОЖЕТ ЗАИНТЕРЕСОВАТЬ:";
 "chat_safety_tips" = "Советами по безопасности";
 "chat_safety_tips_message" = "• Встречайтесь лично и платите наличными.\n\n• Общайтесь в чате letgo.\n\n• Есть подозрения? Найди другого продавца/покупателя.";
@@ -623,7 +623,7 @@
 "product_post_select_category_title" = "Что вы размещаете?";
 "product_post_use_photo" = "Разместить";
 "product_post_use_photo_not_logged" = "Загрузить фото";
-"product_professional_call_button" = "Call";
+"product_professional_call_button" = "Позвать";
 "product_professional_chat_button" = "Чат";
 "product_report_confirm_message" = "Вы уверены, что хотите пожаловаться на объявление?";
 "product_report_confirm_title" = "Пожаловаться на объявление";
