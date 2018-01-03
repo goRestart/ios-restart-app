@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1C40D8A71FFD18C3006D5BE4 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8A61FFD18C3006D5BE4 /* UserService.swift */; };
 		1C40D8AA1FFD1914006D5BE4 /* RegisterUserEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8A91FFD1914006D5BE4 /* RegisterUserEndpoint.swift */; };
+		1C40D8B01FFD354B006D5BE4 /* UserDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8AF1FFD354B006D5BE4 /* UserDataSource.swift */; };
 		1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6FD1FF3CFBF00B3FA98 /* AuthToken.swift */; };
 		1C89D7441FF3DD1900B3FA98 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7431FF3DD1000B3FA98 /* Domain.framework */; };
 		1C89D74E1FF3DD3500B3FA98 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D74B1FF3DD2F00B3FA98 /* Core.framework */; };
@@ -58,6 +59,7 @@
 /* Begin PBXFileReference section */
 		1C40D8A61FFD18C3006D5BE4 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		1C40D8A91FFD1914006D5BE4 /* RegisterUserEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserEndpoint.swift; sourceTree = "<group>"; };
+		1C40D8AF1FFD354B006D5BE4 /* UserDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataSource.swift; sourceTree = "<group>"; };
 		1C89D6FD1FF3CFBF00B3FA98 /* AuthToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthToken.swift; sourceTree = "<group>"; };
 		1C89D73E1FF3DD1000B3FA98 /* Domain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Domain.xcodeproj; path = ../Domain/Domain.xcodeproj; sourceTree = "<group>"; };
 		1C89D7451FF3DD2F00B3FA98 /* Core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Core.xcodeproj; path = ../Core/Core.xcodeproj; sourceTree = "<group>"; };
@@ -131,6 +133,30 @@
 				1C913A2D1FF2B24E00646884 /* Data Source */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		1C40D8AC1FFD351D006D5BE4 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				1C40D8AD1FFD353D006D5BE4 /* Data Source */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		1C40D8AD1FFD353D006D5BE4 /* Data Source */ = {
+			isa = PBXGroup;
+			children = (
+				1C40D8AF1FFD354B006D5BE4 /* UserDataSource.swift */,
+				1C40D8AE1FFD353D006D5BE4 /* Api */,
+			);
+			path = "Data Source";
+			sourceTree = "<group>";
+		};
+		1C40D8AE1FFD353D006D5BE4 /* Api */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Api;
 			sourceTree = "<group>";
 		};
 		1C89D6FA1FF3CF9F00B3FA98 /* Domain */ = {
@@ -275,6 +301,7 @@
 			isa = PBXGroup;
 			children = (
 				1C40D8AB1FFD34FB006D5BE4 /* Auth */,
+				1C40D8AC1FFD351D006D5BE4 /* User */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -622,6 +649,7 @@
 				1CACCE8A1FF309E60001B321 /* PrimitiveSequence+CustomError.swift in Sources */,
 				1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */,
 				1C40D8A71FFD18C3006D5BE4 /* UserService.swift in Sources */,
+				1C40D8B01FFD354B006D5BE4 /* UserDataSource.swift in Sources */,
 				1C913A351FF2B65300646884 /* Endpoint.swift in Sources */,
 				1C913A1A1FF0656800646884 /* AuthService.swift in Sources */,
 				1C913A291FF0670300646884 /* AuthRepository.swift in Sources */,
