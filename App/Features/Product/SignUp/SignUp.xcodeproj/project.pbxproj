@@ -11,6 +11,7 @@
 		1C1D22611FFD8F6A00BC0316 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22601FFD8F6A00BC0316 /* SignUpView.swift */; };
 		1C1D22631FFD8FC700BC0316 /* Assembly+SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22621FFD8FC700BC0316 /* Assembly+SignUp.swift */; };
 		1C1D22661FFDA4D900BC0316 /* SignUpRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22651FFDA4D900BC0316 /* SignUpRouter.swift */; };
+		1C1D22731FFE55D100BC0316 /* SignUpViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22721FFE55D100BC0316 /* SignUpViewModelType.swift */; };
 		1C7DD9891FF66C41009C574E /* SignUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C7DD97F1FF66C41009C574E /* SignUp.framework */; };
 		1C7DD9901FF66C41009C574E /* SignUp.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C7DD9821FF66C41009C574E /* SignUp.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C7F4C541FF95B47001BEB62 /* LoginViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C531FF95B47001BEB62 /* LoginViewModelSpec.swift */; };
@@ -142,6 +143,7 @@
 		1C1D22601FFD8F6A00BC0316 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		1C1D22621FFD8FC700BC0316 /* Assembly+SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+SignUp.swift"; sourceTree = "<group>"; };
 		1C1D22651FFDA4D900BC0316 /* SignUpRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRouter.swift; sourceTree = "<group>"; };
+		1C1D22721FFE55D100BC0316 /* SignUpViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModelType.swift; sourceTree = "<group>"; };
 		1C7DD97F1FF66C41009C574E /* SignUp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SignUp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C7DD9821FF66C41009C574E /* SignUp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUp.h; sourceTree = "<group>"; };
 		1C7DD9831FF66C41009C574E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 		1C1D225B1FFD8EF400BC0316 /* Sign Up */ = {
 			isa = PBXGroup;
 			children = (
+				1C1D22711FFE55C400BC0316 /* View Model */,
 				1C1D225D1FFD8F1400BC0316 /* View */,
 				1C1D22641FFDA4CB00BC0316 /* Router */,
 			);
@@ -243,6 +246,14 @@
 				1C1D22651FFDA4D900BC0316 /* SignUpRouter.swift */,
 			);
 			path = Router;
+			sourceTree = "<group>";
+		};
+		1C1D22711FFE55C400BC0316 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				1C1D22721FFE55D100BC0316 /* SignUpViewModelType.swift */,
+			);
+			path = "View Model";
 			sourceTree = "<group>";
 		};
 		1C7DD9751FF66C41009C574E = {
@@ -753,6 +764,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C7F4CA11FFCF172001BEB62 /* NotLoggedViewModelType.swift in Sources */,
+				1C1D22731FFE55D100BC0316 /* SignUpViewModelType.swift in Sources */,
 				1C7F4C9F1FFCF14B001BEB62 /* NotLoggedViewModel.swift in Sources */,
 				1C7F4CA41FFCF716001BEB62 /* LoginRouter.swift in Sources */,
 				1C7F4C7E1FFC4954001BEB62 /* NotLoggedViewController.swift in Sources */,
