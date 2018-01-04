@@ -62,7 +62,7 @@ struct SignUpViewBinder {
       .disposed(by: bag)
     
     view.signUpButton.rx.tap
-      .debounce(0.2, scheduler: MainScheduler.instance)
+      .debounce(0.1, scheduler: MainScheduler.instance)
       .subscribe(onNext: { _ in
         viewModel.input.signInButtonPressed()
       })
