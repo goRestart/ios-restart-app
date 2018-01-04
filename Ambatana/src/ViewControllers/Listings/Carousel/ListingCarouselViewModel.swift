@@ -78,6 +78,7 @@ class ListingCarouselViewModel: BaseViewModel {
             setCurrentIndex(currentIndex)
         }
     }
+    fileprivate var lastMovement: CarouselMovement = .initial
     
     weak var delegate: ListingCarouselViewModelDelegate?
     weak var navigator: ListingDetailNavigator? {
@@ -345,19 +346,14 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.delegate = self
         currentListingViewModel?.active = active
         currentIndex = index
+        lastMovement = movement
         setupCurrentProductVMRxBindings(forIndex: index)
         prefetchNeighborsImages(index, movement: movement)
 
-        // Tracking
         if active {
-            let feedPosition = movement.feedPosition(for: trackingIndex)
-            if source == .relatedListings {
-                currentListingViewModel?.trackVisit(movement.visitUserAction,
-                                                    source: movement.visitSource(source),
-                                                    feedPosition: feedPosition)
-            } else {
-                currentListingViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
-            }
+            currentListingViewModel?.trackVisit(movement.visitUserAction,
+                                                source: movement.visitSource(source),
+                                                feedPosition: movement.feedPosition(for: trackingIndex))
         }
     }
 
@@ -720,6 +716,19 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
         }
     }
     
+    var listingOrigin: ListingOrigin {
+        let result: ListingOrigin
+        switch lastMovement {
+        case .initial:
+            result = .initial
+        case .tap, .swipeRight:
+            result = .inResponseToNextRequest
+        case .swipeLeft:
+            result = .inResponseToPreviousRequest
+        }
+        return result
+    }
+    
     func vmResetBumpUpBannerCountdown() {
         delegate?.vmResetBumpUpBannerCountdown()
     }
@@ -775,16 +784,22 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
 // MARK: - Tracking
 
 extension CarouselMovement {
+
     func visitSource(_ originSource: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
+        let sourceIsRelatedListing = originSource == .relatedListings
+        let sourceIsFavourite = originSource == .favourite
+        guard sourceIsRelatedListing || sourceIsFavourite  else {
+            return originSource
+        }
         switch self {
         case .tap:
-            return .next
+            return sourceIsFavourite ? .nextFavourite : .next
         case .swipeRight:
-            return .next
+            return sourceIsFavourite ? .nextFavourite : .next
         case .initial:
             return originSource
         case .swipeLeft:
-            return .previous
+            return sourceIsFavourite ? .previousFavourite : .previous
         }
     }
 

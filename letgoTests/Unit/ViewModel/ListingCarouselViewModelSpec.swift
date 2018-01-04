@@ -63,7 +63,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
         var bumpUpBannerInfoObserver: TestableObserver<BumpUpInfo?>!
         var socialMessageObserver: TestableObserver<SocialMessage?>!
         var socialSharerObserver: TestableObserver<SocialSharer>!
-
+        
         describe("ListingCarouselViewModelSpec") {
 
             func buildSut(productListModels: [ListingCellModel]? = nil,
@@ -1267,6 +1267,47 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 }
                 it("has two events for status") {
                     expect(statusObserver.eventValues.count) == 2
+                }
+            }
+            describe("listingOrigin") {
+                context("more info shown") {
+                    beforeEach {
+                        buildSut(initialProduct: product)
+                        sut.active = true
+                        sut.moreInfoState.value = .shown
+                    }
+                    context("user opened a listing") {
+                        beforeEach {
+                            sut.moveToProductAtIndex(0, movement: .initial)
+                        }
+                        it("should return that the origin is an initial request") {
+                            expect(sut.listingOrigin).to(equal(ListingOrigin.initial))
+                        }
+                    }
+                    context("user moved to a listing on the right") {
+                        beforeEach {
+                            sut.moveToProductAtIndex(0, movement: .swipeRight)
+                        }
+                        it("should return that the origin is a next request") {
+                            expect(sut.listingOrigin).to(equal(ListingOrigin.inResponseToNextRequest))
+                        }
+                    }
+                    context("user tapped to move to a new listing") {
+                        beforeEach {
+                            sut.moveToProductAtIndex(0, movement: .tap)
+                        }
+                        it("should return that the origin is a next request") {
+                            expect(sut.listingOrigin).to(equal(ListingOrigin.inResponseToNextRequest))
+                        }
+                    }
+                    context("user moved to a listing on the left") {
+                        beforeEach {
+                            sut.moveToProductAtIndex(0, movement: .swipeLeft)
+                        }
+                        it("should return that the origin is a previous request") {
+                            expect(sut.listingOrigin).to(equal(ListingOrigin.inResponseToPreviousRequest))
+                        }
+                    }
                 }
             }
         }
