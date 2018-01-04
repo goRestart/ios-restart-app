@@ -10,6 +10,8 @@ import Foundation
 
 class ChatInactiveConversationHeaderView: UIView {
 
+    private static let headerHeight = 55
+    
     private let label = UILabel()
     private let button = UIButton(type: .custom)
     
@@ -18,6 +20,10 @@ class ChatInactiveConversationHeaderView: UIView {
         didSet {
             updateButtonTitle(with: inactiveConvesationsCount)
         }
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: UIViewNoIntrinsicMetric, height: ChatInactiveConversationHeaderView.headerHeight)
     }
     
     // MARK: Lifecyle
@@ -39,10 +45,6 @@ class ChatInactiveConversationHeaderView: UIView {
     }
     
     // MARK: UI
-    
-    override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: 55)
-    }
     
     private func setupUI() {
         label.font = UIFont.systemRegularFont(size: 12)
