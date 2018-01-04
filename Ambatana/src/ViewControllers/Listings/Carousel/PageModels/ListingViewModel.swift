@@ -1015,7 +1015,7 @@ fileprivate extension ListingViewModel {
         }
     }
     
-    fileprivate func visitSource(from originalSource: EventParameterListingVisitSource, isFirstMessage: Bool)-> EventParameterListingVisitSource {
+    fileprivate func visitSource(from originalSource: EventParameterListingVisitSource, isFirstMessage: Bool) -> EventParameterListingVisitSource {
         guard isFirstMessage, originalSource == .favourite, let origin = delegate?.listingOrigin else {
             return originalSource
         }

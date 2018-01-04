@@ -350,7 +350,6 @@ class ListingCarouselViewModel: BaseViewModel {
         setupCurrentProductVMRxBindings(forIndex: index)
         prefetchNeighborsImages(index, movement: movement)
 
-        // Tracking
         if active {
             currentListingViewModel?.trackVisit(movement.visitUserAction,
                                                 source: movement.visitSource(source),

@@ -1270,48 +1270,43 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 }
             }
             describe("listingOrigin") {
-                context("user opened a listing") {
+                context("more info shown") {
                     beforeEach {
                         buildSut(initialProduct: product)
                         sut.active = true
                         sut.moreInfoState.value = .shown
-                        sut.moveToProductAtIndex(0, movement: .initial)
                     }
-                    it("should return that the origin is an initial request") {
-                        expect(sut.listingOrigin).to(equal(ListingOrigin.initial))
+                    context("user opened a listing") {
+                        beforeEach {
+                            sut.moveToProductAtIndex(0, movement: .initial)
+                        }
+                        it("should return that the origin is an initial request") {
+                            expect(sut.listingOrigin).to(equal(ListingOrigin.initial))
+                        }
                     }
-                }
-                context("user moved to a listing on the right") {
-                    beforeEach {
-                        buildSut(initialProduct: product)
-                        sut.active = true
-                        sut.moreInfoState.value = .shown
-                        sut.moveToProductAtIndex(0, movement: .swipeRight)
+                    context("user moved to a listing on the right") {
+                        beforeEach {
+                            sut.moveToProductAtIndex(0, movement: .swipeRight)
+                        }
+                        it("should return that the origin is a next request") {
+                            expect(sut.listingOrigin).to(equal(ListingOrigin.inResponseToNextRequest))
+                        }
                     }
-                    it("should return that the origin is a next request") {
-                        expect(sut.listingOrigin).to(equal(ListingOrigin.inResponseToNextRequest))
+                    context("user tapped to move to a new listing") {
+                        beforeEach {
+                            sut.moveToProductAtIndex(0, movement: .tap)
+                        }
+                        it("should return that the origin is a next request") {
+                            expect(sut.listingOrigin).to(equal(ListingOrigin.inResponseToNextRequest))
+                        }
                     }
-                }
-                context("user tapped to move to a new listing") {
-                    beforeEach {
-                        buildSut(initialProduct: product)
-                        sut.active = true
-                        sut.moreInfoState.value = .shown
-                        sut.moveToProductAtIndex(0, movement: .tap)
-                    }
-                    it("should return that the origin is a next request") {
-                        expect(sut.listingOrigin).to(equal(ListingOrigin.inResponseToNextRequest))
-                    }
-                }
-                context("user moved to a listing on the left") {
-                    beforeEach {
-                        buildSut(initialProduct: product)
-                        sut.active = true
-                        sut.moreInfoState.value = .shown
-                        sut.moveToProductAtIndex(0, movement: .swipeLeft)
-                    }
-                    it("should return that the origin is a previous request") {
-                        expect(sut.listingOrigin).to(equal(ListingOrigin.inResponseToPreviousRequest))
+                    context("user moved to a listing on the left") {
+                        beforeEach {
+                            sut.moveToProductAtIndex(0, movement: .swipeLeft)
+                        }
+                        it("should return that the origin is a previous request") {
+                            expect(sut.listingOrigin).to(equal(ListingOrigin.inResponseToPreviousRequest))
+                        }
                     }
                 }
             }
