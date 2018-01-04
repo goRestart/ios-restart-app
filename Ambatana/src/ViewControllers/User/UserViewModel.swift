@@ -625,7 +625,8 @@ extension UserViewModel: ListingListViewModelDataDelegate {
         let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openListing(data, source: .profile, actionOnFirstAppear: .nonexistent)
+        let source: EventParameterListingVisitSource = viewModel === favoritesListingListViewModel ? .favourite : .profile
+        navigator?.openListing(data, source: source, actionOnFirstAppear: .nonexistent)
     }
     
     func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] { return listings }
