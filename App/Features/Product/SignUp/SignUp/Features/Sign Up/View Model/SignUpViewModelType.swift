@@ -6,7 +6,7 @@ enum SignUpState {
 }
 
 protocol SignUpViewModelInput {
-  func signUpButtonPressed()
+  func signInButtonPressed()
 }
 
 protocol SignUpViewModelOutput {
@@ -20,6 +20,6 @@ protocol SignUpViewModelOutput {
 }
 
 protocol SignUpViewModelType {
-  var input: LoginViewModelInput { get }
-  var output: LoginViewModelOutput { get }
+  var input: SignUpViewModelInput { get }
+  var output: SignUpViewModelOutput { get }
 }
