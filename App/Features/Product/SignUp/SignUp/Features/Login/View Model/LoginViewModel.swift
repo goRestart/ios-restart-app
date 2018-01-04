@@ -25,7 +25,7 @@ struct LoginViewModel: LoginViewModelType, LoginViewModelInput, LoginViewModelOu
   var password = Variable<String>("")
   var state = Variable<LoginState>(.idle)
   
-  var signUpEnabled: Observable<Bool> {
+  var signInEnabled: Observable<Bool> {
     return Observable.combineLatest(
     username.asObservable(), password.asObservable()) { username, password in
       return username.count >= LoginViewModelConstraints.minUsernameLenght &&
