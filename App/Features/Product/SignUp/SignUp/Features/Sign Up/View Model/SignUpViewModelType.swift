@@ -1,4 +1,5 @@
 import RxSwift
+import Domain
 
 enum SignUpState {
   case idle
@@ -14,6 +15,7 @@ protocol SignUpViewModelOutput {
   var email: Variable<String> { get }
   var password: Variable<String> { get }
   var state: Variable<SignUpState> { get }
+  var error: Variable<RegisterUserError?> { get }
   
   var userInteractionEnabled: Observable<Bool> { get }
   var signUpEnabled: Observable<Bool> { get }
