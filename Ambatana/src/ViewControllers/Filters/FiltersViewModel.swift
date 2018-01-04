@@ -400,7 +400,7 @@ class FiltersViewModel: BaseViewModel {
     Retrieves the list of categories
     */
     func retrieveCategories() {
-        categoryRepository.index(carsIncluded: false, realEstateIncluded: featureFlags.realEstateEnabled) { [weak self] result in
+        categoryRepository.index(carsIncluded: false, realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
             guard let strongSelf = self else { return }
             guard let categories = result.value else { return }
             strongSelf.categories = strongSelf.buildFilterCategoryItemsWithCategories(categories)

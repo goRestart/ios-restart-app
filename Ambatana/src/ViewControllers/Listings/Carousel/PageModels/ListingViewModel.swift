@@ -21,12 +21,18 @@ protocol ListingViewModelDelegate: BaseViewModelDelegate {
 
     var trackingFeedPosition: EventParameterFeedPosition { get }
     
+    var listingOrigin: ListingOrigin { get }
+    
     // Bump Up
     func vmResetBumpUpBannerCountdown()
 }
 
 protocol ListingViewModelMaker {
     func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel
+}
+
+enum ListingOrigin {
+    case initial, inResponseToNextRequest, inResponseToPreviousRequest
 }
 
 class ListingViewModel: BaseViewModel {
@@ -976,10 +982,12 @@ fileprivate extension ListingViewModel {
                 let messageViewSent = messageView.markAsSent()
                 strongSelf.directChatMessages.replace(0, with: messageViewSent)
                 let feedPosition = strongSelf.delegate?.trackingFeedPosition ?? .none
-                strongSelf.trackHelper.trackMessageSent(isFirstMessage: firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
+                let isFirstMessage = firstMessage && !strongSelf.alreadyTrackedFirstMessageSent
+                let visitSource = strongSelf.visitSource(from: strongSelf.visitSource, isFirstMessage: isFirstMessage)
+                strongSelf.trackHelper.trackMessageSent(isFirstMessage: isFirstMessage,
                                                         messageType: type,
                                                         isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value,
-                                                        listingVisitSource: strongSelf.visitSource,
+                                                        listingVisitSource: visitSource,
                                                         feedPosition: feedPosition)
                 strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
@@ -1005,6 +1013,19 @@ fileprivate extension ListingViewModel {
                 }
             }
         }
+    }
+    
+    fileprivate func visitSource(from originalSource: EventParameterListingVisitSource, isFirstMessage: Bool) -> EventParameterListingVisitSource {
+        guard isFirstMessage, originalSource == .favourite, let origin = delegate?.listingOrigin else {
+            return originalSource
+        }
+        var visitSource = originalSource
+        if origin == .inResponseToNextRequest {
+            visitSource = .nextFavourite
+        } else if origin == .inResponseToPreviousRequest {
+            visitSource = .previousFavourite
+        }
+        return visitSource
     }
 }
 

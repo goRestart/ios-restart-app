@@ -31,11 +31,6 @@
         "description": "New in-app rating for iOS 10.3+"
     },
     {
-        "name": "TweaksCarPostingFlow",
-        "values": ["control", "baseline", "active"],
-        "description": "car posting summary only at the end"
-    },
-    {
         "name": "UserReviewsReportEnabled",
         "values": ["no", "yes"],
         "description": "User reviews report enabled"
@@ -51,11 +46,6 @@
         "description": "App rating dialog inactive to increase user activation"
     },
     {
-        "name": "ExpandableCategorySelectionMenu",
-        "values": ["control", "baseline", "expandableMenu"],
-        "description": "Show 'salchichas' menu on sell your stuff button"
-    },
-    {
         "name": "LocationDataSourceEndpoint",
         "values": ["control", "baseline", "appleWithRegion", "niordWithRegion"],
         "description": "Location data source for geocode and reverse geocode"
@@ -67,7 +57,7 @@
     },
     {
         "name": "RealEstateEnabled",
-        "values": ["no", "yes"],
+        "values": ["control", "baseline", "active"],
         "description": "Allow to see Real Estate category"
     },
     {
@@ -129,11 +119,6 @@
         "name": "PromoteBumpUpAfterSell",
         "values": ["control", "baseline", "active"],
         "description": "Show a bump up alert after posting (once every 24h)"
-    },
-    {
-        "name": "CopyListingAnotherConfirmation",
-        "values": ["control", "baseline", "active"],
-        "description": "Show listing instead of product on confirmation screen"
     },
     {
         "name": "MoreInfoAFShOrDFP",
