@@ -2,20 +2,6 @@
   SignUp
  */
 
-// MARK: - Not logged
-
-"not_logged.label.welcome.title" = "Join Restart\nFeel the illusion again";
-"not_logged.button.signup.title" = "Create account";
-"not_logged.button.signin.title" = "I've already an account";
-
-// MARK: - Login
-
-"login.input.username.placeholder" = "Username";
-"login.input.password.placeholder" = "Password";
-"login.button.signin.title" = "Log in ➞";
-
-// MARK: - SignUp
-
 "signup.title" = "Create account";
 "signup.input.username.title" = "Username";
 "signup.input.username.placeholder" = "e.g. Eurogammer";

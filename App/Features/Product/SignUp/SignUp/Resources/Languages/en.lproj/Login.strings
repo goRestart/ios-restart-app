@@ -1,0 +1,7 @@
+/*
+  Login
+ */
+
+"login.input.username.placeholder" = "Username";
+"login.input.password.placeholder" = "Password";
+"login.button.signin.title" = "Log in ➞";

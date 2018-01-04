@@ -23,13 +23,13 @@ final class NotLoggedView: View {
     label.textColor = .darkScript
     label.textAlignment = .center
     label.numberOfLines = 0
-    label.text = Localize("not_logged.label.welcome.title", Table.signUp)
+    label.text = Localize("not_logged.label.welcome.title", Table.notLogged)
     return label
   }()
 
   let signUpButton: LargeButton = {
     let button = LargeButton()
-    let title = Localize("not_logged.button.signup.title", Table.signUp).uppercased()
+    let title = Localize("not_logged.button.signup.title", Table.notLogged).uppercased()
     button.setTitle(title, for: .normal)
     return button
   }()
@@ -37,7 +37,7 @@ final class NotLoggedView: View {
   let signInButton: LargeButton = {
     let button = LargeButton()
     button.type = .alt
-    let title = Localize("not_logged.button.signin.title", Table.signUp).uppercased()
+    let title = Localize("not_logged.button.signin.title", Table.notLogged).uppercased()
     button.setTitle(title, for: .normal)
     return button
   }()

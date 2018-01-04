@@ -14,6 +14,10 @@
 		1C1D22731FFE55D100BC0316 /* SignUpViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22721FFE55D100BC0316 /* SignUpViewModelType.swift */; };
 		1C1D22751FFE56ED00BC0316 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22741FFE56ED00BC0316 /* SignUpViewModel.swift */; };
 		1C1D22771FFEBFE900BC0316 /* SignUpViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22761FFEBFE900BC0316 /* SignUpViewBinder.swift */; };
+		1C1D228A1FFED9F800BC0316 /* Login.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1C1D228C1FFED9F800BC0316 /* Login.strings */; };
+		1C1D228D1FFED9FB00BC0316 /* NotLogged.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1C1D228F1FFED9FB00BC0316 /* NotLogged.strings */; };
+		1C1D22901FFEDA0A00BC0316 /* Login.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1C1D228C1FFED9F800BC0316 /* Login.strings */; };
+		1C1D22911FFEDA0D00BC0316 /* NotLogged.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1C1D228F1FFED9FB00BC0316 /* NotLogged.strings */; };
 		1C7DD9891FF66C41009C574E /* SignUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C7DD97F1FF66C41009C574E /* SignUp.framework */; };
 		1C7DD9901FF66C41009C574E /* SignUp.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C7DD9821FF66C41009C574E /* SignUp.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C7F4C541FF95B47001BEB62 /* LoginViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C531FF95B47001BEB62 /* LoginViewModelSpec.swift */; };
@@ -148,6 +152,8 @@
 		1C1D22721FFE55D100BC0316 /* SignUpViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModelType.swift; sourceTree = "<group>"; };
 		1C1D22741FFE56ED00BC0316 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		1C1D22761FFEBFE900BC0316 /* SignUpViewBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewBinder.swift; sourceTree = "<group>"; };
+		1C1D228B1FFED9F800BC0316 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Login.strings; sourceTree = "<group>"; };
+		1C1D228E1FFED9FB00BC0316 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/NotLogged.strings; sourceTree = "<group>"; };
 		1C7DD97F1FF66C41009C574E /* SignUp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SignUp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C7DD9821FF66C41009C574E /* SignUp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUp.h; sourceTree = "<group>"; };
 		1C7DD9831FF66C41009C574E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -498,6 +504,8 @@
 			children = (
 				1CACDA4D1FF698E100538B78 /* Table.swift */,
 				1CACDA4B1FF6949F00538B78 /* SignUp.strings */,
+				1C1D228C1FFED9F800BC0316 /* Login.strings */,
+				1C1D228F1FFED9FB00BC0316 /* NotLogged.strings */,
 			);
 			path = Languages;
 			sourceTree = "<group>";
@@ -682,7 +690,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C1D228D1FFED9FB00BC0316 /* NotLogged.strings in Resources */,
 				1C7F4C821FFC4ADA001BEB62 /* Assets.xcassets in Resources */,
+				1C1D228A1FFED9F800BC0316 /* Login.strings in Resources */,
 				1CACDA491FF6949F00538B78 /* SignUp.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -702,6 +712,8 @@
 				1CACDA4F1FF69AB100538B78 /* SignUp.strings in Resources */,
 				1CACDA191FF67FB900538B78 /* LaunchScreen.storyboard in Resources */,
 				1C7F4C851FFC4EC2001BEB62 /* Assets.xcassets in Resources */,
+				1C1D22901FFEDA0A00BC0316 /* Login.strings in Resources */,
+				1C1D22911FFEDA0D00BC0316 /* NotLogged.strings in Resources */,
 				1CACDA161FF67FB900538B78 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -839,6 +851,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		1C1D228C1FFED9F800BC0316 /* Login.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1C1D228B1FFED9F800BC0316 /* en */,
+			);
+			name = Login.strings;
+			sourceTree = "<group>";
+		};
+		1C1D228F1FFED9FB00BC0316 /* NotLogged.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1C1D228E1FFED9FB00BC0316 /* en */,
+			);
+			name = NotLogged.strings;
+			sourceTree = "<group>";
+		};
 		1CACDA171FF67FB900538B78 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

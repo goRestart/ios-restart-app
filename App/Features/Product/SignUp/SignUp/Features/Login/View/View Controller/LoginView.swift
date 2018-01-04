@@ -17,7 +17,7 @@ final class LoginView: View {
     input.autocapitalizationType = .none
     input.textContentType = .username
     input.returnKeyType = .next
-    input.placeholder = Localize("login.input.username.placeholder", table: Table.signUp)
+    input.placeholder = Localize("login.input.username.placeholder", table: Table.login)
     return input
   }()
   
@@ -26,13 +26,13 @@ final class LoginView: View {
     input.isSecureTextEntry = true
     input.textContentType = .password
     input.returnKeyType = .join
-    input.placeholder = Localize("login.input.password.placeholder", table: Table.signUp)
+    input.placeholder = Localize("login.input.password.placeholder", table: Table.login)
     return input
   }()
   
   let signInButton: FullWidthButton = {
     let button = FullWidthButton()
-    let title = Localize("login.button.signin.title", Table.signUp).uppercased()
+    let title = Localize("login.button.signin.title", Table.login).uppercased()
     button.setTitle(title, for: .normal)
     return button
   }()
