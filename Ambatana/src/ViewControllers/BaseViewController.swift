@@ -144,6 +144,13 @@ extension UIViewController {
         }
     }
 
+    var isSafeAreaAvailable: Bool {
+        if #available(iOS 11.0, *) {
+            return true
+        }
+        return false
+    }
+
     var navigationBarHeight: CGFloat {
         guard let navController = navigationController else { return 0 }
         return navController.navigationBar.frame.size.height
@@ -343,7 +350,6 @@ class BaseViewController: UIViewController, TabBarShowable {
 
         // Setup
         hidesBottomBarWhenPushed = true
-        setReachabilityEnabled(true)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -365,7 +371,10 @@ class BaseViewController: UIViewController, TabBarShowable {
         super.viewDidLoad()
         didCallViewDidLoaded = true
         setNavBarBackButton(nil)
+        
         setupToastView()
+        setReachabilityEnabled(true)
+        
         navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
         view.backgroundColor = UIColor.viewControllerBackground
         //Listen to status bar changes

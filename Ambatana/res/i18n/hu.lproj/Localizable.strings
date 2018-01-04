@@ -126,8 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Ezt a fiókot a letgo csapata éppen ellenőrzi.";
 "chat_forbidden_disclaimer_seller_w_name" = "Úgy tűnik, %@ már nem érdeklődik a hirdetésed iránt.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Úgy tűnik, ez a felhasználó már nem érdeklődik a hirdetésed iránt.";
-"chat_inactive_conversations_button" = "View archived chats";
-"chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
+"chat_inactive_conversations_button" = "Archivált beszélgetések megtekintése";
+"chat_inactive_conversations_explanation_label" = "A 3 hónapnál régebbi beszélgetések automatikusan archiválódnak.";
 "chat_list_account_deleted" = "Törölt fiók";
 "chat_list_account_deleted_username" = "Inaktív";
 "chat_list_all_empty_title" = "NINCS BESZÉLGETÉS (EGYELŐRE!)";
@@ -167,7 +167,7 @@
 "chat_product_given_away_label" = "Már elajándékozták";
 "chat_product_sold_label" = "Eladva";
 "chat_professional_banner_button_title" = "Hívás";
-"chat_professional_banner_title" = "You're talking to a professional car dealer";
+"chat_professional_banner_title" = "Hivatásos autókereskedővel beszélsz";
 "chat_related_products_title" = "TALÁN ÉRDEKEL:";
 "chat_safety_tips" = "Biztonsági tanácsaink";
 "chat_safety_tips_message" = "• Találkozzatok személyesen, készpénzt használjatok.\n\n• A letgo chaten beszéljétek meg a tranzakciót.\n\n• Túl szép, hogy igaz legyen? Keress valaki mást!";
@@ -617,7 +617,7 @@
 "product_post_retake" = "Újra";
 "product_post_retry_button" = "Újra";
 "product_post_select_category_cars" = "Autók";
-"product_post_select_category_housing" = "Ingatlan";
+"product_post_select_category_housing" = "Kiadó és eladó ingatlan";
 "product_post_select_category_motors_and_accessories" = "Más járművek és alkatrészek";
 "product_post_select_category_other" = "Valami más";
 "product_post_select_category_title" = "Mit készülsz meghirdetni?";
@@ -791,6 +791,8 @@
 "real_estate_title_generator_property_type_house" = "Ház";
 "real_estate_title_generator_property_type_other" = "Egyéb";
 "real_estate_title_generator_property_type_room" = "Szoba";
+"real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
+"real_estate_tooltip_sell_button" = "Új Ingatlan kategóriánkban bérelhetsz és eladó ingatlant hirdethetsz meg";
 "real_estate_type_property_apartment" = "Lakás";
 "real_estate_type_property_commercial" = "Kereskedelmi";
 "real_estate_type_property_house" = "Ház";

@@ -142,7 +142,7 @@ class ListingCarouselPushAnimator: NSObject, PushAnimator {
                         backgroundImage.removeFromSuperview()
                         effectsView.removeFromSuperview()
                         backgroundColorView.removeFromSuperview()
-                        transitionContext.completeTransition(true)
+                        transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
                         self?.completion?()
                 })
         })
@@ -158,14 +158,14 @@ class ListingCarouselPushAnimator: NSObject, PushAnimator {
         let fromView: UIView = transitionContext.view(forKey: UITransitionContextViewKey.from) ?? fromViewController.view
         let toView: UIView = transitionContext.view(forKey: UITransitionContextViewKey.to) ?? toViewController.view
 
-        let originImage = UIImageView(image: fromView.takeSnapshot())
+        let originImage = UIImageView(image: fromView.takeSnapshot(afterScreenUpdates: false))
         originImage.frame = fromView.frame
 
         containerView.addSubview(toView)
         containerView.addSubview(originImage)
         let scaleWidth = destinationFrame.width / originImage.width
         let scaleHeight = destinationFrame.height / originImage.height
-
+        
         UIView.animate(withDuration: animationDuration, delay: 0, options: [.curveEaseIn], animations: {
             originImage.transform = CGAffineTransform(scaleX: scaleWidth, y: scaleHeight)
             originImage.center = destinationFrame.center
@@ -176,7 +176,7 @@ class ListingCarouselPushAnimator: NSObject, PushAnimator {
                     toViewController.tabBarController?.setTabBarHidden(false, animated: true)
                 }
                 originImage.removeFromSuperview()
-                transitionContext.completeTransition(true)
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
                 self?.completion?()
         })
     }
@@ -220,7 +220,7 @@ class ListingCarouselPushAnimator: NSObject, PushAnimator {
                     toViewController.tabBarController?.setTabBarHidden(false, animated: true)
                 }
                 fromView.removeFromSuperview()
-                transitionContext.completeTransition(true)
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
                 self?.completion?()
         })
     }

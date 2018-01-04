@@ -125,8 +125,6 @@ class ConfigFileManagerSpec: QuickSpec {
             }
             context("with service that loads data with a config that does not have the current app version as a force update version") {
                 beforeEach {
-                    dao.config = Config()
-                    
                     let config = Config(buildNumber: 0,
                                         forceUpdateVersions: [1,2,3,24],
                                         configURL: "www.letgo.com",
@@ -145,8 +143,6 @@ class ConfigFileManagerSpec: QuickSpec {
             }
             context("with service that loads data with a config that has the current app version as a force update version") {
                 beforeEach {
-                    dao.config = Config()
-                    
                     let config = Config(buildNumber: 0,
                                         forceUpdateVersions: [1,2,3,18],
                                         configURL: "www.letgo.com",

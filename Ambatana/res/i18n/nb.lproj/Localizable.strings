@@ -252,7 +252,7 @@
 "direct_answer_condition_title" = "Tilstand...";
 "direct_answer_describe_condition" = "Kan du beskrive kvalitetstilstanden?";
 "direct_answer_free_available" = "Ja, produktet er fortsatt tilgjengelig";
-"direct_answer_free_no_available" = "Beklager, det er allerede gitt bort!";
+"direct_answer_free_no_available" = "Beklager, denne er allerede gitt bort!";
 "direct_answer_free_still_have" = "Har du fortsatt produktet?";
 "direct_answer_free_yours" = "Produktet er ditt!";
 "direct_answer_given_away_question_message" = "Marker din annonse som gitt bort slik at alle letgo-brukere vet det";
@@ -791,6 +791,8 @@
 "real_estate_title_generator_property_type_house" = "Enebolig";
 "real_estate_title_generator_property_type_other" = "Annet";
 "real_estate_title_generator_property_type_room" = "Rom";
+"real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
+"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 "real_estate_type_property_apartment" = "Leilighet";
 "real_estate_type_property_commercial" = "Kommersielt";
 "real_estate_type_property_house" = "Enebolig";

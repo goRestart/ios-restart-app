@@ -195,11 +195,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        UIApplication.shared.setStatusBarHidden(false, with: .fade)
-    }
-
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
         removeIgnoreTouchesForMoreInfo()

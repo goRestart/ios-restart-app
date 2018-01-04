@@ -81,14 +81,18 @@ final class UserApiDataSource: UserDataSource {
     }
 
     static func decoderUserRelation(_ object: Any) -> UserUserRelation? {
-        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
-        do {
-            let userRelation = try LGUserUserRelation.decode(jsonData: data)
-            return userRelation
-        } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGUserUserRelation \(object)")
+        if let json = object as? [[String: Any]] {
+            return LGUserUserRelation.decodeFrom(jsonArray: json)
+        } else {
+            guard let data = try? JSONSerialization.data(withJSONObject: object,
+                                                         options: .prettyPrinted) else {
+                                                            logMessage(.debug,
+                                                                       type: .parsing,
+                                                                       message: "could not parse LGUserUserRelation \(object)")
+                                                            return nil
+            }
+           return LGUserUserRelation.decodeFrom(jsonData: data)
         }
-        return nil
     }
 
 }

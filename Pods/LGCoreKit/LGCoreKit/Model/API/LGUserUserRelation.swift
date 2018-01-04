@@ -6,45 +6,56 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-struct LGUserUserRelation: UserUserRelation, Decodable {
+struct LGUserUserRelation: UserUserRelation {
     var isBlocked: Bool
     var isBlockedBy: Bool
 
-    static func decodeFrom(data: Data) throws -> LGUserUserRelation {
-        let decoder = JSONDecoder()
-        if let elements = try? decoder.decode([LGUserUserRelation].self, from: data), let first = elements.first {
-            return elements.reduce(first, { (previous, next) -> LGUserUserRelation in
-                var element = previous
-                element.isBlocked = next.isBlocked
-                element.isBlockedBy = next.isBlockedBy
-                return element
-            })
-        } else {
-            return try decoder.decode(LGUserUserRelation.self, from: data)
+    private init(isBlocked: Bool, isBlockedBy: Bool) {
+        self.isBlocked = isBlocked
+        self.isBlockedBy = isBlockedBy
+    }
+
+    private init?(from json: [String: Any]) {
+        guard let isBlocked = json[Keys.isBlocked] as? Bool, let  isBlockedBy = json[Keys.isBlockedBy] as? Bool else {
+            return nil
         }
+        self.isBlocked = isBlocked
+        self.isBlockedBy = isBlockedBy
     }
 
-    // MARK: Decodable
-
-    /**
-     Expects a json in the form:
-
-     {
-     "blocked": false,
-     "blocked_by": false
-     }
-     */
-
-    public init(from decoder: Decoder) throws {
-        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
-        isBlocked = try keyedContainer.decode(Bool.self, forKey: .isBlocked)
-        isBlockedBy = try keyedContainer.decode(Bool.self, forKey: .isBlockedBy)
+    static func decodeFrom(jsonData: Data) -> LGUserUserRelation {
+        let relation = LGUserUserRelation(isBlocked: false, isBlockedBy: false)
+        if let jsonArray = try? JSONSerialization.jsonObject(with: jsonData,
+                                                             options: .allowFragments) as? [[String: Any]],
+            let json = jsonArray {
+            return LGUserUserRelation.decodeFrom(jsonArray: json)
+        } else if let decodedJson = try? JSONSerialization.jsonObject(with: jsonData,
+                                                                      options: .allowFragments) as? [String: Any],
+            let json = decodedJson,
+            let relation = LGUserUserRelation(from: json) {
+            return relation
+        }
+        return relation
+    }
+    
+    static func decodeFrom(jsonArray: [[String: Any]]) -> LGUserUserRelation {
+        var userRelation = LGUserUserRelation(isBlocked: false, isBlockedBy: false)
+        for json in jsonArray {
+            if let relation = LGUserUserRelation(from: json) {
+                userRelation.isBlocked = userRelation.isBlocked || relation.isBlocked
+                userRelation.isBlockedBy = userRelation.isBlockedBy || relation.isBlockedBy
+            } else if let linkName = json[Keys.linkName] as? String {
+                userRelation.isBlocked = linkName == Keys.isBlocked
+                userRelation.isBlockedBy = linkName == Keys.isBlockedBy
+            }
+        }
+        return userRelation
     }
 
-    enum CodingKeys: String, CodingKey {
-        case isBlocked = "blocked"
-        case isBlockedBy = "blocked_by"
+    struct Keys {
+        static let isBlocked = "blocked"
+        static let isBlockedBy = "blocked_by"
+        static let linkName = "link_name"
     }
-
 }
 

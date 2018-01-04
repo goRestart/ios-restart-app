@@ -748,7 +748,7 @@
 "direct_answer_free_available" = "Yes, it's still available";
 
 // Chat direct answer as a seller - free listing- no available
-"direct_answer_free_no_available" = "Sorry, I've already given it away!";
+"direct_answer_free_no_available" = "Sorry, the item has been given away!";
 
 // Chat direct answer as buyer - still have it
 "direct_answer_free_still_have" = "Still have it?";
@@ -1907,7 +1907,7 @@
 "product_post_select_category_other" = "Other items";
 
 // Product post category selection real Estate button
-"product_post_select_category_housing" = "Housing";
+"product_post_select_category_housing" = "Housing for Rent / Sale";
 
 // Product report confirm message. Message displayal is like the other dialog messages
 "product_report_confirm_message" = "Are you sure you want to report this listing?";
@@ -2419,6 +2419,12 @@
 
 // Title for section on related search. 
 "real_estate_related_search_title" = "Related results";
+
+// Tooltip text included on sell button
+"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
+
+// Message inside expandable sell your stuff menu to announce RE
+"real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
 
 // Title when showing list of related items
 "related_items_title" = "Related listings";

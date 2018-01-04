@@ -50,7 +50,8 @@ final class TabBarController: UITabBarController {
         self.viewModel = viewModel
         self.featureFlags = featureFlags
         self.tracker = tracker
-        self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip, image: UIImage(named: "ic_sell_white"), position: .left)
+        self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip,
+                                                 image: UIImage(named: "ic_sell_white"), position: .left)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -156,11 +157,21 @@ final class TabBarController: UITabBarController {
     dissapear. Also when the tabBar is set again, is added into a different layer so the constraint cannot be set again.
     */
     override func setTabBarHidden(_ hidden:Bool, animated:Bool, completion: ((Bool) -> Void)? = nil) {
-        let floatingOffset : CGFloat = (hidden ? -15 : -(tabBar.frame.height + 15))
-        floatingSellButtonMarginConstraint.constant = floatingOffset
+        if (isTabBarHidden == hidden) { return }
+
+        let frame = tabBar.frame
+        let offsetY = (hidden ? frame.size.height : 0)
+        let duration: TimeInterval = (animated ? TimeInterval(UITabBarControllerHideShowBarDuration) : 0.0)
+
+        let transform = CGAffineTransform.identity.translatedBy(x: 0, y: offsetY)
+        UIView.animate(withDuration: duration,
+                       delay: 0,
+                       options: [.curveEaseIn], animations: { [weak self] in
+                        self?.floatingSellButton.transform = transform
+        }, completion: completion)
+
         super.setTabBarHidden(hidden, animated: animated)
     }
-
 
     // MARK: - Private methods
     // MARK: > Setup
@@ -185,26 +196,36 @@ final class TabBarController: UITabBarController {
         setupBadgesRx()
     }
 
+    @available(iOS 11, *)
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        let bottom: CGFloat = -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance)
+        guard bottom != floatingSellButtonMarginConstraint.constant else { return }
+        floatingSellButtonMarginConstraint.constant = bottom
+    }
+
     private func setupSellButton() {
-        
-        if featureFlags.expandableCategorySelectionMenu.isActive {
-            floatingSellButton.buttonTouchBlock = { [weak self] in
-                self?.setupExpandableCategoriesView()
-            }
-        } else {
-            floatingSellButton.buttonTouchBlock = { [weak self] in self?.viewModel.sellButtonPressed() }
+        floatingSellButton.buttonTouchBlock = { [weak self] in
+            self?.setupExpandableCategoriesView()
         }
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
         floatingSellButton.layout(with: view).centerX()
-        floatingSellButton.layout(with: view).bottom(by: -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance), constraintBlock: {[weak self] in self?.floatingSellButtonMarginConstraint = $0 })
-        floatingSellButton.layout(with: view).leading(by: LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .greaterThanOrEqual).trailing(by: -LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .lessThanOrEqual)
+
+        let bottom: CGFloat = -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance)
+        
+        floatingSellButton.layout(with: view)
+            .bottom(by: bottom, constraintBlock: {[weak self] in self?.floatingSellButtonMarginConstraint = $0 })
+        floatingSellButton.layout(with: view)
+            .leading(by: LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .greaterThanOrEqual)
+            .trailing(by: -LGUIKitConstants.tabBarSellFloatingButtonDistance,
+                      relatedBy: .lessThanOrEqual)
     }
     
     
     func setupExpandableCategoriesView() {
         view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()
-        let vm = ExpandableCategorySelectionViewModel(realEstateEnabled: featureFlags.realEstateEnabled)
+        let vm = ExpandableCategorySelectionViewModel(realEstateEnabled: featureFlags.realEstateEnabled.isActive)
         vm.delegate = self
         let expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame, buttonSpacing: ExpandableCategorySelectionView.distanceBetweenButtons, bottomDistance: floatingSellButtonMarginConstraint.constant, viewModel: vm)
         expandableCategorySelectionView.tag = TabBarController.categorySelectionTag
@@ -232,6 +253,8 @@ final class TabBarController: UITabBarController {
     
     
     // MARK: > UI
+    
+    
 }
 
 
