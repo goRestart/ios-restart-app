@@ -51,4 +51,13 @@ class ChatModelsMapper {
         }
         return nil
     }
+    
+    static func inactiveConversationCount(from dict: [AnyHashable : Any]) -> Int? {
+        guard let count = dict["count"] as? Int else {
+            logMessage(.debug, type: .parsing, message: "could not parse inactiveConversationCount \(dict)")
+            return nil
+        }
+        return count
+    }
 }
+

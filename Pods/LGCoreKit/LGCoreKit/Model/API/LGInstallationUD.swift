@@ -100,7 +100,7 @@ extension LGInstallationUD {
     }
     
     enum CodingKeys: String, CodingKey {
-        case objectId = "objectId"
+        case objectId = "id"
         case appIdentifier = "appIdentifier"
         case appVersion = "appVersion"
         case deviceType = "deviceType"

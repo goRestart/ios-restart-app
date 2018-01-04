@@ -27,6 +27,9 @@ public typealias ChatConversationsCompletion = (ChatConversationsResult) -> Void
 public typealias ChatConversationResult = Result<ChatConversation, RepositoryError>
 public typealias ChatConversationCompletion = (ChatConversationResult) -> Void
 
+public typealias ChatCountResult = Result<Int, RepositoryError>
+public typealias ChatCountCompletion = (ChatCountResult) -> Void
+
 public typealias ChatCommandResult = Result<Void, RepositoryError>
 public typealias ChatCommandCompletion = (ChatCommandResult) -> Void
 
@@ -43,58 +46,43 @@ public protocol ChatRepository: class {
     var sellingConversations: CollectionVariable<ChatConversation> { get }
     var buyingConversations: CollectionVariable<ChatConversation> { get }
     var conversationsLock: NSLock { get }
+    var inactiveConversationsCount: Observable<Int?> { get }
     
-
     // MARK: > Messages
-
+    
     func createNewMessage(_ talkerId: String, text: String, type: ChatMessageType) -> ChatMessage
-
     func indexMessages(_ conversationId: String, numResults: Int, offset: Int, completion: ChatMessagesCompletion?)
-
     func indexMessagesNewerThan(_ messageId: String, conversationId: String, completion: ChatMessagesCompletion?)
-
     func indexMessagesOlderThan(_ messageId: String, conversationId: String, numResults: Int,
-                                       completion: ChatMessagesCompletion?)
-
-
+                                completion: ChatMessagesCompletion?)
     // MARK: > Conversations
-
+    
     func indexConversations(_ numResults: Int, offset: Int, filter: WebSocketConversationFilter,
-                                   completion: ChatConversationsCompletion?)
-
+                            completion: ChatConversationsCompletion?)
     func showConversation(_ conversationId: String, completion: ChatConversationCompletion?)
-
     func showConversation(_ sellerId: String, listingId: String, completion: ChatConversationCompletion?)
-
-
+    func inactiveConversationsCount(for userId: String, completion: ChatCountCompletion?)
+    
     // MARK: > Events
-
+    
     func typingStarted(_ conversationId: String)
-
     func typingStopped(_ conversationId: String)
-
-
+    
     // MARK: > Commands
-
+    
     func sendMessage(_ conversationId: String, messageId: String, type: ChatMessageType, text: String,
-                            completion: ChatCommandCompletion?)
-
+                     completion: ChatCommandCompletion?)
     func confirmRead(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?)
-
     func archiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?)
-
     func confirmReception(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?)
-
     func unarchiveConversation(_ conversationId: String, completion: ChatCommandCompletion?)
-
-
+    
     // MARK: > Unread counts
-
+    
     func chatUnreadMessagesCount(_ completion: ChatUnreadMessagesCompletion?)
-
-
+    
     // MARK: > Server events
-
+    
     func chatEventsIn(_ conversationId: String) -> Observable<ChatEvent>
 }
 
@@ -121,11 +109,11 @@ protocol InternalChatRepository: ChatRepository {
 
 extension InternalChatRepository {
     public func indexConversations(_ numResults: Int, offset: Int, filter: WebSocketConversationFilter,
-                            completion: ChatConversationsCompletion?) {
+                                   completion: ChatConversationsCompletion?) {
         internalIndexConversations(numResults, offset: offset, filter: filter) { [weak self] result in
             defer { completion?(result) }
             guard let strongSelf = self,
-                  let newConversations = result.value else { return }
+                let newConversations = result.value else { return }
             
             let conversationsCollectionVariable: CollectionVariable<ChatConversation>?
             switch filter {
@@ -139,7 +127,7 @@ extension InternalChatRepository {
                 conversationsCollectionVariable = strongSelf.sellingConversations
             }
             guard let conversations = conversationsCollectionVariable else { return }
-           
+            
             let isFirstPage = offset == 0
             if isFirstPage {
                 if conversations.value.isEmpty {
@@ -238,8 +226,8 @@ extension InternalChatRepository {
     public func insertLocalConversationByFetching(conversationId: String) {
         showConversation(conversationId) { [weak self] result in
             guard let strongSelf = self,
-                  let updatedConversation = result.value,
-                  let updatedlastMessageSentAt = updatedConversation.lastMessageSentAt else { return }
+                let updatedConversation = result.value,
+                let updatedlastMessageSentAt = updatedConversation.lastMessageSentAt else { return }
             
             strongSelf.conversationsLock.lock()
             
@@ -305,7 +293,7 @@ extension InternalChatRepository {
                 completion?(sendMessageResult)
             }
             guard let _ = sendMessageResult.value else { return }
-     
+            
             self?.updateLocalConversationByFetching(conversationId: conversationId, moveToTop: true)
         }
     }
@@ -328,7 +316,7 @@ extension InternalChatRepository {
             self?.removeLocalConversations(ids: conversationIds)
         }
     }
-
+    
     public func unarchiveConversation(_ conversationId: String, completion: ChatCommandCompletion?) {
         internalUnarchiveConversation(conversationId) { [weak self] unarchiveResult in
             defer { completion?(unarchiveResult) }
@@ -336,3 +324,4 @@ extension InternalChatRepository {
         }
     }
 }
+

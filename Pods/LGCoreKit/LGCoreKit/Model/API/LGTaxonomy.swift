@@ -45,12 +45,7 @@ public struct LGTaxonomy: Taxonomy, Decodable {
     public init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
         self.name = try keyedContainer.decode(String.self, forKey: .name)
-        if let urlString = try keyedContainer.decodeIfPresent(String.self, forKey: .icon),
-            let iconURL = URL(string: urlString) {
-            self.icon = iconURL
-        } else {
-            self.icon = nil
-        }
+        self.icon = try keyedContainer.decodeIfPresent(URL.self, forKey: .icon)
         self.children = try keyedContainer.decode([LGTaxonomyChild].self, forKey: .children)
     }
     

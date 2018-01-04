@@ -23,9 +23,9 @@ struct WebSocketConversationRequest: WebSocketQueryRequestConvertible {
 }
 
 struct WebSocketConversationRouter {
-
+    
     let uuidGenerator: UUIDGenerator
-
+    
     func index(_ limit: Int = 50, offset: Int = 0, filter: WebSocketConversationFilter = .all)
         -> WebSocketConversationRequest {
             let uuid = uuidGenerator.UUIDString
@@ -47,4 +47,11 @@ struct WebSocketConversationRouter {
         let message = WebSocketRouter.request(with: uuid, type: .fetchConversationID, data: data)
         return WebSocketConversationRequest(message: message, uuid: uuid, type: .fetchConversationID)
     }
+    
+    func inactiveConversationCount(for userId: String) -> WebSocketConversationRequest {
+        let uuid = uuidGenerator.UUIDString
+        let message = WebSocketRouter.request(with: uuid, type: .fetchInactiveConversationsCount, data: nil)
+        return WebSocketConversationRequest(message: message, uuid: uuid, type: .fetchInactiveConversationsCount)
+    }
 }
+

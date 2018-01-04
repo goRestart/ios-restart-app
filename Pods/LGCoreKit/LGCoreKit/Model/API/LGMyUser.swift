@@ -81,6 +81,21 @@ struct LGMyUser: MyUser, Decodable {
         self.localeIdentifier = localeIdentifier
     }
     
+    init(myUser: MyUser) {
+        let accounts = myUser.accounts.map { LGAccount(account: $0) }
+        let avatar = LGFile(id: myUser.avatar?.objectId, url: myUser.avatar?.fileURL)
+        self.init(objectId: myUser.objectId,
+                  name: myUser.name,
+                  avatar: avatar,
+                  accounts: accounts,
+                  ratingAverage: myUser.ratingAverage,
+                  ratingCount: myUser.ratingCount,
+                  status: myUser.status,
+                  email: myUser.email,
+                  location: myUser.location,
+                  localeIdentifier: myUser.localeIdentifier)
+    }
+    
     // MARK: - Decodable
     
     /*

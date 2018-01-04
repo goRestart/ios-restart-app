@@ -155,11 +155,6 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
         }
     }
 
-    public init(from decoder: Decoder) throws {
-        let rawValue = try decoder.singleValueContainer().decode(Int.self)
-        self = ListingStatus(rawValue: rawValue) ?? .approved
-    }
-    
     public var description: String { return "\(string)" }
 }
 

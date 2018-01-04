@@ -66,18 +66,8 @@ public struct LGTaxonomyChild: TaxonomyChild, Decodable {
         }
         self.name = try keyedContainer.decode(String.self, forKey: .name)
         self.highlightOrder =  try keyedContainer.decodeIfPresent(Int.self, forKey: .highlightOrder)
-        if let highlightString = try keyedContainer.decodeIfPresent(String.self, forKey: .highlightIcon),
-            let highLightURL = URL(string: highlightString) {
-            self.highlightIcon = highLightURL
-        } else {
-            self.highlightIcon = nil
-        }
-        if let imageString = try keyedContainer.decodeIfPresent(String.self, forKey: .image),
-            let imageURL = URL(string: imageString) {
-            self.image = imageURL
-        } else {
-            self.image = nil
-        }
+        self.highlightIcon = try keyedContainer.decodeIfPresent(URL.self, forKey: .highlightIcon)
+        self.image = try keyedContainer.decodeIfPresent(URL.self, forKey: .image)
     }
     
     enum CodingKeys: String, CodingKey {

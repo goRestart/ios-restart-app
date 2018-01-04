@@ -10,25 +10,26 @@
 enum WebSocketRequestType: String {
     
     // Commands
-    case authenticate           = "authenticate"
-    case sendMessage            = "send_message"
-    case confirmReception       = "confirm_reception"
-    case confirmRead            = "confirm_read"
-    case archiveConversations   = "archive_conversations"
+    case authenticate = "authenticate"
+    case sendMessage = "send_message"
+    case confirmReception = "confirm_reception"
+    case confirmRead = "confirm_read"
+    case archiveConversations = "archive_conversations"
     case unarchiveConversations = "unarchive_conversations"
     
     // Events
-    case typingStarted          = "typing_started"
-    case typingStopped          = "typing_stopped"
+    case typingStarted = "typing_started"
+    case typingStopped = "typing_stopped"
     
     // Queries
-    case fetchConversations         = "fetch_conversations"
-    case fetchConversationDetails   = "fetch_conversation_details"
-    case fetchConversationID        = "fetch_conversation_id"
-    case fetchMessages              = "fetch_messages"
-    case fetchMessagesNewerThan     = "fetch_messages_newer_than_id"
-    case fetchMessagesOlderThan     = "fetch_messages_older_than_id"
-    case ping                       = "ping"
+    case fetchConversations = "fetch_conversations"
+    case fetchConversationDetails = "fetch_conversation_details"
+    case fetchConversationID = "fetch_conversation_id"
+    case fetchInactiveConversationsCount = "fetch_inactive_conversations_count"
+    case fetchMessages = "fetch_messages"
+    case fetchMessagesNewerThan = "fetch_messages_newer_than_id"
+    case fetchMessagesOlderThan = "fetch_messages_older_than_id"
+    case ping = "ping"
     
     enum RequestSuperType {
         case command
@@ -39,12 +40,12 @@ enum WebSocketRequestType: String {
     var superType: RequestSuperType {
         switch self {
         case .authenticate, .sendMessage, .confirmReception, .confirmRead, .archiveConversations,
-        .unarchiveConversations:
+             .unarchiveConversations:
             return .command
         case .typingStarted, .typingStopped:
             return .event
         case .fetchConversations, .fetchConversationDetails, .fetchConversationID, .fetchMessages, .fetchMessagesNewerThan,
-        .fetchMessagesOlderThan, .ping:
+             .fetchMessagesOlderThan, .fetchInactiveConversationsCount, .ping:
             return .query
         }
     }
@@ -62,3 +63,4 @@ struct WebSocketRouter {
         return String(JSONText)
     }
 }
+
