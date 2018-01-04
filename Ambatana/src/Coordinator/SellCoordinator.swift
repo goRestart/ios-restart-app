@@ -69,13 +69,20 @@ final class SellCoordinator: Coordinator {
         self.postCategory = postCategory
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
-        let postListingVM = PostListingViewModel(source: source, postCategory: postCategory)
-        let postListingVC = PostListingViewController(viewModel: postListingVM,
-                                                      forcedInitialTab: forcedInitialTab)
-        navigationController = SellNavigationController(rootViewController: postListingVC)
-        navigationController.setupInitialCategory(postCategory: postCategory)
+//        let postListingVM = PostListingViewModel(source: source, postCategory: postCategory)
+//        let postListingVC = PostListingViewController(viewModel: postListingVM,
+//                                                      forcedInitialTab: forcedInitialTab)
+//        navigationController = SellNavigationController(rootViewController: postListingVC)
+//        navigationController.setupInitialCategory(postCategory: postCategory)
+        
+        let mostSearchedItemsVM = MostSearchedItemsListViewModel(var1: "asd")
+        let mostSearchedItemsVC = MostSearchedItemsListViewController(viewModel: mostSearchedItemsVM)
+        navigationController = SellNavigationController(rootViewController: mostSearchedItemsVC)
+        //navigationController.setupInitialCategory(postCategory: postCategory)
+        
         self.viewController = navigationController
-        postListingVM.navigator = self
+        //postListingVM.navigator = self
+        mostSearchedItemsVM.navigator = self
     }
 
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {

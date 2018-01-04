@@ -228,6 +228,7 @@ extension AppCoordinator: AppNavigator {
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
 
+    
     // MARK: App Review
 
     func openAppRating(_ source: EventParameterRatingSource) {
