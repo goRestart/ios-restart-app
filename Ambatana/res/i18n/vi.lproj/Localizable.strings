@@ -791,6 +791,7 @@
 "real_estate_title_generator_property_type_house" = "Nhà";
 "real_estate_title_generator_property_type_other" = "Khác";
 "real_estate_title_generator_property_type_room" = "Phòng";
+"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 "real_estate_type_property_apartment" = "Căn hộ";
 "real_estate_type_property_commercial" = "Thương mại";
 "real_estate_type_property_house" = "Nhà";

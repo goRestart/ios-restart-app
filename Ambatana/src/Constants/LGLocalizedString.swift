@@ -3251,6 +3251,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_related_search_title", comment: "")
 	}
 
+	static var realEstateTooltipSellButton: String {
+		return NSLocalizedString("real_estate_tooltip_sell_button", comment: "")
+	}
+
 	static var relatedItemsTitle: String {
 		return NSLocalizedString("related_items_title", comment: "")
 	}

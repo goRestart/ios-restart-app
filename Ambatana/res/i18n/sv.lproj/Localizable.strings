@@ -617,7 +617,7 @@
 "product_post_retake" = "Ta en ny";
 "product_post_retry_button" = "Försök igen";
 "product_post_select_category_cars" = "Bilar";
-"product_post_select_category_housing" = "Boende";
+"product_post_select_category_housing" = "Bostad Uthyres / Säljes";
 "product_post_select_category_motors_and_accessories" = "Andra Fordon och Reservdelar";
 "product_post_select_category_other" = "Något annat";
 "product_post_select_category_title" = "Vad lägger du upp?";
@@ -791,6 +791,7 @@
 "real_estate_title_generator_property_type_house" = "Hus";
 "real_estate_title_generator_property_type_other" = "Övrigt";
 "real_estate_title_generator_property_type_room" = "Rum";
+"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 "real_estate_type_property_apartment" = "Lägenhet";
 "real_estate_type_property_commercial" = "Företagslokal";
 "real_estate_type_property_house" = "Hus";

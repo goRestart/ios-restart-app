@@ -791,6 +791,7 @@
 "real_estate_title_generator_property_type_house" = "Enebolig";
 "real_estate_title_generator_property_type_other" = "Annet";
 "real_estate_title_generator_property_type_room" = "Rom";
+"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 "real_estate_type_property_apartment" = "Leilighet";
 "real_estate_type_property_commercial" = "Kommersielt";
 "real_estate_type_property_house" = "Enebolig";
