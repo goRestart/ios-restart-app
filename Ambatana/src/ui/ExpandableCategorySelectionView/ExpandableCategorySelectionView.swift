@@ -30,14 +30,16 @@ class ExpandableCategorySelectionView: UIView {
     fileprivate var topConstraints: [NSLayoutConstraint] = []
     fileprivate let disposeBag: DisposeBag = DisposeBag()
     
+    fileprivate let shouldShowOverlayMessage: Bool
     
     // MARK: - Lifecycle
     
     init(frame: CGRect, buttonSpacing: CGFloat, bottomDistance: CGFloat,
-         viewModel: ExpandableCategorySelectionViewModel) {
+         viewModel: ExpandableCategorySelectionViewModel, shouldShowOverlayMessage: Bool) {
         self.buttonSpacing = buttonSpacing
         self.bottomDistance = bottomDistance
         self.viewModel = viewModel
+        self.shouldShowOverlayMessage = shouldShowOverlayMessage
         super.init(frame: frame)
         setupUI()
     }
@@ -84,6 +86,27 @@ class ExpandableCategorySelectionView: UIView {
         
         
     }
+    
+    fileprivate func addOverlayMessage() {
+        let overlayView = UIView()
+        addSubview(overlayView)
+        overlayView.layout(with: self).fillHorizontal().top()
+        if let buttonLast = buttons.last {
+            overlayView.layout(with: buttonLast).bottom()
+        }
+        overlayView.translatesAutoresizingMaskIntoConstraints = false
+        overlayView.backgroundColor = .clear
+        
+        let overlayMessage = UILabel()
+        overlayMessage.translatesAutoresizingMaskIntoConstraints = false
+        overlayView.addSubview(overlayMessage)
+        overlayMessage.layout(with: overlayView).fillHorizontal(by: Metrics.bigMargin).centerY()
+        overlayMessage.textAlignment = .center
+        overlayMessage.numberOfLines = 0
+        overlayMessage.font = UIFont.bigHeadlineFont
+        overlayMessage.text = LGLocalizedString.realEstateTooltipOverlayExpandableMenu
+        overlayMessage.textColor = .white
+    }
 
     fileprivate func setupUI() {
         alpha = 0
@@ -105,6 +128,10 @@ class ExpandableCategorySelectionView: UIView {
         
         addButtons()
         
+        if shouldShowOverlayMessage {
+            addOverlayMessage()
+        }
+    
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOutside))
         addGestureRecognizer(tapRecognizer)
         setAccesibilityIds()

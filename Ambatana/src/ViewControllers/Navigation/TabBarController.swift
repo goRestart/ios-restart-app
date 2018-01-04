@@ -212,13 +212,12 @@ final class TabBarController: UITabBarController {
             setupExternalConstraintsForTooltip(toolTipShowed, targetView: floatingSellButton, containerView: view)
         }
     }
-    
-    
+
     func setupExpandableCategoriesView() {
         view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()
         let vm = ExpandableCategorySelectionViewModel(realEstateEnabled: featureFlags.realEstateEnabled.isActive)
         vm.delegate = self
-        let expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame, buttonSpacing: ExpandableCategorySelectionView.distanceBetweenButtons, bottomDistance: floatingSellButtonMarginConstraint.constant, viewModel: vm)
+        let expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame, buttonSpacing: ExpandableCategorySelectionView.distanceBetweenButtons, bottomDistance: floatingSellButtonMarginConstraint.constant, viewModel: vm, shouldShowOverlayMessage: viewModel.shouldShowRealEstateTooltip)
         expandableCategorySelectionView.tag = TabBarController.categorySelectionTag
         view.addSubview(expandableCategorySelectionView)
         expandableCategorySelectionView.layoutIfNeeded()

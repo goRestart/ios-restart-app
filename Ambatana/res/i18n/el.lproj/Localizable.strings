@@ -791,6 +791,7 @@
 "real_estate_title_generator_property_type_house" = "Σπίτι";
 "real_estate_title_generator_property_type_other" = "Άλλα";
 "real_estate_title_generator_property_type_room" = "Δωμάτιο";
+"real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
 "real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 "real_estate_type_property_apartment" = "Διαμέρισμα";
 "real_estate_type_property_commercial" = "Εμπορική";
