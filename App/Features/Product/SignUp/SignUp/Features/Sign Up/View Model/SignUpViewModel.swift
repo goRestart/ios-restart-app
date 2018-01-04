@@ -30,6 +30,7 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
   var password = Variable<String>("")
   var email = Variable<String>("")
   var state = Variable<SignUpState>(.idle)
+  var error = Variable<RegisterUserError?>(nil)
   
   var signUpEnabled: Observable<Bool> {
     return Observable.combineLatest(
@@ -57,7 +58,7 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
     
     registerUser.execute(with: credentials)
       .subscribe(onCompleted: {
-        print("User created correctly ✅")
+        print("User created correctly ✅") // TODO: Handle user creation
       }) { error in
         self.handle(error)
     }.disposed(by: bag)
@@ -65,15 +66,10 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
   
   private func handle(_ error: Error) {
     guard let error = error as? RegisterUserError else {
+      // TODO: Show generic error
       return
-      // Show generic error
     }
-    switch error {
-    case .invalidUsername: break
-    case .invalidPassword: break
-    case .invalidEmail: break
-    case .usernameIsAlreadyRegistered: break
-    case .emailIsAlreadyRegistered: break
-    }
+    self.error.value = error
+    self.state.value = .idle
   }
 }
