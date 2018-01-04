@@ -211,7 +211,6 @@ final class TabBarController: UITabBarController {
             view.addSubview(toolTipShowed)
             setupExternalConstraintsForTooltip(toolTipShowed, targetView: floatingSellButton, containerView: view)
         }
-        view.layoutIfNeeded()
     }
     
     
