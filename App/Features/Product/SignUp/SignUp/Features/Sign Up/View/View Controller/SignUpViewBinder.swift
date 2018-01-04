@@ -62,8 +62,16 @@ struct SignUpViewBinder {
       .disposed(by: bag)
     
     view.signUpButton.rx.tap
+      .debounce(0.2, scheduler: MainScheduler.instance)
       .subscribe(onNext: { _ in
         viewModel.input.signInButtonPressed()
+      })
+      .disposed(by: bag)
+    
+    viewModel.output.error
+      .asObservable()
+      .subscribe(onNext: { error in
+        view.set(error)
       })
       .disposed(by: bag)
   }
