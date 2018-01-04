@@ -1,5 +1,6 @@
 import Core
 import Application
+import Domain
 
 extension Assembly {
   public func makeSignUp() -> SignUpViewController {
@@ -12,7 +13,8 @@ extension Assembly {
   
   private var viewModel: SignUpViewModelType {
     return SignUpViewModel(
-      emailValidator: emailValidator
+      emailValidator: emailValidator,
+      registerUser: registerUser
     )
   }
   
@@ -22,6 +24,10 @@ extension Assembly {
   
   private var emailValidator: EmailValidator {
     return EmailValidator()
+  }
+  
+  private var registerUser: RegisterUserUseCase {
+    return RegisterUser()
   }
   
   func signUpRouter(from view: UIViewController) -> SignUpRouter {

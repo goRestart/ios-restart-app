@@ -15,9 +15,13 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
   
   private let bag = DisposeBag()
   private let emailValidator: EmailValidator
+  private let registerUser: RegisterUserUseCase
   
-  init(emailValidator: EmailValidator) {
+  init(emailValidator: EmailValidator,
+       registerUser: RegisterUserUseCase)
+  {
     self.emailValidator = emailValidator
+    self.registerUser = registerUser
   }
 
   // MARK: - Output
@@ -51,7 +55,25 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
       password: password.value
     )
     
-    print("Creating user with \(credentials)")
+    registerUser.execute(with: credentials)
+      .subscribe(onCompleted: {
+        print("User created correctly ✅")
+      }) { error in
+        self.handle(error)
+    }.disposed(by: bag)
+  }
+  
+  private func handle(_ error: Error) {
+    guard let error = error as? RegisterUserError else {
+      return
+      // Show generic error
+    }
+    switch error {
+    case .invalidUsername: break
+    case .invalidPassword: break
+    case .invalidEmail: break
+    case .usernameIsAlreadyRegistered: break
+    case .emailIsAlreadyRegistered: break
+    }
   }
 }
-
