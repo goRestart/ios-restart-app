@@ -48,6 +48,7 @@ protocol FeatureFlaggeable: class {
     var copyListingAnotherConfirmation: CopyListingAnotherConfirmation { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
+    var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -372,6 +373,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
     }
+    
+    var mostSearchedDemandedItems: MostSearchedDemandedItems {
+        if Bumper.enabled {
+            return Bumper.mostSearchedDemandedItems
+        }
+        return MostSearchedDemandedItems.fromPosition(abTests.mostSearchedDemandedItems.value)
+    }
+    
 
     // MARK: - Country features
 
