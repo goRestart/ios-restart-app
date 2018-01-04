@@ -33,7 +33,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
     var refreshControl = UIRefreshControl()
 
-    private let inactiveConversactionHeaderView = ChatInactiveConversationHeaderView()
+    private let inactiveConversationHeaderView = ChatInactiveConversationHeaderView()
     
     // > Insets
     @IBOutlet weak var tableViewBottomInset: NSLayoutConstraint!
@@ -233,8 +233,8 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         bottomInset = tabBarBottomInset
         setFooterHidden(true, animated: false)
         
-        inactiveConversactionHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        inactiveConversactionHeaderView.buttonAction = {
+        inactiveConversationHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        inactiveConversationHeaderView.buttonAction = {
             // go to inactive conversation screen
         }
     }
@@ -269,13 +269,13 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     }
     
     private func showInactiveConversationsHeader(with count: Int) {
-        inactiveConversactionHeaderView.inactiveConvesationsCount = count
-        headerView.addSubview(inactiveConversactionHeaderView)
-        inactiveConversactionHeaderView.layout(with: headerView).fill()
+        inactiveConversationHeaderView.inactiveConvesationsCount = count
+        headerView.addSubview(inactiveConversationHeaderView)
+        inactiveConversationHeaderView.layout(with: headerView).fill()
     }
     
     private func hideInactiveConversationsHeader() {
-        inactiveConversactionHeaderView.removeFromSuperview()
+        inactiveConversationHeaderView.removeFromSuperview()
     }
 
     func setFooterHidden(_ hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {
