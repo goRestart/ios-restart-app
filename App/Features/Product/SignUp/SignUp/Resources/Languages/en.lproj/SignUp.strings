@@ -24,3 +24,11 @@
 "signup.input.password.title" = "Password";
 "signup.input.password.placeholder" = "Min 6 characters";
 "signup.button.signup.title" = "Sign Up";
+
+// MARK: - Form errors
+
+"signup.form.error.invalid_username" = "Uh-oh! This username seems invalid";
+"signup.form.error.invalid_password" = "Invalid password";
+"signup.form.error.invalid_email" = "Invalid email";
+"signup.form.error.username_is_already_registered" = "Pwned! This username is already taken";
+"signup.form.error.email_is_already_registered" = "Pwned! This email is already taken";

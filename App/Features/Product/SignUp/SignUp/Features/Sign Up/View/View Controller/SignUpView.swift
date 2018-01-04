@@ -1,5 +1,6 @@
 import UI
 import SnapKit
+import Domain
 
 private struct ViewLayout {
   static let signInButtonHeight = CGFloat(56)
@@ -58,6 +59,30 @@ final class SignUpView: View {
     stackView.spacing = Margin.medium
     return stackView
   }()
+  
+  func set(_ error: RegisterUserError?) {
+    guard let error = error else { cleanErrors(); return }
+    cleanErrors()
+    
+    switch error {
+    case .invalidUsername:
+      usernameTextField.error = Localize("signup.form.error.invalid_username", table: Table.signUp)
+    case .invalidPassword:
+      passwordTextField.error = Localize("signup.form.error.invalid_password", table: Table.signUp)
+    case .invalidEmail:
+      emailTextField.error = Localize("signup.form.error.invalid_email", table: Table.signUp)
+    case .usernameIsAlreadyRegistered:
+      usernameTextField.error = Localize("signup.form.error.username_is_already_registered", table: Table.signUp)
+    case .emailIsAlreadyRegistered:
+      emailTextField.error = Localize("signup.form.error.email_is_already_registered", table: Table.signUp)
+    }
+  }
+  
+  private func cleanErrors() {
+    usernameTextField.error = nil
+    emailTextField.error = nil
+    passwordTextField.error = nil
+  }
   
   override func setupView() {
     stackView.addArrangedSubview(usernameTextField)
