@@ -13,12 +13,14 @@ class ChatInactiveConversationHeaderView: UIView {
     private let label = UILabel()
     private let button = UIButton(type: .custom)
     
-    let buttonAction: (() -> ())? = nil
+    var buttonAction: (() -> ())? = nil
     var inactiveConvesationsCount: Int = 0 {
         didSet {
             updateButtonTitle(with: inactiveConvesationsCount)
         }
     }
+    
+    // MARK: Lifecyle
     
     init() {
         super.init(frame: CGRect.zero)
@@ -30,13 +32,28 @@ class ChatInactiveConversationHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        button.rounded = true
+    }
+    
+    // MARK: UI
+    
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: UIViewNoIntrinsicMetric, height: 55)
+    }
+    
     private func setupUI() {
         label.font = UIFont.systemRegularFont(size: 12)
         label.textColor = UIColor.blackTextHighAlpha
         label.text = LGLocalizedString.chatInactiveConversationsExplanationLabel
         label.numberOfLines = 2
-        button.setStyle(.secondary(fontSize: .medium, withBorder: false))
+        button.setTitleColor(UIColor.blackTextHighAlpha, for: .normal)
+        button.setBackgroundImage(UIColor.grayLighter.imageWithSize(CGSize(width: 1, height: 1)), for: .normal)
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        button.titleLabel?.font = UIFont.systemMediumFont(size: 12)
+        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
     
     private func setupLayout() {
@@ -45,16 +62,30 @@ class ChatInactiveConversationHeaderView: UIView {
         addSubviews(subviews)
         layoutMargins = UIEdgeInsetsMake(Metrics.margin, Metrics.margin, Metrics.margin, Metrics.margin)
         label.layout(with: self).leadingMargin().topMargin().bottomMargin()
-        label.layout(with: button).trailing(to: .leading, by: Metrics.veryBigMargin)
-        button.layout(with: self).trailingMargin().topMargin().bottomMargin()
+        label.layout(with: button).trailing(to: .leading, by: -Metrics.bigMargin)
+        button.layout(with: self)
+            .trailingMargin()
+            .topMargin(relatedBy: .greaterThanOrEqual)
+            .bottomMargin(relatedBy: .lessThanOrEqual)
+            .centerY()
+        button.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
+        addBottomViewBorderWith(width: LGUIKitConstants.onePixelSize,
+                                color: UIColor.grayLighter)
+        addTopViewBorderWith(width: LGUIKitConstants.onePixelSize,
+                             color: UIColor.grayLighter)
     }
+    
+    // MARK: UI Actions
     
     @objc func buttonPressed() {
         buttonAction?()
     }
     
+    // MARK: Helpers
+    
     private func generateButtonTitle(with counter: Int) -> String {
-        return LGLocalizedString.chatInactiveConversationsButton + " (\(String(counter))"
+        return LGLocalizedString.chatInactiveConversationsButton + " (\(String(counter)))"
     }
     
     private func updateButtonTitle(with counter: Int) {

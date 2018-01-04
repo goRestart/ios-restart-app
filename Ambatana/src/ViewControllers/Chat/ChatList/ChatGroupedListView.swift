@@ -21,6 +21,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
     // UI
     @IBOutlet weak private var contentView: UIView!
+    @IBOutlet weak private var headerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var footerViewBottom: NSLayoutConstraint!
@@ -200,14 +201,6 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
             self?.viewModel.setCurrentIndex(indexPath.row)
         }
     }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return inactiveConversactionHeaderView
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
-    }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         didSelectRowAtIndex(indexPath.row, editing: tableView.isEditing)
@@ -239,6 +232,11 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         footerButton.isEnabled = false
         bottomInset = tabBarBottomInset
         setFooterHidden(true, animated: false)
+        
+        inactiveConversactionHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        inactiveConversactionHeaderView.buttonAction = {
+            // go to inactive conversation screen
+        }
     }
 
     func resetUI() {
@@ -260,6 +258,24 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         viewModel.objects.changesObservable.subscribeNext { [weak self] change in
             self?.tableView.reloadData()
         }.disposed(by: disposeBag)
+        
+        viewModel.inactiveConversationsCount.asObservable().subscribeNext { [weak self] count in
+            if let count = count, count > 0 {
+                self?.showInactiveConversationsHeader(with: count)
+            } else {
+                self?.hideInactiveConversationsHeader()
+            }
+        }.disposed(by: disposeBag)
+    }
+    
+    private func showInactiveConversationsHeader(with count: Int) {
+        inactiveConversactionHeaderView.inactiveConvesationsCount = count
+        headerView.addSubview(inactiveConversactionHeaderView)
+        inactiveConversactionHeaderView.layout(with: headerView).fill()
+    }
+    
+    private func hideInactiveConversationsHeader() {
+        inactiveConversactionHeaderView.removeFromSuperview()
     }
 
     func setFooterHidden(_ hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {

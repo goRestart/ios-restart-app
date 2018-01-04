@@ -43,6 +43,10 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     let shouldWriteInCollectionVariable: Bool
     let notificationsManager: NotificationsManager
     fileprivate let tracker: Tracker
+    
+    private let chatRepository: ChatRepository
+    let inactiveConversationsCount = Variable<Int?>(nil)
+    
     private(set) var status: ViewState {
         didSet {
             switch status {
@@ -90,25 +94,29 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     convenience init(objects: [T],
                      tabNavigator: TabNavigator?,
                      notificationsManager: NotificationsManager = LGNotificationsManager.sharedInstance,
-                     tracker: Tracker = TrackerProxy.sharedInstance) {
+                     tracker: Tracker = TrackerProxy.sharedInstance,
+                     chatRepository: ChatRepository = Core.chatRepository) {
         self.init(collectionVariable: CollectionVariable(objects),
                   shouldWriteInCollectionVariable: false,
                   tabNavigator: tabNavigator,
                   notificationsManager: notificationsManager,
-                  tracker: tracker)
+                  tracker: tracker,
+                  chatRepository: chatRepository)
     }
     
     init(collectionVariable: CollectionVariable<T>,
          shouldWriteInCollectionVariable: Bool,
          tabNavigator: TabNavigator?,
          notificationsManager: NotificationsManager = LGNotificationsManager.sharedInstance,
-         tracker: Tracker = TrackerProxy.sharedInstance) {
+         tracker: Tracker = TrackerProxy.sharedInstance,
+         chatRepository: ChatRepository = Core.chatRepository) {
         self.objects = collectionVariable
         self.shouldWriteInCollectionVariable = shouldWriteInCollectionVariable
         self.status = .loading
         self.tabNavigator = tabNavigator
         self.notificationsManager = notificationsManager
         self.tracker = tracker
+        self.chatRepository = chatRepository
         super.init()
         
         self.multipageRequester = MultiPageRequester() { [weak self] (page, completion) in
@@ -354,6 +362,8 @@ fileprivate extension BaseChatGroupedListViewModel {
                 self?.notificationsManager.updateChatCounters()
             }.disposed(by: disposeBag)
         }
+        
+        chatRepository.inactiveConversationsCount.asObservable().bind(to: inactiveConversationsCount).disposed(by: disposeBag)
     }
     
     func setupInactiveRx() {

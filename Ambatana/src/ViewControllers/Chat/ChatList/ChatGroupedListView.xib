@@ -19,6 +19,7 @@
                 <outlet property="footerButton" destination="aSL-RO-ZUw" id="cYa-Ee-DL8"/>
                 <outlet property="footerView" destination="KxR-E5-wgI" id="1ol-lN-5l4"/>
                 <outlet property="footerViewBottom" destination="DJ9-fA-i63" id="iaA-mE-qdh"/>
+                <outlet property="headerView" destination="a8A-4V-WTh" id="YKV-MJ-RGz"/>
                 <outlet property="tableView" destination="ZxO-PJ-aaK" id="Gwm-VM-1Uj"/>
                 <outlet property="tableViewBottomInset" destination="gi9-yQ-CJ5" id="8MB-ZK-LBn"/>
             </connections>
@@ -31,12 +32,19 @@
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="c2P-Hi-R6Q" userLabel="Activity Indicator">
                     <rect key="frame" x="177.5" y="301.5" width="20" height="20"/>
                 </activityIndicatorView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a8A-4V-WTh" userLabel="Header View">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" placeholder="YES" id="ae1-hw-78C"/>
+                    </constraints>
+                </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dLX-Gv-lau" userLabel="Empty View" customClass="LGEmptyView" customModule="LetGo" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                    <rect key="frame" x="0.0" y="50" width="375" height="573"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
-                <tableView hidden="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZxO-PJ-aaK">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZxO-PJ-aaK">
+                    <rect key="frame" x="0.0" y="50" width="375" height="617"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <connections>
@@ -66,16 +74,19 @@
             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="KxR-E5-wgI" firstAttribute="leading" secondItem="rtM-4c-cZH" secondAttribute="leading" id="1JW-v6-ZmW"/>
+                <constraint firstItem="ZxO-PJ-aaK" firstAttribute="top" secondItem="a8A-4V-WTh" secondAttribute="bottom" id="3gI-JE-wbh"/>
                 <constraint firstAttribute="trailing" secondItem="ZxO-PJ-aaK" secondAttribute="trailing" id="ANh-9C-p86"/>
                 <constraint firstAttribute="bottom" secondItem="dLX-Gv-lau" secondAttribute="bottom" constant="44" id="B1d-bC-v6l"/>
                 <constraint firstAttribute="bottom" secondItem="KxR-E5-wgI" secondAttribute="bottom" constant="-64" id="DJ9-fA-i63"/>
-                <constraint firstItem="dLX-Gv-lau" firstAttribute="top" secondItem="rtM-4c-cZH" secondAttribute="top" id="Grr-ZE-OJX"/>
-                <constraint firstItem="ZxO-PJ-aaK" firstAttribute="top" secondItem="rtM-4c-cZH" secondAttribute="top" id="SDR-4S-QYh"/>
+                <constraint firstItem="dLX-Gv-lau" firstAttribute="top" secondItem="a8A-4V-WTh" secondAttribute="bottom" id="TXa-k1-dbt"/>
                 <constraint firstAttribute="centerX" secondItem="c2P-Hi-R6Q" secondAttribute="centerX" id="U5h-hW-Qjc"/>
+                <constraint firstItem="a8A-4V-WTh" firstAttribute="leading" secondItem="rtM-4c-cZH" secondAttribute="leading" id="Xpd-O9-Isv"/>
                 <constraint firstAttribute="trailing" secondItem="KxR-E5-wgI" secondAttribute="trailing" id="aQG-DQ-ruQ"/>
                 <constraint firstItem="ZxO-PJ-aaK" firstAttribute="leading" secondItem="rtM-4c-cZH" secondAttribute="leading" id="eYH-SJ-d6d"/>
                 <constraint firstItem="KxR-E5-wgI" firstAttribute="top" secondItem="ZxO-PJ-aaK" secondAttribute="bottom" id="gi9-yQ-CJ5"/>
+                <constraint firstAttribute="trailing" secondItem="a8A-4V-WTh" secondAttribute="trailing" id="gju-ya-lgL"/>
                 <constraint firstAttribute="trailing" secondItem="dLX-Gv-lau" secondAttribute="trailing" id="gkk-8x-PqQ"/>
+                <constraint firstItem="a8A-4V-WTh" firstAttribute="top" secondItem="rtM-4c-cZH" secondAttribute="top" id="jBI-br-t1w"/>
                 <constraint firstAttribute="centerY" secondItem="c2P-Hi-R6Q" secondAttribute="centerY" constant="22" id="v71-Y3-mMS"/>
                 <constraint firstItem="dLX-Gv-lau" firstAttribute="leading" secondItem="rtM-4c-cZH" secondAttribute="leading" id="yf1-8e-RXC"/>
             </constraints>
