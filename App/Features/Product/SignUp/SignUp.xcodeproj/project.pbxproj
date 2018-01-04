@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C1D225F1FFD8F4600BC0316 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D225E1FFD8F4600BC0316 /* SignUpViewController.swift */; };
+		1C1D22611FFD8F6A00BC0316 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22601FFD8F6A00BC0316 /* SignUpView.swift */; };
+		1C1D22631FFD8FC700BC0316 /* Assembly+SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22621FFD8FC700BC0316 /* Assembly+SignUp.swift */; };
+		1C1D22661FFDA4D900BC0316 /* SignUpRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22651FFDA4D900BC0316 /* SignUpRouter.swift */; };
 		1C7DD9891FF66C41009C574E /* SignUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C7DD97F1FF66C41009C574E /* SignUp.framework */; };
 		1C7DD9901FF66C41009C574E /* SignUp.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C7DD9821FF66C41009C574E /* SignUp.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C7F4C541FF95B47001BEB62 /* LoginViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C531FF95B47001BEB62 /* LoginViewModelSpec.swift */; };
@@ -134,6 +138,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1C1D225E1FFD8F4600BC0316 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		1C1D22601FFD8F6A00BC0316 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		1C1D22621FFD8FC700BC0316 /* Assembly+SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+SignUp.swift"; sourceTree = "<group>"; };
+		1C1D22651FFDA4D900BC0316 /* SignUpRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRouter.swift; sourceTree = "<group>"; };
 		1C7DD97F1FF66C41009C574E /* SignUp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SignUp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C7DD9821FF66C41009C574E /* SignUp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUp.h; sourceTree = "<group>"; };
 		1C7DD9831FF66C41009C574E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -203,6 +211,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C1D225B1FFD8EF400BC0316 /* Sign Up */ = {
+			isa = PBXGroup;
+			children = (
+				1C1D225D1FFD8F1400BC0316 /* View */,
+				1C1D22641FFDA4CB00BC0316 /* Router */,
+			);
+			path = "Sign Up";
+			sourceTree = "<group>";
+		};
+		1C1D225C1FFD8F0A00BC0316 /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1C1D22601FFD8F6A00BC0316 /* SignUpView.swift */,
+				1C1D225E1FFD8F4600BC0316 /* SignUpViewController.swift */,
+			);
+			path = "View Controller";
+			sourceTree = "<group>";
+		};
+		1C1D225D1FFD8F1400BC0316 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1C1D225C1FFD8F0A00BC0316 /* View Controller */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1C1D22641FFDA4CB00BC0316 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				1C1D22651FFDA4D900BC0316 /* SignUpRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 		1C7DD9751FF66C41009C574E = {
 			isa = PBXGroup;
 			children = (
@@ -338,6 +380,7 @@
 			children = (
 				1C7F4C791FFC492D001BEB62 /* Not Logged */,
 				1CACD9CA1FF66E6500538B78 /* Login */,
+				1C1D225B1FFD8EF400BC0316 /* Sign Up */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -390,8 +433,9 @@
 		1CACD9E41FF67C2700538B78 /* Assembly */ = {
 			isa = PBXGroup;
 			children = (
-				1CACD9E51FF67C3400538B78 /* Assembly+Login.swift */,
 				1C7F4C831FFC4E49001BEB62 /* Assembly+NotLogged.swift */,
+				1CACD9E51FF67C3400538B78 /* Assembly+Login.swift */,
+				1C1D22621FFD8FC700BC0316 /* Assembly+SignUp.swift */,
 			);
 			path = Assembly;
 			sourceTree = "<group>";
@@ -712,13 +756,17 @@
 				1C7F4C9F1FFCF14B001BEB62 /* NotLoggedViewModel.swift in Sources */,
 				1C7F4CA41FFCF716001BEB62 /* LoginRouter.swift in Sources */,
 				1C7F4C7E1FFC4954001BEB62 /* NotLoggedViewController.swift in Sources */,
+				1C1D22661FFDA4D900BC0316 /* SignUpRouter.swift in Sources */,
+				1C1D22631FFD8FC700BC0316 /* Assembly+SignUp.swift in Sources */,
 				1CACDA3D1FF68DF900538B78 /* LoginView.swift in Sources */,
 				1CACDA4E1FF698E100538B78 /* Table.swift in Sources */,
 				1CACD9DC1FF6703200538B78 /* LoginViewModel.swift in Sources */,
 				1C7F4C801FFC4980001BEB62 /* NotLoggedView.swift in Sources */,
 				1CACD9E61FF67C3400538B78 /* Assembly+Login.swift in Sources */,
 				1C7F4C841FFC4E49001BEB62 /* Assembly+NotLogged.swift in Sources */,
+				1C1D22611FFD8F6A00BC0316 /* SignUpView.swift in Sources */,
 				1C7F4C571FF95DFE001BEB62 /* LoginViewModelType.swift in Sources */,
+				1C1D225F1FFD8F4600BC0316 /* SignUpViewController.swift in Sources */,
 				1CACD9D51FF66F8000538B78 /* LoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
