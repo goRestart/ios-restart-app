@@ -1,6 +1,7 @@
 import Application
 import RxSwift
 import Domain
+import Core
 
 private struct LoginViewModelConstraints {
   static let minUsernameLenght = 3
@@ -13,6 +14,11 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
   var output: SignUpViewModelOutput { return self }
   
   private let bag = DisposeBag()
+  private let emailValidator: EmailValidator
+  
+  init(emailValidator: EmailValidator) {
+    self.emailValidator = emailValidator
+  }
 
   // MARK: - Output
   
@@ -25,7 +31,7 @@ struct SignUpViewModel: SignUpViewModelType, SignUpViewModelInput, SignUpViewMod
     return Observable.combineLatest(
     username.asObservable(), email.asObservable(), password.asObservable()) { username, email, password in
       return username.count >= LoginViewModelConstraints.minUsernameLenght &&
-        email.contains("@") && email.contains(".") && // TODO: Add correct email validator
+        self.emailValidator.validate(email) &&
         password.count >= LoginViewModelConstraints.minPasswordLenght
     }
   }

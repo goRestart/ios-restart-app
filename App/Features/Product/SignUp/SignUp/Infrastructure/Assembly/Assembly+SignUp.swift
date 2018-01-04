@@ -11,11 +11,17 @@ extension Assembly {
   }
   
   private var viewModel: SignUpViewModelType {
-    return SignUpViewModel()
+    return SignUpViewModel(
+      emailValidator: emailValidator
+    )
   }
   
   private var viewBinder: SignUpViewBinder {
     return SignUpViewBinder()
+  }
+  
+  private var emailValidator: EmailValidator {
+    return EmailValidator()
   }
   
   func signUpRouter(from view: UIViewController) -> SignUpRouter {
