@@ -34,7 +34,7 @@ final class SignUpView: View {
     return textField
   }()
   
-  let passwordInput: InputTextField = {
+  let passwordTextField: InputTextField = {
     let textField = InputTextField()
     textField.input.isSecureTextEntry = true
     textField.input.textContentType = .password
@@ -62,7 +62,7 @@ final class SignUpView: View {
   override func setupView() {
     stackView.addArrangedSubview(usernameTextField)
     stackView.addArrangedSubview(emailTextField)
-    stackView.addArrangedSubview(passwordInput)
+    stackView.addArrangedSubview(passwordTextField)
     
     scrollView.addSubview(stackView)
 
@@ -90,7 +90,7 @@ final class SignUpView: View {
         .inset(UIEdgeInsetsMake(0, Margin.medium, 0, Margin.medium))
     }
     
-    [usernameTextField, emailTextField, passwordInput].forEach { input in
+    [usernameTextField, emailTextField, passwordTextField].forEach { input in
       input.snp.makeConstraints { make in
         make.left.equalTo(self).offset(Margin.medium)
         make.right.equalTo(self).offset(-Margin.medium)
