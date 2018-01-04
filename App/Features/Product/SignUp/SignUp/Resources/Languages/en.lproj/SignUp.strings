@@ -18,7 +18,7 @@
 
 "signup.title" = "Create account";
 "signup.input.username.title" = "Username";
-"signup.input.username.placeholder" = "e.g. Torpedo";
+"signup.input.username.placeholder" = "e.g. Eurogammer";
 "signup.input.email.title" = "Email";
 "signup.input.email.placeholder" = "e.g. hi@restart.com";
 "signup.input.password.title" = "Password";
