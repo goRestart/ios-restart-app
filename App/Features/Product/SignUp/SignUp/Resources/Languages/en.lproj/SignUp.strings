@@ -13,3 +13,14 @@
 "login.input.username.placeholder" = "Username";
 "login.input.password.placeholder" = "Password";
 "login.button.signin.title" = "Log in ➞";
+
+// MARK: - SignUp
+
+"signup.title" = "Create account";
+"signup.input.username.title" = "Username";
+"signup.input.username.placeholder" = "e.g. Torpedo";
+"signup.input.email.title" = "Email";
+"signup.input.email.placeholder" = "e.g. hi@restart.com";
+"signup.input.password.title" = "Password";
+"signup.input.password.placeholder" = "Min 6 characters";
+"signup.button.signup.title" = "Sign Up";
