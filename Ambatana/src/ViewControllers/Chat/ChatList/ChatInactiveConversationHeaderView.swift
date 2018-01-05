@@ -10,7 +10,7 @@ import Foundation
 
 class ChatInactiveConversationHeaderView: UIView {
 
-    private static let headerHeight = 55
+    private static let headerHeight: CGFloat = 55
     
     private let label = UILabel()
     private let button = UIButton(type: .custom)
@@ -51,6 +51,7 @@ class ChatInactiveConversationHeaderView: UIView {
         label.textColor = UIColor.blackTextHighAlpha
         label.text = LGLocalizedString.chatInactiveConversationsExplanationLabel
         label.numberOfLines = 2
+        label.adjustsFontSizeToFitWidth = true
         button.setTitleColor(UIColor.blackTextHighAlpha, for: .normal)
         button.setBackgroundImage(UIColor.grayLighter.imageWithSize(CGSize(width: 1, height: 1)), for: .normal)
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
