@@ -18,6 +18,8 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     var isRemovedWhenResigningFirstResponder = true
 
     var rx_chatTextView: Reactive<ChatTextView> { return textView.rx }
+    var rx_toSendMessage: Observable<String> { return textView.rx.send }
+
     let quickChatViewModel: QuickChatViewModel
 
     private let textView = ChatTextView()
@@ -75,6 +77,10 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     func setInitialText(_ text: String) {
         textView.setText(text)
         textView.resignFirstResponder()
+    }
+
+    func clearChatTextView() {
+        textView.clear()
     }
 
     func updateDirectChatWith(answers: [[QuickAnswer]], isDynamic: Bool) {

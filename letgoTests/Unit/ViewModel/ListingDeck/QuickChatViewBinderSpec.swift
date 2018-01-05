@@ -32,6 +32,7 @@ final class QuickChatViewBinderSpec: QuickSpec {
 
             afterEach {
                 quickChatView.resetVariables()
+                quickChatVM.resetVariables()
             }
 
             context("new placeholder changes") {
@@ -48,7 +49,16 @@ final class QuickChatViewBinderSpec: QuickSpec {
                     quickChatVM.quickAnswers.value = [QuickAnswer.availabilityQuickAnswers(isFree: true)]
                 }
                 it("updateDirectChatCalledWith is called") {
-                    expect(quickChatView.updateDirectChatCalled).toEventually(equal(1))
+                    expect(quickChatView.updateDirectChatCalled).toEventually(equal(2))
+                }
+            }
+
+            context("new message sent") {
+                beforeEach {
+                    quickChatView.sendRandomMessage()
+                }
+                it("send is called") {
+                    expect(quickChatVM.sendCalled).toEventually(equal(1))
                 }
             }
 
@@ -82,27 +92,39 @@ final class QuickChatViewBinderSpec: QuickSpec {
 }
 
 private class MockQuickChatView: QuickChatViewType {
+    var rx_toSendMessage: Observable<String> { return textView.rx.send }
     var rx_chatTextView: Reactive<ChatTextView> { return textView.rx }
 
+    var clearChatTextViewCalled: Int = 0
     var setInitialTextCalled: Int = 0
     var updateDirectChatCalled: Int = 0
     var handleChatChangeCalled: Int = 0
 
     private var textView = ChatTextView()
 
+    func sendRandomMessage() {
+        let textfield = UITextField()
+        textfield.text = String.makeRandom()
+        textView.textFieldShouldReturn(textfield)
+    }
+
     func resetVariables() {
         setInitialTextCalled = 0
         updateDirectChatCalled = 0
         handleChatChangeCalled = 0
+        clearChatTextViewCalled = 0
+    }
+    func clearChatTextView() {
+        clearChatTextViewCalled += 1
     }
     func setInitialText(_ text: String) {
-        setInitialTextCalled = setInitialTextCalled + 1
+        setInitialTextCalled += 1
     }
     func updateDirectChatWith(answers: [[QuickAnswer]], isDynamic: Bool) {
-        updateDirectChatCalled = updateDirectChatCalled + 1
+        updateDirectChatCalled += 1
     }
     func handleChatChange(_ change: CollectionChange<ChatViewMessage>) {
-        handleChatChangeCalled = handleChatChangeCalled + 1
+        handleChatChangeCalled += 1
     }
 }
 
@@ -110,7 +132,21 @@ fileprivate extension QuickChatViewType {
     func resetVariables() {}
 }
 
+fileprivate extension QuickChatViewModelRx {
+    func resetVariables() {}
+}
+
 private class MockQuickChatViewModelRx: QuickChatViewModelRx {
+
+    func send(directMessage: String, isDefaultText: Bool) {
+        sendCalled += 1
+    }
+
+    func resetVariables() {
+        sendCalled = 0
+    }
+
+    var sendCalled: Int = 0
 
     var areAnswersDynamic: Bool = true
     var rx_directChatPlaceholder: Observable<String> { return directChatPlaceholder.asObservable() }

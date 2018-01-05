@@ -340,8 +340,10 @@ final class ListingDeckViewModel: BaseViewModel {
 // MARK: ListingViewModelDelegate
 
 extension ListingDeckViewModel: ListingViewModelDelegate {
-    // TODO: will handle it later ABIOS 3109
-    var listingOrigin: ListingOrigin { return .initial }
+    var listingOrigin: ListingOrigin {
+        // TODO: Check this out later for setup tracking
+        return .initial
+    }
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
         guard let delegate = delegate else { return (UIViewController(), nil) }

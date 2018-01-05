@@ -10,20 +10,16 @@ import Foundation
 import RxSwift
 import LGCoreKit
 
-protocol QuickChatViewModelType: class {
-    var directAnswersCount: Int { get }
-    var directChatMessages: [ChatViewMessage] { get }
-}
-
 final class QuickChatViewModel: QuickChatViewModelRx, DirectAnswersHorizontalViewDelegate {
 
     var listingViewModel: ListingViewModel?
 
-    var areAnswersDynamic: Bool { return true } // TODO: not done
+    var areAnswersDynamic: Bool { return true } // TODO: ABIOS 3107
 
     var rx_directChatPlaceholder: Observable<String> { return directChatPlaceholder.asObservable() }
     var rx_quickAnswers: Observable<[[QuickAnswer]]> { return quickAnswers.asObservable() }
-    var isChatEnabled: Observable<Bool> { return chatEnabled.asObservable() }
+
+    var rx_isChatEnabled: Observable<Bool> { return chatEnabled.asObservable() } // TODO: A
     var rx_directMessages: Observable<CollectionChange<ChatViewMessage>> { return directChatMessages.changesObservable }
 
     let chatEnabled = Variable<Bool>(false)
@@ -33,6 +29,10 @@ final class QuickChatViewModel: QuickChatViewModelRx, DirectAnswersHorizontalVie
 
     func messageExists(_ messageID: String) -> Bool {
         return directChatMessages.value.filter({ $0.objectId == messageID }).count >= 1
+    }
+
+    func send(directMessage: String, isDefaultText: Bool) {
+        listingViewModel?.sendDirectMessage(directMessage, isDefaultText: isDefaultText)
     }
 
     func performCollectionChange(change: CollectionChange<ChatViewMessage>) {

@@ -22,12 +22,6 @@ extension Reactive where Base: ChatTextView {
         }
     }
 
-//    var placeholder: UIBindingObserver<Base, String?> {
-//        return UIBindingObserver<Base, String?>(UIElement: self.base) { (textView, placeholder) -> () in
-//            textView.placeholder = placeholder
-//        }
-//    }
-
     var send: Observable<String> {
         let chatTextView = self.base
         return chatTextView.tapEvents.map { [weak chatTextView] in chatTextView?.textView.text ?? "" }
