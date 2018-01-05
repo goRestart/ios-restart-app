@@ -19,8 +19,14 @@ open class InputTextField: UIView {
     }
   }
   
+  private var erroredInput: String?
   public var error: String? {
     didSet {
+      guard let error = error else {
+        errorLabel.text = nil
+        set(state: .normal)
+        return
+      }
       errorLabel.text = error
       set(state: .errored)
     }
@@ -46,6 +52,7 @@ open class InputTextField: UIView {
     let input = Input()
     input.clearButtonMode = .whileEditing
     input.backgroundColor = .clear
+    input.delegate = self
     return input
   }()
   
@@ -99,7 +106,10 @@ open class InputTextField: UIView {
       input.tintColor = .danger
       input.textColor = .danger
       input.applyBorder()
+      erroredInput = input.text
     }
+    input.setNeedsDisplay()
+    input.setNeedsLayout()
   }
   
   // MARK: - Responder
@@ -123,5 +133,15 @@ open class InputTextField: UIView {
     input.snp.makeConstraints { make in
       make.height.equalTo(InputTextFieldConstraints.inputHeight)
     }
+  }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension InputTextField: UITextFieldDelegate {
+  public func textFieldDidEndEditing(_ textField: UITextField) {
+    let erroredInputHasBeenUpdated = erroredInput != input.text
+    guard erroredInputHasBeenUpdated else { return }
+    error = nil
   }
 }

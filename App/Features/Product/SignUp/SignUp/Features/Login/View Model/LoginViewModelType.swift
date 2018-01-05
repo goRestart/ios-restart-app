@@ -15,7 +15,7 @@ protocol LoginViewModelOutput {
   var state: Variable<LoginState> { get }
   
   var userInteractionEnabled: Observable<Bool> { get }
-  var signUpEnabled: Observable<Bool> { get }
+  var signInEnabled: Observable<Bool> { get }
 }
 
 protocol LoginViewModelType {

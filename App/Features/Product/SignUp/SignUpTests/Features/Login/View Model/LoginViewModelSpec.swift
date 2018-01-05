@@ -9,14 +9,17 @@ import RxCocoa
 final class LoginViewModelSpec: XCTestCase {
 
   private var sut: LoginViewModelType!
+  private var authenticate: AuthenticateStub!
   private let scheduler = TestScheduler(initialClock: 0)
   
   override func setUp() {
     super.setUp()
+    authenticate = AuthenticateStub()
     sut = LoginViewModel(authenticate: Authenticate())
   }
   
   override func tearDown() {
+    authenticate = nil
     sut = nil
     super.tearDown()
   }
@@ -26,19 +29,19 @@ final class LoginViewModelSpec: XCTestCase {
     XCTAssertEqual("", sut.output.password.value)
     XCTAssertEqual(.idle, sut.output.state.value)
     
-    let signUpEnabledObserver = scheduler.createObserver(Bool.self)
+    let signInEnabledObserver = scheduler.createObserver(Bool.self)
     let userInteractionDisabledObserver = scheduler.createObserver(Bool.self)
 
-    _ = sut.output.signUpEnabled.bind(to: signUpEnabledObserver)
+    _ = sut.output.signInEnabled.bind(to: signInEnabledObserver)
     _ = sut.output.userInteractionEnabled.bind(to: userInteractionDisabledObserver)
  
-    XCTAssertEqual(signUpEnabledObserver.events, [next(0, false)])
+    XCTAssertEqual(signInEnabledObserver.events, [next(0, false)])
     XCTAssertEqual(userInteractionDisabledObserver.events, [next(0, true)])
   }
   
   func test_should_enable_signin_button_when_login_fields_are_correctly_filled() {
     let signUpEnabledObserver = scheduler.createObserver(Bool.self)
-    _ = sut.output.signUpEnabled.bind(to: signUpEnabledObserver)
+    _ = sut.output.signInEnabled.bind(to: signUpEnabledObserver)
     
     sut.output.username.value = "restart"
     sut.output.password.value = "1234567"
@@ -53,7 +56,7 @@ final class LoginViewModelSpec: XCTestCase {
   
   func test_should_disable_signin_button_when_user_incorrectly_update_one_of_the_login_fields() {
     let signUpEnabledObserver = scheduler.createObserver(Bool.self)
-    _ = sut.output.signUpEnabled.bind(to: signUpEnabledObserver)
+    _ = sut.output.signInEnabled.bind(to: signUpEnabledObserver)
     
     sut.output.username.value = "restart"
     sut.output.password.value = "1234567"
@@ -69,8 +72,8 @@ final class LoginViewModelSpec: XCTestCase {
   }
   
   func test_should_re_enable_signin_button_when_login_fields_are_valid() {
-    let signUpEnabledObserver = scheduler.createObserver(Bool.self)
-    _ = sut.output.signUpEnabled.bind(to: signUpEnabledObserver)
+    let signInEnabledObserver = scheduler.createObserver(Bool.self)
+    _ = sut.output.signInEnabled.bind(to: signInEnabledObserver)
     
     sut.output.username.value = "restart"
     sut.output.password.value = "1234567"
@@ -84,6 +87,25 @@ final class LoginViewModelSpec: XCTestCase {
       next(0, false),
       next(0, true)
     ]
-    XCTAssertEqual(signUpEnabledObserver.events, expectedValues)
+    XCTAssertEqual(signInEnabledObserver.events, expectedValues)
+  }
+  
+  func test_should_set_correct_login_state_if_auth_fails() {
+    let loginState = scheduler.createObserver(LoginState.self)
+    _ = sut.output.state.asObservable().bind(to: loginState)
+    
+    sut.output.username.value = "restart"
+    sut.output.password.value = "1234567"
+    
+    authenticate.responseError = .invalidCredentials
+    
+    sut.input.signUpButtonPressed()
+    
+    let expectedStateValues = [
+      next(0, LoginState.idle),
+      next(0, LoginState.loading)
+    ]
+    
+    XCTAssertEqual(loginState.events, expectedStateValues)
   }
 }

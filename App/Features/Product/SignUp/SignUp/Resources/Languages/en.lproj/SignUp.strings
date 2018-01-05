@@ -2,14 +2,19 @@
   SignUp
  */
 
-// MARK: - Not logged
+"signup.title" = "Create account";
+"signup.input.username.title" = "Username";
+"signup.input.username.placeholder" = "e.g. Eurogammer";
+"signup.input.email.title" = "Email";
+"signup.input.email.placeholder" = "e.g. hi@restart.com";
+"signup.input.password.title" = "Password";
+"signup.input.password.placeholder" = "Min 6 characters";
+"signup.button.signup.title" = "Sign Up";
 
-"not_logged.label.welcome.title" = "Join Restart\nFeel the illusion again";
-"not_logged.button.signup.title" = "Create account";
-"not_logged.button.signin.title" = "I've already an account";
+// MARK: - Form errors
 
-// MARK: - Login
-
-"login.input.username.placeholder" = "Username";
-"login.input.password.placeholder" = "Password";
-"login.button.signin.title" = "Log in ➞";
+"signup.form.error.invalid_username" = "Uh-oh! This username seems invalid";
+"signup.form.error.invalid_password" = "Invalid password";
+"signup.form.error.invalid_email" = "Invalid email";
+"signup.form.error.username_is_already_registered" = "Pwned! This username is already taken";
+"signup.form.error.email_is_already_registered" = "Pwned! This email is already taken";

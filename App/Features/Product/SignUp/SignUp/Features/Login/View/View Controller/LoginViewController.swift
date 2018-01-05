@@ -49,7 +49,7 @@ public final class LoginViewController: ViewController {
       .bind(to: loginView.signInButton.rx.isLoading)
       .disposed(by: bag)
     
-    viewModel.output.signUpEnabled
+    viewModel.output.signInEnabled
       .asObservable()
       .bind(to: loginView.signInButton.rx.isEnabled)
       .disposed(by: bag)

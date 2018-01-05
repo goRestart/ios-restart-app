@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C1D22851FFEC47500BC0316 /* RegisterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22841FFEC47500BC0316 /* RegisterUser.swift */; };
 		1C89D71D1FF3D63100B3FA98 /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C89D71B1FF3D63100B3FA98 /* Application.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C89D7271FF3D69800B3FA98 /* Authenticate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D7261FF3D69800B3FA98 /* Authenticate.swift */; };
 		1C89D7331FF3D8A000B3FA98 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7341FF3D8A000B3FA98 /* Data.framework */; };
@@ -61,6 +62,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C1D22841FFEC47500BC0316 /* RegisterUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUser.swift; sourceTree = "<group>"; };
 		1C89D7181FF3D63100B3FA98 /* Application.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Application.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C89D71B1FF3D63100B3FA98 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		1C89D71C1FF3D63100B3FA98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -92,6 +94,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C1D227C1FFEC46100BC0316 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				1C89D7261FF3D69800B3FA98 /* Authenticate.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		1C1D22831FFEC46B00BC0316 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				1C1D22841FFEC47500BC0316 /* RegisterUser.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
 		1C89D70E1FF3D63100B3FA98 = {
 			isa = PBXGroup;
 			children = (
@@ -143,7 +161,8 @@
 		1C89D7251FF3D68600B3FA98 /* Use Case */ = {
 			isa = PBXGroup;
 			children = (
-				1C89D7261FF3D69800B3FA98 /* Authenticate.swift */,
+				1C1D227C1FFEC46100BC0316 /* Auth */,
+				1C1D22831FFEC46B00BC0316 /* User */,
 			);
 			path = "Use Case";
 			sourceTree = "<group>";
@@ -365,6 +384,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C89D7271FF3D69800B3FA98 /* Authenticate.swift in Sources */,
+				1C1D22851FFEC47500BC0316 /* RegisterUser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

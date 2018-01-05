@@ -13,8 +13,10 @@ extension Assembly {
   
   private func viewModel(for view: UIViewController) -> NotLoggedViewModelType {
     let loginRouter = self.loginRouter(from: view)
+    let signUpRouter = self.signUpRouter(from: view)
     return NotLoggedViewModel(
-      loginRouter: loginRouter
+      loginRouter: loginRouter,
+      signUpRouter: signUpRouter
     )
   }
 }
