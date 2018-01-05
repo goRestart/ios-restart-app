@@ -19,6 +19,7 @@ enum PostingSource {
     case onboardingCamera
     case notifications
     case deleteListing
+    case trending
 }
 
 
@@ -419,12 +420,14 @@ extension PostingSource {
             return .notifications
         case .deleteListing:
             return .listingDelete
+        case .trending: // TODO: Temporary. To be defined
+            return .sell
         }
     }
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing:
+        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .trending:
             return nil
         case .onboardingButton:
             return .sellYourStuff
@@ -438,7 +441,7 @@ extension PostingSource {
             return .tabBar
         case .sellButton:
             return .floatingButton
-        case .onboardingButton, .onboardingCamera, .deepLink, .notifications, .deleteListing:
+        case .onboardingButton, .onboardingCamera, .deepLink, .notifications, .deleteListing, .trending:
             return .none
         }
     }

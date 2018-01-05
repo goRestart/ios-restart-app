@@ -106,6 +106,17 @@ extension ShowSecurityMeetingChatMessage {
     var isActive: Bool { get { return self == .active } }
 }
 
+extension MostSearchedDemandedItems {
+    var isActive: Bool {
+        get {
+            return self == .cameraBadge ||
+                self == .trendingButtonExpandableMenu ||
+                self == .subsetAboveExpandableMenu ||
+                self == .subsetInsideExpandableMenu
+        }
+    }
+}
+
 class FeatureFlags: FeatureFlaggeable {
 
     static let sharedInstance: FeatureFlags = FeatureFlags()

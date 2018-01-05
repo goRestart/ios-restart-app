@@ -512,7 +512,8 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         if shouldShowCategoryCollectionBanner {
             let screenWidth: CGFloat = UIScreen.main.bounds.size.width
             categoriesHeader = CategoriesHeaderCollectionView(categories: viewModel.categoryHeaderElements,
-                                                              frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight))
+                                                              frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight),
+                                                              isMostSearchedItemsEnabled: viewModel.isMostSearchedItemsEnabled)
             categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }

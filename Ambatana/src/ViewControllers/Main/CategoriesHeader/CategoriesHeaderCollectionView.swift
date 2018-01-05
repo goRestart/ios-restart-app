@@ -18,6 +18,7 @@ struct CategoryHeaderInfo {
 
 protocol CategoriesHeaderCollectionViewDelegate: class {
     func openTaxonomyList()
+    func openMostSearchedItems()
 }
 
 class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
@@ -31,7 +32,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     
     static let viewHeight: CGFloat = CategoryHeaderCell.cellSize().height
     
-    init(categories: [CategoryHeaderElement], frame: CGRect) {
+    init(categories: [CategoryHeaderElement], frame: CGRect, isMostSearchedItemsEnabled: Bool) {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.minimumInteritemSpacing = 0
@@ -39,10 +40,12 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
         layout.itemSize = CategoryHeaderCell.cellSize()
         self.categoryHeaderElements = categories
         super.init(frame: frame, collectionViewLayout: layout)
-        //Setup
         
         if isShowingSuperKeywords {
             categoryHeaderElements.append(CategoryHeaderElement.showMore)
+        }
+        if isMostSearchedItemsEnabled {
+            categoryHeaderElements.insert(CategoryHeaderElement.trending, at: 0)
         }
         setup()
         setAccessibilityIds()
@@ -54,6 +57,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     
     
     // MARK: - UICollectionViewDelegate & DataSource methods
+    
     @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         return CategoryHeaderCell.cellSize()
     }
@@ -69,7 +73,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
             cell.categoryTitle.text = categoryHeaderElement.name.localizedUppercase
             cell.categoryTitle.addKern(value: -0.30)
             switch categoryHeaderElement {
-            case .listingCategory, .showMore:
+            case .listingCategory, .showMore, .trending:
                 cell.categoryIcon.image = categoryHeaderElement.imageIcon
             case .superKeyword, .superKeywordGroup:
                 if let url = categoryHeaderElement.imageIconURL {
@@ -86,8 +90,10 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        
         let categoryHeaderElement = categoryHeaderElements[indexPath.row]
-        if categoryHeaderElement.isOther {
+        if categoryHeaderElement.isShowMore {
             delegateCategoryHeader?.openTaxonomyList()
+        } else if categoryHeaderElement.isTrending {
+            delegateCategoryHeader?.openMostSearchedItems()
         } else {
             categorySelected.value = CategoryHeaderInfo(categoryHeaderElement: categoryHeaderElement,
                                                         position: indexPath.row + 1,

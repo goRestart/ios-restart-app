@@ -13,6 +13,7 @@ enum CategoryHeaderElement {
     case superKeyword(TaxonomyChild)
     case superKeywordGroup(Taxonomy)
     case showMore
+    case trending
     
     var name: String {
         switch self {
@@ -24,12 +25,14 @@ enum CategoryHeaderElement {
             return taxonomy.name
         case .showMore:
             return LGLocalizedString.categoriesSuperKeywordsInfeedShowMore
+        case .trending:
+            return "Trending"
         }
     }
     
     var imageIconURL: URL? {
         switch self {
-        case .listingCategory, .showMore:
+        case .listingCategory, .showMore, .trending:
             return nil
         case .superKeyword(let taxonomyChild):
             return taxonomyChild.highlightIcon
@@ -46,6 +49,8 @@ enum CategoryHeaderElement {
             return nil
         case .showMore:
             return #imageLiteral(resourceName: "showMore")
+        case .trending:
+            return #imageLiteral(resourceName: "trending_feed")
         }
     }
     
@@ -53,7 +58,7 @@ enum CategoryHeaderElement {
         switch self {
         case .listingCategory(let listingCategory):
             return listingCategory.isCar
-        case .superKeyword, .superKeywordGroup, .showMore:
+        case .superKeyword, .superKeywordGroup, .showMore, .trending:
             return false
         }
     }
@@ -62,14 +67,14 @@ enum CategoryHeaderElement {
         switch self {
         case .listingCategory:
             return true
-        case .superKeyword, .superKeywordGroup, .showMore:
+        case .superKeyword, .superKeywordGroup, .showMore, .trending:
             return false
         }
     }
     
     var isSuperKeyword: Bool {
         switch self {
-        case .listingCategory, .superKeywordGroup, .showMore:
+        case .listingCategory, .superKeywordGroup, .showMore, .trending:
             return false
         case .superKeyword:
             return true
@@ -78,18 +83,27 @@ enum CategoryHeaderElement {
     
     var isSuperKeywordGroup: Bool {
         switch self {
-        case .listingCategory, .superKeyword, .showMore:
+        case .listingCategory, .superKeyword, .showMore, .trending:
             return false
         case .superKeywordGroup:
             return true
         }
     }
     
-    var isOther: Bool {
+    var isShowMore: Bool {
         switch self {
-        case .listingCategory, .superKeyword, .superKeywordGroup:
+        case .listingCategory, .superKeyword, .superKeywordGroup, .trending:
             return false
         case .showMore:
+            return true
+        }
+    }
+    
+    var isTrending: Bool {
+        switch self {
+        case .listingCategory, .superKeyword, .superKeywordGroup, .showMore:
+            return false
+        case .trending:
             return true
         }
     }
