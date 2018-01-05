@@ -14,7 +14,7 @@ final class ListingCardDetailsViewBinder {
     weak var detailsView: ListingCardDetailsView?
     var disposeBag: DisposeBag?
 
-    func bindTo(_ viewModel: ListingCardDetailsViewModel) {
+    func bind(to viewModel: ListingCardDetailsViewModel) {
         disposeBag = DisposeBag()
         guard let vmDisposeBag = disposeBag else { return }
 

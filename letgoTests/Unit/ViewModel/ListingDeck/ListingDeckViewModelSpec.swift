@@ -41,8 +41,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
         var cellModelsObserver: TestableObserver<[ListingViewModel]>!
         var navBarButtonsObserver: TestableObserver<[UIAction]>!
         var actionButtonsObserver: TestableObserver<[UIAction]>!
-        var statusObserver: TestableObserver<ListingViewModelStatus>!
-        var isFeaturedObserver: TestableObserver<Bool>!
         var quickAnswersObserver: TestableObserver<[[QuickAnswer]]>!
         var quickAnswersAvailableObserver: TestableObserver<Bool>!
         var directChatEnabledObserver: TestableObserver<Bool>!
@@ -55,16 +53,16 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
             func startObserving() {
                 disposeBag = DisposeBag()
 
-                sut.objects.observable.bindTo(cellModelsObserver).disposed(by:disposeBag)
-                sut.navBarButtons.asObservable().bindTo(navBarButtonsObserver).disposed(by:disposeBag)
-                sut.actionButtons.asObservable().bindTo(actionButtonsObserver).disposed(by:disposeBag)
-                sut.quickChatViewModel.quickAnswers.asObservable().bindTo(quickAnswersObserver).disposed(by:disposeBag)
+                sut.objects.observable.bind(to:cellModelsObserver).disposed(by:disposeBag)
+                sut.navBarButtons.asObservable().bind(to:navBarButtonsObserver).disposed(by:disposeBag)
+                sut.actionButtons.asObservable().bind(to:actionButtonsObserver).disposed(by:disposeBag)
+                sut.quickChatViewModel.quickAnswers.asObservable().bind(to:quickAnswersObserver).disposed(by:disposeBag)
 
-                sut.quickChatViewModel.chatEnabled.asObservable().bindTo(quickAnswersAvailableObserver).disposed(by:disposeBag)
-                sut.quickChatViewModel.chatEnabled.asObservable().bindTo(directChatEnabledObserver).disposed(by:disposeBag)
-                sut.quickChatViewModel.directChatPlaceholder.asObservable().bindTo(directChatPlaceholderObserver).disposed(by:disposeBag)
-                sut.quickChatViewModel.directChatMessages.observable.bindTo(directChatMessagesObserver).disposed(by:disposeBag)
-                sut.bumpUpBannerInfo.asObservable().bindTo(bumpUpBannerInfoObserver).disposed(by:disposeBag)
+                sut.quickChatViewModel.chatEnabled.asObservable().bind(to:quickAnswersAvailableObserver).disposed(by:disposeBag)
+                sut.quickChatViewModel.chatEnabled.asObservable().bind(to:directChatEnabledObserver).disposed(by:disposeBag)
+                sut.quickChatViewModel.directChatPlaceholder.asObservable().bind(to:directChatPlaceholderObserver).disposed(by:disposeBag)
+                sut.quickChatViewModel.directChatMessages.observable.bind(to:directChatMessagesObserver).disposed(by:disposeBag)
+                sut.bumpUpBannerInfo.asObservable().bind(to:bumpUpBannerInfoObserver).disposed(by:disposeBag)
             }
 
             func buildSut(productListModels: [ListingCellModel]? = nil,
@@ -123,8 +121,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 cellModelsObserver = scheduler.createObserver(Array<ListingViewModel>.self)
                 navBarButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 actionButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
-                statusObserver = scheduler.createObserver(ListingViewModelStatus.self)
-                isFeaturedObserver = scheduler.createObserver(Bool.self)
                 quickAnswersObserver = scheduler.createObserver(Array<Array<QuickAnswer>>.self)
                 quickAnswersAvailableObserver = scheduler.createObserver(Bool.self)
                 directChatEnabledObserver = scheduler.createObserver(Bool.self)
@@ -509,9 +505,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("actionButtons changed twice") {
                             expect(actionButtonsObserver.eventValues.count) == 3
                         }
-                        it("status changed twice") {
-                            expect(statusObserver.eventValues.count) == 3
-                        }
                         it("quickanswersavailable changed twice") {
                             expect(quickAnswersAvailableObserver.eventValues.count) == 3
                         }
@@ -552,9 +545,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         it("actionButtons changed twice") {
                             expect(actionButtonsObserver.eventValues.count) == 3
-                        }
-                        it("status changed twice") {
-                            expect(statusObserver.eventValues.count) == 3
                         }
                         it("quickanswersavailable changed twice") {
                             expect(quickAnswersAvailableObserver.eventValues.count) == 3
@@ -611,9 +601,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             myUser.objectId = product.user.objectId
                             myUserRepository.myUserVar.value = myUser
                         }
-                        it("product vm status updates available") {
-                            expect(statusObserver.eventValues) == [.otherAvailable, .available]
-                        }
                         it("directchatenabled is false") {
                             expect(directChatEnabledObserver.eventValues) == [true, false]
                         }
@@ -666,12 +653,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             it("there are no action buttons") {
                                 expect(actionButtonsObserver.lastValue?.count) == 0
                             }
-                            it("product vm status is pending") {
-                                expect(statusObserver.lastValue) == .pending
-                            }
-                            it("isFeatured is false") {
-                                expect(isFeaturedObserver.lastValue) == product.featured ?? false
-                            }
                             it("quick answers are disabled") {
                                 expect(quickAnswersAvailableObserver.lastValue) == false
                             }
@@ -694,12 +675,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             }
                             it("there are no action buttons") {
                                 expect(actionButtonsObserver.lastValue?.count) == 0
-                            }
-                            it("product vm status is pendingAndFeatured") {
-                                expect(statusObserver.lastValue) == .pendingAndFeatured
-                            }
-                            it("isFeatured is true") {
-                                expect(isFeaturedObserver.lastValue) == true
                             }
                             it("quick answers are disabled") {
                                 expect(quickAnswersAvailableObserver.lastValue) == false
@@ -725,12 +700,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("there is a mark sold action") {
                             expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productMarkAsSoldButton]
                         }
-                        it("product vm status is pending") {
-                            expect(statusObserver.lastValue) == .available
-                        }
-                        it("isFeatured is false") {
-                            expect(isFeaturedObserver.lastValue) == product.featured ?? false
-                        }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
                         }
@@ -753,12 +722,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         it("there is a mark sold action") {
                             expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productMarkAsSoldFreeButton]
-                        }
-                        it("product vm status is pending") {
-                            expect(statusObserver.lastValue) == .availableFree
-                        }
-                        it("isFeatured is false") {
-                            expect(isFeaturedObserver.lastValue) == product.featured ?? false
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
@@ -783,12 +746,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("there is a sell again action") {
                             expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productSellAgainButton]
                         }
-                        it("product vm status is pending") {
-                            expect(statusObserver.lastValue) == .sold
-                        }
-                        it("isFeatured is false") {
-                            expect(isFeaturedObserver.lastValue) == false
-                        }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
                         }
@@ -811,12 +768,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         it("there is a sell again action") {
                             expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productSellAgainFreeButton]
-                        }
-                        it("product vm status is pending") {
-                            expect(statusObserver.lastValue) == .soldFree
-                        }
-                        it("isFeatured is false") {
-                            expect(isFeaturedObserver.lastValue) == false
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
@@ -842,12 +793,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("there are no action buttons") {
                             expect(actionButtonsObserver.lastValue?.count) == 0
                         }
-                        it("product vm status is pending") {
-                            expect(statusObserver.lastValue) == .notAvailable
-                        }
-                        it("isFeatured is false") {
-                            expect(isFeaturedObserver.lastValue) == false
-                        }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
                         }
@@ -870,12 +815,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         it("there are no action buttons") {
                             expect(actionButtonsObserver.lastValue?.count) == 0
-                        }
-                        it("product vm status is pending") {
-                            expect(statusObserver.lastValue) == .otherAvailable
-                        }
-                        it("isFeatured is false") {
-                            expect(isFeaturedObserver.lastValue) == false
                         }
                         it("quick answers are enabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == true
@@ -900,12 +839,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("there are no action buttons") {
                             expect(actionButtonsObserver.lastValue?.count) == 0
                         }
-                        it("product vm status is pending") {
-                            expect(statusObserver.lastValue) == .otherAvailableFree
-                        }
-                        it("isFeatured is false") {
-                            expect(isFeaturedObserver.lastValue) == false
-                        }
                         it("quick answers are enabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == true
                         }
@@ -929,12 +862,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("there are no action buttons") {
                             expect(actionButtonsObserver.lastValue?.count) == 0
                         }
-                        it("product vm status is pending") {
-                            expect(statusObserver.lastValue) == .otherSold
-                        }
-                        it("isFeatured is false") {
-                            expect(isFeaturedObserver.lastValue) == false
-                        }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false
                         }
@@ -957,12 +884,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         it("there are no action buttons") {
                             expect(actionButtonsObserver.lastValue?.count) == 0
-                        }
-                        it("product vm status is pending") {
-                            expect(statusObserver.lastValue) == .otherSoldFree
-                        }
-                        it("isFeatured is false") {
-                            expect(isFeaturedObserver.lastValue) == false
                         }
                         it("quick answers are disabled") {
                             expect(quickAnswersAvailableObserver.lastValue) == false

@@ -47,7 +47,12 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         setupNavigationBar()
         setStatusBarHidden(true)
     }
-    
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        chatView.resignFirstResponder()
+    }
+
     // MARK: NavBar
 
     private func setupNavigationBar() {

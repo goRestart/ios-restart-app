@@ -24,7 +24,7 @@ final class ListingDeckViewControllerBinder {
         bindKeyboardChanges(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindCollectionView(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindContentOffset(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
-//        bindChat(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
+        bindChat(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindActions(withViewModel: viewModel, listingDeckView: listingDeckView)
         bindAltActions(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
         bindNavigationBarActions(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
@@ -131,11 +131,6 @@ final class ListingDeckViewControllerBinder {
             listingDeckView.setChatInitialText(LGLocalizedString.chatExpressTextFieldText)
         }
 
-        viewModel.quickChatViewModel.quickAnswers.asObservable().bind { [unowned listingDeckView, unowned viewModel] quickAnswers in
-            let isDynamic = viewModel.currentListingViewModel?.areQuickAnswersDynamic ?? false
-            listingDeckView.updateDirectChatWith(answers: quickAnswers, isDynamic: isDynamic)
-        }.disposed(by: disposeBag)
-
         viewModel.quickChatViewModel.chatEnabled.asObservable().bind { [unowned listingDeckView] enabled in
             if enabled {
                 listingDeckView.showChat()
@@ -145,21 +140,6 @@ final class ListingDeckViewControllerBinder {
                 listingDeckView.showActions()
             }
 
-        }.disposed(by: disposeBag)
-
-        viewModel.quickChatViewModel.directChatMessages
-            .changesObservable.bind { [unowned listingDeckView, unowned viewModel] change in
-            switch change {
-            case .insert(_, let message):
-                // if the message is already in the table we don't perform animations
-                let chatMessageExists = viewModel.quickChatViewModel.directChatMessages.value
-                    .filter({ $0.objectId == message.objectId }).count >= 1
-                listingDeckView.directChatTable.handleCollectionChange(change,
-                                                                       animation: chatMessageExists
-                                                                        ? .none : .top)
-            default:
-                listingDeckView.directChatTable.handleCollectionChange(change, animation: .none)
-            }
         }.disposed(by: disposeBag)
     }
 

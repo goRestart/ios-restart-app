@@ -63,7 +63,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
     // MARK: PopulateView
 
     func populateWithViewModel(_ viewModel: ListingCardDetailsViewModel) {
-        binder.bindTo(viewModel)
+        binder.bind(to:viewModel)
     }
 
     func populateWith(productInfo: ListingVMProductInfo) {

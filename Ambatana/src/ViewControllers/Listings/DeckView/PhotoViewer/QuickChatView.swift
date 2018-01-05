@@ -15,6 +15,8 @@ typealias DirectAnswersSupportType = UITableViewDataSource & UITableViewDelegate
 final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, UIGestureRecognizerDelegate {
     private struct Layout { static let outsideKeyboard: CGFloat = 120.0 }
 
+    var isRemovedWhenResigningFirstResponder = true
+
     var rx_chatTextView: Reactive<ChatTextView> { return textView.rx }
     let quickChatViewModel: QuickChatViewModel
 
@@ -48,7 +50,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
 
     override func willMove(toSuperview newSuperview: UIView?) {
         guard newSuperview != nil else { return }
-        textViewBottom?.constant = Layout.outsideKeyboard
+        textViewBottom?.constant = isRemovedWhenResigningFirstResponder ? 4*Metrics.margin : -Metrics.margin
         backgroundColor = UIColor.clear
     }
 

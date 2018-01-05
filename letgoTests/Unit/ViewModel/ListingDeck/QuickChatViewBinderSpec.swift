@@ -18,12 +18,12 @@ final class QuickChatViewBinderSpec: QuickSpec {
     override func spec() {
         var sut: QuickChatViewBinder!
         var quickChatView: MockQuickChatView!
-        var quickChatVM: MockQuickChatRx!
+        var quickChatVM: MockQuickChatViewModelRx!
 
         describe("QuickChatView is visible") {
             beforeEach {
                 quickChatView = MockQuickChatView()
-                quickChatVM = MockQuickChatRx()
+                quickChatVM = MockQuickChatViewModelRx()
 
                 sut = QuickChatViewBinder()
                 sut.quickChatView = quickChatView

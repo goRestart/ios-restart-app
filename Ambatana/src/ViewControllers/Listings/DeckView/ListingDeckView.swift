@@ -13,13 +13,11 @@ import RxSwift
 
 final class ListingDeckView: UIView, UICollectionViewDelegate {
     struct Layout { struct Height { static let previewFactor: CGFloat = 0.7 } }
-    let directChatTable = CustomTouchesTableView()
+
     let collectionView: UICollectionView
 
-    private let overlayView = UIView()
-    private var chatTextViewBottom: NSLayoutConstraint? = nil
+    private var quickChatView: QuickChatView?
     private var collectionViewTop: NSLayoutConstraint? = nil
-    private let directAnswersView = DirectAnswersHorizontalView(answers: [], sideMargin: Metrics.margin)
     private let itemActionsView = ListingDeckActionView()
     private let collectionLayout = ListingDeckCollectionViewLayout()
     private let chatTextView = ChatTextView()
@@ -42,13 +40,23 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         setupUI()
     }
 
+    @discardableResult
+    override func resignFirstResponder() -> Bool {
+        return quickChatView?.resignFirstResponder() ?? true
+    }
+    
+    func setQuickChatViewModel(_ viewModel: QuickChatViewModel) {
+        let quickChatView = QuickChatView(chatViewModel: viewModel)
+        setupDirectChatView(quickChatView: quickChatView)
+        self.quickChatView = quickChatView
+    }
+
     private func setupUI() {
         backgroundColor = UIColor.viewControllerBackground
         setupCollectionView()
         setupPrivateActionsView()
 
         bringSubview(toFront: collectionView)
-        setupDirectChatView()
     }
 
     private func setupCollectionView() {
@@ -84,37 +92,11 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         itemActionsView.backgroundColor = UIColor.viewControllerBackground
     }
 
-    private func setupDirectChatView() {
-        addSubview(overlayView)
-        overlayView.translatesAutoresizingMaskIntoConstraints = false
-        overlayView.layout(with: self).fill()
-        overlayView.alpha = 0
-        overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideFullScreenChat))
-        overlayView.addGestureRecognizer(tapGesture)
-
-        chatTextView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(chatTextView)
-        chatTextView.layout(with: self)
-            .fillHorizontal(by: CarouselUI.itemsMargin)
-            .bottomMargin(by: -Metrics.margin) { [weak self] constraint in self?.chatTextViewBottom = constraint }
-        chatTextView.backgroundColor = .clear
-
-        directAnswersView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(directAnswersView)
-        directAnswersView.layout(with: self).fillHorizontal()
-        directAnswersView.layout(with: chatTextView).above(by: -Metrics.shortMargin)
-
-        directAnswersView.backgroundColor = .clear
-        directAnswersView.style = .light
-
-        addSubview(directChatTable)
-        directChatTable.translatesAutoresizingMaskIntoConstraints = false
-        directChatTable.layout(with: self).topMargin().fillHorizontal()
-        directChatTable.layout(with: directAnswersView).above(by: -Metrics.shortMargin)
-        directChatTable.alpha = 0
-        directChatTable.backgroundColor = .clear
+    private func setupDirectChatView(quickChatView: QuickChatView) {
+        quickChatView.isRemovedWhenResigningFirstResponder = false
+        addSubview(quickChatView)
+        quickChatView.translatesAutoresizingMaskIntoConstraints = false
+        quickChatView.layout(with: self).fill()
     }
 
     func pageOffset(givenOffset: CGFloat) -> CGFloat {
@@ -133,7 +115,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         collectionViewTop?.constant = inset
     }
     func updateBottom(wintInset inset: CGFloat) {
-        chatTextViewBottom?.constant = -(inset + Metrics.margin)
+        quickChatView?.updateWith(bottomInset: inset, animationTime: TimeInterval(0.3), animationOptions: [])
     }
 
     // MARK: ItemActionsView
@@ -152,22 +134,9 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
 
     // MARK: Chat
 
-    @discardableResult
-    override func resignFirstResponder() -> Bool {
-        return chatTextView.resignFirstResponder()
-    }
-
-    func setDirectAnswersHorizontalViewDelegate(_ delegate: DirectAnswersHorizontalViewDelegate) {
-        directAnswersView.delegate = delegate
-    }
-
-    func updateDirectChatWith(answers: [[QuickAnswer]], isDynamic: Bool) {
-        directAnswersView.update(answers: answers, isDynamic: isDynamic)
-    }
 
     func updateChatWith(alpha: CGFloat) {
-        chatTextView.alpha = alpha
-        directAnswersView.alpha = alpha
+        quickChatView?.alpha = alpha
     }
 
     func setChatText(_ text: String) {
@@ -179,22 +148,32 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     }
 
     func showFullScreenChat() {
-        overlayView.alpha = 1
+        guard let chatView = quickChatView else { return }
+        chatView.becomeFirstResponder()
+        focusOnChat()
     }
 
     @objc func hideFullScreenChat() {
         chatTextView.resignFirstResponder()
-        overlayView.alpha = 0
+        focusOnCollectionView()
     }
 
     func showChat() {
-        directAnswersView.alpha = 1
-        chatTextView.alpha = 1
+        quickChatView?.alpha = 1
+        focusOnCollectionView()
+    }
+
+    private func focusOnChat() {
+        bringSubview(toFront: collectionView)
+    }
+
+    private func focusOnCollectionView() {
+        bringSubview(toFront: collectionView)
     }
 
     func hideChat() {
-        directAnswersView.alpha = 0
-        chatTextView.alpha = 0
+        quickChatView?.alpha = 0
+        bringSubview(toFront: collectionView)
     }
 
     // MARK: BumpUp

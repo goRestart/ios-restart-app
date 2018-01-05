@@ -44,8 +44,8 @@ protocol ListingDeckViewModelDelegate: BaseViewModelDelegate {
 final class ListingDeckViewModel: BaseViewModel {
 
     var pagination: Pagination
-    // Just for pagination
 
+    // Just for pagination
     fileprivate(set) var currentIndex: Int = 0 { didSet { setCurrentIndex(currentIndex) } }
     var isNextPageAvailable: Bool { get { return !pagination.isLast } }
     var isLoading = false
@@ -191,7 +191,7 @@ final class ListingDeckViewModel: BaseViewModel {
         currentListingViewModel = viewModel
         currentListingViewModel?.delegate = self
 
-        binder.bindTo(listingViewModel: viewModel, quickChatViewModel: quickChatViewModel)
+        binder.bind(to:viewModel, quickChatViewModel: quickChatViewModel)
         currentListingViewModel?.active = active
         quickChatViewModel.listingViewModel = currentListingViewModel
         
@@ -340,10 +340,8 @@ final class ListingDeckViewModel: BaseViewModel {
 // MARK: ListingViewModelDelegate
 
 extension ListingDeckViewModel: ListingViewModelDelegate {
-    var listingOrigin: ListingOrigin {
-        // TODO: Check this out later for setup tracking
-        return .initial
-    }
+    // TODO: will handle it later ABIOS 3109
+    var listingOrigin: ListingOrigin { return .initial }
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
         guard let delegate = delegate else { return (UIViewController(), nil) }

@@ -11,9 +11,7 @@ import UIKit
 import RxSwift
 
 final class ListingDeckViewController: KeyboardViewController, UICollectionViewDataSource, UICollectionViewDelegate {
-    struct Identifiers {
-        static let cardView = "ListingCardView"
-    }
+    struct Identifiers { static let cardView = "ListingCardView" }
 
     override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
 
@@ -41,12 +39,17 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         listingDeckView.updateTop(wintInset: topBarHeight)
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        listingDeckView.resignFirstResponder()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        listingDeckView.setQuickChatViewModel(viewModel.quickChatViewModel)
         setupRx()
 
         setupCollectionView()
-        setupDirectChat()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -136,12 +139,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     }
 
-    // MARK: DirectAnswersHorizontalViewDelegate
-
-    private func setupDirectChat() {
-        listingDeckView.setDirectAnswersHorizontalViewDelegate(self)
-    }
-
     func updateViewWith(alpha: CGFloat) {
         let chatAlpha = viewModel.quickChatViewModel.chatEnabled.value ? alpha : 0
         let actionsAlpha = viewModel.quickChatViewModel.chatEnabled.value ? 0 : alpha
@@ -183,53 +180,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
                        options: .layoutSubviews, animations: {
                         self.listingDeckView.layoutIfNeeded()
         }, completion: nil)
-    }
-
-}
-
-extension ListingDeckViewController: UITableViewDataSource, UITableViewDelegate, DirectAnswersHorizontalViewDelegate {
-    func setupDirectMessages() {
-        let directChatTable = listingDeckView.directChatTable
-
-        directChatTable.dataSource = self
-        directChatTable.delegate = self
-        ChatCellDrawerFactory.registerCells(directChatTable)
-        directChatTable.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
-        directChatTable.rowHeight = UITableViewAutomaticDimension
-        directChatTable.estimatedRowHeight = 140
-        directChatTable.isCellHiddenBlock = { return $0.contentView.isHidden }
-        // TODO: ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
-        //        directChatTable.didSelectRowAtIndexPath = {  [weak self] _ in self?.viewModel.directMessagesItemPressed() }
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.quickChatViewModel.directChatMessages.value.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let messages = viewModel.quickChatViewModel.directChatMessages.value
-        guard 0..<messages.count ~= indexPath.row else { return UITableViewCell() }
-        let message = messages[indexPath.row]
-        let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true, disclosure: true)
-        let cell = drawer.cell(tableView, atIndexPath: indexPath)
-
-        drawer.draw(cell, message: message)
-        cell.transform = tableView.transform
-
-        return cell
-    }
-
-    func directAnswersHorizontalViewDidSelect(answer: QuickAnswer, index: Int) {
-        if let productVM = viewModel.currentListingViewModel, productVM.showKeyboardWhenQuickAnswer {
-            listingDeckView.setChatText(answer.text)
-        } else {
-            // TODO: ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
-            //            viewModel.send(quickAnswer: answer)
-        }
-        if let productVM = viewModel.currentListingViewModel, productVM.areQuickAnswersDynamic {
-            // TODO: ABIOS-3107 https://ambatana.atlassian.net/browse/ABIOS-3107
-            //            viewModel.moveQuickAnswerToTheEnd(index)
-        }
     }
 
 }
