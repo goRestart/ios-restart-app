@@ -10,7 +10,7 @@ platform :ios do
   lane :bootstrap do 
     carthage(
       platform: 'iOS',
-      cache_builds: true,
+      use_binaries: false,
       configuration: 'Debug'
       )
   end
@@ -44,6 +44,7 @@ platform :ios do
       project: project,
       scheme: scheme,
       code_coverage: true,
+      clean: true,
       devices: ['iPhone 7']
     )
   end 
