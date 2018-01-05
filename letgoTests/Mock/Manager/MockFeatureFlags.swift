@@ -34,7 +34,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu = .control
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed = .control
     var newItemPage: NewItemPage = .control
-
     var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: Bool = false
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
@@ -50,7 +49,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var copyListingAnotherConfirmation: CopyListingAnotherConfirmation = .control
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP = .control
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
-    
+    var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
