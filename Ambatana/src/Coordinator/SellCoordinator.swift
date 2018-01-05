@@ -75,7 +75,7 @@ final class SellCoordinator: Coordinator {
 //        navigationController = SellNavigationController(rootViewController: postListingVC)
 //        navigationController.setupInitialCategory(postCategory: postCategory)
         
-        let mostSearchedItemsVM = MostSearchedItemsListViewModel(var1: "asd")
+        let mostSearchedItemsVM = MostSearchedItemsListViewModel(isSearchEnabled: true)
         let mostSearchedItemsVC = MostSearchedItemsListViewController(viewModel: mostSearchedItemsVM)
         navigationController = SellNavigationController(rootViewController: mostSearchedItemsVC)
         //navigationController.setupInitialCategory(postCategory: postCategory)
