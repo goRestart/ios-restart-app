@@ -9,14 +9,17 @@ import RxCocoa
 final class LoginViewModelSpec: XCTestCase {
 
   private var sut: LoginViewModelType!
+  private var authenticate: AuthenticateStub!
   private let scheduler = TestScheduler(initialClock: 0)
   
   override func setUp() {
     super.setUp()
+    authenticate = AuthenticateStub()
     sut = LoginViewModel(authenticate: Authenticate())
   }
   
   override func tearDown() {
+    authenticate = nil
     sut = nil
     super.tearDown()
   }
@@ -85,5 +88,24 @@ final class LoginViewModelSpec: XCTestCase {
       next(0, true)
     ]
     XCTAssertEqual(signInEnabledObserver.events, expectedValues)
+  }
+  
+  func test_should_set_correct_login_state_if_auth_fails() {
+    let loginState = scheduler.createObserver(LoginState.self)
+    _ = sut.output.state.asObservable().bind(to: loginState)
+    
+    sut.output.username.value = "restart"
+    sut.output.password.value = "1234567"
+    
+    authenticate.responseError = .invalidCredentials
+    
+    sut.input.signUpButtonPressed()
+    
+    let expectedStateValues = [
+      next(0, LoginState.idle),
+      next(0, LoginState.loading)
+    ]
+    
+    XCTAssertEqual(loginState.events, expectedStateValues)
   }
 }
