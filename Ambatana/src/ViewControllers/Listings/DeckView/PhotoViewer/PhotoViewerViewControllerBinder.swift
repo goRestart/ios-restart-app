@@ -42,21 +42,21 @@ final class PhotoViewerViewControllerBinder {
                         view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
         view.rx_chatButton?.controlEvent(.touchUpInside)
             .debounce(0.3, scheduler: MainScheduler.instance)
-            .bindNext { [weak viewController] in
+            .bind { [weak viewController] in
             viewController?.showChat()
         }.disposed(by:disposeBag)
     }
 
     private func bindContentOffset(toViewController viewController: PhotoViewerVCType?,
                                    view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
-        view.rx_collectionView.contentOffset.asObservable().bindNext { [weak viewController] offset in
+        view.rx_collectionView.contentOffset.asObservable().bind { [weak viewController] offset in
             viewController?.updatePage(fromContentOffset: offset.x)
         }.disposed(by:disposeBag)
     }
 
     private func bindKeyboard(toViewController viewController: PhotoViewerVCType?,
                               view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
-        viewController?.keyboardChanges.bindNext {
+        viewController?.keyboardChanges.bind {
             viewController?.updateWith(keyboardChange: $0)
         }.disposed(by:disposeBag)
     }

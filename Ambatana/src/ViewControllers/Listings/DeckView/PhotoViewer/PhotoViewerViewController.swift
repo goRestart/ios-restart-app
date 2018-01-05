@@ -9,21 +9,21 @@
 import Foundation
 
 final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType, UICollectionViewDataSource, UICollectionViewDelegate {
-    private struct Identifiers { static let reusableID = ListingDeckImagePreviewCell.reusableID }
 
     override var prefersStatusBarHidden: Bool { return true }
     let chatView: QuickChatView
     let photoViewer = PhotoViewerView()
     private let viewModel: PhotoViewerViewModel
     private let binder = PhotoViewerViewControllerBinder()
-    private var tap: UITapGestureRecognizer?
 
     private var edgeGesture: UIScreenEdgePanGestureRecognizer?
+    private var tapGestureRecognizer: UITapGestureRecognizer?
 
     init(viewModel: PhotoViewerViewModel, quickChatViewModel: QuickChatViewModel) {
         self.viewModel = viewModel
         self.chatView = QuickChatView(chatViewModel: quickChatViewModel)
         super.init(viewModel: viewModel, nibName: nil)
+        self.tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissChat))
     }
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -33,7 +33,8 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = []
-        photoViewer.register(ListingDeckImagePreviewCell.self, forCellWithReuseIdentifier: Identifiers.reusableID)
+        photoViewer.register(ListingDeckImagePreviewCell.self,
+                             forCellWithReuseIdentifier: ListingDeckImagePreviewCell.reusableID)
         photoViewer.dataSource = self
         photoViewer.updateNumberOfPages(viewModel.itemsCount)
 
@@ -54,24 +55,31 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
 
+        setLeftCloseButton()
+        setNavigationBarRightButtons([])
+    }
+
+    private func setLeftCloseButton() {
         let leftButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_carousel"),
                                          style: .plain,
-                                         target: self, action: #selector(dismissChat))
+                                         target: self,
+                                         action: #selector(closeView))
         self.navigationItem.leftBarButtonItem  = leftButton
-
-        setNavigationBarRightButtons([])
     }
 
     private func updateCurrentPage(_ currentPage: Int) {
         photoViewer.updateCurrentPage(currentPage)
-
     }
 
     func updateWith(keyboardChange: KeyboardChange) {
         let height = photoViewer.bounds.height - keyboardChange.origin
         chatView.updateWith(bottomInset: height,
                             animationTime: TimeInterval(keyboardChange.animationTime),
-                            animationOptions: keyboardChange.animationOptions)
+                            animationOptions: keyboardChange.animationOptions,
+                            completion:  { [weak self] completion in
+                                if height <= 0 {
+                                    self?.chatView.removeFromSuperview()
+                                }})
     }
 
     func updatePage(fromContentOffset offset: CGFloat) {
@@ -90,14 +98,17 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         chatView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(chatView)
         chatView.layout(with: photoViewer).fill()
-
+        
         view.setNeedsLayout()
         view.layoutIfNeeded()
 
         chatView.becomeFirstResponder()
+
+        guard let gesture = tapGestureRecognizer else { return }
+        chatView.addDismissGestureRecognizer(gesture)
     }
 
-    func closeView() {
+    @objc func closeView() {
         self.presentingViewController?.dismiss(animated: true)
     }
 
@@ -108,7 +119,8 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: Identifiers.reusableID, for: indexPath)
+        let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: ListingDeckImagePreviewCell.reusableID,
+                                                       for: indexPath)
         guard let imageCell = cell as? ListingDeckImagePreviewCell,
             let url = viewModel.urlsAtIndex(indexPath.row) else {
                 return UICollectionViewCell()
@@ -129,10 +141,14 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     // MARK: Actions
 
-    
     @objc func dismissChat() {
-        viewModel.dismiss()
+        if let gesture = tapGestureRecognizer {
+            chatView.removeGestureRecognizer(gesture)
+        }
+        chatView.resignFirstResponder()
     }
+
+    // MARK: UIGestureRecognizer
 
     func addEdgeGesture(_ edgeGesture: UIScreenEdgePanGestureRecognizer) {
         if let gesture = self.edgeGesture {
@@ -140,4 +156,5 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         }
         view.addGestureRecognizer(edgeGesture)
     }
+
 }

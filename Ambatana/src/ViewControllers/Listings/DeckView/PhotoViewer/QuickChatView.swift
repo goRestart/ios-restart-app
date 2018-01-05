@@ -12,8 +12,8 @@ import LGCoreKit
 
 typealias DirectAnswersSupportType = UITableViewDataSource & UITableViewDelegate
 
-final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType {
-    private struct Layout { static let outsideKeyboard: CGFloat = 60 }
+final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, UIGestureRecognizerDelegate {
+    private struct Layout { static let outsideKeyboard: CGFloat = 120.0 }
 
     var rx_chatTextView: Reactive<ChatTextView> { return textView.rx }
     let quickChatViewModel: QuickChatViewModel
@@ -48,20 +48,26 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType {
 
     override func willMove(toSuperview newSuperview: UIView?) {
         guard newSuperview != nil else { return }
-        textViewBottom?.constant = 4*Metrics.margin
+        textViewBottom?.constant = Layout.outsideKeyboard
         backgroundColor = UIColor.clear
     }
 
-    func updateWith(bottomInset: CGFloat, animationTime: TimeInterval, animationOptions: UIViewAnimationOptions) {
-        textViewBottom?.constant = -bottomInset - Metrics.margin
-        let color = (bottomInset == 0) ? UIColor.clear : UIColor.black.withAlphaComponent(0.5)
+    func updateWith(bottomInset: CGFloat, animationTime: TimeInterval,
+                    animationOptions: UIViewAnimationOptions, completion: ((Bool) -> Void)? = nil) {
+        let color = (bottomInset <= 0) ? UIColor.clear : UIColor.black.withAlphaComponent(0.5)
+        let alpha: CGFloat = (bottomInset <= 0) ? 0 : 1
+        textViewBottom?.constant = (bottomInset <= 0) ? Layout.outsideKeyboard : -(bottomInset + Metrics.margin)
+
         UIView.animate(withDuration: animationTime,
                        delay: 0,
                        options: animationOptions,
                        animations: {
+                        self.textView.alpha = alpha
+                        self.directAnswersView.alpha = alpha
+                        self.tableView.alpha = alpha
                         self.backgroundColor = color
-                        self.superview?.layoutIfNeeded()
-        }, completion: nil)
+                        self.layoutIfNeeded()
+        }, completion: completion)
     }
 
     func setInitialText(_ text: String) {
@@ -85,6 +91,24 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType {
         default:
             tableView.handleCollectionChange(change, animation: .none)
         }
+    }
+
+    func addDismissGestureRecognizer(_ gesture: UITapGestureRecognizer) {
+        gesture.delegate = self
+        gesture.cancelsTouchesInView = false
+        gesture.delaysTouchesBegan = true
+        addGestureRecognizer(gesture)
+    }
+
+    // MARK: UIGestureRecognizerDelegate
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard let touchView = touch.view else { return false }
+        let indexPath = tableView.indexPathForRow(at: touch.location(in: tableView))
+        if touchView.isDescendant(of: tableView), let index = indexPath, let _ = tableView.cellForRow(at: index) {
+            return false
+        }
+        return !touchView.isDescendant(of: directAnswersView) && !touchView.isDescendant(of: textView)
     }
 
     // MARK: UI
@@ -120,36 +144,23 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType {
     }
 
     private func setupTableView() {
+        tableView.keyboardDismissMode = .onDrag
+
         tableView.translatesAutoresizingMaskIntoConstraints = false
+
         addSubview(tableView)
         tableView.layout(with: self).topMargin().fillHorizontal()
         tableView.layout(with: directAnswersView).above(by: -Metrics.shortMargin)
         tableView.backgroundColor = .clear
-
         setupDirectMessages()
-    }
-
-    // MARK: DirectAnswersHorizontalViewDelegate
-
-    func setupDirectMessages() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        ChatCellDrawerFactory.registerCells(tableView)
-
-        // TODO: Check what is this shit
-        tableView.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = DirectAnswersHorizontalView.Layout.Height.estimatedRow
-        tableView.separatorStyle = .none
-
-        tableView.isCellHiddenBlock = { return $0.contentView.isHidden }
-        tableView.didSelectRowAtIndexPath = {  [weak self] _ in
-            self?.quickChatViewModel.directMessagesItemPressed()
-        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return quickChatViewModel.directChatMessages.value.count
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        quickChatViewModel.directMessagesItemPressed()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -163,6 +174,22 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType {
         cell.transform = tableView.transform
 
         return cell
+    }
+
+    // MARK: DirectAnswersHorizontalViewDelegate
+
+    func setupDirectMessages() {
+        tableView.isCellHiddenBlock = { return $0.contentView.isHidden }
+        tableView.didSelectRowAtIndexPath = {  [weak self] _ in self?.quickChatViewModel.directMessagesItemPressed() }
+
+        tableView.dataSource = self
+        tableView.delegate = self
+        ChatCellDrawerFactory.registerCells(tableView)
+
+        tableView.transform = CGAffineTransform.invertedVertically
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = DirectAnswersHorizontalView.Layout.Height.estimatedRow
+        tableView.separatorStyle = .none
     }
 
 }
