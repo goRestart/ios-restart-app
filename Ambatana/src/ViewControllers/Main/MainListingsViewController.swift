@@ -39,6 +39,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     var viewModel: MainListingsViewModel
     
     // UI
+    @IBOutlet weak var listingListViewSafeaAreaTopAlignment: NSLayoutConstraint!
     @IBOutlet weak var listingListView: ListingListView!
     
     @IBOutlet weak var tagsContainerView: UIView!
@@ -148,11 +149,9 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         setupRxBindings()
         setAccessibilityIds()
         
-        view.layoutIfNeeded()
         if #available(iOS 11.0, *) {
             listingListView.collectionView.contentInsetAdjustmentBehavior = .never
         }
-        topInset.value = filterHeadersHeight
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -461,15 +460,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }.bind { [weak self] filterTitle in
             guard let strongSelf = self else { return }
             strongSelf.filterTitleHeaderView.text = filterTitle
-            let tagsHeight = strongSelf.primaryTagsShowing ? strongSelf.filterTagsViewHeight : 0
-            strongSelf.topInset.value = tagsHeight + strongSelf.filterHeadersHeight
+            self?.updateTopInset()
         }.disposed(by: disposeBag)
 
         viewModel.filterDescription.asObservable().bind { [weak self] filterDescr in
             guard let strongSelf = self else { return }
             strongSelf.filterDescriptionHeaderView.text = filterDescr
-            let tagsHeight = strongSelf.primaryTagsShowing ? strongSelf.filterTagsViewHeight : 0
-            strongSelf.topInset.value = tagsHeight + strongSelf.filterHeadersHeight
+            self?.updateTopInset()
         }.disposed(by: disposeBag)
         
         navbarSearch.searchTextField?.rx.text.asObservable()
@@ -478,6 +475,15 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }.disposed(by: disposeBag)
         
         navbarSearch.searchTextField.rx.text.asObservable().bind(to: viewModel.searchText).disposed(by: disposeBag)
+    }
+
+    fileprivate func updateTopInset() {
+        let tagsHeight = primaryTagsShowing ? filterTagsViewHeight : 0
+        if isSafeAreaAvailable {
+            topInset.value = tagsHeight + filterHeadersHeight
+        } else {
+            topInset.value = topBarHeight + tagsHeight + filterHeadersHeight
+        }
     }
     
     func navBarSearchTextFieldDidUpdate(text: String) {
