@@ -527,7 +527,8 @@ class MainListingsViewModel: BaseViewModel {
             tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                          name: categoryHeaderInfo.name))
             return // do not update any filters
-        case .trending:
+        case .mostSearchedItems:
+            // TODO: Add tracker. Also check .showMore's tracker top in another method
             return
         }
         applyFilters(categoryHeaderInfo)

@@ -13,7 +13,7 @@ enum CategoryHeaderElement {
     case superKeyword(TaxonomyChild)
     case superKeywordGroup(Taxonomy)
     case showMore
-    case trending
+    case mostSearchedItems
     
     var name: String {
         switch self {
@@ -25,14 +25,15 @@ enum CategoryHeaderElement {
             return taxonomy.name
         case .showMore:
             return LGLocalizedString.categoriesSuperKeywordsInfeedShowMore
-        case .trending:
+        case .mostSearchedItems:
+            // TODO: Localize when specs finished
             return "Trending"
         }
     }
     
     var imageIconURL: URL? {
         switch self {
-        case .listingCategory, .showMore, .trending:
+        case .listingCategory, .showMore, .mostSearchedItems:
             return nil
         case .superKeyword(let taxonomyChild):
             return taxonomyChild.highlightIcon
@@ -49,7 +50,7 @@ enum CategoryHeaderElement {
             return nil
         case .showMore:
             return #imageLiteral(resourceName: "showMore")
-        case .trending:
+        case .mostSearchedItems:
             return #imageLiteral(resourceName: "trending_feed")
         }
     }
@@ -58,7 +59,7 @@ enum CategoryHeaderElement {
         switch self {
         case .listingCategory(let listingCategory):
             return listingCategory.isCar
-        case .superKeyword, .superKeywordGroup, .showMore, .trending:
+        case .superKeyword, .superKeywordGroup, .showMore, .mostSearchedItems:
             return false
         }
     }
@@ -67,14 +68,14 @@ enum CategoryHeaderElement {
         switch self {
         case .listingCategory:
             return true
-        case .superKeyword, .superKeywordGroup, .showMore, .trending:
+        case .superKeyword, .superKeywordGroup, .showMore, .mostSearchedItems:
             return false
         }
     }
     
     var isSuperKeyword: Bool {
         switch self {
-        case .listingCategory, .superKeywordGroup, .showMore, .trending:
+        case .listingCategory, .superKeywordGroup, .showMore, .mostSearchedItems:
             return false
         case .superKeyword:
             return true
@@ -83,7 +84,7 @@ enum CategoryHeaderElement {
     
     var isSuperKeywordGroup: Bool {
         switch self {
-        case .listingCategory, .superKeyword, .showMore, .trending:
+        case .listingCategory, .superKeyword, .showMore, .mostSearchedItems:
             return false
         case .superKeywordGroup:
             return true
@@ -92,18 +93,18 @@ enum CategoryHeaderElement {
     
     var isShowMore: Bool {
         switch self {
-        case .listingCategory, .superKeyword, .superKeywordGroup, .trending:
+        case .listingCategory, .superKeyword, .superKeywordGroup, .mostSearchedItems:
             return false
         case .showMore:
             return true
         }
     }
     
-    var isTrending: Bool {
+    var isMostSearchedItems: Bool {
         switch self {
         case .listingCategory, .superKeyword, .superKeywordGroup, .showMore:
             return false
-        case .trending:
+        case .mostSearchedItems:
             return true
         }
     }

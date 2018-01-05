@@ -45,7 +45,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
             categoryHeaderElements.append(CategoryHeaderElement.showMore)
         }
         if isMostSearchedItemsEnabled {
-            categoryHeaderElements.insert(CategoryHeaderElement.trending, at: 0)
+            categoryHeaderElements.insert(CategoryHeaderElement.mostSearchedItems, at: 0)
         }
         setup()
         setAccessibilityIds()
@@ -73,7 +73,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
             cell.categoryTitle.text = categoryHeaderElement.name.localizedUppercase
             cell.categoryTitle.addKern(value: -0.30)
             switch categoryHeaderElement {
-            case .listingCategory, .showMore, .trending:
+            case .listingCategory, .showMore, .mostSearchedItems:
                 cell.categoryIcon.image = categoryHeaderElement.imageIcon
             case .superKeyword, .superKeywordGroup:
                 if let url = categoryHeaderElement.imageIconURL {
@@ -92,7 +92,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
         let categoryHeaderElement = categoryHeaderElements[indexPath.row]
         if categoryHeaderElement.isShowMore {
             delegateCategoryHeader?.openTaxonomyList()
-        } else if categoryHeaderElement.isTrending {
+        } else if categoryHeaderElement.isMostSearchedItems {
             delegateCategoryHeader?.openMostSearchedItems()
         } else {
             categorySelected.value = CategoryHeaderInfo(categoryHeaderElement: categoryHeaderElement,

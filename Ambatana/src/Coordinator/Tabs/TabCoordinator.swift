@@ -158,7 +158,7 @@ extension TabCoordinator: TabNavigator {
     }
     
     func openMostSearchedItems() {
-        openSell(source: .trending, postCategory: nil)
+        openSell(source: .mostSearchedItems, postCategory: nil)
     }
     
     func openDeepLink(_ deeplink: DeepLink) {
