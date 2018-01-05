@@ -33,6 +33,7 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
     }
     
     override func layoutSubviews() {
+        super.layoutSubviews()
         postButton.rounded = true
     }
     
