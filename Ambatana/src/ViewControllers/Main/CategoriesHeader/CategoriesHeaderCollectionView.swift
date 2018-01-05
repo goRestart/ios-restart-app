@@ -42,7 +42,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
         //Setup
         
         if isShowingSuperKeywords {
-            categoryHeaderElements.append(CategoryHeaderElement.other)
+            categoryHeaderElements.append(CategoryHeaderElement.showMore)
         }
         setup()
         setAccessibilityIds()
@@ -69,7 +69,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
             cell.categoryTitle.text = categoryHeaderElement.name.localizedUppercase
             cell.categoryTitle.addKern(value: -0.30)
             switch categoryHeaderElement {
-            case .listingCategory, .other:
+            case .listingCategory, .showMore:
                 cell.categoryIcon.image = categoryHeaderElement.imageIcon
             case .superKeyword, .superKeywordGroup:
                 if let url = categoryHeaderElement.imageIconURL {

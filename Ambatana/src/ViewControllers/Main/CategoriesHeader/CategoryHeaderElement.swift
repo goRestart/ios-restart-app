@@ -12,7 +12,7 @@ enum CategoryHeaderElement {
     case listingCategory(ListingCategory)
     case superKeyword(TaxonomyChild)
     case superKeywordGroup(Taxonomy)
-    case other
+    case showMore
     
     var name: String {
         switch self {
@@ -22,14 +22,14 @@ enum CategoryHeaderElement {
             return taxonomyChild.name
         case .superKeywordGroup(let taxonomy):
             return taxonomy.name
-        case .other:
+        case .showMore:
             return LGLocalizedString.categoriesSuperKeywordsInfeedShowMore
         }
     }
     
     var imageIconURL: URL? {
         switch self {
-        case .listingCategory, .other:
+        case .listingCategory, .showMore:
             return nil
         case .superKeyword(let taxonomyChild):
             return taxonomyChild.highlightIcon
@@ -44,7 +44,7 @@ enum CategoryHeaderElement {
             return listingCategory.imageInFeed
         case .superKeyword, .superKeywordGroup:
             return nil
-        case .other:
+        case .showMore:
             return #imageLiteral(resourceName: "showMore")
         }
     }
@@ -53,7 +53,7 @@ enum CategoryHeaderElement {
         switch self {
         case .listingCategory(let listingCategory):
             return listingCategory.isCar
-        case .superKeyword, .superKeywordGroup, .other:
+        case .superKeyword, .superKeywordGroup, .showMore:
             return false
         }
     }
@@ -62,14 +62,14 @@ enum CategoryHeaderElement {
         switch self {
         case .listingCategory:
             return true
-        case .superKeyword, .superKeywordGroup, .other:
+        case .superKeyword, .superKeywordGroup, .showMore:
             return false
         }
     }
     
     var isSuperKeyword: Bool {
         switch self {
-        case .listingCategory, .superKeywordGroup, .other:
+        case .listingCategory, .superKeywordGroup, .showMore:
             return false
         case .superKeyword:
             return true
@@ -78,7 +78,7 @@ enum CategoryHeaderElement {
     
     var isSuperKeywordGroup: Bool {
         switch self {
-        case .listingCategory, .superKeyword, .other:
+        case .listingCategory, .superKeyword, .showMore:
             return false
         case .superKeywordGroup:
             return true
@@ -89,7 +89,7 @@ enum CategoryHeaderElement {
         switch self {
         case .listingCategory, .superKeyword, .superKeywordGroup:
             return false
-        case .other:
+        case .showMore:
             return true
         }
     }
