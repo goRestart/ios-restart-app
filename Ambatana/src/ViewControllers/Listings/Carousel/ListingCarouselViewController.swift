@@ -25,9 +25,12 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var chatContainerBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
+
+    @IBOutlet weak var favoriteButtonTopAligment: NSLayoutConstraint!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
-
+    @IBOutlet weak var shareButtonTopAlignment: NSLayoutConstraint!
+    
     @IBOutlet weak var productStatusView: UIView!
     @IBOutlet weak var productStatusLabel: UILabel!
     @IBOutlet weak var productStatusImageView: UIImageView!
@@ -157,7 +160,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubviews()
         setupUI()
         setupNavigationBar()
         setupGradientView()
@@ -268,6 +270,11 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     func setupUI() {
+        addSubviews()
+        if !isSafeAreaAvailable {
+            favoriteButtonTopAligment.constant = 55
+            shareButtonTopAlignment.constant = 70
+        }
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
 
@@ -397,7 +404,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             UIView.animate(withDuration: 0.3) {
                 self?.itemsAlpha.value = zooming ? 0 : 1
                 self?.moreInfoAlpha.value = zooming ? 0 : 1
-                self?.navigationController?.navigationBar.alpha = zooming ? 0 : 1
+                self?.updateNavigationBarAlpha(zooming ? 0 : 1)
             }
             }.disposed(by: disposeBag)
     }
@@ -452,13 +459,10 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         alphaSignal.bind(to: itemsAlpha).disposed(by: disposeBag)
         alphaSignal.bind(to: moreInfoAlpha).disposed(by: disposeBag)
 
-        alphaSignal.bind{ [weak self] alpha in
+        alphaSignal.bind { [weak self] alpha in
             self?.moreInfoTooltip?.alpha = alpha
-            }.disposed(by: disposeBag)
-
-        if let navBar = navigationController?.navigationBar {
-            alphaSignal.bind(to: navBar.rx.alpha).disposed(by: disposeBag)
-        }
+            self?.updateNavigationBarAlpha(alpha)
+        }.disposed(by: disposeBag)
 
         var indexSignal: Observable<Int> = collectionContentOffset.asObservable().map { Int(($0.x + midPoint) / width) }
 
@@ -496,6 +500,11 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             .bind { [weak self] _ in
                 self?.finishedTransition()
             }.disposed(by: disposeBag)
+    }
+
+    private func updateNavigationBarAlpha(_ alpha: CGFloat) {
+        navigationItem.leftBarButtonItems?.forEach { $0.customView?.alpha = alpha }
+        navigationItem.rightBarButtonItems?.forEach { $0.customView?.alpha = alpha }
     }
 
     private func returnCellToFirstImage() {
@@ -579,8 +588,10 @@ extension ListingCarouselViewController {
                     shareButton.rx.tap.takeUntil(takeUntilAction).bind{
                         action.action()
                         }.disposed(by: strongSelf.disposeBag)
+                    let alpha = strongSelf.itemsAlpha.value
                     strongSelf.navigationItem.rightBarButtonItems = nil
                     strongSelf.navigationItem.rightBarButtonItem = rightItem
+                    strongSelf.navigationItem.rightBarButtonItem?.customView?.alpha = alpha
                 default:
                     strongSelf.setLetGoRightButtonWith(action, buttonTintColor: UIColor.white,
                                                        tapBlock: { tapEvent in
@@ -590,6 +601,7 @@ extension ListingCarouselViewController {
                     })
                 }
             } else if navBarButtons.count > 1 {
+                let alpha = strongSelf.itemsAlpha.value
                 var buttons = [UIButton]()
                 navBarButtons.forEach { navBarButton in
                     let button = UIButton(type: .system)
@@ -598,6 +610,7 @@ extension ListingCarouselViewController {
                         navBarButton.action()
                         }.disposed(by: strongSelf.disposeBag)
                     buttons.append(button)
+                    button.alpha = alpha
                 }
                 strongSelf.setNavigationBarRightButtons(buttons)
             }
@@ -771,7 +784,7 @@ extension ListingCarouselViewController: UserViewDelegate {
         fullScreenAvatarWidth?.constant = viewSide
         fullScreenAvatarHeight?.constant = viewSide
         UIView.animate(withDuration: 0.25, animations: { [weak self] in
-            self?.navigationController?.navigationBar.alpha = 0
+            self?.updateNavigationBarAlpha(0)
             self?.fullScreenAvatarEffectView.alpha = 1
             self?.fullScreenAvatarView.alpha = 1
             self?.view.layoutIfNeeded()
@@ -784,7 +797,7 @@ extension ListingCarouselViewController: UserViewDelegate {
         fullScreenAvatarWidth?.constant = userView.userAvatarImageView.frame.size.width
         fullScreenAvatarHeight?.constant = userView.userAvatarImageView.frame.size.height
         UIView.animate(withDuration: 0.25, animations: { [weak self] in
-            self?.navigationController?.navigationBar.alpha = 1
+            self?.updateNavigationBarAlpha(1)
             self?.fullScreenAvatarEffectView.alpha = 0
             self?.fullScreenAvatarView.alpha = 0
             self?.view.layoutIfNeeded()

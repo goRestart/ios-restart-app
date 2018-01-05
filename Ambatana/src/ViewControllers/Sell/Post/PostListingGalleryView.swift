@@ -285,9 +285,10 @@ extension PostListingGalleryView: UICollectionViewDataSource, UICollectionViewDe
                 if let position = selectedIndexes.index(of: indexPath.item) {
                     galleryCell.multipleSelectionCountLabel.text = "\(position + 1)"
                 }
+            } else {
+                galleryCell.disabled = viewModel.imagesSelectedCount >= viewModel.maxImagesSelected
+                galleryCell.isSelected = false
             }
-            galleryCell.disabled = viewModel.imagesSelectedCount >= viewModel.maxImagesSelected
-            galleryCell.isSelected = false
 
             return galleryCell
     }
@@ -297,7 +298,7 @@ extension PostListingGalleryView: UICollectionViewDataSource, UICollectionViewDe
     }
 
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return viewModel.imageSelectionEnabled.value
+        return viewModel.imageSelectionEnabled
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -306,7 +307,7 @@ extension PostListingGalleryView: UICollectionViewDataSource, UICollectionViewDe
 
     fileprivate func selectItemAtIndex(_ index: Int) {
         let indexPath = IndexPath(item: index, section: 0)
-        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
+        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
         let layoutAttributes = collectionView.layoutAttributesForItem(at: indexPath)
         if let layoutAttributes = layoutAttributes {
             collectionView.scrollRectToVisible(layoutAttributes.frame, animated: true)

@@ -57,7 +57,7 @@ class PostListingGalleryViewModel: BaseViewModel {
     let albumIconState = Variable<AlbumSelectionIconState>(.down)
     let imagesSelected = Variable<[ImageSelected]>([])
     let lastImageSelected = Variable<UIImage?>(nil)
-    let imageSelectionEnabled = Variable<Bool>(true)
+    var imageSelectionEnabled = true
     let albumButtonEnabled = Variable<Bool>(true)
 
     var imageSelection: Observable<ImageSelection> {
@@ -354,18 +354,18 @@ class PostListingGalleryViewModel: BaseViewModel {
         lastImageSelected.value = nil
         delegate?.vmDidSelectItemAtIndex(index, shouldScroll: autoScroll)
 
-        imageSelectionEnabled.value = false
+        imageSelectionEnabled = false
 
         let imageRequestId = imageAtIndex(index, size: nil) { [weak self] image in
             guard let strongSelf = self else { return }
             strongSelf.lastImageSelected.value = image
-            strongSelf.imageSelectionEnabled.value = true
+            strongSelf.imageSelectionEnabled = true
 
             if let image = image {
                 strongSelf.shouldUpdateDisabledCells = strongSelf.imagesSelected.value.count == strongSelf.maxImagesSelected - 1
                 strongSelf.imagesSelected.value.append(ImageSelected(image: image, index: index))
                 // Block interaction when 5 images are selected
-                strongSelf.imageSelectionEnabled.value = strongSelf.imagesSelectedCount < strongSelf.maxImagesSelected
+                strongSelf.imageSelectionEnabled = strongSelf.imagesSelectedCount < strongSelf.maxImagesSelected
                 strongSelf.galleryState.value = .normal
             } else {
                 // ABIOS-2195
@@ -390,11 +390,11 @@ class PostListingGalleryViewModel: BaseViewModel {
         guard let selectedImageIndex = selectedIndexes.index(of: index),
             0..<imagesSelectedCount ~= selectedImageIndex else { return }
 
-        imageSelectionEnabled.value = true
+        imageSelectionEnabled = true
 
         shouldUpdateDisabledCells = imagesSelected.value.count == maxImagesSelected
         imagesSelected.value.remove(at: selectedImageIndex)
-        imageSelectionEnabled.value = imagesSelectedCount < maxImagesSelected
+        imageSelectionEnabled = imagesSelectedCount < maxImagesSelected
         galleryState.value = .normal
 
         if selectedImageIndex == imagesSelected.value.count {

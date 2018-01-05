@@ -180,6 +180,11 @@ class UserViewController: BaseViewController {
         super.viewDidAppear(animated)
         updateNavBarForTransition(isHidden: false)
     }
+
+    override func viewDidFirstAppear(_ animated: Bool) {
+        super.viewDidFirstAppear(animated)
+        setupNavigationBar()
+    }
     
     private func updateNavBarForTransition(isHidden: Bool) {
         if !isHidden && navBarUserViewAlpha == 0 {
@@ -256,7 +261,6 @@ extension UserViewController {
     fileprivate func setupUI() {
         setupMainView()
         setupHeader()
-        setupNavigationBar()
         setupListingListView()
         setupConstraints()
     }
@@ -295,7 +299,6 @@ extension UserViewController {
     private func setupNavigationBar() {
         navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.greatestFiniteMagnitude, height: UserViewController.navBarUserViewHeight))
         setNavBarTitleStyle(.custom(navBarUserView))
-        navBarUserViewAlpha = 0
 
         let backIcon = UIImage(named: "navbar_back_white_shadow")
         setNavBarBackButton(backIcon)
