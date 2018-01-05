@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Bu hesap letgo ekibi tarafından incelemeye alınmıştır.";
 "chat_forbidden_disclaimer_seller_w_name" = "Görünüşe göre %@ artık ilanınla ilgilenmiyor.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Görünüşe göre bu kullanıcı artık ilanınla ilgilenmiyor.";
+"chat_inactive_conversations_button" = "Arşivlenmiş sohbetleri gör";
+"chat_inactive_conversations_explanation_label" = "3 aydan daha eski olan sohbetler otomatik olarak arşivlenir.";
 "chat_list_account_deleted" = "Bu hesap silinmiş";
 "chat_list_account_deleted_username" = "Aktif değil";
 "chat_list_all_empty_title" = "(HENÜZ!) SOHBET MESAJI YOK";
@@ -164,8 +166,8 @@
 "chat_not_verified_state_title" = "HESABINI DOĞRULADIN MI?";
 "chat_product_given_away_label" = "Bağışlandı";
 "chat_product_sold_label" = "Satıldı";
-"chat_professional_banner_button_title" = "Call";
-"chat_professional_banner_title" = "You're talking to a professional car dealer";
+"chat_professional_banner_button_title" = "Ara";
+"chat_professional_banner_title" = "Profesyonel bir araç satış temsilcisi ile konuşuyorsun";
 "chat_related_products_title" = "ŞU ÜRÜNLER DE İLGİNİ ÇEKEBİLİR:";
 "chat_safety_tips" = "Güvenlik Önerilerimiz";
 "chat_safety_tips_message" = "• Birebir görüş ve elden nakit öde.\n\n• Mesajlaşmayı letgo sistemi içerisinde yap.\n\n• Kulağa gerçek olamayacak kadar hoş geliyorsa, başka bir alıcı/satıcı bul.";
@@ -250,7 +252,7 @@
 "direct_answer_condition_title" = "Durum...";
 "direct_answer_describe_condition" = "Durumu hakkında bilgi verebilir misin?";
 "direct_answer_free_available" = "Evet, hala satılık";
-"direct_answer_free_no_available" = "Üzgünüm, ürünü çoktan başkasına verdim!";
+"direct_answer_free_no_available" = "Üzgünüm, başkasına bağışladım!";
 "direct_answer_free_still_have" = "Ürün hala satılık mı?";
 "direct_answer_free_yours" = "Senin oldu!";
 "direct_answer_given_away_question_message" = "Bağışlandı olarak işaretle ki tüm letgo kullanıcıları bilsin";
@@ -733,7 +735,7 @@
 "rating_view_rate_us_label" = "Bize puan ver:";
 "rating_view_remind_later_button" = "Daha sonra hatırlat";
 "rating_view_title_label_uppercase" = "BİZE 5 YILDIZ VER!";
-"real_estate_attribute_tag_bathroom_0" = "0BA";
+"real_estate_attribute_tag_bathroom_0" = "0 BANYO";
 "real_estate_bathrooms_0" = "Yok";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1.5";

@@ -33,12 +33,13 @@ class ListingAttributePickerViewController: BaseViewController {
 fileprivate extension ListingAttributePickerViewController {
     
     func setupViews() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        edgesForExtendedLayout = []
         view.backgroundColor = .white
         view.addSubview(tableView)
     }
     
     func setupConstraints() {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layout(with: view).fill()
     }
 }

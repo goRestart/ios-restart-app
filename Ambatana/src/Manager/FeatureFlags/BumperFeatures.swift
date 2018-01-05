@@ -19,11 +19,9 @@ extension Bumper  {
         flags.append(PricedBumpUpEnabled.self)
         flags.append(NewCarsMultiRequesterEnabled.self)
         flags.append(InAppRatingIOS10.self)
-        flags.append(TweaksCarPostingFlow.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
         flags.append(AppRatingDialogInactive.self)
-        flags.append(ExpandableCategorySelectionMenu.self)
         flags.append(LocationDataSourceEndpoint.self)
         flags.append(DefaultRadiusDistanceFeed.self)
         flags.append(RealEstateEnabled.self)
@@ -39,7 +37,6 @@ extension Bumper  {
         flags.append(ShowClockInDirectAnswer.self)
         flags.append(BumpUpPriceDifferentiation.self)
         flags.append(PromoteBumpUpAfterSell.self)
-        flags.append(CopyListingAnotherConfirmation.self)
         flags.append(MoreInfoAFShOrDFP.self)
         flags.append(ShowSecurityMeetingChatMessage.self)
         Bumper.initialize(flags)
@@ -75,11 +72,6 @@ extension Bumper  {
         return InAppRatingIOS10(rawValue: value)?.asBool ?? false
     }
 
-    static var tweaksCarPostingFlow: TweaksCarPostingFlow {
-        guard let value = Bumper.value(for: TweaksCarPostingFlow.key) else { return .control }
-        return TweaksCarPostingFlow(rawValue: value) ?? .control 
-    }
-
     static var userReviewsReportEnabled: Bool {
         guard let value = Bumper.value(for: UserReviewsReportEnabled.key) else { return false }
         return UserReviewsReportEnabled(rawValue: value)?.asBool ?? false
@@ -95,11 +87,6 @@ extension Bumper  {
         return AppRatingDialogInactive(rawValue: value)?.asBool ?? false
     }
 
-    static var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
-        guard let value = Bumper.value(for: ExpandableCategorySelectionMenu.key) else { return .control }
-        return ExpandableCategorySelectionMenu(rawValue: value) ?? .control 
-    }
-
     static var locationDataSourceEndpoint: LocationDataSourceEndpoint {
         guard let value = Bumper.value(for: LocationDataSourceEndpoint.key) else { return .control }
         return LocationDataSourceEndpoint(rawValue: value) ?? .control 
@@ -110,9 +97,9 @@ extension Bumper  {
         return DefaultRadiusDistanceFeed(rawValue: value) ?? .control 
     }
 
-    static var realEstateEnabled: Bool {
-        guard let value = Bumper.value(for: RealEstateEnabled.key) else { return false }
-        return RealEstateEnabled(rawValue: value)?.asBool ?? false
+    static var realEstateEnabled: RealEstateEnabled {
+        guard let value = Bumper.value(for: RealEstateEnabled.key) else { return .control }
+        return RealEstateEnabled(rawValue: value) ?? .control 
     }
 
     static var searchAutocomplete: SearchAutocomplete {
@@ -173,11 +160,6 @@ extension Bumper  {
     static var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
         guard let value = Bumper.value(for: PromoteBumpUpAfterSell.key) else { return .control }
         return PromoteBumpUpAfterSell(rawValue: value) ?? .control 
-    }
-
-    static var copyListingAnotherConfirmation: CopyListingAnotherConfirmation {
-        guard let value = Bumper.value(for: CopyListingAnotherConfirmation.key) else { return .control }
-        return CopyListingAnotherConfirmation(rawValue: value) ?? .control 
     }
 
     static var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
@@ -246,22 +228,6 @@ enum InAppRatingIOS10: String, BumperFeature  {
     var asBool: Bool { return self == .yes }
 }
 
-enum TweaksCarPostingFlow: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return TweaksCarPostingFlow.control.rawValue }
-    static var enumValues: [TweaksCarPostingFlow] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "car posting summary only at the end" } 
-    static func fromPosition(_ position: Int) -> TweaksCarPostingFlow {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum UserReviewsReportEnabled: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return UserReviewsReportEnabled.no.rawValue }
@@ -295,22 +261,6 @@ enum AppRatingDialogInactive: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "App rating dialog inactive to increase user activation" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum ExpandableCategorySelectionMenu: String, BumperFeature  {
-    case control, baseline, expandableMenu
-    static var defaultValue: String { return ExpandableCategorySelectionMenu.control.rawValue }
-    static var enumValues: [ExpandableCategorySelectionMenu] { return [.control, .baseline, .expandableMenu]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show 'salchichas' menu on sell your stuff button" } 
-    static func fromPosition(_ position: Int) -> ExpandableCategorySelectionMenu {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .expandableMenu
-            default: return .control
-        }
-    }
 }
 
 enum LocationDataSourceEndpoint: String, BumperFeature  {
@@ -350,12 +300,19 @@ enum DefaultRadiusDistanceFeed: String, BumperFeature  {
 }
 
 enum RealEstateEnabled: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return RealEstateEnabled.no.rawValue }
-    static var enumValues: [RealEstateEnabled] { return [.no, .yes]}
+    case control, baseline, active
+    static var defaultValue: String { return RealEstateEnabled.control.rawValue }
+    static var enumValues: [RealEstateEnabled] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Allow to see Real Estate category" } 
-    var asBool: Bool { return self == .yes }
+    static func fromPosition(_ position: Int) -> RealEstateEnabled {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
 }
 
 enum SearchAutocomplete: String, BumperFeature  {
@@ -544,22 +501,6 @@ enum PromoteBumpUpAfterSell: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show a bump up alert after posting (once every 24h)" } 
     static func fromPosition(_ position: Int) -> PromoteBumpUpAfterSell {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum CopyListingAnotherConfirmation: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return CopyListingAnotherConfirmation.control.rawValue }
-    static var enumValues: [CopyListingAnotherConfirmation] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show listing instead of product on confirmation screen" } 
-    static func fromPosition(_ position: Int) -> CopyListingAnotherConfirmation {
         switch position { 
             case 0: return .control
             case 1: return .baseline

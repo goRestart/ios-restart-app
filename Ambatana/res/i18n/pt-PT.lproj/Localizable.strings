@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Esta conta está a ser revista pela equipa letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Parece que %@ já não tem interesse na sua publicação.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Parece que este utilizador já não tem interesse na sua publicação.";
+"chat_inactive_conversations_button" = "Ver conversas arquivadas";
+"chat_inactive_conversations_explanation_label" = "As conversas com mais de 3 meses são automaticamente arquivadas.";
 "chat_list_account_deleted" = "Conta eliminada";
 "chat_list_account_deleted_username" = "Inativo";
 "chat_list_all_empty_title" = "NENHUMA CONVERSA (AINDA!)";
@@ -164,8 +166,8 @@
 "chat_not_verified_state_title" = "ESTÁ VERIFICADO?";
 "chat_product_given_away_label" = "Dado";
 "chat_product_sold_label" = "Vendido";
-"chat_professional_banner_button_title" = "Call";
-"chat_professional_banner_title" = "You're talking to a professional car dealer";
+"chat_professional_banner_button_title" = "Chamar";
+"chat_professional_banner_title" = "Está a falar com um vendedor de carros profissional";
 "chat_related_products_title" = "PODERÁ TER INTERESSE EM:";
 "chat_safety_tips" = "Dicas de segurança";
 "chat_safety_tips_message" = "• Marque encontros pessoalmente e pague em dinheiro.\n\n• Mantenha as conversas no chat do letgo.\n\n• Bom demais para ser verdade? Encontre outro vendedor/comprador.";
@@ -254,7 +256,7 @@
 "direct_answer_condition_title" = "Condição...";
 "direct_answer_describe_condition" = "Pode descrever em que condições está?";
 "direct_answer_free_available" = "Sim, ainda está disponível";
-"direct_answer_free_no_available" = "Lamento mas já dei!";
+"direct_answer_free_no_available" = "Lamento mas o item foi dado!";
 "direct_answer_free_still_have" = "Ainda tem?";
 "direct_answer_free_yours" = "É seu!";
 "direct_answer_given_away_question_message" = "Informe todos os utilizadores letgo marcando o seu item como dado";
@@ -737,7 +739,7 @@
 "rating_view_rate_us_label" = "Classifique-nos:";
 "rating_view_remind_later_button" = "Lembre-me mais tarde";
 "rating_view_title_label_uppercase" = "DÊ-NOS 5 ESTRELAS!";
-"real_estate_attribute_tag_bathroom_0" = "0BA";
+"real_estate_attribute_tag_bathroom_0" = "0WC";
 "real_estate_bathrooms_0" = "Nenhuma";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1,5";
