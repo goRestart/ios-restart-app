@@ -21,10 +21,6 @@ public final class SignUpViewController: ViewController {
   
   public override func viewDidLoad() {
     super.viewDidLoad()
-    configureUI()
-  }
-  
-  private func configureUI() {
     title = Localize("signup.title", table: Table.signUp)
   }
 
