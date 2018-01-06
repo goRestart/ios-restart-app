@@ -8,6 +8,7 @@ extension Assembly {
     let navigationController = UINavigationController(
       rootViewController: viewController
     )
+    navigationController.navigationBar.prefersLargeTitles = true
     return navigationController
   }
   
