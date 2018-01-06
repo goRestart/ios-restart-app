@@ -3,7 +3,7 @@ import Snap
 @testable import UI
 
 final class FullWidthButtonSpec: XCTestCase {
- 
+   
   func test_button_with_normal_state_is_valid() {
     let button = givenButton(named: "normal", for: .normal)
     expect(button).toMatchSnapshot(named: "normal_button")
