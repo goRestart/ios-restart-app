@@ -1,6 +1,7 @@
 import UIKit
 
 private struct InputConstraints {
+  static let height = CGFloat(48)
   static let border = CGFloat(1)
   static let xPadding = CGFloat(10)
   static let yPadding = CGFloat(8)
@@ -40,6 +41,14 @@ open class Input: UITextField {
     clearButtonMode = .whileEditing
     textColor = .primary
     tintColor = .primary
+    
+    applyConstraints()
+  }
+  
+  private func applyConstraints() {
+    snp.makeConstraints { make in
+      make.height.equalTo(InputConstraints.height)
+    }
   }
   
   // MARK: - Placeholder

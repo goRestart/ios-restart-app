@@ -5,6 +5,10 @@ private struct AnimationDuration {
   static let highlight = 0.3
 }
 
+private struct ButtonLayout {
+  static let height = CGFloat(56)
+}
+
 open class FullWidthButton: UIButton {
   
   enum State {
@@ -162,6 +166,9 @@ open class FullWidthButton: UIButton {
     titleLabel?.snp.remakeConstraints { make in
       let edge = UIEdgeInsets(top: Margin.medium, left: Margin.small, bottom: Margin.medium, right: Margin.small)
       make.edges.equalTo(self).inset(edge)
+    }
+    snp.makeConstraints { make in
+      make.height.equalTo(ButtonLayout.height)
     }
   }
 }

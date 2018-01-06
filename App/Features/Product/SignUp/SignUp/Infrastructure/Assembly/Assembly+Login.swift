@@ -3,7 +3,9 @@ import Application
 
 extension Assembly {
   public func makeLogin() -> LoginViewController {
-    let viewController = LoginViewController()
+    let viewController = LoginViewController(
+      viewBinder: viewBinder
+    )
     viewController.viewModel = viewModel
     return viewController
   }
@@ -12,6 +14,10 @@ extension Assembly {
     return LoginViewModel(
       authenticate: authenticate
     )
+  }
+  
+  private var viewBinder: LoginViewBinder {
+    return LoginViewBinder()
   }
   
   private var authenticate: Authenticate {

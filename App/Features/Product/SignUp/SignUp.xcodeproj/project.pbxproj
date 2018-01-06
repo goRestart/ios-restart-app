@@ -22,6 +22,7 @@
 		1C7B83B51FFFA10E00EE5CAC /* SignUpViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7B83B41FFFA10E00EE5CAC /* SignUpViewModelSpec.swift */; };
 		1C7B83B81FFFA3A100EE5CAC /* RegisterUserStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7B83B71FFFA3A100EE5CAC /* RegisterUserStub.swift */; };
 		1C7B83BB1FFFABC400EE5CAC /* AuthenticateStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7B83BA1FFFABC400EE5CAC /* AuthenticateStub.swift */; };
+		1C7B83DB2001865100EE5CAC /* LoginViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7B83DA2001865100EE5CAC /* LoginViewBinder.swift */; };
 		1C7DD9891FF66C41009C574E /* SignUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C7DD97F1FF66C41009C574E /* SignUp.framework */; };
 		1C7DD9901FF66C41009C574E /* SignUp.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C7DD9821FF66C41009C574E /* SignUp.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C7F4C541FF95B47001BEB62 /* LoginViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C531FF95B47001BEB62 /* LoginViewModelSpec.swift */; };
@@ -162,6 +163,7 @@
 		1C7B83B41FFFA10E00EE5CAC /* SignUpViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModelSpec.swift; sourceTree = "<group>"; };
 		1C7B83B71FFFA3A100EE5CAC /* RegisterUserStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserStub.swift; sourceTree = "<group>"; };
 		1C7B83BA1FFFABC400EE5CAC /* AuthenticateStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateStub.swift; sourceTree = "<group>"; };
+		1C7B83DA2001865100EE5CAC /* LoginViewBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewBinder.swift; sourceTree = "<group>"; };
 		1C7DD97F1FF66C41009C574E /* SignUp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SignUp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C7DD9821FF66C41009C574E /* SignUp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignUp.h; sourceTree = "<group>"; };
 		1C7DD9831FF66C41009C574E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 			children = (
 				1CACDA3C1FF68DF900538B78 /* LoginView.swift */,
 				1CACD9D41FF66F8000538B78 /* LoginViewController.swift */,
+				1C7B83DA2001865100EE5CAC /* LoginViewBinder.swift */,
 			);
 			path = "View Controller";
 			sourceTree = "<group>";
@@ -815,6 +818,7 @@
 				1C7F4C7E1FFC4954001BEB62 /* NotLoggedViewController.swift in Sources */,
 				1C1D22661FFDA4D900BC0316 /* SignUpRouter.swift in Sources */,
 				1C1D22631FFD8FC700BC0316 /* Assembly+SignUp.swift in Sources */,
+				1C7B83DB2001865100EE5CAC /* LoginViewBinder.swift in Sources */,
 				1CACDA3D1FF68DF900538B78 /* LoginView.swift in Sources */,
 				1CACDA4E1FF698E100538B78 /* Table.swift in Sources */,
 				1CACD9DC1FF6703200538B78 /* LoginViewModel.swift in Sources */,

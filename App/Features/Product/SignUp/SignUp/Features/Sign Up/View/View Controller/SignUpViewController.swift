@@ -1,6 +1,4 @@
 import UIKit
-import RxCocoa
-import RxSwift
 import UI
 
 public final class SignUpViewController: ViewController {
@@ -23,11 +21,6 @@ public final class SignUpViewController: ViewController {
   
   public override func viewDidLoad() {
     super.viewDidLoad()
-    configureUI()
-  }
-  
-  private func configureUI() {
-    navigationController?.navigationBar.prefersLargeTitles = true
     title = Localize("signup.title", table: Table.signUp)
   }
 

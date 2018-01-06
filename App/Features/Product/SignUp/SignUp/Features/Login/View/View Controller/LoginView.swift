@@ -2,7 +2,7 @@ import UI
 import SnapKit
 
 private struct ViewLayout {
-  static let signInButtonHeight = CGFloat(56)
+  static let scrollViewBottomSpace = CGFloat(80)
   static let inputHeight = CGFloat(48)
 }
 
@@ -11,7 +11,7 @@ final class LoginView: View {
     let scrollView = UIScrollView()
     return scrollView
   }()
-  
+
   let usernameInput: Input = {
     let input = Input()
     input.autocapitalizationType = .none
@@ -36,7 +36,7 @@ final class LoginView: View {
     button.setTitle(title, for: .normal)
     return button
   }()
-  
+ 
   private let stackView: UIStackView = {
     let stackView = UIStackView()
     stackView.distribution = .equalSpacing
@@ -60,16 +60,15 @@ final class LoginView: View {
       make.left.equalTo(self).offset(Margin.medium)
       make.right.equalTo(self).offset(-Margin.medium)
       make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-Margin.medium)
-      make.height.equalTo(ViewLayout.signInButtonHeight)
     }
     
     scrollView.snp.makeConstraints { make in
       make.edges.equalTo(self)
-        .inset(UIEdgeInsetsMake(0, 0, ViewLayout.signInButtonHeight, 0))
+        .inset(UIEdgeInsetsMake(0, 0, ViewLayout.scrollViewBottomSpace, 0))
     }
     
     stackView.snp.makeConstraints { make in
-      make.centerY.equalTo(scrollView)
+      make.top.equalTo(scrollView).offset(Margin.medium)
     }
     
     [usernameInput, passwordInput].forEach { input in

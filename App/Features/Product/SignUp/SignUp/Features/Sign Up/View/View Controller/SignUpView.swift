@@ -3,7 +3,6 @@ import SnapKit
 import Domain
 
 private struct ViewLayout {
-  static let signInButtonHeight = CGFloat(56)
   static let scrollViewBottomSpace = CGFloat(80)
   static let inputHeight = CGFloat(48)
 }
@@ -102,7 +101,6 @@ final class SignUpView: View {
       make.left.equalTo(self).offset(Margin.medium)
       make.right.equalTo(self).offset(-Margin.medium)
       make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-Margin.medium)
-      make.height.equalTo(ViewLayout.signInButtonHeight)
     }
     
     scrollView.snp.makeConstraints { make in
