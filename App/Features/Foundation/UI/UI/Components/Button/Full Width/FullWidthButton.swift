@@ -20,7 +20,7 @@ open class FullWidthButton: UIButton {
  
   private lazy var backgroundGradientLayer: CAGradientLayer = {
     let layer = CAGradientLayer.default
-    layer.cornerRadius = Radius.medium
+    layer.cornerRadius = Radius.big
     return layer
   }()
   
@@ -28,7 +28,7 @@ open class FullWidthButton: UIButton {
     let view = UIView()
     view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
     view.isUserInteractionEnabled = false
-    view.layer.cornerRadius = Radius.medium
+    view.layer.cornerRadius = Radius.big
     return view
   }()
  
