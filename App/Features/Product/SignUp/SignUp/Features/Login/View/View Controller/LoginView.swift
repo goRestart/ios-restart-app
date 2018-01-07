@@ -45,6 +45,13 @@ final class LoginView: View {
     return stackView
   }()
   
+  @discardableResult
+  override func resignFirstResponder() -> Bool {
+    usernameInput.resignFirstResponder()
+    passwordInput.resignFirstResponder()
+    return super.resignFirstResponder()
+  }
+  
   override func setupView() {
     stackView.addArrangedSubview(usernameInput)
     stackView.addArrangedSubview(passwordInput)

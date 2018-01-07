@@ -21,6 +21,15 @@ struct LoginViewBinder {
       })
       .disposed(by: bag)
     
+    let tapGestureRecognizer = UITapGestureRecognizer()
+    view.addGestureRecognizer(tapGestureRecognizer)
+    
+    tapGestureRecognizer.rx.event
+      .subscribe(onNext: { _ in
+        view.resignFirstResponder()
+      })
+      .disposed(by: bag)
+
     viewModel.output.userInteractionEnabled
       .bind(to: view.usernameInput.rx.isUserInteractionEnabled)
       .disposed(by: bag)

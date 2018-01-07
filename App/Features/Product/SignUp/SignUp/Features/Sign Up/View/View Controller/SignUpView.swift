@@ -77,6 +77,14 @@ final class SignUpView: View {
     }
   }
   
+  @discardableResult
+  override func resignFirstResponder() -> Bool {
+    usernameTextField.resignFirstResponder()
+    emailTextField.resignFirstResponder()
+    passwordTextField.resignFirstResponder()
+    return super.resignFirstResponder()
+  }
+  
   private func cleanErrors() {
     usernameTextField.error = nil
     emailTextField.error = nil
