@@ -17,6 +17,7 @@
 		1C7F4C5D1FFC325C001BEB62 /* LargeButtonSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C5C1FFC325C001BEB62 /* LargeButtonSpec.swift */; };
 		1C89D7BD1FF427B700B3FA98 /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7B31FF427B600B3FA98 /* UI.framework */; };
 		1C89D7C41FF427B700B3FA98 /* UI.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C89D7B61FF427B600B3FA98 /* UI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C8ED0AF2002AD3700777BDD /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8ED0AE2002AD3700777BDD /* Keyboard.swift */; };
 		1CACDA401FF68E8900538B78 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACDA3F1FF68E8900538B78 /* View.swift */; };
 		1CACDA481FF691D900538B78 /* Localize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACDA471FF691D900538B78 /* Localize.swift */; };
 		1CACDA781FF7B58900538B78 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACDA771FF7B58900538B78 /* ViewController.swift */; };
@@ -59,6 +60,7 @@
 		1C89D7B71FF427B600B3FA98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C89D7BC1FF427B700B3FA98 /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C89D7C31FF427B700B3FA98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1C8ED0AE2002AD3700777BDD /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		1CACDA3F1FF68E8900538B78 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		1CACDA471FF691D900538B78 /* Localize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localize.swift; sourceTree = "<group>"; };
 		1CACDA771FF7B58900538B78 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -203,6 +205,14 @@
 			path = UITests;
 			sourceTree = "<group>";
 		};
+		1C8ED0AD2002AD2D00777BDD /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				1C8ED0AE2002AD3700777BDD /* Keyboard.swift */,
+			);
+			path = Keyboard;
+			sourceTree = "<group>";
+		};
 		1CACDA3E1FF68E8300538B78 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -215,6 +225,7 @@
 		1CACDA451FF691C600538B78 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				1C8ED0AD2002AD2D00777BDD /* Keyboard */,
 				1CACDA461FF691D100538B78 /* Localizable */,
 			);
 			path = Utils;
@@ -499,6 +510,7 @@
 				1CD7A9681FF5238600CB895D /* UIColor+Palette.swift in Sources */,
 				1CD7A9A01FF5626B00CB895D /* Gradient.swift in Sources */,
 				1CACDA401FF68E8900538B78 /* View.swift in Sources */,
+				1C8ED0AF2002AD3700777BDD /* Keyboard.swift in Sources */,
 				1CD7A9951FF55BD900CB895D /* UIFont+Fontable.swift in Sources */,
 				1C0263541FF57B3A0040346B /* Margin.swift in Sources */,
 				1CD7A9A81FF5654700CB895D /* FullWidthButton.swift in Sources */,
