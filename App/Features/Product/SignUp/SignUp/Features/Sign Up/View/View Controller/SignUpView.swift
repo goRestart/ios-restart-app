@@ -1,6 +1,7 @@
 import UI
 import SnapKit
 import Domain
+import RxSwift
 
 private struct ViewLayout {
   static let scrollViewBottomSpace = CGFloat(80)
@@ -59,6 +60,8 @@ final class SignUpView: View {
     return stackView
   }()
   
+  private let bag = DisposeBag()
+  
   func set(_ error: RegisterUserError?) {
     guard let error = error else { cleanErrors(); return }
     cleanErrors()
@@ -75,6 +78,14 @@ final class SignUpView: View {
     case .emailIsAlreadyRegistered:
       emailTextField.error = Localize("signup.form.error.email_is_already_registered", table: Table.signUp)
     }
+  }
+  
+  @discardableResult
+  override func resignFirstResponder() -> Bool {
+    usernameTextField.resignFirstResponder()
+    emailTextField.resignFirstResponder()
+    passwordTextField.resignFirstResponder()
+    return super.resignFirstResponder()
   }
   
   private func cleanErrors() {
@@ -102,6 +113,38 @@ final class SignUpView: View {
       make.right.equalTo(self).offset(-Margin.medium)
       make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-Margin.medium)
     }
+    
+    Keyboard.subscribe(to: [.willShow, .willHide]).subscribe(onNext: { keyboard in
+      self.scrollView.snp.remakeConstraints { make in
+        if keyboard.event == .willShow {
+          let bottomSpace = keyboard.endFrame.height + FullWidthButton.Layout.height + Margin.medium
+          make.edges.equalTo(self)
+            .inset(UIEdgeInsetsMake(0, 0, bottomSpace, 0))
+        } else {
+          make.edges.equalTo(self)
+            .inset(UIEdgeInsetsMake(0, 0, ViewLayout.scrollViewBottomSpace, 0))
+        }
+      }
+
+      self.signUpButton.snp.remakeConstraints { make in
+        if keyboard.event == .willHide {
+          make.left.equalTo(self).offset(Margin.medium)
+          make.right.equalTo(self).offset(-Margin.medium)
+          make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-Margin.medium)
+        } else {
+          make.left.equalTo(self)
+          make.right.equalTo(self)
+          make.bottom.equalTo(-keyboard.endFrame.height)
+        }
+        make.height.equalTo(FullWidthButton.Layout.height)
+      }
+
+      UIView.animate(withDuration: keyboard.animationDuration, delay: 0, options: .curveEaseIn , animations: { [weak self] in
+        self?.signUpButton.radiusDisabled = keyboard.event == .willHide ? false : true
+        self?.layoutIfNeeded()
+      })
+      
+    }).disposed(by: bag)
     
     scrollView.snp.makeConstraints { make in
       make.edges.equalTo(self)

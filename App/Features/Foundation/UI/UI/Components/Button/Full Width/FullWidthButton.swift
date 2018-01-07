@@ -5,11 +5,11 @@ private struct AnimationDuration {
   static let highlight = 0.3
 }
 
-private struct ButtonLayout {
-  static let height = CGFloat(56)
-}
-
 open class FullWidthButton: UIButton {
+  
+  public struct Layout {
+    public static let height = CGFloat(56)
+  }
   
   enum State {
     case normal
@@ -20,7 +20,7 @@ open class FullWidthButton: UIButton {
  
   private lazy var backgroundGradientLayer: CAGradientLayer = {
     let layer = CAGradientLayer.default
-    layer.cornerRadius = Radius.medium
+    layer.cornerRadius = Radius.big
     return layer
   }()
   
@@ -28,7 +28,7 @@ open class FullWidthButton: UIButton {
     let view = UIView()
     view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
     view.isUserInteractionEnabled = false
-    view.layer.cornerRadius = Radius.medium
+    view.layer.cornerRadius = Radius.big
     return view
   }()
  
@@ -58,6 +58,8 @@ open class FullWidthButton: UIButton {
       if !isHighlighted { unhighlight() }
     }
   }
+  
+  public var radiusDisabled: Bool = false
   
   // MARK: - Init
   
@@ -158,8 +160,12 @@ open class FullWidthButton: UIButton {
   
   open override func layoutSubviews() {
     super.layoutSubviews()
+    let cornerRadius = radiusDisabled ? 0 : Radius.big
+    
     backgroundGradientLayer.frame = bounds
-    layer.cornerRadius = Radius.big
+    backgroundGradientLayer.cornerRadius = cornerRadius
+    
+    layer.cornerRadius = cornerRadius
   }
   
   private func applyConstraints() {
@@ -168,7 +174,7 @@ open class FullWidthButton: UIButton {
       make.edges.equalTo(self).inset(edge)
     }
     snp.makeConstraints { make in
-      make.height.equalTo(ButtonLayout.height)
+      make.height.equalTo(Layout.height)
     }
   }
 }

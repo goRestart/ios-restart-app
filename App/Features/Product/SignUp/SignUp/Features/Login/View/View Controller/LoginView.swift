@@ -1,5 +1,6 @@
 import UI
 import SnapKit
+import RxSwift
 
 private struct ViewLayout {
   static let scrollViewBottomSpace = CGFloat(80)
@@ -15,6 +16,7 @@ final class LoginView: View {
   let usernameInput: Input = {
     let input = Input()
     input.autocapitalizationType = .none
+    input.autocorrectionType = .no
     input.textContentType = .username
     input.returnKeyType = .next
     input.placeholder = Localize("login.input.username.placeholder", table: Table.login)
@@ -25,7 +27,7 @@ final class LoginView: View {
     let input = Input()
     input.isSecureTextEntry = true
     input.textContentType = .password
-    input.returnKeyType = .join
+    input.returnKeyType = .done
     input.placeholder = Localize("login.input.password.placeholder", table: Table.login)
     return input
   }()
@@ -44,6 +46,15 @@ final class LoginView: View {
     stackView.spacing = Margin.medium
     return stackView
   }()
+ 
+  private let bag = DisposeBag()
+  
+  @discardableResult
+  override func resignFirstResponder() -> Bool {
+    usernameInput.resignFirstResponder()
+    passwordInput.resignFirstResponder()
+    return super.resignFirstResponder()
+  }
   
   override func setupView() {
     stackView.addArrangedSubview(usernameInput)
@@ -55,12 +66,33 @@ final class LoginView: View {
     addSubview(signInButton)
   }
   
-  override func setupConstraints() {
+  override func setupConstraints() {    
     signInButton.snp.makeConstraints { make in
       make.left.equalTo(self).offset(Margin.medium)
       make.right.equalTo(self).offset(-Margin.medium)
       make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-Margin.medium)
     }
+    
+    Keyboard.subscribe(to: [.willShow, .willHide]).subscribe(onNext: { keyboard in
+      self.signInButton.snp.remakeConstraints { make in
+        if keyboard.event == .willHide {
+          make.left.equalTo(self).offset(Margin.medium)
+          make.right.equalTo(self).offset(-Margin.medium)
+          make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-Margin.medium)
+        } else {
+          make.left.equalTo(self)
+          make.right.equalTo(self)
+          make.bottom.equalTo(-keyboard.endFrame.height)
+        }
+        make.height.equalTo(FullWidthButton.Layout.height)
+      }
+      
+      UIView.animate(withDuration: keyboard.animationDuration, delay: 0, options: .curveEaseIn , animations: { [weak self] in
+        self?.signInButton.radiusDisabled = keyboard.event == .willHide ? false : true
+        self?.layoutIfNeeded()
+      })
+      
+    }).disposed(by: bag)
     
     scrollView.snp.makeConstraints { make in
       make.edges.equalTo(self)
