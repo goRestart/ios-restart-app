@@ -47,7 +47,7 @@ class ChatViewController: TextViewController {
     }
     
     var tableViewInsetBottom: CGFloat {
-        return ChatViewController.navBarHeight + blockedToastOffset + expressChatBannerOffset
+        return navBarHeight + blockedToastOffset + expressChatBannerOffset
     }
 
 
@@ -235,7 +235,7 @@ class ChatViewController: TextViewController {
         relationInfoView.layout(with: topLayoutGuide).below()
         relationInfoView.layout(with: view).fillHorizontal()
         
-        expressChatBanner.layout().height(ChatViewController.expressBannerHeight, relatedBy: .greaterThanOrEqual)
+        expressChatBanner.layout().height(expressBannerHeight, relatedBy: .greaterThanOrEqual)
         expressChatBanner.layout(with: view).fillHorizontal()
         expressChatBanner.layout(with: relationInfoView).below(by: -relationInfoView.height, constraintBlock: { [weak self] in self?.expressChatBannerTopConstraint = $0 })
     }
@@ -279,7 +279,7 @@ class ChatViewController: TextViewController {
                                                      action: action,
                                                      buttonIcon: #imageLiteral(resourceName: "ic_phone_call"))
 
-        professionalSellerBanner.layout().height(ChatViewController.professionalSellerBannerHeight,
+        professionalSellerBanner.layout().height(professionalSellerBannerHeight,
                                                  relatedBy: .greaterThanOrEqual)
         professionalSellerBanner.layout(with: view).fillHorizontal()
         professionalSellerBanner.layout(with: relationInfoView).below(by: -relationInfoView.height,
@@ -540,7 +540,7 @@ fileprivate extension ChatViewController {
         }.disposed(by: disposeBag)
 
         let showProfessionalBanner = Observable.combineLatest(viewModel.interlocutorIsProfessional.asObservable(),
-                                                              viewModel.interlocutorPhoneNumber.asObservable()) { $0 }
+                                                              viewModel.interlocutorPhoneNumber.asObservable()) { ($0, $1) }
 
         showProfessionalBanner.asObservable().bind { [weak self] (isPro, phoneNum) in
             guard let strongSelf = self else { return }

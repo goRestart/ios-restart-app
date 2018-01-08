@@ -446,7 +446,7 @@ extension UserViewController {
             viewModel.userLocation.asObservable(),
             viewModel.userAvatarURL.asObservable(),
             viewModel.userAvatarPlaceholder.asObservable(),
-            viewModel.userIsProfessional.asObservable()) { $0 }
+            viewModel.userIsProfessional.asObservable()) { ($0, $1, $2, $3, $4) }
         .subscribeNext { [weak self] (userName, userLocation, avatar, placeholder, isPro) in
             guard let navBarUserView = self?.navBarUserView else { return }
             navBarUserView.setupWith(userAvatar: avatar, placeholder: placeholder, userName: userName,

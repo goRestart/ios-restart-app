@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -102,7 +102,7 @@
                     </constraints>
                 </view>
                 <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IPt-yE-B8T">
-                    <rect key="frame" x="303" y="20" width="67" height="67"/>
+                    <rect key="frame" x="303" y="65" width="67" height="67"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="67" id="Qg4-Bo-0iy"/>
                         <constraint firstAttribute="height" constant="67" id="XKO-Hk-S6V"/>
@@ -110,11 +110,11 @@
                     <state key="normal" image="ic_favorite_big_off"/>
                 </button>
                 <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k8u-9M-4kc" userLabel="Share Button">
-                    <rect key="frame" x="305" y="20" width="55" height="34"/>
+                    <rect key="frame" x="305" y="65" width="55" height="34"/>
                     <state key="normal" title="_Share"/>
                 </button>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bn0-dg-QsD">
-                    <rect key="frame" x="15" y="482" width="133" height="50"/>
+                    <rect key="frame" x="15" y="482" width="164.5" height="50"/>
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="dQK-Za-Zoq"/>
@@ -122,7 +122,7 @@
                     <state key="normal" title="Button TOP"/>
                 </button>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ibM-CY-XRt">
-                    <rect key="frame" x="15" y="542" width="133" height="50"/>
+                    <rect key="frame" x="15" y="542" width="164.5" height="50"/>
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="Ybl-ni-SzO"/>
@@ -131,7 +131,7 @@
                     <state key="normal" title="Button BOTTOM"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F8i-R0-fjg">
-                    <rect key="frame" x="164" y="542" width="196" height="50"/>
+                    <rect key="frame" x="195.5" y="542" width="164.5" height="50"/>
                     <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" id="CpX-M2-ovO"/>
@@ -207,7 +207,7 @@
                 <constraint firstItem="PnK-9l-N8i" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="sHR-tM-Laf"/>
                 <constraint firstItem="a9q-ok-5NH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="vL5-JP-UE6"/>
                 <constraint firstAttribute="trailing" secondItem="G8H-Az-QBo" secondAttribute="trailing" id="vys-XD-ek2"/>
-                <constraint firstItem="F8i-R0-fjg" firstAttribute="width" secondItem="ibM-CY-XRt" secondAttribute="width" id="xgF-h0-y6A"/>
+                <constraint firstItem="F8i-R0-fjg" firstAttribute="width" secondItem="ibM-CY-XRt" secondAttribute="width" priority="999" id="xgF-h0-y6A"/>
                 <constraint firstItem="QTG-7L-pof" firstAttribute="top" secondItem="ibM-CY-XRt" secondAttribute="bottom" constant="10" id="xy2-xd-eOf"/>
                 <constraint firstItem="nEH-Ai-mnV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="y74-dp-ujo"/>
                 <constraint firstAttribute="bottom" secondItem="a9q-ok-5NH" secondAttribute="bottom" id="yDB-1u-d6E"/>

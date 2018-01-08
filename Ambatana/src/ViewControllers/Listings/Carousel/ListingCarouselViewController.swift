@@ -402,7 +402,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         }
     }
 
-    dynamic private func callButtonPressed() {
+    @objc dynamic private func callButtonPressed() {
         viewModel.callSeller()
     }
 
@@ -578,7 +578,7 @@ extension ListingCarouselViewController {
     fileprivate func setupUserInfoRx() {
         let productAndUserInfos = Observable.combineLatest(viewModel.productInfo.asObservable(),
                                                            viewModel.userInfo.asObservable(),
-                                                           viewModel.ownerIsProfessional.asObservable()) { $0 }
+                                                           viewModel.ownerIsProfessional.asObservable()) { ($0, $1, $2) }
         productAndUserInfos.bind { [weak self] (productInfo, userInfo, isProfessional) in
             self?.userView.setupWith(userAvatar: userInfo?.avatar,
                                      userName: userInfo?.name,
@@ -667,9 +667,15 @@ extension ListingCarouselViewController {
             }.disposed(by: disposeBag)
 
         let allowCalls = Observable.combineLatest(viewModel.ownerIsProfessional.asObservable(),
-                                                  viewModel.ownerPhoneNumber.asObservable()) { $0 }
+                                                  viewModel.ownerPhoneNumber.asObservable()) { ($0, $1) }
         allowCalls.asObservable().bind { [weak self] (isPro, phoneNum) in
             guard let strongSelf = self else { return }
+
+            print("😡😡😡😡😡😡😡😡😡😡")
+            print(isPro)
+            print(phoneNum)
+            print(strongSelf.viewModel.deviceCanCall)
+
             if let phone = phoneNum, phone.isPhoneNumber && isPro && strongSelf.viewModel.deviceCanCall {
                 strongSelf.buttonCall.isHidden = false
                 strongSelf.buttonCallRightMarginToSuperviewConstraint.constant = Metrics.margin

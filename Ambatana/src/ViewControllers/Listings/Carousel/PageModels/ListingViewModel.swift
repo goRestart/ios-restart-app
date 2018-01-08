@@ -288,7 +288,7 @@ class ListingViewModel: BaseViewModel {
             }.disposed(by: disposeBag)
         }
 
-        let listingActions = Observable.combineLatest(status.asObservable(), isProfessional.asObservable()) { $0 }
+        let listingActions = Observable.combineLatest(status.asObservable(), isProfessional.asObservable()) { ($0, $1) }
 
         listingActions.asObservable().bind { [weak self] (status, isPro) in
             guard let strongSelf = self else { return }
