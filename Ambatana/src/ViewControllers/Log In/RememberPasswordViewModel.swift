@@ -126,6 +126,6 @@ class RememberPasswordViewModel: BaseViewModel {
     // MARK: - Private methods
     
     private func sendButtonShouldBeEnabled() -> Bool {
-        return email.characters.count > 0
+        return email.count > 0
     }
 }

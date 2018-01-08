@@ -54,6 +54,7 @@ struct AppLoggingOptions: OptionSet, CustomStringConvertible {
     static var monetization = AppLoggingOptions(rawValue: 8)
     static var location = AppLoggingOptions(rawValue: 16)
     static var uikit = AppLoggingOptions(rawValue: 32)
+    static var parsing = AppLoggingOptions(rawValue: 64)
 }
 
 enum LogLevel {

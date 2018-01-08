@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="17A365" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,6 +17,7 @@
                 <outlet property="bumpUpButton" destination="YEx-lm-lxS" id="ndk-e4-z0t"/>
                 <outlet property="cellBottomContainer" destination="5ss-Zu-H7a" id="ps8-QQ-tz2"/>
                 <outlet property="closeButton" destination="zGi-8O-6bQ" id="zu7-qa-FWS"/>
+                <outlet property="closeButtonSafeAreaTopAlignment" destination="K01-mc-Il4" id="sJd-og-IMd"/>
                 <outlet property="featuredBackgroundImageView" destination="JRs-d3-RWg" id="yMw-ZM-QaQ"/>
                 <outlet property="imageContainer" destination="mUU-xu-AMV" id="Ak4-S5-Wgb"/>
                 <outlet property="infoContainer" destination="Hax-e1-c0Z" id="Wc5-Dd-gLD"/>
@@ -175,10 +177,11 @@
                 <constraint firstItem="Hax-e1-c0Z" firstAttribute="top" secondItem="c9P-0f-iIf" secondAttribute="bottom" constant="10" id="2bR-bj-hV5"/>
                 <constraint firstItem="c9P-0f-iIf" firstAttribute="centerY" secondItem="zGi-8O-6bQ" secondAttribute="centerY" id="AxI-2g-tV4"/>
                 <constraint firstItem="Hax-e1-c0Z" firstAttribute="leading" secondItem="j0r-0g-g2h" secondAttribute="leading" constant="10" id="Hr4-fS-K3a"/>
+                <constraint firstItem="zGi-8O-6bQ" firstAttribute="top" secondItem="7Yc-IK-Ix0" secondAttribute="top" constant="10" id="K01-mc-Il4"/>
                 <constraint firstItem="c9P-0f-iIf" firstAttribute="centerX" secondItem="j0r-0g-g2h" secondAttribute="centerX" id="mBB-ub-PmG"/>
-                <constraint firstItem="zGi-8O-6bQ" firstAttribute="top" secondItem="j0r-0g-g2h" secondAttribute="top" constant="30" id="uta-6f-boD"/>
                 <constraint firstAttribute="trailing" secondItem="Hax-e1-c0Z" secondAttribute="trailing" constant="10" id="vch-Vj-73l"/>
             </constraints>
+            <viewLayoutGuide key="safeArea" id="7Yc-IK-Ix0"/>
             <point key="canvasLocation" x="55.5" y="20.5"/>
         </view>
     </objects>

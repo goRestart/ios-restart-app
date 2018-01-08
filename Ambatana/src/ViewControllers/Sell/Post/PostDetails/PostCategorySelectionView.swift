@@ -105,9 +105,9 @@ fileprivate extension PostCategorySelectionView {
         button.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.bigMargin, bottom: 0, right: 0)
         button.titleLabel?.lineBreakMode = .byWordWrapping
         button.contentHorizontalAlignment = .left
-        button.rx.tap.subscribeNext { [weak self] _ in
+        button.rx.tap.subscribeNext { [weak self] in
             self?.selectedCategoryPublishSubject.onNext(postCategoryLink)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         categoriesContainerView.addSubview(button)
     }
     

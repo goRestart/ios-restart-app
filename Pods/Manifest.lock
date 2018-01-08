@@ -1,11 +1,9 @@
 PODS:
-  - Alamofire (4.2.0)
-  - AlamofireImage (3.2.0):
-    - Alamofire (~> 4.1)
+  - Alamofire (4.5.1)
+  - AlamofireImage (3.3.0):
+    - Alamofire (~> 4.5)
   - Amplitude-iOS (3.8.5)
   - AppsFlyerFramework (4.7.11)
-  - Argo (4.1.2):
-    - Runes (>= 4.0.0)
   - Bolts (1.8.4):
     - Bolts/AppLinks (= 1.8.4)
     - Bolts/Tasks (= 1.8.4)
@@ -18,22 +16,16 @@ PODS:
   - Branch/Core (0.12.27)
   - Branch/without-IDFA (0.12.27)
   - bumper (1.1.0)
-  - CameraManager (3.1.1)
+  - CameraManager (4.0.1)
   - CHTCollectionViewWaterfallLayout (0.9.5):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.5)
-  - CocoaLumberjack/Core (3.0.0)
-  - CocoaLumberjack/Default (3.0.0):
-    - CocoaLumberjack/Core
-  - CocoaLumberjack/Extensions (3.0.0):
+  - CocoaLumberjack/Default (3.3.0)
+  - CocoaLumberjack/Swift (3.3.0):
     - CocoaLumberjack/Default
-  - CocoaLumberjack/Swift (3.0.0):
-    - CocoaLumberjack/Extensions
   - Crashlytics (3.8.3):
     - Fabric (~> 1.6.3)
-  - CryptoSwift (0.6.9)
-  - Curry (3.0.0)
-  - DeviceGuru (2.1.0)
+  - DeviceGuru (3.0.1)
   - Fabric (1.6.11)
   - FBSDKCoreKit (4.22.0):
     - Bolts (~> 1.7)
@@ -83,7 +75,7 @@ PODS:
   - GoogleToolboxForMac/NSString+URLArguments (2.1.3)
   - GoogleUtilities (1.3.2):
     - GoogleSymbolUtilities (~> 1.1)
-  - GTMOAuth2 (1.1.5):
+  - GTMOAuth2 (1.1.6):
     - GTMSessionFetcher (~> 1.1)
   - GTMSessionFetcher (1.1.12):
     - GTMSessionFetcher/Full (= 1.1.12)
@@ -91,28 +83,25 @@ PODS:
   - GTMSessionFetcher/Full (1.1.12):
     - GTMSessionFetcher/Core (= 1.1.12)
   - JBKenBurnsView (1.0)
-  - JSONWebToken (2.0.2):
-    - CryptoSwift (~> 0.6.1)
-  - KeychainSwift (7.0.0)
+  - JSONWebToken (2.2.0)
+  - KeychainSwift (10.0.0)
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (2.0.4)
-  - LGCollapsibleLabel (1.1.0)
+  - LGCollapsibleLabel (1.2.0)
   - LGCoreKit (3.28.2):
-    - Alamofire (~> 4.2.0)
-    - Argo (~> 4.1.1)
-    - CocoaLumberjack/Swift (~> 3.0.0)
-    - Curry (~> 3.0.0)
-    - DeviceGuru (~> 2.1.0)
-    - JSONWebToken (~> 2.0.2)
-    - KeychainSwift (~> 7.0.0)
-    - ReachabilitySwift (~> 3.0.0)
-    - RealmSwift (~> 2.5.0)
-    - Result (~> 3.1.0)
-    - RxSwift (~> 3.1.0)
-    - RxSwiftExt (~> 2.1.0)
+    - Alamofire (~> 4.5.1)
+    - CocoaLumberjack/Swift (~> 3.3.0)
+    - DeviceGuru (~> 3.0.1)
+    - JSONWebToken (~> 2.2.0)
+    - KeychainSwift (~> 10.0.0)
+    - ReachabilitySwift (~> 4.1.0)
+    - RealmSwift (~> 3.0.0)
+    - Result (~> 3.2.4)
+    - RxSwift (~> 4.0.0)
+    - RxSwiftExt (~> 3.0.0)
     - SocketRocket (= 0.5.1)
   - NewRelicAgent (5.14.2)
-  - Nimble (5.1.1)
+  - Nimble (7.0.2)
   - OHHTTPStubs (5.2.3):
     - OHHTTPStubs/Default (= 5.2.3)
   - OHHTTPStubs/Core (5.2.3)
@@ -128,44 +117,41 @@ PODS:
   - OHHTTPStubs/OHPathHelpers (5.2.3)
   - OHHTTPStubs/Swift (5.2.3):
     - OHHTTPStubs/Core
-  - Quick (1.0.0)
-  - ReachabilitySwift (3)
-  - Realm (2.5.1):
-    - Realm/Headers (= 2.5.1)
-  - Realm/Headers (2.5.1)
-  - RealmSwift (2.5.1):
-    - Realm (= 2.5.1)
-  - Result (3.1.0)
-  - Runes (4.1.0)
-  - RxBlocking (3.1.0):
-    - RxSwift (~> 3.1)
-  - RxCocoa (3.1.0):
-    - RxSwift (~> 3.1)
-  - RxSwift (3.1.0)
-  - RxSwiftExt (2.1.0):
-    - RxSwift (~> 3.0)
-  - RxTest (3.1.0):
-    - RxSwift (~> 3.0)
+  - Quick (1.2.0)
+  - ReachabilitySwift (4.1.0)
+  - Realm (3.0.2):
+    - Realm/Headers (= 3.0.2)
+  - Realm/Headers (3.0.2)
+  - RealmSwift (3.0.2):
+    - Realm (= 3.0.2)
+  - Result (3.2.4)
+  - RxCocoa (4.0.0):
+    - RxSwift (~> 4.0)
+  - RxSwift (4.0.0)
+  - RxSwiftExt (3.0.0):
+    - RxSwiftExt/Core (= 3.0.0)
+  - RxSwiftExt/Core (3.0.0):
+    - RxSwift (~> 4.0)
+  - RxTest (4.0.0):
+    - RxSwift (~> 4.0)
   - SocketRocket (0.5.1)
-  - SwiftyUserDefaults (3.0.0)
-  - TMReachability (3.2)
+  - SwiftyUserDefaults (3.0.1)
   - TwitterCore (2.3.0):
     - Fabric
   - TwitterKit (2.3.0):
     - TwitterCore (= 2.3.0)
 
 DEPENDENCIES:
-  - AlamofireImage (= 3.2.0)
+  - AlamofireImage (= 3.3.0)
   - Amplitude-iOS (= 3.8.5)
   - AppsFlyerFramework (= 4.7.11)
-  - Argo (= 4.1.2)
   - Branch (= 0.12.27)
-  - bumper (= 1.1.0)
-  - CameraManager (from `https://github.com/letgoapp/CameraManager`, commit `3c8a514c1c94234fe7fa27734431e7dd3e53abfb`)
+  - bumper (from `git@github.com:letgoapp/bumper.git`, commit `7ec04a070eca2337f058954d7f53c474d616d7b1`)
+  - CameraManager (= 4.0.1)
   - CHTCollectionViewWaterfallLayout (= 0.9.5)
-  - CocoaLumberjack/Swift (= 3.0.0)
+  - CocoaLumberjack/Swift (= 3.3.0)
   - Crashlytics (= 3.8.3)
-  - DeviceGuru (~> 2.1.0)
+  - DeviceGuru (~> 3.0.1)
   - Fabric (= 1.6.11)
   - FBSDKCoreKit (= 4.22.0)
   - FBSDKLoginKit (= 4.22.0)
@@ -176,75 +162,70 @@ DEPENDENCIES:
   - Google/SignIn (= 3.0.3)
   - GoogleIDFASupport (= 3.14.0)
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
-  - KeychainSwift (from `git@github.com:letgoapp/keychain-swift.git`, commit `f6230869f4d26d720f36eb227bd269c3d712986b`)
-  - KMPlaceholderTextView (= 1.3.0)
+  - KeychainSwift (= 10.0.0)
+  - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.4)
-  - LGCollapsibleLabel (= 1.1.0)
-  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `072b1ec687f2444bb5f6f980223dcfbeb894914b`)
+  - LGCollapsibleLabel (= 1.2.0)
+  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `4417395b64bf29536e8ebf88aeb2b7d8ba524f52`)
   - NewRelicAgent (= 5.14.2)
-  - Nimble (= 5.1.1)
+  - Nimble (= 7.0.2)
   - OHHTTPStubs (= 5.2.3)
   - OHHTTPStubs/Swift
-  - Quick (= 1.0.0)
-  - RxBlocking (= 3.1.0)
-  - RxCocoa (= 3.1.0)
-  - RxSwift (= 3.1.0)
-  - RxSwiftExt (= 2.1.0)
-  - RxTest (= 3.1.0)
-  - SwiftyUserDefaults (= 3.0.0)
-  - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
+  - Quick (= 1.2.0)
+  - RxCocoa (= 4.0.0)
+  - RxSwift (= 4.0.0)
+  - RxSwiftExt (= 3.0.0)
+  - RxTest (= 4.0.0)
+  - SwiftyUserDefaults (from `https://github.com/Dschee/SwiftyUserDefaults`, commit `dd3d8ddc5bf95db09b66185182b5a555ac59efd5`)
   - TwitterKit (= 2.3.0)
 
 EXTERNAL SOURCES:
-  CameraManager:
-    :commit: 3c8a514c1c94234fe7fa27734431e7dd3e53abfb
-    :git: https://github.com/letgoapp/CameraManager
+  bumper:
+    :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
+    :git: git@github.com:letgoapp/bumper.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
-  KeychainSwift:
-    :commit: f6230869f4d26d720f36eb227bd269c3d712986b
-    :git: git@github.com:letgoapp/keychain-swift.git
+  KMPlaceholderTextView:
+    :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
+    :git: https://github.com/letgoapp/KMPlaceholderTextView
   LGCoreKit:
-    :commit: 072b1ec687f2444bb5f6f980223dcfbeb894914b
+    :commit: 4417395b64bf29536e8ebf88aeb2b7d8ba524f52
     :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
-  TMReachability:
-    :commit: e34782b386307e386348b481c02c176d58ba45e6
-    :git: https://github.com/albertbori/Reachability
+  SwiftyUserDefaults:
+    :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
+    :git: https://github.com/Dschee/SwiftyUserDefaults
 
 CHECKOUT OPTIONS:
-  CameraManager:
-    :commit: 3c8a514c1c94234fe7fa27734431e7dd3e53abfb
-    :git: https://github.com/letgoapp/CameraManager
+  bumper:
+    :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
+    :git: git@github.com:letgoapp/bumper.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
-  KeychainSwift:
-    :commit: f6230869f4d26d720f36eb227bd269c3d712986b
-    :git: git@github.com:letgoapp/keychain-swift.git
+  KMPlaceholderTextView:
+    :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
+    :git: https://github.com/letgoapp/KMPlaceholderTextView
   LGCoreKit:
-    :commit: 072b1ec687f2444bb5f6f980223dcfbeb894914b
+    :commit: 4417395b64bf29536e8ebf88aeb2b7d8ba524f52
     :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
-  TMReachability:
-    :commit: e34782b386307e386348b481c02c176d58ba45e6
-    :git: https://github.com/albertbori/Reachability
+  SwiftyUserDefaults:
+    :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
+    :git: https://github.com/Dschee/SwiftyUserDefaults
 
 SPEC CHECKSUMS:
-  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
-  AlamofireImage: 157ed682cc81d3b9db4fb90c1f12180ac552d93b
+  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  AlamofireImage: 2e784dc5d00f04903a52c1d169181469c805c3df
   Amplitude-iOS: de7cfde0c791d05fb0e0f82bd34cbd3585ccd63f
   AppsFlyerFramework: ece902d4233177d4e9db1429c7a5df5fad8e9f07
-  Argo: 5db06502fc1222d83011f574243089dab25202ff
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Branch: 41404cc6de82e84368a26961f66d657b0662ca02
-  bumper: ba80c619cdc94ffd689894dc67ee7e0f129f32d7
-  CameraManager: 7ca5346a227b111412912c6e485cc0e59f4e6bf6
+  bumper: 8d5499e9774aa148763ab9a1eebcaf5e0ed7beff
+  CameraManager: 56b3516e8e22cfbf56f3f0401291561e1ad9b3d0
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
-  CocoaLumberjack: c823149bccc5519a9447aeb433be7b1212a7d6a5
+  CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
-  CryptoSwift: a22f6ba238e9ce4d26ee7bf45b9ed82e7122d4a0
-  Curry: eb3d2c75aec678b3cc7fb2729d2ad6dd121531d1
-  DeviceGuru: 093cb20ca6b074c9e33df2e2791c521ed67264a5
+  DeviceGuru: 648c34deb10c6ef59b013ea2922c04c18d8973f0
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   FBSDKCoreKit: c693bad19feb225469eeff14452ba364522ee48b
   FBSDKLoginKit: 1fa529fc622d7b32ebeaffbecd377180833c6d30
@@ -263,35 +244,32 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GoogleUtilities: 8bbc733218aad26306f9d4a253823986110e3358
-  GTMOAuth2: be83fd28d63ae3087e7d351b1f39c1a7e24ab6e7
+  GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
   JBKenBurnsView: e40d10fcd4fbeb652c29fa431d4748780a4672ff
-  JSONWebToken: ca86f02eeb3d1f58ba5197ec2cd53c7de915ecc1
-  KeychainSwift: b6947435dd78cc442c64a84ae648dd0e871cf448
+  JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
+  KeychainSwift: f9f7910449a0c0fd2cabc889121530dd2c477c33
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: 09db04ac2c741d43a2d3b4781e3a25bf1166466e
-  LGCollapsibleLabel: db0802fe616737a9dcbdc8ee816819d562b76a6e
-  LGCoreKit: b377a1826a6decbeb06f041960d7ee4b9b44e1f3
+  LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
+  LGCoreKit: d711dfda2c03613343d333504c76e1e95d6a256a
   NewRelicAgent: 28645401ac7531eeeabde64410c9d5efd49e083f
-  Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
+  Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
-  Quick: 8024e4a47e6cc03a9d5245ef0948264fc6d27cff
-  ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
-  Realm: 32f86104d37c8521f864d4274050b38ba6190733
-  RealmSwift: f719e7511c902b8908593e8f143f59e47931bdb6
-  Result: 4e3ed5995ed94d0cd6a09be9a431fce3f3624bbf
-  Runes: 72a67a5bbbe1b5fdae08b5a01b10c60d83fc69aa
-  RxBlocking: cd73ef6a5f8c39cede9488178c46aa0c3c3ed17f
-  RxCocoa: 50d7564866da9299161e86a263ce12a0873904d8
-  RxSwift: 83ff553e7593fdfdcb2562933a64c0284dffdadc
-  RxSwiftExt: 492a6575cf6afabb8feeed3204bd0f9e2c695e67
-  RxTest: 661e33b5022682961784da03cf79c175fcc4bd64
+  Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
+  ReachabilitySwift: 6849231cd4e06559f3b9ef4a97a0a0f96d41e09f
+  Realm: 6f23fd1f178a09342eac21bfa7c2bf4312a7a180
+  RealmSwift: 695393add1b8f9d5fa75dd16e6355cf3935f71e2
+  Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
+  RxCocoa: d62846ca96495d862fa4c59ea7d87e5031d7340e
+  RxSwift: fd680d75283beb5e2559486f3c0ff852f0d35334
+  RxSwiftExt: b06c47dff66cd33ca7683bba1e74b0c5c8e3592e
+  RxTest: 0041e792cede35e53e4749f378d21482af0e9d12
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
-  SwiftyUserDefaults: 0f1d45fc3aafb9064dac661e367f8f83fe21a4b4
-  TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
+  SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: dec46920a52b596ca76083cd07b7d110b8d532b4
+PODFILE CHECKSUM: 445c15a9b71a3290c3ec191531136ad930f16fb0
 
 COCOAPODS: 1.3.1

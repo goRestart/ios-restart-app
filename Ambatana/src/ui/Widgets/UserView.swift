@@ -110,6 +110,11 @@ class UserView: UIView {
     weak var delegate: UserViewDelegate?
 
     private let disposeBag = DisposeBag()
+    
+    // iOS 11+ draws with auto layout, it looks for the intrinsic content size
+    override var intrinsicContentSize: CGSize {
+        return UILayoutFittingExpandedSize
+    }
 
     
     // MARK: - Lifecycle
@@ -213,7 +218,7 @@ class UserView: UIView {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(avatarLongPressed(_:)))
         addGestureRecognizer(longPressGesture)
 
-        userRatings.asObservable().bindNext { [weak self] userRating in
+        userRatings.asObservable().bind { [weak self] userRating in
             let rating = userRating ?? 0
             if rating > 0 {
                 self?.ratingsContainerHeight.constant = UserView.ratingsViewVisibleHeight
@@ -222,20 +227,20 @@ class UserView: UIView {
                 self?.ratingsContainerHeight.constant = 0
             }
             self?.subtitleLabel.isHidden = rating > 0
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         setAccesibilityIds()
     }
 
-    dynamic private func avatarPressed() {
+    @objc private func avatarPressed() {
         delegate?.userViewAvatarPressed(self)
     }
     
-    dynamic private func textPressed() {
+    @objc private func textPressed() {
         delegate?.userViewTextInfoContainerPressed(self)
     }
 
-    dynamic private func avatarLongPressed(_ recognizer: UILongPressGestureRecognizer) {
+    @objc private func avatarLongPressed(_ recognizer: UILongPressGestureRecognizer) {
         switch recognizer.state {
         case .began:
             delegate?.userViewAvatarLongPressStarted(self)

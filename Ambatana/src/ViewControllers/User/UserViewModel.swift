@@ -431,10 +431,10 @@ fileprivate extension UserViewModel {
     
     func setupUserInfoRxBindings() {
         if itsMe {
-            myUserRepository.rx_myUser.bindNext { [weak self] myUser in
+            myUserRepository.rx_myUser.bind { [weak self] myUser in
                 self?.user.value = myUser
                 self?.refreshIfLoading()
-                }.addDisposableTo(disposeBag)
+                }.disposed(by: disposeBag)
         }
         
         user.asObservable().subscribeNext { [weak self] user in
@@ -463,7 +463,7 @@ fileprivate extension UserViewModel {
                 strongSelf.updateAccounts(user)
             }
             
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
     
     func updateAccounts(_ user: User) {
@@ -496,7 +496,7 @@ fileprivate extension UserViewModel {
             self?.userRelationIsBlocked.value = false
             self?.userRelationIsBlockedBy.value = false
             self?.retrieveUsersRelation()
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         
         Observable.combineLatest(userRelationIsBlocked.asObservable(), userRelationIsBlockedBy.asObservable(),
                                  userName.asObservable()) { (isBlocked, isBlockedBy, userName) -> String? in
@@ -510,13 +510,13 @@ fileprivate extension UserViewModel {
                                         return LGLocalizedString.profileBlockedByOtherLabel
                                     }
                                     return nil
-            }.bindTo(userRelationText).addDisposableTo(disposeBag)
+            }.bind(to: userRelationText).disposed(by: disposeBag)
         
         if !itsMe {
             userRelationText.asObservable().subscribeNext { [weak self] relation in
                 guard let strongSelf = self else { return }
                 strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
-                }.addDisposableTo(disposeBag)
+                }.disposed(by: disposeBag)
         }
     }
     
@@ -534,7 +534,7 @@ fileprivate extension UserViewModel {
                 guard let viewModel = viewModel else { return }
                 self?.listingListViewModel.value = viewModel
                 self?.refreshIfLoading()
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
     
     func setupListingListViewRxBindings() {
@@ -544,10 +544,10 @@ fileprivate extension UserViewModel {
             self?.soldListingListRequester.userObjectId = user?.objectId
             self?.favoritesListingListRequester.userObjectId = user?.objectId
             self?.resetLists()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         if itsMe {
-            listingRepository.events.bindNext { [weak self] event in
+            listingRepository.events.bind { [weak self] event in
                 switch event {
                 case let .update(listing):
                     self?.sellingListingListViewModel.update(listing: listing)
@@ -562,7 +562,7 @@ fileprivate extension UserViewModel {
                     self?.sellingListingListViewModel.delete(listingId: listingId)
                     self?.soldListingListViewModel.delete(listingId: listingId)
                 }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         }
     }
     
@@ -573,7 +573,7 @@ fileprivate extension UserViewModel {
                 return
             }
             self?.socialMessage = UserSocialMessage(user: user, itsMe: itsMe)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 }
 
@@ -627,7 +627,8 @@ extension UserViewModel: ListingListViewModelDataDelegate {
         let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openListing(data, source: .profile, actionOnFirstAppear: .nonexistent)
+        let source: EventParameterListingVisitSource = viewModel === favoritesListingListViewModel ? .favourite : .profile
+        navigator?.openListing(data, source: source, actionOnFirstAppear: .nonexistent)
     }
     
     func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] { return listings }
@@ -646,7 +647,7 @@ fileprivate extension UserViewModel {
                                                name: NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
     }
     
-    dynamic func updatePermissionsWarning() {
+    @objc func updatePermissionsWarning() {
         guard isMyProfile else { return }
         pushPermissionsDisabledWarning.value = !UIApplication.shared.areRemoteNotificationsEnabled
     }

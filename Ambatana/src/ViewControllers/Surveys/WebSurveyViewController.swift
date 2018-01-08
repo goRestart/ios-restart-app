@@ -58,7 +58,7 @@ class WebSurveyViewController: BaseViewController {
         closeButton.layout(with: topLayoutGuide).below()
 
         webView.navigationDelegate = self
-        closeButton.rx.tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
+        closeButton.rx.tap.bind { [weak self] in self?.viewModel.closeButtonPressed() }.disposed(by: disposeBag)
 
         let request = URLRequest(url: viewModel.url)
         webView.load(request)

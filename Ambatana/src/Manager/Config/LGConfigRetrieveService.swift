@@ -8,6 +8,7 @@
 
 import Alamofire
 import Result
+import LGCoreKit
 
 class LGConfigRetrieveService: ConfigRetrieveService {
 
@@ -29,51 +30,30 @@ class LGConfigRetrieveService: ConfigRetrieveService {
 
         Alamofire.request(configURL)
             .validate(statusCode: 200..<400)
-            .responseObject { (configFileResponse: DataResponse<Config>) -> Void in
-                // Success
-                if let configFile = configFileResponse.result.value {
-                    completion?(ConfigRetrieveServiceResult(value: configFile))
-                }
-                    // Error
-                else if let error = configFileResponse.result.error {
-                    if let afError = error as? AFError, let _ = afError.underlyingError as? URLError {
-                        completion?(ConfigRetrieveServiceResult(error: .network))
-                    } else if let _ = error as? URLError {
-                        completion?(ConfigRetrieveServiceResult(error: .network))
-                    } else  {
-                        completion?(ConfigRetrieveServiceResult(error: .internalError))
+            .responseJSON { [weak self] response in
+                if let data = response.data {
+                    do {
+                        let config = try JSONDecoder().decode(Config.self, from: data)
+                        completion?(ConfigRetrieveServiceResult(value: config))
+                    } catch {
+                        logMessage(.debug, type: .parsing, message: "Could not decode config data: \(data)")
+                        self?.parse(error: response.error, completion: completion)
                     }
-                }
-                else {
-                    completion?(ConfigRetrieveServiceResult(error: .internalError))
+                } else {
+                    self?.parse(error: response.error, completion: completion)
                 }
             }
     }
-}
-
-extension DataRequest {
-
-    @discardableResult
-    func responseObject<T: ResponseObjectSerializable>(_ completionHandler: @escaping (DataResponse<T>) -> Void) -> Self {
-        let responseSerializer = DataResponseSerializer<T> { request, response, data, error in
-            if let error = error { return .failure(error) }
-
-            let jsonResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
-            let result = jsonResponseSerializer.serializeResponse(request, response, data, error)
-
-            switch result {
-            case .success(let value):
-                if let response = response, let responseObject = T(response: response, representation: value) {
-                    return .success(responseObject)
-                } else {
-                    let error = AFError.responseSerializationFailed(reason: .jsonSerializationFailed(error: NSError()))
-                    return .failure(error)
-                }
-            case .failure(let error):
-                return .failure(error)
-            }
+    
+    fileprivate func parse(error: Error?, completion: ConfigRetrieveServiceCompletion?) {
+        if let afError = error as? AFError,
+            let _ = afError.underlyingError as? URLError
+        {
+            completion?(ConfigRetrieveServiceResult(error: .network))
+        } else if let _ = error as? URLError {
+            completion?(ConfigRetrieveServiceResult(error: .network))
+        } else  {
+            completion?(ConfigRetrieveServiceResult(error: .internalError))
         }
-
-        return response(responseSerializer: responseSerializer, completionHandler: completionHandler)
     }
 }

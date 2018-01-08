@@ -1137,7 +1137,7 @@ struct TrackerEvent {
     }
 
     static func bumpUpPromo() -> TrackerEvent {
-        var params = EventParameters()
+        let params = EventParameters()
         return TrackerEvent(name: .bumpUpPromo, params: params)
     }
 

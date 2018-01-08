@@ -11,7 +11,7 @@ protocol FilterTagsViewDelegate : class {
     func filterTagsViewDidSelectTag(_ tag: FilterTag)
 }
 
-class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, FilterTagCellDelegate {
+class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, FilterTagCellDelegate {
 
     static var collectionViewHeight: CGFloat = 52
     static var minimumInteritemSpacing: CGFloat = 5
@@ -109,9 +109,10 @@ class FilterTagsView: UIView, UICollectionViewDelegate, UICollectionViewDataSour
     
     
     // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.collectionView {
             return FilterTagCell.cellSizeForTag(tags[indexPath.row])
         } else {

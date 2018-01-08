@@ -28,8 +28,8 @@ extension String {
     }
 
     private var tokenRoles: [String]? {
-        guard let payload = try? JWT.decode(self, algorithm: .hs256(Data()), verify: false),
-            let data = payload["data"] as? [String: Any] else {
+        guard let claimSet: ClaimSet = try? JWT.decode(self, algorithm: .hs256(Data()), verify: false),
+            let data = claimSet["data"] as? [String: Any] else {
                 return nil
         }
         return data["roles"] as? [String]

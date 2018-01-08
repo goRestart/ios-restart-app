@@ -178,14 +178,14 @@ class Tooltip: UIView {
         // self
         let mainWidth = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .lessThanOrEqual,
                                            toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 270)
-        mainWidth.priority = 999
+        mainWidth.priority = UILayoutPriority(rawValue: 999)
         let mainMinWidth = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .greaterThanOrEqual,
                                            toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: style.minWidth)
-        mainMinWidth.priority = 999
+        mainMinWidth.priority = UILayoutPriority(rawValue: 999)
 
         let mainHeight = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .greaterThanOrEqual,
                                             toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 70)
-        mainHeight.priority = 999
+        mainHeight.priority = UILayoutPriority(rawValue: 999)
         self.addConstraints([mainWidth, mainMinWidth, mainHeight])
 
         // colored view
@@ -289,12 +289,12 @@ class Tooltip: UIView {
 
     }
 
-    dynamic func titleTapped() {
+    @objc func titleTapped() {
         actionBlock()
         removeFromSuperview()
     }
 
-    dynamic func closeTooltip() {
+    @objc func closeTooltip() {
         closeBlock?()
         removeFromSuperview()
     }
@@ -325,10 +325,10 @@ func setupExternalConstraintsForTooltip(_ tooltip: Tooltip, targetView: UIView, 
 
     let leftSideMain = NSLayoutConstraint(item: tooltip, attribute: .left, relatedBy: .greaterThanOrEqual,
                                           toItem: containerView, attribute: .left, multiplier: 1, constant: 8)
-    leftSideMain.priority = 999
+    leftSideMain.priority = UILayoutPriority(rawValue: 999)
     let rightSideMain = NSLayoutConstraint(item: tooltip, attribute: .right, relatedBy: .lessThanOrEqual,
                                            toItem: containerView, attribute: .right, multiplier: 1, constant: -8)
-    rightSideMain.priority = 999
+    rightSideMain.priority = UILayoutPriority(rawValue: 999)
     containerView.addConstraints([leftSideMain, rightSideMain])
 
     if tooltip.peakOnTop {
@@ -343,19 +343,19 @@ func setupExternalConstraintsForTooltip(_ tooltip: Tooltip, targetView: UIView, 
         // target in left
         let mainLeftConstraint = NSLayoutConstraint(item: tooltip, attribute: .left, relatedBy: .equal,
                                                     toItem: targetView, attribute: .left, multiplier: 1, constant: 0)
-        mainLeftConstraint.priority = 998
+        mainLeftConstraint.priority = UILayoutPriority(rawValue: 998)
         containerView.addConstraints([mainLeftConstraint])
     } else if targetGlobalCenter.x > (containerView.width/3)*2 {
         // target in right
         let mainRightConstraint = NSLayoutConstraint(item: tooltip, attribute: .right, relatedBy: .equal,
                                                      toItem: targetView, attribute: .right, multiplier: 1, constant: 0)
-        mainRightConstraint.priority = 998
+        mainRightConstraint.priority = UILayoutPriority(rawValue: 998)
         containerView.addConstraints([mainRightConstraint])
     } else {
         // target in center
         let mainCenterConstraint = NSLayoutConstraint(item: tooltip, attribute: .centerX, relatedBy: .equal,
                                                 toItem: targetView, attribute: .centerX, multiplier: 1, constant: 0)
-        mainCenterConstraint.priority = 998
+        mainCenterConstraint.priority = UILayoutPriority(rawValue: 998)
         containerView.addConstraints([mainCenterConstraint])
     }
 }

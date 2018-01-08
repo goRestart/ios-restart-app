@@ -7,12 +7,12 @@
 //
 
 import Foundation
-import ReachabilitySwift
+import Reachability
 
-protocol ReachabilityProtocol: class {
+public protocol ReachabilityProtocol: class {
     
     /** Called on rachability changes with a final value of reachable 
-     - note: also called when cahnging from 3G to Wi-Fi
+     - note: also called when changing from 3G to Wi-Fi
      */
     var reachableBlock: (() -> Void)? { get set }
     var unreachableBlock: (() -> Void)? { get set }
@@ -21,11 +21,11 @@ protocol ReachabilityProtocol: class {
     func stop()
 }
 
-class LGReachability: ReachabilityProtocol {
+public class LGReachability: ReachabilityProtocol {
     
     private let reachability: Reachability?
     
-    var reachableBlock: (() -> Void)? {
+    public var reachableBlock: (() -> Void)? {
         didSet {
             if let block = reachableBlock {
                 reachability?.whenReachable = { _ in
@@ -37,7 +37,7 @@ class LGReachability: ReachabilityProtocol {
         }
     }
     
-    var unreachableBlock: (() -> Void)? {
+    public var unreachableBlock: (() -> Void)? {
         didSet {
             if let block = unreachableBlock {
                 reachability?.whenUnreachable = { _ in
@@ -49,20 +49,20 @@ class LGReachability: ReachabilityProtocol {
         }
     }
     
-    var isReachable: Bool? {
+    public var isReachable: Bool? {
         get {
-            return reachability?.isReachable
+            return reachability?.connection != .none
         }
     }
     
     
     // MARK: - Lifecycle
     
-    init() {
+    public init() {
         reachability = Reachability()
     }
     
-    func start() {
+    public func start() {
         do {
             try reachability?.startNotifier()
         } catch {
@@ -70,7 +70,7 @@ class LGReachability: ReachabilityProtocol {
         }
     }
     
-    func stop() {
+    public func stop() {
         reachableBlock = nil
         unreachableBlock = nil
         reachability?.stopNotifier()

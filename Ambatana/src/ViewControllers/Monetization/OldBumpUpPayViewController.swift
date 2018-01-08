@@ -13,6 +13,7 @@ class OldBumpUpPayViewController: BaseViewController {
     private static let titleVerticalOffsetWithImage: CGFloat = 100
     private static let titleVerticalOffsetWithoutImage: CGFloat = -100
 
+    @IBOutlet weak var closeButtonTopSafeAreaAlignment: NSLayoutConstraint!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var imageContainer: UIView!
     @IBOutlet weak var listingImageView: UIImageView!
@@ -41,6 +42,9 @@ class OldBumpUpPayViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setAccessibilityIds()
+        if !isSafeAreaAvailable {
+            closeButtonTopSafeAreaAlignment.constant = Metrics.veryBigMargin
+        }
     }
 
     // MARK: - Private methods
@@ -78,7 +82,7 @@ class OldBumpUpPayViewController: BaseViewController {
         view.addGestureRecognizer(swipeDownGesture)
     }
 
-    private dynamic func gestureClose() {
+    @objc private dynamic func gestureClose() {
         viewModel.closeActionPressed()
     }
 

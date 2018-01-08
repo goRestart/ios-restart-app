@@ -25,11 +25,9 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var newCarsMultiRequesterEnabled: Bool { get }
     var inAppRatingIOS10: Bool { get }
-    var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
     var appRatingDialogInactive: Bool { get }
-    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
     var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var searchAutocomplete: SearchAutocomplete { get }
@@ -45,13 +43,9 @@ protocol FeatureFlaggeable: class {
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
-    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation { get }
-<<<<<<< HEAD
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
-=======
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
->>>>>>> master
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -67,14 +61,6 @@ extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
     }
-}
-
-extension TweaksCarPostingFlow {
-    var isActive: Bool { get { return self == .active } }
-}
-
-extension ExpandableCategorySelectionMenu {
-    var isActive: Bool { get { return self == .expandableMenu } }
 }
 
 extension ShowPriceAfterSearchOrFilter {
@@ -101,16 +87,10 @@ extension PromoteBumpUpAfterSell {
     var isActive: Bool { get { return self == .active } }
 }
 
-extension CopyListingAnotherConfirmation {
-    var isActive: Bool { get { return self == .active } }
-}
-
-<<<<<<< HEAD
 extension AllowCallsForProfessionals {
     var isActive: Bool { get { return self == .active } }
 }
 
-=======
 extension ShowSecurityMeetingChatMessage {
     var isActive: Bool { get { return self == .active } }
 }
@@ -118,7 +98,6 @@ extension ShowSecurityMeetingChatMessage {
 extension RealEstateEnabled {
     var isActive: Bool { get { return self == .active } }
 }
->>>>>>> master
 
 class FeatureFlags: FeatureFlaggeable {
 
@@ -234,13 +213,6 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.inAppRatingIOS10.value
     }
 
-    var tweaksCarPostingFlow: TweaksCarPostingFlow {
-        if Bumper.enabled {
-            return Bumper.tweaksCarPostingFlow
-        }
-        return TweaksCarPostingFlow.fromPosition(abTests.tweaksCarPostingFlow.value)
-    }
-
     var userReviewsReportEnabled: Bool {
         if Bumper.enabled {
             return Bumper.userReviewsReportEnabled
@@ -260,13 +232,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.appRatingDialogInactive
         }
         return abTests.appRatingDialogInactive.value
-    }
-
-    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
-        if Bumper.enabled {
-            return Bumper.expandableCategorySelectionMenu
-        }
-        return ExpandableCategorySelectionMenu.fromPosition(abTests.expandableCategorySelectionMenu.value)
     }
 
     var locationDataSourceEndpoint: LocationDataSourceEndpoint {
@@ -366,13 +331,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.promoteBumpUpAfterSell
         }
         return PromoteBumpUpAfterSell.fromPosition(abTests.promoteBumpUpAfterSell.value)
-    }
-    
-    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation {
-        if Bumper.enabled {
-            return Bumper.copyListingAnotherConfirmation
-        }
-        return CopyListingAnotherConfirmation.fromPosition(abTests.copyListingAnotherConfirmation.value)
     }
 
     var allowCallsForProfessionals: AllowCallsForProfessionals {

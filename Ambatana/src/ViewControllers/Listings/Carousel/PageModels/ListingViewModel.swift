@@ -13,7 +13,7 @@ import Result
 import RxSwift
 
 
-protocol ListingViewModelDelegate: class, BaseViewModelDelegate {
+protocol ListingViewModelDelegate: BaseViewModelDelegate {
 
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction])
 
@@ -21,12 +21,18 @@ protocol ListingViewModelDelegate: class, BaseViewModelDelegate {
 
     var trackingFeedPosition: EventParameterFeedPosition { get }
     
+    var listingOrigin: ListingOrigin { get }
+    
     // Bump Up
     func vmResetBumpUpBannerCountdown()
 }
 
 protocol ListingViewModelMaker {
     func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel
+}
+
+enum ListingOrigin {
+    case initial, inResponseToNextRequest, inResponseToPreviousRequest
 }
 
 class ListingViewModel: BaseViewModel {
@@ -277,36 +283,36 @@ class ListingViewModel: BaseViewModel {
     private func setupRxBindings() {
 
         if let productId = listing.value.objectId {
-            listingRepository.updateEvents(for: productId).bindNext { [weak self] listing in
+            listingRepository.updateEvents(for: productId).bind { [weak self] listing in
                 self?.listing.value = listing
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         }
 
         let listingActions = Observable.combineLatest(status.asObservable(), isProfessional.asObservable()) { $0 }
 
-        listingActions.asObservable().bindNext { [weak self] (status, isPro) in
+        listingActions.asObservable().bind { [weak self] (status, isPro) in
             guard let strongSelf = self else { return }
             strongSelf.refreshActionButtons(status, isProfessional: isPro)
             strongSelf.refreshNavBarButtons()
             strongSelf.directChatEnabled.value = status.directChatsAvailable && !isPro
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        isListingDetailsCompleted.asObservable().filter {$0}.bindNext{ [weak self] _ in
+        isListingDetailsCompleted.asObservable().filter {$0}.bind { [weak self] _ in
             self?.refreshNavBarButtons()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         // bumpeable listing check
-        status.asObservable().bindNext { [weak self] status in
+        status.asObservable().bind { [weak self] status in
             if status.shouldRefreshBumpBanner {
                 self?.refreshBumpeableBanner()
             } else {
                 self?.bumpUpBannerInfo.value = nil
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         isFavorite.asObservable().subscribeNext { [weak self] _ in
             self?.refreshNavBarButtons()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         listing.asObservable().subscribeNext { [weak self] listing in
             guard let strongSelf = self else { return }
@@ -327,26 +333,26 @@ class ListingViewModel: BaseViewModel {
                                                    freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed)
             strongSelf.productInfo.value = productInfo
 
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        status.asObservable().bindNext { [weak self] status in
+        status.asObservable().bind { [weak self] status in
             guard let isMine = self?.isMine else { return }
             self?.shareButtonState.value = isMine ? .enabled : .hidden
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        myUserRepository.rx_myUser.bindNext { [weak self] _ in
+        myUserRepository.rx_myUser.bind { [weak self] _ in
             self?.refreshStatus()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        productIsFavoriteable.asObservable().bindNext { [weak self] favoriteable in
+        productIsFavoriteable.asObservable().bind { [weak self] favoriteable in
             self?.favoriteButtonState.value = favoriteable ? .enabled : .hidden
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         moreInfoState.asObservable().map { (state: MoreInfoState) in
             return state == .shown
-        }.distinctUntilChanged().bindNext { [weak self] shown in
+        }.distinctUntilChanged().bind { [weak self] shown in
             self?.refreshNavBarButtons()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func distanceString(_ listing: Listing) -> String? {
@@ -449,10 +455,10 @@ class ListingViewModel: BaseViewModel {
             bannerInteractionBlock = { [weak self] in
                 guard let _ = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
-
+                
                 self?.openPricedBumpUpView(purchaseableProduct: purchaseableProduct,
-                                                                  paymentItemId: paymentItemId,
-                                                                  storeProductId: paymentProviderItemId)
+                                           paymentItemId: paymentItemId,
+                                           storeProductId: paymentProviderItemId)
             }
             buttonBlock = { [weak self] in
                 self?.bumpUpProduct(productId: listingId)
@@ -1003,10 +1009,12 @@ fileprivate extension ListingViewModel {
                 let messageViewSent = messageView.markAsSent()
                 strongSelf.directChatMessages.replace(0, with: messageViewSent)
                 let feedPosition = strongSelf.delegate?.trackingFeedPosition ?? .none
-                strongSelf.trackHelper.trackMessageSent(isFirstMessage: firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
+                let isFirstMessage = firstMessage && !strongSelf.alreadyTrackedFirstMessageSent
+                let visitSource = strongSelf.visitSource(from: strongSelf.visitSource, isFirstMessage: isFirstMessage)
+                strongSelf.trackHelper.trackMessageSent(isFirstMessage: isFirstMessage,
                                                         messageType: type,
                                                         isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value,
-                                                        listingVisitSource: strongSelf.visitSource,
+                                                        listingVisitSource: visitSource,
                                                         feedPosition: feedPosition)
                 strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
@@ -1032,6 +1040,19 @@ fileprivate extension ListingViewModel {
                 }
             }
         }
+    }
+    
+    fileprivate func visitSource(from originalSource: EventParameterListingVisitSource, isFirstMessage: Bool) -> EventParameterListingVisitSource {
+        guard isFirstMessage, originalSource == .favourite, let origin = delegate?.listingOrigin else {
+            return originalSource
+        }
+        var visitSource = originalSource
+        if origin == .inResponseToNextRequest {
+            visitSource = .nextFavourite
+        } else if origin == .inResponseToPreviousRequest {
+            visitSource = .previousFavourite
+        }
+        return visitSource
     }
 }
 

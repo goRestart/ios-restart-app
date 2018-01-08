@@ -9,21 +9,21 @@
 import Alamofire
 
 extension URLRequestAuthenticable {
-    var logMessage: String {
-        var result  = urlRequest?.logMessage ?? ""
+    var debugMessage: String {
+        var result  = urlRequest?.debugMessage ?? ""
         result     += " > Req authLevel: " + "\(requiredAuthLevel)\n"
         return result
     }
 }
 
 extension URLRequest {
-    var logMessage: String {
+    var debugMessage: String {
         var httpBody: String?
         if let bodyData = self.httpBody,
             let body = String(data: bodyData, encoding: .utf8) {
             
             let maxChars = 20
-            if body.characters.count > maxChars {
+            if body.count > maxChars {
                 httpBody = body.substring(to: body.index(body.startIndex, offsetBy: maxChars)) + "..."
             } else {
                 httpBody = body
@@ -40,7 +40,7 @@ extension URLRequest {
 }
 
 extension DataResponse {
-    var logMessage: String {
+    var debugMessage: String {
         let httpMethod = request?.urlRequest?.httpMethod
         let urlString = request?.url?.absoluteString
         let statusCode = response?.statusCode
@@ -50,7 +50,7 @@ extension DataResponse {
             let body = String(data: bodyData, encoding: .utf8) {
             
             let maxChars = 20
-            if body.characters.count > maxChars {
+            if body.count > maxChars {
                 httpBody = body.substring(to: body.index(body.startIndex, offsetBy: maxChars)) + "..."
             } else {
                 httpBody = body

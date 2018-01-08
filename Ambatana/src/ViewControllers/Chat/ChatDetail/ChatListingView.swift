@@ -15,6 +15,7 @@ protocol ChatListingViewDelegate: class {
 }
 
 class ChatListingView: UIView {
+    override var intrinsicContentSize: CGSize { return UILayoutFittingExpandedSize }
     @IBOutlet weak var userAvatar: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var listingName: UILabel!

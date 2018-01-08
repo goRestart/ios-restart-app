@@ -7,8 +7,6 @@
 //
 
 import Foundation
-import Argo
-
 
 class UserRatingApiDataSource: UserRatingDataSource {
 
@@ -91,14 +89,27 @@ class UserRatingApiDataSource: UserRatingDataSource {
     // MARK: - Decoder
 
     private static func decoderArray(_ object: Any) -> [UserRating]? {
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        
         // Ignore ratings that can't be decoded
-        guard let ratings = Array<LGUserRating>.filteredDecode(JSON(object)).value else { return nil }
-        return ratings.map{ $0 }
+        do {
+            let ratings = try JSONDecoder().decode(FailableDecodableArray<LGUserRating>.self, from: data)
+            return ratings.validElements
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse [LGUserRating] \(object)")
+        }
+        return nil
     }
 
     private static func decoder(_ object: Any) -> UserRating? {
-        guard let userRating : LGUserRating = decode(object) else { return nil }
-        return userRating
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let rating = try LGUserRating.decode(jsonData: data)
+            return rating
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGUserRating \(object)")
+        }
+        return nil
     }
 
     // MARK: - Encoder
@@ -117,19 +128,5 @@ class UserRatingApiDataSource: UserRatingDataSource {
             result["attributes"] = attributes
         }
         return result
-    }
-}
-
-
-private extension UserRatingType {
-    var listingId: String? {
-        switch self {
-        case .conversation:
-            return nil
-        case let .seller(listingId):
-            return listingId
-        case let .buyer(listingId):
-            return listingId
-        }
     }
 }

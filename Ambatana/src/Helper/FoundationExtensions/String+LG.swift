@@ -10,6 +10,17 @@ import Foundation
 
 extension String {
 
+    var sha256: Data? {
+        guard let messageData = self.data(using:String.Encoding.utf8) else { return nil }
+        var digestData = Data(count: Int(CC_SHA256_DIGEST_LENGTH))
+        _ = digestData.withUnsafeMutableBytes {digestBytes in
+            messageData.withUnsafeBytes {messageBytes in
+                CC_SHA256(messageBytes, CC_LONG(messageData.count), digestBytes)
+            }
+        }
+        return digestData
+    }
+    
     var trim: String {
         let trimSet = CharacterSet.whitespacesAndNewlines
         return trimmingCharacters(in: trimSet)
@@ -57,21 +68,21 @@ extension String {
             let resultText : NSMutableAttributedString = NSMutableAttributedString(string: self)
 
             if let textColor = textColor {
-                resultText.addAttribute(NSForegroundColorAttributeName, value: textColor,
+                resultText.addAttribute(NSAttributedStringKey.foregroundColor, value: textColor,
                                         range: NSMakeRange(0, resultText.length))
             }
             
             for (word, url) in urlDict {
                 let range = nsText.range(of: word, options: .caseInsensitive)
                 guard range.location != NSNotFound else { continue }
-                resultText.addAttribute(NSLinkAttributeName, value: url, range: range)
+                resultText.addAttribute(NSAttributedStringKey.link, value: url, range: range)
             }
             return resultText
     }
 
     func isEmail() -> Bool {
         let regex = try? NSRegularExpression(pattern: "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]+$", options: .caseInsensitive)
-        return regex?.firstMatch(in: self, options: [], range: NSMakeRange(0, self.characters.count)) != nil
+        return regex?.firstMatch(in: self, options: [], range: NSMakeRange(0, count)) != nil
     }
 
     func suggestEmail(domains: [String]) -> String? {
@@ -101,13 +112,13 @@ extension String {
 
     func makeUsernameFromEmail() -> String? {
         guard let atSignRange = range(of: "@"), isEmail() else { return nil }
-        let emailUsername = substring(to: atSignRange.lowerBound)
+        let emailUsername = String(self[..<atSignRange.lowerBound])
         var username = emailUsername
         username = username.replacingOccurrences(of: ".", with: " ")
         username = username.replacingOccurrences(of: "_", with: " ")
         username = username.replacingOccurrences(of: "-", with: " ")
         if let plusSignRange = username.range(of: "+") {
-            username = username.substring(to: plusSignRange.lowerBound)
+            username = String(username[..<plusSignRange.lowerBound])
         }
         return username.localizedCapitalized
     }
@@ -119,7 +130,7 @@ extension String {
         formatter.numberStyle = NumberFormatter.Style.decimal
         formatter.locale = locale
         if separator.isEmpty {
-            return characters.count <= Constants.maxPriceIntegerCharacters
+            return count <= Constants.maxPriceIntegerCharacters
         } else if acceptsSeparator && separator != formatter.decimalSeparator {
             return false
         } else if !acceptsSeparator && !separator.isEmpty {
@@ -129,17 +140,17 @@ extension String {
         let parts = components(separatedBy: separator)
         guard parts.count == 2 else { return false }
 
-        return parts[0].characters.count <= Constants.maxPriceIntegerCharacters &&
-               parts[1].characters.count <= Constants.maxPriceFractionalCharacters
+        return parts[0].count <= Constants.maxPriceIntegerCharacters &&
+               parts[1].count <= Constants.maxPriceFractionalCharacters
     }
 
     func toNameReduced(maxChars: Int) -> String {
-        guard characters.count > maxChars else { return self }
-        let substring = self.substring(to: characters.index(startIndex, offsetBy: maxChars))
+        guard count > maxChars else { return self }
+        let substring =  String(self[..<self.index(startIndex, offsetBy: maxChars)])
         let words = substring.byWords
         guard words.count > 1 else { return substring+"." }
         let firstPart = words.prefix(words.count - 1).joined(separator: " ")
-        guard let lastWordFirstChar = words.last?.characters.first else { return firstPart }
+        guard let lastWordFirstChar = words.last?.first else { return firstPart }
         return firstPart + " " + String(lastWordFirstChar) + "."
     }
 
@@ -154,12 +165,12 @@ extension String {
         formatter.numberStyle = NumberFormatter.Style.decimal
         formatter.locale = Locale.autoupdatingCurrent
         if let number = formatter.number(from: self) {
-            return Double(number)
+            return number.doubleValue
         }
         // Just in case decimal style doesn't work
         formatter.numberStyle = NumberFormatter.Style.currency
         if let number = formatter.number(from: self) {
-            return Double(number)
+            return number.doubleValue
         }
         return 0
     }
@@ -182,16 +193,18 @@ extension String {
     }
     
     func stringByRemovingEmoji() -> String {
-        return String(self.characters.filter { !$0.isEmoji })
+        return String(self.filter { !$0.isEmoji })
     }
     
     func hasEmojis() -> Bool {
-        return unicodeScalars.filter { $0.isEmoji }.count > 0
+        let emojis = unicodeScalars.filter { $0.isEmoji }
+        return emojis.count > 0
     }
     
     func trunc(_ length: Int, trailing: String? = "...") -> String {
-        guard self.characters.count > length else { return self }
-        return self.substring(to: self.characters.index(self.startIndex, offsetBy: length)) + (trailing ?? "")
+        guard count > length else { return self }
+        let substring = String(self[..<self.index(self.startIndex, offsetBy: length)])
+        return substring + (trailing ?? "")
     }
     
     func encodeString() -> String {
@@ -261,12 +274,12 @@ extension String {
     
     func makeBold(ignoringText: String, font: UIFont) -> NSAttributedString {
         let attributedString = NSMutableAttributedString(string: self,
-                                                         attributes: [NSFontAttributeName: font])
-        let ignoreTextCount = contains(ignoringText) ? ignoringText.characters.count : 0
+                                                         attributes: [NSAttributedStringKey.font: font])
+        let ignoreTextCount = contains(ignoringText) ? ignoringText.count : 0
         attributedString.addAttribute(
-            NSFontAttributeName,
+            NSAttributedStringKey.font,
             value: UIFont.boldSystemFont(ofSize: font.pointSize),
-            range: NSMakeRange(ignoreTextCount, characters.count-ignoreTextCount)
+            range: NSMakeRange(ignoreTextCount, count-ignoreTextCount)
         )
         return attributedString
     }
@@ -279,7 +292,7 @@ extension String {
 
         let requiredSize: CGRect = self.boundingRect(with: textSize,
                                                      options: NSStringDrawingOptions.usesLineFragmentOrigin,
-                                                     attributes: [NSFontAttributeName: font],
+                                                     attributes: [NSAttributedStringKey.font: font],
                                                      context: nil)
 
         let resultHeight = requiredSize.height

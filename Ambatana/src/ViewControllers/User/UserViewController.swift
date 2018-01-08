@@ -13,15 +13,31 @@ import RxSwift
 
 class UserViewController: BaseViewController {
     fileprivate static let navBarUserViewHeight: CGFloat = 36
-    private static let userBgViewDefaultHeight: CGFloat = headerExpandedHeight
+    fileprivate static let userLabelsVerticalMargin: CGFloat = 10
+    fileprivate var userBgViewDefaultHeight: CGFloat {
+        return headerExpandedHeight
+    }
 
-    fileprivate static let listingListViewTopMargin: CGFloat = 64
+    fileprivate var listingListViewTopMargin: CGFloat {
+        return navigationBarHeight + statusBarHeight
+    }
 
-    fileprivate static let headerExpandedBottom: CGFloat = -(headerExpandedHeight+userBgViewDefaultHeight)
-    fileprivate static let headerExpandedHeight: CGFloat = 150
+    fileprivate var headerExpandedBottom: CGFloat {
+        return -(headerExpandedHeight+userBgViewDefaultHeight)
+    }
+    fileprivate var headerExpandedHeight: CGFloat {
+        return navigationBarHeight + statusBarHeight + headerExpandedPadding
+    }
+    fileprivate let headerExpandedPadding: CGFloat = 86
 
-    fileprivate static let headerCollapsedBottom: CGFloat = -(20+44+headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
-    fileprivate static let headerCollapsedHeight: CGFloat = 44
+    fileprivate var headerCollapsedBottom: CGFloat {
+        if #available(iOS 11, *) {
+            return -(view.safeAreaInsets.top + headerCollapsedHeight)
+        } else {
+            return -(20 + 44 + headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
+        }
+    }
+    fileprivate let headerCollapsedHeight: CGFloat = 44
 
     fileprivate static let navbarHeaderMaxThresold: CGFloat = 0.5
     fileprivate static let userLabelsMinThreshold: CGFloat = 0.5
@@ -65,6 +81,7 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var averageRatingContainerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var averageRatingView: UIView!
     @IBOutlet var userLabelsSideMargin: [NSLayoutConstraint]!
+    @IBOutlet weak var userLabelsTopMargin: NSLayoutConstraint!
     @IBOutlet weak var userLocationLabel: UILabel!
     @IBOutlet weak var userBgImageView: UIImageView!
     @IBOutlet weak var userBgTintView: UIView!
@@ -136,19 +153,12 @@ class UserViewController: BaseViewController {
         userBgTintView.alpha = userBgTintViewAlpha.value
 
         userBgImageView.alpha = 1
-        
-        // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
-        let currentAlpha: CGFloat = navBarUserViewAlpha
-        navBarUserView.isHidden = true
-        delay(0.01) { [weak self] in
-            self?.navBarUserView.alpha = currentAlpha
-            self?.navBarUserView.isHidden = false
-        }
     }
 
-    
     override func viewWillDisappearToBackground(_ toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
+        
+        updateNavBarForTransition(isHidden: true)
         
         // Animating to clear background color as it glitches next screen translucent navBar
         // http://stackoverflow.com/questions/28245061/why-does-setting-hidesbottombarwhenpushed-to-yes-with-a-translucent-navigation
@@ -161,9 +171,29 @@ class UserViewController: BaseViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        listingListView.minimumContentHeight = listingListView.collectionView.frame.height - UserViewController.headerCollapsedHeight
+        listingListView.minimumContentHeight = listingListView.collectionView.frame.height - headerCollapsedHeight
         
         averageRatingView.rounded = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateNavBarForTransition(isHidden: false)
+    }
+
+    override func viewDidFirstAppear(_ animated: Bool) {
+        super.viewDidFirstAppear(animated)
+        setupNavigationBar()
+    }
+    
+    private func updateNavBarForTransition(isHidden: Bool) {
+        if !isHidden && navBarUserViewAlpha == 0 {
+            // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
+            let currentAlpha: CGFloat = navBarUserViewAlpha
+            self.navBarUserView.alpha = currentAlpha
+        }
+        
+        navBarUserView.isHidden = isHidden
     }
 }
 
@@ -231,8 +261,8 @@ extension UserViewController {
     fileprivate func setupUI() {
         setupMainView()
         setupHeader()
-        setupNavigationBar()
         setupListingListView()
+        setupConstraints()
     }
 
     fileprivate func setupAccessibilityIds() {
@@ -269,7 +299,6 @@ extension UserViewController {
     private func setupNavigationBar() {
         navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.greatestFiniteMagnitude, height: UserViewController.navBarUserViewHeight))
         setNavBarTitleStyle(.custom(navBarUserView))
-        navBarUserViewAlpha = 0
 
         let backIcon = UIImage(named: "navbar_back_white_shadow")
         setNavBarBackButton(backIcon)
@@ -278,20 +307,24 @@ extension UserViewController {
     private func setupListingListView() {
         listingListView.headerDelegate = self
         listingListViewBackgroundView.backgroundColor = UIColor.listBackgroundColor
-
+    
         // Remove pull to refresh
         listingListView.refreshControl.removeFromSuperview()
         listingListView.setErrorViewStyle(bgColor: nil, borderColor: nil, containerColor: nil)
         listingListView.shouldScrollToTopOnFirstPageReload = false
-        listingListView.padding = UIEdgeInsets(top: UserViewController.listingListViewTopMargin, left: 0, bottom: 0, right: 0)
+        listingListView.padding = UIEdgeInsets(top: listingListViewTopMargin, left: 0, bottom: 0, right: 0)
 
-        let top = abs(UserViewController.headerExpandedBottom + UserViewController.listingListViewTopMargin)
+        let top = abs(headerExpandedBottom + listingListViewTopMargin)
         let contentInset = UIEdgeInsets(top: top, left: 0, bottom: bottomInset, right: 0)
         listingListView.collectionViewContentInset = contentInset
         listingListView.collectionView.scrollIndicatorInsets.top = contentInset.top
         listingListView.firstLoadPadding = contentInset
         listingListView.errorPadding = contentInset
         listingListView.scrollDelegate = self
+    }
+    
+    private func setupConstraints() {
+        userLabelsTopMargin.constant = statusBarHeight + UserViewController.userLabelsVerticalMargin
     }
 
     func setupRatingAverage(_ ratingAverage: Float?) {
@@ -307,15 +340,15 @@ extension UserViewController {
     }
 
     fileprivate func scrollDidChange(_ contentOffsetInsetY: CGFloat) {
-        let minBottom = UserViewController.headerExpandedBottom
-        let maxBottom = UserViewController.headerCollapsedBottom
+        let minBottom = headerExpandedBottom
+        let maxBottom = headerCollapsedBottom
 
-        let bottom = min(maxBottom, contentOffsetInsetY - UserViewController.listingListViewTopMargin)
+        let bottom = min(maxBottom, contentOffsetInsetY - listingListViewTopMargin)
         headerContainerBottom.constant = bottom
 
         let percentage = min(1, abs(bottom - maxBottom) / abs(maxBottom - minBottom))
 
-        let height = UserViewController.headerCollapsedHeight + percentage * (UserViewController.headerExpandedHeight - UserViewController.headerCollapsedHeight)
+        let height = headerCollapsedHeight + percentage * (headerExpandedHeight - headerCollapsedHeight)
         headerContainerHeight.constant = height
 
         // header expands more than 100% to hide the avatar when pulling
@@ -323,8 +356,8 @@ extension UserViewController {
         headerExpandedPercentage.value = headerPercentage
 
         // update top on error/first load views
-        let maxTop = abs(UserViewController.headerExpandedBottom + UserViewController.listingListViewTopMargin)
-        let minTop = abs(UserViewController.headerCollapsedBottom)
+        let maxTop = abs(headerExpandedBottom + listingListViewTopMargin)
+        let minTop = abs(headerCollapsedBottom)
         let top = minTop + percentage * (maxTop - minTop)
         let firstLoadPadding = UIEdgeInsets(top: top,
                                             left: listingListView.firstLoadPadding.left,
@@ -338,12 +371,12 @@ extension UserViewController {
         listingListView.errorPadding = errorPadding
     }
 
-    dynamic private func handleHeaderPan(_ gestureRecognizer: UIPanGestureRecognizer) {
+    @objc private func handleHeaderPan(_ gestureRecognizer: UIPanGestureRecognizer) {
         let translation = gestureRecognizer.translation(in: view)
         gestureRecognizer.setTranslation(CGPoint.zero, in: view)
 
-        let mininum: CGFloat = -(UserViewController.headerCollapsedHeight + view.frame.width)
-        let maximum: CGFloat = -UserViewController.headerCollapsedHeight
+        let mininum: CGFloat = -(headerCollapsedHeight + view.frame.width)
+        let maximum: CGFloat = -headerCollapsedHeight
         let y = min(maximum, max(mininum, listingListView.collectionView.contentOffset.y  - translation.y))
 
         listingListView.collectionView.contentOffset.y = y
@@ -359,8 +392,8 @@ extension UserViewController {
     }
 
     fileprivate func scrollToTopWithExpandedState(_ expanded: Bool, animated: Bool) {
-        let mininum: CGFloat = UserViewController.headerExpandedBottom + UserViewController.listingListViewTopMargin
-        let maximum: CGFloat = -UserViewController.headerCollapsedHeight
+        let mininum: CGFloat = headerExpandedBottom + listingListViewTopMargin
+        let maximum: CGFloat = -headerCollapsedHeight
         let y = expanded ? mininum : maximum
         let contentOffset = CGPoint(x: 0, y: y)
         listingListView.collectionView.setContentOffset(contentOffset, animated: animated)
@@ -384,27 +417,27 @@ extension UserViewController {
     private func setupBackgroundRxBindings() {
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
             self?.view.backgroundColor = bgColor
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setupUserBgViewRxBindings() {
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
             self?.userBgTintView.backgroundColor = bgColor
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         let userAvatarPresent: Observable<Bool> = viewModel.userAvatarURL.asObservable().map { url in
             guard let urlString = url?.absoluteString else { return false }
             return !urlString.isEmpty
         }
         // Pattern overlay is hidden if there's no avatar and user background view is shown if so
-        userAvatarPresent.bindTo(patternView.rx.isHidden).addDisposableTo(disposeBag)
-        userAvatarPresent.map{ !$0 }.bindTo(userBgView.rx.isHidden).addDisposableTo(disposeBag)
+        userAvatarPresent.bind(to: patternView.rx.isHidden).disposed(by: disposeBag)
+        userAvatarPresent.map{ !$0 }.bind(to: userBgView.rx.isHidden).disposed(by: disposeBag)
 
         // Load avatar image
         viewModel.userAvatarURL.asObservable().subscribeNext { [weak self] url in
             guard let url = url else { return }
             self?.userBgImageView.lg_setImageWithURL(url)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setupNavBarRxBindings() {
@@ -418,7 +451,7 @@ extension UserViewController {
             guard let navBarUserView = self?.navBarUserView else { return }
             navBarUserView.setupWith(userAvatar: avatar, placeholder: placeholder, userName: userName,
                 subtitle: userLocation, isProfessional: isPro)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
             guard let strongSelf = self else { return }
@@ -427,63 +460,63 @@ extension UserViewController {
             navBarButtons.forEach { navBarButton in
                 let button = UIButton(type: .system)
                 button.setImage(navBarButton.image, for: .normal)
-                button.rx.tap.bindNext { _ in
+                button.rx.tap.bind { _ in
                     navBarButton.action()
-                }.addDisposableTo(strongSelf.disposeBag)
+                }.disposed(by: strongSelf.disposeBag)
                 buttons.append(button)
             }
             strongSelf.setNavigationBarRightButtons(buttons)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setupHeaderRxBindings() {
         // Name, location, avatar & bg
-        viewModel.userName.asObservable().bindTo(userNameLabel.rx.optionalText).addDisposableTo(disposeBag)
-        viewModel.userLocation.asObservable().bindTo(userLocationLabel.rx.optionalText).addDisposableTo(disposeBag)
+        viewModel.userName.asObservable().bind(to: userNameLabel.rx.text).disposed(by: disposeBag)
+        viewModel.userLocation.asObservable().bind(to: userLocationLabel.rx.text).disposed(by: disposeBag)
 
         Observable.combineLatest(viewModel.userAvatarURL.asObservable(),
             viewModel.userAvatarPlaceholder.asObservable()) { ($0, $1) }
             .subscribeNext { [weak self] (avatar, placeholder) in
                 self?.headerContainer.header.setAvatar(avatar, placeholderImage: placeholder)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
             self?.headerContainer.header.selectedColor = bgColor
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         // Ratings
         viewModel.userRatingAverage.asObservable().subscribeNext { [weak self] userRatingAverage in
             self?.setupRatingAverage(userRatingAverage)
-        }.addDisposableTo(disposeBag)
-        viewModel.userRatingAverage.asObservable().bindTo(navBarUserView.userRatings).addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
+        viewModel.userRatingAverage.asObservable().bind(to: navBarUserView.userRatings).disposed(by: disposeBag)
 
         viewModel.userRatingCount.asObservable().subscribeNext { [weak self] userRatingCount in
             self?.headerContainer.header.setRatingCount(userRatingCount)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         // User relation
         viewModel.userRelationText.asObservable().subscribeNext { [weak self] userRelationText in
             self?.headerContainer.header.setUserRelationText(userRelationText)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         // Accounts
         viewModel.userAccounts.asObservable().subscribeNext { [weak self] accounts in
             self?.headerContainer.header.accounts = accounts
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         // Header mode
         viewModel.headerMode.asObservable().subscribeNext { [weak self] mode in
             self?.headerContainer.header.mode = mode
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         // Header collapse notify percentage
         headerExpandedPercentage.asObservable().map { percentage -> CGFloat in
             let max = UserViewController.userBgTintViewHeaderCollapsedAlpha
             let min = UserViewController.userBgTintViewHeaderExpandedAlpha
             return min + 1 - (percentage * max)
-        }.bindTo(userBgTintViewAlpha).addDisposableTo(disposeBag)
+        }.bind(to: userBgTintViewAlpha).disposed(by: disposeBag)
         
-        userBgTintViewAlpha.asObservable().bindTo(userBgTintView.rx.alpha).addDisposableTo(disposeBag)
+        userBgTintViewAlpha.asObservable().bind(to: userBgTintView.rx.alpha).disposed(by: disposeBag)
 
         headerExpandedPercentage.asObservable().map { percentage -> CGFloat in
             let collapsedAlpha = UserViewController.userEffectViewHeaderCollapsedAlpha
@@ -495,7 +528,7 @@ extension UserViewController {
                 alpha += (percentage - 1) * (UserViewController.userEffectViewHeaderExpandedDoubleAlpha - expandedAlpha)
             }
             return alpha
-        }.bindTo(userBgEffectView.rx.alpha).addDisposableTo(disposeBag)
+        }.bind(to: userBgEffectView.rx.alpha).disposed(by: disposeBag)
 
         // Header elements alpha selection
         headerExpandedPercentage.asObservable()
@@ -513,7 +546,7 @@ extension UserViewController {
                     self?.userLabelsContainer.alpha =
                         expandedPerc.percentageBetween(start: UserViewController.userLabelsMinThreshold, end: 1.0)
                 }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         // Header sticky to expanded/collapsed
         let listViewDragging = listingListView.isDragging.asObservable().distinctUntilChanged()
@@ -531,17 +564,17 @@ extension UserViewController {
                 guard expand || !expand && strongSelf.headerExpandedPercentage.value > 0 else { return }
                 self?.scrollToTopWithExpandedState(expand, animated: true)
             }
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
 
         // Tab switch
-        headerContainer.header.tab.asObservable().bindTo(viewModel.tab).addDisposableTo(disposeBag)
+        headerContainer.header.tab.asObservable().bind(to: viewModel.tab).disposed(by: disposeBag)
     }
     
     private func setupUserLabelsContainerRx() {
-        viewModel.navBarButtons.asObservable().bindNext { [weak self] buttons in
+        viewModel.navBarButtons.asObservable().bind { [weak self] buttons in
             let margin = buttons.count > 1 ? UserViewController.userLabelsContainerMarginLong : UserViewController.userLabelsContainerMarginShort
             self?.userLabelsSideMargin.forEach { $0.constant = margin }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     private func setupListingListViewRxBindings() {
@@ -551,7 +584,7 @@ extension UserViewController {
             strongSelf.listingListView.refreshDataView()
             let expanded = strongSelf.headerExpandedPercentage.value > 0
             strongSelf.scrollToTopWithExpandedState(expanded, animated: false)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }
 
@@ -570,9 +603,9 @@ extension UserViewController: ScrollableToTop {
 extension UserViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate {
 
     func setupPermissionsRx() {
-        viewModel.pushPermissionsDisabledWarning.asObservable().filter {$0 != nil} .bindNext { [weak self] _ in
+        viewModel.pushPermissionsDisabledWarning.asObservable().filter {$0 != nil} .bind { [weak self] _ in
             self?.listingListView.refreshDataView()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     func totalHeaderHeight() -> CGFloat {

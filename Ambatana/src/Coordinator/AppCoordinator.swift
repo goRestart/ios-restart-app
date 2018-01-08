@@ -617,11 +617,11 @@ fileprivate extension AppCoordinator {
                 } else {
                     self?.openExternalDeepLink(deepLink)
                 }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     func setupCoreEventsRx() {
-        sessionManager.sessionEvents.bindNext { [weak self] event in
+        sessionManager.sessionEvents.bind { [weak self] event in
             switch event {
             case .login:
                 break
@@ -632,20 +632,20 @@ fileprivate extension AppCoordinator {
                     }
                 }
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
-        locationManager.locationEvents.filter { $0 == .movedFarFromSavedManualLocation }.take(1).bindNext {
+        locationManager.locationEvents.filter { $0 == .movedFarFromSavedManualLocation }.take(1).bind {
             [weak self] _ in
             self?.askUserToUpdateLocation()
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
-        locationManager.locationEvents.filter { $0 == .locationUpdate }.take(1).bindNext {
+        locationManager.locationEvents.filter { $0 == .locationUpdate }.take(1).bind {
             [weak self] _ in
             guard let strongSelf = self else { return }
             if strongSelf.featureFlags.locationRequiresManualChangeSuggestion {
                 strongSelf.askUserToUpdateLocationManually()
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     func askUserToUpdateLocation() {
@@ -869,7 +869,7 @@ fileprivate extension AppCoordinator {
         }
 
         if let afterDelayClosure = afterDelayClosure {
-            delay(0.5) { _ in
+            delay(0.5) { 
                 afterDelayClosure()
             }
         }

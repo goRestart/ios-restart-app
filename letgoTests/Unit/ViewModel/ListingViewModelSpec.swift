@@ -22,6 +22,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
     var calledLogin: Bool?
     var calledOpenFreeBumpUpView: Bool?
     var calledOpenPricedBumpUpView: Bool?
+    var listingViewModelDelegateListingOriginValue: ListingOrigin = ListingOrigin.initial
 
     override func spec() {
         var sut: ListingViewModel!
@@ -48,10 +49,10 @@ class ListingViewModelSpec: BaseViewModelSpec {
 
         describe("ListingViewModelSpec") {
 
-            func buildListingViewModel() {
+            func buildListingViewModel(visitSource: EventParameterListingVisitSource = .listingList) {
                 let socialSharer = SocialSharer()
                 sut = ListingViewModel(listing: .product(product),
-                                       visitSource: .listingList,
+                                       visitSource: visitSource,
                                         myUserRepository: myUserRepository,
                                         userRepository: userRepository,
                                         listingRepository: listingRepository,
@@ -67,10 +68,11 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 sut.delegate = self
                 sut.navigator = self
                 disposeBag = DisposeBag()
-                sut.actionButtons.asObservable().bindTo(bottomButtonsObserver).addDisposableTo(disposeBag)
-                sut.isFavorite.asObservable().bindTo(isFavoriteObserver).addDisposableTo(disposeBag)
-                sut.directChatMessages.observable.bindTo(directChatMessagesObserver).addDisposableTo(disposeBag)
-                sut.isProfessional.asObservable().bindTo(isProfessionalObserver).addDisposableTo(disposeBag)
+
+                sut.actionButtons.asObservable().bind(to: bottomButtonsObserver).disposed(by: disposeBag)
+                sut.isFavorite.asObservable().bind(to: isFavoriteObserver).disposed(by: disposeBag)
+                sut.directChatMessages.observable.bind(to: directChatMessagesObserver).disposed(by: disposeBag)
+                sut.isProfessional.asObservable().bind(to: isProfessionalObserver).disposed(by: disposeBag)
             }
 
             beforeEach {
@@ -208,6 +210,82 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
+                        }
+                        it("tracks visit source as product-list") {
+                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
+                            expect(visitSourceParam).to(equal("product-list"))
+                        }
+                    }
+                    context("success first message from favourites") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(true)]
+                            buildListingViewModel(visitSource: .favourite)
+                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+                            
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
+                        }
+                        it("tracks visit source as favourite") {
+                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
+                            expect(visitSourceParam).to(equal("favourite"))
+                        }
+                    }
+                    context("success first message from favourites after swiping to the next listing") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(true)]
+                            buildListingViewModel(visitSource: .favourite)
+                            self.listingViewModelDelegateListingOriginValue = .inResponseToNextRequest
+                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+                            
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
+                        }
+                        it("tracks visit source as next-favourite") {
+                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
+                            expect(visitSourceParam).to(equal("next-favourite"))
+                        }
+                    }
+                    context("success first message from favourites after swiping to the previous listing") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(true)]
+                            buildListingViewModel(visitSource: .favourite)
+                            self.listingViewModelDelegateListingOriginValue = .inResponseToPreviousRequest
+                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+                            
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
+                        }
+                        it("tracks visit source as previous-favourite") {
+                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
+                            expect(visitSourceParam).to(equal("previous-favourite"))
                         }
                     }
                     context("success non first message") {
@@ -756,6 +834,10 @@ extension ListingViewModelSpec: ListingViewModelDelegate {
 
     var trackingFeedPosition: EventParameterFeedPosition {
         return .none
+    }
+
+    var listingOrigin: ListingOrigin {
+        return listingViewModelDelegateListingOriginValue
     }
     
     // Bump Up

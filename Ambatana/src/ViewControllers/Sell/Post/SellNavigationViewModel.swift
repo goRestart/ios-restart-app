@@ -47,10 +47,5 @@ class SellNavigationViewModel : BaseViewModel {
         if shouldModifyProgress {
             currentStep.value = currentStep.value - 1
         }
-    }
-    
-    func widthToFill(totalWidth: CGFloat) -> CGFloat {
-        guard numberOfSteps.value > 0 else { return 0 }
-        return (totalWidth/numberOfSteps.value)*currentStep.value
-    }
+    }    
 }

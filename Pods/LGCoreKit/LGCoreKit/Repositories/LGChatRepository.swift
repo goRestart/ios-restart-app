@@ -45,7 +45,7 @@ class LGChatRepository: InternalChatRepository {
     func setupRx() {
         dataSource.socketStatus.asObservable().subscribeNext { [weak self] status in
             self?.wsChatStatus.value = WSChatStatus(wsStatus: status)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         // Automatically mark as received
         chatEvents.subscribeNext { [weak self] event in
@@ -58,7 +58,7 @@ class LGChatRepository: InternalChatRepository {
             default:
                 return
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         userRepository.events.subscribeNext { [weak self] event in
             switch event {
@@ -67,7 +67,7 @@ class LGChatRepository: InternalChatRepository {
             case .unblock(let userId):
                 self?.updateLocalConversation(interlocutorId: userId, isBlocked: false)
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         listingRepository.events.subscribeNext { [weak self] event in
             switch event {
@@ -82,7 +82,7 @@ class LGChatRepository: InternalChatRepository {
             case .create, .favorite, .unFavorite:
                 break
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
 

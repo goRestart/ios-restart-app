@@ -7,7 +7,6 @@
 //
 
 import Result
-import Argo
 
 class InstallationApiDataSource: InstallationDataSource {
     let apiClient: ApiClient
@@ -56,7 +55,8 @@ class InstallationApiDataSource: InstallationDataSource {
     - returns: Installation object (an LGInstallation instance)
     */
     private func decodeJson(_ jsonData: Any) -> Installation? {
-        let installation: LGInstallation? = decode(jsonData)
+        guard let dictionary = jsonData as? [String: Any] else { return nil }
+        let installation: LGInstallationAPI? = LGInstallationAPI(dictionary: dictionary)
         return installation
     }
 }

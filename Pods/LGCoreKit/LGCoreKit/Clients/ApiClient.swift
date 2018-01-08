@@ -10,7 +10,6 @@ import Alamofire
 import JWT
 import Result
 import RxSwift
-import Argo
 
 protocol ApiClient: class {
     weak var sessionManager: InternalSessionManager? { get }
@@ -108,7 +107,7 @@ extension ApiClient {
                                      completion: ((ResultResult<T, ApiError>.t) -> ())?) {
         if shouldRenewToken(response) {
             logMessage(.verbose, type: [CoreLoggingOptions.networking, CoreLoggingOptions.token],
-                       message: response.logMessage)
+                       message: response.debugMessage)
 
             let requestTokenLevel = decodeRequestToken(response)?.level ?? .nonexistent
             switch requestTokenLevel {
@@ -118,16 +117,16 @@ extension ApiClient {
             case .user:
                 renewUserTokenOrEnqueueRequest(req, decoder: decoder, completion: completion)
             case .nonexistent:
-                logMessage(.error, type: [CoreLoggingOptions.networking], message: response.logMessage)
+                logMessage(.error, type: [CoreLoggingOptions.networking], message: response.debugMessage)
                 completion?(ResultResult<T, ApiError>.t(error: .unauthorized))
             }
         } else if let error = errorFromAlamofireResponse(errorDecoderType: req.errorDecoderType, response: response) {
-            logMessage(.verbose, type: [CoreLoggingOptions.networking], message: response.logMessage)
+            logMessage(.verbose, type: [CoreLoggingOptions.networking], message: response.debugMessage)
 
             handlePrivateApiErrorResponse(error, response: response)
             completion?(ResultResult<T, ApiError>.t(error: error))
         } else if let value = response.result.value {
-            logMessage(.info, type: CoreLoggingOptions.networking, message: response.logMessage)
+            logMessage(.info, type: CoreLoggingOptions.networking, message: response.debugMessage)
             completion?(ResultResult<T, ApiError>.t(value: value))
         }
     }
@@ -304,7 +303,7 @@ private extension ApiClient {
         }
 
         if let networkReport = CoreReportNetworking(apiError: error, currentAuthLevel: currentLevel) {
-            report(networkReport, message: response.logMessage)
+            report(networkReport, message: response.debugMessage)
         }
     }
 }
@@ -399,8 +398,8 @@ private extension ApiClient {
 private extension Token {
     var version: Int? {
         guard let token = actualValue,
-            let payload = try? JWT.decode(token, algorithm: .hs256(Data()), verify: false) else { return nil }
-        let version = payload["btv"] as? Int
+            let claimSet: ClaimSet = try? JWT.decode(token, algorithm: .hs256(Data()), verify: false) else { return nil }
+        let version = claimSet["btv"] as? Int
         return version
     }
 }
@@ -412,14 +411,22 @@ extension DataResponse {
     func apiErrorCode(errorDecoderType: ErrorDecoderType?) -> Int? {
         guard let errorDecoderType = errorDecoderType else { return nil }
         guard let data = self.data, data.count > 0 else { return nil }
-        guard let value = try? JSONSerialization.jsonObject(with: data, options: []) else { return nil }
         switch errorDecoderType {
         case .apiProductsError:
-            guard let code: LGApiProductsErrorCode = decode(value) else { return nil }
-            return code.code
+            do {
+                let code = try LGApiProductsErrorCode.decode(jsonData: data)
+                return code.code
+            } catch {
+                logMessage(.debug, type: .parsing, message: "could not parse LGApiProductsErrorCode \(data)")
+            }
         case .apiUsersError:
-            guard let code: LGApiUsersErrorCode = decode(value) else { return nil }
-            return Int(code.code)
+            do {
+                let code = try LGApiUsersErrorCode.decode(jsonData: data)
+                return Int(code.code)
+            } catch {
+                logMessage(.debug, type: .parsing, message: "could not parse LGApiUsersErrorCode \(data)")
+            }
         }
+        return nil
     }
 }

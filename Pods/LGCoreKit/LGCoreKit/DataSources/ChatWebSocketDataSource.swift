@@ -7,9 +7,7 @@
 //
 
 import Result
-import Argo
 import RxSwift
-
 
 class ChatWebSocketDataSource: ChatDataSource {
 
@@ -173,7 +171,17 @@ class ChatWebSocketDataSource: ChatDataSource {
      - returns: A `ChatUnreadMessages` object.
      */
     private func chatUnreadMessagesDecoder(_ object: Any) -> ChatUnreadMessages? {
-        let result: Decoded<LGChatUnreadMessages> = JSON(object) <| "data"
-        return result.value
+        guard let dict = object as? [String: Any],
+            let dataDict = dict["data"] as? [String: Any]
+            else { return nil }
+        
+        guard let data = try? JSONSerialization.data(withJSONObject: dataDict, options: .prettyPrinted) else { return nil }
+        do {
+            let unreadCount = try LGChatUnreadMessages.decode(jsonData: data)
+            return unreadCount
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGChatUnreadMessages \(object)")
+        }
+        return nil
     }
 }

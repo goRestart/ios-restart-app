@@ -41,10 +41,10 @@ class SignUpViewModel: BaseViewModel {
         let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
             textColor: UIColor.darkGrayText)
         let range = NSMakeRange(0, attributtedLegalText.length)
-        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont.smallBodyFont, range: range)
+        attributtedLegalText.addAttribute(NSAttributedStringKey.font, value: UIFont.smallBodyFont, range: range)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
-        attributtedLegalText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: range)
+        attributtedLegalText.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: range)
         return attributtedLegalText
     }
 
@@ -148,7 +148,7 @@ class SignUpViewModel: BaseViewModel {
     // MARK: - Private methods
 
     private func logInWithFacebook() {
-        fbLoginHelper.login({ [weak self] _ in
+        fbLoginHelper.login({ [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.vmShowLoading(nil)
             }, loginCompletion: { [weak self] result in

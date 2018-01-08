@@ -11,11 +11,15 @@ import RxSwift
 import UIKit
 
 class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UITextViewDelegate, GIDSignInUIDelegate {
+    
+    private static let loginSegmentedControlTopMargin: CGFloat = 16
+    
     @IBOutlet weak var darkAppereanceBgView: UIView!
     @IBOutlet weak var kenBurnsView: JBKenBurnsView!
     
     @IBOutlet weak var loginSegmentedControl: UISegmentedControl!
-
+    @IBOutlet weak var loginSegmentedControlTopConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var scrollView: UIScrollView!
 
     @IBOutlet weak var textFieldsView: UIView!
@@ -239,7 +243,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         // workaround to avoid weird font type
         passwordTextField.font = UIFont(name: "systemFont", size: 17)
         passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint,
-            attributes: [NSFontAttributeName : UIFont.systemFont(ofSize: 17) ])
+            attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 17) ])
        
     }
     
@@ -251,11 +255,11 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         viewModel.openRememberPassword()
     }
 
-    func closeButtonPressed() {
+    @objc func closeButtonPressed() {
         viewModel.cancel()
     }
 
-    func helpButtonPressed() {
+    @objc func helpButtonPressed() {
         viewModel.openHelp()
     }
 
@@ -330,8 +334,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                    replacementString string: String) -> Bool {
         guard !string.hasEmojis() else { return false }
         guard let text = textField.text else { return false }
-        let newLength = text.characters.count + string.characters.count - range.length
-        let removing = text.characters.count > newLength
+        let newLength = text.count + string.count - range.length
+        let removing = text.count > newLength
         if textField === usernameTextField && !removing && newLength > Constants.maxUserNameLength { return false }
 
         let updatedText = (text as NSString).replacingCharacters(in: range, with: string)
@@ -415,6 +419,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         if DeviceFamily.current == .iPhone4 {
             adaptConstraintsToiPhone4()
         }
+        
+        loginSegmentedControlTopConstraint.constant = navigationBarHeight + statusBarHeight +
+            SignUpLogInViewController.loginSegmentedControlTopMargin
 
         // action type
         loginSegmentedControl.selectedSegmentIndex = viewModel.currentActionType.rawValue
@@ -434,8 +441,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                 } else {
                     return LGLocalizedString.mainSignUpFacebookConnectButton
                 }
-            }.bindTo(connectFBButton.rx.title)
-            .addDisposableTo(disposeBag)
+            }.bind(to: connectFBButton.rx.title(for: .normal))
+            .disposed(by: disposeBag)
 
         // Google button title
         viewModel.previousGoogleUsername.asObservable()
@@ -445,22 +452,22 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
                 } else {
                     return LGLocalizedString.mainSignUpGoogleConnectButton
                 }
-            }.bindTo(connectGoogleButton.rx.title)
-            .addDisposableTo(disposeBag)
+            }.bind(to: connectGoogleButton.rx.title(for: .normal))
+            .disposed(by: disposeBag)
 
         // Autosuggest
         viewModel.suggestedEmail.subscribeNext { [weak self] suggestion in
             self?.emailTextField.suggestion = suggestion
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         // Send button enable
-        viewModel.sendButtonEnabled.bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
+        viewModel.sendButtonEnabled.bind(to: sendButton.rx.isEnabled).disposed(by: disposeBag)
         
         // Show password hide
         viewModel.password.asObservable().map { password -> Bool in
             guard let password = password else { return true }
             return password.isEmpty
-        }.bindTo(showPasswordButton.rx.isHidden).addDisposableTo(disposeBag)
+        }.bind(to: showPasswordButton.rx.isHidden).disposed(by: disposeBag)
     }
 
     private func updateUI() {
@@ -486,9 +493,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         loginSegmentedControl.layer.borderColor = UIColor.primaryColor.cgColor
 
         let textfieldTextColor = UIColor.blackText
-        var textfieldPlaceholderAttrs = [String: AnyObject]()
-        textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFont(ofSize: 17)
-        textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = UIColor.blackTextHighAlpha
+        var textfieldPlaceholderAttrs = [NSAttributedStringKey: Any]()
+        textfieldPlaceholderAttrs[NSAttributedStringKey.font] = UIFont.systemFont(ofSize: 17)
+        textfieldPlaceholderAttrs[NSAttributedStringKey.foregroundColor] = UIColor.blackTextHighAlpha
 
         orLabel.textColor = UIColor.darkGrayText
         lines.forEach { $0.backgroundColor = UIColor.darkGrayText.cgColor }
@@ -524,9 +531,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         loginSegmentedControl.layer.borderColor = UIColor.white.cgColor
 
         let textfieldTextColor = UIColor.whiteText
-        var textfieldPlaceholderAttrs = [String: AnyObject]()
-        textfieldPlaceholderAttrs[NSFontAttributeName] = UIFont.systemFont(ofSize: 17)
-        textfieldPlaceholderAttrs[NSForegroundColorAttributeName] = UIColor.whiteTextHighAlpha
+        var textfieldPlaceholderAttrs = [NSAttributedStringKey: Any]()
+        textfieldPlaceholderAttrs[NSAttributedStringKey.font] = UIFont.systemFont(ofSize: 17)
+        textfieldPlaceholderAttrs[NSAttributedStringKey.foregroundColor] = UIColor.whiteTextHighAlpha
 
         orLabel.textColor = UIColor.white
         lines.forEach { $0.backgroundColor = UIColor.white.cgColor }

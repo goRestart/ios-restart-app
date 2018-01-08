@@ -306,9 +306,9 @@ extension UserViewHeader {
     }
 
     private func setupButtons() {
-        var attributes = [String : Any]()
-        attributes[NSForegroundColorAttributeName] = UIColor.lgBlack
-        attributes[NSFontAttributeName] = UIFont.inactiveTabFont
+        var attributes = [NSAttributedStringKey : Any]()
+        attributes[NSAttributedStringKey.foregroundColor] = UIColor.lgBlack
+        attributes[NSAttributedStringKey.font] = UIFont.inactiveTabFont
 
         let sellingTitle = NSAttributedString(string: LGLocalizedString.profileSellingProductsTab.localizedUppercase,
             attributes: attributes)
@@ -353,9 +353,9 @@ extension UserViewHeader {
     }
 
     fileprivate func setupButtonsSelectedState() {
-        var attributes = [String : Any]()
-        attributes[NSForegroundColorAttributeName] = selectedColor
-        attributes[NSFontAttributeName] = UIFont.activeTabFont
+        var attributes = [NSAttributedStringKey : Any]()
+        attributes[NSAttributedStringKey.foregroundColor] = selectedColor
+        attributes[NSAttributedStringKey.font] = UIFont.activeTabFont
 
         let sellingTitle = NSAttributedString(string: LGLocalizedString.profileSellingProductsTab.localizedUppercase,
             attributes: attributes)
@@ -408,39 +408,39 @@ extension UserViewHeader {
     }
 
     private func setupButtonsRxBindings() {
-        avatarButton.rx.tap.subscribeNext { [weak self] _ in
+        avatarButton.rx.tap.subscribeNext { [weak self] in
             self?.delegate?.headerAvatarAction()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        ratingsButton.rx.tap.subscribeNext { [weak self] _ in
+        ratingsButton.rx.tap.subscribeNext { [weak self] in
             self?.delegate?.ratingsAvatarAction()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        sellingButton.rx.tap.subscribeNext { [weak self] _ in
+        sellingButton.rx.tap.subscribeNext { [weak self] in
             self?.tab.value = .selling
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        soldButton.rx.tap.subscribeNext { [weak self] _ in
+        soldButton.rx.tap.subscribeNext { [weak self] in
             self?.tab.value = .sold
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        favoritesButton.rx.tap.subscribeNext { [weak self] _ in
+        favoritesButton.rx.tap.subscribeNext { [weak self] in
             self?.tab.value = .favorites
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        tab.asObservable().map { $0 == .selling }.bindTo(sellingButton.rx.isSelected).addDisposableTo(disposeBag)
-        tab.asObservable().map { $0 == .sold }.bindTo(soldButton.rx.isSelected).addDisposableTo(disposeBag)
-        tab.asObservable().map { $0 == .favorites }.bindTo(favoritesButton.rx.isSelected).addDisposableTo(disposeBag)
+        tab.asObservable().map { $0 == .selling }.bind(to: sellingButton.rx.isSelected).disposed(by: disposeBag)
+        tab.asObservable().map { $0 == .sold }.bind(to: soldButton.rx.isSelected).disposed(by: disposeBag)
+        tab.asObservable().map { $0 == .favorites }.bind(to: favoritesButton.rx.isSelected).disposed(by: disposeBag)
 
         tab.asObservable().skip(1).subscribeNext { [weak self] tab in
             self?.setIndicatorAtTab(tab, animated: true)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setupAccountsRxBindings() {
-        buildTrustButton.rx.tap.bindNext { [weak self] in
+        buildTrustButton.rx.tap.bind { [weak self] in
             self?.delegate?.buildTrustAction()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }
 

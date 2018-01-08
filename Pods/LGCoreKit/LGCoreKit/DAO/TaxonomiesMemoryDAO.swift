@@ -6,8 +6,6 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-
 class TaxonomiesMemoryDAO: TaxonomiesDAO {
 
     var taxonomies: [Taxonomy] = []
@@ -33,7 +31,15 @@ class TaxonomiesMemoryDAO: TaxonomiesDAO {
     }
 
     private func decoderArray(_ object: Any) -> [Taxonomy]? {
-        guard let taxonomies = Array<LGTaxonomy>.filteredDecode(JSON(object)).value else { return nil }
-        return taxonomies
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        
+        // Ignore taxonomies that can't be decoded
+        do {
+            let taxonomies = try JSONDecoder().decode(FailableDecodableArray<LGTaxonomy>.self, from: data)
+            return taxonomies.validElements
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGTaxonomy \(object)")
+        }
+        return nil
     }
 }

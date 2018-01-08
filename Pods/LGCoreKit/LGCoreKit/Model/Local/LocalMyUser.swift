@@ -60,33 +60,6 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
 
 // MARK: - UserDefaultsDecodable
 
-protocol LGMyUserUDKeys: LGMyUserKeys {
-    var country: String { get }
-}
-
-private struct MyUserUDKeys: LGMyUserUDKeys {
-    let objectId = "objectId"
-    let name = "name"
-    let email = "email"
-    let latitude = "latitude"
-    let longitude = "longitude"
-    let locationType = "locationType"
-    let avatar = "avatar"
-    let address = "address"
-    let city = "city"
-    let zipCode = "zipCode"
-    let state = "state"
-    let countryCode = "countryCode"
-    let country = "country"
-    let accounts = "accounts"
-    let ratingAverage = "ratingAverage"
-    let ratingCount = "ratingCount"
-    let status = "status"
-    let phone = "phone"
-    let type = "type"
-    let localeIdentifier = "localeIdentifier"
-}
-
 extension LocalMyUser {
     static func decode(_ dictionary: [String: Any]) -> LocalMyUser? {
         let keys = MyUserUDKeys()
@@ -103,13 +76,14 @@ extension LocalMyUser {
         let countryCode = dictionary[keys.countryCode] as? String
         let country = dictionary[keys.country] as? String
         let postalAddress = PostalAddress(address: address, city: city, zipCode: zipCode, state: state,
-                                          countryCode: countryCode, country: country)
+                                            countryCode: countryCode, country: country)
         let email = dictionary[keys.email] as? String
         let locationTypeRaw = dictionary[keys.locationType] as? String ?? ""
         let locationType = LGLocationType(rawValue: locationTypeRaw) ?? .regional
         
         var location: LGLocation? = nil
-        if let latitude = dictionary[keys.latitude] as? Double, let longitude = dictionary[keys.longitude] as? Double {
+        if let latitude = dictionary[keys.latitude] as? Double,
+            let longitude = dictionary[keys.longitude] as? Double {
             let clLocation = CLLocation(latitude: latitude, longitude: longitude)
             location = LGLocation(location: clLocation, type: locationType, postalAddress: postalAddress)
         }
@@ -137,14 +111,10 @@ extension LocalMyUser {
                          accounts: accounts, ratingAverage: ratingAverage, ratingCount: ratingCount, status: status,
                          phone: phone, type: type, email: email, location: location, localeIdentifier: localeIdentifier)
     }
-    
+
     func encode() -> [String: Any] {
-        let keys = MyUserUDKeys()
-        return encode(keys)
-    }
-    
-    func encode(_ keys: LGMyUserUDKeys) -> [String: Any] {
         var dictionary: [String: Any] = [:]
+        let keys = MyUserUDKeys()
         dictionary[keys.objectId] = objectId
         dictionary[keys.name] = name
         dictionary[keys.avatar] = avatar?.fileURL?.absoluteString
@@ -164,7 +134,32 @@ extension LocalMyUser {
         dictionary[keys.ratingCount] = ratingCount
         dictionary[keys.status] = status.rawValue
         dictionary[keys.localeIdentifier] = localeIdentifier
+        dictionary[keys.phone] = phone
+        dictionary[keys.type] = type.rawValue
         
         return dictionary
+    }
+    
+    private struct MyUserUDKeys {
+        let objectId = "objectId"
+        let name = "name"
+        let email = "email"
+        let latitude = "latitude"
+        let longitude = "longitude"
+        let locationType = "locationType"
+        let avatar = "avatar"
+        let address = "address"
+        let city = "city"
+        let zipCode = "zipCode"
+        let state = "state"
+        let countryCode = "countryCode"
+        let country = "country"
+        let accounts = "accounts"
+        let ratingAverage = "ratingAverage"
+        let ratingCount = "ratingCount"
+        let status = "status"
+        let localeIdentifier = "localeIdentifier"
+        let phone = "phone"
+        let type = "type"
     }
 }

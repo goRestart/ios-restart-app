@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,7 +15,7 @@
                 <outlet property="collectionView" destination="RID-ur-YMw" id="3KY-Vy-1m2"/>
                 <outlet property="saveFiltersBtn" destination="1Do-1m-Mhz" id="zpe-ZY-kMT"/>
                 <outlet property="saveFiltersBtnContainer" destination="lfV-TD-gpL" id="Vd5-oh-p1g"/>
-                <outlet property="saveFiltersBtnContainerBottomConstraint" destination="bjt-f2-ytt" id="6ff-Bn-lRO"/>
+                <outlet property="saveFiltersBtnContainerBottomConstraint" destination="rJ3-Br-6bc" id="OJc-Ml-yKe"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -24,7 +25,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="RID-ur-YMw">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="591"/>
+                    <rect key="frame" x="0.0" y="64" width="375" height="527"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="QZV-h5-0pU">
                         <size key="itemSize" width="50" height="50"/>
@@ -67,19 +68,14 @@
                 <constraint firstItem="lfV-TD-gpL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="1Mf-8d-3j7"/>
                 <constraint firstAttribute="trailing" secondItem="lfV-TD-gpL" secondAttribute="trailing" id="8Qf-uy-Iaa"/>
                 <constraint firstItem="RID-ur-YMw" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="9f4-mB-OE7"/>
-                <constraint firstAttribute="bottom" secondItem="RID-ur-YMw" secondAttribute="bottom" id="Ybb-yV-qmm"/>
-                <constraint firstAttribute="bottom" secondItem="lfV-TD-gpL" secondAttribute="bottom" id="bjt-f2-ytt"/>
+                <constraint firstItem="pQw-im-3Hi" firstAttribute="top" secondItem="RID-ur-YMw" secondAttribute="top" id="H5P-oU-QYM"/>
                 <constraint firstAttribute="trailing" secondItem="RID-ur-YMw" secondAttribute="trailing" id="oSX-0d-NYG"/>
-                <constraint firstItem="RID-ur-YMw" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="omh-wk-STc"/>
+                <constraint firstItem="lfV-TD-gpL" firstAttribute="bottom" secondItem="pQw-im-3Hi" secondAttribute="bottom" id="rJ3-Br-6bc"/>
                 <constraint firstItem="lfV-TD-gpL" firstAttribute="top" secondItem="RID-ur-YMw" secondAttribute="bottom" id="x1E-Hk-ibQ"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-            <variation key="default">
-                <mask key="constraints">
-                    <exclude reference="Ybb-yV-qmm"/>
-                </mask>
-            </variation>
+            <viewLayoutGuide key="safeArea" id="pQw-im-3Hi"/>
         </view>
     </objects>
 </document>

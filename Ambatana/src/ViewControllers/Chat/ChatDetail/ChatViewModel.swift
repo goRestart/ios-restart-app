@@ -370,7 +370,7 @@ class ChatViewModel: BaseViewModel {
             self?.interlocutorAvatarURL.value = conversation.interlocutor?.avatar?.fileURL
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
             self?.interlocutorId.value = conversation.interlocutor?.objectId
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         chatStatus.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
@@ -382,7 +382,7 @@ class ChatViewModel: BaseViewModel {
                 self?.messages.removeAll()
                 self?.messages.append(disclaimer)
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         let relatedListingsConversation = conversation.asObservable().map { $0.relatedListingsEnabled }
         Observable.combineLatest(relatedListingsConversation, sellerDidntAnswer.asObservable()) { [weak self] in
@@ -392,20 +392,20 @@ class ChatViewModel: BaseViewModel {
             if $0 { return .visible(listingId: listingId) }
             guard let didntAnswer = $1 else { return .loading } // If still checking if seller didn't answer. set loading state
             return didntAnswer ? .visible(listingId: listingId) : .hidden
-        }.bindTo(relatedListingsState).addDisposableTo(disposeBag)
+        }.bind(to: relatedListingsState).disposed(by: disposeBag)
         
         messages.changesObservable.subscribeNext { [weak self] change in
             self?.updateMessagesCounts(change)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        conversation.asObservable().map { $0.lastMessageSentAt == nil }.bindNext{ [weak self] result in
+        conversation.asObservable().map { $0.lastMessageSentAt == nil }.bind{ [weak self] result in
             self?.shouldTrackFirstMessage = result
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         let emptyMyMessages = myMessagesCount.asObservable().map { $0 == 0 }
         let emptyOtherMessages = otherMessagesCount.asObservable().map { $0 == 0 }
         Observable.combineLatest(emptyMyMessages, emptyOtherMessages){ $0 && $1 }.distinctUntilChanged()
-            .bindTo(isEmptyConversation).addDisposableTo(disposeBag)
+            .bind(to: isEmptyConversation).disposed(by: disposeBag)
 
         let expressBannerTriggered = Observable.combineLatest(firstInteractionDone.asObservable(),
                                                               expressBannerTimerFinished.asObservable()) { $0 || $1 }
@@ -416,11 +416,12 @@ class ChatViewModel: BaseViewModel {
                 - user hasn't SENT messages via express chat for this listing
          */
         Observable.combineLatest(expressBannerTriggered,
-                                 hasRelatedListings.asObservable(),
-                                 relatedListingsState.asObservable().map { $0.isVisible },
-                                 expressMessagesAlreadySent.asObservable(),
+
+            hasRelatedListings.asObservable(),
+            relatedListingsState.asObservable().map { $0.isVisible },
+        expressMessagesAlreadySent.asObservable(),
                                  interlocutorIsProfessional.asObservable()) { $0 && $1 && !$2 && !$3 && !$4 }
-            .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
+            .distinctUntilChanged().bind(to: shouldShowExpressBanner).disposed(by: disposeBag)
 
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
                                         relatedListingsState.asObservable(),
@@ -433,9 +434,9 @@ class ChatViewModel: BaseViewModel {
                                                 return .visible
                                             }
                                         }).distinctUntilChanged()
-        directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
+        directAnswers.bind(to: directAnswersState).disposed(by: disposeBag)
 
-        interlocutorId.asObservable().bindNext { [weak self] interlocutorId in
+        interlocutorId.asObservable().bind { [weak self] interlocutorId in
             guard let interlocutorId = interlocutorId, self?.interlocutor?.objectId != interlocutorId else { return }
             self?.userRepository.show(interlocutorId) { [weak self] result in
                 guard let strongSelf = self else { return }
@@ -447,7 +448,7 @@ class ChatViewModel: BaseViewModel {
                     strongSelf.messages.append(userInfoMessage)
                 }
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         setupChatEventsRx()
     }
@@ -480,7 +481,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func setupChatEventsRx() {
-        chatRepository.chatStatus.bindNext { [weak self] wsChatStatus in
+        chatRepository.chatStatus.bind { [weak self] wsChatStatus in
             guard let strongSelf = self else { return }
             switch wsChatStatus {
             case .openAuthenticated:
@@ -493,7 +494,7 @@ class ChatViewModel: BaseViewModel {
             case .closed, .closing, .opening, .openNotAuthenticated:
                 break
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         guard let convId = conversation.value.objectId else { return }
         chatRepository.chatEventsIn(convId).subscribeNext { [weak self] event in
@@ -511,7 +512,7 @@ class ChatViewModel: BaseViewModel {
             case .authenticationTokenExpired, .talkerUnauthenticated:
                 break
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     
@@ -612,7 +613,7 @@ extension ChatViewModel {
         }
 
         let message = type.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        guard message.characters.count > 0 else { return }
+        guard message.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
         

@@ -47,7 +47,7 @@ final class FiltersCoordinator: Coordinator {
         guard viewController.parent == nil else { return }
         parent.present(viewController, animated: animated, completion: completion)
     }
-    
+
     func dismissViewController(animated: Bool, completion: (() -> Void)?) {
         viewController.dismissWithPresented(animated: animated, completion: completion)
     }
@@ -75,6 +75,10 @@ extension FiltersCoordinator: FiltersNavigator {
         let vc = ListingAttributePickerViewController(viewModel: viewModel)
         viewModel.delegate = vc
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    func closeFilters() {
+        closeCoordinator(animated: true, completion: nil)
     }
 }
 

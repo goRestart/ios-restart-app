@@ -66,9 +66,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
         var socialSharerObserver: TestableObserver<SocialSharer>!
         var isProfessionalObserver: TestableObserver<Bool>!
 
-
         describe("ListingCarouselViewModelSpec") {
-
             func buildSut(productListModels: [ListingCellModel]? = nil,
                           initialProduct: Product? = nil,
                           source: EventParameterListingVisitSource = .listingList,
@@ -97,27 +95,28 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 sut.delegate = self
 
                 disposeBag = DisposeBag()
-                sut.objects.observable.bindTo(cellModelsObserver).addDisposableTo(disposeBag)
-                sut.productInfo.asObservable().bindTo(productInfoObserver).addDisposableTo(disposeBag)
-                sut.productImageURLs.asObservable().bindTo(productImageUrlsObserver).addDisposableTo(disposeBag)
-                sut.userInfo.asObservable().bindTo(userInfoObserver).addDisposableTo(disposeBag)
-                sut.listingStats.asObservable().bindTo(productStatsObserver).addDisposableTo(disposeBag)
-                sut.navBarButtons.asObservable().bindTo(navBarButtonsObserver).addDisposableTo(disposeBag)
-                sut.actionButtons.asObservable().bindTo(actionButtonsObserver).addDisposableTo(disposeBag)
-                sut.status.asObservable().bindTo(statusObserver).addDisposableTo(disposeBag)
-                sut.isFeatured.asObservable().bindTo(isFeaturedObserver).addDisposableTo(disposeBag)
-                sut.quickAnswers.asObservable().bindTo(quickAnswersObserver).addDisposableTo(disposeBag)
-                sut.quickAnswersAvailable.asObservable().bindTo(quickAnswersAvailableObserver).addDisposableTo(disposeBag)
-                sut.directChatEnabled.asObservable().bindTo(directChatEnabledObserver).addDisposableTo(disposeBag)
-                sut.directChatPlaceholder.asObservable().bindTo(directChatPlaceholderObserver).addDisposableTo(disposeBag)
-                sut.directChatMessages.observable.bindTo(directChatMessagesObserver).addDisposableTo(disposeBag)
-                sut.isFavorite.asObservable().bindTo(isFavoriteObserver).addDisposableTo(disposeBag)
-                sut.favoriteButtonState.asObservable().bindTo(favoriteButtonStateObserver).addDisposableTo(disposeBag)
-                sut.shareButtonState.asObservable().bindTo(shareButtonStateObserver).addDisposableTo(disposeBag)
-                sut.bumpUpBannerInfo.asObservable().bindTo(bumpUpBannerInfoObserver).addDisposableTo(disposeBag)
-                sut.socialMessage.asObservable().bindTo(socialMessageObserver).addDisposableTo(disposeBag)
-                sut.socialSharer.asObservable().bindTo(socialSharerObserver).addDisposableTo(disposeBag)
-                sut.ownerIsProfessional.asObservable().bindTo(isProfessionalObserver).addDisposableTo(disposeBag)
+
+                sut.objects.observable.bind(to: cellModelsObserver).disposed(by: disposeBag)
+                sut.productInfo.asObservable().bind(to: productInfoObserver).disposed(by: disposeBag)
+                sut.productImageURLs.asObservable().bind(to: productImageUrlsObserver).disposed(by: disposeBag)
+                sut.userInfo.asObservable().bind(to: userInfoObserver).disposed(by: disposeBag)
+                sut.listingStats.asObservable().bind(to: productStatsObserver).disposed(by: disposeBag)
+                sut.navBarButtons.asObservable().bind(to: navBarButtonsObserver).disposed(by: disposeBag)
+                sut.actionButtons.asObservable().bind(to: actionButtonsObserver).disposed(by: disposeBag)
+                sut.status.asObservable().bind(to: statusObserver).disposed(by: disposeBag)
+                sut.isFeatured.asObservable().bind(to: isFeaturedObserver).disposed(by: disposeBag)
+                sut.quickAnswers.asObservable().bind(to: quickAnswersObserver).disposed(by: disposeBag)
+                sut.quickAnswersAvailable.asObservable().bind(to: quickAnswersAvailableObserver).disposed(by: disposeBag)
+                sut.directChatEnabled.asObservable().bind(to: directChatEnabledObserver).disposed(by: disposeBag)
+                sut.directChatPlaceholder.asObservable().bind(to: directChatPlaceholderObserver).disposed(by: disposeBag)
+                sut.directChatMessages.observable.bind(to: directChatMessagesObserver).disposed(by: disposeBag)
+                sut.isFavorite.asObservable().bind(to: isFavoriteObserver).disposed(by: disposeBag)
+                sut.favoriteButtonState.asObservable().bind(to: favoriteButtonStateObserver).disposed(by: disposeBag)
+                sut.shareButtonState.asObservable().bind(to: shareButtonStateObserver).disposed(by: disposeBag)
+                sut.bumpUpBannerInfo.asObservable().bind(to: bumpUpBannerInfoObserver).disposed(by: disposeBag)
+                sut.socialMessage.asObservable().bind(to: socialMessageObserver).disposed(by: disposeBag)
+                sut.socialSharer.asObservable().bind(to: socialSharerObserver).disposed(by: disposeBag)
+                sut.ownerIsProfessional.asObservable().bind(to: isProfessionalObserver).disposed(by: disposeBag)
             }
 
             beforeEach {
@@ -1417,6 +1416,47 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 }
                 it("has two events for status") {
                     expect(statusObserver.eventValues.count) == 2
+                }
+            }
+            describe("listingOrigin") {
+                context("more info shown") {
+                    beforeEach {
+                        buildSut(initialProduct: product)
+                        sut.active = true
+                        sut.moreInfoState.value = .shown
+                    }
+                    context("user opened a listing") {
+                        beforeEach {
+                            sut.moveToProductAtIndex(0, movement: .initial)
+                        }
+                        it("should return that the origin is an initial request") {
+                            expect(sut.listingOrigin).to(equal(ListingOrigin.initial))
+                        }
+                    }
+                    context("user moved to a listing on the right") {
+                        beforeEach {
+                            sut.moveToProductAtIndex(0, movement: .swipeRight)
+                        }
+                        it("should return that the origin is a next request") {
+                            expect(sut.listingOrigin).to(equal(ListingOrigin.inResponseToNextRequest))
+                        }
+                    }
+                    context("user tapped to move to a new listing") {
+                        beforeEach {
+                            sut.moveToProductAtIndex(0, movement: .tap)
+                        }
+                        it("should return that the origin is a next request") {
+                            expect(sut.listingOrigin).to(equal(ListingOrigin.inResponseToNextRequest))
+                        }
+                    }
+                    context("user moved to a listing on the left") {
+                        beforeEach {
+                            sut.moveToProductAtIndex(0, movement: .swipeLeft)
+                        }
+                        it("should return that the origin is a previous request") {
+                            expect(sut.listingOrigin).to(equal(ListingOrigin.inResponseToPreviousRequest))
+                        }
+                    }
                 }
             }
         }

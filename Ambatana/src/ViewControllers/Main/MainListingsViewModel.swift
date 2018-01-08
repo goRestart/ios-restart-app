@@ -344,7 +344,7 @@ class MainListingsViewModel: BaseViewModel {
         Search action.
     */
     func search(_ query: String) {
-        guard !query.characters.isEmpty else { return }
+        guard !query.isEmpty else { return }
     
         delegate?.vmDidSearch()
         navigator?.openMainListings(withSearchType: .user(query: query), listingFilters: filters)
@@ -552,12 +552,12 @@ class MainListingsViewModel: BaseViewModel {
     }
    
     private func setupRx() {
-        listViewModel.isListingListEmpty.asObservable().bindNext { [weak self] _ in
+        listViewModel.isListingListEmpty.asObservable().bind { [weak self] _ in
             self?.updateCategoriesHeader()
-        }.addDisposableTo(disposeBag) 
-        shouldShowPrices.asObservable().bindNext { [weak self] shouldShowPrices in
+        }.disposed(by: disposeBag) 
+        shouldShowPrices.asObservable().bind { [weak self] shouldShowPrices in
             self?.listViewModel.updateShouldShowPrices(shouldShowPrices)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     /**
@@ -645,7 +645,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     func setupProductList() {
         listViewModel.dataDelegate = self
 
-        listingRepository.events.bindNext { [weak self] event in
+        listingRepository.events.bind { [weak self] event in
             switch event {
             case let .update(listing):
                 self?.listViewModel.update(listing: listing)
@@ -656,14 +656,14 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             case .favorite, .unFavorite, .sold, .unSold:
                 break
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        monetizationRepository.events.bindNext { [weak self] event in
+        monetizationRepository.events.bind { [weak self] event in
             switch event {
             case .freeBump, .pricedBump:
                 self?.listViewModel.refresh()
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     // MARK: > ListingListViewCellsDelegate
@@ -831,10 +831,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
 extension MainListingsViewModel {
     fileprivate func setupSessionAndLocation() {
-        sessionManager.sessionEvents.bindNext { [weak self] _ in self?.sessionDidChange() }.addDisposableTo(disposeBag)
-        locationManager.locationEvents.filter { $0 == .locationUpdate }.bindNext { [weak self] _ in
+        sessionManager.sessionEvents.bind { [weak self] _ in self?.sessionDidChange() }.disposed(by: disposeBag)
+        locationManager.locationEvents.filter { $0 == .locationUpdate }.bind { [weak self] _ in
             self?.locationDidChange()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     fileprivate func sessionDidChange() {
@@ -980,7 +980,7 @@ extension MainListingsViewModel {
     }
     
     func searchTextFieldDidUpdate(text: String) {
-        let charactersCount = text.characters.count
+        let charactersCount = text.count
         if charactersCount > 0 {
             retrieveSuggestiveSearches(term: text)
         } else {
@@ -1069,7 +1069,7 @@ extension MainListingsViewModel {
                          name: NSNotification.Name(rawValue: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue), object: nil)
     }
 
-    fileprivate dynamic func updatePermissionsWarning() {
+    @objc fileprivate dynamic func updatePermissionsWarning() {
         var currentHeader = mainListingsHeader.value
         if UIApplication.shared.areRemoteNotificationsEnabled {
             currentHeader.remove(MainListingsHeader.PushPermissions)
@@ -1080,7 +1080,7 @@ extension MainListingsViewModel {
         mainListingsHeader.value = currentHeader
     }
     
-    fileprivate dynamic func updateCategoriesHeader() {
+    @objc fileprivate dynamic func updateCategoriesHeader() {
         var currentHeader = mainListingsHeader.value
         if showCategoriesCollectionBanner {
             currentHeader.insert(MainListingsHeader.CategoriesCollectionBanner)
@@ -1178,7 +1178,7 @@ fileprivate extension MainListingsViewModel {
         if let search = searchType, search.isCollection {
             return .collection
         }
-        if searchType.isEmpty() {
+        if searchType == nil {
             if hasFilters {
                 return .filter
             }

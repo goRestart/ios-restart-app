@@ -17,8 +17,15 @@ public protocol Installation: BaseModel, UserDefaultsDecodable {
     init(objectId: String?, appIdentifier: String, appVersion: String, deviceType: String, timeZone: String?, localeIdentifier: String?, deviceToken: String?)
 }
 
-
-// MARK: > Decodable
+struct InstallationAPIKeys {
+    let objectId = "id"
+    let appIdentifier = "app_identifier"
+    let appVersion = "app_version"
+    let deviceType = "device_type"
+    let timeZone = "time_zone"
+    let localeIdentifier = "locale_identifier"
+    let deviceToken = "device_token"
+}
 
 struct InstallationUDKeys {
     static let objectId = "objectId"
@@ -31,7 +38,7 @@ struct InstallationUDKeys {
     static let deviceToken = "deviceToken"
 }
 
-extension Installation  {
+extension Installation {
     public static func decode(_ dictionary: [String: Any]) -> Self? {
         let objectId = dictionary[InstallationUDKeys.objectId] as? String
         let appIdentifier = dictionary[InstallationUDKeys.appIdentifier] as? String ?? ""
