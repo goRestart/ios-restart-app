@@ -136,8 +136,14 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
     }
 
     @objc private func didTapOnScrollView(sender: UITapGestureRecognizer) {
-        guard sender.location(in: previewImageView).y <= previewImageView.height else { return }
-        delegate?.didTapOnPreview()
+        let point = sender.location(in: previewImageView)
+        guard point.y <= previewImageView.height else { return }
+        let showFullThreshold = (3/4)*previewImageView.height
+        if abs(scrollView.contentOffset.y) > showFullThreshold {
+            delegate?.didTapOnPreview()
+        } else {
+            showPreview()
+        }
     }
 
     private func deactivateFullMap() {
@@ -289,6 +295,15 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
         countImageView.alpha = alpha
         imageCountLabel.alpha = alpha
         gradient.alpha = alpha
+    }
+
+    private func showPreview() {
+        let offsetY = -scrollViewContentInset.top
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       options: .curveEaseIn, animations: { [weak self] in
+                        self?.scrollView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: true)
+            }, completion: nil)
     }
 
     @objc private func scrollToDetail() {
