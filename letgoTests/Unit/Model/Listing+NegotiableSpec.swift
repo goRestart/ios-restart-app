@@ -19,15 +19,6 @@ class ListingNegotiableSpec: QuickSpec {
         var freeModeAllowed: Bool!
         
         describe("Listing+Negotiable isNegotiable func") {
-            context("negotiable price") {
-                beforeEach {
-                    listing = Listing.makeListing(price: ListingPrice.negotiable(Double.makeRandom()))
-                    freeModeAllowed = Bool.makeRandom()
-                }
-                it("returns true") {
-                    expect(listing.isNegotiable(freeModeAllowed: freeModeAllowed)).to(beTrue())
-                }
-            }
             context("free listing") {
                 beforeEach {
                     listing = Listing.makeListing(price: ListingPrice.free)
@@ -49,15 +40,6 @@ class ListingNegotiableSpec: QuickSpec {
             context("price is different than 0") {
                 beforeEach {
                     listing = Listing.makeListing(price: ListingPrice.normal(Double.makeRandom()))
-                    freeModeAllowed = Bool.makeRandom()
-                }
-                it("returns false") {
-                    expect(listing.isNegotiable(freeModeAllowed: freeModeAllowed)).to(beFalse())
-                }
-            }
-            context("is firm price") {
-                beforeEach {
-                    listing = Listing.makeListing(price: ListingPrice.firmPrice(Double.makeRandom()))
                     freeModeAllowed = Bool.makeRandom()
                 }
                 it("returns false") {
