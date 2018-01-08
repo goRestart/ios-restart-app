@@ -11,6 +11,7 @@ import Foundation
 final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType, UICollectionViewDataSource, UICollectionViewDelegate {
 
     override var prefersStatusBarHidden: Bool { return true }
+    
     let chatView: QuickChatView
     let photoViewer = PhotoViewerView()
     private let viewModel: PhotoViewerViewModel
@@ -64,6 +65,10 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         setNavigationBarRightButtons([])
     }
 
+    private func hideLeftButton() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem()
+    }
+
     private func setLeftCloseButton() {
         let leftButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_carousel"),
                                          style: .plain,
@@ -99,6 +104,8 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     }
 
     func showChat() {
+        hideLeftButton()
+
         chatView.frame = photoViewer.frame
         chatView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(chatView)
@@ -111,10 +118,11 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
         guard let gesture = tapGestureRecognizer else { return }
         chatView.addDismissGestureRecognizer(gesture)
+
     }
 
     @objc func closeView() {
-        self.presentingViewController?.dismiss(animated: true)
+        viewModel.dismiss()
     }
 
     // MARK: UICollectionViewDataSource
@@ -151,6 +159,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
             chatView.removeGestureRecognizer(gesture)
         }
         chatView.resignFirstResponder()
+        setLeftCloseButton()
     }
 
     // MARK: UIGestureRecognizer
