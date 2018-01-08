@@ -791,6 +791,7 @@
 "real_estate_title_generator_property_type_house" = "Ház";
 "real_estate_title_generator_property_type_other" = "Egyéb";
 "real_estate_title_generator_property_type_room" = "Szoba";
+"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 "real_estate_type_property_apartment" = "Lakás";
 "real_estate_type_property_commercial" = "Kereskedelmi";
 "real_estate_type_property_house" = "Ház";

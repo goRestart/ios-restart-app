@@ -617,7 +617,7 @@
 "product_post_retake" = "Переснять";
 "product_post_retry_button" = "Попробовать еще";
 "product_post_select_category_cars" = "Машины";
-"product_post_select_category_housing" = "Жилье";
+"product_post_select_category_housing" = "Жилье в аренду / на продажу";
 "product_post_select_category_motors_and_accessories" = "Транспорт и запчасти";
 "product_post_select_category_other" = "Другие товары";
 "product_post_select_category_title" = "Что вы размещаете?";
@@ -791,6 +791,7 @@
 "real_estate_title_generator_property_type_house" = "Дом";
 "real_estate_title_generator_property_type_other" = "Другое";
 "real_estate_title_generator_property_type_room" = "Комната";
+"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 "real_estate_type_property_apartment" = "Апартаменты";
 "real_estate_type_property_commercial" = "Коммерческая";
 "real_estate_type_property_house" = "Дом";

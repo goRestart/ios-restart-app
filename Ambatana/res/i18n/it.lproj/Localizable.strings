@@ -791,6 +791,7 @@
 "real_estate_title_generator_property_type_house" = "Intera casa";
 "real_estate_title_generator_property_type_other" = "Altro";
 "real_estate_title_generator_property_type_room" = "Stanza";
+"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 "real_estate_type_property_apartment" = "Appartamento";
 "real_estate_type_property_commercial" = "Fondo commerciale";
 "real_estate_type_property_house" = "Intera casa";

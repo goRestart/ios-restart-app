@@ -791,6 +791,7 @@
 "real_estate_title_generator_property_type_house" = "Talo";
 "real_estate_title_generator_property_type_other" = "Muu";
 "real_estate_title_generator_property_type_room" = "Huone";
+"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 "real_estate_type_property_apartment" = "Huoneisto";
 "real_estate_type_property_commercial" = "Kaupallinen";
 "real_estate_type_property_house" = "Talo";
