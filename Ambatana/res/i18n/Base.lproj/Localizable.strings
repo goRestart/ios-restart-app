@@ -2423,9 +2423,6 @@
 // Tooltip text included on sell button
 "real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 
-// Message inside expandable sell your stuff menu to announce RE
-"real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
-
 // Title when showing list of related items
 "related_items_title" = "Related listings";
 

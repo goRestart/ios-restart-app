@@ -3255,10 +3255,6 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_tooltip_sell_button", comment: "")
 	}
 
-	static var realEstateTooltipOverlayExpandableMenu: String {
-		return NSLocalizedString("real_estate_tooltip_overlay_expandable_menu", comment: "")
-	}
-
 	static var relatedItemsTitle: String {
 		return NSLocalizedString("related_items_title", comment: "")
 	}

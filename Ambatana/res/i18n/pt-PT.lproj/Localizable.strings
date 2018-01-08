@@ -617,7 +617,7 @@
 "product_post_retake" = "Refazer";
 "product_post_retry_button" = "Tente novamente";
 "product_post_select_category_cars" = "Viaturas";
-"product_post_select_category_housing" = "Habitação para Arrendar / Vender";
+"product_post_select_category_housing" = "Habitação";
 "product_post_select_category_motors_and_accessories" = "Outros Veículos e Peças";
 "product_post_select_category_other" = "Outros itens";
 "product_post_select_category_title" = "O que está a publicar?";
@@ -791,8 +791,7 @@
 "real_estate_title_generator_property_type_house" = "Moradia";
 "real_estate_title_generator_property_type_other" = "Outro";
 "real_estate_title_generator_property_type_room" = "Quarto";
-"real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
-"real_estate_tooltip_sell_button" = "Publique um imóvel para venda ou arrendamento na sua nova categoria Habitação";
+"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 "real_estate_type_property_apartment" = "Apartamento";
 "real_estate_type_property_commercial" = "Comércio";
 "real_estate_type_property_house" = "Moradia";

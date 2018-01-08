@@ -617,7 +617,7 @@
 "product_post_retake" = "Ota uusi kuva";
 "product_post_retry_button" = "Yritä uudelleen";
 "product_post_select_category_cars" = "Autoja";
-"product_post_select_category_housing" = "Vuokrattavat/myytävät asunnot";
+"product_post_select_category_housing" = "Asunnot";
 "product_post_select_category_motors_and_accessories" = "Muut ajoneuvot ja varusteet";
 "product_post_select_category_other" = "Muut tuotteet";
 "product_post_select_category_title" = "Mitä olet julkaisemassa?";
@@ -791,8 +791,7 @@
 "real_estate_title_generator_property_type_house" = "Talo";
 "real_estate_title_generator_property_type_other" = "Muu";
 "real_estate_title_generator_property_type_room" = "Huone";
-"real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
-"real_estate_tooltip_sell_button" = "Julkaise kiinteistö myytäväksi tai vuokrattavaksi uudessa Asunnot-kategoriassamme";
+"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 "real_estate_type_property_apartment" = "Huoneisto";
 "real_estate_type_property_commercial" = "Kaupallinen";
 "real_estate_type_property_house" = "Talo";
