@@ -10,7 +10,7 @@ import LGCoreKit
 
 extension ListingPrice {
     func stringValue(currency: Currency, isFreeEnabled: Bool) -> String {
-        if isFreeEnabled && free {
+        if isFreeEnabled && isFree {
             return LGLocalizedString.productFreePrice
         } else {
             return value > 0 ? formattedPrice(currency: currency) :  LGLocalizedString.productNegotiablePrice

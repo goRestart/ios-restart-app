@@ -92,7 +92,7 @@ struct Constants {
     static let maxPriceIntegerCharacters = 9
     static let maxPriceFractionalCharacters = 2
     static let currencyDefault = "US"
-    static let defaultPrice: ListingPrice = .negotiable(0)
+    static let defaultPrice: ListingPrice = .normal(0)
 
     // Messages retrieving
     static let numMessagesPerPage = 40

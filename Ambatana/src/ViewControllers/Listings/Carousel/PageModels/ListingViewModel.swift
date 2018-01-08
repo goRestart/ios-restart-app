@@ -73,7 +73,7 @@ class ListingViewModel: BaseViewModel {
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
     var quickAnswers: [[QuickAnswer]] {
         guard !isMine else { return [] }
-        let isFree = listing.value.price.free && featureFlags.freePostingModeAllowed
+        let isFree = listing.value.price.isFree && featureFlags.freePostingModeAllowed
         let isNegotiable = listing.value.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
         return QuickAnswer.quickAnswersForPeriscope(isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
     }
@@ -871,7 +871,7 @@ fileprivate extension ListingViewModel {
                                                             trackingInfo: trackingInfo)
                 }
             } else {
-                let message = strongSelf.listing.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
+                let message = strongSelf.listing.value.price.isFree ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
                 strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
             }
         }
@@ -961,7 +961,7 @@ fileprivate extension ListingViewModel {
             let message: String
             if let value = result.value {
                 strongSelf.listing.value = value
-                message = strongSelf.listing.value.price.free ? LGLocalizedString.productSellAgainFreeSuccessMessage : LGLocalizedString.productSellAgainSuccessMessage
+                message = strongSelf.listing.value.price.isFree ? LGLocalizedString.productSellAgainFreeSuccessMessage : LGLocalizedString.productSellAgainSuccessMessage
                 self?.trackHelper.trackMarkUnsoldCompleted()
             } else {
                 message = LGLocalizedString.productSellAgainErrorGeneric
