@@ -791,7 +791,8 @@
 "real_estate_title_generator_property_type_house" = "Дом";
 "real_estate_title_generator_property_type_other" = "Другое";
 "real_estate_title_generator_property_type_room" = "Комната";
-"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
+"real_estate_tooltip_overlay_expandable_menu" = "Если вы размещаете жилье на продажу или в аренду, попробуйте нашу новую категорию Жилье!";
+"real_estate_tooltip_sell_button" = "Разместите жилье на продажу или в аренду в новой категории Жилье";
 "real_estate_type_property_apartment" = "Апартаменты";
 "real_estate_type_property_commercial" = "Коммерческая";
 "real_estate_type_property_house" = "Дом";

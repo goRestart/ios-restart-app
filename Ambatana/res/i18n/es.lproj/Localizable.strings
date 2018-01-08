@@ -791,7 +791,8 @@
 "real_estate_title_generator_property_type_house" = "Casa";
 "real_estate_title_generator_property_type_other" = "Otros";
 "real_estate_title_generator_property_type_room" = "Habitación";
-"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
+"real_estate_tooltip_overlay_expandable_menu" = "Si quieres publicar propiedades en venta o alquiler, ¡prueba nuestra nueva categoría: Viviendas!";
+"real_estate_tooltip_sell_button" = "Publica propiedades en venta o alquiler en la categoría de Viviendas";
 "real_estate_type_property_apartment" = "Piso";
 "real_estate_type_property_commercial" = "Comercial";
 "real_estate_type_property_house" = "Casa";
