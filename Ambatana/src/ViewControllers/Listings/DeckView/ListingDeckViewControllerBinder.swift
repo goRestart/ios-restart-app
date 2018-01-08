@@ -106,7 +106,7 @@ final class ListingDeckViewControllerBinder {
 
     private func bindContentOffset(withViewController viewController: ListingDeckViewController,
                                    viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewController.contentOffset.asObservable()
+        viewController.contentOffset
             .map { [unowned listingDeckView] x in
                 let pageOffset = listingDeckView.pageOffset(givenOffset: x).truncatingRemainder(dividingBy: 1.0)
                 guard pageOffset >= 0.5 else {
@@ -119,6 +119,11 @@ final class ListingDeckViewControllerBinder {
         viewController.contentOffset.skip(1).bind { _ in
             // TODO: Tracking 3109
             viewModel.moveToProductAtIndex(listingDeckView.currentPage, movement: .swipeRight)
+        }.disposed(by: disposeBag)
+
+        let pageSignal: Observable<Int> = viewController.contentOffset.map { _ in return listingDeckView.currentPage }
+        pageSignal.distinctUntilChanged().bind { page in
+            viewController.pageDidChange(current: page)
         }.disposed(by: disposeBag)
     }
 

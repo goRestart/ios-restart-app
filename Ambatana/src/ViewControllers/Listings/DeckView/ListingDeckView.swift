@@ -99,6 +99,15 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
         quickChatView.layout(with: self).fill()
     }
 
+    func enableScrollForItemAtPage(_ page: Int) {
+        collectionView.cellForItem(at: IndexPath(item: page - 1,
+                                                 section: 0))?.contentView.isUserInteractionEnabled = false
+        collectionView.cellForItem(at: IndexPath(item: page + 1,
+                                                 section: 0))?.contentView.isUserInteractionEnabled = false
+
+        collectionView.cellForItem(at: IndexPath(item: page, section: 0))?.contentView.isUserInteractionEnabled = true
+    }
+
     func pageOffset(givenOffset: CGFloat) -> CGFloat {
         return collectionLayout.pageOffset(givenOffset: givenOffset)
     }
@@ -133,7 +142,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     }
 
     // MARK: Chat
-
 
     func updateChatWith(alpha: CGFloat) {
         quickChatView?.alpha = alpha

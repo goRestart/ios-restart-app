@@ -17,6 +17,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     var contentOffset: Observable<CGFloat> { return  contentOffsetVar.asObservable() }
     private let contentOffsetVar = Variable<CGFloat>(0)
+
     fileprivate let listingDeckView = ListingDeckView()
     fileprivate let viewModel: ListingDeckViewModel
     fileprivate let binder = ListingDeckViewControllerBinder()
@@ -91,7 +92,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
             cell.populateWith(listingViewModel: listing, imageDownloader: viewModel.imageDownloader)
             binder.bind(cell: cell)
             cell.delegate = self
-
+            cell.contentView.isUserInteractionEnabled = (indexPath.row == listingDeckView.currentPage)
+            
             return cell
         }
         return UICollectionViewCell()
@@ -103,6 +105,10 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         contentOffsetVar.value = scrollView.contentOffset.x
     }
 
+    func pageDidChange(current: Int) {
+        listingDeckView.enableScrollForItemAtPage(current)
+    }
+
     // MARK: NavBar
 
     private func setupNavigationBar() {
@@ -110,12 +116,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
 
-        let rightButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_more_options"), style: .plain, target: self, action: #selector(didTapMoreInfo))
         let leftButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_red"), style: .plain, target: self, action: #selector(didTapClose))
-        self.navigationItem.rightBarButtonItem = rightButton
         self.navigationItem.leftBarButtonItem  = leftButton
-
-        setNavigationBarRightButtons([])
     }
 
     func didTapShare() {
@@ -133,10 +135,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         }) { (completion) in
             self.viewModel.close()
         }
-    }
-
-    @objc private func didTapMoreInfo() {
-
     }
 
     func updateViewWith(alpha: CGFloat) {
