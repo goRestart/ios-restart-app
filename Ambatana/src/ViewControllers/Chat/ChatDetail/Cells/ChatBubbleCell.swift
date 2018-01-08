@@ -41,7 +41,7 @@ class ChatBubbleCell: UITableViewCell {
         backgroundColor = .clear
     }
     
-    func menuControllerWillHide(_ notification: Notification) {
+    @objc func menuControllerWillHide(_ notification: Notification) {
         setSelected(false, animated: true)
     }
     

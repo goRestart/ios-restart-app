@@ -130,8 +130,8 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
                                                      constraintBlock: { [weak self] in self?.textTitleLeftMargin = $0 })
         textTitleLabel.layout(with: background).right(by: -Metrics.margin)
         textTitleLabel.numberOfLines = 0
-        textTitleLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-        textTitleLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+        textTitleLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
+        textTitleLabel.setContentHuggingPriority(UILayoutPriority.required, for: .vertical)
         textTitleLabel.font = UIFont.notificationTitleFont
     }
 
@@ -140,8 +140,8 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         textBodyLabel.layout(with: textTitleLabel).below(by: Metrics.modularNotificationTextMargin, constraintBlock: { [weak self] in self?.textBodyLabelTopMargin = $0 })
         textBodyLabel.layout(with: textTitleLabel).fillHorizontal()
         textBodyLabel.numberOfLines = 0
-        textBodyLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .vertical)
-        textBodyLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .vertical)
+        textBodyLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
+        textBodyLabel.setContentHuggingPriority(UILayoutPriority.required, for: .vertical)
         textBodyLabel.font = UIFont.notificationSubtitleFont(read: false)
 
         let tapText = UITapGestureRecognizer(target: self, action: #selector(elementTapped))
@@ -395,7 +395,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     
     // MARK: - Deeplinks and actions on cell. 
     
-    func elementTapped(sender: UITapGestureRecognizer) {
+    @objc func elementTapped(sender: UITapGestureRecognizer) {
         guard let view = sender.view else { return }
         var sourceClickArea: EventParameterNotificationClickArea
         var deeplinkString: String? = nil
@@ -415,7 +415,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         notifacionModuleTapped(with: deeplinkString, source: sourceClickArea)
     }
     
-    func thumbnailTapped(sender: UITapGestureRecognizer) {
+    @objc func thumbnailTapped(sender: UITapGestureRecognizer) {
         guard let view = sender.view as? UIImageView else { return }
         guard let thumbnailTappedIndex = thumbnails.index(of: view) else { return }
         let sourceClickArea: EventParameterNotificationClickArea
@@ -434,7 +434,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         notifacionModuleTapped(with: thumbnailsDeeplinks[thumbnailTappedIndex], source: sourceClickArea)
     }
     
-    func CTATapped(sender: UITapGestureRecognizer) {
+    @objc func CTATapped(sender: UITapGestureRecognizer) {
         guard let view = sender.view as? UIButton else { return }
         guard let buttonTappedIndex = callsToAction.index(of: view) else { return }
         let sourceClickArea: EventParameterNotificationClickArea

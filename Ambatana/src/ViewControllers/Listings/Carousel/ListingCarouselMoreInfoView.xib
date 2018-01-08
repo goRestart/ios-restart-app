@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="17A405" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,10 +25,10 @@
                     <blurEffect style="dark"/>
                 </visualEffectView>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="Sdr-8s-uVp">
-                    <rect key="frame" x="0.0" y="72" width="360" height="730"/>
+                    <rect key="frame" x="0.0" y="84" width="360" height="718"/>
                     <subviews>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mi7-4s-ycC" userLabel="Scroll View Content View">
-                            <rect key="frame" x="0.0" y="0.0" width="360" height="583"/>
+                            <rect key="frame" x="0.0" y="0.0" width="360" height="583.5"/>
                             <subviews>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" bounces="NO" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="oeq-yb-nsx">
                                     <rect key="frame" x="15" y="12" width="10" height="36.5"/>
@@ -58,7 +59,7 @@
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </view>
                                 <view contentMode="scaleToFill" placeholderIntrinsicWidth="336" placeholderIntrinsicHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="0q8-D2-b1O" userLabel="Tags Collection" customClass="TagCollectionView" customModule="LetGo" customModuleProvider="target">
-                                    <rect key="frame" x="14" y="133" width="336" height="20"/>
+                                    <rect key="frame" x="14" y="133.5" width="336" height="20"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wTN-H3-8cr" userLabel="Stats Container View">
@@ -91,14 +92,14 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Y0-XY-Oc9" userLabel="Banner Container View">
-                                    <rect key="frame" x="0.0" y="418" width="360" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="418.5" width="360" height="0.0"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="height" id="lG7-cp-bzA"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bmO-mK-0l1" userLabel="SocialShareContainer">
-                                    <rect key="frame" x="15" y="433" width="330" height="135"/>
+                                    <rect key="frame" x="15" y="433.5" width="330" height="135"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_SHARE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tVU-MY-f3B">
                                             <rect key="frame" x="0.0" y="0.0" width="330" height="18"/>
@@ -240,10 +241,12 @@
                 <outlet property="dragView" destination="lq7-uR-qpI" id="84m-7C-8UB"/>
                 <outlet property="dragViewImage" destination="c2c-7V-Amf" id="3eF-ez-dsu"/>
                 <outlet property="dragViewTitle" destination="izu-M0-9D7" id="0Bf-ZS-spW"/>
+                <outlet property="dragViewToVisualEffectConstraint" destination="85R-SK-QFq" id="hbh-v6-Yjz"/>
                 <outlet property="mapViewContainer" destination="1f9-4W-3qg" id="xyi-v9-DZe"/>
                 <outlet property="priceLabel" destination="FJ3-IZ-f8e" id="CyT-QN-x2P"/>
                 <outlet property="scrollView" destination="Sdr-8s-uVp" id="VYC-sX-HPk"/>
                 <outlet property="scrollViewContent" destination="Mi7-4s-ycC" id="765-Ju-4IZ"/>
+                <outlet property="scrollViewToSuperviewTopConstraint" destination="UOL-x8-r43" id="xkp-bf-IcT"/>
                 <outlet property="shareViewToBannerTopConstraint" destination="oer-9C-vln" id="L0J-wo-fdT"/>
                 <outlet property="shareViewToMapTopConstraint" destination="8P8-K0-2gs" id="gv8-YH-V9d"/>
                 <outlet property="socialShareContainer" destination="bmO-mK-0l1" id="eVV-o6-OYM"/>

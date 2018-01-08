@@ -14,6 +14,7 @@ protocol FilterDistanceSliderDelegate: class {
 }
 
 class FilterDistanceSlider: UIView {
+    override var intrinsicContentSize: CGSize { return UILayoutFittingExpandedSize }
     
     @IBOutlet weak var closeIcon: UIImageView!
     @IBOutlet weak var farIcon: UIImageView!

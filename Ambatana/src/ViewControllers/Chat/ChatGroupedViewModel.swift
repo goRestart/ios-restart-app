@@ -147,9 +147,9 @@ class ChatGroupedViewModel: BaseViewModel {
 
         let color: UIColor = selected ? UIColor.primaryColor : UIColor.black
 
-        var titleAttributes = [String : Any]()
-        titleAttributes[NSForegroundColorAttributeName] = color
-        titleAttributes[NSFontAttributeName] = selected ? UIFont.activeTabFont : UIFont.inactiveTabFont
+        var titleAttributes = [NSAttributedStringKey : Any]()
+        titleAttributes[NSAttributedStringKey.foregroundColor] = color
+        titleAttributes[NSAttributedStringKey.font] = selected ? UIFont.activeTabFont : UIFont.inactiveTabFont
 
         let string: NSAttributedString
         switch tab {
@@ -192,7 +192,7 @@ class ChatGroupedViewModel: BaseViewModel {
 
     func chatListViewModelForTabAtIndex(_ index: Int) -> ChatListViewModel? {
         guard let chatListVM = viewModelAtIndex(index) else { return nil }
-        return chatListVM as? ChatListViewModel
+        return chatListVM
     }
 
 
@@ -278,7 +278,7 @@ extension ChatGroupedViewModel {
             case .blockedUsers:
                 return self?.blockedUsersListViewModel
             }
-        }.bindTo(currentPageViewModel).addDisposableTo(disposeBag)
+        }.bind(to: currentPageViewModel).disposed(by: disposeBag)
 
         // Observe current page view model changes
         currentPageViewModel.asObservable().subscribeNext { [weak self] viewModel in
@@ -288,32 +288,32 @@ extension ChatGroupedViewModel {
             viewModel?.rx_objectCount.asObservable()
                 .takeUntil(strongSelf.currentPageViewModel.asObservable().skip(1))
                 .map { $0 > 0 }
-                .bindTo(strongSelf.editButtonEnabled)
-                .addDisposableTo(strongSelf.disposeBag)
+                .bind(to: strongSelf.editButtonEnabled)
+                .disposed(by: strongSelf.disposeBag)
 
             viewModel?.editing.asObservable()
                 .takeUntil(strongSelf.currentPageViewModel.asObservable().skip(1))
                 .map { editing in return strongSelf.currentTab.value.editButtonText(editing) }
-                .bindTo(strongSelf.editButtonText)
-                .addDisposableTo(strongSelf.disposeBag)
+                .bind(to: strongSelf.editButtonText)
+                .disposed(by: strongSelf.disposeBag)
 
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        chatRepository.chatStatus.map { $0 == .openAuthenticated }.bindTo(editButtonEnabled).addDisposableTo(disposeBag)
+        chatRepository.chatStatus.map { $0 == .openAuthenticated }.bind(to: editButtonEnabled).disposed(by: disposeBag)
 
-        chatRepository.chatStatus.bindNext { [weak self] (status) in
+        chatRepository.chatStatus.bind { [weak self] (status) in
             if status == .openNotVerified {
                 self?.verificationPending.value = true
             } else if status == .openAuthenticated || status == .closed {
                 self?.verificationPending.value = false
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         chatRepository.chatStatus.map { $0 == .openNotVerified }.distinctUntilChanged().filter { $0 }.subscribeNext { [weak self] _ in
             self?.tabNavigator?.openVerifyAccounts([.facebook, .google, .email(self?.myUserRepository.myUser?.email)],
                 source: .chat(title: LGLocalizedString.chatConnectAccountsTitle,
                     description: LGLocalizedString.chatNotVerifiedAlertMessage),
                 completionBlock: nil)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }

@@ -88,7 +88,7 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
     
     
     func firstSectionAttributedTitle() -> NSAttributedString {
-        let attributes = [NSForegroundColorAttributeName: UIColor.primaryColor]
+        let attributes = [NSAttributedStringKey.foregroundColor: UIColor.primaryColor]
         let title = NSMutableAttributedString(string: "1. ", attributes: attributes)
         let t = NSAttributedString(string: LGLocalizedString.notificationsPermissionsSettingsSection1, attributes: nil)
         title.append(t)
@@ -96,7 +96,7 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
     }
     
     func secondSectionAttributedTitle() -> NSAttributedString {
-        let attributes = [NSForegroundColorAttributeName: UIColor.primaryColor]
+        let attributes = [NSAttributedStringKey.foregroundColor: UIColor.primaryColor]
         let title = NSMutableAttributedString(string: "2. ", attributes: attributes)
         let t = NSAttributedString(string: LGLocalizedString.notificationsPermissionsSettingsSection2, attributes: nil)
         title.append(t)

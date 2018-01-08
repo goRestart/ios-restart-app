@@ -26,7 +26,7 @@ public struct MockChatMessage: ChatMessage {
         result["text"] = text
         result["sent_at"] = Int64((sentAt ?? Date()).timeIntervalSince1970 * 1000.0)
         result["type"] = type.rawValue
-        result["warnings"] = warnings.flatMap { $0.rawValue }
+        result["warnings"] = warnings.map { $0.rawValue }
         result["received_at"] = Int64((receivedAt ?? Date()).timeIntervalSince1970 * 1000.0)
         result["read_at"] = Int64((readAt ?? Date()).timeIntervalSince1970 * 1000.0)
         return result

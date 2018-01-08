@@ -204,6 +204,7 @@ enum ButtonState {
     case hidden
     case enabled
     case disabled
+    case loading
 }
 
 extension UIButton {
@@ -215,7 +216,7 @@ extension UIButton {
         case .enabled:
             isHidden = false
             isEnabled = true
-        case .disabled:
+        case .disabled, .loading:
             isHidden = false
             isEnabled = false
         }

@@ -6,8 +6,6 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-
 public enum PaymentProvider: String {
     case letgo = "letgo"
     case apple = "apple"
@@ -15,5 +13,3 @@ public enum PaymentProvider: String {
 
     public static let allValues: [PaymentProvider] = [.letgo, .apple, .hidden]
 }
-
-extension PaymentProvider: Decodable {}

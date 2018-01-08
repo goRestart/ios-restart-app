@@ -103,7 +103,7 @@ class BlockedUsersListView: ChatGroupedListView, BlockedUsersListViewModelDelega
     
     // MARK: - Private Methods
 
-    dynamic private func unblockUsersPressed() {
+    @objc private func unblockUsersPressed() {
         guard let blockedUsersListViewDelegate = blockedUsersListViewDelegate else { return }
         guard let indexPaths = tableView.indexPathsForSelectedRows else { return }
         let indexes: [Int] = indexPaths.map({ $0.row })

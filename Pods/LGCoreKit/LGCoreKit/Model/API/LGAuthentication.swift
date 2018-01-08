@@ -6,34 +6,26 @@
 //  Copyright © 2015 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-import Curry
-import Runes
-
-struct LGAuthentication: Authentication {
-    let id: String
-    let token: String
+protocol Authentication {
+    var id: String { get }
+    var token: String { get }
 }
 
-
-// MARK: - Decodable
-
-extension LGAuthentication: Decodable {
-    /**
-    Expects a json in the form:
-
-    {
-        "id": "string",
-        "auth_token": "string"
-    }
-    */
-    static func decode(_ j: JSON) -> Decoded<LGAuthentication> {
-        let result1 = curry(LGAuthentication.init)
-        let result2 = result1 <^> j <| "id"
-        let result  = result2 <*> j <| "auth_token"
-        if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGAuthentication parse error: \(error)")
-        }
-        return result
+struct LGAuthentication: Authentication, Decodable {
+    let id: String
+    let token: String
+    
+    // MARK: Decodable
+    
+    /*
+     {
+     "id": "string",
+     "auth_token": "string"
+     }
+     */
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case token = "auth_token"
     }
 }

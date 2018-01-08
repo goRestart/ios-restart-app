@@ -98,7 +98,7 @@ class LGLocationManager: NSObject, CLLocationManagerDelegate, LocationManager {
             case .logout:
                 self?.isManualLocationEnabled = false
             }
-            }.addDisposableTo(sessionDisposeBag)
+            }.disposed(by: sessionDisposeBag)
     }
     
     

@@ -109,10 +109,19 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
     }
 
     private func setupRx() {
-        viewModel.fbButtonState.asObservable().bindTo(fbButton.rx.verifyState).addDisposableTo(disposeBag)
-        viewModel.googleButtonState.asObservable().bindTo(googleButton.rx.verifyState).addDisposableTo(disposeBag)
-        viewModel.emailButtonState.asObservable().bindTo(emailButton.rx.verifyState).addDisposableTo(disposeBag)
-        viewModel.typedEmailState.asObservable().bindTo(emailTextFieldButton.rx.verifyState).addDisposableTo(disposeBag)
+        viewModel.fbButtonState.asObservable().bind { [weak self] state in
+            self?.fbButton.setState(state)
+            }.disposed(by: disposeBag)
+        viewModel.googleButtonState.asObservable().bind { [weak self] state in
+            self?.googleButton.setState(state)
+            }.disposed(by: disposeBag)
+        viewModel.emailButtonState.asObservable().bind { [weak self] state in
+            self?.emailButton.setState(state)
+            }.disposed(by: disposeBag)
+        viewModel.typedEmailState.asObservable().bind { [weak self] state in
+            self?.emailTextFieldButton.setState(state)
+            }.disposed(by: disposeBag)
+        
         viewModel.typedEmailState.asObservable().map { state in
             switch state {
             case .hidden:
@@ -120,23 +129,23 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
             case .loading, .enabled, .disabled:
                 return false
             }
-        }.bindNext { [weak self] (hidden:Bool) in
+        }.bind { [weak self] (hidden:Bool) in
             self?.emailButtonLogo.isHidden = !hidden
             self?.emailTextField.isHidden = hidden
             self?.emailTextFieldLogo.isHidden = hidden
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        backgroundButton.rx.tap.bindNext { [weak self] in self?.viewModel.closeButtonPressed() }.addDisposableTo(disposeBag)
-        fbButton.rx.tap.bindNext { [weak self] in self?.viewModel.fbButtonPressed()}.addDisposableTo(disposeBag)
-        googleButton.rx.tap.bindNext { [weak self] in self?.googleButtonPressed() }.addDisposableTo(disposeBag)
-        emailButton.rx.tap.bindNext { [weak self] in self?.viewModel.emailButtonPressed() }.addDisposableTo(disposeBag)
-        emailTextFieldButton.rx.tap.bindNext { [weak self] in self?.viewModel.typedEmailButtonPressed() }.addDisposableTo(disposeBag)
-        emailTextField.rx.text.map { ($0 ?? "") }.bindTo(viewModel.typedEmail).addDisposableTo(disposeBag)
-        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bindNext { [weak self] origin in
+        backgroundButton.rx.tap.bind { [weak self] in self?.viewModel.closeButtonPressed() }.disposed(by: disposeBag)
+        fbButton.rx.tap.bind { [weak self] in self?.viewModel.fbButtonPressed()}.disposed(by: disposeBag)
+        googleButton.rx.tap.bind { [weak self] in self?.googleButtonPressed() }.disposed(by: disposeBag)
+        emailButton.rx.tap.bind { [weak self] in self?.viewModel.emailButtonPressed() }.disposed(by: disposeBag)
+        emailTextFieldButton.rx.tap.bind { [weak self] in self?.viewModel.typedEmailButtonPressed() }.disposed(by: disposeBag)
+        emailTextField.rx.text.map { ($0 ?? "") }.bind(to: viewModel.typedEmail).disposed(by: disposeBag)
+        keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bind { [weak self] origin in
             guard let viewHeight = self?.view.height, let animationTime = self?.keyboardHelper.animationTime, viewHeight >= origin else { return }
             self?.contentContainerCenterY.constant = -((viewHeight - origin)/2)
             UIView.animate(withDuration: Double(animationTime), animations: {[weak self] in self?.view.layoutIfNeeded()})
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     // MARK: - Google login.

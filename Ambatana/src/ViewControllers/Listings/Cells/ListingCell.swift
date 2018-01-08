@@ -251,7 +251,7 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         relatedListingButton.layout(with: cellContent).proportionalWidth(multiplier: 0.3,
                                                                          add: 0,
                                                                          relatedBy: .equal,
-                                                                         priority: UILayoutPriorityRequired,
+                                                                         priority: UILayoutPriority.required,
                                                                          constraintBlock: nil)
         relatedListingButton.layout().widthProportionalToHeight()
 
@@ -278,7 +278,7 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         relatedListingButton.compress()
     }
 
-    dynamic private func openChat() {
+    @objc private func openChat() {
         guard let listing = listing else { return }
         delegate?.chatButtonPressedFor(listing: listing)
     }

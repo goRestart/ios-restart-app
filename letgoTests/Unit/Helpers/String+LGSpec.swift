@@ -342,8 +342,8 @@ class StringLGSpec: QuickSpec {
                 var result: NSAttributedString!
                 var ignoreText: String!
                 var font: UIFont!
-                var regularAttributes: [String : Any]!
-                var boldAttributes: [String : Any]!
+                var regularAttributes: [NSAttributedStringKey : Any]!
+                var boldAttributes: [NSAttributedStringKey : Any]!
                 
                 context("with a valid font") {
                     context("ignoreText contained in string") {
@@ -356,25 +356,25 @@ class StringLGSpec: QuickSpec {
                             
                             regularAttributes = result.attributes(at: 0,
                                                                   longestEffectiveRange: nil,
-                                                                  in: NSRange(location: 0, length: ignoreText.characters.count))
+                                                                  in: NSRange(location: 0, length: ignoreText.count))
                             
-                            let boldStarIndex = ignoreText.characters.count > 0 ? ignoreText.characters.count + 1 : 0
-                            let boldLength = result.string.characters.count-ignoreText.characters.count
+                            let boldStarIndex = ignoreText.count > 0 ? ignoreText.count + 1 : 0
+                            let boldLength = result.string.count-ignoreText.count
                             boldAttributes = result.attributes(at: boldStarIndex,
                                                                longestEffectiveRange: nil,
                                                                in: NSRange(location: boldStarIndex, length: boldLength))
                         }
                         it("has the specified point size on regular attributes") {
-                            expect((regularAttributes[NSFontAttributeName] as! UIFont).pointSize) == 15
+                            expect((regularAttributes[NSAttributedStringKey.font] as! UIFont).pointSize) == 15
                         }
                         it("has the specified font family on regular attributes") {
-                            expect((regularAttributes[NSFontAttributeName] as! UIFont).familyName) == font.familyName
+                            expect((regularAttributes[NSAttributedStringKey.font] as! UIFont).familyName) == font.familyName
                         }
                         it("has the specified point size on bold attributes") {
-                            expect((boldAttributes[NSFontAttributeName] as! UIFont).pointSize) == 15
+                            expect((boldAttributes[NSAttributedStringKey.font] as! UIFont).pointSize) == 15
                         }
                         it("has the specified font family on bold attributes") {
-                            expect((boldAttributes[NSFontAttributeName] as! UIFont).familyName) == font.familyName
+                            expect((boldAttributes[NSAttributedStringKey.font] as! UIFont).familyName) == font.familyName
                         }
                         it("the final string is the same") {
                             expect(result.string) == sut
@@ -390,25 +390,25 @@ class StringLGSpec: QuickSpec {
                             
                             regularAttributes = result.attributes(at: 0,
                                                                   longestEffectiveRange: nil,
-                                                                  in: NSRange(location: 0, length: ignoreText.characters.count))
+                                                                  in: NSRange(location: 0, length: ignoreText.count))
                             
-                            let boldStarIndex = ignoreText.characters.count > 0 ? ignoreText.characters.count + 1 : 0
-                            let boldLength = result.string.characters.count-ignoreText.characters.count
+                            let boldStarIndex = ignoreText.count > 0 ? ignoreText.count + 1 : 0
+                            let boldLength = result.string.count-ignoreText.count
                             boldAttributes = result.attributes(at: boldStarIndex,
                                                                longestEffectiveRange: nil,
                                                                in: NSRange(location: boldStarIndex, length: boldLength))
                         }
                         it("has the specified point size on regular attributes") {
-                            expect((regularAttributes[NSFontAttributeName] as! UIFont).pointSize) == 15
+                            expect((regularAttributes[NSAttributedStringKey.font] as! UIFont).pointSize) == 15
                         }
                         it("has the specified font family on regular attributes") {
-                            expect((regularAttributes[NSFontAttributeName] as! UIFont).familyName) == font.familyName
+                            expect((regularAttributes[NSAttributedStringKey.font] as! UIFont).familyName) == font.familyName
                         }
                         it("has the specified point size on bold attributes") {
-                            expect((boldAttributes[NSFontAttributeName] as! UIFont).pointSize) == 15
+                            expect((boldAttributes[NSAttributedStringKey.font] as! UIFont).pointSize) == 15
                         }
                         it("has the specified font family on bold attributes") {
-                            expect((boldAttributes[NSFontAttributeName] as! UIFont).familyName) == font.familyName
+                            expect((boldAttributes[NSAttributedStringKey.font] as! UIFont).familyName) == font.familyName
                         }
                         it("the final string is the same") {
                             expect(result.string) == sut
@@ -424,13 +424,13 @@ class StringLGSpec: QuickSpec {
                             
                             regularAttributes = result.attributes(at: 0,
                                                                   longestEffectiveRange: nil,
-                                                                  in: NSRange(location: 0, length: sut.characters.count))
+                                                                  in: NSRange(location: 0, length: sut.count))
                         }
                         it("has the specified point size on regular attributes") {
-                            expect((regularAttributes[NSFontAttributeName] as! UIFont).pointSize) == 15
+                            expect((regularAttributes[NSAttributedStringKey.font] as! UIFont).pointSize) == 15
                         }
                         it("has the specified font family on regular attributes") {
-                            expect((regularAttributes[NSFontAttributeName] as! UIFont).familyName) == font.familyName
+                            expect((regularAttributes[NSAttributedStringKey.font] as! UIFont).familyName) == font.familyName
                         }
                         it("the final string is the same") {
                             expect(result.string) == sut

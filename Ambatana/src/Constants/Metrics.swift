@@ -8,7 +8,8 @@
 //
 
 struct Metrics {
-    
+    static let navBarDefaultSpacing: CGFloat = 10.0
+
     static let screenWidth: CGFloat = UIScreen.main.bounds.width
     static let screenHeight: CGFloat = UIScreen.main.bounds.height
     

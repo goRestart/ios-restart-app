@@ -67,7 +67,7 @@ class LGInstallationRepository: InternalInstallationRepository {
      - parameter completion: Closure to execute when the opeartion finishes
      */
     func updatePushToken(_ token: String, completion: ((Result<Installation, RepositoryError>) -> ())?) {
-        let JSONKeys = LGInstallation.ApiInstallationKeys()
+        let JSONKeys = InstallationAPIKeys()
 
         var params: [String: Any] = [:]
         if let installation = installation {
@@ -183,7 +183,7 @@ class LGInstallationRepository: InternalInstallationRepository {
      */
     private func buildInstallationCreateParams() -> [String: Any] {
         var dict = [String: Any]()
-        let JSONKeys = LGInstallation.ApiInstallationKeys()
+        let JSONKeys = InstallationAPIKeys()
         dict[JSONKeys.objectId] = deviceIdDao.deviceId
         dict[JSONKeys.appIdentifier] = (Bundle.main.bundleIdentifier ?? "")
         dict[JSONKeys.appVersion] = appVersion.shortVersionString
@@ -200,7 +200,7 @@ class LGInstallationRepository: InternalInstallationRepository {
      - returns:                 Installation params.
      */
     private func buildInstallationUpdateParams(_ installation: Installation) -> [String: Any] {
-        let JSONKeys = LGInstallation.ApiInstallationKeys()
+        let JSONKeys = InstallationAPIKeys()
         var params: [String: Any] = [:]
         if installation.appVersion != appVersion.shortVersionString {
             params[JSONKeys.appVersion] = appVersion.shortVersionString

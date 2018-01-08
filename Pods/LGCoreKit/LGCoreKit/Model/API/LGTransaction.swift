@@ -6,11 +6,7 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-import Curry
-import Runes
-
-struct LGTransaction: Transaction {
+struct LGTransaction: Transaction, Decodable {
     
     // Global iVars
     let transactionId: String
@@ -20,23 +16,25 @@ struct LGTransaction: Transaction {
         self.transactionId = transactionId
         self.closed = closed
     }
-}
 
-extension LGTransaction : Decodable {
-    
+    // MARK: Decodable
+
     /**
      "transaction": {
      "transaction_id": "DCOefspN3I"
      "closed": false
-     }     */
-    
-    static func decode(_ j: JSON) -> Decoded<LGTransaction> {
-        let result1 = curry(LGTransaction.init)
-        let result2 = result1 <^> j <| "transaction_id"
-        let result  = result2 <*> j <| "closed"
-        if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGTransaction parse error: \(error)")
-        }
-        return result
+     }
+     */
+
+    public init(from decoder: Decoder) throws {
+        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        transactionId = try keyedContainer.decode(String.self, forKey: .transactionId)
+        closed = try keyedContainer.decode(Bool.self, forKey: .closed)
     }
+
+    enum CodingKeys: String, CodingKey {
+        case transactionId = "transaction_id"
+        case closed = "closed"
+    }
+
 }

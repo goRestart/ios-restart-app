@@ -157,12 +157,12 @@ final class AmplitudeTracker: Tracker {
     // MARK: - Private
 
     private func setupABTestsRx(featureFlags: FeatureFlaggeable) {
-        featureFlags.trackingData.asObservable().bindNext { trackingData in
+        featureFlags.trackingData.asObservable().bind { trackingData in
             guard let trackingData = trackingData else { return }
             let identify = AMPIdentify()
             let trackingDataValue = NSArray(array: trackingData)
             identify.set(AmplitudeTracker.userPropABTests, value: trackingDataValue)
             Amplitude.instance().identify(identify)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }

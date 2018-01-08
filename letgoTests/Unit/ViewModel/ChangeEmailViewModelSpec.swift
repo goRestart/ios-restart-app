@@ -43,10 +43,10 @@ class ChangeEmailViewModelSpec: QuickSpec {
                 
                 sut.newEmail.asObservable().subscribeNext(onNext: { (string) in
                     email = string
-                }).addDisposableTo(disposeBag)
+                }).disposed(by: disposeBag)
                 sut.shouldAllowToContinue.asObservable().subscribeNext(onNext: { (enabled) in
                     buttonEnable = enabled
-                }).addDisposableTo(disposeBag)
+                }).disposed(by: disposeBag)
             }
             
             describe("Writting an email") {

@@ -9,7 +9,7 @@
 import Alamofire
 import CoreLocation
 import KeychainSwift
-import ReachabilitySwift
+import Reachability
 
 final class CoreDI: InternalDI {
     // MARK: - Lifecycle

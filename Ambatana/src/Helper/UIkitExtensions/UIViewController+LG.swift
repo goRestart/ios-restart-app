@@ -11,6 +11,15 @@ import RxCocoa
 
 // MARK: - UINavigationBar helpers
 
+fileprivate extension UIBarButtonItem {
+    static func makeSpacingButton(with width: CGFloat) -> UIBarButtonItem {
+        let button = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        button.width = width
+        return button
+    }
+}
+
+
 extension UIViewController {
 
     var barButtonsHoritzontalSpacing: CGFloat {
@@ -20,6 +29,10 @@ extension UIViewController {
         default:
             return 16
         }
+    }
+
+    func makeSpacingButton(withFixedWidth width: CGFloat) -> UIBarButtonItem {
+        return UIBarButtonItem.makeSpacingButton(with: width)
     }
 
     func isRootViewController() -> Bool  {
@@ -134,7 +147,7 @@ extension UIViewController {
 
 // MARK: - Present/pop
 
-extension UIViewController {
+@objc extension UIViewController {
 
     // gets back one VC from the stack.
     func popBackViewController() {

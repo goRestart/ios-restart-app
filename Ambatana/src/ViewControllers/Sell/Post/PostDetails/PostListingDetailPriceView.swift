@@ -82,7 +82,7 @@ class PostListingDetailPriceView: BaseView {
         freePostLabel.text = LGLocalizedString.sellPostFreeLabel
         freePostLabel.textColor = UIColor.white
         priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
-                                                                  attributes: [NSForegroundColorAttributeName: UIColor.white])
+                                                                  attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
         doneButton.setTitle(LGLocalizedString.productPostDone, for: .normal)
         currencyLabel.text = viewModel.currencySymbol
         currencyLabel.textColor = UIColor.white
@@ -94,15 +94,15 @@ class PostListingDetailPriceView: BaseView {
     }
 
     private func setupRx() {
-        priceTextField.rx.text.asObservable().map { $0 ?? "" }.bindTo(viewModel.price).addDisposableTo(disposeBag)
-        viewModel.isFree.asObservable().bindTo(freePostSwitch.rx.value(animated: true)).addDisposableTo(disposeBag)
-        viewModel.isFree.asObservable().bindNext{[weak self] active in
+        priceTextField.rx.text.asObservable().map { $0 ?? "" }.bind(to: viewModel.price).disposed(by: disposeBag)
+        viewModel.isFree.asObservable().bind(to: freePostSwitch.rx.isOn).disposed(by: disposeBag)
+        viewModel.isFree.asObservable().bind {[weak self] active in
             self?.showPriceTextContainer(!active)
-            }.addDisposableTo(disposeBag)
-        doneButton.rx.tap.bindNext { [weak self] in
+            }.disposed(by: disposeBag)
+        doneButton.rx.tap.bind { [weak self] in
             self?.priceTextField.resignFirstResponder()
             self?.viewModel.doneButtonPressed()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func showFreeOption(_ show: Bool) {
@@ -128,7 +128,7 @@ class PostListingDetailPriceView: BaseView {
         } )
     }
 
-    dynamic private func freeCellPressed() {
+    @objc private func freeCellPressed() {
         viewModel.freeCellPressed()
     }
 }

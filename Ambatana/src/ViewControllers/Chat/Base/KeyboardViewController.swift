@@ -116,7 +116,7 @@ class KeyboardViewController: BaseViewController {
         setObservers()
     }
 
-    func applicationDidBecomeActive() {
+    @objc func applicationDidBecomeActive() {
         controllerVisible = true
     }
 
@@ -135,12 +135,12 @@ class KeyboardViewController: BaseViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
     }
 
-    dynamic private func keyboardWillChange(_ notification: Notification) {
+    @objc private func keyboardWillChange(_ notification: Notification) {
         let animated = controllerVisible
         applyChange(notification.keyboardChange, animated: animated)
     }
 
-    dynamic private func keyboardDidChange(_ notification: Notification) {
+    @objc private func keyboardDidChange(_ notification: Notification) {
         applyChange(notification.keyboardChange, animated: false)
     }
 

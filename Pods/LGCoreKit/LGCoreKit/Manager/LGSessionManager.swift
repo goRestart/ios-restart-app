@@ -1,12 +1,4 @@
 //
-//  LGSessionManager.swift
-//  LGCoreKit
-//
-//  Created by Eli Kohen on 18/11/2016.
-//  Copyright © 2016 Ambatana Inc. All rights reserved.
-//
-
-//
 //  SessionManager.swift
 //  LGCoreKit
 //
@@ -14,16 +6,11 @@
 //  Copyright © 2015 Ambatana Inc. All rights reserved.
 //
 
-import Argo
 import Result
 import RxSwift
 
-
 // MARK: - SessionManager
 
-/**
- Handles the session.
- */
 class LGSessionManager: InternalSessionManager {
 
     var sessionEvents: Observable<SessionEvent> {
@@ -261,7 +248,7 @@ class LGSessionManager: InternalSessionManager {
     /**
      Stops the chat removing any pending completion / operation
      */
-    dynamic func stopChat() {
+    @objc func stopChat() {
         websocketClient.stop()
     }
 
@@ -334,7 +321,7 @@ class LGSessionManager: InternalSessionManager {
             } else {
                 self?.websocketClient.suspendOperations()
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     // MARK: > Installation authentication
@@ -514,14 +501,15 @@ class LGSessionManager: InternalSessionManager {
     
     // MARK: > Decoding
     
-    /**
-     Sets up after logging-in.
-     - parameter myUser: My user.
-     - parameter provider: The session provider.
-     */
     private static func authDecoder(_ object: Any) -> Authentication? {
-        let json = JSON(object)
-        return LGAuthentication.decode(json).value
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let authentication = try LGAuthentication.decode(jsonData: data)
+            return authentication
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse Authentication \(object)")
+        }
+        return nil
     }
 }
 

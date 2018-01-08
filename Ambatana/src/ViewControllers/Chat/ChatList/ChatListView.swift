@@ -32,18 +32,18 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     // MARK: - Lifecycle
 
-    convenience init<T: BaseViewModel>(viewModel: T) where T: ChatListViewModel {
+    convenience init<T: ChatListViewModel>(viewModel: T) {
         self.init(viewModel: viewModel, sessionManager: Core.sessionManager, frame: CGRect.zero)
     }
 
-    override init<T: BaseViewModel>(viewModel: T, sessionManager: SessionManager, frame: CGRect) where T: ChatListViewModel {
+    override init<T: ChatListViewModel>(viewModel: T, sessionManager: SessionManager, frame: CGRect) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, sessionManager: sessionManager, frame: frame)
 
         viewModel.delegate = self
     }
 
-    override init?<T: BaseViewModel>(viewModel: T, sessionManager: SessionManager, coder aDecoder: NSCoder) where T: ChatListViewModel {
+    override init?<T: ChatListViewModel>(viewModel: T, sessionManager: SessionManager, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, sessionManager: sessionManager, coder: aDecoder)
 
@@ -73,7 +73,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
             guard let tableView = self?.tableView, tableView.numberOfRows(inSection: 0) > 0 else { return }
             let indexPath = IndexPath(row: 0, section: 0)
             tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
 
@@ -166,7 +166,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     // MARK: - Private Methods
 
-    dynamic func deleteButtonPressed() {
+    @objc func deleteButtonPressed() {
         viewModel.deleteButtonPressed()
     }
 }

@@ -1,14 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignUpLogInViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
@@ -21,6 +26,7 @@
                 <outlet property="forgotPasswordButton" destination="4VR-gB-SsT" id="9VD-h8-vz2"/>
                 <outlet property="kenBurnsView" destination="GTZ-tx-zEe" id="88n-NE-xKH"/>
                 <outlet property="loginSegmentedControl" destination="uub-q6-iKW" id="GbT-gm-t7p"/>
+                <outlet property="loginSegmentedControlTopConstraint" destination="DaP-FJ-X4D" id="7Np-xy-rKp"/>
                 <outlet property="newsletterLabel" destination="E1t-3M-DBD" id="YSp-px-IJa"/>
                 <outlet property="newsletterSwitch" destination="YDn-Ko-06u" id="qzh-WZ-zI9"/>
                 <outlet property="orLabel" destination="Ptv-k0-EyK" id="uQk-aY-zhR"/>
@@ -454,7 +460,7 @@
                 <constraint firstItem="MKc-8z-pKd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="xvj-af-IoU"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
-            <point key="canvasLocation" x="523" y="397"/>
+            <point key="canvasLocation" x="320" y="338"/>
         </view>
     </objects>
     <resources>
