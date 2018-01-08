@@ -62,15 +62,15 @@ class TabBarViewModel: BaseViewModel {
     
     
     func realEstateTooltipText() -> NSMutableAttributedString {
-        var newTextAttributes = [String : Any]()
-        newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
-        newTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
+        var newTextAttributes = [NSAttributedStringKey : Any]()
+        newTextAttributes[.foregroundColor] = UIColor.primaryColorHighlighted
+        newTextAttributes[.font] = UIFont.systemSemiBoldFont(size: 17)
         
         let newText = NSAttributedString(string: LGLocalizedString.commonNew, attributes: newTextAttributes)
         
-        var titleTextAttributes = [String : Any]()
-        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.white
-        titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
+        var titleTextAttributes = [NSAttributedStringKey : Any]()
+        titleTextAttributes[.foregroundColor] = UIColor.white
+        titleTextAttributes[.font] = UIFont.systemSemiBoldFont(size: 17)
         
         let titleText = NSAttributedString(string: LGLocalizedString.realEstateTooltipSellButton, attributes: titleTextAttributes)
         

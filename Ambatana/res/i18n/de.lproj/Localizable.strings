@@ -617,7 +617,7 @@
 "product_post_retake" = "Nochmal";
 "product_post_retry_button" = "Versuch's noch einmal";
 "product_post_select_category_cars" = "Autos";
-"product_post_select_category_housing" = "Unterkunft zur Miete / zum Verkauf";
+"product_post_select_category_housing" = "Immobilien zur Miete / zum Verkauf";
 "product_post_select_category_motors_and_accessories" = "Andere Fahrzeuge und Teile";
 "product_post_select_category_other" = "Etwas anderes";
 "product_post_select_category_title" = "Was stellst du ein?";
@@ -791,7 +791,8 @@
 "real_estate_title_generator_property_type_house" = "Haus";
 "real_estate_title_generator_property_type_other" = "Andere";
 "real_estate_title_generator_property_type_room" = "Zimmer";
-"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
+"real_estate_tooltip_overlay_expandable_menu" = "Falls du Miet- oder Kaufobjekte einstellen möchtest, probiere unsere neue Wohnen-Kategorie aus!";
+"real_estate_tooltip_sell_button" = "Stelle Immobilien zum Verkauf oder zur Miete in unserer neuen Wohnen-Kategorie ein";
 "real_estate_type_property_apartment" = "Wohnung";
 "real_estate_type_property_commercial" = "Werbung";
 "real_estate_type_property_house" = "Haus";

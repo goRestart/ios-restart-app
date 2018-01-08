@@ -617,7 +617,7 @@
 "product_post_retake" = "Reprendre";
 "product_post_retry_button" = "Réessayer";
 "product_post_select_category_cars" = "Voitures";
-"product_post_select_category_housing" = "Immobilier";
+"product_post_select_category_housing" = "Logements à Louer / Vendre";
 "product_post_select_category_motors_and_accessories" = "Autres véhicules et accessoires";
 "product_post_select_category_other" = "Autres biens";
 "product_post_select_category_title" = "Que postez-vous ?";
@@ -791,7 +791,8 @@
 "real_estate_title_generator_property_type_house" = "Maison";
 "real_estate_title_generator_property_type_other" = "Autre";
 "real_estate_title_generator_property_type_room" = "Chambre";
-"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
+"real_estate_tooltip_overlay_expandable_menu" = "Si vous publiez une propriété à vendre ou à louer, essayez notre nouvelle catégorie Immobilier !";
+"real_estate_tooltip_sell_button" = "Publiez des propriétés à vendre ou à louer dans notre nouvelle catégorie Logements";
 "real_estate_type_property_apartment" = "Appartement";
 "real_estate_type_property_commercial" = "Publicité";
 "real_estate_type_property_house" = "Maison";
