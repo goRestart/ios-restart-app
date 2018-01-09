@@ -271,7 +271,12 @@ class ChatViewModel: BaseViewModel {
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
         self.source = source
-        self.predefinedMessage = predefinedMessage
+        if featureFlags.allowEmojisOnChat.isActive {
+            self.predefinedMessage = predefinedMessage
+        } else {
+            self.predefinedMessage = predefinedMessage?.stringByRemovingEmoji()
+        }
+        
         super.init()
         setupRx()
         loadStickers()
