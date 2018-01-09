@@ -44,6 +44,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
     private let mapPlaceHolder = UIView()
 
     let detailMapView = ListingCardDetailMapView()
+    var isMapExpanded: Bool { return detailMapView.isExpanded }
     private var mapSnapShotToBottom: NSLayoutConstraint?
     private var mapSnapShotToSocialView: NSLayoutConstraint?
 

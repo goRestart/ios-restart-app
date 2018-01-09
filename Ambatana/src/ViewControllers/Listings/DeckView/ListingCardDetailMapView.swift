@@ -24,10 +24,12 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
     }
 
     private var region: MKCoordinateRegion?
-    private var tap: UITapGestureRecognizer?
+    private var tapGesture: UITapGestureRecognizer?
 
     let mapView = MKMapView.sharedInstance
     let mapSnapShotView = UIImageView()
+    var isExpanded: Bool = false
+
     weak var delegate: ListingCardDetailMapViewDelegate?
 
     convenience init() { self.init(frame: .zero) }
@@ -80,7 +82,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
 
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapOnView))
         self.addGestureRecognizer(gesture)
-        tap = gesture
+        tapGesture = gesture
 
         NSLayoutConstraint.activate(mapViewConstraints)
     }
@@ -109,6 +111,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
 
     @objc private func tapOnView() {
         guard mapView.superview != nil else {
+            tapGesture?.isEnabled = false
             delegate?.didTapOnMapSnapshot(mapSnapShotView)
             return
         }
@@ -117,24 +120,33 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
 
 
     private func showMap() {
+        isExpanded = true
         UIView.animate(withDuration: 0.3,
                        animations: { [weak self] in
                         self?.mapView.alpha = 1
                         self?.mapSnapShotView.alpha = 0
                         self?.mapView.layoutIfNeeded()
+            }, completion: { [weak self] completion in
+                guard let strongSelf = self, let mapView = self?.mapView else { return }
+                strongSelf.bringSubview(toFront: mapView)
+                strongSelf.tapGesture?.isEnabled = true
         })
     }
     func hideMap(animated: Bool) {
+        tapGesture?.isEnabled = false
+        isExpanded = false
         guard animated else {
             hideMap()
             mapView.removeFromSuperview()
+            tapGesture?.isEnabled = true
             return
         }
         UIView.animate(withDuration: 0.3,
                        animations: { [weak self] in
                         self?.hideMap()
-            }, completion: { completion in
-                self.mapView.removeFromSuperview()
+            }, completion: { [weak self] completion in
+                self?.mapView.removeFromSuperview()
+                self?.tapGesture?.isEnabled = true
         })
     }
 

@@ -17,7 +17,7 @@ protocol ListingCardViewDelegate {
     func didTapOnPreview()
 }
 
-final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
+final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestureRecognizerDelegate {
     private struct Layout { struct Height { static let previewFactor: CGFloat = 0.7 } }
 
     var delegate: (ListingCardDetailsViewDelegate & ListingCardViewDelegate & ListingCardDetailMapViewDelegate)? {
@@ -35,7 +35,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
     private(set) var disposeBag = DisposeBag()
 
     private let statusView = ProductStatusView()
-    private let statusTapGesture = UITapGestureRecognizer(target: self, action: #selector(touchUpStatusView))
+    private var statusTapGesture: UITapGestureRecognizer?
 
     private let previewImageView = UIImageView()
     private var previewImageViewHeight: NSLayoutConstraint?
@@ -45,6 +45,9 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
     private let imageCountLabel = UILabel()
 
     private let scrollView = UIScrollView()
+    private var scrollViewTapGesture: UITapGestureRecognizer?
+    private var scrollToDetailGesture:  UITapGestureRecognizer?
+
     private var scrollViewContentInset: UIEdgeInsets = UIEdgeInsets.zero
     private var initialTopInset: CGFloat { return contentView.height * Layout.Height.previewFactor }
 
@@ -96,7 +99,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
     }
 
     func populateWith(status: ListingViewModelStatus, featured: Bool) {
-        statusTapGesture.isEnabled = featured
+        statusTapGesture?.isEnabled = featured
         statusView.isHidden = status.string == nil
         statusView.setFeaturedStatus(status, featured: featured)
     }
@@ -135,17 +138,6 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
         }
     }
 
-    @objc private func didTapOnScrollView(sender: UITapGestureRecognizer) {
-        let point = sender.location(in: previewImageView)
-        guard point.y <= previewImageView.height else { return }
-        let showFullThreshold = (3/4)*previewImageView.height
-        if abs(scrollView.contentOffset.y) > showFullThreshold {
-            delegate?.didTapOnPreview()
-        } else {
-            showPreview()
-        }
-    }
-
     private func deactivateFullMap() {
         fullMapConstraints.forEach {
             contentView.removeConstraint($0)
@@ -170,7 +162,9 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
         statusView.topAnchor.constraint(equalTo: contentView.topAnchor,
                                         constant: Metrics.margin).isActive = true
         statusView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        statusView.addGestureRecognizer(statusTapGesture)
+        let statusTap = UITapGestureRecognizer(target: self, action: #selector(touchUpStatusView))
+        statusView.addGestureRecognizer(statusTap)
+        statusTapGesture = statusTap
     }
 
     @objc private func touchUpStatusView() {
@@ -232,7 +226,11 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
         userView.topAnchor.constraint(greaterThanOrEqualTo: gradient.bottomAnchor).isActive = true
         userView.layout(with: scrollView).fillHorizontal().top().centerX().leading().trailing()
         userView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.12).isActive = true
-        userView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(scrollToDetail)))
+
+        let scrollDetailTap = UITapGestureRecognizer(target: self, action: #selector(scrollToDetail))
+        scrollDetailTap.delegate = self
+        userView.addGestureRecognizer(scrollDetailTap)
+        scrollToDetailGesture = scrollDetailTap
 
         detailsView.backgroundColor = .white
         detailsView.translatesAutoresizingMaskIntoConstraints = false
@@ -242,8 +240,10 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
         detailsView.layout(with: scrollView).bottom().centerX()
         detailsView.heightAnchor.constraint(greaterThanOrEqualTo: heightAnchor).isActive = true
 
-        scrollView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapOnScrollView)))
-        scrollView.delaysContentTouches = true
+        let scrollTap = UITapGestureRecognizer(target: self, action: #selector(didTapOnScrollView))
+        scrollTap.delegate = self
+        scrollView.addGestureRecognizer(scrollTap)
+        scrollViewTapGesture = scrollTap
     }
 
     override func layoutSubviews() {
@@ -306,12 +306,40 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate {
             }, completion: nil)
     }
 
+    // MARK: UITapGestureRecognizer
+
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == scrollToDetailGesture {
+            return true
+        } else if gestureRecognizer == scrollViewTapGesture {
+            return !detailsView.isMapExpanded
+        }
+        return true
+    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return (gestureRecognizer == scrollToDetailGesture || gestureRecognizer == statusTapGesture)
+                    && otherGestureRecognizer == scrollViewTapGesture
+    }
+
+    @objc private func didTapOnScrollView(sender: UITapGestureRecognizer) {
+        let point = sender.location(in: previewImageView)
+        guard point.y <= previewImageView.height else { return }
+        let showFullThreshold = (3/4)*previewImageView.height
+        if abs(scrollView.contentOffset.y) > showFullThreshold {
+            delegate?.didTapOnPreview()
+        } else {
+            showPreview()
+        }
+    }
+
     @objc private func scrollToDetail() {
         UIView.animate(withDuration: 0.3,
                        delay: 0,
                        options: .curveEaseIn, animations: { [weak self] in
                         self?.scrollView.setContentOffset(.zero, animated: true)
-        }, completion: nil)
+            }, completion: nil)
     }
 }
 

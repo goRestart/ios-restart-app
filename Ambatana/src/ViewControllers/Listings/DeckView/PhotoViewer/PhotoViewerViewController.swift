@@ -11,7 +11,7 @@ import Foundation
 final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType, UICollectionViewDataSource, UICollectionViewDelegate {
 
     override var prefersStatusBarHidden: Bool { return true }
-    
+
     let chatView: QuickChatView
     let photoViewer = PhotoViewerView()
     private let viewModel: PhotoViewerViewModel
