@@ -61,7 +61,7 @@ class GridDrawerManager {
             }
             let data = ListingData(listing: listing,
                                    delegate: delegate,
-                                   isFree: listing.price.free && freePostingAllowed,
+                                   isFree: listing.price.isFree && freePostingAllowed,
                                    isFeatured: isFeatured,
                                    featuredShouldShowChatButton: featuredShouldShowChatButton,
                                    isMine: isMine,
@@ -90,7 +90,7 @@ class GridDrawerManager {
             }
             let data = ListingData(listing: listing,
                                    delegate: delegate,
-                                   isFree: listing.price.free && freePostingAllowed,
+                                   isFree: listing.price.isFree && freePostingAllowed,
                                    isFeatured: isFeatured,
                                    featuredShouldShowChatButton: featuredShouldShowChatButton,
                                    isMine: isMine,
