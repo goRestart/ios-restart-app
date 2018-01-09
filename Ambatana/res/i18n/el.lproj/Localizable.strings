@@ -617,7 +617,7 @@
 "product_post_retake" = "Ξανατραβήξτε";
 "product_post_retry_button" = "Προσπαθήστε Ξανά";
 "product_post_select_category_cars" = "Αυτοκίνητα";
-"product_post_select_category_housing" = "Μεσιτικά";
+"product_post_select_category_housing" = "Σπίτι για Ενοικίαση / Πώληση";
 "product_post_select_category_motors_and_accessories" = "Άλλα Οχήματα και Εξαρτήματα";
 "product_post_select_category_other" = "Άλλα αντικείμενα";
 "product_post_select_category_title" = "Τί δημοσιεύετε;";
@@ -791,6 +791,8 @@
 "real_estate_title_generator_property_type_house" = "Σπίτι";
 "real_estate_title_generator_property_type_other" = "Άλλα";
 "real_estate_title_generator_property_type_room" = "Δωμάτιο";
+"real_estate_tooltip_overlay_expandable_menu" = "Αν δημοσιεύετε ιδιοκτησίες για πώληση ή ενοικίαση, δοκιμάστε τη νέα μας κατηγορία \"Σπίτια\"!";
+"real_estate_tooltip_sell_button" = "Δημοσιεύστε ιδιοκτησίες για πώληση ή ενοικίαση στη νέα μας κατηγορία \"Σπίτια\"";
 "real_estate_type_property_apartment" = "Διαμέρισμα";
 "real_estate_type_property_commercial" = "Εμπορική";
 "real_estate_type_property_house" = "Σπίτι";

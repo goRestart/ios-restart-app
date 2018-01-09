@@ -134,5 +134,10 @@
         "name": "AllowCallsForProfessionals",
         "values": ["control", "baseline", "active"],
         "description": "Users can call professional sellers"
+    },
+    {
+        "name": "RealEstateImprovements",
+        "values": ["control", "baseline", "active"],
+        "description": "show onboarding improvements on real estate category"
     }
 ]

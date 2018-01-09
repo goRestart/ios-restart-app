@@ -48,6 +48,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var allowCallsForProfessionals: AllowCallsForProfessionals = .control
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP = .control
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
+    var realEstateImprovements: RealEstateImprovements = .control
 
     // Country dependant features
     var freePostingModeAllowed = false

@@ -617,7 +617,7 @@
 "product_post_retake" = "Scatta di Nuovo";
 "product_post_retry_button" = "Riprova";
 "product_post_select_category_cars" = "Auto";
-"product_post_select_category_housing" = "Alloggi";
+"product_post_select_category_housing" = "Alloggi in vendita o affitto";
 "product_post_select_category_motors_and_accessories" = "Altri veicoli e ricambi";
 "product_post_select_category_other" = "Altri articoli";
 "product_post_select_category_title" = "Che cosa stai pubblicando?";
@@ -791,6 +791,8 @@
 "real_estate_title_generator_property_type_house" = "Intera casa";
 "real_estate_title_generator_property_type_other" = "Altro";
 "real_estate_title_generator_property_type_room" = "Stanza";
+"real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
+"real_estate_tooltip_sell_button" = "Pubblica proprietà in vendita o affitto all'interno della nuova categoria Alloggi";
 "real_estate_type_property_apartment" = "Appartamento";
 "real_estate_type_property_commercial" = "Fondo commerciale";
 "real_estate_type_property_house" = "Intera casa";

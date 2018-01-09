@@ -617,7 +617,7 @@
 "product_post_retake" = "Chụp lại";
 "product_post_retry_button" = "Thử lại";
 "product_post_select_category_cars" = "Xe hơi";
-"product_post_select_category_housing" = "Nhà đất";
+"product_post_select_category_housing" = "Nhà đất cho Thuê/Bán";
 "product_post_select_category_motors_and_accessories" = "Phương tiện và Phụ tùng khác";
 "product_post_select_category_other" = "Sản phẩm khác";
 "product_post_select_category_title" = "Bạn đang đăng gì?";
@@ -791,6 +791,8 @@
 "real_estate_title_generator_property_type_house" = "Nhà";
 "real_estate_title_generator_property_type_other" = "Khác";
 "real_estate_title_generator_property_type_room" = "Phòng";
+"real_estate_tooltip_overlay_expandable_menu" = "Nếu bạn đang đăng bất động sản để bán hoặc cho thuê, hãy thử danh mục Nhà đất mới của chúng tôi!";
+"real_estate_tooltip_sell_button" = "Đăng bất động sản cho thuê hoặc bán tại mục Nhà đất mới của chúng tôi";
 "real_estate_type_property_apartment" = "Căn hộ";
 "real_estate_type_property_commercial" = "Thương mại";
 "real_estate_type_property_house" = "Nhà";
