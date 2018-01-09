@@ -119,7 +119,6 @@ class ChatViewController: TextViewController {
     }
 
     override func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        guard !text.hasEmojis() else { return false }
         return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
     }
     

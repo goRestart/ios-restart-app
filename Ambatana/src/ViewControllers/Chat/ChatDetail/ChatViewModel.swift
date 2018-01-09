@@ -271,7 +271,7 @@ class ChatViewModel: BaseViewModel {
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
         self.source = source
-        self.predefinedMessage = predefinedMessage?.stringByRemovingEmoji()
+        self.predefinedMessage = predefinedMessage
         super.init()
         setupRx()
         loadStickers()
