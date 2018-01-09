@@ -39,7 +39,8 @@ final class ListingCardDetailsViewBinder {
                 || creation != nil
         }
         statsViewVisible.asObservable().distinctUntilChanged().bindNext { [weak self] visible in
-            print("Should show stats view\(visible)")
+            guard !visible else { return }
+            self?.detailsView?.disableStatsView()
         }.disposed(by:disposeBag)
 
         statsAndCreation.bindNext { [weak self] (stats, creation) in

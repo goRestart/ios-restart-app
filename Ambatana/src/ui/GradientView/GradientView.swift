@@ -14,8 +14,7 @@ final class GradientView: UIView {
         case horizontal, vertical
     }
 
-    override var intrinsicContentSize: CGSize { return CGSize(width: Metrics.veryBigMargin,
-                                                              height: Metrics.veryBigMargin) }
+    override var intrinsicContentSize: CGSize { return CGSize(width: UIViewNoIntrinsicMetric, height: Metrics.veryBigMargin) }
 
     private let gradient = CAGradientLayer()
     private let colors: [UIColor]

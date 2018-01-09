@@ -10,6 +10,7 @@ import UIKit
 
 class ListingStatsView: UIView {
 
+    @IBOutlet weak var timePostedLeading: NSLayoutConstraint!
     @IBOutlet var favouriteStatsView: UIView!
     @IBOutlet var favouriteStatsLabel: UILabel!
     @IBOutlet var favouriteStatsWidthConstraint: NSLayoutConstraint!

@@ -75,8 +75,9 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         addSubview(mapSnapShotView)
         mapSnapShotView.layout(with: self).fillVertical(by: Layout.Defaults.insets.top)
         let mapViewConstraints = [
-            mapSnapShotView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.Defaults.insets.top),
-            mapSnapShotView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.Defaults.insets.top)
+            mapSnapShotView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.Defaults.insets.left),
+            mapSnapShotView.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                                      constant: -Layout.Defaults.insets.right)
         ]
         mapSnapShotView.backgroundColor = .gray
 

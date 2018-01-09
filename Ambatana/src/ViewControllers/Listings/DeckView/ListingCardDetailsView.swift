@@ -39,6 +39,10 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
     private let detailLabel = UILabel()
     private let statsView = ListingStatsView.make()!
 
+    private var locationToStats: NSLayoutConstraint?
+    private var locationToDetail: NSLayoutConstraint?
+
+    private let locationVerticalStackView = UIStackView()
     private let mapHeader = UIStackView()
     private let locationLabel = UILabel()
     private let mapPlaceHolder = UIView()
@@ -79,6 +83,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
         priceLabel.text = productInfo.price
         detailLabel.attributedText = productInfo.description
         locationLabel.text = productInfo.address
+        mapHeader.isHidden = productInfo.address == nil
     }
 
     func populateWith(listingStats: ListingStats, postedDate: Date?) {
@@ -96,7 +101,14 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
         enableSocialView(socialMessage != nil)
     }
 
+    func disableStatsView() {
+        locationToStats?.isActive = false
+        locationToDetail?.isActive = true
+    }
+
     private func enableSocialView(_ enabled: Bool) {
+        socialShareView.isHidden = !enabled
+        socialMediaHeader.isHidden = !enabled
         mapSnapShotToBottom?.isActive = !enabled
         mapSnapShotToSocialView?.isActive = enabled
     }
@@ -135,15 +147,17 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
             headerStackView.axis = .vertical
             headerStackView.distribution = .fillProportionally
             headerStackView.isLayoutMarginsRelativeArrangement = true
-            headerStackView.layoutMargins = UIEdgeInsets(top: Metrics.margin, left: Metrics.margin,
-                                                         bottom: 0, right: Metrics.margin)
+            headerStackView.layoutMargins = .zero
+
             headerStackView.spacing = 0
             headerStackView.addArrangedSubview(titleLabel)
             headerStackView.addArrangedSubview(priceLabel)
 
             scrollView.addSubview(headerStackView)
             headerStackView.translatesAutoresizingMaskIntoConstraints = false
-            headerStackView.layout(with: scrollView).top().leadingMargin().trailingMargin()
+            headerStackView.layout(with: scrollView)
+                .top(by: Metrics.veryShortMargin)
+                .leadingMargin(by: Metrics.shortMargin).trailingMargin(by: -Metrics.shortMargin)
         }
 
         func setupTitleLabel() {
@@ -185,9 +199,9 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
         scrollView.addSubview(statsView)
         statsView.translatesAutoresizingMaskIntoConstraints = false
         statsView.layout(with: detailLabel).below(by: Metrics.margin)
-        statsView.layout(with: scrollView)
-            .leadingMargin(by: Metrics.shortMargin).trailingMargin(by: -Metrics.shortMargin)
-        statsView.updateStatsWithInfo(100, favouritesCount: 80, postedDate: Date())
+        statsView.layout(with: scrollView).leadingMargin(by: Metrics.margin).trailingMargin(by: -Metrics.margin)
+        statsView.timePostedView.layer.borderColor = UIColor.grayLight.cgColor
+        statsView.timePostedView.layer.borderWidth = 1.0
     }
 
     private func setupMapView() {
@@ -203,14 +217,12 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
             mapHeader.translatesAutoresizingMaskIntoConstraints = false
             mapHeader.axis = .horizontal
             mapHeader.distribution = .fillProportionally
-            scrollView.addSubview(mapHeader)
-            mapHeader.layout(with: scrollView).leadingMargin().trailingMargin()
-            mapHeader.layout(with: statsView).below(by: Metrics.margin)
+            locationVerticalStackView.addArrangedSubview(mapHeader)
             mapHeader.setContentCompressionResistancePriority(.required, for: .vertical)
 
             let location = UIImageView(image: #imageLiteral(resourceName: "nit_location"))
             location.contentMode = .center
-            location.layout().width(24)
+            location.layout().width(16)
 
             mapHeader.addArrangedSubview(location)
             mapHeader.addArrangedSubview(locationLabel)
@@ -221,12 +233,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
             addSubview(detailMapView)
 
             mapPlaceHolder.translatesAutoresizingMaskIntoConstraints = false
-            scrollView.addSubview(mapPlaceHolder)
-
-            mapPlaceHolder.layout(with: scrollView)
-                .leadingMargin(by: Metrics.shortMargin).trailingMargin(by: -Metrics.shortMargin)
-            mapPlaceHolder.topAnchor.constraint(equalTo: mapHeader.bottomAnchor,
-                                                constant: Metrics.shortMargin).isActive = true
+            locationVerticalStackView.addArrangedSubview(mapPlaceHolder)
             mapPlaceHolder.layout().height(Layout.Height.mapView)
             mapPlaceHolder.backgroundColor = backgroundColor
             
@@ -243,6 +250,17 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
                                                                           constant: -2*Metrics.margin)
             detailMapView.isUserInteractionEnabled = true
         }
+        scrollView.addSubview(locationVerticalStackView)
+        locationVerticalStackView.translatesAutoresizingMaskIntoConstraints = false
+        locationToStats = locationVerticalStackView.topAnchor.constraint(equalTo: statsView.bottomAnchor)
+        locationToStats?.isActive = true
+
+        locationToDetail = locationVerticalStackView.topAnchor.constraint(equalTo: detailLabel.bottomAnchor)
+
+        locationVerticalStackView.layout(with: scrollView).leadingMargin(by: 1.0).trailingMargin()
+        locationVerticalStackView.axis = .vertical
+        locationVerticalStackView.distribution = .fillProportionally
+
         setupLocationLabel()
         setupMapHeader()
         setupSnapShotView()
@@ -253,7 +271,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
             socialMediaHeader.translatesAutoresizingMaskIntoConstraints = false
             scrollView.addSubview(socialMediaHeader)
 
-            mapSnapShotToSocialView = socialMediaHeader.topAnchor.constraint(equalTo: mapPlaceHolder.bottomAnchor,
+            mapSnapShotToSocialView = socialMediaHeader.topAnchor.constraint(equalTo: locationVerticalStackView.bottomAnchor,
                                                                              constant: 2*Metrics.margin)
             mapSnapShotToSocialView?.isActive = true
 
@@ -272,7 +290,8 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
             scrollView.addSubview(socialShareView)
             socialShareView.topAnchor.constraint(equalTo: socialMediaHeader.bottomAnchor,
                                                  constant: Metrics.shortMargin).isActive = true
-            socialShareView.layout(with: scrollView).leadingMargin().trailingMargin()
+            socialShareView.layout(with: scrollView)
+                .leadingMargin(by: Metrics.veryShortMargin).trailingMargin(by: -Metrics.veryShortMargin)
             socialShareView.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor,
                                                     constant: -2*Metrics.margin).isActive = true
 
