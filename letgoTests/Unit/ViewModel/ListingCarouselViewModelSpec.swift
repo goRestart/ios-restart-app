@@ -1071,7 +1071,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                         }
                     }
                 }
-                fcontext("product isn't mine") {
+                context("product isn't mine") {
                     context("pending") {
                         beforeEach {
                             product.status = .pending
