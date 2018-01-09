@@ -52,8 +52,8 @@ class PostListingCameraViewModel: BaseViewModel {
         }
     }
 
+    
     // MARK: - Lifecycle
-
 
     init(postingSource: PostingSource, postCategory: PostCategory?, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions) {
         self.keyValueStorage = keyValueStorage
