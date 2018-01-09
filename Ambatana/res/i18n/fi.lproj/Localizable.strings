@@ -751,8 +751,9 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Makuuhuoneiden määrä";
+"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
 "real_estate_current_step_of_total" = "%d/%d";
-"real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
+"real_estate_gallery_view_subtitle" = "Valitse korkeintaan 5 kuvaa kiinteistöstä, jonka haluat myydä tai vuokrata";
 "real_estate_location_notification_message" = "Emme koskaan näytä tarkkaa sijaintiasi muille käyttäjille";
 "real_estate_location_title" = "Sijainti";
 "real_estate_offer_type_rent" = "Vuokrataan";

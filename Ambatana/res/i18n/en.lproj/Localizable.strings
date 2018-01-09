@@ -2429,6 +2429,9 @@
 // Message inside gallery view to explain about picture selection on RE
 "real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
 
+// Message inside camera view to explain about picture selection on RE
+"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+
 // Title when showing list of related items
 "related_items_title" = "Related listings";
 

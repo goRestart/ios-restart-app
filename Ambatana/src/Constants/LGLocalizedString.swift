@@ -3263,6 +3263,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_gallery_view_subtitle", comment: "")
 	}
 
+	static var realEstateCameraViewRealEstateMessage: String {
+		return NSLocalizedString("real_estate_camera_view_real_estate_message", comment: "")
+	}
+
 	static var relatedItemsTitle: String {
 		return NSLocalizedString("related_items_title", comment: "")
 	}
