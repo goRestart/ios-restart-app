@@ -49,7 +49,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP = .control
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
     var realEstateImprovements: RealEstateImprovements = .control
-
+    var realEstatePromos: RealEstatePromos = .control
+    
     // Country dependant features
     var freePostingModeAllowed = false
     var locationRequiresManualChangeSuggestion = false

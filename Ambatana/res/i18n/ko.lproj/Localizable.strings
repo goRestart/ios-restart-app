@@ -751,7 +751,9 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4개 이상";
 "real_estate_bedrooms_title" = "방 숫자";
+"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
 "real_estate_current_step_of_total" = "%d 중 %d";
+"real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
 "real_estate_location_notification_message" = "저희는 다른 사용자들에게 회원님의 정확한 위치를 공개하지 않습니다";
 "real_estate_location_title" = "위치";
 "real_estate_offer_type_rent" = "전세";

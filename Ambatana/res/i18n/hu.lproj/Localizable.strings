@@ -751,7 +751,9 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Hálószobák száma";
+"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
 "real_estate_current_step_of_total" = "%d/%d";
+"real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
 "real_estate_location_notification_message" = "Sosem mutatjuk meg más felhasználóknak a pontos tartózkodási helyedet";
 "real_estate_location_title" = "Hely";
 "real_estate_offer_type_rent" = "Kiadó";

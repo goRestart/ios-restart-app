@@ -38,7 +38,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     // contained in cameraGalleryContainer
     fileprivate var viewPager: LGViewPager
     fileprivate var cameraView: PostListingCameraView
-    fileprivate var galleryView: PostListingGalleryView = PostListingGalleryView()
+    fileprivate var galleryView: PostListingGalleryView
 
     // contained in detailsContainer
     fileprivate let priceView: UIView
@@ -93,6 +93,8 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forcedInitialTab = forcedInitialTab
+        let postListingGalleryViewModel = PostListingGalleryViewModel(postCategory: viewModel.postCategory)
+        self.galleryView = PostListingGalleryView(viewModel: postListingGalleryViewModel)
         
         self.priceView = PostListingDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView(realEstateEnabled: viewModel.realEstateEnabled)

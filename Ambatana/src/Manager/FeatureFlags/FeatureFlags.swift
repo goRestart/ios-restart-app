@@ -47,6 +47,7 @@ protocol FeatureFlaggeable: class {
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var realEstateImprovements: RealEstateImprovements { get }
+    var realEstatePromos: RealEstatePromos { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -102,6 +103,10 @@ extension RealEstateEnabled {
 
 extension RealEstateImprovements {
     var isActive: Bool { get { return self == .active } }
+}
+
+extension RealEstatePromos {
+    var isActive: Bool { get { return self == .control || self == .baseline } }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -364,6 +369,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.realEstateImprovements
         }
         return RealEstateImprovements.fromPosition(abTests.realEstateImprovements.value)
+    }
+    
+    var realEstatePromos: RealEstatePromos {
+        if Bumper.enabled {
+            return Bumper.realEstatePromos
+        }
+        return RealEstatePromos.fromPosition(abTests.realEstatePromos.value)
     }
 
     // MARK: - Country features

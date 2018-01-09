@@ -139,5 +139,10 @@
         "name": "RealEstateImprovements",
         "values": ["control", "baseline", "active"],
         "description": "show onboarding improvements on real estate category"
+    },
+    {
+        "name": "RealEstatePromos",
+        "values": ["control", "baseline", "deactivate"],
+        "description": "show real estate promos"
     }
 ]

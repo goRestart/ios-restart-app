@@ -46,6 +46,8 @@ class PostListingGalleryViewModel: BaseViewModel {
     var keyValueStorage: KeyValueStorageable
     var featureFlags: FeatureFlaggeable
     var mediaPermissions: MediaPermissions
+    
+    let postCategory: PostCategory?
 
     weak var delegate: PostListingGalleryViewModelDelegate?
     weak var galleryDelegate: PostListingGalleryViewDelegate?
@@ -73,6 +75,14 @@ class PostListingGalleryViewModel: BaseViewModel {
             }
         }
     }
+    
+    var noImageSubtitleText: String {
+        if let category = postCategory, category == .realEstate && featureFlags.realEstatePromos.isActive {
+            return LGLocalizedString.realEstateGalleryViewSubtitle
+        } else {
+            return LGLocalizedString.productPostGallerySelectPicturesSubtitle
+        }
+    }
 
     private static let columnCount: CGFloat = 4
     private static let cellSpacing: CGFloat = 4
@@ -96,21 +106,24 @@ class PostListingGalleryViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience override init() {
+    convenience init(postCategory: PostCategory?) {
         self.init(keyValueStorage: KeyValueStorage.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
                   mediaPermissions: LGMediaPermissions(),
-                  maxImageSelected: Constants.maxImageCount)
+                  maxImageSelected: Constants.maxImageCount,
+                  postCategory: postCategory)
     }
 
     required init(keyValueStorage: KeyValueStorage,
                   featureFlags: FeatureFlags,
                   mediaPermissions: MediaPermissions,
-                  maxImageSelected: Int = Constants.maxImageCount) {
+                  maxImageSelected: Int = Constants.maxImageCount,
+                  postCategory: PostCategory?) {
         self.maxImagesSelected = maxImageSelected
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         self.mediaPermissions = mediaPermissions
+        self.postCategory = postCategory
         super.init()
         setupRX()
     }
