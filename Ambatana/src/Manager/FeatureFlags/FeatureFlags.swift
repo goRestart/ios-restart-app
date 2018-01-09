@@ -43,6 +43,7 @@ protocol FeatureFlaggeable: class {
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
+    var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var realEstateImprovements: RealEstateImprovements { get }
@@ -85,6 +86,10 @@ extension BumpUpPriceDifferentiation {
 }
 
 extension PromoteBumpUpAfterSell {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension AllowCallsForProfessionals {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -336,6 +341,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.promoteBumpUpAfterSell
         }
         return PromoteBumpUpAfterSell.fromPosition(abTests.promoteBumpUpAfterSell.value)
+    }
+
+    var allowCallsForProfessionals: AllowCallsForProfessionals {
+        if Bumper.enabled {
+            return Bumper.allowCallsForProfessionals
+        }
+        return AllowCallsForProfessionals.fromPosition(abTests.allowCallsForProfessionals.value)
     }
 
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
