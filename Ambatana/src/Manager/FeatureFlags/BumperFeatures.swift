@@ -40,6 +40,7 @@ extension Bumper  {
         flags.append(MoreInfoAFShOrDFP.self)
         flags.append(ShowSecurityMeetingChatMessage.self)
         flags.append(RealEstateImprovements.self)
+        flags.append(RealEstatePromos.self)
         Bumper.initialize(flags)
     } 
 
@@ -176,6 +177,11 @@ extension Bumper  {
     static var realEstateImprovements: RealEstateImprovements {
         guard let value = Bumper.value(for: RealEstateImprovements.key) else { return .control }
         return RealEstateImprovements(rawValue: value) ?? .control 
+    }
+
+    static var realEstatePromos: RealEstatePromos {
+        guard let value = Bumper.value(for: RealEstatePromos.key) else { return .control }
+        return RealEstatePromos(rawValue: value) ?? .control 
     } 
 }
 
@@ -559,6 +565,22 @@ enum RealEstateImprovements: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum RealEstatePromos: String, BumperFeature  {
+    case control, baseline, deactivate
+    static var defaultValue: String { return RealEstatePromos.control.rawValue }
+    static var enumValues: [RealEstatePromos] { return [.control, .baseline, .deactivate]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show real estate promos" } 
+    static func fromPosition(_ position: Int) -> RealEstatePromos {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .deactivate
             default: return .control
         }
     }
