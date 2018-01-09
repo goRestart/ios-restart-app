@@ -752,6 +752,7 @@
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Aantal Slaapkamers";
 "real_estate_current_step_of_total" = "%d van %d";
+"real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
 "real_estate_location_notification_message" = "We zullen jouw exacte locatie nooit aan andere gebruikers laten zien";
 "real_estate_location_title" = "Plaats";
 "real_estate_offer_type_rent" = "Te Huur";

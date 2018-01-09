@@ -113,7 +113,7 @@ class PostListingViewModel: BaseViewModel {
         self.fileRepository = fileRepository
         self.carsInfoRepository = carsInfoRepository
         self.postDetailViewModel = PostListingBasicDetailViewModel()
-        self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source)
+        self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source, postCategory: postCategory)
         self.tracker = tracker
         self.sessionManager = sessionManager
         self.featureFlags = featureFlags

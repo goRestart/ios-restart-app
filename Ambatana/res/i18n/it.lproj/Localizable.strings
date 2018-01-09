@@ -752,6 +752,7 @@
 "real_estate_bedrooms_4" = "Più di 4";
 "real_estate_bedrooms_title" = "N° di stanze";
 "real_estate_current_step_of_total" = "%d di %d";
+"real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
 "real_estate_location_notification_message" = "La tua posizione esatta non verrà mai mostrata agli altri utenti";
 "real_estate_location_title" = "Posizione";
 "real_estate_offer_type_rent" = "In affitto";

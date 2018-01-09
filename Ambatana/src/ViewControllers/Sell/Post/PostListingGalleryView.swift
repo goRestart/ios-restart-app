@@ -30,7 +30,6 @@ fileprivate extension GalleryState {
             view.topRightButton.isEnabled = viewModel.imagesSelectedCount != 0
         }
     }
-
 }
 
 
@@ -39,14 +38,15 @@ enum MessageInfoType {
     case noImages
     case wrongImage
 
-    func configMessageViews(title: UILabel, subtitle: UILabel) {
+    func configMessageViews(title: UILabel, subtitle: UILabel, noImageSubtitleText: String) {
         switch self {
         case .noMessage:
             title.text = ""
             subtitle.text = ""
         case .noImages:
             title.text = LGLocalizedString.productPostGallerySelectPicturesTitle
-            subtitle.text = LGLocalizedString.productPostGallerySelectPicturesSubtitle
+            subtitle.text = noImageSubtitleText
+            
         case .wrongImage:
             title.text = LGLocalizedString.productPostGalleryLoadImageErrorTitle
             subtitle.text = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
@@ -128,8 +128,8 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
 
     // MARK: - Lifecycle
 
-    convenience init() {
-        let viewModel = PostListingGalleryViewModel()
+    convenience init(viewModel: PostListingGalleryViewModel) {
+        let viewModel = viewModel
         self.init(viewModel: viewModel, frame: CGRect.zero)
     }
 
@@ -220,7 +220,9 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
     }
 
     fileprivate func configMessageView(_ type: MessageInfoType) {
-        type.configMessageViews(title: loadImageErrorTitleLabel, subtitle: loadImageErrorSubtitleLabel)
+        type.configMessageViews(title: loadImageErrorTitleLabel,
+                                subtitle: loadImageErrorSubtitleLabel,
+                                noImageSubtitleText: viewModel.noImageSubtitleText)
     }
     
     fileprivate func updateTopRightButton(state: GalleryState) {
