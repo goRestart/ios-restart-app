@@ -6,150 +6,169 @@
 //  Copyright © 2015 Ambatana Inc. All rights reserved.
 //
 
-import Argo
 import CoreLocation
-import Curry
-import Runes
 
-protocol LGMyUserKeys {
-    var objectId: String { get }
-    var name: String { get }
-    var email: String { get }
-    var latitude: String { get }
-    var longitude: String { get }
-    var locationType: String { get }
-    var avatar: String { get }
-    var address: String { get }
-    var city: String { get }
-    var zipCode: String { get }
-    var state: String { get }
-    var countryCode: String { get }
-    var ratingAverage: String { get }
-    var ratingCount: String { get }
-    var accounts: String { get }
-    var status: String { get }
-    var localeIdentifier: String { get }
+public protocol User: BaseModel {
+    var name: String? { get }
+    var avatar: File? { get }
+    var postalAddress: PostalAddress { get }
+    
+    var accounts: [Account] { get }
+    var ratingAverage: Float? { get }
+    var ratingCount: Int { get }
+    
+    var status: UserStatus { get }
+    
+    var isDummy: Bool { get }
 }
 
-protocol LGMyUserApiKeys: LGMyUserKeys {
-    var password: String { get }
-    var newsletter: String { get }
+public protocol MyUser: User {
+    var email: String? { get }
+    var location: LGLocation? { get }
+    var localeIdentifier: String? { get }
 }
 
+public extension MyUser {
+    var coordinates: LGLocationCoordinates2D? {
+        guard let coordinates = location?.coordinate else { return nil }
+        return LGLocationCoordinates2D(coordinates: coordinates)
+    }
+    var isDummy: Bool {
+        let dummyRange = (email ?? "").range(of: "usercontent")
+        if let isDummyRange = dummyRange, isDummyRange.lowerBound == (email ?? "").startIndex {
+            return true
+        } else {
+            return false
+        }
+    }
+    var postalAddress: PostalAddress {
+        return location?.postalAddress ?? PostalAddress.emptyAddress()
+    }
+}
 
-// MARK: - LGMyUser
-
-struct LGMyUser: MyUser {
-    // BaseModel
+struct LGMyUser: MyUser, Decodable {
     var objectId: String?
-
-    // User
     var name: String?
     var avatar: File?
     var accounts: [Account]
     var ratingAverage: Float?
     var ratingCount: Int
     var status: UserStatus
-
-    // MyUser
     var email: String?
     var location: LGLocation?
     var localeIdentifier: String?
 
-    init(objectId: String?, name: String?, avatar: LGFile?, accounts: [LGAccount],
-         ratingAverage: Float?, ratingCount: Int, status: UserStatus?, email: String?, location: LGLocation?,
+    init(objectId: String?,
+         name: String?,
+         avatar: LGFile?,
+         accounts: [Account],
+         ratingAverage: Float?,
+         ratingCount: Int,
+         status: UserStatus?,
+         email: String?,
+         location: LGLocation?,
          localeIdentifier: String?) {
+        
         self.objectId = objectId
-
         self.name = name
         self.avatar = avatar
-        
         self.accounts = accounts
         self.ratingAverage = ratingAverage
         self.ratingCount = ratingCount
-
         self.status = status ?? .active
-
         self.email = email
         self.location = location
         self.localeIdentifier = localeIdentifier
     }
-}
-
-
-// MARK: - Decodable
-
-extension LGMyUser: Decodable {
-    struct ApiMyUserKeys: LGMyUserApiKeys {
-        let objectId = "id"
-        let name = "name"
-        let email = "email"
-        let password = "password"
-        let latitude = "latitude"
-        let longitude = "longitude"
-        let locationType = "location_type"
-        let avatar = "avatar_url"
-        let address = "address"
-        let city = "city"
-        let state = "state"
-        let zipCode = "zip_code"
-        let countryCode = "country_code"
-        let newsletter = "newsletter"
-        let ratingAverage = "rating_value"
-        let ratingCount = "num_ratings"
-        let accounts = "accounts"
-        let status = "status"
-        let localeIdentifier = "locale"
-    }
-
-    /**
-    https://ambatana.atlassian.net/wiki/display/BAPI/Users
-    Decodes a json in the form:
-    {
-    	"id": "d67a38d4-6a80-4ca7-a54e-ccf0c57076a3",
-    	"latitude": 40.713054,
-    	"longitude": -74.007228,
-    	"username": "119750508403100",      // not parsed
-    	"name": "Sara G.",
-    	"email": "aras_0212@hotmail.com",
-    	"avatar_url": "https:\/\/s3.amazonaws.com\/letgo-avatars-pro\/images\/98\/ef\/d3\/4a\/98efd34ae8ba6a879dba60706152b131b8a64d45bf0c4ae043a39caa5d3774bc.jpg",
-    	"zip_code": "",
-    	"address": "New York NY",
-    	"city": "New York",
-    	"country_code": "US",
-    	"is_richy": false,
-        "rating_value": "number|null",
-        "num_ratings": "integer",
-    	"accounts": [{
-            "type": "facebook",
-            "verified": false
-    	}, {
-            "type": "letgo",
-            "verified": true
-    	}],
-        "locale": "string|null"
-    }
-    */
-    static func decode(_ j: JSON) -> Decoded<LGMyUser> {
-        return decode(j, keys: ApiMyUserKeys())
-    }
-
-    static func decode(_ j: JSON, keys: LGMyUserApiKeys) -> Decoded<LGMyUser> {
-        let result01 = curry(LGMyUser.init)
-        let result02 = result01 <^> j <|? keys.objectId
-        let result03 = result02 <*> j <|? keys.name
-        let result04 = result03 <*> LGArgo.jsonToAvatarFile(j, avatarKey: keys.avatar)
-        let result05 = result04 <*> j <|| keys.accounts
-        let result06 = result05 <*> j <|? keys.ratingAverage
-        let result07 = result06 <*> j <| keys.ratingCount
-        let result08 = result07 <*> j <|? keys.status
-        let result09 = result08 <*> j <|? keys.email
-        let result10 = result09 <*> LGArgo.jsonToLocation(j, latKey: keys.latitude, lonKey: keys.longitude,
-                                                          typeKey: keys.locationType)
-        let result   = result10 <*> j <|? keys.localeIdentifier
-        if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGMyUser parse error: \(error)")
+    
+    // MARK: - Decodable
+    
+    /*
+     {
+     "id": "string",
+     "latitude": "decimal",
+     "longitude": "decimal",
+     "username": "string",
+     "name": "string",
+     "email": "string",
+     "avatar_url": "string",
+     "zip_code": "string",
+     "address": "string",
+     "city": "string",
+     "country_code": "string",
+     "is_richy": "boolean",
+     "location_type": "string",
+     "rating_value": "number"|null, // an unrated user or one whose ratings have been deleted will have a null
+     "num_ratings": "integer",      // an unrated user or one whose ratings have been deleted will have a 0
+     "accounts": [
+     {
+     "type": "string",
+     "verified": "boolean"
+     },
+     {
+     "type": "string",
+     "verified": "boolean"
+     }
+     ],
+     "locale": "string",
+     "country": "string",
+     "state": "string",
+     "timezone": "string|null",
+     "status": "string|null"
+     }
+     */
+    
+    public init(from decoder: Decoder) throws {
+        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        objectId = try keyedContainer.decodeIfPresent(String.self, forKey: .objectId)
+        name = try keyedContainer.decodeIfPresent(String.self, forKey: .name)
+        email = try keyedContainer.decodeIfPresent(String.self, forKey: .email)
+        if let latitude = try? keyedContainer.decode(Double.self, forKey: .latitude),
+            let longitude = try? keyedContainer.decode(Double.self, forKey: .longitude),
+            let postalAddress = try? PostalAddress(from: decoder) {
+            let locationType = (try? keyedContainer.decode(LGLocationType.self, forKey: .locationType)) ?? .regional
+            location = LGLocation(latitude: latitude,
+                                  longitude: longitude,
+                                  type: locationType,
+                                  postalAddress: postalAddress)
         }
-        return result
+
+        if let avatarStringURL = try keyedContainer.decodeIfPresent(String.self, forKey: .avatar) {
+            self.avatar = LGFile(id: nil, urlString: avatarStringURL)
+        } else {
+            self.avatar = nil
+        }
+        ratingAverage = try keyedContainer.decodeIfPresent(Float.self, forKey: .ratingAverage)
+        ratingCount = try keyedContainer.decode(Int.self, forKey: .ratingCount)
+        if let accounts = try keyedContainer.decodeIfPresent(FailableDecodableArray<LGAccount>.self, forKey: .accounts) {
+            self.accounts = accounts.validElements
+        } else {
+            self.accounts = []
+        }
+        status = (try keyedContainer.decodeIfPresent(UserStatus.self, forKey: .status)) ?? .active
+        localeIdentifier = try keyedContainer.decodeIfPresent(String.self, forKey: .localeIdentifier)
+    }
+    
+    // TODO: some keys are only being used in repository, we may want to re-think this
+    enum CodingKeys: String, CodingKey {
+        case objectId = "id"
+        case name
+        case email
+        case password
+        case latitude
+        case longitude
+        case locationType = "location_type"
+        case avatar = "avatar_url"
+        case address
+        case city
+        case state
+        case zipCode = "zip_code"
+        case countryCode = "country_code"
+        case newsletter
+        case ratingAverage = "rating_value"
+        case ratingCount = "num_ratings"
+        case accounts
+        case status
+        case localeIdentifier = "locale"
     }
 }

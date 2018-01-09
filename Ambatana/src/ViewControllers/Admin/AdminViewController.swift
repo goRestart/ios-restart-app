@@ -52,7 +52,7 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         title = "God Panel"
     }
 
-    func closeButtonPressed() {
+    @objc func closeButtonPressed() {
         dismiss(animated: true, completion: nil)
     }
 

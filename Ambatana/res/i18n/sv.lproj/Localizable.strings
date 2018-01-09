@@ -52,11 +52,11 @@
 "categories_inFeed_home" = "Hem";
 "categories_inFeed_motors" = "Motor";
 "categories_inFeed_others" = "Annan";
-"categories_inFeed_real_estate" = "Boende";
+"categories_inFeed_real_estate" = "Bostad";
 "categories_inFeed_sports_leisure_games" = "Fritid";
 "categories_movies_books_and_music" = "Filmer, böcker och musik";
 "categories_other" = "Övrigt";
-"categories_real_estate" = "Boende";
+"categories_real_estate" = "Bostad";
 "categories_sports_leisure_and_games" = "Sport, fritid och spel";
 "categories_super_keywords_inFeed_show_more" = "Visa mer";
 "categories_title" = "Kategorier";
@@ -791,7 +791,8 @@
 "real_estate_title_generator_property_type_house" = "Hus";
 "real_estate_title_generator_property_type_other" = "Övrigt";
 "real_estate_title_generator_property_type_room" = "Rum";
-"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
+"real_estate_tooltip_overlay_expandable_menu" = "Prova vår nya Bostadskategori om du vill hyra ut eller sälja en bostad!";
+"real_estate_tooltip_sell_button" = "Nu kan du hyra ut eller sälja din bostad i vår nya Bostadskategori";
 "real_estate_type_property_apartment" = "Lägenhet";
 "real_estate_type_property_commercial" = "Företagslokal";
 "real_estate_type_property_house" = "Hus";

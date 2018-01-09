@@ -84,14 +84,14 @@ class RelatedListingsView: UIView {
     }
 
     private func setupRx() {
-        listingId.asObservable().bindNext{ [weak self] listingId in
+        listingId.asObservable().bind{ [weak self] listingId in
              guard let listingId = listingId else {
                 self?.clear()
                 return
             }
             self?.loadListings(listingId)
-        }.addDisposableTo(disposeBag)
-        hasListings.asObservable().map { !$0 }.bindTo(self.rx.isHidden).addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
+        hasListings.asObservable().map { !$0 }.bind(to: self.rx.isHidden).disposed(by: disposeBag)
     }
 }
 

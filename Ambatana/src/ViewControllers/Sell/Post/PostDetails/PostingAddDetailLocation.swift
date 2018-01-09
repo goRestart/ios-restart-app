@@ -59,10 +59,10 @@ final class PostingAddDetailLocation: UIView, PostingViewConfigurable {
     
     private func setupRx() {
         searchMapView.viewModel.placeLocation.asObservable()
-            .bindNext({ [weak self] place in
+            .bind(onNext: { [weak self] place in
                 guard let place = place else { return }
                 self?.locationSelected.value = place
-            }).addDisposableTo(disposeBag)
+            }).disposed(by: disposeBag)
     }
     
     // MARK: - PostingViewConfigurable

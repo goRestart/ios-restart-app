@@ -6,8 +6,6 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-
 class NotificationsApiDataSource: NotificationsDataSource {
 
     let apiClient: ApiClient
@@ -36,13 +34,27 @@ class NotificationsApiDataSource: NotificationsDataSource {
     // MARK: - Decoders
 
     private static func decoderArray(_ object: Any) -> [NotificationModel]? {
-        //If any notification object fails we don't want the entire list fail -> filteredDecode
-        guard let notifications = Array<LGNotification>.filteredDecode(JSON(object)).value else { return nil }
-        return notifications.map{ $0 }
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        
+        // Ignore notification that can't be decoded
+        do {
+            let ratings = try JSONDecoder().decode(FailableDecodableArray<LGNotification>.self, from: data)
+            return ratings.validElements
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse [LGNotification] \(object)")
+        }
+        return nil
     }
 
     private static func unreadCountDecoder(_ object: Any) -> Int? {
-        let result: Decoded<Int> = JSON(object) <| ["counts", "modular"]
-        return result.value
+        struct Keys {
+            static let counts = "counts"
+            static let modular = "modular"
+        }
+        guard let dict = object as? [String: Any],
+            let counts = dict[Keys.counts] as? [String: Any],
+            let modular = counts[Keys.modular] as? Int
+            else { return nil }
+        return modular
     }
 }

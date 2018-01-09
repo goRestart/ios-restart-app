@@ -38,7 +38,7 @@ class PostListingBasicDetailViewModelSpec: BaseViewModelSpec {
                         sut.price.value = "0"
                     }
                     it ("listingPrice is negotiable") {
-                        expect(sut.listingPrice) == ListingPrice.negotiable(0.0)
+                        expect(sut.listingPrice) == ListingPrice.normal(0.0)
                     }
                 }
                 context("has price") {

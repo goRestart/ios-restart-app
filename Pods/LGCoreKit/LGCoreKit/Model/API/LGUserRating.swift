@@ -6,11 +6,7 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-import Curry
-import Runes
-
-struct LGUserRating: UserRating {
+struct LGUserRating: UserRating, Decodable {
     let objectId: String?
     let userToId: String
     let userFrom: UserListing
@@ -20,88 +16,90 @@ struct LGUserRating: UserRating {
     let status: UserRatingStatus
     let createdAt: Date
     let updatedAt: Date
-
-    init(objectId: String, userToId: String, userFrom: LGUserListing, type: UserRatingType, value: Int, comment: String?,
-         status: UserRatingStatus, createdAt: Date, updatedAt: Date) {
-        self.objectId = objectId
-        self.userToId = userToId
-        self.userFrom = userFrom
-        self.type = type
-        self.value = value
-        self.comment = comment
-        self.status = status
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
-    }
-}
-
-extension LGUserRating: Decodable {
-
+    
+    
+    // MARK: - Decodable
+    
     /**
-     From: https://ambatana.atlassian.net/wiki/display/BAPI/User+Rating+Endpoints+and+Model
-
+     Expects a json in the form:
      {
-         "uuid": string (UserRating Uuid, i.e -"42f93d94-7026-4f24-98b7-c73415695ebf"),
-         "user_to_id": string (UserRating userToId, i.e -"044adf68-9e6e-49ae-849a-c3dfa4901172"),
-         "user_from": {
-             "id": string ("b088284d-40a9-4b9a-ad61-63df56d9e961"),
-             "name": string ("Jaime Torres"),
-             "avatar_url": string|null,
-             "zip_code": string ("08039"),
-             "country_code": string ("ES"),
-             "city": string ("Barcelona"),
-             "banned": bool (false),
-             "status": string ("active")
-         }
-         "product_id": string | null (UserRating productId, i.e -"42f93d94-7026-4f24-98b7-c73415695ebf"),
-         "type": int (UserRating type, i.e - 1),
-         "value": int (UserRating value, i.e. - 5),
-         "comment": string | null (UserRating comment, i.e - "feo"),
-         "status": int (UserRating status, i.e - 2),
-         "created_at": DateTime (UserRating createdAt, i.e - "2016-07-12T18:27:51+0200"),
-         "updated_at": DateTime (UserRating updatedAt, i.e - "2016-07-12T18:27:51+0200")
+         "uuid": "42f93d94-7026-4f24-98b7-c73415695ebf",
+         "user_to_id": "044adf68-9e6e-49ae-849a-c3dfa4901172",
+         "user_from":{
+             "id": "b088284d-40a9-4b9a-ad61-63df56d9e961",
+             "name": "Jaime Torres",
+             "avatar_url": null,
+             "zip_code": "08039",
+             "country_code": "ES",
+             "city": "Barcelona",
+             "banned": false,
+             "status": "active"
+         },
+         "type": 1,
+         "value": 5,
+         "comment": "feo",
+         "status": 1,
+         "created_at": "2016-07-12T18:27:51+0200",
+         "updated_at": "2016-07-12T18:27:51+0200"
      }
      */
-    static func decode(_ j: JSON) -> Decoded<LGUserRating> {
-        let result1 = curry(LGUserRating.init)
-        let result2 = result1 <^> j <| "uuid"
-        let result3 = result2 <*> j <| "user_to_id"
-        let result4 = result3 <*> j <| "user_from"
-        let result5 = result4 <*> UserRatingType.decode(j)
-        let result6 = result5 <*> j <| "value"
-        let result7 = result6 <*> j <|? "comment"
-        let result8 = result7 <*> j <| "status"
-        let result9 = result8 <*> j <| "created_at"
-        let result  = result9 <*> j <| "updated_at"
-        if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGUserRating parse error: \(error)")
+    init(from decoder: Decoder) throws {
+        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        self.objectId = try keyedContainer.decodeIfPresent(String.self, forKey: .id)
+        self.userToId = try keyedContainer.decode(String.self, forKey: .userToId)
+        self.userFrom = try keyedContainer.decode(LGUserListing.self, forKey: .userFrom)
+        let typeValue = try keyedContainer.decode(Int.self, forKey: .type)
+        switch typeValue {
+        case UserRatingApiType.conversation.rawValue:
+            self.type = .conversation
+        case UserRatingApiType.seller.rawValue:
+            let listingId = try keyedContainer.decode(String.self, forKey: .listingId)
+            self.type = .seller(listingId: listingId)
+        case UserRatingApiType.buyer.rawValue:
+            let listingId = try keyedContainer.decode(String.self, forKey: .listingId)
+            self.type = .buyer(listingId: listingId)
+        default:
+            throw DecodingError.valueNotFound(Int.self, DecodingError.Context(codingPath: [CodingKeys.type],
+                                                                              debugDescription: "\(typeValue)"))
         }
-        return result
+        self.value = try keyedContainer.decode(Int.self, forKey: .value)
+        self.comment = try keyedContainer.decode(String?.self, forKey: .comment)
+        
+        let statusValue = try keyedContainer.decode(Int.self, forKey: .status)
+        if let status = UserRatingStatus(rawValue: statusValue) {
+            self.status = status
+        } else {
+            throw DecodingError.valueNotFound(Int.self, DecodingError.Context(codingPath: [CodingKeys.status],
+                                                                              debugDescription: "\(statusValue)"))
+        }
+        let dateFormatter = LGDateFormatter()
+        let createdAtString = try keyedContainer.decode(String.self, forKey: .createdAt)
+        if let createdAt = dateFormatter.date(from: createdAtString) {
+            self.createdAt = createdAt
+        } else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [CodingKeys.createdAt],
+                                                                    debugDescription: "\(createdAtString)"))
+        }
+        let updatedAtString = try keyedContainer.decode(String.self, forKey: .updatedAt)
+        if let updatedAt = dateFormatter.date(from: updatedAtString) {
+            self.updatedAt = updatedAt
+        } else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [CodingKeys.updatedAt],
+                                                                    debugDescription: "\(updatedAtString)"))
+        }
     }
-}
-
-extension UserRatingStatus: Decodable {}
-
-extension UserRatingType: Decodable {
-    public static func decode(_ j: JSON) -> Decoded<UserRatingType> {
-        let decodedType: Decoded<UserRatingApiType> = j <| "type"
-        guard let type = decodedType.value else { return Decoded<UserRatingType>.fromOptional(nil) }
-
-        let result: Decoded<UserRatingType>
-        switch type {
-        case .conversation:
-            result = Decoded<UserRatingType>.fromOptional(.conversation)
-        case .seller:
-            let result1 = curry(UserRatingType.seller)
-            result      = result1 <^> j <| "product_id"
-        case .buyer:
-            let result1 = curry(UserRatingType.buyer)
-            result      = result1 <^> j <| "product_id"
-        }
-        if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.parsing, message: "UserRatingType parse error: \(error)")
-        }
-        return result
+    
+    enum CodingKeys: String, CodingKey {
+        case id         = "uuid"
+        case userToId   = "user_to_id"
+        case userFrom   = "user_from"
+        case listingId  = "product_id"
+        case type       = "type"
+        case value      = "value"
+        case comment    = "comment"
+        case status     = "status"
+        case createdAt  = "created_at"
+        case updatedAt  = "updated_at"
     }
 }
 
@@ -127,5 +125,3 @@ private enum UserRatingApiType: Int {
     case seller = 2
     case buyer = 3
 }
-
-extension UserRatingApiType: Decodable {}

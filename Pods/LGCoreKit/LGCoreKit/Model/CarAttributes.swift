@@ -6,11 +6,7 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-import Curry
-import Runes
-
-public struct CarAttributes: Equatable {
+public struct CarAttributes: Equatable, Decodable {
     public let make: String?
     public let makeId: String?
     public let model: String?
@@ -74,6 +70,24 @@ public struct CarAttributes: Equatable {
                              model: model ?? self.model,
                              year: year ?? self.year)
     }
+    
+    
+    // MARK: Decodable
+    
+    public init(from decoder: Decoder) throws {
+        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        makeId = try keyedContainer.decodeIfPresent(String.self, forKey: .makeId)
+        make = nil
+        modelId = try keyedContainer.decodeIfPresent(String.self, forKey: .modelId)
+        model = nil
+        year = try keyedContainer.decodeIfPresent(Int.self, forKey: .year)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case makeId = "make"
+        case modelId = "model"
+        case year = "year"
+    }
 }
 
 public func ==(lhs: CarAttributes, rhs: CarAttributes) -> Bool {
@@ -82,27 +96,3 @@ public func ==(lhs: CarAttributes, rhs: CarAttributes) -> Bool {
         lhs.year == rhs.year
 }
 
-extension CarAttributes : Decodable {
-    
-    /**
-     Expects a json in the form:
-     
-     "attributes": {
-        "make": "f762a529-6e99-4244-9568-e31b6705edb5", //required, valid uuid4 or empty string.
-        "model": "b243756c-456b-4132-8a6f-c63758551f7", //required, valid uuid4 or empty string.
-        "year": 2000 //required, valid year (>1900) or 0.
-     
-     }
-     
-     */
-    public static func decode(_ j: JSON) -> Decoded<CarAttributes> {
-        let result1 = curry(CarAttributes.initWith)
-        let result2 = result1 <^> j <|? "make"
-        let result3 = result2 <*> j <|? "model"
-        let result  = result3 <*> j <|? "year"
-        if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.parsing, message: "CarAttributes parse error: \(error)")
-        }
-        return result
-    }
-}

@@ -54,16 +54,16 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
     // MARK: - UI
     
     private func setupUI() {
-        
         separatorView.backgroundColor = UIColor.whiteTextLowAlpha
         currencyLabel.numberOfLines = 1
         currencyLabel.adjustsFontSizeToFitWidth = false
         currencyLabel.textAlignment = .center
         currencyLabel.textColor = UIColor.white
         currencyLabel.font = UIFont.systemBoldFont(size: 26)
-        
         priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
-                                                                  attributes: [NSForegroundColorAttributeName: UIColor.grayLight, NSFontAttributeName: UIFont.systemBoldFont(size: 26)])
+                                                                  attributes: [NSAttributedStringKey.foregroundColor: UIColor.grayLight,
+                                                                               NSAttributedStringKey.font: UIFont.systemBoldFont(size: 26)])
+        priceTextField.keyboardType = .decimalPad
         priceTextField.font = UIFont.systemBoldFont(size: 26)
         priceTextField.textColor = UIColor.white
         priceTextField.keyboardType = .decimalPad
@@ -129,13 +129,13 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
     }
     
     private func setupRx() {
-        freeActive.asObservable().bindTo(freeSwitch.rx.value(animated: true)).addDisposableTo(disposeBag)
-        freeActive.asObservable().skip(1).bindNext{[weak self] active in
+        freeActive.asObservable().bind(to: freeSwitch.rx.isOn).disposed(by: disposeBag)
+        freeActive.asObservable().skip(1).bind{ [weak self] active in
             self?.showPriceContainer(hide: active)
-            }.addDisposableTo(disposeBag)
-        freeSwitch.rx.isOn.asObservable().skip(1).bindTo(freeActive).addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
+        freeSwitch.rx.isOn.asObservable().skip(1).bind(to: freeActive).disposed(by: disposeBag)
         
-        Observable.combineLatest(freeSwitch.rx.isOn.asObservable(), priceTextField.rx.text.asObservable()) { ($0, $1) }.bindNext { [weak self] (isOn, textFieldValue) in
+        Observable.combineLatest(freeSwitch.rx.isOn.asObservable(), priceTextField.rx.text.asObservable()) { ($0, $1) }.bind { [weak self] (isOn, textFieldValue) in
             guard let strongSelf = self else { return }
             if isOn {
                 strongSelf.priceListing.value = .free
@@ -145,7 +145,7 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
             } else {
                 strongSelf.priceListing.value = Constants.defaultPrice
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func showPriceContainer(hide: Bool) {
@@ -170,11 +170,11 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
     
     // MARK: - Actions
     
-    dynamic private func freeContainerPressed() {
+    @objc private func freeContainerPressed() {
         freeActive.value = !freeSwitch.isOn
     }
     
-    dynamic private func closeKeyboard() {
+    @objc private func closeKeyboard() {
         priceTextField.resignFirstResponder()
     }
     
@@ -190,13 +190,11 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
     func setupView(viewModel: PostingDetailsViewModel) {
         guard let price = viewModel.currentPrice else { return }
         switch price {
-        case .firmPrice, .normal:
+        case .normal:
             let priceString = price.value == 0 ? "" : String.fromPriceDouble(price.value)
             priceTextField.text = priceString
         case .free:
             freeActive.value = true
-        case .negotiable:
-            break
         }
     }
 }

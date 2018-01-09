@@ -6,8 +6,6 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-
 class CarsInfoMemoryDAO: CarsInfoDAO {
 
     private var carsMakesWithModelsList: [CarsMakeWithModels] = []
@@ -53,7 +51,15 @@ class CarsInfoMemoryDAO: CarsInfoDAO {
     }
     
     private func decoder(_ object: Any) -> [CarsMakeWithModels]? {
-        let apiCarsMakeList: [ApiCarsMake]? = decode(object)
-        return apiCarsMakeList
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        
+        // Ignore cars makes with model that can't be decoded
+        do {
+            let apiCarsMake = try JSONDecoder().decode(FailableDecodableArray<ApiCarsMake>.self, from: data)
+            return apiCarsMake.validElements
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse ApiCarsMake \(object)")
+        }
+        return nil
     }
 }

@@ -1137,7 +1137,7 @@ struct TrackerEvent {
     }
 
     static func bumpUpPromo() -> TrackerEvent {
-        var params = EventParameters()
+        let params = EventParameters()
         return TrackerEvent(name: .bumpUpPromo, params: params)
     }
 
@@ -1255,7 +1255,7 @@ struct TrackerEvent {
     
     static func eventParameterFreePostingWithPrice(_ freePostingModeAllowed: Bool, price: ListingPrice) -> EventParameterBoolean {
         guard freePostingModeAllowed else {return .notAvailable}
-        return price.free ? .trueParameter : .falseParameter
+        return price.isFree ? .trueParameter : .falseParameter
     }
     
     private static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool, priceRange: FilterPriceRange) -> EventParameterBoolean {

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Argo
 
 public protocol TaxonomyChild {
     var id: Int { get }
@@ -44,5 +43,3 @@ public enum TaxonomyChildType: String {
 public func ==(lhs: TaxonomyChildType, rhs: TaxonomyChildType) -> Bool {
     return lhs.rawValue == rhs.rawValue
 }
-
-extension TaxonomyChildType: Decodable {}

@@ -59,7 +59,7 @@ class PostCategoryDetailRowView: UIView, UITextFieldDelegate {
             if let value = newValue {
                 textField.attributedPlaceholder =
                     NSAttributedString(string: value,
-                                       attributes: [NSForegroundColorAttributeName: UIColor.whiteTextHighAlpha])
+                                       attributes: [NSAttributedStringKey.foregroundColor: UIColor.whiteTextHighAlpha])
             }
         }
         get {

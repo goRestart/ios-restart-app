@@ -7,7 +7,6 @@
 //
 
 import CoreLocation
-import Argo
 import Result
 
 class LGIPLookupDataSource: IPLookupDataSource {
@@ -38,10 +37,11 @@ class LGIPLookupDataSource: IPLookupDataSource {
     // MARK: - Helpers
     
     static func decoder(_ object: Any) -> LGLocationCoordinates2D? {
-        guard let location = LGArgo.jsonToCoordinates(JSON(object),
-                                                      latKey: "latitude",
-                                                      lonKey: "longitude").value else { return nil }
-        return location
+        guard let dict = object as? [String: Any],
+            let latitude = dict["latitude"] as? Double,
+            let longitude = dict["longitude"] as? Double
+            else { return nil }
+        return LGLocationCoordinates2D(latitude: latitude, longitude: longitude)
     }
     
 }

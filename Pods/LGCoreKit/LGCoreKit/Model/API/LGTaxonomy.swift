@@ -6,51 +6,57 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-import Curry
-import Runes
-
-public struct LGTaxonomy: Taxonomy {
+public struct LGTaxonomy: Taxonomy, Decodable {
     public let name: String
     public let icon: URL?
     public let children: [TaxonomyChild]
 
-    init(name: String, icon: String, children: [LGTaxonomyChild]) {
+    
+    // MARK: - Lifecycle
+    
+    init(name: String,
+         icon: String,
+         children: [LGTaxonomyChild]) {
         self.name = name
         self.icon = URL(string: icon)
         self.children = children
     }
-}
-
-extension LGTaxonomy : Decodable {
-
+    
+    
+    // MARK: - Decodable
+    
     /**
      Expects a json in the form:
      {
-        "name": "Electronics",
-        "icon": "https://static.letgo.com/category-icons/electronics_title.png",
-        "children": [
-            {
-                "id": 2,
-                "type": "superkeyword",
-                "name": "Phones",
-                "highlight_order": 1,
-                "highlight_icon": "https://static.letgo.com/category-icons/phones_superkw.png"
-            },
-            ...
-        ]
+         "name": "Electronics",
+         "icon": "https://static.letgo.com/category-icons/electronics_title.png",
+         "children": [
+         {
+             "id": 2,
+             "type": "superkeyword",
+             "name": "Phones",
+             "highlight_order": 1,
+             "highlight_icon": "https://static.letgo.com/category-icons/phones_superkw.png"
+         },
+         ...
+         ]
      }
-     **/
-
-
-    public static func decode(_ j: JSON) -> Decoded<LGTaxonomy> {
-        let result1 = curry(LGTaxonomy.init)
-        let result2 = result1 <^> j <| "name"
-        let result3 = result2 <*> j <| "icon"
-        let result  = result3 <*> j <|| "children"
-        if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGTaxonomy parse error: \(error)")
+     */
+    public init(from decoder: Decoder) throws {
+        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        self.name = try keyedContainer.decode(String.self, forKey: .name)
+        if let urlString = try keyedContainer.decodeIfPresent(String.self, forKey: .icon),
+            let iconURL = URL(string: urlString) {
+            self.icon = iconURL
+        } else {
+            self.icon = nil
         }
-        return result
+        self.children = try keyedContainer.decode([LGTaxonomyChild].self, forKey: .children)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case name
+        case icon
+        case children
     }
 }

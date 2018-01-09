@@ -9,8 +9,8 @@
 import Foundation
 
 protocol BumperDAO {
-    func setBool(_ value: Bool, forKey defaultName: String)
-    func boolForKey(_ defaultName: String) -> Bool
-    func stringForKey(_ defaultName: String) -> String?
-    func setObject(_ value: Any?, forKey defaultName: String)
+    func set(_ value: Bool, forKey defaultName: String)
+    func bool(forKey defaultName: String) -> Bool
+    func string(forKey defaultName: String) -> String?
+    func set(_ value: Any?, forKey defaultName: String)
 }

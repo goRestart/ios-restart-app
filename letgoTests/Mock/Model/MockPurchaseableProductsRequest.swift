@@ -23,7 +23,7 @@ final class MockPurchaseableProductsRequest: PurchaseableProductsRequest {
         timer.invalidate()
     }
 
-    dynamic func launchResponse() {
+    @objc dynamic func launchResponse() {
         let response = MockPurchaseableProductsResponse(purchaseableProducts: MockPurchaseableProduct.makeMocks(),
                                                         invalidProductIdentifiers: [])
         delegate?.productsRequest(self, didReceiveResponse: response)

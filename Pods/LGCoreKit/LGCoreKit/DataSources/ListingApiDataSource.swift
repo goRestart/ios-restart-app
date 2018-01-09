@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Argo
 import Result
 
 final class ListingApiDataSource: ListingDataSource {
@@ -213,61 +212,115 @@ final class ListingApiDataSource: ListingDataSource {
     // MARK: Decode listings
     
     private static func decoderArray(_ object: Any) -> [Listing]? {
-        guard let listings: [Listing] = decode(object) else { return nil }
-        return listings
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        // Ignore listings that can't be decoded
+        do {
+            let listings = try JSONDecoder().decode(FailableDecodableArray<Listing>.self, from: data)
+            return listings.validElements
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse Listing \(object)")
+        }
+        return nil
     }
     
     private static func decoder(_ object: Any) -> Listing? {
-        let listing: Listing? = decode(object)
-        return listing
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let listing = try Listing.decode(jsonData: data)
+            return listing
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse Listing \(object)")
+        }
+        return nil
     }
 
     private static func productDecoder(_ object: Any) -> Listing? {
-        let product: LGProduct? = decode(object)
-        if let product = product {
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let product = try LGProduct.decode(jsonData: data)
             return .product(product)
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGProduct \(object)")
         }
         return nil
     }
 
     private static func carDecoder(_ object: Any) -> Listing? {
-        let car: LGCar? = decode(object)
-        if let car = car {
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let car = try LGCar.decode(jsonData: data)
             return .car(car)
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGCar \(object)")
         }
         return nil
     }
     
     private static func realEstateDecoder(_ object: Any) -> Listing? {
-        let realEstate: LGRealEstate? = decode(object)
-        if let realEstate = realEstate {
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let realEstate = try LGRealEstate.decode(jsonData: data)
             return .realEstate(realEstate)
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGRealEstate \(object)")
         }
         return nil
     }
 
     static func decoderUserRelation(_ object: Any) -> UserListingRelation? {
-        let relation: LGUserListingRelation? = decode(object)
-        return relation
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let relation = try LGUserListingRelation.decode(jsonData: data)
+            return relation
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGUserListingRelation \(object)")
+        }
+        return nil
     }
 
     static func decoderListingStats(_ object: Any) -> ListingStats? {
-        let stats: LGListingStats? = decode(object)
-        return stats
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let stats = try LGListingStats.decode(jsonData: data)
+            return stats
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGListingStats \(object)")
+        }
+        return nil
     }
 
     private static func decoderUserArray(_ object: Any) -> [UserListing]? {
-        guard let theUsers : [LGUserListing] = decode(object) else { return nil }
-        return theUsers
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        // Ignore user listings that can't be decoded
+        do {
+            let userListings = try JSONDecoder().decode(FailableDecodableArray<LGUserListing>.self, from: data)
+            return userListings.validElements
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGUserListing \(object)")
+        }
+        return nil
     }
     
     private static func decoderArrayTransactions(_ object: Any) -> [Transaction]? {
-        guard let transactions = Array<LGTransaction>.filteredDecode(JSON(object)).value else { return nil }
-        return transactions.map{ $0 }
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        // Ignore transactions that can't be decoded
+        do {
+            let transactions = try JSONDecoder().decode(FailableDecodableArray<LGTransaction>.self, from: data)
+            return transactions.validElements
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGTransaction \(object)")
+        }
+        return nil
     }
     
     private static func decoderTransaction(_ object: Any) -> Transaction? {
-        guard let transaction : LGTransaction = decode(object) else { return nil }
-        return transaction
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let transaction = try LGTransaction.decode(jsonData: data)
+            return transaction
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGTransaction \(object)")
+        }
+        return nil
     }
 }

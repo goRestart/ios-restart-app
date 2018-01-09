@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -25,6 +25,7 @@
                 <outlet property="userBgTintView" destination="ueY-4k-2z8" id="q0W-e9-I9a"/>
                 <outlet property="userBgView" destination="Hy6-gu-q5k" id="ZsV-Sg-scs"/>
                 <outlet property="userLabelsContainer" destination="r4n-rR-ucf" id="eZJ-U6-Lah"/>
+                <outlet property="userLabelsTopMargin" destination="6Uh-4X-OE4" id="WXr-RB-JMA"/>
                 <outlet property="userLocationLabel" destination="rlh-Aj-lzp" id="bea-FG-mLv"/>
                 <outlet property="userNameLabel" destination="be4-ac-vae" id="eaK-Ge-DrE"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

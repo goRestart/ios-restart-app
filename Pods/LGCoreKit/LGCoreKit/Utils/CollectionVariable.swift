@@ -173,7 +173,8 @@ public final class CollectionVariable<T> {
         precondition(range ~= fromIndex && range ~= toIndex, "Range out of bounds")
         
         _lock.lock()
-        Swift.swap(&_value[fromIndex], &_value[toIndex])
+        // TODO: swift 4 suggested this change, review if it works as expected
+        _value.swapAt(fromIndex, toIndex)
         if let replaceElement = element {
             _value[toIndex] = replaceElement
         }

@@ -105,7 +105,16 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         
         view.addSubview(titleLabel)
         titleLabel.layout(with: view).fillHorizontal(by: Metrics.bigMargin)
-        titleLabel.layout(with: view).top(by: PostingDetailsViewController.titleHeight)
+        let topAnchor: NSLayoutYAxisAnchor
+        let constant: CGFloat
+        if #available(iOS 11, *) {
+            topAnchor = view.safeAreaLayoutGuide.topAnchor
+            constant = Metrics.bigMargin
+        } else {
+            topAnchor = view.topAnchor
+            constant = PostingDetailsViewController.titleHeight
+        }
+        titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: constant).isActive = true
         
         view.addSubview(contentView)
         contentView.layout(with: titleLabel).below(by: Metrics.bigMargin)
@@ -133,11 +142,11 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     
     // MARK: - UIActions
     
-    func closeButtonPressed() {
+    @objc func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
     
-    func nextButtonPressed() {
+    @objc func nextButtonPressed() {
         viewModel.nextbuttonPressed()
     }
 }

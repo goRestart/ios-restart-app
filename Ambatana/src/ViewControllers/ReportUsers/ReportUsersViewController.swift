@@ -181,11 +181,11 @@ extension ReportUsersViewController: UITextViewDelegate {
 
 extension ReportUsersViewController {
 
-    func keyboardWillShow(_ notification: Notification) {
+    @objc func keyboardWillShow(_ notification: Notification) {
         moveBottomForKeyboard(notification, showing: true)
     }
 
-    func keyboardWillHide(_ notification: Notification) {
+    @objc func keyboardWillHide(_ notification: Notification) {
         moveBottomForKeyboard(notification, showing: false)
     }
 

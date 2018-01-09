@@ -154,7 +154,7 @@ class LGSlider: UIView, LGSliderDataSource {
     
     // MARK: - Actions
     
-    dynamic func didPressThumb(gesture: UILongPressGestureRecognizer) {
+    @objc func didPressThumb(gesture: UILongPressGestureRecognizer) {
         guard let viewPressed = gesture.view else { return }
         guard let thumb: LGSliderThumb =
             viewPressed == leftThumb.touchableView ? leftThumb :

@@ -55,7 +55,7 @@ extension FBLoginHelper {
 // MARK: - ExternalAuthHelper
 
 extension FBLoginHelper: ExternalAuthHelper {
-    func login(_ authCompletion: (() -> Void)?, loginCompletion: ExternalAuthLoginCompletion?) {
+    func login(_ authCompletion: (() -> ())?, loginCompletion: ExternalAuthLoginCompletion?) {
         connectWithFacebook { [weak self] fbResult in
             switch fbResult {
             case let .success(token):

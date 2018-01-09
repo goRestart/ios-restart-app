@@ -13,7 +13,7 @@ import Result
 import RxSwift
 
 
-protocol ListingViewModelDelegate: class, BaseViewModelDelegate {
+protocol ListingViewModelDelegate: BaseViewModelDelegate {
 
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction])
 
@@ -73,7 +73,7 @@ class ListingViewModel: BaseViewModel {
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
     var quickAnswers: [[QuickAnswer]] {
         guard !isMine else { return [] }
-        let isFree = listing.value.price.free && featureFlags.freePostingModeAllowed
+        let isFree = listing.value.price.isFree && featureFlags.freePostingModeAllowed
         let isNegotiable = listing.value.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
         return QuickAnswer.quickAnswersForPeriscope(isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
     }
@@ -262,34 +262,34 @@ class ListingViewModel: BaseViewModel {
     private func setupRxBindings() {
 
         if let productId = listing.value.objectId {
-            listingRepository.updateEvents(for: productId).bindNext { [weak self] listing in
+            listingRepository.updateEvents(for: productId).bind { [weak self] listing in
                 self?.listing.value = listing
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         }
 
-        status.asObservable().bindNext { [weak self] status in
+        status.asObservable().bind { [weak self] status in
             guard let strongSelf = self else { return }
             strongSelf.refreshActionButtons(status)
             strongSelf.refreshNavBarButtons()
             strongSelf.directChatEnabled.value = status.directChatsAvailable
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        isListingDetailsCompleted.asObservable().filter {$0}.bindNext{ [weak self] _ in
+        isListingDetailsCompleted.asObservable().filter {$0}.bind { [weak self] _ in
             self?.refreshNavBarButtons()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         // bumpeable listing check
-        status.asObservable().bindNext { [weak self] status in
+        status.asObservable().bind { [weak self] status in
             if status.shouldRefreshBumpBanner {
                 self?.refreshBumpeableBanner()
             } else {
                 self?.bumpUpBannerInfo.value = nil
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         isFavorite.asObservable().subscribeNext { [weak self] _ in
             self?.refreshNavBarButtons()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         listing.asObservable().subscribeNext { [weak self] listing in
             guard let strongSelf = self else { return }
@@ -310,26 +310,26 @@ class ListingViewModel: BaseViewModel {
                                                    freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed)
             strongSelf.productInfo.value = productInfo
 
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        status.asObservable().bindNext { [weak self] status in
+        status.asObservable().bind { [weak self] status in
             guard let isMine = self?.isMine else { return }
             self?.shareButtonState.value = isMine ? .enabled : .hidden
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        myUserRepository.rx_myUser.bindNext { [weak self] _ in
+        myUserRepository.rx_myUser.bind { [weak self] _ in
             self?.refreshStatus()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        productIsFavoriteable.asObservable().bindNext { [weak self] favoriteable in
+        productIsFavoriteable.asObservable().bind { [weak self] favoriteable in
             self?.favoriteButtonState.value = favoriteable ? .enabled : .hidden
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         moreInfoState.asObservable().map { (state: MoreInfoState) in
             return state == .shown
-        }.distinctUntilChanged().bindNext { [weak self] shown in
+        }.distinctUntilChanged().bind { [weak self] shown in
             self?.refreshNavBarButtons()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func distanceString(_ listing: Listing) -> String? {
@@ -432,10 +432,10 @@ class ListingViewModel: BaseViewModel {
             bannerInteractionBlock = { [weak self] in
                 guard let _ = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
-
+                
                 self?.openPricedBumpUpView(purchaseableProduct: purchaseableProduct,
-                                                                  paymentItemId: paymentItemId,
-                                                                  storeProductId: paymentProviderItemId)
+                                           paymentItemId: paymentItemId,
+                                           storeProductId: paymentProviderItemId)
             }
             buttonBlock = { [weak self] in
                 self?.bumpUpProduct(productId: listingId)
@@ -871,7 +871,7 @@ fileprivate extension ListingViewModel {
                                                             trackingInfo: trackingInfo)
                 }
             } else {
-                let message = strongSelf.listing.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
+                let message = strongSelf.listing.value.price.isFree ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
                 strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
             }
         }
@@ -961,7 +961,7 @@ fileprivate extension ListingViewModel {
             let message: String
             if let value = result.value {
                 strongSelf.listing.value = value
-                message = strongSelf.listing.value.price.free ? LGLocalizedString.productSellAgainFreeSuccessMessage : LGLocalizedString.productSellAgainSuccessMessage
+                message = strongSelf.listing.value.price.isFree ? LGLocalizedString.productSellAgainFreeSuccessMessage : LGLocalizedString.productSellAgainSuccessMessage
                 self?.trackHelper.trackMarkUnsoldCompleted()
             } else {
                 message = LGLocalizedString.productSellAgainErrorGeneric

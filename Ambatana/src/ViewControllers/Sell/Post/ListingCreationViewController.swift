@@ -65,9 +65,9 @@ class ListingCreationViewController: BaseViewController {
     }
     
     private func setupRx() {
-        viewModel.finishRequest.asObservable().filter{ $0 == true }.bindNext { [weak self] finished in
+        viewModel.finishRequest.asObservable().filter{ $0 == true }.bind { [weak self] finished in
             self?.viewModel.nextStep()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func setupConstraints() {

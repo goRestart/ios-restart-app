@@ -72,7 +72,7 @@ final class TourNotificationsViewController: BaseViewController {
         NotificationCenter.default.removeObserver(self)
     }
 
-    func didRegisterUserNotificationSettings() {
+    @objc func didRegisterUserNotificationSettings() {
         let time = DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: time) { [weak self] in
             guard let viewAlpha = self?.view.alpha, viewAlpha > 0 else { return }
@@ -81,7 +81,7 @@ final class TourNotificationsViewController: BaseViewController {
     }
     
     
-    func didBecomeActive() {
+    @objc func didBecomeActive() {
         guard pushDialogWasShown else { return }
         openNextStep()
     }

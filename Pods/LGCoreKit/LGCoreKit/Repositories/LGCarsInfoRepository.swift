@@ -82,6 +82,6 @@ final class LGCarsInfoRepository: CarsInfoRepository {
             guard let locationCountryCode = self?.locationManager.currentLocation?.postalAddress?.countryCode,
                 locationCountryCode != self?.countryCode else { return }
             self?.refreshCarsInfoFile()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }

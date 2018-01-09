@@ -28,11 +28,11 @@ protocol BaseViewModelDelegate: class {
 }
 
 extension UIViewController: BaseViewModelDelegate {
-    func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
+    @objc func vmShowAutoFadingMessage(_ message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completion: completion)
     }
 
-    func vmShowLoading(_ loadingMessage: String?) {
+    @objc func vmShowLoading(_ loadingMessage: String?) {
         showLoadingMessageAlert(loadingMessage)
     }
 

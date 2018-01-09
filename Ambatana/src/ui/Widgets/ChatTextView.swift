@@ -16,12 +16,6 @@ extension Reactive where Base: ChatTextView {
         return self.base.textView.rx.text
     }
 
-    var placeholder: UIBindingObserver<Base, String?> {
-        return UIBindingObserver<Base, String?>(UIElement: self.base) { (textView, placeholder) -> () in
-            textView.placeholder = placeholder
-        }
-    }
-
     var send: Observable<String> {
         let chatTextView = self.base
         return chatTextView.tapEvents.map { [weak chatTextView] in chatTextView?.textView.text ?? "" }
@@ -142,10 +136,10 @@ class ChatTextView: UIView {
         setupBackgroundsWCorners()
 
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        textView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
         addSubview(textView)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
-        sendButton.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        sendButton.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
         addSubview(sendButton)
 
         var views = [String: Any]()
@@ -176,8 +170,8 @@ class ChatTextView: UIView {
     }
 
     private func setupRX() {
-        textView.rx.text.map { !($0 ?? "").trim.isEmpty }.bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
-        sendButton.rx.tap.bindTo(tapEvents).addDisposableTo(disposeBag)
+        textView.rx.text.map { !($0 ?? "").trim.isEmpty }.bind(to: sendButton.rx.isEnabled).disposed(by: disposeBag)
+        sendButton.rx.tap.bind(to: tapEvents).disposed(by: disposeBag)
     }
 
     private func setupBackgroundsWCorners() {

@@ -184,7 +184,7 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
         setSocketStatus(.closed)
     }
     
-    dynamic private func fireOpenWebSocketTimer() {
+    @objc private func fireOpenWebSocketTimer() {
         logMessage(LogLevel.debug, type: .webSockets,
                    message: "[Timer] OpenWebSocket fired")
         openWebSocket()
@@ -207,7 +207,7 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
         pingTimer.invalidate()
     }
     
-    dynamic private func firePingTimer() {
+    @objc private func firePingTimer() {
         guard socketStatus.value.isOpen else { return }
         logMessage(LogLevel.debug, type: .webSockets,
                    message: "[Timer] Ping fired")
@@ -233,7 +233,7 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
         backgroundTimeoutTimer.invalidate()
     }
     
-    dynamic private func fireBackgroundTimeout() {
+    @objc private func fireBackgroundTimeout() {
         logMessage(LogLevel.debug, type: .webSockets,
                    message: "[Timer] Background timeout fired")
         closeWebSocketIfNeeded()

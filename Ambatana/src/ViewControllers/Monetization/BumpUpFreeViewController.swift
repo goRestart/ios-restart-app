@@ -86,7 +86,7 @@ class BumpUpFreeViewController: BaseViewController {
         socialShareView.style = .line
     }
 
-    private dynamic func gestureClose() {
+    @objc private dynamic func gestureClose() {
         viewModel.closeActionPressed()
     }
 

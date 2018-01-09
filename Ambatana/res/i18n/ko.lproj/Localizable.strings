@@ -126,8 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "letgo팀은 이 계정을 검토하고 있습니다.";
 "chat_forbidden_disclaimer_seller_w_name" = "%@는 더 이상 사용자의 상품 목록에 관심이 없습니다.";
 "chat_forbidden_disclaimer_seller_wo_name" = "이 사용자는 더 이상 판매하고 계신 상품 목록에 관심이 없습니다.";
-"chat_inactive_conversations_button" = "View archived chats";
-"chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
+"chat_inactive_conversations_button" = "저장된 채팅 확인하기";
+"chat_inactive_conversations_explanation_label" = "3개월 이상 된 채팅은 자동적으로 저장됩니다.";
 "chat_list_account_deleted" = "계정 삭제";
 "chat_list_account_deleted_username" = "비활성화";
 "chat_list_all_empty_title" = "대화 없음 (아직이에요!)";
@@ -617,7 +617,7 @@
 "product_post_retake" = "다시 촬영하기";
 "product_post_retry_button" = "다시 시도하기";
 "product_post_select_category_cars" = "자동차";
-"product_post_select_category_housing" = "부동산";
+"product_post_select_category_housing" = "매매/임대용 부동산";
 "product_post_select_category_motors_and_accessories" = "다른 운송 수단들과 부품들";
 "product_post_select_category_other" = "기타 제품";
 "product_post_select_category_title" = "무엇을 게시하시나요?";
@@ -791,7 +791,8 @@
 "real_estate_title_generator_property_type_house" = "가정집";
 "real_estate_title_generator_property_type_other" = "기타";
 "real_estate_title_generator_property_type_room" = "방";
-"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
+"real_estate_tooltip_overlay_expandable_menu" = "매매나 임대를 원하신다면, 새로운 부동산 카테고리를 사용해보세요!";
+"real_estate_tooltip_sell_button" = "매매나 임대를 원하신다면, 새로운 부동산 카테고리를 사용해보세요";
 "real_estate_type_property_apartment" = "아파트";
 "real_estate_type_property_commercial" = "상업용";
 "real_estate_type_property_house" = "가정집";

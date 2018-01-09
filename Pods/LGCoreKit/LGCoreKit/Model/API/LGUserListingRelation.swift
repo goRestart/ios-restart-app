@@ -6,34 +6,29 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-import Curry
-import Runes
-
-public struct LGUserListingRelation: UserListingRelation {
-
+public struct LGUserListingRelation: UserListingRelation, Decodable {
     public var isFavorited: Bool
     public var isReported: Bool
 
-}
-
-extension LGUserListingRelation: Decodable {
+    // MARK: Decodable
 
     /**
-    Expects a json in the form:
+     Expects a json in the form:
+     {
+     "is_reported": false,
+     "is_favorited": false
+     }
+     */
 
-        {
-          "is_reported": false,
-          "is_favorited": false
-        }
-    */
-    public static func decode(_ j: JSON) -> Decoded<LGUserListingRelation> {
-        let result1 = curry(LGUserListingRelation.init)
-        let result2 = result1 <^> LGArgo.mandatoryWithFallback(json: j, key: "is_favorited", fallback: false)
-        let result  = result2 <*> LGArgo.mandatoryWithFallback(json: j, key: "is_reported", fallback: false)
-        if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGUserListingRelation parse error: \(error)")
-        }
-        return result
+    public init(from decoder: Decoder) throws {
+        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        isFavorited = try keyedContainer.decode(Bool.self, forKey: .isFavorited)
+        isReported = try keyedContainer.decode(Bool.self, forKey: .isReported)
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case isFavorited = "is_favorited"
+        case isReported = "is_reported"
     }
 }
+

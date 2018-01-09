@@ -31,7 +31,7 @@ class LGMediaPermissions: MediaPermissions {
         return UIImagePickerController.isSourceTypeAvailable(.camera)
     }
     var videoAuthorizationStatus: AuthorizationStatus {
-        return AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo).authorizationStatus
+        return AVCaptureDevice.authorizationStatus(for: AVMediaType.video).authorizationStatus
     }
     
     var libraryAuthorizationStatus: AuthorizationStatus {
@@ -39,7 +39,7 @@ class LGMediaPermissions: MediaPermissions {
     }
     
     func requestVideoAccess(completionHandler handler: @escaping ((Bool) -> Void)) {
-        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: handler)
+        AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: handler)
     }
     
     func requestLibraryAuthorization(completionHandler handler: @escaping (AuthorizationStatus) -> Void) {
