@@ -40,13 +40,13 @@ enum ListingViewModelStatus {
         case .discarded, .deleted:
             self = .notAvailable
         case .approved:
-            if featureFlags.freePostingModeAllowed && listing.price.free {
+            if featureFlags.freePostingModeAllowed && listing.price.isFree {
                 self = isMine ? .availableFree : .otherAvailableFree
             } else {
                 self = isMine ? .available : .otherAvailable
             }
         case .sold, .soldOld:
-            if featureFlags.freePostingModeAllowed && listing.price.free {
+            if featureFlags.freePostingModeAllowed && listing.price.isFree {
                 self = isMine ? .soldFree : .otherSoldFree
             } else {
                 self = isMine ? .sold : .otherSold

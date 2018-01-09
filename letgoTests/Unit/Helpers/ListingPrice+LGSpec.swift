@@ -32,9 +32,9 @@ class ListingPriceLGSpec: QuickSpec {
                         expect(sut) == LGLocalizedString.productFreePrice
                     }
                 }
-                context("listingPrice negotiable without price") {
+                context("listingPrice normal without price") {
                     beforeEach {
-                        listingPrice = .negotiable(0)
+                        listingPrice = .normal(0)
                         sut = listingPrice.stringValue(currency: currency, isFreeEnabled: true)
                         
                     }
