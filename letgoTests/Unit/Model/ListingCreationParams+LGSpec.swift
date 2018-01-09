@@ -50,7 +50,7 @@ class ListingCreationParamsLGSpec: QuickSpec {
                         postListingState = postListingState.updatingStepToUploadingImages()
                         postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         postListingState = postListingState.updatingAfterUploadingSuccess()
-                        postListingState = postListingState.updating(price: .negotiable(0))
+                        postListingState = postListingState.updating(price: .normal(0))
                         sut = ListingCreationParams.make(title: "title",
                                                          description: "description",
                                                          currency: Currency.makeMock(),
@@ -58,8 +58,8 @@ class ListingCreationParamsLGSpec: QuickSpec {
                                                          postalAddress: PostalAddress.makeMock(),
                                                          postListingState: postListingState)
                     }
-                    it("price is negotiable zero") {
-                        expect(sut.price).to(equal(.negotiable(0)))
+                    it("price is normal zero") {
+                        expect(sut.price).to(equal(.normal(0)))
                     }
                 }
                 context("make with no price") {
@@ -75,8 +75,8 @@ class ListingCreationParamsLGSpec: QuickSpec {
                                                          postalAddress: PostalAddress.makeMock(),
                                                          postListingState: postListingState)
                     }
-                    it("price is negotiable zero") {
-                        expect(sut.price).to(equal(ListingPrice.negotiable(0)))
+                    it("price is normal zero") {
+                        expect(sut.price).to(equal(ListingPrice.normal(0)))
                     }
                 }
                 context("make with free") {

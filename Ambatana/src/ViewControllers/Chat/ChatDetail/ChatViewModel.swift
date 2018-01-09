@@ -361,7 +361,7 @@ class ChatViewModel: BaseViewModel {
                 self?.listingPrice.value = conversation.listing?.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? ""
                 self?.listingIsNegotiable.value = conversation.listing?.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? false
             }
-            self?.listingIsFree.value = conversation.listing?.price.free ?? false
+            self?.listingIsFree.value = conversation.listing?.price.isFree ?? false
             if let _ = conversation.listing {
                 self?.shouldUpdateQuickAnswers.value = true
             }

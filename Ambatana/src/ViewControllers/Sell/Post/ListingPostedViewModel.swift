@@ -37,9 +37,9 @@ class ListingPostedViewModel: BaseViewModel {
     var wasFreePosting: Bool {
         switch self.status {
         case let .posting(_, params):
-            return params.price.free
+            return params.price.isFree
         case let .success(listing):
-            return listing.price.free
+            return listing.price.isFree
         case .error:
             return false
         }
