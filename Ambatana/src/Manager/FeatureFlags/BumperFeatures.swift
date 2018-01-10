@@ -42,6 +42,7 @@ extension Bumper  {
         flags.append(AllowCallsForProfessionals.self)
         flags.append(RealEstateImprovements.self)
         flags.append(RealEstatePromos.self)
+        flags.append(AllowEmojisOnChat.self)
         Bumper.initialize(flags)
     } 
 
@@ -188,6 +189,11 @@ extension Bumper  {
     static var realEstatePromos: RealEstatePromos {
         guard let value = Bumper.value(for: RealEstatePromos.key) else { return .control }
         return RealEstatePromos(rawValue: value) ?? .control 
+    }
+
+    static var allowEmojisOnChat: AllowEmojisOnChat {
+        guard let value = Bumper.value(for: AllowEmojisOnChat.key) else { return .control }
+        return AllowEmojisOnChat(rawValue: value) ?? .control 
     } 
 }
 
@@ -603,6 +609,22 @@ enum RealEstatePromos: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .deactivate
+            default: return .control
+        }
+    }
+}
+
+enum AllowEmojisOnChat: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return AllowEmojisOnChat.control.rawValue }
+    static var enumValues: [AllowEmojisOnChat] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "allow user to write / read emojis" } 
+    static func fromPosition(_ position: Int) -> AllowEmojisOnChat {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

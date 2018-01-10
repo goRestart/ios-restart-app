@@ -50,6 +50,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
     var realEstateImprovements: RealEstateImprovements = .control
     var realEstatePromos: RealEstatePromos = .control
+    var allowEmojisOnChat: AllowEmojisOnChat = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

@@ -1072,7 +1072,7 @@ extension MainListingsViewModel {
     }
     
     var showRealEstateBanner: Bool {
-        return filters.selectedCategories == [.realEstate] && !filters.hasAnyRealEstateAttributes
+        return featureFlags.realEstatePromos.isActive && filters.selectedCategories == [.realEstate] && !filters.hasAnyRealEstateAttributes
     }
 
     func pushPermissionsHeaderPressed() {
