@@ -18,7 +18,6 @@ class FeaturedInfoViewController: BaseViewController {
     private let titleIcon: UIImageView = UIImageView()
     private let titleLabel: UILabel = UILabel()
 
-
     private let tipsContainer: UIView = UIView()
 
     private let sellFasterContainer: UIView = UIView()
