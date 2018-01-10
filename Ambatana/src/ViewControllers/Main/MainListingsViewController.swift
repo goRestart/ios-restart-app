@@ -535,7 +535,7 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         }
         
         if shouldShowRealEstateBanner {
-            let realEstateBanner = RealEstateBanner(languageCode: viewModel.languageCode)
+            let realEstateBanner = RealEstateBanner()
             realEstateBanner.delegate = self
             header.addHeader(realEstateBanner, height: RealEstateBanner.viewHeight)
         }

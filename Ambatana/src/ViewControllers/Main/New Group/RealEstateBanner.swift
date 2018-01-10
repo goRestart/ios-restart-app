@@ -15,15 +15,19 @@ protocol RealEstateBannerDelegate: class {
 class RealEstateBanner: UIView {
     
     private let backgroundImage = UIImageView()
-    private let languageCode: String
+    private let locale: Locale
     
     static let viewHeight: CGFloat = 200
     weak var delegate: RealEstateBannerDelegate?
     
     // MARK: - Lifecycle
     
-    init(languageCode: String) {
-        self.languageCode = languageCode
+    convenience init() {
+        self.init(locale: Locale.current)
+    }
+    
+    init(locale: Locale) {
+        self.locale = locale
         super.init(frame: CGRect.zero)
         setupUI()
         setupLayout()
@@ -38,7 +42,7 @@ class RealEstateBanner: UIView {
     private func setupUI() {
         backgroundColor = .clear
         backgroundImage.contentMode = .scaleAspectFill
-        backgroundImage.image = languageCode == "es" ? #imageLiteral(resourceName: "real_estate_banner_es") : #imageLiteral(resourceName: "real_estate_banner_en")
+        backgroundImage.image = locale.realEstateBannerImage
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(realEstateBannerPressed))
         addGestureRecognizer(tapGesture)
     }

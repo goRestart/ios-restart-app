@@ -164,10 +164,6 @@ class MainListingsViewModel: BaseViewModel {
         return navigator?.canOpenAppInvite() ?? false
     }
     
-    var languageCode: String {
-        return Locale.current.languageCode ?? "en"
-    }
-    
     private var carSelectedWithFilters: Bool {
         guard filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy else { return false }
         return filters.hasAnyCarAttributes
