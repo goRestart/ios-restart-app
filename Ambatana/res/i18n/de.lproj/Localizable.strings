@@ -753,6 +753,8 @@
 "real_estate_bedrooms_title" = "Zahl der Schlafzimmer";
 "real_estate_camera_view_real_estate_message" = "Mache ein Foto der Immobilien, die du mieten oder verkaufen möchtest";
 "real_estate_current_step_of_total" = "%d von %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
 "real_estate_gallery_view_subtitle" = "Wähle bis zu 5 Bilder der Immobilie, die du zum Verkauf oder zur Miete anbieten möchtest";
 "real_estate_location_notification_message" = "Wir werden anderen Nutzern niemals deinen genauen Standort anzeigen";
 "real_estate_location_title" = "Standort";

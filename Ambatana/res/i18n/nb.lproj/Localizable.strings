@@ -753,6 +753,8 @@
 "real_estate_bedrooms_title" = "Antall soverom";
 "real_estate_camera_view_real_estate_message" = "Knips et bilde av eiendommen du ønsker å leie ut eller selge";
 "real_estate_current_step_of_total" = "%d av %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
 "real_estate_gallery_view_subtitle" = "Velg opp til fem bilder av boligen du ønsker å selge eller leie ut";
 "real_estate_location_notification_message" = "Vi viser aldri din nøyaktige plassering til andre brukere";
 "real_estate_location_title" = "Sted";

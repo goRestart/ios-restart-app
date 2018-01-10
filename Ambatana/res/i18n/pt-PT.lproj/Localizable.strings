@@ -753,6 +753,8 @@
 "real_estate_bedrooms_title" = "Nº de quartos";
 "real_estate_camera_view_real_estate_message" = "Tire uma foto da propriedade que quer alugar ou vender";
 "real_estate_current_step_of_total" = "%d de %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
 "real_estate_gallery_view_subtitle" = "Selecione até 5 imagens da propriedade que quer vender ou arrendar";
 "real_estate_location_notification_message" = "Nunca mostraremos a sua localização exata aos outros utilizadores";
 "real_estate_location_title" = "Localização";

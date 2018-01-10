@@ -753,6 +753,8 @@
 "real_estate_bedrooms_title" = "Số Phòng ngủ";
 "real_estate_camera_view_real_estate_message" = "Chụp một bức ảnh nhà đất bạn muốn bán hoặc cho thuê";
 "real_estate_current_step_of_total" = "%d trên %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
 "real_estate_gallery_view_subtitle" = "Chọn tối đa 5 ảnh nhà đất bạn muốn bán hoặc cho thuê";
 "real_estate_location_notification_message" = "Chúng tôi sẽ không bao giờ hiển thị chính xác địa điểm của bạn cho người dùng khác";
 "real_estate_location_title" = "Địa điểm";
