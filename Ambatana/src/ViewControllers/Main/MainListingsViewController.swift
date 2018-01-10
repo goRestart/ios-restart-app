@@ -721,6 +721,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navbarSearch.searchTextField.endEditing(true)
         guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section) else { return }
         switch sectionType {
         case .suggestive:
