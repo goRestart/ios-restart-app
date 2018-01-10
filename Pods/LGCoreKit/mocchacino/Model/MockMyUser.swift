@@ -8,6 +8,8 @@ public struct MockMyUser: MyUser {
     public var ratingCount: Int
     public var status: UserStatus
     public var isDummy: Bool
+    public var phone: String?
+    public var type: UserType
     public var email: String?
     public var location: LGLocation?
     public var localeIdentifier: String?

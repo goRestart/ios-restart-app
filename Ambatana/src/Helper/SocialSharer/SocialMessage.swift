@@ -89,7 +89,7 @@ struct ListingSocialMessage: SocialMessage {
     
     init(listing: Listing, fallbackToStore: Bool) {
         let listingIsMine = Core.myUserRepository.myUser?.objectId == listing.user.objectId
-        let socialTitleMyListing = listing.price.free ? LGLocalizedString.productIsMineShareBodyFree :
+        let socialTitleMyListing = listing.price.isFree ? LGLocalizedString.productIsMineShareBodyFree :
             LGLocalizedString.productIsMineShareBody
         let socialTitle = listingIsMine ? socialTitleMyListing : LGLocalizedString.productShareBody
         self.init(title: socialTitle, listing: listing, isMine: listingIsMine, fallbackToStore: fallbackToStore)

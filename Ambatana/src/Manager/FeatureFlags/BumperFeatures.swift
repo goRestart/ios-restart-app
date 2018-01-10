@@ -39,6 +39,7 @@ extension Bumper  {
         flags.append(PromoteBumpUpAfterSell.self)
         flags.append(MoreInfoAFShOrDFP.self)
         flags.append(ShowSecurityMeetingChatMessage.self)
+        flags.append(AllowCallsForProfessionals.self)
         flags.append(RealEstateImprovements.self)
         flags.append(RealEstatePromos.self)
         Bumper.initialize(flags)
@@ -172,6 +173,11 @@ extension Bumper  {
     static var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
         guard let value = Bumper.value(for: ShowSecurityMeetingChatMessage.key) else { return .control }
         return ShowSecurityMeetingChatMessage(rawValue: value) ?? .control 
+    }
+
+    static var allowCallsForProfessionals: AllowCallsForProfessionals {
+        guard let value = Bumper.value(for: AllowCallsForProfessionals.key) else { return .control }
+        return AllowCallsForProfessionals(rawValue: value) ?? .control 
     }
 
     static var realEstateImprovements: RealEstateImprovements {
@@ -554,6 +560,22 @@ enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
     }
 }
 
+enum AllowCallsForProfessionals: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return AllowCallsForProfessionals.control.rawValue }
+    static var enumValues: [AllowCallsForProfessionals] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Users can call professional sellers" } 
+    static func fromPosition(_ position: Int) -> AllowCallsForProfessionals {
+        switch position {
+        case 0: return .control
+        case 1: return .baseline
+        case 2: return .active
+        default: return .control
+        }
+    }
+}
+
 enum RealEstateImprovements: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return RealEstateImprovements.control.rawValue }
@@ -561,7 +583,7 @@ enum RealEstateImprovements: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "show onboarding improvements on real estate category" } 
     static func fromPosition(_ position: Int) -> RealEstateImprovements {
-        switch position { 
+        switch position {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
