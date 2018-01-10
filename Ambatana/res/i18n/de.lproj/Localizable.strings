@@ -751,7 +751,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Zahl der Schlafzimmer";
-"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+"real_estate_camera_view_real_estate_message" = "Mache ein Foto der Immobilien, die du mieten oder verkaufen möchtest";
 "real_estate_current_step_of_total" = "%d von %d";
 "real_estate_gallery_view_subtitle" = "Wähle bis zu 5 Bilder der Immobilie, die du zum Verkauf oder zur Miete anbieten möchtest";
 "real_estate_location_notification_message" = "Wir werden anderen Nutzern niemals deinen genauen Standort anzeigen";

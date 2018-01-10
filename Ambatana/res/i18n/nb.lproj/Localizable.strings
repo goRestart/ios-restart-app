@@ -751,7 +751,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Antall soverom";
-"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+"real_estate_camera_view_real_estate_message" = "Knips et bilde av eiendommen du ønsker å leie ut eller selge";
 "real_estate_current_step_of_total" = "%d av %d";
 "real_estate_gallery_view_subtitle" = "Velg opp til fem bilder av boligen du ønsker å selge eller leie ut";
 "real_estate_location_notification_message" = "Vi viser aldri din nøyaktige plassering til andre brukere";

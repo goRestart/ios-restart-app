@@ -751,7 +751,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Количество спален";
-"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+"real_estate_camera_view_real_estate_message" = "Сделайте фото помещения, которое хотите сдать или продать";
 "real_estate_current_step_of_total" = "%d из %d";
 "real_estate_gallery_view_subtitle" = "Выберите до 5 изображений недвижимости, которую хотите продать или сдать";
 "real_estate_location_notification_message" = "Мы никогда не показываем ваше точное местоположение другим пользователям";
