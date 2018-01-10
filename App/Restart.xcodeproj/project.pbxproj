@@ -10,6 +10,16 @@
 		1C3B45421FEFCC54008B7B87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C3B45411FEFCC54008B7B87 /* AppDelegate.swift */; };
 		1C3B45491FEFCC54008B7B87 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C3B45481FEFCC54008B7B87 /* Assets.xcassets */; };
 		1C3B454C1FEFCC54008B7B87 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C3B454A1FEFCC54008B7B87 /* LaunchScreen.storyboard */; };
+		1CAD06D020043CC300CAE9C5 /* SignUp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1CAF0F6F2004331C004046A9 /* SignUp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1CAD06D120043CEC00CAE9C5 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1CAF0F6A2004326F004046A9 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1CAD06D220043D1A00CAE9C5 /* Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CAD06D320043D1A00CAE9C5 /* Application.framework */; };
+		1CAD06D420043D2000CAE9C5 /* Application.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1CAD06D320043D1A00CAE9C5 /* Application.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1CAD06D520043D4E00CAE9C5 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CAD06D620043D4E00CAE9C5 /* Domain.framework */; };
+		1CAD06D720043D5B00CAE9C5 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1CAD06D620043D4E00CAE9C5 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1CAD06D820043D8100CAE9C5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CACCE6D1FF2D0320001B321 /* Data.framework */; };
+		1CAD06D920043DAC00CAE9C5 /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1CACCE6D1FF2D0320001B321 /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1CAD06DA20043EA400CAE9C5 /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CAD06DB20043EA400CAE9C5 /* UI.framework */; };
+		1CAD06DC20043EAB00CAE9C5 /* UI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1CAD06DB20043EA400CAE9C5 /* UI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CAF0F692004326F004046A9 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CAF0F6A2004326F004046A9 /* Core.framework */; };
 		1CAF0F6D2004328F004046A9 /* Assembly+Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CAF0F6C2004328F004046A9 /* Assembly+Foundation.swift */; };
 		1CAF0F6E2004331C004046A9 /* SignUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CAF0F6F2004331C004046A9 /* SignUp.framework */; };
@@ -26,6 +36,12 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				1CAD06DC20043EAB00CAE9C5 /* UI.framework in Embed Frameworks */,
+				1CAD06D920043DAC00CAE9C5 /* Data.framework in Embed Frameworks */,
+				1CAD06D720043D5B00CAE9C5 /* Domain.framework in Embed Frameworks */,
+				1CAD06D420043D2000CAE9C5 /* Application.framework in Embed Frameworks */,
+				1CAD06D120043CEC00CAE9C5 /* Core.framework in Embed Frameworks */,
+				1CAD06D020043CC300CAE9C5 /* SignUp.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -40,6 +56,9 @@
 		1C3B454D1FEFCC54008B7B87 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C9139B01FEFED2B00646884 /* Moya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Moya.framework; path = ../Carthage/Build/iOS/Moya.framework; sourceTree = "<group>"; };
 		1CACCE6D1FF2D0320001B321 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CAD06D320043D1A00CAE9C5 /* Application.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Application.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CAD06D620043D4E00CAE9C5 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CAD06DB20043EA400CAE9C5 /* UI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CAF0F6A2004326F004046A9 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CAF0F6C2004328F004046A9 /* Assembly+Foundation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Foundation.swift"; sourceTree = "<group>"; };
 		1CAF0F6F2004331C004046A9 /* SignUp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SignUp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,6 +73,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CAD06DA20043EA400CAE9C5 /* UI.framework in Frameworks */,
+				1CAD06D820043D8100CAE9C5 /* Data.framework in Frameworks */,
+				1CAD06D520043D4E00CAE9C5 /* Domain.framework in Frameworks */,
+				1CAD06D220043D1A00CAE9C5 /* Application.framework in Frameworks */,
 				1CAF0F6E2004331C004046A9 /* SignUp.framework in Frameworks */,
 				1CAF0F692004326F004046A9 /* Core.framework in Frameworks */,
 			);
@@ -162,6 +185,9 @@
 		33B833E5CD9AFE167B3E165E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1CAD06DB20043EA400CAE9C5 /* UI.framework */,
+				1CAD06D620043D4E00CAE9C5 /* Domain.framework */,
+				1CAD06D320043D1A00CAE9C5 /* Application.framework */,
 				1CAF0F6F2004331C004046A9 /* SignUp.framework */,
 				1CAF0F6A2004326F004046A9 /* Core.framework */,
 				1CACCE6D1FF2D0320001B321 /* Data.framework */,
@@ -248,6 +274,10 @@
 				"$(SRCROOT)/../Carthage/Build/iOS/RxSwift.framework",
 				"$(SRCROOT)/../Carthage/Build/iOS/RxCocoa.framework",
 				"$(SRCROOT)/../Carthage/Build/iOS/SnapKit.framework",
+				"$(SRCROOT)/../Carthage/Build/iOS/Alamofire.framework",
+				"$(SRCROOT)/../Carthage/Build/iOS/Moya.framework",
+				"$(SRCROOT)/../Carthage/Build/iOS/RxMoya.framework",
+				"$(SRCROOT)/../Carthage/Build/iOS/Result.framework",
 			);
 			name = "[Carthage] - Copy frameworks";
 			outputPaths = (
