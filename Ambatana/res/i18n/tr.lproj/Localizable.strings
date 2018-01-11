@@ -662,6 +662,12 @@
 "product_share_title_label" = "BU İLANI PAYLAŞ";
 "product_share_title_on_letgo" = "%@ letgo'da!";
 "product_stickers_selection_wo_name" = "Satıcıya göndermek istediğin etiketi seç.";
+"professional_dealer_ask_phone_chat_message" = "My phone number is %@";
+"professional_dealer_ask_phone_intro_text" = "I'm a professional car dealer so I'd love to help you in person. Please share your phone number so I can give you the best deal!";
+"professional_dealer_ask_phone_lets_talk_text" = "Let's Talk";
+"professional_dealer_ask_phone_not_now_button" = "Not now";
+"professional_dealer_ask_phone_send_phone_button" = "Send phone number";
+"professional_dealer_ask_phone_textfield_placeholder" = "Enter phone number";
 "profile_blocked_by_me_label" = "Bu kullanıcıyı engelledin";
 "profile_blocked_by_me_label_w_name" = "%@ isimli kullanıcıyı engelledin";
 "profile_blocked_by_other_label" = "Bu kullanıcı tarafından engellendin";
@@ -751,8 +757,10 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Oda Sayısı";
-"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+"real_estate_camera_view_real_estate_message" = "Kiralamak ya da satmak istediğin mülkün fotoğrafını çek";
 "real_estate_current_step_of_total" = "%d / %d";
+"real_estate_empty_state_search_subtitle" = "Çevrende satılık / kiralık emlak ilanı yayınlayan ilk sen ol veya sonra tekrar göz at!";
+"real_estate_empty_state_search_title" = "OOPS! ÇEVRENDE YAYINLANMIŞ EMLAK İLANI BULUNMUYOR";
 "real_estate_gallery_view_subtitle" = "Satmak ya da kiralamak istediğin emlak için 5 adete kadar fotoğraf seçebilirsin";
 "real_estate_location_notification_message" = "Açık adresini diğer kullanıcılara asla göstermeyeceğiz";
 "real_estate_location_title" = "Konum";

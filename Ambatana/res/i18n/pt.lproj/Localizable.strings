@@ -662,6 +662,12 @@
 "product_share_title_label" = "SHARE THIS LISTING";
 "product_share_title_on_letgo" = "%@ on letgo!";
 "product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
+"professional_dealer_ask_phone_chat_message" = "My phone number is %@";
+"professional_dealer_ask_phone_intro_text" = "I'm a professional car dealer so I'd love to help you in person. Please share your phone number so I can give you the best deal!";
+"professional_dealer_ask_phone_lets_talk_text" = "Let's Talk";
+"professional_dealer_ask_phone_not_now_button" = "Not now";
+"professional_dealer_ask_phone_send_phone_button" = "Send phone number";
+"professional_dealer_ask_phone_textfield_placeholder" = "Enter phone number";
 "profile_blocked_by_me_label" = "You've blocked this user";
 "profile_blocked_by_me_label_w_name" = "You've blocked %@";
 "profile_blocked_by_other_label" = "You've been blocked by this user";
@@ -753,6 +759,8 @@
 "real_estate_bedrooms_title" = "No. of bedrooms";
 "real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
 "real_estate_current_step_of_total" = "%d of %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
 "real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
 "real_estate_location_notification_message" = "We'll never show your exact location to other users";
 "real_estate_location_title" = "Location";

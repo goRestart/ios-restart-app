@@ -2707,6 +2707,30 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_report_login_popup_text", comment: "")
 	}
 
+	static var professionalDealerAskPhoneIntroText: String {
+		return NSLocalizedString("professional_dealer_ask_phone_intro_text", comment: "")
+	}
+
+	static var professionalDealerAskPhoneNotNowButton: String {
+		return NSLocalizedString("professional_dealer_ask_phone_not_now_button", comment: "")
+	}
+
+	static var professionalDealerAskPhoneLetsTalkText: String {
+		return NSLocalizedString("professional_dealer_ask_phone_lets_talk_text", comment: "")
+	}
+
+	static var professionalDealerAskPhoneTextfieldPlaceholder: String {
+		return NSLocalizedString("professional_dealer_ask_phone_textfield_placeholder", comment: "")
+	}
+
+	static var professionalDealerAskPhoneSendPhoneButton: String {
+		return NSLocalizedString("professional_dealer_ask_phone_send_phone_button", comment: "")
+	}
+
+	static func professionalDealerAskPhoneChatMessage(_ var1: String) -> String {
+		return String(format: NSLocalizedString("professional_dealer_ask_phone_chat_message", comment: ""), var1)
+	}
+
 	static var profileBlockedByMeLabel: String {
 		return NSLocalizedString("profile_blocked_by_me_label", comment: "")
 	}
@@ -3265,6 +3289,14 @@ struct LGLocalizedString {
 
 	static var realEstateCameraViewRealEstateMessage: String {
 		return NSLocalizedString("real_estate_camera_view_real_estate_message", comment: "")
+	}
+
+	static var realEstateEmptyStateSearchTitle: String {
+		return NSLocalizedString("real_estate_empty_state_search_title", comment: "")
+	}
+
+	static var realEstateEmptyStateSearchSubtitle: String {
+		return NSLocalizedString("real_estate_empty_state_search_subtitle", comment: "")
 	}
 
 	static var relatedItemsTitle: String {

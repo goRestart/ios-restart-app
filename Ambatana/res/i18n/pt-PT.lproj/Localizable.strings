@@ -662,6 +662,12 @@
 "product_share_title_label" = "PARTILHAR ESTA PUBLICAÇÃO";
 "product_share_title_on_letgo" = "%@ no letgo!";
 "product_stickers_selection_wo_name" = "Selecione o autocolante que quer enviar ao vendedor.";
+"professional_dealer_ask_phone_chat_message" = "My phone number is %@";
+"professional_dealer_ask_phone_intro_text" = "I'm a professional car dealer so I'd love to help you in person. Please share your phone number so I can give you the best deal!";
+"professional_dealer_ask_phone_lets_talk_text" = "Let's Talk";
+"professional_dealer_ask_phone_not_now_button" = "Not now";
+"professional_dealer_ask_phone_send_phone_button" = "Send phone number";
+"professional_dealer_ask_phone_textfield_placeholder" = "Enter phone number";
 "profile_blocked_by_me_label" = "Bloqueou este utilizador";
 "profile_blocked_by_me_label_w_name" = "Bloqueou %@";
 "profile_blocked_by_other_label" = "Foi bloqueado por este utilizador";
@@ -751,8 +757,10 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "+4";
 "real_estate_bedrooms_title" = "Nº de quartos";
-"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+"real_estate_camera_view_real_estate_message" = "Tire uma foto da propriedade que quer alugar ou vender";
 "real_estate_current_step_of_total" = "%d de %d";
+"real_estate_empty_state_search_subtitle" = "Seja o primeiro a publicar um imóvel para arrendar/vender na sua área ou verifique de novo em breve!";
+"real_estate_empty_state_search_title" = "UPS! NENHUMA HABITAÇÃO PUBLICADA PERTO DE SI";
 "real_estate_gallery_view_subtitle" = "Selecione até 5 imagens da propriedade que quer vender ou arrendar";
 "real_estate_location_notification_message" = "Nunca mostraremos a sua localização exata aos outros utilizadores";
 "real_estate_location_title" = "Localização";

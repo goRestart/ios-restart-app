@@ -662,6 +662,12 @@
 "product_share_title_label" = "HIRDETÉS MEGOSZTÁSA";
 "product_share_title_on_letgo" = "%@ a letgo piacán!";
 "product_stickers_selection_wo_name" = "Válaszd ki a matricát, amit az eladónak küldenél.";
+"professional_dealer_ask_phone_chat_message" = "My phone number is %@";
+"professional_dealer_ask_phone_intro_text" = "I'm a professional car dealer so I'd love to help you in person. Please share your phone number so I can give you the best deal!";
+"professional_dealer_ask_phone_lets_talk_text" = "Let's Talk";
+"professional_dealer_ask_phone_not_now_button" = "Not now";
+"professional_dealer_ask_phone_send_phone_button" = "Send phone number";
+"professional_dealer_ask_phone_textfield_placeholder" = "Enter phone number";
 "profile_blocked_by_me_label" = "Ezt a felhasználót blokkoltad";
 "profile_blocked_by_me_label_w_name" = "%@ felhasználót blokkoltad";
 "profile_blocked_by_other_label" = "Ez a felhasználó blokkolt téged";
@@ -751,9 +757,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Hálószobák száma";
-"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+"real_estate_camera_view_real_estate_message" = "Készíts fotót eladó vagy kiadó ingatlanodról";
 "real_estate_current_step_of_total" = "%d/%d";
-"real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
+"real_estate_empty_state_search_subtitle" = "Legyél te az első eladó/kiadó ingatlant hirdető a környékeden, vagy nézz vissza később!";
+"real_estate_empty_state_search_title" = "HOPPÁ! NINCS INGATLANHIRDETÉS A KÖRNYÉKEN";
+"real_estate_gallery_view_subtitle" = "Válassz ki legfeljebb 5 képet az eladó vagy kiadó ingatlanodról";
 "real_estate_location_notification_message" = "Sosem mutatjuk meg más felhasználóknak a pontos tartózkodási helyedet";
 "real_estate_location_title" = "Hely";
 "real_estate_offer_type_rent" = "Kiadó";

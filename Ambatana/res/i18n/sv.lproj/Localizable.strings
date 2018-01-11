@@ -662,6 +662,12 @@
 "product_share_title_label" = "DELA ANNONS";
 "product_share_title_on_letgo" = "%@ på letgo!";
 "product_stickers_selection_wo_name" = "Välj den sticker du vill skicka till säljaren.";
+"professional_dealer_ask_phone_chat_message" = "My phone number is %@";
+"professional_dealer_ask_phone_intro_text" = "I'm a professional car dealer so I'd love to help you in person. Please share your phone number so I can give you the best deal!";
+"professional_dealer_ask_phone_lets_talk_text" = "Let's Talk";
+"professional_dealer_ask_phone_not_now_button" = "Not now";
+"professional_dealer_ask_phone_send_phone_button" = "Send phone number";
+"professional_dealer_ask_phone_textfield_placeholder" = "Enter phone number";
 "profile_blocked_by_me_label" = "Den här användaren har blockerats av dig";
 "profile_blocked_by_me_label_w_name" = "%@ har blockerats av dig";
 "profile_blocked_by_other_label" = "Denna användare har blockerat dig";
@@ -751,8 +757,10 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Antal sovrum";
-"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+"real_estate_camera_view_real_estate_message" = "Ta en bild av lokalen eller bostaden du vill hyra ut eller sälja";
 "real_estate_current_step_of_total" = "%d av %d";
+"real_estate_empty_state_search_subtitle" = "Bli först med att annonsera ut en bostad till salu / för uthyrning i ditt område eller kolla in snart igen!";
+"real_estate_empty_state_search_title" = "HOPPSAN! INGEN BOSTADSANNONS NÄRA DIG";
 "real_estate_gallery_view_subtitle" = "Välj upp till 5 bilder av bostaden du vill sälja eller hyra ut";
 "real_estate_location_notification_message" = "Vi visar aldrig din exakta plats till andra användare";
 "real_estate_location_title" = "Plats";

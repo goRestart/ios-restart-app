@@ -662,6 +662,12 @@
 "product_share_title_label" = "CHIA SẺ BÀI ĐĂNG NÀY";
 "product_share_title_on_letgo" = "%@ trên letgo!";
 "product_stickers_selection_wo_name" = "Chọn nhãn dán bạn muốn gửi tới người bán.";
+"professional_dealer_ask_phone_chat_message" = "My phone number is %@";
+"professional_dealer_ask_phone_intro_text" = "I'm a professional car dealer so I'd love to help you in person. Please share your phone number so I can give you the best deal!";
+"professional_dealer_ask_phone_lets_talk_text" = "Let's Talk";
+"professional_dealer_ask_phone_not_now_button" = "Not now";
+"professional_dealer_ask_phone_send_phone_button" = "Send phone number";
+"professional_dealer_ask_phone_textfield_placeholder" = "Enter phone number";
 "profile_blocked_by_me_label" = "Bạn đã chặn người dùng này";
 "profile_blocked_by_me_label_w_name" = "Bạn đã chặn %@";
 "profile_blocked_by_other_label" = "Bạn đã bị người dùng này chặn";
@@ -751,9 +757,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Số Phòng ngủ";
-"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+"real_estate_camera_view_real_estate_message" = "Chụp một bức ảnh nhà đất bạn muốn bán hoặc cho thuê";
 "real_estate_current_step_of_total" = "%d trên %d";
-"real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+"real_estate_gallery_view_subtitle" = "Chọn tối đa 5 ảnh nhà đất bạn muốn bán hoặc cho thuê";
 "real_estate_location_notification_message" = "Chúng tôi sẽ không bao giờ hiển thị chính xác địa điểm của bạn cho người dùng khác";
 "real_estate_location_title" = "Địa điểm";
 "real_estate_offer_type_rent" = "Cho Thuê";
