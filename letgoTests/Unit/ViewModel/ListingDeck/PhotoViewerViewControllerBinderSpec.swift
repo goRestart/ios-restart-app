@@ -32,7 +32,6 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
 
             afterEach {
                 photoViewerVC.showChatCalled = 0
-                photoViewerVC.closeViewCalled = 0
                 photoViewerVC.updatePageCalled = 0
             }
 
@@ -43,24 +42,6 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
                 it("showChat is called") {
                     expect(photoViewerVC.showChatCalled).toEventually(equal(1))
                 }
-                it("closeView is not called") {
-                    expect(photoViewerVC.closeViewCalled).toEventually(equal(0))
-                }
-                it("updatePage is not called after setup") {
-                    expect(photoViewerVC.updatePageCalled).toEventually(equal(1))
-                }
-            }
-
-            context("close event is sent") {
-                beforeEach {
-                    photoView.closeButton.sendActions(for: .touchUpInside)
-                }
-                it("showChat is called") {
-                    expect(photoViewerVC.showChatCalled).toEventually(equal(0))
-                }
-                it("closeView is not called") {
-                    expect(photoViewerVC.closeViewCalled).toEventually(equal(1))
-                }
                 it("updatePage is not called after setup") {
                     expect(photoViewerVC.updatePageCalled).toEventually(equal(1))
                 }
@@ -69,9 +50,6 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
             context("no event is sent") {
                 it("showChat is called") {
                     expect(photoViewerVC.showChatCalled).toEventually(equal(0))
-                }
-                it("closeView is not called") {
-                    expect(photoViewerVC.closeViewCalled).toEventually(equal(0))
                 }
                 it("updatePage is not called after setup") {
                     expect(photoViewerVC.updatePageCalled).toEventually(equal(1))
@@ -86,9 +64,6 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
 
                 it("showChat is called only once") {
                     expect(photoViewerVC.showChatCalled).toEventually(equal(1))
-                }
-                it("closeView is not called") {
-                    expect(photoViewerVC.closeViewCalled).toEventually(equal(0))
                 }
                 it("updatePage is not not called after setup") {
                     expect(photoViewerVC.updatePageCalled).toEventually(equal(1))
@@ -105,9 +80,6 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
                 it("showChat is called only once") {
                     expect(photoViewerVC.showChatCalled).toEventually(equal(0))
                 }
-                it("closeView is not called") {
-                    expect(photoViewerVC.closeViewCalled).toEventually(equal(0))
-                }
             }
 
             context("keyboard event is sent") {
@@ -120,9 +92,6 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
                 beforeEach {
                     photoViewerVC = MockPhotoViewerViewController()
                 }
-                it("and the binder's viewcontroller reference dies too (so weak)") {
-                    expect(sut.viewController).toEventually(beNil())
-                }
             }
         }
     }
@@ -130,11 +99,9 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
 
 private class MockPhotoViewerView: PhotoViewerBinderViewType {
     let chatButton = UIButton()
-    let closeButton = UIButton()
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
     var rx_chatButton: Reactive<UIControl>? { return (chatButton as UIControl).rx }
-    var rx_closeButton: Reactive<UIControl>? { return (closeButton as UIControl).rx }
     var rx_collectionView: Reactive<UICollectionView> { return collectionView.rx }
 }
 
@@ -142,7 +109,6 @@ private class MockPhotoViewerViewController: PhotoViewerVCType {
     var keyboardChanges: Observable<KeyboardChange> { return keyboardChange.asObservable() }
 
     var showChatCalled: Int = 0
-    var closeViewCalled: Int = 0
     var updatePageCalled: Int = 0
     var keyboardIsCalled: Int = 0
 
@@ -165,10 +131,6 @@ private class MockPhotoViewerViewController: PhotoViewerVCType {
 
     func showChat() {
         showChatCalled = showChatCalled + 1
-    }
-
-    func closeView() {
-        closeViewCalled = closeViewCalled + 1
     }
 
     func updatePage(fromContentOffset offset: CGFloat) {

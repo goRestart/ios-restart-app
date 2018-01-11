@@ -69,6 +69,7 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
 
         collectionView.backgroundColor = UIColor.grayLight
         collectionView.isPagingEnabled = true
+        collectionView.delaysContentTouches = true
         collectionView.showsHorizontalScrollIndicator = false
     }
 

@@ -131,10 +131,13 @@ extension DeckCoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController,
                               didShow viewController: UIViewController, animated: Bool) {
         if let photoViewer = viewController as? PhotoViewerViewController {
-            let edgeGesture = UIScreenEdgePanGestureRecognizer(target: self,
+            let leftGesture = UIScreenEdgePanGestureRecognizer(target: self,
                                                                action: #selector(handleEdgeGesture))
-            edgeGesture.edges = .left
-            photoViewer.addEdgeGesture(edgeGesture)
+            leftGesture.edges = .left
+            let topGesture = UIScreenEdgePanGestureRecognizer(target: self,
+                                                               action: #selector(handleEdgeGesture))
+            topGesture.edges = .top
+            photoViewer.addEdgeGesture([leftGesture, topGesture])
         }
 
         previousNavigationDelegate?.navigationController?(navigationController,
@@ -153,9 +156,19 @@ extension DeckCoordinator: UINavigationControllerDelegate {
             interactiveTransitioner = UIPercentDrivenInteractiveTransition()
         }
 
+
         guard let view = navigationController?.view else { return }
         let translation = gesture.translation(in: view)
-        let progress = min(1.0, (translation.x / view.width))
+
+        let progress: CGFloat
+        if gesture.edges.contains(.top) {
+            guard view.height > 0 else { return }
+            progress = min(1.0, (translation.y / view.height))
+        } else {
+            guard view.width > 0 else { return }
+            progress = min(1.0, (translation.x / view.width))
+        }
+
         switch gesture.state {
         case .began:
             navigationController?.popViewController(animated: true)

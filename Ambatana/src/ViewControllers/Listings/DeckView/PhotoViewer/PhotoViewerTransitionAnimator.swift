@@ -10,14 +10,19 @@ import Foundation
 
 final class PhotoViewerTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     struct Duration { static let transition: TimeInterval = 0.4 }
-    private let image: UIImage
+    private var image: UIImage
     private let initialFrame: CGRect
 
     var isInteractive: Bool { return transitioner.isInteractive }
-    private var transitioner: PhotoViewerTransitionMode = PhotoViewerTransitionPresenter()
+    fileprivate var transitioner: PhotoViewerTransitionMode = PhotoViewerTransitionPresenter()
+
     init(image: UIImage, initialFrame: CGRect) {
         self.image = image
         self.initialFrame = initialFrame
+    }
+
+    func setImage(_ image: UIImage) {
+        self.image = image
     }
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -26,14 +31,15 @@ final class PhotoViewerTransitionAnimator: NSObject, UIViewControllerAnimatedTra
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let duration = transitionDuration(using: transitionContext)
+        transitioner.animator = self
         transitioner.animateTransition(using: transitionContext, withDuration: duration,
                                        initialFrame: initialFrame, image: image)
-        transitioner = transitioner.opposite
     }
 }
 
 private protocol PhotoViewerTransitionMode {
     var opposite: PhotoViewerTransitionMode { get }
+    var animator: PhotoViewerTransitionAnimator? { get set }
     var isInteractive: Bool { get }
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning,
                            withDuration duration: TimeInterval,
@@ -44,6 +50,8 @@ private protocol PhotoViewerTransitionMode {
 private class PhotoViewerTransitionDismisser: PhotoViewerTransitionMode {
     lazy var opposite: PhotoViewerTransitionMode = PhotoViewerTransitionPresenter()
     var isInteractive: Bool { return true }
+
+    var animator: PhotoViewerTransitionAnimator?
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning,
                            withDuration duration: TimeInterval,
@@ -63,15 +71,24 @@ private class PhotoViewerTransitionDismisser: PhotoViewerTransitionMode {
         imageView.contentMode = .scaleAspectFill
 
         toView.alpha = 0
+        let transitioner = opposite
         UIView.animate(withDuration: duration, delay: 0, options: .curveEaseIn, animations: {
             fromView.alpha = 0
             toView.alpha = 1
             imageView.frame = initialFrame
             imageView.cornerRadius = 8.0
-        }, completion: { (completion) in
+        }, completion: { [weak self] (completion) in
+            guard !transitionContext.transitionWasCancelled else {
+                imageView.removeFromSuperview()
+                toView.removeFromSuperview()
+                transitionContext.completeTransition(false)
+                return
+            }
+            self?.animator?.transitioner = transitioner
+
             imageView.removeFromSuperview()
             containerView.bringSubview(toFront: toView)
-            transitionContext.completeTransition(true)
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         })
     }
 }
@@ -79,6 +96,8 @@ private class PhotoViewerTransitionDismisser: PhotoViewerTransitionMode {
 private class PhotoViewerTransitionPresenter: PhotoViewerTransitionMode {
     lazy var opposite: PhotoViewerTransitionMode = PhotoViewerTransitionDismisser()
     var isInteractive: Bool { return false }
+
+    var animator: PhotoViewerTransitionAnimator?
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning,
                            withDuration duration: TimeInterval,
@@ -105,16 +124,19 @@ private class PhotoViewerTransitionPresenter: PhotoViewerTransitionMode {
         imageView.contentMode = .scaleAspectFill
         imageView.cornerRadius = 8.0
 
+        let transitioner = opposite
         UIView.animate(withDuration: 0.2, animations: {
             fromView.alpha = 0
         }) { (completion) in
             UIView.animate(withDuration: duration, delay: 0, options: .curveEaseIn, animations: {
                 imageView.frame = fromView.frame
-            }, completion: { (completion) in
+            }, completion: { [weak self] (completion) in
+                self?.animator?.transitioner = transitioner
+
                 imageView.removeFromSuperview()
                 toView.alpha = 1
                 containerView.bringSubview(toFront: toView)
-                transitionContext.completeTransition(true)
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             })
         }
     }

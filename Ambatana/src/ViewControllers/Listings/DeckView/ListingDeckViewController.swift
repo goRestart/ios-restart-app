@@ -245,6 +245,9 @@ extension ListingDeckViewController {
                     let cached = viewModel.imageDownloader.cachedImageForUrl(url) else { return nil }
                 transitioner = PhotoViewerTransitionAnimator(image: cached, initialFrame: frame)
             }
-            return transitioner
+        guard let url = viewModel.urlAtIndex(0),
+            let cached = viewModel.imageDownloader.cachedImageForUrl(url) else { return nil }
+        transitioner?.setImage(cached)
+        return transitioner
     }
 }

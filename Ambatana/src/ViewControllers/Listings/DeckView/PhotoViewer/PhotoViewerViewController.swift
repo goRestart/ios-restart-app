@@ -12,12 +12,15 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     override var prefersStatusBarHidden: Bool { return true }
 
+    @available(iOS 11.0, *)
+    override func preferredScreenEdgesDeferringSystemGestures() -> UIRectEdge { return [.left, .top] }
+
     let chatView: QuickChatView
     let photoViewer = PhotoViewerView()
     private let viewModel: PhotoViewerViewModel
     private let binder = PhotoViewerViewControllerBinder()
 
-    private var edgeGesture: UIScreenEdgePanGestureRecognizer?
+    private var edgeGestures: [UIGestureRecognizer] = []
     private var tapGestureRecognizer: UITapGestureRecognizer?
 
     init(viewModel: PhotoViewerViewModel, quickChatViewModel: QuickChatViewModel) {
@@ -33,6 +36,12 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 11.0, *) {
+            setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
+        } else {
+            setNeedsStatusBarAppearanceUpdate()
+        }
+
         edgesForExtendedLayout = []
         photoViewer.register(ListingDeckImagePreviewCell.self,
                              forCellWithReuseIdentifier: ListingDeckImagePreviewCell.reusableID)
@@ -164,11 +173,10 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     // MARK: UIGestureRecognizer
 
-    func addEdgeGesture(_ edgeGesture: UIScreenEdgePanGestureRecognizer) {
-        if let gesture = self.edgeGesture {
-            view.removeGestureRecognizer(gesture)
-        }
-        view.addGestureRecognizer(edgeGesture)
+    func addEdgeGesture(_ edgeGestures: [UIGestureRecognizer]) {
+        self.edgeGestures.forEach { view.removeGestureRecognizer($0) }
+        self.edgeGestures = edgeGestures
+        self.edgeGestures.forEach { view.addGestureRecognizer($0) }
     }
 
 }
