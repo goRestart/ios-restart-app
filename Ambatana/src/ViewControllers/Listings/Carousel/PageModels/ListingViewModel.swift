@@ -622,6 +622,13 @@ extension ListingViewModel {
             }
         }
     }
+
+    func openAskPhone() {
+        ifLoggedInRunActionElseOpenSignUp(from: .directChat, infoMessage: LGLocalizedString.chatLoginPopupText) { [weak self] in
+            guard let strongSelf = self else  { return }
+            strongSelf.navigator?.openAskPhoneFor(listing: strongSelf.listing.value)
+        }
+    }
 }
 
 
@@ -810,7 +817,7 @@ extension ListingViewModel {
         case .otherAvailable, .otherAvailableFree:
             if isProfessional {
                 actionButtons.append(UIAction(interface: .button(LGLocalizedString.productProfessionalChatButton, .secondary(fontSize: .big, withBorder: false)),
-                                              action: { [weak self] in self?.chatWithSeller() }))
+                                              action: { [weak self] in self?.openAskPhone() }))
             }
         case .availableFree:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldFreeButton, .terciary),

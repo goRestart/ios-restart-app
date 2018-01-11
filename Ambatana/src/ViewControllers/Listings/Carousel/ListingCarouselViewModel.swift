@@ -527,6 +527,7 @@ class ListingCarouselViewModel: BaseViewModel {
     
     func callSeller() {
         guard let phoneNum = ownerPhoneNumber.value,
+            // TODO: ⚠️ Check "telprompt"
             let phoneUrl = URL(string: "tel://\(phoneNum)") else { return }
         UIApplication.shared.openURL(phoneUrl)
     }

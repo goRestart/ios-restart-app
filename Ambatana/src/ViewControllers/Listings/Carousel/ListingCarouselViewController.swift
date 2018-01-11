@@ -671,11 +671,6 @@ extension ListingCarouselViewController {
         allowCalls.asObservable().bind { [weak self] (isPro, phoneNum) in
             guard let strongSelf = self else { return }
 
-            print("😡😡😡😡😡😡😡😡😡😡")
-            print(isPro)
-            print(phoneNum)
-            print(strongSelf.viewModel.deviceCanCall)
-
             if let phone = phoneNum, phone.isPhoneNumber && isPro && strongSelf.viewModel.deviceCanCall {
                 strongSelf.buttonCall.isHidden = false
                 strongSelf.buttonCallRightMarginToSuperviewConstraint.constant = Metrics.margin

@@ -329,8 +329,11 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openChatFrom(listing: Listing, source: EventParameterTypePage) {
-        guard let chatVM = ChatViewModel(listing: listing, navigator: self, source: source) else { return }
+    func openChatFrom(listing: Listing, source: EventParameterTypePage, openChatAutomaticMessage: String?) {
+        guard let chatVM = ChatViewModel(listing: listing,
+                                         navigator: self,
+                                         source: source,
+                                         openChatAutomaticMessage: openChatAutomaticMessage) else { return }
         let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: source == .listingListFeatured)
         navigationController.pushViewController(chatVC, animated: true)
     }
@@ -395,7 +398,7 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 
     func openListingChat(_ listing: Listing, source: EventParameterTypePage) {
-        openChatFrom(listing: listing, source: source)
+        openChatFrom(listing: listing, source: source, openChatAutomaticMessage: nil)
     }
 
     func closeListingAfterDelete(_ listing: Listing) {
@@ -479,6 +482,30 @@ extension TabCoordinator: ListingDetailNavigator {
 
     func closeFeaturedInfo() {
         rootViewController.dismiss(animated: true, completion: nil)
+    }
+
+    func openAskPhoneFor(listing: Listing) {
+        let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing)
+        askNumVM.navigator = self
+        let askNumVC = ProfessionalDealerAskPhoneViewController(viewModel: askNumVM)
+        rootViewController.present(askNumVC, animated: true, completion: nil)
+    }
+
+    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) {
+        var completion: (()->())? = nil
+        // 🦄 Send the phone somehow!
+        if openChat {
+            completion = { [weak self] in
+                var openChatAutomaticMessage: String = ""
+                if let phone = withPhoneNum {
+                    openChatAutomaticMessage = LGLocalizedString.professionalDealerAskPhoneChatMessage(phone)
+                }
+                self?.openChatFrom(listing: listing,
+                                   source: source,
+                                   openChatAutomaticMessage: openChatAutomaticMessage.isEmpty ? nil : openChatAutomaticMessage)
+            }
+        }
+        rootViewController.dismiss(animated: true, completion: completion)
     }
 }
 
