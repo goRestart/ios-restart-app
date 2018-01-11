@@ -19,7 +19,7 @@ final class ListingCardViewBinder {
         viewModelBag = DisposeBag()
         guard let vmDisposeBag = viewModelBag else { return }
         
-        viewModel.productIsFavorite.bindNext { [weak self] favorite in
+        viewModel.productIsFavorite.bind { [weak self] favorite in
             if viewModel.cardIsFavoritable {
                 self?.cardView?.userView.set(action: .favourite(isOn: favorite))
             } else {
@@ -27,17 +27,17 @@ final class ListingCardViewBinder {
             }
         }.disposed(by:vmDisposeBag)
 
-        viewModel.cardUserInfo.bindNext { [weak self] userInfo in
+        viewModel.cardUserInfo.bind { [weak self] userInfo in
             self?.cardView?.populateWith(userInfo: userInfo)
         }.disposed(by:vmDisposeBag)
 
-        viewModel.cardProductImageURLs.bindNext { [weak self] urls in
+        viewModel.cardProductImageURLs.bind { [weak self] urls in
             self?.cardView?.populateWith(imagesURLs: urls)
         }.disposed(by:vmDisposeBag)
 
         let statusAndFeatured = Observable.combineLatest(viewModel.cardStatus,
                                                          viewModel.cardIsFeatured) { ($0, $1) }
-        statusAndFeatured.bindNext { [weak self] (status, isFeatured) in
+        statusAndFeatured.bind { [weak self] (status, isFeatured) in
             self?.cardView?.populateWith(status: status, featured: isFeatured)
         }.disposed(by:vmDisposeBag)
     }

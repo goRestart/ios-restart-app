@@ -7,11 +7,20 @@
 //
 
 import Foundation
+import LGCoreKit
 import RxSwift
+
+protocol ListingCardDetailsViewType: class {
+    func populateWith(productInfo: ListingVMProductInfo)
+    func populateWith(socialSharer: SocialSharer)
+    func populateWith(socialMessage: SocialMessage?)
+    func populateWith(listingStats: ListingStats, postedDate: Date?)
+    func disableStatsView()
+}
 
 final class ListingCardDetailsViewBinder {
 
-    weak var detailsView: ListingCardDetailsView?
+    weak var detailsView: ListingCardDetailsViewType?
     var disposeBag: DisposeBag?
 
     func bind(to viewModel: ListingCardDetailsViewModel) {
@@ -26,31 +35,31 @@ final class ListingCardDetailsViewBinder {
     private func bindProducInfoTo(_ viewModel: ListingCardDetailsViewModel, disposeBag: DisposeBag) {
         viewModel.cardProductInfo.unwrap().bind { [weak self] info in
             self?.detailsView?.populateWith(productInfo: info)
-        }
+        }.disposed(by: disposeBag)
     }
 
     private func bindStatsTo(_ viewModel: ListingCardDetailsViewModel, disposeBag: DisposeBag) {
         let productCreation = viewModel.cardProductInfo.map { $0?.creationDate }
         let statsAndCreation = Observable.combineLatest(viewModel.cardProductStats.unwrap(),
                                                         productCreation) { ($0, $1) }
-        let statsViewVisible = statsAndCreation.map { (stats, creation) in
+        let statsViewVisible: Observable<Bool> = statsAndCreation.map { (stats, creation) in
             return stats.viewsCount >= Constants.minimumStatsCountToShow
                 || stats.favouritesCount >= Constants.minimumStatsCountToShow
                 || creation != nil
         }
-        statsViewVisible.asObservable().distinctUntilChanged().bindNext { [weak self] visible in
+        statsViewVisible.asObservable().distinctUntilChanged().bind { [weak self] visible in
             guard !visible else { return }
             self?.detailsView?.disableStatsView()
         }.disposed(by:disposeBag)
 
-        statsAndCreation.bindNext { [weak self] (stats, creation) in
+        statsAndCreation.bind { [weak self] (stats, creation) in
             self?.detailsView?.populateWith(listingStats: stats, postedDate: creation)
         }.disposed(by:disposeBag)
     }
 
     func bindSocialTo(_ viewModel: ListingCardDetailsViewModel, disposeBag: DisposeBag) {
         detailsView?.populateWith(socialSharer: viewModel.cardSocialSharer)
-        viewModel.cardSocialMessage.bindNext { [weak self] socialMessage in
+        viewModel.cardSocialMessage.bind { [weak self] socialMessage in
             self?.detailsView?.populateWith(socialMessage: socialMessage)
         }.disposed(by:disposeBag)
     }

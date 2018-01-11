@@ -151,7 +151,7 @@ private class MockQuickChatViewModelRx: QuickChatViewModelRx {
     var areAnswersDynamic: Bool = true
     var rx_directChatPlaceholder: Observable<String> { return directChatPlaceholder.asObservable() }
     var rx_quickAnswers: Observable<[[QuickAnswer]]> { return quickAnswers.asObservable() }
-    var isChatEnabled: Observable<Bool> { return chatEnabled.asObservable() }
+    var rx_isChatEnabled: Observable<Bool> { return chatEnabled.asObservable() }
     var rx_directMessages: Observable<CollectionChange<ChatViewMessage>> { return directChatMessages.changesObservable }
 
     let directChatPlaceholder = Variable<String>("")

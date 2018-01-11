@@ -23,7 +23,7 @@ protocol ListingCardDetailsViewDelegate: class {
     func viewControllerToShowShareOptions() -> UIViewController
 }
 
-final class ListingCardDetailsView: UIView, SocialShareViewDelegate {
+final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCardDetailsViewType {
     private struct Layout { struct Height { static let mapView: CGFloat = 128.0  } }
 
     var delegate: (ListingCardDetailsViewDelegate & ListingCardDetailMapViewDelegate)? {
