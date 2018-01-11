@@ -14,17 +14,4 @@ extension Locale {
             return languageCode?.lowercased() ?? ""
         }
     }
-    
-    var realEstateBannerImage: UIImage {
-        var image: UIImage? = nil
-        if let languageCode = LanguageCode(locale: self) {
-            switch languageCode {
-            case .english:
-                image = #imageLiteral(resourceName: "real_estate_banner_es")
-            case .spanish:
-                image = #imageLiteral(resourceName: "real_estate_banner_es")
-            }
-        }
-        return image ?? #imageLiteral(resourceName: "real_estate_banner_en")
-    }
 }

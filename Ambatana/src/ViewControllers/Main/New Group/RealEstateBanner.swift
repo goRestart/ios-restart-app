@@ -15,19 +15,13 @@ protocol RealEstateBannerDelegate: class {
 class RealEstateBanner: UIView {
     
     private let backgroundImage = UIImageView()
-    private let locale: Locale
     
     static let viewHeight: CGFloat = 200
     weak var delegate: RealEstateBannerDelegate?
     
     // MARK: - Lifecycle
     
-    convenience init() {
-        self.init(locale: Locale.current)
-    }
-    
-    init(locale: Locale) {
-        self.locale = locale
+    init() {
         super.init(frame: CGRect.zero)
         setupUI()
         setupLayout()
@@ -42,7 +36,7 @@ class RealEstateBanner: UIView {
     private func setupUI() {
         backgroundColor = .clear
         backgroundImage.contentMode = .scaleAspectFill
-        backgroundImage.image = locale.realEstateBannerImage
+        backgroundImage.image = UIImage(named: "realEstateBanner")
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(realEstateBannerPressed))
         addGestureRecognizer(tapGesture)
     }
