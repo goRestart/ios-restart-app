@@ -131,8 +131,23 @@
         "description": "show a disclaimer message on chat after the first conversation from the interlocutor"
     },
     {
+        "name": "AllowCallsForProfessionals",
+        "values": ["control", "baseline", "active"],
+        "description": "Users can call professional sellers"
+    },
+    {
         "name": "RealEstateImprovements",
         "values": ["control", "baseline", "active"],
         "description": "show onboarding improvements on real estate category"
+    },
+    {
+        "name": "RealEstatePromos",
+        "values": ["control", "baseline", "deactivate"],
+        "description": "show real estate promos"
+    },
+    {
+        "name": "AllowEmojisOnChat",
+        "values": ["control", "baseline", "active"],
+        "description": "allow user to write / read emojis"
     }
 ]

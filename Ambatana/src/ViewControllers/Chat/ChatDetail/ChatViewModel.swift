@@ -96,6 +96,8 @@ class ChatViewModel: BaseViewModel {
     let shouldShowExpressBanner = Variable<Bool>(false)
     let relatedListingsState = Variable<ChatRelatedItemsState>(.loading)
     var shouldUpdateQuickAnswers = Variable<Bool>(false)
+    let interlocutorIsProfessional = Variable<Bool>(false)
+    let interlocutorPhoneNumber = Variable<String?>(nil)
 
     var keyForTextCaching: String { return userDefaultsSubKey }
     
@@ -271,7 +273,12 @@ class ChatViewModel: BaseViewModel {
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
         self.source = source
-        self.predefinedMessage = predefinedMessage
+        if featureFlags.allowEmojisOnChat.isActive {
+            self.predefinedMessage = predefinedMessage
+        } else {
+            self.predefinedMessage = predefinedMessage?.stringByRemovingEmoji()
+        }
+        
         super.init()
         setupRx()
         loadStickers()
@@ -361,7 +368,7 @@ class ChatViewModel: BaseViewModel {
                 self?.listingPrice.value = conversation.listing?.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? ""
                 self?.listingIsNegotiable.value = conversation.listing?.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? false
             }
-            self?.listingIsFree.value = conversation.listing?.price.free ?? false
+            self?.listingIsFree.value = conversation.listing?.price.isFree ?? false
             if let _ = conversation.listing {
                 self?.shouldUpdateQuickAnswers.value = true
             }
@@ -414,9 +421,11 @@ class ChatViewModel: BaseViewModel {
                 - user hasn't SENT messages via express chat for this listing
          */
         Observable.combineLatest(expressBannerTriggered,
+
             hasRelatedListings.asObservable(),
             relatedListingsState.asObservable().map { $0.isVisible },
-        expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
+        expressMessagesAlreadySent.asObservable(),
+                                 interlocutorIsProfessional.asObservable()) { $0 && $1 && !$2 && !$3 && !$4 }
             .distinctUntilChanged().bind(to: shouldShowExpressBanner).disposed(by: disposeBag)
 
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
@@ -438,6 +447,8 @@ class ChatViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
                 guard let user = result.value else { return }
                 strongSelf.interlocutor = user
+                strongSelf.interlocutorIsProfessional.value = user.type == .pro
+                strongSelf.interlocutorPhoneNumber.value = user.phone
                 if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
                     strongSelf.messages.append(userInfoMessage)
                 }
@@ -548,9 +559,15 @@ class ChatViewModel: BaseViewModel {
         showStickerBadge.value = false
     }
 
-    func bannerActionButtonTapped() {
+    func expressChatBannerActionButtonTapped() {
         guard let listingId = conversation.value.listing?.objectId else { return }
         navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: true)
+    }
+
+    func professionalSellerBannerActionButtonTapped() {
+        guard let phoneNum = interlocutorPhoneNumber.value,
+            let phoneUrl = URL(string: "tel://\(phoneNum)") else { return }
+        UIApplication.shared.openURL(phoneUrl)
     }
 
 }

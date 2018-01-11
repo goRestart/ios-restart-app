@@ -228,7 +228,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func updateBubbleTopConstraint() {
-        let offset: CGFloat = isSafeAreaAvailable ? 0 : topInset.value
+        let offset: CGFloat = topInset.value
         let delta = listingListView.headerBottom - offset
         if delta > 0 {
             infoBubbleTopConstraint.constant = infoBubbleTopMargin + delta
@@ -405,7 +405,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         tagsContainerViewHeightConstraint.constant = showPrimaryTags ? filterTagsViewHeight : 0
         if updateInsets {
-            topInset.value = showPrimaryTags ? filterTagsViewHeight + filterHeadersHeight : 0
+            updateTopInset()
         }
         view.layoutIfNeeded()
         

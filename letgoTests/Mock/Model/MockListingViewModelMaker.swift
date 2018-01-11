@@ -13,6 +13,7 @@ import LGCoreKit
 class MockListingViewModelMaker: ListingViewModelMaker {
 
     let myUserRepository: MockMyUserRepository
+    let userRepository: MockUserRepository
     let listingRepository: MockListingRepository
     let chatWrapper: MockChatWrapper
     let locationManager: MockLocationManager
@@ -23,6 +24,7 @@ class MockListingViewModelMaker: ListingViewModelMaker {
     let tracker: MockTracker
 
     init(myUserRepository: MockMyUserRepository,
+         userRepository: MockUserRepository,
          listingRepository: MockListingRepository,
          chatWrapper: MockChatWrapper,
          locationManager: MockLocationManager,
@@ -32,6 +34,7 @@ class MockListingViewModelMaker: ListingViewModelMaker {
          monetizationRepository: MockMonetizationRepository,
          tracker: MockTracker) {
         self.myUserRepository = myUserRepository
+        self.userRepository = userRepository
         self.listingRepository = listingRepository
         self.chatWrapper = chatWrapper
         self.locationManager = locationManager
@@ -46,6 +49,7 @@ class MockListingViewModelMaker: ListingViewModelMaker {
         return ListingViewModel(listing: listing,
                                 visitSource: visitSource,
                                 myUserRepository: myUserRepository,
+                                userRepository: userRepository,
                                 listingRepository: listingRepository,
                                 chatWrapper: chatWrapper,
                                 chatViewMessageAdapter: ChatViewMessageAdapter(),

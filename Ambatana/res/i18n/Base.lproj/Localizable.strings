@@ -2426,6 +2426,12 @@
 // Message inside expandable sell your stuff menu to announce RE
 "real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
 
+// Message inside gallery view to explain about picture selection on RE
+"real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
+
+// Message inside camera view to explain about picture selection on RE
+"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+
 // Title when showing list of related items
 "related_items_title" = "Related listings";
 
