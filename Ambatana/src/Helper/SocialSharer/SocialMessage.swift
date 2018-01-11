@@ -9,7 +9,6 @@
 import FBSDKShareKit
 import TwitterKit
 import LGCoreKit
-import Branch
 import AppsFlyerLib
 
 typealias MessageWithURLCompletion = (String) -> ()
