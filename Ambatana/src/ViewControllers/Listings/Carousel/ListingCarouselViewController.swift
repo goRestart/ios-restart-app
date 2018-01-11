@@ -32,6 +32,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var shareButtonTopAlignment: NSLayoutConstraint!
     
     @IBOutlet weak var productStatusView: UIView!
+    @IBOutlet weak var productStatusViewTopAlignment: NSLayoutConstraint!
     @IBOutlet weak var productStatusLabel: UILabel!
     @IBOutlet weak var productStatusImageView: UIImageView!
     @IBOutlet weak var productStatusImageViewLeftConstraint: NSLayoutConstraint!
@@ -274,6 +275,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         if !isSafeAreaAvailable {
             favoriteButtonTopAligment.constant = 55
             shareButtonTopAlignment.constant = 70
+            productStatusViewTopAlignment.constant = 70
         }
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
