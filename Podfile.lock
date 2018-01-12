@@ -88,7 +88,7 @@ PODS:
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (2.0.4)
   - LGCollapsibleLabel (1.2.0)
-  - LGCoreKit (4.1.0):
+  - LGCoreKit (4.1.1):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -166,7 +166,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.4)
   - LGCollapsibleLabel (= 1.2.0)
-  - LGCoreKit (= 4.1.0)
+  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `beeeac0bc2d919a2828fd4a374e8bc176b204534`)
   - NewRelicAgent (= 5.14.2)
   - Nimble (= 7.0.2)
   - OHHTTPStubs (= 5.2.3)
@@ -189,6 +189,9 @@ EXTERNAL SOURCES:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
+  LGCoreKit:
+    :commit: beeeac0bc2d919a2828fd4a374e8bc176b204534
+    :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   SwiftyUserDefaults:
     :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
     :git: https://github.com/Dschee/SwiftyUserDefaults
@@ -203,6 +206,9 @@ CHECKOUT OPTIONS:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
+  LGCoreKit:
+    :commit: beeeac0bc2d919a2828fd4a374e8bc176b204534
+    :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   SwiftyUserDefaults:
     :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
     :git: https://github.com/Dschee/SwiftyUserDefaults
@@ -246,7 +252,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: 09db04ac2c741d43a2d3b4781e3a25bf1166466e
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGCoreKit: 7716921053ab62a3e2f55a014e6356c90cc10f31
+  LGCoreKit: f5660fa5251dd33e3561bd4423b2a84066588f57
   NewRelicAgent: 28645401ac7531eeeabde64410c9d5efd49e083f
   Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
@@ -264,6 +270,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: d64efbf4b755563ee7b87778e45f0d703977eb29
+PODFILE CHECKSUM: 4b3f7b6cb38d37abe8f569e978ca39b75a44c42a
 
 COCOAPODS: 1.3.1
