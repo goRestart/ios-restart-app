@@ -751,8 +751,10 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Αριθμός υπνοδωματίων";
-"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+"real_estate_camera_view_real_estate_message" = "Τραβήξτε μια φωτογραφία της ιδιοκτησίας που θέλετε να νοικιάσετε ή να πουλήσετε";
 "real_estate_current_step_of_total" = "%d από %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
 "real_estate_gallery_view_subtitle" = "Επιλέξτε μέχρι και 5 εικόνες της ιδιοκτησίας που θέλετε να πουλήσετε ή να ενοικιάσετε";
 "real_estate_location_notification_message" = "Δε θα δείξουμε ποτέ την ακριβή σας τοποθεσία σε άλλους χρήστες";
 "real_estate_location_title" = "Τοποθεσία";
