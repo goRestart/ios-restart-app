@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1C1D227B1FFEC2C200BC0316 /* EmailValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D227A1FFEC2C200BC0316 /* EmailValidator.swift */; };
+		1C30D50E2009315900E0A501 /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D50D2009315900E0A501 /* Identifier.swift */; };
 		1C89D72E1FF3D7C500B3FA98 /* ObservableType+Completable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D72D1FF3D7C500B3FA98 /* ObservableType+Completable.swift */; };
 		1C89D7311FF3D7FA00B3FA98 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7301FF3D7FA00B3FA98 /* RxSwift.framework */; };
 		1C913A5D1FF2C1C700646884 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C913A4F1FF2C1C700646884 /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		1C1D227A1FFEC2C200BC0316 /* EmailValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailValidator.swift; sourceTree = "<group>"; };
+		1C30D50D2009315900E0A501 /* Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifier.swift; sourceTree = "<group>"; };
 		1C89D72D1FF3D7C500B3FA98 /* ObservableType+Completable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObservableType+Completable.swift"; sourceTree = "<group>"; };
 		1C89D7301FF3D7FA00B3FA98 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../../../Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		1C913A4C1FF2C1C700646884 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,6 +56,22 @@
 				1C1D227A1FFEC2C200BC0316 /* EmailValidator.swift */,
 			);
 			path = Validator;
+			sourceTree = "<group>";
+		};
+		1C30D50B2009315000E0A501 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				1C30D50C2009315000E0A501 /* Model */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		1C30D50C2009315000E0A501 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1C30D50D2009315900E0A501 /* Identifier.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		1C89D72B1FF3D7AE00B3FA98 /* Extension */ = {
@@ -101,6 +119,7 @@
 		1C913A4E1FF2C1C700646884 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				1C30D50B2009315000E0A501 /* Domain */,
 				1CC209AE1FF2C25400EE0B5B /* Infrastructure */,
 				1C1D22781FFEC2B600BC0316 /* Utils */,
 				1CC209AD1FF2C22C00EE0B5B /* Resources */,
@@ -263,6 +282,7 @@
 				1C89D72E1FF3D7C500B3FA98 /* ObservableType+Completable.swift in Sources */,
 				1C1D227B1FFEC2C200BC0316 /* EmailValidator.swift in Sources */,
 				1CACDA671FF7200A00538B78 /* String+Trim.swift in Sources */,
+				1C30D50E2009315900E0A501 /* Identifier.swift in Sources */,
 				1CACCE751FF2D37F0001B321 /* Mappable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C30D50A2009310B00E0A501 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D5092009310B00E0A501 /* Game.swift */; };
+		1C30D510200931BC00E0A501 /* GameConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D50F200931BC00E0A501 /* GameConsole.swift */; };
+		1C30D512200931D500E0A501 /* Manufacturer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D511200931D500E0A501 /* Manufacturer.swift */; };
+		1C30D514200931FC00E0A501 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D513200931FC00E0A501 /* Genre.swift */; };
 		1C40D8971FFD16F9006D5BE4 /* UserCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8961FFD16F9006D5BE4 /* UserCredentials.swift */; };
 		1C40D89A1FFD1771006D5BE4 /* RegisterUserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8991FFD1771006D5BE4 /* RegisterUserError.swift */; };
 		1C40D8D21FFD4460006D5BE4 /* RegisterUserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8D11FFD4460006D5BE4 /* RegisterUserUseCase.swift */; };
@@ -18,6 +22,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C30D5092009310B00E0A501 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		1C30D50F200931BC00E0A501 /* GameConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConsole.swift; sourceTree = "<group>"; };
+		1C30D511200931D500E0A501 /* Manufacturer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manufacturer.swift; sourceTree = "<group>"; };
+		1C30D513200931FC00E0A501 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		1C40D8961FFD16F9006D5BE4 /* UserCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCredentials.swift; sourceTree = "<group>"; };
 		1C40D8991FFD1771006D5BE4 /* RegisterUserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserError.swift; sourceTree = "<group>"; };
 		1C40D8D11FFD4460006D5BE4 /* RegisterUserUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserUseCase.swift; sourceTree = "<group>"; };
@@ -42,6 +50,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C30D5082009310200E0A501 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				1C30D5092009310B00E0A501 /* Game.swift */,
+				1C30D50F200931BC00E0A501 /* GameConsole.swift */,
+				1C30D511200931D500E0A501 /* Manufacturer.swift */,
+				1C30D513200931FC00E0A501 /* Genre.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
 		1C40D8951FFD16EC006D5BE4 /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +144,7 @@
 			children = (
 				1C89D6F11FF3CF3A00B3FA98 /* Auth */,
 				1C40D8951FFD16EC006D5BE4 /* User */,
+				1C30D5082009310200E0A501 /* Game */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -253,11 +273,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C40D89A1FFD1771006D5BE4 /* RegisterUserError.swift in Sources */,
+				1C30D510200931BC00E0A501 /* GameConsole.swift in Sources */,
 				1C40D8D21FFD4460006D5BE4 /* RegisterUserUseCase.swift in Sources */,
+				1C30D50A2009310B00E0A501 /* Game.swift in Sources */,
 				1C89D6F81FF3CF3A00B3FA98 /* AuthError.swift in Sources */,
 				1C40D8971FFD16F9006D5BE4 /* UserCredentials.swift in Sources */,
 				1C89D6F91FF3CF3A00B3FA98 /* BasicCredentials.swift in Sources */,
 				1C89D6F61FF3CF3A00B3FA98 /* AuthenticateUseCase.swift in Sources */,
+				1C30D512200931D500E0A501 /* Manufacturer.swift in Sources */,
+				1C30D514200931FC00E0A501 /* Genre.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
