@@ -38,7 +38,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
         var disposeBag: DisposeBag!
         var scheduler: TestScheduler!
 
-        var cellModelsObserver: TestableObserver<[ListingViewModel]>!
+        var cellModelsObserver: TestableObserver<[ListingCellModel]>!
         var navBarButtonsObserver: TestableObserver<[UIAction]>!
         var actionButtonsObserver: TestableObserver<[UIAction]>!
         var quickAnswersObserver: TestableObserver<[[QuickAnswer]]>!
@@ -52,8 +52,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
 
             func startObserving() {
                 disposeBag = DisposeBag()
-
-                sut.objects.observable.bind(to:cellModelsObserver).disposed(by:disposeBag)
+                sut.objects.observable.bind(to: cellModelsObserver).disposed(by: disposeBag)
                 sut.navBarButtons.asObservable().bind(to:navBarButtonsObserver).disposed(by:disposeBag)
                 sut.actionButtons.asObservable().bind(to:actionButtonsObserver).disposed(by:disposeBag)
                 sut.quickChatViewModel.quickAnswers.asObservable().bind(to:quickAnswersObserver).disposed(by:disposeBag)
@@ -118,7 +117,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
-                cellModelsObserver = scheduler.createObserver(Array<ListingViewModel>.self)
+                cellModelsObserver = scheduler.createObserver(Array<ListingCellModel>.self)
                 navBarButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 actionButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 quickAnswersObserver = scheduler.createObserver(Array<Array<QuickAnswer>>.self)

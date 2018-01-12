@@ -57,8 +57,8 @@ final class ListingDeckViewModel: BaseViewModel {
     var shouldSyncFirstListing: Bool = false
     fileprivate var trackingIndex: Int?
 
-    let objects = CollectionVariable<ListingViewModel>([])
-    var objectChanges: Observable<CollectionChange<ListingViewModel>> { return objects.changesObservable }
+    let objects = CollectionVariable<ListingCellModel>([])
+    var objectChanges: Observable<CollectionChange<ListingCellModel>> { return objects.changesObservable }
 
     let binder: ListingDeckViewModelBinder
 
@@ -151,18 +151,17 @@ final class ListingDeckViewModel: BaseViewModel {
         self.navigator = detailNavigator
 
         if let productListModels = productListModels {
-            self.objects.appendContentsOf(productListModels
-                .flatMap { $0.listing }
-                .flatMap { listingViewModelMaker.make(listing: $0, navigator: detailNavigator, visitSource: source) })
+            self.objects.appendContentsOf(productListModels)
             self.pagination.isLast = listingListRequester.isLastPage(productListModels.count)
         } else {
-            self.objects.appendContentsOf([initialListing]
-                .flatMap { $0 }
-                .flatMap { listingViewModelMaker.make(listing: $0, navigator: detailNavigator, visitSource: source) })
+            self.objects.appendContentsOf([initialListing].flatMap{ $0 }.map { .listingCell(listing: $0) })
             self.pagination.isLast = false
         }
         if let listing = initialListing {
-            startIndex = objects.value.index(where: { $0.cardListing.objectId == listing.objectId}) ?? 0
+            startIndex = objects.value.index(where: {
+                guard let aListing = $0.listing else { return false }
+                return aListing.objectId == listing.objectId
+            }) ?? 0
         } else {
             startIndex = 0
         }
@@ -221,12 +220,13 @@ final class ListingDeckViewModel: BaseViewModel {
     }
 
     func listingCellModelAt(index: Int) -> ListingCardViewCellModel? {
-        guard 0..<objectCount ~= index else { return nil }
-        return objects.value[index]
+        guard 0..<objectCount ~= index, let listing = objects.value[index].listing else { return nil }
+        return viewModelFor(listing: listing)
     }
 
     fileprivate func listingAt(index: Int) -> Listing? {
-        return listingCellModelAt(index: index)?.cardListing
+        guard 0..<objectCount ~= index, let listing = objects.value[index].listing else { return nil }
+        return listing
     }
 
     fileprivate func viewModelAt(index: Int) -> ListingViewModel? {
@@ -239,15 +239,7 @@ final class ListingDeckViewModel: BaseViewModel {
         if let viewModel = productsViewModels[listingId] {
             return viewModel
         }
-        let vm: ListingViewModel
-        let filtered = objects.value.filter({ $0.cardListing.objectId == listing.objectId })
-        guard filtered.count == 0 else { return filtered.first }
-        if let nav = navigator {
-            vm = listingViewModelMaker.make(listing: listing, navigator: nav, visitSource: source)
-        } else {
-            vm = listingViewModelMaker.make(listing: listing, visitSource: source)
-            vm.navigator = navigator
-        }
+        let vm = listingViewModelMaker.make(listing: listing, navigator: navigator, visitSource: source)
         productsViewModels[listingId] = vm
         return vm
     }
@@ -273,9 +265,13 @@ final class ListingDeckViewModel: BaseViewModel {
         currentListingViewModel?.syncListing() { [weak self] in
             guard let strongSelf = self else { return }
             guard let listing = strongSelf.currentListingViewModel?.listing.value else { return }
-            guard let newModel = strongSelf.viewModelFor(listing: listing) else { return }
-            strongSelf.objects.replace(strongSelf.startIndex, with: newModel)
+            strongSelf.objects.replace(strongSelf.startIndex, with: ListingCellModel.listingCell(listing: listing))
         }
+    }
+
+    func replaceListingCellModelAtIndex(_ index: Int, withListing listing: Listing) {
+        let cellModel: ListingCellModel = .listingCell(listing: listing)
+        objects.replace(index, with: cellModel)
     }
 
 
@@ -297,8 +293,7 @@ final class ListingDeckViewModel: BaseViewModel {
             self?.isLoading = false
             if let newListings = result.listingsResult.value {
                 strongSelf.pagination = strongSelf.pagination.moveToNextPage()
-                let models = newListings.flatMap { strongSelf.viewModelFor(listing: $0) }
-                strongSelf.objects.appendContentsOf(models)
+                strongSelf.objects.appendContentsOf(newListings.flatMap { ListingCellModel.listingCell(listing: $0) })
                 strongSelf.pagination.isLast = strongSelf.listingListRequester.isLastPage(newListings.count)
 
                 if newListings.isEmpty && strongSelf.isNextPageAvailable {

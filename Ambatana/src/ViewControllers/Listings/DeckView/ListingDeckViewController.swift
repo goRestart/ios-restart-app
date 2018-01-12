@@ -70,8 +70,9 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     private func setupCollectionView() {
         listingDeckView.collectionView.dataSource = self
         listingDeckView.collectionView.delegate = self
-        listingDeckView.collectionView.reloadData()
         listingDeckView.collectionView.register(ListingCardView.self, forCellWithReuseIdentifier: Identifiers.cardView)
+
+        listingDeckView.collectionView.reloadData()
     }
 
     // MARK: UICollectionViewDataSource

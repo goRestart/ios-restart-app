@@ -19,8 +19,7 @@ final class ListingDeckViewModelBinder {
         self.disposeBag = DisposeBag()
 
         currentVM.cardListingObs.skip(1).bind { updatedListing in
-            guard let newModel = theOneViewModel.viewModelFor(listing: updatedListing) else { return }
-            theOneViewModel.objects.replace(theOneViewModel.currentIndex, with: newModel)
+            theOneViewModel.replaceListingCellModelAtIndex(theOneViewModel.currentIndex, withListing: updatedListing)
         }.disposed(by:disposeBag)
 
         currentVM.cardActionButtons.bind(to: theOneViewModel.actionButtons).disposed(by: disposeBag)

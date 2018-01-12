@@ -27,7 +27,7 @@ protocol ListingViewModelDelegate: BaseViewModelDelegate {
 
 protocol ListingViewModelMaker {
     func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel
-    func make(listing: Listing, navigator: ListingDetailNavigator, visitSource: EventParameterListingVisitSource) -> ListingViewModel
+    func make(listing: Listing, navigator: ListingDetailNavigator?, visitSource: EventParameterListingVisitSource) -> ListingViewModel
 
 }
 
@@ -53,7 +53,7 @@ class ListingViewModel: BaseViewModel {
                                     tracker: TrackerProxy.sharedInstance)
         }
 
-        func make(listing: Listing, navigator: ListingDetailNavigator,
+        func make(listing: Listing, navigator: ListingDetailNavigator?,
                   visitSource: EventParameterListingVisitSource) -> ListingViewModel {
             let viewModel = make(listing: listing, visitSource: visitSource)
             viewModel.navigator = navigator
