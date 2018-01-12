@@ -1,4 +1,4 @@
-import Core
+import Foundation
 
 public struct GameConsole: Codable {
   

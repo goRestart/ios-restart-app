@@ -1,5 +1,4 @@
 import Foundation
-import Core
 
 public struct Game: Codable {
   
