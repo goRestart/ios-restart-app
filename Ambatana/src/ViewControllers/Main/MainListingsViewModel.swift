@@ -619,9 +619,18 @@ class MainListingsViewModel: BaseViewModel {
         if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
             categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
         } else {
-            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(realEstateIncluded: featureFlags.realEstateEnabled.isActive).map { CategoryHeaderElement.listingCategory($0) })
+            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(realEstateIncluded: featureFlags.realEstateEnabled.isActive,highlightRealEstate: featureFlags.realEstatePromos.isActive)
+                .map { CategoryHeaderElement.listingCategory($0) })
         }
         return categoryHeaderElements
+    }
+    
+    var categoryHeaderHighlighted: CategoryHeaderElement {
+        if featureFlags.realEstatePromos.isActive && featureFlags.realEstateEnabled.isActive {
+            return CategoryHeaderElement.listingCategory(.realEstate)
+        } else {
+            return CategoryHeaderElement.listingCategory(.cars)
+        }
     }
 }
 

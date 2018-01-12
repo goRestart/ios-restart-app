@@ -94,3 +94,12 @@ enum CategoryHeaderElement {
         }
     }
 }
+
+func ==(a: CategoryHeaderElement, b: CategoryHeaderElement) -> Bool {
+    switch (a, b) {
+    case (.listingCategory(let catA), .listingCategory(let catB)) where catA == catB: return true
+    case (.superKeyword(let catA), .superKeyword(let catB)) where catA == catB: return true
+    case (.superKeywordGroup(let catA), .superKeywordGroup(let catB)) where catA == catB: return true
+    default: return false
+    }
+}
