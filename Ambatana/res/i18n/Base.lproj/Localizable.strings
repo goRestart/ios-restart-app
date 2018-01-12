@@ -2432,6 +2432,12 @@
 // Message inside camera view to explain about picture selection on RE
 "real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
 
+// Title for empty state when search for real estate
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+
+// Subtitle for empty state when search for real estate
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+
 // Title when showing list of related items
 "related_items_title" = "Related listings";
 
