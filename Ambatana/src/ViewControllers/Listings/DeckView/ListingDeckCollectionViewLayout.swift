@@ -77,7 +77,6 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
                 update(attributes: attribute, forItemAt: attribute.indexPath)
             }
         }
-
     }
 
     func pageOffset(givenOffset x: CGFloat) -> CGFloat {
@@ -116,7 +115,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         }
 
         let leftAlpha = alphaForItem(withRatio: ratio, offset: 0.5, base: Constants.minAlpha, variable: variable)
-        let rightAlpha = alphaForItem(withRatio: ratio, offset: 1.5, base: Constants.minAlpha, variable: variable)
+        let rightAlpha = alphaForItem(withRatio: -ratio, offset: 1.5, base: Constants.minAlpha, variable: variable)
 
         let alpha = ratio < centerRatio ? leftAlpha : rightAlpha
         return max(Constants.minAlpha, easeInQuad(alpha))
@@ -160,7 +159,8 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         attributes.zIndex = indexPath.row
         var frame: CGRect = .zero
         let x = CGFloat(indexPath.row) * (cellWidth + cellLayout.insets.left / 2) + cellLayout.insets.left
-        frame = CGRect(x: x, y: yInsetForItem(withInitialX: x), width: cellWidth, height: cellHeight)
+        let yOffset = yInsetForItem(withInitialX: x)
+        frame = CGRect(x: x, y: yOffset, width: cellWidth, height: cellHeight - 2*yOffset)
         attributes.frame = frame
         attributes.alpha = alphaForItem(withInitialX: x)
     }
