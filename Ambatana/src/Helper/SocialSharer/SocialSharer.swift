@@ -229,7 +229,7 @@ fileprivate extension SocialSharer {
 
     func shareInTwitter(_ socialMessage: SocialMessage, viewController: UIViewController) {
         delegate?.shareStartedIn(.twitter)
-        socialMessage.retrieveTwitterComposer { [weak self] twitterComposer in
+        socialMessage.retrieveTwitterComposer { twitterComposer in
             twitterComposer.show(from: viewController) { [weak self] result in
                 let state: SocialShareState
                 switch result {
@@ -329,13 +329,15 @@ fileprivate extension SocialSharer {
                  Activity: com.apple.UIKit.activity.Mail Success: true Items: nil Error: nil
                  Activity: com.apple.UIKit.activity.PostToTwitter Success: true Items: nil Error: nil
                  */
+                let state: SocialShareState
                 if success {
-                    strongSelf.delegate?.shareFinishedIn(shareType, withState: .completed)
+                    state = .completed
                 } else if let _  = error {
-                    strongSelf.delegate?.shareFinishedIn(shareType, withState: .failed)
+                    state = .failed
                 } else {
-                    strongSelf.delegate?.shareFinishedIn(shareType, withState: .cancelled)
+                    state = .cancelled
                 }
+                strongSelf.delegate?.shareFinishedIn(shareType, withState: state)
             }
             viewController.present(shareVC, animated: true) { [weak self] in
                 self?.delegate?.shareStartedIn(.native(restricted: restricted))
