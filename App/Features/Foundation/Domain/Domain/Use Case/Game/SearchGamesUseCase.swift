@@ -1,5 +1,5 @@
 import RxSwift
 
-public protocol SearchGamesConsolesUseCase {
-  func execute() -> Single<[Game]>
+public protocol SearchGamesUseCase {
+  func execute(with query: String) -> Single<[Game]>
 }
