@@ -10,7 +10,7 @@ import Foundation
 
 final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType, UICollectionViewDataSource, UICollectionViewDelegate {
 
-    override var prefersStatusBarHidden: Bool { return true }
+    override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
 
     @available(iOS 11.0, *)
     override func preferredScreenEdgesDeferringSystemGestures() -> UIRectEdge { return [.left, .top] }
@@ -42,7 +42,8 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
             setNeedsStatusBarAppearanceUpdate()
         }
 
-        edgesForExtendedLayout = []
+        edgesForExtendedLayout = .all
+        automaticallyAdjustsScrollViewInsets = false
         photoViewer.register(ListingDeckImagePreviewCell.self,
                              forCellWithReuseIdentifier: ListingDeckImagePreviewCell.reusableID)
         photoViewer.dataSource = self
@@ -55,12 +56,12 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
-        setStatusBarHidden(true)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         chatView.resignFirstResponder()
+        chatView.removeFromSuperview()
     }
 
     // MARK: NavBar
@@ -69,12 +70,13 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         setNavBarBackgroundStyle(.transparent(substyle: .light))
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
-
+        
         setLeftCloseButton()
         setNavigationBarRightButtons([])
     }
 
     private func hideLeftButton() {
+        navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = UIBarButtonItem()
     }
 

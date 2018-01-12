@@ -113,7 +113,7 @@ private class PhotoViewerTransitionPresenter: PhotoViewerTransitionMode {
         }
 
         containerView.addSubview(toView)
-        toView.frame = fromView.frame
+        toView.frame = fromView.bounds
         containerView.bringSubview(toFront: fromView)
         toView.alpha = 0
 
@@ -129,10 +129,8 @@ private class PhotoViewerTransitionPresenter: PhotoViewerTransitionMode {
             fromView.alpha = 0
         }) { (completion) in
             UIView.animate(withDuration: duration, delay: 0, options: .curveEaseIn, animations: {
-                imageView.frame = fromView.frame
-            }, completion: { [weak self] (completion) in
-                self?.animator?.transitioner = transitioner
-
+                imageView.frame = fromView.bounds
+            }, completion: { (completion) in
                 imageView.removeFromSuperview()
                 toView.alpha = 1
                 containerView.bringSubview(toFront: toView)

@@ -23,7 +23,8 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
     weak var dataSource: UICollectionViewDataSource? {
         didSet { collectionView.dataSource = dataSource }
     }
-    fileprivate let collectionView = UICollectionView(frame: .zero, collectionViewLayout: ListingDeckImagePreviewLayout())
+    fileprivate let collectionLayout = ListingDeckImagePreviewLayout()
+    fileprivate let collectionView: UICollectionView
     fileprivate let pageControl = UIPageControl()
     fileprivate let chatButton = ChatButton()
     fileprivate let closeButton = UIButton(type: .custom)
@@ -31,6 +32,7 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
     convenience init() { self.init(frame: .zero) }
 
     override init(frame: CGRect) {
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
         super.init(frame: frame)
         setupUI()
     }
@@ -54,6 +56,11 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
         pageControl.alpha = pagesCount <= 1 ? 0 : 1
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        collectionLayout.invalidateLayout()
+    }
+
     // MARK: Setup
 
     private func setupUI() {
@@ -64,6 +71,10 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
 
     private func setupCollectionView() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        }
+
         addSubview(collectionView)
         collectionView.layout(with: self).fill()
 
