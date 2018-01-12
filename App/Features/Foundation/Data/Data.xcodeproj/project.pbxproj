@@ -11,6 +11,8 @@
 		1C30D70D200960CB00E0A501 /* GetGameConsolesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D70C200960CB00E0A501 /* GetGameConsolesEndpoint.swift */; };
 		1C30D70F200963E600E0A501 /* SearchGamesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D70E200963E600E0A501 /* SearchGamesEndpoint.swift */; };
 		1C30D7182009658D00E0A501 /* GameDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D7172009658D00E0A501 /* GameDataSource.swift */; };
+		1C30D71A2009661900E0A501 /* GameApiDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D7192009661900E0A501 /* GameApiDataSource.swift */; };
+		1C30D71C2009686400E0A501 /* GameRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D71B2009686400E0A501 /* GameRepository.swift */; };
 		1C40D8A71FFD18C3006D5BE4 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8A61FFD18C3006D5BE4 /* UserService.swift */; };
 		1C40D8AA1FFD1914006D5BE4 /* RegisterUserEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8A91FFD1914006D5BE4 /* RegisterUserEndpoint.swift */; };
 		1C40D8B01FFD354B006D5BE4 /* UserDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8AF1FFD354B006D5BE4 /* UserDataSource.swift */; };
@@ -77,6 +79,8 @@
 		1C30D70C200960CB00E0A501 /* GetGameConsolesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGameConsolesEndpoint.swift; sourceTree = "<group>"; };
 		1C30D70E200963E600E0A501 /* SearchGamesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGamesEndpoint.swift; sourceTree = "<group>"; };
 		1C30D7172009658D00E0A501 /* GameDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDataSource.swift; sourceTree = "<group>"; };
+		1C30D7192009661900E0A501 /* GameApiDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameApiDataSource.swift; sourceTree = "<group>"; };
+		1C30D71B2009686400E0A501 /* GameRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRepository.swift; sourceTree = "<group>"; };
 		1C40D8A61FFD18C3006D5BE4 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		1C40D8A91FFD1914006D5BE4 /* RegisterUserEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserEndpoint.swift; sourceTree = "<group>"; };
 		1C40D8AF1FFD354B006D5BE4 /* UserDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataSource.swift; sourceTree = "<group>"; };
@@ -162,6 +166,7 @@
 		1C30D7122009656400E0A501 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				1C30D71B2009686400E0A501 /* GameRepository.swift */,
 				1C30D7152009658500E0A501 /* Data Source */,
 			);
 			path = Game;
@@ -179,6 +184,7 @@
 		1C30D7162009658500E0A501 /* Api */ = {
 			isa = PBXGroup;
 			children = (
+				1C30D7192009661900E0A501 /* GameApiDataSource.swift */,
 			);
 			path = Api;
 			sourceTree = "<group>";
@@ -791,12 +797,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C30D71A2009661900E0A501 /* GameApiDataSource.swift in Sources */,
 				1C913A2F1FF2B2D400646884 /* AuthDataSource.swift in Sources */,
 				1C40D8B51FFD35C4006D5BE4 /* RegisterUserErrorAdapter.swift in Sources */,
 				1C913A321FF2B30A00646884 /* AuthApiDataSource.swift in Sources */,
 				1C40D8AA1FFD1914006D5BE4 /* RegisterUserEndpoint.swift in Sources */,
 				1CC209B61FF2C2F500EE0B5B /* Assembly+Repository.swift in Sources */,
 				1C913A3E1FF2BB4200646884 /* AuthenticateEndpoint.swift in Sources */,
+				1C30D71C2009686400E0A501 /* GameRepository.swift in Sources */,
 				1C30D70F200963E600E0A501 /* SearchGamesEndpoint.swift in Sources */,
 				1CACCE8A1FF309E60001B321 /* PrimitiveSequence+CustomError.swift in Sources */,
 				1C40D8B21FFD3594006D5BE4 /* UserApiDataSource.swift in Sources */,
