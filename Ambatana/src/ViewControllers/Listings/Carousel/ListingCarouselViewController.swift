@@ -402,7 +402,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     private func setupZoomRx() {
         cellZooming.asObservable().distinctUntilChanged().bind { [weak self] zooming in
-            UIApplication.shared.setStatusBarHidden(zooming, with: .fade)
             UIView.animate(withDuration: 0.3) {
                 self?.itemsAlpha.value = zooming ? 0 : 1
                 self?.moreInfoAlpha.value = zooming ? 0 : 1
