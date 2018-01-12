@@ -137,7 +137,7 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
         var actions: [UIAction] = []
 
         let reviewAction = UIAction(interface: .text(LGLocalizedString.ratingListActionReviewUser), action: { [weak self] in
-            guard let userData = RateUserData(user: userFrom) else { return }
+            guard let userData = RateUserData(user: userFrom, listingId: rating.listingId, ratingType: rating.type.rateBackType) else { return }
             self?.tabNavigator?.openUserRating(.userRatingList, data: userData)
         }, accessibilityId: .ratingListCellReview)
         actions.append(reviewAction)
@@ -163,17 +163,6 @@ extension UserRatingListViewModel:  UserRatingCellDelegate {
 
         let cancelAction = UIAction(interface: .text(LGLocalizedString.commonCancel), action: {})
         delegate?.vmShowActionSheet(cancelAction, actions: actions)
-    }
-
-    private func rateBackRatingType(_ receivedRating: UserRatingType) -> UserRatingType {
-        switch receivedRating {
-        case .conversation:
-            return .conversation
-        case let .seller(listingId):
-            return .buyer(listingId: listingId)
-        case let .buyer(listingId):
-            return .seller(listingId: listingId)
-        }
     }
 }
 
