@@ -57,3 +57,19 @@ extension Assembly {
     )
   }
 }
+
+// MARK: - Image
+
+extension Assembly {
+  public var imageRepository: ImageRepository {
+    return ImageRepository(
+      apiDataSource: imageApiDataSource
+    )
+  }
+  
+  private var imageApiDataSource: ImageDataSource {
+    return ImageApiDataSource(
+      provider: moyaProvider()
+    )
+  }
+}

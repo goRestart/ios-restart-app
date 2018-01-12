@@ -4,5 +4,6 @@
         <page name='Index'/>
         <page name='Authenticate'/>
         <page name='SearchGames'/>
+        <page name='UploadImage'/>
     </pages>
 </playground>

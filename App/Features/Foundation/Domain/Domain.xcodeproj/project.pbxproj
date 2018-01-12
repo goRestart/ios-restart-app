@@ -22,6 +22,8 @@
 		1C89D6F81FF3CF3A00B3FA98 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6F41FF3CF3A00B3FA98 /* AuthError.swift */; };
 		1C89D6F91FF3CF3A00B3FA98 /* BasicCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6F51FF3CF3A00B3FA98 /* BasicCredentials.swift */; };
 		1C89D7091FF3D3AA00B3FA98 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7081FF3D3AA00B3FA98 /* RxSwift.framework */; };
+		1CB6494C2009C65F009B7CC1 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB6494B2009C65F009B7CC1 /* Image.swift */; };
+		1CB649612009CB73009B7CC1 /* UploadImageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB649602009CB73009B7CC1 /* UploadImageUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		1C89D6F41FF3CF3A00B3FA98 /* AuthError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		1C89D6F51FF3CF3A00B3FA98 /* BasicCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCredentials.swift; sourceTree = "<group>"; };
 		1C89D7081FF3D3AA00B3FA98 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../../../Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
+		1CB6494B2009C65F009B7CC1 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		1CB649602009CB73009B7CC1 /* UploadImageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +163,7 @@
 				1C40D89B1FFD1843006D5BE4 /* Auth */,
 				1C40D8D01FFD444C006D5BE4 /* Register */,
 				1C30D71D20096E0900E0A501 /* Game */,
+				1CB6495F2009CB65009B7CC1 /* Image */,
 			);
 			path = "Use Case";
 			sourceTree = "<group>";
@@ -167,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				1C30D7332009764B00E0A501 /* Identifier */,
+				1CB6494A2009C655009B7CC1 /* Image */,
 				1C89D6F11FF3CF3A00B3FA98 /* Auth */,
 				1C40D8951FFD16EC006D5BE4 /* User */,
 				1C30D5082009310200E0A501 /* Game */,
@@ -197,6 +203,22 @@
 				1C89D7081FF3D3AA00B3FA98 /* RxSwift.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1CB6494A2009C655009B7CC1 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				1CB6494B2009C65F009B7CC1 /* Image.swift */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
+		1CB6495F2009CB65009B7CC1 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				1CB649602009CB73009B7CC1 /* UploadImageUseCase.swift */,
+			);
+			path = Image;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -304,6 +326,8 @@
 				1C30D50A2009310B00E0A501 /* Game.swift in Sources */,
 				1C89D6F81FF3CF3A00B3FA98 /* AuthError.swift in Sources */,
 				1C40D8971FFD16F9006D5BE4 /* UserCredentials.swift in Sources */,
+				1CB649612009CB73009B7CC1 /* UploadImageUseCase.swift in Sources */,
+				1CB6494C2009C65F009B7CC1 /* Image.swift in Sources */,
 				1C89D6F91FF3CF3A00B3FA98 /* BasicCredentials.swift in Sources */,
 				1C89D6F61FF3CF3A00B3FA98 /* AuthenticateUseCase.swift in Sources */,
 				1C30D512200931D500E0A501 /* Manufacturer.swift in Sources */,

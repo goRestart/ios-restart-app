@@ -16,6 +16,7 @@
 		1C89D7351FF3D8A300B3FA98 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7361FF3D8A300B3FA98 /* Core.framework */; };
 		1C89D7381FF3D8AF00B3FA98 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7371FF3D8AF00B3FA98 /* RxSwift.framework */; };
 		1C89D73A1FF3DA7600B3FA98 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D73B1FF3DA7600B3FA98 /* Domain.framework */; };
+		1CB6496A2009CBCC009B7CC1 /* UploadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB649692009CBCC009B7CC1 /* UploadImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		1C89D7551FF3DE0E00B3FA98 /* Core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Core.xcodeproj; path = ../Core/Core.xcodeproj; sourceTree = "<group>"; };
 		1C89D75E1FF3DE1F00B3FA98 /* Data.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Data.xcodeproj; path = ../Data/Data.xcodeproj; sourceTree = "<group>"; };
 		1C89D7771FF3E1BC00B3FA98 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; };
+		1CB649692009CBCC009B7CC1 /* UploadImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImage.swift; sourceTree = "<group>"; };
 		1CD7A9771FF5293500CB895D /* UI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UI.xcodeproj; path = ../UI/UI.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -177,6 +179,7 @@
 				1C1D227C1FFEC46100BC0316 /* Auth */,
 				1C1D22831FFEC46B00BC0316 /* User */,
 				1C30D7282009716A00E0A501 /* Game */,
+				1CB649622009CBBE009B7CC1 /* Image */,
 			);
 			path = "Use Case";
 			sourceTree = "<group>";
@@ -224,6 +227,14 @@
 				1C89D7771FF3E1BC00B3FA98 /* Playground.playground */,
 			);
 			path = Playgrounds;
+			sourceTree = "<group>";
+		};
+		1CB649622009CBBE009B7CC1 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				1CB649692009CBCC009B7CC1 /* UploadImage.swift */,
+			);
+			path = Image;
 			sourceTree = "<group>";
 		};
 		1CD7A9781FF5293500CB895D /* Products */ = {
@@ -399,6 +410,7 @@
 			files = (
 				1C30D7322009727000E0A501 /* GetGameConsoles.swift in Sources */,
 				1C30D7302009717A00E0A501 /* SearchGames.swift in Sources */,
+				1CB6496A2009CBCC009B7CC1 /* UploadImage.swift in Sources */,
 				1C89D7271FF3D69800B3FA98 /* Authenticate.swift in Sources */,
 				1C1D22851FFEC47500BC0316 /* RegisterUser.swift in Sources */,
 			);
