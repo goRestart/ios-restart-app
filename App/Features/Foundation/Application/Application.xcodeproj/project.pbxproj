@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1C1D22851FFEC47500BC0316 /* RegisterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D22841FFEC47500BC0316 /* RegisterUser.swift */; };
+		1C30D7302009717A00E0A501 /* SearchGames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D72F2009717A00E0A501 /* SearchGames.swift */; };
+		1C30D7322009727000E0A501 /* GetGameConsoles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D7312009727000E0A501 /* GetGameConsoles.swift */; };
 		1C89D71D1FF3D63100B3FA98 /* Application.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C89D71B1FF3D63100B3FA98 /* Application.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1C89D7271FF3D69800B3FA98 /* Authenticate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D7261FF3D69800B3FA98 /* Authenticate.swift */; };
 		1C89D7331FF3D8A000B3FA98 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7341FF3D8A000B3FA98 /* Data.framework */; };
@@ -63,6 +65,8 @@
 
 /* Begin PBXFileReference section */
 		1C1D22841FFEC47500BC0316 /* RegisterUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUser.swift; sourceTree = "<group>"; };
+		1C30D72F2009717A00E0A501 /* SearchGames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGames.swift; sourceTree = "<group>"; };
+		1C30D7312009727000E0A501 /* GetGameConsoles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGameConsoles.swift; sourceTree = "<group>"; };
 		1C89D7181FF3D63100B3FA98 /* Application.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Application.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C89D71B1FF3D63100B3FA98 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		1C89D71C1FF3D63100B3FA98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -108,6 +112,15 @@
 				1C1D22841FFEC47500BC0316 /* RegisterUser.swift */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		1C30D7282009716A00E0A501 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				1C30D72F2009717A00E0A501 /* SearchGames.swift */,
+				1C30D7312009727000E0A501 /* GetGameConsoles.swift */,
+			);
+			path = Game;
 			sourceTree = "<group>";
 		};
 		1C89D70E1FF3D63100B3FA98 = {
@@ -163,6 +176,7 @@
 			children = (
 				1C1D227C1FFEC46100BC0316 /* Auth */,
 				1C1D22831FFEC46B00BC0316 /* User */,
+				1C30D7282009716A00E0A501 /* Game */,
 			);
 			path = "Use Case";
 			sourceTree = "<group>";
@@ -383,6 +397,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C30D7322009727000E0A501 /* GetGameConsoles.swift in Sources */,
+				1C30D7302009717A00E0A501 /* SearchGames.swift in Sources */,
 				1C89D7271FF3D69800B3FA98 /* Authenticate.swift in Sources */,
 				1C1D22851FFEC47500BC0316 /* RegisterUser.swift in Sources */,
 			);

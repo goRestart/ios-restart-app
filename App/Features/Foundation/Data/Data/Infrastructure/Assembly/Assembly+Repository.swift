@@ -41,3 +41,19 @@ extension Assembly {
     return RegisterUserErrorAdapter()
   }
 }
+
+// MARK: - Game
+
+extension Assembly {
+  public var gameRepository: GameRepository {
+    return GameRepository(
+      apiDataSource: gameApiDataSource
+    )
+  }
+  
+  private var gameApiDataSource: GameDataSource {
+    return GameApiDataSource(
+      provider: moyaProvider()
+    )
+  }
+}
