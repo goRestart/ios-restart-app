@@ -275,7 +275,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         if !isSafeAreaAvailable {
             favoriteButtonTopAligment.constant = 55
             shareButtonTopAlignment.constant = 70
-            productStatusViewTopAlignment.constant = 70
+            productStatusViewTopAlignment.constant = 80
         }
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
