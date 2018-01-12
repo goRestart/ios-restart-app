@@ -2,7 +2,7 @@ import Domain
 import Core
 import RxSwift
 
-struct GameRepository {
+public struct GameRepository {
   
   private let apiDataSource: GameDataSource
   
@@ -10,11 +10,11 @@ struct GameRepository {
     self.apiDataSource = apiDataSource
   }
   
-  func search(with query: String) -> Single<[Game]> {
+  public func search(with query: String) -> Single<[Game]> {
     return apiDataSource.search(with: query)
   }
   
-  func getGameConsoles() -> Single<[GameConsole]> {
+  public func getGameConsoles() -> Single<[GameConsole]> {
     return apiDataSource.getGameConsoles()
   }
 }
