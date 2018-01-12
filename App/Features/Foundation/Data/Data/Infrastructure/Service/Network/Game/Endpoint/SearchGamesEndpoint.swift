@@ -10,7 +10,7 @@ struct SearchGamesEndpoint: Endpoint {
   }
   
   var path: String {
-    return "/"
+    return "/search"
   }
   
   var method: Moya.Method {
@@ -23,7 +23,7 @@ struct SearchGamesEndpoint: Endpoint {
     ]
     return Task.requestParameters(
       parameters: parameters,
-      encoding: JSONEncoding.default
+      encoding: URLEncoding.default
     )
   }
 }
