@@ -657,9 +657,9 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     private func finishedSaving() {
         guard let listing = savedListing, shouldShareInFB else { return showSuccessMessageAndClose() }
         let listingSocialMessage = ListingSocialMessage(listing: listing, fallbackToStore: false)
-        listingSocialMessage.retrieveFBShareContent { fbShareContent in
-            self.shouldTrack = false
-            self.delegate?.vmShareOnFbWith(content: fbShareContent)
+        listingSocialMessage.retrieveFBShareContent { [weak self] fbShareContent in
+            self?.shouldTrack = false
+            self?.delegate?.vmShareOnFbWith(content: fbShareContent)
         }
     }
 

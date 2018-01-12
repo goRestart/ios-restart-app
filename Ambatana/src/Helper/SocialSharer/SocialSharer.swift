@@ -222,14 +222,14 @@ fileprivate extension SocialSharer {
     }
 
     func shareInWhatsapp(_ socialMessage: SocialMessage) {
-        socialMessage.retrieveWhatsappShareText { shareText in
-            self.shareInURL(.whatsapp, text: shareText, urlScheme: Constants.whatsAppShareURL)
+        socialMessage.retrieveWhatsappShareText { [weak self] shareText in
+            self?.shareInURL(.whatsapp, text: shareText, urlScheme: Constants.whatsAppShareURL)
         }
     }
 
     func shareInTwitter(_ socialMessage: SocialMessage, viewController: UIViewController) {
         delegate?.shareStartedIn(.twitter)
-        socialMessage.retrieveTwitterComposer { twitterComposer in
+        socialMessage.retrieveTwitterComposer { [weak self] twitterComposer in
             twitterComposer.show(from: viewController) { [weak self] result in
                 let state: SocialShareState
                 switch result {
@@ -244,16 +244,16 @@ fileprivate extension SocialSharer {
     }
 
     func shareInTelegram(_ socialMessage: SocialMessage) {
-        socialMessage.retrieveTelegramShareText { shareText in
-            self.shareInURL(.telegram, text: shareText, urlScheme: Constants.telegramShareURL)
+        socialMessage.retrieveTelegramShareText { [weak self] shareText in
+            self?.shareInURL(.telegram, text: shareText, urlScheme: Constants.telegramShareURL)
         }
     }
 
     func shareInPasteboard(_ socialMessage: SocialMessage) {
         delegate?.shareStartedIn(.copyLink)
-        socialMessage.retrieveCopyLinkText { text in
+        socialMessage.retrieveCopyLinkText { [weak self] text in
             UIPasteboard.general.string = text
-            self.delegate?.shareFinishedIn(.copyLink, withState: .completed)
+            self?.delegate?.shareFinishedIn(.copyLink, withState: .completed)
         }
     }
 
