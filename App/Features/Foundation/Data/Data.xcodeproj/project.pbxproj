@@ -10,6 +10,7 @@
 		1C30D70A2009603C00E0A501 /* GameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D7092009603C00E0A501 /* GameService.swift */; };
 		1C30D70D200960CB00E0A501 /* GetGameConsolesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D70C200960CB00E0A501 /* GetGameConsolesEndpoint.swift */; };
 		1C30D70F200963E600E0A501 /* SearchGamesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D70E200963E600E0A501 /* SearchGamesEndpoint.swift */; };
+		1C30D7182009658D00E0A501 /* GameDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C30D7172009658D00E0A501 /* GameDataSource.swift */; };
 		1C40D8A71FFD18C3006D5BE4 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8A61FFD18C3006D5BE4 /* UserService.swift */; };
 		1C40D8AA1FFD1914006D5BE4 /* RegisterUserEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8A91FFD1914006D5BE4 /* RegisterUserEndpoint.swift */; };
 		1C40D8B01FFD354B006D5BE4 /* UserDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C40D8AF1FFD354B006D5BE4 /* UserDataSource.swift */; };
@@ -75,6 +76,7 @@
 		1C30D7092009603C00E0A501 /* GameService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameService.swift; sourceTree = "<group>"; };
 		1C30D70C200960CB00E0A501 /* GetGameConsolesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGameConsolesEndpoint.swift; sourceTree = "<group>"; };
 		1C30D70E200963E600E0A501 /* SearchGamesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGamesEndpoint.swift; sourceTree = "<group>"; };
+		1C30D7172009658D00E0A501 /* GameDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDataSource.swift; sourceTree = "<group>"; };
 		1C40D8A61FFD18C3006D5BE4 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		1C40D8A91FFD1914006D5BE4 /* RegisterUserEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserEndpoint.swift; sourceTree = "<group>"; };
 		1C40D8AF1FFD354B006D5BE4 /* UserDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataSource.swift; sourceTree = "<group>"; };
@@ -155,6 +157,30 @@
 				1C30D70E200963E600E0A501 /* SearchGamesEndpoint.swift */,
 			);
 			path = Endpoint;
+			sourceTree = "<group>";
+		};
+		1C30D7122009656400E0A501 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				1C30D7152009658500E0A501 /* Data Source */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		1C30D7152009658500E0A501 /* Data Source */ = {
+			isa = PBXGroup;
+			children = (
+				1C30D7172009658D00E0A501 /* GameDataSource.swift */,
+				1C30D7162009658500E0A501 /* Api */,
+			);
+			path = "Data Source";
+			sourceTree = "<group>";
+		};
+		1C30D7162009658500E0A501 /* Api */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Api;
 			sourceTree = "<group>";
 		};
 		1C40D8A31FFD18B2006D5BE4 /* User */ = {
@@ -417,6 +443,7 @@
 			children = (
 				1C40D8AB1FFD34FB006D5BE4 /* Auth */,
 				1C40D8AC1FFD351D006D5BE4 /* User */,
+				1C30D7122009656400E0A501 /* Game */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -776,6 +803,7 @@
 				1C89D6FE1FF3CFBF00B3FA98 /* AuthToken.swift in Sources */,
 				1C40D8A71FFD18C3006D5BE4 /* UserService.swift in Sources */,
 				1C40D8B01FFD354B006D5BE4 /* UserDataSource.swift in Sources */,
+				1C30D7182009658D00E0A501 /* GameDataSource.swift in Sources */,
 				1C913A351FF2B65300646884 /* Endpoint.swift in Sources */,
 				1C40D8B81FFD369B006D5BE4 /* EmptyResponse.swift in Sources */,
 				1C913A1A1FF0656800646884 /* AuthService.swift in Sources */,
