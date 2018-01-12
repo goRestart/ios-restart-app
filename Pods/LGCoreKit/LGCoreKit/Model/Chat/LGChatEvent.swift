@@ -205,7 +205,7 @@ private struct ChatEventDataDecodable: Decodable {
         conversationId = try keyedContainer.decodeIfPresent(String.self, forKey: .conversationId)
         warnings = (try keyedContainer.decodeIfPresent(FailableDecodableArray<ChatMessageWarning>.self, forKey: .warnings))?.validElements
         if let sentAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .sentAt) {
-            sentAt = Date(timeIntervalSince1970: sentAtValue)
+            sentAt = Date(timeIntervalSince1970: sentAtValue/1000)
         } else {
             sentAt = nil
         }
