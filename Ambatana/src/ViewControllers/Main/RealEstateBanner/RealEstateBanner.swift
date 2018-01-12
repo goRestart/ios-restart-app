@@ -16,7 +16,11 @@ class RealEstateBanner: UIView {
     
     private let backgroundImage = UIImageView()
     
-    static let viewHeight: CGFloat = 200
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: UIViewNoIntrinsicMetric, height: viewHeight)
+    }
+    
+    private let viewHeight: CGFloat = 200
     weak var delegate: RealEstateBannerDelegate?
     
     // MARK: - Lifecycle

@@ -505,7 +505,7 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             totalHeight += CategoriesHeaderCollectionView.viewHeight
         }
         if shouldShowRealEstateBanner {
-            totalHeight += RealEstateBanner.viewHeight
+            totalHeight += RealEstateBanner().intrinsicContentSize.height
         }
         return totalHeight
     }
@@ -536,8 +536,10 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         
         if shouldShowRealEstateBanner {
             let realEstateBanner = RealEstateBanner()
+            realEstateBanner.tag = 2
+            let height = realEstateBanner.intrinsicContentSize.height
             realEstateBanner.delegate = self
-            header.addHeader(realEstateBanner, height: RealEstateBanner.viewHeight)
+            header.addHeader(realEstateBanner, height: height)
         }
     }
 
