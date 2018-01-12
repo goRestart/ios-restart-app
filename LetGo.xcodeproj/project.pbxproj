@@ -702,6 +702,8 @@
 		727463B51FB0AF1400AD8261 /* LGSearchMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727463B41FB0AF1400AD8261 /* LGSearchMapViewModel.swift */; };
 		727463B61FB0AF1400AD8261 /* LGSearchMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727463B41FB0AF1400AD8261 /* LGSearchMapViewModel.swift */; };
 		727463B81FB1E96600AD8261 /* ListingCreationParams+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727463B71FB1E96600AD8261 /* ListingCreationParams+LGSpec.swift */; };
+		72769A672008CA5B00A7E627 /* RealEstateBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72769A662008CA5B00A7E627 /* RealEstateBanner.swift */; };
+		72769A682008CA5B00A7E627 /* RealEstateBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72769A662008CA5B00A7E627 /* RealEstateBanner.swift */; };
 		727EF0691E0AF0220037DA4E /* LocationManager+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */; };
 		727EF06A1E0AF0220037DA4E /* LocationManager+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */; };
 		727EF06C1E0BE16D0037DA4E /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EF06B1E0BE16D0037DA4E /* CountryCode.swift */; };
@@ -766,8 +768,6 @@
 		72EB705D1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EB705B1E65C44E00BF709B /* ModularNotificationCellDrawer.swift */; };
 		72EB705F1E65C63900BF709B /* ModularNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EB705E1E65C63900BF709B /* ModularNotificationCell.swift */; };
 		72EB70601E65C63900BF709B /* ModularNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EB705E1E65C63900BF709B /* ModularNotificationCell.swift */; };
-		72F925A92004D84900F76100 /* RealEstateBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F925A82004D84900F76100 /* RealEstateBanner.swift */; };
-		72F925AA2004D84900F76100 /* RealEstateBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F925A82004D84900F76100 /* RealEstateBanner.swift */; };
 		72FE02D61F95FCE5005BD672 /* PostingDetailStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE02D51F95FCE5005BD672 /* PostingDetailStep.swift */; };
 		72FE02D71F95FCE5005BD672 /* PostingDetailStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE02D51F95FCE5005BD672 /* PostingDetailStep.swift */; };
 		72FE02D91F97A155005BD672 /* ListingCreationParams+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE02D81F97A155005BD672 /* ListingCreationParams+LG.swift */; };
@@ -1945,6 +1945,7 @@
 		727463B11FB0AEAB00AD8261 /* LGSearchMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSearchMap.swift; sourceTree = "<group>"; };
 		727463B41FB0AF1400AD8261 /* LGSearchMapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSearchMapViewModel.swift; sourceTree = "<group>"; };
 		727463B71FB1E96600AD8261 /* ListingCreationParams+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ListingCreationParams+LGSpec.swift"; path = "../Model/ListingCreationParams+LGSpec.swift"; sourceTree = "<group>"; };
+		72769A662008CA5B00A7E627 /* RealEstateBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RealEstateBanner.swift; path = Ambatana/src/ViewControllers/Main/RealEstateBanner/RealEstateBanner.swift; sourceTree = SOURCE_ROOT; };
 		727EF0681E0AF0220037DA4E /* LocationManager+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LocationManager+LG.swift"; sourceTree = "<group>"; };
 		727EF06B1E0BE16D0037DA4E /* CountryCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		727EF06E1E0BE6600037DA4E /* LGLocation+isAuto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGLocation+isAuto.swift"; sourceTree = "<group>"; };
@@ -1982,7 +1983,6 @@
 		72E8A5891EB34D93000524E6 /* CategoriesHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoriesHeaderCell.swift; path = Ambatana/src/ViewControllers/Main/CategoriesHeader/CategoriesHeaderCell.swift; sourceTree = SOURCE_ROOT; };
 		72EB705B1E65C44E00BF709B /* ModularNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModularNotificationCellDrawer.swift; sourceTree = "<group>"; };
 		72EB705E1E65C63900BF709B /* ModularNotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModularNotificationCell.swift; sourceTree = "<group>"; };
-		72F925A82004D84900F76100 /* RealEstateBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealEstateBanner.swift; sourceTree = "<group>"; };
 		72FE02D51F95FCE5005BD672 /* PostingDetailStep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingDetailStep.swift; sourceTree = "<group>"; };
 		72FE02D81F97A155005BD672 /* ListingCreationParams+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ListingCreationParams+LG.swift"; path = "Ambatana/src/Helper/LetgoExtensions/ListingCreationParams+LG.swift"; sourceTree = SOURCE_ROOT; };
 		72FE02DB1F98CE09005BD672 /* AlphaAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlphaAnimator.swift; sourceTree = "<group>"; };
@@ -3695,7 +3695,7 @@
 		72F925AB2004D84F00F76100 /* RealEstateBanner */ = {
 			isa = PBXGroup;
 			children = (
-				72F925A82004D84900F76100 /* RealEstateBanner.swift */,
+				72769A662008CA5B00A7E627 /* RealEstateBanner.swift */,
 			);
 			name = RealEstateBanner;
 			path = "New Group";
@@ -5735,7 +5735,6 @@
 				C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				6A5E1A1C1D548F5400F92692 /* UIViewController+LG.swift in Sources */,
 				6A5E1A161D548F5400F92692 /* UITextField+LG.swift in Sources */,
-				72F925A92004D84900F76100 /* RealEstateBanner.swift in Sources */,
 				C7126BD91E6053AA00038CC4 /* ListingViewModelStatus.swift in Sources */,
 				C749316E1D34FD0200E117F1 /* RateUserViewController.swift in Sources */,
 				2E75EC531FA89F5B00C5F48F /* AdsRequester.swift in Sources */,
@@ -5900,6 +5899,7 @@
 				72E8A58A1EB34D93000524E6 /* CategoriesHeaderCell.swift in Sources */,
 				C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */,
 				721383FE1F20B224006DB039 /* TaxonomiesViewModel.swift in Sources */,
+				72769A672008CA5B00A7E627 /* RealEstateBanner.swift in Sources */,
 				C7E590321E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
 				6A5E19DC1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,
 				2EB32D631DF184FF00E01E93 /* BumpUpBanner.swift in Sources */,
@@ -6285,7 +6285,6 @@
 				C7AFFB0E1E7172B20052A9CA /* MyUser+LG.swift in Sources */,
 				C7DB41C51C5138B500400945 /* FilterTag.swift in Sources */,
 				C75B55FA1C7E12C90001F5CD /* FilterDisclosureCell.swift in Sources */,
-				72F925AA2004D84900F76100 /* RealEstateBanner.swift in Sources */,
 				C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
 				C7126BDA1E6053AA00038CC4 /* ListingViewModelStatus.swift in Sources */,
@@ -6450,6 +6449,7 @@
 				72E8A58B1EB34D93000524E6 /* CategoriesHeaderCell.swift in Sources */,
 				6A672C171CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
 				721383FF1F20B224006DB039 /* TaxonomiesViewModel.swift in Sources */,
+				72769A682008CA5B00A7E627 /* RealEstateBanner.swift in Sources */,
 				C7E590331E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
 				C7F3F1E21DE5A95F00652447 /* ChatRelatedListingsView.swift in Sources */,
 				507F1BFC1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
