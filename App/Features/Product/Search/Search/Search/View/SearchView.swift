@@ -5,7 +5,7 @@ import RxSwift
 public final class SearchView: View {
  
   private let collectionView: UICollectionView = {
-    let collectionView = UICollectionView()
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     return collectionView
   }()
   
@@ -30,8 +30,10 @@ public final class SearchView: View {
   public func bind(textField: UITextField) {
     let textFieldObserver = textField.rx.value
       .orEmpty
+      .filter { $0.count >= 1 }
       .debounce(0.5, scheduler: MainScheduler.instance)
       .asObservable()
+    
     viewModel.output.bind(to: textFieldObserver)
     
     viewModel.output.results
