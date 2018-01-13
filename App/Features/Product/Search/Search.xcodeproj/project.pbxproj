@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		1C93BEBA200A3C9800DDF249 /* Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C93BEB0200A3C9800DDF249 /* Search.framework */; };
 		1C93BEC1200A3C9800DDF249 /* Search.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C93BEB3200A3C9800DDF249 /* Search.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1C93BF18200A3E2A00DDF249 /* Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C93BF16200A3E2100DDF249 /* Application.framework */; };
+		1C93BF19200A3E2A00DDF249 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C93BF01200A3E0F00DDF249 /* Core.framework */; };
+		1C93BF1A200A3E2A00DDF249 /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C93BF08200A3E1900DDF249 /* UI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -19,6 +22,34 @@
 			remoteGlobalIDString = 1C93BEAF200A3C9800DDF249;
 			remoteInfo = Search;
 		};
+		1C93BF00200A3E0F00DDF249 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1C93BEFC200A3E0F00DDF249 /* Core.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1C913A4C1FF2C1C700646884;
+			remoteInfo = Core;
+		};
+		1C93BF07200A3E1900DDF249 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1C93BF02200A3E1900DDF249 /* UI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1C89D7B31FF427B600B3FA98;
+			remoteInfo = UI;
+		};
+		1C93BF09200A3E1900DDF249 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1C93BF02200A3E1900DDF249 /* UI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1C89D7BC1FF427B700B3FA98;
+			remoteInfo = UITests;
+		};
+		1C93BF15200A3E2100DDF249 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1C93BF0B200A3E2100DDF249 /* Application.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1C89D7181FF3D63100B3FA98;
+			remoteInfo = Application;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +58,9 @@
 		1C93BEB4200A3C9800DDF249 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C93BEB9200A3C9800DDF249 /* SearchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SearchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C93BEC0200A3C9800DDF249 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1C93BEFC200A3E0F00DDF249 /* Core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Core.xcodeproj; path = ../../Foundation/Core/Core.xcodeproj; sourceTree = "<group>"; };
+		1C93BF02200A3E1900DDF249 /* UI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UI.xcodeproj; path = ../../Foundation/UI/UI.xcodeproj; sourceTree = "<group>"; };
+		1C93BF0B200A3E2100DDF249 /* Application.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Application.xcodeproj; path = ../../Foundation/Application/Application.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +68,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C93BF18200A3E2A00DDF249 /* Application.framework in Frameworks */,
+				1C93BF19200A3E2A00DDF249 /* Core.framework in Frameworks */,
+				1C93BF1A200A3E2A00DDF249 /* UI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,9 +88,13 @@
 		1C93BEA6200A3C9800DDF249 = {
 			isa = PBXGroup;
 			children = (
+				1C93BF0B200A3E2100DDF249 /* Application.xcodeproj */,
+				1C93BF02200A3E1900DDF249 /* UI.xcodeproj */,
+				1C93BEFC200A3E0F00DDF249 /* Core.xcodeproj */,
 				1C93BEB2200A3C9800DDF249 /* Search */,
 				1C93BEBD200A3C9800DDF249 /* SearchTests */,
 				1C93BEB1200A3C9800DDF249 /* Products */,
+				1C93BF17200A3E2A00DDF249 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -107,6 +148,38 @@
 			path = Infrastructure;
 			sourceTree = "<group>";
 		};
+		1C93BEFD200A3E0F00DDF249 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1C93BF01200A3E0F00DDF249 /* Core.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1C93BF03200A3E1900DDF249 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1C93BF08200A3E1900DDF249 /* UI.framework */,
+				1C93BF0A200A3E1900DDF249 /* UITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1C93BF0C200A3E2100DDF249 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1C93BF16200A3E2100DDF249 /* Application.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1C93BF17200A3E2A00DDF249 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -129,6 +202,7 @@
 				1C93BEAC200A3C9800DDF249 /* Frameworks */,
 				1C93BEAD200A3C9800DDF249 /* Headers */,
 				1C93BEAE200A3C9800DDF249 /* Resources */,
+				1C93BF1E200A3E7700DDF249 /* [Carthage] - Copy frameworks */,
 			);
 			buildRules = (
 			);
@@ -187,6 +261,20 @@
 			mainGroup = 1C93BEA6200A3C9800DDF249;
 			productRefGroup = 1C93BEB1200A3C9800DDF249 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 1C93BF0C200A3E2100DDF249 /* Products */;
+					ProjectRef = 1C93BF0B200A3E2100DDF249 /* Application.xcodeproj */;
+				},
+				{
+					ProductGroup = 1C93BEFD200A3E0F00DDF249 /* Products */;
+					ProjectRef = 1C93BEFC200A3E0F00DDF249 /* Core.xcodeproj */;
+				},
+				{
+					ProductGroup = 1C93BF03200A3E1900DDF249 /* Products */;
+					ProjectRef = 1C93BF02200A3E1900DDF249 /* UI.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1C93BEAF200A3C9800DDF249 /* Search */,
@@ -194,6 +282,37 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		1C93BF01200A3E0F00DDF249 /* Core.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Core.framework;
+			remoteRef = 1C93BF00200A3E0F00DDF249 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1C93BF08200A3E1900DDF249 /* UI.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = UI.framework;
+			remoteRef = 1C93BF07200A3E1900DDF249 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1C93BF0A200A3E1900DDF249 /* UITests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = UITests.xctest;
+			remoteRef = 1C93BF09200A3E1900DDF249 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1C93BF16200A3E2100DDF249 /* Application.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Application.framework;
+			remoteRef = 1C93BF15200A3E2100DDF249 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1C93BEAE200A3C9800DDF249 /* Resources */ = {
@@ -211,6 +330,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1C93BF1E200A3E7700DDF249 /* [Carthage] - Copy frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxSwift.framework",
+			);
+			name = "[Carthage] - Copy frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1C93BEAB200A3C9800DDF249 /* Sources */ = {
@@ -361,6 +498,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
 				INFOPLIST_FILE = Search/Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -382,6 +520,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
 				INFOPLIST_FILE = Search/Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
