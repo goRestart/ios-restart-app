@@ -27,3 +27,11 @@ extension Identifier: Decodable {
     value = try decoder.singleValueContainer().decode(String.self)
   }
 }
+
+// MARK: - Equatable
+
+extension Identifier: Equatable {
+  public static func ==(lhs: Identifier<Element>, rhs: Identifier<Element>) -> Bool {
+    return lhs.value == rhs.value
+  }
+}
