@@ -21,7 +21,9 @@ extension ImageService {
   var task: Task {
     switch self {
     case .upload(let url):
-      return Task.uploadFile(url)
+      return Task.uploadMultipart([
+        MultipartFormData(provider: .file(url), name: "image")
+      ])
     }
   }
 }
