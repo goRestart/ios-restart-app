@@ -10,4 +10,8 @@
  
 - [Search games](SearchGames)
  
+ ### Image
+ 
+ - [Upload Image](UploadImage)
+ 
  */
