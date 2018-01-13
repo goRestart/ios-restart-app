@@ -13,6 +13,15 @@
 		1C93BF19200A3E2A00DDF249 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C93BF01200A3E0F00DDF249 /* Core.framework */; };
 		1C93BF1A200A3E2A00DDF249 /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C93BF08200A3E1900DDF249 /* UI.framework */; };
 		1C93BF24200A3F3A00DDF249 /* SearchViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF23200A3F3A00DDF249 /* SearchViewModelType.swift */; };
+		1C93BF29200A40A700DDF249 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF28200A40A700DDF249 /* SearchViewModel.swift */; };
+		1C93BF2C200A43C800DDF249 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF2B200A43C800DDF249 /* SearchView.swift */; };
+		1C93BF30200A537E00DDF249 /* SearchViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF2F200A537E00DDF249 /* SearchViewModelSpec.swift */; };
+		1C93BF36200A540100DDF249 /* SearchGamesStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF35200A540100DDF249 /* SearchGamesStub.swift */; };
+		1C93BF3B200A5D9600DDF249 /* UI.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1C93BF08200A3E1900DDF249 /* UI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1C93BF3C200A5D9600DDF249 /* Core.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1C93BF01200A3E0F00DDF249 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1C93BF3D200A5D9600DDF249 /* Application.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1C93BF16200A3E2100DDF249 /* Application.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1C93BF3F200A61A200DDF249 /* Game+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF3E200A61A200DDF249 /* Game+Equatable.swift */; };
+		1C93BF42200AA25700DDF249 /* Assembly+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF41200AA25700DDF249 /* Assembly+Search.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +62,21 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1C93BF3A200A5D8200DDF249 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1C93BF3B200A5D9600DDF249 /* UI.framework in CopyFiles */,
+				1C93BF3C200A5D9600DDF249 /* Core.framework in CopyFiles */,
+				1C93BF3D200A5D9600DDF249 /* Application.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1C93BEB0200A3C9800DDF249 /* Search.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Search.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C93BEB3200A3C9800DDF249 /* Search.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
@@ -63,6 +87,12 @@
 		1C93BF02200A3E1900DDF249 /* UI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UI.xcodeproj; path = ../../Foundation/UI/UI.xcodeproj; sourceTree = "<group>"; };
 		1C93BF0B200A3E2100DDF249 /* Application.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Application.xcodeproj; path = ../../Foundation/Application/Application.xcodeproj; sourceTree = "<group>"; };
 		1C93BF23200A3F3A00DDF249 /* SearchViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelType.swift; sourceTree = "<group>"; };
+		1C93BF28200A40A700DDF249 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		1C93BF2B200A43C800DDF249 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		1C93BF2F200A537E00DDF249 /* SearchViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelSpec.swift; sourceTree = "<group>"; };
+		1C93BF35200A540100DDF249 /* SearchGamesStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGamesStub.swift; sourceTree = "<group>"; };
+		1C93BF3E200A61A200DDF249 /* Game+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Game+Equatable.swift"; sourceTree = "<group>"; };
+		1C93BF41200AA25700DDF249 /* Assembly+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Search.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +152,7 @@
 		1C93BEBD200A3C9800DDF249 /* SearchTests */ = {
 			isa = PBXGroup;
 			children = (
+				1C93BF2D200A533000DDF249 /* Search */,
 				1C93BEC0200A3C9800DDF249 /* Info.plist */,
 			);
 			path = SearchTests;
@@ -139,6 +170,7 @@
 		1C93BED4200A3D2900DDF249 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				1C93BF2A200A43BB00DDF249 /* View */,
 				1C93BF22200A3F2500DDF249 /* View Model */,
 			);
 			path = Search;
@@ -147,6 +179,7 @@
 		1C93BED5200A3D3100DDF249 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				1C93BF40200AA24C00DDF249 /* Assembly */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -187,8 +220,51 @@
 			isa = PBXGroup;
 			children = (
 				1C93BF23200A3F3A00DDF249 /* SearchViewModelType.swift */,
+				1C93BF28200A40A700DDF249 /* SearchViewModel.swift */,
 			);
 			path = "View Model";
+			sourceTree = "<group>";
+		};
+		1C93BF2A200A43BB00DDF249 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1C93BF2B200A43C800DDF249 /* SearchView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1C93BF2D200A533000DDF249 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				1C93BF2E200A533800DDF249 /* View Model */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		1C93BF2E200A533800DDF249 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				1C93BF2F200A537E00DDF249 /* SearchViewModelSpec.swift */,
+				1C93BF34200A53F800DDF249 /* Test Doubles */,
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
+		1C93BF34200A53F800DDF249 /* Test Doubles */ = {
+			isa = PBXGroup;
+			children = (
+				1C93BF3E200A61A200DDF249 /* Game+Equatable.swift */,
+				1C93BF35200A540100DDF249 /* SearchGamesStub.swift */,
+			);
+			path = "Test Doubles";
+			sourceTree = "<group>";
+		};
+		1C93BF40200AA24C00DDF249 /* Assembly */ = {
+			isa = PBXGroup;
+			children = (
+				1C93BF41200AA25700DDF249 /* Assembly+Search.swift */,
+			);
+			path = Assembly;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,6 +307,7 @@
 				1C93BEB5200A3C9800DDF249 /* Sources */,
 				1C93BEB6200A3C9800DDF249 /* Frameworks */,
 				1C93BEB7200A3C9800DDF249 /* Resources */,
+				1C93BF3A200A5D8200DDF249 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -259,6 +336,7 @@
 					};
 					1C93BEB8200A3C9800DDF249 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -351,6 +429,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxSwift.framework",
+				"$(SRCROOT)/../../../../Carthage/Build/iOS/SnapKit.framework",
 			);
 			name = "[Carthage] - Copy frameworks";
 			outputPaths = (
@@ -366,6 +445,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C93BF29200A40A700DDF249 /* SearchViewModel.swift in Sources */,
+				1C93BF42200AA25700DDF249 /* Assembly+Search.swift in Sources */,
+				1C93BF2C200A43C800DDF249 /* SearchView.swift in Sources */,
 				1C93BF24200A3F3A00DDF249 /* SearchViewModelType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -374,6 +456,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C93BF30200A537E00DDF249 /* SearchViewModelSpec.swift in Sources */,
+				1C93BF36200A540100DDF249 /* SearchGamesStub.swift in Sources */,
+				1C93BF3F200A61A200DDF249 /* Game+Equatable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,12 +637,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
 				INFOPLIST_FILE = SearchTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks \"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = in.skydev.SearchTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -567,10 +655,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
 				INFOPLIST_FILE = SearchTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks \"$(SRCROOT)/../../../../Carthage/Build/iOS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = in.skydev.SearchTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
