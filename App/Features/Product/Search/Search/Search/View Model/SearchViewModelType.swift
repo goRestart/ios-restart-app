@@ -1,15 +1,11 @@
 import RxSwift
 import Domain
 
-protocol SearchViewModelInput {
-  func didSelect(game: Game)
-}
-
 protocol SearchViewModelOutput {
-  var query: Variable<String> { get }
+  var results: Variable<[Game]> { get }
+  func bind(to query: Observable<String>)
 }
 
 protocol SearchViewModelType {
-  var input: SearchViewModelInput { get }
   var output: SearchViewModelOutput { get }
 }
