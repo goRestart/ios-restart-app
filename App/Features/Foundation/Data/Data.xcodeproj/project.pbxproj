@@ -48,6 +48,7 @@
 		1CB649512009C717009B7CC1 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB649502009C717009B7CC1 /* ImageService.swift */; };
 		1CB649592009C964009B7CC1 /* ImageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB649582009C964009B7CC1 /* ImageDataSource.swift */; };
 		1CB6495C2009C9CA009B7CC1 /* ImageApiDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB6495B2009C9CA009B7CC1 /* ImageApiDataSource.swift */; };
+		1CB6495E2009CA79009B7CC1 /* ImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB6495D2009CA79009B7CC1 /* ImageRepository.swift */; };
 		1CC209B61FF2C2F500EE0B5B /* Assembly+Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC209B51FF2C2F500EE0B5B /* Assembly+Repository.swift */; };
 		1CE92E9F1FF31E5600F762E5 /* Fixture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE92E9E1FF31E5600F762E5 /* Fixture.swift */; };
 		1CE92EA11FF320DF00F762E5 /* auth.unauthorized.json in Resources */ = {isa = PBXBuildFile; fileRef = 1CE92EA01FF320DF00F762E5 /* auth.unauthorized.json */; };
@@ -125,6 +126,7 @@
 		1CB649502009C717009B7CC1 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		1CB649582009C964009B7CC1 /* ImageDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataSource.swift; sourceTree = "<group>"; };
 		1CB6495B2009C9CA009B7CC1 /* ImageApiDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageApiDataSource.swift; sourceTree = "<group>"; };
+		1CB6495D2009CA79009B7CC1 /* ImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepository.swift; sourceTree = "<group>"; };
 		1CC209B51FF2C2F500EE0B5B /* Assembly+Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Repository.swift"; sourceTree = "<group>"; };
 		1CE92E9E1FF31E5600F762E5 /* Fixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fixture.swift; sourceTree = "<group>"; };
 		1CE92EA01FF320DF00F762E5 /* auth.unauthorized.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = auth.unauthorized.json; sourceTree = "<group>"; };
@@ -592,6 +594,7 @@
 		1CB649542009C926009B7CC1 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				1CB6495D2009CA79009B7CC1 /* ImageRepository.swift */,
 				1CB649572009C959009B7CC1 /* Data Source */,
 			);
 			path = Image;
@@ -845,6 +848,7 @@
 				1C913A321FF2B30A00646884 /* AuthApiDataSource.swift in Sources */,
 				1C40D8AA1FFD1914006D5BE4 /* RegisterUserEndpoint.swift in Sources */,
 				1CC209B61FF2C2F500EE0B5B /* Assembly+Repository.swift in Sources */,
+				1CB6495E2009CA79009B7CC1 /* ImageRepository.swift in Sources */,
 				1C913A3E1FF2BB4200646884 /* AuthenticateEndpoint.swift in Sources */,
 				1C30D71C2009686400E0A501 /* GameRepository.swift in Sources */,
 				1C30D70F200963E600E0A501 /* SearchGamesEndpoint.swift in Sources */,
