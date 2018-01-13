@@ -12,6 +12,7 @@
 		1C93BF18200A3E2A00DDF249 /* Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C93BF16200A3E2100DDF249 /* Application.framework */; };
 		1C93BF19200A3E2A00DDF249 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C93BF01200A3E0F00DDF249 /* Core.framework */; };
 		1C93BF1A200A3E2A00DDF249 /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C93BF08200A3E1900DDF249 /* UI.framework */; };
+		1C93BF24200A3F3A00DDF249 /* SearchViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF23200A3F3A00DDF249 /* SearchViewModelType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		1C93BEFC200A3E0F00DDF249 /* Core.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Core.xcodeproj; path = ../../Foundation/Core/Core.xcodeproj; sourceTree = "<group>"; };
 		1C93BF02200A3E1900DDF249 /* UI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UI.xcodeproj; path = ../../Foundation/UI/UI.xcodeproj; sourceTree = "<group>"; };
 		1C93BF0B200A3E2100DDF249 /* Application.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Application.xcodeproj; path = ../../Foundation/Application/Application.xcodeproj; sourceTree = "<group>"; };
+		1C93BF23200A3F3A00DDF249 /* SearchViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 		1C93BED4200A3D2900DDF249 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				1C93BF22200A3F2500DDF249 /* View Model */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -178,6 +181,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1C93BF22200A3F2500DDF249 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				1C93BF23200A3F3A00DDF249 /* SearchViewModelType.swift */,
+			);
+			path = "View Model";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,6 +254,7 @@
 				TargetAttributes = {
 					1C93BEAF200A3C9800DDF249 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					1C93BEB8200A3C9800DDF249 = {
@@ -354,6 +366,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C93BF24200A3F3A00DDF249 /* SearchViewModelType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,6 +504,7 @@
 		1C93BEC5200A3C9800DDF249 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -505,6 +519,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = in.skydev.Search;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -513,6 +528,7 @@
 		1C93BEC6200A3C9800DDF249 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -535,6 +551,7 @@
 		1C93BEC8200A3C9800DDF249 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
 				INFOPLIST_FILE = SearchTests/Info.plist;
@@ -549,6 +566,7 @@
 		1C93BEC9200A3C9800DDF249 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3ZGLM2XX3U;
 				INFOPLIST_FILE = SearchTests/Info.plist;
