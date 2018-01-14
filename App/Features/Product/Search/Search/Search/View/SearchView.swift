@@ -31,6 +31,7 @@ public final class SearchView: View {
     let textFieldObserver = textField.rx.value
       .orEmpty
       .filter { $0.count >= 1 }
+      .distinctUntilChanged()
       .debounce(0.5, scheduler: MainScheduler.instance)
       .asObservable()
     
