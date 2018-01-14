@@ -23,6 +23,11 @@ xcode-select --install
 fastlane ios bootstrap
 ```
 Bootstrap project
+### ios update_carthage
+```
+fastlane ios update_carthage
+```
+Update carthage dependencies
 ### ios test
 ```
 fastlane ios test
