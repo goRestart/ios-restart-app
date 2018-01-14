@@ -17,11 +17,10 @@ struct SearchViewModel: SearchViewModelType, SearchViewModelOutput {
   // MARK: - Output
   
   func bind(to query: Observable<String>) {
-    query.map {
-      self.searchGames.execute(with: $0)
-    }.flatMap { $0.asObservable() }
-      .catchErrorJustReturn([])
+    query.flatMapLatest { query in
+      self.searchGames.execute(with: query)
+    }.catchErrorJustReturn([])
       .bind(to: results)
       .disposed(by: bag)
-    }
+  }
 }
