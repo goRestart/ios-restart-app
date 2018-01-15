@@ -32,14 +32,14 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     
     static let viewHeight: CGFloat = CategoryHeaderCell.cellSize().height
     
-    init(categories: [CategoryHeaderElement], frame: CGRect, categoryHighligthed: CategoryHeaderElement) {
+    init(categories: [CategoryHeaderElement], frame: CGRect, categoryHighlighted: CategoryHeaderElement) {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         layout.itemSize = CategoryHeaderCell.cellSize()
         self.categoryHeaderElements = categories
-        self.categoryHighlighted = categoryHighligthed
+        self.categoryHighlighted = categoryHighlighted
         super.init(frame: frame, collectionViewLayout: layout)
         //Setup
         
