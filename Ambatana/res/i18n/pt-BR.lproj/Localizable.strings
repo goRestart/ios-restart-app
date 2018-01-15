@@ -662,6 +662,12 @@
 "product_share_title_label" = "SHARE THIS LISTING";
 "product_share_title_on_letgo" = "%@ on letgo!";
 "product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
+"professional_dealer_ask_phone_chat_message" = "My phone number is %@";
+"professional_dealer_ask_phone_intro_text" = "I'm a professional car dealer so I'd love to help you in person. Please share your phone number so I can give you the best deal!";
+"professional_dealer_ask_phone_lets_talk_text" = "Let's Talk";
+"professional_dealer_ask_phone_not_now_button" = "Not now";
+"professional_dealer_ask_phone_send_phone_button" = "Send phone number";
+"professional_dealer_ask_phone_textfield_placeholder" = "Enter phone number";
 "profile_blocked_by_me_label" = "You've blocked this user";
 "profile_blocked_by_me_label_w_name" = "You've blocked %@";
 "profile_blocked_by_other_label" = "You've been blocked by this user";
@@ -921,6 +927,12 @@
 "tour_facebook_button" = "Continue with Facebook";
 "tour_google_button" = "Continue with Google";
 "tour_or_label" = "OR USE YOUR EMAIL";
+"trending_items_header_bubble" = "Trending";
+"trending_items_view_number_of_searches_item" = "% searches";
+"trending_items_view_number_of_searches_title" = "Searches this week";
+"trending_items_view_post_button" = "Post";
+"trending_items_view_subtitle" = "Post one of these, and make money under a week";
+"trending_items_view_title" = "Most popular items in %@";
 "trending_searches_Title" = "Trending Searches";
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";
 "user_rating_add_comment_button" = "Add Comment";

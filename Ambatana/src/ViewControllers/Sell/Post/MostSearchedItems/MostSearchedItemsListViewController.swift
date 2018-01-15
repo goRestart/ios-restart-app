@@ -134,8 +134,8 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MostSearchedItemsListCell.reusableID,
                                                         for: indexPath) as? MostSearchedItemsListCell else { return UITableViewCell() }
-        let title: String = viewModel.itemAtIndex(indexPath.row)
-        cell.updateWith(showSearchButton: !viewModel.isSearchEnabled, title: title)
+        let item = viewModel.itemAtIndex(indexPath.row)
+        cell.updateWith(item: item, showSearchButton: !viewModel.isSearchEnabled)
         return cell
     }
 }

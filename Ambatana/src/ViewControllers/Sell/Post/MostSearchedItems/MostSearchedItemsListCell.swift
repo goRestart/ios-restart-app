@@ -132,8 +132,9 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
             .height(30)
     }
     
-    func updateWith(showSearchButton: Bool, title: String) {
+    func updateWith(item: LocalMostSearchedItem, showSearchButton: Bool) {
+        titleLabel.text = item.name
+        numberOfSearchesLabel.text = item.searchCount
         searchButton.isHidden = showSearchButton
-        titleLabel.text = title
     }
 }
