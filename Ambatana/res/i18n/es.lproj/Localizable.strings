@@ -52,11 +52,11 @@
 "categories_inFeed_home" = "Hogar";
 "categories_inFeed_motors" = "Motores";
 "categories_inFeed_others" = "Otro";
-"categories_inFeed_real_estate" = "Vivienda";
+"categories_inFeed_real_estate" = "Viviendas";
 "categories_inFeed_sports_leisure_games" = "Tiempo libre";
 "categories_movies_books_and_music" = "Películas, Libros y Música";
 "categories_other" = "Otros";
-"categories_real_estate" = "Vivienda";
+"categories_real_estate" = "Viviendas";
 "categories_sports_leisure_and_games" = "Deporte, Ocio y Juegos";
 "categories_super_keywords_inFeed_show_more" = "Ver más";
 "categories_title" = "Categorías";
@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Esta cuenta está siendo revisada por el equipo de letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Parece que %@ ya no está interesado en tu anuncio.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Parece que este usuario ya no está interesado en tu anuncio.";
+"chat_inactive_conversations_button" = "Ver chats archivados";
+"chat_inactive_conversations_explanation_label" = "Los chats anteriores a 3 meses se archivan automáticamente.";
 "chat_list_account_deleted" = "Cuenta eliminada";
 "chat_list_account_deleted_username" = "Inactivo";
 "chat_list_all_empty_title" = "NO HAY CHATS (¡TODAVÍA!)";
@@ -164,8 +166,8 @@
 "chat_not_verified_state_title" = "¿ESTÁS VERIFICADO?";
 "chat_product_given_away_label" = "Ya regalado";
 "chat_product_sold_label" = "Vendido";
-"chat_professional_banner_button_title" = "Call";
-"chat_professional_banner_title" = "You're talking to a professional car dealer";
+"chat_professional_banner_button_title" = "Llamar";
+"chat_professional_banner_title" = "Estás hablando con un vendedor de coches profesional";
 "chat_related_products_title" = "TAMBIÉN TE PODRÍA INTERESAR:";
 "chat_safety_tips" = "Consejos de seguridad";
 "chat_safety_tips_message" = "• Queda en persona y paga en efectivo.\n\n• Mantén las conversaciones dentro del chat de letgo.\n\n• ¿Demasiado bueno para ser cierto? Encuentra otro comprador o vendedor.";
@@ -615,7 +617,7 @@
 "product_post_retake" = "Cambiar";
 "product_post_retry_button" = "Vuelve a intentarlo";
 "product_post_select_category_cars" = "Coches";
-"product_post_select_category_housing" = "Vivienda";
+"product_post_select_category_housing" = "Viviendas en Alquiler / Venta";
 "product_post_select_category_motors_and_accessories" = "Otros Vehículos y Accesorios";
 "product_post_select_category_other" = "Otros artículos";
 "product_post_select_category_title" = "¿Qué estás publicando?";
@@ -733,7 +735,7 @@
 "rating_view_rate_us_label" = "Puntúanos:";
 "rating_view_remind_later_button" = "Recuérdamelo más tarde";
 "rating_view_title_label_uppercase" = "¡PUNTÚANOS CON 5 ESTRELLAS!";
-"real_estate_attribute_tag_bathroom_0" = "0BA";
+"real_estate_attribute_tag_bathroom_0" = "0 baños";
 "real_estate_bathrooms_0" = "Ninguno";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1,5";
@@ -749,7 +751,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "+4";
 "real_estate_bedrooms_title" = "Nº de habitaciones";
+"real_estate_camera_view_real_estate_message" = "Haz una foto de la propiedad que quieres alquilar o vender";
 "real_estate_current_step_of_total" = "%d de %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+"real_estate_gallery_view_subtitle" = "Selecciona hasta 5 imágenes de la propiedad que quieres alquilar o vender";
 "real_estate_location_notification_message" = "Nunca mostraremos tu ubicación exacta al resto de usuarios";
 "real_estate_location_title" = "Ubicación";
 "real_estate_offer_type_rent" = "En alquiler";
@@ -789,6 +795,8 @@
 "real_estate_title_generator_property_type_house" = "Casa";
 "real_estate_title_generator_property_type_other" = "Otros";
 "real_estate_title_generator_property_type_room" = "Habitación";
+"real_estate_tooltip_overlay_expandable_menu" = "Si quieres publicar propiedades en venta o alquiler, ¡prueba nuestra nueva categoría: Viviendas!";
+"real_estate_tooltip_sell_button" = "Publica propiedades en venta o alquiler en la categoría de Viviendas";
 "real_estate_type_property_apartment" = "Piso";
 "real_estate_type_property_commercial" = "Comercial";
 "real_estate_type_property_house" = "Casa";

@@ -4,12 +4,12 @@ PODS:
     - Alamofire (~> 4.5)
   - Amplitude-iOS (3.8.5)
   - AppsFlyerFramework (4.7.11)
-  - Bolts (1.8.4):
-    - Bolts/AppLinks (= 1.8.4)
-    - Bolts/Tasks (= 1.8.4)
-  - Bolts/AppLinks (1.8.4):
+  - Bolts (1.9.0):
+    - Bolts/AppLinks (= 1.9.0)
+    - Bolts/Tasks (= 1.9.0)
+  - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
-  - Bolts/Tasks (1.8.4)
+  - Bolts/Tasks (1.9.0)
   - Branch (0.12.27):
     - Branch/Core (= 0.12.27)
     - Branch/without-IDFA (= 0.12.27)
@@ -88,7 +88,7 @@ PODS:
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (2.0.4)
   - LGCollapsibleLabel (1.2.0)
-  - LGCoreKit (3.28.2):
+  - LGCoreKit (4.2.0):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -166,7 +166,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.4)
   - LGCollapsibleLabel (= 1.2.0)
-  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `3b49b2f34168566c5e5384fc52392a1944988db1`)
+  - LGCoreKit (= 4.2.0)
   - NewRelicAgent (= 5.14.2)
   - Nimble (= 7.0.2)
   - OHHTTPStubs (= 5.2.3)
@@ -189,9 +189,6 @@ EXTERNAL SOURCES:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  LGCoreKit:
-    :commit: 3b49b2f34168566c5e5384fc52392a1944988db1
-    :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   SwiftyUserDefaults:
     :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
     :git: https://github.com/Dschee/SwiftyUserDefaults
@@ -206,9 +203,6 @@ CHECKOUT OPTIONS:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  LGCoreKit:
-    :commit: 3b49b2f34168566c5e5384fc52392a1944988db1
-    :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   SwiftyUserDefaults:
     :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
     :git: https://github.com/Dschee/SwiftyUserDefaults
@@ -218,7 +212,7 @@ SPEC CHECKSUMS:
   AlamofireImage: 2e784dc5d00f04903a52c1d169181469c805c3df
   Amplitude-iOS: de7cfde0c791d05fb0e0f82bd34cbd3585ccd63f
   AppsFlyerFramework: ece902d4233177d4e9db1429c7a5df5fad8e9f07
-  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Branch: 41404cc6de82e84368a26961f66d657b0662ca02
   bumper: 8d5499e9774aa148763ab9a1eebcaf5e0ed7beff
   CameraManager: 56b3516e8e22cfbf56f3f0401291561e1ad9b3d0
@@ -252,7 +246,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: 09db04ac2c741d43a2d3b4781e3a25bf1166466e
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGCoreKit: d711dfda2c03613343d333504c76e1e95d6a256a
+  LGCoreKit: 4bac35fc3c71212cbf7f1bb861f715656034d813
   NewRelicAgent: 28645401ac7531eeeabde64410c9d5efd49e083f
   Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
@@ -270,6 +264,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 1434d91c0bee50b5fabd7cf32be66c89c606d0cf
+PODFILE CHECKSUM: 6a7eec547cd5945431f4da305912857b421851a0
 
 COCOAPODS: 1.3.1

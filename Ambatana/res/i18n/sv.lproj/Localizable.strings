@@ -52,11 +52,11 @@
 "categories_inFeed_home" = "Hem";
 "categories_inFeed_motors" = "Motor";
 "categories_inFeed_others" = "Annan";
-"categories_inFeed_real_estate" = "Boende";
+"categories_inFeed_real_estate" = "Bostad";
 "categories_inFeed_sports_leisure_games" = "Fritid";
 "categories_movies_books_and_music" = "Filmer, böcker och musik";
 "categories_other" = "Övrigt";
-"categories_real_estate" = "Boende";
+"categories_real_estate" = "Bostad";
 "categories_sports_leisure_and_games" = "Sport, fritid och spel";
 "categories_super_keywords_inFeed_show_more" = "Visa mer";
 "categories_title" = "Kategorier";
@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Det här kontot är under granskning av letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Det verkar som att %@ inte längre är intresserad av din annons";
 "chat_forbidden_disclaimer_seller_wo_name" = "Det verkar som att den här användaren inte längre är intresserad av din annons.";
+"chat_inactive_conversations_button" = "Se arkiverade chattar";
+"chat_inactive_conversations_explanation_label" = "Chattar äldre än 3 månader arkiveras automatiskt.";
 "chat_list_account_deleted" = "Kontot har avslutats";
 "chat_list_account_deleted_username" = "Inaktiv";
 "chat_list_all_empty_title" = "INGEN CHATT (ÄNNU!)";
@@ -164,8 +166,8 @@
 "chat_not_verified_state_title" = "ÄR DU VERIFIERAD?";
 "chat_product_given_away_label" = "Bortskänkt";
 "chat_product_sold_label" = "Såld";
-"chat_professional_banner_button_title" = "Call";
-"chat_professional_banner_title" = "You're talking to a professional car dealer";
+"chat_professional_banner_button_title" = "Ring";
+"chat_professional_banner_title" = "Du pratar med en professionell bilhandlare";
 "chat_related_products_title" = "DU KANSKE ÄR INTRESSERAD AV:";
 "chat_safety_tips" = "Säkerhetstips";
 "chat_safety_tips_message" = "• Möt varandra och betala kontant.\n\n• Håll samtalen i letgo-chatten.\n\n• För bra för att vara sant? Hitta en annan köpare/säljare.";
@@ -615,7 +617,7 @@
 "product_post_retake" = "Ta en ny";
 "product_post_retry_button" = "Försök igen";
 "product_post_select_category_cars" = "Bilar";
-"product_post_select_category_housing" = "Boende";
+"product_post_select_category_housing" = "Bostad Uthyres / Säljes";
 "product_post_select_category_motors_and_accessories" = "Andra Fordon och Reservdelar";
 "product_post_select_category_other" = "Något annat";
 "product_post_select_category_title" = "Vad lägger du upp?";
@@ -749,7 +751,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Antal sovrum";
+"real_estate_camera_view_real_estate_message" = "Ta en bild av lokalen eller bostaden du vill hyra ut eller sälja";
 "real_estate_current_step_of_total" = "%d av %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+"real_estate_gallery_view_subtitle" = "Välj upp till 5 bilder av bostaden du vill sälja eller hyra ut";
 "real_estate_location_notification_message" = "Vi visar aldrig din exakta plats till andra användare";
 "real_estate_location_title" = "Plats";
 "real_estate_offer_type_rent" = "Uthyres";
@@ -789,6 +795,8 @@
 "real_estate_title_generator_property_type_house" = "Hus";
 "real_estate_title_generator_property_type_other" = "Övrigt";
 "real_estate_title_generator_property_type_room" = "Rum";
+"real_estate_tooltip_overlay_expandable_menu" = "Prova vår nya Bostadskategori om du vill hyra ut eller sälja en bostad!";
+"real_estate_tooltip_sell_button" = "Nu kan du hyra ut eller sälja din bostad i vår nya Bostadskategori";
 "real_estate_type_property_apartment" = "Lägenhet";
 "real_estate_type_property_commercial" = "Företagslokal";
 "real_estate_type_property_house" = "Hus";

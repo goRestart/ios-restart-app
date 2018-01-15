@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Ce compte est en cours de vérification par l'équipe letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Il semble que %@ ne soit plus intéressé(e) par votre annonce.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Il semble que cet utilisateur ne soit plus intéressé par votre annonce.";
+"chat_inactive_conversations_button" = "Voir les chats archivés";
+"chat_inactive_conversations_explanation_label" = "Les chats vieux de plus de 3 mois sont automatiquement archivés.";
 "chat_list_account_deleted" = "Compte supprimé";
 "chat_list_account_deleted_username" = "Inactif";
 "chat_list_all_empty_title" = "AUCUN CHAT (POUR LE MOMENT !)";
@@ -164,8 +166,8 @@
 "chat_not_verified_state_title" = "AVEZ-VOUS ÉTÉ VÉRIFIÉ ?";
 "chat_product_given_away_label" = "Donné";
 "chat_product_sold_label" = "Vendu";
-"chat_professional_banner_button_title" = "Call";
-"chat_professional_banner_title" = "You're talking to a professional car dealer";
+"chat_professional_banner_button_title" = "Appel";
+"chat_professional_banner_title" = "Vous parlez à un concessionnaire automobile professionnel";
 "chat_related_products_title" = "VOUS POURRIEZ ETRE INTERESSE PAR";
 "chat_safety_tips" = "Conseils de sécurité";
 "chat_safety_tips_message" = "• Rencontrez en personne et payez en liquide.\n\n• Chattez dans l'appli letgo.\n\n• Si cela semble trop beau pour être vrai, méfiez-vous !";
@@ -615,7 +617,7 @@
 "product_post_retake" = "Reprendre";
 "product_post_retry_button" = "Réessayer";
 "product_post_select_category_cars" = "Voitures";
-"product_post_select_category_housing" = "Immobilier";
+"product_post_select_category_housing" = "Logements à Louer / Vendre";
 "product_post_select_category_motors_and_accessories" = "Autres véhicules et accessoires";
 "product_post_select_category_other" = "Autres biens";
 "product_post_select_category_title" = "Que postez-vous ?";
@@ -733,7 +735,7 @@
 "rating_view_rate_us_label" = "Notez-nous :";
 "rating_view_remind_later_button" = "Me rappeler plus tard";
 "rating_view_title_label_uppercase" = "DONNEZ-NOUS 5 ETOILES !";
-"real_estate_attribute_tag_bathroom_0" = "0BA";
+"real_estate_attribute_tag_bathroom_0" = "0SDB";
 "real_estate_bathrooms_0" = "Aucune";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1.5";
@@ -749,7 +751,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "Plus de 4";
 "real_estate_bedrooms_title" = "Nombre de chambres";
+"real_estate_camera_view_real_estate_message" = "Prenez une photo de la propriété que vous voulez vendre ou louer";
 "real_estate_current_step_of_total" = "%d de %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+"real_estate_gallery_view_subtitle" = "Sélectionnez jusqu'à 5 images de la propriété que vous voulez vendre ou louer";
 "real_estate_location_notification_message" = "Nous n'indiquons jamais votre localisation exacte aux autres utilisateurs";
 "real_estate_location_title" = "Lieu";
 "real_estate_offer_type_rent" = "À louer";
@@ -789,6 +795,8 @@
 "real_estate_title_generator_property_type_house" = "Maison";
 "real_estate_title_generator_property_type_other" = "Autre";
 "real_estate_title_generator_property_type_room" = "Chambre";
+"real_estate_tooltip_overlay_expandable_menu" = "Si vous publiez une propriété à vendre ou à louer, essayez notre nouvelle catégorie Immobilier !";
+"real_estate_tooltip_sell_button" = "Publiez des propriétés à vendre ou à louer dans notre nouvelle catégorie Logements";
 "real_estate_type_property_apartment" = "Appartement";
 "real_estate_type_property_commercial" = "Publicité";
 "real_estate_type_property_house" = "Maison";

@@ -23,15 +23,13 @@ class ABTests {
     let pricedBumpUpEnabled = BoolABDynamicVar(key: "pricedBumpUpEnabled", defaultValue: false)
     let newCarsMultiRequesterEnabled = BoolABDynamicVar(key: "newCarsMultiRequesterEnabled", defaultValue: false)
     let inAppRatingIOS10 = BoolABDynamicVar(key: "20170711inAppRatingIOS10", defaultValue: false)
-    let tweaksCarPostingFlow = IntABDynamicVar(key: "20170810tweaksCarPostingFlow", defaultValue: 0)
     let userReviewsReportEnabled = BoolABDynamicVar(key: "20170823userReviewsReportEnabled", defaultValue: true)
     let dynamicQuickAnswers = IntABDynamicVar(key: "20170816DynamicQuickAnswers", defaultValue: 0)
     let appRatingDialogInactive = BoolABDynamicVar(key: "20170831AppRatingDialogInactive", defaultValue: false)
-    let expandableCategorySelectionMenu = IntABDynamicVar(key: "20170904ExpandableCategorySelectionMenu", defaultValue: 0)
     let locationDataSourceType = IntABDynamicVar(key: "20170830LocationDataSourceType", defaultValue: 0)
     let defaultRadiusDistanceFeed = IntABDynamicVar(key: "20170922DefaultRadiusDistanceFeed", defaultValue: 0)
     let searchAutocomplete = IntABDynamicVar(key: "20170914SearchAutocomplete", defaultValue: 0)
-    let realEstateEnabled = BoolABDynamicVar(key: "20171106realEstateEnabled", defaultValue: false)
+    let realEstateEnabled = IntABDynamicVar(key: "20171228realEstateEnabled", defaultValue: 0)
     let showPriceAfterSearchOrFilter = IntABDynamicVar(key: "20170928ShowPriceAfterSearchOrFilter", defaultValue: 0)
     let requestsTimeOut = IntABDynamicVar(key: "20170929RequestTimeOut", defaultValue: 30)
     let newBumpUpExplanation = IntABDynamicVar(key: "20171004NewBumpUpExplanation", defaultValue: 0)
@@ -43,11 +41,15 @@ class ABTests {
     let showClockInDirectAnswer = IntABDynamicVar(key: "20171031ShowClockInDirectAnswer", defaultValue: 0)
     let bumpUpPriceDifferentiation = IntABDynamicVar(key: "20171114BumpUpPriceDifferentiation", defaultValue: 0)
     let promoteBumpUpAfterSell = IntABDynamicVar(key: "20171127PromoteBumpUpAfterSell", defaultValue: 0)
-    let copyListingAnotherConfirmation = IntABDynamicVar(key: "20171205CopyListingAnotherConfirmation", defaultValue: 0)
+    let allowCallsForProfessionals = IntABDynamicVar(key: "20171228allowCallsForProfessionals", defaultValue: 0)
     let moreInfoAFShOrDFP = IntABDynamicVar(key: "20171213MoreInfoAFShOrDFP", defaultValue: 0)
     let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20171219ShowSecurityMeetingChatMessage", defaultValue: 0)
     let mostSearchedDemandedItems = IntABDynamicVar(key: "20180104MostSearchedDemandedItems", defaultValue: 0)
 
+    let realEstateImprovements = IntABDynamicVar(key: "20180103RealEstateImprovements", defaultValue: 0)
+    let realEstatePromos = IntABDynamicVar(key: "20180108RealEstatePromos", defaultValue: 0)
+    let allowEmojisOnChat = IntABDynamicVar(key: "20180109AllowEmojisOnChat", defaultValue: 0)
+    
     init() {
     }
     
@@ -62,11 +64,9 @@ class ABTests {
         result.append(pricedBumpUpEnabled)
         result.append(newCarsMultiRequesterEnabled)
         result.append(inAppRatingIOS10)
-        result.append(tweaksCarPostingFlow)
         result.append(userReviewsReportEnabled)
         result.append(dynamicQuickAnswers)
         result.append(appRatingDialogInactive)
-        result.append(expandableCategorySelectionMenu)
         result.append(locationDataSourceType)
         result.append(defaultRadiusDistanceFeed)
         result.append(searchAutocomplete)
@@ -82,10 +82,12 @@ class ABTests {
         result.append(showClockInDirectAnswer)
         result.append(bumpUpPriceDifferentiation)
         result.append(promoteBumpUpAfterSell)
-        result.append(copyListingAnotherConfirmation)
+        result.append(allowCallsForProfessionals)
         result.append(moreInfoAFShOrDFP)
         result.append(showSecurityMeetingChatMessage)
-        result.append(mostSearchedDemandedItems)
+        result.append(realEstateImprovements)
+        result.append(realEstatePromos)
+        result.append(allowEmojisOnChat)
         
         return result
     }

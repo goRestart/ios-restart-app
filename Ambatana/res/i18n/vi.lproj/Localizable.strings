@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Tài khoản này đang được letgo xem xét.";
 "chat_forbidden_disclaimer_seller_w_name" = "Có vẻ như %@ không còn quan tâm đến bài đăng của bạn.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Có vẻ như người dùng này không còn quan tâm đến bài đăng của bạn.";
+"chat_inactive_conversations_button" = "Xem trò chuyện được lưu trữ";
+"chat_inactive_conversations_explanation_label" = "Trò chuyện từ 3 tháng trở lên sẽ tự động vào lưu trữ.";
 "chat_list_account_deleted" = "Tài khoản bị xóa";
 "chat_list_account_deleted_username" = "Không hoạt động";
 "chat_list_all_empty_title" = "KHÔNG (CHƯA) CÓ TRÒ CHUYỆN!";
@@ -164,8 +166,8 @@
 "chat_not_verified_state_title" = "BẠN  ĐÃ ĐƯỢC XÁC MINH?";
 "chat_product_given_away_label" = "Đã tặng";
 "chat_product_sold_label" = "Đã bán";
-"chat_professional_banner_button_title" = "Call";
-"chat_professional_banner_title" = "You're talking to a professional car dealer";
+"chat_professional_banner_button_title" = "Gọi";
+"chat_professional_banner_title" = "Bạn đang nói chuyện với một người bán xe hơi chuyên nghiệp";
 "chat_related_products_title" = "BẠN CÓ THỂ QUAN TÂM TỚI:";
 "chat_safety_tips" = "Lời khuyên an toàn";
 "chat_safety_tips_message" = "• Gặp trực tiếp và trả bằng tiền mặt.\n\n• Lưu giữ các cuộc hội thoại trên mục trò chuyện letgo.\n\n• Có vẻ quá hời? Hãy tìm người mua/người bán khác.";
@@ -250,7 +252,7 @@
 "direct_answer_condition_title" = "Tình trạng sản phẩm...";
 "direct_answer_describe_condition" = "Bạn có thể miêu tả tình trạng sản phẩm không?";
 "direct_answer_free_available" = "Có, sản phẩm vẫn còn";
-"direct_answer_free_no_available" = "Xin lỗi, tôi đã tặng rồi!";
+"direct_answer_free_no_available" = "Xin lỗi, món đồ này vừa được tặng rồi!";
 "direct_answer_free_still_have" = "Vẫn còn chứ?";
 "direct_answer_free_yours" = "Đó là của bạn!";
 "direct_answer_given_away_question_message" = "Đánh dấu đã tặng cho món đồ của bạn để mọi người dùng letgo biết";
@@ -615,7 +617,7 @@
 "product_post_retake" = "Chụp lại";
 "product_post_retry_button" = "Thử lại";
 "product_post_select_category_cars" = "Xe hơi";
-"product_post_select_category_housing" = "Nhà đất";
+"product_post_select_category_housing" = "Nhà đất cho Thuê/Bán";
 "product_post_select_category_motors_and_accessories" = "Phương tiện và Phụ tùng khác";
 "product_post_select_category_other" = "Sản phẩm khác";
 "product_post_select_category_title" = "Bạn đang đăng gì?";
@@ -733,7 +735,7 @@
 "rating_view_rate_us_label" = "Đánh giá chúng tôi:";
 "rating_view_remind_later_button" = "Nhắc tôi sau";
 "rating_view_title_label_uppercase" = "ĐÁNH GIÁ 5 SAO CHO CHÚNG TÔI!";
-"real_estate_attribute_tag_bathroom_0" = "0BA";
+"real_estate_attribute_tag_bathroom_0" = "0PT";
 "real_estate_bathrooms_0" = "Không có";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1.5";
@@ -749,7 +751,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Số Phòng ngủ";
+"real_estate_camera_view_real_estate_message" = "Chụp một bức ảnh nhà đất bạn muốn bán hoặc cho thuê";
 "real_estate_current_step_of_total" = "%d trên %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+"real_estate_gallery_view_subtitle" = "Chọn tối đa 5 ảnh nhà đất bạn muốn bán hoặc cho thuê";
 "real_estate_location_notification_message" = "Chúng tôi sẽ không bao giờ hiển thị chính xác địa điểm của bạn cho người dùng khác";
 "real_estate_location_title" = "Địa điểm";
 "real_estate_offer_type_rent" = "Cho Thuê";
@@ -789,6 +795,8 @@
 "real_estate_title_generator_property_type_house" = "Nhà";
 "real_estate_title_generator_property_type_other" = "Khác";
 "real_estate_title_generator_property_type_room" = "Phòng";
+"real_estate_tooltip_overlay_expandable_menu" = "Nếu bạn đang đăng bất động sản để bán hoặc cho thuê, hãy thử danh mục Nhà đất mới của chúng tôi!";
+"real_estate_tooltip_sell_button" = "Đăng bất động sản cho thuê hoặc bán tại mục Nhà đất mới của chúng tôi";
 "real_estate_type_property_apartment" = "Căn hộ";
 "real_estate_type_property_commercial" = "Thương mại";
 "real_estate_type_property_house" = "Nhà";

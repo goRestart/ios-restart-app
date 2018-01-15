@@ -395,6 +395,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_email_error_already_registered", comment: "")
 	}
 
+	static var chatInactiveConversationsExplanationLabel: String {
+		return NSLocalizedString("chat_inactive_conversations_explanation_label", comment: "")
+	}
+
+	static var chatInactiveConversationsButton: String {
+		return NSLocalizedString("chat_inactive_conversations_button", comment: "")
+	}
+
 	static func chatAccountDeletedWName(_ var1: String) -> String {
 		return String(format: NSLocalizedString("chat_account_deleted_w_name", comment: ""), var1)
 	}
@@ -3241,6 +3249,30 @@ struct LGLocalizedString {
 
 	static var realEstateRelatedSearchTitle: String {
 		return NSLocalizedString("real_estate_related_search_title", comment: "")
+	}
+
+	static var realEstateTooltipSellButton: String {
+		return NSLocalizedString("real_estate_tooltip_sell_button", comment: "")
+	}
+
+	static var realEstateTooltipOverlayExpandableMenu: String {
+		return NSLocalizedString("real_estate_tooltip_overlay_expandable_menu", comment: "")
+	}
+
+	static var realEstateGalleryViewSubtitle: String {
+		return NSLocalizedString("real_estate_gallery_view_subtitle", comment: "")
+	}
+
+	static var realEstateCameraViewRealEstateMessage: String {
+		return NSLocalizedString("real_estate_camera_view_real_estate_message", comment: "")
+	}
+
+	static var realEstateEmptyStateSearchTitle: String {
+		return NSLocalizedString("real_estate_empty_state_search_title", comment: "")
+	}
+
+	static var realEstateEmptyStateSearchSubtitle: String {
+		return NSLocalizedString("real_estate_empty_state_search_subtitle", comment: "")
 	}
 
 	static var relatedItemsTitle: String {

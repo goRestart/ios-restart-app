@@ -13,6 +13,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ListingDetailOnboardingView" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="closeButtonSafeAreaTopAlignment" destination="hWW-8o-kmD" id="B8L-a9-3ux"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="hyn-W5-OWg"/>
                 <outlet property="fingersView" destination="vsg-Yb-Z1M" id="hAk-Et-ors"/>
                 <outlet property="firstImage" destination="uct-GI-PDh" id="f8q-iU-NQw"/>

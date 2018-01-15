@@ -17,6 +17,13 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var buttonBottom: UIButton!
     @IBOutlet weak var buttonBottomHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomBottomConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var buttonBottomRightMarginToSuperviewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var buttonBottomWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var buttonCall: UIButton!
+    @IBOutlet weak var buttonCallWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var buttonCallRightMarginToSuperviewConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var buttonTop: UIButton!
     @IBOutlet weak var buttonTopHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonTopBottomConstraint: NSLayoutConstraint!
@@ -25,9 +32,12 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var chatContainerBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
+
+    @IBOutlet weak var favoriteButtonTopAligment: NSLayoutConstraint!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
-
+    @IBOutlet weak var shareButtonTopAlignment: NSLayoutConstraint!
+    
     @IBOutlet weak var productStatusView: UIView!
     @IBOutlet weak var productStatusLabel: UILabel!
     @IBOutlet weak var productStatusImageView: UIImageView!
@@ -157,7 +167,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubviews()
         setupUI()
         setupNavigationBar()
         setupGradientView()
@@ -268,6 +277,11 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     func setupUI() {
+        addSubviews()
+        if !isSafeAreaAvailable {
+            favoriteButtonTopAligment.constant = 55
+            shareButtonTopAlignment.constant = 70
+        }
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
 
@@ -321,6 +335,8 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         productStatusLabel.textColor = UIColor.soldColor
         productStatusLabel.font = UIFont.productStatusSoldFont
 
+        setupCallButton()
+
         CarouselUIHelper.setupShareButton(shareButton,
                                           text: LGLocalizedString.productShareNavbarButton,
                                           icon: UIImage(named:"ic_share"))
@@ -330,6 +346,16 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         setupBumpUpBanner()
         
         moreInfoView.updateDragViewVerticalConstraint(statusBarHeight: statusBarHeight)
+    }
+
+    private func setupCallButton() {
+        buttonCall.setStyle(.primary(fontSize: .big))
+        buttonCall.setTitle(LGLocalizedString.productProfessionalCallButton, for: .normal)
+        buttonCall.setImage(UIImage(named: "ic_phone_call"), for: .normal)
+        buttonCall.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Metrics.shortMargin, bottom: 0, right: 0)
+        buttonCall.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.shortMargin, bottom: 0, right: 0)
+        buttonCall.isHidden = true
+        buttonCall.addTarget(self, action: #selector(callButtonPressed), for: .touchUpInside)
     }
 
     func setupBumpUpBanner() {
@@ -345,6 +371,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         moreInfoAlpha.asObservable().bind(to: moreInfoView.dragView.rx.alpha).disposed(by: disposeBag)
 
         view.bringSubview(toFront: buttonBottom)
+        view.bringSubview(toFront: buttonCall)
         view.bringSubview(toFront: chatContainer)
         view.bringSubview(toFront: bannerContainer)
         view.bringSubview(toFront: fullScreenAvatarEffectView)
@@ -375,6 +402,10 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         }
     }
 
+    @objc dynamic private func callButtonPressed() {
+        viewModel.callSeller()
+    }
+
     private func setupGradientView() {
         let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.black, alphas:[0.4, 0], locations: [0, 1])
         shadowLayer.frame = gradientShadowView.bounds
@@ -397,7 +428,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             UIView.animate(withDuration: 0.3) {
                 self?.itemsAlpha.value = zooming ? 0 : 1
                 self?.moreInfoAlpha.value = zooming ? 0 : 1
-                self?.navigationController?.navigationBar.alpha = zooming ? 0 : 1
+                self?.updateNavigationBarAlpha(zooming ? 0 : 1)
             }
             }.disposed(by: disposeBag)
     }
@@ -406,6 +437,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         itemsAlpha.asObservable().bind(to: buttonBottom.rx.alpha).disposed(by: disposeBag)
         itemsAlpha.asObservable().bind(to: buttonTop.rx.alpha).disposed(by: disposeBag)
         itemsAlpha.asObservable().bind(to: userView.rx.alpha).disposed(by: disposeBag)
+        itemsAlpha.asObservable().bind(to: buttonCall.rx.alpha).disposed(by: disposeBag)
 
         itemsAlpha.asObservable().bind { [weak self] itemsAlpha in
             self?.pageControl.alpha = itemsAlpha
@@ -452,13 +484,10 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         alphaSignal.bind(to: itemsAlpha).disposed(by: disposeBag)
         alphaSignal.bind(to: moreInfoAlpha).disposed(by: disposeBag)
 
-        alphaSignal.bind{ [weak self] alpha in
+        alphaSignal.bind { [weak self] alpha in
             self?.moreInfoTooltip?.alpha = alpha
-            }.disposed(by: disposeBag)
-
-        if let navBar = navigationController?.navigationBar {
-            alphaSignal.bind(to: navBar.rx.alpha).disposed(by: disposeBag)
-        }
+            self?.updateNavigationBarAlpha(alpha)
+        }.disposed(by: disposeBag)
 
         var indexSignal: Observable<Int> = collectionContentOffset.asObservable().map { Int(($0.x + midPoint) / width) }
 
@@ -496,6 +525,11 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             .bind { [weak self] _ in
                 self?.finishedTransition()
             }.disposed(by: disposeBag)
+    }
+
+    private func updateNavigationBarAlpha(_ alpha: CGFloat) {
+        navigationItem.leftBarButtonItems?.forEach { $0.customView?.alpha = alpha }
+        navigationItem.rightBarButtonItems?.forEach { $0.customView?.alpha = alpha }
     }
 
     private func returnCellToFirstImage() {
@@ -542,13 +576,16 @@ extension ListingCarouselViewController {
     }
 
     fileprivate func setupUserInfoRx() {
-        let productAndUserInfos = Observable.combineLatest(viewModel.productInfo.asObservable(), viewModel.userInfo.asObservable()) { ($0, $1) }
-        productAndUserInfos.bind { [weak self] (productInfo, userInfo) in
+        let productAndUserInfos = Observable.combineLatest(viewModel.productInfo.asObservable(),
+                                                           viewModel.userInfo.asObservable(),
+                                                           viewModel.ownerIsProfessional.asObservable()) { ($0, $1, $2) }
+        productAndUserInfos.bind { [weak self] (productInfo, userInfo, isProfessional) in
             self?.userView.setupWith(userAvatar: userInfo?.avatar,
                                      userName: userInfo?.name,
                                      productTitle: productInfo?.title,
                                      productPrice: productInfo?.price,
-                                     userId: userInfo?.userId)
+                                     userId: userInfo?.userId,
+                                     isProfessional: isProfessional)
             }.disposed(by: disposeBag)
 
         viewModel.userInfo.asObservable().bind { [weak self] userInfo in
@@ -579,8 +616,10 @@ extension ListingCarouselViewController {
                     shareButton.rx.tap.takeUntil(takeUntilAction).bind{
                         action.action()
                         }.disposed(by: strongSelf.disposeBag)
+                    let alpha = strongSelf.itemsAlpha.value
                     strongSelf.navigationItem.rightBarButtonItems = nil
                     strongSelf.navigationItem.rightBarButtonItem = rightItem
+                    strongSelf.navigationItem.rightBarButtonItem?.customView?.alpha = alpha
                 default:
                     strongSelf.setLetGoRightButtonWith(action, buttonTintColor: UIColor.white,
                                                        tapBlock: { tapEvent in
@@ -590,6 +629,7 @@ extension ListingCarouselViewController {
                     })
                 }
             } else if navBarButtons.count > 1 {
+                let alpha = strongSelf.itemsAlpha.value
                 var buttons = [UIButton]()
                 navBarButtons.forEach { navBarButton in
                     let button = UIButton(type: .system)
@@ -598,6 +638,7 @@ extension ListingCarouselViewController {
                         navBarButton.action()
                         }.disposed(by: strongSelf.disposeBag)
                     buttons.append(button)
+                    button.alpha = alpha
                 }
                 strongSelf.setNavigationBarRightButtons(buttons)
             }
@@ -623,6 +664,34 @@ extension ListingCarouselViewController {
             strongSelf.buttonTop.rx.tap.takeUntil(takeUntilAction).bind {
                 topAction.action()
                 }.disposed(by: strongSelf.disposeBag)
+            }.disposed(by: disposeBag)
+
+        let allowCalls = Observable.combineLatest(viewModel.ownerIsProfessional.asObservable(),
+                                                  viewModel.ownerPhoneNumber.asObservable()) { ($0, $1) }
+        allowCalls.asObservable().bind { [weak self] (isPro, phoneNum) in
+            guard let strongSelf = self else { return }
+
+            print("😡😡😡😡😡😡😡😡😡😡")
+            print(isPro)
+            print(phoneNum)
+            print(strongSelf.viewModel.deviceCanCall)
+
+            if let phone = phoneNum, phone.isPhoneNumber && isPro && strongSelf.viewModel.deviceCanCall {
+                strongSelf.buttonCall.isHidden = false
+                strongSelf.buttonCallRightMarginToSuperviewConstraint.constant = Metrics.margin
+                strongSelf.buttonBottomRightMarginToSuperviewConstraint.constant = 0
+
+                let twoButtonsWidth: CGFloat = (strongSelf.view.width - (Metrics.margin*3))/2
+                strongSelf.buttonBottomWidthConstraint.constant = twoButtonsWidth
+                strongSelf.buttonCallWidthConstraint.constant = twoButtonsWidth
+            } else {
+                strongSelf.buttonCall.isHidden = true
+                strongSelf.buttonCallRightMarginToSuperviewConstraint.constant = 0
+                strongSelf.buttonBottomRightMarginToSuperviewConstraint.constant = Metrics.margin
+                let oneButtonWidth: CGFloat = strongSelf.view.width - (Metrics.margin*2)
+                strongSelf.buttonBottomWidthConstraint.constant = oneButtonWidth
+                strongSelf.buttonCallWidthConstraint.constant = 0
+            }
         }.disposed(by: disposeBag)
     }
 
@@ -771,7 +840,7 @@ extension ListingCarouselViewController: UserViewDelegate {
         fullScreenAvatarWidth?.constant = viewSide
         fullScreenAvatarHeight?.constant = viewSide
         UIView.animate(withDuration: 0.25, animations: { [weak self] in
-            self?.navigationController?.navigationBar.alpha = 0
+            self?.updateNavigationBarAlpha(0)
             self?.fullScreenAvatarEffectView.alpha = 1
             self?.fullScreenAvatarView.alpha = 1
             self?.view.layoutIfNeeded()
@@ -784,7 +853,7 @@ extension ListingCarouselViewController: UserViewDelegate {
         fullScreenAvatarWidth?.constant = userView.userAvatarImageView.frame.size.width
         fullScreenAvatarHeight?.constant = userView.userAvatarImageView.frame.size.height
         UIView.animate(withDuration: 0.25, animations: { [weak self] in
-            self?.navigationController?.navigationBar.alpha = 1
+            self?.updateNavigationBarAlpha(1)
             self?.fullScreenAvatarEffectView.alpha = 0
             self?.fullScreenAvatarView.alpha = 0
             self?.view.layoutIfNeeded()

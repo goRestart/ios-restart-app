@@ -180,6 +180,11 @@ class UserViewController: BaseViewController {
         super.viewDidAppear(animated)
         updateNavBarForTransition(isHidden: false)
     }
+
+    override func viewDidFirstAppear(_ animated: Bool) {
+        super.viewDidFirstAppear(animated)
+        setupNavigationBar()
+    }
     
     private func updateNavBarForTransition(isHidden: Bool) {
         if !isHidden && navBarUserViewAlpha == 0 {
@@ -256,7 +261,6 @@ extension UserViewController {
     fileprivate func setupUI() {
         setupMainView()
         setupHeader()
-        setupNavigationBar()
         setupListingListView()
         setupConstraints()
     }
@@ -295,7 +299,6 @@ extension UserViewController {
     private func setupNavigationBar() {
         navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.greatestFiniteMagnitude, height: UserViewController.navBarUserViewHeight))
         setNavBarTitleStyle(.custom(navBarUserView))
-        navBarUserViewAlpha = 0
 
         let backIcon = UIImage(named: "navbar_back_white_shadow")
         setNavBarBackButton(backIcon)
@@ -442,11 +445,12 @@ extension UserViewController {
             viewModel.userName.asObservable(),
             viewModel.userLocation.asObservable(),
             viewModel.userAvatarURL.asObservable(),
-            viewModel.userAvatarPlaceholder.asObservable()) { ($0, $1, $2, $3) }
-        .subscribeNext { [weak self] (userName, userLocation, avatar, placeholder) in
+            viewModel.userAvatarPlaceholder.asObservable(),
+            viewModel.userIsProfessional.asObservable()) { ($0, $1, $2, $3, $4) }
+        .subscribeNext { [weak self] (userName, userLocation, avatar, placeholder, isPro) in
             guard let navBarUserView = self?.navBarUserView else { return }
             navBarUserView.setupWith(userAvatar: avatar, placeholder: placeholder, userName: userName,
-                subtitle: userLocation)
+                subtitle: userLocation, isProfessional: isPro)
         }.disposed(by: disposeBag)
 
         viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in

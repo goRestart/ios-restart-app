@@ -1120,7 +1120,7 @@ class TrackerEventSpec: QuickSpec {
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .negotiable(123.2)
+                    product.price = .normal(123.2)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
                     product.user = userListing
@@ -1191,7 +1191,7 @@ class TrackerEventSpec: QuickSpec {
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .negotiable(123.2)
+                    product.price = .normal(123.2)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
                     product.user = userListing
@@ -1325,7 +1325,7 @@ class TrackerEventSpec: QuickSpec {
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .negotiable(123.983)
+                    product.price = .normal(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
                     product.user = userListing
@@ -1390,7 +1390,7 @@ class TrackerEventSpec: QuickSpec {
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .negotiable(123.983)
+                    product.price = .normal(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
                     product.user = userListing
@@ -1533,7 +1533,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     var mockProduct = MockProduct.makeMock()
                     mockProduct.objectId = "12345"
-                    mockProduct.price = .negotiable(123.983)
+                    mockProduct.price = .normal(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
                     mockProduct.category = .homeAndGarden
                     
@@ -1693,7 +1693,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var mockProduct = MockChatListing.makeMock()
                     mockProduct.objectId = "12345"
-                    mockProduct.price = .negotiable(123.983)
+                    mockProduct.price = .normal(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
 
                     product = mockProduct
@@ -1833,7 +1833,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var mockProduct = MockProduct.makeMock()
                     mockProduct.objectId = "12345"
-                    mockProduct.price = .negotiable(123.983)
+                    mockProduct.price = .normal(123.983)
                     mockProduct.currency = Currency(code: "EUR", symbol: "€")
 
                     sut = TrackerEvent.listingDetailOpenChat(.product(mockProduct), typePage: .listingDetail)
@@ -2041,7 +2041,7 @@ class TrackerEventSpec: QuickSpec {
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .negotiable(123.983)
+                    product.price = .normal(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = ListingCategory(rawValue: 4)!
                     product.user = myUser
@@ -2089,7 +2089,7 @@ class TrackerEventSpec: QuickSpec {
                     var product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .negotiable(123.983)
+                    product.price = .normal(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
                     product.user = userListing
@@ -2170,7 +2170,7 @@ class TrackerEventSpec: QuickSpec {
                     product.name = "name"
                     product.descr = nil
                     product.category = .homeAndGarden
-                    product.price = .negotiable(20)
+                    product.price = .normal(20)
                     product.images = MockFile.makeMocks(count: 2)
                     product.descr = String.makeRandom()
                     sut = TrackerEvent.listingSellError(.forbidden(cause: .differentCountry))
@@ -2191,7 +2191,7 @@ class TrackerEventSpec: QuickSpec {
                     product.name = "name"
                     product.descr = nil
                     product.category = .homeAndGarden
-                    product.price = .negotiable(20)
+                    product.price = .normal(20)
                     product.images = MockFile.makeMocks(count: 2)
                     product.descr = String.makeRandom()
                     sut = TrackerEvent.listingSellComplete(Listing.product(product), buttonName: .done,
@@ -2282,7 +2282,7 @@ class TrackerEventSpec: QuickSpec {
                     car.name = "name"
                     car.descr = nil
                     car.category = .cars
-                    car.price = .negotiable(20)
+                    car.price = .normal(20)
                     car.images = MockFile.makeMocks(count: 2)
                     car.descr = String.makeRandom()
                     car.carAttributes = CarAttributes(makeId: "makeId", make: "make", modelId: "modelId", model: "model", year: 1234)
@@ -2386,7 +2386,7 @@ class TrackerEventSpec: QuickSpec {
                     realEstate.name = "name"
                     realEstate.descr = nil
                     realEstate.category = .homeAndGarden
-                    realEstate.price = .negotiable(20)
+                    realEstate.price = .normal(20)
                     realEstate.images = MockFile.makeMocks(count: 2)
                     realEstate.descr = String.makeRandom()
                     realEstate.realEstateAttributes = RealEstateAttributes(propertyType: .room, offerType: .rent, bedrooms: nil, bathrooms: 3.0)
@@ -2666,7 +2666,7 @@ class TrackerEventSpec: QuickSpec {
                         product.name = "name"
                         product.descr = nil
                         product.category = .motorsAndAccessories
-                        product.price = .negotiable(20)
+                        product.price = .normal(20)
                         product.images = MockFile.makeMocks(count: 2)
                         product.descr = String.makeRandom()
                         sut = TrackerEvent.listingEditComplete(nil, listing: .product(product), category: .homeAndGarden, editedFields: [.title, .category])
@@ -2718,7 +2718,7 @@ class TrackerEventSpec: QuickSpec {
                         realEstate.objectId = "r4nd0m1D"
                         realEstate.name = "name"
                         realEstate.descr = nil
-                        realEstate.price = .negotiable(20)
+                        realEstate.price = .normal(20)
                         realEstate.images = MockFile.makeMocks(count: 2)
                         realEstate.descr = String.makeRandom()
                         let realEstateAttributes = RealEstateAttributes(propertyType: .room, offerType: .rent, bedrooms: 3, bathrooms: 1.0)
@@ -2834,7 +2834,7 @@ class TrackerEventSpec: QuickSpec {
                     product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .negotiable(123.983)
+                    product.price = .normal(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
                     product.user = userListing
@@ -2962,7 +2962,7 @@ class TrackerEventSpec: QuickSpec {
                     product = MockProduct.makeMock()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = .negotiable(123.983)
+                    product.price = .normal(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .homeAndGarden
                     product.user = userListing
