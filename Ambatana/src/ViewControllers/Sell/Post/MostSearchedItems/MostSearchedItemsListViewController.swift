@@ -54,24 +54,23 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
         
         view.backgroundColor = .white
         
-        // TODO: Localize strings
         titleLabel.font = UIFont.boldSystemFont(ofSize: 23)
         titleLabel.textColor = UIColor.black
         titleLabel.numberOfLines = 2
-        titleLabel.text = "Most popular items in {{ user-location }}"
+        titleLabel.text = LGLocalizedString.trendingItemsViewTitle("TODO") // TODO: Set user location with city
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.minimumScaleFactor = 0.2
         
         descriptionLabel.font = UIFont.systemRegularFont(size: 17)
         descriptionLabel.textColor = UIColor.darkGrayText
         descriptionLabel.numberOfLines = 2
-        descriptionLabel.text = "Post one of these, and make money in under a week"
+        descriptionLabel.text = LGLocalizedString.trendingItemsViewSubtitle
         
         subtitleImageView.image = UIImage(named: "ic_search")
         
         subtitleLabel.font = UIFont.systemMediumFont(size: 13)
         subtitleLabel.textColor = UIColor.grayText
-        subtitleLabel.text = "Searches this week"
+        subtitleLabel.text = LGLocalizedString.trendingItemsViewNumberOfSearchesTitle
         
         tableView.estimatedRowHeight = MostSearchedItemsListCell.cellHeight
     }

@@ -99,6 +99,17 @@ extension ShowSecurityMeetingChatMessage {
     var isActive: Bool { get { return self == .active } }
 }
 
+extension MostSearchedDemandedItems {
+    var isActive: Bool {
+        get {
+            return self == .cameraBadge ||
+                self == .trendingButtonExpandableMenu ||
+                self == .subsetAboveExpandableMenu ||
+                self == .subsetInsideExpandableMenu
+        }
+    }
+}
+
 extension RealEstateEnabled {
     var isActive: Bool { get { return self == .active } }
 }
