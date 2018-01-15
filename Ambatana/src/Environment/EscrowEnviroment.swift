@@ -12,8 +12,11 @@ class EscrowEnvironment: AppEnvironment {
     let facebookAppId = "699538486794082"
     
     // Tracking
-    let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
     let amplitudeAPIKey = ""
+    
+    // AppsFlyer
+    let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
+    let oneLinkID = "O2PG"
     
     // App indexing
     let googleAppIndexingId: UInt = 0

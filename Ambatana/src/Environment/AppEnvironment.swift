@@ -12,7 +12,6 @@ protocol AppEnvironment {
     var facebookAppId: String { get }
 
     // Tracking
-    var appsFlyerAPIKey: String { get }
     var amplitudeAPIKey: String { get }
     
     // App indexing
@@ -44,6 +43,10 @@ protocol AppEnvironment {
     var adTestModeActive: Bool { get }
     var moreInfoAdUnitIdDFP: String { get }
     var moreInfoAdUnitIdDFPUSA: String { get }
+    
+    // AppsFlyer
+    var appsFlyerAPIKey: String { get }
+    var oneLinkID: String { get }
 }
 
 extension AppEnvironment {
