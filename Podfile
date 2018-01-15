@@ -11,9 +11,9 @@ project "LetGo.xcodeproj"
 def shared_pods
     pod "AlamofireImage",       "3.3.0"
 
-    pod "FBSDKLoginKit",        "4.22.0"    # Obj-c
-    pod "FBSDKCoreKit",         "4.22.0"    # Obj-c
-    pod "FBSDKShareKit",        "4.22.0"    # Obj-c
+    pod "FBSDKLoginKit",        "4.29.0"    # Obj-c
+    pod "FBSDKCoreKit",         "4.29.0"    # Obj-c
+    pod "FBSDKShareKit",        "4.29.0"    # Obj-c
 
     pod "RxSwift",              "4.0.0"
     pod "RxSwiftExt",           "3.0.0"
