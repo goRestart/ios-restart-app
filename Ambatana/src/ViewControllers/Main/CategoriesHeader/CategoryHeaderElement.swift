@@ -26,8 +26,7 @@ enum CategoryHeaderElement {
         case .showMore:
             return LGLocalizedString.categoriesSuperKeywordsInfeedShowMore
         case .mostSearchedItems:
-            // TODO: Localize when specs finished
-            return "Trending"
+            return LGLocalizedString.trendingItemsHeaderBubble
         }
     }
     
@@ -64,47 +63,11 @@ enum CategoryHeaderElement {
         }
     }
     
-    var isCategory: Bool {
-        switch self {
-        case .listingCategory:
-            return true
-        case .superKeyword, .superKeywordGroup, .showMore, .mostSearchedItems:
-            return false
-        }
-    }
-    
     var isSuperKeyword: Bool {
         switch self {
         case .listingCategory, .superKeywordGroup, .showMore, .mostSearchedItems:
             return false
         case .superKeyword:
-            return true
-        }
-    }
-    
-    var isSuperKeywordGroup: Bool {
-        switch self {
-        case .listingCategory, .superKeyword, .showMore, .mostSearchedItems:
-            return false
-        case .superKeywordGroup:
-            return true
-        }
-    }
-    
-    var isShowMore: Bool {
-        switch self {
-        case .listingCategory, .superKeyword, .superKeywordGroup, .mostSearchedItems:
-            return false
-        case .showMore:
-            return true
-        }
-    }
-    
-    var isMostSearchedItems: Bool {
-        switch self {
-        case .listingCategory, .superKeyword, .superKeywordGroup, .showMore:
-            return false
-        case .mostSearchedItems:
             return true
         }
     }

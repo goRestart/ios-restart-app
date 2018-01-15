@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Dit account wordt onderzocht door het letgo team.";
 "chat_forbidden_disclaimer_seller_w_name" = "Het lijkt erop dat %@ niet meer geïnteresseerd is in jouw advertentie.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Het lijkt erop dat deze gebruiker niet meer geïnteresseerd is in jouw advertentie.";
+"chat_inactive_conversations_button" = "Bekijk gearchiveerde chats";
+"chat_inactive_conversations_explanation_label" = "Chats ouder dan 3 maanden worden automatisch gearchiveerd.";
 "chat_list_account_deleted" = "Verwijderd account";
 "chat_list_account_deleted_username" = "Inactief";
 "chat_list_all_empty_title" = "(NOG!) GEEN CHATS";
@@ -164,8 +166,8 @@
 "chat_not_verified_state_title" = "BEN JE GEVERIFIEERD?";
 "chat_product_given_away_label" = "Weggegeven";
 "chat_product_sold_label" = "Verkocht";
-"chat_professional_banner_button_title" = "Call";
-"chat_professional_banner_title" = "You're talking to a professional car dealer";
+"chat_professional_banner_button_title" = "Bel";
+"chat_professional_banner_title" = "Je bent in gesprek met een professionele autohandelaar";
 "chat_related_products_title" = "MISSCHIEN HEB JE INTERESSE IN:";
 "chat_safety_tips" = "Veiligheidstips";
 "chat_safety_tips_message" = "• Persoonlijk ontmoeten en contant betalen.\n \n• Voer gesprekken in de letgo chat.\n \n• Klinkt het te mooi om waar te zijn? Vind een andere koper/verkoper.";
@@ -250,7 +252,7 @@
 "direct_answer_condition_title" = "Staat...";
 "direct_answer_describe_condition" = "Kun je de staat ervan beschrijven?";
 "direct_answer_free_available" = "Ja, het is nog beschikbaar";
-"direct_answer_free_no_available" = "Sorry, ik heb het al weggegeven!";
+"direct_answer_free_no_available" = "Sorry, het item is al weggegeven!";
 "direct_answer_free_still_have" = "Is het nog beschikbaar?";
 "direct_answer_free_yours" = "Het is van jou!";
 "direct_answer_given_away_question_message" = "Markeer je item als weggegeven zodat alle letgo gebruikers dit weten";
@@ -615,7 +617,7 @@
 "product_post_retake" = "Opnieuw nemen";
 "product_post_retry_button" = "Probeer het nogmaals";
 "product_post_select_category_cars" = "Auto’s";
-"product_post_select_category_housing" = "Huisvesting";
+"product_post_select_category_housing" = "Woningen te Huur / te Koop";
 "product_post_select_category_motors_and_accessories" = "Overige Voertuigen en Onderdelen";
 "product_post_select_category_other" = "Overige items";
 "product_post_select_category_title" = "Wat wil je verkopen?";
@@ -660,6 +662,12 @@
 "product_share_title_label" = "DEEL DEZE ADVERTENTIE";
 "product_share_title_on_letgo" = "%@ op letgo!";
 "product_stickers_selection_wo_name" = "Kies de sticker die je wilt verzenden naar de verkoper.";
+"professional_dealer_ask_phone_chat_message" = "Mijn telefoonnummer is %@";
+"professional_dealer_ask_phone_intro_text" = "Ik ben een professionele autohandelaar, ik help je dus graag persoonlijk. Deel alstublieft je telefoonnummer zodat ik je de beste deal kan geven!";
+"professional_dealer_ask_phone_lets_talk_text" = "Laten we praten";
+"professional_dealer_ask_phone_not_now_button" = "Niet nu";
+"professional_dealer_ask_phone_send_phone_button" = "Verstuur telefoonnummer";
+"professional_dealer_ask_phone_textfield_placeholder" = "Voer telefoonnummer in";
 "profile_blocked_by_me_label" = "Je hebt deze gebruiker geblokkeerd";
 "profile_blocked_by_me_label_w_name" = "Je hebt %@ geblokkeerd";
 "profile_blocked_by_other_label" = "Je bent geblokkeerd door deze gebruiker";
@@ -733,7 +741,7 @@
 "rating_view_rate_us_label" = "Beoordeel ons:";
 "rating_view_remind_later_button" = "Herinner me later";
 "rating_view_title_label_uppercase" = "GEEF ONS 5 STERREN!";
-"real_estate_attribute_tag_bathroom_0" = "0BA";
+"real_estate_attribute_tag_bathroom_0" = "0BK";
 "real_estate_bathrooms_0" = "Geen";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1,5";
@@ -749,7 +757,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Aantal Slaapkamers";
+"real_estate_camera_view_real_estate_message" = "Maak een foto van het onroerend goed dat je wilt huren of verkopen";
 "real_estate_current_step_of_total" = "%d van %d";
+"real_estate_empty_state_search_subtitle" = "Wees de eerste om onroerend goed te koop/te huur te plaatsen bij jou in de buurt of check binnenkort weer!";
+"real_estate_empty_state_search_title" = "OEPS! GEEN WONINGEN GEPLAATST IN JOUW OMGEVING";
+"real_estate_gallery_view_subtitle" = "Selecteer maximaal 5 afbeeldingen van de woning die je wilt verkopen of huren";
 "real_estate_location_notification_message" = "We zullen jouw exacte locatie nooit aan andere gebruikers laten zien";
 "real_estate_location_title" = "Plaats";
 "real_estate_offer_type_rent" = "Te Huur";
@@ -789,6 +801,8 @@
 "real_estate_title_generator_property_type_house" = "Huis";
 "real_estate_title_generator_property_type_other" = "Overige";
 "real_estate_title_generator_property_type_room" = "Kamer";
+"real_estate_tooltip_overlay_expandable_menu" = "Als je onroerend goed te koop of te huur aanbiedt, probeer dan onze nieuwe categorie Woningen!";
+"real_estate_tooltip_sell_button" = "Plaats onroerend goed te koop of te huur in onze nieuwe categorie Woningen";
 "real_estate_type_property_apartment" = "Appartement";
 "real_estate_type_property_commercial" = "Commercial";
 "real_estate_type_property_house" = "Huis";
@@ -913,6 +927,12 @@
 "tour_facebook_button" = "Doorgaan met Facebook";
 "tour_google_button" = "Doorgaan met Google";
 "tour_or_label" = "OF GEBRUIK JE E-MAIL";
+"trending_items_header_bubble" = "Trending";
+"trending_items_view_number_of_searches_item" = "% searches";
+"trending_items_view_number_of_searches_title" = "Searches this week";
+"trending_items_view_post_button" = "Post";
+"trending_items_view_subtitle" = "Post one of these, and make money under a week";
+"trending_items_view_title" = "Most popular items in %@";
 "trending_searches_Title" = "Trending Zoekopdrachten";
 "unblock_user_error_generic" = "Er is een fout opgetreden tijdens het deblokkeren van deze gebruiker.";
 "user_rating_add_comment_button" = "Opmerking toevoegen";

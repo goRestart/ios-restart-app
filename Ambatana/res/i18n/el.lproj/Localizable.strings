@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Ο λογαριασμός βρίσκεται υπό έλεγχο από την ομάδα του letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Φαίνεται πως ο %@ δεν ενδιαφέρεται πια για την καταχώρησή σας.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Φαίνεται πώς αυτός ο χρήστης δεν ενδιαφέρεται πια για την καταχώρησή σας.";
+"chat_inactive_conversations_button" = "Δείτε αρχειοθετημένες συνομιλίες";
+"chat_inactive_conversations_explanation_label" = "Οι συνομιλίες που είναι παλιότερες από 3 μήνες θα αρχειοθετηθούν αυτόματα.";
 "chat_list_account_deleted" = "Διαγραμμένος λογαριασμός";
 "chat_list_account_deleted_username" = "Ανενεργός";
 "chat_list_all_empty_title" = "ΚΑΜΙΑ ΣΥΝΟΜΙΛΙΑ (ΑΚΟΜΗ!)";
@@ -164,8 +166,8 @@
 "chat_not_verified_state_title" = "΄ΕΧΕΤΕ ΚΑΝΕΙ ΕΠΙΒΕΒΑΙΩΣΗ;";
 "chat_product_given_away_label" = "Χαρισμένο";
 "chat_product_sold_label" = "Πωλήθηκε";
-"chat_professional_banner_button_title" = "Call";
-"chat_professional_banner_title" = "You're talking to a professional car dealer";
+"chat_professional_banner_button_title" = "Κλήση";
+"chat_professional_banner_title" = "Μιλάτε σε έναν επαγγελματία πωλητή αυτοκινήτων";
 "chat_related_products_title" = "ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΕΣΤΕ ΓΙΑ:";
 "chat_safety_tips" = "Συμβουλές ασφαλείας";
 "chat_safety_tips_message" = "• Συναντηθείτε πρόσωπο με πρόσωπο και πληρώστε μετρητά.\n\n• Αποθηκεύστε τις συνομιλίες σας στο chat του letgo.\n\n• Πολύ καλό για να είναι αληθινό; Βρείτε κάποιον άλλο αγοραστή/πωλητή!";
@@ -250,7 +252,7 @@
 "direct_answer_condition_title" = "Κατάσταση...";
 "direct_answer_describe_condition" = "Μπορείτε να περιγράψετε την κατάστασή του;";
 "direct_answer_free_available" = "Ναι, είναι ακόμη διαθέσιμο";
-"direct_answer_free_no_available" = "Συγγνώμη, το έχω ήδη χαρίσει!";
+"direct_answer_free_no_available" = "Συγγνώμη, έχω ήδη χαρίσει το αντικείμενο!";
 "direct_answer_free_still_have" = "Το έχεις ακόμη;";
 "direct_answer_free_yours" = "Είναι δικό σου!";
 "direct_answer_given_away_question_message" = "Μαρκάρετε το αντικείμενό σας ως χαρισμένο ώστε να το γνωρίζουν όλοι οι χρήστες του letgo";
@@ -615,7 +617,7 @@
 "product_post_retake" = "Ξανατραβήξτε";
 "product_post_retry_button" = "Προσπαθήστε Ξανά";
 "product_post_select_category_cars" = "Αυτοκίνητα";
-"product_post_select_category_housing" = "Μεσιτικά";
+"product_post_select_category_housing" = "Σπίτι για Ενοικίαση / Πώληση";
 "product_post_select_category_motors_and_accessories" = "Άλλα Οχήματα και Εξαρτήματα";
 "product_post_select_category_other" = "Άλλα αντικείμενα";
 "product_post_select_category_title" = "Τί δημοσιεύετε;";
@@ -660,6 +662,12 @@
 "product_share_title_label" = "ΜΟΙΡΑΣΤΕΙΤΕ ΑΥΤΗΝ ΤΗΝ ΚΑΤΑΧΩΡΗΣΗ";
 "product_share_title_on_letgo" = "%@ στο letgo!";
 "product_stickers_selection_wo_name" = "Επιλέξτε το αυτοκόλλητο που θέλετε να στείλετε στον πωλητή.";
+"professional_dealer_ask_phone_chat_message" = "Το τηλέφωνό μου είναι %@";
+"professional_dealer_ask_phone_intro_text" = "Είμαι επαγγελματίας πωλητής αυτοκινήτων και θα χαρώ πολύ να σας βοήθησω. Παρακαλώ στείλτε μου το τηλέφωνό σας για να σας δώσω την καλύτερη προσφορά!";
+"professional_dealer_ask_phone_lets_talk_text" = "Ας Μιλήσουμε";
+"professional_dealer_ask_phone_not_now_button" = "Όχι τώρα";
+"professional_dealer_ask_phone_send_phone_button" = "Αποστολή αριθμού τηλεφώνου";
+"professional_dealer_ask_phone_textfield_placeholder" = "Εισάγετε αριθμό τηλεφώνου";
 "profile_blocked_by_me_label" = "Έχετε μπλοκάρει αυτό το χρήστη";
 "profile_blocked_by_me_label_w_name" = "Έχετε μπλοκάρει τον %@";
 "profile_blocked_by_other_label" = "Ο χρήστης αυτός σας έχει μπλοκάρει";
@@ -733,7 +741,7 @@
 "rating_view_rate_us_label" = "Βαθμολόγησε μας:";
 "rating_view_remind_later_button" = "Θύμισέ το μου αργότερα";
 "rating_view_title_label_uppercase" = "ΔΩΣΤΕ ΜΑΣ 5 ΑΣΤΕΡΙΑ!";
-"real_estate_attribute_tag_bathroom_0" = "0BA";
+"real_estate_attribute_tag_bathroom_0" = "0ΜΠ";
 "real_estate_bathrooms_0" = "Κανένα";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1.5";
@@ -749,7 +757,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Αριθμός υπνοδωματίων";
+"real_estate_camera_view_real_estate_message" = "Τραβήξτε μια φωτογραφία της ιδιοκτησίας που θέλετε να νοικιάσετε ή να πουλήσετε";
 "real_estate_current_step_of_total" = "%d από %d";
+"real_estate_empty_state_search_subtitle" = "Γίνετε οι πρώτοι που θα δημοσιεύσουν ιδιοκτησία για πώληση / ενοικίαση στην περιοχή σας ή ελέγξτε ξανά σύντομα!";
+"real_estate_empty_state_search_title" = "ΟΠΑ! ΚΑΜΙΑ ΔΗΜΟΣΙΕΥΣΗ ΣΠΙΤΟΥ ΚΟΝΤΑ ΣΑΣ";
+"real_estate_gallery_view_subtitle" = "Επιλέξτε μέχρι και 5 εικόνες της ιδιοκτησίας που θέλετε να πουλήσετε ή να ενοικιάσετε";
 "real_estate_location_notification_message" = "Δε θα δείξουμε ποτέ την ακριβή σας τοποθεσία σε άλλους χρήστες";
 "real_estate_location_title" = "Τοποθεσία";
 "real_estate_offer_type_rent" = "Για Ενοικίαση";
@@ -789,6 +801,8 @@
 "real_estate_title_generator_property_type_house" = "Σπίτι";
 "real_estate_title_generator_property_type_other" = "Άλλα";
 "real_estate_title_generator_property_type_room" = "Δωμάτιο";
+"real_estate_tooltip_overlay_expandable_menu" = "Αν δημοσιεύετε ιδιοκτησίες για πώληση ή ενοικίαση, δοκιμάστε τη νέα μας κατηγορία \"Σπίτια\"!";
+"real_estate_tooltip_sell_button" = "Δημοσιεύστε ιδιοκτησίες για πώληση ή ενοικίαση στη νέα μας κατηγορία \"Σπίτια\"";
 "real_estate_type_property_apartment" = "Διαμέρισμα";
 "real_estate_type_property_commercial" = "Εμπορική";
 "real_estate_type_property_house" = "Σπίτι";
@@ -913,6 +927,12 @@
 "tour_facebook_button" = "Συνέχεια με το Facebook";
 "tour_google_button" = "Συνέχεια με το Google";
 "tour_or_label" = "Ή ΧΡΗΣΙΜΟΠΟΙΗΣΤΕ ΤΟ EMAIL ΣΑΣ";
+"trending_items_header_bubble" = "Trending";
+"trending_items_view_number_of_searches_item" = "% searches";
+"trending_items_view_number_of_searches_title" = "Searches this week";
+"trending_items_view_post_button" = "Post";
+"trending_items_view_subtitle" = "Post one of these, and make money under a week";
+"trending_items_view_title" = "Most popular items in %@";
 "trending_searches_Title" = "Δημοφιλείς Αναζητήσεις";
 "unblock_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το ξεμπλοκάρισμα του χρήστη.";
 "user_rating_add_comment_button" = "Αφήστε σχόλιο";

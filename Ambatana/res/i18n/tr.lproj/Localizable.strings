@@ -126,6 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Bu hesap letgo ekibi tarafından incelemeye alınmıştır.";
 "chat_forbidden_disclaimer_seller_w_name" = "Görünüşe göre %@ artık ilanınla ilgilenmiyor.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Görünüşe göre bu kullanıcı artık ilanınla ilgilenmiyor.";
+"chat_inactive_conversations_button" = "Arşivlenmiş sohbetleri gör";
+"chat_inactive_conversations_explanation_label" = "3 aydan daha eski olan sohbetler otomatik olarak arşivlenir.";
 "chat_list_account_deleted" = "Bu hesap silinmiş";
 "chat_list_account_deleted_username" = "Aktif değil";
 "chat_list_all_empty_title" = "(HENÜZ!) SOHBET MESAJI YOK";
@@ -164,8 +166,8 @@
 "chat_not_verified_state_title" = "HESABINI DOĞRULADIN MI?";
 "chat_product_given_away_label" = "Bağışlandı";
 "chat_product_sold_label" = "Satıldı";
-"chat_professional_banner_button_title" = "Call";
-"chat_professional_banner_title" = "You're talking to a professional car dealer";
+"chat_professional_banner_button_title" = "Ara";
+"chat_professional_banner_title" = "Profesyonel bir araç satış temsilcisi ile konuşuyorsun";
 "chat_related_products_title" = "ŞU ÜRÜNLER DE İLGİNİ ÇEKEBİLİR:";
 "chat_safety_tips" = "Güvenlik Önerilerimiz";
 "chat_safety_tips_message" = "• Birebir görüş ve elden nakit öde.\n\n• Mesajlaşmayı letgo sistemi içerisinde yap.\n\n• Kulağa gerçek olamayacak kadar hoş geliyorsa, başka bir alıcı/satıcı bul.";
@@ -250,7 +252,7 @@
 "direct_answer_condition_title" = "Durum...";
 "direct_answer_describe_condition" = "Durumu hakkında bilgi verebilir misin?";
 "direct_answer_free_available" = "Evet, hala satılık";
-"direct_answer_free_no_available" = "Üzgünüm, ürünü çoktan başkasına verdim!";
+"direct_answer_free_no_available" = "Üzgünüm, başkasına bağışladım!";
 "direct_answer_free_still_have" = "Ürün hala satılık mı?";
 "direct_answer_free_yours" = "Senin oldu!";
 "direct_answer_given_away_question_message" = "Bağışlandı olarak işaretle ki tüm letgo kullanıcıları bilsin";
@@ -615,7 +617,7 @@
 "product_post_retake" = "Tekrar Çek";
 "product_post_retry_button" = "Tekrar dene";
 "product_post_select_category_cars" = "Araba";
-"product_post_select_category_housing" = "Emlak";
+"product_post_select_category_housing" = "Satılık / Kiralık Emlak";
 "product_post_select_category_motors_and_accessories" = "Diğer Araçlar ve Yedek Parça";
 "product_post_select_category_other" = "Diğer eşyalar";
 "product_post_select_category_title" = "Ne satıyorsun?";
@@ -660,6 +662,12 @@
 "product_share_title_label" = "BU İLANI PAYLAŞ";
 "product_share_title_on_letgo" = "%@ letgo'da!";
 "product_stickers_selection_wo_name" = "Satıcıya göndermek istediğin etiketi seç.";
+"professional_dealer_ask_phone_chat_message" = "Telefon numaram %@";
+"professional_dealer_ask_phone_intro_text" = "Ben profesyonel araba satıcısıyım ve kişisel olarak sana yardımcı olmak istiyorum. Telefon numaranı verdiğinde sana en iyi fırsatları sunabilirim.";
+"professional_dealer_ask_phone_lets_talk_text" = "Konuşalım";
+"professional_dealer_ask_phone_not_now_button" = "Şimdi değil";
+"professional_dealer_ask_phone_send_phone_button" = "Telefon numarasını yolla";
+"professional_dealer_ask_phone_textfield_placeholder" = "Telefon numarasını gir";
 "profile_blocked_by_me_label" = "Bu kullanıcıyı engelledin";
 "profile_blocked_by_me_label_w_name" = "%@ isimli kullanıcıyı engelledin";
 "profile_blocked_by_other_label" = "Bu kullanıcı tarafından engellendin";
@@ -733,7 +741,7 @@
 "rating_view_rate_us_label" = "Bize puan ver:";
 "rating_view_remind_later_button" = "Daha sonra hatırlat";
 "rating_view_title_label_uppercase" = "BİZE 5 YILDIZ VER!";
-"real_estate_attribute_tag_bathroom_0" = "0BA";
+"real_estate_attribute_tag_bathroom_0" = "0 BANYO";
 "real_estate_bathrooms_0" = "Yok";
 "real_estate_bathrooms_1" = "1";
 "real_estate_bathrooms_1_5" = "1.5";
@@ -749,7 +757,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Oda Sayısı";
+"real_estate_camera_view_real_estate_message" = "Kiralamak ya da satmak istediğin mülkün fotoğrafını çek";
 "real_estate_current_step_of_total" = "%d / %d";
+"real_estate_empty_state_search_subtitle" = "Çevrende satılık / kiralık emlak ilanı yayınlayan ilk sen ol veya sonra tekrar göz at!";
+"real_estate_empty_state_search_title" = "OOPS! ÇEVRENDE YAYINLANMIŞ EMLAK İLANI BULUNMUYOR";
+"real_estate_gallery_view_subtitle" = "Satmak ya da kiralamak istediğin emlak için 5 adete kadar fotoğraf seçebilirsin";
 "real_estate_location_notification_message" = "Açık adresini diğer kullanıcılara asla göstermeyeceğiz";
 "real_estate_location_title" = "Konum";
 "real_estate_offer_type_rent" = "Kiralık";
@@ -789,6 +801,8 @@
 "real_estate_title_generator_property_type_house" = "Müstakil Ev";
 "real_estate_title_generator_property_type_other" = "Diğer";
 "real_estate_title_generator_property_type_room" = "Oda";
+"real_estate_tooltip_overlay_expandable_menu" = "Satılık veya kiralık emlak ilanı veriyorsan, yeni Emlak kategorimizi deneyebilirsin!";
+"real_estate_tooltip_sell_button" = "Yeni Emlak kategorimizde satılık veya kiralık emlak ilanı verebilirsin";
 "real_estate_type_property_apartment" = "Daire";
 "real_estate_type_property_commercial" = "Reklam";
 "real_estate_type_property_house" = "Müstakil Ev";
@@ -913,6 +927,12 @@
 "tour_facebook_button" = "Facebook ile devam et";
 "tour_google_button" = "Google ile devam et";
 "tour_or_label" = "veya e-postanı kullan";
+"trending_items_header_bubble" = "Trending";
+"trending_items_view_number_of_searches_item" = "% searches";
+"trending_items_view_number_of_searches_title" = "Searches this week";
+"trending_items_view_post_button" = "Post";
+"trending_items_view_subtitle" = "Post one of these, and make money under a week";
+"trending_items_view_title" = "Most popular items in %@";
 "trending_searches_Title" = "Popüler Aramalar";
 "unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";
 "user_rating_add_comment_button" = "Yorum ekle";

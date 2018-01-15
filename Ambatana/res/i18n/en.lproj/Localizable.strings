@@ -289,6 +289,12 @@
 // Change email already registered
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
 
+// Chat inactive conversations cell
+"chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
+
+// Chat inactive conversations cell
+"chat_inactive_conversations_button" = "View archived chats";
+
 // When a user asked to delete his account (short info message)
 "chat_account_deleted_w_name" = "%@'s account has been deleted";
 
@@ -742,7 +748,7 @@
 "direct_answer_free_available" = "Yes, it's still available";
 
 // Chat direct answer as a seller - free listing- no available
-"direct_answer_free_no_available" = "Sorry, I've already given it away!";
+"direct_answer_free_no_available" = "Sorry, the item has been given away!";
 
 // Chat direct answer as buyer - still have it
 "direct_answer_free_still_have" = "Still have it?";
@@ -1901,7 +1907,7 @@
 "product_post_select_category_other" = "Other items";
 
 // Product post category selection real Estate button
-"product_post_select_category_housing" = "Housing";
+"product_post_select_category_housing" = "Housing for Rent / Sale";
 
 // Product report confirm message. Message displayal is like the other dialog messages
 "product_report_confirm_message" = "Are you sure you want to report this listing?";
@@ -2007,6 +2013,24 @@
 
 // Login message when asking for login after clicking on report
 "product_report_login_popup_text" = "To report a listing, you have to log in";
+
+// Ask phone number dealer intro text
+"professional_dealer_ask_phone_intro_text" = "I'm a professional car dealer so I'd love to help you in person. Please share your phone number so I can give you the best deal!";
+
+// Ask phone number not now button title
+"professional_dealer_ask_phone_not_now_button" = "Not now";
+
+// Ask phone number let's talk label text
+"professional_dealer_ask_phone_lets_talk_text" = "Let's Talk";
+
+// Ask phone number text field placeholder
+"professional_dealer_ask_phone_textfield_placeholder" = "Enter phone number";
+
+// Ask phone number send phone button title
+"professional_dealer_ask_phone_send_phone_button" = "Send phone number";
+
+// Ask phone number automatic message
+"professional_dealer_ask_phone_chat_message" = "My phone number is %@";
 
 // Profile, you blocked this user label (wo username)
 "profile_blocked_by_me_label" = "You've blocked this user";
@@ -2414,6 +2438,24 @@
 // Title for section on related search. 
 "real_estate_related_search_title" = "Related results";
 
+// Tooltip text included on sell button
+"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
+
+// Message inside expandable sell your stuff menu to announce RE
+"real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
+
+// Message inside gallery view to explain about picture selection on RE
+"real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
+
+// Message inside camera view to explain about picture selection on RE
+"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+
+// Title for empty state when search for real estate
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+
+// Subtitle for empty state when search for real estate
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+
 // Title when showing list of related items
 "related_items_title" = "Related listings";
 
@@ -2803,3 +2845,20 @@
 
 // Title when you rate a user
 "user_rating_title" = "Review your experience with";
+
+// Trending description on header bubble
+"trending_items_header_bubble" = "Trending";
+
+// Title for Most searched items list view
+"trending_items_view_title" = "Most popular items in %@";
+
+// Subtitle for Most searched items list view
+"trending_items_view_subtitle" = "Post one of these, and make money under a week";
+
+// Title for the list of Most searched items list view
+"trending_items_view_number_of_searches_title" = "Searches this week";
+
+// Number of searches for item info
+"trending_items_view_number_of_searches_item" = "% searches";
+
+"trending_items_view_post_button" = "Post";

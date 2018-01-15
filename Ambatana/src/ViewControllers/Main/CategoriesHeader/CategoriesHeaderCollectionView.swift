@@ -90,11 +90,12 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        
         let categoryHeaderElement = categoryHeaderElements[indexPath.row]
-        if categoryHeaderElement.isShowMore {
+        switch categoryHeaderElement {
+        case .showMore:
             delegateCategoryHeader?.openTaxonomyList()
-        } else if categoryHeaderElement.isMostSearchedItems {
+        case .mostSearchedItems:
             delegateCategoryHeader?.openMostSearchedItems()
-        } else {
+        case .listingCategory, .superKeyword, .superKeywordGroup:
             categorySelected.value = CategoryHeaderInfo(categoryHeaderElement: categoryHeaderElement,
                                                         position: indexPath.row + 1,
                                                         name: categoryHeaderElement.name)
