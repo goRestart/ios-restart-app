@@ -9,45 +9,16 @@
 import FBSDKShareKit
 import TwitterKit
 import LGCoreKit
-import Branch
+import AppsFlyerLib
 
-protocol SocialMessage {
-    var whatsappShareText: String { get }
-    var telegramShareText: String { get }
-    var emailShareSubject: String { get }
-    var emailShareBody: String { get }
-    var emailShareIsHtml: Bool { get }
-    var fbShareContent: FBSDKShareLinkContent { get }
-    var fbMessengerShareContent: FBSDKShareLinkContent { get }
-    var twitterComposer: TWTRComposer { get }
-    var smsShareText: String { get }
-    var copyLinkText: String { get }
-    var nativeShareItems: [Any] { get }
-    
-    static var utmMediumKey: String { get }
-    static var utmMediumValue: String { get }
-    static var utmCampaignKey: String { get }
-    static var utmCampaignValue: String { get }
-    static var utmSourceKey: String { get }
-    static var utmSourceValue: String { get }
-}
+typealias MessageWithURLCompletion = (String) -> ()
+typealias NativeShareItemsCompletion = ([Any]) -> ()
+typealias FBSDKShareLinkContentCompletion = (FBSDKShareLinkContent) -> ()
+typealias TwitterComposerCompletion = (TWTRComposer) -> ()
+typealias AppsFlyerGenerateInviteURLCompletion = (URL?) -> ()
 
-extension SocialMessage {
-    static var utmMediumKey: String { return "utm_medium" }
-    static var utmSourceKey: String { return "utm_source" }
-    static var utmMediumValue: String { return "letgo_app" }
-    static var utmCampaignKey: String { return "utm_campaign" }
-    static var utmSourceValue: String { return "ios_app" }
-    
-    func addCampaignInfoToString(_ string: String, source: ShareSource?) -> String {
-        guard !string.isEmpty else { return "" }
-        // The share source is the medium for the deeplink
-        let mediumValue = source?.rawValue ?? ""
-        return string + "?" + Self.utmCampaignKey + "=" + Self.utmCampaignValue + "&" +
-            Self.utmMediumKey + "=" + mediumValue + "&" +
-            Self.utmSourceKey + "=" + Self.utmSourceValue
-    }
-}
+
+// MARK: - ShareSource
 
 enum ShareSource: String {
     case facebook = "facebook"
@@ -62,10 +33,189 @@ enum ShareSource: String {
 }
 
 
+// MARK: - SocialMessage
+
+protocol SocialMessage {
+    static var utmMediumKey: String { get }
+    static var utmMediumValue: String { get }
+    static var utmCampaignKey: String { get }
+    static var utmCampaignValue: String { get }
+    static var utmSourceKey: String { get }
+    static var utmSourceValue: String { get }
+    
+    var emailShareSubject: String { get }
+    var emailShareIsHtml: Bool { get }
+    var fallbackToStore: Bool { get }
+    var controlParameter: String { get }
+    
+    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion)
+    func retrieveWhatsappShareText(completion: @escaping MessageWithURLCompletion)
+    func retrieveTelegramShareText(completion: @escaping MessageWithURLCompletion)
+    func retrieveSMSShareText(completion: @escaping MessageWithURLCompletion)
+    func retrieveCopyLinkText(completion: @escaping MessageWithURLCompletion)
+    func retrieveEmailShareBody(completion: @escaping MessageWithURLCompletion)
+    func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion)
+    func retrieveFBShareContent(completion: @escaping FBSDKShareLinkContentCompletion)
+    func retrieveFBMessengerShareContent(completion: @escaping FBSDKShareLinkContentCompletion)
+    func retrieveTwitterComposer(completion: @escaping TwitterComposerCompletion)
+    func retrieveTwitterComposer(text: String, completion: @escaping TwitterComposerCompletion)
+    func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion)
+}
+
+extension SocialMessage {
+    
+    static var utmMediumKey: String { return "utm_medium" }
+    static var utmSourceKey: String { return "utm_source" }
+    static var utmMediumValue: String { return "letgo_app" }
+    static var utmCampaignKey: String { return "utm_campaign" }
+    static var utmSourceValue: String { return "ios_app" }
+    static var siteIDKey: String { return "site_id" }
+    static var deepLinkPathKey: String { return "$deeplink_path" }
+    static var fallbackURLKey: String { return "$fallback_url" }
+    static var desktopURLKey: String { return "$desktop_url" }
+    static var iosURLKey: String { return "$ios_url" }
+    static var androidURLKey: String { return "$android_url" }
+    
+    
+    // MARK: - Mediums
+    
+    func retrieveWhatsappShareText(completion: @escaping MessageWithURLCompletion) {
+        retrieveFullMessageWithURL(source: .whatsapp) { message in
+            completion(message)
+        }
+    }
+    
+    func retrieveTelegramShareText(completion: @escaping MessageWithURLCompletion) {
+        retrieveFullMessageWithURL(source: .telegram) { message in
+            completion(message)
+        }
+    }
+    
+    func retrieveSMSShareText(completion: @escaping MessageWithURLCompletion) {
+        retrieveFullMessageWithURL(source: .sms) { message in
+            completion(message)
+        }
+    }
+    
+    func retrieveCopyLinkText(completion: @escaping MessageWithURLCompletion) {
+        retrieveShareURL(source: .copyLink) { url in
+            let copyLinkText = url?.absoluteString ?? ""
+            completion(copyLinkText)
+        }
+    }
+    
+    func retrieveFBShareContent(completion: @escaping FBSDKShareLinkContentCompletion) {
+        fbShareLinkContent(.facebook, completion: completion)
+    }
+    
+    func retrieveFBMessengerShareContent(completion: @escaping FBSDKShareLinkContentCompletion) {
+        fbShareLinkContent(.fbMessenger, completion: completion)
+    }
+    
+    private func fbShareLinkContent(_ source: ShareSource, completion: @escaping FBSDKShareLinkContentCompletion) {
+        let shareContent = FBSDKShareLinkContent()
+        retrieveShareURL(source: source) { url in
+            if let url = url {
+                shareContent.contentURL = url
+            }
+            completion(shareContent)
+        }
+    }
+    
+    func retrieveTwitterComposer(text: String, completion: @escaping TwitterComposerCompletion) {
+        let twitterComposer = TWTRComposer()
+        twitterComposer.setText(text)
+        retrieveShareURL(source: .twitter) { url in
+            twitterComposer.setURL(url)
+            completion(twitterComposer)
+        }
+    }
+    
+    
+    // MARK: - AppsFlyer
+    
+    func retrieveShareURL(source: ShareSource?, campaign: String, controlParameter: String, letgoURLString: String?,
+                          fallbackToStore: Bool, completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
+        AppsFlyerShareInviteHelper.generateInviteUrl(linkGenerator: { generator in
+            return self.appsFlyerLinkGenerator(generator,
+                                               source: source,
+                                               campaign: campaign,
+                                               controlParameter: controlParameter,
+                                               letgoURLString: letgoURLString,
+                                               fallbackToStore: fallbackToStore)}) { url in
+                                                // The callback is handled by another thread invoked by AppsFlyer
+                                                // Dispatch to main thread to avoid unexpected behaviours,
+                                                // i.e. FacebookMessageDialog crashes if not called from main
+                                                DispatchQueue.main.async {
+                                                    completion(url)
+                                                }
+        }
+    }
+    
+    private func appsFlyerLinkGenerator(_ generator: AppsFlyerLinkGenerator, source: ShareSource?, campaign: String,
+                                controlParameter: String, letgoURLString: String?, fallbackToStore: Bool) -> AppsFlyerLinkGenerator {
+        generator.setCampaign(campaign)
+        if let source = source {
+            generator.setChannel(source.rawValue)
+        }
+        generator.addParameterValue(Self.utmSourceValue, forKey: Self.siteIDKey)
+        generator.addParameterValue(controlParameter, forKey: Self.deepLinkPathKey)
+        if var letgoURLString = letgoURLString {
+            let iosURL = fallbackToStore ? addCampaignInfoToString(Constants.appStoreURL, source: source) : letgoURLString
+            let androidURL = fallbackToStore ? addCampaignInfoToString(Constants.playStoreURL, source: source) : letgoURLString
+            letgoURLString = addCampaignInfoToString(letgoURLString, source: source)
+            generator.addParameterValue(letgoURLString, forKey: Self.fallbackURLKey)
+            generator.addParameterValue(letgoURLString, forKey: Self.desktopURLKey)
+            generator.addParameterValue(iosURL, forKey: Self.iosURLKey)
+            generator.addParameterValue(androidURL, forKey: Self.androidURLKey)
+        }
+        
+        return generator
+    }
+    
+    
+    // MARK: - Helpers
+    
+    func addCampaignInfoToString(_ string: String, source: ShareSource?) -> String {
+        guard !string.isEmpty else { return "" }
+        let mediumValue = source?.rawValue ?? ""
+        return string + "?" + Self.utmCampaignKey + "=" + Self.utmCampaignValue + "&" +
+            Self.utmMediumKey + "=" + mediumValue + "&" +
+            Self.utmSourceKey + "=" + Self.utmSourceValue
+    }
+}
+
+
 // MARK: - Listing Share
 
 struct ListingSocialMessage: SocialMessage {
+    
+    static var utmCampaignValue = "product-detail-share"
 
+    let emailShareIsHtml = false
+    var emailShareSubject: String {
+        return LGLocalizedString.productShareTitleOnLetgo(listingTitle)
+    }
+    let fallbackToStore: Bool
+    var controlParameter: String {
+        return "product/"+listingId
+    }
+    
+    private var fullMessage: String {
+        return title + " - " + body
+    }
+    private var body: String {
+        var body = listingTitle
+        if !isMine {
+            body += " " + LGLocalizedString.productSharePostedBy(listingUserName)
+        }
+        return body
+    }
+    private var letgoUrl: URL? {
+        guard !listingId.isEmpty else { return LetgoURLHelper.buildHomeURL() }
+        return LetgoURLHelper.buildProductURL(listingId: listingId)
+    }
+    
     private let title: String
     private let listingUserName: String
     private let listingTitle: String
@@ -73,8 +223,6 @@ struct ListingSocialMessage: SocialMessage {
     private let imageURL: URL?
     private let listingId: String
     private let isMine: Bool
-    private let fallbackToStore: Bool
-    static var utmCampaignValue = "product-detail-share"
 
     init(title: String, listing: Listing, isMine: Bool, fallbackToStore: Bool) {
         self.title = title
@@ -95,137 +243,49 @@ struct ListingSocialMessage: SocialMessage {
         self.init(title: socialTitle, listing: listing, isMine: listingIsMine, fallbackToStore: fallbackToStore)
     }
 
-    var nativeShareItems: [Any] {
-        if let shareUrl = shareUrl(.native) {
-            return [shareUrl, fullMessage()]
-        } else {
-            return [fullMessage()]
+    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) {
+        retrieveShareURL(source: .native) { url in
+            guard let shareUrl = url else {
+                completion([self.fullMessage])
+                return
+            }
+            completion([shareUrl, self.fullMessage])
         }
-    }
-
-    var whatsappShareText: String {
-        return fullMessageWUrl(.whatsapp)
-    }
-
-    var telegramShareText: String {
-        return fullMessageWUrl(.telegram)
-    }
-
-    var smsShareText: String {
-        return fullMessageWUrl(.sms)
-    }
-
-    var copyLinkText: String {
-        return shareUrl(.copyLink)?.absoluteString ?? ""
-    }
-
-    var emailShareSubject: String {
-        return LGLocalizedString.productShareTitleOnLetgo(listingTitle)
-    }
-
-    var emailShareBody: String {
-        guard let urlString = shareUrl(.email)?.absoluteString else { return title }
-        var message = title + " " + urlString
-        if !isMine {
-            message += " " + LGLocalizedString.productSharePostedBy(listingUserName)
-        }
-        return message
-    }
-
-    let emailShareIsHtml = false
-
-    var fbShareContent: FBSDKShareLinkContent {
-        return fbShareLinkContent(.facebook)
-    }
-
-    var fbMessengerShareContent: FBSDKShareLinkContent {
-        return fbShareLinkContent(.fbMessenger)
-    }
-
-    private func fbShareLinkContent(_ source: ShareSource) -> FBSDKShareLinkContent {
-        let shareContent = FBSDKShareLinkContent()
-        if let actualURL = shareUrl(source) {
-            shareContent.contentURL = actualURL
-        }
-        return shareContent
-    }
-
-    var twitterComposer: TWTRComposer {
-        let twitterComposer = TWTRComposer()
-        twitterComposer.setText(fullMessage())
-        twitterComposer.setURL(shareUrl(.twitter))
-        return twitterComposer
-    }
-
-    private func fullMessageWUrl(_ source: ShareSource) -> String {
-        let urlString = shareUrl(source)?.absoluteString ?? ""
-        return title + " " + urlString + " - " + body()
     }
     
-    private func fullMessage() -> String {
-        return title + " - " + body()
+    func retrieveEmailShareBody(completion: @escaping MessageWithURLCompletion) {
+        retrieveShareURL(source: .email) { url in
+            guard let shareUrl = url else { 
+                completion(self.title)
+                return
+            }
+            let shareUrlString = shareUrl.absoluteString
+            var message = self.title + " " + shareUrlString
+            if !self.isMine {
+                message += " " + LGLocalizedString.productSharePostedBy(self.listingUserName)
+            }
+            completion(message)
+        }
+    }
+
+    func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion) {
+        retrieveShareURL(source: source) { url in
+            let urlString = url?.absoluteString ?? ""
+            completion(self.title + " " + urlString + " - " + self.body)
+        }
     }
     
-    private func body() -> String {
-        var body = listingTitle
-        if !isMine {
-            body += " " + LGLocalizedString.productSharePostedBy(listingUserName)
-        }
-        return body
+    func retrieveTwitterComposer(completion: @escaping TwitterComposerCompletion) {
+        retrieveTwitterComposer(text: fullMessage, completion: completion)
     }
-
-    private func shareUrl(_ source: ShareSource?) -> URL? {
-        return branchUrl(source)
-    }
-
-    private func branchUrl(_ source: ShareSource?) -> URL? {
-        guard !listingId.isEmpty else { return LetgoURLHelper.buildHomeURL() }
-        let linkProperties = branchLinkProperties(source)
-        guard let branchUrl = branchObject.getShortUrl(with: linkProperties)
-            else { return LetgoURLHelper.buildHomeURL() }
-        return URL(string: branchUrl)
-    }
-
-    private var letgoUrl: URL? {
-        guard !listingId.isEmpty else { return LetgoURLHelper.buildHomeURL() }
-        return LetgoURLHelper.buildProductURL(listingId: listingId)
-    }
-
-    private var branchObject: BranchUniversalObject {
-        let branchUniversalObject: BranchUniversalObject =
-            BranchUniversalObject(canonicalIdentifier: "products/"+listingId)
-        branchUniversalObject.title = title
-        branchUniversalObject.contentDescription = body()
-        branchUniversalObject.canonicalUrl = Constants.branchWebsiteURL+"/products/"+listingId
-        if let imageURL = imageURL?.absoluteString {
-            branchUniversalObject.imageUrl = imageURL
-        }
-        return branchUniversalObject
-    }
-
-    private func branchLinkProperties(_ source: ShareSource?) -> BranchLinkProperties {
-        let linkProperties = BranchLinkProperties()
-        linkProperties.feature = "product-detail-share"
-        if let source = source {
-            linkProperties.channel = source.rawValue
-        }
-        linkProperties.tags = ["ios_app"]
-        let controlParamString = addCampaignInfoToString("product/"+listingId, source: source)
-        linkProperties.addControlParam("$deeplink_path", withValue: controlParamString)
-        if var letgoUrlString = letgoUrl?.absoluteString {
-
-            let iosUrl = fallbackToStore ? addCampaignInfoToString(Constants.appStoreURL, source: source) :
-                                            letgoUrlString
-            let androidUrl = fallbackToStore ? addCampaignInfoToString(Constants.playStoreURL, source: source) :
-                                            letgoUrlString
-
-            letgoUrlString = addCampaignInfoToString(letgoUrlString, source: source)
-            linkProperties.addControlParam("$fallback_url", withValue: letgoUrlString)
-            linkProperties.addControlParam("$desktop_url", withValue: letgoUrlString)
-            linkProperties.addControlParam("$ios_url", withValue: iosUrl)
-            linkProperties.addControlParam("$android_url", withValue: androidUrl)
-        }
-        return linkProperties
+    
+    func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
+        retrieveShareURL(source: source,
+                         campaign: AppShareSocialMessage.utmCampaignValue,
+                         controlParameter: "product/"+listingId,
+                         letgoURLString: letgoUrl?.absoluteString,
+                         fallbackToStore: fallbackToStore,
+                         completion: completion)
     }
 }
 
@@ -234,125 +294,94 @@ struct ListingSocialMessage: SocialMessage {
 
 struct AppShareSocialMessage: SocialMessage {
 
-    private let imageUrl: URL?
     static var utmCampaignValue = "app-invite-friend"
-
-    init() {
-        imageUrl = URL(string: Constants.facebookAppInvitePreviewImageURL)
-    }
-
-    var nativeShareItems: [Any] {
-        if let shareUrl = branchUrl(.native) {
-            return [shareUrl, LGLocalizedString.appShareMessageText]
-        } else {
-            return [LGLocalizedString.appShareMessageText]
-        }
-    }
-
-    var whatsappShareText: String {
-        return fullMessageWUrl(.whatsapp)
-    }
-
-    var telegramShareText: String {
-        return fullMessageWUrl(.telegram)
-    }
-
-    var smsShareText: String {
-        return fullMessageWUrl(.sms)
-    }
-
-    var copyLinkText: String {
-        return branchUrl(.copyLink)?.absoluteString ?? ""
-    }
-
+    
+    let emailShareIsHtml = true
     var emailShareSubject: String {
         return LGLocalizedString.appShareSubjectText
     }
+    let fallbackToStore = true
+    let controlParameter = "home"
 
-    var emailShareBody: String {
+    private let imageURL: URL?
+    
+    init() {
+        imageURL = URL(string: Constants.facebookAppInvitePreviewImageURL)
+    }
+    
+    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) {
+        retrieveShareURL(source: .native) { url in
+            if let shareUrl = url {
+                completion([shareUrl, LGLocalizedString.appShareMessageText])
+            } else {
+                completion([LGLocalizedString.appShareMessageText])
+            }
+        }
+    }
+
+    func retrieveEmailShareBody(completion: @escaping MessageWithURLCompletion) {
         var shareBody = LGLocalizedString.appShareMessageText
-        guard let urlString = branchUrl(.email)?.absoluteString else { return shareBody }
-        shareBody += ":\n\n"
-        return shareBody + "<a href=\"" + urlString + "\">"+LGLocalizedString.appShareDownloadText+"</a>"
+        retrieveShareURL(source: .email) { url in
+            if let shareUrl = url {
+                shareBody += ":\n\n"
+                let shareUrlString = shareUrl.absoluteString
+                let fullBody = shareBody + "<a href=\"" + shareUrlString + "\">"+LGLocalizedString.appShareDownloadText+"</a>"
+                completion(fullBody)
+            } else {
+                completion(shareBody)
+            }
+        }
     }
 
-    let emailShareIsHtml = true
-
-    var fbShareContent: FBSDKShareLinkContent {
-        let shareContent = FBSDKShareLinkContent()
-        shareContent.contentURL = branchUrl(.facebook)
-        return shareContent
+    func retrieveTwitterComposer(completion: @escaping TwitterComposerCompletion) {
+        retrieveTwitterComposer(text: LGLocalizedString.appShareMessageText, completion: completion)
     }
 
-    var fbMessengerShareContent: FBSDKShareLinkContent {
-        return fbShareContent
-    }
-
-    var twitterComposer: TWTRComposer {
-        let twitterComposer = TWTRComposer()
-        twitterComposer.setText(LGLocalizedString.appShareMessageText)
-        twitterComposer.setURL(branchUrl(.twitter))
-        return twitterComposer
-    }
-    
-    private func fullMessageWUrl(_ source: ShareSource) -> String {
+    func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion) {
         let fullMessage = LGLocalizedString.appShareMessageText
-        let urlString = branchUrl(source)?.absoluteString ?? ""
-        return fullMessage.isEmpty ? urlString : fullMessage + ":\n" + urlString
-    }
-    
-    private func branchUrl(_ source: ShareSource?) -> URL? {
-        let linkProperties = branchLinkProperties(source)
-        guard let branchUrl = branchObject.getShortUrl(with: linkProperties)
-            else { return LetgoURLHelper.buildHomeURL() }
-        return URL(string: branchUrl)
-    }
-    
-    private var branchObject: BranchUniversalObject {
-        let branchUniversalObject: BranchUniversalObject =
-            BranchUniversalObject(canonicalIdentifier: "app_share")
-        branchUniversalObject.title = LGLocalizedString.appShareSubjectText
-        branchUniversalObject.contentDescription = LGLocalizedString.appShareMessageText
-        branchUniversalObject.canonicalUrl = Constants.branchWebsiteURL
-        if let imageURL = imageUrl?.absoluteString {
-            branchUniversalObject.imageUrl = imageURL
+        retrieveShareURL(source: source) { url in
+            let urlString = url?.absoluteString ?? ""
+            let fullMessage = fullMessage.isEmpty ? urlString : fullMessage + ":\n" + urlString
+            completion(fullMessage)
         }
-        return branchUniversalObject
     }
     
-    private func branchLinkProperties(_ source: ShareSource?) -> BranchLinkProperties {
-        let linkProperties = BranchLinkProperties()
-        linkProperties.feature = AppShareSocialMessage.utmCampaignValue
-        if let source = source {
-            linkProperties.channel = source.rawValue
-        }
-        linkProperties.tags = ["ios_app"]
-        linkProperties.addControlParam("$deeplink_path", withValue: "home")
-        
-        let letgoUrlString = addCampaignInfoToString(LetgoURLHelper.buildHomeURLString(), source: source)
-        let letgoUrlStringAppStore = addCampaignInfoToString(Constants.appStoreURL, source: source)
-        let letgoUrlStringPlayStore = addCampaignInfoToString(Constants.playStoreURL, source: source)
-        
-        linkProperties.addControlParam("$fallback_url", withValue: letgoUrlString)
-        linkProperties.addControlParam("$desktop_url", withValue: letgoUrlString)
-        linkProperties.addControlParam("$ios_url", withValue: letgoUrlStringAppStore)
-        linkProperties.addControlParam("$android_url", withValue: letgoUrlStringPlayStore)
-        return linkProperties
+    func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
+        retrieveShareURL(source: source,
+                         campaign: AppShareSocialMessage.utmCampaignValue,
+                         controlParameter: controlParameter,
+                         letgoURLString: LetgoURLHelper.buildHomeURLString(),
+                         fallbackToStore: fallbackToStore,
+                         completion: completion)
     }
 }
 
 
-// MARK - User
+// MARK: - User Share
 
 struct UserSocialMessage: SocialMessage {
+    
     static var utmCampaignValue = "profile-share"
+    
+    var emailShareSubject: String {
+        return titleText
+    }
+    let emailShareIsHtml = true
+    let fallbackToStore = false
+    var controlParameter: String {
+        return "users/\(userId)"
+    }
+    
+    private var letgoURL: URL? {
+        return !userId.isEmpty ? LetgoURLHelper.buildUserURL(userId: userId) : LetgoURLHelper.buildHomeURL()
+    }
 
     private let userName: String?
     private let avatar: URL?
     private let userId: String
     private let titleText: String
     private let messageText: String
-
+    
     init(user: User, itsMe: Bool) {
         userName = user.name
         avatar = user.avatar?.fileURL
@@ -369,105 +398,65 @@ struct UserSocialMessage: SocialMessage {
         }
     }
 
-    var nativeShareItems: [Any] {
-        if let branchUrl = branchUrl(.native) {
-            return [branchUrl, messageText]
-        } else {
-            return [messageText]
+    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) {
+        retrieveShareURL(source: .native) { url in
+            if let shareUrl = url {
+                completion([shareUrl, self.messageText])
+            } else {
+                completion([self.messageText])
+            }
+        }
+    }
+    
+    func retrieveTelegramShareText(completion: @escaping MessageWithURLCompletion) {
+        retrieveFullMessageWithURL(source: .telegram) { message in
+            completion(message)
+        }
+    }
+    
+    func retrieveSMSShareText(completion: @escaping MessageWithURLCompletion) {
+        retrieveFullMessageWithURL(source: .sms) { message in
+            completion(message)
+        }
+    }
+    
+    func retrieveCopyLinkText(completion: @escaping MessageWithURLCompletion) {
+        retrieveShareURL(source: .copyLink) { url in
+            let copyLinkText = url?.absoluteString ?? ""
+            completion(copyLinkText)
         }
     }
 
-    var whatsappShareText: String {
-        return fullMessageWUrl(.whatsapp)
-    }
-
-    var telegramShareText: String {
-        return fullMessageWUrl(.telegram)
-    }
-
-    var smsShareText: String {
-        return fullMessageWUrl(.sms)
-    }
-
-    var copyLinkText: String {
-        return branchUrl(.copyLink)?.absoluteString ?? ""
-    }
-
-    var emailShareSubject: String {
-        return titleText
-    }
-
-    var emailShareBody: String {
-        guard let urlStr = branchUrl(.email)?.absoluteString else {
-            return messageText
+    func retrieveEmailShareBody(completion: @escaping MessageWithURLCompletion) {
+        retrieveShareURL(source: .email) { url in
+            if let shareUrlString = url?.absoluteString {
+                completion(self.messageText + "\n\n" + shareUrlString)
+            } else {
+                completion(self.messageText)
+            }
         }
-        return messageText + "\n\n" + urlStr
+    }
+    
+    func retrieveTwitterComposer(completion: @escaping TwitterComposerCompletion) {
+        retrieveTwitterComposer(text: LGLocalizedString.appShareMessageText, completion: completion)
     }
 
-    let emailShareIsHtml = true
-
-    var fbShareContent: FBSDKShareLinkContent {
-        let shareContent = FBSDKShareLinkContent()
-        shareContent.contentURL = branchUrl(.facebook)
-        return shareContent
-    }
-
-    var fbMessengerShareContent: FBSDKShareLinkContent {
-        return fbShareContent
-    }
-
-    var twitterComposer: TWTRComposer {
-        let twitterComposer = TWTRComposer()
-        twitterComposer.setText(messageText)
-        twitterComposer.setURL(branchUrl(.twitter))
-        return twitterComposer
-    }
-
-    private func fullMessageWUrl(_ source: ShareSource) -> String {
-        guard let urlString = branchUrl(source)?.absoluteString else {
-            return messageText
+    func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion) {
+        retrieveShareURL(source: source) { url in
+            if let urlString = url?.absoluteString {
+                completion(self.messageText.isEmpty ? urlString : self.messageText + ":\n" + urlString)
+            } else {
+                completion(self.messageText)
+            }
         }
-        return messageText.isEmpty ? urlString : messageText + ":\n" + urlString
     }
-
-    private var letgoURL: URL? {
-        return !userId.isEmpty ? LetgoURLHelper.buildUserURL(userId: userId) : LetgoURLHelper.buildHomeURL()
-    }
-
-    private func branchUrl(_ source: ShareSource?) -> URL? {
-        let linkProperties = branchLinkProperties(source)
-        guard let branchUrl = branchObject.getShortUrl(with: linkProperties) else { return letgoURL }
-        return URL(string: branchUrl) ?? letgoURL
-    }
-
-    private var branchObject: BranchUniversalObject {
-        let branchUniversalObject: BranchUniversalObject =
-            BranchUniversalObject(canonicalIdentifier: "users/\(userId)")
-        branchUniversalObject.title = titleText
-        branchUniversalObject.contentDescription = messageText
-        branchUniversalObject.canonicalUrl = Constants.branchWebsiteURL+"/users/"+userId
-        if let imageURL = avatar?.absoluteString {
-            branchUniversalObject.imageUrl = imageURL
-        }
-        return branchUniversalObject
-    }
-
-    private func branchLinkProperties(_ source: ShareSource?) -> BranchLinkProperties {
-        let linkProperties = BranchLinkProperties()
-        linkProperties.feature = UserSocialMessage.utmCampaignValue
-        if let source = source {
-            linkProperties.channel = source.rawValue
-        }
-        linkProperties.tags = ["ios_app"]
-        linkProperties.addControlParam("$deeplink_path", withValue: "users/\(userId)")
-
-        guard let urlStr = letgoURL?.absoluteString else { return linkProperties }
-
-        let letgoUrlString = addCampaignInfoToString(urlStr, source: source)
-        linkProperties.addControlParam("$fallback_url", withValue: letgoUrlString)
-        linkProperties.addControlParam("$desktop_url", withValue: letgoUrlString)
-        linkProperties.addControlParam("$ios_url", withValue: letgoUrlString)
-        linkProperties.addControlParam("$android_url", withValue: letgoUrlString)
-        return linkProperties
+    
+    func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
+        retrieveShareURL(source: source,
+                         campaign: UserSocialMessage.utmCampaignValue,
+                         controlParameter: controlParameter,
+                         letgoURLString: letgoURL?.absoluteString,
+                         fallbackToStore: fallbackToStore,
+                         completion: completion)
     }
 }
