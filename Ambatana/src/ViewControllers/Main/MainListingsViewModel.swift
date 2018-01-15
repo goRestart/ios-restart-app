@@ -1077,7 +1077,7 @@ extension MainListingsViewModel {
     }
     
     var showRealEstateBanner: Bool {
-        return !listViewModel.isListingListEmpty.value && featureFlags.realEstatePromos.isActive && filters.selectedCategories == [.realEstate] && !filters.hasAnyRealEstateAttributes
+        return !listViewModel.isListingListEmpty.value && featureFlags.realEstatePromos.isActive && filters.selectedCategories == [.realEstate]
     }
 
     func pushPermissionsHeaderPressed() {
