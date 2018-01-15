@@ -25,7 +25,6 @@ def shared_pods
     #Fabric
     pod "Fabric",               "1.7.2"    # Obj-c
     pod "Crashlytics",          "3.9.3"     # Obj-c
-    pod "TwitterKit",           "2.3.0"     # Obj-c
     pod "Branch",               "0.12.27"   # Obj-c
 
     # Tracking

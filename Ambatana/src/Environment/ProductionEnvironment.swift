@@ -26,10 +26,6 @@ class ProductionEnvironment: AppEnvironment {
     let configFileName = "ios-prod"
     let configURL = "http://cdn.letgo.com/config/ios.json"
     
-    // Twitter
-    let twitterConsumerKey = "krEbU50JQnxY9WkNp6zevuOpK"
-    let twitterConsumerSecret = "QftWuBwJMb0UrfvGOErcIS6Oyf7d6RGn60HfN4DRLjgt7XmTgI"
-
     // Leanplum
     let leanplumAppId = "app_gYgnjLc98J3vIVHbmdD9W0Qwvy0A3KHMdo4PKd0zJD4"
     let leanplumEnvKey = "prod_OQEDqHOM3iZxZSKbcMuhnMZcee4PKDji5yJGfS5jn64"

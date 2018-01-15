@@ -74,14 +74,6 @@ class EnvironmentProxy: AppEnvironment {
         return environment.configFileName
     }
 
-    var twitterConsumerKey: String {
-        return environment.twitterConsumerKey
-    }
-
-    var twitterConsumerSecret: String {
-        return environment.twitterConsumerSecret
-    }
-
     var leanplumAppId: String {
         return environment.leanplumAppId
     }

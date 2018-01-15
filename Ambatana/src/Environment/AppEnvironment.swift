@@ -26,10 +26,6 @@ protocol AppEnvironment {
     var configFileName: String { get }
     var configURL: String { get }
 
-    // Twitter
-    var twitterConsumerKey: String { get }
-    var twitterConsumerSecret: String { get }
-
     // Leanplum
     var leanplumAppId: String { get }
     var leanplumEnvKey: String { get }

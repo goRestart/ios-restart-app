@@ -14,7 +14,6 @@ import Fabric
 import FBSDKCoreKit
 import LGCoreKit
 import RxSwift
-import TwitterKit
 import UIKit
 
 
@@ -269,12 +268,9 @@ fileprivate extension AppDelegate {
         #endif
 
         // Fabric
-        Twitter.sharedInstance().start(withConsumerKey: EnvironmentProxy.sharedInstance.twitterConsumerKey,
-                                       consumerSecret: EnvironmentProxy.sharedInstance.twitterConsumerSecret)
         #if DEBUG
-            Fabric.with([Twitter.self])
         #else
-            Fabric.with([Crashlytics.self, Twitter.self])
+            Fabric.with([Crashlytics.self])
             Core.reporter.addReporter(CrashlyticsReporter())
             DDLog.add(CrashlyticsLogger.sharedInstance)
         #endif
