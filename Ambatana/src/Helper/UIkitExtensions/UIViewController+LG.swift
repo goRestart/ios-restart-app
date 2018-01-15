@@ -40,6 +40,13 @@ extension UIViewController {
         guard navigationController.viewControllers.count > 0 else { return false }
         return navigationController.viewControllers[0] == self
     }
+    
+    func isModal() -> Bool {
+        if presentingViewController != nil { return true }
+        if navigationController?.presentingViewController?.presentedViewController == navigationController { return true }
+        if tabBarController?.presentingViewController is UITabBarController { return true }
+        return false
+    }
 
     @discardableResult 
     func setLetGoRightButtonWith(_ action: UIAction, buttonTintColor: UIColor? = nil, tapBlock: (ControlEvent<Void>) -> Void ) -> UIBarButtonItem? {
