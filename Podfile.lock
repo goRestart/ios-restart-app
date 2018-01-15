@@ -23,10 +23,10 @@ PODS:
   - CocoaLumberjack/Default (3.3.0)
   - CocoaLumberjack/Swift (3.3.0):
     - CocoaLumberjack/Default
-  - Crashlytics (3.8.3):
-    - Fabric (~> 1.6.3)
+  - Crashlytics (3.9.3):
+    - Fabric (~> 1.7.2)
   - DeviceGuru (3.0.1)
-  - Fabric (1.6.11)
+  - Fabric (1.7.2)
   - FBSDKCoreKit (4.29.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.29.0):
@@ -150,9 +150,9 @@ DEPENDENCIES:
   - CameraManager (= 4.0.1)
   - CHTCollectionViewWaterfallLayout (= 0.9.5)
   - CocoaLumberjack/Swift (= 3.3.0)
-  - Crashlytics (= 3.8.3)
+  - Crashlytics (= 3.9.3)
   - DeviceGuru (~> 3.0.1)
-  - Fabric (= 1.6.11)
+  - Fabric (= 1.7.2)
   - FBSDKCoreKit (= 4.29.0)
   - FBSDKLoginKit (= 4.29.0)
   - FBSDKShareKit (= 4.29.0)
@@ -218,9 +218,9 @@ SPEC CHECKSUMS:
   CameraManager: 56b3516e8e22cfbf56f3f0401291561e1ad9b3d0
   CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
-  Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
+  Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
   DeviceGuru: 648c34deb10c6ef59b013ea2922c04c18d8973f0
-  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
+  Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
   FBSDKCoreKit: 6f139173dc63a1deaff4430a55f2fe5bb222d2af
   FBSDKLoginKit: 56a057ca6822535ea0faa25f57a7c41edb697fd4
   FBSDKShareKit: 18a2cd118aef11dd657fe7e8b64bae5c719088b2
@@ -264,6 +264,6 @@ SPEC CHECKSUMS:
   TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
   TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: 0fc4ec44279bd5a9c0454d01c030cede8712b171
+PODFILE CHECKSUM: c5b9b59ee89c68ed55222e330e087ec4e016e236
 
 COCOAPODS: 1.3.1

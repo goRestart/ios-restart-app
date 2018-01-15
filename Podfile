@@ -23,8 +23,8 @@ def shared_pods
     pod "Google-Mobile-Ads-SDK","7.24.1"
 
     #Fabric
-    pod "Fabric",               "1.6.11"    # Obj-c
-    pod "Crashlytics",          "3.8.3"     # Obj-c
+    pod "Fabric",               "1.7.2"    # Obj-c
+    pod "Crashlytics",          "3.9.3"     # Obj-c
     pod "TwitterKit",           "2.3.0"     # Obj-c
     pod "Branch",               "0.12.27"   # Obj-c
 
