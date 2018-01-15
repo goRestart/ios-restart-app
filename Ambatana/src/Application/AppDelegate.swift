@@ -300,6 +300,10 @@ fileprivate extension AppDelegate {
 
         // Branch.io
         if let branch = Branch.getInstance() {
+            #if DEBUG
+                branch.setDebug()
+            #endif
+            
             branch.initSession(launchOptions: launchOptions, andRegisterDeepLinkHandlerUsingBranchUniversalObject: {
                 [weak self] object, properties, error in
                 self?.deepLinksRouter?.deepLinkFromBranchObject(object, properties: properties)
