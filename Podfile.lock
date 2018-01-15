@@ -2,7 +2,7 @@ PODS:
   - Alamofire (4.5.1)
   - AlamofireImage (3.3.0):
     - Alamofire (~> 4.5)
-  - Amplitude-iOS (3.8.5)
+  - Amplitude-iOS (4.0.4)
   - AppsFlyerFramework (4.7.11)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
@@ -137,7 +137,7 @@ PODS:
 
 DEPENDENCIES:
   - AlamofireImage (= 3.3.0)
-  - Amplitude-iOS (= 3.8.5)
+  - Amplitude-iOS (= 4.0.4)
   - AppsFlyerFramework (= 4.7.11)
   - Branch (= 0.22.5)
   - bumper (from `git@github.com:letgoapp/bumper.git`, commit `7ec04a070eca2337f058954d7f53c474d616d7b1`)
@@ -203,7 +203,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   AlamofireImage: 2e784dc5d00f04903a52c1d169181469c805c3df
-  Amplitude-iOS: de7cfde0c791d05fb0e0f82bd34cbd3585ccd63f
+  Amplitude-iOS: 2ad4d7270c99186236c1272a3a9425463b1ae1a7
   AppsFlyerFramework: ece902d4233177d4e9db1429c7a5df5fad8e9f07
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Branch: 4f0482418d99e77d15b0e6065ef216c10e24797b
@@ -255,6 +255,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
 
-PODFILE CHECKSUM: 3128eec75000d827e5de18d6e9f7b6d927299876
+PODFILE CHECKSUM: 0d489508afc0cfbfa7200675e284dc8a37d524dd
 
 COCOAPODS: 1.3.1

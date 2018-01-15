@@ -28,7 +28,7 @@ def shared_pods
     pod "Branch",               "0.22.5"   # Obj-c
 
     # Tracking
-    pod "Amplitude-iOS",        "3.8.5"     # Obj-c
+    pod "Amplitude-iOS",        "4.0.4"     # Obj-c
     pod "AppsFlyerFramework",   "4.7.11"    # Obj-c
 #    pod "Leanplum-iOS-SDK",     "2.0.1"    # Obj-c
     pod "Leanplum-iOS-SDK",     "2.0.4"
