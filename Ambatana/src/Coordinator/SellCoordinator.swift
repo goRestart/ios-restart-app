@@ -12,6 +12,7 @@ import RxSwift
 protocol SellCoordinatorDelegate: class {
     func sellCoordinatorDidCancel(_ coordinator: SellCoordinator)
     func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithListing listing: Listing)
+    func sellCoordinator(_ coordinator: SellCoordinator, didCancelAndSearchFor query: String)
 }
 
 final class SellCoordinator: Coordinator {
@@ -229,6 +230,13 @@ extension SellCoordinator: PostListingNavigator {
     
     func backToSummary() {
         let _ = navigationController.popViewController(animated: true)
+    }
+    
+    func cancelPostListingAndSearchFor(query: String) {
+        closeCoordinator(animated: true) { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.sellCoordinator(strongSelf, didCancelAndSearchFor: query)
+        }
     }
 }
 

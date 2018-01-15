@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol MostSearchedItemsListCellDelegate {
+    func didSearchAction(itemName: String)
+}
+
 class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
     
     static let cellHeight: CGFloat = 84
@@ -19,6 +23,8 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
     let searchButton = UIButton(type: .custom)
     let postButton = UIButton(type: .custom)
     
+    var delegate: MostSearchedItemsListCellDelegate?
+    var item: LocalMostSearchedItem?
     
     // MARK: - Lifecycle
     
@@ -73,6 +79,7 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
         searchButton.centerTextAndImage(spacing: 4)
         searchButton.titleLabel?.adjustsFontSizeToFitWidth = true
         searchButton.titleLabel?.minimumScaleFactor = 0.2
+        searchButton.addTarget(self, action: #selector(searchAction), for: .touchUpInside)
         
         postButton.setStyle(.primary(fontSize: .big))
         postButton.setTitle("Post", for: .normal)
@@ -133,8 +140,17 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
     }
     
     func updateWith(item: LocalMostSearchedItem, showSearchButton: Bool) {
+        self.item = item
         titleLabel.text = item.name
         numberOfSearchesLabel.text = item.searchCount
         searchButton.isHidden = showSearchButton
+    }
+    
+    
+    // MARK: - UI Actions
+    
+    @objc func searchAction() {
+        guard let itemName = item?.name else { return }
+        delegate?.didSearchAction(itemName: itemName)
     }
 }

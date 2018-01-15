@@ -28,7 +28,8 @@ protocol PostListingNavigator: class {
     func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
     func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool)
     func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo)
-    func backToSummary() 
+    func backToSummary()
+    func cancelPostListingAndSearchFor(query: String)
 }
 
 protocol ListingPostedNavigator: class {
