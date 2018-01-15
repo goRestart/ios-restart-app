@@ -23,15 +23,14 @@ def shared_pods
     pod "Google-Mobile-Ads-SDK","7.24.1"
 
     #Fabric
-    pod "Fabric",               "1.7.2"    # Obj-c
+    pod "Fabric",               "1.7.2"     # Obj-c
     pod "Crashlytics",          "3.9.3"     # Obj-c
-    pod "Branch",               "0.22.5"   # Obj-c
+    pod "Branch",               "0.22.5"    # Obj-c
 
     # Tracking
     pod "Amplitude-iOS",        "4.0.4"     # Obj-c
-    pod "AppsFlyerFramework",   "4.7.11"    # Obj-c
-#    pod "Leanplum-iOS-SDK",     "2.0.1"    # Obj-c
-    pod "Leanplum-iOS-SDK",     "2.0.4"
+    pod "AppsFlyerFramework",   "4.8.2"     # Obj-c
+    pod "Leanplum-iOS-SDK",     "2.0.4"     # Obj-c
     pod "NewRelicAgent",        "5.14.2"    # Obj-c
 
     # letgo Core
