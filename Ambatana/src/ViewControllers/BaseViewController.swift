@@ -443,7 +443,7 @@ class BaseViewController: UIViewController, TabBarShowable {
     internal func viewWillDisappearToBackground(_ toBackground: Bool) {
         
         if !toBackground {
-            if !isRootViewController() {
+            if !isRootViewController() || isModal {
                 UIApplication.shared.setStatusBarStyle(previousStatusBarStyle, animated: true)
             }
 
