@@ -31,11 +31,6 @@
         "description": "New in-app rating for iOS 10.3+"
     },
     {
-        "name": "TweaksCarPostingFlow",
-        "values": ["control", "baseline", "active"],
-        "description": "car posting summary only at the end"
-    },
-    {
         "name": "UserReviewsReportEnabled",
         "values": ["no", "yes"],
         "description": "User reviews report enabled"
@@ -51,11 +46,6 @@
         "description": "App rating dialog inactive to increase user activation"
     },
     {
-        "name": "ExpandableCategorySelectionMenu",
-        "values": ["control", "baseline", "expandableMenu"],
-        "description": "Show 'salchichas' menu on sell your stuff button"
-    },
-    {
         "name": "LocationDataSourceEndpoint",
         "values": ["control", "baseline", "appleWithRegion", "niordWithRegion"],
         "description": "Location data source for geocode and reverse geocode"
@@ -67,7 +57,7 @@
     },
     {
         "name": "RealEstateEnabled",
-        "values": ["no", "yes"],
+        "values": ["control", "baseline", "active"],
         "description": "Allow to see Real Estate category"
     },
     {
@@ -131,11 +121,6 @@
         "description": "Show a bump up alert after posting (once every 24h)"
     },
     {
-        "name": "CopyListingAnotherConfirmation",
-        "values": ["control", "baseline", "active"],
-        "description": "Show listing instead of product on confirmation screen"
-    },
-    {
         "name": "MoreInfoAFShOrDFP",
         "values": ["control", "baseline", "afsh", "dfp"],
         "description": "show ad in more info, could be Adsense for shopping or DFP"
@@ -150,5 +135,25 @@
         "values": ["control", "baseline", "cameraBadge", "trendingButtonExpandableMenu", "subsetAboveExpandableMenu",
                    "subsetInsideExpandableMenu"],
         "description": "Display a list of top seller items that inspire users to post new items"
+    },
+    {
+        "name": "AllowCallsForProfessionals",
+        "values": ["control", "baseline", "active"],
+        "description": "Users can call professional sellers"
+    },
+    {
+        "name": "RealEstateImprovements",
+        "values": ["control", "baseline", "active"],
+        "description": "show onboarding improvements on real estate category"
+    },
+    {
+        "name": "RealEstatePromos",
+        "values": ["control", "baseline", "deactivate"],
+        "description": "show real estate promos"
+    },
+    {
+        "name": "AllowEmojisOnChat",
+        "values": ["control", "baseline", "active"],
+        "description": "allow user to write / read emojis"
     }
 ]

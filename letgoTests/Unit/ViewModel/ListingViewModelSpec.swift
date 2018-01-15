@@ -22,11 +22,13 @@ class ListingViewModelSpec: BaseViewModelSpec {
     var calledLogin: Bool?
     var calledOpenFreeBumpUpView: Bool?
     var calledOpenPricedBumpUpView: Bool?
+    var listingViewModelDelegateListingOriginValue: ListingOrigin = ListingOrigin.initial
 
     override func spec() {
         var sut: ListingViewModel!
 
         var myUserRepository: MockMyUserRepository!
+        var userRepository: MockUserRepository!
         var listingRepository: MockListingRepository!
         var chatWrapper: MockChatWrapper!
         var locationManager: MockLocationManager!
@@ -43,15 +45,16 @@ class ListingViewModelSpec: BaseViewModelSpec {
         var bottomButtonsObserver: TestableObserver<[UIAction]>!
         var isFavoriteObserver: TestableObserver<Bool>!
         var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
-
+        var isProfessionalObserver: TestableObserver<Bool>!
 
         describe("ListingViewModelSpec") {
 
-            func buildListingViewModel() {
+            func buildListingViewModel(visitSource: EventParameterListingVisitSource = .listingList) {
                 let socialSharer = SocialSharer()
                 sut = ListingViewModel(listing: .product(product),
-                                       visitSource: .listingList,
+                                       visitSource: visitSource,
                                         myUserRepository: myUserRepository,
+                                        userRepository: userRepository,
                                         listingRepository: listingRepository,
                                         chatWrapper: chatWrapper,
                                         chatViewMessageAdapter: ChatViewMessageAdapter(),
@@ -65,14 +68,17 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 sut.delegate = self
                 sut.navigator = self
                 disposeBag = DisposeBag()
+
                 sut.actionButtons.asObservable().bind(to: bottomButtonsObserver).disposed(by: disposeBag)
                 sut.isFavorite.asObservable().bind(to: isFavoriteObserver).disposed(by: disposeBag)
                 sut.directChatMessages.observable.bind(to: directChatMessagesObserver).disposed(by: disposeBag)
+                sut.isProfessional.asObservable().bind(to: isProfessionalObserver).disposed(by: disposeBag)
             }
 
             beforeEach {
                 sut = nil
                 myUserRepository = MockMyUserRepository.makeMock()
+                userRepository = MockUserRepository.makeMock()
                 listingRepository = MockListingRepository.makeMock()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
@@ -88,6 +94,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 bottomButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 isFavoriteObserver = scheduler.createObserver(Bool.self)
                 directChatMessagesObserver = scheduler.createObserver(Array<ChatViewMessage>.self)
+                isProfessionalObserver = scheduler.createObserver(Bool.self)
 
                 self.resetViewModelSpec()
             }
@@ -112,33 +119,69 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 }
                 
                 context("buyer selection enabled newMarkAsSoldFlow") {
-                    beforeEach {
-                        let userListing = MockUserListing.makeMock()
-                        listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
-                        buildListingViewModel()
-                        sut.active = true
-                        
-                        // There should appear one button
-                        expect(sut.actionButtons.value.count).toEventually(equal(1))
-                        sut.actionButtons.value.first?.action()
-                        
-                        expect(tracker.trackedEvents.count).toEventually(equal(1))
+                    context("allow calling dealers test disabled") {
+                        beforeEach {
+                            let userListing = MockUserListing.makeMock()
+                            listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
+                            buildListingViewModel()
+                            sut.active = true
+
+                            // There should appear one button
+                            expect(sut.actionButtons.value.count).toEventually(equal(1))
+                            sut.actionButtons.value.first?.action()
+
+                            expect(tracker.trackedEvents.count).toEventually(equal(1))
+                        }
+                        it("has mark as sold and then sell it again button") {
+                            let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
+                            expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton,
+                                                    LGLocalizedString.productSellAgainButton]
+                        }
+                        it("requests buyer selection") {
+                            expect(self.selectBuyersCalled).toEventually(beTrue())
+                        }
+                        it("has shown mark as sold alert") {
+                            expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldAlertMessage
+                        }
+                        it("calls show loading in delegate") {
+                            expect(self.delegateReceivedShowLoading) == true
+                        }
+                        it("calls hide loading in delegate") {
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
                     }
-                    it("has mark as sold and then sell it again button") {
-                        let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
-                        expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
-                    }
-                    it("requests buyer selection") {
-                        expect(self.selectBuyersCalled).toEventually(beTrue())
-                    }
-                    it("has shown mark as sold alert") {
-                        expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldAlertMessage
-                    }
-                    it("calls show loading in delegate") {
-                        expect(self.delegateReceivedShowLoading) == true
-                    }
-                    it("calls hide loading in delegate") {
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    context("allow calling dealers test enabled") {
+                        beforeEach {
+                            featureFlags.allowCallsForProfessionals = .active
+                            let userListing = MockUserListing.makeMock()
+                            listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
+                            buildListingViewModel()
+                            sut.active = true
+
+                            // There should appear one button
+                            expect(sut.actionButtons.value.count).toEventually(equal(1))
+                            sut.actionButtons.value.first?.action()
+
+                            expect(tracker.trackedEvents.count).toEventually(equal(1))
+                        }
+                        it("has mark as sold twice (button updates after user show request) and then sell it again button") {
+                            let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
+                            expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton,
+                                                    LGLocalizedString.productMarkAsSoldButton,
+                                                    LGLocalizedString.productSellAgainButton]
+                        }
+                        it("requests buyer selection") {
+                            expect(self.selectBuyersCalled).toEventually(beTrue())
+                        }
+                        it("has shown mark as sold alert") {
+                            expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldAlertMessage
+                        }
+                        it("calls show loading in delegate") {
+                            expect(self.delegateReceivedShowLoading) == true
+                        }
+                        it("calls hide loading in delegate") {
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
                     }
                 }
             }
@@ -201,6 +244,82 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         }
                         it("tracks sent first message + message sent") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
+                        }
+                        it("tracks visit source as product-list") {
+                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
+                            expect(visitSourceParam).to(equal("product-list"))
+                        }
+                    }
+                    context("success first message from favourites") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(true)]
+                            buildListingViewModel(visitSource: .favourite)
+                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+                            
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
+                        }
+                        it("tracks visit source as favourite") {
+                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
+                            expect(visitSourceParam).to(equal("favourite"))
+                        }
+                    }
+                    context("success first message from favourites after swiping to the next listing") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(true)]
+                            buildListingViewModel(visitSource: .favourite)
+                            self.listingViewModelDelegateListingOriginValue = .inResponseToNextRequest
+                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+                            
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
+                        }
+                        it("tracks visit source as next-favourite") {
+                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
+                            expect(visitSourceParam).to(equal("next-favourite"))
+                        }
+                    }
+                    context("success first message from favourites after swiping to the previous listing") {
+                        beforeEach {
+                            chatWrapper.results = [ChatWrapperResult(true)]
+                            buildListingViewModel(visitSource: .favourite)
+                            self.listingViewModelDelegateListingOriginValue = .inResponseToPreviousRequest
+                            sut.sendQuickAnswer(quickAnswer: .meetUp)
+                            
+                            expect(tracker.trackedEvents.count).toEventually(equal(2))
+                        }
+                        it("requests logged in") {
+                            expect(self.calledLogin) == true
+                        }
+                        it("adds one element on directMessages") {
+                            expect(directChatMessagesObserver.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                        }
+                        it("tracks sent first message + message sent") {
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-ask-question", "user-sent-message"]
+                        }
+                        it("tracks visit source as previous-favourite") {
+                            let firstMessage: TrackerEvent = tracker.trackedEvents.filter { $0.actualName == EventName.firstMessage.rawValue }.first!
+                            let visitSourceParam = firstMessage.params!.params[EventParameterName.listingVisitSource] as! String
+                            expect(visitSourceParam).to(equal("previous-favourite"))
                         }
                     }
                     context("success non first message") {
@@ -306,6 +425,59 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 expect(tracker.trackedEvents.map { $0.actualName }) == ["user-sent-message-error"]
                             }
                         }
+                    }
+                }
+            }
+
+            describe ("check user type") {
+                beforeEach {
+                    featureFlags.allowCallsForProfessionals = .active
+                }
+                context ("User is professional and has a phone number") {
+                    beforeEach {
+                        var user = MockUser.makeMock()
+                        user.type = .pro
+                        user.phone = "666-666-666"
+                        userRepository.userResult = UserResult(value: user)
+                        buildListingViewModel()
+                        sut.active = true
+                        expect(isProfessionalObserver.eventValues).toEventually(equal([false, true]))
+                    }
+                    it ("isProfessional var is updated") {
+                        expect(isProfessionalObserver.lastValue) == true
+                    }
+                    it ("phoneNumber var has a value") {
+                        expect(sut.phoneNumber.value).toEventually(equal("666-666-666"))
+                    }
+                }
+                context ("User is professional and doesn't have a phone number") {
+                    beforeEach {
+                        var user = MockUser.makeMock()
+                        user.type = .pro
+                        user.phone = nil
+                        userRepository.userResult = UserResult(value: user)
+                        buildListingViewModel()
+                        sut.active = true
+                        expect(isProfessionalObserver.eventValues).toEventually(equal([false, true]))
+                    }
+                    it ("isProfessional var is updated") {
+                        expect(isProfessionalObserver.lastValue) == true
+                    }
+                    it ("phoneNumber var has no value") {
+                        expect(sut.phoneNumber.value).toEventually(beNil())
+                    }
+                }
+                context ("User is not professional") {
+                    beforeEach {
+                        var user = MockUser.makeMock()
+                        user.type = .user
+                        userRepository.userResult = UserResult(value: user)
+                        buildListingViewModel()
+                        sut.active = true
+                        expect(isProfessionalObserver.eventValues).toEventually(equal([false, false]))
+                    }
+                    it ("isProfessional var is updated") {
+                        expect(sut.isProfessional.value).toEventually(equal(false))
                     }
                 }
             }
@@ -699,6 +871,10 @@ extension ListingViewModelSpec: ListingViewModelDelegate {
 
     var trackingFeedPosition: EventParameterFeedPosition {
         return .none
+    }
+
+    var listingOrigin: ListingOrigin {
+        return listingViewModelDelegateListingOriginValue
     }
     
     // Bump Up

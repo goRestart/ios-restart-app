@@ -78,6 +78,7 @@ class ListingCarouselViewModel: BaseViewModel {
             setCurrentIndex(currentIndex)
         }
     }
+    fileprivate var lastMovement: CarouselMovement = .initial
     
     weak var delegate: ListingCarouselViewModelDelegate?
     weak var navigator: ListingDetailNavigator? {
@@ -111,6 +112,13 @@ class ListingCarouselViewModel: BaseViewModel {
 
     let status = Variable<ListingViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)
+
+    let ownerIsProfessional = Variable<Bool>(false)
+    let ownerPhoneNumber = Variable<String?>(nil)
+    var deviceCanCall: Bool {
+        guard let callUrl = URL(string: "tel://") else { return false }
+        return UIApplication.shared.canOpenURL(callUrl)
+    }
 
     let quickAnswers = Variable<[[QuickAnswer]]>([[]])
     let quickAnswersAvailable = Variable<Bool>(false)
@@ -345,19 +353,14 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.delegate = self
         currentListingViewModel?.active = active
         currentIndex = index
+        lastMovement = movement
         setupCurrentProductVMRxBindings(forIndex: index)
         prefetchNeighborsImages(index, movement: movement)
 
-        // Tracking
         if active {
-            let feedPosition = movement.feedPosition(for: trackingIndex)
-            if source == .relatedListings {
-                currentListingViewModel?.trackVisit(movement.visitUserAction,
-                                                    source: movement.visitSource(source),
-                                                    feedPosition: feedPosition)
-            } else {
-                currentListingViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
-            }
+            currentListingViewModel?.trackVisit(movement.visitUserAction,
+                                                source: movement.visitSource(source),
+                                                feedPosition: movement.feedPosition(for: trackingIndex))
         }
     }
 
@@ -522,7 +525,13 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.trackOpenFeaturedInfo()
     }
     
-    
+    func callSeller() {
+        guard let phoneNum = ownerPhoneNumber.value,
+            let phoneUrl = URL(string: "tel://\(phoneNum)") else { return }
+        UIApplication.shared.openURL(phoneUrl)
+    }
+
+
     // MARK: - Private Methods
 
     fileprivate func listingAt(index: Int) -> Listing? {
@@ -578,6 +587,8 @@ class ListingCarouselViewModel: BaseViewModel {
         currentVM.productImageURLs.asObservable().bind(to: productImageURLs).disposed(by: activeDisposeBag)
         currentVM.userInfo.asObservable().bind(to: userInfo).disposed(by: activeDisposeBag)
         currentVM.listingStats.asObservable().bind(to: listingStats).disposed(by: activeDisposeBag)
+        currentVM.isProfessional.asObservable().bind(to: ownerIsProfessional).disposed(by: activeDisposeBag)
+        currentVM.phoneNumber.asObservable().bind(to: ownerPhoneNumber).disposed(by: activeDisposeBag)
 
         currentVM.actionButtons.asObservable().bind(to: actionButtons).disposed(by: activeDisposeBag)
         currentVM.navBarButtons.asObservable().bind(to: navBarButtons).disposed(by: activeDisposeBag)
@@ -720,6 +731,19 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
         }
     }
     
+    var listingOrigin: ListingOrigin {
+        let result: ListingOrigin
+        switch lastMovement {
+        case .initial:
+            result = .initial
+        case .tap, .swipeRight:
+            result = .inResponseToNextRequest
+        case .swipeLeft:
+            result = .inResponseToPreviousRequest
+        }
+        return result
+    }
+    
     func vmResetBumpUpBannerCountdown() {
         delegate?.vmResetBumpUpBannerCountdown()
     }
@@ -775,16 +799,22 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
 // MARK: - Tracking
 
 extension CarouselMovement {
+
     func visitSource(_ originSource: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
+        let sourceIsRelatedListing = originSource == .relatedListings
+        let sourceIsFavourite = originSource == .favourite
+        guard sourceIsRelatedListing || sourceIsFavourite  else {
+            return originSource
+        }
         switch self {
         case .tap:
-            return .next
+            return sourceIsFavourite ? .nextFavourite : .next
         case .swipeRight:
-            return .next
+            return sourceIsFavourite ? .nextFavourite : .next
         case .initial:
             return originSource
         case .swipeLeft:
-            return .previous
+            return sourceIsFavourite ? .previousFavourite : .previous
         }
     }
 

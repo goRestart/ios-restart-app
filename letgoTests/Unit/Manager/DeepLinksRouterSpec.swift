@@ -15,30 +15,29 @@ import LGCoreKit
 class DeepLinksRouterSpec: QuickSpec {
 
     override func spec() {
-        var deeplinksRouter: DeepLinksRouter!
+        var sut: LGDeepLinksRouter!
         let categoryID = String(ListingCategory.makeMock().rawValue)
         let queryString = String.makeRandom()
         let listingID = Listing.makeMock().objectId!
 
         beforeEach {
-            deeplinksRouter = LGDeepLinksRouter()
+            sut = LGDeepLinksRouter()
         }
 
         describe("basic deferred deep linking") {
 
             context("targeting a specific category") {
                 beforeEach {
-                    if let installData = MockDeferredDeepLinkMaker.makeTargetCategory(categoryID),
-                        let onConversionDataReceived = deeplinksRouter.onConversionDataReceived {
-                        onConversionDataReceived(installData)
+                    if let installData = MockDeferredDeepLinkMaker.makeTargetCategory(categoryID) {
+                        sut.onConversionDataReceived(installData)
                     }
                 }
 
                 it("sets the initial deeplink properly") {
-                    expect(deeplinksRouter.initialDeeplinkAvailable).to(beTrue())
+                    expect(sut.initialDeeplinkAvailable).to(beTrue())
                 }
                 it("sets a category search deeplink targeting that category with no query string") {
-                    if let deeplink = deeplinksRouter.consumeInitialDeepLink() {
+                    if let deeplink = sut.consumeInitialDeepLink() {
                         expect(deeplink.action) == DeepLinkAction.search(query: "", categories: categoryID)
                     }
                 }
@@ -47,16 +46,15 @@ class DeepLinksRouterSpec: QuickSpec {
 
             context("targeting a specific query search") {
                 beforeEach {
-                    if let installData = MockDeferredDeepLinkMaker.makeTargetQuery(queryString),
-                        let onConversionDataReceived = deeplinksRouter.onConversionDataReceived {
-                        onConversionDataReceived(installData)
+                    if let installData = MockDeferredDeepLinkMaker.makeTargetQuery(queryString) {
+                        sut.onConversionDataReceived(installData)
                     }
                 }
                 it("sets the initial deeplink properly") {
-                    expect(deeplinksRouter.initialDeeplinkAvailable).to(beTrue())
+                    expect(sut.initialDeeplinkAvailable).to(beTrue())
                 }
                 it("sets a category search deeplink with a query string without category") {
-                    if let deeplink = deeplinksRouter.consumeInitialDeepLink() {
+                    if let deeplink = sut.consumeInitialDeepLink() {
                         expect(deeplink.action) == DeepLinkAction.search(query: queryString, categories: nil)
                     }
                 }
@@ -64,16 +62,15 @@ class DeepLinksRouterSpec: QuickSpec {
 
             context("targeting a specific listing") {
                 beforeEach {
-                    if let installData = MockDeferredDeepLinkMaker.makeTargetListing(listingID),
-                        let onConversionDataReceived = deeplinksRouter.onConversionDataReceived {
-                        onConversionDataReceived(installData)
+                    if let installData = MockDeferredDeepLinkMaker.makeTargetListing(listingID) {
+                        sut.onConversionDataReceived(installData)
                     }
                 }
                 it("sets the initial deeplink properly") {
-                    expect(deeplinksRouter.initialDeeplinkAvailable).to(beTrue())
+                    expect(sut.initialDeeplinkAvailable).to(beTrue())
                 }
                 it("sets a category search deeplink with a query string without category") {
-                    if let deeplink = deeplinksRouter.consumeInitialDeepLink() {
+                    if let deeplink = sut.consumeInitialDeepLink() {
                         expect(deeplink.action) == DeepLinkAction.listing(listingId: listingID)
                     }
                 }
@@ -84,16 +81,15 @@ class DeepLinksRouterSpec: QuickSpec {
 
             context("targeting a specific category") {
                 beforeEach {
-                    if let installData = MockDeferredDeepLinkMaker.makeFacebookTargetCategory(categoryID),
-                        let onConversionDataReceived = deeplinksRouter.onConversionDataReceived {
-                        onConversionDataReceived(installData)
+                    if let installData = MockDeferredDeepLinkMaker.makeFacebookTargetCategory(categoryID) {
+                        sut.onConversionDataReceived(installData)
                     }
                 }
                 it("sets the initial deeplink properly") {
-                    expect(deeplinksRouter.initialDeeplinkAvailable).to(beTrue())
+                    expect(sut.initialDeeplinkAvailable).to(beTrue())
                 }
                 it("sets a category search deeplink with a query string without category") {
-                    if let deeplink = deeplinksRouter.consumeInitialDeepLink() {
+                    if let deeplink = sut.consumeInitialDeepLink() {
                         expect(deeplink.action) == DeepLinkAction.search(query: "", categories: categoryID)
                     }
                 }
@@ -101,16 +97,15 @@ class DeepLinksRouterSpec: QuickSpec {
 
             context("targeting a specific query search") {
                 beforeEach {
-                    if let installData = MockDeferredDeepLinkMaker.makeTargetQuery(queryString),
-                        let onConversionDataReceived = deeplinksRouter.onConversionDataReceived {
-                        onConversionDataReceived(installData)
+                    if let installData = MockDeferredDeepLinkMaker.makeTargetQuery(queryString) {
+                        sut.onConversionDataReceived(installData)
                     }
                 }
                 it("sets the initial deeplink properly") {
-                    expect(deeplinksRouter.initialDeeplinkAvailable).to(beTrue())
+                    expect(sut.initialDeeplinkAvailable).to(beTrue())
                 }
                 it("sets a category search deeplink with a query string without category") {
-                    if let deeplink = deeplinksRouter.consumeInitialDeepLink() {
+                    if let deeplink = sut.consumeInitialDeepLink() {
                         expect(deeplink.action) == DeepLinkAction.search(query: queryString, categories: nil)
                     }
                 }
@@ -118,16 +113,15 @@ class DeepLinksRouterSpec: QuickSpec {
 
             context("targeting a specific listing") {
                 beforeEach {
-                    if let installData = MockDeferredDeepLinkMaker.makeFacebookTargetListing(listingID),
-                        let onConversionDataReceived = deeplinksRouter.onConversionDataReceived {
-                        onConversionDataReceived(installData)
+                    if let installData = MockDeferredDeepLinkMaker.makeFacebookTargetListing(listingID) {
+                        sut.onConversionDataReceived(installData)
                     }
                 }
                 it("sets the initial deeplink properly") {
-                    expect(deeplinksRouter.initialDeeplinkAvailable).to(beTrue())
+                    expect(sut.initialDeeplinkAvailable).to(beTrue())
                 }
                 it("sets a category search deeplink with a query string without category") {
-                    if let deeplink = deeplinksRouter.consumeInitialDeepLink() {
+                    if let deeplink = sut.consumeInitialDeepLink() {
                         expect(deeplink.action) == DeepLinkAction.listing(listingId: listingID)
                     }
                 }
@@ -137,16 +131,36 @@ class DeepLinksRouterSpec: QuickSpec {
         describe("a failed deferred deep link arriving") {
             context("trying to parse the data") {
                 beforeEach {
-                    if let installData = MockDeferredDeepLinkMaker.makeTargetFail(),
-                        let makeTargetFail = deeplinksRouter.onConversionDataReceived {
-                        makeTargetFail(installData)
+                    if let installData = MockDeferredDeepLinkMaker.makeTargetFail() {
+                        sut.onConversionDataReceived(installData)
                     }
                 }
                 afterEach {
-                    _ = deeplinksRouter.consumeInitialDeepLink()
+                    _ = sut.consumeInitialDeepLink()
                 }
                 it("does not set the initial deeplink properly") {
-                    expect(deeplinksRouter.initialDeeplinkAvailable).to(beFalse())
+                    expect(sut.initialDeeplinkAvailable).to(beFalse())
+                }
+            }
+        }
+        
+        describe("appShouldOpenInBrowser:url") {
+            context("when checking jobs.letgo.com") {
+                it("should return true") {
+                    let url = URL(string: "http://jobs.letgo.com")!
+                    expect(sut.appShouldOpenInBrowser(url: url)).to(beTrue())
+                }
+            }
+            context("when checking we.letgo.com") {
+                it("should return true") {
+                    let url = URL(string: "http://we.letgo.com")!
+                    expect(sut.appShouldOpenInBrowser(url: url)).to(beTrue())
+                }
+            }
+            context("when checking a valid universal link") {
+                it("should return false") {
+                    let url = URL(string: "https://es.stg.letgo.com/es/i/")!
+                    expect(sut.appShouldOpenInBrowser(url: url)).to(beFalse())
                 }
             }
         }

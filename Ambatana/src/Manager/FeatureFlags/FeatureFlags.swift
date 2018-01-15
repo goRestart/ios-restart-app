@@ -25,15 +25,13 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var newCarsMultiRequesterEnabled: Bool { get }
     var inAppRatingIOS10: Bool { get }
-    var tweaksCarPostingFlow: TweaksCarPostingFlow { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
     var appRatingDialogInactive: Bool { get }
-    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu { get }
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
     var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var searchAutocomplete: SearchAutocomplete { get }
-    var realEstateEnabled: Bool { get }
+    var realEstateEnabled: RealEstateEnabled { get }
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var newBumpUpExplanation: NewBumpUpExplanation { get }
@@ -45,10 +43,13 @@ protocol FeatureFlaggeable: class {
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
-    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation { get }
+    var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
+    var realEstateImprovements: RealEstateImprovements { get }
+    var realEstatePromos: RealEstatePromos { get }
+    var allowEmojisOnChat: AllowEmojisOnChat { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -64,14 +65,6 @@ extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
     }
-}
-
-extension TweaksCarPostingFlow {
-    var isActive: Bool { get { return self == .active } }
-}
-
-extension ExpandableCategorySelectionMenu {
-    var isActive: Bool { get { return self == .expandableMenu } }
 }
 
 extension ShowPriceAfterSearchOrFilter {
@@ -98,7 +91,7 @@ extension PromoteBumpUpAfterSell {
     var isActive: Bool { get { return self == .active } }
 }
 
-extension CopyListingAnotherConfirmation {
+extension AllowCallsForProfessionals {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -115,6 +108,22 @@ extension MostSearchedDemandedItems {
                 self == .subsetInsideExpandableMenu
         }
     }
+}
+
+extension RealEstateEnabled {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension RealEstateImprovements {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension RealEstatePromos {
+    var isActive: Bool { get { return self == .control || self == .baseline } }
+}
+
+extension AllowEmojisOnChat {
+    var isActive: Bool { get { return self == .active } }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -231,13 +240,6 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.inAppRatingIOS10.value
     }
 
-    var tweaksCarPostingFlow: TweaksCarPostingFlow {
-        if Bumper.enabled {
-            return Bumper.tweaksCarPostingFlow
-        }
-        return TweaksCarPostingFlow.fromPosition(abTests.tweaksCarPostingFlow.value)
-    }
-
     var userReviewsReportEnabled: Bool {
         if Bumper.enabled {
             return Bumper.userReviewsReportEnabled
@@ -257,13 +259,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.appRatingDialogInactive
         }
         return abTests.appRatingDialogInactive.value
-    }
-
-    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu {
-        if Bumper.enabled {
-            return Bumper.expandableCategorySelectionMenu
-        }
-        return ExpandableCategorySelectionMenu.fromPosition(abTests.expandableCategorySelectionMenu.value)
     }
 
     var locationDataSourceEndpoint: LocationDataSourceEndpoint {
@@ -287,11 +282,12 @@ class FeatureFlags: FeatureFlaggeable {
         return SearchAutocomplete.fromPosition(abTests.searchAutocomplete.value)
     }
 
-    var realEstateEnabled: Bool {
+    var realEstateEnabled: RealEstateEnabled
+    {
         if Bumper.enabled {
             return Bumper.realEstateEnabled
         }
-        return abTests.realEstateEnabled.value
+        return RealEstateEnabled.fromPosition(abTests.realEstateEnabled.value)
     }
     
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
@@ -363,12 +359,12 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return PromoteBumpUpAfterSell.fromPosition(abTests.promoteBumpUpAfterSell.value)
     }
-    
-    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation {
+
+    var allowCallsForProfessionals: AllowCallsForProfessionals {
         if Bumper.enabled {
-            return Bumper.copyListingAnotherConfirmation
+            return Bumper.allowCallsForProfessionals
         }
-        return CopyListingAnotherConfirmation.fromPosition(abTests.copyListingAnotherConfirmation.value)
+        return AllowCallsForProfessionals.fromPosition(abTests.allowCallsForProfessionals.value)
     }
 
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
@@ -392,6 +388,27 @@ class FeatureFlags: FeatureFlaggeable {
         return MostSearchedDemandedItems.fromPosition(abTests.mostSearchedDemandedItems.value)
     }
     
+    
+    var realEstateImprovements: RealEstateImprovements {
+        if Bumper.enabled {
+            return Bumper.realEstateImprovements
+        }
+        return RealEstateImprovements.fromPosition(abTests.realEstateImprovements.value)
+    }
+    
+    var realEstatePromos: RealEstatePromos {
+        if Bumper.enabled {
+            return Bumper.realEstatePromos
+        }
+        return RealEstatePromos.fromPosition(abTests.realEstatePromos.value)
+    }
+    
+    var allowEmojisOnChat: AllowEmojisOnChat {
+        if Bumper.enabled {
+            return Bumper.allowEmojisOnChat
+        }
+        return AllowEmojisOnChat.fromPosition(abTests.allowEmojisOnChat.value)
+    }
 
     // MARK: - Country features
 

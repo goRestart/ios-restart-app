@@ -28,6 +28,12 @@ class BaseView: UIView {
     }
     private var activeFirstTime = true
 
+    var isSafeAreaAvailable: Bool {
+        if #available(iOS 11.0, *) {
+            return true
+        }
+        return false
+    }
     
     // MARK: - Lifecycle
     

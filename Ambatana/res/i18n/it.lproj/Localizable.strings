@@ -662,12 +662,6 @@
 "product_share_title_label" = "CONDIVIDI QUESTO ANNUNCIO";
 "product_share_title_on_letgo" = "%@ su letgo!";
 "product_stickers_selection_wo_name" = "Seleziona l'adesivo da inviare al venditore.";
-"professional_dealer_ask_phone_chat_message" = "Il mio numero di telefono è %@";
-"professional_dealer_ask_phone_intro_text" = "Sono un rivenditore professionale di auto e sarei lieto di aiutarti di persona. Condividi il tuo numero di telefono in modo che possa fornirti il miglior servizio!";
-"professional_dealer_ask_phone_lets_talk_text" = "Parliamone";
-"professional_dealer_ask_phone_not_now_button" = "Non adesso";
-"professional_dealer_ask_phone_send_phone_button" = "Invia numero di telefono";
-"professional_dealer_ask_phone_textfield_placeholder" = "Inserisci numero di telefono";
 "profile_blocked_by_me_label" = "Hai bloccato questo utente";
 "profile_blocked_by_me_label_w_name" = "Hai bloccato %@";
 "profile_blocked_by_other_label" = "Sei stato bloccato da questo utente";
@@ -759,8 +753,8 @@
 "real_estate_bedrooms_title" = "N° di stanze";
 "real_estate_camera_view_real_estate_message" = "Scatta una foto dell'immobile che desideri vendere o affittare";
 "real_estate_current_step_of_total" = "%d di %d";
-"real_estate_empty_state_search_subtitle" = "Pubblica per primo un immobile in vendita/affitto nella tua zona o controlla nuovamente dopo!";
-"real_estate_empty_state_search_title" = "OPS! NESSUNA ABITAZIONE PUBBLICATA NELLA TUA ZONA";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
 "real_estate_gallery_view_subtitle" = "Seleziona un massimo di 5 immagini dell'immobile che desideri vendere o affittare";
 "real_estate_location_notification_message" = "La tua posizione esatta non verrà mai mostrata agli altri utenti";
 "real_estate_location_title" = "Posizione";
@@ -927,12 +921,6 @@
 "tour_facebook_button" = "Continua con Facebook";
 "tour_google_button" = "Continua con Google";
 "tour_or_label" = "O utilizza la tua email";
-"trending_items_header_bubble" = "Trending";
-"trending_items_view_number_of_searches_item" = "% searches";
-"trending_items_view_number_of_searches_title" = "Searches this week";
-"trending_items_view_post_button" = "Post";
-"trending_items_view_subtitle" = "Post one of these, and make money under a week";
-"trending_items_view_title" = "Most popular items in %@";
 "trending_searches_Title" = "Ricerche di tendenza";
 "unblock_user_error_generic" = "Si è verificato un errore durante il tentativo di sbloccare questo utente.";
 "user_rating_add_comment_button" = "Aggiungi commento";

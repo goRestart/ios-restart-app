@@ -65,6 +65,7 @@ class UserViewModel: BaseViewModel {
     let userRatingCount = Variable<Int?>(nil)
     let userRelationText = Variable<String?>(nil)
     let userName = Variable<String?>(nil)
+    let userIsProfessional = Variable<Bool>(false)
     let userLocation = Variable<String?>(nil)
     let userAccounts = Variable<UserViewHeaderAccounts?>(nil)
     let pushPermissionsDisabledWarning = Variable<Bool?>(nil)
@@ -453,6 +454,7 @@ fileprivate extension UserViewModel {
             
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityStateString
+            strongSelf.userIsProfessional.value = user?.type == .pro
             
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .myUser : .otherUser
             
@@ -625,7 +627,8 @@ extension UserViewModel: ListingListViewModelDataDelegate {
         let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels, requester: requester,
                                                  thumbnailImage: thumbnailImage, originFrame: originFrame,
                                                  showRelated: false, index: 0)
-        navigator?.openListing(data, source: .profile, actionOnFirstAppear: .nonexistent)
+        let source: EventParameterListingVisitSource = viewModel === favoritesListingListViewModel ? .favourite : .profile
+        navigator?.openListing(data, source: source, actionOnFirstAppear: .nonexistent)
     }
     
     func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] { return listings }

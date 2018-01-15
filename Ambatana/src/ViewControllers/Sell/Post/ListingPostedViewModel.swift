@@ -37,9 +37,9 @@ class ListingPostedViewModel: BaseViewModel {
     var wasFreePosting: Bool {
         switch self.status {
         case let .posting(_, params):
-            return params.price.free
+            return params.price.isFree
         case let .success(listing):
-            return listing.price.free
+            return listing.price.isFree
         case .error:
             return false
         }
@@ -101,17 +101,13 @@ class ListingPostedViewModel: BaseViewModel {
 
 
     // MARK: - Public
-    
-    var listingPostConfirmationButtonText: String {
-        return featureFlags.copyListingAnotherConfirmation.isActive ? LGLocalizedString.productPostConfirmationAnotherListingButton : LGLocalizedString.productPostConfirmationAnotherButton
-    }
 
     var mainButtonText: String? {
         switch status {
         case .posting:
             return nil
         case .success:
-            return wasFreePosting ? LGLocalizedString.productPostFreeConfirmationAnotherButton : listingPostConfirmationButtonText
+            return wasFreePosting ? LGLocalizedString.productPostFreeConfirmationAnotherButton : LGLocalizedString.productPostConfirmationAnotherListingButton
         case .error:
             return LGLocalizedString.productPostRetryButton
         }

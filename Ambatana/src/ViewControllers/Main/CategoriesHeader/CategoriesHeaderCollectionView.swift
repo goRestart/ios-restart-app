@@ -24,6 +24,7 @@ protocol CategoriesHeaderCollectionViewDelegate: class {
 class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     fileprivate var categoryHeaderElements: [CategoryHeaderElement]
+    fileprivate var categoryHighlighted: CategoryHeaderElement
     weak var delegateCategoryHeader: CategoriesHeaderCollectionViewDelegate?
     fileprivate var isShowingSuperKeywords: Bool {
         return categoryHeaderElements.first?.isSuperKeyword ?? false
@@ -32,13 +33,14 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     
     static let viewHeight: CGFloat = CategoryHeaderCell.cellSize().height
     
-    init(categories: [CategoryHeaderElement], frame: CGRect, isMostSearchedItemsEnabled: Bool) {
+    init(categories: [CategoryHeaderElement], frame: CGRect, categoryHighlighted: CategoryHeaderElement, isMostSearchedItemsEnabled: Bool) {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         layout.itemSize = CategoryHeaderCell.cellSize()
         self.categoryHeaderElements = categories
+        self.categoryHighlighted = categoryHighlighted
         super.init(frame: frame, collectionViewLayout: layout)
         
         if isShowingSuperKeywords {
@@ -80,7 +82,7 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
                     cell.categoryIcon.lg_setImageWithURL(url)
                 }
             }
-            if categoryHeaderElement.isCarCategory {
+            if categoryHeaderElement == categoryHighlighted {
                 cell.addNewTagToCategory()
             }
         return cell

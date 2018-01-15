@@ -38,7 +38,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     // contained in cameraGalleryContainer
     fileprivate var viewPager: LGViewPager
     fileprivate var cameraView: PostListingCameraView
-    fileprivate var galleryView: PostListingGalleryView = PostListingGalleryView()
+    fileprivate var galleryView: PostListingGalleryView
 
     // contained in detailsContainer
     fileprivate let priceView: UIView
@@ -93,11 +93,12 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forcedInitialTab = forcedInitialTab
+        let postListingGalleryViewModel = PostListingGalleryViewModel(postCategory: viewModel.postCategory)
+        self.galleryView = PostListingGalleryView(viewModel: postListingGalleryViewModel)
         
         self.priceView = PostListingDetailPriceView(viewModel: viewModel.postDetailViewModel)
         self.categorySelectionView = PostCategorySelectionView(realEstateEnabled: viewModel.realEstateEnabled)
-        self.carDetailsView = PostCarDetailsView(shouldShowSummaryAfter: viewModel.shouldShowSummaryAfter,
-                                                 initialValues: viewModel.carInfo(forDetail: .make).carInfoWrappers)
+        self.carDetailsView = PostCarDetailsView(initialValues: viewModel.carInfo(forDetail: .make).carInfoWrappers)
         super.init(viewModel: viewModel, nibName: "PostListingViewController",
                    statusBarStyle: UIApplication.shared.statusBarStyle)
         modalPresentationStyle = .overCurrentContext
@@ -401,25 +402,13 @@ extension PostListingViewController {
         if let previousState = carDetailsView.previousState, previousState.isSummary {
             didFinishEnteringDetails()
         } else {
-            if viewModel.shouldShowSummaryAfter {
-                switch carDetailsView.state {
-                    case .selectDetail, .selectDetailValue(forDetail: .make):
-                    carDetailsView.hideKeyboard()
-                    viewModel.revertToPreviousStep()
-                    case .selectDetailValue(forDetail: .model):
-                    showCarMakes()
-                    case .selectDetailValue(forDetail: .year):
-                    showCarModels()
-                }
-            } else {
-                switch carDetailsView.state {
-                case .selectDetail, .selectDetailValue(forDetail: .make):
-                    didFinishEnteringDetails()
-                case .selectDetailValue(forDetail: .model):
-                    showCarMakes()
-                case .selectDetailValue(forDetail: .year):
-                    showCarModels()
-                }
+            switch carDetailsView.state {
+            case .selectDetail, .selectDetailValue(forDetail: .make):
+                didFinishEnteringDetails()
+            case .selectDetailValue(forDetail: .model):
+                showCarMakes()
+            case .selectDetailValue(forDetail: .year):
+                showCarModels()
             }
         }
     }

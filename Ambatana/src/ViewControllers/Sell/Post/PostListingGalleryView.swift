@@ -30,7 +30,6 @@ fileprivate extension GalleryState {
             view.topRightButton.isEnabled = viewModel.imagesSelectedCount != 0
         }
     }
-
 }
 
 
@@ -39,14 +38,15 @@ enum MessageInfoType {
     case noImages
     case wrongImage
 
-    func configMessageViews(title: UILabel, subtitle: UILabel) {
+    func configMessageViews(title: UILabel, subtitle: UILabel, noImageSubtitleText: String) {
         switch self {
         case .noMessage:
             title.text = ""
             subtitle.text = ""
         case .noImages:
             title.text = LGLocalizedString.productPostGallerySelectPicturesTitle
-            subtitle.text = LGLocalizedString.productPostGallerySelectPicturesSubtitle
+            subtitle.text = noImageSubtitleText
+            
         case .wrongImage:
             title.text = LGLocalizedString.productPostGalleryLoadImageErrorTitle
             subtitle.text = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
@@ -128,8 +128,8 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
 
     // MARK: - Lifecycle
 
-    convenience init() {
-        let viewModel = PostListingGalleryViewModel()
+    convenience init(viewModel: PostListingGalleryViewModel) {
+        let viewModel = viewModel
         self.init(viewModel: viewModel, frame: CGRect.zero)
     }
 
@@ -220,7 +220,9 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
     }
 
     fileprivate func configMessageView(_ type: MessageInfoType) {
-        type.configMessageViews(title: loadImageErrorTitleLabel, subtitle: loadImageErrorSubtitleLabel)
+        type.configMessageViews(title: loadImageErrorTitleLabel,
+                                subtitle: loadImageErrorSubtitleLabel,
+                                noImageSubtitleText: viewModel.noImageSubtitleText)
     }
     
     fileprivate func updateTopRightButton(state: GalleryState) {
@@ -285,9 +287,10 @@ extension PostListingGalleryView: UICollectionViewDataSource, UICollectionViewDe
                 if let position = selectedIndexes.index(of: indexPath.item) {
                     galleryCell.multipleSelectionCountLabel.text = "\(position + 1)"
                 }
+            } else {
+                galleryCell.disabled = viewModel.imagesSelectedCount >= viewModel.maxImagesSelected
+                galleryCell.isSelected = false
             }
-            galleryCell.disabled = viewModel.imagesSelectedCount >= viewModel.maxImagesSelected
-            galleryCell.isSelected = false
 
             return galleryCell
     }
@@ -297,7 +300,7 @@ extension PostListingGalleryView: UICollectionViewDataSource, UICollectionViewDe
     }
 
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return viewModel.imageSelectionEnabled.value
+        return viewModel.imageSelectionEnabled
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -306,7 +309,7 @@ extension PostListingGalleryView: UICollectionViewDataSource, UICollectionViewDe
 
     fileprivate func selectItemAtIndex(_ index: Int) {
         let indexPath = IndexPath(item: index, section: 0)
-        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition())
+        collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
         let layoutAttributes = collectionView.layoutAttributesForItem(at: indexPath)
         if let layoutAttributes = layoutAttributes {
             collectionView.scrollRectToVisible(layoutAttributes.frame, animated: true)

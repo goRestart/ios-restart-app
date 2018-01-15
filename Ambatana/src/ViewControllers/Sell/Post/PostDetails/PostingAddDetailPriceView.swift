@@ -130,10 +130,10 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
     
     private func setupRx() {
         freeActive.asObservable().bind(to: freeSwitch.rx.isOn).disposed(by: disposeBag)
-        freeActive.asObservable().bind{[weak self] active in
+        freeActive.asObservable().skip(1).bind{ [weak self] active in
             self?.showPriceContainer(hide: active)
             }.disposed(by: disposeBag)
-        freeSwitch.rx.isOn.asObservable().bind(to: freeActive).disposed(by: disposeBag)
+        freeSwitch.rx.isOn.asObservable().skip(1).bind(to: freeActive).disposed(by: disposeBag)
         
         Observable.combineLatest(freeSwitch.rx.isOn.asObservable(), priceTextField.rx.text.asObservable()) { ($0, $1) }.bind { [weak self] (isOn, textFieldValue) in
             guard let strongSelf = self else { return }
@@ -190,13 +190,11 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
     func setupView(viewModel: PostingDetailsViewModel) {
         guard let price = viewModel.currentPrice else { return }
         switch price {
-        case .firmPrice, .normal:
+        case .normal:
             let priceString = price.value == 0 ? "" : String.fromPriceDouble(price.value)
             priceTextField.text = priceString
         case .free:
             freeActive.value = true
-        case .negotiable:
-            break
         }
     }
 }

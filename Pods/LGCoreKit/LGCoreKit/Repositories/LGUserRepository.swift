@@ -14,13 +14,15 @@ final class LGUserRepository: InternalUserRepository {
     var eventsPublishSubject = PublishSubject<UserRepositoryEvent>()
     let dataSource: UserDataSource
     let myUserRepository: MyUserRepository
+    let cache: UsersDAO
 
 
     // MARK: - Lifecycle
 
-    init(dataSource: UserDataSource, myUserRepository: MyUserRepository) {
+    init(dataSource: UserDataSource, myUserRepository: MyUserRepository, usersDAO: UsersDAO) {
         self.dataSource = dataSource
         self.myUserRepository = myUserRepository
+        self.cache = usersDAO
     }
 
     /**
@@ -29,8 +31,15 @@ final class LGUserRepository: InternalUserRepository {
      - parameter completion: The completion closure.
      */
     func show(_ userId: String, completion: UserCompletion?) {
-        dataSource.show(userId) { result in
-            handleApiResult(result, success: nil, completion: completion)
+        if let user = cache.retrieve(userId: userId) {
+            handleApiResult(Result(value: user), completion: completion)
+        } else {
+            dataSource.show(userId) { [weak self] result in
+                if let user = result.value {
+                    self?.cache.save(user: user)
+                }
+                handleApiResult(result, completion: completion)
+            }
         }
     }
 

@@ -20,6 +20,7 @@ enum PostingSource {
     case notifications
     case deleteListing
     case mostSearchedItems
+    case realEstatePromo
 }
 
 
@@ -74,12 +75,8 @@ class PostListingViewModel: BaseViewModel {
     var selectedCarAttributes: CarAttributes = CarAttributes.emptyCarAttributes()
     var selectedRealEstateAttributes: RealEstateAttributes = RealEstateAttributes.emptyRealEstateAttributes()
     
-    var shouldShowSummaryAfter: Bool {
-        return featureFlags.tweaksCarPostingFlow.isActive
-    }
-    
     var realEstateEnabled: Bool {
-        return featureFlags.realEstateEnabled
+        return featureFlags.realEstateEnabled.isActive
     }
     
     fileprivate let disposeBag: DisposeBag
@@ -118,7 +115,7 @@ class PostListingViewModel: BaseViewModel {
         self.fileRepository = fileRepository
         self.carsInfoRepository = carsInfoRepository
         self.postDetailViewModel = PostListingBasicDetailViewModel()
-        self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source)
+        self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source, postCategory: postCategory)
         self.tracker = tracker
         self.sessionManager = sessionManager
         self.featureFlags = featureFlags
@@ -422,6 +419,8 @@ extension PostingSource {
             return .listingDelete
         case .mostSearchedItems: // TODO: Temporary. To be defined
             return .sell
+        case .realEstatePromo:
+            return .realEstatePromo
         }
     }
 
@@ -433,6 +432,8 @@ extension PostingSource {
             return .sellYourStuff
         case .onboardingCamera:
             return .startMakingCash
+        case .realEstatePromo:
+            return .realEstatePromo
         }
     }
     var sellButtonPosition: EventParameterSellButtonPosition {
@@ -443,6 +444,8 @@ extension PostingSource {
             return .floatingButton
         case .onboardingButton, .onboardingCamera, .deepLink, .notifications, .deleteListing, .mostSearchedItems:
             return .none
+        case .realEstatePromo:
+            return .realEstatePromo
         }
     }
 }

@@ -290,7 +290,7 @@ extension ChatGroupedViewController {
                 action: #selector(ChatGroupedViewController.edit))
             editButton.isEnabled = strongSelf.viewModel.editButtonEnabled.value
             strongSelf.editButton = editButton
-            strongSelf.navigationItem.rightBarButtonItem = editButton
+            strongSelf.navigationItem.setRightBarButton(editButton, animated: false)
         }.disposed(by: disposeBag)
 
         viewModel.editButtonEnabled.asObservable().subscribeNext { [weak self] enabled in

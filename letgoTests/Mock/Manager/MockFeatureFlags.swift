@@ -26,16 +26,14 @@ class MockFeatureFlags: FeatureFlaggeable {
     var pricedBumpUpEnabled: Bool = false
     var newCarsMultiRequesterEnabled: Bool = false
     var inAppRatingIOS10: Bool = false
-    var tweaksCarPostingFlow: TweaksCarPostingFlow = .control
     var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
     var locationDataSourceEndpoint: LocationDataSourceEndpoint = .control
     var appRatingDialogInactive: Bool = false
-    var expandableCategorySelectionMenu: ExpandableCategorySelectionMenu = .control
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed = .control
     var newItemPage: NewItemPage = .control
     var searchAutocomplete: SearchAutocomplete = .control
-    var realEstateEnabled: Bool = false
+    var realEstateEnabled: RealEstateEnabled = .control
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
     var newBumpUpExplanation: NewBumpUpExplanation = .control
@@ -46,11 +44,15 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation = .control
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell = .control
-    var copyListingAnotherConfirmation: CopyListingAnotherConfirmation = .control
+    var allowCallsForProfessionals: AllowCallsForProfessionals = .control
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP = .control
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
     var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
 
+    var realEstateImprovements: RealEstateImprovements = .control
+    var realEstatePromos: RealEstatePromos = .control
+    var allowEmojisOnChat: AllowEmojisOnChat = .control
+    
     // Country dependant features
     var freePostingModeAllowed = false
     var locationRequiresManualChangeSuggestion = false
