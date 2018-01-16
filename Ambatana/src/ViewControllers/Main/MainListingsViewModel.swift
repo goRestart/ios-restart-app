@@ -70,6 +70,9 @@ class MainListingsViewModel: BaseViewModel {
     var isTaxonomiesAndTaxonomyChildrenInFeedEnabled: Bool {
         return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive
     }
+    var isMostSearchedItemsEnabled: Bool {
+        return featureFlags.mostSearchedDemandedItems.isActive
+    }
     
     var defaultBubbleText: String {
         let distance = filters.distanceRadius ?? 0
@@ -524,10 +527,13 @@ class MainListingsViewModel: BaseViewModel {
             filters.selectedTaxonomyChildren = [taxonomyChild]
         case .superKeywordGroup(let taxonomy):
             filters.selectedTaxonomy = taxonomy
-        case .other:
+        case .showMore:
             tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                          name: categoryHeaderInfo.name))
             return // do not update any filters
+        case .mostSearchedItems:
+            // TODO: Add tracker. Also check .showMore's tracker top in another method
+            return
         }
         applyFilters(categoryHeaderInfo)
     }
@@ -1287,6 +1293,10 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
         let vm = TaxonomiesViewModel(taxonomies: getTaxonomies(), taxonomySelected: nil, taxonomyChildSelected: nil, source: .listingList)
         vm.taxonomiesDelegate = self
         navigator?.openTaxonomyList(withViewModel: vm)
+    }
+    
+    func openMostSearchedItems() {
+        navigator?.openMostSearchedItems()
     }
 }
 

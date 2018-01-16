@@ -2707,6 +2707,30 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_report_login_popup_text", comment: "")
 	}
 
+	static var professionalDealerAskPhoneIntroText: String {
+		return NSLocalizedString("professional_dealer_ask_phone_intro_text", comment: "")
+	}
+
+	static var professionalDealerAskPhoneNotNowButton: String {
+		return NSLocalizedString("professional_dealer_ask_phone_not_now_button", comment: "")
+	}
+
+	static var professionalDealerAskPhoneLetsTalkText: String {
+		return NSLocalizedString("professional_dealer_ask_phone_lets_talk_text", comment: "")
+	}
+
+	static var professionalDealerAskPhoneTextfieldPlaceholder: String {
+		return NSLocalizedString("professional_dealer_ask_phone_textfield_placeholder", comment: "")
+	}
+
+	static var professionalDealerAskPhoneSendPhoneButton: String {
+		return NSLocalizedString("professional_dealer_ask_phone_send_phone_button", comment: "")
+	}
+
+	static func professionalDealerAskPhoneChatMessage(_ var1: String) -> String {
+		return String(format: NSLocalizedString("professional_dealer_ask_phone_chat_message", comment: ""), var1)
+	}
+
 	static var profileBlockedByMeLabel: String {
 		return NSLocalizedString("profile_blocked_by_me_label", comment: "")
 	}
@@ -3793,5 +3817,29 @@ struct LGLocalizedString {
 
 	static var userRatingTitle: String {
 		return NSLocalizedString("user_rating_title", comment: "")
+	}
+
+	static var trendingItemsHeaderBubble: String {
+		return NSLocalizedString("trending_items_header_bubble", comment: "")
+	}
+
+	static func trendingItemsViewTitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("trending_items_view_title", comment: ""), var1)
+	}
+
+	static var trendingItemsViewSubtitle: String {
+		return NSLocalizedString("trending_items_view_subtitle", comment: "")
+	}
+
+	static var trendingItemsViewNumberOfSearchesTitle: String {
+		return NSLocalizedString("trending_items_view_number_of_searches_title", comment: "")
+	}
+
+	static var trendingItemsViewNumberOfSearchesItem: String {
+		return NSLocalizedString("trending_items_view_number_of_searches_item", comment: "")
+	}
+
+	static var trendingItemsViewPostButton: String {
+		return NSLocalizedString("trending_items_view_post_button", comment: "")
 	}
 }
