@@ -133,7 +133,7 @@ final class ListingCardUserView: UIView {
             .leading(by: Metrics.shortMargin).bottom(by: -Metrics.margin, relatedBy: .greaterThanOrEqual)
         userIcon.layout().width(Constant.Height.userIcon).widthProportionalToHeight()
 
-        userIcon.contentMode = .scaleAspectFit
+        userIcon.contentMode = .scaleAspectFill
     }
 
     private func setupUserInfo() {
