@@ -15,9 +15,6 @@ protocol AppEnvironment {
     var appsFlyerAPIKey: String { get }
     var amplitudeAPIKey: String { get }
     
-    // App indexing
-    var googleAppIndexingId: UInt { get }
-
     // Google login
     var googleServerClientID: String { get }
     var googleClientID: String { get }
@@ -25,10 +22,6 @@ protocol AppEnvironment {
     // Config
     var configFileName: String { get }
     var configURL: String { get }
-
-    // Twitter
-    var twitterConsumerKey: String { get }
-    var twitterConsumerSecret: String { get }
 
     // Leanplum
     var leanplumAppId: String { get }

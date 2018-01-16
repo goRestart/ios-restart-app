@@ -7,12 +7,12 @@
 //
 
 #if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 90000
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
 
 #import "BranchCSSearchableItemAttributeSet.h"
+#import "Branch.h"
 #import "BNCSystemObserver.h"
-#import "BNCError.h"
-#import "BranchConstants.h"
-#import <MobileCoreServices/MobileCoreServices.h>
 
 #ifndef kUTTypeGeneric
 #define kUTTypeGeneric @"public.content"
@@ -38,26 +38,26 @@
 
 - (void)setIdentifier:(NSString *)identifier {
     if (![identifier hasPrefix:BRANCH_SPOTLIGHT_PREFIX]) {
-        NSLog(@"Warning: do not set BranchCSSearchableItemAttributeSet's identifier. It will be overwritten.");
+        BNCLogWarning(@"Do not set BranchCSSearchableItemAttributeSet's identifier. It will be overwritten.");
     }
 }
 
 - (void)indexWithCallback:(callbackWithUrlAndSpotlightIdentifier)callback {
     if ([BNCSystemObserver getOSVersion].integerValue < 9) {
         if (callback) {
-            callback(nil, nil, [NSError errorWithDomain:BNCErrorDomain code:BNCVersionError userInfo:@{ NSLocalizedDescriptionKey: @"Cannot use CoreSpotlight indexing service prior to iOS 9" }]);
+            callback(nil, nil, [NSError branchErrorWithCode:BNCSpotlightNotAvailableError]);
         }
         return;
     }
     if (![CSSearchableIndex isIndexingAvailable]) {
         if (callback) {
-            callback(nil, nil, [NSError errorWithDomain:BNCErrorDomain code:BNCVersionError userInfo:@{ NSLocalizedDescriptionKey: @"Cannot use CoreSpotlight indexing service on this device" }]);
+            callback(nil, nil, [NSError branchErrorWithCode:BNCSpotlightNotAvailableError]);
         }
         return;
     }
     if (!self.title) {
         if (callback) {
-            callback(nil, nil, [NSError errorWithDomain:BNCErrorDomain code:BNCBadRequestError userInfo:@{ NSLocalizedDescriptionKey: @"Spotlight Indexing requires a title" }]);
+            callback(nil, nil, [NSError branchErrorWithCode:BNCSpotlightTitleError]);
         }
         return;
     }
