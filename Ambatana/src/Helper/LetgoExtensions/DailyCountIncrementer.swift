@@ -18,8 +18,8 @@ class DailyCountIncrementer {
         numberFormatter.locale = Locale.current
         let value = NSNumber(value: baseSearchCount + incrementSearchCount(baseSearchCount,
                                                                            itemIndex: itemIndex))
-        guard let stringNumber = numberFormatter.string(from:value) else { return nil }
-        return stringNumber
+        guard let numberString = numberFormatter.string(from:value) else { return nil }
+        return numberString
     }
     
     
