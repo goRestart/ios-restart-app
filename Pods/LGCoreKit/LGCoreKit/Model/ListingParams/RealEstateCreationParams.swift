@@ -55,6 +55,8 @@ public class RealEstateCreationParams: BaseListingParams {
         realEstateAttributesDict["typeOfListing"] = realEstateAttributes.offerType?.rawValue
         realEstateAttributesDict["numberOfBedrooms"] = realEstateAttributes.bedrooms
         realEstateAttributesDict["numberOfBathrooms"] = realEstateAttributes.bathrooms
+        realEstateAttributesDict["numberOfLivingRooms"] = realEstateAttributes.livingRooms
+        realEstateAttributesDict["sizeSquareMeters"] = realEstateAttributes.sizeSquareMeters
         
         params["realEstateAttributes"] = realEstateAttributesDict
         
