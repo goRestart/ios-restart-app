@@ -1298,10 +1298,10 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["type-page"] as? String) == "product-detail-more-info"
                 }
                 it("contains categories") {
-                    let categoryId = sut.params!.stringKeyParams["category-id"] as? String == "4,2"
+                    sut.params!.stringKeyParams["category-id"] as? String == "4,2"
                 }
                 it("contains feed position") {
-                    expect(sut.params!.stringKeyParams["feed-position"] as? String) == "14"
+                    expect(sut.params!.stringKeyParams["feed-position"] as? String) == "15"
                 }
             }
             describe("listingNotAvailable") {
