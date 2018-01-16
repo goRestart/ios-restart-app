@@ -31,7 +31,7 @@ class DailyCountIncrementer {
         let month = components.month ?? 1
         let day = components.day ?? 1
         let dailyIncrement = baseSearchCount/200
-        let monthDivision = max(month / itemIndex, 1)
+        let monthDivision = max(month / max(itemIndex, 1), 1)
         let increment = dailyIncrement + (itemIndex * day) / monthDivision // "randomizing" like a baws
         return increment
     }
