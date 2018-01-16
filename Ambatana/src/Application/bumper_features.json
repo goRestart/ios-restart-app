@@ -41,11 +41,6 @@
         "description": "Random quick answers with different approaches"
     },
     {
-        "name": "AppRatingDialogInactive",
-        "values": ["no", "yes"],
-        "description": "App rating dialog inactive to increase user activation"
-    },
-    {
         "name": "LocationDataSourceEndpoint",
         "values": ["control", "baseline", "appleWithRegion", "niordWithRegion"],
         "description": "Location data source for geocode and reverse geocode"
