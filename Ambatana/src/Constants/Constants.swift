@@ -50,6 +50,7 @@ struct Constants {
     // Deep links other apps
     static let whatsAppShareURL = "whatsapp://send?text=%@"
     static let telegramShareURL = "tg://msg?text=%@"
+    static let twitterShareURL = "https://twitter.com/intent/tweet?text=%@"
 
     // Onboarding
     static let abTestSyncTimeout: TimeInterval = 5
