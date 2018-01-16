@@ -47,7 +47,7 @@ def shared_pods
 
 
     # Collection View Custom Layout
-    pod "CHTCollectionViewWaterfallLayout", "0.9.5" # Obj-c
+    pod "CHTCollectionViewWaterfallLayout", "0.9.7" # Obj-c
 
     # Device info helper
     pod "DeviceGuru",           "~> 3.0.1"

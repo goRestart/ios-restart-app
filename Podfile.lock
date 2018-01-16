@@ -15,9 +15,9 @@ PODS:
   - Branch/Core (0.22.5)
   - bumper (1.1.0)
   - CameraManager (4.0.1)
-  - CHTCollectionViewWaterfallLayout (0.9.5):
-    - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
-  - CHTCollectionViewWaterfallLayout/ObjC (0.9.5)
+  - CHTCollectionViewWaterfallLayout (0.9.7):
+    - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.7)
+  - CHTCollectionViewWaterfallLayout/ObjC (0.9.7)
   - CocoaLumberjack/Default (3.3.0)
   - CocoaLumberjack/Swift (3.3.0):
     - CocoaLumberjack/Default
@@ -142,7 +142,7 @@ DEPENDENCIES:
   - Branch (= 0.22.5)
   - bumper (from `git@github.com:letgoapp/bumper.git`, commit `7ec04a070eca2337f058954d7f53c474d616d7b1`)
   - CameraManager (= 4.0.1)
-  - CHTCollectionViewWaterfallLayout (= 0.9.5)
+  - CHTCollectionViewWaterfallLayout (= 0.9.7)
   - CocoaLumberjack/Swift (= 3.3.0)
   - Crashlytics (= 3.9.3)
   - DeviceGuru (~> 3.0.1)
@@ -209,7 +209,7 @@ SPEC CHECKSUMS:
   Branch: 4f0482418d99e77d15b0e6065ef216c10e24797b
   bumper: 8d5499e9774aa148763ab9a1eebcaf5e0ed7beff
   CameraManager: 56b3516e8e22cfbf56f3f0401291561e1ad9b3d0
-  CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
+  CHTCollectionViewWaterfallLayout: 9d11068fafecac106695bb5a5d6d0f738483b598
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
   Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
   DeviceGuru: 648c34deb10c6ef59b013ea2922c04c18d8973f0
@@ -255,6 +255,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
 
-PODFILE CHECKSUM: a36f4a5322be78514579df2ac5177670477cd1e8
+PODFILE CHECKSUM: 5d06ec1146194b8aea808fa57d3905cdffd04ec0
 
 COCOAPODS: 1.3.1
