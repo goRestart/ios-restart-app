@@ -44,6 +44,7 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell, GADBannerViewDelega
     override func awakeFromNib() {
         super.awakeFromNib()
         resetUI()
+        setAccessibilityIds()
     }
 
     override func prepareForReuse() {
@@ -60,6 +61,12 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell, GADBannerViewDelega
         heightDelegate = nil
     }
 
+    private func setAccessibilityIds() {
+        accessibilityId = .advertisementCell
+        banner?.accessibilityId = .advertisementCellBanner
+    }
+
+    
     // MARK: - GADBannerViewDelegate
 
     func adViewDidReceiveAd(_ bannerView: GADBannerView) {
