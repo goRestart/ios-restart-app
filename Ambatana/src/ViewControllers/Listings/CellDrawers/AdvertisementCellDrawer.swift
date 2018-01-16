@@ -15,7 +15,6 @@ class AdvertisementCellDrawer: BaseCollectionCellDrawer<AdvertisementCell>, Grid
     func willDisplay(_ model: AdvertisementData, inCell cell: AdvertisementCell) { }
 
     func draw(_ model: AdvertisementData, style: CellStyle, inCell cell: AdvertisementCell) {
-        cell.layoutIfNeeded()
         cell.setupWith(adData: model)
     }
 }
