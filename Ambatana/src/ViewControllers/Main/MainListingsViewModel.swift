@@ -368,8 +368,6 @@ class MainListingsViewModel: BaseViewModel {
         Called when a filter gets removed
     */
     func updateFiltersFromTags(_ tags: [FilterTag], removedTag: FilterTag?) {
-
-        var place: Place? = nil
         var categories: [FilterCategoryItem] = []
         var taxonomyChild: TaxonomyChild? = nil
         var taxonomy: Taxonomy? = nil
@@ -379,7 +377,6 @@ class MainListingsViewModel: BaseViewModel {
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
         var free: Bool = false
-        var distance: Int? = nil
         var makeId: String? = nil
         var makeName: String? = nil
         var modelId: String? = nil
@@ -393,8 +390,8 @@ class MainListingsViewModel: BaseViewModel {
 
         for filterTag in tags {
             switch filterTag {
-            case .location(let thePlace):
-                place = thePlace
+            case .location:
+                break
             case .category(let prodCategory):
                 categories.append(FilterCategoryItem(category: prodCategory))
             case .taxonomyChild(let taxonomyChildSelected):
@@ -412,8 +409,8 @@ class MainListingsViewModel: BaseViewModel {
                 maxPrice = maxPriceOption
             case .freeStuff:
                 free = true
-            case .distance(let distanceFilter):
-                distance = distanceFilter
+            case .distance:
+                break
             case .make(let id, let name):
                 makeId = id
                 makeName = name
