@@ -8,7 +8,15 @@
 
 
 enum PostIncentiviserItem: Int {
-    case ps4 = 1, tv, bike, motorcycle, dresser, car, kidsClothes, furniture, toys
+    case ps4 = 1
+    case tv
+    case bike
+    case motorcycle
+    case dresser
+    case car
+    case kidsClothes
+    case furniture
+    case toys
 
     static func incentiviserPack(_ freePosting: Bool) -> [PostIncentiviserItem] {
         guard !freePosting else { return [.kidsClothes, .furniture, .toys] }

@@ -9,10 +9,23 @@
 import LGCoreKit
 
 enum LocalMostSearchedItem: Int {
-    case iPhone = 1, atv, smartphone, sedan, scooter, computer, coupe, tablet, motorcycle, truck, gadget, trailer,
-    controller, dresser, subwoofer
+    case iPhone = 1
+    case atv
+    case smartphone
+    case sedan
+    case scooter
+    case computer
+    case coupe
+    case tablet
+    case motorcycle
+    case truck
+    case gadget
+    case trailer
+    case controller
+    case dresser
+    case subwoofer
     
-    static var all: [LocalMostSearchedItem] {
+    static var allValues: [LocalMostSearchedItem] {
         return [iPhone, atv, smartphone, sedan, scooter, computer, coupe, tablet, motorcycle, truck, gadget, trailer,
                 controller, dresser, subwoofer]
     }

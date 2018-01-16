@@ -23,7 +23,7 @@ class MostSearchedItemsListViewModel: BaseViewModel {
     init(featureFlags: FeatureFlaggeable, isSearchEnabled: Bool) {
         self.featureFlags = featureFlags
         self.isSearchEnabled = isSearchEnabled
-        mostSearchedItems = LocalMostSearchedItem.all
+        mostSearchedItems = LocalMostSearchedItem.allValues
         super.init()
     }
     
