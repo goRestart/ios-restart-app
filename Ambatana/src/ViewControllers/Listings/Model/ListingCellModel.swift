@@ -8,12 +8,13 @@
 
 import Foundation
 import LGCoreKit
-
+import GoogleMobileAds
 
 enum ListingCellModel {
     case listingCell(listing: Listing)
     case collectionCell(type: CollectionCellType)
     case emptyCell(vm: LGEmptyViewModel)
+    case advertisement(data: AdvertisementData)
     
     init(listing: Listing) {
         self = ListingCellModel.listingCell(listing: listing)
@@ -70,4 +71,17 @@ enum CollectionCellType: String {
             return LGLocalizedString.collectionYouTitle
         }
     }
+}
+
+protocol AdvertisementCellHeightDelegate {
+    func updateAdCellHeight(newHeight: CGFloat, forPosition: Int, withBannerView bannerView: GADBannerView)
+}
+
+struct AdvertisementData {
+    var adUnitId: String
+    var rootViewController: UIViewController
+    var adPosition: Int
+    var bannerHeight: CGFloat
+    var heightDelegate: AdvertisementCellHeightDelegate
+    var bannerView: GADBannerView?
 }
