@@ -6,6 +6,8 @@
 //  Copyright © 2018 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
+
 enum LocalMostSearchedItem: Int {
     case iPhone = 1, atv, smartphone, sedan, scooter, computer, coupe, tablet, motorcycle, truck, gadget, trailer,
     controller, dresser, subwoofer
@@ -91,5 +93,40 @@ enum LocalMostSearchedItem: Int {
     var searchCount: String? {
         return DailyCountIncrementer.randomizeSearchCount(baseSearchCount: baseSearchCount,
                                                           itemIndex: self.rawValue)
+    }
+    
+    var category: ListingCategory {
+        switch self {
+        case .iPhone:
+            return .electronics
+        case .atv:
+            return .cars
+        case .smartphone:
+            return .electronics
+        case .sedan:
+            return .cars
+        case .scooter:
+            return .cars
+        case .computer:
+            return .electronics
+        case .coupe:
+            return .cars
+        case .tablet:
+            return .electronics
+        case .motorcycle:
+            return .cars
+        case .truck:
+            return .cars
+        case .gadget:
+            return .electronics
+        case .trailer:
+            return .cars
+        case .controller:
+            return .sportsLeisureAndGames
+        case .dresser:
+            return .homeAndGarden
+        case .subwoofer:
+            return .electronics
+        }
     }
 }
