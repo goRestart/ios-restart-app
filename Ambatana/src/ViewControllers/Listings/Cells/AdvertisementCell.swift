@@ -22,13 +22,12 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell, GADBannerViewDelega
     func setupWith(adData: AdvertisementData) {
         cellIndex = adData.adPosition
         categories = adData.categories
+        delegate = adData.delegate
 
         if let loadedBanner = adData.bannerView {
             banner = loadedBanner as? DFPBannerView
         } else {
             banner = DFPBannerView(adSize: kGADAdSizeFluid)
-
-            self.delegate = adData.delegate
 
             banner?.adUnitID = adData.adUnitId
             banner?.rootViewController = adData.rootViewController

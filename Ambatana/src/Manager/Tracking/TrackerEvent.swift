@@ -185,15 +185,8 @@ struct TrackerEvent {
                             resultsCount: ItemsCount?, feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
-        // Categories
-        var categoryIds: [String] = []
-        if let actualCategories = categories {
-            for category in actualCategories {
-                categoryIds.append(String(category.rawValue))
-            }
-        }
         params[.feedSource] = feedSource.rawValue
-        params[.categoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
+        params[.categoryId] = TrackerEvent.stringFrom(categories: categories)
         params[.keywordName] = taxonomy?.name ?? TrackerEvent.notApply
         // Search query
         if let actualSearchQuery = searchQuery {
@@ -271,13 +264,7 @@ struct TrackerEvent {
         params[.filterDistanceUnit] = distanceUnit.string
 
         // Categories
-        var categoryIds: [String] = []
-        if let actualCategories = categories {
-            for category in actualCategories {
-                categoryIds.append(String(category.rawValue))
-            }
-        }
-        params[.categoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
+        params[.categoryId] = TrackerEvent.stringFrom(categories: categories)
 
         // Sorting
         if let sortByParam = eventParameterSortByTypeForSorting(sortBy) {
@@ -384,14 +371,7 @@ struct TrackerEvent {
         params[.adActionLeftApp] = willLeaveApp.rawValue
         params[.typePage] = typePage.rawValue
         params[.feedPosition] = feedPosition.value
-
-        var categoryIds: [String] = []
-        if let actualCategories = categories {
-            for category in actualCategories {
-                categoryIds.append(String(category.rawValue))
-            }
-        }
-        params[.categoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
+        params[.categoryId] = TrackerEvent.stringFrom(categories: categories)
 
         return TrackerEvent(name: .adTapped, params: params)
     }
@@ -1273,6 +1253,15 @@ struct TrackerEvent {
     private static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool, priceRange: FilterPriceRange) -> EventParameterBoolean {
         guard freePostingModeAllowed else {return .notAvailable}
         return priceRange.free ? .trueParameter : .falseParameter
+    }
+
+    private static func stringFrom(categories: [ListingCategory]?) -> String {
+        // Categories
+        var categoryIds: [String] = []
+        if let actualCategories = categories {
+            categoryIds = actualCategories.map { String($0.rawValue) }
+        }
+        return categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
     }
 }
 

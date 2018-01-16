@@ -1273,7 +1273,7 @@ class TrackerEventSpec: QuickSpec {
                                                 willLeaveApp: .trueParameter,
                                                 typePage: .listingDetailMoreInfo,
                                                 categories: [.homeAndGarden, .motorsAndAccessories],
-                                                feedPosition: .position(14))
+                                                feedPosition: .position(index: 14))
                 }
                 it("contains product id") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
