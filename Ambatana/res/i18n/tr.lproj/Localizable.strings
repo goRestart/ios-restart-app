@@ -751,8 +751,10 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Oda Sayısı";
-"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+"real_estate_camera_view_real_estate_message" = "Kiralamak ya da satmak istediğin mülkün fotoğrafını çek";
 "real_estate_current_step_of_total" = "%d / %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
 "real_estate_gallery_view_subtitle" = "Satmak ya da kiralamak istediğin emlak için 5 adete kadar fotoğraf seçebilirsin";
 "real_estate_location_notification_message" = "Açık adresini diğer kullanıcılara asla göstermeyeceğiz";
 "real_estate_location_title" = "Konum";

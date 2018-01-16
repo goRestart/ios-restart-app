@@ -17,9 +17,8 @@ public final class NetworkDefaultsDAO: NetworkDAO {
 
     public var timeoutIntervalForRequests: TimeInterval? {
         get {
-            guard let timeout = userDefaults.object(forKey: Keys.networkTimeout) as? TimeInterval
-                else { return nil }
-            return TimeInterval(timeout)
+            guard userDefaults.double(forKey: Keys.networkTimeout) > 0 else { return nil }
+            return TimeInterval(userDefaults.double(forKey: Keys.networkTimeout))
         }
         set {
             userDefaults.set(newValue, forKey: Keys.networkTimeout)

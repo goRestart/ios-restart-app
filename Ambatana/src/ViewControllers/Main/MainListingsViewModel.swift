@@ -28,6 +28,7 @@ struct MainListingsHeader: OptionSet {
     static let PushPermissions  = MainListingsHeader(rawValue:1)
     static let SellButton = MainListingsHeader(rawValue:2)
     static let CategoriesCollectionBanner = MainListingsHeader(rawValue:4)
+    static let RealEstateBanner = MainListingsHeader(rawValue:8)
 }
 
 struct SuggestiveSearchInfo {
@@ -331,6 +332,7 @@ class MainListingsViewModel: BaseViewModel {
         updatePermissionsWarning()
         taxonomyChildren = filterSuperKeywordsHighlighted(taxonomies: getTaxonomyChildren())
         updateCategoriesHeader()
+        updateRealEstateBanner()
         if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
             taxonomies = getTaxonomies()
         }
@@ -373,8 +375,6 @@ class MainListingsViewModel: BaseViewModel {
         Called when a filter gets removed
     */
     func updateFiltersFromTags(_ tags: [FilterTag], removedTag: FilterTag?) {
-
-        var place: Place? = nil
         var categories: [FilterCategoryItem] = []
         var taxonomyChild: TaxonomyChild? = nil
         var taxonomy: Taxonomy? = nil
@@ -384,7 +384,6 @@ class MainListingsViewModel: BaseViewModel {
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
         var free: Bool = false
-        var distance: Int? = nil
         var makeId: String? = nil
         var makeName: String? = nil
         var modelId: String? = nil
@@ -398,8 +397,8 @@ class MainListingsViewModel: BaseViewModel {
 
         for filterTag in tags {
             switch filterTag {
-            case .location(let thePlace):
-                place = thePlace
+            case .location:
+                break
             case .category(let prodCategory):
                 categories.append(FilterCategoryItem(category: prodCategory))
             case .taxonomyChild(let taxonomyChildSelected):
@@ -417,8 +416,8 @@ class MainListingsViewModel: BaseViewModel {
                 maxPrice = maxPriceOption
             case .freeStuff:
                 free = true
-            case .distance(let distanceFilter):
-                distance = distanceFilter
+            case .distance:
+                break
             case .make(let id, let name):
                 makeId = id
                 makeName = name
@@ -508,6 +507,7 @@ class MainListingsViewModel: BaseViewModel {
         filters.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
         
         updateCategoriesHeader()
+        updateRealEstateBanner()
         updateListView()
     }
     
@@ -516,6 +516,7 @@ class MainListingsViewModel: BaseViewModel {
                                                                      name: categoryHeaderInfo.name))
         delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
         updateCategoriesHeader()
+        updateRealEstateBanner()
         updateListView()
     }
     
@@ -546,6 +547,7 @@ class MainListingsViewModel: BaseViewModel {
     func updateSelectedTaxonomyChildren(taxonomyChildren: [TaxonomyChild]) {
         filters.selectedTaxonomyChildren = taxonomyChildren
         updateCategoriesHeader()
+        updateRealEstateBanner()
         updateListView()
     }
     
@@ -561,6 +563,7 @@ class MainListingsViewModel: BaseViewModel {
     private func setupRx() {
         listViewModel.isListingListEmpty.asObservable().bind { [weak self] _ in
             self?.updateCategoriesHeader()
+            self?.updateRealEstateBanner()
         }.disposed(by: disposeBag) 
         shouldShowPrices.asObservable().bind { [weak self] shouldShowPrices in
             self?.listViewModel.updateShouldShowPrices(shouldShowPrices)
@@ -626,9 +629,18 @@ class MainListingsViewModel: BaseViewModel {
         if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
             categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
         } else {
-            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(realEstateIncluded: featureFlags.realEstateEnabled.isActive).map { CategoryHeaderElement.listingCategory($0) })
+            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(realEstateIncluded: featureFlags.realEstateEnabled.isActive,highlightRealEstate: featureFlags.realEstatePromos.isActive)
+                .map { CategoryHeaderElement.listingCategory($0) })
         }
         return categoryHeaderElements
+    }
+    
+    var categoryHeaderHighlighted: CategoryHeaderElement {
+        if featureFlags.realEstatePromos.isActive && featureFlags.realEstateEnabled.isActive {
+            return CategoryHeaderElement.listingCategory(.realEstate)
+        } else {
+            return CategoryHeaderElement.listingCategory(.cars)
+        }
     }
 }
 
@@ -734,12 +746,13 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                 let errImage: UIImage?
                 let errTitle: String?
                 let errBody: String?
-
+                
+                let isRealEstateSearch = filters.selectedCategories == [.realEstate]
                 // Search
                 if queryString != nil || hasFilters {
                     errImage = UIImage(named: "err_search_no_products")
-                    errTitle = LGLocalizedString.productSearchNoProductsTitle
-                    errBody = LGLocalizedString.productSearchNoProductsBody
+                    errTitle = isRealEstateSearch ? LGLocalizedString.realEstateEmptyStateSearchTitle : LGLocalizedString.productSearchNoProductsTitle
+                    errBody = isRealEstateSearch ? LGLocalizedString.realEstateEmptyStateSearchSubtitle : LGLocalizedString.productSearchNoProductsBody
                 } else {
                     // Listing
                     errImage = UIImage(named: "err_list_no_products")
@@ -1129,6 +1142,10 @@ extension MainListingsViewModel {
     var showCategoriesCollectionBanner: Bool {
         return primaryTags.isEmpty && !listViewModel.isListingListEmpty.value
     }
+    
+    var showRealEstateBanner: Bool {
+        return !listViewModel.isListingListEmpty.value && featureFlags.realEstatePromos.isActive && filters.selectedCategories == [.realEstate]
+    }
 
     func pushPermissionsHeaderPressed() {
         openPushPermissionsAlert()
@@ -1145,6 +1162,17 @@ extension MainListingsViewModel {
             currentHeader.remove(MainListingsHeader.PushPermissions)
         } else {
             currentHeader.insert(MainListingsHeader.PushPermissions)
+        }
+        guard mainListingsHeader.value != currentHeader else { return }
+        mainListingsHeader.value = currentHeader
+    }
+    
+    @objc fileprivate dynamic func updateRealEstateBanner() {
+        var currentHeader = mainListingsHeader.value
+        if showRealEstateBanner {
+            currentHeader.insert(MainListingsHeader.RealEstateBanner)
+        } else {
+            currentHeader.remove(MainListingsHeader.RealEstateBanner)
         }
         guard mainListingsHeader.value != currentHeader else { return }
         mainListingsHeader.value = currentHeader
@@ -1338,6 +1366,7 @@ extension MainListingsViewModel: TaxonomiesDelegate {
         filters.selectedTaxonomyChildren = []
         delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
         updateCategoriesHeader()
+        updateRealEstateBanner()
         updateListView()
     }
     
@@ -1345,6 +1374,7 @@ extension MainListingsViewModel: TaxonomiesDelegate {
         filters.selectedTaxonomyChildren = [taxonomyChild]
         delegate?.vmShowTags(primaryTags: primaryTags, secondaryTags: secondaryTags)
         updateCategoriesHeader()
+        updateRealEstateBanner()
         updateListView()
     }
 }

@@ -154,11 +154,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         }
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        navbarSearch.endEdit()
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
@@ -501,7 +496,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
 // MARK: - ListingListViewHeaderDelegate
 
-extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate {
+extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate, RealEstateBannerDelegate {
 
     func totalHeaderHeight() -> CGFloat {
         var totalHeight: CGFloat = 0
@@ -510,6 +505,9 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         }
         if shouldShowCategoryCollectionBanner {
             totalHeight += CategoriesHeaderCollectionView.viewHeight
+        }
+        if shouldShowRealEstateBanner {
+            totalHeight += RealEstateBanner().intrinsicContentSize.height
         }
         return totalHeight
     }
@@ -522,10 +520,12 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             pushHeader.delegate = self
             header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight)
         }
+       
         if shouldShowCategoryCollectionBanner {
             let screenWidth: CGFloat = UIScreen.main.bounds.size.width
             categoriesHeader = CategoriesHeaderCollectionView(categories: viewModel.categoryHeaderElements,
-                                                              frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight))
+                                                              frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight),
+                                                              categoryHighlighted: viewModel.categoryHeaderHighlighted)
             categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }
@@ -536,6 +536,14 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
                 header.addHeader(categoriesHeader, height: CategoriesHeaderCollectionView.viewHeight)
             }
         }
+        
+        if shouldShowRealEstateBanner {
+            let realEstateBanner = RealEstateBanner()
+            realEstateBanner.tag = 2
+            let height = realEstateBanner.intrinsicContentSize.height
+            realEstateBanner.delegate = self
+            header.addHeader(realEstateBanner, height: height)
+        }
     }
 
     private var shouldShowPermissionsBanner: Bool {
@@ -545,9 +553,16 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
     private var shouldShowCategoryCollectionBanner: Bool {
         return viewModel.mainListingsHeader.value.contains(MainListingsHeader.CategoriesCollectionBanner)
     }
+    private var shouldShowRealEstateBanner: Bool {
+        return viewModel.mainListingsHeader.value.contains(MainListingsHeader.RealEstateBanner)
+    }
 
     func pushPermissionHeaderPressed() {
         viewModel.pushPermissionsHeaderPressed()
+    }
+    
+    func realEstateBannerPressed() {
+        viewModel.navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
     }
 }
 
@@ -728,6 +743,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navbarSearch.searchTextField.endEditing(true)
         guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section) else { return }
         switch sectionType {
         case .suggestive:

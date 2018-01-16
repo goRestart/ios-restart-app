@@ -8,7 +8,6 @@
 
 import LGCoreKit
 import SafariServices
-import FBSDKShareKit
 
 final class ProfileTabCoordinator: TabCoordinator {
 
@@ -51,10 +50,6 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
 }
 
 extension ProfileTabCoordinator: SettingsNavigator {
-    func showFbAppInvite(_ content: FBSDKAppInviteContent, delegate: FBSDKAppInviteDialogDelegate) {
-        FBSDKAppInviteDialog.show(from: navigationController.visibleViewController, with: content, delegate: delegate)
-    }
-
     func openEditUserName() {
         let vm = ChangeUsernameViewModel()
         vm.navigator = self

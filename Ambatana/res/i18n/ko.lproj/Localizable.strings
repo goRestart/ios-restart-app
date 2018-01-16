@@ -751,9 +751,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4개 이상";
 "real_estate_bedrooms_title" = "방 숫자";
-"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+"real_estate_camera_view_real_estate_message" = "매매하거나 임대하고자 하는 부동산의 사진을 촬영하세요";
 "real_estate_current_step_of_total" = "%d 중 %d";
-"real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+"real_estate_gallery_view_subtitle" = "매매하거나 임대하고자 하는 부동산의 사진을 최대 5장 선택하세요";
 "real_estate_location_notification_message" = "저희는 다른 사용자들에게 회원님의 정확한 위치를 공개하지 않습니다";
 "real_estate_location_title" = "위치";
 "real_estate_offer_type_rent" = "전세";

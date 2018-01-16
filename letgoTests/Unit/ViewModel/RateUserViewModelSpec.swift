@@ -57,7 +57,7 @@ class RateUserViewModelSpec: BaseViewModelSpec {
                 var avatar = MockFile.makeMock()
                 avatar.fileURL = URL.makeRandom()
                 user.avatar = avatar
-                data = RateUserData(user: user)
+                data = RateUserData(user: user, listingId: String.makeRandom(), ratingType: .buyer)
                 userRatingRepository = MockUserRatingRepository()
                 tracker = MockTracker()
                 sut = RateUserViewModel(source: .markAsSold,

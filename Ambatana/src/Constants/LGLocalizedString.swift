@@ -3267,6 +3267,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_camera_view_real_estate_message", comment: "")
 	}
 
+	static var realEstateEmptyStateSearchTitle: String {
+		return NSLocalizedString("real_estate_empty_state_search_title", comment: "")
+	}
+
+	static var realEstateEmptyStateSearchSubtitle: String {
+		return NSLocalizedString("real_estate_empty_state_search_subtitle", comment: "")
+	}
+
 	static var relatedItemsTitle: String {
 		return NSLocalizedString("related_items_title", comment: "")
 	}
