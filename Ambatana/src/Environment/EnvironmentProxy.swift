@@ -58,10 +58,6 @@ class EnvironmentProxy: AppEnvironment {
         return environment.amplitudeAPIKey
     }
 
-    var googleAppIndexingId: UInt {
-        return environment.googleAppIndexingId
-    }
-
     var googleServerClientID: String {
         return environment.googleServerClientID
     }
@@ -72,14 +68,6 @@ class EnvironmentProxy: AppEnvironment {
 
     var configFileName: String {
         return environment.configFileName
-    }
-
-    var twitterConsumerKey: String {
-        return environment.twitterConsumerKey
-    }
-
-    var twitterConsumerSecret: String {
-        return environment.twitterConsumerSecret
     }
 
     var leanplumAppId: String {
