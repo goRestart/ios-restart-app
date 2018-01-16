@@ -12,7 +12,7 @@ enum LocalMostSearchedItem: Int {
     case iPhone = 1, atv, smartphone, sedan, scooter, computer, coupe, tablet, motorcycle, truck, gadget, trailer,
     controller, dresser, subwoofer
     
-    static var all() -> [LocalMostSearchedItem] {
+    static var all: [LocalMostSearchedItem] {
         return [iPhone, atv, smartphone, sedan, scooter, computer, coupe, tablet, motorcycle, truck, gadget, trailer,
                 controller, dresser, subwoofer]
     }
