@@ -50,20 +50,12 @@ class EnvironmentProxy: AppEnvironment {
         return environment.facebookAppId
     }
 
-    var amplitudeAPIKey: String {
-        return environment.amplitudeAPIKey
-    }
-    
     var appsFlyerAPIKey: String {
         return environment.appsFlyerAPIKey
     }
-    
-    var oneLinkID: String {
-        return environment.oneLinkID
-    }
 
-    var googleAppIndexingId: UInt {
-        return environment.googleAppIndexingId
+    var amplitudeAPIKey: String {
+        return environment.amplitudeAPIKey
     }
 
     var googleServerClientID: String {
@@ -76,14 +68,6 @@ class EnvironmentProxy: AppEnvironment {
 
     var configFileName: String {
         return environment.configFileName
-    }
-
-    var twitterConsumerKey: String {
-        return environment.twitterConsumerKey
-    }
-
-    var twitterConsumerSecret: String {
-        return environment.twitterConsumerSecret
     }
 
     var leanplumAppId: String {
