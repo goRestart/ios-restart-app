@@ -12742,7 +12742,7 @@
 /* Begin XCBuildConfiguration section */
 		04C9E4B58ABDE72EB10827F905DF9845 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF6267353486D89435F6A44E092B00A5 /* Quick.xcconfig */;
+			baseConfigurationReference = B5AA72D70F51106510AC1CDADD146685 /* Pods-LetGo.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -12776,7 +12776,7 @@
 		};
 		06BAC3BD61FDBED60F3C62DBBC53F634 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EE6F65685A6ED17B8343C1728921641D /* CHTCollectionViewWaterfallLayout.xcconfig */;
+			baseConfigurationReference = A93B54DD86F2C1DD245E53CAEBFA1CAA /* GoogleToolboxForMac.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -12806,7 +12806,7 @@
 		};
 		089A008C55AFC7F836871D948C95892E /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 511DB65F61552BE8D95F4E1D693ACA12 /* FBSDKCoreKit.xcconfig */;
+			baseConfigurationReference = 385AD410F78DDB2CBBD01A460A98E6BF /* RealmSwift.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -12838,7 +12838,23 @@
 		};
 		0B2D184C510E95B0FAB1F307E83C150D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A47DEBB23F86EC5E258598AC8A463F42 /* RxCocoa.xcconfig */;
+			baseConfigurationReference = AA8EA8ACECA5E8C9F765101104AC3229 /* LGCoreKit.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/LGCoreKit";
+				INFOPLIST_FILE = "Target Support Files/LGCoreKit/ResourceBundle-LGCoreKitBundle-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_NAME = LGCoreKitBundle;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		1140A49493490AAA12967B2184043B96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B642D9B3548898FEF2BE106835B3E93 /* JBKenBurnsView.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -12867,9 +12883,40 @@
 			};
 			name = Release;
 		};
+		130ABD23EFFBE71C9381C979594FD73F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BEF8B4EE324C01EFB4979DD1D9403BF6 /* FBSDKShareKit.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/FBSDKShareKit/FBSDKShareKit-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/FBSDKShareKit/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/FBSDKShareKit/FBSDKShareKit.modulemap";
+				PRODUCT_NAME = FBSDKShareKit;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		14C11DFEED6BE31E7B7729BD22D3C508 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC072582CCF594C063ACE27EA1C22F62 /* Nimble.xcconfig */;
+			baseConfigurationReference = AA8EA8ACECA5E8C9F765101104AC3229 /* LGCoreKit.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -12899,40 +12946,9 @@
 			};
 			name = Adhoc;
 		};
-		1A636038077B8D5A2FB19AC5C81BD540 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71E36F7BD61524311375C3E6DAFF5BE5 /* KMPlaceholderTextView.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Amplitude-iOS/Amplitude-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Amplitude-iOS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Amplitude-iOS/Amplitude-iOS.modulemap";
-				PRODUCT_NAME = Amplitude_iOS;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		1CD29A7E66410356D7A467F389050B01 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C134778125C93705C315582CBEEF3495 /* ReachabilitySwift.xcconfig */;
+			baseConfigurationReference = DD3A2FA75E9DA478ED754CC5900AA99D /* bumper.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -12962,9 +12978,40 @@
 			};
 			name = Release;
 		};
+		1DA6A19864C016D8CC06C7F15491F922 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BEF8B4EE324C01EFB4979DD1D9403BF6 /* FBSDKShareKit.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/FBSDKShareKit/FBSDKShareKit-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/FBSDKShareKit/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/FBSDKShareKit/FBSDKShareKit.modulemap";
+				PRODUCT_NAME = FBSDKShareKit;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Adhoc;
+		};
 		21C1632FFC5DE135675D682D59976605 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B642D9B3548898FEF2BE106835B3E93 /* JBKenBurnsView.xcconfig */;
+			baseConfigurationReference = 5C54B7FDAA0FD7D6AFBB8737CA4E9FE7 /* GTMOAuth2.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -12993,9 +13040,25 @@
 			};
 			name = Adhoc;
 		};
-		228F5B269D10E467EACC77BCBA992761 /* Adhoc */ = {
+		23C73474825843868B351770F64B01ED /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D3E308C00FAAA95E6AA99C1EF3B40240 /* FLEX.xcconfig */;
+			baseConfigurationReference = C37BAA76A078297D8B963008AFC0CD50 /* LGCollapsibleLabel.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/LGCollapsibleLabel";
+				INFOPLIST_FILE = "Target Support Files/LGCollapsibleLabel/ResourceBundle-LGCollapsibleLabelBundle-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = LGCollapsibleLabelBundle;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		261AA4020EC0E19E4D0A3A3508806471 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA8B0B39FB58E9B3808151B8DF1E854 /* Amplitude-iOS.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13018,15 +13081,14 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Adhoc;
+			name = Debug;
 		};
-		23C73474825843868B351770F64B01ED /* Release */ = {
+		26433DBFEB47E5AFC8F6F732317501D4 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FAD9437BA9E676234FA27453CD865A26 /* Result.xcconfig */;
+			baseConfigurationReference = 48995FA43920DFB96C1E2DE04F2529E5 /* Alamofire.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13088,9 +13150,56 @@
 			};
 			name = Adhoc;
 		};
-		15F3EBBF347DD099C4A406FE203E516B /* Debug */ = {
+		2B2BF4AEC2B8D9B08C789EAEF7B0E62A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5C54B7FDAA0FD7D6AFBB8737CA4E9FE7 /* GTMOAuth2.xcconfig */;
+			baseConfigurationReference = 385AD410F78DDB2CBBD01A460A98E6BF /* RealmSwift.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/RealmSwift/RealmSwift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/RealmSwift/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/RealmSwift/RealmSwift.modulemap";
+				PRODUCT_NAME = RealmSwift;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		2B41F9D9522A2737D2E08B5FAE586DB3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 89982899DD874792706083204B99CC75 /* DeviceGuru.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/DeviceGuru";
+				INFOPLIST_FILE = "Target Support Files/DeviceGuru/ResourceBundle-DeviceGuru-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = DeviceGuru;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		2DA580628ED2269FF82C000BFF524BFA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DD3A2FA75E9DA478ED754CC5900AA99D /* bumper.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13121,7 +13230,7 @@
 		};
 		2DAE2EC649670F0A92E47B64585FFF91 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 511DB65F61552BE8D95F4E1D693ACA12 /* FBSDKCoreKit.xcconfig */;
+			baseConfigurationReference = 3E2C53CEBE862F5B0B3AF81ED42255C4 /* CameraManager.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13153,7 +13262,7 @@
 		};
 		2E30F25A5D50DFDD669088C840C9794E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 14FAEDFB467C41FEB8FD2E4D01F868E8 /* KeychainSwift.xcconfig */;
+			baseConfigurationReference = 8298158A42610464B9F6A7D7E33E9616 /* Pods-letgoTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13187,7 +13296,7 @@
 		};
 		2F3977C4D75389ADD96A4F2CF27BF0C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5C54B7FDAA0FD7D6AFBB8737CA4E9FE7 /* GTMOAuth2.xcconfig */;
+			baseConfigurationReference = 21E3346D420B590B1B3DE33D9B7F7FA2 /* SocketRocket.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13213,45 +13322,11 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
-		};
-		1D835A4C0B7C1C8A62B6EBFA99CCB46A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA8EA8ACECA5E8C9F765101104AC3229 /* LGCoreKit.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/LGCoreKit";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/LGCoreKit/ResourceBundle-LGCoreKitBundle-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				PRODUCT_NAME = LGCoreKitBundle;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
 			name = Debug;
 		};
-		210FDF1A6533538C9ECB6CD0E2F94B28 /* Release */ = {
+		35FFD0C2A8422F8B7F1D7C0BBF7BB19B /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89982899DD874792706083204B99CC75 /* DeviceGuru.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/DeviceGuru";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/DeviceGuru/ResourceBundle-DeviceGuru-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = DeviceGuru;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
-		245F17034CA20215CFDF348A545B13B2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89982899DD874792706083204B99CC75 /* DeviceGuru.xcconfig */;
+			baseConfigurationReference = C37BAA76A078297D8B963008AFC0CD50 /* LGCollapsibleLabel.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13283,7 +13358,7 @@
 		};
 		38D59B4C98474E4A0E2E1556070410EF /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8F8BBC343F9F637D25317632BF1A7D1F /* RxTest.xcconfig */;
+			baseConfigurationReference = C134778125C93705C315582CBEEF3495 /* ReachabilitySwift.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13313,30 +13388,30 @@
 			};
 			name = Adhoc;
 		};
-		2830736C5F07F63D491B88B0FDE448EF /* Adhoc */ = {
+		391600C3E234F04E3F9613AB20827251 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BEF8B4EE324C01EFB4979DD1D9403BF6 /* FBSDKShareKit.xcconfig */;
+			baseConfigurationReference = 08157179B855E5704A40CB08982D2321 /* Pods-LetGoGodMode.adhoc.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/FBSDKShareKit/FBSDKShareKit-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/FBSDKShareKit/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-LetGoGodMode/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/FBSDKShareKit/FBSDKShareKit.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = FBSDKShareKit;
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_LetGoGodMode;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -13347,9 +13422,71 @@
 			};
 			name = Adhoc;
 		};
+		39493FEAAF88676F9A8AD99E72EF17F8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87D9004F8D2797FF4C260C5C48900666 /* Branch.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Branch/Branch-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Branch/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Branch/Branch.modulemap";
+				PRODUCT_NAME = Branch;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		3A7C887BFB9664A4954E6BAD3311CAF2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA8B0B39FB58E9B3808151B8DF1E854 /* Amplitude-iOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Amplitude-iOS/Amplitude-iOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Amplitude-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Amplitude-iOS/Amplitude-iOS.modulemap";
+				PRODUCT_NAME = Amplitude_iOS;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		3A959F0040DED3DD0FB1F5BE9772C741 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21E3346D420B590B1B3DE33D9B7F7FA2 /* SocketRocket.xcconfig */;
+			baseConfigurationReference = 3ABDB29D591E4BFEF24DBABE4227727E /* SwiftyUserDefaults.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13413,7 +13550,7 @@
 		};
 		44714258E928A11664551E60DADC0EC4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC072582CCF594C063ACE27EA1C22F62 /* Nimble.xcconfig */;
+			baseConfigurationReference = 71E36F7BD61524311375C3E6DAFF5BE5 /* KMPlaceholderTextView.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13444,7 +13581,7 @@
 		};
 		47A3FFABFB4DDF3A5E29ACDA56516E65 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF56F9D72865C38776C3B063F701018D /* FBSDKLoginKit.xcconfig */;
+			baseConfigurationReference = A47DEBB23F86EC5E258598AC8A463F42 /* RxCocoa.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13475,7 +13612,7 @@
 		};
 		47D3D34EEB6F9A5185774F682FB5C510 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C37BAA76A078297D8B963008AFC0CD50 /* LGCollapsibleLabel.xcconfig */;
+			baseConfigurationReference = 3E2C53CEBE862F5B0B3AF81ED42255C4 /* CameraManager.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13506,7 +13643,7 @@
 		};
 		4A36D41A732ED2C4C9677AC0EC764305 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1108DBD1BB648A24D7E43BF8715C9EDD /* RxSwiftExt.xcconfig */;
+			baseConfigurationReference = 8048007D7DD66AEC15D45E08B73B2BF4 /* GTMSessionFetcher.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13534,43 +13671,9 @@
 			};
 			name = Debug;
 		};
-		33DB2F406F933EDE4789CBA0DCF39FF1 /* Debug */ = {
+		4BCC224DA54E06CE7D66E616BC771512 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BEF8B4EE324C01EFB4979DD1D9403BF6 /* FBSDKShareKit.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/FBSDKShareKit/FBSDKShareKit-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/FBSDKShareKit/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/FBSDKShareKit/FBSDKShareKit.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = FBSDKShareKit;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		344D2D2910485C78DE2D779FB1927940 /* Adhoc */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3E2C53CEBE862F5B0B3AF81ED42255C4 /* CameraManager.xcconfig */;
+			baseConfigurationReference = 74A9708A21D5756CAE6D8BAE052F9CBF /* RxSwift.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13602,7 +13705,7 @@
 		};
 		4D688C80A46DA5E5C2309BFB83F98D50 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8F8BBC343F9F637D25317632BF1A7D1F /* RxTest.xcconfig */;
+			baseConfigurationReference = 1108DBD1BB648A24D7E43BF8715C9EDD /* RxSwiftExt.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13651,7 +13754,7 @@
 		};
 		4F815167EEC3DD5E79FC2F16C475B5E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8F8BBC343F9F637D25317632BF1A7D1F /* RxTest.xcconfig */;
+			baseConfigurationReference = BBE11AF5B6D44182EAAEE588CBAA653D /* AlamofireImage.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13682,7 +13785,7 @@
 		};
 		5132AAB0F6DA6C82A7513B8F1D821D08 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 41357B9E9B2ECAB4AD146036FE781439 /* OHHTTPStubs.xcconfig */;
+			baseConfigurationReference = A93B54DD86F2C1DD245E53CAEBFA1CAA /* GoogleToolboxForMac.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13711,9 +13814,40 @@
 			};
 			name = Adhoc;
 		};
-		3B607E99ABDDEB3E8093951C48477A82 /* Debug */ = {
+		54D0DA582F73B05CE6AF4DBEA114FEA8 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA8EA8ACECA5E8C9F765101104AC3229 /* LGCoreKit.xcconfig */;
+			baseConfigurationReference = D3E308C00FAAA95E6AA99C1EF3B40240 /* FLEX.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/FLEX/FLEX-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/FLEX/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/FLEX/FLEX.modulemap";
+				PRODUCT_NAME = FLEX;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Adhoc;
+		};
+		55EC38636DD26975A0119E03F2C843F7 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF56F9D72865C38776C3B063F701018D /* FBSDKLoginKit.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13744,7 +13878,7 @@
 		};
 		56ABDE8C777B79483131E4BB1EE804CE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A8B9B74943440202172657BF1D10D808 /* Realm.xcconfig */;
+			baseConfigurationReference = FC072582CCF594C063ACE27EA1C22F62 /* Nimble.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13773,9 +13907,40 @@
 			};
 			name = Debug;
 		};
-		3D0CBA549F561A5A4C9A1872DC7F61BA /* Adhoc */ = {
+		56EDCE7C9F447770E1DA3B1939BC87B9 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 87D9004F8D2797FF4C260C5C48900666 /* Branch.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Branch/Branch-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Branch/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Branch/Branch.modulemap";
+				PRODUCT_NAME = Branch;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Adhoc;
+		};
+		5ACB9201BA4F89438F687715BEE4B605 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DB5E9E99A005AEE64AB16189E313FF37 /* Pods-LetGoGodMode.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13805,11 +13970,11 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Adhoc;
+			name = Release;
 		};
 		5B9293DB915C9A6C14E3BF83F9C9F97C /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EC4BE4900EC8752B222A22031D266DAC /* CocoaLumberjack.xcconfig */;
+			baseConfigurationReference = 14FAEDFB467C41FEB8FD2E4D01F868E8 /* KeychainSwift.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13872,7 +14037,7 @@
 		};
 		65E7D340CEE9B7578A1267D7E9CEEA78 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21E3346D420B590B1B3DE33D9B7F7FA2 /* SocketRocket.xcconfig */;
+			baseConfigurationReference = 48995FA43920DFB96C1E2DE04F2529E5 /* Alamofire.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13903,7 +14068,7 @@
 		};
 		67936E4AEAC667D6D563DCFAA355EBE6 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3E2C53CEBE862F5B0B3AF81ED42255C4 /* CameraManager.xcconfig */;
+			baseConfigurationReference = A47DEBB23F86EC5E258598AC8A463F42 /* RxCocoa.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13935,7 +14100,7 @@
 		};
 		6AA62A3F71F7BB4F9933004D187451A3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1108DBD1BB648A24D7E43BF8715C9EDD /* RxSwiftExt.xcconfig */;
+			baseConfigurationReference = AA8EA8ACECA5E8C9F765101104AC3229 /* LGCoreKit.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13967,7 +14132,7 @@
 		};
 		6C5C76543D9AC2D751A0A1336BE71364 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C134778125C93705C315582CBEEF3495 /* ReachabilitySwift.xcconfig */;
+			baseConfigurationReference = FF6267353486D89435F6A44E092B00A5 /* Quick.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -13999,7 +14164,7 @@
 		};
 		6CA335079512B42A49C5383847CCE11C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3ABDB29D591E4BFEF24DBABE4227727E /* SwiftyUserDefaults.xcconfig */;
+			baseConfigurationReference = 89982899DD874792706083204B99CC75 /* DeviceGuru.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/DeviceGuru";
@@ -14015,7 +14180,7 @@
 		};
 		6CBACA114EFE8FB821BA479B18C9B2EC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A47DEBB23F86EC5E258598AC8A463F42 /* RxCocoa.xcconfig */;
+			baseConfigurationReference = 4CF3FBC429E0F2A6D40D232B616515BF /* Pods-LetGo.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14049,7 +14214,62 @@
 		};
 		6F9224530522DD3C735EC96CF142642E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D3E308C00FAAA95E6AA99C1EF3B40240 /* FLEX.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		71464A26A00CC29023E18DD0C6F9EE1F /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71E36F7BD61524311375C3E6DAFF5BE5 /* KMPlaceholderTextView.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14081,7 +14301,7 @@
 		};
 		7190DD2171A348017D2968C7C6B72613 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1108DBD1BB648A24D7E43BF8715C9EDD /* RxSwiftExt.xcconfig */;
+			baseConfigurationReference = A83C4392B63798B9C2454A8ED5A17F28 /* Bolts.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14110,40 +14330,9 @@
 			};
 			name = Adhoc;
 		};
-		72FBFB58E4B3447AD682267E132FC173 /* Adhoc */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = EE6F65685A6ED17B8343C1728921641D /* CHTCollectionViewWaterfallLayout.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/FBSDKShareKit/FBSDKShareKit-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/FBSDKShareKit/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/FBSDKShareKit/FBSDKShareKit.modulemap";
-				PRODUCT_NAME = FBSDKShareKit;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Adhoc;
-		};
 		746AF1B153D5A3FDF02B452FF16568A6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EC4BE4900EC8752B222A22031D266DAC /* CocoaLumberjack.xcconfig */;
+			baseConfigurationReference = 48995FA43920DFB96C1E2DE04F2529E5 /* Alamofire.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14175,7 +14364,7 @@
 		};
 		767C8603732767DA6031E7B448E9C772 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 385AD410F78DDB2CBBD01A460A98E6BF /* RealmSwift.xcconfig */;
+			baseConfigurationReference = 3ABDB29D591E4BFEF24DBABE4227727E /* SwiftyUserDefaults.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14207,7 +14396,7 @@
 		};
 		77B311375E50429F3D135F1AAAAD9B2D /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A47DEBB23F86EC5E258598AC8A463F42 /* RxCocoa.xcconfig */;
+			baseConfigurationReference = 591523CCAD9A9EC6B6F6B3CF60D77979 /* Pods-LetGo.adhoc.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14239,39 +14428,9 @@
 			};
 			name = Adhoc;
 		};
-		79862371E85B702FA3FECB0DD15605A5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8048007D7DD66AEC15D45E08B73B2BF4 /* GTMSessionFetcher.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Amplitude-iOS/Amplitude-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Amplitude-iOS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Amplitude-iOS/Amplitude-iOS.modulemap";
-				PRODUCT_NAME = Amplitude_iOS;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		7F98D0D54EB8593A9E7369E17B1AC94D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 385AD410F78DDB2CBBD01A460A98E6BF /* RealmSwift.xcconfig */;
+			baseConfigurationReference = 3ABDB29D591E4BFEF24DBABE4227727E /* SwiftyUserDefaults.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14302,7 +14461,24 @@
 		};
 		7FC02997054A98D3A32CD1CCAA30E36D /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A83C4392B63798B9C2454A8ED5A17F28 /* Bolts.xcconfig */;
+			baseConfigurationReference = AA8EA8ACECA5E8C9F765101104AC3229 /* LGCoreKit.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/LGCoreKit";
+				INFOPLIST_FILE = "Target Support Files/LGCoreKit/ResourceBundle-LGCoreKitBundle-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_NAME = LGCoreKitBundle;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Adhoc;
+		};
+		8142FE5ED373F82A3C51580BFF96555F /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EC4BE4900EC8752B222A22031D266DAC /* CocoaLumberjack.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14334,7 +14510,7 @@
 		};
 		819CB167379949CF4615FF218AF57D31 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF56F9D72865C38776C3B063F701018D /* FBSDKLoginKit.xcconfig */;
+			baseConfigurationReference = 8F8BBC343F9F637D25317632BF1A7D1F /* RxTest.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14366,7 +14542,7 @@
 		};
 		823600677FD3082DDCA0F8B5DCFA1A4B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 74A9708A21D5756CAE6D8BAE052F9CBF /* RxSwift.xcconfig */;
+			baseConfigurationReference = 7F6B83C6F26FE23158A647C2E7151211 /* JSONWebToken.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14395,9 +14571,40 @@
 			};
 			name = Debug;
 		};
-		69FD204C4F6BF3027B23E26DD43EDDE3 /* Debug */ = {
+		84000A49394482959151E37F5638A178 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF6267353486D89435F6A44E092B00A5 /* Quick.xcconfig */;
+			baseConfigurationReference = 41357B9E9B2ECAB4AD146036FE781439 /* OHHTTPStubs.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/OHHTTPStubs/OHHTTPStubs-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/OHHTTPStubs/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/OHHTTPStubs/OHHTTPStubs.modulemap";
+				PRODUCT_NAME = OHHTTPStubs;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		852074C25271F046686A1F04A3A937A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1108DBD1BB648A24D7E43BF8715C9EDD /* RxSwiftExt.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14429,7 +14636,7 @@
 		};
 		85FB9E086B5F990F9BB905E73472C419 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89982899DD874792706083204B99CC75 /* DeviceGuru.xcconfig */;
+			baseConfigurationReference = 21E3346D420B590B1B3DE33D9B7F7FA2 /* SocketRocket.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14460,7 +14667,7 @@
 		};
 		85FE219015342D858B2E2059B4FD492F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71E36F7BD61524311375C3E6DAFF5BE5 /* KMPlaceholderTextView.xcconfig */;
+			baseConfigurationReference = EE6F65685A6ED17B8343C1728921641D /* CHTCollectionViewWaterfallLayout.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14491,7 +14698,7 @@
 		};
 		88DA0E21C26587440F18C7C0A2E0CB65 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A83C4392B63798B9C2454A8ED5A17F28 /* Bolts.xcconfig */;
+			baseConfigurationReference = D3E308C00FAAA95E6AA99C1EF3B40240 /* FLEX.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14522,7 +14729,7 @@
 		};
 		89EDBF6A8F8E9C909014B183CEBEA69E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EC4BE4900EC8752B222A22031D266DAC /* CocoaLumberjack.xcconfig */;
+			baseConfigurationReference = FF6267353486D89435F6A44E092B00A5 /* Quick.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14551,9 +14758,39 @@
 			};
 			name = Debug;
 		};
+		8E71BE993EC0E4642C4FCA9DB1044F16 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 87D9004F8D2797FF4C260C5C48900666 /* Branch.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Branch/Branch-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Branch/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Branch/Branch.modulemap";
+				PRODUCT_NAME = Branch;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 		8FB03E117E118381BB901D9A640A56BB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 385AD410F78DDB2CBBD01A460A98E6BF /* RealmSwift.xcconfig */;
+			baseConfigurationReference = 1108DBD1BB648A24D7E43BF8715C9EDD /* RxSwiftExt.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14582,43 +14819,9 @@
 			};
 			name = Debug;
 		};
-		7BEEABB45627E443C3EF947778B7B9D5 /* Release */ = {
+		8FE5F6B2C94168B251389FEA1DF49BCA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 87D9004F8D2797FF4C260C5C48900666 /* Branch.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Branch/Branch-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Branch/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Branch/Branch.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = Branch;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		7E7B16BA1B05E78DAE4F108AD84BB749 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3E2C53CEBE862F5B0B3AF81ED42255C4 /* CameraManager.xcconfig */;
+			baseConfigurationReference = C134778125C93705C315582CBEEF3495 /* ReachabilitySwift.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14681,7 +14884,7 @@
 		};
 		921D3ADD5DDACF86A2E4F87FD53622B4 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B3B155E3C8281C6C71D3110E6935E439 /* Realm.xcconfig */;
+			baseConfigurationReference = A8B9B74943440202172657BF1D10D808 /* Realm.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14710,40 +14913,9 @@
 			};
 			name = Adhoc;
 		};
-		924DDB3F5C060557118B2797EFED8C56 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FAD9437BA9E676234FA27453CD865A26 /* Result.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Branch/Branch-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Branch/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Branch/Branch.modulemap";
-				PRODUCT_NAME = Branch;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		93E256B5282A6E25233F3DA8BBC855EA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DD3A2FA75E9DA478ED754CC5900AA99D /* bumper.xcconfig */;
+			baseConfigurationReference = EC4BE4900EC8752B222A22031D266DAC /* CocoaLumberjack.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14775,7 +14947,7 @@
 		};
 		94CC3C2AC855418C0B1D8A785752C8C6 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EE6F65685A6ED17B8343C1728921641D /* CHTCollectionViewWaterfallLayout.xcconfig */;
+			baseConfigurationReference = 5B6FF950EEC76AAF669CFD90A897A8DA /* Pods-letgoTests.adhoc.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14809,7 +14981,7 @@
 		};
 		96B5646468CE5243C5E19933F80E2E67 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21E3346D420B590B1B3DE33D9B7F7FA2 /* SocketRocket.xcconfig */;
+			baseConfigurationReference = 89982899DD874792706083204B99CC75 /* DeviceGuru.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14872,26 +15044,9 @@
 			};
 			name = Release;
 		};
-		91617E242862202EAE0BCA0D840774CB /* Release */ = {
+		981A2DE6E1207878F5F0687C14106338 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C37BAA76A078297D8B963008AFC0CD50 /* LGCollapsibleLabel.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/LGCollapsibleLabel";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/LGCollapsibleLabel/ResourceBundle-LGCollapsibleLabelBundle-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = LGCollapsibleLabelBundle;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
-		92A5044D951E6296B467EF4FF5A9E02E /* Adhoc */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = DD3A2FA75E9DA478ED754CC5900AA99D /* bumper.xcconfig */;
+			baseConfigurationReference = D7CA1EE610D14DF5E84273EE8AEBAC6B /* Pods-LetGoGodMode.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14923,40 +15078,25 @@
 			};
 			name = Debug;
 		};
-		9C7B75DCF988E6D0488A952BB7F50B53 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A8B9B74943440202172657BF1D10D808 /* Realm.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/FBSDKShareKit/FBSDKShareKit-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/FBSDKShareKit/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/FBSDKShareKit/FBSDKShareKit.modulemap";
-				PRODUCT_NAME = FBSDKShareKit;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		9D9822DA3BB55AFCB5D9B3E66C8C6D9B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3ABDB29D591E4BFEF24DBABE4227727E /* SwiftyUserDefaults.xcconfig */;
+			baseConfigurationReference = AA8EA8ACECA5E8C9F765101104AC3229 /* LGCoreKit.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/LGCoreKit";
+				INFOPLIST_FILE = "Target Support Files/LGCoreKit/ResourceBundle-LGCoreKitBundle-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_NAME = LGCoreKitBundle;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		9DE14E1E4F72734F282F0DE8B8E57184 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 74A9708A21D5756CAE6D8BAE052F9CBF /* RxSwift.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -14988,7 +15128,7 @@
 		};
 		A103CF866C443FCA3BD0647ABB47B4C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EB286C6CD62F22565A802BC7A5B28423 /* LGCoreKit.xcconfig */;
+			baseConfigurationReference = AA8EA8ACECA5E8C9F765101104AC3229 /* LGCoreKit.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15017,43 +15157,9 @@
 			};
 			name = Debug;
 		};
-		9CBFD1918A15895F2F351097B7892764 /* Adhoc */ = {
+		A267F3D290B45F4CA71E7D5DE109C3DF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A83C4392B63798B9C2454A8ED5A17F28 /* Bolts.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Bolts/Bolts-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Bolts/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Bolts/Bolts.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = Bolts;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Adhoc;
-		};
-		9E3A6A12DF8D2C876175C03292DAA681 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BEF8B4EE324C01EFB4979DD1D9403BF6 /* FBSDKShareKit.xcconfig */;
+			baseConfigurationReference = 5C54B7FDAA0FD7D6AFBB8737CA4E9FE7 /* GTMOAuth2.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15064,72 +15170,16 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/FBSDKShareKit/FBSDKShareKit-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/FBSDKShareKit/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/GTMOAuth2/GTMOAuth2-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/GTMOAuth2/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/FBSDKShareKit/FBSDKShareKit.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = FBSDKShareKit;
+				MODULEMAP_FILE = "Target Support Files/GTMOAuth2/GTMOAuth2.modulemap";
+				PRODUCT_NAME = GTMOAuth2;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		9FDF9F4E6EB9C5FE1E0FD2D1764F32BE /* Adhoc */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89982899DD874792706083204B99CC75 /* DeviceGuru.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/DeviceGuru";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/DeviceGuru/ResourceBundle-DeviceGuru-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = DeviceGuru;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Adhoc;
-		};
-		A677617AAE91C16A873C194C1F04FEF1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 74A9708A21D5756CAE6D8BAE052F9CBF /* RxSwift.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/OHHTTPStubs/OHHTTPStubs-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/OHHTTPStubs/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/RxSwift/RxSwift.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = RxSwift;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -15137,62 +15187,9 @@
 			};
 			name = Debug;
 		};
-		A4B902906062DAFD344FCFCED6532E12 /* Release */ = {
+		A31B0EEF673BBCD6B460C78C2E62763E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A93B54DD86F2C1DD245E53CAEBFA1CAA /* GoogleToolboxForMac.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/GoogleToolboxForMac/GoogleToolboxForMac-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/GoogleToolboxForMac/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/GoogleToolboxForMac/GoogleToolboxForMac.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = GoogleToolboxForMac;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		A78824688979B1165C856D77387CA545 /* Adhoc */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C37BAA76A078297D8B963008AFC0CD50 /* LGCollapsibleLabel.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/LGCollapsibleLabel";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/LGCollapsibleLabel/ResourceBundle-LGCollapsibleLabelBundle-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = LGCollapsibleLabelBundle;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
-		};
-		A7011690218A41D28D16ADE862485747 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3ABDB29D591E4BFEF24DBABE4227727E /* SwiftyUserDefaults.xcconfig */;
+			baseConfigurationReference = FAD9437BA9E676234FA27453CD865A26 /* Result.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15208,63 +15205,72 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/SwiftyUserDefaults/SwiftyUserDefaults.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = SwiftyUserDefaults;
+				MODULEMAP_FILE = "Target Support Files/Result/Result.modulemap";
+				PRODUCT_NAME = Result;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
-		A87149FEAACB093CEC50128E43F4E5CF /* Adhoc */ = {
+		A677617AAE91C16A873C194C1F04FEF1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C37BAA76A078297D8B963008AFC0CD50 /* LGCollapsibleLabel.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/LGCollapsibleLabel";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/LGCollapsibleLabel/ResourceBundle-LGCollapsibleLabelBundle-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = LGCollapsibleLabelBundle;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Adhoc;
-		};
-		A9BA8835EE9AB8A6E17739E40DC3CE65 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA8EA8ACECA5E8C9F765101104AC3229 /* LGCoreKit.xcconfig */;
+			baseConfigurationReference = 41357B9E9B2ECAB4AD146036FE781439 /* OHHTTPStubs.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/LGCoreKit/LGCoreKit-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/LGCoreKit/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/OHHTTPStubs/OHHTTPStubs-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/OHHTTPStubs/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/LGCoreKit/LGCoreKit.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = LGCoreKit;
+				MODULEMAP_FILE = "Target Support Files/OHHTTPStubs/OHHTTPStubs.modulemap";
+				PRODUCT_NAME = OHHTTPStubs;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		A78824688979B1165C856D77387CA545 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FAD9437BA9E676234FA27453CD865A26 /* Result.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Result/Result-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Result/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Result/Result.modulemap";
+				PRODUCT_NAME = Result;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
@@ -15279,7 +15285,7 @@
 		};
 		A9C257DE06F533055903073986CE12CA /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F6B83C6F26FE23158A647C2E7151211 /* JSONWebToken.xcconfig */;
+			baseConfigurationReference = EE6F65685A6ED17B8343C1728921641D /* CHTCollectionViewWaterfallLayout.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15308,40 +15314,9 @@
 			};
 			name = Adhoc;
 		};
-		AC7F0DA72BC2E0252665F9A8FA0CB7AF /* Adhoc */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8048007D7DD66AEC15D45E08B73B2BF4 /* GTMSessionFetcher.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Branch/Branch-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Branch/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Branch/Branch.modulemap";
-				PRODUCT_NAME = Branch;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Adhoc;
-		};
 		AD7B9E599CE731DE62CFD2B11EB51859 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B642D9B3548898FEF2BE106835B3E93 /* JBKenBurnsView.xcconfig */;
+			baseConfigurationReference = BBE11AF5B6D44182EAAEE588CBAA653D /* AlamofireImage.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15373,7 +15348,7 @@
 		};
 		AE06EA88ECEEA22EBF04863A363C0ECA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F6B83C6F26FE23158A647C2E7151211 /* JSONWebToken.xcconfig */;
+			baseConfigurationReference = C37BAA76A078297D8B963008AFC0CD50 /* LGCollapsibleLabel.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15405,7 +15380,7 @@
 		};
 		AFB45E32FB1A67403FE91D4C35003E7E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 41357B9E9B2ECAB4AD146036FE781439 /* OHHTTPStubs.xcconfig */;
+			baseConfigurationReference = 511DB65F61552BE8D95F4E1D693ACA12 /* FBSDKCoreKit.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15435,7 +15410,7 @@
 		};
 		B2BE2F2BC3B27E7C45C081072E4C118D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 14FAEDFB467C41FEB8FD2E4D01F868E8 /* KeychainSwift.xcconfig */;
+			baseConfigurationReference = 385AD410F78DDB2CBBD01A460A98E6BF /* RealmSwift.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15467,7 +15442,7 @@
 		};
 		B50FCDD26BACD10A5E3ADF27C5CCAA4B /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF56F9D72865C38776C3B063F701018D /* FBSDKLoginKit.xcconfig */;
+			baseConfigurationReference = FF6267353486D89435F6A44E092B00A5 /* Quick.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15559,7 +15534,7 @@
 		};
 		B5AAA4F837CC3A73E0023A100E344917 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B642D9B3548898FEF2BE106835B3E93 /* JBKenBurnsView.xcconfig */;
+			baseConfigurationReference = 8F8BBC343F9F637D25317632BF1A7D1F /* RxTest.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15589,43 +15564,9 @@
 			};
 			name = Adhoc;
 		};
-		C0CFC2B6B969E11739AAE938D905FC67 /* Adhoc */ = {
+		B63B3A82FFDC119C1EADF9E5E5CCDC1A /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDA8B0B39FB58E9B3808151B8DF1E854 /* Amplitude-iOS.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Amplitude-iOS/Amplitude-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Amplitude-iOS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Amplitude-iOS/Amplitude-iOS.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = Amplitude_iOS;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Adhoc;
-		};
-		C0ED5A30A5A8DB6F38F27BF3E2B103BC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E03DF2701D8FA4FB7548E18C4E922898 /* DeviceGuru.xcconfig */;
+			baseConfigurationReference = 89982899DD874792706083204B99CC75 /* DeviceGuru.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/DeviceGuru";
@@ -15642,7 +15583,7 @@
 		};
 		B9B71006646D196A9C1722E308AF6858 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 805A8D9413F014E19AAEE775DA22B51B /* LGCollapsibleLabel.xcconfig */;
+			baseConfigurationReference = C37BAA76A078297D8B963008AFC0CD50 /* LGCollapsibleLabel.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/LGCollapsibleLabel";
@@ -15658,7 +15599,7 @@
 		};
 		BA0795B67A87F652C6C55FF498ED5123 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8F0F8652EBE5B52873A35E020BB6B16C /* FBSDKLoginKit.xcconfig */;
+			baseConfigurationReference = FF56F9D72865C38776C3B063F701018D /* FBSDKLoginKit.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15686,9 +15627,40 @@
 			};
 			name = Debug;
 		};
+		BBA91D026B899624564E137D97FBB878 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDA8B0B39FB58E9B3808151B8DF1E854 /* Amplitude-iOS.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Amplitude-iOS/Amplitude-iOS-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Amplitude-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Amplitude-iOS/Amplitude-iOS.modulemap";
+				PRODUCT_NAME = Amplitude_iOS;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Adhoc;
+		};
 		BBCA98EEDA21B2AA09BDC54D6DF1B5C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A93B54DD86F2C1DD245E53CAEBFA1CAA /* GoogleToolboxForMac.xcconfig */;
+			baseConfigurationReference = D3E308C00FAAA95E6AA99C1EF3B40240 /* FLEX.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15718,7 +15690,7 @@
 		};
 		BC7C2C0373AB1F55A459DC034D3ECC10 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71E36F7BD61524311375C3E6DAFF5BE5 /* KMPlaceholderTextView.xcconfig */;
+			baseConfigurationReference = A8B9B74943440202172657BF1D10D808 /* Realm.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15747,39 +15719,9 @@
 			};
 			name = Release;
 		};
-		BEE327CCD84AF25CF8F388E2A1C091FA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A699AF0ED5F428EA9A5A2564184A8FB1 /* FBSDKShareKit.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/FBSDKShareKit/FBSDKShareKit-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/FBSDKShareKit/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/FBSDKShareKit/FBSDKShareKit.modulemap";
-				PRODUCT_NAME = FBSDKShareKit;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		C05EEA8E6C31FED394FC4B093A334EF8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 48995FA43920DFB96C1E2DE04F2529E5 /* Alamofire.xcconfig */;
+			baseConfigurationReference = 3E2C53CEBE862F5B0B3AF81ED42255C4 /* CameraManager.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15811,7 +15753,7 @@
 		};
 		C07044AD1BD1EC1394E4F355D3225F99 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 48995FA43920DFB96C1E2DE04F2529E5 /* Alamofire.xcconfig */;
+			baseConfigurationReference = FAD9437BA9E676234FA27453CD865A26 /* Result.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15842,7 +15784,7 @@
 		};
 		C48542BDB6E8584FDCE04D233FFF6882 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BBE11AF5B6D44182EAAEE588CBAA653D /* AlamofireImage.xcconfig */;
+			baseConfigurationReference = 8F8BBC343F9F637D25317632BF1A7D1F /* RxTest.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15871,43 +15813,9 @@
 			};
 			name = Debug;
 		};
-		C49882DE864452C99777D7F06490A0FE /* Debug */ = {
+		C536C3BF08CC9E333B7138537E67B055 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 87D9004F8D2797FF4C260C5C48900666 /* Branch.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Branch/Branch-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Branch/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Branch/Branch.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = Branch;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		C5E6CE66185AA0F5FABDE532B659F831 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 74A9708A21D5756CAE6D8BAE052F9CBF /* RxSwift.xcconfig */;
+			baseConfigurationReference = 7F6B83C6F26FE23158A647C2E7151211 /* JSONWebToken.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -15937,43 +15845,9 @@
 			};
 			name = Adhoc;
 		};
-		C8D98727454884BA7A3B708C8DCC7E02 /* Debug */ = {
+		C6013483F9A773E200B6D51C2BCC81DD /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDA8B0B39FB58E9B3808151B8DF1E854 /* Amplitude-iOS.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Amplitude-iOS/Amplitude-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Amplitude-iOS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Amplitude-iOS/Amplitude-iOS.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = Amplitude_iOS;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		CA6A25202559E9380155E26365FD792B /* Adhoc */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5C54B7FDAA0FD7D6AFBB8737CA4E9FE7 /* GTMOAuth2.xcconfig */;
+			baseConfigurationReference = 511DB65F61552BE8D95F4E1D693ACA12 /* FBSDKCoreKit.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16004,7 +15878,7 @@
 		};
 		C7FA989592F895A14C5BA81569756128 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BBE11AF5B6D44182EAAEE588CBAA653D /* AlamofireImage.xcconfig */;
+			baseConfigurationReference = 89982899DD874792706083204B99CC75 /* DeviceGuru.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16036,7 +15910,7 @@
 		};
 		D0B569E296DD7EA7493D4A31CABB116A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BBE11AF5B6D44182EAAEE588CBAA653D /* AlamofireImage.xcconfig */;
+			baseConfigurationReference = A8B9B74943440202172657BF1D10D808 /* Realm.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16066,7 +15940,7 @@
 		};
 		D17D83D90638437C2B942FE9765FD310 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 14FAEDFB467C41FEB8FD2E4D01F868E8 /* KeychainSwift.xcconfig */;
+			baseConfigurationReference = 511DB65F61552BE8D95F4E1D693ACA12 /* FBSDKCoreKit.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16097,7 +15971,7 @@
 		};
 		D1F725D269CDF3E6D46F213EF1DD10AC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B3613E7DAFD896E873272C24EF1735F2 /* KeychainSwift.xcconfig */;
+			baseConfigurationReference = 14FAEDFB467C41FEB8FD2E4D01F868E8 /* KeychainSwift.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16129,7 +16003,7 @@
 		};
 		D46EED3AE6216A76891A920E4FA5F380 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 511DB65F61552BE8D95F4E1D693ACA12 /* FBSDKCoreKit.xcconfig */;
+			baseConfigurationReference = 74A9708A21D5756CAE6D8BAE052F9CBF /* RxSwift.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16160,7 +16034,7 @@
 		};
 		D758B7007800EC8A818BED9F992FDF64 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C8D631EA5F033AA8C311E5BC6D013A06 /* JSONWebToken.xcconfig */;
+			baseConfigurationReference = 7F6B83C6F26FE23158A647C2E7151211 /* JSONWebToken.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16190,39 +16064,9 @@
 			};
 			name = Release;
 		};
-		D91B0BD16518EC167858958753700DEE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89982899DD874792706083204B99CC75 /* DeviceGuru.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Branch/Branch-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Branch/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Branch/Branch.modulemap";
-				PRODUCT_NAME = Branch;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		DA21B97BE417A76394FC99A6DB769371 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5B7C073DA6606664AEEFB2A347F94E3 /* GTMSessionFetcher.xcconfig */;
+			baseConfigurationReference = 8048007D7DD66AEC15D45E08B73B2BF4 /* GTMSessionFetcher.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16251,9 +16095,154 @@
 			};
 			name = Adhoc;
 		};
-		E2E12063844EBD5AA9CCED714A95FE94 /* Release */ = {
+		DBC888BBCCB0E95D7C3B8A784298A5DA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF6267353486D89435F6A44E092B00A5 /* Quick.xcconfig */;
+			baseConfigurationReference = A83C4392B63798B9C2454A8ED5A17F28 /* Bolts.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Bolts/Bolts-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Bolts/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Bolts/Bolts.modulemap";
+				PRODUCT_NAME = Bolts;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		DC81EF83F3E5C65C932138F01BEC047B /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_ADHOC=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Adhoc;
+		};
+		E114735F4221DC8EF78E5ABA971E0F73 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B642D9B3548898FEF2BE106835B3E93 /* JBKenBurnsView.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/JBKenBurnsView/JBKenBurnsView-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/JBKenBurnsView/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/JBKenBurnsView/JBKenBurnsView.modulemap";
+				PRODUCT_NAME = JBKenBurnsView;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E142C60D09E7CCB1F44AB8A50835E4AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BEF8B4EE324C01EFB4979DD1D9403BF6 /* FBSDKShareKit.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/FBSDKShareKit/FBSDKShareKit-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/FBSDKShareKit/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/FBSDKShareKit/FBSDKShareKit.modulemap";
+				PRODUCT_NAME = FBSDKShareKit;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E42FD395CDD60DD2269ED407C8012485 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EC4BE4900EC8752B222A22031D266DAC /* CocoaLumberjack.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16284,7 +16273,7 @@
 		};
 		E4BBD2A7799758EDD1970DD5A51AE81D /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A93B54DD86F2C1DD245E53CAEBFA1CAA /* GoogleToolboxForMac.xcconfig */;
+			baseConfigurationReference = 21E3346D420B590B1B3DE33D9B7F7FA2 /* SocketRocket.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16313,9 +16302,39 @@
 			};
 			name = Adhoc;
 		};
-		E5112673DB8EA61290D510EF4197F86A /* Release */ = {
+		E5810700CF1A37743F8E68C8DA75F9FD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 48995FA43920DFB96C1E2DE04F2529E5 /* Alamofire.xcconfig */;
+			baseConfigurationReference = A83C4392B63798B9C2454A8ED5A17F28 /* Bolts.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Bolts/Bolts-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Bolts/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Bolts/Bolts.modulemap";
+				PRODUCT_NAME = Bolts;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E618FCB78BB3BBCD9AF8027C4A8A6591 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A93B54DD86F2C1DD245E53CAEBFA1CAA /* GoogleToolboxForMac.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16346,7 +16365,7 @@
 		};
 		E764E7330AC8B05451D06BFD7F433D7C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0EC88AEA108ACAFDC5B9982C2A203740 /* KMPlaceholderTextView.xcconfig */;
+			baseConfigurationReference = 71E36F7BD61524311375C3E6DAFF5BE5 /* KMPlaceholderTextView.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16378,7 +16397,7 @@
 		};
 		E77F0A98CD01603449D074051CB7510F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B3613E7DAFD896E873272C24EF1735F2 /* KeychainSwift.xcconfig */;
+			baseConfigurationReference = 14FAEDFB467C41FEB8FD2E4D01F868E8 /* KeychainSwift.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16405,47 +16424,11 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Adhoc;
-		};
-		EE2D0DF7AF66F0AFF17281ABD3B7C872 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA8EA8ACECA5E8C9F765101104AC3229 /* LGCoreKit.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/LGCoreKit";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/LGCoreKit/ResourceBundle-LGCoreKitBundle-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				PRODUCT_NAME = LGCoreKitBundle;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
-		F0EBD6E9128AA69C32709A126F01C525 /* Adhoc */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA8EA8ACECA5E8C9F765101104AC3229 /* LGCoreKit.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/LGCoreKit";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/LGCoreKit/ResourceBundle-LGCoreKitBundle-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = LGCoreKitBundle;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Adhoc;
+			name = Debug;
 		};
 		E7CA07B1CC72FB08D229301DBDA405E1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA8EA8ACECA5E8C9F765101104AC3229 /* LGCoreKit.xcconfig */;
+			baseConfigurationReference = 8048007D7DD66AEC15D45E08B73B2BF4 /* GTMSessionFetcher.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16474,43 +16457,9 @@
 			};
 			name = Release;
 		};
-		F1434EEC804B45FD95E9C74D744F6C72 /* Release */ = {
+		E8489AF0CFF07E2A0C23B0DAD4DF383D /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDA8B0B39FB58E9B3808151B8DF1E854 /* Amplitude-iOS.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Amplitude-iOS/Amplitude-iOS-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Amplitude-iOS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Amplitude-iOS/Amplitude-iOS.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = Amplitude_iOS;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		F3F301B47FF8D1BFFDD4C98DD3968B84 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D3E308C00FAAA95E6AA99C1EF3B40240 /* FLEX.xcconfig */;
+			baseConfigurationReference = BBE11AF5B6D44182EAAEE588CBAA653D /* AlamofireImage.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16542,7 +16491,7 @@
 		};
 		EE8A6259E2AD940CEAF35F8B508469CF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A8B9B74943440202172657BF1D10D808 /* Realm.xcconfig */;
+			baseConfigurationReference = FF56F9D72865C38776C3B063F701018D /* FBSDKLoginKit.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16605,7 +16554,7 @@
 		};
 		F246B5FC8997307A7694D8BAD0C5D717 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FAD9437BA9E676234FA27453CD865A26 /* Result.xcconfig */;
+			baseConfigurationReference = FC072582CCF594C063ACE27EA1C22F62 /* Nimble.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16635,9 +16584,39 @@
 			};
 			name = Adhoc;
 		};
-		F9F94A56FBDFB35B7F31AA46D0C9890A /* Adhoc */ = {
+		F66FC015B965F94DB67FBB6BF38AE2F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8048007D7DD66AEC15D45E08B73B2BF4 /* GTMSessionFetcher.xcconfig */;
+			baseConfigurationReference = EE6F65685A6ED17B8343C1728921641D /* CHTCollectionViewWaterfallLayout.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/CHTCollectionViewWaterfallLayout/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/CHTCollectionViewWaterfallLayout/CHTCollectionViewWaterfallLayout.modulemap";
+				PRODUCT_NAME = CHTCollectionViewWaterfallLayout;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		F75A470FF13944E78786EB6C0CD7C319 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C54B7FDAA0FD7D6AFBB8737CA4E9FE7 /* GTMOAuth2.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16668,7 +16647,7 @@
 		};
 		F94F19E2A49BAEF1D5AE9BF38C3BFD2F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F712AB7FFDF05C9E9085FF8927CBACFE /* RxCocoa.xcconfig */;
+			baseConfigurationReference = A47DEBB23F86EC5E258598AC8A463F42 /* RxCocoa.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16700,7 +16679,7 @@
 		};
 		F96941876EDFE9882E815D603FA570CD /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F6B83C6F26FE23158A647C2E7151211 /* JSONWebToken.xcconfig */;
+			baseConfigurationReference = 5B642D9B3548898FEF2BE106835B3E93 /* JBKenBurnsView.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -16957,9 +16936,9 @@
 		8D09E8C4EB21D0E26B5E7F5BB2A3425D /* Build configuration list for PBXNativeTarget "Amplitude-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C0CFC2B6B969E11739AAE938D905FC67 /* Adhoc */,
-				C8D98727454884BA7A3B708C8DCC7E02 /* Debug */,
-				F1434EEC804B45FD95E9C74D744F6C72 /* Release */,
+				BBA91D026B899624564E137D97FBB878 /* Adhoc */,
+				261AA4020EC0E19E4D0A3A3508806471 /* Debug */,
+				3A7C887BFB9664A4954E6BAD3311CAF2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -16967,9 +16946,9 @@
 		8DE5A6DCEBE6D6C6A808B4745E827CF9 /* Build configuration list for PBXNativeTarget "Branch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3D0CBA549F561A5A4C9A1872DC7F61BA /* Adhoc */,
-				C49882DE864452C99777D7F06490A0FE /* Debug */,
-				7BEEABB45627E443C3EF947778B7B9D5 /* Release */,
+				56EDCE7C9F447770E1DA3B1939BC87B9 /* Adhoc */,
+				8E71BE993EC0E4642C4FCA9DB1044F16 /* Debug */,
+				39493FEAAF88676F9A8AD99E72EF17F8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -17127,9 +17106,9 @@
 		DBA2713921E08A072EA68CAC658E194F /* Build configuration list for PBXNativeTarget "FBSDKCoreKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				03466B5FDEBFA98E2234FB8AD503A935 /* Adhoc */,
-				E0B6CF17E06CBF45D24CC22BB8C811BA /* Debug */,
-				169414945A7AB32A8557D2B607F4EF44 /* Release */,
+				C6013483F9A773E200B6D51C2BCC81DD /* Adhoc */,
+				AFB45E32FB1A67403FE91D4C35003E7E /* Debug */,
+				D17D83D90638437C2B942FE9765FD310 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -17137,9 +17116,9 @@
 		DDBA2F559AA8FD9860CC2306FC964908 /* Build configuration list for PBXNativeTarget "FBSDKShareKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2830736C5F07F63D491B88B0FDE448EF /* Adhoc */,
-				33DB2F406F933EDE4789CBA0DCF39FF1 /* Debug */,
-				9E3A6A12DF8D2C876175C03292DAA681 /* Release */,
+				1DA6A19864C016D8CC06C7F15491F922 /* Adhoc */,
+				E142C60D09E7CCB1F44AB8A50835E4AD /* Debug */,
+				130ABD23EFFBE71C9381C979594FD73F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
