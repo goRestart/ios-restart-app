@@ -12,7 +12,7 @@ enum LocalMostSearchedItem: Int {
     case iPhone = 1, atv, smartphone, sedan, scooter, computer, coupe, tablet, motorcycle, truck, gadget, trailer,
     controller, dresser, subwoofer
     
-    static func retrieveAll() -> [LocalMostSearchedItem] {
+    static var all() -> [LocalMostSearchedItem] {
         return [iPhone, atv, smartphone, sedan, scooter, computer, coupe, tablet, motorcycle, truck, gadget, trailer,
                 controller, dresser, subwoofer]
     }
@@ -52,41 +52,41 @@ enum LocalMostSearchedItem: Int {
         }
     }
     
-    private var weekdays: Int {
+    private var weekdaysCount: Int {
         return 7
     }
     var baseSearchCount: Int {
         switch self {
         case .iPhone:
-            return 7938*weekdays
+            return 7938*weekdaysCount
         case .atv:
-            return 4004*weekdays
+            return 4004*weekdaysCount
         case .smartphone:
-            return 2145*weekdays
+            return 2145*weekdaysCount
         case .sedan:
-            return 6711*weekdays
+            return 6711*weekdaysCount
         case .scooter:
-            return 1758*weekdays
+            return 1758*weekdaysCount
         case .computer:
-            return 2967*weekdays
+            return 2967*weekdaysCount
         case .coupe:
-            return 6711*weekdays
+            return 6711*weekdaysCount
         case .tablet:
-            return 1248*weekdays
+            return 1248*weekdaysCount
         case .motorcycle:
-            return 6053*weekdays
+            return 6053*weekdaysCount
         case .truck:
-            return 6711*weekdays
+            return 6711*weekdaysCount
         case .gadget:
-            return 5686*weekdays
+            return 5686*weekdaysCount
         case .trailer:
-            return 5062*weekdays
+            return 5062*weekdaysCount
         case .controller:
-            return 1456*weekdays
+            return 1456*weekdaysCount
         case .dresser:
-            return 11014*weekdays
+            return 11014*weekdaysCount
         case .subwoofer:
-            return 1531*weekdays
+            return 1531*weekdaysCount
         }
     }
     
