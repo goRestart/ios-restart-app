@@ -58,6 +58,10 @@ class EnvironmentProxy: AppEnvironment {
         return environment.amplitudeAPIKey
     }
 
+    var googleServerClientID: String {
+        return environment.googleServerClientID
+    }
+
     var googleClientID: String {
         return environment.googleClientID
     }
