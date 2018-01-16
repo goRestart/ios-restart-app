@@ -55,7 +55,6 @@ def shared_pods
     # Google
     pod "GoogleSignIn",         "4.1.1"     # Obj-c
 
-    pod "Firebase/AppIndexing", "3.7.1"     # Obj-c
     pod "GoogleIDFASupport",    "3.14.0"    # Obj-c
 
     # Custom camera

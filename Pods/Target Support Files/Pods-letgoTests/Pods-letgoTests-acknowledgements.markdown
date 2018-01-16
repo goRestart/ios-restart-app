@@ -326,26 +326,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Fabric: Copyright 2017 Google, Inc. All Rights Reserved. Use of this software is subject to the terms and conditions of the Fabric Software and Services Agreement located at https://fabric.io/terms. OSS: http://get.fabric.io/terms/opensource.txt
 
-## Firebase
-
-Copyright 2016 Google
-
-## FirebaseAnalytics
-
-Copyright 2016 Google
-
-## FirebaseAppIndexing
-
-Copyright 2016 Google
-
-## FirebaseCore
-
-Copyright 2016 Google
-
-## FirebaseInstanceID
-
-Copyright 2017 Google
-
 ## GTMOAuth2
 
 
@@ -766,17 +746,9 @@ Copyright 2017 Google
 
 Copyright 2015 Google Inc.
 
-## GoogleInterchangeUtilities
-
-Copyright 2016 Google
-
 ## GoogleSignIn
 
 Copyright 2017 Google
-
-## GoogleSymbolUtilities
-
-Copyright 2016 Google
 
 ## GoogleToolboxForMac
 
@@ -983,10 +955,6 @@ Copyright 2016 Google
    See the License for the specific language governing permissions and
    limitations under the License.
 
-
-## GoogleUtilities
-
-Copyright 2016 Google
 
 ## JBKenBurnsView
 
