@@ -44,4 +44,8 @@ class EscrowEnvironment: AppEnvironment {
     let adTestModeActive = true
     let moreInfoAdUnitIdDFP = ""
     let moreInfoAdUnitIdDFPUSA = ""
+
+    let feedAdUnitIdDFPUSA10Ratio = ""
+    let feedAdUnitIdDFPUSA15Ratio = ""
+    let feedAdUnitIdDFPUSA20Ratio = ""
 }
