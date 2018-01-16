@@ -21,11 +21,6 @@
         "description": "User can bump paying"
     },
     {
-        "name": "NewCarsMultiRequesterEnabled",
-        "values": ["no", "yes"],
-        "description": "Cars multi requester enabled"
-    },
-    {
         "name": "InAppRatingIOS10",
         "values": ["no", "yes"],
         "description": "New in-app rating for iOS 10.3+"
