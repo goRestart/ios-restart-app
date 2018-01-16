@@ -6,7 +6,11 @@
 //  Copyright (c) 2015 Branch Metrics. All rights reserved.
 //
 
+#if __has_feature(modules)
+@import Foundation;
+#else
 #import <Foundation/Foundation.h>
+#endif
 
 extern NSString * const BRANCH_REQUEST_KEY_BRANCH_IDENTITY;
 extern NSString * const BRANCH_REQUEST_KEY_DEVELOPER_IDENTITY;
@@ -88,6 +92,7 @@ extern NSString * const BRANCH_RESPONSE_KEY_DEVICE_FINGERPRINT_ID;
 extern NSString * const BRANCH_RESPONSE_KEY_SESSION_DATA;
 extern NSString * const BRANCH_RESPONSE_KEY_CLICKED_BRANCH_LINK;
 extern NSString * const BRANCH_RESPONSE_KEY_BRANCH_VIEW_DATA;
+extern NSString * const BRANCH_RESPONSE_KEY_BRANCH_REFERRING_LINK;
 
 extern NSString * const BRANCH_LINK_DATA_KEY_OG_TITLE;
 extern NSString * const BRANCH_LINK_DATA_KEY_OG_DESCRIPTION;
@@ -95,6 +100,7 @@ extern NSString * const BRANCH_LINK_DATA_KEY_OG_IMAGE_URL;
 extern NSString * const BRANCH_LINK_DATA_KEY_TITLE;
 extern NSString * const BRANCH_LINK_DATA_KEY_DESCRIPTION;
 extern NSString * const BRANCH_LINK_DATA_KEY_PUBLICLY_INDEXABLE;
+extern NSString * const BRANCH_LINK_DATA_KEY_LOCALLY_INDEXABLE;
 extern NSString * const BRANCH_LINK_DATA_KEY_TYPE;
 extern NSString * const BRANCH_LINK_DATA_KEY_THUMBNAIL_URL;
 extern NSString * const BRANCH_LINK_DATA_KEY_KEYWORDS;
@@ -103,6 +109,9 @@ extern NSString * const BRANCH_LINK_DATA_KEY_CANONICAL_URL;
 extern NSString * const BRANCH_LINK_DATA_KEY_CONTENT_EXPIRATION_DATE;
 extern NSString * const BRANCH_LINK_DATA_KEY_CONTENT_TYPE;
 extern NSString * const BRANCH_LINK_DATA_KEY_EMAIL_SUBJECT;
+extern NSString * const BRANCH_LINK_DATA_KEY_EMAIL_HTML_HEADER;
+extern NSString * const BRANCH_LINK_DATA_KEY_EMAIL_HTML_FOOTER;
+extern NSString * const BRANCH_LINK_DATA_KEY_EMAIL_HTML_LINK_TEXT;
 
 extern NSString * const BRANCH_SPOTLIGHT_PREFIX;
 
@@ -129,3 +138,7 @@ extern NSString * const BRANCH_PACKAGE_NAME_KEY;
 extern NSString * const BRANCH_ENTITIES_KEY;
 
 extern NSString * const BRANCH_REQUEST_KEY_SEARCH_AD;
+
+extern NSString * const BRANCH_CRASHLYTICS_SDK_VERSION_KEY;
+extern NSString * const BRANCH_CRASHLYTICS_FINGERPRINT_ID_KEY;
+extern NSString * const BRANCH_CRASHLYTICS_LOW_MEMORY_KEY;

@@ -173,7 +173,15 @@ fileprivate extension PostCategorySelectionView {
             .leading(by: Metrics.bigMargin)
             .trailing(by: -Metrics.bigMargin)
             .top()
-        carsCategoryButton.layout(with: realEstateEnabled ? realEstateCategoryButton : motorsAndAccessoriesButton)
+        carsCategoryButton.layout(with: motorsAndAccessoriesButton)
+            .above(by: -Metrics.bigMargin)
+
+        motorsAndAccessoriesButton.layout()
+            .height(categoryButtonHeight)
+        motorsAndAccessoriesButton.layout(with: categoriesContainerView)
+            .leading(by: Metrics.bigMargin)
+            .trailing(by: -Metrics.bigMargin)
+        motorsAndAccessoriesButton.layout(with: realEstateEnabled ? realEstateCategoryButton : otherCategoryButton)
             .above(by: -Metrics.bigMargin)
         
         if realEstateEnabled {
@@ -182,17 +190,9 @@ fileprivate extension PostCategorySelectionView {
             realEstateCategoryButton.layout(with: categoriesContainerView)
                 .leading(by: Metrics.bigMargin)
                 .trailing(by: -Metrics.bigMargin)
-            realEstateCategoryButton .layout(with: motorsAndAccessoriesButton)
+            realEstateCategoryButton .layout(with: otherCategoryButton)
                 .above(by: -Metrics.bigMargin)
         }
-
-        motorsAndAccessoriesButton.layout()
-            .height(categoryButtonHeight)
-        motorsAndAccessoriesButton.layout(with: categoriesContainerView)
-            .leading(by: Metrics.bigMargin)
-            .trailing(by: -Metrics.bigMargin)
-        motorsAndAccessoriesButton.layout(with: otherCategoryButton)
-            .above(by: -Metrics.bigMargin)
         
         otherCategoryButton.layout()
             .height(categoryButtonHeight)

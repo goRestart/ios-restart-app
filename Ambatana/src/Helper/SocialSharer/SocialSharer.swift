@@ -221,17 +221,7 @@ fileprivate extension SocialSharer {
     }
 
     func shareInTwitter(_ socialMessage: SocialMessage, viewController: UIViewController) {
-        delegate?.shareStartedIn(.twitter)
-        socialMessage.twitterComposer.show(from: viewController) { [weak self] result in
-            let state: SocialShareState
-            switch result {
-            case .cancelled:
-                state = .cancelled
-            case .done:
-                state = .completed
-            }
-            self?.delegate?.shareFinishedIn(.twitter, withState: state)
-        }
+        shareInURL(.twitter, text: socialMessage.twitterShareText, urlScheme: Constants.twitterShareURL)
     }
 
     func shareInTelegram(_ socialMessage: SocialMessage) {
