@@ -15,9 +15,6 @@
 #import <Leanplum/Leanplum.h>
 #import <NewRelicAgent/NewRelic.h>
 
-// Google
-#import <Google/SignIn.h>
-
 #if GOD_MODE
 // FLEX
 #import <FLEX/FLEXManager.h>

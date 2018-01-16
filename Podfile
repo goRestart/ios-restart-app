@@ -11,9 +11,9 @@ project "LetGo.xcodeproj"
 def shared_pods
     pod "AlamofireImage",       "3.3.0"
 
-    pod "FBSDKLoginKit",        "4.22.0"    # Obj-c
-    pod "FBSDKCoreKit",         "4.22.0"    # Obj-c
-    pod "FBSDKShareKit",        "4.22.0"    # Obj-c
+    pod "FBSDKLoginKit",        "4.29.0"    # Obj-c
+    pod "FBSDKCoreKit",         "4.29.0"    # Obj-c
+    pod "FBSDKShareKit",        "4.29.0"    # Obj-c
 
     pod "RxSwift",              "4.0.0"
     pod "RxSwiftExt",           "3.0.0"
@@ -23,17 +23,15 @@ def shared_pods
     pod "Google-Mobile-Ads-SDK","7.24.1"
 
     #Fabric
-    pod "Fabric",               "1.6.11"    # Obj-c
-    pod "Crashlytics",          "3.8.3"     # Obj-c
-    pod "TwitterKit",           "2.3.0"     # Obj-c
-    pod "Branch",               "0.12.27"   # Obj-c
+    pod "Fabric",               "1.7.2"     # Obj-c
+    pod "Crashlytics",          "3.9.3"     # Obj-c
+    pod "Branch",               "0.22.5"    # Obj-c
 
     # Tracking
-    pod "Amplitude-iOS",        "3.8.5"     # Obj-c
-    pod "AppsFlyerFramework",   "4.7.11"    # Obj-c
-#    pod "Leanplum-iOS-SDK",     "2.0.1"    # Obj-c
-    pod "Leanplum-iOS-SDK",     "2.0.4"
-    pod "NewRelicAgent",        "5.14.2"    # Obj-c
+    pod "Amplitude-iOS",        "4.0.4"     # Obj-c
+    pod "AppsFlyerFramework",   "4.8.2"     # Obj-c
+    pod "Leanplum-iOS-SDK",     "2.0.4"     # Obj-c
+    pod "NewRelicAgent",        "6.1.0"     # Obj-c
 
     # letgo Core
     pod "LGCoreKit",             "4.2.1"
@@ -49,15 +47,14 @@ def shared_pods
 
 
     # Collection View Custom Layout
-    pod "CHTCollectionViewWaterfallLayout", "0.9.5" # Obj-c
+    pod "CHTCollectionViewWaterfallLayout", "0.9.7" # Obj-c
 
     # Device info helper
     pod "DeviceGuru",           "~> 3.0.1"
 
-    # Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
-    pod "Google/SignIn",        "3.0.3"     # Obj-c
+    # Google
+    pod "GoogleSignIn",         "4.1.1"     # Obj-c
 
-    pod "Firebase/AppIndexing", "3.7.1"     # Obj-c
     pod "GoogleIDFASupport",    "3.14.0"    # Obj-c
 
     # Custom camera

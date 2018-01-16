@@ -20,7 +20,11 @@
 #import "AMPLocationManagerDelegate.h"
 #import "AMPRevenue.h"
 #import "AMPURLConnection.h"
+#import "AMPURLSession.h"
 #import "AMPUtils.h"
+#import "ISPCertificatePinning.h"
+#import "ISPPinnedNSURLConnectionDelegate.h"
+#import "ISPPinnedNSURLSessionDelegate.h"
 
 FOUNDATION_EXPORT double Amplitude_iOSVersionNumber;
 FOUNDATION_EXPORT const unsigned char Amplitude_iOSVersionString[];

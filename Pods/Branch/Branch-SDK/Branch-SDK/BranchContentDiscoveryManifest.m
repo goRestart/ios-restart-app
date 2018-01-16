@@ -6,23 +6,19 @@
 //  Copyright © 2016 Branch Metrics. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+
 #import "BranchContentDiscoveryManifest.h"
 #import "BNCPreferenceHelper.h"
 #import "BranchContentPathProperties.h"
-#import <UIKit/UIKit.h>
 #import "BranchConstants.h"
 
+
 @interface BranchContentDiscoveryManifest ()
-
 @property (nonatomic, strong) NSString *manifestVersion;
-
 @end
 
+
 @implementation BranchContentDiscoveryManifest
-
-
-static BranchContentDiscoveryManifest *contentDiscoveryManifest;
 
 - (instancetype)init {
     self = [super init];
@@ -38,16 +34,17 @@ static BranchContentDiscoveryManifest *contentDiscoveryManifest;
 }
 
 + (BranchContentDiscoveryManifest *)getInstance {
-    if (!contentDiscoveryManifest) {
-        contentDiscoveryManifest = [[BranchContentDiscoveryManifest alloc] init];
+    @synchronized (self) {
+        static BranchContentDiscoveryManifest *contentDiscoveryManifest = nil;
+        if (!contentDiscoveryManifest) {
+            contentDiscoveryManifest = [[BranchContentDiscoveryManifest alloc] init];
+        }
+        return contentDiscoveryManifest;
     }
-    return contentDiscoveryManifest;
 }
 
-
-
-- (void)onBranchInitialised:(NSDictionary *)branchInitDict withUrl:(NSString *)referredUrl {
-    _referredLink = referredUrl;
+- (void)onBranchInitialised:(NSDictionary *)branchInitDict withUrl:(NSString *)referringURL {
+    _referredLink = referringURL;
     if ([branchInitDict objectForKey:BRANCH_CONTENT_DISCOVER_KEY]) {
         _isCDEnabled = YES;
         NSDictionary *cdManifestDict = [branchInitDict objectForKey:BRANCH_CONTENT_DISCOVER_KEY];
