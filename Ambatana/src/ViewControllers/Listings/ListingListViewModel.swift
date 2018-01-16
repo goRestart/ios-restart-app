@@ -9,6 +9,7 @@
 import LGCoreKit
 import Result
 import RxSwift
+import GoogleMobileAds
 
 protocol ListingListViewModelDelegate: class {
     func vmReloadData(_ vm: ListingListViewModel)
@@ -321,7 +322,7 @@ class ListingListViewModel: BaseViewModel {
                                         originFrame: originFrame)
         case .collectionCell(let type):
             dataDelegate?.vmDidSelectCollection(type)
-        case .emptyCell:
+        case .emptyCell, .advertisement:
             return
         }
     }
@@ -334,7 +335,7 @@ class ListingListViewModel: BaseViewModel {
                 if let thumbnailURL = listing.thumbnail?.fileURL {
                     urls.append(thumbnailURL)
                 }
-            case .emptyCell, .collectionCell:
+            case .emptyCell, .collectionCell, .advertisement:
                 break
             }
         }
@@ -366,7 +367,7 @@ class ListingListViewModel: BaseViewModel {
         switch item {
         case let .listingCell(listing):
             return listing
-        case .collectionCell, .emptyCell:
+        case .collectionCell, .emptyCell, .advertisement:
             return nil
         }
     }
@@ -376,7 +377,7 @@ class ListingListViewModel: BaseViewModel {
             switch cellModel {
             case let .listingCell(listing):
                 return listing.objectId == listingId
-            case .collectionCell, .emptyCell:
+            case .collectionCell, .emptyCell, .advertisement:
                 return false
             }
         })
@@ -416,6 +417,9 @@ class ListingListViewModel: BaseViewModel {
             return CGSize(width: defaultCellSize.width, height: height)
         case .emptyCell:
             return CGSize(width: defaultCellSize.width, height: 1)
+        case .advertisement(let adData):
+            guard adData.adPosition == index else { return CGSize(width: defaultCellSize.width, height: 0) }
+            return CGSize(width: defaultCellSize.width, height: adData.bannerHeight)
         }
     }
         
@@ -461,5 +465,28 @@ extension ListingListViewModel {
                                                      matchingFields: info.matchingFields,
                                                      nonMatchingFields: info.nonMatchingFields)
         tracker.trackEvent(event)
+    }
+}
+
+extension ListingListViewModel: AdvertisementCellHeightDelegate {
+    func updateAdCellHeight(newHeight: CGFloat, forPosition: Int, withBannerView bannerView: GADBannerView) {
+        guard 0..<objects.count ~= forPosition else { return }
+        guard let modelToBeUpdated = objects[forPosition] as? ListingCellModel else { return }
+        switch modelToBeUpdated {
+        case .advertisement(let data):
+            guard data.adPosition == forPosition else {
+                return
+            }
+            let newAdData = AdvertisementData(adUnitId: data.adUnitId,
+                                              rootViewController: data.rootViewController,
+                                              adPosition: data.adPosition,
+                                              bannerHeight: newHeight,
+                                              heightDelegate: data.heightDelegate,
+                                              bannerView: bannerView)
+            objects[forPosition] = ListingCellModel.advertisement(data: newAdData)
+            delegate?.vmReloadData(self)
+        case .listingCell, .collectionCell, .emptyCell:
+            break
+        }
     }
 }
