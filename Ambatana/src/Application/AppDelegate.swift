@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+#if DEBUG
+    import AdSupport
+#endif
 import AppsFlyerLib
 import Branch
 import Crashlytics
@@ -16,12 +19,6 @@ import GoogleSignIn
 import LGCoreKit
 import RxSwift
 import UIKit
-
-
-#if DEBUG
-    import AdSupport
-#endif
-import Firebase
 
 
 @UIApplicationMain
