@@ -52,8 +52,8 @@ def shared_pods
     # Device info helper
     pod "DeviceGuru",           "~> 3.0.1"
 
-    # Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
-    pod "Google/SignIn",        "3.0.3"     # Obj-c
+    # Google
+    pod "GoogleSignIn",         "4.1.1"     # Obj-c
 
     pod "Firebase/AppIndexing", "3.7.1"     # Obj-c
     pod "GoogleIDFASupport",    "3.14.0"    # Obj-c

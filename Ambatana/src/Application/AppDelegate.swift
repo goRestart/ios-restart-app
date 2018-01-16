@@ -12,6 +12,7 @@ import Crashlytics
 import CocoaLumberjack
 import Fabric
 import FBSDKCoreKit
+import GoogleSignIn
 import LGCoreKit
 import RxSwift
 import UIKit
@@ -320,7 +321,7 @@ fileprivate extension AppDelegate {
         TrackerProxy.sharedInstance.application(application,
                                                 didFinishLaunchingWithOptions: launchOptions,
                                                 featureFlags: featureFlags)
-
+        
         // Google app indexing
         FIRAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
 
@@ -380,16 +381,24 @@ fileprivate extension AppDelegate {
 // MARK: > Deep linking
 
 fileprivate extension AppDelegate {
-    func app(_ app: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?, options: [UIApplicationOpenURLOptionsKey : Any]?) -> Bool {
-
-        TrackerProxy.sharedInstance.application(app, openURL: url, sourceApplication: sourceApplication,
+    func app(_ app: UIApplication,
+             openURL url: URL,
+             sourceApplication: String?,
+             annotation: Any?,
+             options: [UIApplicationOpenURLOptionsKey : Any]?) -> Bool {
+        TrackerProxy.sharedInstance.application(app,
+                                                openURL: url,
+                                                sourceApplication: sourceApplication,
                                                 annotation: annotation)
-
-        let routerHandling = deepLinksRouter?.openUrl(url, sourceApplication: sourceApplication, annotation: annotation) ?? false
-
-        let facebookHandling = FBSDKApplicationDelegate.sharedInstance().application(app, open: url,
-                                                                                     sourceApplication: sourceApplication, annotation: annotation)
-        let googleHandling = GIDSignIn.sharedInstance().handle(url, sourceApplication: sourceApplication,
+        let routerHandling = deepLinksRouter?.openUrl(url,
+                                                      sourceApplication: sourceApplication,
+                                                      annotation: annotation) ?? false
+        let facebookHandling = FBSDKApplicationDelegate.sharedInstance().application(app,
+                                                                                     open: url,
+                                                                                     sourceApplication: sourceApplication,
+                                                                                     annotation: annotation)
+        let googleHandling = GIDSignIn.sharedInstance().handle(url,
+                                                               sourceApplication: sourceApplication,
                                                                annotation: annotation)
         if let options = options {
             AppsFlyerTracker.shared().handleOpen(url, options: options)
