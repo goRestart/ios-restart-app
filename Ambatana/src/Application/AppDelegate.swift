@@ -318,9 +318,6 @@ fileprivate extension AppDelegate {
         TrackerProxy.sharedInstance.application(application,
                                                 didFinishLaunchingWithOptions: launchOptions,
                                                 featureFlags: featureFlags)
-        
-        // Google app indexing
-        FIRAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
 
         LGNotificationsManager.sharedInstance.setup()
         StickersManager.sharedInstance.setup()

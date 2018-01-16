@@ -15,9 +15,6 @@ class ProductionEnvironment: AppEnvironment {
     let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
     let amplitudeAPIKey = "6d37fbd6c25243c57676e6d4ce7948bf"
     
-    // App indexing
-    let googleAppIndexingId: UInt = 986339882
-
     // Google login
     let googleServerClientID = "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com"
     let googleClientID = "914431496661-h1lf5kd3g9g743sec3emns7qj9ei0hcp.apps.googleusercontent.com"

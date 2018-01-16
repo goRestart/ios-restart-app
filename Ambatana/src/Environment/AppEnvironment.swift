@@ -15,9 +15,6 @@ protocol AppEnvironment {
     var appsFlyerAPIKey: String { get }
     var amplitudeAPIKey: String { get }
     
-    // App indexing
-    var googleAppIndexingId: UInt { get }
-
     // Google login
     var googleServerClientID: String { get }
     var googleClientID: String { get }
