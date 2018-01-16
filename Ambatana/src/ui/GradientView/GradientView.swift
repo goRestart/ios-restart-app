@@ -22,6 +22,8 @@ final class GradientView: UIView {
     init(colors: [UIColor]) {
         self.colors = colors
         super.init(frame: .zero)
+        self.isOpaque = false
+
         setupLayers()
     }
     
@@ -37,6 +39,7 @@ final class GradientView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        guard gradient.frame != bounds else { return }
         gradient.frame = bounds
     }
 }
