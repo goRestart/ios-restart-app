@@ -73,8 +73,12 @@ enum CollectionCellType: String {
     }
 }
 
-protocol AdvertisementCellHeightDelegate {
+protocol AdvertisementCellDelegate {
     func updateAdCellHeight(newHeight: CGFloat, forPosition: Int, withBannerView bannerView: GADBannerView)
+    func bannerWasTapped(adType: EventParameterAdType,
+                         willLeaveApp: EventParameterBoolean,
+                         categories: [ListingCategory]?,
+                         feedPosition: EventParameterFeedPosition)
 }
 
 struct AdvertisementData {
@@ -82,6 +86,8 @@ struct AdvertisementData {
     var rootViewController: UIViewController
     var adPosition: Int
     var bannerHeight: CGFloat
-    var heightDelegate: AdvertisementCellHeightDelegate
+    var delegate: AdvertisementCellDelegate
     var bannerView: GADBannerView?
+    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio
+    var categories: [ListingCategory]?
 }

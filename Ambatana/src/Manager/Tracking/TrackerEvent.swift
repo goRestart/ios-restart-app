@@ -371,7 +371,9 @@ struct TrackerEvent {
                                  queryType: EventParameterAdQueryType?,
                                  query: String?,
                                  willLeaveApp: EventParameterBoolean,
-                                 typePage: EventParameterTypePage) -> TrackerEvent {
+                                 typePage: EventParameterTypePage,
+                                 categories: [ListingCategory]?,
+                                 feedPosition: EventParameterFeedPosition) -> TrackerEvent {
         var params = EventParameters()
 
         params[.listingId] = listingId ?? TrackerEvent.notApply
@@ -381,6 +383,16 @@ struct TrackerEvent {
         params[.adQuery] = query ?? TrackerEvent.notApply
         params[.adActionLeftApp] = willLeaveApp.rawValue
         params[.typePage] = typePage.rawValue
+        params[.feedPosition] = feedPosition.value
+
+        var categoryIds: [String] = []
+        if let actualCategories = categories {
+            for category in actualCategories {
+                categoryIds.append(String(category.rawValue))
+            }
+        }
+        params[.categoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
+
         return TrackerEvent(name: .adTapped, params: params)
     }
 

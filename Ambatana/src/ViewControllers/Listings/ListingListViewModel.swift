@@ -468,7 +468,7 @@ extension ListingListViewModel {
     }
 }
 
-extension ListingListViewModel: AdvertisementCellHeightDelegate {
+extension ListingListViewModel: AdvertisementCellDelegate {
     func updateAdCellHeight(newHeight: CGFloat, forPosition: Int, withBannerView bannerView: GADBannerView) {
         guard 0..<objects.count ~= forPosition else { return }
         guard let modelToBeUpdated = objects[forPosition] as? ListingCellModel else { return }
@@ -481,12 +481,30 @@ extension ListingListViewModel: AdvertisementCellHeightDelegate {
                                               rootViewController: data.rootViewController,
                                               adPosition: data.adPosition,
                                               bannerHeight: newHeight,
-                                              heightDelegate: data.heightDelegate,
-                                              bannerView: bannerView)
+                                              delegate: data.delegate,
+                                              bannerView: bannerView,
+                                              showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
+                                              categories: data.categories)
             objects[forPosition] = ListingCellModel.advertisement(data: newAdData)
             delegate?.vmReloadData(self)
         case .listingCell, .collectionCell, .emptyCell:
             break
         }
+    }
+
+    func bannerWasTapped(adType: EventParameterAdType,
+                         willLeaveApp: EventParameterBoolean,
+                         categories: [ListingCategory]?,
+                         feedPosition: EventParameterFeedPosition) {
+        let trackerEvent = TrackerEvent.adTapped(listingId: nil,
+                                                 adType: adType,
+                                                 isMine: .notAvailable,
+                                                 queryType: nil,
+                                                 query: nil,
+                                                 willLeaveApp: willLeaveApp,
+                                                 typePage: .listingList,
+                                                 categories: categories,
+                                                 feedPosition: feedPosition)
+        tracker.trackEvent(trackerEvent)
     }
 }

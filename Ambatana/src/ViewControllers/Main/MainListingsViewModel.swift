@@ -629,7 +629,8 @@ class MainListingsViewModel: BaseViewModel {
         if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
             categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
         } else {
-            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(realEstateIncluded: featureFlags.realEstateEnabled.isActive,highlightRealEstate: featureFlags.realEstatePromos.isActive)
+            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(realEstateIncluded: featureFlags.realEstateEnabled.isActive,
+                                                                                          highlightRealEstate: featureFlags.realEstatePromos.isActive)
                 .map { CategoryHeaderElement.listingCategory($0) })
         }
         return categoryHeaderElements
@@ -875,9 +876,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             let adData = AdvertisementData(adUnitId: feedAdUnitId,
                                            rootViewController: adsDelegate.rootViewControllerForAds(),
                                            adPosition: lastAdPosition,
-                                           bannerHeight: 220,
-                                           heightDelegate: self.listViewModel,
-                                           bannerView: nil)
+                                           bannerHeight: LGUIKitConstants.advertisementCellPlaceholderHeight,
+                                           delegate: self.listViewModel,
+                                           bannerView: nil,
+                                           showAdsInFeedWithRatio: featureFlags.showAdsInFeedWithRatio,
+                                           categories: filters.selectedCategories)
 
             let adsCellModel = ListingCellModel.advertisement(data: adData)
             cellModels.insert(adsCellModel, at: relativeAdPosition)
@@ -1397,9 +1400,7 @@ extension MainListingsViewModel: ListingCellDelegate {
 extension ShowAdsInFeedWithRatio {
     var ratio: Int {
         switch self {
-        case .control:
-            return 0
-        case .baseline:
+        case .control, .baseline:
             return 0
         case .ten:
             return 10
@@ -1407,6 +1408,21 @@ extension ShowAdsInFeedWithRatio {
             return 15
         case .twenty:
             return 20
+        }
+    }
+
+    func customTargetingValueFor(position: Int) -> String {
+        guard self.ratio != 0 else { return "" }
+        let numberOfAd = ((position - Constants.adInFeedInitialPosition)/self.ratio) + 1
+        switch self {
+        case .control, .baseline:
+            return ""
+        case .ten:
+            return "var_a_pos_\(numberOfAd)"
+        case .fifteen:
+            return "var_b_pos_\(numberOfAd)"
+        case .twenty:
+            return "var_b_pos_\(numberOfAd)"
         }
     }
 }
