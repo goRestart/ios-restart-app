@@ -15,8 +15,7 @@ class MostSearchedItemsListViewModel: BaseViewModel {
     
     fileprivate let featureFlags: FeatureFlaggeable
     
-    // TODO: This property will be a array of MostSearchedItem
-    let mostSearchedItems: [String]
+    let mostSearchedItems: [LocalMostSearchedItem]
     
     
     // MARK: - Lifecycle
@@ -24,8 +23,7 @@ class MostSearchedItemsListViewModel: BaseViewModel {
     init(featureFlags: FeatureFlaggeable, isSearchEnabled: Bool) {
         self.featureFlags = featureFlags
         self.isSearchEnabled = isSearchEnabled
-        mostSearchedItems = ["item1", "item2", "item3", "item4", "item5", "item6", "item7", "item8", "item9", "item10",
-                             "item11", "item12", "item13", "item14", "item15"]
+        mostSearchedItems = LocalMostSearchedItem.allValues
         super.init()
     }
     
@@ -44,7 +42,7 @@ class MostSearchedItemsListViewModel: BaseViewModel {
     
     // MARK: - Most Searched Items data
     
-    func itemAtIndex(_ index: Int) -> String {
+    func itemAtIndex(_ index: Int) -> LocalMostSearchedItem {
         return mostSearchedItems[index]
     }
 }

@@ -662,6 +662,12 @@
 "product_share_title_label" = "DEEL DEZE ADVERTENTIE";
 "product_share_title_on_letgo" = "%@ op letgo!";
 "product_stickers_selection_wo_name" = "Kies de sticker die je wilt verzenden naar de verkoper.";
+"professional_dealer_ask_phone_chat_message" = "Mijn telefoonnummer is %@";
+"professional_dealer_ask_phone_intro_text" = "Ik ben een professionele autohandelaar, ik help je dus graag persoonlijk. Deel alstublieft je telefoonnummer zodat ik je de beste deal kan geven!";
+"professional_dealer_ask_phone_lets_talk_text" = "Laten we praten";
+"professional_dealer_ask_phone_not_now_button" = "Niet nu";
+"professional_dealer_ask_phone_send_phone_button" = "Verstuur telefoonnummer";
+"professional_dealer_ask_phone_textfield_placeholder" = "Voer telefoonnummer in";
 "profile_blocked_by_me_label" = "Je hebt deze gebruiker geblokkeerd";
 "profile_blocked_by_me_label_w_name" = "Je hebt %@ geblokkeerd";
 "profile_blocked_by_other_label" = "Je bent geblokkeerd door deze gebruiker";
@@ -753,8 +759,8 @@
 "real_estate_bedrooms_title" = "Aantal Slaapkamers";
 "real_estate_camera_view_real_estate_message" = "Maak een foto van het onroerend goed dat je wilt huren of verkopen";
 "real_estate_current_step_of_total" = "%d van %d";
-"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
-"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+"real_estate_empty_state_search_subtitle" = "Wees de eerste om onroerend goed te koop/te huur te plaatsen bij jou in de buurt of check binnenkort weer!";
+"real_estate_empty_state_search_title" = "OEPS! GEEN WONINGEN GEPLAATST IN JOUW OMGEVING";
 "real_estate_gallery_view_subtitle" = "Selecteer maximaal 5 afbeeldingen van de woning die je wilt verkopen of huren";
 "real_estate_location_notification_message" = "We zullen jouw exacte locatie nooit aan andere gebruikers laten zien";
 "real_estate_location_title" = "Plaats";
@@ -921,6 +927,12 @@
 "tour_facebook_button" = "Doorgaan met Facebook";
 "tour_google_button" = "Doorgaan met Google";
 "tour_or_label" = "OF GEBRUIK JE E-MAIL";
+"trending_items_header_bubble" = "Trending";
+"trending_items_view_number_of_searches_item" = "% searches";
+"trending_items_view_number_of_searches_title" = "Searches this week";
+"trending_items_view_post_button" = "Post";
+"trending_items_view_subtitle" = "Post one of these, and make money under a week";
+"trending_items_view_title" = "Most popular items in %@";
 "trending_searches_Title" = "Trending Zoekopdrachten";
 "unblock_user_error_generic" = "Er is een fout opgetreden tijdens het deblokkeren van deze gebruiker.";
 "user_rating_add_comment_button" = "Opmerking toevoegen";
