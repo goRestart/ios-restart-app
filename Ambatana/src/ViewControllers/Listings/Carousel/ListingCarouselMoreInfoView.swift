@@ -576,19 +576,21 @@ fileprivate extension ListingCarouselMoreInfoView {
 
 extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate {
     func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
-        let adSize = CGSizeFromGADAdSize(size)
-
-        let newFrame = CGRect(x: bannerView.frame.origin.x, y: bannerView.frame.origin.y, width: adSize.width, height: adSize.height)
+        let sizeFromAdSize = CGSizeFromGADAdSize(size)
+        let newFrame = CGRect(x: bannerView.frame.origin.x,
+                              y: bannerView.frame.origin.y,
+                              width: sizeFromAdSize.width,
+                              height: sizeFromAdSize.height)
         bannerView.frame = newFrame
-        bannerContainerViewHeightConstraint.constant = adSize.height
+        bannerContainerViewHeightConstraint.constant = sizeFromAdSize.height
         if let sideMargin = viewModel?.sideMargin {
             bannerContainerViewLeftConstraint.constant = sideMargin
             bannerContainerViewRightConstraint.constant = sideMargin
         }
-        if adSize.height > 0 {
+        if sizeFromAdSize.height > 0 {
             let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
             let bannerTop = absolutePosition.y
-            let bannerBottom = bannerTop + adSize.height
+            let bannerBottom = bannerTop + sizeFromAdSize.height
             viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
                                     bannerBottomPosition: bannerBottom,
                                     screenHeight: UIScreen.main.bounds.height)
@@ -612,7 +614,7 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
     }
 
     func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
-        logMessage(.info, type: .monetization, message: "Banner failed with error: \(error.localizedDescription)")
+        logMessage(.info, type: .monetization, message: "MoreInfo banner failed with error: \(error.localizedDescription)")
         bannerContainerViewHeightConstraint.constant = 0
         bannerContainerViewLeftConstraint.constant = 0
         bannerContainerViewRightConstraint.constant = 0

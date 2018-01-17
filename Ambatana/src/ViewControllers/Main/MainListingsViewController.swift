@@ -12,7 +12,6 @@ import UIKit
 import CHTCollectionViewWaterfallLayout
 import RxSwift
 
-
 enum SearchSuggestionType {
     case suggestive
     case lastSearch
@@ -33,7 +32,7 @@ enum SearchSuggestionType {
 }
 
 class MainListingsViewController: BaseViewController, ListingListViewScrollDelegate, MainListingsViewModelDelegate,
-    FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop {
+    FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop, MainListingsAdsDelegate {
     
     // ViewModel
     var viewModel: MainListingsViewModel
@@ -104,6 +103,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         viewModel.delegate = self
+        viewModel.adsDelegate = self
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
         hasTabBar = true
@@ -245,6 +245,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
     func vmFiltersChanged() {
         setFiltersNavBarButton()
+    }
+
+
+    // MARK: - MainListingsAdsDelegate
+
+    func rootViewControllerForAds() -> UIViewController {
+        return self
     }
 
 
