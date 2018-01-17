@@ -75,7 +75,8 @@ class UserViewController: BaseViewController {
     
     @IBOutlet weak var listingListViewBackgroundView: UIView!
     @IBOutlet weak var listingListView: ListingListView!
-
+    @IBOutlet weak var mostSearchedItemsListView: UIView!
+    
     @IBOutlet weak var userLabelsContainer: UIView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var averageRatingContainerViewHeight: NSLayoutConstraint!
@@ -97,6 +98,8 @@ class UserViewController: BaseViewController {
     fileprivate var notificationsManager: NotificationsManager
     fileprivate var featureFlags: FeatureFlaggeable
 
+    var mostSearchedItemsListViewController: MostSearchedItemsListViewController?
+    
 
     // MARK: - Lifecycle
 
@@ -172,6 +175,9 @@ class UserViewController: BaseViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         listingListView.minimumContentHeight = listingListView.collectionView.frame.height - headerCollapsedHeight
+//        if let mostSearchedItemsListViewController = mostSearchedItemsListViewController {
+//
+//        }
         
         averageRatingView.rounded = true
     }
@@ -262,6 +268,7 @@ extension UserViewController {
         setupMainView()
         setupHeader()
         setupListingListView()
+        setupMostSearchedItemsListView()
         setupConstraints()
     }
 
@@ -321,6 +328,16 @@ extension UserViewController {
         listingListView.firstLoadPadding = contentInset
         listingListView.errorPadding = contentInset
         listingListView.scrollDelegate = self
+    }
+    
+    private func setupMostSearchedItemsListView() {
+        let mostSearchedItemsViewModel = MostSearchedItemsListViewModel(featureFlags: featureFlags, isSearchEnabled: false)
+        let mostSearchedItemsListViewController = MostSearchedItemsListViewController(viewModel: mostSearchedItemsViewModel)
+        addChildViewController(mostSearchedItemsListViewController)
+        mostSearchedItemsListView.translatesAutoresizingMaskIntoConstraints = false
+        mostSearchedItemsListViewController.view.frame = mostSearchedItemsListView.bounds
+        mostSearchedItemsListView.addSubview(mostSearchedItemsListViewController.view)
+        mostSearchedItemsListViewController.didMove(toParentViewController: self)
     }
     
     private func setupConstraints() {
