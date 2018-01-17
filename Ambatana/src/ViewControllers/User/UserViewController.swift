@@ -598,9 +598,9 @@ extension UserViewController: ScrollableToTop {
 }
 
 
-// MARK: - ListingListViewHeaderDelegate
+// MARK: - ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate, MostSearchedItemsUserHeaderDelegate
 
-extension UserViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate {
+extension UserViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate, MostSearchedItemsUserHeaderDelegate {
 
     func setupPermissionsRx() {
         viewModel.pushPermissionsDisabledWarning.asObservable().filter {$0 != nil} .bind { [weak self] _ in
@@ -609,25 +609,44 @@ extension UserViewController: ListingListViewHeaderDelegate, PushPermissionsHead
     }
 
     func totalHeaderHeight() -> CGFloat {
-        guard showHeader else { return 0 }
-        return PushPermissionsHeader.viewHeight
+        var totalHeight: CGFloat = 0
+        if showPushPermissionsHeader {
+            totalHeight += PushPermissionsHeader.viewHeight
+        }
+        if showMostSearchedItemsHeader {
+            totalHeight += MostSearchedItemsUserHeader.viewHeight
+        }
+        return totalHeight
     }
 
     func setupViewsIn(header: ListHeaderContainer) {
-        if showHeader {
+        header.clear()
+        if showPushPermissionsHeader {
             let pushHeader = PushPermissionsHeader()
+            pushHeader.tag = 0
             pushHeader.delegate = self
             header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight)
-        } else {
-            header.clear()
+        }
+        if showMostSearchedItemsHeader {
+            let mostSearchedItemsHeader = MostSearchedItemsUserHeader()
+            mostSearchedItemsHeader.tag = 1
+            mostSearchedItemsHeader.delegate = self
+            header.addHeader(mostSearchedItemsHeader, height: PushPermissionsHeader.viewHeight)
         }
     }
 
     func pushPermissionHeaderPressed() {
         viewModel.pushPermissionsWarningPressed()
     }
+    
+    func didTapView() {
+        
+    }
 
-    private var showHeader: Bool {
+    private var showPushPermissionsHeader: Bool {
         return viewModel.pushPermissionsDisabledWarning.value ?? false
+    }
+    private var showMostSearchedItemsHeader: Bool {
+        return viewModel.isMostSearchedItemsEnabled
     }
 }

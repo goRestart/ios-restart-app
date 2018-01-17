@@ -69,6 +69,9 @@ class UserViewModel: BaseViewModel {
     let userLocation = Variable<String?>(nil)
     let userAccounts = Variable<UserViewHeaderAccounts?>(nil)
     let pushPermissionsDisabledWarning = Variable<Bool?>(nil)
+    var isMostSearchedItemsEnabled: Bool {
+        return featureFlags.mostSearchedDemandedItems.isActive
+    }
     
     let listingListViewModel: Variable<ListingListViewModel>
     
