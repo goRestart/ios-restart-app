@@ -431,6 +431,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         navigator?.openListingAttributePicker(viewModel: vm)
     }
 
+    var fbShareContent: FBSDKShareLinkContent? {
+        if let listing = savedListing {
+            return ListingSocialMessage(listing: listing, fallbackToStore: false).fbShareContent
+        }
+        return nil
+    }
+
     func openMap() {
         var shouldAskForPermission = true
         var permissionsActionBlock: ()->() = {}
@@ -655,11 +662,11 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func finishedSaving() {
-        guard let listing = savedListing, shouldShareInFB else { return showSuccessMessageAndClose() }
-        let listingSocialMessage = ListingSocialMessage(listing: listing, fallbackToStore: false)
-        listingSocialMessage.retrieveFBShareContent { [weak self] fbShareContent in
-            self?.shouldTrack = false
-            self?.delegate?.vmShareOnFbWith(content: fbShareContent)
+        if let fbShareContent = fbShareContent, shouldShareInFB {
+            shouldTrack = false
+            delegate?.vmShareOnFbWith(content: fbShareContent)
+        } else {
+            showSuccessMessageAndClose()
         }
     }
 

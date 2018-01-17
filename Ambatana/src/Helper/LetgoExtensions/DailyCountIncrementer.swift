@@ -18,8 +18,7 @@ class DailyCountIncrementer {
         numberFormatter.locale = Locale.current
         let value = NSNumber(value: baseSearchCount + incrementSearchCount(baseSearchCount,
                                                                            itemIndex: itemIndex))
-        guard let stringNumber = numberFormatter.string(from:value) else { return nil }
-        return stringNumber
+        return numberFormatter.string(from: value)
     }
     
     
@@ -32,7 +31,7 @@ class DailyCountIncrementer {
         let month = components.month ?? 1
         let day = components.day ?? 1
         let dailyIncrement = baseSearchCount/200
-        let monthDivision = max(month / itemIndex, 1)
+        let monthDivision = max(month / max(itemIndex, 1), 1)
         let increment = dailyIncrement + (itemIndex * day) / monthDivision // "randomizing" like a baws
         return increment
     }
