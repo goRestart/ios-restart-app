@@ -28,24 +28,23 @@ class SimpleListingsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupConstraints()
     }
 
 
     // MARK: - Private
 
     private func setupUI() {
+        edgesForExtendedLayout = []
         view.backgroundColor = UIColor.listBackgroundColor
         title = viewModel.title
 
-        listingList.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(listingList)
-        let views: [String : Any] = ["list" : listingList, "topGuide" : topLayoutGuide]
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[list]-0-|",
-            options: [], metrics: nil, views: views))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[list]-0-|",
-            options: [], metrics: nil, views: views))
         addSubview(listingList)
-
-        listingList.collectionViewContentInset.top = topBarHeight
+    }
+    
+    private func setupConstraints() {
+        listingList.translatesAutoresizingMaskIntoConstraints = false
+        listingList.layout(with: view).fill()
     }
 }
