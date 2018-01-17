@@ -15,6 +15,7 @@ protocol ListingListViewModelDelegate: class {
     func vmReloadData(_ vm: ListingListViewModel)
     func vmDidUpdateState(_ vm: ListingListViewModel, state: ViewState)
     func vmDidFinishLoading(_ vm: ListingListViewModel, page: UInt, indexes: [Int])
+    func vmReloadItemAtIndexPath(indexPath: IndexPath)
 }
 
 protocol ListingListViewModelDataDelegate: class {
@@ -486,7 +487,7 @@ extension ListingListViewModel: AdvertisementCellDelegate {
                                               showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
                                               categories: data.categories)
             objects[forPosition] = ListingCellModel.advertisement(data: newAdData)
-            delegate?.vmReloadData(self)
+            delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(item: forPosition, section: 0))
         case .listingCell, .collectionCell, .emptyCell:
             break
         }

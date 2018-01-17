@@ -10,7 +10,7 @@ import UIKit
 import LGCoreKit
 import GoogleMobileAds
 
-class AdvertisementCell: UICollectionViewCell, ReusableCell, GADBannerViewDelegate {
+class AdvertisementCell: UICollectionViewCell, ReusableCell, GADBannerViewDelegate, GADAdSizeDelegate {
 
     let customTargetingKey = "pos_var"
 
@@ -31,7 +31,7 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell, GADBannerViewDelega
 
             banner?.adUnitID = adData.adUnitId
             banner?.rootViewController = adData.rootViewController
-
+            banner?.adSizeDelegate = self
             banner?.frame = contentView.frame
 
             banner?.delegate = self
@@ -41,6 +41,7 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell, GADBannerViewDelega
             let customTargetingValue = adData.showAdsInFeedWithRatio.customTargetingValueFor(position: adData.adPosition)
             request.customTargeting = [customTargetingKey: customTargetingValue]
             banner?.load(request)
+            banner?.tag = adData.adPosition
         }
 
         guard let bannerView = banner else { return }
@@ -67,6 +68,7 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell, GADBannerViewDelega
         banner = nil
         cellIndex = nil
         delegate = nil
+        categories = nil
     }
 
     private func setAccessibilityIds() {
@@ -77,14 +79,15 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell, GADBannerViewDelega
     
     // MARK: - GADBannerViewDelegate
 
-    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
-        guard let index = cellIndex else { return }
-        delegate?.updateAdCellHeight(newHeight: bannerView.frame.height, forPosition: index, withBannerView: bannerView)
+    func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
+        delegate?.updateAdCellHeight(newHeight: size.size.height, forPosition: bannerView.tag, withBannerView: bannerView)
     }
 
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) { }
+
     func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
-        guard let index = cellIndex else { return }
-        delegate?.updateAdCellHeight(newHeight: 0, forPosition: index, withBannerView: bannerView)
+        logMessage(.info, type: .monetization, message: "Feed banner in position \(bannerView.tag) failed with error: \(error.localizedDescription)")
+        delegate?.updateAdCellHeight(newHeight: 0, forPosition: bannerView.tag, withBannerView: bannerView)
     }
 
     func adViewWillPresentScreen(_ bannerView: GADBannerView) {
