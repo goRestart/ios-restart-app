@@ -10,6 +10,7 @@ import CoreLocation
 import LGCoreKit
 import Result
 import RxSwift
+import GoogleMobileAds
 
 protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
@@ -873,11 +874,16 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                                                   pageSize: listingListRequester.itemsPerPage,
                                                                   adPosition: adPositionInPage) else { break }
 
+            let request = DFPRequest()
+            let customTargetingValue = featureFlags.showAdsInFeedWithRatio.customTargetingValueFor(position: lastAdPosition)
+            request.customTargeting = [Constants.adInFeedCustomTargetingKey: customTargetingValue]
+
             let adData = AdvertisementData(adUnitId: feedAdUnitId,
                                            rootViewController: adsDelegate.rootViewControllerForAds(),
                                            adPosition: lastAdPosition,
                                            bannerHeight: LGUIKitConstants.advertisementCellPlaceholderHeight,
                                            delegate: self.listViewModel,
+                                           adRequest: request,
                                            bannerView: nil,
                                            showAdsInFeedWithRatio: featureFlags.showAdsInFeedWithRatio,
                                            categories: filters.selectedCategories)

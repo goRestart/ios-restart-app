@@ -151,4 +151,5 @@ struct Constants {
 
     // Ads
     static let adInFeedInitialPosition = 3
+    static let adInFeedCustomTargetingKey = "pos_var"
 }

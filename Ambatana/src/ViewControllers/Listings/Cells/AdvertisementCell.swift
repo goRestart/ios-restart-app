@@ -12,8 +12,6 @@ import GoogleMobileAds
 
 class AdvertisementCell: UICollectionViewCell, ReusableCell, GADBannerViewDelegate, GADAdSizeDelegate {
 
-    let customTargetingKey = "pos_var"
-
     var delegate: AdvertisementCellDelegate?
     var cellIndex: Int?
     var banner: DFPBannerView?
@@ -37,10 +35,7 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell, GADBannerViewDelega
             banner?.delegate = self
             banner?.validAdSizes = [NSValueFromGADAdSize(kGADAdSizeFluid)]
 
-            let request = DFPRequest()
-            let customTargetingValue = adData.showAdsInFeedWithRatio.customTargetingValueFor(position: adData.adPosition)
-            request.customTargeting = [customTargetingKey: customTargetingValue]
-            banner?.load(request)
+            banner?.load(adData.adRequest)
             banner?.tag = adData.adPosition
         }
 
@@ -80,7 +75,8 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell, GADBannerViewDelega
     // MARK: - GADBannerViewDelegate
 
     func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
-        delegate?.updateAdCellHeight(newHeight: size.size.height, forPosition: bannerView.tag, withBannerView: bannerView)
+        let sizeFromAdSize = CGSizeFromGADAdSize(size)
+        delegate?.updateAdCellHeight(newHeight: sizeFromAdSize.height, forPosition: bannerView.tag, withBannerView: bannerView)
     }
 
     func adViewDidReceiveAd(_ bannerView: GADBannerView) { }

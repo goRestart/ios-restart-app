@@ -87,6 +87,7 @@ struct AdvertisementData {
     var adPosition: Int
     var bannerHeight: CGFloat
     var delegate: AdvertisementCellDelegate
+    var adRequest: DFPRequest
     var bannerView: GADBannerView?
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio
     var categories: [ListingCategory]?

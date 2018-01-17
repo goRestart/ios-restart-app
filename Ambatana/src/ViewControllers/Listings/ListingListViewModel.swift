@@ -483,6 +483,7 @@ extension ListingListViewModel: AdvertisementCellDelegate {
                                               adPosition: data.adPosition,
                                               bannerHeight: newHeight,
                                               delegate: data.delegate,
+                                              adRequest: data.adRequest,
                                               bannerView: bannerView,
                                               showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
                                               categories: data.categories)
