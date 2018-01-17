@@ -868,7 +868,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         while canInsertAds {
 
             let adPositionInPage = lastAdPosition-previousPagesAdsOffset
-            guard let relativeAdPosition = adPositionRelativeToPage(page: page,
+            guard let adRelativePosition = adPositionRelativeToPage(page: page,
                                                                   itemsInPage: cellModels.count,
                                                                   pageSize: listingListRequester.itemsPerPage,
                                                                   adPosition: adPositionInPage) else { break }
@@ -883,16 +883,16 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                            categories: filters.selectedCategories)
 
             let adsCellModel = ListingCellModel.advertisement(data: adData)
-            cellModels.insert(adsCellModel, at: relativeAdPosition)
+            cellModels.insert(adsCellModel, at: adRelativePosition)
 
-            lastAdPosition = absoluteAdPosition()
-            canInsertAds = relativeAdPosition < cellModels.count
+            lastAdPosition = adAbsolutePosition()
+            canInsertAds = adRelativePosition < cellModels.count
         }
         previousPagesAdsOffset = previousPagesAdsOffset + (cellModels.count - listings.count)
         return cellModels
     }
 
-    private func absoluteAdPosition() -> Int {
+    private func adAbsolutePosition() -> Int {
         var adPosition = 0
         if lastAdPosition == 0 {
             adPosition = Constants.adInFeedInitialPosition
@@ -904,9 +904,9 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
     private func adPositionRelativeToPage(page: UInt, itemsInPage: Int, pageSize: Int, adPosition: Int) -> Int? {
         let pageInt = Int(page)
-        let relativeAdPosition = adPosition - (pageInt*pageSize)
-        if 0..<itemsInPage ~= relativeAdPosition {
-            return relativeAdPosition
+        let adRelativePosition = adPosition - (pageInt*pageSize)
+        if 0..<itemsInPage ~= adRelativePosition {
+            return adRelativePosition
         }
         return nil
     }
