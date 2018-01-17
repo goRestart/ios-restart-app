@@ -427,9 +427,11 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     private func setupZoomRx() {
         cellZooming.asObservable().distinctUntilChanged().bind { [weak self] zooming in
             UIView.animate(withDuration: 0.3) {
-                self?.itemsAlpha.value = zooming ? 0 : 1
-                self?.moreInfoAlpha.value = zooming ? 0 : 1
-                self?.updateNavigationBarAlpha(zooming ? 0 : 1)
+                let alphaValue: CGFloat = zooming ? 0 : 1
+                self?.itemsAlpha.value = alphaValue
+                self?.moreInfoAlpha.value = alphaValue
+                self?.moreInfoTooltip?.alpha = alphaValue
+                self?.updateNavigationBarAlpha(alphaValue)
             }
             }.disposed(by: disposeBag)
     }
