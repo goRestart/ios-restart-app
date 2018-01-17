@@ -23,7 +23,6 @@ protocol FeatureFlaggeable: class {
 
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var newCarsMultiRequesterEnabled: Bool { get }
     var inAppRatingIOS10: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
@@ -211,13 +210,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.pricedBumpUpEnabled
         }
         return abTests.pricedBumpUpEnabled.value
-    }
-
-    var newCarsMultiRequesterEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.newCarsMultiRequesterEnabled
-        }
-        return abTests.newCarsMultiRequesterEnabled.value
     }
 
     var inAppRatingIOS10: Bool {
