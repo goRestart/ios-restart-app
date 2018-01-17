@@ -17,7 +17,6 @@ extension Bumper  {
         flags.append(SurveyEnabled.self)
         flags.append(FreeBumpUpEnabled.self)
         flags.append(PricedBumpUpEnabled.self)
-        flags.append(InAppRatingIOS10.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
         flags.append(AppRatingDialogInactive.self)
@@ -63,11 +62,6 @@ extension Bumper  {
     static var pricedBumpUpEnabled: Bool {
         guard let value = Bumper.value(for: PricedBumpUpEnabled.key) else { return false }
         return PricedBumpUpEnabled(rawValue: value)?.asBool ?? false
-    }
-
-    static var inAppRatingIOS10: Bool {
-        guard let value = Bumper.value(for: InAppRatingIOS10.key) else { return false }
-        return InAppRatingIOS10(rawValue: value)?.asBool ?? false
     }
 
     static var userReviewsReportEnabled: Bool {
@@ -225,15 +219,6 @@ enum PricedBumpUpEnabled: String, BumperFeature  {
     static var enumValues: [PricedBumpUpEnabled] { return [.no, .yes]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "User can bump paying" } 
-    var asBool: Bool { return self == .yes }
-}
-
-enum InAppRatingIOS10: String, BumperFeature  {
-    case no, yes
-    static var defaultValue: String { return InAppRatingIOS10.no.rawValue }
-    static var enumValues: [InAppRatingIOS10] { return [.no, .yes]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "New in-app rating for iOS 10.3+" } 
     var asBool: Bool { return self == .yes }
 }
 
