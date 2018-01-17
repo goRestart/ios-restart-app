@@ -21,11 +21,6 @@
         "description": "User can bump paying"
     },
     {
-        "name": "InAppRatingIOS10",
-        "values": ["no", "yes"],
-        "description": "New in-app rating for iOS 10.3+"
-    },
-    {
         "name": "UserReviewsReportEnabled",
         "values": ["no", "yes"],
         "description": "User reviews report enabled"
