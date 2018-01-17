@@ -22,12 +22,12 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     private var edgeGestures: [UIGestureRecognizer] = []
     private var tapGestureRecognizer: UITapGestureRecognizer?
+    private var swipeGestureRecognizer: UISwipeGestureRecognizer?
 
     init(viewModel: PhotoViewerViewModel, quickChatViewModel: QuickChatViewModel) {
         self.viewModel = viewModel
         self.chatView = QuickChatView(chatViewModel: quickChatViewModel)
         super.init(viewModel: viewModel, nibName: nil)
-        self.tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissChat))
     }
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -36,14 +36,25 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+    }
+
+    private func setupUI() {
+        setupViewExtendedEdges()
+        setupPhotoViewer()
+    }
+
+    private func setupViewExtendedEdges() {
         if #available(iOS 11.0, *) {
             setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
         } else {
             setNeedsStatusBarAppearanceUpdate()
         }
-
         edgesForExtendedLayout = .all
         automaticallyAdjustsScrollViewInsets = false
+    }
+
+    private func setupPhotoViewer() {
         photoViewer.register(ListingDeckImagePreviewCell.self,
                              forCellWithReuseIdentifier: ListingDeckImagePreviewCell.reusableID)
         photoViewer.dataSource = self
@@ -51,6 +62,12 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
         binder.viewController = self
         binder.bind(toView: photoViewer)
+    }
+
+    private func setupDismissChatGestures() {
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissChat))
+        swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(dismissChat))
+        swipeGestureRecognizer?.direction = .down
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -127,9 +144,17 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
         chatView.becomeFirstResponder()
 
+        addDissmisGestureRecognizers()
+    }
+
+    private func addDissmisGestureRecognizers() {
+        if tapGestureRecognizer == nil || swipeGestureRecognizer == nil {
+            setupDismissChatGestures()
+        }
         guard let gesture = tapGestureRecognizer else { return }
         chatView.addDismissGestureRecognizer(gesture)
-
+        guard let swipe = swipeGestureRecognizer else { return }
+        chatView.addGestureRecognizer(swipe)
     }
 
     @objc func closeView() {
@@ -176,9 +201,9 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     // MARK: UIGestureRecognizer
 
     func addEdgeGesture(_ edgeGestures: [UIGestureRecognizer]) {
-        self.edgeGestures.forEach { view.removeGestureRecognizer($0) }
-        self.edgeGestures = edgeGestures
-        self.edgeGestures.forEach { view.addGestureRecognizer($0) }
+        edgeGestures.forEach { view.removeGestureRecognizer($0) }
+        edgeGestures = edgeGestures
+        edgeGestures.forEach { view.addGestureRecognizer($0) }
     }
 
 }

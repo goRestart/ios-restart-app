@@ -111,6 +111,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     // MARK: UIGestureRecognizerDelegate
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard !gestureRecognizer.isKind(of: UISwipeGestureRecognizer.self) else { return true }
         guard let touchView = touch.view else { return false }
         let indexPath = tableView.indexPathForRow(at: touch.location(in: tableView))
         if touchView.isDescendant(of: tableView), let index = indexPath, let _ = tableView.cellForRow(at: index) {
