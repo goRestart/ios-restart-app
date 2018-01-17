@@ -2861,4 +2861,50 @@
 // Number of searches for item info
 "trending_items_view_number_of_searches_item" = "% searches";
 
+// Post button for each item in the list
 "trending_items_view_post_button" = "Post";
+
+// iPhone title
+"trending_item_iPhone" = "iPhone";
+
+// ATV title
+"trending_item_atv" = "atv";
+
+// Smartphone title
+"trending_item_smartphone" = "smartphone";
+
+// Sedan title
+"trending_item_sedan" = "sedan";
+
+// Scooter title
+"trending_item_scooter" = "scooter";
+
+// Computer title
+"trending_item_computer" = "computer";
+
+// Coupe title
+"trending_item_coupe" = "coupe";
+
+// Tablet title
+"trending_item_tablet" = "tablet";
+
+// Motorcycle title
+"trending_item_motorcycle" = "motorcycle";
+
+// Truck title
+"trending_item_truck" = "truck";
+
+// Gadget title
+"trending_item_gadget" = "gadget";
+
+// Trailer title
+"trending_item_trailer" = "trailer";
+
+// Controller title
+"trending_item_controller" = "controller";
+
+// Dresser title
+"trending_item_dresser" = "dresser";
+
+// Subwoofer title
+"trending_item_subwoofer" = "subwoofer";
