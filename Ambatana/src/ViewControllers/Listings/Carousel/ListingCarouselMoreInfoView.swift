@@ -576,17 +576,19 @@ fileprivate extension ListingCarouselMoreInfoView {
 
 extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate {
     func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
-        let newFrame = CGRect(x: bannerView.frame.origin.x, y: bannerView.frame.origin.y, width: size.size.width, height: size.size.height)
+        let adSize = CGSizeFromGADAdSize(size)
+
+        let newFrame = CGRect(x: bannerView.frame.origin.x, y: bannerView.frame.origin.y, width: adSize.width, height: adSize.height)
         bannerView.frame = newFrame
-        bannerContainerViewHeightConstraint.constant = size.size.height
+        bannerContainerViewHeightConstraint.constant = adSize.height
         if let sideMargin = viewModel?.sideMargin {
             bannerContainerViewLeftConstraint.constant = sideMargin
             bannerContainerViewRightConstraint.constant = sideMargin
         }
-        if size.size.height > 0 {
+        if adSize.height > 0 {
             let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
             let bannerTop = absolutePosition.y
-            let bannerBottom = bannerTop + size.size.height
+            let bannerBottom = bannerTop + adSize.height
             viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
                                     bannerBottomPosition: bannerBottom,
                                     screenHeight: UIScreen.main.bounds.height)
