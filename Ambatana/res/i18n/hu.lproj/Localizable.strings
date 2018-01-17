@@ -751,7 +751,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Hálószobák száma";
+"real_estate_camera_view_real_estate_message" = "Készíts fotót eladó vagy kiadó ingatlanodról";
 "real_estate_current_step_of_total" = "%d/%d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+"real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
 "real_estate_location_notification_message" = "Sosem mutatjuk meg más felhasználóknak a pontos tartózkodási helyedet";
 "real_estate_location_title" = "Hely";
 "real_estate_offer_type_rent" = "Kiadó";
@@ -791,7 +795,7 @@
 "real_estate_title_generator_property_type_house" = "Ház";
 "real_estate_title_generator_property_type_other" = "Egyéb";
 "real_estate_title_generator_property_type_room" = "Szoba";
-"real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
+"real_estate_tooltip_overlay_expandable_menu" = "Ha eladó vagy kiadó ingatlant hirdetnél, próbáld ki az új Ingatlan kategóriát!";
 "real_estate_tooltip_sell_button" = "Új Ingatlan kategóriánkban bérelhetsz és eladó ingatlant hirdethetsz meg";
 "real_estate_type_property_apartment" = "Lakás";
 "real_estate_type_property_commercial" = "Kereskedelmi";

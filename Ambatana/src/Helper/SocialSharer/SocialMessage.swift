@@ -6,10 +6,9 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import FBSDKShareKit
-import TwitterKit
-import LGCoreKit
 import Branch
+import FBSDKShareKit
+import LGCoreKit
 
 protocol SocialMessage {
     var whatsappShareText: String { get }
@@ -19,7 +18,7 @@ protocol SocialMessage {
     var emailShareIsHtml: Bool { get }
     var fbShareContent: FBSDKShareLinkContent { get }
     var fbMessengerShareContent: FBSDKShareLinkContent { get }
-    var twitterComposer: TWTRComposer { get }
+    var twitterShareText: String { get }
     var smsShareText: String { get }
     var copyLinkText: String { get }
     var nativeShareItems: [Any] { get }
@@ -65,7 +64,6 @@ enum ShareSource: String {
 // MARK: - Listing Share
 
 struct ListingSocialMessage: SocialMessage {
-
     private let title: String
     private let listingUserName: String
     private let listingTitle: String
@@ -89,7 +87,7 @@ struct ListingSocialMessage: SocialMessage {
     
     init(listing: Listing, fallbackToStore: Bool) {
         let listingIsMine = Core.myUserRepository.myUser?.objectId == listing.user.objectId
-        let socialTitleMyListing = listing.price.free ? LGLocalizedString.productIsMineShareBodyFree :
+        let socialTitleMyListing = listing.price.isFree ? LGLocalizedString.productIsMineShareBodyFree :
             LGLocalizedString.productIsMineShareBody
         let socialTitle = listingIsMine ? socialTitleMyListing : LGLocalizedString.productShareBody
         self.init(title: socialTitle, listing: listing, isMine: listingIsMine, fallbackToStore: fallbackToStore)
@@ -111,6 +109,10 @@ struct ListingSocialMessage: SocialMessage {
         return fullMessageWUrl(.telegram)
     }
 
+    var twitterShareText: String {
+        return fullMessageWUrl(.twitter)
+    }
+    
     var smsShareText: String {
         return fullMessageWUrl(.sms)
     }
@@ -148,13 +150,6 @@ struct ListingSocialMessage: SocialMessage {
             shareContent.contentURL = actualURL
         }
         return shareContent
-    }
-
-    var twitterComposer: TWTRComposer {
-        let twitterComposer = TWTRComposer()
-        twitterComposer.setText(fullMessage())
-        twitterComposer.setURL(shareUrl(.twitter))
-        return twitterComposer
     }
 
     private func fullMessageWUrl(_ source: ShareSource) -> String {
@@ -288,11 +283,8 @@ struct AppShareSocialMessage: SocialMessage {
         return fbShareContent
     }
 
-    var twitterComposer: TWTRComposer {
-        let twitterComposer = TWTRComposer()
-        twitterComposer.setText(LGLocalizedString.appShareMessageText)
-        twitterComposer.setURL(branchUrl(.twitter))
-        return twitterComposer
+    var twitterShareText: String {
+        return fullMessageWUrl(.twitter)
     }
     
     private func fullMessageWUrl(_ source: ShareSource) -> String {
@@ -384,6 +376,10 @@ struct UserSocialMessage: SocialMessage {
     var telegramShareText: String {
         return fullMessageWUrl(.telegram)
     }
+    
+    var twitterShareText: String {
+        return fullMessageWUrl(.telegram)
+    }
 
     var smsShareText: String {
         return fullMessageWUrl(.sms)
@@ -414,13 +410,6 @@ struct UserSocialMessage: SocialMessage {
 
     var fbMessengerShareContent: FBSDKShareLinkContent {
         return fbShareContent
-    }
-
-    var twitterComposer: TWTRComposer {
-        let twitterComposer = TWTRComposer()
-        twitterComposer.setText(messageText)
-        twitterComposer.setURL(branchUrl(.twitter))
-        return twitterComposer
     }
 
     private func fullMessageWUrl(_ source: ShareSource) -> String {

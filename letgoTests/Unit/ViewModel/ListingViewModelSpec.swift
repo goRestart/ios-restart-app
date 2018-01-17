@@ -28,6 +28,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
         var sut: ListingViewModel!
 
         var myUserRepository: MockMyUserRepository!
+        var userRepository: MockUserRepository!
         var listingRepository: MockListingRepository!
         var chatWrapper: MockChatWrapper!
         var locationManager: MockLocationManager!
@@ -44,6 +45,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
         var bottomButtonsObserver: TestableObserver<[UIAction]>!
         var isFavoriteObserver: TestableObserver<Bool>!
         var directChatMessagesObserver: TestableObserver<[ChatViewMessage]>!
+        var isProfessionalObserver: TestableObserver<Bool>!
 
         describe("ListingViewModelSpec") {
 
@@ -52,6 +54,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 sut = ListingViewModel(listing: .product(product),
                                        visitSource: visitSource,
                                         myUserRepository: myUserRepository,
+                                        userRepository: userRepository,
                                         listingRepository: listingRepository,
                                         chatWrapper: chatWrapper,
                                         chatViewMessageAdapter: ChatViewMessageAdapter(),
@@ -65,14 +68,17 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 sut.delegate = self
                 sut.navigator = self
                 disposeBag = DisposeBag()
+
                 sut.actionButtons.asObservable().bind(to: bottomButtonsObserver).disposed(by: disposeBag)
                 sut.isFavorite.asObservable().bind(to: isFavoriteObserver).disposed(by: disposeBag)
                 sut.directChatMessages.observable.bind(to: directChatMessagesObserver).disposed(by: disposeBag)
+                sut.isProfessional.asObservable().bind(to: isProfessionalObserver).disposed(by: disposeBag)
             }
 
             beforeEach {
                 sut = nil
                 myUserRepository = MockMyUserRepository.makeMock()
+                userRepository = MockUserRepository.makeMock()
                 listingRepository = MockListingRepository.makeMock()
                 chatWrapper = MockChatWrapper()
                 locationManager = MockLocationManager()
@@ -88,6 +94,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 bottomButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 isFavoriteObserver = scheduler.createObserver(Bool.self)
                 directChatMessagesObserver = scheduler.createObserver(Array<ChatViewMessage>.self)
+                isProfessionalObserver = scheduler.createObserver(Bool.self)
 
                 self.resetViewModelSpec()
             }
@@ -112,33 +119,69 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 }
                 
                 context("buyer selection enabled newMarkAsSoldFlow") {
-                    beforeEach {
-                        let userListing = MockUserListing.makeMock()
-                        listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
-                        buildListingViewModel()
-                        sut.active = true
-                        
-                        // There should appear one button
-                        expect(sut.actionButtons.value.count).toEventually(equal(1))
-                        sut.actionButtons.value.first?.action()
-                        
-                        expect(tracker.trackedEvents.count).toEventually(equal(1))
+                    context("allow calling dealers test disabled") {
+                        beforeEach {
+                            let userListing = MockUserListing.makeMock()
+                            listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
+                            buildListingViewModel()
+                            sut.active = true
+
+                            // There should appear one button
+                            expect(sut.actionButtons.value.count).toEventually(equal(1))
+                            sut.actionButtons.value.first?.action()
+
+                            expect(tracker.trackedEvents.count).toEventually(equal(1))
+                        }
+                        it("has mark as sold and then sell it again button") {
+                            let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
+                            expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton,
+                                                    LGLocalizedString.productSellAgainButton]
+                        }
+                        it("requests buyer selection") {
+                            expect(self.selectBuyersCalled).toEventually(beTrue())
+                        }
+                        it("has shown mark as sold alert") {
+                            expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldAlertMessage
+                        }
+                        it("calls show loading in delegate") {
+                            expect(self.delegateReceivedShowLoading) == true
+                        }
+                        it("calls hide loading in delegate") {
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
                     }
-                    it("has mark as sold and then sell it again button") {
-                        let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
-                        expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton, LGLocalizedString.productSellAgainButton]
-                    }
-                    it("requests buyer selection") {
-                        expect(self.selectBuyersCalled).toEventually(beTrue())
-                    }
-                    it("has shown mark as sold alert") {
-                        expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldAlertMessage
-                    }
-                    it("calls show loading in delegate") {
-                        expect(self.delegateReceivedShowLoading) == true
-                    }
-                    it("calls hide loading in delegate") {
-                        expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                    context("allow calling dealers test enabled") {
+                        beforeEach {
+                            featureFlags.allowCallsForProfessionals = .active
+                            let userListing = MockUserListing.makeMock()
+                            listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
+                            buildListingViewModel()
+                            sut.active = true
+
+                            // There should appear one button
+                            expect(sut.actionButtons.value.count).toEventually(equal(1))
+                            sut.actionButtons.value.first?.action()
+
+                            expect(tracker.trackedEvents.count).toEventually(equal(1))
+                        }
+                        it("has mark as sold twice (button updates after user show request) and then sell it again button") {
+                            let buttonTexts: [String] = bottomButtonsObserver.eventValues.flatMap { $0.first?.text }
+                            expect(buttonTexts) == [LGLocalizedString.productMarkAsSoldButton,
+                                                    LGLocalizedString.productMarkAsSoldButton,
+                                                    LGLocalizedString.productSellAgainButton]
+                        }
+                        it("requests buyer selection") {
+                            expect(self.selectBuyersCalled).toEventually(beTrue())
+                        }
+                        it("has shown mark as sold alert") {
+                            expect(self.shownAlertText!) == LGLocalizedString.productMarkAsSoldAlertMessage
+                        }
+                        it("calls show loading in delegate") {
+                            expect(self.delegateReceivedShowLoading) == true
+                        }
+                        it("calls hide loading in delegate") {
+                            expect(self.delegateReceivedHideLoading).toEventually(beTrue())
+                        }
                     }
                 }
             }
@@ -382,6 +425,59 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 expect(tracker.trackedEvents.map { $0.actualName }) == ["user-sent-message-error"]
                             }
                         }
+                    }
+                }
+            }
+
+            describe ("check user type") {
+                beforeEach {
+                    featureFlags.allowCallsForProfessionals = .active
+                }
+                context ("User is professional and has a phone number") {
+                    beforeEach {
+                        var user = MockUser.makeMock()
+                        user.type = .pro
+                        user.phone = "666-666-666"
+                        userRepository.userResult = UserResult(value: user)
+                        buildListingViewModel()
+                        sut.active = true
+                        expect(isProfessionalObserver.eventValues).toEventually(equal([false, true]))
+                    }
+                    it ("isProfessional var is updated") {
+                        expect(isProfessionalObserver.lastValue) == true
+                    }
+                    it ("phoneNumber var has a value") {
+                        expect(sut.phoneNumber.value).toEventually(equal("666-666-666"))
+                    }
+                }
+                context ("User is professional and doesn't have a phone number") {
+                    beforeEach {
+                        var user = MockUser.makeMock()
+                        user.type = .pro
+                        user.phone = nil
+                        userRepository.userResult = UserResult(value: user)
+                        buildListingViewModel()
+                        sut.active = true
+                        expect(isProfessionalObserver.eventValues).toEventually(equal([false, true]))
+                    }
+                    it ("isProfessional var is updated") {
+                        expect(isProfessionalObserver.lastValue) == true
+                    }
+                    it ("phoneNumber var has no value") {
+                        expect(sut.phoneNumber.value).toEventually(beNil())
+                    }
+                }
+                context ("User is not professional") {
+                    beforeEach {
+                        var user = MockUser.makeMock()
+                        user.type = .user
+                        userRepository.userResult = UserResult(value: user)
+                        buildListingViewModel()
+                        sut.active = true
+                        expect(isProfessionalObserver.eventValues).toEventually(equal([false, false]))
+                    }
+                    it ("isProfessional var is updated") {
+                        expect(sut.isProfessional.value).toEventually(equal(false))
                     }
                 }
             }

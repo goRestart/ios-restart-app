@@ -41,9 +41,13 @@ class ABTests {
     let showClockInDirectAnswer = IntABDynamicVar(key: "20171031ShowClockInDirectAnswer", defaultValue: 0)
     let bumpUpPriceDifferentiation = IntABDynamicVar(key: "20171114BumpUpPriceDifferentiation", defaultValue: 0)
     let promoteBumpUpAfterSell = IntABDynamicVar(key: "20171127PromoteBumpUpAfterSell", defaultValue: 0)
+    let allowCallsForProfessionals = IntABDynamicVar(key: "20171228allowCallsForProfessionals", defaultValue: 0)
     let moreInfoAFShOrDFP = IntABDynamicVar(key: "20171213MoreInfoAFShOrDFP", defaultValue: 0)
     let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20171219ShowSecurityMeetingChatMessage", defaultValue: 0)
-
+    let realEstateImprovements = IntABDynamicVar(key: "20180103RealEstateImprovements", defaultValue: 0)
+    let realEstatePromos = IntABDynamicVar(key: "20180108RealEstatePromos", defaultValue: 0)
+    let allowEmojisOnChat = IntABDynamicVar(key: "20180109AllowEmojisOnChat", defaultValue: 0)
+    
     init() {
     }
     
@@ -76,8 +80,12 @@ class ABTests {
         result.append(showClockInDirectAnswer)
         result.append(bumpUpPriceDifferentiation)
         result.append(promoteBumpUpAfterSell)
+        result.append(allowCallsForProfessionals)
         result.append(moreInfoAFShOrDFP)
         result.append(showSecurityMeetingChatMessage)
+        result.append(realEstateImprovements)
+        result.append(realEstatePromos)
+        result.append(allowEmojisOnChat)
         
         return result
     }

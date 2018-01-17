@@ -751,7 +751,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Αριθμός υπνοδωματίων";
+"real_estate_camera_view_real_estate_message" = "Τραβήξτε μια φωτογραφία της ιδιοκτησίας που θέλετε να νοικιάσετε ή να πουλήσετε";
 "real_estate_current_step_of_total" = "%d από %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+"real_estate_gallery_view_subtitle" = "Επιλέξτε μέχρι και 5 εικόνες της ιδιοκτησίας που θέλετε να πουλήσετε ή να ενοικιάσετε";
 "real_estate_location_notification_message" = "Δε θα δείξουμε ποτέ την ακριβή σας τοποθεσία σε άλλους χρήστες";
 "real_estate_location_title" = "Τοποθεσία";
 "real_estate_offer_type_rent" = "Για Ενοικίαση";
@@ -791,8 +795,8 @@
 "real_estate_title_generator_property_type_house" = "Σπίτι";
 "real_estate_title_generator_property_type_other" = "Άλλα";
 "real_estate_title_generator_property_type_room" = "Δωμάτιο";
-"real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
-"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
+"real_estate_tooltip_overlay_expandable_menu" = "Αν δημοσιεύετε ιδιοκτησίες για πώληση ή ενοικίαση, δοκιμάστε τη νέα μας κατηγορία \"Σπίτια\"!";
+"real_estate_tooltip_sell_button" = "Δημοσιεύστε ιδιοκτησίες για πώληση ή ενοικίαση στη νέα μας κατηγορία \"Σπίτια\"";
 "real_estate_type_property_apartment" = "Διαμέρισμα";
 "real_estate_type_property_commercial" = "Εμπορική";
 "real_estate_type_property_house" = "Σπίτι";

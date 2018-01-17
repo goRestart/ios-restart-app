@@ -20,6 +20,9 @@ public protocol User: BaseModel {
     var status: UserStatus { get }
     
     var isDummy: Bool { get }
+
+    var phone: String? { get }
+    var type: UserType { get }
 }
 
 public protocol MyUser: User {
@@ -46,6 +49,7 @@ public extension MyUser {
     }
 }
 
+
 struct LGMyUser: MyUser, Decodable {
     var objectId: String?
     var name: String?
@@ -54,6 +58,9 @@ struct LGMyUser: MyUser, Decodable {
     var ratingAverage: Float?
     var ratingCount: Int
     var status: UserStatus
+    var phone: String?
+    var type: UserType
+
     var email: String?
     var location: LGLocation?
     var localeIdentifier: String?
@@ -65,10 +72,11 @@ struct LGMyUser: MyUser, Decodable {
          ratingAverage: Float?,
          ratingCount: Int,
          status: UserStatus?,
+         phone: String?,
+         type: UserType,
          email: String?,
          location: LGLocation?,
          localeIdentifier: String?) {
-        
         self.objectId = objectId
         self.name = name
         self.avatar = avatar
@@ -76,26 +84,15 @@ struct LGMyUser: MyUser, Decodable {
         self.ratingAverage = ratingAverage
         self.ratingCount = ratingCount
         self.status = status ?? .active
+        self.phone = phone
+        self.type = type
+
         self.email = email
         self.location = location
         self.localeIdentifier = localeIdentifier
     }
-    
-    init(myUser: MyUser) {
-        let accounts = myUser.accounts.map { LGAccount(account: $0) }
-        let avatar = LGFile(id: myUser.avatar?.objectId, url: myUser.avatar?.fileURL)
-        self.init(objectId: myUser.objectId,
-                  name: myUser.name,
-                  avatar: avatar,
-                  accounts: accounts,
-                  ratingAverage: myUser.ratingAverage,
-                  ratingCount: myUser.ratingCount,
-                  status: myUser.status,
-                  email: myUser.email,
-                  location: myUser.location,
-                  localeIdentifier: myUser.localeIdentifier)
-    }
-    
+
+
     // MARK: - Decodable
     
     /*
@@ -106,6 +103,8 @@ struct LGMyUser: MyUser, Decodable {
      "username": "string",
      "name": "string",
      "email": "string",
+     "phone": string,
+     "type": string ("professional"/"user"),
      "avatar_url": "string",
      "zip_code": "string",
      "address": "string",
@@ -162,6 +161,10 @@ struct LGMyUser: MyUser, Decodable {
         }
         status = (try keyedContainer.decodeIfPresent(UserStatus.self, forKey: .status)) ?? .active
         localeIdentifier = try keyedContainer.decodeIfPresent(String.self, forKey: .localeIdentifier)
+
+        self.phone = try keyedContainer.decodeIfPresent(String.self, forKey: .phone)
+        let typeValue = try keyedContainer.decodeIfPresent(String.self, forKey: .type) ?? UserType.user.rawValue
+        self.type = UserType(rawValue: typeValue) ?? UserType.user
     }
     
     // TODO: some keys are only being used in repository, we may want to re-think this
@@ -185,5 +188,7 @@ struct LGMyUser: MyUser, Decodable {
         case accounts
         case status
         case localeIdentifier = "locale"
+        case phone
+        case type
     }
 }

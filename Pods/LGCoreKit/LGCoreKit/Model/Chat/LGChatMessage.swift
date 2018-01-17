@@ -107,14 +107,15 @@ struct LGChatMessage: ChatMessage, Decodable {
         talkerId = try keyedContainer.decode(String.self, forKey: .talkerId)
         text = try keyedContainer.decode(String.self, forKey: .text)
         let sentAtValue = try keyedContainer.decode(Double.self, forKey: .sentAt)
-        sentAt = Date(timeIntervalSince1970: sentAtValue)
+        sentAt = Date(timeIntervalSince1970: sentAtValue/1000)
         if let receivedAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .receivedAt) {
-            receivedAt = Date(timeIntervalSince1970: receivedAtValue)
+            receivedAt = Date(timeIntervalSince1970: receivedAtValue/1000)
         }
         if let readAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .readAt) {
-            readAt = Date(timeIntervalSince1970: readAtValue)
+            readAt = Date(timeIntervalSince1970: readAtValue/1000)
         }
-        type = try keyedContainer.decode(ChatMessageType.self, forKey: .type)
+        let stringChatMessageType = try keyedContainer.decode(String.self, forKey: .type)
+        type = ChatMessageType(rawValue: stringChatMessageType) ?? .text
         warnings = (try keyedContainer.decode(FailableDecodableArray<ChatMessageWarning>.self, forKey: .warnings)).validElements
     }
     

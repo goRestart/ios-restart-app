@@ -751,7 +751,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Số Phòng ngủ";
+"real_estate_camera_view_real_estate_message" = "Chụp một bức ảnh nhà đất bạn muốn bán hoặc cho thuê";
 "real_estate_current_step_of_total" = "%d trên %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+"real_estate_gallery_view_subtitle" = "Chọn tối đa 5 ảnh nhà đất bạn muốn bán hoặc cho thuê";
 "real_estate_location_notification_message" = "Chúng tôi sẽ không bao giờ hiển thị chính xác địa điểm của bạn cho người dùng khác";
 "real_estate_location_title" = "Địa điểm";
 "real_estate_offer_type_rent" = "Cho Thuê";
@@ -791,7 +795,7 @@
 "real_estate_title_generator_property_type_house" = "Nhà";
 "real_estate_title_generator_property_type_other" = "Khác";
 "real_estate_title_generator_property_type_room" = "Phòng";
-"real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
+"real_estate_tooltip_overlay_expandable_menu" = "Nếu bạn đang đăng bất động sản để bán hoặc cho thuê, hãy thử danh mục Nhà đất mới của chúng tôi!";
 "real_estate_tooltip_sell_button" = "Đăng bất động sản cho thuê hoặc bán tại mục Nhà đất mới của chúng tôi";
 "real_estate_type_property_apartment" = "Căn hộ";
 "real_estate_type_property_commercial" = "Thương mại";

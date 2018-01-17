@@ -132,6 +132,11 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
         }
 
         if Branch.getInstance().continue(userActivity) { return true }
+        
+        if let url = userActivity.webpageURL, appShouldOpenInBrowser(url: url) {
+            UIApplication.shared.openURL(url)
+            return false
+        }
 
         guard let universalLink = UniversalLink.buildFromUserActivity(userActivity) else {
             // Branch sometimes fails to return true for their own user activity so we return true for app.letgo.com links
@@ -139,6 +144,14 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
         }
         deepLinksSignal.onNext(universalLink.deepLink)
         return true
+    }
+    
+    /// There are universal link exceptions. Some should not be handled in the app. Instead we
+    /// open them back in the browser.
+    func appShouldOpenInBrowser(url: URL) -> Bool {
+        guard let host = url.host else { return false }
+        let openInBrowserUrls = ["jobs.letgo.com", "we.letgo.com"]
+        return openInBrowserUrls.contains(host)
     }
 
     // MARK: > Branch.io

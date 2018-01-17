@@ -20,16 +20,20 @@ public enum ListingCategory: Int {
     case realEstate = 10
 
     
-    static func visibleValues(carsIncluded: Bool, realEstateIncluded: Bool) -> [ListingCategory] {
+    static func visibleValues(carsIncluded: Bool, realEstateIncluded: Bool, highlightRealEstate: Bool) -> [ListingCategory] {
         if carsIncluded {
-            return [.cars] + previousCategories(realEstateIncluded: realEstateIncluded)
+            return [.cars] + previousCategories(realEstateIncluded: realEstateIncluded, highlightRealEstate: highlightRealEstate)
         } else {
-            return previousCategories(realEstateIncluded: realEstateIncluded)
+            return previousCategories(realEstateIncluded: realEstateIncluded, highlightRealEstate: highlightRealEstate)
         }
     }
     
-    static func previousCategories(realEstateIncluded: Bool) -> [ListingCategory] {
+    static func previousCategories(realEstateIncluded: Bool, highlightRealEstate: Bool) -> [ListingCategory] {
         if realEstateIncluded {
+            if highlightRealEstate {
+                return [.realEstate, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
+                        .fashionAndAccesories, .babyAndChild, .other]
+            }
             return [.electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
                     .fashionAndAccesories, .babyAndChild, .realEstate, .other]
         } else {
@@ -38,9 +42,12 @@ public enum ListingCategory: Int {
         }
     }
     
-    
-    public static func visibleValuesInFeed(realEstateIncluded: Bool) -> [ListingCategory] {
+    public static func visibleValuesInFeed(realEstateIncluded: Bool, highlightRealEstate: Bool) -> [ListingCategory] {
         if realEstateIncluded {
+            if highlightRealEstate {
+                return [.cars, .realEstate, .electronics, .homeAndGarden, .sportsLeisureAndGames, .motorsAndAccessories,
+                        .fashionAndAccesories, .babyAndChild, .moviesBooksAndMusic, .other]
+            }
             return [.cars, .electronics, .homeAndGarden, .sportsLeisureAndGames, .motorsAndAccessories,
                     .fashionAndAccesories, .babyAndChild, .moviesBooksAndMusic, .realEstate, .other]
         } else {

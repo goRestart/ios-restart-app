@@ -126,8 +126,8 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Dit account wordt onderzocht door het letgo team.";
 "chat_forbidden_disclaimer_seller_w_name" = "Het lijkt erop dat %@ niet meer geïnteresseerd is in jouw advertentie.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Het lijkt erop dat deze gebruiker niet meer geïnteresseerd is in jouw advertentie.";
-"chat_inactive_conversations_button" = "View archived chats";
-"chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
+"chat_inactive_conversations_button" = "Bekijk gearchiveerde chats";
+"chat_inactive_conversations_explanation_label" = "Chats ouder dan 3 maanden worden automatisch gearchiveerd.";
 "chat_list_account_deleted" = "Verwijderd account";
 "chat_list_account_deleted_username" = "Inactief";
 "chat_list_all_empty_title" = "(NOG!) GEEN CHATS";
@@ -167,7 +167,7 @@
 "chat_product_given_away_label" = "Weggegeven";
 "chat_product_sold_label" = "Verkocht";
 "chat_professional_banner_button_title" = "Bel";
-"chat_professional_banner_title" = "You're talking to a professional car dealer";
+"chat_professional_banner_title" = "Je bent in gesprek met een professionele autohandelaar";
 "chat_related_products_title" = "MISSCHIEN HEB JE INTERESSE IN:";
 "chat_safety_tips" = "Veiligheidstips";
 "chat_safety_tips_message" = "• Persoonlijk ontmoeten en contant betalen.\n \n• Voer gesprekken in de letgo chat.\n \n• Klinkt het te mooi om waar te zijn? Vind een andere koper/verkoper.";
@@ -617,7 +617,7 @@
 "product_post_retake" = "Opnieuw nemen";
 "product_post_retry_button" = "Probeer het nogmaals";
 "product_post_select_category_cars" = "Auto’s";
-"product_post_select_category_housing" = "Huisvesting";
+"product_post_select_category_housing" = "Woningen te Huur / te Koop";
 "product_post_select_category_motors_and_accessories" = "Overige Voertuigen en Onderdelen";
 "product_post_select_category_other" = "Overige items";
 "product_post_select_category_title" = "Wat wil je verkopen?";
@@ -751,7 +751,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Aantal Slaapkamers";
+"real_estate_camera_view_real_estate_message" = "Maak een foto van het onroerend goed dat je wilt huren of verkopen";
 "real_estate_current_step_of_total" = "%d van %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+"real_estate_gallery_view_subtitle" = "Selecteer maximaal 5 afbeeldingen van de woning die je wilt verkopen of huren";
 "real_estate_location_notification_message" = "We zullen jouw exacte locatie nooit aan andere gebruikers laten zien";
 "real_estate_location_title" = "Plaats";
 "real_estate_offer_type_rent" = "Te Huur";
@@ -791,8 +795,8 @@
 "real_estate_title_generator_property_type_house" = "Huis";
 "real_estate_title_generator_property_type_other" = "Overige";
 "real_estate_title_generator_property_type_room" = "Kamer";
-"real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
-"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
+"real_estate_tooltip_overlay_expandable_menu" = "Als je onroerend goed te koop of te huur aanbiedt, probeer dan onze nieuwe categorie Woningen!";
+"real_estate_tooltip_sell_button" = "Plaats onroerend goed te koop of te huur in onze nieuwe categorie Woningen";
 "real_estate_type_property_apartment" = "Appartement";
 "real_estate_type_property_commercial" = "Commercial";
 "real_estate_type_property_house" = "Huis";

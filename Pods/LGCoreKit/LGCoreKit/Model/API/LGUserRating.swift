@@ -10,6 +10,7 @@ struct LGUserRating: UserRating, Decodable {
     let objectId: String?
     let userToId: String
     let userFrom: UserListing
+    let listingId: String?
     let type: UserRatingType
     let value: Int
     let comment: String?
@@ -48,16 +49,15 @@ struct LGUserRating: UserRating, Decodable {
         self.objectId = try keyedContainer.decodeIfPresent(String.self, forKey: .id)
         self.userToId = try keyedContainer.decode(String.self, forKey: .userToId)
         self.userFrom = try keyedContainer.decode(LGUserListing.self, forKey: .userFrom)
+        self.listingId = try keyedContainer.decode(String?.self, forKey: .listingId)
         let typeValue = try keyedContainer.decode(Int.self, forKey: .type)
         switch typeValue {
         case UserRatingApiType.conversation.rawValue:
             self.type = .conversation
         case UserRatingApiType.seller.rawValue:
-            let listingId = try keyedContainer.decode(String.self, forKey: .listingId)
-            self.type = .seller(listingId: listingId)
+            self.type = .seller
         case UserRatingApiType.buyer.rawValue:
-            let listingId = try keyedContainer.decode(String.self, forKey: .listingId)
-            self.type = .buyer(listingId: listingId)
+            self.type = .buyer
         default:
             throw DecodingError.valueNotFound(Int.self, DecodingError.Context(codingPath: [CodingKeys.type],
                                                                               debugDescription: "\(typeValue)"))
@@ -121,7 +121,7 @@ extension UserRatingType {
 }
 
 private enum UserRatingApiType: Int {
-    case conversation = 1
+    case conversation = 1 // [DEPRECATED] do not use to create new ratings
     case seller = 2
     case buyer = 3
 }

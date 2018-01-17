@@ -324,7 +324,7 @@
 "filters_section_location" = "Posizione";
 "filters_section_price" = "Prezzo";
 "filters_section_price_free_title" = "Mostra solo oggetti gratuiti";
-"filters_section_real_estate_info" = "Informazioni proprietà";
+"filters_section_real_estate_info" = "Informazioni immobile";
 "filters_section_sortby" = "Ordina per";
 "filters_section_within" = "Periodo di pubblicazione";
 "filters_sort_closest" = "Prima i più vicini";
@@ -751,7 +751,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "Più di 4";
 "real_estate_bedrooms_title" = "N° di stanze";
+"real_estate_camera_view_real_estate_message" = "Scatta una foto dell'immobile che desideri vendere o affittare";
 "real_estate_current_step_of_total" = "%d di %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+"real_estate_gallery_view_subtitle" = "Seleziona un massimo di 5 immagini dell'immobile che desideri vendere o affittare";
 "real_estate_location_notification_message" = "La tua posizione esatta non verrà mai mostrata agli altri utenti";
 "real_estate_location_title" = "Posizione";
 "real_estate_offer_type_rent" = "In affitto";
@@ -770,7 +774,7 @@
 "real_estate_summary_price_empty" = "Aggiungi prezzo";
 "real_estate_summary_price_title" = "Prezzo: %@";
 "real_estate_summary_title" = "Riepilogo";
-"real_estate_summary_type_property_empty" = "Aggiungi tipo di proprietà";
+"real_estate_summary_type_property_empty" = "Aggiungi tipo di immobile";
 "real_estate_title_generator_bathrooms_0" = "Nessuno";
 "real_estate_title_generator_bathrooms_1" = "1 bagno";
 "real_estate_title_generator_bathrooms_1_5" = "1 1/2 bagni";
@@ -791,14 +795,14 @@
 "real_estate_title_generator_property_type_house" = "Intera casa";
 "real_estate_title_generator_property_type_other" = "Altro";
 "real_estate_title_generator_property_type_room" = "Stanza";
-"real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
-"real_estate_tooltip_sell_button" = "Pubblica proprietà in vendita o affitto all'interno della nuova categoria Alloggi";
+"real_estate_tooltip_overlay_expandable_menu" = "Se stai per pubblicare un immobile in vendita o in affitto, prova la nostra nuova categoria \"Case\"!";
+"real_estate_tooltip_sell_button" = "Pubblica immobili in vendita o in affitto all'interno della nuova categoria Case";
 "real_estate_type_property_apartment" = "Appartamento";
 "real_estate_type_property_commercial" = "Fondo commerciale";
 "real_estate_type_property_house" = "Intera casa";
 "real_estate_type_property_others" = "Altro";
 "real_estate_type_property_room" = "Stanza";
-"real_estate_type_property_title" = "Tipo di proprietà";
+"real_estate_type_property_title" = "Tipo di immobile";
 "related_items_title" = "Annunci correlati";
 "report_user_counterfeit" = "Articoli contraffatti";
 "report_user_error_already_reported" = "Ha già segnalato questo utente!";
