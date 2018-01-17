@@ -35,7 +35,6 @@ extension ChatInterlocutor {
     }
 }
 
-
 struct LGChatInterlocutor: ChatInterlocutor, Decodable {
     let objectId: String?
     let name: String

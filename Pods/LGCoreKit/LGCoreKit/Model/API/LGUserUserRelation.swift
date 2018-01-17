@@ -23,15 +23,19 @@ struct LGUserUserRelation: UserUserRelation {
         self.isBlockedBy = isBlockedBy
     }
 
-    static func decodeFrom(jsonData: Data) throws -> LGUserUserRelation? {
-        if let jsonArray = try? JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [[String: Any]],
+    static func decodeFrom(jsonData: Data) -> LGUserUserRelation {
+        let relation = LGUserUserRelation(isBlocked: false, isBlockedBy: false)
+        if let jsonArray = try? JSONSerialization.jsonObject(with: jsonData,
+                                                             options: .allowFragments) as? [[String: Any]],
             let json = jsonArray {
             return LGUserUserRelation.decodeFrom(jsonArray: json)
-        } else if let decodedJson = try? JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? [String: Any],
-            let json = decodedJson, let relation = LGUserUserRelation(from: json) {
+        } else if let decodedJson = try? JSONSerialization.jsonObject(with: jsonData,
+                                                                      options: .allowFragments) as? [String: Any],
+            let json = decodedJson,
+            let relation = LGUserUserRelation(from: json) {
             return relation
         }
-        return nil
+        return relation
     }
     
     static func decodeFrom(jsonArray: [[String: Any]]) -> LGUserUserRelation {
@@ -53,6 +57,5 @@ struct LGUserUserRelation: UserUserRelation {
         static let isBlockedBy = "blocked_by"
         static let linkName = "link_name"
     }
-
 }
 

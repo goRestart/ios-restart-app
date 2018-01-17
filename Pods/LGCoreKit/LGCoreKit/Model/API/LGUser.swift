@@ -101,11 +101,11 @@ struct LGUser: User, Decodable {
 
     
     init(from decoder: Decoder) throws {
-     
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
         self.objectId = try keyedContainer.decodeIfPresent(String.self, forKey: .id)
         self.name = try keyedContainer.decodeIfPresent(String.self, forKey: .name)
-        if let avatarURL = try keyedContainer.decodeIfPresent(URL.self, forKey: .avatarURL) {
+        if let avatarRawURL = try keyedContainer.decodeIfPresent(String.self, forKey: .avatarURL),
+            let avatarURL = URL(string: avatarRawURL) {
             self.avatar = LGFile(id: nil, url: avatarURL)
         } else {
             self.avatar = nil

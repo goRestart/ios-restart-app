@@ -113,14 +113,26 @@ class ChatWebSocketDataSource: ChatDataSource {
         }
     }
     
-    func inactiveConversationsCount(for userId: String, completion: ChatWebSocketCountCompletion?) {
-        let request = webSocketConversationRouter.inactiveConversationCount(for: userId)
+    func fetchInactiveConversationsCount(completion: ChatWebSocketCountCompletion?) {
+        let request = webSocketConversationRouter.fetchInactiveConversationCount()
         webSocketClient.sendQuery(request) { result in
             if let value = result.value {
                 let count = ChatModelsMapper.inactiveConversationCount(from: value) ?? 0
                 completion?(ChatWebSocketCountResult(value: count))
             } else if let error = result.error {
                 completion?(ChatWebSocketCountResult(error: error))
+            }
+        }
+    }
+    
+    func fetchInactiveConversations(limit: Int, offset: Int, completion: ChatWebSocketInactiveConversationsCompletion?) {
+        let request = webSocketConversationRouter.fetchInactiveConversations(limit: limit, offset: offset)
+        webSocketClient.sendQuery(request) { result in
+            if let value = result.value {
+                let conversations = ChatModelsMapper.inactiveConversations(from: value)
+                completion?(ChatWebSocketInactiveConversationsResult(value: conversations))
+            } else if let error = result.error {
+                completion?(ChatWebSocketInactiveConversationsResult(error: error))
             }
         }
     }
@@ -167,7 +179,11 @@ class ChatWebSocketDataSource: ChatDataSource {
         let request = webSocketCommandRouter.unarchiveConversations(conversationIds)
         webSocketClient.sendCommand(request, completion: completion)
     }
-    
+
+    func archiveInactiveConversations(_ conversationIds: [String], completion: ChatWebSocketCommandCompletion?) {
+        let request = webSocketCommandRouter.archiveInactiveConversations(conversationIds)
+        webSocketClient.sendCommand(request, completion: completion)
+    }
     
     // MARK: - Unread messages
     

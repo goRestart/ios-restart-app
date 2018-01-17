@@ -16,6 +16,7 @@ enum WebSocketRequestType: String {
     case confirmRead = "confirm_read"
     case archiveConversations = "archive_conversations"
     case unarchiveConversations = "unarchive_conversations"
+    case archiveInactiveConversations = "archive_inactive_conversations"
     
     // Events
     case typingStarted = "typing_started"
@@ -26,6 +27,7 @@ enum WebSocketRequestType: String {
     case fetchConversationDetails = "fetch_conversation_details"
     case fetchConversationID = "fetch_conversation_id"
     case fetchInactiveConversationsCount = "fetch_inactive_conversations_count"
+    case fetchInactiveConversations = "fetch_inactive_conversations"
     case fetchMessages = "fetch_messages"
     case fetchMessagesNewerThan = "fetch_messages_newer_than_id"
     case fetchMessagesOlderThan = "fetch_messages_older_than_id"
@@ -40,12 +42,12 @@ enum WebSocketRequestType: String {
     var superType: RequestSuperType {
         switch self {
         case .authenticate, .sendMessage, .confirmReception, .confirmRead, .archiveConversations,
-             .unarchiveConversations:
+             .unarchiveConversations, .archiveInactiveConversations:
             return .command
         case .typingStarted, .typingStopped:
             return .event
         case .fetchConversations, .fetchConversationDetails, .fetchConversationID, .fetchMessages, .fetchMessagesNewerThan,
-             .fetchMessagesOlderThan, .fetchInactiveConversationsCount, .ping:
+             .fetchMessagesOlderThan, .fetchInactiveConversationsCount, .fetchInactiveConversations, .ping:
             return .query
         }
     }

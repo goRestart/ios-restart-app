@@ -27,6 +27,9 @@ public typealias ChatConversationsCompletion = (ChatConversationsResult) -> Void
 public typealias ChatConversationResult = Result<ChatConversation, RepositoryError>
 public typealias ChatConversationCompletion = (ChatConversationResult) -> Void
 
+public typealias ChatInactiveConversationsResult = Result<[ChatInactiveConversation], RepositoryError>
+public typealias ChatInactiveConversationsCompletion = (ChatInactiveConversationsResult) -> Void
+
 public typealias ChatCountResult = Result<Int, RepositoryError>
 public typealias ChatCountCompletion = (ChatCountResult) -> Void
 
@@ -45,6 +48,7 @@ public protocol ChatRepository: class {
     var allConversations: CollectionVariable<ChatConversation> { get }
     var sellingConversations: CollectionVariable<ChatConversation> { get }
     var buyingConversations: CollectionVariable<ChatConversation> { get }
+    var inactiveConversations: CollectionVariable<ChatInactiveConversation> { get }
     var conversationsLock: NSLock { get }
     var inactiveConversationsCount: Observable<Int?> { get }
     
@@ -55,13 +59,15 @@ public protocol ChatRepository: class {
     func indexMessagesNewerThan(_ messageId: String, conversationId: String, completion: ChatMessagesCompletion?)
     func indexMessagesOlderThan(_ messageId: String, conversationId: String, numResults: Int,
                                 completion: ChatMessagesCompletion?)
+    
     // MARK: > Conversations
     
     func indexConversations(_ numResults: Int, offset: Int, filter: WebSocketConversationFilter,
                             completion: ChatConversationsCompletion?)
     func showConversation(_ conversationId: String, completion: ChatConversationCompletion?)
     func showConversation(_ sellerId: String, listingId: String, completion: ChatConversationCompletion?)
-    func inactiveConversationsCount(for userId: String, completion: ChatCountCompletion?)
+    func fetchInactiveConversationsCount(completion: ChatCountCompletion?)
+    func fetchInactiveConversations(limit: Int, offset: Int, completion: ChatInactiveConversationsCompletion?)
     
     // MARK: > Events
     
@@ -74,6 +80,7 @@ public protocol ChatRepository: class {
                      completion: ChatCommandCompletion?)
     func confirmRead(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?)
     func archiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?)
+    func archiveInactiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?)
     func confirmReception(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?)
     func unarchiveConversation(_ conversationId: String, completion: ChatCommandCompletion?)
     
@@ -85,7 +92,6 @@ public protocol ChatRepository: class {
     
     func chatEventsIn(_ conversationId: String) -> Observable<ChatEvent>
 }
-
 
 
 // MARK: - InternalChatRepository
@@ -104,6 +110,7 @@ protocol InternalChatRepository: ChatRepository {
                              completion: ChatCommandCompletion?)
     func internalConfirmRead(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?)
     func internalArchiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?)
+    func internalArchiveInactiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?)
     func internalUnarchiveConversation(_ conversationId: String, completion: ChatCommandCompletion?)
 }
 
@@ -279,6 +286,9 @@ extension InternalChatRepository {
         if let index = buyingConversations.value.index(where: { $0.objectId == id }) {
             buyingConversations.value.remove(at: index)
         }
+        if let index = inactiveConversations.value.index(where: { $0.objectId == id }) {
+            inactiveConversations.value.remove(at: index)
+        }
         conversationsLock.unlock()
     }
     
@@ -312,6 +322,13 @@ extension InternalChatRepository {
     
     public func archiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?) {
         internalArchiveConversations(conversationIds) { [weak self] archiveResult in
+            defer { completion?(archiveResult) }
+            self?.removeLocalConversations(ids: conversationIds)
+        }
+    }
+    
+    public func archiveInactiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?) {
+        internalArchiveInactiveConversations(conversationIds) { [weak self] archiveResult in
             defer { completion?(archiveResult) }
             self?.removeLocalConversations(ids: conversationIds)
         }

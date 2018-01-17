@@ -24,6 +24,7 @@ class LGChatRepository: InternalChatRepository {
     let allConversations = CollectionVariable<ChatConversation>([])
     let sellingConversations = CollectionVariable<ChatConversation>([])
     let buyingConversations = CollectionVariable<ChatConversation>([])
+    let inactiveConversations = CollectionVariable<ChatInactiveConversation>([])
     let conversationsLock: NSLock = NSLock()
     let inactiveConversationsCountVariable = Variable<Int?>(nil)
     
@@ -152,8 +153,17 @@ class LGChatRepository: InternalChatRepository {
         }
     }
     
-    func inactiveConversationsCount(for userId: String, completion: ChatCountCompletion?) {
-        dataSource.inactiveConversationsCount(for: userId) { result in
+    func fetchInactiveConversationsCount(completion: ChatCountCompletion?) {
+        dataSource.fetchInactiveConversationsCount { result in
+            handleWebSocketResult(result, completion: completion)
+        }
+    }
+    
+    func fetchInactiveConversations(limit: Int, offset: Int, completion: ChatInactiveConversationsCompletion?) {
+        dataSource.fetchInactiveConversations(limit: limit, offset: offset) { [weak self] result in
+            if let inactiveConversation = result.value {
+                self?.inactiveConversations.value = inactiveConversation
+            }
             handleWebSocketResult(result, completion: completion)
         }
     }
@@ -187,6 +197,12 @@ class LGChatRepository: InternalChatRepository {
     
     func internalArchiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?) {
         dataSource.archiveConversations(conversationIds) { result in
+            handleWebSocketResult(result, completion: completion)
+        }
+    }
+    
+    func internalArchiveInactiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?) {
+        dataSource.archiveInactiveConversations(conversationIds) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
@@ -241,11 +257,11 @@ class LGChatRepository: InternalChatRepository {
     }
     
     private func updateInactiveConversationsCount(for userId: String) {
-        inactiveConversationsCount(for: userId, completion: { [weak self] result in
+        fetchInactiveConversationsCount { [weak self] result in
             if let count = result.value {
                 self?.inactiveConversationsCountVariable.value = count
             }
-        })
+        }
     }
 }
 

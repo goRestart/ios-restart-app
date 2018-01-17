@@ -46,7 +46,8 @@ enum WebSocketResponseType: String {
     case conversationCreated = "conversation_created"
     case conversationList = "conversation_list"
     case conversationDetails = "conversation_details"
-    case inactiveConversationsCount = "inactive_conversations_count"
+    case fetchInactiveConversationsCount = "fetch_inactive_conversations_count"
+    case fetchInactiveConversations = "fetch_inactive_conversations"
     case pong = "pong"
     
     case interlocutorTypingStarted = "interlocutor_typing_started"
@@ -71,7 +72,7 @@ enum WebSocketResponseType: String {
         case .error:
             return .error
         case .messageList, .conversationCreated, .conversationList, .conversationDetails,
-             .inactiveConversationsCount,  .pong:
+             .fetchInactiveConversationsCount, .fetchInactiveConversations, .pong:
             return .query
         case .interlocutorTypingStarted, .interlocutorTypingStopped, .interlocutorMessageSent,
              .interlocutorReceptionConfirmed, .interlocutorReadConfirmed, .authenticationTokenExpired,

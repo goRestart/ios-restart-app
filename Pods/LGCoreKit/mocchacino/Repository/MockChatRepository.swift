@@ -1,6 +1,7 @@
 import RxSwift
 
 open class MockChatRepository: InternalChatRepository {
+
     public var indexMessagesResult: ChatMessagesResult!
     public var indexConversationsResult: ChatConversationsResult!
     public var showConversationResult: ChatConversationResult!
@@ -10,7 +11,8 @@ open class MockChatRepository: InternalChatRepository {
     public var confirmReadCommandResult: ChatCommandResult!
     public var confirmReceptionCommandResult: ChatCommandResult!
     public var unreadMessagesResult: ChatUnreadMessagesResult!
-    public var inactiveConversationsCountResult: ChatCountResult!
+    public var fetchInactiveConversationsCountResult: ChatCountResult!
+    public var fetchInactiveConversationsResult: ChatInactiveConversationsResult!
     
     public let chatStatusPublishSubject = PublishSubject<WSChatStatus>()
     public let chatEventsPublishSubject = PublishSubject<ChatEvent>()
@@ -40,6 +42,7 @@ open class MockChatRepository: InternalChatRepository {
     public let allConversations = CollectionVariable<ChatConversation>([])
     public let sellingConversations = CollectionVariable<ChatConversation>([])
     public let buyingConversations = CollectionVariable<ChatConversation>([])
+    public let inactiveConversations = CollectionVariable<ChatInactiveConversation>([])
     public let conversationsLock: NSLock = NSLock()
     
     public func createNewMessage(_ talkerId: String,
@@ -93,8 +96,12 @@ open class MockChatRepository: InternalChatRepository {
         delay(result: showConversationResult, completion: completion)
     }
     
-    public func inactiveConversationsCount(for userId: String, completion: ChatCountCompletion?) {
-        delay(result: inactiveConversationsCountResult, completion: completion)
+    public func fetchInactiveConversationsCount(completion: ChatCountCompletion?) {
+        delay(result: fetchInactiveConversationsCountResult, completion: completion)
+    }
+    
+    public func fetchInactiveConversations(limit: Int, offset: Int, completion: ChatInactiveConversationsCompletion?) {
+        delay(result: fetchInactiveConversationsResult, completion: completion)
     }
     
     public func typingStarted(_ conversationId: String) {
@@ -119,6 +126,11 @@ open class MockChatRepository: InternalChatRepository {
     
     public func internalArchiveConversations(_ conversationIds: [String],
                                              completion: ChatCommandCompletion?) {
+        delay(result: archiveCommandResult, completion: completion)
+    }
+    
+    public func internalArchiveInactiveConversations(_ conversationIds: [String],
+                                                     completion: ChatCommandCompletion?) {
         delay(result: archiveCommandResult, completion: completion)
     }
     
