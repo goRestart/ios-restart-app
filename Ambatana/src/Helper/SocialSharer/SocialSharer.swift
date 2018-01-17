@@ -199,149 +199,123 @@ fileprivate extension SocialSharer {
         let emailVC = MFMailComposeViewController()
         emailVC.mailComposeDelegate = self
         emailVC.setSubject(socialMessage.emailShareSubject)
-        socialMessage.retrieveEmailShareBody { body in
-            emailVC.setMessageBody(body, isHTML: socialMessage.emailShareIsHtml)
-            viewController.present(emailVC, animated: true) { [weak self] in
-                self?.delegate?.shareStartedIn(.email)
-            }
+        emailVC.setMessageBody(socialMessage.emailShareBody, isHTML: socialMessage.emailShareIsHtml)
+        viewController.present(emailVC, animated: true) { [weak self] in
+            self?.delegate?.shareStartedIn(.email)
         }
     }
 
     func shareInFacebook(_ socialMessage: SocialMessage, viewController: UIViewController) {
         delegate?.shareStartedIn(.facebook)
-        socialMessage.retrieveFBShareContent { fbShareContent in
-            FBSDKShareDialog.show(from: viewController, with: fbShareContent, delegate: self)
-        }
+        FBSDKShareDialog.show(from: viewController, with: socialMessage.fbShareContent,
+                                                delegate: self)
     }
 
     func shareInFBMessenger(_ socialMessage: SocialMessage) {
         delegate?.shareStartedIn(.fbMessenger)
-        socialMessage.retrieveFBMessengerShareContent { fbMessengerShareContent in
-            FBSDKMessageDialog.show(with: fbMessengerShareContent, delegate: self)
-        }
+        FBSDKMessageDialog.show(with: socialMessage.fbMessengerShareContent, delegate: self)
     }
 
     func shareInWhatsapp(_ socialMessage: SocialMessage) {
-        socialMessage.retrieveWhatsappShareText { [weak self] shareText in
-            self?.shareInURL(.whatsapp, text: shareText, urlScheme: Constants.whatsAppShareURL)
-        }
+        shareInURL(.whatsapp, text: socialMessage.whatsappShareText, urlScheme: Constants.whatsAppShareURL)
     }
 
     func shareInTwitter(_ socialMessage: SocialMessage, viewController: UIViewController) {
-        delegate?.shareStartedIn(.twitter)
-        socialMessage.retrieveTwitterComposer { twitterComposer in
-            twitterComposer.show(from: viewController) { [weak self] result in
-                let state: SocialShareState
-                switch result {
-                case .cancelled:
-                    state = .cancelled
-                case .done:
-                    state = .completed
-                }
-                self?.delegate?.shareFinishedIn(.twitter, withState: state)
-            }
-        }
+        shareInURL(.twitter, text: socialMessage.twitterShareText, urlScheme: Constants.twitterShareURL)
     }
 
     func shareInTelegram(_ socialMessage: SocialMessage) {
-        socialMessage.retrieveTelegramShareText { [weak self] shareText in
-            self?.shareInURL(.telegram, text: shareText, urlScheme: Constants.telegramShareURL)
-        }
+        shareInURL(.telegram, text: socialMessage.telegramShareText, urlScheme: Constants.telegramShareURL)
     }
 
     func shareInPasteboard(_ socialMessage: SocialMessage) {
         delegate?.shareStartedIn(.copyLink)
-        socialMessage.retrieveCopyLinkText { [weak self] text in
-            UIPasteboard.general.string = text
-            self?.delegate?.shareFinishedIn(.copyLink, withState: .completed)
-        }
+        UIPasteboard.general.string = socialMessage.copyLinkText
+        delegate?.shareFinishedIn(.copyLink, withState: .completed)
     }
 
     func shareInSMS(_ socialMessage: SocialMessage, viewController: UIViewController,
                     messageComposeDelegate: MFMessageComposeViewControllerDelegate) {
         let messageVC = MFMessageComposeViewController()
-        socialMessage.retrieveSMSShareText { smsShareText in
-            messageVC.body = smsShareText
-            messageVC.recipients = []
-            messageVC.messageComposeDelegate = messageComposeDelegate
-            
-            viewController.present(messageVC, animated: false) { [weak self] in
-                self?.delegate?.shareStartedIn(.sms)
-            }
+        messageVC.body = socialMessage.smsShareText
+        messageVC.recipients = []
+        messageVC.messageComposeDelegate = messageComposeDelegate
+
+        viewController.present(messageVC, animated: false) { [weak self] in
+            self?.delegate?.shareStartedIn(.sms)
         }
     }
 
     func shareInNative(_ socialMessage: SocialMessage, viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil,
                        restricted: Bool) {
-        socialMessage.retrieveNativeShareItems { activityItems in
-            let shareVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-            
-            if restricted {
-                var excludedActivities: [UIActivityType] = []
-                excludedActivities.append(.print)
-                excludedActivities.append(.copyToPasteboard)
-                excludedActivities.append(.assignToContact)
-                excludedActivities.append(.saveToCameraRoll)
-                excludedActivities.append(.addToReadingList)
-                shareVC.excludedActivityTypes = excludedActivities
-            }
-            
-            // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
-            // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
+        let activityItems = socialMessage.nativeShareItems
+        let shareVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+
+        if restricted {
+            var excludedActivities: [UIActivityType] = []
+            excludedActivities.append(.print)
+            excludedActivities.append(.copyToPasteboard)
+            excludedActivities.append(.assignToContact)
+            excludedActivities.append(.saveToCameraRoll)
+            excludedActivities.append(.addToReadingList)
+            shareVC.excludedActivityTypes = excludedActivities
+        }
+
+        // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
+        // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
+        if shareVC.responds(to: #selector(getter: UIViewController.popoverPresentationController)) {
             let presentationController = shareVC.popoverPresentationController
             if let item = barButtonItem {
                 presentationController?.barButtonItem = item
             } else {
                 presentationController?.sourceView = viewController.view
             }
-            
-            shareVC.completionWithItemsHandler = { [weak self] (activity, success, items, error) in
-                guard let strongSelf = self else { return }
-                let shareType: ShareType
-                if let activity = activity {
-                    switch activity {
-                    case UIActivityType.postToFacebook:
-                        shareType = .facebook
-                    case UIActivityType.postToTwitter:
-                        shareType = .twitter
-                    case UIActivityType.mail:
-                        shareType = .email
-                    case UIActivityType.copyToPasteboard:
-                        shareType = .copyLink
-                    default:
-                        if let _ = activity.rawValue.range(of: "whatsapp") {
-                            shareType = .whatsapp
-                        } else {
-                            shareType = .native(restricted: restricted)
-                        }
+        }
+
+        shareVC.completionWithItemsHandler = { [weak self] (activity, success, items, error) in
+            guard let strongSelf = self else { return }
+            let shareType: ShareType
+            if let activity = activity {
+                switch activity {
+                case UIActivityType.postToFacebook:
+                    shareType = .facebook
+                case UIActivityType.postToTwitter:
+                    shareType = .twitter
+                case UIActivityType.mail:
+                    shareType = .email
+                case UIActivityType.copyToPasteboard:
+                    shareType = .copyLink
+                default:
+                    if let _ = activity.rawValue.range(of: "whatsapp") {
+                        shareType = .whatsapp
+                    } else {
+                        shareType = .native(restricted: restricted)
                     }
-                } else {
-                    shareType = .native(restricted: restricted)
                 }
-                
-                // Comment left here as a clue to manage future activities
-                /*   SAMPLES OF SHARING RESULTS VIA ACTIVITY VC
-                 
-                 println("Activity: \(activity) Success: \(success) Items: \(items) Error: \(error)")
-                 
-                 Activity: com.apple.UIKit.activity.PostToFacebook Success: true Items: nil Error: nil
-                 Activity: net.whatsapp.WhatsApp.ShareExtension Success: true Items: nil Error: nil
-                 Activity: com.apple.UIKit.activity.Mail Success: true Items: nil Error: nil
-                 Activity: com.apple.UIKit.activity.PostToTwitter Success: true Items: nil Error: nil
-                 */
-                let state: SocialShareState
-                if success {
-                    state = .completed
-                } else if let _  = error {
-                    state = .failed
-                } else {
-                    state = .cancelled
-                }
-                strongSelf.delegate?.shareFinishedIn(shareType, withState: state)
+            } else {
+                shareType = .native(restricted: restricted)
             }
-            viewController.present(shareVC, animated: true) { [weak self] in
-                self?.delegate?.shareStartedIn(.native(restricted: restricted))
+
+            // Comment left here as a clue to manage future activities
+            /*   SAMPLES OF SHARING RESULTS VIA ACTIVITY VC
+
+             println("Activity: \(activity) Success: \(success) Items: \(items) Error: \(error)")
+
+             Activity: com.apple.UIKit.activity.PostToFacebook Success: true Items: nil Error: nil
+             Activity: net.whatsapp.WhatsApp.ShareExtension Success: true Items: nil Error: nil
+             Activity: com.apple.UIKit.activity.Mail Success: true Items: nil Error: nil
+             Activity: com.apple.UIKit.activity.PostToTwitter Success: true Items: nil Error: nil
+             */
+            if success {
+                strongSelf.delegate?.shareFinishedIn(shareType, withState: .completed)
+            } else if let _  = error {
+                strongSelf.delegate?.shareFinishedIn(shareType, withState: .failed)
+            } else {
+                strongSelf.delegate?.shareFinishedIn(shareType, withState: .cancelled)
             }
+        }
+        viewController.present(shareVC, animated: true) { [weak self] in
+            self?.delegate?.shareStartedIn(.native(restricted: restricted))
         }
     }
 
