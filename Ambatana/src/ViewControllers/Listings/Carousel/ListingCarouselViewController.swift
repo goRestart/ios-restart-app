@@ -39,6 +39,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var shareButtonTopAlignment: NSLayoutConstraint!
     
     @IBOutlet weak var productStatusView: UIView!
+    @IBOutlet weak var productStatusViewTopAlignment: NSLayoutConstraint!
     @IBOutlet weak var productStatusLabel: UILabel!
     @IBOutlet weak var productStatusImageView: UIImageView!
     @IBOutlet weak var productStatusImageViewLeftConstraint: NSLayoutConstraint!
@@ -281,6 +282,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         if !isSafeAreaAvailable {
             favoriteButtonTopAligment.constant = 55
             shareButtonTopAlignment.constant = 70
+            productStatusViewTopAlignment.constant = 80
         }
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
@@ -424,7 +426,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     private func setupZoomRx() {
         cellZooming.asObservable().distinctUntilChanged().bind { [weak self] zooming in
-            UIApplication.shared.setStatusBarHidden(zooming, with: .fade)
             UIView.animate(withDuration: 0.3) {
                 self?.itemsAlpha.value = zooming ? 0 : 1
                 self?.moreInfoAlpha.value = zooming ? 0 : 1
@@ -670,11 +671,6 @@ extension ListingCarouselViewController {
                                                   viewModel.ownerPhoneNumber.asObservable()) { ($0, $1) }
         allowCalls.asObservable().bind { [weak self] (isPro, phoneNum) in
             guard let strongSelf = self else { return }
-
-            print("😡😡😡😡😡😡😡😡😡😡")
-            print(isPro)
-            print(phoneNum)
-            print(strongSelf.viewModel.deviceCanCall)
 
             if let phone = phoneNum, phone.isPhoneNumber && isPro && strongSelf.viewModel.deviceCanCall {
                 strongSelf.buttonCall.isHidden = false

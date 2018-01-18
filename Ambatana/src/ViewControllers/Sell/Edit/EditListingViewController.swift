@@ -567,11 +567,11 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             strongSelf.categorySelectedLabel.text = category?.name ?? LGLocalizedString.categoriesUnassigned
             strongSelf.updateVerticalFields(category: category)
         }.disposed(by: disposeBag)
-
-        let categoryIsRealEstate = viewModel.category.asObservable().flatMap { x in
-            return x.map(Observable.just) ?? Observable.empty()
-            }.map { $0.isRealEstate }
-        let categoryIsEnabled = categoryIsRealEstate.asObservable().filter { !$0 }
+        
+        let categoryIsEnabled = viewModel.category.asObservable().map { category -> Bool in
+            guard let categoryValue = category, categoryValue.isRealEstate else { return true }
+            return false
+        }
         categoryIsEnabled.bind(to: categoryButton.rx.isEnabled).disposed(by: disposeBag)
         categoryIsEnabled.bind(to: categoryTitleLabel.rx.isEnabled).disposed(by: disposeBag) 
         

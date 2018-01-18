@@ -20,7 +20,7 @@ protocol CategoriesHeaderCollectionViewDelegate: class {
     func openTaxonomyList()
 }
 
-class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
+class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     fileprivate var categoryHeaderElements: [CategoryHeaderElement]
     fileprivate var categoryHighlighted: CategoryHeaderElement
@@ -56,7 +56,9 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     
     
     // MARK: - UICollectionViewDelegate & DataSource methods
-    @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CategoryHeaderCell.cellSize()
     }
     

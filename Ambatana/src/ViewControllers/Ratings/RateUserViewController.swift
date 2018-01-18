@@ -228,10 +228,10 @@ extension RateUserViewController: RateUserViewModelDelegate {
 
 // MARK: - UIColllectionView Delegate & Datasource
 
-extension RateUserViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension RateUserViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let title = viewModel.titleForTagAt(index: indexPath.row) else { return CGSize.zero }
         return UserRatingTagCell.size(with: title)
     }

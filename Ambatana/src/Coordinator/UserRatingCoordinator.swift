@@ -112,8 +112,8 @@ extension UserRatingCoordinator: RateBuyersNavigator {
         }
     }
 
-    func rateBuyersFinish(withUser user: UserListing) {
-        guard let data = RateUserData(user: user) else {
+    func rateBuyersFinish(withUser user: UserListing, listingId: String?) {
+        guard let data = RateUserData(user: user, listingId: listingId, ratingType: .buyer) else {
             rateBuyersFinishNotOnLetgo()
             return
         }
