@@ -39,8 +39,8 @@ class MostSearchedItemsListViewModel: BaseViewModel {
         navigator?.cancelPostListing()
     }
     
-    func closeAndSearchFor(itemName: String) {
-        navigator?.cancelPostListingAndSearchFor(query: itemName)
+    func searchButtonAction(itemName: String) {
+        navigator?.openSearchFor(query: itemName)
     }
     
     

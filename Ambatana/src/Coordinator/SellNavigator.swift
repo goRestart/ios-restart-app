@@ -29,7 +29,7 @@ protocol PostListingNavigator: class {
     func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool)
     func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo)
     func backToSummary()
-    func cancelPostListingAndSearchFor(query: String)
+    func openSearchFor(query: String)
 }
 
 protocol ListingPostedNavigator: class {

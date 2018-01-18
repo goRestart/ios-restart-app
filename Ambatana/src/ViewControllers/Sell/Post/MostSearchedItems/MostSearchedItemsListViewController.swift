@@ -145,6 +145,6 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
     // MARK: - MostSearchedItemsCellDelegate
     
     func didSearchAction(itemName: String) {
-        viewModel.closeAndSearchFor(itemName: itemName)
+        viewModel.searchButtonAction(itemName: itemName)
     }
 }
