@@ -139,8 +139,9 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
 
     func updateViewWith(alpha: CGFloat) {
-        let chatAlpha = viewModel.quickChatViewModel.chatEnabled.value ? alpha : 0
-        let actionsAlpha = viewModel.quickChatViewModel.chatEnabled.value ? 0 : alpha
+        let clippedAlpha = min(1.0, alpha)
+        let chatAlpha = viewModel.quickChatViewModel.chatEnabled.value ? clippedAlpha : 0
+        let actionsAlpha = viewModel.quickChatViewModel.chatEnabled.value ? 0 : clippedAlpha
 
         listingDeckView.updatePrivateActionsWith(alpha: actionsAlpha)
         listingDeckView.updateChatWith(alpha: chatAlpha)

@@ -17,17 +17,19 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     let collectionView: UICollectionView
 
     private var quickChatView: QuickChatView?
+    private var dismissTap: UITapGestureRecognizer?
+    
     private var collectionViewTop: NSLayoutConstraint? = nil
     private let itemActionsView = ListingDeckActionView()
     private let collectionLayout = ListingDeckCollectionViewLayout()
-    private let chatTextView = ChatTextView()
 
     var rx_actionButton: Reactive<UIButton> { return itemActionsView.actionButton.rx }
-    var rx_chatTextView: Reactive<ChatTextView> { return chatTextView.rx }
+    var rx_chatTextView: Reactive<ChatTextView>? { return quickChatView?.rx_chatTextView }
     var currentPage: Int { return collectionLayout.page }
     var bumpUpBanner: BumpUpBanner { return itemActionsView.bumpUpBanner }
     var isBumpUpVisible: Bool { return itemActionsView.isBumpUpVisisble }
 
+    
     override init(frame: CGRect) {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
         super.init(frame: frame)
@@ -47,6 +49,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     
     func setQuickChatViewModel(_ viewModel: QuickChatViewModel) {
         let quickChatView = QuickChatView(chatViewModel: viewModel)
+        quickChatView.isRemovedWhenResigningFirstResponder = false
         setupDirectChatView(quickChatView: quickChatView)
         self.quickChatView = quickChatView
     }
@@ -146,23 +149,15 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     func updateChatWith(alpha: CGFloat) {
         quickChatView?.alpha = alpha
     }
-
-    func setChatText(_ text: String) {
-        chatTextView.setText(text)
-    }
-
-    func setChatInitialText(_ text: String) {
-        chatTextView.setInitialText(text)
-    }
-
+    
     func showFullScreenChat() {
         guard let chatView = quickChatView else { return }
-        chatView.becomeFirstResponder()
         focusOnChat()
+        chatView.becomeFirstResponder()
     }
 
     @objc func hideFullScreenChat() {
-        chatTextView.resignFirstResponder()
+        quickChatView?.resignFirstResponder()
         focusOnCollectionView()
     }
 
@@ -172,7 +167,13 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     }
 
     private func focusOnChat() {
-        bringSubview(toFront: collectionView)
+        guard let chat = quickChatView else { return }
+        if dismissTap == nil {
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideFullScreenChat))
+            chat.addDismissGestureRecognizer(tapGesture)
+            dismissTap = tapGesture
+        }
+        bringSubview(toFront: chat)
     }
 
     private func focusOnCollectionView() {
@@ -181,7 +182,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
 
     func hideChat() {
         quickChatView?.alpha = 0
-        bringSubview(toFront: collectionView)
+        focusOnCollectionView()
     }
 
     // MARK: BumpUp

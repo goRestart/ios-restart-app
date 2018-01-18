@@ -60,15 +60,23 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
                     animationOptions: UIViewAnimationOptions, completion: ((Bool) -> Void)? = nil) {
         let color = (bottomInset <= 0) ? UIColor.clear : UIColor.black.withAlphaComponent(0.5)
         let alpha: CGFloat = (bottomInset <= 0) ? 0 : 1
-        textViewBottom?.constant = (bottomInset <= 0) ? Layout.outsideKeyboard : -(bottomInset + Metrics.margin)
+        
+        
+        if bottomInset <= 0 {
+            textViewBottom?.constant = isRemovedWhenResigningFirstResponder ? Layout.outsideKeyboard : -Metrics.margin
+        } else {
+            textViewBottom?.constant = -(bottomInset + Metrics.margin)
+        }
 
         UIView.animate(withDuration: animationTime,
                        delay: 0,
                        options: animationOptions,
                        animations: {
-                        self.textView.alpha = alpha
-                        self.directAnswersView.alpha = alpha
-                        self.tableView.alpha = alpha
+                        if self.isRemovedWhenResigningFirstResponder {
+                            self.textView.alpha = alpha
+                            self.directAnswersView.alpha = alpha
+                            self.tableView.alpha = alpha
+                        }
                         self.backgroundColor = color
                         self.layoutIfNeeded()
         }, completion: completion)

@@ -16,8 +16,6 @@ final class ListingDeckViewControllerBinder {
     var disposeBag = DisposeBag()
     var currentDisposeBag: DisposeBag?
 
-    private let indexSignal = Variable<Int>(0)
-
     func bind(withViewModel viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
         guard let viewController = listingDeckViewController else { return }
 
@@ -106,46 +104,45 @@ final class ListingDeckViewControllerBinder {
 
     private func bindContentOffset(withViewController viewController: ListingDeckViewController,
                                    viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewController.contentOffset
+        let pageSignal: Observable<Int> = viewController.contentOffset.map { _ in return listingDeckView.currentPage }
+        pageSignal.distinctUntilChanged().skip(1).bind { [weak viewModel] page in
+            // TODO: Tracking 3109
+            viewModel?.moveToProductAtIndex(page, movement: .swipeRight)
+        }.disposed(by: disposeBag)
+
+        pageSignal.distinctUntilChanged().bind { [weak viewController] page in
+            viewController?.pageDidChange(current: page)
+        }.disposed(by: disposeBag)
+    }
+
+    private func bindChat(withViewController viewController: ListingDeckViewController,
+                          viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
+        if let rx_chatTextView = listingDeckView.rx_chatTextView {
+            viewModel.quickChatViewModel.directChatPlaceholder.asObservable()
+                .bind(to: rx_chatTextView.placeholder)
+                .disposed(by: disposeBag)
+        }
+        
+        let contentOffsetAlphaSignal: Observable<CGFloat> = viewController.contentOffset
             .map { [unowned listingDeckView] x in
                 let pageOffset = listingDeckView.pageOffset(givenOffset: x).truncatingRemainder(dividingBy: 1.0)
                 guard pageOffset >= 0.5 else {
                     return 2*pageOffset
                 }
                 return 2*(1 - pageOffset)
-            }.bind { viewController.updateViewWith(alpha: $0) }
-        .disposed(by: disposeBag)
-
-        viewController.contentOffset.skip(1).bind { _ in
-            // TODO: Tracking 3109
-            viewModel.moveToProductAtIndex(listingDeckView.currentPage, movement: .swipeRight)
-        }.disposed(by: disposeBag)
-
-        let pageSignal: Observable<Int> = viewController.contentOffset.map { _ in return listingDeckView.currentPage }
-        pageSignal.distinctUntilChanged().bind { page in
-            viewController.pageDidChange(current: page)
-        }.disposed(by: disposeBag)
-    }
-
-    private func bindChat(withViewController viewController: ListingDeckViewController,
-                          viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewModel.quickChatViewModel.directChatPlaceholder.asObservable()
-            .bind(to: listingDeckView.rx_chatTextView.placeholder)
-            .disposed(by:disposeBag)
-        if let productVM = viewModel.currentListingViewModel, !productVM.areQuickAnswersDynamic {
-            listingDeckView.setChatInitialText(LGLocalizedString.chatExpressTextFieldText)
-        }
-
-        viewModel.quickChatViewModel.chatEnabled.asObservable().bind { [unowned listingDeckView] enabled in
-            if enabled {
-                listingDeckView.showChat()
-                listingDeckView.hideActions()
-            } else {
-                listingDeckView.hideChat()
-                listingDeckView.showActions()
-            }
-
-        }.disposed(by: disposeBag)
+        }.asObservable()
+        
+        let chatEnabled: Observable<Bool> = viewModel.quickChatViewModel.chatEnabled.asObservable()
+        Observable.combineLatest(contentOffsetAlphaSignal,
+                                 chatEnabled.distinctUntilChanged()) { ($0, $1) }
+            .bind { [weak listingDeckView] (offsetAlpha, isChatEnabled) in
+                if isChatEnabled {
+                    viewController.updateViewWith(alpha: offsetAlpha)
+                } else {
+                    listingDeckView?.hideChat()
+                    listingDeckView?.showActions()
+                }
+            }.disposed(by: disposeBag)
     }
 
     private func bindNavigationBarActions(withViewController viewController: ListingDeckViewController,

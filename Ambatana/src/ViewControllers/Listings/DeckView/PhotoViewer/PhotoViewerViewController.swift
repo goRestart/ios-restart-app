@@ -202,7 +202,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     func addEdgeGesture(_ edgeGestures: [UIGestureRecognizer]) {
         edgeGestures.forEach { view.removeGestureRecognizer($0) }
-        edgeGestures = edgeGestures
+        self.edgeGestures = edgeGestures
         edgeGestures.forEach { view.addGestureRecognizer($0) }
     }
 
