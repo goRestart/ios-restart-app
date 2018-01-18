@@ -83,7 +83,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .bedrooms:
             values = NumberOfBedrooms.allValues.flatMap { $0.localizedString }
         case .rooms:
-            values = Rooms.allValues().flatMap { $0.localizedValue }
+            values = NumberOfRooms.allValues.flatMap { $0.localizedString }
         case .offerType:
             values = RealEstateOfferType.allValues.flatMap { $0.localizedString }
         case .propertyType:
@@ -191,7 +191,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     func nextbuttonPressed() {
-        guard let next = step.nextStep(postingType: featureFlags.realEstatePostingType) else {
+        guard let next = step.nextStep(postingType: .turkish) else {
             postListing(buttonNameType: .summary)
             return
         }
@@ -308,19 +308,20 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     // MARK: - PostingAddDetailTableViewDelegate 
     
     func indexSelected(index: Int) {
-        var numberOfBathrooms: NumberOfBathrooms? = nil
-        var numberOfBedrooms: NumberOfBedrooms? = nil
+        var numberOfBathrooms: Float? = nil
+        var numberOfBedrooms: Int? = nil
+        var numberOfLivingRooms: Int? = nil
         var realEstatePropertyType: RealEstatePropertyType? = nil
         var realEstateOfferType: RealEstateOfferType? = nil
         
         switch step {
         case .bathrooms:
-            numberOfBathrooms = NumberOfBathrooms.allValues[index]
+            numberOfBathrooms = NumberOfBathrooms.allValues[index].rawValue
         case .bedrooms:
-            numberOfBedrooms = NumberOfBedrooms.allValues[index]
+            numberOfBedrooms = NumberOfBedrooms.allValues[index].rawValue
         case .rooms:
-            // TODO: create all values for rooms
-            numberOfBedrooms = NumberOfBedrooms.allValues[index]
+            numberOfBedrooms = NumberOfRooms.allValues[index].bedrooms
+            numberOfLivingRooms = NumberOfRooms.allValues[index].livingRooms
         case .offerType:
             realEstateOfferType = RealEstateOfferType.allValues[index]
         case .propertyType:
@@ -332,12 +333,13 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         var realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes()
         realEstateInfo = realEstateInfo.updating(propertyType: realEstatePropertyType,
                                                  offerType: realEstateOfferType,
-                                                 bedrooms: numberOfBedrooms?.rawValue,
-                                                 bathrooms: numberOfBathrooms?.rawValue)
+                                                 bedrooms: numberOfBedrooms,
+                                                 bathrooms: numberOfBathrooms,
+                                                livingRooms: numberOfLivingRooms)
         postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
         delay(0.3) { [weak self] in
             guard let strongSelf = self else { return }
-            guard let next = strongSelf.step.nextStep(postingType: strongSelf.featureFlags.realEstatePostingType) else { return }
+            guard let next = strongSelf.step.nextStep(postingType: .turkish) else { return }
             let nextStep = strongSelf.previousStepIsSummary ? .summary : next
             strongSelf.advanceNextStep(next: nextStep)
         }
