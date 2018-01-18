@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol MostSearchedItemsListCellDelegate {
+protocol MostSearchedItemsListCellDelegate: class {
     func didSearchAction(itemName: String)
 }
 
@@ -23,7 +23,7 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
     let searchButton = UIButton(type: .custom)
     let postButton = UIButton(type: .custom)
     
-    var delegate: MostSearchedItemsListCellDelegate?
+    weak var delegate: MostSearchedItemsListCellDelegate?
     var item: LocalMostSearchedItem?
     
     // MARK: - Lifecycle
