@@ -839,6 +839,7 @@ extension ListingCarouselViewController: UserViewDelegate {
         fullScreenAvatarHeight?.constant = viewSide
         UIView.animate(withDuration: 0.25, animations: { [weak self] in
             self?.updateNavigationBarAlpha(0)
+            self?.moreInfoTooltip?.alpha = 0
             self?.fullScreenAvatarEffectView.alpha = 1
             self?.fullScreenAvatarView.alpha = 1
             self?.view.layoutIfNeeded()
@@ -852,6 +853,7 @@ extension ListingCarouselViewController: UserViewDelegate {
         fullScreenAvatarHeight?.constant = userView.userAvatarImageView.frame.size.height
         UIView.animate(withDuration: 0.25, animations: { [weak self] in
             self?.updateNavigationBarAlpha(1)
+            self?.moreInfoTooltip?.alpha = 1
             self?.fullScreenAvatarEffectView.alpha = 0
             self?.fullScreenAvatarView.alpha = 0
             self?.view.layoutIfNeeded()
