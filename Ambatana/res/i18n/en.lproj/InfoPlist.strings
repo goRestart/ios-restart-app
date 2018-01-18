@@ -10,3 +10,5 @@
 
 "NSPhotoLibraryUsageDescription" = "To start selling, give letgo access to your library";
 
+"NSPhotoLibraryAddUsageDescription" = "To save images, give letgo access to your library";
+

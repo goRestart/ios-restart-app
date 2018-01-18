@@ -144,6 +144,8 @@
 	<string>letgo needs to access your location to show you products nearby</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To start selling, give letgo access to your library</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>o save images, give letgo access to your library</string>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>
