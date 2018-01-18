@@ -83,8 +83,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .bedrooms:
             values = NumberOfBedrooms.allValues.flatMap { $0.localizedString }
         case .rooms:
-            //TODO: add values for number of rooms
-            values = NumberOfBedrooms.allValues.flatMap { $0.localizedString }
+            values = Rooms.allValues().flatMap { $0.localizedValue }
         case .offerType:
             values = RealEstateOfferType.allValues.flatMap { $0.localizedString }
         case .propertyType:
