@@ -103,7 +103,7 @@
                     </constraints>
                 </view>
                 <button hidden="YES" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IPt-yE-B8T">
-                    <rect key="frame" x="303" y="65" width="67" height="67"/>
+                    <rect key="frame" x="303" y="20" width="67" height="67"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="67" id="Qg4-Bo-0iy"/>
                         <constraint firstAttribute="height" constant="67" id="XKO-Hk-S6V"/>
@@ -184,7 +184,7 @@
                 <constraint firstItem="QTG-7L-pof" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VRd-PN-doI"/>
                 <constraint firstItem="cLW-LX-KUg" firstAttribute="top" secondItem="g8H-X5-wER" secondAttribute="top" id="VYu-gQ-F7J"/>
                 <constraint firstItem="v46-dz-RxO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Vdl-Ex-mGL"/>
-                <constraint firstItem="IPt-yE-B8T" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="65" id="WbY-7w-9VA"/>
+                <constraint firstItem="IPt-yE-B8T" firstAttribute="top" secondItem="g8H-X5-wER" secondAttribute="top" id="WbY-7w-9VA"/>
                 <constraint firstItem="F8i-R0-fjg" firstAttribute="leading" secondItem="ibM-CY-XRt" secondAttribute="trailing" constant="16" id="XXb-4X-1wI"/>
                 <constraint firstItem="v46-dz-RxO" firstAttribute="height" secondItem="KRQ-9w-aXE" secondAttribute="height" multiplier="1:4" id="Z1w-E2-gHK"/>
                 <constraint firstAttribute="trailing" secondItem="k8u-9M-4kc" secondAttribute="trailing" constant="15" id="ZO9-Vf-oJW"/>
