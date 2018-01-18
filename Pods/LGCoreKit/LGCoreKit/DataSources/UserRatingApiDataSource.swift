@@ -37,17 +37,12 @@ class UserRatingApiDataSource: UserRatingDataSource {
         apiClient.request(request, decoder: UserRatingApiDataSource.decoder, completion: completion)
     }
 
-    func show(_ userId: String, userFromId: String, type: UserRatingType, completion: UserRatingDataSourceCompletion?) {
+    func show(_ userId: String, userFromId: String, listingId: String?, type: UserRatingType, completion: UserRatingDataSourceCompletion?) {
         var params: [String: Any] = [:]
         params[userFilter] = userId
         params[userFromFilter] = userFromId
         params[typeFilter] = type.apiValue
-        switch type {
-        case .conversation:
-            break
-        case let .buyer(listingId):
-            params[listingFilter] = listingId
-        case let .seller(listingId):
+        if let listingId = listingId {
             params[listingFilter] = listingId
         }
         let request = UserRatingRouter.index(params: params)
@@ -66,16 +61,16 @@ class UserRatingApiDataSource: UserRatingDataSource {
         }
     }
 
-    func create(_ userId: String, userFromId: String, value: Int, comment: String?, type: UserRatingType, completion: UserRatingDataSourceCompletion?) {
+    func create(_ userId: String, userFromId: String, value: Int, comment: String?, listingId: String?, type: UserRatingType, completion: UserRatingDataSourceCompletion?) {
         let data = UserRatingApiDataSource.encodeUserRatingParams(userId: userId, userFromId: userFromId,
-                                                                  value: value, comment: comment, type: type)
+                                                                  value: value, comment: comment, listingId: listingId, type: type)
         let request = UserRatingRouter.create(params: data)
         apiClient.request(request, decoder: UserRatingApiDataSource.decoder, completion: completion)
     }
 
     func update(_ ratingId: String, value: Int?, comment: String?, completion: UserRatingDataSourceCompletion?) {
         let data = UserRatingApiDataSource.encodeUserRatingParams(userId: nil, userFromId: nil,
-                                                                  value: value, comment: comment, type: nil)
+                                                                  value: value, comment: comment, listingId: nil, type: nil)
         let request = UserRatingRouter.update(objectId: ratingId, params: data)
         apiClient.request(request, decoder: UserRatingApiDataSource.decoder, completion: completion)
     }
@@ -115,14 +110,14 @@ class UserRatingApiDataSource: UserRatingDataSource {
     // MARK: - Encoder
 
     private static func encodeUserRatingParams(userId: String?, userFromId: String?, value: Int?,
-                                                   comment: String?, type: UserRatingType?) -> [String : Any] {
+                                               comment: String?, listingId: String?, type: UserRatingType?) -> [String : Any] {
         var result: [String : Any] = [:]
         result["type"] = type?.apiValue
         result["user_id"] = userFromId
         result["user_rated_id"] = userId
         result["value"] = value
         var attributes: [String : Any] = [:]
-        attributes["product_id"] = type?.listingId
+        attributes["product_id"] = listingId
         attributes["comment"] = comment
         if !attributes.isEmpty {
             result["attributes"] = attributes

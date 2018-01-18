@@ -20,8 +20,8 @@ typealias UserRatingDataSourceEmptyCompletion = (UserRatingDataSourceEmptyResult
 protocol UserRatingDataSource {
     func index(_ userId: String, offset: Int, limit: Int, completion: UserRatingsDataSourceCompletion?)
     func show(_ ratingId: String, completion: UserRatingDataSourceCompletion?)
-    func show(_ userId: String, userFromId: String, type: UserRatingType, completion: UserRatingDataSourceCompletion?)
-    func create(_ userId: String, userFromId: String, value: Int, comment: String?, type: UserRatingType, completion: UserRatingDataSourceCompletion?)
+    func show(_ userId: String, userFromId: String, listingId: String?, type: UserRatingType, completion: UserRatingDataSourceCompletion?)
+    func create(_ userId: String, userFromId: String, value: Int, comment: String?, listingId: String?, type: UserRatingType, completion: UserRatingDataSourceCompletion?)
     func update(_ ratingId: String, value: Int?, comment: String?, completion: UserRatingDataSourceCompletion?)
     func report(_ ratingId: String, completion: UserRatingDataSourceCompletion?)
 }
