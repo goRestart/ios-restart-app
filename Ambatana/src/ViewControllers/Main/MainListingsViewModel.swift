@@ -1428,7 +1428,7 @@ extension ShowAdsInFeedWithRatio {
         case .fifteen:
             return "var_b_pos_\(numberOfAd)"
         case .twenty:
-            return "var_b_pos_\(numberOfAd)"
+            return "var_c_pos_\(numberOfAd)"
         }
     }
 }
