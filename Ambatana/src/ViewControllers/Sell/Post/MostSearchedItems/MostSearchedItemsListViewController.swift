@@ -11,11 +11,6 @@ import Foundation
 class MostSearchedItemsListViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
     
     let closeButton = UIBarButtonItem()
-    let titleLabel = UILabel()
-    let descriptionLabel = UILabel()
-    let subtitleView = UIView()
-    let subtitleImageView = UIImageView()
-    let subtitleLabel = UILabel()
     let tableView = UITableView()
     
     let viewModel: MostSearchedItemsListViewModel
@@ -54,67 +49,18 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
         
         view.backgroundColor = .white
         
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 23)
-        titleLabel.textColor = UIColor.black
-        titleLabel.numberOfLines = 2
-        titleLabel.text = LGLocalizedString.trendingItemsViewTitle("TODO") // TODO: Set user location with city
-        titleLabel.adjustsFontSizeToFitWidth = true
-        titleLabel.minimumScaleFactor = 0.2
-        
-        descriptionLabel.font = UIFont.systemRegularFont(size: 17)
-        descriptionLabel.textColor = UIColor.darkGrayText
-        descriptionLabel.numberOfLines = 2
-        descriptionLabel.text = LGLocalizedString.trendingItemsViewSubtitle
-        
-        subtitleImageView.image = UIImage(named: "ic_search")
-        
-        subtitleLabel.font = UIFont.systemMediumFont(size: 13)
-        subtitleLabel.textColor = UIColor.grayText
-        subtitleLabel.text = LGLocalizedString.trendingItemsViewNumberOfSearchesTitle
-        
+        edgesForExtendedLayout = []
         tableView.estimatedRowHeight = MostSearchedItemsListCell.cellHeight
+        tableView.sectionHeaderHeight = MostSearchedItemsListHeader.viewHeight
     }
     
     private func setupConstraints() {
-        let containerSubviews = [titleLabel, descriptionLabel, subtitleView, tableView]
-        view.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: containerSubviews)
-        view.addSubviews(containerSubviews)
-        
-        let subtitleViews = [subtitleImageView, subtitleLabel]
-        subtitleView.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subtitleViews)
-        subtitleView.addSubviews(subtitleViews)
-        
-        titleLabel.layout(with: view)
-            .leading(by: Metrics.bigMargin)
-            .trailing(by: -Metrics.bigMargin)
-        titleLabel.layout(with: topLayoutGuide).below(by: Metrics.bigMargin)
-        titleLabel.layout().height(56)
-        
-        descriptionLabel.layout(with: view)
-            .leading(by: Metrics.bigMargin)
-            .trailing(by: -Metrics.bigMargin)
-        descriptionLabel.layout(with: titleLabel).below(by: Metrics.margin)
-        descriptionLabel.layout().height(50)
-        
-        subtitleView.layout(with: view).fillHorizontal()
-        subtitleView.layout(with: descriptionLabel).below(by: Metrics.margin)
-        subtitleView.layout().height(15)
-        
-        subtitleImageView.layout(with: subtitleView)
-            .fillVertical()
-            .leading(by: Metrics.bigMargin)
-        subtitleImageView.layout()
-            .width(15)
-            .height(15)
-        
-        subtitleLabel.layout(with: subtitleView)
-            .fillVertical()
-            .trailing(by: Metrics.bigMargin)
-        subtitleLabel.layout(with: subtitleImageView).toLeft(by: Metrics.margin)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
         
         tableView.layout(with: view).fillHorizontal()
+        tableView.layout(with: topLayoutGuide).below()
         tableView.layout(with: bottomLayoutGuide).above()
-        tableView.layout(with: subtitleView).below(by: Metrics.bigMargin)
     }
 
     
@@ -123,6 +69,7 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
     @objc private func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
+    
     
     // MARK: - UITableViewDelegate, UITableViewDataSource
         
@@ -136,5 +83,10 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
         let item = viewModel.itemAtIndex(indexPath.row)
         cell.updateWith(item: item, showSearchButton: !viewModel.isSearchEnabled)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = MostSearchedItemsListHeader()
+        return header
     }
 }
