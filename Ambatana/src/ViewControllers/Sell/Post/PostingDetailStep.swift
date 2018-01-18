@@ -14,6 +14,8 @@ enum PostingDetailStep {
     case propertyType
     case offerType
     case bedrooms
+    case rooms
+    case sizeSquareMeters
     case bathrooms
     case location
     case make
@@ -31,6 +33,12 @@ enum PostingDetailStep {
             return LGLocalizedString.realEstateOfferTypeTitle
         case .bedrooms:
             return LGLocalizedString.realEstateBedroomsTitle
+        case .rooms:
+            //TODO: add string
+            return "Rooms"
+        case .sizeSquareMeters:
+            //TODO: add string
+            return "sizeSquareMeters"
         case .bathrooms:
             return LGLocalizedString.realEstateBathroomsTitle
         case .summary:
@@ -46,14 +54,18 @@ enum PostingDetailStep {
         }
     }
     
-    var nextStep: PostingDetailStep? {
+    func nextStep(postingType: RealEstatePostingType) -> PostingDetailStep? {
         switch self {
         case .price:
             return .propertyType
         case .propertyType:
             return .offerType
         case .offerType:
-            return .bedrooms
+            return postingType == .standard ? .bedrooms : .rooms
+        case .rooms:
+            return .sizeSquareMeters
+        case .sizeSquareMeters:
+            return .summary
         case .bedrooms:
             return .bathrooms
         case .bathrooms:
