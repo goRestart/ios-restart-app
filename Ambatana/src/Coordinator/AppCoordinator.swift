@@ -425,6 +425,11 @@ extension AppCoordinator: SellCoordinatorDelegate {
         refreshSelectedListingsRefreshable()
         openAfterSellDialogIfNeeded(forListing: listing)
     }
+    
+    func sellCoordinator(_ coordinator: SellCoordinator, openSearchFor query: String) {
+        // TODO: Change searchType depending how it is going to be tracked, probably new case
+        mainTabBarCoordinator.openMainListings(withSearchType: .user(query: query), listingFilters: ListingFilters())
+    }
 }
 
 

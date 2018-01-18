@@ -8,7 +8,8 @@
 
 import Foundation
 
-class MostSearchedItemsListViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
+class MostSearchedItemsListViewController: BaseViewController, UITableViewDelegate,
+    UITableViewDataSource, MostSearchedItemsListCellDelegate {
     
     let closeButton = UIBarButtonItem()
     let titleLabel = UILabel()
@@ -124,6 +125,7 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
         viewModel.closeButtonPressed()
     }
     
+    
     // MARK: - UITableViewDelegate, UITableViewDataSource
         
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -134,7 +136,15 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MostSearchedItemsListCell.reusableID,
                                                         for: indexPath) as? MostSearchedItemsListCell else { return UITableViewCell() }
         let item = viewModel.itemAtIndex(indexPath.row)
+        cell.delegate = self
         cell.updateWith(item: item, showSearchButton: !viewModel.isSearchEnabled)
         return cell
+    }
+    
+    
+    // MARK: - MostSearchedItemsCellDelegate
+    
+    func didSearchAction(itemName: String) {
+        viewModel.searchButtonAction(itemName: itemName)
     }
 }

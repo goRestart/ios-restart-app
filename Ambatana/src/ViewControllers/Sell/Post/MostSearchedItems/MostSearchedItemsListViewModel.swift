@@ -39,6 +39,10 @@ class MostSearchedItemsListViewModel: BaseViewModel {
         navigator?.cancelPostListing()
     }
     
+    func searchButtonAction(itemName: String) {
+        navigator?.openSearchFor(query: itemName)
+    }
+    
     
     // MARK: - Most Searched Items data
     
