@@ -323,7 +323,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     @objc fileprivate func endEdit() {
-        suggestionsSearchesContainer.isHidden = true
+        // ☢️☢️ Changing tabs when constructing the app from a push notifications calls didDissappear before didLoad
+        if let searchContainer = suggestionsSearchesContainer {
+            searchContainer.isHidden = true
+        }
         setFiltersNavBarButton()
         setInviteNavBarButton()
         navbarSearch.endEdit()
