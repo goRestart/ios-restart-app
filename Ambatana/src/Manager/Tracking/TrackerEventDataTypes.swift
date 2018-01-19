@@ -561,6 +561,7 @@ enum EventParameterMessageType: String {
     case quickAnswer = "quick-answer"
     case expressChat = "express-chat"
     case periscopeDirect = "periscope-direct"
+    case phone      = "phone" // 🦄
 }
 
 enum EventParameterLoginError {

@@ -20,6 +20,7 @@ enum ChatWrapperMessageType {
     case quickAnswer(QuickAnswer)
     case expressChat(String)
     case favoritedListing(String)
+    case phone(String)
 }
 
 protocol ChatWrapper {
@@ -103,6 +104,8 @@ extension ChatWrapperMessageType {
             return text
         case let .periscopeDirect(text):
             return text
+        case let .phone(text):
+            return LGLocalizedString.professionalDealerAskPhoneChatMessage(text)
         }
     }
 
@@ -120,6 +123,8 @@ extension ChatWrapperMessageType {
             return .expressChat
         case .favoritedListing:
             return .favoritedListing
+        case .phone:
+            return .text
         }
     }
     
@@ -137,6 +142,8 @@ extension ChatWrapperMessageType {
             return .favorite
         case .periscopeDirect:
             return .periscopeDirect
+        case .phone:
+            return .phone
         }
     }
 
@@ -144,7 +151,7 @@ extension ChatWrapperMessageType {
         switch self {
         case let .quickAnswer(quickAnswer):
             return quickAnswer.quickAnswerType
-        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect:
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone:
             return nil
         }
     }
@@ -153,7 +160,7 @@ extension ChatWrapperMessageType {
         switch self {
         case .text:
             return true
-        case .quickAnswer, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect:
+        case .quickAnswer, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone:
             return false
         }
     }
@@ -162,7 +169,16 @@ extension ChatWrapperMessageType {
         switch self {
         case .quickAnswer:
             return true
-        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect:
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone:
+            return false
+        }
+    }
+
+    var isPhone: Bool {
+        switch self {
+        case .phone:
+            return true
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .quickAnswer:
             return false
         }
     }

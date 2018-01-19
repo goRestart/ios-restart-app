@@ -104,7 +104,7 @@ class ChatViewModel: BaseViewModel {
     let showStickerBadge = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersBadgeAlreadyShown])
     
     var predefinedMessage: String? // is writen in the text field when opening the chat
-    var openChatAutomaticMessage: String?  // is SENT when opening the chat
+    var openChatAutomaticMessage: ChatWrapperMessageType?  // is SENT when opening the chat
 
     // fileprivate
     fileprivate let myUserRepository: MyUserRepository
@@ -229,7 +229,7 @@ class ChatViewModel: BaseViewModel {
     convenience init?(listing: Listing,
                       navigator: ChatDetailNavigator?,
                       source: EventParameterTypePage,
-                      openChatAutomaticMessage: String?) {
+                      openChatAutomaticMessage: ChatWrapperMessageType?) {
         guard let _ = listing.objectId, let sellerId = listing.user.objectId else { return nil }
 
         let myUserRepository = Core.myUserRepository
@@ -262,7 +262,7 @@ class ChatViewModel: BaseViewModel {
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
           ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?,
-          openChatAutomaticMessage: String?) {
+          openChatAutomaticMessage: ChatWrapperMessageType?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -334,7 +334,7 @@ class ChatViewModel: BaseViewModel {
             if let value = result.value {
                 self?.conversation.value = value
                 if let autoMessage = self?.openChatAutomaticMessage {
-                    self?.send(text: autoMessage)
+                    self?.sendMessage(type: autoMessage)
                     self?.openChatAutomaticMessage = nil
                 }
                 self?.refreshMessages()
@@ -642,7 +642,7 @@ extension ChatViewModel {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let _ = result.value {
-                strongSelf.afterSendMessageEvents()
+                strongSelf.afterSendMessageEvents(type: type)
                 strongSelf.trackMessageSent(type: type)
             } else if let error = result.error {
                 strongSelf.trackMessageSentError(type: type, error: error)
@@ -667,8 +667,11 @@ extension ChatViewModel {
         }
     }
 
-    private func afterSendMessageEvents() {
+    private func afterSendMessageEvents(type: ChatWrapperMessageType) {
         firstInteractionDone.value = true
+        if type.isPhone {
+            // 🦄 save to UDs
+        }
         if shouldAskListingSold {
             var interfaceText: String
             var alertTitle: String

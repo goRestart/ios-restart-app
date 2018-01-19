@@ -329,7 +329,7 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openChatFrom(listing: Listing, source: EventParameterTypePage, openChatAutomaticMessage: String?) {
+    func openChatFrom(listing: Listing, source: EventParameterTypePage, openChatAutomaticMessage: ChatWrapperMessageType?) {
         guard let chatVM = ChatViewModel(listing: listing,
                                          navigator: self,
                                          source: source,
@@ -496,13 +496,13 @@ extension TabCoordinator: ListingDetailNavigator {
         // 🦄 Send the phone somehow!
         if openChat {
             completion = { [weak self] in
-                var openChatAutomaticMessage: String = ""
+                var openChatAutomaticMessage: ChatWrapperMessageType? = nil
                 if let phone = withPhoneNum {
-                    openChatAutomaticMessage = LGLocalizedString.professionalDealerAskPhoneChatMessage(phone)
+                    openChatAutomaticMessage = .phone(phone)
                 }
                 self?.openChatFrom(listing: listing,
                                    source: source,
-                                   openChatAutomaticMessage: openChatAutomaticMessage.isEmpty ? nil : openChatAutomaticMessage)
+                                   openChatAutomaticMessage: openChatAutomaticMessage)
             }
         }
         rootViewController.dismiss(animated: true, completion: completion)
