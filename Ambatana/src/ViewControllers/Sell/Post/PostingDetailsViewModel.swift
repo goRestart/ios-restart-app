@@ -96,7 +96,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             priceView.priceListing.asObservable().bind(to: priceListing).disposed(by: disposeBag)
             return priceView
         case .summary:
-            let summaryView = PostingAddDetailSummaryTableView(postCategory: postListingState.category, postingFlowType: featureFlags.postingFlowType)
+            let summaryView = PostingAddDetailSummaryTableView(postCategory: postListingState.category, postingFlowType: .turkish)
             summaryView.delegate = self
             return summaryView
         case .location:
@@ -191,7 +191,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     func nextbuttonPressed() {
-        guard let next = step.nextStep(postingFlowType: featureFlags.postingFlowType) else {
+        guard let next = step.nextStep(postingFlowType: .turkish) else {
             postListing(buttonNameType: .summary)
             return
         }
@@ -339,7 +339,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
         delay(0.3) { [weak self] in
             guard let strongSelf = self else { return }
-            guard let next = strongSelf.step.nextStep(postingFlowType: strongSelf.featureFlags.postingFlowType) else { return }
+            guard let next = strongSelf.step.nextStep(postingFlowType: .turkish) else { return }
             let nextStep = strongSelf.previousStepIsSummary ? .summary : next
             strongSelf.advanceNextStep(next: nextStep)
         }
