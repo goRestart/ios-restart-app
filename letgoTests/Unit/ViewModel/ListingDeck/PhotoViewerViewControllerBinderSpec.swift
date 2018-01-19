@@ -101,8 +101,8 @@ private class MockPhotoViewerView: PhotoViewerBinderViewType {
     let chatButton = UIButton()
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
-    var rx_chatButton: Reactive<UIControl>? { return (chatButton as UIControl).rx }
-    var rx_collectionView: Reactive<UICollectionView> { return collectionView.rx }
+    var rxChatButton: Reactive<UIControl>? { return (chatButton as UIControl).rx }
+    var rxCollectionView: Reactive<UICollectionView> { return collectionView.rx }
 }
 
 private class MockPhotoViewerViewController: PhotoViewerVCType {

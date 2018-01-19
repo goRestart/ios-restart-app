@@ -17,8 +17,8 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
 
     var isRemovedWhenResigningFirstResponder = true
 
-    var rx_chatTextView: Reactive<ChatTextView> { return textView.rx }
-    var rx_toSendMessage: Observable<String> { return textView.rx.send }
+    var rxChatTextView: Reactive<ChatTextView> { return textView.rx }
+    var rxToSendMessage: Observable<String> { return textView.rx.send }
 
     let quickChatViewModel: QuickChatViewModel
 

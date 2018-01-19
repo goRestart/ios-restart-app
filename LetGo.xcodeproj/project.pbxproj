@@ -76,6 +76,7 @@
 		0A93E2031FCE9A1600955A3A /* PhotoViewerViewControllerBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A93E1FF1FCE94B700955A3A /* PhotoViewerViewControllerBinder.swift */; };
 		0AA6A5671FFFBCD600F72F4A /* LGCGAffineTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA6A5661FFFBCD600F72F4A /* LGCGAffineTransform.swift */; };
 		0AA6A5681FFFBE7B00F72F4A /* LGCGAffineTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA6A5661FFFBCD600F72F4A /* LGCGAffineTransform.swift */; };
+		0AB3660C200DED020065D5AE /* ListingDeckViewControllerBinderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB3660B200DED020065D5AE /* ListingDeckViewControllerBinderSpec.swift */; };
 		0AB6E1D41F9DD1670048AFFD /* ListingDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB6E1D31F9DD1670048AFFD /* ListingDeckViewController.swift */; };
 		0AB6E1D61F9DD18F0048AFFD /* ListingDeckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB6E1D51F9DD18F0048AFFD /* ListingDeckView.swift */; };
 		0AB6E1D71F9DD4440048AFFD /* ListingDeckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB6E1D31F9DD1670048AFFD /* ListingDeckViewController.swift */; };
@@ -1603,6 +1604,7 @@
 		0A93E1FF1FCE94B700955A3A /* PhotoViewerViewControllerBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewControllerBinder.swift; sourceTree = "<group>"; };
 		0A93E2011FCE95A000955A3A /* PhotoViewerViewControllerBinderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewControllerBinderSpec.swift; sourceTree = "<group>"; };
 		0AA6A5661FFFBCD600F72F4A /* LGCGAffineTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGCGAffineTransform.swift; sourceTree = "<group>"; };
+		0AB3660B200DED020065D5AE /* ListingDeckViewControllerBinderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckViewControllerBinderSpec.swift; sourceTree = "<group>"; };
 		0AB6E1D31F9DD1670048AFFD /* ListingDeckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckViewController.swift; sourceTree = "<group>"; };
 		0AB6E1D51F9DD18F0048AFFD /* ListingDeckView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckView.swift; sourceTree = "<group>"; };
 		0AC05A861FB081110091D0E2 /* ListingCardViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardViewBinder.swift; sourceTree = "<group>"; };
@@ -2522,6 +2524,7 @@
 				0A7724131FCEED6300BD322C /* PhotoViewerViewModelSpec.swift */,
 				0ACDD2EB1FD1450300616F53 /* QuickChatViewBinderSpec.swift */,
 				0AC110482003C99E00D23246 /* ListingCardDetailsViewBinderSpec.swift */,
+				0AB3660B200DED020065D5AE /* ListingDeckViewControllerBinderSpec.swift */,
 			);
 			path = ListingDeck;
 			sourceTree = "<group>";
@@ -5643,6 +5646,7 @@
 				50D08DD81E69AF14009CC260 /* LGConfigDAOSpec.swift in Sources */,
 				2EEDC5881E71B0D6008779D8 /* HOF.swift in Sources */,
 				0A93E2021FCE95A000955A3A /* PhotoViewerViewControllerBinderSpec.swift in Sources */,
+				0AB3660C200DED020065D5AE /* ListingDeckViewControllerBinderSpec.swift in Sources */,
 				502047201EEA98D8006C0EC2 /* MockCountryConfigurable.swift in Sources */,
 				50D08DE21E69AF14009CC260 /* ListingViewModelSpec.swift in Sources */,
 				50D08DAA1E69AF14009CC260 /* MockConfigFileDAO.swift in Sources */,

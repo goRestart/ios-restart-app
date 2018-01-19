@@ -8,104 +8,146 @@
 
 import Foundation
 import LGCoreKit
+import RxCocoa
 import RxSwift
+
+protocol ListingDeckViewControllerBinderType: class {
+    var keyboardChanges: Observable<KeyboardChange> { get }
+    var rxContentOffset: Observable<CGFloat> { get }
+
+    func updateWith(keyboardChange: KeyboardChange)
+    func vmShowOptions(_ cancelLabel: String, actions: [UIAction])
+    func showBumpUpBanner(bumpInfo: BumpUpInfo)
+    func didTapShare()
+    func didTapCardAction()
+    func pageDidChange(current: Int)
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool)
+    func setNavigationBarRightButtons(_ actions: [UIButton])
+    func setLetGoRightButtonWith(_ action: UIAction, buttonTintColor: UIColor?, tapBlock: (ControlEvent<Void>) -> Void )
+
+    func updateViewWithActions(_ actions: [UIAction])
+}
+
+protocol ListingDeckViewType: class {
+    var collectionView: UICollectionView { get }
+    var rxActionButton: Reactive<UIButton> { get }
+    var currentPage: Int { get }
+    func pageOffset(givenOffset: CGFloat) -> CGFloat
+}
+
+protocol ListingDeckViewModelType: class {
+    var rxActionButtons: Observable<[UIAction]> { get }
+    var rxBumpUpBannerInfo: Observable<BumpUpInfo?> { get }
+    var rxNavBarButtons: Observable<[UIAction]> { get }
+    var rxAltActions: Observable<[UIAction]> { get }
+    var rxObjectChanges: Observable<CollectionChange<ListingCellModel>> { get }
+    var rxIsChatEnabled: Observable<Bool> { get }
+    func moveToProductAtIndex(_ index: Int, movement: CarouselMovement)
+}
+
+protocol ListingDeckViewControllerBinderCellType {
+    var rxShareButton: Reactive<UIButton> { get }
+    var rxActionButton: Reactive<UIButton> { get }
+    var disposeBag: DisposeBag { get }
+}
 
 final class ListingDeckViewControllerBinder {
 
-    weak var listingDeckViewController: ListingDeckViewController? = nil
-    var disposeBag = DisposeBag()
-    var currentDisposeBag: DisposeBag?
+    weak var listingDeckViewController: ListingDeckViewControllerBinderType? = nil
+    fileprivate(set) var disposeBag: DisposeBag?
 
-    func bind(withViewModel viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
+    func bind(withViewModel viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType) {
         guard let viewController = listingDeckViewController else { return }
+        let currentDB = DisposeBag()
 
-        bindKeyboardChanges(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
-        bindCollectionView(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
-        bindContentOffset(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
-        bindChat(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
-        bindActions(withViewModel: viewModel, listingDeckView: listingDeckView)
-        bindAltActions(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
-        bindNavigationBarActions(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
-        bindBumpUp(withViewController: viewController, viewModel: viewModel, listingDeckView: listingDeckView)
+        bindKeyboardChanges(withViewController: viewController, viewModel: viewModel,
+                            listingDeckView: listingDeckView, disposeBag: currentDB)
+        bindCollectionView(withViewController: viewController, viewModel: viewModel,
+                           listingDeckView: listingDeckView, disposeBag: currentDB)
+        bindContentOffset(withViewController: viewController, viewModel: viewModel,
+                          listingDeckView: listingDeckView, disposeBag: currentDB)
+        bindChat(withViewController: viewController, viewModel: viewModel,
+                 listingDeckView: listingDeckView, disposeBag: currentDB)
+        bindActions(withViewModel: viewModel, listingDeckView: listingDeckView, disposeBag: currentDB)
+        bindAltActions(withViewController: viewController, viewModel: viewModel,
+                       listingDeckView: listingDeckView, disposeBag: currentDB)
+        bindNavigationBarActions(withViewController: viewController,
+                                 viewModel: viewModel, listingDeckView: listingDeckView, disposeBag: currentDB)
+        bindBumpUp(withViewController: viewController, viewModel: viewModel,
+                   listingDeckView: listingDeckView, disposeBag: currentDB)
+
+        disposeBag = currentDB
     }
 
-    func bind(cell: ListingCardView) {
+    func bind(cell: ListingDeckViewControllerBinderCellType) {
         guard let viewController = listingDeckViewController else { return }
-        cell.rxShareButton.tap.asObservable().bind {
-            viewController.didTapShare()
+        cell.rxShareButton.tap.asObservable().bind { [weak viewController] in
+            viewController?.didTapShare()
         }.disposed(by: cell.disposeBag)
 
-        cell.rxActionButton.tap.asObservable().bind {
-            viewController.didTapCardAction()
+        cell.rxActionButton.tap.asObservable().bind { [weak viewController] in
+            viewController?.didTapCardAction()
         }.disposed(by: cell.disposeBag)
     }
 
-    private func bindActions(withViewModel viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewModel.actionButtons.asObservable().bind { [unowned listingDeckView, weak self]
-            actionButtons in
-            guard let strongSelf = self else { return }
-
-            guard actionButtons.count > 0 else {
-                listingDeckView.hideActions()
-                return
-            }
-            guard let actionButton = actionButtons.first else { return }
-            listingDeckView.configureActionWith(actionButton)
-            listingDeckView.rx_actionButton.tap.bind {
-                actionButton.action()
-            }.disposed(by: strongSelf.disposeBag)
-            UIView.animate(withDuration: 0.2, animations: {
-                listingDeckView.showActions()
-            })
+    private func bindActions(withViewModel viewModel: ListingDeckViewModelType,
+                             listingDeckView: ListingDeckViewType,
+                             disposeBag: DisposeBag) {
+        viewModel.rxActionButtons.bind { [weak self, weak listingDeckView] actionButtons in
+            self?.listingDeckViewController?.updateViewWithActions(actionButtons)
+            self?.bindActionButtonTap(withActions: actionButtons,
+                                      listingDeckView: listingDeckView, disposeBag: disposeBag)
         }.disposed(by: disposeBag)
     }
 
-    private func bindBumpUp(withViewController viewController: ListingDeckViewController,
-                            viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewModel.bumpUpBannerInfo.asObservable().bind { [unowned viewController] bumpInfo in
+    private func bindActionButtonTap(withActions actionButtons: [UIAction],
+                                     listingDeckView: ListingDeckViewType?,
+                                     disposeBag: DisposeBag) {
+        guard let actionButton = actionButtons.first else { return }
+        listingDeckView?.rxActionButton.tap.bind {
+            actionButton.action()
+        }.disposed(by: disposeBag)
+    }
+
+    private func bindBumpUp(withViewController viewController: ListingDeckViewControllerBinderType,
+                            viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
+                            disposeBag: DisposeBag) {
+        viewModel.rxBumpUpBannerInfo.bind { [weak viewController] bumpInfo in
             guard let bumpUp = bumpInfo else { return }
-            viewController.showBumpUpBanner(bumpInfo: bumpUp)
+            viewController?.showBumpUpBanner(bumpInfo: bumpUp)
         }.disposed(by: disposeBag)
     }
 
-    private func bindAltActions(withViewController viewController: ListingDeckViewController,
-                                viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewModel.altActions.asObservable().skip(1).bind { [unowned viewController] altActions in
+    private func bindAltActions(withViewController viewController: ListingDeckViewControllerBinderType,
+                                viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
+                                disposeBag: DisposeBag) {
+        viewModel.rxAltActions.skip(1).bind { [weak viewController] altActions in
             guard altActions.count > 0 else { return }
-            viewController.vmShowOptions(LGLocalizedString.commonCancel, actions: altActions)
+            viewController?.vmShowOptions(LGLocalizedString.commonCancel, actions: altActions)
         }.disposed(by: disposeBag)
     }
 
-    private func bindKeyboardChanges(withViewController viewController: ListingDeckViewController,
-                                     viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewController.keyboardChanges.bind { [unowned viewController] change in
-            let height = listingDeckView.bounds.height - change.origin
-            listingDeckView.updateBottom(wintInset: height)
-            UIView.animate(withDuration: TimeInterval(change.animationTime),
-                           delay: 0,
-                           options: change.animationOptions,
-                           animations: {
-                            if change.visible {
-                                listingDeckView.showFullScreenChat()
-                            } else {
-                                listingDeckView.hideFullScreenChat()
-                            }
-                            viewController.view.layoutIfNeeded()
-            }, completion: nil)
+    private func bindKeyboardChanges(withViewController viewController: ListingDeckViewControllerBinderType,
+                                     viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
+                                     disposeBag: DisposeBag) {
+        viewController.keyboardChanges.bind { [weak viewController] change in
+            viewController?.updateWith(keyboardChange: change)
         }.disposed(by: disposeBag)
     }
 
-    private func bindCollectionView(withViewController viewController: ListingDeckViewController,
-                                    viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewModel.objectChanges.observeOn(MainScheduler.instance).bind { [unowned listingDeckView] change in
-            listingDeckView.collectionView.handleCollectionChange(change)
+    private func bindCollectionView(withViewController viewController: ListingDeckViewControllerBinderType,
+                                    viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
+                                    disposeBag: DisposeBag) {
+        viewModel.rxObjectChanges.observeOn(MainScheduler.instance).bind { [weak listingDeckView] change in
+            listingDeckView?.collectionView.handleCollectionChange(change)
         }.disposed(by: disposeBag)
     }
 
-    private func bindContentOffset(withViewController viewController: ListingDeckViewController,
-                                   viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        let pageSignal: Observable<Int> = viewController.contentOffset.map { _ in return listingDeckView.currentPage }
-        pageSignal.distinctUntilChanged().skip(1).bind { [weak viewModel] page in
+    private func bindContentOffset(withViewController viewController: ListingDeckViewControllerBinderType,
+                                   viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
+                                   disposeBag: DisposeBag) {
+        let pageSignal: Observable<Int> = viewController.rxContentOffset.map { _ in return listingDeckView.currentPage }
+        pageSignal.skip(1).distinctUntilChanged().bind { [weak viewModel] page in
             // TODO: Tracking 3109
             viewModel?.moveToProductAtIndex(page, movement: .swipeRight)
         }.disposed(by: disposeBag)
@@ -115,46 +157,36 @@ final class ListingDeckViewControllerBinder {
         }.disposed(by: disposeBag)
     }
 
-    private func bindChat(withViewController viewController: ListingDeckViewController,
-                          viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        if let rx_chatTextView = listingDeckView.rx_chatTextView {
-            viewModel.quickChatViewModel.directChatPlaceholder.asObservable()
-                .bind(to: rx_chatTextView.placeholder)
-                .disposed(by: disposeBag)
-        }
-        
-        let contentOffsetAlphaSignal: Observable<CGFloat> = viewController.contentOffset
-            .map { [unowned listingDeckView] x in
-                let pageOffset = listingDeckView.pageOffset(givenOffset: x).truncatingRemainder(dividingBy: 1.0)
+    private func bindChat(withViewController viewController: ListingDeckViewControllerBinderType,
+                          viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
+                          disposeBag: DisposeBag) {
+        let contentOffsetAlphaSignal: Observable<CGFloat> = viewController.rxContentOffset
+            .map { [weak listingDeckView] x in
+                let pageOffset = listingDeckView?.pageOffset(givenOffset: x).truncatingRemainder(dividingBy: 1.0) ?? 0.5
                 guard pageOffset >= 0.5 else {
                     return 2*pageOffset
                 }
                 return 2*(1 - pageOffset)
-        }.asObservable()
+        }
         
-        let chatEnabled: Observable<Bool> = viewModel.quickChatViewModel.chatEnabled.asObservable()
+        let chatEnabled: Observable<Bool> = viewModel.rxIsChatEnabled
         Observable.combineLatest(contentOffsetAlphaSignal,
-                                 chatEnabled.distinctUntilChanged()) { ($0, $1) }
-            .bind { [weak listingDeckView] (offsetAlpha, isChatEnabled) in
-                if isChatEnabled {
-                    viewController.updateViewWith(alpha: offsetAlpha)
-                } else {
-                    listingDeckView?.hideChat()
-                    listingDeckView?.showActions()
-                }
-            }.disposed(by: disposeBag)
+                                 chatEnabled) { ($0, $1) }
+            .bind { [weak viewController] (offsetAlpha, isChatEnabled) in
+                viewController?.updateViewWith(alpha: offsetAlpha, chatEnabled: isChatEnabled)
+        }.disposed(by: disposeBag)
     }
 
-    private func bindNavigationBarActions(withViewController viewController: ListingDeckViewController,
-                                          viewModel: ListingDeckViewModel, listingDeckView: ListingDeckView) {
-        viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
-            guard let strongSelf = self else { return }
-            viewController.setNavigationBarRightButtons([])
+    private func bindNavigationBarActions(withViewController viewController: ListingDeckViewControllerBinderType,
+                                          viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
+                                          disposeBag: DisposeBag) {
+        viewModel.rxNavBarButtons.subscribeNext { [weak viewController] navBarButtons in
             guard navBarButtons.count > 0, let action = navBarButtons.first else { return }
-            viewController.setLetGoRightButtonWith(action, buttonTintColor: .red,
-                                                   tapBlock: { tapEvent in
-                                                    tapEvent.bind { action.action() }
-                                                    .disposed(by:strongSelf.disposeBag)
+            viewController?.setNavigationBarRightButtons([])
+            viewController?.setLetGoRightButtonWith(action, buttonTintColor: .primaryColor,
+                                                    tapBlock: { tapEvent in
+                                                        tapEvent.bind { action.action() }
+                                                            .disposed(by: disposeBag)
             })
         }.disposed(by: disposeBag)
     }

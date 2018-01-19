@@ -38,7 +38,7 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
             context("cardProductInfo updates") {
                 beforeEach {
                     let listing = Listing.makeMock()
-                    mockListingDetailsVM.rx_cardProductInfo.value = ListingVMProductInfo(listing: listing,
+                    mockListingDetailsVM.rxCardProductInfo.value = ListingVMProductInfo(listing: listing,
                                                                                          isAutoTranslated: true,
                                                                                          distance: nil,
                                                                                          freeModeAllowed: true)
@@ -58,7 +58,7 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
                 beforeEach {
                     let aboveMinimumViews = 5 + Int.makeRandom(min: 0, max: 100)
                     let belowMinimumFavs = Int.random(0, 4)
-                    mockListingDetailsVM.rx_cardProductStats.value = MockListingStats(viewsCount: aboveMinimumViews,
+                    mockListingDetailsVM.rxCardProductStats.value = MockListingStats(viewsCount: aboveMinimumViews,
                                                                                       favouritesCount: belowMinimumFavs)
                 }
                 it("the proper populate method is called") {
@@ -76,7 +76,7 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
                 beforeEach {
                     let belowMinimumViews = Int.random(0, 4)
                     let aboveMinimumFavs = 5 + Int.makeRandom(min: 0, max: 100)
-                    mockListingDetailsVM.rx_cardProductStats.value = MockListingStats(viewsCount: belowMinimumViews,
+                    mockListingDetailsVM.rxCardProductStats.value = MockListingStats(viewsCount: belowMinimumViews,
                                                                                       favouritesCount: aboveMinimumFavs)
                 }
                 it("the proper populate method is called") {
@@ -95,7 +95,7 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
                     let belowMinimumViews = Int.random(0, 4)
                     let belowMinimumFavs = Int.random(0, 4)
 
-                    mockListingDetailsVM.rx_cardProductStats.value = MockListingStats(viewsCount: belowMinimumViews,
+                    mockListingDetailsVM.rxCardProductStats.value = MockListingStats(viewsCount: belowMinimumViews,
                                                                                       favouritesCount: belowMinimumFavs)
                 }
                 it("the proper populate method is called") {
@@ -112,13 +112,13 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
             context("cardProductStats updates with both stats above minimum but with creation date") {
                 beforeEach {
                     let listing = Listing.makeMock()
-                    mockListingDetailsVM.rx_cardProductInfo.value = ListingVMProductInfo(listing: listing,
+                    mockListingDetailsVM.rxCardProductInfo.value = ListingVMProductInfo(listing: listing,
                                                                                          isAutoTranslated: true,
                                                                                          distance: nil,
                                                                                          freeModeAllowed: true)
                     let belowMinimumViews = Int.random(0, 4)
                     let belowMinimumFavs = Int.random(0, 4)
-                    mockListingDetailsVM.rx_cardProductStats.value = MockListingStats(viewsCount: belowMinimumViews,
+                    mockListingDetailsVM.rxCardProductStats.value = MockListingStats(viewsCount: belowMinimumViews,
                                                                                       favouritesCount: belowMinimumFavs)
                 }
                 it("the proper populate method is called") {
@@ -135,7 +135,7 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
             context("cardSocialMessage updates") {
                 beforeEach {
                     let listing = Listing.makeMock()
-                    mockListingDetailsVM.rx_cardSocialMessage.value = ListingSocialMessage(listing: listing,
+                    mockListingDetailsVM.rxCardSocialMessage.value = ListingSocialMessage(listing: listing,
                                                                                            fallbackToStore: true)
                 }
                 it("the proper populate method is called first empty and then with value") {
@@ -169,14 +169,14 @@ private class MockListingStats: ListingStats {
 }
 
 private class MockListingCardDetailsViewModel:  ListingCardDetailsViewModel {
-    var cardProductInfo: Observable<ListingVMProductInfo?> { return rx_cardProductInfo.asObservable() }
-    var cardProductStats: Observable<ListingStats?> { return rx_cardProductStats.asObservable() }
+    var cardProductInfo: Observable<ListingVMProductInfo?> { return rxCardProductInfo.asObservable() }
+    var cardProductStats: Observable<ListingStats?> { return rxCardProductStats.asObservable() }
     var cardSocialSharer: SocialSharer = SocialSharer()
-    var cardSocialMessage: Observable<SocialMessage?> { return rx_cardSocialMessage.asObservable() }
+    var cardSocialMessage: Observable<SocialMessage?> { return rxCardSocialMessage.asObservable() }
 
-    let rx_cardProductInfo: Variable<ListingVMProductInfo?> = Variable<ListingVMProductInfo?>(nil)
-    let rx_cardProductStats: Variable<ListingStats?> =  Variable<ListingStats?>(nil)
-    let rx_cardSocialMessage: Variable<SocialMessage?> = Variable<SocialMessage?>(nil)
+    let rxCardProductInfo: Variable<ListingVMProductInfo?> = Variable<ListingVMProductInfo?>(nil)
+    let rxCardProductStats: Variable<ListingStats?> =  Variable<ListingStats?>(nil)
+    let rxCardSocialMessage: Variable<SocialMessage?> = Variable<SocialMessage?>(nil)
 }
 
 private class MockListingCardDetailsView: ListingCardDetailsViewType {

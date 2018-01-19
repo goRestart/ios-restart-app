@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import RxCocoa
 import RxSwift
 
 final class ListingDeckViewController: KeyboardViewController, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -15,7 +16,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
 
-    var contentOffset: Observable<CGFloat> { return  contentOffsetVar.asObservable() }
     private let contentOffsetVar = Variable<CGFloat>(0)
 
     fileprivate let listingDeckView = ListingDeckView()
@@ -106,10 +106,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         contentOffsetVar.value = scrollView.contentOffset.x
     }
 
-    func pageDidChange(current: Int) {
-        listingDeckView.enableScrollForItemAtPage(current)
-    }
-
     // MARK: NavBar
 
     private func setupNavigationBar() {
@@ -121,14 +117,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         self.navigationItem.leftBarButtonItem  = leftButton
     }
 
-    func didTapShare() {
-        viewModel.currentListingViewModel?.shareProduct()
-    }
-
-    func didTapCardAction() {
-        viewModel.didTapCardAction()
-    }
-
     @objc private func didTapClose() {
         closeBumpUpBanner()
         UIView.animate(withDuration: 0.3, animations: {
@@ -138,16 +126,77 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         }
     }
 
-    func updateViewWith(alpha: CGFloat) {
+    func closeBumpUpBanner() {
+        listingDeckView.hideBumpUp()
+        UIView.animate(withDuration: 0.3,
+                       delay: 0,
+                       usingSpringWithDamping: 6.0,
+                       initialSpringVelocity: 3.0,
+                       options: .layoutSubviews, animations: {
+                        self.listingDeckView.layoutIfNeeded()
+        }, completion: nil)
+    }
+}
+
+extension ListingDeckViewController: ListingDeckViewControllerBinderType {
+
+    var rxContentOffset: Observable<CGFloat> { return  contentOffsetVar.asObservable() }
+
+    func setLetGoRightButtonWith(_ action: UIAction, buttonTintColor: UIColor?, tapBlock: (ControlEvent<Void>) -> Void) {
+        super.setLetGoRightButtonWith(action, buttonTintColor: buttonTintColor, tapBlock: tapBlock)
+    }
+
+    func updateViewWithActions(_ actionButtons: [UIAction]) {
+        guard let actionButton = actionButtons.first else {
+            listingDeckView.hideActions()
+            return
+        }
+        listingDeckView.configureActionWith(actionButton)
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
+            self?.listingDeckView.showActions()
+        })
+    }
+
+    func updateWith(keyboardChange: KeyboardChange) {
+        let height = listingDeckView.bounds.height - keyboardChange.origin
+        listingDeckView.updateWith(bottomInset: height,
+                                   animationTime: TimeInterval(keyboardChange.animationTime),
+                                   animationOptions: keyboardChange.animationOptions,
+                                   completion: nil)
+        if keyboardChange.visible {
+            listingDeckView.showFullScreenChat()
+        } else {
+            listingDeckView.hideFullScreenChat()
+        }
+    }
+    
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool) {
+        guard chatEnabled else {
+            listingDeckView.updatePrivateActionsWith(alpha: 0)
+            listingDeckView.updateChatWith(alpha: 0)
+            return
+        }
         let clippedAlpha = min(1.0, alpha)
-        let chatAlpha = viewModel.quickChatViewModel.chatEnabled.value ? clippedAlpha : 0
-        let actionsAlpha = viewModel.quickChatViewModel.chatEnabled.value ? 0 : clippedAlpha
+        let chatAlpha = chatEnabled ? clippedAlpha : 0
+        let actionsAlpha = chatEnabled ? 0 : clippedAlpha
 
         listingDeckView.updatePrivateActionsWith(alpha: actionsAlpha)
         listingDeckView.updateChatWith(alpha: chatAlpha)
     }
 
-    func showBumpUpBanner(bumpInfo: BumpUpInfo){
+    func didTapShare() {
+        viewModel.currentListingViewModel?.shareProduct()
+    }
+
+    func didTapCardAction() {
+        viewModel.didTapCardAction()
+    }
+
+    func pageDidChange(current: Int) {
+        listingDeckView.enableScrollForItemAtPage(current)
+    }
+
+    func showBumpUpBanner(bumpInfo: BumpUpInfo) {
         guard !listingDeckView.isBumpUpVisible else {
             // banner is already visible, but info changes
             listingDeckView.updateBumpUp(withInfo: bumpInfo)
@@ -170,18 +219,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
             }, completion: nil)
         }
     }
-
-    func closeBumpUpBanner() {
-        listingDeckView.hideBumpUp()
-        UIView.animate(withDuration: 0.3,
-                       delay: 0,
-                       usingSpringWithDamping: 6.0,
-                       initialSpringVelocity: 3.0,
-                       options: .layoutSubviews, animations: {
-                        self.listingDeckView.layoutIfNeeded()
-        }, completion: nil)
-    }
-
 }
 
 extension ListingDeckViewController: ListingDeckViewModelDelegate {

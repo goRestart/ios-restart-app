@@ -92,8 +92,8 @@ final class QuickChatViewBinderSpec: QuickSpec {
 }
 
 private class MockQuickChatView: QuickChatViewType {
-    var rx_toSendMessage: Observable<String> { return textView.rx.send }
-    var rx_chatTextView: Reactive<ChatTextView> { return textView.rx }
+    var rxToSendMessage: Observable<String> { return textView.rx.send }
+    var rxChatTextView: Reactive<ChatTextView> { return textView.rx }
 
     var clearChatTextViewCalled: Int = 0
     var setInitialTextCalled: Int = 0
@@ -149,10 +149,10 @@ private class MockQuickChatViewModelRx: QuickChatViewModelRx {
     var sendCalled: Int = 0
 
     var areAnswersDynamic: Bool = true
-    var rx_directChatPlaceholder: Observable<String> { return directChatPlaceholder.asObservable() }
-    var rx_quickAnswers: Observable<[[QuickAnswer]]> { return quickAnswers.asObservable() }
-    var rx_isChatEnabled: Observable<Bool> { return chatEnabled.asObservable() }
-    var rx_directMessages: Observable<CollectionChange<ChatViewMessage>> { return directChatMessages.changesObservable }
+    var rxDirectChatPlaceholder: Observable<String> { return directChatPlaceholder.asObservable() }
+    var rxQuickAnswers: Observable<[[QuickAnswer]]> { return quickAnswers.asObservable() }
+    var rxIsChatEnabled: Observable<Bool> { return chatEnabled.asObservable() }
+    var rxDirectMessages: Observable<CollectionChange<ChatViewMessage>> { return directChatMessages.changesObservable }
 
     let directChatPlaceholder = Variable<String>("")
     let quickAnswers = Variable<[[QuickAnswer]]>([])

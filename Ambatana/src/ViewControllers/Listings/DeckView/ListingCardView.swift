@@ -24,9 +24,6 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         didSet { detailsView.delegate = delegate }
     }
 
-    var rxShareButton: Reactive<UIButton> { return userView.rxShareButton }
-    var rxActionButton: Reactive<UIButton> { return userView.rxActionButton }
-
     let userView = ListingCardUserView()
     let layout = ListingDeckImagePreviewLayout()
     var previewImageViewFrame: CGRect { return previewImageView.frame }
@@ -341,5 +338,10 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
                         self?.scrollView.setContentOffset(.zero, animated: true)
             }, completion: nil)
     }
+}
+
+extension ListingCardView: ListingDeckViewControllerBinderCellType {
+    var rxShareButton: Reactive<UIButton> { return userView.rxShareButton }
+    var rxActionButton: Reactive<UIButton> { return userView.rxActionButton }
 }
 

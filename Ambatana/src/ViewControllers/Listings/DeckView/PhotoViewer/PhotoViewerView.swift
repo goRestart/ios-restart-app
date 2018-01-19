@@ -17,8 +17,8 @@ protocol PhotoViewerViewType: class {
 
 final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewType {
 
-    var rx_chatButton: Reactive<UIControl>? { return (chatButton as UIControl).rx }
-    var rx_collectionView: Reactive<UICollectionView> { return collectionView.rx }
+    var rxChatButton: Reactive<UIControl>? { return (chatButton as UIControl).rx }
+    var rxCollectionView: Reactive<UICollectionView> { return collectionView.rx }
 
     weak var dataSource: UICollectionViewDataSource? {
         didSet { collectionView.dataSource = dataSource }

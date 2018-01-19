@@ -18,8 +18,8 @@ protocol PhotoViewerVCType: class {
 }
 
 protocol PhotoViewerBinderViewType: class {
-    var rx_chatButton: Reactive<UIControl>? { get }
-    var rx_collectionView: Reactive<UICollectionView> { get }
+    var rxChatButton: Reactive<UIControl>? { get }
+    var rxCollectionView: Reactive<UICollectionView> { get }
 }
 
 final class PhotoViewerViewControllerBinder {
@@ -40,7 +40,7 @@ final class PhotoViewerViewControllerBinder {
 
     private func bindChatButton(toViewController viewController: PhotoViewerVCType,
                         view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
-        view.rx_chatButton?.controlEvent(.touchUpInside)
+        view.rxChatButton?.controlEvent(.touchUpInside)
             .debounce(0.3, scheduler: MainScheduler.instance)
             .bind { [weak viewController] in
             viewController?.showChat()
@@ -49,7 +49,7 @@ final class PhotoViewerViewControllerBinder {
 
     private func bindContentOffset(toViewController viewController: PhotoViewerVCType?,
                                    view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
-        view.rx_collectionView.contentOffset.asObservable().bind { [weak viewController] offset in
+        view.rxCollectionView.contentOffset.asObservable().bind { [weak viewController] offset in
             viewController?.updatePage(fromContentOffset: offset.x)
         }.disposed(by:disposeBag)
     }

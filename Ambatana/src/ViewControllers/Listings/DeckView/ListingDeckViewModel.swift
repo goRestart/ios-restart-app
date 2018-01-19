@@ -58,7 +58,6 @@ final class ListingDeckViewModel: BaseViewModel {
     fileprivate var trackingIndex: Int?
 
     let objects = CollectionVariable<ListingCellModel>([])
-    var objectChanges: Observable<CollectionChange<ListingCellModel>> { return objects.changesObservable }
 
     let binder: ListingDeckViewModelBinder
 
@@ -400,7 +399,17 @@ extension ListingDeckViewModel: ListingViewModelDelegate {
     func vmDismiss(_ completion: (() -> Void)?) {
         delegate?.vmDismiss(completion)
     }
+}
 
+// ListingDeckViewModelType
+
+extension ListingDeckViewModel: ListingDeckViewModelType {
+    var rxIsChatEnabled: Observable<Bool> { return quickChatViewModel.rxIsChatEnabled }
+    var rxObjectChanges: Observable<CollectionChange<ListingCellModel>> { return objects.changesObservable }
+    var rxActionButtons: Observable<[UIAction]> { return actionButtons.asObservable() }
+    var rxBumpUpBannerInfo: Observable<BumpUpInfo?> { return bumpUpBannerInfo.asObservable() }
+    var rxNavBarButtons: Observable<[UIAction]> { return navBarButtons.asObservable() }
+    var rxAltActions: Observable<[UIAction]> { return altActions.asObservable() }
 }
 
 // MARK: Paginable

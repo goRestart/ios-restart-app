@@ -11,7 +11,7 @@ import UIKit
 import LGCoreKit
 import RxSwift
 
-final class ListingDeckView: UIView, UICollectionViewDelegate {
+final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewType {
     struct Layout { struct Height { static let previewFactor: CGFloat = 0.7 } }
 
     let collectionView: UICollectionView
@@ -23,8 +23,8 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     private let itemActionsView = ListingDeckActionView()
     private let collectionLayout = ListingDeckCollectionViewLayout()
 
-    var rx_actionButton: Reactive<UIButton> { return itemActionsView.actionButton.rx }
-    var rx_chatTextView: Reactive<ChatTextView>? { return quickChatView?.rx_chatTextView }
+    var rxActionButton: Reactive<UIButton> { return itemActionsView.actionButton.rx }
+    var rxChatTextView: Reactive<ChatTextView>? { return quickChatView?.rxChatTextView }
     var currentPage: Int { return collectionLayout.page }
     var bumpUpBanner: BumpUpBanner { return itemActionsView.bumpUpBanner }
     var isBumpUpVisible: Bool { return itemActionsView.isBumpUpVisisble }
@@ -126,8 +126,13 @@ final class ListingDeckView: UIView, UICollectionViewDelegate {
     func updateTop(wintInset inset: CGFloat) {
         collectionViewTop?.constant = inset
     }
-    func updateBottom(wintInset inset: CGFloat) {
-        quickChatView?.updateWith(bottomInset: inset, animationTime: TimeInterval(0.3), animationOptions: [])
+
+    func updateWith(bottomInset: CGFloat, animationTime: TimeInterval,
+                    animationOptions: UIViewAnimationOptions, completion: ((Bool) -> Void)? = nil) {
+        quickChatView?.updateWith(bottomInset: bottomInset,
+                                  animationTime: animationTime,
+                                  animationOptions: animationOptions,
+                                  completion: completion)
     }
 
     // MARK: ItemActionsView
