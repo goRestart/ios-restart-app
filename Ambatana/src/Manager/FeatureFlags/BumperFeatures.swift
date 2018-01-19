@@ -19,7 +19,6 @@ extension Bumper  {
         flags.append(PricedBumpUpEnabled.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
-        flags.append(LocationDataSourceEndpoint.self)
         flags.append(DefaultRadiusDistanceFeed.self)
         flags.append(RealEstateEnabled.self)
         flags.append(SearchAutocomplete.self)
@@ -71,11 +70,6 @@ extension Bumper  {
     static var dynamicQuickAnswers: DynamicQuickAnswers {
         guard let value = Bumper.value(for: DynamicQuickAnswers.key) else { return .control }
         return DynamicQuickAnswers(rawValue: value) ?? .control 
-    }
-
-    static var locationDataSourceEndpoint: LocationDataSourceEndpoint {
-        guard let value = Bumper.value(for: LocationDataSourceEndpoint.key) else { return .control }
-        return LocationDataSourceEndpoint(rawValue: value) ?? .control 
     }
 
     static var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {
@@ -237,23 +231,6 @@ enum DynamicQuickAnswers: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .dynamicNoKeyboard
             case 3: return .dynamicWithKeyboard
-            default: return .control
-        }
-    }
-}
-
-enum LocationDataSourceEndpoint: String, BumperFeature  {
-    case control, baseline, appleWithRegion, niordWithRegion
-    static var defaultValue: String { return LocationDataSourceEndpoint.control.rawValue }
-    static var enumValues: [LocationDataSourceEndpoint] { return [.control, .baseline, .appleWithRegion, .niordWithRegion]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Location data source for geocode and reverse geocode" } 
-    static func fromPosition(_ position: Int) -> LocationDataSourceEndpoint {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .appleWithRegion
-            case 3: return .niordWithRegion
             default: return .control
         }
     }
