@@ -52,6 +52,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     
     // Country dependant features
     var freePostingModeAllowed = false
+    var postingFlowType: PostingFlowType = .standard
     var locationRequiresManualChangeSuggestion = false
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
