@@ -49,7 +49,7 @@ protocol TabNavigator: class {
     func openAppInvite()
     func canOpenAppInvite() -> Bool
     func openRatingList(_ userId: String)
-    func openMostSearchedItems()
+    func openMostSearchedItems(source: MostSearchedItemsSource)
 }
 
 protocol ListingDetailNavigator: TabNavigator {

@@ -147,4 +147,8 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
     func didSearchAction(itemName: String) {
         viewModel.searchButtonAction(itemName: itemName)
     }
+    
+    func didPostAction(item: LocalMostSearchedItem) {
+        viewModel.postButtonAction(item: item)
+    }
 }

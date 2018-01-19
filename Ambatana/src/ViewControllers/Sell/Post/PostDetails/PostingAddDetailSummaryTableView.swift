@@ -114,7 +114,7 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
     // MARK: - Lifecycle
     
     init(postCategory: PostCategory?) {
-        self.postingSummaryOptions = PostingSummaryOption.optionsIncluded(with: postCategory ?? .unassigned)
+        self.postingSummaryOptions = PostingSummaryOption.optionsIncluded(with: postCategory ?? .unassigned(listingCategory: nil))
         super.init(frame: CGRect.zero)
         setupUI()
         setupAccessibilityIds()

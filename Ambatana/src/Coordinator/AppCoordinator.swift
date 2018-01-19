@@ -227,6 +227,16 @@ extension AppCoordinator: AppNavigator {
         sellCoordinator.delegate = self
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
+    
+    func openMostSearchedItems(source: MostSearchedItemsSource) {
+        let mostSearchedItemsCoordinator = MostSearchedItemsCoordinator(source: source)
+        mostSearchedItemsCoordinator.delegate = self
+        openChild(coordinator: mostSearchedItemsCoordinator,
+                  parent: tabBarCtl,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
+    }
 
     
     // MARK: App Review
@@ -1023,6 +1033,14 @@ extension AppCoordinator: PromoteBumpCoordinatorDelegate {
             self?.keyValueStorage[.lastShownPromoteBumpDate] = Date()
             
         }
+    }
+}
+
+
+extension AppCoordinator: MostSearchedItemsCoordinatorDelegate {
+    func openSell(source: PostingSource, mostSearchedItem: LocalMostSearchedItem) {
+        openSell(source: .mostSearchedItems,
+                 postCategory: .unassigned(listingCategory: mostSearchedItem.category))
     }
 }
 

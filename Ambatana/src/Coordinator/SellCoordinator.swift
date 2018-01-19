@@ -70,23 +70,14 @@ final class SellCoordinator: Coordinator {
         self.postCategory = postCategory
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
-        
-        // TODO: Temporary navigation handler. Needs to be re-implemented once defined all the specs
-        if featureFlags.mostSearchedDemandedItems == .cameraBadge {
-            let mostSearchedItemsVM = MostSearchedItemsListViewModel(isSearchEnabled: true)
-            let mostSearchedItemsVC = MostSearchedItemsListViewController(viewModel: mostSearchedItemsVM)
-            navigationController = SellNavigationController(rootViewController: mostSearchedItemsVC)
-            self.viewController = navigationController
-            mostSearchedItemsVM.navigator = self
-        } else {
-            let postListingVM = PostListingViewModel(source: source, postCategory: postCategory)
-            let postListingVC = PostListingViewController(viewModel: postListingVM,
-                                                      forcedInitialTab: forcedInitialTab)
-            navigationController = SellNavigationController(rootViewController: postListingVC)
-            navigationController.setupInitialCategory(postCategory: postCategory)
-            self.viewController = navigationController
-            postListingVM.navigator = self
-        }
+
+        let postListingVM = PostListingViewModel(source: source, postCategory: postCategory)
+        let postListingVC = PostListingViewController(viewModel: postListingVM,
+                                                  forcedInitialTab: forcedInitialTab)
+        navigationController = SellNavigationController(rootViewController: postListingVC)
+        navigationController.setupInitialCategory(postCategory: postCategory)
+        self.viewController = navigationController
+        postListingVM.navigator = self
     }
 
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {

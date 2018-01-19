@@ -10,6 +10,7 @@ import Foundation
 
 protocol MostSearchedItemsListCellDelegate: class {
     func didSearchAction(itemName: String)
+    func didPostAction(item: LocalMostSearchedItem)
 }
 
 class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
@@ -85,6 +86,7 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
         postButton.setTitle("Post", for: .normal)
         postButton.titleLabel?.adjustsFontSizeToFitWidth = true
         postButton.titleLabel?.minimumScaleFactor = 0.2
+        postButton.addTarget(self, action: #selector(postAction), for: .touchUpInside)
     }
     
     private func setupConstraints() {
@@ -152,5 +154,10 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
     @objc func searchAction() {
         guard let itemName = item?.name else { return }
         delegate?.didSearchAction(itemName: itemName)
+    }
+    
+    @objc func postAction() {
+        guard let item = item else { return }
+        delegate?.didPostAction(item: item)
     }
 }

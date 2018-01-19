@@ -10,8 +10,11 @@ import LGCoreKit
 import RxSwift
 import UIKit
 
-enum PostCategory {
-    case car, unassigned, motorsAndAccessories, realEstate
+enum PostCategory: Equatable {
+    case car
+    case unassigned(listingCategory: ListingCategory?)
+    case motorsAndAccessories
+    case realEstate
     
     var listingCategory: ListingCategory {
         switch self {
@@ -27,7 +30,9 @@ enum PostCategory {
     }
     
     static func categoriesAvailable(realEstateEnabled: Bool) -> [PostCategory] {
-        return realEstateEnabled ? [.car, PostCategory.realEstate, PostCategory.motorsAndAccessories, PostCategory.unassigned] : [PostCategory.car, PostCategory.motorsAndAccessories, PostCategory.unassigned]
+        return realEstateEnabled ?
+            [.car, PostCategory.realEstate, PostCategory.motorsAndAccessories, PostCategory.unassigned(listingCategory: nil)] :
+            [PostCategory.car, PostCategory.motorsAndAccessories, PostCategory.unassigned(listingCategory: nil)]
     }
     
     func numberOfSteps(shouldShowPrice: Bool) -> CGFloat {
@@ -51,6 +56,17 @@ enum PostCategory {
         case .unassigned, .motorsAndAccessories:
             return 0
         }
+    }
+}
+
+func ==(lhs: PostCategory, rhs: PostCategory) -> Bool {
+    switch (lhs, rhs) {
+    case (.car, .car), (.motorsAndAccessories, .motorsAndAccessories), (.realEstate, .realEstate):
+        return true
+    case (.unassigned(_), .unassigned(_)):
+        return true
+    default:
+        return false
     }
 }
 
@@ -133,7 +149,7 @@ fileprivate extension PostCategorySelectionView {
                 addButton(button: otherCategoryButton,
                           title: LGLocalizedString.productPostSelectCategoryOther,
                           image: #imageLiteral(resourceName: "categories_other_items"),
-                          postCategoryLink: .unassigned)
+                          postCategoryLink: .unassigned(listingCategory: nil))
             case .motorsAndAccessories:
                 addButton(button: motorsAndAccessoriesButton,
                           title: LGLocalizedString.productPostSelectCategoryMotorsAndAccessories,

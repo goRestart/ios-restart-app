@@ -1296,7 +1296,7 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
     }
     
     func openMostSearchedItems() {
-        navigator?.openMostSearchedItems()
+        navigator?.openMostSearchedItems(source: .categoriesHeader)
     }
 }
 
