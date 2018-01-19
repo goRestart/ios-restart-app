@@ -6,6 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import GoogleSignIn
 import UIKit
 import RxSwift
 import RxCocoa

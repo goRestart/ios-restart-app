@@ -21,16 +21,6 @@
         "description": "User can bump paying"
     },
     {
-        "name": "NewCarsMultiRequesterEnabled",
-        "values": ["no", "yes"],
-        "description": "Cars multi requester enabled"
-    },
-    {
-        "name": "InAppRatingIOS10",
-        "values": ["no", "yes"],
-        "description": "New in-app rating for iOS 10.3+"
-    },
-    {
         "name": "UserReviewsReportEnabled",
         "values": ["no", "yes"],
         "description": "User reviews report enabled"
@@ -39,16 +29,6 @@
         "name": "DynamicQuickAnswers",
         "values": ["control", "baseline", "dynamicNoKeyboard", "dynamicWithKeyboard"],
         "description": "Random quick answers with different approaches"
-    },
-    {
-        "name": "AppRatingDialogInactive",
-        "values": ["no", "yes"],
-        "description": "App rating dialog inactive to increase user activation"
-    },
-    {
-        "name": "LocationDataSourceEndpoint",
-        "values": ["control", "baseline", "appleWithRegion", "niordWithRegion"],
-        "description": "Location data source for geocode and reverse geocode"
     },
     {
         "name": "DefaultRadiusDistanceFeed",

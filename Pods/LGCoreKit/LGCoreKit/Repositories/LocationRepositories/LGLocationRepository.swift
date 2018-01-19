@@ -11,7 +11,6 @@ import Result
 
 public class LGLocationRepository: LocationRepository {
 
-    var locationDataSourceType: LocationDataSourceType = .apple(shouldUseRegion: false)
     let appleLocationDataSource: LocationDataSource
     let niordLocationDataSource: LocationDataSource
     let ipLookupDataSource: IPLookupDataSource
@@ -82,10 +81,6 @@ public class LGLocationRepository: LocationRepository {
         clLocationManager.stopUpdatingLocation()
     }
     
-    public func setLocationDataSourceType(locationDataSourceType: LocationDataSourceType) {
-        self.locationDataSourceType = locationDataSourceType
-    }
-
     public func retrieveLocationSuggestions(addressString: String,
                                             currentLocation: LGLocation?,
                                             completion: LocationSuggestionsRepositoryCompletion?) {
@@ -93,27 +88,12 @@ public class LGLocationRepository: LocationRepository {
             completion?(LocationSuggestionsRepositoryResult(error: LocationError.notFound))
             return
         }
-        switch locationDataSourceType {
-        case .apple(let shouldUseRegion):
-            var region: CLCircularRegion? = nil
-            if shouldUseRegion {
-                region = makeCircularRegion(withLocation: currentLocation)
-            }
-            appleLocationDataSource.retrieveLocationSuggestions(addressString: addressString, region: region) { result in
-                if let value = result.value {
-                    completion?(LocationSuggestionsRepositoryResult(value: value))
-                } else if let error = result.error {
-                    completion?(LocationSuggestionsRepositoryResult(error: error))
-                }
-            }
-        case .niord:
-            let region = makeCircularRegion(withLocation: currentLocation)
-            niordLocationDataSource.retrieveLocationSuggestions(addressString: addressString, region: region) { result in
-                if let value = result.value {
-                    completion?(LocationSuggestionsRepositoryResult(value: value))
-                } else if let error = result.error {
-                    completion?(LocationSuggestionsRepositoryResult(error: error))
-                }
+        let region = makeCircularRegion(withLocation: currentLocation)
+        niordLocationDataSource.retrieveLocationSuggestions(addressString: addressString, region: region) { result in
+            if let value = result.value {
+                completion?(LocationSuggestionsRepositoryResult(value: value))
+            } else if let error = result.error {
+                completion?(LocationSuggestionsRepositoryResult(error: error))
             }
         }
     }
@@ -124,17 +104,11 @@ public class LGLocationRepository: LocationRepository {
             completion?(LocationSuggestionDetailsRepositoryResult(error: LocationError.notFound))
             return
         }
-        switch locationDataSourceType {
-        case .apple:
-            completion?(LocationSuggestionDetailsRepositoryResult(error: LocationError.notFound))
-            break
-        case .niord:
-            niordLocationDataSource.retrieveLocationSuggestionDetails(placeId: placeId) { result in
-                if let value = result.value {
-                    completion?(LocationSuggestionDetailsRepositoryResult(value: value))
-                } else if let error = result.error {
-                    completion?(LocationSuggestionDetailsRepositoryResult(error: error))
-                }
+        niordLocationDataSource.retrieveLocationSuggestionDetails(placeId: placeId) { result in
+            if let value = result.value {
+                completion?(LocationSuggestionDetailsRepositoryResult(value: value))
+            } else if let error = result.error {
+                completion?(LocationSuggestionDetailsRepositoryResult(error: error))
             }
         }
     }

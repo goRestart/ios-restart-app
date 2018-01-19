@@ -276,8 +276,7 @@ class MainListingsViewModel: BaseViewModel {
         self.shouldShowPrices.value = (!filters.isDefault() || searchType != nil) && featureFlags.showPriceAfterSearchOrFilter.isActive
         self.listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                         queryString: searchType?.query,
-                                                                                        itemsPerPage: itemsPerPage,
-                                                                                        multiRequesterEnabled: featureFlags.newCarsMultiRequesterEnabled)
+                                                                                        itemsPerPage: itemsPerPage)
         self.listViewModel = ListingListViewModel(requester: self.listingListRequester, listings: nil,
                                                   numberOfColumns: columns, tracker: tracker, shouldShowPrices: shouldShowPrices.value)
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
@@ -368,8 +367,6 @@ class MainListingsViewModel: BaseViewModel {
         Called when a filter gets removed
     */
     func updateFiltersFromTags(_ tags: [FilterTag], removedTag: FilterTag?) {
-
-        var place: Place? = nil
         var categories: [FilterCategoryItem] = []
         var taxonomyChild: TaxonomyChild? = nil
         var taxonomy: Taxonomy? = nil
@@ -379,7 +376,6 @@ class MainListingsViewModel: BaseViewModel {
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
         var free: Bool = false
-        var distance: Int? = nil
         var makeId: String? = nil
         var makeName: String? = nil
         var modelId: String? = nil
@@ -393,8 +389,8 @@ class MainListingsViewModel: BaseViewModel {
 
         for filterTag in tags {
             switch filterTag {
-            case .location(let thePlace):
-                place = thePlace
+            case .location:
+                break
             case .category(let prodCategory):
                 categories.append(FilterCategoryItem(category: prodCategory))
             case .taxonomyChild(let taxonomyChildSelected):
@@ -412,8 +408,8 @@ class MainListingsViewModel: BaseViewModel {
                 maxPrice = maxPriceOption
             case .freeStuff:
                 free = true
-            case .distance(let distanceFilter):
-                distance = distanceFilter
+            case .distance:
+                break
             case .make(let id, let name):
                 makeId = id
                 makeName = name
@@ -585,8 +581,7 @@ class MainListingsViewModel: BaseViewModel {
 
         listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                    queryString: queryString,
-                                                                                   itemsPerPage: currentItemsPerPage,
-                                                                                   multiRequesterEnabled: featureFlags.newCarsMultiRequesterEnabled)
+                                                                                   itemsPerPage: currentItemsPerPage)
 
         listViewModel.listingListRequester = listingListRequester
 

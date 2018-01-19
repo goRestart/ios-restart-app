@@ -28,13 +28,9 @@ protocol FeatureFlaggeable: class {
 
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var newCarsMultiRequesterEnabled: Bool { get }
-    var inAppRatingIOS10: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
-    var appRatingDialogInactive: Bool { get }
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
-    var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
@@ -220,20 +216,6 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.pricedBumpUpEnabled.value
     }
 
-    var newCarsMultiRequesterEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.newCarsMultiRequesterEnabled
-        }
-        return abTests.newCarsMultiRequesterEnabled.value
-    }
-
-    var inAppRatingIOS10: Bool {
-        if Bumper.enabled {
-            return Bumper.inAppRatingIOS10
-        }
-        return abTests.inAppRatingIOS10.value
-    }
-
     var userReviewsReportEnabled: Bool {
         if Bumper.enabled {
             return Bumper.userReviewsReportEnabled
@@ -246,20 +228,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.dynamicQuickAnswers
         }
         return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
-    }
-
-    var appRatingDialogInactive: Bool {
-        if Bumper.enabled {
-            return Bumper.appRatingDialogInactive
-        }
-        return abTests.appRatingDialogInactive.value
-    }
-
-    var locationDataSourceEndpoint: LocationDataSourceEndpoint {
-        if Bumper.enabled {
-            return Bumper.locationDataSourceEndpoint
-        }
-        return LocationDataSourceEndpoint.fromPosition(abTests.locationDataSourceType.value)
     }
 
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {

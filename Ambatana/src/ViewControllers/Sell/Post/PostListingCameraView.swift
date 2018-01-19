@@ -227,8 +227,11 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         }.disposed(by: disposeBag)
 
         viewModel.shouldShowFirstTimeAlert.asObservable().map { !$0 }.bind(to: firstTimeAlertContainer.rx.isHidden).disposed(by: disposeBag)
-        viewModel.shouldShowVerticalText.asObservable().map { !$0 }.bind(to: verticalPromoLabel.rx.isHidden).disposed(by: disposeBag)
-        
+        viewModel.shouldShowVerticalText.asObservable().bind { visible in
+            UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                self?.verticalPromoLabel.alpha = visible ? 1.0 : 0.0
+            })
+        }.disposed(by: disposeBag)
     }
 
     @objc private dynamic func hideFirstTimeAlert() {
