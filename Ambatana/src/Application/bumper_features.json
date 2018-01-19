@@ -31,11 +31,6 @@
         "description": "Random quick answers with different approaches"
     },
     {
-        "name": "LocationDataSourceEndpoint",
-        "values": ["control", "baseline", "appleWithRegion", "niordWithRegion"],
-        "description": "Location data source for geocode and reverse geocode"
-    },
-    {
         "name": "DefaultRadiusDistanceFeed",
         "values": ["control", "baseline", "two", "five", "ten", "thirty"],
         "description": "Default distance radius main feed."
