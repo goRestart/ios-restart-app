@@ -50,7 +50,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>343</string>
+	<string>344</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -142,10 +142,10 @@
 	<string>To start selling, give letgo access to your camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>letgo needs to access your location to show you products nearby</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To start selling, give letgo access to your library</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>o save images, give letgo access to your library</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To start selling, give letgo access to your library</string>
 	<key>UIApplicationShortcutItems</key>
 	<array>
 		<dict>
