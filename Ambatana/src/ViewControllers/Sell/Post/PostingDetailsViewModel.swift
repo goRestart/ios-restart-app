@@ -96,7 +96,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             priceView.priceListing.asObservable().bind(to: priceListing).disposed(by: disposeBag)
             return priceView
         case .summary:
-            let summaryView = PostingAddDetailSummaryTableView(postCategory: postListingState.category)
+            let summaryView = PostingAddDetailSummaryTableView(postCategory: postListingState.category, postingFlowType: featureFlags.postingFlowType)
             summaryView.delegate = self
             return summaryView
         case .location:
@@ -191,7 +191,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     func nextbuttonPressed() {
-        guard let next = step.nextStep(postingType: .turkish) else {
+        guard let next = step.nextStep(postingFlowType: featureFlags.postingFlowType) else {
             postListing(buttonNameType: .summary)
             return
         }
@@ -339,7 +339,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
         delay(0.3) { [weak self] in
             guard let strongSelf = self else { return }
-            guard let next = strongSelf.step.nextStep(postingType: .turkish) else { return }
+            guard let next = strongSelf.step.nextStep(postingFlowType: strongSelf.featureFlags.postingFlowType) else { return }
             let nextStep = strongSelf.previousStepIsSummary ? .summary : next
             strongSelf.advanceNextStep(next: nextStep)
         }
@@ -428,9 +428,17 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             if let bedrooms = postListingState.verticalAttributes?.realEstateAttributes?.bedrooms {
                 value = NumberOfBedrooms(rawValue: bedrooms)?.summaryLocalizedString
             }
+        case .rooms:
+            if let bedrooms = postListingState.verticalAttributes?.realEstateAttributes?.bedrooms {
+                value = NumberOfRooms(bedrooms: bedrooms, livingRooms: postListingState.verticalAttributes?.realEstateAttributes?.livingRooms).localizedString
+            }
         case .bathrooms:
             if let bathrooms = postListingState.verticalAttributes?.realEstateAttributes?.bathrooms {
                 value = NumberOfBathrooms(rawValue:bathrooms)?.summaryLocalizedString
+            }
+        case .sizeSquareMeters:
+            if let size = postListingState.verticalAttributes?.realEstateAttributes?.sizeSquareMeters {
+                value = String(size)
             }
         case .location:
             value = retrieveCurrentLocationSelected()

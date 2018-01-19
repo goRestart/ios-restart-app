@@ -1084,6 +1084,8 @@ enum EventParameterOptionSummary: String {
     case propertyType = "property-type"
     case offerType = "deal-type"
     case bedrooms = "bedroom-number"
+    case rooms = "rooms-number"
+    case sizeSquareMeters = "size"
     case bathrooms = "bathroom-number"
     case location = "location"
     case make = "make"
@@ -1100,6 +1102,10 @@ enum EventParameterOptionSummary: String {
             self = .offerType
         case .bedrooms:
             self = .bedrooms
+        case .rooms:
+            self = .rooms
+        case .sizeSquareMeters:
+            self = .sizeSquareMeters
         case .bathrooms:
             self = .bathrooms
         case .location:

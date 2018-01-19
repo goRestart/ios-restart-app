@@ -769,6 +769,11 @@
 "real_estate_offer_type_title" = "Annonsetype";
 "real_estate_price_title" = "Pris";
 "real_estate_related_search_title" = "Lignende resultater";
+"real_estate_rooms_over_ten" = "Over 10";
+"real_estate_rooms_studio" = "Studio (1+0)";
+"real_estate_rooms_title" = "No. of rooms";
+"real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_title" = "Size";
 "real_estate_summary_bathroom_title" = "bad";
 "real_estate_summary_bathrooms_empty" = "Legg til antall bad";
 "real_estate_summary_bathrooms_title" = "bad";
@@ -779,6 +784,10 @@
 "real_estate_summary_offer_type_empty" = "Legg til annonsetype";
 "real_estate_summary_price_empty" = "Legg til pris";
 "real_estate_summary_price_title" = "Pris: %@";
+"real_estate_summary_rooms_emtpy" = "Add rooms";
+"real_estate_summary_rooms_title" = "rooms";
+"real_estate_summary_size_empty" = "Add size";
+"real_estate_summary_size_title" = "Size";
 "real_estate_summary_title" = "Sammendrag";
 "real_estate_summary_type_property_empty" = "Legg til eiendomstype";
 "real_estate_title_generator_bathrooms_0" = "Ingen";

@@ -3159,12 +3159,48 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_bedrooms_4", comment: "")
 	}
 
+	static var realEstateRoomsTitle: String {
+		return NSLocalizedString("real_estate_rooms_title", comment: "")
+	}
+
+	static var realEstateRoomsStudio: String {
+		return NSLocalizedString("real_estate_rooms_studio", comment: "")
+	}
+
+	static var realEstateRoomsOverTen: String {
+		return NSLocalizedString("real_estate_rooms_over_ten", comment: "")
+	}
+
+	static func realEstateRoomsValue(_ var1: Int, _ var2: Int) -> String {
+		return String(format: NSLocalizedString("real_estate_rooms_value", comment: ""), var1, var2)
+	}
+
+	static var realEstateSizeSquareMetersTitle: String {
+		return NSLocalizedString("real_estate_size_square_meters_title", comment: "")
+	}
+
 	static var realEstateSummaryBedroomTitle: String {
 		return NSLocalizedString("real_estate_summary_bedroom_title", comment: "")
 	}
 
 	static var realEstateSummaryBedroomsTitle: String {
 		return NSLocalizedString("real_estate_summary_bedrooms_title", comment: "")
+	}
+
+	static var realEstateSummaryRoomsTitle: String {
+		return NSLocalizedString("real_estate_summary_rooms_title", comment: "")
+	}
+
+	static var realEstateSummaryRoomsEmtpy: String {
+		return NSLocalizedString("real_estate_summary_rooms_emtpy", comment: "")
+	}
+
+	static var realEstateSummarySizeTitle: String {
+		return NSLocalizedString("real_estate_summary_size_title", comment: "")
+	}
+
+	static var realEstateSummarySizeEmpty: String {
+		return NSLocalizedString("real_estate_summary_size_empty", comment: "")
 	}
 
 	static var realEstateSummaryPriceEmpty: String {
