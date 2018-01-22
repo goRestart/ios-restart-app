@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C47250320165E6300B2046C /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C47250220165E6300B2046C /* Core.framework */; };
+		1C47250420165E6300B2046C /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1C47250220165E6300B2046C /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1C47250720165E7A00B2046C /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C47250620165E7A00B2046C /* UI.framework */; };
+		1C47250820165E7A00B2046C /* UI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1C47250620165E7A00B2046C /* UI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1C47250A20165E9A00B2046C /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C47250920165E9A00B2046C /* Data.framework */; };
+		1C47250B20165E9A00B2046C /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1C47250920165E9A00B2046C /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1C47250D20165EB600B2046C /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C47250C20165EB600B2046C /* Domain.framework */; };
+		1C47250E20165EB600B2046C /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1C47250C20165EB600B2046C /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1C47251020165F2800B2046C /* Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C47250F20165F2800B2046C /* Application.framework */; };
+		1C47251120165F2800B2046C /* Application.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1C47250F20165F2800B2046C /* Application.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1C93BF50200AA7CE00DDF249 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF4F200AA7CE00DDF249 /* AppDelegate.swift */; };
 		1C93BF57200AA7CE00DDF249 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C93BF56200AA7CE00DDF249 /* Assets.xcassets */; };
 		1C93BF5A200AA7CE00DDF249 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C93BF58200AA7CE00DDF249 /* LaunchScreen.storyboard */; };
@@ -46,7 +56,12 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				1C47250E20165EB600B2046C /* Domain.framework in Embed Frameworks */,
+				1C47250B20165E9A00B2046C /* Data.framework in Embed Frameworks */,
+				1C47250820165E7A00B2046C /* UI.framework in Embed Frameworks */,
 				1C93BF9A200AADF300DDF249 /* Search.framework in Embed Frameworks */,
+				1C47250420165E6300B2046C /* Core.framework in Embed Frameworks */,
+				1C47251120165F2800B2046C /* Application.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -54,6 +69,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1C47250220165E6300B2046C /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C47250620165E7A00B2046C /* UI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C47250920165E9A00B2046C /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C47250C20165EB600B2046C /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C47250F20165F2800B2046C /* Application.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Application.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C93BF4C200AA7CE00DDF249 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C93BF4F200AA7CE00DDF249 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1C93BF56200AA7CE00DDF249 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -68,7 +88,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C47250D20165EB600B2046C /* Domain.framework in Frameworks */,
+				1C47250A20165E9A00B2046C /* Data.framework in Frameworks */,
+				1C47250720165E7A00B2046C /* UI.framework in Frameworks */,
 				1C93BF99200AADF300DDF249 /* Search.framework in Frameworks */,
+				1C47250320165E6300B2046C /* Core.framework in Frameworks */,
+				1C47251020165F2800B2046C /* Application.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +103,11 @@
 		1C93BF43200AA7CE00DDF249 = {
 			isa = PBXGroup;
 			children = (
+				1C47250F20165F2800B2046C /* Application.framework */,
+				1C47250C20165EB600B2046C /* Domain.framework */,
+				1C47250920165E9A00B2046C /* Data.framework */,
+				1C47250620165E7A00B2046C /* UI.framework */,
+				1C47250220165E6300B2046C /* Core.framework */,
 				1C93BF87200AADC900DDF249 /* Search.xcodeproj */,
 				1C93BF4E200AA7CE00DDF249 /* Example */,
 				1C93BF4D200AA7CE00DDF249 /* Products */,
@@ -215,6 +245,11 @@
 				"$(SRCROOT)/../../../../../Carthage/Build/iOS/RxSwift.framework",
 				"$(SRCROOT)/../../../../../Carthage/Build/iOS/RxCocoa.framework",
 				"$(SRCROOT)/../../../../../Carthage/Build/iOS/SnapKit.framework",
+				"$(SRCROOT)/../../../../../Carthage/Build/iOS/IGListKit.framework",
+				"$(SRCROOT)/../../../../../Carthage/Build/iOS/Alamofire.framework",
+				"$(SRCROOT)/../../../../../Carthage/Build/iOS/Result.framework",
+				"$(SRCROOT)/../../../../../Carthage/Build/iOS/Moya.framework",
+				"$(SRCROOT)/../../../../../Carthage/Build/iOS/RxMoya.framework",
 			);
 			outputPaths = (
 			);

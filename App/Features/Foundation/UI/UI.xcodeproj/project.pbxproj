@@ -12,6 +12,7 @@
 		1C02635A1FF59AF90040346B /* FullWidthButtonSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0263591FF59AF90040346B /* FullWidthButtonSpec.swift */; };
 		1C0263631FF5B9570040346B /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0263621FF5B9570040346B /* Input.swift */; };
 		1C0263651FF5BBE50040346B /* InputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0263641FF5BBE50040346B /* InputTextField.swift */; };
+		1C0500AB200B6C0100E60633 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0500AA200B6C0100E60633 /* CollectionViewCell.swift */; };
 		1C7F4C4F1FF7DFBB001BEB62 /* FullWidthButton+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C4E1FF7DFBB001BEB62 /* FullWidthButton+Rx.swift */; };
 		1C7F4C5A1FFC2EC0001BEB62 /* LargeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C591FFC2EC0001BEB62 /* LargeButton.swift */; };
 		1C7F4C5D1FFC325C001BEB62 /* LargeButtonSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7F4C5C1FFC325C001BEB62 /* LargeButtonSpec.swift */; };
@@ -52,6 +53,7 @@
 		1C0263591FF59AF90040346B /* FullWidthButtonSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullWidthButtonSpec.swift; sourceTree = "<group>"; };
 		1C0263621FF5B9570040346B /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
 		1C0263641FF5BBE50040346B /* InputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextField.swift; sourceTree = "<group>"; };
+		1C0500AA200B6C0100E60633 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		1C15A1E91FF42E9600FA0E47 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = ../../../../Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		1C15A1F41FF4301500FA0E47 /* Snap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Snap.framework; path = ../../../../Carthage/Build/iOS/Snap.framework; sourceTree = "<group>"; };
 		1C7F4C4E1FF7DFBB001BEB62 /* FullWidthButton+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FullWidthButton+Rx.swift"; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			children = (
 				1CACDA771FF7B58900538B78 /* ViewController.swift */,
 				1CACDA3F1FF68E8900538B78 /* View.swift */,
+				1C0500AA200B6C0100E60633 /* CollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -521,6 +524,7 @@
 				1CACDA781FF7B58900538B78 /* ViewController.swift in Sources */,
 				1CD7A9661FF51D0800CB895D /* Palette.swift in Sources */,
 				1CACDA481FF691D900538B78 /* Localize.swift in Sources */,
+				1C0500AB200B6C0100E60633 /* CollectionViewCell.swift in Sources */,
 				1C0263561FF57B630040346B /* Radius.swift in Sources */,
 				1CD7A9681FF5238600CB895D /* UIColor+Palette.swift in Sources */,
 				1CD7A9A01FF5626B00CB895D /* Gradient.swift in Sources */,

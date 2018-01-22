@@ -12,11 +12,7 @@ final class SearchViewController: ViewController {
     return textField
   }()
   
-  private var searchView: SearchView = {
-    let searchView = resolver.searchView
-    searchView.backgroundColor = .red
-    return searchView
-  }()
+  private var searchView = resolver.searchView
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -39,8 +35,8 @@ final class SearchViewController: ViewController {
     }
     
     searchView.snp.makeConstraints { make in
-      make.left.equalTo(view).offset(Margin.medium)
-      make.right.equalTo(view).offset(-Margin.medium)
+      make.left.equalTo(view)
+      make.right.equalTo(view)
       make.top.equalTo(textField.snp.bottom).offset(Margin.huge)
       make.height.equalTo(150)
     }
