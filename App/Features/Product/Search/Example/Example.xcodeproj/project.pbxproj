@@ -103,12 +103,12 @@
 		1C93BF43200AA7CE00DDF249 = {
 			isa = PBXGroup;
 			children = (
+				1C93BF87200AADC900DDF249 /* Search.xcodeproj */,
 				1C47250F20165F2800B2046C /* Application.framework */,
 				1C47250C20165EB600B2046C /* Domain.framework */,
 				1C47250920165E9A00B2046C /* Data.framework */,
 				1C47250620165E7A00B2046C /* UI.framework */,
 				1C47250220165E6300B2046C /* Core.framework */,
-				1C93BF87200AADC900DDF249 /* Search.xcodeproj */,
 				1C93BF4E200AA7CE00DDF249 /* Example */,
 				1C93BF4D200AA7CE00DDF249 /* Products */,
 			);

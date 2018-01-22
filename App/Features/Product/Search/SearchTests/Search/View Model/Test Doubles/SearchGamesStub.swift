@@ -7,29 +7,24 @@ enum NetworkError: Error {
 
 final class SearchGamesStub: SearchGamesUseCase {
   
-  var games = [Game]()
+  var suggestions = [GameSearchSuggestion]()
   var errorToThrow: NetworkError?
   
-  func execute(with query: String) -> Single<[Game]> {
+  func execute(with query: String) -> Single<[GameSearchSuggestion]> {
     guard let error = errorToThrow else {
-      return .just(games)
+      return .just(suggestions)
     }
     return .error(error)
   }
   
   func givenThereAreGameResults() {
-    games = [
-      Game(id: Identifier("F3A8F140-AF89-40B6-B797-5130CED8A832"),
-           name: "Super Mario Bros",
-           alternativeNames: nil,
-           gameConsoles: [],
-           genres: [],
-           releasedOn: Date()),
-      Game(id: Identifier("F3A8F140-AF89-40B6-B797-5130CED8A832"),
-           name: "Mario",
-           alternativeNames: nil,
-           gameConsoles: [],
-           genres: [],
-           releasedOn: Date())]
+    suggestions = [
+      GameSearchSuggestion(id: Identifier(""),
+                           value: "Super Mario Bros",
+                           query: "mario"),
+      GameSearchSuggestion(id: Identifier(""),
+                           value: "Mario Kart",
+                           query: "mario")
+    ]
   }
 }
