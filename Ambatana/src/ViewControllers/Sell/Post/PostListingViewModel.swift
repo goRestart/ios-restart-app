@@ -84,8 +84,12 @@ class PostListingViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    convenience init(source: PostingSource, postCategory: PostCategory?) {
+    convenience init(source: PostingSource,
+                     postCategory: PostCategory?,
+                     listingTitle: String?) {
         self.init(source: source,
+                  postCategory: postCategory,
+                  listingTitle: listingTitle,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
                   carsInfoRepository: Core.carsInfoRepository,
@@ -93,11 +97,12 @@ class PostListingViewModel: BaseViewModel {
                   sessionManager: Core.sessionManager,
                   featureFlags: FeatureFlags.sharedInstance,
                   locationManager: Core.locationManager,
-                  currencyHelper: Core.currencyHelper,
-                  postCategory: postCategory)
+                  currencyHelper: Core.currencyHelper)
     }
 
     init(source: PostingSource,
+         postCategory: PostCategory?,
+         listingTitle: String?,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
          carsInfoRepository: CarsInfoRepository,
@@ -105,12 +110,12 @@ class PostListingViewModel: BaseViewModel {
          sessionManager: SessionManager,
          featureFlags: FeatureFlaggeable,
          locationManager: LocationManager,
-         currencyHelper: CurrencyHelper,
-         postCategory: PostCategory?) {
-        self.state = Variable<PostListingState>(PostListingState(postCategory: postCategory))
+         currencyHelper: CurrencyHelper) {
+        self.state = Variable<PostListingState>(PostListingState(postCategory: postCategory, title: listingTitle))
         self.category = Variable<PostCategory?>(postCategory)
         
         self.postingSource = source
+        self.postCategory = postCategory
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.carsInfoRepository = carsInfoRepository
@@ -121,7 +126,6 @@ class PostListingViewModel: BaseViewModel {
         self.featureFlags = featureFlags
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
-        self.postCategory = postCategory
         self.disposeBag = DisposeBag()
         super.init()
         self.postDetailViewModel.delegate = self
@@ -379,7 +383,7 @@ fileprivate extension PostListingViewModel {
     
     func makeListingParams(images:[File]) -> ListingCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
-        let title = postDetailViewModel.listingTitle
+        let title = state.value.title
         let description = postDetailViewModel.listingDescription ?? ""
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)

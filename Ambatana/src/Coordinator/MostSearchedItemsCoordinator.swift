@@ -42,7 +42,7 @@ class MostSearchedItemsCoordinator: Coordinator {
         
         let mostSearchedItemsVM = MostSearchedItemsListViewModel(isSearchEnabled: true)
         let mostSearchedItemsVC = MostSearchedItemsListViewController(viewModel: mostSearchedItemsVM)
-        mostSearchedItemsVC.modalPresentationStyle = .overCurrentContext
+        mostSearchedItemsVC.modalPresentationStyle = .overFullScreen
         self.viewController = mostSearchedItemsVC
         mostSearchedItemsVM.navigator = self
         
@@ -65,8 +65,12 @@ extension MostSearchedItemsCoordinator: MostSearchedItemsNavigator {
     }
     
     func openSell(mostSearchedItem: LocalMostSearchedItem) {
+//        //delegate?.openSell(source: .mostSearchedItems, mostSearchedItem: mostSearchedItem)
+//        viewController.dismiss(animated: true) { [weak self] in
         dismissViewController(animated: true) { [weak self] in
             self?.delegate?.openSell(source: .mostSearchedItems, mostSearchedItem: mostSearchedItem)
         }
+        //delegate?.openSell(source: .mostSearchedItems, mostSearchedItem: mostSearchedItem)
+        //viewController.dismiss(animated: true, completion: nil)
     }
 }

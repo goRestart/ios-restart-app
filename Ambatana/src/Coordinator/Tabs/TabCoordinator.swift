@@ -90,7 +90,7 @@ extension TabCoordinator: TabNavigator {
     }
 
     func openSell(source: PostingSource, postCategory: PostCategory?) {
-        appNavigator?.openSell(source: source, postCategory: postCategory)
+        appNavigator?.openSell(source: source, postCategory: postCategory, listingTitle: nil)
     }
 
     func openAppRating(_ source: EventParameterRatingSource) {

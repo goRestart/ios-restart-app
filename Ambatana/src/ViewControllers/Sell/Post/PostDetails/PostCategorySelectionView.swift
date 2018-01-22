@@ -20,8 +20,8 @@ enum PostCategory: Equatable {
         switch self {
         case .car:
             return .cars
-        case .unassigned:
-            return .unassigned
+        case .unassigned(let category):
+            return category ?? .unassigned
         case .motorsAndAccessories:
             return .motorsAndAccessories
         case .realEstate:

@@ -41,10 +41,12 @@ final class SellCoordinator: Coordinator {
 
     convenience init(source: PostingSource,
                      postCategory: PostCategory?,
-                     forcedInitialTab: PostListingViewController.Tab?) {
+                     forcedInitialTab: PostListingViewController.Tab?,
+                     listingTitle: String?) {
         self.init(source: source,
                   postCategory: postCategory,
                   forcedInitialTab: forcedInitialTab,
+                  listingTitle: listingTitle,
                   listingRepository: Core.listingRepository,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
@@ -56,6 +58,7 @@ final class SellCoordinator: Coordinator {
     init(source: PostingSource,
          postCategory: PostCategory?,
          forcedInitialTab: PostListingViewController.Tab?,
+         listingTitle: String?,
          listingRepository: ListingRepository,
          bubbleNotificationManager: BubbleNotificationManager,
          keyValueStorage: KeyValueStorage,
@@ -71,9 +74,13 @@ final class SellCoordinator: Coordinator {
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
 
-        let postListingVM = PostListingViewModel(source: source, postCategory: postCategory)
+        let postListingVM = PostListingViewModel(source: source,
+                                                 postCategory: postCategory,
+                                                 listingTitle: listingTitle)
         let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                   forcedInitialTab: forcedInitialTab)
+        postListingVC.modalPresentationStyle = .overCurrentContext
+        postListingVC.modalTransitionStyle = .crossDissolve
         navigationController = SellNavigationController(rootViewController: postListingVC)
         navigationController.setupInitialCategory(postCategory: postCategory)
         self.viewController = navigationController
@@ -265,7 +272,7 @@ extension SellCoordinator: ListingPostedNavigator {
     func closeProductPostedAndOpenPost() {
         dismissViewController(animated: true) { [weak self] in
             guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
-            let postListingVM = PostListingViewModel(source: strongSelf.postingSource, postCategory: nil)
+            let postListingVM = PostListingViewModel(source: strongSelf.postingSource, postCategory: nil, listingTitle: nil)
             let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                           forcedInitialTab: nil)
             strongSelf.viewController = postListingVC

@@ -212,7 +212,7 @@ extension AppCoordinator: AppNavigator {
         openTab(.home, completion: nil)
     }
 
-    func openSell(source: PostingSource, postCategory: PostCategory?) {
+    func openSell(source: PostingSource, postCategory: PostCategory?, listingTitle: String? = nil) {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
         case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .mostSearchedItems, .realEstatePromo:
@@ -223,7 +223,8 @@ extension AppCoordinator: AppNavigator {
 
         let sellCoordinator = SellCoordinator(source: source,
                                               postCategory: postCategory,
-                                              forcedInitialTab: forcedInitialTab)
+                                              forcedInitialTab: forcedInitialTab,
+                                              listingTitle: listingTitle)
         sellCoordinator.delegate = self
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
@@ -1040,7 +1041,8 @@ extension AppCoordinator: PromoteBumpCoordinatorDelegate {
 extension AppCoordinator: MostSearchedItemsCoordinatorDelegate {
     func openSell(source: PostingSource, mostSearchedItem: LocalMostSearchedItem) {
         openSell(source: .mostSearchedItems,
-                 postCategory: .unassigned(listingCategory: mostSearchedItem.category))
+                 postCategory: .unassigned(listingCategory: mostSearchedItem.category),
+                 listingTitle: mostSearchedItem.name)
     }
 }
 

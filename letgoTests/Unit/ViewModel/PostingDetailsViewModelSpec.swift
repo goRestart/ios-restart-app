@@ -78,7 +78,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
             context("init with bathroom step") {
                 beforeEach {
                     postingDetailsStep = .bathrooms
-                    postListingState = PostListingState(postCategory: .realEstate)
+                    postListingState = PostListingState(postCategory: .realEstate, title: nil)
                     postListingState = postListingState.updatingStepToUploadingImages()
                     postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                     buildPostingDetailsViewModel()
@@ -121,7 +121,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
             context("init with summary step") {
                 beforeEach {
                     postingDetailsStep = .summary
-                    postListingState = PostListingState(postCategory: .realEstate)
+                    postListingState = PostListingState(postCategory: .realEstate, title: nil)
                     postListingState = postListingState.updatingStepToUploadingImages()
                     postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                     buildPostingDetailsViewModel()
@@ -165,7 +165,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
             context("init with price step") {
                 beforeEach {
                     postingDetailsStep = .price
-                    postListingState = PostListingState(postCategory: .realEstate)
+                    postListingState = PostListingState(postCategory: .realEstate, title: nil)
                     postListingState = postListingState.updatingStepToUploadingImages()
                     postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                     buildPostingDetailsViewModel()
@@ -213,6 +213,7 @@ class PostingDetailsViewModelSpec: BaseViewModelSpec {
 
 
 extension PostingDetailsViewModelSpec: PostListingNavigator {
+    
     func cancelPostListing() {
         cancelPostingCalled = true
         
@@ -245,4 +246,6 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
         openListingCreationCalled = true
     }
     func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool) {}
+    func openSearchFor(query: String) { }
+    //func openMostSearchedItems(source: MostSearchedItemsSource) {}
 }

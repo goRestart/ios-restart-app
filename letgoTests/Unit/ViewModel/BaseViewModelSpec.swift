@@ -109,5 +109,5 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func openAppInvite() {}
     func canOpenAppInvite() -> Bool { return false }
     func openRatingList(_ userId: String) {}
-    func openMostSearchedItems() {}
+    func openMostSearchedItems(source: MostSearchedItemsSource) {}
 }

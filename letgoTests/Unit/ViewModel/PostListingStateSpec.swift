@@ -20,7 +20,7 @@ class PostProductStateSpec: BaseViewModelSpec {
             var oldSut: PostListingState!
             context("init with postCategory nil") {
                 beforeEach {
-                    sut = PostListingState(postCategory: nil)
+                    sut = PostListingState(postCategory: nil, title: nil)
                     oldSut = sut
                 }
                 describe("init") {
@@ -46,7 +46,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                 
                 context("image selection") {
                     it("returns the same state when updating category") {
-                        expect(sut.updating(category: .unassigned)) === sut
+                        expect(sut.updating(category: .unassigned(listingCategory: nil))) === sut
                     }
                     
                     context("update step to uploading images") {
@@ -102,7 +102,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating category") {
-                        expect(sut.updating(category: .unassigned)) === sut
+                        expect(sut.updating(category: .unassigned(listingCategory: nil))) === sut
                     }
                     
                     it("returns the same state when updating step to uploading images") {
@@ -161,7 +161,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating category") {
-                        expect(sut.updating(category: .unassigned)) === sut
+                        expect(sut.updating(category: .unassigned(listingCategory: nil))) === sut
                     }
                     
                     context("update step to uploading images") {
@@ -202,7 +202,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                 
                 context("adding details") {
                     beforeEach {
-                        sut = PostListingState(postCategory: .realEstate)
+                        sut = PostListingState(postCategory: .realEstate, title: nil)
                         sut = sut.updatingStepToUploadingImages()
                         sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         sut = sut.updatingAfterUploadingSuccess()
@@ -242,7 +242,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating category") {
-                        expect(sut.updating(category: .unassigned)) === sut
+                        expect(sut.updating(category: .unassigned(listingCategory: nil))) === sut
                     }
                     
                     it("returns the same state when updating step to uploading images") {
@@ -293,7 +293,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     context("update category to unassigned") {
                         beforeEach {
                             oldSut = sut
-                            sut = sut.updating(category: .unassigned)
+                            sut = sut.updating(category: .unassigned(listingCategory: nil))
                         }
                         
                         it("returns a new state") {
@@ -356,7 +356,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating category") {
-                        expect(sut.updating(category: .unassigned)) === sut
+                        expect(sut.updating(category: .unassigned(listingCategory: nil))) === sut
                     }
                     
                     it("returns the same state when updating step to uploading images") {
@@ -399,7 +399,7 @@ class PostProductStateSpec: BaseViewModelSpec {
             describe("after upload success") {
                 context("with car as postCategory") {
                     beforeEach {
-                        sut = PostListingState(postCategory: .car)
+                        sut = PostListingState(postCategory: .car, title: nil)
                         sut = sut.updatingStepToUploadingImages()
                         sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         sut = sut.updatingAfterUploadingSuccess()
@@ -411,7 +411,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                 }
                 context("with unassigned as postCategory") {
                     beforeEach {
-                        sut = PostListingState(postCategory: .unassigned)
+                        sut = PostListingState(postCategory: .unassigned(listingCategory: nil), title: nil)
                         sut = sut.updatingStepToUploadingImages()
                         sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                             .updatingAfterUploadingSuccess()
@@ -423,7 +423,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                 }
                 context("with realEstate as postCategory") {
                     beforeEach {
-                        sut = PostListingState(postCategory: .realEstate)
+                        sut = PostListingState(postCategory: .realEstate, title: nil)
                         sut = sut.updatingStepToUploadingImages()
                         sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         sut = sut.updatingAfterUploadingSuccess()
@@ -438,7 +438,7 @@ class PostProductStateSpec: BaseViewModelSpec {
             describe("after pricing updated") {
                 context("category car setup first") {
                     beforeEach {
-                        sut = PostListingState(postCategory: .car)
+                        sut = PostListingState(postCategory: .car, title: nil)
                         sut = sut.updatingStepToUploadingImages()
                         sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         sut = sut.updatingAfterUploadingSuccess()
@@ -478,7 +478,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                 }
                 context("category other item setup first") {
                     beforeEach {
-                        sut = PostListingState(postCategory: .unassigned)
+                        sut = PostListingState(postCategory: .unassigned(listingCategory: nil), title: nil)
                         sut = sut.updatingStepToUploadingImages()
                         sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         sut = sut.updatingAfterUploadingSuccess()

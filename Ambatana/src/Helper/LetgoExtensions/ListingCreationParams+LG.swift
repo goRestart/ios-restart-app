@@ -58,7 +58,7 @@ extension ListingCreationParams {
             let productParams = ProductCreationParams(name: title,
                                                       description: description,
                                                       price: postListingState.price ?? Constants.defaultPrice,
-                                                      category: .unassigned,
+                                                      category: postListingState.category?.listingCategory ?? .unassigned,
                                                       currency: currency,
                                                       location: location,
                                                       postalAddress: postalAddress,
