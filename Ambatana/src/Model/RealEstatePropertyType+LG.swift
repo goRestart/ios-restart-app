@@ -22,6 +22,12 @@ extension RealEstatePropertyType {
             return LGLocalizedString.realEstateTypePropertyOthers
         case .commercial:
             return LGLocalizedString.realEstateTypePropertyCommercial
+        case .flat:
+            return LGLocalizedString.realEstateTypePropertyFlat
+        case .land:
+            return LGLocalizedString.realEstateTypePropertyLand
+        case .villa:
+            return LGLocalizedString.realEstateTypePropertyVilla
         }
     }
     
@@ -37,6 +43,12 @@ extension RealEstatePropertyType {
             return LGLocalizedString.realEstateTitleGeneratorPropertyTypeOther
         case .commercial:
             return LGLocalizedString.realEstateTitleGeneratorPropertyTypeCommercial
+        case .flat:
+            return LGLocalizedString.realEstateTypePropertyFlat
+        case .land:
+            return LGLocalizedString.realEstateTypePropertyLand
+        case .villa:
+            return LGLocalizedString.realEstateTypePropertyVilla
         }
     }
     
@@ -56,6 +68,12 @@ extension RealEstatePropertyType {
             return 3
         case .other:
             return 4
+        case .flat:
+            return 5
+        case .land:
+            return 6
+        case .villa:
+            return 7
         }
     }
 }

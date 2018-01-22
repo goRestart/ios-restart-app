@@ -805,13 +805,13 @@
 "real_estate_tooltip_sell_button" = "Đăng bất động sản cho thuê hoặc bán tại mục Nhà đất mới của chúng tôi";
 "real_estate_type_property_apartment" = "Căn hộ";
 "real_estate_type_property_commercial" = "Thương mại";
-"real_estate_type_property_flat" = "Căn hộ/nhà";
+"real_estate_type_property_flat" = "Flat / Residence";
 "real_estate_type_property_house" = "Nhà";
-"real_estate_type_property_land" = "Đất";
+"real_estate_type_property_land" = "Land";
 "real_estate_type_property_others" = "Khác";
 "real_estate_type_property_room" = "Phòng";
 "real_estate_type_property_title" = "Loại Nhà đất";
-"real_estate_type_property_villa" = "Nhà liền kề/Biệt thự";
+"real_estate_type_property_villa" = "Detached House / Villa";
 "related_items_title" = "Bài đăng liên quan";
 "report_user_counterfeit" = "Hàng giả";
 "report_user_error_already_reported" = "Bạn đã báo cáo người dùng này rồi!";

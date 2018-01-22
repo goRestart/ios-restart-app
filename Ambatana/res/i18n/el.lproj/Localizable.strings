@@ -805,13 +805,13 @@
 "real_estate_tooltip_sell_button" = "Δημοσιεύστε ιδιοκτησίες για πώληση ή ενοικίαση στη νέα μας κατηγορία \"Σπίτια\"";
 "real_estate_type_property_apartment" = "Διαμέρισμα";
 "real_estate_type_property_commercial" = "Εμπορική";
-"real_estate_type_property_flat" = "Διαμέρισμα / Κατοικία";
+"real_estate_type_property_flat" = "Flat / Residence";
 "real_estate_type_property_house" = "Σπίτι";
-"real_estate_type_property_land" = "Γη";
+"real_estate_type_property_land" = "Land";
 "real_estate_type_property_others" = "Άλλα";
 "real_estate_type_property_room" = "Δωμάτιο";
 "real_estate_type_property_title" = "Τύπος Ιδιοκτησίας";
-"real_estate_type_property_villa" = "Μονοκατοικία / Βίλα";
+"real_estate_type_property_villa" = "Detached House / Villa";
 "related_items_title" = "Σχετικές καταχωρήσεις";
 "report_user_counterfeit" = "Πλαστά στοιχεία";
 "report_user_error_already_reported" = "Έχετε ήδη κάνει αναφορά αυτού του χρήστη!";

@@ -805,13 +805,13 @@
 "real_estate_tooltip_sell_button" = "Publique um imóvel para venda ou arrendamento na sua nova categoria Imobiliário";
 "real_estate_type_property_apartment" = "Apartamento";
 "real_estate_type_property_commercial" = "Comércio";
-"real_estate_type_property_flat" = "Apartamento / Residência";
+"real_estate_type_property_flat" = "Flat / Residence";
 "real_estate_type_property_house" = "Moradia";
-"real_estate_type_property_land" = "Terreno";
+"real_estate_type_property_land" = "Land";
 "real_estate_type_property_others" = "Outro";
 "real_estate_type_property_room" = "Quarto";
 "real_estate_type_property_title" = "Tipo de imóvel";
-"real_estate_type_property_villa" = "Moradia isolada / vivenda";
+"real_estate_type_property_villa" = "Detached House / Villa";
 "related_items_title" = "Publicações relacionadas";
 "report_user_counterfeit" = "Itens contrafeitos";
 "report_user_error_already_reported" = "Já reportou este utilizador!";

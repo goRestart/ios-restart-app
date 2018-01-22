@@ -805,13 +805,13 @@
 "real_estate_tooltip_sell_button" = "Stelle Immobilien zum Verkauf oder zur Miete in unserer neuen Wohnen-Kategorie ein";
 "real_estate_type_property_apartment" = "Wohnung";
 "real_estate_type_property_commercial" = "Werbung";
-"real_estate_type_property_flat" = "Wohnung / Wohnhaus";
+"real_estate_type_property_flat" = "Flat / Residence";
 "real_estate_type_property_house" = "Haus";
-"real_estate_type_property_land" = "Grundstück";
+"real_estate_type_property_land" = "Land";
 "real_estate_type_property_others" = "Andere";
 "real_estate_type_property_room" = "Zimmer";
 "real_estate_type_property_title" = "Art der Immobilie";
-"real_estate_type_property_villa" = "Einfamilienhaus / Villa";
+"real_estate_type_property_villa" = "Detached House / Villa";
 "related_items_title" = "Ähnliche Angebote";
 "report_user_counterfeit" = "Gefälschte Ware";
 "report_user_error_already_reported" = "Du hast diesen Nutzer bereits gemeldet!";

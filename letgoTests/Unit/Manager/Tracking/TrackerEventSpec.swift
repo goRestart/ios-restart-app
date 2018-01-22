@@ -2397,7 +2397,12 @@ class TrackerEventSpec: QuickSpec {
                     realEstate.price = .normal(20)
                     realEstate.images = MockFile.makeMocks(count: 2)
                     realEstate.descr = String.makeRandom()
-                    realEstate.realEstateAttributes = RealEstateAttributes(propertyType: .room, offerType: .rent, bedrooms: nil, bathrooms: 3.0)
+                    realEstate.realEstateAttributes = RealEstateAttributes(propertyType: .room,
+                                                                           offerType: .rent,
+                                                                           bedrooms: nil,
+                                                                           bathrooms: 3.0,
+                                                                           livingRooms: nil,
+                                                                           sizeSquareMeters: nil)
                     sut = TrackerEvent.listingSellComplete(Listing.realEstate(realEstate), buttonName: .done,
                                                            sellButtonPosition: .floatingButton, negotiable: .yes,
                                                            pictureSource: .gallery, freePostingModeAllowed: true)
@@ -2729,7 +2734,12 @@ class TrackerEventSpec: QuickSpec {
                         realEstate.price = .normal(20)
                         realEstate.images = MockFile.makeMocks(count: 2)
                         realEstate.descr = String.makeRandom()
-                        let realEstateAttributes = RealEstateAttributes(propertyType: .room, offerType: .rent, bedrooms: 3, bathrooms: 1.0)
+                        let realEstateAttributes = RealEstateAttributes(propertyType: .room,
+                                                                        offerType: .rent,
+                                                                        bedrooms: 3,
+                                                                        bathrooms: 1.0,
+                                                                        livingRooms: nil,
+                                                                        sizeSquareMeters: nil)
                         realEstate.realEstateAttributes = realEstateAttributes
                         sut = TrackerEvent.listingEditComplete(nil, listing: .realEstate(realEstate), category: nil, editedFields: [.title, .category])
                     }

@@ -234,7 +234,7 @@ extension AppCoordinator: AppNavigator {
         guard ratingManager.shouldShowRating else { return }
         let trackerEvent = TrackerEvent.appRatingStart(source)
         tracker.trackEvent(trackerEvent)
-        if featureFlags.inAppRatingIOS10, #available(iOS 10.3, *) {
+        if #available(iOS 10.3, *) {
             switch source {
             case .markedSold:
                 SKStoreReviewController.requestReview()

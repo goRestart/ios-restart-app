@@ -805,13 +805,13 @@
 "real_estate_tooltip_sell_button" = "Publica propiedades en venta o alquiler en la categoría de Viviendas";
 "real_estate_type_property_apartment" = "Piso";
 "real_estate_type_property_commercial" = "Comercial";
-"real_estate_type_property_flat" = "Piso / Residencia";
+"real_estate_type_property_flat" = "Flat / Residence";
 "real_estate_type_property_house" = "Casa";
-"real_estate_type_property_land" = "Terreno";
+"real_estate_type_property_land" = "Land";
 "real_estate_type_property_others" = "Otro";
 "real_estate_type_property_room" = "Habitación";
 "real_estate_type_property_title" = "Tipo de propiedad";
-"real_estate_type_property_villa" = "Casa / Villa";
+"real_estate_type_property_villa" = "Detached House / Villa";
 "related_items_title" = "Anuncios relacionados";
 "report_user_counterfeit" = "Productos falsificados";
 "report_user_error_already_reported" = "¡Ya has denunciado a este usuario!";
