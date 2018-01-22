@@ -1,17 +1,25 @@
 import UI
 import SnapKit
 import RxSwift
+import IGListKit
+import Domain
 
 public final class SearchView: View {
- 
+
+  private let listAdapterDataSource = GameSuggestionListAdapter()
+  private let updater = ListAdapterUpdater()
+  private var listAdapter: ListAdapter!
+  
   private let collectionView: UICollectionView = {
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    let collectionViewLayout = ListCollectionViewLayout(stickyHeaders: false, topContentInset: 0, stretchToEdge: false)
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+    collectionView.backgroundColor = .clear
     return collectionView
   }()
   
   private let bag = DisposeBag()
   private var viewModel: SearchViewModelType!
-  
+
   init(viewModel: SearchViewModelType) {
     self.viewModel = viewModel
     super.init()
@@ -19,30 +27,40 @@ public final class SearchView: View {
   
   public override func setupView() {
     addSubview(collectionView)
+
+    listAdapter = ListAdapter(updater: updater, viewController: nil)
+    listAdapter.collectionView = collectionView
+    listAdapter.dataSource = listAdapterDataSource
   }
   
   public override func setupConstraints() {
     collectionView.snp.makeConstraints { make in
-      make.edges.equalTo(self)
+      make.left.equalTo(self)
+      make.right.equalTo(self)
+      make.top.equalTo(self)
+      make.bottom.equalTo(self)
     }
   }
   
   public func bind(textField: UITextField) {
     let textFieldObserver = textField.rx.value
       .orEmpty
-      .filter { $0.count >= 1 }
       .distinctUntilChanged()
-      .debounce(0.5, scheduler: MainScheduler.instance)
+      .debounce(0.3, scheduler: MainScheduler.instance)
       .asObservable()
-    
+
     viewModel.output.bind(to: textFieldObserver)
     
     viewModel.output.results
       .asObservable()
-      .subscribe(onNext: { games in
-        print("Games = \(games)")
-      }, onError: { error in
-        print("Error = \(error)")
+      .map(mapToView)
+      .subscribe(onNext: { [weak self] suggestions in
+        self?.listAdapterDataSource.suggestions = suggestions
+        self?.listAdapter.performUpdates(animated: true)
       }).disposed(by: bag)
+  }
+
+  private func mapToView(_ elements: [GameSearchSuggestion]) -> [GameSuggestionViewRender] {
+    return elements.map { GameSuggestionViewRender(suggestion: $0) }
   }
 }
