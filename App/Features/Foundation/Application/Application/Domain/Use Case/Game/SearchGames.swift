@@ -11,8 +11,11 @@ public struct SearchGames: SearchGamesUseCase {
     self.gameRepository = gameRepository
   }
   
-  public func execute(with query: String) -> Single<[Game]> {
-    return gameRepository.search(with: query)
+  public func execute(with query: String) -> Single<[GameSearchSuggestion]> {
+    guard query.trimmed.isEmpty else {
+      return gameRepository.search(with: query)
+    }
+    return .just([])
   }
 }
 
