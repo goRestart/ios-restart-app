@@ -669,8 +669,8 @@ extension ChatViewModel {
 
     private func afterSendMessageEvents(type: ChatWrapperMessageType) {
         firstInteractionDone.value = true
-        if type.isPhone {
-            // 🦄 save to UDs
+        if let listingId = conversation.value.listing?.objectId, type.isPhone {
+            saveProSellerAlreadySentPhoneInChatFor(listingId: listingId)
         }
         if shouldAskListingSold {
             var interfaceText: String
@@ -768,6 +768,16 @@ extension ChatViewModel {
         addSecurityMeetingDisclaimerIfNeeded()
         guard isBuyer else { return }
         sellerDidntAnswer.value = false
+    }
+
+    fileprivate func saveProSellerAlreadySentPhoneInChatFor(listingId: String) {
+        var listingsWithPhoneSent = keyValueStorage.proSellerAlreadySentPhoneInChat
+
+        for listingWithPhone in listingsWithPhoneSent {
+            if listingWithPhone == listingId { return }
+        }
+        listingsWithPhoneSent.append(listingId)
+        keyValueStorage.proSellerAlreadySentPhoneInChat = listingsWithPhoneSent
     }
 }
 

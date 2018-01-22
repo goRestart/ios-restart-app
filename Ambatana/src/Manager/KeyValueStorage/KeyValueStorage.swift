@@ -56,7 +56,6 @@ extension DefaultsKeys {
     static let lastShownSurveyDate = DefaultsKey<Date?>("lastShownSurveyDate")
     static let lastShownPromoteBumpDate = DefaultsKey<Date?>("lastShownPromoteBumpDate")
     static let realEstateTooltipSellButtonAlreadyShown = DefaultsKey<Bool>("realEstateTooltipSellButtonAlreadyShown")
-    static let professionalSellersSentPhoneNumber = DefaultsKey<[String]>("professionalSellersSentPhoneNumber")
 }
 
 
@@ -247,6 +246,18 @@ extension KeyValueStorageable {
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.failedBumpsInfo = newValue
+            currentUserProperties = userProperties
+        }
+    }
+
+    var proSellerAlreadySentPhoneInChat: [String] {
+        get {
+            return currentUserProperties?.proSellerAlreadySentPhoneInChat ??
+                UserDefaultsUser.proSellerAlreadySentPhoneInChatDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.proSellerAlreadySentPhoneInChat = newValue
             currentUserProperties = userProperties
         }
     }
