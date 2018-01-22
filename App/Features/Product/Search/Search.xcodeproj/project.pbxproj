@@ -24,7 +24,6 @@
 		1C93BF3B200A5D9600DDF249 /* UI.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1C93BF08200A3E1900DDF249 /* UI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1C93BF3C200A5D9600DDF249 /* Core.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1C93BF01200A3E0F00DDF249 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1C93BF3D200A5D9600DDF249 /* Application.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1C93BF16200A3E2100DDF249 /* Application.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1C93BF3F200A61A200DDF249 /* Game+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF3E200A61A200DDF249 /* Game+Equatable.swift */; };
 		1C93BF42200AA25700DDF249 /* Assembly+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93BF41200AA25700DDF249 /* Assembly+Search.swift */; };
 /* End PBXBuildFile section */
 
@@ -99,7 +98,6 @@
 		1C93BF2B200A43C800DDF249 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		1C93BF2F200A537E00DDF249 /* SearchViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelSpec.swift; sourceTree = "<group>"; };
 		1C93BF35200A540100DDF249 /* SearchGamesStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGamesStub.swift; sourceTree = "<group>"; };
-		1C93BF3E200A61A200DDF249 /* Game+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Game+Equatable.swift"; sourceTree = "<group>"; };
 		1C93BF41200AA25700DDF249 /* Assembly+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+Search.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -297,7 +295,6 @@
 		1C93BF34200A53F800DDF249 /* Test Doubles */ = {
 			isa = PBXGroup;
 			children = (
-				1C93BF3E200A61A200DDF249 /* Game+Equatable.swift */,
 				1C93BF35200A540100DDF249 /* SearchGamesStub.swift */,
 			);
 			path = "Test Doubles";
@@ -506,7 +503,6 @@
 			files = (
 				1C93BF30200A537E00DDF249 /* SearchViewModelSpec.swift in Sources */,
 				1C93BF36200A540100DDF249 /* SearchGamesStub.swift in Sources */,
-				1C93BF3F200A61A200DDF249 /* Game+Equatable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
