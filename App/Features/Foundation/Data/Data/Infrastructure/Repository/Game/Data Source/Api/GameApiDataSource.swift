@@ -11,10 +11,10 @@ struct GameApiDataSource: GameDataSource {
     self.provider = provider
   }
   
-  func search(with query: String) -> Single<[Game]> {
+  func search(with query: String) -> Single<[GameSearchSuggestion]> {
     return provider.rx
       .request(.search(query))
-      .map([Game].self)
+      .map([GameSearchSuggestion].self)
   }
   
   func getGameConsoles() -> Single<[GameConsole]> {

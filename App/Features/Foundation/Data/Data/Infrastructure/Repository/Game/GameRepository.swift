@@ -10,7 +10,7 @@ public struct GameRepository {
     self.apiDataSource = apiDataSource
   }
   
-  public func search(with query: String) -> Single<[Game]> {
+  public func search(with query: String) -> Single<[GameSearchSuggestion]> {
     return apiDataSource.search(with: query)
   }
   
