@@ -24,6 +24,7 @@
 		1C89D7091FF3D3AA00B3FA98 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7081FF3D3AA00B3FA98 /* RxSwift.framework */; };
 		1CB6494C2009C65F009B7CC1 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB6494B2009C65F009B7CC1 /* Image.swift */; };
 		1CB649612009CB73009B7CC1 /* UploadImageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB649602009CB73009B7CC1 /* UploadImageUseCase.swift */; };
+		1CB87BC120150CD20058BA99 /* GameSearchSuggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB87BC020150CD20058BA99 /* GameSearchSuggestion.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		1C89D7081FF3D3AA00B3FA98 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../../../Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		1CB6494B2009C65F009B7CC1 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		1CB649602009CB73009B7CC1 /* UploadImageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageUseCase.swift; sourceTree = "<group>"; };
+		1CB87BC020150CD20058BA99 /* GameSearchSuggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSearchSuggestion.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				1C30D5092009310B00E0A501 /* Game.swift */,
+				1CB87BC020150CD20058BA99 /* GameSearchSuggestion.swift */,
 				1C30D50F200931BC00E0A501 /* GameConsole.swift */,
 				1C30D511200931D500E0A501 /* Manufacturer.swift */,
 				1C30D513200931FC00E0A501 /* Genre.swift */,
@@ -332,6 +335,7 @@
 				1C89D6F61FF3CF3A00B3FA98 /* AuthenticateUseCase.swift in Sources */,
 				1C30D512200931D500E0A501 /* Manufacturer.swift in Sources */,
 				1C30D71F2009708E00E0A501 /* GetGameConsolesUseCase.swift in Sources */,
+				1CB87BC120150CD20058BA99 /* GameSearchSuggestion.swift in Sources */,
 				1C30D514200931FC00E0A501 /* Genre.swift in Sources */,
 				1C30D721200970EE00E0A501 /* SearchGamesUseCase.swift in Sources */,
 			);

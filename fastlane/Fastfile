@@ -8,11 +8,12 @@ platform :ios do
 
   desc "Bootstrap project"
   lane :bootstrap do 
-    carthage(
-      platform: 'iOS',
-      use_binaries: false,
-      configuration: 'Debug'
-      )
+    _carthage(false)
+  end
+
+  desc "Update carthage dependencies"
+  lane :update_carthage do 
+    _carthage(true)
   end
 
   desc "Run all tests"
@@ -37,6 +38,16 @@ platform :ios do
     test(
       project: "App/Features/Product/SignUp/SignUp.xcodeproj", 
       scheme: "SignUp")
+  end
+
+  def _carthage(update)
+    command = update ? "update": "bootstrap"
+    carthage(
+      command: command,
+      platform: 'iOS',
+      use_binaries: false,
+      configuration: 'Debug'
+    )
   end
 
   def test(project:, scheme:)
