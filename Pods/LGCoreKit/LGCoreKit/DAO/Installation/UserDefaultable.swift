@@ -11,6 +11,7 @@ import Foundation
 protocol UserDefaultable {
     func set(_ value: Any?, forKey defaultName: String)
     func string(forKey defaultName: String) -> String?
+    func double(forKey defaultName: String) -> Double
     func object(forKey defaultName: String) -> Any?
     func removeObject(forKey defaultName: String)
     func reset()

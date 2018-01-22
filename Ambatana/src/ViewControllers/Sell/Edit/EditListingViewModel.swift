@@ -259,7 +259,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         }
 
         self.shouldShareInFB = false
-        self.isFreePosting.value = featureFlags.freePostingModeAllowed && listing.price.free
+        self.isFreePosting.value = featureFlags.freePostingModeAllowed && listing.price.isFree
         super.init()
 
         setupCategories()
@@ -553,7 +553,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         else if initialListing.location != location {
             hasChanges = true
         }
-        else if initialListing.price.free != isFreePosting.value {
+        else if initialListing.price.isFree != isFreePosting.value {
             hasChanges = true
         }
         else if initialListing.isCar {
@@ -656,9 +656,9 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     private func generatePrice() -> ListingPrice {
         guard !(isFreePosting.value && featureFlags.freePostingModeAllowed) else { return .free }
-        guard let actualPrice = price else { return .negotiable(0.0) }
+        guard let actualPrice = price else { return .normal(0.0) }
         let priceValue = actualPrice.toPriceDouble()
-        return priceValue > 0 ? .normal(priceValue) : .negotiable(priceValue)
+        return .normal(priceValue)
     }
 
     private func finishedSaving() {
@@ -737,7 +737,7 @@ extension EditListingViewModel {
     }
 
     fileprivate func setupCategories() {
-        categoryRepository.index(carsIncluded: true, realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
+        categoryRepository.index(carsIncluded: true, realEstateIncluded: featureFlags.realEstateEnabled.isActive, highlightRealEstate: featureFlags.realEstatePromos.isActive) { [weak self] result in
             guard let categories = result.value else { return }
             self?.categories = categories
         }
@@ -918,7 +918,7 @@ extension EditListingViewModel {
         if shareInFbChanged() {
             editedFields.append(.share)
         }
-        if initialListing.price.free != listing.price.free {
+        if initialListing.price.isFree != listing.price.isFree {
             editedFields.append(.freePosting)
         }
         // listing was a car and is still a car

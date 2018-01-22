@@ -3,6 +3,7 @@ extension MockUserRating: MockFactory {
         return MockUserRating(objectId: String.makeRandom(),
                               userToId: String.makeRandom(),
                               userFrom: MockUserListing.makeMock(),
+                              listingId: String.makeRandom(),
                               type: UserRatingType.makeMock(),
                               value: Int.makeRandom(),
                               comment: String?.makeRandom(),

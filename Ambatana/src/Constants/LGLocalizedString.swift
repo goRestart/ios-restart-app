@@ -3251,6 +3251,30 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_related_search_title", comment: "")
 	}
 
+	static var realEstateTooltipSellButton: String {
+		return NSLocalizedString("real_estate_tooltip_sell_button", comment: "")
+	}
+
+	static var realEstateTooltipOverlayExpandableMenu: String {
+		return NSLocalizedString("real_estate_tooltip_overlay_expandable_menu", comment: "")
+	}
+
+	static var realEstateGalleryViewSubtitle: String {
+		return NSLocalizedString("real_estate_gallery_view_subtitle", comment: "")
+	}
+
+	static var realEstateCameraViewRealEstateMessage: String {
+		return NSLocalizedString("real_estate_camera_view_real_estate_message", comment: "")
+	}
+
+	static var realEstateEmptyStateSearchTitle: String {
+		return NSLocalizedString("real_estate_empty_state_search_title", comment: "")
+	}
+
+	static var realEstateEmptyStateSearchSubtitle: String {
+		return NSLocalizedString("real_estate_empty_state_search_subtitle", comment: "")
+	}
+
 	static var relatedItemsTitle: String {
 		return NSLocalizedString("related_items_title", comment: "")
 	}

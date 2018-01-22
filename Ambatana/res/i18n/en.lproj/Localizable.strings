@@ -2420,6 +2420,24 @@
 // Title for section on related search. 
 "real_estate_related_search_title" = "Related results";
 
+// Tooltip text included on sell button
+"real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
+
+// Message inside expandable sell your stuff menu to announce RE
+"real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
+
+// Message inside gallery view to explain about picture selection on RE
+"real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
+
+// Message inside camera view to explain about picture selection on RE
+"real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+
+// Title for empty state when search for real estate
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+
+// Subtitle for empty state when search for real estate
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+
 // Title when showing list of related items
 "related_items_title" = "Related listings";
 

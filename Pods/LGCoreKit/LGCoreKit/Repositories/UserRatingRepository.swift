@@ -39,10 +39,11 @@ public protocol UserRatingRepository {
      Retrieves the rating the logged user has made to the given user
      
      - parameter userId: id of the user to retrieve rating
+     - parameter listingId: id of the listing involved in the transaction
      - parameter type: Rating type
      - parameter completion: The completion closure
      */
-    func show(_ userId: String, type: UserRatingType, completion: UserRatingCompletion?)
+    func show(_ userId: String, listingId: String?, type: UserRatingType, completion: UserRatingCompletion?)
 
     /**
      Adds a new rating to the given user
@@ -53,8 +54,8 @@ public protocol UserRatingRepository {
      - parameter type:       rating type (Conversation, Seller(listingId), Buyer(listingId))
      - parameter completion: The completion closure
      */
-    func createRating(_ userId: String, value: Int, comment: String?, type: UserRatingType,
-                             completion: UserRatingCompletion?)
+    func createRating(_ userId: String, value: Int, comment: String?, listingId: String?, type: UserRatingType,
+                      completion: UserRatingCompletion?)
     /**
      Updates the given rating
 

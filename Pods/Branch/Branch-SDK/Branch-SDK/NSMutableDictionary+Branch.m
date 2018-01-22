@@ -13,20 +13,24 @@
 @implementation NSMutableDictionary (Branch)
 
 - (void) bnc_safeSetObject:(id)anObject forKey:(id<NSCopying>)aKey {
-	if (anObject) {
+	if (anObject && aKey) {
 		[self setObject:anObject forKey:aKey];
 	}
 }
 
 - (void) bnc_safeAddEntriesFromDictionary:(NSDictionary<id<NSCopying>,id> *)otherDictionary {
     if ([otherDictionary isKindOfClass:[NSDictionary class]]) {
-        [self addEntriesFromDictionary:otherDictionary];
+        NSDictionary *deepCopy =
+            [[NSDictionary alloc]
+                initWithDictionary:otherDictionary
+                copyItems:YES];
+        [self addEntriesFromDictionary:deepCopy];
     }
 }
 
 @end
 
 
-void ForceNSMutableDictionaryToLoad() {
+__attribute__((constructor)) void BNCForceNSMutableDictionaryCategoryToLoad(void) {
     //  Does nothing.  But will force the linker to include this category.
 }

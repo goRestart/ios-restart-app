@@ -6,12 +6,6 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import FBSDKShareKit
-import TwitterKit
-import LGCoreKit
-import MessageUI
-import Branch
-
 enum NativeShareStyle {
     case normal         // native share is shown with standard options
     case restricted     // native share is shown without some options that are not shares at all

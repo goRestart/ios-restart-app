@@ -86,7 +86,7 @@ class RateBuyersViewModel: BaseViewModel {
                 
                 message = nil
                 afterMessageCompletion = {
-                    self?.navigator?.rateBuyersFinish(withUser: buyer)
+                    self?.navigator?.rateBuyersFinish(withUser: buyer, listingId: self?.listingId)
                 }
             } else {
                 message = LGLocalizedString.commonError

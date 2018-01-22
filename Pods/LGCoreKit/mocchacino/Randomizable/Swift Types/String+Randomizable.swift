@@ -42,4 +42,10 @@ public extension String {
     static func makeRandomURL() -> String {
         return "http://\(makeRandom(length: 10)).com/\(makeRandom(length: 5))"
     }
+
+    static func makeRandomPhoneNumber() -> String {
+        let prefix = String.makeRandom(length: 2, allowedChars: "0123456789")
+        let phone = String.makeRandom(length: 9, allowedChars: "0123456789")
+        return "+" + prefix + " " + phone
+    }
 }

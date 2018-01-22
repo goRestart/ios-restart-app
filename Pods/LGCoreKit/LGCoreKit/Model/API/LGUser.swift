@@ -23,7 +23,10 @@ struct LGUser: User, Decodable {
 
     var isDummy: Bool
 
-    
+    var phone: String?
+    var type: UserType
+
+
     // MARK: - Lifecycle
 
     init(objectId: String?,
@@ -34,7 +37,9 @@ struct LGUser: User, Decodable {
          ratingCount: Int,
          accounts: [LGAccount],
          status: UserStatus?,
-         isDummy: Bool) {
+         isDummy: Bool,
+         phone: String?,
+         type: UserType) {
         self.objectId = objectId
         self.name = name
         self.avatar = LGFile(id: nil, urlString: avatar)
@@ -44,6 +49,8 @@ struct LGUser: User, Decodable {
         self.accounts = accounts
         self.status = status ?? .active
         self.isDummy = isDummy
+        self.phone = phone
+        self.type = type
     }
     
     init(chatInterlocutor: ChatInterlocutor) {
@@ -56,7 +63,9 @@ struct LGUser: User, Decodable {
                   ratingCount: 0,
                   accounts: [],
                   status: chatInterlocutor.status,
-                  isDummy: false)
+                  isDummy: false,
+                  phone: nil,
+                  type: .user)
     }
     
     
@@ -69,6 +78,8 @@ struct LGUser: User, Decodable {
         "username": "119750508403100",      // not parsed
         "name": "Sara G.",
         "email": "aras_0212@hotmail.com",
+        "phone": string,
+        "type": string ("professional"/"user"),
         "avatar_url": "https:\/\/s3.amazonaws.com\/letgo-avatars-pro\/images\/98\/ef\/d3\/4a\/98efd34ae8ba6a879dba60706152b131b8a64d45bf0c4ae043a39caa5d3774bc.jpg",
         "zip_code": "",
         "address": "New York NY",
@@ -87,6 +98,8 @@ struct LGUser: User, Decodable {
         "status": "active"
     }
     */
+
+    
     init(from decoder: Decoder) throws {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
         self.objectId = try keyedContainer.decodeIfPresent(String.self, forKey: .id)
@@ -108,6 +121,10 @@ struct LGUser: User, Decodable {
         let statusValue = try keyedContainer.decodeIfPresent(String.self, forKey: .status) ?? LGUser.statusDefaultValue.rawValue
         self.status = UserStatus(rawValue: statusValue) ?? LGUser.statusDefaultValue
         self.isDummy = try keyedContainer.decodeIfPresent(Bool.self, forKey: .isDummy) ?? false
+
+        self.phone = try keyedContainer.decodeIfPresent(String.self, forKey: .phone)
+        let typeValue = try keyedContainer.decodeIfPresent(String.self, forKey: .type) ?? UserType.user.rawValue
+        self.type = UserType(rawValue: typeValue) ?? UserType.user
     }
     
     enum CodingKeys: String, CodingKey {
@@ -120,5 +137,7 @@ struct LGUser: User, Decodable {
         case ratingCount    = "num_ratings"
         case accounts       = "accounts"
         case status         = "status"
+        case phone          = "phone"
+        case type           = "type"
     }
 }

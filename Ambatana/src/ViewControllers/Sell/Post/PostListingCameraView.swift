@@ -33,6 +33,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     @IBOutlet weak var infoTitle: UILabel!
     @IBOutlet weak var infoSubtitle: UILabel!
     @IBOutlet weak var infoButton: UIButton!
+    @IBOutlet weak var verticalPromoLabel: UILabel!
 
     @IBOutlet weak var headerContainer: UIView!
     @IBOutlet weak var flashButton: UIButton!
@@ -187,6 +188,8 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, for: .normal)
         usePhotoButton.setTitle(usePhotoButtonText, for: .normal)
         usePhotoButton.setStyle(.primary(fontSize: .medium))
+        
+        verticalPromoLabel.text = viewModel.verticalPromotionMessage
 
         setupInfoView()
         setupFirstTimeAlertView()
@@ -224,6 +227,11 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         }.disposed(by: disposeBag)
 
         viewModel.shouldShowFirstTimeAlert.asObservable().map { !$0 }.bind(to: firstTimeAlertContainer.rx.isHidden).disposed(by: disposeBag)
+        viewModel.shouldShowVerticalText.asObservable().bind { visible in
+            UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                self?.verticalPromoLabel.alpha = visible ? 1.0 : 0.0
+            })
+        }.disposed(by: disposeBag)
     }
 
     @objc private dynamic func hideFirstTimeAlert() {

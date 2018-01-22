@@ -310,4 +310,18 @@ extension String {
         }
         return finalHeight + interLineSpace
     }
+
+    var isPhoneNumber: Bool {
+        do {
+            let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.phoneNumber.rawValue)
+            let matches = detector.matches(in: self, options: [], range: NSMakeRange(0, self.characters.count))
+            if let res = matches.first {
+                return res.resultType == .phoneNumber && res.range.location == 0 && res.range.length == self.characters.count
+            } else {
+                return false
+            }
+        } catch {
+            return false
+        }
+    }
 }

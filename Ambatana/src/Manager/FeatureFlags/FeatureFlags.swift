@@ -23,7 +23,6 @@ protocol FeatureFlaggeable: class {
 
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var newCarsMultiRequesterEnabled: Bool { get }
     var inAppRatingIOS10: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
@@ -43,8 +42,12 @@ protocol FeatureFlaggeable: class {
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
+    var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
+    var realEstateImprovements: RealEstateImprovements { get }
+    var realEstatePromos: RealEstatePromos { get }
+    var allowEmojisOnChat: AllowEmojisOnChat { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -86,11 +89,27 @@ extension PromoteBumpUpAfterSell {
     var isActive: Bool { get { return self == .active } }
 }
 
+extension AllowCallsForProfessionals {
+    var isActive: Bool { get { return self == .active } }
+}
+
 extension ShowSecurityMeetingChatMessage {
     var isActive: Bool { get { return self == .active } }
 }
 
 extension RealEstateEnabled {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension RealEstateImprovements {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension RealEstatePromos {
+    var isActive: Bool { get { return self == .control || self == .baseline } }
+}
+
+extension AllowEmojisOnChat {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -192,13 +211,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.pricedBumpUpEnabled
         }
         return abTests.pricedBumpUpEnabled.value
-    }
-
-    var newCarsMultiRequesterEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.newCarsMultiRequesterEnabled
-        }
-        return abTests.newCarsMultiRequesterEnabled.value
     }
 
     var inAppRatingIOS10: Bool {
@@ -328,6 +340,13 @@ class FeatureFlags: FeatureFlaggeable {
         return PromoteBumpUpAfterSell.fromPosition(abTests.promoteBumpUpAfterSell.value)
     }
 
+    var allowCallsForProfessionals: AllowCallsForProfessionals {
+        if Bumper.enabled {
+            return Bumper.allowCallsForProfessionals
+        }
+        return AllowCallsForProfessionals.fromPosition(abTests.allowCallsForProfessionals.value)
+    }
+
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
         if Bumper.enabled {
             return Bumper.moreInfoAFShOrDFP
@@ -340,6 +359,27 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.showSecurityMeetingChatMessage
         }
         return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
+    }
+    
+    var realEstateImprovements: RealEstateImprovements {
+        if Bumper.enabled {
+            return Bumper.realEstateImprovements
+        }
+        return RealEstateImprovements.fromPosition(abTests.realEstateImprovements.value)
+    }
+    
+    var realEstatePromos: RealEstatePromos {
+        if Bumper.enabled {
+            return Bumper.realEstatePromos
+        }
+        return RealEstatePromos.fromPosition(abTests.realEstatePromos.value)
+    }
+    
+    var allowEmojisOnChat: AllowEmojisOnChat {
+        if Bumper.enabled {
+            return Bumper.allowEmojisOnChat
+        }
+        return AllowEmojisOnChat.fromPosition(abTests.allowEmojisOnChat.value)
     }
 
     // MARK: - Country features

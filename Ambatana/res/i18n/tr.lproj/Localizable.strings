@@ -617,7 +617,7 @@
 "product_post_retake" = "Tekrar Çek";
 "product_post_retry_button" = "Tekrar dene";
 "product_post_select_category_cars" = "Araba";
-"product_post_select_category_housing" = "Emlak";
+"product_post_select_category_housing" = "Satılık / Kiralık Emlak";
 "product_post_select_category_motors_and_accessories" = "Diğer Araçlar ve Yedek Parça";
 "product_post_select_category_other" = "Diğer eşyalar";
 "product_post_select_category_title" = "Ne satıyorsun?";
@@ -751,7 +751,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Oda Sayısı";
+"real_estate_camera_view_real_estate_message" = "Kiralamak ya da satmak istediğin mülkün fotoğrafını çek";
 "real_estate_current_step_of_total" = "%d / %d";
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+"real_estate_gallery_view_subtitle" = "Satmak ya da kiralamak istediğin emlak için 5 adete kadar fotoğraf seçebilirsin";
 "real_estate_location_notification_message" = "Açık adresini diğer kullanıcılara asla göstermeyeceğiz";
 "real_estate_location_title" = "Konum";
 "real_estate_offer_type_rent" = "Kiralık";
@@ -791,6 +795,8 @@
 "real_estate_title_generator_property_type_house" = "Müstakil Ev";
 "real_estate_title_generator_property_type_other" = "Diğer";
 "real_estate_title_generator_property_type_room" = "Oda";
+"real_estate_tooltip_overlay_expandable_menu" = "Satılık veya kiralık emlak ilanı veriyorsan, yeni Emlak kategorimizi deneyebilirsin!";
+"real_estate_tooltip_sell_button" = "Yeni Emlak kategorimizde satılık veya kiralık emlak ilanı verebilirsin";
 "real_estate_type_property_apartment" = "Daire";
 "real_estate_type_property_commercial" = "Reklam";
 "real_estate_type_property_house" = "Müstakil Ev";

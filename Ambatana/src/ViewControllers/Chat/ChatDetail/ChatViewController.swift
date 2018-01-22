@@ -14,7 +14,10 @@ import RxSwift
 class ChatViewController: TextViewController {
 
     let navBarHeight: CGFloat = 64
+    let inputBarHeight: CGFloat = 44
     let expressBannerHeight: CGFloat = 44
+    let professionalSellerBannerHeight: CGFloat = 44
+
     let listingView: ChatListingView
     var selectedCellIndexPath: IndexPath?
     let viewModel: ChatViewModel
@@ -28,7 +31,9 @@ class ChatViewController: TextViewController {
     var stickersWindow: UIWindow?
     let disposeBag = DisposeBag()
     let expressChatBanner: ChatBanner
-    var bannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    var expressChatBannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    let professionalSellerBanner: ChatBanner
+    var professionalSellerBannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var featureFlags: FeatureFlaggeable
     var pushPermissionManager: PushPermissionsManager
     var selectedQuickAnswer: QuickAnswer?
@@ -69,9 +74,11 @@ class ChatViewController: TextViewController {
         self.featureFlags = featureFlags
         self.pushPermissionManager = pushPermissionManager
         self.expressChatBanner = ChatBanner()
+        self.professionalSellerBanner = ChatBanner()
         super.init(viewModel: viewModel, nibName: nil)
         self.viewModel.delegate = self
         self.expressChatBanner.delegate = self
+        self.professionalSellerBanner.delegate = self
         hidesBottomBarWhenPushed = hidesBottomBar
     }
     
@@ -117,12 +124,16 @@ class ChatViewController: TextViewController {
             viewModel.wentBack()
         }
     }
-
-    override func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        guard !text.hasEmojis() else { return false }
-        return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
-    }
     
+    override func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if featureFlags.allowEmojisOnChat.isActive {
+            return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
+        } else {
+            guard !text.hasEmojis() else { return false }
+            return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
+        }
+    }
+
     
     // MARK: - TextViewController methods
     
@@ -192,7 +203,7 @@ class ChatViewController: TextViewController {
 
         let action = UIAction(interface: .button(LGLocalizedString.chatExpressBannerButtonTitle,
             .secondary(fontSize: .small, withBorder: true)), action: { [weak self] in
-                self?.viewModel.bannerActionButtonTapped()
+                self?.viewModel.expressChatBannerActionButtonTapped()
             })
         expressChatBanner.setupChatBannerWith(LGLocalizedString.chatExpressBannerTitle, action: action)
     }
@@ -208,10 +219,11 @@ class ChatViewController: TextViewController {
     private func addSubviews() {
         relationInfoView.translatesAutoresizingMaskIntoConstraints = false
         expressChatBanner.translatesAutoresizingMaskIntoConstraints = false
+        professionalSellerBanner.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(expressChatBanner)
         view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
-        
+        view.addSubview(professionalSellerBanner)
     }
 
     private func setupFrames() {
@@ -229,7 +241,7 @@ class ChatViewController: TextViewController {
         
         expressChatBanner.layout().height(expressBannerHeight, relatedBy: .greaterThanOrEqual)
         expressChatBanner.layout(with: view).fillHorizontal()
-        expressChatBanner.layout(with: relationInfoView).below(by: -relationInfoView.height, constraintBlock: { [weak self] in self?.bannerTopConstraint = $0 })
+        expressChatBanner.layout(with: relationInfoView).below(by: -relationInfoView.height, constraintBlock: { [weak self] in self?.expressChatBannerTopConstraint = $0 })
     }
 
     fileprivate func setupRelatedProducts() {
@@ -263,6 +275,22 @@ class ChatViewController: TextViewController {
         setTableBottomMargin(total, animated: animated)
     }
 
+    fileprivate func setupProfessionalSellerBanner() {
+        let action = UIAction(interface: .button(LGLocalizedString.chatProfessionalBannerButtonTitle, .primary(fontSize: .small)), action: { [weak self] in
+            self?.viewModel.professionalSellerBannerActionButtonTapped()
+        })
+        professionalSellerBanner.setupChatBannerWith(LGLocalizedString.chatProfessionalBannerTitle,
+                                                     action: action,
+                                                     buttonIcon: #imageLiteral(resourceName: "ic_phone_call"))
+
+        professionalSellerBanner.layout().height(professionalSellerBannerHeight,
+                                                 relatedBy: .greaterThanOrEqual)
+        professionalSellerBanner.layout(with: view).fillHorizontal()
+        professionalSellerBanner.layout(with: relationInfoView).below(by: -relationInfoView.height,
+                                                                      constraintBlock: { [weak self] in
+                                                                        self?.professionalSellerBannerTopConstraint = $0
+        })
+    }
 
     // MARK: > Navigation
     
@@ -379,16 +407,16 @@ extension ChatViewController: ChatStickersViewDelegate {
 // MARK: - ExpressChatBanner
 
 extension ChatViewController {
-    func showBanner() {
+    func showExpressChatBanner() {
         expressChatBanner.isHidden = false
-        bannerTopConstraint.constant = 0
+        expressChatBannerTopConstraint.constant = 0
         UIView.animate(withDuration: 0.5, animations: { [weak self] in
             self?.view.layoutIfNeeded()
         }) 
     }
 
-    func hideBanner() {
-        bannerTopConstraint.constant = -expressChatBanner.frame.height
+    func hideExpressChatBanner() {
+        expressChatBannerTopConstraint.constant = -expressChatBanner.frame.height
         UIView.animate(withDuration: 0.5, animations: { [weak self] in
             self?.view.layoutIfNeeded()
         }, completion: { [weak self] _ in
@@ -400,7 +428,21 @@ extension ChatViewController {
 
 extension ChatViewController: ChatBannerDelegate {
     func chatBannerDidFinish() {
-        hideBanner()
+        guard !viewModel.interlocutorIsProfessional.value else { return }
+        hideExpressChatBanner()
+    }
+}
+
+
+// MARK: - Professional seller banner
+
+extension ChatViewController {
+    func showProfessionalSellerBanner() {
+        professionalSellerBanner.isHidden = false
+        professionalSellerBannerTopConstraint.constant = 0
+        UIView.animate(withDuration: 0.5, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
+        })
     }
 }
 
@@ -436,7 +478,12 @@ fileprivate extension ChatViewController {
                 self?.tableView.handleCollectionChange(change)
             }
             }.disposed(by: disposeBag)
-        
+
+        viewModel.interlocutorIsProfessional.asObservable()
+            .map { !$0 }
+            .bind(to: listingView.proTag.rx.isHidden)
+            .disposed(by: disposeBag)
+
         viewModel.listingName.asObservable().bind(to: listingView.listingName.rx.text).disposed(by: disposeBag)
         viewModel.interlocutorName.asObservable().bind(to: listingView.userName.rx.text).disposed(by: disposeBag)
         viewModel.listingPrice.asObservable().bind(to: listingView.listingPrice.rx.text).disposed(by: disposeBag)
@@ -464,9 +511,9 @@ fileprivate extension ChatViewController {
 
         viewModel.shouldShowExpressBanner.asObservable().skip(1).bind { [weak self] showBanner in
             if showBanner {
-                self?.showBanner()
+                self?.showExpressChatBanner()
             } else {
-                self?.hideBanner()
+                self?.hideExpressChatBanner()
             }
         }.disposed(by: disposeBag)
 
@@ -494,6 +541,16 @@ fileprivate extension ChatViewController {
             case .hidden, .loading:
                 self?.relatedListingsView.listingId.value = nil
             }
+        }.disposed(by: disposeBag)
+
+        let showProfessionalBanner = Observable.combineLatest(viewModel.interlocutorIsProfessional.asObservable(),
+                                                              viewModel.interlocutorPhoneNumber.asObservable()) { ($0, $1) }
+
+        showProfessionalBanner.asObservable().bind { [weak self] (isPro, phoneNum) in
+            guard let strongSelf = self else { return }
+            guard let phone = phoneNum, phone.isPhoneNumber && isPro else { return }
+            strongSelf.setupProfessionalSellerBanner()
+            strongSelf.showProfessionalSellerBanner()
         }.disposed(by: disposeBag)
     }
 }
@@ -706,5 +763,6 @@ extension ChatViewController {
         sendButton.accessibilityId = .chatViewSendButton
         textViewBar.accessibilityId = .chatViewTextInputBar
         expressChatBanner.accessibilityId = .expressChatBanner
+        professionalSellerBanner.accessibilityId = .professionalSellerChatBanner
     }
 }
