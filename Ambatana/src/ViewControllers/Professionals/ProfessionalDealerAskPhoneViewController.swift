@@ -12,9 +12,9 @@ import RxSwift
 
 class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UITextFieldDelegate {
 
-    let introTextMinimumHeight: CGFloat = 100
-    let introTextRightMargin: CGFloat = 46
-    let letsTalkLabelHeight: CGFloat = 21
+    private let introTextMinimumHeight: CGFloat = 100
+    private let introTextRightMargin: CGFloat = 46
+    private let letsTalkLabelHeight: CGFloat = 21
 
     private let closeButton: UIButton = UIButton()
     private let notNowButton: UIButton = UIButton()
@@ -135,13 +135,13 @@ class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UITextFi
     }
 
     func setAccessibilityIds() {
-        view.accessibilityId = .askPhoneNumView
-        closeButton.accessibilityId = .askPhoneNumCloseButton
-        notNowButton.accessibilityId = .askPhoneNumNotNowButton
-        introTextLabel.accessibilityId = .askPhoneNumIntroText
-        letsTalkLabel.accessibilityId = .askPhoneNumLetstalkText
-        phoneTextField.accessibilityId = .askPhoneNumTextfield
-        sendPhoneButton.accessibilityId = .askPhoneNumSendPhoneButton
+        view.accessibilityId = .askPhoneNumberView
+        closeButton.accessibilityId = .askPhoneNumberCloseButton
+        notNowButton.accessibilityId = .askPhoneNumberNotNowButton
+        introTextLabel.accessibilityId = .askPhoneNumberIntroText
+        letsTalkLabel.accessibilityId = .askPhoneNumberLetstalkText
+        phoneTextField.accessibilityId = .askPhoneNumberTextfield
+        sendPhoneButton.accessibilityId = .askPhoneNumberSendPhoneButton
     }
 
     // MARK: Public Methods

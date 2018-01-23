@@ -595,13 +595,13 @@ enum AccessibilityId: String {
     case promoteBumpUpLaterButton
 
     // Professional Dealers Ask for phone number
-    case askPhoneNumView
-    case askPhoneNumCloseButton
-    case askPhoneNumNotNowButton
-    case askPhoneNumIntroText
-    case askPhoneNumLetstalkText
-    case askPhoneNumTextfield
-    case askPhoneNumSendPhoneButton
+    case askPhoneNumberView
+    case askPhoneNumberCloseButton
+    case askPhoneNumberNotNowButton
+    case askPhoneNumberIntroText
+    case askPhoneNumberLetstalkText
+    case askPhoneNumberTextfield
+    case askPhoneNumberSendPhoneButton
 }
 
 extension UIAccessibilityIdentification {

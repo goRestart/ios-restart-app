@@ -493,7 +493,6 @@ extension TabCoordinator: ListingDetailNavigator {
 
     func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) {
         var completion: (()->())? = nil
-        // 🦄 Send the phone somehow!
         if openChat {
             completion = { [weak self] in
                 var openChatAutomaticMessage: ChatWrapperMessageType? = nil

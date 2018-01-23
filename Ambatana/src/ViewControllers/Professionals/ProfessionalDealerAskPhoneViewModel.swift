@@ -12,7 +12,7 @@ import RxSwift
 
 class ProfessionalDealerAskPhoneViewModel: BaseViewModel {
 
-    let phoneNum = Variable<String>("")
+    private let phoneNumber = Variable<String>("")
     let sendPhoneButtonEnabled = Variable<Bool>(false)
     private let disposeBag = DisposeBag()
 
@@ -26,19 +26,20 @@ class ProfessionalDealerAskPhoneViewModel: BaseViewModel {
     }
 
     func setupRx() {
-        phoneNum.asObservable().bind { [weak self] phone in
-            self?.sendPhoneButtonEnabled.value = phone.isPhoneNumber
-        }.disposed(by: disposeBag)
+        phoneNumber.asObservable()
+            .map { $0.isPhoneNumber }
+            .bind(to: sendPhoneButtonEnabled)
+            .disposed(by: disposeBag)
     }
 
     func updatePhoneNumberFrom(text: String) {
-        phoneNum.value = text
+        phoneNumber.value = text
     }
     
     func sendPhonePressed() {
         navigator?.closeAskPhoneFor(listing: listing,
                                     openChat: true,
-                                    withPhoneNum: phoneNum.value,
+                                    withPhoneNum: phoneNumber.value,
                                     source: .listingDetail)
     }
 
