@@ -72,6 +72,6 @@ class ListingHelper {
     }
 
     static func descriptionWith(descr: String?) -> String? {
-        return descr?.capitalizedFirstLetterOnly.replacingHiddenTags
+        return descr?.replacingHiddenTags
     }
 }
