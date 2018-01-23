@@ -42,6 +42,7 @@ class MediaPickerManager {
                 showGalleryPickerIn(controller)
                 })
             alert.addAction(UIAlertAction(title: cancelTitle, style: .cancel, handler: nil))
+            controller.modalPresentationStyle = .overFullScreen
             controller.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
     }
 

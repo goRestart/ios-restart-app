@@ -4,9 +4,9 @@ extension UserRatingType: MockFactory {
         case 0:
             return .conversation
         case 1:
-            return .seller(listingId: String.makeRandom())
+            return .seller
         default:
-            return .buyer(listingId: String.makeRandom())
+            return .buyer
         }
     }
 }

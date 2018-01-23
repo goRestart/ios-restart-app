@@ -75,4 +75,7 @@ struct LGUIKitConstants {
     // MARK: - Animation
 
     static let defaultAnimationTime: TimeInterval = 0.2
+
+    // MARK: - Ads
+    static let advertisementCellPlaceholderHeight: CGFloat = 220
 }

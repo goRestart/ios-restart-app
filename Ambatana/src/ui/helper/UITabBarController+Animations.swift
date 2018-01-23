@@ -31,10 +31,17 @@ extension UITabBarController {
 
         //  animate the tabBar
 
+        prepareLayoutForTabBarAnimation()
         UIView.animate(withDuration: duration, delay: 0, options: [.curveEaseIn], animations: { [weak self] in
             self?.tabBar.frame = frame.offsetBy(dx: 0, dy: offsetY)
             self?.tabBar.layoutIfNeeded()
-        }, completion: completion)
+            }, completion: completion)
+    }
+
+    private func prepareLayoutForTabBarAnimation() {
+        // ☢️☢️ View does not update when chaning tabs without animation (from tabbar hidden to not hidden)
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
 
 }

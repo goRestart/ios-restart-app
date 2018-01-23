@@ -6,14 +6,11 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import FBSDKShareKit
-
 protocol ProfileTabNavigator: TabNavigator {
     func openSettings()
 }
 
 protocol SettingsNavigator: class {
-    func showFbAppInvite(_ content: FBSDKAppInviteContent, delegate: FBSDKAppInviteDialogDelegate)
     func openEditUserName()
     func openEditEmail()
     func openEditLocation(withDistanceRadius distanceRadius: Int?)

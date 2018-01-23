@@ -128,6 +128,7 @@
 "chat_forbidden_disclaimer_seller_wo_name" = "Looks like this user is no longer interested in your listing.";
 "chat_inactive_conversations_button" = "View archived chats";
 "chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
+"chat_inactive_list_title" = "Inactive Chats";
 "chat_list_account_deleted" = "Deleted account";
 "chat_list_account_deleted_username" = "Inactive";
 "chat_list_all_empty_title" = "NO CHATS (YET!)";
@@ -769,6 +770,11 @@
 "real_estate_offer_type_title" = "Type of Listing";
 "real_estate_price_title" = "Price";
 "real_estate_related_search_title" = "Related results";
+"real_estate_rooms_over_ten" = "Over 10";
+"real_estate_rooms_studio" = "Studio (1+0)";
+"real_estate_rooms_title" = "No. of rooms";
+"real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_title" = "Size";
 "real_estate_summary_bathroom_title" = "bathroom";
 "real_estate_summary_bathrooms_empty" = "Add no. of bathrooms";
 "real_estate_summary_bathrooms_title" = "bathrooms";
@@ -779,6 +785,10 @@
 "real_estate_summary_offer_type_empty" = "Add type of listing";
 "real_estate_summary_price_empty" = "Add price";
 "real_estate_summary_price_title" = "Price: %@";
+"real_estate_summary_rooms_emtpy" = "Add rooms";
+"real_estate_summary_rooms_title" = "rooms";
+"real_estate_summary_size_empty" = "Add size";
+"real_estate_summary_size_title" = "Size";
 "real_estate_summary_title" = "Summary";
 "real_estate_summary_type_property_empty" = "Add type of property";
 "real_estate_title_generator_bathrooms_0" = "None";
@@ -805,10 +815,13 @@
 "real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 "real_estate_type_property_apartment" = "Apartment";
 "real_estate_type_property_commercial" = "Commercial";
+"real_estate_type_property_flat" = "Flat / Residence";
 "real_estate_type_property_house" = "House";
+"real_estate_type_property_land" = "Land";
 "real_estate_type_property_others" = "Other";
 "real_estate_type_property_room" = "Room";
 "real_estate_type_property_title" = "Type of Property";
+"real_estate_type_property_villa" = "Detached House / Villa";
 "related_items_title" = "Related listings";
 "report_user_counterfeit" = "Counterfeit items";
 "report_user_error_already_reported" = "You already reported this user!";
@@ -931,7 +944,7 @@
 "trending_items_view_number_of_searches_item" = "% searches";
 "trending_items_view_number_of_searches_title" = "Searches this week";
 "trending_items_view_post_button" = "Post";
-"trending_items_view_subtitle" = "Post one of these, and make money under a week";
+"trending_items_view_subtitle" = "Post one of these, and make money in under a week";
 "trending_items_view_title" = "Most popular items in %@";
 "trending_searches_Title" = "Trending Searches";
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";
