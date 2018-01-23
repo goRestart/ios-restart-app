@@ -108,38 +108,38 @@ enum LocalMostSearchedItem: Int {
                                                           itemIndex: self.rawValue)
     }
     
-    var category: ListingCategory {
+    var category: PostCategory {
         switch self {
         case .iPhone:
-            return .electronics
+            return .unassigned(listingCategory: .electronics)
         case .atv:
-            return .cars
+            return .car
         case .smartphone:
-            return .electronics
+            return .unassigned(listingCategory: .electronics)
         case .sedan:
-            return .cars
+            return .car
         case .scooter:
-            return .cars
+            return .car
         case .computer:
-            return .electronics
+            return .unassigned(listingCategory: .electronics)
         case .coupe:
-            return .cars
+            return .car
         case .tablet:
-            return .electronics
+            return .unassigned(listingCategory: .electronics)
         case .motorcycle:
-            return .cars
+            return .car
         case .truck:
-            return .cars
+            return .motorsAndAccessories
         case .gadget:
-            return .electronics
+            return .unassigned(listingCategory: .electronics)
         case .trailer:
-            return .cars
+            return .motorsAndAccessories
         case .controller:
-            return .sportsLeisureAndGames
+            return .unassigned(listingCategory: .sportsLeisureAndGames)
         case .dresser:
-            return .homeAndGarden
+            return .unassigned(listingCategory: .homeAndGarden)
         case .subwoofer:
-            return .electronics
+            return .unassigned(listingCategory: .electronics)
         }
     }
 }

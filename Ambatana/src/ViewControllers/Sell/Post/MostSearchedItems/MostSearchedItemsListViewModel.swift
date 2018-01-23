@@ -46,8 +46,8 @@ class MostSearchedItemsListViewModel: BaseViewModel {
         navigator?.cancel()
     }
     
-    func searchButtonAction(itemName: String) {
-        //navigator?.openSearchFor(query: itemName)
+    func searchButtonAction(listingTitle: String) {
+        navigator?.openSearchFor(listingTitle: listingTitle)
     }
     
     func postButtonAction(item: LocalMostSearchedItem) {

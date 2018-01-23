@@ -246,6 +246,4 @@ extension PostingDetailsViewModelSpec: PostListingNavigator {
         openListingCreationCalled = true
     }
     func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool) {}
-    func openSearchFor(query: String) { }
-    //func openMostSearchedItems(source: MostSearchedItemsSource) {}
 }

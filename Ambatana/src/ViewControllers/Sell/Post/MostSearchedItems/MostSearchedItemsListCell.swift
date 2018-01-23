@@ -9,7 +9,7 @@
 import Foundation
 
 protocol MostSearchedItemsListCellDelegate: class {
-    func didSearchAction(itemName: String)
+    func didSearchAction(listingTitle: String)
     func didPostAction(item: LocalMostSearchedItem)
 }
 
@@ -152,8 +152,8 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
     // MARK: - UI Actions
     
     @objc func searchAction() {
-        guard let itemName = item?.name else { return }
-        delegate?.didSearchAction(itemName: itemName)
+        guard let listingTitle = item?.name else { return }
+        delegate?.didSearchAction(listingTitle: listingTitle)
     }
     
     @objc func postAction() {

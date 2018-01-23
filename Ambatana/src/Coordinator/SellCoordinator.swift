@@ -12,7 +12,6 @@ import RxSwift
 protocol SellCoordinatorDelegate: class {
     func sellCoordinatorDidCancel(_ coordinator: SellCoordinator)
     func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithListing listing: Listing)
-    func sellCoordinator(_ coordinator: SellCoordinator, openSearchFor query: String)
 }
 
 final class SellCoordinator: Coordinator {
@@ -79,8 +78,8 @@ final class SellCoordinator: Coordinator {
                                                  listingTitle: listingTitle)
         let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                   forcedInitialTab: forcedInitialTab)
-        postListingVC.modalPresentationStyle = .overCurrentContext
-        postListingVC.modalTransitionStyle = .crossDissolve
+        //postListingVC.modalPresentationStyle = .overCurrentContext
+        //postListingVC.modalTransitionStyle = .crossDissolve
         navigationController = SellNavigationController(rootViewController: postListingVC)
         navigationController.setupInitialCategory(postCategory: postCategory)
         self.viewController = navigationController
@@ -228,13 +227,6 @@ extension SellCoordinator: PostListingNavigator {
     
     func backToSummary() {
         let _ = navigationController.popViewController(animated: true)
-    }
-    
-    func openSearchFor(query: String) {
-        closeCoordinator(animated: true) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.delegate?.sellCoordinator(strongSelf, openSearchFor: query)
-        }
     }
 }
 

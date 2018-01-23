@@ -144,11 +144,12 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
     
     // MARK: - MostSearchedItemsCellDelegate
     
-    func didSearchAction(itemName: String) {
-        viewModel.searchButtonAction(itemName: itemName)
-    }
-    
     func didPostAction(item: LocalMostSearchedItem) {
         viewModel.postButtonAction(item: item)
     }
+    
+    func didSearchAction(listingTitle: String) {
+        viewModel.searchButtonAction(listingTitle: listingTitle)
+    }
+    
 }

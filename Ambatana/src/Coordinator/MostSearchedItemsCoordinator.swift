@@ -9,8 +9,8 @@
 import LGCoreKit
 
 protocol MostSearchedItemsCoordinatorDelegate: class {
-    //func cancelMostSearchedItems()
     func openSell(source: PostingSource, mostSearchedItem: LocalMostSearchedItem)
+    func openSearchFor(listingTitle: String)
 }
 
 class MostSearchedItemsCoordinator: Coordinator {
@@ -61,16 +61,17 @@ class MostSearchedItemsCoordinator: Coordinator {
 extension MostSearchedItemsCoordinator: MostSearchedItemsNavigator {
     func cancel() {
         dismissViewController(animated: true, completion: nil)
-        //delegate?.cancelMostSearchedItems()
     }
     
     func openSell(mostSearchedItem: LocalMostSearchedItem) {
-//        //delegate?.openSell(source: .mostSearchedItems, mostSearchedItem: mostSearchedItem)
-//        viewController.dismiss(animated: true) { [weak self] in
-        dismissViewController(animated: true) { [weak self] in
+        closeCoordinator(animated: true) { [weak self] in
             self?.delegate?.openSell(source: .mostSearchedItems, mostSearchedItem: mostSearchedItem)
         }
-        //delegate?.openSell(source: .mostSearchedItems, mostSearchedItem: mostSearchedItem)
-        //viewController.dismiss(animated: true, completion: nil)
+    }
+    
+    func openSearchFor(listingTitle: String) {
+        closeCoordinator(animated: true) { [weak self] in
+            self?.delegate?.openSearchFor(listingTitle: listingTitle)
+        }
     }
 }
