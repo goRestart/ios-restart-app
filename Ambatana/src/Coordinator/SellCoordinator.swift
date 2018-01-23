@@ -78,8 +78,6 @@ final class SellCoordinator: Coordinator {
                                                  listingTitle: listingTitle)
         let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                   forcedInitialTab: forcedInitialTab)
-        //postListingVC.modalPresentationStyle = .overCurrentContext
-        //postListingVC.modalTransitionStyle = .crossDissolve
         navigationController = SellNavigationController(rootViewController: postListingVC)
         navigationController.setupInitialCategory(postCategory: postCategory)
         self.viewController = navigationController

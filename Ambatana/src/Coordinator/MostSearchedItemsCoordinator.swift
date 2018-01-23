@@ -42,8 +42,8 @@ class MostSearchedItemsCoordinator: Coordinator {
         
         let mostSearchedItemsVM = MostSearchedItemsListViewModel(isSearchEnabled: true)
         let mostSearchedItemsVC = MostSearchedItemsListViewController(viewModel: mostSearchedItemsVM)
-        mostSearchedItemsVC.modalPresentationStyle = .overFullScreen
-        self.viewController = mostSearchedItemsVC
+        let navigationController = UINavigationController(rootViewController: mostSearchedItemsVC)
+        self.viewController = navigationController
         mostSearchedItemsVM.navigator = self
         
     }

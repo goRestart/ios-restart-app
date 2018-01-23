@@ -46,7 +46,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                 
                 context("image selection") {
                     it("returns the same state when updating category") {
-                        expect(sut.updating(category: .unassigned(listingCategory: nil))) === sut
+                        expect(sut.updating(category: .otherItems(listingCategory: nil))) === sut
                     }
                     
                     context("update step to uploading images") {
@@ -102,7 +102,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating category") {
-                        expect(sut.updating(category: .unassigned(listingCategory: nil))) === sut
+                        expect(sut.updating(category: .otherItems(listingCategory: nil))) === sut
                     }
                     
                     it("returns the same state when updating step to uploading images") {
@@ -161,7 +161,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating category") {
-                        expect(sut.updating(category: .unassigned(listingCategory: nil))) === sut
+                        expect(sut.updating(category: .otherItems(listingCategory: nil))) === sut
                     }
                     
                     context("update step to uploading images") {
@@ -242,7 +242,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating category") {
-                        expect(sut.updating(category: .unassigned(listingCategory: nil))) === sut
+                        expect(sut.updating(category: .otherItems(listingCategory: nil))) === sut
                     }
                     
                     it("returns the same state when updating step to uploading images") {
@@ -293,7 +293,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     context("update category to unassigned") {
                         beforeEach {
                             oldSut = sut
-                            sut = sut.updating(category: .unassigned(listingCategory: nil))
+                            sut = sut.updating(category: .otherItems(listingCategory: nil))
                         }
                         
                         it("returns a new state") {
@@ -356,7 +356,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                     }
                     
                     it("returns the same state when updating category") {
-                        expect(sut.updating(category: .unassigned(listingCategory: nil))) === sut
+                        expect(sut.updating(category: .otherItems(listingCategory: nil))) === sut
                     }
                     
                     it("returns the same state when updating step to uploading images") {
@@ -411,7 +411,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                 }
                 context("with unassigned as postCategory") {
                     beforeEach {
-                        sut = PostListingState(postCategory: .unassigned(listingCategory: nil), title: nil)
+                        sut = PostListingState(postCategory: .otherItems(listingCategory: nil), title: nil)
                         sut = sut.updatingStepToUploadingImages()
                         sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                             .updatingAfterUploadingSuccess()
@@ -478,7 +478,7 @@ class PostProductStateSpec: BaseViewModelSpec {
                 }
                 context("category other item setup first") {
                     beforeEach {
-                        sut = PostListingState(postCategory: .unassigned(listingCategory: nil), title: nil)
+                        sut = PostListingState(postCategory: .otherItems(listingCategory: nil), title: nil)
                         sut = sut.updatingStepToUploadingImages()
                         sut = sut.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         sut = sut.updatingAfterUploadingSuccess()

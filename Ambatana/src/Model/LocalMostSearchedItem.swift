@@ -111,35 +111,35 @@ enum LocalMostSearchedItem: Int {
     var category: PostCategory {
         switch self {
         case .iPhone:
-            return .unassigned(listingCategory: .electronics)
+            return .otherItems(listingCategory: .electronics)
         case .atv:
             return .car
         case .smartphone:
-            return .unassigned(listingCategory: .electronics)
+            return .otherItems(listingCategory: .electronics)
         case .sedan:
             return .car
         case .scooter:
-            return .car
+            return .motorsAndAccessories
         case .computer:
-            return .unassigned(listingCategory: .electronics)
+            return .otherItems(listingCategory: .electronics)
         case .coupe:
             return .car
         case .tablet:
-            return .unassigned(listingCategory: .electronics)
+            return .otherItems(listingCategory: .electronics)
         case .motorcycle:
             return .car
         case .truck:
             return .motorsAndAccessories
         case .gadget:
-            return .unassigned(listingCategory: .electronics)
+            return .otherItems(listingCategory: .electronics)
         case .trailer:
             return .motorsAndAccessories
         case .controller:
-            return .unassigned(listingCategory: .sportsLeisureAndGames)
+            return .otherItems(listingCategory: .sportsLeisureAndGames)
         case .dresser:
-            return .unassigned(listingCategory: .homeAndGarden)
+            return .otherItems(listingCategory: .homeAndGarden)
         case .subwoofer:
-            return .unassigned(listingCategory: .electronics)
+            return .otherItems(listingCategory: .electronics)
         }
     }
 }

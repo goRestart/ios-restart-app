@@ -80,7 +80,7 @@ enum PostingSummaryOption {
         switch postCategory {
         case .car:
             return [.price, .make, .model, .year, .location]
-        case .motorsAndAccessories, .unassigned:
+        case .motorsAndAccessories, .otherItems:
             return [.price, .location]
         case .realEstate:
             return [.price, .propertyType, .offerType, .bedrooms, .bathrooms, .location]
@@ -114,7 +114,7 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
     // MARK: - Lifecycle
     
     init(postCategory: PostCategory?) {
-        self.postingSummaryOptions = PostingSummaryOption.optionsIncluded(with: postCategory ?? .unassigned(listingCategory: nil))
+        self.postingSummaryOptions = PostingSummaryOption.optionsIncluded(with: postCategory ?? .otherItems(listingCategory: nil))
         super.init(frame: CGRect.zero)
         setupUI()
         setupAccessibilityIds()

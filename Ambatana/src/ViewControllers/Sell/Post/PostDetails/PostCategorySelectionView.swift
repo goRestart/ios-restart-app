@@ -12,7 +12,7 @@ import UIKit
 
 enum PostCategory: Equatable {
     case car
-    case unassigned(listingCategory: ListingCategory?)
+    case otherItems(listingCategory: ListingCategory?)
     case motorsAndAccessories
     case realEstate
     
@@ -20,7 +20,7 @@ enum PostCategory: Equatable {
         switch self {
         case .car:
             return .cars
-        case .unassigned(let category):
+        case .otherItems(let category):
             return category ?? .unassigned
         case .motorsAndAccessories:
             return .motorsAndAccessories
@@ -31,8 +31,8 @@ enum PostCategory: Equatable {
     
     static func categoriesAvailable(realEstateEnabled: Bool) -> [PostCategory] {
         return realEstateEnabled ?
-            [.car, PostCategory.realEstate, PostCategory.motorsAndAccessories, PostCategory.unassigned(listingCategory: nil)] :
-            [PostCategory.car, PostCategory.motorsAndAccessories, PostCategory.unassigned(listingCategory: nil)]
+            [.car, PostCategory.realEstate, PostCategory.motorsAndAccessories, PostCategory.otherItems(listingCategory: nil)] :
+            [PostCategory.car, PostCategory.motorsAndAccessories, PostCategory.otherItems(listingCategory: nil)]
     }
     
     func numberOfSteps(shouldShowPrice: Bool) -> CGFloat {
@@ -42,7 +42,7 @@ enum PostCategory: Equatable {
             return baseSteps - delta
         case .realEstate:
             return baseSteps - delta
-        case .unassigned, .motorsAndAccessories:
+        case .otherItems, .motorsAndAccessories:
             return baseSteps
         }
     }
@@ -53,7 +53,7 @@ enum PostCategory: Equatable {
             return 3
         case .realEstate:
             return 5
-        case .unassigned, .motorsAndAccessories:
+        case .otherItems, .motorsAndAccessories:
             return 0
         }
     }
@@ -63,7 +63,7 @@ func ==(lhs: PostCategory, rhs: PostCategory) -> Bool {
     switch (lhs, rhs) {
     case (.car, .car), (.motorsAndAccessories, .motorsAndAccessories), (.realEstate, .realEstate):
         return true
-    case (.unassigned(_), .unassigned(_)):
+    case (.otherItems(_), .otherItems(_)):
         return true
     default:
         return false
@@ -145,11 +145,11 @@ fileprivate extension PostCategorySelectionView {
                           title: LGLocalizedString.productPostSelectCategoryCars,
                           image: #imageLiteral(resourceName: "categories_cars_inactive"),
                           postCategoryLink: .car)
-            case .unassigned:
+            case .otherItems:
                 addButton(button: otherCategoryButton,
                           title: LGLocalizedString.productPostSelectCategoryOther,
                           image: #imageLiteral(resourceName: "categories_other_items"),
-                          postCategoryLink: .unassigned(listingCategory: nil))
+                          postCategoryLink: .otherItems(listingCategory: nil))
             case .motorsAndAccessories:
                 addButton(button: motorsAndAccessoriesButton,
                           title: LGLocalizedString.productPostSelectCategoryMotorsAndAccessories,

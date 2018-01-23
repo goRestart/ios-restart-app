@@ -392,7 +392,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView, didSelectIndex: PostingSummaryOption) {
         
         let event = TrackerEvent.openOptionOnSummary(fieldOpen: EventParameterOptionSummary(optionSelected: didSelectIndex),
-                                                     postingType: EventParameterPostingType(category: postListingState.category ?? .unassigned(listingCategory: nil)))
+                                                     postingType: EventParameterPostingType(category: postListingState.category ?? .otherItems(listingCategory: nil)))
         tracker.trackEvent(event)
         navigator?.nextPostingDetailStep(step: didSelectIndex.postingDetailStep, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, previousStepIsSummary: true)
     }
