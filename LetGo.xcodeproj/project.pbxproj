@@ -666,6 +666,8 @@
 		721A83111E827FD300507E47 /* MediaPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721A83101E827FD300507E47 /* MediaPermissions.swift */; };
 		721A83121E827FD300507E47 /* MediaPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721A83101E827FD300507E47 /* MediaPermissions.swift */; };
 		721A83141E82B52C00507E47 /* MockMediaPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721A83131E82B52C00507E47 /* MockMediaPermissions.swift */; };
+		7224B0312015EBC800DC8B33 /* PostingAddDetailSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7224B0302015EBC800DC8B33 /* PostingAddDetailSizeView.swift */; };
+		7224B0322015EBC800DC8B33 /* PostingAddDetailSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7224B0302015EBC800DC8B33 /* PostingAddDetailSizeView.swift */; };
 		7224D7E81F581EE7004E3B49 /* ExpandableCategorySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7224D7E71F581EE7004E3B49 /* ExpandableCategorySelectionView.swift */; };
 		7224D7E91F581EE7004E3B49 /* ExpandableCategorySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7224D7E71F581EE7004E3B49 /* ExpandableCategorySelectionView.swift */; };
 		7226F0FB1E962CA200B54D01 /* ChatRelatedItemsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7226F0FA1E962CA200B54D01 /* ChatRelatedItemsState.swift */; };
@@ -1928,6 +1930,7 @@
 		721579FF1E5F34F7006AF997 /* notificationserviceGodMode.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = notificationserviceGodMode.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		721A83101E827FD300507E47 /* MediaPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaPermissions.swift; path = Ambatana/src/Manager/MediaPermissions.swift; sourceTree = SOURCE_ROOT; };
 		721A83131E82B52C00507E47 /* MockMediaPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockMediaPermissions.swift; sourceTree = "<group>"; };
+		7224B0302015EBC800DC8B33 /* PostingAddDetailSizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingAddDetailSizeView.swift; sourceTree = "<group>"; };
 		7224D7E71F581EE7004E3B49 /* ExpandableCategorySelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpandableCategorySelectionView.swift; path = ExpandableCategorySelectionView/ExpandableCategorySelectionView.swift; sourceTree = "<group>"; };
 		7226F0FA1E962CA200B54D01 /* ChatRelatedItemsState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRelatedItemsState.swift; sourceTree = "<group>"; };
 		722B505D1F599D7500FA20AB /* ExpandableCategorySelectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableCategorySelectionViewModel.swift; sourceTree = "<group>"; };
@@ -3912,6 +3915,7 @@
 				C74016D81D6467C9004C1E9D /* PostListingDetailPriceView.swift */,
 				C74016DB1D6467DB004C1E9D /* PostListingDetailPriceView.xib */,
 				72FE02DE1F98D38F005BD672 /* PostingAddDetailPriceView.swift */,
+				7224B0302015EBC800DC8B33 /* PostingAddDetailSizeView.swift */,
 				72FE02E11F9E1DF7005BD672 /* PostingAddDetailSummaryTableView.swift */,
 				727463AE1FB0763D00AD8261 /* PostingAddDetailLocation.swift */,
 				72C7A1C51FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift */,
@@ -5945,6 +5949,7 @@
 				6A5E1A101D548F5400F92692 /* UIImage+LG.swift in Sources */,
 				2EED4D251D23F03E0024328A /* ChatListing+title.swift in Sources */,
 				508010FE1D4748120073F362 /* SettingsViewController.swift in Sources */,
+				7224B0312015EBC800DC8B33 /* PostingAddDetailSizeView.swift in Sources */,
 				C73FABBC1DD3895E008F4519 /* SettingsInfoCell.swift in Sources */,
 				C7B5887D1CE1DFA6009B3975 /* BaseChatCellDrawer.swift in Sources */,
 				2EB4C6A71E3A070400455A11 /* BumpUpFreeViewModel.swift in Sources */,
@@ -6497,6 +6502,7 @@
 				6A5E1A111D548F5400F92692 /* UIImage+LG.swift in Sources */,
 				50A61C231DCA1B5A0057436A /* NSLocale+Country.swift in Sources */,
 				C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */,
+				7224B0322015EBC800DC8B33 /* PostingAddDetailSizeView.swift in Sources */,
 				508010FF1D4748120073F362 /* SettingsViewController.swift in Sources */,
 				2EB4C6A81E3A089D00455A11 /* BumpUpFreeViewModel.swift in Sources */,
 				C7DB42111C5138B500400945 /* UIApplication+TopViewController.swift in Sources */,
