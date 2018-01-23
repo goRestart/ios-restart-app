@@ -244,7 +244,12 @@ final class TabBarController: UITabBarController {
         view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()
         let vm = ExpandableCategorySelectionViewModel(realEstateEnabled: featureFlags.realEstateEnabled.isActive)
         vm.delegate = self
-        let expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame, buttonSpacing: ExpandableCategorySelectionView.distanceBetweenButtons, bottomDistance: floatingSellButtonMarginConstraint.constant, viewModel: vm)
+        
+        let bottomDistance = view.bounds.height - floatingSellButton.frame.maxY
+        let expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame,
+                                                                              buttonSpacing: ExpandableCategorySelectionView.distanceBetweenButtons,
+                                                                              bottomDistance: -bottomDistance,
+                                                                              viewModel: vm)
         expandableCategorySelectionView.tag = TabBarController.categorySelectionTag
         view.addSubview(expandableCategorySelectionView)
         expandableCategorySelectionView.layoutIfNeeded()

@@ -2,69 +2,43 @@ PODS:
   - Alamofire (4.5.1)
   - AlamofireImage (3.3.0):
     - Alamofire (~> 4.5)
-  - Amplitude-iOS (3.8.5)
-  - AppsFlyerFramework (4.7.11)
+  - Amplitude-iOS (4.0.4)
+  - AppsFlyerFramework (4.8.2)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
     - Bolts/Tasks (= 1.9.0)
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - Branch (0.12.27):
-    - Branch/Core (= 0.12.27)
-    - Branch/without-IDFA (= 0.12.27)
-  - Branch/Core (0.12.27)
-  - Branch/without-IDFA (0.12.27)
+  - Branch (0.22.5):
+    - Branch/Core (= 0.22.5)
+  - Branch/Core (0.22.5)
   - bumper (1.1.0)
   - CameraManager (4.0.1)
-  - CHTCollectionViewWaterfallLayout (0.9.5):
-    - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.5)
-  - CHTCollectionViewWaterfallLayout/ObjC (0.9.5)
+  - CHTCollectionViewWaterfallLayout (0.9.7):
+    - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.7)
+  - CHTCollectionViewWaterfallLayout/ObjC (0.9.7)
   - CocoaLumberjack/Default (3.3.0)
   - CocoaLumberjack/Swift (3.3.0):
     - CocoaLumberjack/Default
-  - Crashlytics (3.8.3):
-    - Fabric (~> 1.6.3)
+  - Crashlytics (3.9.3):
+    - Fabric (~> 1.7.2)
   - DeviceGuru (3.0.1)
-  - Fabric (1.6.11)
-  - FBSDKCoreKit (4.22.0):
+  - Fabric (1.7.2)
+  - FBSDKCoreKit (4.29.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.22.0):
+  - FBSDKLoginKit (4.29.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.22.0):
+  - FBSDKShareKit (4.29.0):
     - FBSDKCoreKit
-  - Firebase/AppIndexing (3.7.1):
-    - Firebase/Core
-    - FirebaseAppIndexing (= 1.2.0)
-  - Firebase/Core (3.7.1):
-    - FirebaseAnalytics (= 3.4.4)
-    - FirebaseCore (= 3.4.3)
-  - FirebaseAnalytics (3.4.4):
-    - FirebaseCore (~> 3.4)
-    - FirebaseInstanceID (~> 1.0)
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleSymbolUtilities (~> 1.1)
-  - FirebaseAppIndexing (1.2.0)
-  - FirebaseCore (3.4.3):
-    - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleUtilities (~> 1.2)
-  - FirebaseInstanceID (1.0.9)
   - FLEX (2.4.0)
   - Google-Mobile-Ads-SDK (7.24.1)
-  - Google/Core (3.0.3):
-    - FirebaseAnalytics (~> 3.2)
-  - Google/SignIn (3.0.3):
-    - Google/Core
-    - GoogleSignIn (~> 4.0)
   - GoogleIDFASupport (3.14.0)
-  - GoogleInterchangeUtilities (1.2.2):
-    - GoogleSymbolUtilities (~> 1.1)
   - GoogleSignIn (4.1.1):
     - GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)
     - GoogleToolboxForMac/NSString+URLArguments (~> 2.1)
     - GTMOAuth2 (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleSymbolUtilities (1.1.2)
   - GoogleToolboxForMac/DebugUtils (2.1.3):
     - GoogleToolboxForMac/Defines (= 2.1.3)
   - GoogleToolboxForMac/Defines (2.1.3)
@@ -73,8 +47,6 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.1.3)
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.3)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.3)
-  - GoogleUtilities (1.3.2):
-    - GoogleSymbolUtilities (~> 1.1)
   - GTMOAuth2 (1.1.6):
     - GTMSessionFetcher (~> 1.1)
   - GTMSessionFetcher (1.1.12):
@@ -88,7 +60,7 @@ PODS:
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (2.0.4)
   - LGCollapsibleLabel (1.2.0)
-  - LGCoreKit (4.1.0):
+  - LGCoreKit (4.4.0):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -100,7 +72,7 @@ PODS:
     - RxSwift (~> 4.0.0)
     - RxSwiftExt (~> 3.0.0)
     - SocketRocket (= 0.5.1)
-  - NewRelicAgent (5.14.2)
+  - NewRelicAgent (6.1.0)
   - Nimble (7.0.2)
   - OHHTTPStubs (5.2.3):
     - OHHTTPStubs/Default (= 5.2.3)
@@ -136,38 +108,33 @@ PODS:
     - RxSwift (~> 4.0)
   - SocketRocket (0.5.1)
   - SwiftyUserDefaults (3.0.1)
-  - TwitterCore (2.3.0):
-    - Fabric
-  - TwitterKit (2.3.0):
-    - TwitterCore (= 2.3.0)
 
 DEPENDENCIES:
   - AlamofireImage (= 3.3.0)
-  - Amplitude-iOS (= 3.8.5)
-  - AppsFlyerFramework (= 4.7.11)
-  - Branch (= 0.12.27)
+  - Amplitude-iOS (= 4.0.4)
+  - AppsFlyerFramework (= 4.8.2)
+  - Branch (= 0.22.5)
   - bumper (from `git@github.com:letgoapp/bumper.git`, commit `7ec04a070eca2337f058954d7f53c474d616d7b1`)
   - CameraManager (= 4.0.1)
-  - CHTCollectionViewWaterfallLayout (= 0.9.5)
+  - CHTCollectionViewWaterfallLayout (= 0.9.7)
   - CocoaLumberjack/Swift (= 3.3.0)
-  - Crashlytics (= 3.8.3)
+  - Crashlytics (= 3.9.3)
   - DeviceGuru (~> 3.0.1)
-  - Fabric (= 1.6.11)
-  - FBSDKCoreKit (= 4.22.0)
-  - FBSDKLoginKit (= 4.22.0)
-  - FBSDKShareKit (= 4.22.0)
-  - Firebase/AppIndexing (= 3.7.1)
+  - Fabric (= 1.7.2)
+  - FBSDKCoreKit (= 4.29.0)
+  - FBSDKLoginKit (= 4.29.0)
+  - FBSDKShareKit (= 4.29.0)
   - FLEX (= 2.4.0)
   - Google-Mobile-Ads-SDK (= 7.24.1)
-  - Google/SignIn (= 3.0.3)
   - GoogleIDFASupport (= 3.14.0)
+  - GoogleSignIn (= 4.1.1)
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - KeychainSwift (= 10.0.0)
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.4)
   - LGCollapsibleLabel (= 1.2.0)
-  - LGCoreKit (= 4.1.0)
-  - NewRelicAgent (= 5.14.2)
+  - LGCoreKit (= 4.4.0)
+  - NewRelicAgent (= 6.1.0)
   - Nimble (= 7.0.2)
   - OHHTTPStubs (= 5.2.3)
   - OHHTTPStubs/Swift
@@ -177,7 +144,6 @@ DEPENDENCIES:
   - RxSwiftExt (= 3.0.0)
   - RxTest (= 4.0.0)
   - SwiftyUserDefaults (from `https://github.com/Dschee/SwiftyUserDefaults`, commit `dd3d8ddc5bf95db09b66185182b5a555ac59efd5`)
-  - TwitterKit (= 2.3.0)
 
 EXTERNAL SOURCES:
   bumper:
@@ -210,34 +176,25 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   AlamofireImage: 2e784dc5d00f04903a52c1d169181469c805c3df
-  Amplitude-iOS: de7cfde0c791d05fb0e0f82bd34cbd3585ccd63f
-  AppsFlyerFramework: ece902d4233177d4e9db1429c7a5df5fad8e9f07
+  Amplitude-iOS: 2ad4d7270c99186236c1272a3a9425463b1ae1a7
+  AppsFlyerFramework: 0999f26d737ff456c7a5f9d7c912996ea5cd8cbe
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  Branch: 41404cc6de82e84368a26961f66d657b0662ca02
+  Branch: 4f0482418d99e77d15b0e6065ef216c10e24797b
   bumper: 8d5499e9774aa148763ab9a1eebcaf5e0ed7beff
   CameraManager: 56b3516e8e22cfbf56f3f0401291561e1ad9b3d0
-  CHTCollectionViewWaterfallLayout: 775ff73f48cfc13859b62d8bceb96e772e4a0318
+  CHTCollectionViewWaterfallLayout: 9d11068fafecac106695bb5a5d6d0f738483b598
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
-  Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
+  Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
   DeviceGuru: 648c34deb10c6ef59b013ea2922c04c18d8973f0
-  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
-  FBSDKCoreKit: c693bad19feb225469eeff14452ba364522ee48b
-  FBSDKLoginKit: 1fa529fc622d7b32ebeaffbecd377180833c6d30
-  FBSDKShareKit: 21ab3c8d173f4fa20c47c1061f3a9fac5950b5fa
-  Firebase: be473484f0d515e72ffd04acf22f981773c23e58
-  FirebaseAnalytics: 0533a00b681e08fd0b2cd0444b7ddf0ef9fd7a1a
-  FirebaseAppIndexing: adf2f3b14b6828f1d4c539fc72434962cf29ea2c
-  FirebaseCore: 5a885548bbc5f0c410b04f8e9ac9d73ff1221907
-  FirebaseInstanceID: 2d0518b1378fe9d685ef40cbdd63d2fdc1125339
+  Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
+  FBSDKCoreKit: 6f139173dc63a1deaff4430a55f2fe5bb222d2af
+  FBSDKLoginKit: 56a057ca6822535ea0faa25f57a7c41edb697fd4
+  FBSDKShareKit: 18a2cd118aef11dd657fe7e8b64bae5c719088b2
   FLEX: bd1a39e55b56bb413b6f1b34b3c10a0dc44ef079
-  Google: cd92fab98f800f509da88c1e0c570275713bc9d5
   Google-Mobile-Ads-SDK: ed8004a7265b424568dc84f3d2bbe3ea3fff958f
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
-  GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleSignIn: 3fdaa34a2ba04dbd7a25d7db39aecb0da98d5bdc
-  GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
-  GoogleUtilities: 8bbc733218aad26306f9d4a253823986110e3358
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
   JBKenBurnsView: e40d10fcd4fbeb652c29fa431d4748780a4672ff
@@ -246,8 +203,8 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: 09db04ac2c741d43a2d3b4781e3a25bf1166466e
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGCoreKit: 7716921053ab62a3e2f55a014e6356c90cc10f31
-  NewRelicAgent: 28645401ac7531eeeabde64410c9d5efd49e083f
+  LGCoreKit: 9006b6e4db4977c1262f774911d8e238ab3064fc
+  NewRelicAgent: ebbbcd14741b21e11769aeeee385a0902b70c2e0
   Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
   OHHTTPStubs: e238cd5b66d8efa51c861db45895de8fe079f4a7
   Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
@@ -261,9 +218,7 @@ SPEC CHECKSUMS:
   RxTest: 0041e792cede35e53e4749f378d21482af0e9d12
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
-  TwitterCore: 817eae3e291fa4125b47789e26a4f6f024115c1f
-  TwitterKit: 8a383da8d9c21b0423716381ea8bbfce20622d91
 
-PODFILE CHECKSUM: d64efbf4b755563ee7b87778e45f0d703977eb29
+PODFILE CHECKSUM: 37daec24007c020b88dd9d7bf849b7fa0638b192
 
 COCOAPODS: 1.3.1

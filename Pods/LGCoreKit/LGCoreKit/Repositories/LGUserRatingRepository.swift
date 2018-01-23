@@ -56,12 +56,12 @@ public class LGUserRatingRepository: UserRatingRepository {
      - parameter type: Rating type
      - parameter completion: The completion closure
      */
-    public func show(_ userId: String, type: UserRatingType, completion: UserRatingCompletion?) {
+    public func show(_ userId: String, listingId: String?, type: UserRatingType, completion: UserRatingCompletion?) {
         guard let userFromId = myUserRepository.myUser?.objectId else {
             completion?(UserRatingResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
-        dataSource.show(userId, userFromId: userFromId, type: type) { result in
+        dataSource.show(userId, userFromId: userFromId, listingId: listingId, type: type) { result in
             handleApiResult(result, completion: completion)
         }
     }
@@ -72,17 +72,18 @@ public class LGUserRatingRepository: UserRatingRepository {
      - parameter userId:     user to rate
      - parameter value:      rating stars value
      - parameter comment:    rating comment
-     - parameter type:       rating type (Conversation, Seller(listingId), Buyer(listingId))
+     - parameter listingId:  listing involved in the rating
+     - parameter type:       rating type (Conversation, Seller, Buyer)
      - parameter completion: The completion closure
      */
-    public func createRating(_ userId: String, value: Int, comment: String?, type: UserRatingType,
+    public func createRating(_ userId: String, value: Int, comment: String?, listingId: String?, type: UserRatingType,
                              completion: UserRatingCompletion?) {
         guard let userFromId = myUserRepository.myUser?.objectId else {
             completion?(UserRatingResult(error: .internalError(message: "Missing objectId in MyUser")))
             return
         }
 
-        dataSource.create(userId, userFromId: userFromId, value: value, comment: comment, type: type) {
+        dataSource.create(userId, userFromId: userFromId, value: value, comment: comment, listingId: listingId, type: type) {
             result in
             handleApiResult(result, completion: completion)
         }

@@ -23,13 +23,9 @@ protocol FeatureFlaggeable: class {
 
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var newCarsMultiRequesterEnabled: Bool { get }
-    var inAppRatingIOS10: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
-    var appRatingDialogInactive: Bool { get }
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
-    var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
@@ -48,6 +44,8 @@ protocol FeatureFlaggeable: class {
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var realEstateImprovements: RealEstateImprovements { get }
     var realEstatePromos: RealEstatePromos { get }
+    var allowEmojisOnChat: AllowEmojisOnChat { get }
+    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -56,6 +54,7 @@ protocol FeatureFlaggeable: class {
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
     var moreInfoShoppingAdUnitId: String { get }
     var moreInfoDFPAdUnitId: String { get }
+    var feedDFPAdUnitId: String? { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -107,6 +106,14 @@ extension RealEstateImprovements {
 
 extension RealEstatePromos {
     var isActive: Bool { get { return self == .control || self == .baseline } }
+}
+
+extension AllowEmojisOnChat {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension ShowAdsInFeedWithRatio {
+    var isActive: Bool { get { return self != .control && self != .baseline } }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -209,20 +216,6 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.pricedBumpUpEnabled.value
     }
 
-    var newCarsMultiRequesterEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.newCarsMultiRequesterEnabled
-        }
-        return abTests.newCarsMultiRequesterEnabled.value
-    }
-
-    var inAppRatingIOS10: Bool {
-        if Bumper.enabled {
-            return Bumper.inAppRatingIOS10
-        }
-        return abTests.inAppRatingIOS10.value
-    }
-
     var userReviewsReportEnabled: Bool {
         if Bumper.enabled {
             return Bumper.userReviewsReportEnabled
@@ -235,20 +228,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.dynamicQuickAnswers
         }
         return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
-    }
-
-    var appRatingDialogInactive: Bool {
-        if Bumper.enabled {
-            return Bumper.appRatingDialogInactive
-        }
-        return abTests.appRatingDialogInactive.value
-    }
-
-    var locationDataSourceEndpoint: LocationDataSourceEndpoint {
-        if Bumper.enabled {
-            return Bumper.locationDataSourceEndpoint
-        }
-        return LocationDataSourceEndpoint.fromPosition(abTests.locationDataSourceType.value)
     }
 
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {
@@ -377,6 +356,20 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return RealEstatePromos.fromPosition(abTests.realEstatePromos.value)
     }
+    
+    var allowEmojisOnChat: AllowEmojisOnChat {
+        if Bumper.enabled {
+            return Bumper.allowEmojisOnChat
+        }
+        return AllowEmojisOnChat.fromPosition(abTests.allowEmojisOnChat.value)
+    }
+
+    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
+        if Bumper.enabled {
+            return Bumper.showAdsInFeedWithRatio
+        }
+        return ShowAdsInFeedWithRatio.fromPosition(abTests.showAdsInFeedWithRatio.value)
+    }
 
     // MARK: - Country features
 
@@ -445,6 +438,24 @@ class FeatureFlags: FeatureFlaggeable {
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFPUSA
         default:
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFP
+        }
+    }
+
+    var feedDFPAdUnitId: String? {
+        switch sensorLocationCountryCode {
+        case .usa?:
+            switch showAdsInFeedWithRatio {
+            case .baseline, .control:
+                return nil
+            case .ten:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
+            case .fifteen:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA15Ratio
+            case .twenty:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio
+            }
+        default:
+            return nil
         }
     }
 

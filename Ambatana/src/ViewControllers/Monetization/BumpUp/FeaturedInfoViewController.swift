@@ -97,10 +97,16 @@ class FeaturedInfoViewController: BaseViewController {
         view.addSubview(closeButton)
 
         closeButton.layout().width(Metrics.closeButtonWidth).height(Metrics.closeButtonHeight)
-        closeButton.layout(with: view).top(by: Metrics.margin).left()
+        closeButton.layout(with: view).left()
+        closeButton.layout(with: titleContainer).centerY()
 
         // title
-        titleContainer.layout(with: view).centerX().top(by: Metrics.veryBigMargin)
+        titleContainer.layout(with: view).centerX()
+        if #available(iOS 11.0, *) {
+            titleContainer.layout(with: view.safeAreaLayoutGuide).top()
+        } else {
+            titleContainer.layout(with: view).top(by: Metrics.veryBigMargin)
+        }
         titleContainer.layout(with: closeButton).left(to: .right, by: Metrics.bigMargin, relatedBy: .greaterThanOrEqual)
 
         let titleViews: [UIView] = [titleIcon, titleLabel]

@@ -19,6 +19,7 @@ enum PostingSource {
     case onboardingCamera
     case notifications
     case deleteListing
+    case realEstatePromo
 }
 
 
@@ -415,6 +416,8 @@ extension PostingSource {
             return .notifications
         case .deleteListing:
             return .listingDelete
+        case .realEstatePromo:
+            return .realEstatePromo
         }
     }
 
@@ -426,6 +429,8 @@ extension PostingSource {
             return .sellYourStuff
         case .onboardingCamera:
             return .startMakingCash
+        case .realEstatePromo:
+            return .realEstatePromo
         }
     }
     var sellButtonPosition: EventParameterSellButtonPosition {
@@ -436,6 +441,8 @@ extension PostingSource {
             return .floatingButton
         case .onboardingButton, .onboardingCamera, .deepLink, .notifications, .deleteListing:
             return .none
+        case .realEstatePromo:
+            return .realEstatePromo
         }
     }
 }

@@ -7,7 +7,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import Foundation
+import GoogleSignIn
 import LGCoreKit
 
 class GoogleLoginHelper: NSObject {

@@ -2014,6 +2014,24 @@
 // Login message when asking for login after clicking on report
 "product_report_login_popup_text" = "To report a listing, you have to log in";
 
+// Ask phone number dealer intro text
+"professional_dealer_ask_phone_intro_text" = "I'm a professional car dealer so I'd love to help you in person. Please share your phone number so I can give you the best deal!";
+
+// Ask phone number not now button title
+"professional_dealer_ask_phone_not_now_button" = "Not now";
+
+// Ask phone number let's talk label text
+"professional_dealer_ask_phone_lets_talk_text" = "Let's Talk";
+
+// Ask phone number text field placeholder
+"professional_dealer_ask_phone_textfield_placeholder" = "Enter phone number";
+
+// Ask phone number send phone button title
+"professional_dealer_ask_phone_send_phone_button" = "Send phone number";
+
+// Ask phone number automatic message
+"professional_dealer_ask_phone_chat_message" = "My phone number is %@";
+
 // Profile, you blocked this user label (wo username)
 "profile_blocked_by_me_label" = "You've blocked this user";
 
@@ -2273,6 +2291,15 @@
 // Real Estate property type others
 "real_estate_type_property_others" = "Other";
 
+// Real Estate property type flat
+"real_estate_type_property_flat" = "Flat / Residence";
+
+// Real Estate property type land
+"real_estate_type_property_land" = "Land";
+
+// Real Estate property type villa
+"real_estate_type_property_villa" = "Detached House / Villa";
+
 // Real Estate number of bathrooms title
 "real_estate_bathrooms_title" = "No. of bathrooms";
 
@@ -2431,6 +2458,12 @@
 
 // Message inside camera view to explain about picture selection on RE
 "real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+
+// Title for empty state when search for real estate
+"real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
+
+// Subtitle for empty state when search for real estate
+"real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
 
 // Title when showing list of related items
 "related_items_title" = "Related listings";
@@ -2821,3 +2854,66 @@
 
 // Title when you rate a user
 "user_rating_title" = "Review your experience with";
+
+// Trending description on header bubble
+"trending_items_header_bubble" = "Trending";
+
+// Title for Most searched items list view
+"trending_items_view_title" = "Most popular items in %@";
+
+// Subtitle for Most searched items list view
+"trending_items_view_subtitle" = "Post one of these, and make money in under a week";
+
+// Title for the list of Most searched items list view
+"trending_items_view_number_of_searches_title" = "Searches this week";
+
+// Number of searches for item info
+"trending_items_view_number_of_searches_item" = "% searches";
+
+// Post button for each item in the list
+"trending_items_view_post_button" = "Post";
+
+// iPhone title
+"trending_item_iPhone" = "iPhone";
+
+// ATV title
+"trending_item_atv" = "atv";
+
+// Smartphone title
+"trending_item_smartphone" = "smartphone";
+
+// Sedan title
+"trending_item_sedan" = "sedan";
+
+// Scooter title
+"trending_item_scooter" = "scooter";
+
+// Computer title
+"trending_item_computer" = "computer";
+
+// Coupe title
+"trending_item_coupe" = "coupe";
+
+// Tablet title
+"trending_item_tablet" = "tablet";
+
+// Motorcycle title
+"trending_item_motorcycle" = "motorcycle";
+
+// Truck title
+"trending_item_truck" = "truck";
+
+// Gadget title
+"trending_item_gadget" = "gadget";
+
+// Trailer title
+"trending_item_trailer" = "trailer";
+
+// Controller title
+"trending_item_controller" = "controller";
+
+// Dresser title
+"trending_item_dresser" = "dresser";
+
+// Subwoofer title
+"trending_item_subwoofer" = "subwoofer";

@@ -46,6 +46,8 @@ class ABTests {
     let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20171219ShowSecurityMeetingChatMessage", defaultValue: 0)
     let realEstateImprovements = IntABDynamicVar(key: "20180103RealEstateImprovements", defaultValue: 0)
     let realEstatePromos = IntABDynamicVar(key: "20180108RealEstatePromos", defaultValue: 0)
+    let allowEmojisOnChat = IntABDynamicVar(key: "20180109AllowEmojisOnChat", defaultValue: 0)
+    let showAdsInFeedWithRatio = IntABDynamicVar(key: "20180111ShowAdsInFeedWithRatio", defaultValue: 0)
     
     init() {
     }
@@ -84,6 +86,8 @@ class ABTests {
         result.append(showSecurityMeetingChatMessage)
         result.append(realEstateImprovements)
         result.append(realEstatePromos)
+        result.append(allowEmojisOnChat)
+        result.append(showAdsInFeedWithRatio)
         
         return result
     }
