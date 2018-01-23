@@ -44,9 +44,6 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
     }
     
     private func setupUI() {
-        // TODO: Check further flow for navigationBar behaviours (didLoad vs didAppear)
-        //navigationController?.setNavigationBarHidden(false, animated: false)
-        
         closeButton.image = UIImage(named: "navbar_close")
         closeButton.style = .plain
         closeButton.target = self
