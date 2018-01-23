@@ -46,6 +46,10 @@ final class PostListingState {
         return true
     }
     
+    var sizeSquareMeters: Int? {
+        return verticalAttributes?.realEstateAttributes?.sizeSquareMeters
+    }
+    
     
     // MARK: - Lifecycle
     
