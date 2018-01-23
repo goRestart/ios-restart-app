@@ -37,4 +37,8 @@ class ProductionEnvironment: AppEnvironment {
     let adTestModeActive = false
     let moreInfoAdUnitIdDFP = "/21636273254/turkey/iOS/moreinfo/320x100"
     let moreInfoAdUnitIdDFPUSA = "/21666124832/us/iOS/moreinfo/320x100"
+
+    let feedAdUnitIdDFPUSA10Ratio = "/21666124832/us/iOS/feed/fluid_var_a"
+    let feedAdUnitIdDFPUSA15Ratio = "/21666124832/us/iOS/feed/fluid_var_b"
+    let feedAdUnitIdDFPUSA20Ratio = "/21666124832/us/iOS/feed/fluid_var_c"
 }

@@ -273,20 +273,6 @@ fileprivate extension AppDelegate {
             DDLog.add(CrashlyticsLogger.sharedInstance)
         #endif
 
-        // Location data source
-        featureFlags.syncedData.filter { $0 }.asObservable().subscribeNext { [weak self] _ in
-            let locationDataSourceType: LocationDataSourceType
-            switch featureFlags.locationDataSourceEndpoint {
-            case .control, .baseline:
-                locationDataSourceType = .apple(shouldUseRegion: false)
-            case .appleWithRegion:
-                locationDataSourceType = .apple(shouldUseRegion: true)
-            case .niordWithRegion:
-                locationDataSourceType = .niord
-            }
-            self?.locationRepository?.setLocationDataSourceType(locationDataSourceType: locationDataSourceType)
-            }.disposed(by: disposeBag)
-
         // LGCoreKit
         let coreEnvironment = environmentHelper.coreEnvironment
         let carsInfoJSONPath = Bundle.main.path(forResource: "CarsInfo", ofType: "json") ?? ""

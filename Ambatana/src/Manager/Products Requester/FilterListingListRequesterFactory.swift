@@ -11,12 +11,12 @@ import LGCoreKit
 
 class FilterListingListRequesterFactory {
 
-    static func generateRequester(withFilters filters: ListingFilters, queryString: String?, itemsPerPage: Int, multiRequesterEnabled: Bool) -> ListingListMultiRequester {
+    static func generateRequester(withFilters filters: ListingFilters, queryString: String?, itemsPerPage: Int) -> ListingListMultiRequester {
         
         var filtersArray: [ListingFilters] = [filters]
         var requestersArray: [ListingListRequester] = []
 
-        if multiRequesterEnabled && (filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy) {
+        if filters.selectedCategories.contains(.cars) || filters.selectedTaxonomyChildren.containsCarsTaxonomy {
             filtersArray = FilterListingListRequesterFactory.generateCarsNegativeFilters(fromFilters: filters)
         }
 
