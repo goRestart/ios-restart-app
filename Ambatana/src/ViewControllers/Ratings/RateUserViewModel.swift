@@ -13,22 +13,16 @@ struct RateUserData {
     let userId: String
     let userAvatar: URL?
     let userName: String?
+    let listingId: String?
     let ratingType: UserRatingType
 
-    init?(user: UserListing) {
+    init?(user: UserListing, listingId: String?, ratingType: UserRatingType) {
         guard let userId = user.objectId else { return nil }
         self.userId = userId
         self.userAvatar = user.avatar?.fileURL
         self.userName = user.name
-        self.ratingType = .conversation
-    }
-
-    init?(interlocutor: ChatInterlocutor) {
-        guard let userId = interlocutor.objectId else { return nil }
-        self.userId = userId
-        self.userAvatar = interlocutor.avatar?.fileURL
-        self.userName = interlocutor.name
-        self.ratingType = .conversation
+        self.listingId = listingId
+        self.ratingType = ratingType
     }
 }
 
@@ -168,7 +162,7 @@ extension RateUserViewModel {
             userRatingRepository.updateRating(previousRating, value: rating, comment: comment,
                                               completion: ratingCompletion)
         } else {
-            userRatingRepository.createRating(data.userId, value: rating, comment: comment,
+            userRatingRepository.createRating(data.userId, value: rating, comment: comment, listingId: data.listingId,
                                               type: data.ratingType, completion: ratingCompletion)
         }
     }
@@ -312,7 +306,7 @@ fileprivate extension RateUserViewModel {
 fileprivate extension RateUserViewModel {
     func retrievePreviousRating() {
         isLoading.value = true
-        userRatingRepository.show(data.userId, type: data.ratingType) { [weak self] result in
+        userRatingRepository.show(data.userId, listingId: data.listingId, type: data.ratingType) { [weak self] result in
             self?.isLoading.value = false
             guard let userRating = result.value else { return }
             self?.previousRating = userRating

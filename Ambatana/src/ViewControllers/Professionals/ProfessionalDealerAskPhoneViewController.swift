@@ -87,7 +87,7 @@ class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UITextFi
         phoneTextField.textColor = UIColor.white
         phoneTextField.textAlignment = .left
         phoneTextField.tintColor = UIColor.primaryColor
-        phoneTextField.keyboardType = UIKeyboardType.numberPad
+        phoneTextField.keyboardType = UIKeyboardType.phonePad
         phoneTextField.delegate = self
 
 

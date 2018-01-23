@@ -12,7 +12,6 @@ import UIKit
 import CHTCollectionViewWaterfallLayout
 import RxSwift
 
-
 enum SearchSuggestionType {
     case suggestive
     case lastSearch
@@ -33,7 +32,7 @@ enum SearchSuggestionType {
 }
 
 class MainListingsViewController: BaseViewController, ListingListViewScrollDelegate, MainListingsViewModelDelegate,
-    FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop {
+    FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop, MainListingsAdsDelegate {
     
     // ViewModel
     var viewModel: MainListingsViewModel
@@ -104,6 +103,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         viewModel.delegate = self
+        viewModel.adsDelegate = self
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
         hasTabBar = true
@@ -152,11 +152,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         if #available(iOS 11.0, *) {
             listingListView.collectionView.contentInsetAdjustmentBehavior = .never
         }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        navbarSearch.endEdit()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -228,7 +223,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func updateBubbleTopConstraint() {
-        let offset: CGFloat = isSafeAreaAvailable ? 0 : topInset.value
+        let offset: CGFloat = topInset.value
         let delta = listingListView.headerBottom - offset
         if delta > 0 {
             infoBubbleTopConstraint.constant = infoBubbleTopMargin + delta
@@ -250,6 +245,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
     func vmFiltersChanged() {
         setFiltersNavBarButton()
+    }
+
+
+    // MARK: - MainListingsAdsDelegate
+
+    func rootViewControllerForAds() -> UIViewController {
+        return self
     }
 
 
@@ -321,7 +323,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     @objc fileprivate func endEdit() {
-        suggestionsSearchesContainer.isHidden = true
+        // ☢️☢️ Changing tabs when constructing the app from a push notifications calls didDissappear before didLoad
+        if let searchContainer = suggestionsSearchesContainer {
+            searchContainer.isHidden = true
+        }
         setFiltersNavBarButton()
         setInviteNavBarButton()
         navbarSearch.endEdit()
@@ -405,7 +410,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         tagsContainerViewHeightConstraint.constant = showPrimaryTags ? filterTagsViewHeight : 0
         if updateInsets {
-            topInset.value = showPrimaryTags ? filterTagsViewHeight + filterHeadersHeight : 0
+            updateTopInset()
         }
         view.layoutIfNeeded()
         
@@ -494,7 +499,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
 // MARK: - ListingListViewHeaderDelegate
 
-extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate {
+extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate, RealEstateBannerDelegate {
 
     func totalHeaderHeight() -> CGFloat {
         var totalHeight: CGFloat = 0
@@ -503,6 +508,9 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         }
         if shouldShowCategoryCollectionBanner {
             totalHeight += CategoriesHeaderCollectionView.viewHeight
+        }
+        if shouldShowRealEstateBanner {
+            totalHeight += RealEstateBanner().intrinsicContentSize.height
         }
         return totalHeight
     }
@@ -515,10 +523,12 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             pushHeader.delegate = self
             header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight)
         }
+       
         if shouldShowCategoryCollectionBanner {
             let screenWidth: CGFloat = UIScreen.main.bounds.size.width
             categoriesHeader = CategoriesHeaderCollectionView(categories: viewModel.categoryHeaderElements,
-                                                              frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight))
+                                                              frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight),
+                                                              categoryHighlighted: viewModel.categoryHeaderHighlighted)
             categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }
@@ -529,6 +539,14 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
                 header.addHeader(categoriesHeader, height: CategoriesHeaderCollectionView.viewHeight)
             }
         }
+        
+        if shouldShowRealEstateBanner {
+            let realEstateBanner = RealEstateBanner()
+            realEstateBanner.tag = 2
+            let height = realEstateBanner.intrinsicContentSize.height
+            realEstateBanner.delegate = self
+            header.addHeader(realEstateBanner, height: height)
+        }
     }
 
     private var shouldShowPermissionsBanner: Bool {
@@ -538,9 +556,16 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
     private var shouldShowCategoryCollectionBanner: Bool {
         return viewModel.mainListingsHeader.value.contains(MainListingsHeader.CategoriesCollectionBanner)
     }
+    private var shouldShowRealEstateBanner: Bool {
+        return viewModel.mainListingsHeader.value.contains(MainListingsHeader.RealEstateBanner)
+    }
 
     func pushPermissionHeaderPressed() {
         viewModel.pushPermissionsHeaderPressed()
+    }
+    
+    func realEstateBannerPressed() {
+        viewModel.navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
     }
 }
 
@@ -721,6 +746,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navbarSearch.searchTextField.endEditing(true)
         guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section) else { return }
         switch sectionType {
         case .suggestive:

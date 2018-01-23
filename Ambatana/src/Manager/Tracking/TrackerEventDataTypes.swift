@@ -382,6 +382,7 @@ enum EventParameterButtonNameType: String {
     case summary = "summary"
     case sellYourStuff = "sell-your-stuff"
     case startMakingCash = "start-making-cash"
+    case realEstatePromo = "real-estate-promo"
 }
 
 enum EventParameterButtonType: String {
@@ -400,6 +401,7 @@ enum EventParameterSellButtonPosition: String {
     case tabBar = "tabbar-camera"
     case floatingButton = "big-button"
     case none = "N/A"
+    case realEstatePromo = "real-estate-promo"
 }
 
 enum EventParameterShareNetwork: String {
@@ -561,7 +563,7 @@ enum EventParameterMessageType: String {
     case quickAnswer = "quick-answer"
     case expressChat = "express-chat"
     case periscopeDirect = "periscope-direct"
-    case phone      = "phone" // 🦄
+    case phone      = "phone"
 }
 
 enum EventParameterLoginError {
@@ -744,6 +746,7 @@ enum EventParameterTypePage: String {
     case listingSold = "product-sold"
     case inAppNotification = "in-app-notification"
     case filter = "filter"
+    case realEstatePromo = "real-estate-promo"
 }
 
 enum EventParameterPermissionType: String {

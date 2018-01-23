@@ -277,7 +277,9 @@ extension ProductVMTrackHelper {
                                                          queryType: queryType,
                                                          query: query,
                                                          willLeaveApp: willLeaveApp,
-                                                         typePage: typePage)
+                                                         typePage: typePage,
+                                                         categories: nil,
+                                                         feedPosition: .none)
         tracker.trackEvent(trackerEvent)
     }
 

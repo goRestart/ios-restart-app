@@ -280,8 +280,13 @@ class ChatViewModel: BaseViewModel {
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
         self.source = source
-        self.predefinedMessage = predefinedMessage
+        if featureFlags.allowEmojisOnChat.isActive {
+            self.predefinedMessage = predefinedMessage
+        } else {
+            self.predefinedMessage = predefinedMessage?.stringByRemovingEmoji()
+        }
         self.openChatAutomaticMessage = openChatAutomaticMessage
+
         super.init()
         setupRx()
         loadStickers()
@@ -573,8 +578,7 @@ class ChatViewModel: BaseViewModel {
 
     func professionalSellerBannerActionButtonTapped() {
         guard let phoneNum = interlocutorPhoneNumber.value,
-            // TODO: ⚠️ Check "telprompt"
-            let phoneUrl = URL(string: "tel://\(phoneNum)") else { return }
+            let phoneUrl = URL(string: "tel:\(phoneNum)") else { return }
         UIApplication.shared.openURL(phoneUrl)
     }
 

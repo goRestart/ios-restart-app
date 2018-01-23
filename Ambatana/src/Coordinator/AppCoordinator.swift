@@ -215,7 +215,7 @@ extension AppCoordinator: AppNavigator {
     func openSell(source: PostingSource, postCategory: PostCategory?) {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
-        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing:
+        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .realEstatePromo:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera:
             forcedInitialTab = .camera
@@ -234,7 +234,7 @@ extension AppCoordinator: AppNavigator {
         guard ratingManager.shouldShowRating else { return }
         let trackerEvent = TrackerEvent.appRatingStart(source)
         tracker.trackEvent(trackerEvent)
-        if featureFlags.inAppRatingIOS10, #available(iOS 10.3, *) {
+        if #available(iOS 10.3, *) {
             switch source {
             case .markedSold:
                 SKStoreReviewController.requestReview()
@@ -920,7 +920,7 @@ fileprivate extension AppCoordinator {
 
         navCtl.showLoadingMessageAlert()
         userRatingRepository.show(ratingId) { [weak self] result in
-            if let rating = result.value, let data = RateUserData(user: rating.userFrom) {
+            if let rating = result.value, let data = RateUserData(user: rating.userFrom, listingId: rating.listingId, ratingType: rating.type.rateBackType) {
                 navCtl.dismissLoadingMessageAlert {
                     self?.openUserRating(.deepLink, data: data)
                 }

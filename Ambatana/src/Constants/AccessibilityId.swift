@@ -68,6 +68,10 @@ enum AccessibilityId: String {
     case bannerCellImageView
     case bannerCellTitle
 
+    // Advertisement Cell
+    case advertisementCell
+    case advertisementCellBanner
+    
     // Filter Tags VC
     case filterTagsCollectionView
     case filterTagCell

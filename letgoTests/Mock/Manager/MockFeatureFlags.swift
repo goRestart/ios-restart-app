@@ -28,8 +28,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var inAppRatingIOS10: Bool = false
     var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
-    var locationDataSourceEndpoint: LocationDataSourceEndpoint = .control
-    var appRatingDialogInactive: Bool = false
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed = .control
     var newItemPage: NewItemPage = .control
 
@@ -50,6 +48,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
     var realEstateImprovements: RealEstateImprovements = .control
     var realEstatePromos: RealEstatePromos = .control
+    var allowEmojisOnChat: AllowEmojisOnChat = .control
+    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
@@ -58,6 +58,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var signUpEmailTermsAndConditionsAcceptRequired = false
     var moreInfoShoppingAdUnitId = ""
     var moreInfoDFPAdUnitId = ""
+    var feedDFPAdUnitId: String? = ""
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

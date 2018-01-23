@@ -51,7 +51,6 @@ class LGRatingManager {
 
 extension LGRatingManager: RatingManager {
     var shouldShowRating: Bool {
-        guard !featureFlags.appRatingDialogInactive else { return false }
         guard !crashManager.appCrashed else { return false }
         guard !keyValueStorage.userRatingAlreadyRated else { return false }
         guard let remindMeLaterDate = keyValueStorage.userRatingRemindMeLaterDate else { return true }

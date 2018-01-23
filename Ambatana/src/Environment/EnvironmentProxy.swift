@@ -58,10 +58,6 @@ class EnvironmentProxy: AppEnvironment {
         return environment.amplitudeAPIKey
     }
 
-    var googleAppIndexingId: UInt {
-        return environment.googleAppIndexingId
-    }
-
     var googleServerClientID: String {
         return environment.googleServerClientID
     }
@@ -72,14 +68,6 @@ class EnvironmentProxy: AppEnvironment {
 
     var configFileName: String {
         return environment.configFileName
-    }
-
-    var twitterConsumerKey: String {
-        return environment.twitterConsumerKey
-    }
-
-    var twitterConsumerSecret: String {
-        return environment.twitterConsumerSecret
     }
 
     var leanplumAppId: String {
@@ -120,5 +108,17 @@ class EnvironmentProxy: AppEnvironment {
 
     var moreInfoAdUnitIdDFPUSA: String {
         return environment.moreInfoAdUnitIdDFPUSA
+    }
+
+    var feedAdUnitIdDFPUSA10Ratio: String {
+        return environment.feedAdUnitIdDFPUSA10Ratio
+    }
+
+    var feedAdUnitIdDFPUSA15Ratio: String {
+        return environment.feedAdUnitIdDFPUSA15Ratio
+    }
+
+    var feedAdUnitIdDFPUSA20Ratio: String {
+        return environment.feedAdUnitIdDFPUSA20Ratio
     }
 }

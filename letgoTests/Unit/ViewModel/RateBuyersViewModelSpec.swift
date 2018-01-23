@@ -216,7 +216,7 @@ extension RateBuyersViewModelSpec: RateBuyersNavigator {
     func rateBuyersCancel() {
         navigatorReceivedRateBuyerCancel = true
     }
-    func rateBuyersFinish(withUser: UserListing) {
+    func rateBuyersFinish(withUser: UserListing, listingId: String?) {
         navigatorReceivedRateBuyerFinished = true
     }
     func rateBuyersFinishNotOnLetgo() {
