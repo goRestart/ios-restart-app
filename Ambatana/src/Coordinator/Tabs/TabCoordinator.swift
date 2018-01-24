@@ -157,8 +157,8 @@ extension TabCoordinator: TabNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openMostSearchedItems(source: MostSearchedItemsSource) {
-        appNavigator?.openMostSearchedItems(source: source)
+    func openMostSearchedItems(source: MostSearchedItemsSource, enableSearch: Bool) {
+        appNavigator?.openMostSearchedItems(source: source, enableSearch: enableSearch)
     }
     
     func openDeepLink(_ deeplink: DeepLink) {

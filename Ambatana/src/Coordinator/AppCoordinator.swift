@@ -229,8 +229,8 @@ extension AppCoordinator: AppNavigator {
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
     
-    func openMostSearchedItems(source: MostSearchedItemsSource) {
-        let mostSearchedItemsCoordinator = MostSearchedItemsCoordinator(source: source)
+    func openMostSearchedItems(source: MostSearchedItemsSource, enableSearch: Bool) {
+        let mostSearchedItemsCoordinator = MostSearchedItemsCoordinator(source: source, enableSearch: enableSearch)
         mostSearchedItemsCoordinator.delegate = self
         openChild(coordinator: mostSearchedItemsCoordinator,
                   parent: tabBarCtl,
