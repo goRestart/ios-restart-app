@@ -378,10 +378,10 @@ fileprivate extension PostListingViewModel {
     
     func makeListingParams(images:[File]) -> ListingCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
-        let title = postDetailViewModel.listingTitle
         let description = postDetailViewModel.listingDescription ?? ""
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
+        let title = postDetailViewModel.listingTitle ?? state.value.verticalAttributes?.generatedTitle(postingFlowType: featureFlags.postingFlowType)
         return ListingCreationParams.make(title: title,
                                    description: description,
                                    currency: currency,

@@ -29,6 +29,15 @@ public enum VerticalAttributes {
             return nil
         }
     }
+    
+    func generatedTitle(postingFlowType: PostingFlowType) -> String {
+        switch self {
+        case .carInfo(let carAttributes):
+            return carAttributes.generatedTitle
+        case .realEstateInfo(let attributes):
+            return attributes.generateTitle(postingFlowType: postingFlowType)
+        }
+    }
 }
 
 final class PostListingState {
