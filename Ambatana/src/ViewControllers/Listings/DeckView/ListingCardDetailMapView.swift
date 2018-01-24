@@ -27,6 +27,8 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
     private var tapGesture: UITapGestureRecognizer?
 
     let mapView = MKMapView.sharedInstance
+    private(set) var fullMapConstraints: [NSLayoutConstraint] = []
+
     let mapSnapShotView = UIImageView()
     var isExpanded: Bool = false
 
