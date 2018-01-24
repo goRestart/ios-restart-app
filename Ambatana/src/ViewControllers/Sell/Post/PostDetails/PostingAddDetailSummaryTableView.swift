@@ -71,7 +71,7 @@ enum PostingSummaryOption {
         case .bedrooms:
             return LGLocalizedString.realEstateSummaryBedroomsEmtpy
         case .rooms:
-            return LGLocalizedString.realEstateSummaryRoomsEmtpy
+            return LGLocalizedString.realEstateSummaryRoomsEmpty
         case .sizeSquareMeters:
             return LGLocalizedString.realEstateSummarySizeEmpty
         case .bathrooms:

@@ -389,8 +389,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                 positionSelected = NumberOfBedrooms(rawValue: bedrooms)?.position
             }
         case .rooms:
-            // TODO: think how to select bedrooms + living rooms
-            return nil
+            let numberOfRooms = NumberOfRooms(numberOfBedrooms: postListingState.verticalAttributes?.realEstateAttributes?.bedrooms,
+                                              numberOfLivingRooms: postListingState.verticalAttributes?.realEstateAttributes?.livingRooms)
+            positionSelected = numberOfRooms.positionIn(allValues: NumberOfRooms.allValues)
         case .bathrooms:
             if let bathrooms = postListingState.verticalAttributes?.realEstateAttributes?.bathrooms {
                 positionSelected = NumberOfBathrooms(rawValue:bathrooms)?.position
