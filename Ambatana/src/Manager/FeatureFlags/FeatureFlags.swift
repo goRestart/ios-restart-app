@@ -378,7 +378,8 @@ class FeatureFlags: FeatureFlaggeable {
     var postingFlowType: PostingFlowType {
         switch (locationCountryCode, localeCountryCode) {
         case (.turkey?, _), (_, .turkey?):
-            return .turkish
+            // TODO: change to turkish when all development is done.
+            return .standard
         default:
             return .standard
         }
