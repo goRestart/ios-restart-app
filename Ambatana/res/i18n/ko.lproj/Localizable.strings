@@ -126,8 +126,9 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "letgo팀은 이 계정을 검토하고 있습니다.";
 "chat_forbidden_disclaimer_seller_w_name" = "%@는 더 이상 사용자의 상품 목록에 관심이 없습니다.";
 "chat_forbidden_disclaimer_seller_wo_name" = "이 사용자는 더 이상 판매하고 계신 상품 목록에 관심이 없습니다.";
-"chat_inactive_conversations_button" = "View archived chats";
-"chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
+"chat_inactive_conversations_button" = "저장된 채팅 확인하기";
+"chat_inactive_conversations_explanation_label" = "3개월 이상 된 채팅은 자동적으로 저장됩니다.";
+"chat_inactive_list_title" = "채팅창 비활성화";
 "chat_list_account_deleted" = "계정 삭제";
 "chat_list_account_deleted_username" = "비활성화";
 "chat_list_all_empty_title" = "대화 없음 (아직이에요!)";
@@ -207,11 +208,7 @@
 "common_error_generic_body" = "오류가 발생했습니다";
 "common_error_list_retry_button" = "재시도하기";
 "common_error_network_body" = "네트워크 설정을 확인한 후 다시 시도하세요";
-<<<<<<< HEAD
-"common_error_posting_loaded_image" = "잠깐만요! 회원님의 상품이 게시되지 않았습니다. 네트워크 설정을 확인해주십시오.";
-=======
 "common_error_posting_loaded_image" = "잠깐만요! 회원님의 상품이 게시되지 않았습니다. 연결 설정을 확인해주세요.";
->>>>>>> ABIOS-3099-swift-4
 "common_error_retry_button" = "다시 시도하세요";
 "common_error_title" = "웁스";
 "common_expand" = "더보기";
@@ -621,7 +618,7 @@
 "product_post_retake" = "다시 촬영하기";
 "product_post_retry_button" = "다시 시도하기";
 "product_post_select_category_cars" = "자동차";
-"product_post_select_category_housing" = "부동산";
+"product_post_select_category_housing" = "매매/임대용 부동산";
 "product_post_select_category_motors_and_accessories" = "다른 운송 수단들과 부품들";
 "product_post_select_category_other" = "기타 제품";
 "product_post_select_category_title" = "무엇을 게시하시나요?";
@@ -666,6 +663,12 @@
 "product_share_title_label" = "이 상품 목록 공유하기";
 "product_share_title_on_letgo" = "%@님이 letgo에 있습니다!";
 "product_stickers_selection_wo_name" = "판매자에게 발송하고자 하는 스티커를 선택하세요.";
+"professional_dealer_ask_phone_chat_message" = "제 번호는 %@ 입니다";
+"professional_dealer_ask_phone_intro_text" = "안녕하세요, 전문 차량 상담가입니다. 직접 도와드리고자 연락드립니다. 저렴한 가격의 상품을 알려드릴 수 있도록 전화번호를 남겨주세요!";
+"professional_dealer_ask_phone_lets_talk_text" = "지금 진행하기";
+"professional_dealer_ask_phone_not_now_button" = "나중에 진행하기";
+"professional_dealer_ask_phone_send_phone_button" = "전화 번호 발송";
+"professional_dealer_ask_phone_textfield_placeholder" = "전화 번호 입력";
 "profile_blocked_by_me_label" = "회원님께서는 이 사용자를 차단하셨습니다";
 "profile_blocked_by_me_label_w_name" = "회원님은 %@를 차단하셨습니다";
 "profile_blocked_by_other_label" = "이 사용자에 의해 차단되셨습니다";
@@ -755,11 +758,11 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4개 이상";
 "real_estate_bedrooms_title" = "방 숫자";
-<<<<<<< HEAD
-"real_estate_current_step_of_total" = "%d of %d";
-=======
+"real_estate_camera_view_real_estate_message" = "매매하거나 임대하고자 하는 부동산의 사진을 촬영하세요";
 "real_estate_current_step_of_total" = "%d 중 %d";
->>>>>>> ABIOS-3099-swift-4
+"real_estate_empty_state_search_subtitle" = "근처에서 매매 / 임대 부동산을 첫번째로 등록하거나 나중에 페이지를 다시 확인해주세요!";
+"real_estate_empty_state_search_title" = "이런! 근처에 게시된 부동산이 없습니다";
+"real_estate_gallery_view_subtitle" = "매매하거나 임대하고자 하는 부동산의 사진을 최대 5장 선택하세요";
 "real_estate_location_notification_message" = "저희는 다른 사용자들에게 회원님의 정확한 위치를 공개하지 않습니다";
 "real_estate_location_title" = "위치";
 "real_estate_offer_type_rent" = "전세";
@@ -767,6 +770,11 @@
 "real_estate_offer_type_title" = "게시글 종류";
 "real_estate_price_title" = "가격";
 "real_estate_related_search_title" = "관련 결과";
+"real_estate_rooms_over_ten" = "10개 이상";
+"real_estate_rooms_studio" = "스튜디오 (1+0)";
+"real_estate_rooms_title" = "방 개수";
+"real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_title" = "사이즈";
 "real_estate_summary_bathroom_title" = "욕실";
 "real_estate_summary_bathrooms_empty" = "욕실 숫자 추가하기";
 "real_estate_summary_bathrooms_title" = "욕실";
@@ -777,6 +785,10 @@
 "real_estate_summary_offer_type_empty" = "판매 종류 추가";
 "real_estate_summary_price_empty" = "가격 추가";
 "real_estate_summary_price_title" = "가격: %@";
+"real_estate_summary_rooms_emtpy" = "방 추가하기";
+"real_estate_summary_rooms_title" = "방";
+"real_estate_summary_size_empty" = "사이즈 추가하기";
+"real_estate_summary_size_title" = "사이즈";
 "real_estate_summary_title" = "요약";
 "real_estate_summary_type_property_empty" = "매물 종류 추가하기";
 "real_estate_title_generator_bathrooms_0" = "없음";
@@ -799,12 +811,17 @@
 "real_estate_title_generator_property_type_house" = "가정집";
 "real_estate_title_generator_property_type_other" = "기타";
 "real_estate_title_generator_property_type_room" = "방";
+"real_estate_tooltip_overlay_expandable_menu" = "매매나 임대를 원하신다면, 새로운 부동산 카테고리를 사용해보세요!";
+"real_estate_tooltip_sell_button" = "매매나 임대를 원하신다면, 새로운 부동산 카테고리를 사용해보세요";
 "real_estate_type_property_apartment" = "아파트";
 "real_estate_type_property_commercial" = "상업용";
+"real_estate_type_property_flat" = "아파트/거주공간";
 "real_estate_type_property_house" = "가정집";
+"real_estate_type_property_land" = "토지";
 "real_estate_type_property_others" = "기타";
 "real_estate_type_property_room" = "방";
 "real_estate_type_property_title" = "매물 종류";
+"real_estate_type_property_villa" = "단독 주택/빌라";
 "related_items_title" = "관련 상품 목록";
 "report_user_counterfeit" = "짝퉁상품";
 "report_user_error_already_reported" = "회원님은 이 사용자를 이미 신고하셨습니다!";
@@ -923,6 +940,12 @@
 "tour_facebook_button" = "페이스북과 연결하기";
 "tour_google_button" = "구글과 연결하기";
 "tour_or_label" = "혹은 이메일 사용하기";
+"trending_items_header_bubble" = "인기 있는 상품";
+"trending_items_view_number_of_searches_item" = "% 검색";
+"trending_items_view_number_of_searches_title" = "이번 주 검색하기";
+"trending_items_view_post_button" = "게시";
+"trending_items_view_subtitle" = "이 중 한개를 게시하고 일주일 내에 수익을 얻어보세요";
+"trending_items_view_title" = "%@에서 가장 인기있는 상품";
 "trending_searches_Title" = "트렌드 검색";
 "unblock_user_error_generic" = "이 사용자의 차단을 해제하는데 오류가 발생했습니다.";
 "user_rating_add_comment_button" = "댓글 달기";
