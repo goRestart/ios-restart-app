@@ -449,7 +449,7 @@ enum EventParameterPostingType: String {
     
     init(category: PostCategory) {
         switch category {
-        case .unassigned, .motorsAndAccessories:
+        case .otherItems, .motorsAndAccessories:
             self = .stuff
         case .car:
             self = .car

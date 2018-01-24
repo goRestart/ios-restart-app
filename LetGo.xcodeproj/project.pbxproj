@@ -18,6 +18,10 @@
 		018B82F31FFE3B2D00687233 /* MostSearchedItemsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B82F11FFE3B2D00687233 /* MostSearchedItemsListViewController.swift */; };
 		018B82F41FFE3B6A00687233 /* MostSearchedItemsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B82F01FFE3B2C00687233 /* MostSearchedItemsListViewModel.swift */; };
 		018B82F51FFE3B6D00687233 /* MostSearchedItemsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B82F11FFE3B2D00687233 /* MostSearchedItemsListViewController.swift */; };
+		01920C862010E27400B73875 /* MostSearchedItemsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01920C852010E27400B73875 /* MostSearchedItemsCoordinator.swift */; };
+		01920C872010E27400B73875 /* MostSearchedItemsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01920C852010E27400B73875 /* MostSearchedItemsCoordinator.swift */; };
+		01920C892010E27F00B73875 /* MostSearchedItemsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01920C882010E27F00B73875 /* MostSearchedItemsNavigator.swift */; };
+		01920C8A2010E27F00B73875 /* MostSearchedItemsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01920C882010E27F00B73875 /* MostSearchedItemsNavigator.swift */; };
 		01A04804200CE474008725A1 /* LocalMostSearchedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A04803200CE474008725A1 /* LocalMostSearchedItem.swift */; };
 		01A04805200CE474008725A1 /* LocalMostSearchedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A04803200CE474008725A1 /* LocalMostSearchedItem.swift */; };
 		01A0480A200CEF53008725A1 /* DailyCountIncrementer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */; };
@@ -1524,6 +1528,8 @@
 		0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UriSchemeSpec.swift; path = DeepLinks/UriSchemeSpec.swift; sourceTree = "<group>"; };
 		018B82F01FFE3B2C00687233 /* MostSearchedItemsListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListViewModel.swift; sourceTree = "<group>"; };
 		018B82F11FFE3B2D00687233 /* MostSearchedItemsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListViewController.swift; sourceTree = "<group>"; };
+		01920C852010E27400B73875 /* MostSearchedItemsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsCoordinator.swift; sourceTree = "<group>"; };
+		01920C882010E27F00B73875 /* MostSearchedItemsNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsNavigator.swift; sourceTree = "<group>"; };
 		01A04803200CE474008725A1 /* LocalMostSearchedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalMostSearchedItem.swift; sourceTree = "<group>"; };
 		01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCountIncrementer.swift; sourceTree = "<group>"; };
 		01C7778D1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListCell.swift; sourceTree = "<group>"; };
@@ -2906,6 +2912,8 @@
 				0AC264E31F94B87400666BA6 /* EditListingNavigator.swift */,
 				2E6691B11FBDF2D000FC2A77 /* PromoteBumpNavigator.swift */,
 				2E6691B41FBDF2E100FC2A77 /* PromoteBumpCoordinator.swift */,
+				01920C852010E27400B73875 /* MostSearchedItemsCoordinator.swift */,
+				01920C882010E27F00B73875 /* MostSearchedItemsNavigator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -6045,6 +6053,7 @@
 				C77593F11BF0E48D0097D62F /* FilterHeaderCell.swift in Sources */,
 				72E8A5861EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift in Sources */,
 				6AF75D071CF449AF00EACCF0 /* ChatViewMessage.swift in Sources */,
+				01920C862010E27400B73875 /* MostSearchedItemsCoordinator.swift in Sources */,
 				C77593DE1BF0B8A00097D62F /* FiltersViewController.swift in Sources */,
 				C7B5889A1CE1E025009B3975 /* ConversationCell.swift in Sources */,
 				C7DE8AE01C88A98B005CF37E /* PostListingViewController.swift in Sources */,
@@ -6078,6 +6087,7 @@
 				5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */,
 				6A5E1A1A1D548F5400F92692 /* UIViewController+Alert.swift in Sources */,
 				2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */,
+				01920C892010E27F00B73875 /* MostSearchedItemsNavigator.swift in Sources */,
 				C7B588871CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
 				F57D3A271FECFD2D006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				72854D101F8515BB00E54530 /* PostingDetailsViewController.swift in Sources */,
@@ -6603,6 +6613,7 @@
 				72D928DB1E83DD330030F4C3 /* ConfigManager.swift in Sources */,
 				72C99E9D1DED7417006361C1 /* ChangePasswordCoordinator.swift in Sources */,
 				72E8A5871EB2FF15000524E6 /* CategoriesHeaderCollectionView.swift in Sources */,
+				01920C872010E27400B73875 /* MostSearchedItemsCoordinator.swift in Sources */,
 				C7415ED71DE880BD0003D6C1 /* SimpleListingsViewController.swift in Sources */,
 				2E9716AA1D5A284F009B3A32 /* ExpressChatViewController.swift in Sources */,
 				C7DB421C1C5138B500400945 /* FiltersViewController.swift in Sources */,
@@ -6636,6 +6647,7 @@
 				C7DE8ACC1C888761005CF37E /* EditListingViewModel.swift in Sources */,
 				C73FABC31DD46A1D008F4519 /* SettingsSwitchCell.swift in Sources */,
 				727EF06D1E0BE16D0037DA4E /* CountryCode.swift in Sources */,
+				01920C8A2010E27F00B73875 /* MostSearchedItemsNavigator.swift in Sources */,
 				C72794411D549342009C25AB /* ChangeUsernameViewModel.swift in Sources */,
 				C7DB42201C5138B500400945 /* BaseViewModel.swift in Sources */,
 				72854D111F8515BB00E54530 /* PostingDetailsViewController.swift in Sources */,

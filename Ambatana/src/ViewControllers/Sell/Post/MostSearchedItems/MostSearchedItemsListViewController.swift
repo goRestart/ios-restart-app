@@ -44,9 +44,6 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
     }
     
     private func setupUI() {
-        // TODO: Check further flow for navigationBar behaviours (didLoad vs didAppear)
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        
         closeButton.image = UIImage(named: "navbar_close")
         closeButton.style = .plain
         closeButton.target = self
@@ -144,7 +141,12 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
     
     // MARK: - MostSearchedItemsCellDelegate
     
-    func didSearchAction(itemName: String) {
-        viewModel.searchButtonAction(itemName: itemName)
+    func didPostAction(item: LocalMostSearchedItem) {
+        viewModel.postButtonAction(item: item)
     }
+    
+    func didSearchAction(listingTitle: String) {
+        viewModel.searchButtonAction(listingTitle: listingTitle)
+    }
+    
 }
