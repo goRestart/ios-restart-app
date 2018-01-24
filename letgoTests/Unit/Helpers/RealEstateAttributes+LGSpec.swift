@@ -70,7 +70,7 @@ class RealEstateAttributesLGSpec: QuickSpec {
             }
         }
         
-        fdescribe("Generate real estate .turkish posting") {
+        describe("Generate real estate .turkish posting") {
             context("with no data on attributes") {
                 beforeEach {
                     sut = RealEstateAttributes(propertyType: nil,
