@@ -22,7 +22,7 @@ class MostSearchedItemsCoordinator: Coordinator {
     var bubbleNotificationManager: BubbleNotificationManager
     var sessionManager: SessionManager
     
-    var featureFlags: FeatureFlaggeable
+    fileprivate let featureFlags: FeatureFlaggeable
     weak var delegate: MostSearchedItemsCoordinatorDelegate?
     
     convenience init(source: MostSearchedItemsSource) {
