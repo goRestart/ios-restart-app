@@ -57,7 +57,7 @@ class ChatListingView: UIView {
     }
     
     func setupUI() {
-        listingImage.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        listingImage.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
         listingImage.backgroundColor = UIColor.placeholderBackgroundColor()
         userName.font = UIFont.chatListingViewUserFont
         listingName.font = UIFont.chatListingViewNameFont

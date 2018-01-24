@@ -19,16 +19,6 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
     
     // MARK: - Lifecycle
 
-//    required init(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)!
-//    }
-
-//    override init() {
-//        super.init(style: style, reuseIdentifier: reuseIdentifier)
-//        setupUI()
-//        setupConstraints()
-//    }
-
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
     }
@@ -36,7 +26,7 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setup()
+        setupUI()
         setupConstraints()
         setAccessibilityIds()
     }
@@ -44,15 +34,14 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
     
     // MARK: - UI
     
-    func setup() {
+    private func setupUI() {
         backgroundColor = UIColor.lgBlack
-        
-        //selectionStyle = .none
         
         trendingImageView.image = UIImage(named: "trending_feed")
 
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.textColor = UIColor.white
+        titleLabel.textAlignment = .center
         titleLabel.numberOfLines = 2
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.minimumScaleFactor = 0.2

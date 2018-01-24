@@ -357,7 +357,7 @@ fileprivate extension ListingCarouselMoreInfoView {
     func setupUI() {
         
         setupMapView(inside: mapViewContainer)
-        mapView.cornerRadius = LGUIKitConstants.mapCornerRadius
+        mapView.cornerRadius = LGUIKitConstants.bigCornerRadius
         mapView.clipsToBounds = true
 
         titleText.textColor = UIColor.white
