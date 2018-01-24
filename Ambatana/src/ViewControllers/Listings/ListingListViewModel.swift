@@ -323,6 +323,9 @@ class ListingListViewModel: BaseViewModel {
                                         originFrame: originFrame)
         case .collectionCell(let type):
             dataDelegate?.vmDidSelectCollection(type)
+        case .mostSearchedItems:
+            return
+        // TODO: Most
         case .emptyCell, .advertisement:
             return
         }
@@ -336,7 +339,7 @@ class ListingListViewModel: BaseViewModel {
                 if let thumbnailURL = listing.thumbnail?.fileURL {
                     urls.append(thumbnailURL)
                 }
-            case .emptyCell, .collectionCell, .advertisement:
+            case .emptyCell, .collectionCell, .advertisement, .mostSearchedItems:
                 break
             }
         }
@@ -368,7 +371,7 @@ class ListingListViewModel: BaseViewModel {
         switch item {
         case let .listingCell(listing):
             return listing
-        case .collectionCell, .emptyCell, .advertisement:
+        case .collectionCell, .emptyCell, .advertisement, .mostSearchedItems:
             return nil
         }
     }
@@ -378,7 +381,7 @@ class ListingListViewModel: BaseViewModel {
             switch cellModel {
             case let .listingCell(listing):
                 return listing.objectId == listingId
-            case .collectionCell, .emptyCell, .advertisement:
+            case .collectionCell, .emptyCell, .advertisement, .mostSearchedItems:
                 return false
             }
         })
@@ -421,6 +424,8 @@ class ListingListViewModel: BaseViewModel {
         case .advertisement(let adData):
             guard adData.adPosition == index else { return CGSize(width: defaultCellSize.width, height: 0) }
             return CGSize(width: defaultCellSize.width, height: adData.bannerHeight)
+        case .mostSearchedItems:
+            return CGSize(width: defaultCellSize.width, height: MostSearchedItemsListingListCell.cellHeight)
         }
     }
         
@@ -489,7 +494,7 @@ extension ListingListViewModel: AdvertisementCellDelegate {
                                               categories: data.categories)
             objects[forPosition] = ListingCellModel.advertisement(data: newAdData)
             delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(item: forPosition, section: 0))
-        case .listingCell, .collectionCell, .emptyCell:
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems:
             break
         }
     }

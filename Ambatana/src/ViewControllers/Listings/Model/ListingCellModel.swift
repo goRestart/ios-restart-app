@@ -15,6 +15,7 @@ enum ListingCellModel {
     case collectionCell(type: CollectionCellType)
     case emptyCell(vm: LGEmptyViewModel)
     case advertisement(data: AdvertisementData)
+    case mostSearchedItems
     
     init(listing: Listing) {
         self = ListingCellModel.listingCell(listing: listing)

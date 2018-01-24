@@ -829,7 +829,8 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         let cellModelsWithCollections = addCollectionsTo(listings: listings, page: page)
         let cellModelsWithAds = addAdsTo(listings: cellModelsWithCollections, page: page)
-        return cellModelsWithAds
+        let cellModelsWithMostSearchedItems = addMostSearchedItemsTo(listings: cellModelsWithAds, page: page)
+        return cellModelsWithMostSearchedItems
     }
 
     func vmDidSelectCollection(_ type: CollectionCellType){
@@ -899,6 +900,18 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             canInsertAds = adRelativePosition < cellModels.count
         }
         previousPagesAdsOffset = previousPagesAdsOffset + (cellModels.count - listings.count)
+        return cellModels
+    }
+    
+    private func addMostSearchedItemsTo(listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
+        guard searchType == nil else { return listings }
+        guard listings.count > 6 else { return listings }
+        var cellModels = listings
+        //if !collections.isEmpty && featureFlags.collectionsAllowedFor(countryCode: listingListRequester.countryCode) {
+        //    let collectionType = collections[Int(page) % collections.count]
+            let collectionModel = ListingCellModel.mostSearchedItems
+            cellModels.insert(collectionModel, at: 6)
+        //}
         return cellModels
     }
 
