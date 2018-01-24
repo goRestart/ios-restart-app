@@ -12,10 +12,12 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
     
     static let cellHeight: CGFloat = 230
 
+    let corneredView = UIView()
     let trendingImageView = UIImageView()
     let titleLabel = UILabel()
     let actionBackgroundView = UIView()
     let actionLabel = UILabel()
+    
     
     // MARK: - Lifecycle
 
@@ -28,14 +30,21 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
         
         setupUI()
         setupConstraints()
-        setAccessibilityIds()
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        actionBackgroundView.rounded = true
+    }
+    
     
     // MARK: - UI
     
     private func setupUI() {
-        backgroundColor = UIColor.lgBlack
+        backgroundColor = UIColor.clear
+        corneredView.backgroundColor = UIColor.lgBlack
+        
+        corneredView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
         
         trendingImageView.image = UIImage(named: "trending_feed")
 
@@ -53,16 +62,19 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
 
         actionLabel.font = UIFont.systemMediumFont(size: 14)
         actionLabel.textColor = UIColor.white
+        actionLabel.textAlignment = .center
         actionLabel.adjustsFontSizeToFitWidth = true
         actionLabel.minimumScaleFactor = 0.2
         actionLabel.text = "See items"
     }
 
     private func setupConstraints() {
-        let containerSubviews = [trendingImageView, titleLabel, actionBackgroundView, actionLabel]
+        let containerSubviews = [corneredView, trendingImageView, titleLabel, actionBackgroundView, actionLabel]
         contentView.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: containerSubviews)
         contentView.addSubviews(containerSubviews)
 
+        corneredView.layout(with: contentView).fill()
+        
         trendingImageView.layout(with: contentView)
             .centerX()
             .top(by: 30)
@@ -78,17 +90,11 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
         
         actionBackgroundView.layout(with: contentView)
             .centerX()
-            .leading(by: 40)
-            .trailing(by: -40)
+            .leading(by: contentView.width/5)
+            .trailing(by: -contentView.width/5)
             .bottom(by: -30)
+        actionBackgroundView.layout().height(32)
         
         actionLabel.layout(with: actionBackgroundView).fill()
-    }
-    
-    private func setAccessibilityIds() {
-//        self.accessibilityId = .collectionCell
-//        imageView.accessibilityId = .collectionCellImageView
-//        title.accessibilityId = .collectionCellTitle
-//        exploreButton.accessibilityId =  .collectionCellExploreButton
     }
 }
