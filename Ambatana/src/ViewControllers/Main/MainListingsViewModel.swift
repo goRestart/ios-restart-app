@@ -61,6 +61,7 @@ class MainListingsViewModel: BaseViewModel {
             return false
         }
     }
+    let mostSearchedItemsCellPosition: Int = 6
     let bannerCellPosition: Int = 8
     let suggestedSearchesLimit: Int = 10
     var filters: ListingFilters
@@ -827,10 +828,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     }
 
     func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
-        let cellModelsWithCollections = addCollectionsTo(listings: listings, page: page)
-        let cellModelsWithAds = addAdsTo(listings: cellModelsWithCollections, page: page)
-        let cellModelsWithMostSearchedItems = addMostSearchedItemsTo(listings: cellModelsWithAds, page: page)
-        return cellModelsWithMostSearchedItems
+        var totalListings = listings
+        totalListings = addCollectionsTo(listings: listings, page: page)
+        totalListings = addAdsTo(listings: listings, page: page)
+        totalListings = addMostSearchedItemsTo(listings: listings, page: page)
+        return totalListings
     }
 
     func vmDidSelectCollection(_ type: CollectionCellType){
@@ -838,6 +840,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         let query = queryForCollection(type)
         delegate?.vmDidSearch()
         navigator?.openMainListings(withSearchType: .collection(type: type, query: query), listingFilters: filters)
+    }
+    
+    func vmDidSelectMostSearchedItems() {
+        navigator?.openMostSearchedItems(source: .card)
     }
 
     func vmUserDidTapInvite() {
@@ -905,13 +911,12 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     
     private func addMostSearchedItemsTo(listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         guard searchType == nil else { return listings }
-        guard listings.count > 6 else { return listings }
+        guard listings.count > mostSearchedItemsCellPosition else { return listings }
         var cellModels = listings
-        //if !collections.isEmpty && featureFlags.collectionsAllowedFor(countryCode: listingListRequester.countryCode) {
-        //    let collectionType = collections[Int(page) % collections.count]
+        if featureFlags.mostSearchedDemandedItems.isActive {
             let collectionModel = ListingCellModel.mostSearchedItems
-            cellModels.insert(collectionModel, at: 6)
-        //}
+            cellModels.insert(collectionModel, at: mostSearchedItemsCellPosition)
+        }
         return cellModels
     }
 

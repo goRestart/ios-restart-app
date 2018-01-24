@@ -10,7 +10,7 @@ import Foundation
 
 class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
     
-    static let cellHeight: CGFloat = 230
+    static let height: CGFloat = 230
 
     let corneredView = UIView()
     let trendingImageView = UIImageView()
@@ -54,10 +54,9 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
         titleLabel.numberOfLines = 2
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.minimumScaleFactor = 0.2
-        titleLabel.text = "Most popular items this week"
+        titleLabel.text = LGLocalizedString.trendingItemsCardTitle
         
-        // TODO: Discuss with designers if this color in the specs is in the style conventions
-        actionBackgroundView.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.1)
+        actionBackgroundView.backgroundColor = UIColor.grayDark
         actionBackgroundView.rounded = true
 
         actionLabel.font = UIFont.systemMediumFont(size: 14)
@@ -65,7 +64,7 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
         actionLabel.textAlignment = .center
         actionLabel.adjustsFontSizeToFitWidth = true
         actionLabel.minimumScaleFactor = 0.2
-        actionLabel.text = "See items"
+        actionLabel.text = LGLocalizedString.trendingItemsCardAction
     }
 
     private func setupConstraints() {
@@ -75,9 +74,11 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
 
         corneredView.layout(with: contentView).fill()
         
+        let cardVerticalMargin: CGFloat = 30
+        
         trendingImageView.layout(with: contentView)
             .centerX()
-            .top(by: 30)
+            .top(by: cardVerticalMargin)
         trendingImageView.layout()
             .width(60)
             .height(60)
@@ -88,11 +89,12 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
             .trailing(by: -Metrics.shortMargin)
         titleLabel.layout(with: actionBackgroundView).above(by: -Metrics.margin)
         
+        let actionBackgroundViewLateralMargin = contentView.width/5
         actionBackgroundView.layout(with: contentView)
             .centerX()
-            .leading(by: contentView.width/5)
-            .trailing(by: -contentView.width/5)
-            .bottom(by: -30)
+            .leading(by: actionBackgroundViewLateralMargin)
+            .trailing(by: -actionBackgroundViewLateralMargin)
+            .bottom(by: -cardVerticalMargin)
         actionBackgroundView.layout().height(32)
         
         actionLabel.layout(with: actionBackgroundView).fill()

@@ -27,6 +27,7 @@ protocol ListingListViewModelDataDelegate: class {
     func vmProcessReceivedListingPage(_ Listings: [ListingCellModel], page: UInt) -> [ListingCellModel]
     func vmDidSelectSellBanner(_ type: String)
     func vmDidSelectCollection(_ type: CollectionCellType)
+    func vmDidSelectMostSearchedItems()
 }
 
 struct ListingsRequesterResult {
@@ -324,8 +325,8 @@ class ListingListViewModel: BaseViewModel {
         case .collectionCell(let type):
             dataDelegate?.vmDidSelectCollection(type)
         case .mostSearchedItems:
+            dataDelegate?.vmDidSelectMostSearchedItems()
             return
-        // TODO: Most
         case .emptyCell, .advertisement:
             return
         }
@@ -425,7 +426,7 @@ class ListingListViewModel: BaseViewModel {
             guard adData.adPosition == index else { return CGSize(width: defaultCellSize.width, height: 0) }
             return CGSize(width: defaultCellSize.width, height: adData.bannerHeight)
         case .mostSearchedItems:
-            return CGSize(width: defaultCellSize.width, height: MostSearchedItemsListingListCell.cellHeight)
+            return CGSize(width: defaultCellSize.width, height: MostSearchedItemsListingListCell.height)
         }
     }
         
