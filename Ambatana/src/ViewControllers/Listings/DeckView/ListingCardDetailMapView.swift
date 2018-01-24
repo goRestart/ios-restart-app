@@ -15,16 +15,23 @@ protocol ListingCardDetailMapViewDelegate: class {
 
 final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
     private struct Layout {
+        struct Height { static let snapshot: CGFloat = 100.0 }
         struct Defaults {
             static let insets = UIEdgeInsets(top: Metrics.margin, left: Metrics.margin,
                                              bottom: Metrics.margin, right: Metrics.margin)
             
         }
-        struct CornerRadius { static let mapView: CGFloat = 6.0 }
+        struct CornerRadius { static let map: CGFloat = 6.0 }
     }
 
     private var region: MKCoordinateRegion?
     private var tapGesture: UITapGestureRecognizer?
+
+    private let verticalStackView = UIStackView()
+
+    private let mapHeader = UIStackView()
+    private let locationLabel = UILabel()
+    private let mapPlaceHolder = UIView()
 
     let mapView = MKMapView.sharedInstance
     private(set) var fullMapConstraints: [NSLayoutConstraint] = []
@@ -43,6 +50,11 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
+    func setLocationName(_ name: String?) {
+        locationLabel.text = name
+        mapHeader.isHidden = name == nil
+    }
+
     func setRegion(_ region: MKCoordinateRegion, size: CGSize) {
         MKMapView.snapshotAt(region, size: size, with: { (snapshot, error) in
             guard error == nil, let image = snapshot?.image else { return }
@@ -53,41 +65,78 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
     }
 
     func showRegion(_ region: MKCoordinateRegion, animated: Bool) {
-        mapView.setRegion(region, animated: animated)
         setupMap()
+        mapView.setRegion(region, animated: animated)
         self.region = region
     }
 
     func showRegion(animated: Bool) {
         guard let region = self.region else { return }
-        mapView.setCenter(region.center, animated: animated)
         setupMap()
+        guard mapView.region.center != region.center else {
+            showMap()
+            return
+        }
+        mapView.setCenter(region.center, animated: animated)
     }
 
     private func setupUI() {
+        setupStackView()
+        setupMapHeader()
         setupSnapshotView()
+    }
+
+    private func setupStackView() {
+        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
+        verticalStackView.axis = .vertical
+        verticalStackView.distribution = .fillProportionally
+        verticalStackView.spacing = Metrics.margin
+        addSubview(verticalStackView)
+        verticalStackView.layout(with: self)
+            .fillHorizontal(by: Layout.Defaults.insets.left).fillVertical(by: Layout.Defaults.insets.top)
+    }
+
+    private func setupLocationLabel() {
+        locationLabel.font = UIFont.systemMediumFont(size: 13)
+        locationLabel.textAlignment = .left
+        locationLabel.textColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
+
+        locationLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        locationLabel.setContentHuggingPriority(.required, for: .vertical)
+    }
+    func setupMapHeader() {
+        mapHeader.translatesAutoresizingMaskIntoConstraints = false
+        mapHeader.axis = .horizontal
+        mapHeader.distribution = .fillProportionally
+        mapHeader.setContentCompressionResistancePriority(.required, for: .vertical)
+
+        let location = UIImageView(image: #imageLiteral(resourceName: "nit_location"))
+        location.contentMode = .center
+        location.layout().width(16)
+
+        setupLocationLabel()
+
+        mapHeader.addArrangedSubview(location)
+        mapHeader.addArrangedSubview(locationLabel)
+
+        verticalStackView.addArrangedSubview(mapHeader)
     }
 
     private func setupSnapshotView() {
         mapSnapShotView.contentMode = .scaleAspectFill
         mapSnapShotView.clipsToBounds = true
-        mapSnapShotView.cornerRadius = Layout.CornerRadius.mapView
-
+        mapSnapShotView.cornerRadius = Layout.CornerRadius.map
         mapSnapShotView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(mapSnapShotView)
-        mapSnapShotView.layout(with: self).fillVertical(by: Layout.Defaults.insets.top)
-        let mapViewConstraints = [
-            mapSnapShotView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.Defaults.insets.left),
-            mapSnapShotView.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                                      constant: -Layout.Defaults.insets.right)
-        ]
+        let height = mapSnapShotView.heightAnchor.constraint(equalToConstant: Layout.Height.snapshot)
+        height.priority = UILayoutPriority(rawValue: 999)
+        height.isActive = true
+        verticalStackView.addArrangedSubview(mapSnapShotView)
         mapSnapShotView.backgroundColor = .gray
-
+        
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapOnView))
         self.addGestureRecognizer(gesture)
         tapGesture = gesture
-
-        NSLayoutConstraint.activate(mapViewConstraints)
+        verticalStackView.addArrangedSubview(mapSnapShotView)
     }
 
     private func setupMap() {
@@ -95,13 +144,15 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         mapView.delegate = self
         addSubview(mapView)
         mapView.translatesAutoresizingMaskIntoConstraints = false
-        let mapViewConstraints = [
+        fullMapConstraints = [
             mapView.topAnchor.constraint(equalTo: topAnchor, constant: Layout.Defaults.insets.top),
             mapView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.Defaults.insets.right),
             mapView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.Defaults.insets.bottom),
             mapView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.Defaults.insets.left)
         ]
-        NSLayoutConstraint.activate(mapViewConstraints)
+        isExpanded = true
+        NSLayoutConstraint.activate(fullMapConstraints)
+        showMap()
     }
 
     func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
@@ -109,11 +160,10 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
             hideMap()
             return
         }
-        showMap()
     }
 
     @objc private func tapOnView() {
-        guard mapView.superview != nil else {
+        guard isExpanded else {
             tapGesture?.isEnabled = false
             delegate?.didTapOnMapSnapshot(mapSnapShotView)
             return
@@ -123,24 +173,23 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
 
 
     private func showMap() {
-        isExpanded = true
+        bringSubview(toFront: mapView)
         UIView.animate(withDuration: 0.3,
                        animations: { [weak self] in
                         self?.mapView.alpha = 1
                         self?.mapSnapShotView.alpha = 0
-                        self?.mapView.layoutIfNeeded()
             }, completion: { [weak self] completion in
                 guard let strongSelf = self, let mapView = self?.mapView else { return }
                 strongSelf.bringSubview(toFront: mapView)
                 strongSelf.tapGesture?.isEnabled = true
         })
     }
+
     func hideMap(animated: Bool) {
         tapGesture?.isEnabled = false
         isExpanded = false
         guard animated else {
             hideMap()
-            mapView.removeFromSuperview()
             tapGesture?.isEnabled = true
             return
         }
@@ -148,7 +197,6 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
                        animations: { [weak self] in
                         self?.hideMap()
             }, completion: { [weak self] completion in
-                self?.mapView.removeFromSuperview()
                 self?.tapGesture?.isEnabled = true
         })
     }
@@ -156,5 +204,6 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
     private func hideMap() {
         mapView.alpha = 0
         mapSnapShotView.alpha = 1
+        bringSubview(toFront: verticalStackView)
     }
 }

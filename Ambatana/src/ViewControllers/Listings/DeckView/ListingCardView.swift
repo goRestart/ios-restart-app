@@ -113,13 +113,14 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     func showFullMap(fromRect rect: CGRect) {
-        detailsView.detailMapView.showRegion(animated: true)
+        contentView.bringSubview(toFront: detailsView.detailMapView)
         fullMapConstraints = [
             detailsView.detailMapView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            detailsView.detailMapView.heightAnchor.constraint(equalToConstant: contentView.height)
+            detailsView.detailMapView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1.0)
         ]
         NSLayoutConstraint.activate(fullMapConstraints)
 
+        detailsView.detailMapView.showRegion(animated: true)
         UIView.animate(withDuration: 0.3) {
             self.detailsView.detailMapView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(1)
             self.detailsView.layoutIfNeeded()
@@ -127,9 +128,9 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     func hideFullMap() {
+        self.detailsView.detailMapView.hideMap(animated: true)
         deactivateFullMap()
         UIView.animate(withDuration: 0.3) {
-            self.detailsView.detailMapView.hideMap(animated: true)
             self.detailsView.detailMapView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0)
             self.detailsView.layoutIfNeeded()
         }
@@ -306,12 +307,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     // MARK: UITapGestureRecognizer
 
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if gestureRecognizer == scrollToDetailGesture {
-            return true
-        } else if gestureRecognizer == scrollViewTapGesture {
-            return !detailsView.isMapExpanded
-        }
-        return true
+        return !detailsView.isMapExpanded
     }
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
@@ -321,6 +317,10 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     @objc private func didTapOnScrollView(sender: UITapGestureRecognizer) {
+        guard !detailsView.isMapExpanded else {
+            detailsView.detailMapView.hideMap(animated: true)
+            return
+        }
         let point = sender.location(in: previewImageView)
         guard point.y <= previewImageView.height else { return }
         let showFullThreshold = (3/4)*previewImageView.height
