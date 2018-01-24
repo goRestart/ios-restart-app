@@ -11,7 +11,7 @@ import Foundation
 final class ListingDeckOnBoardingView: UIView {
     private struct Layout {
         struct FontSize {
-            static let title: CGFloat = 23
+            static let title: Int = 23
         }
         struct Height {
             static let containerView: CGFloat = 0.6
