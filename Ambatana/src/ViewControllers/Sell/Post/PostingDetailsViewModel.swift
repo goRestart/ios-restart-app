@@ -95,7 +95,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             values = RealEstatePropertyType.allValues.flatMap { $0.localizedString }
         case .sizeSquareMeters:
             let sizeView = PostingAddDetailSizeView(frame: CGRect.zero)
-            sizeView.sizeListing.asObservable().bind(to: sizeListing).disposed(by: disposeBag)
+            sizeView.sizeListingObservable.bind(to: sizeListing).disposed(by: disposeBag)
             return sizeView
         case .price:
             let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol,

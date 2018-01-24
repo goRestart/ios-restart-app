@@ -24,7 +24,11 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
     
     private var textFieldContainerHeightConstraint = NSLayoutConstraint()
     
-    var sizeListing = Variable<Int?>(nil)
+    private var sizeListing = Variable<Int?>(nil)
+    
+    var sizeListingObservable: Observable<Int?> {
+        return sizeListing.asObservable()
+    }
     
     private let disposeBag = DisposeBag()
     
