@@ -148,4 +148,8 @@ struct Constants {
     // Tracking
     static let parameterNotApply = "N/A"
     static let parameterSkipValue = "skip"
+
+    // Ads
+    static let adInFeedInitialPosition = 3
+    static let adInFeedCustomTargetingKey = "pos_var"
 }

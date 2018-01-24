@@ -128,6 +128,7 @@
 "chat_forbidden_disclaimer_seller_wo_name" = "Sembra che questo utente non sia più interessato al tuo annuncio.";
 "chat_inactive_conversations_button" = "Vedi chat archiviate";
 "chat_inactive_conversations_explanation_label" = "Le chat più vecchie di 3 mesi vengono automaticamente archiviate.";
+"chat_inactive_list_title" = "Conversazioni inattive";
 "chat_list_account_deleted" = "Account eliminato";
 "chat_list_account_deleted_username" = "Inattivo";
 "chat_list_all_empty_title" = "NESSUNA CONVERSAZIONE (ANCORA!)";
@@ -769,11 +770,11 @@
 "real_estate_offer_type_title" = "Tipo di annuncio";
 "real_estate_price_title" = "Prezzo";
 "real_estate_related_search_title" = "Risultati correlati";
-"real_estate_rooms_over_ten" = "Over 10";
+"real_estate_rooms_over_ten" = "Più di 10";
 "real_estate_rooms_studio" = "Studio (1+0)";
-"real_estate_rooms_title" = "No. of rooms";
+"real_estate_rooms_title" = "N. di stanze";
 "real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_title" = "Size";
+"real_estate_size_square_meters_title" = "Dimensioni";
 "real_estate_summary_bathroom_title" = "bagno";
 "real_estate_summary_bathrooms_empty" = "Aggiungi n° di bagni";
 "real_estate_summary_bathrooms_title" = "bagni";
@@ -784,10 +785,10 @@
 "real_estate_summary_offer_type_empty" = "Aggiungi tipo di annuncio";
 "real_estate_summary_price_empty" = "Aggiungi prezzo";
 "real_estate_summary_price_title" = "Prezzo: %@";
-"real_estate_summary_rooms_emtpy" = "Add rooms";
-"real_estate_summary_rooms_title" = "rooms";
-"real_estate_summary_size_empty" = "Add size";
-"real_estate_summary_size_title" = "Size";
+"real_estate_summary_rooms_emtpy" = "Aggiungi stanze";
+"real_estate_summary_rooms_title" = "stanze";
+"real_estate_summary_size_empty" = "Aggiungi dimensione";
+"real_estate_summary_size_title" = "Dimensioni";
 "real_estate_summary_title" = "Riepilogo";
 "real_estate_summary_type_property_empty" = "Aggiungi tipo di proprietà";
 "real_estate_title_generator_bathrooms_0" = "Nessuno";

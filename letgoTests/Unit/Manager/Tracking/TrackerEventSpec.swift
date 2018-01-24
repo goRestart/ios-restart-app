@@ -1271,7 +1271,9 @@ class TrackerEventSpec: QuickSpec {
                                                 queryType: .title,
                                                 query: "patata",
                                                 willLeaveApp: .trueParameter,
-                                                typePage: .listingDetailMoreInfo)
+                                                typePage: .listingDetailMoreInfo,
+                                                categories: [.homeAndGarden, .motorsAndAccessories],
+                                                feedPosition: .position(index: 14))
                 }
                 it("contains product id") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
@@ -1294,6 +1296,12 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains type page") {
                     expect(sut.params!.stringKeyParams["type-page"] as? String) == "product-detail-more-info"
+                }
+                it("contains categories") {
+                    sut.params!.stringKeyParams["category-id"] as? String == "4,2"
+                }
+                it("contains feed position") {
+                    expect(sut.params!.stringKeyParams["feed-position"] as? String) == "15"
                 }
             }
             describe("listingNotAvailable") {
