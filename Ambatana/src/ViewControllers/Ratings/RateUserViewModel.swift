@@ -334,7 +334,7 @@ fileprivate extension RateUserViewModel {
             self?.delegate?.vmUpdateDescription(description)
             self?.description.value = description
             
-            self?.selectedTagIndexes.value = tagIdxs
+            self?.selectedTagIndexes.replaceAll(with: tagIdxs)
             self?.delegate?.vmUpdateTags()
         }
     }
