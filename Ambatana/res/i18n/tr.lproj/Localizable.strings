@@ -785,6 +785,7 @@
 "real_estate_summary_offer_type_empty" = "İlan tipi ekle";
 "real_estate_summary_price_empty" = "Fiyat ekle";
 "real_estate_summary_price_title" = "Fiyat: %@";
+"real_estate_summary_rooms_empty" = "Add rooms";
 "real_estate_summary_rooms_emtpy" = "Oda ekle";
 "real_estate_summary_rooms_title" = "oda";
 "real_estate_summary_size_empty" = "Büyüklüğü belirt";

@@ -3203,8 +3203,8 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_summary_rooms_title", comment: "")
 	}
 
-	static var realEstateSummaryRoomsEmtpy: String {
-		return NSLocalizedString("real_estate_summary_rooms_emtpy", comment: "")
+	static var realEstateSummaryRoomsEmpty: String {
+		return NSLocalizedString("real_estate_summary_rooms_empty", comment: "")
 	}
 
 	static var realEstateSummarySizeTitle: String {
