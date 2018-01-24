@@ -151,6 +151,8 @@ class ListingCarouselMoreInfoView: UIView {
         // We need to call invalidateLayout in the CollectionView to fix what appears to be an iOS 10 UIKit bug:
         // https://stackoverflow.com/a/44467194
         tagCollectionView.collectionViewLayout.invalidateLayout()
+        mapView.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
+        dragView.layer.cornerRadius = dragView.height / 2.0
     }
 
     func dismissed() {
@@ -357,7 +359,6 @@ fileprivate extension ListingCarouselMoreInfoView {
     func setupUI() {
         
         setupMapView(inside: mapViewContainer)
-        mapView.cornerRadius = LGUIKitConstants.mapCornerRadius
         mapView.clipsToBounds = true
 
         titleText.textColor = UIColor.white
@@ -396,7 +397,7 @@ fileprivate extension ListingCarouselMoreInfoView {
 
         setupSocialShareView()
 
-        dragView.rounded = true
+        dragView.clipsToBounds = true
         dragView.layer.borderColor = UIColor.white.cgColor
         dragView.layer.borderWidth = 1
         dragView.backgroundColor = .clear
