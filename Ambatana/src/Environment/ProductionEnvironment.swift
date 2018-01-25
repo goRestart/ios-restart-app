@@ -12,8 +12,11 @@ class ProductionEnvironment: AppEnvironment {
     let facebookAppId = "699538486794082"
     
     // Tracking
-    let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
     let amplitudeAPIKey = "6d37fbd6c25243c57676e6d4ce7948bf"
+    
+    // AppsFlyer
+    let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
+    let oneLinkID = "O2PG"
     
     // App indexing
     let googleAppIndexingId: UInt = 986339882

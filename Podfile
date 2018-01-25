@@ -30,7 +30,7 @@ def shared_pods
 
     # Tracking
     pod "Amplitude-iOS",        "3.8.5"     # Obj-c
-    pod "AppsFlyerFramework",   "4.7.11"    # Obj-c
+    pod "AppsFlyerFramework",   "4.8.2"    # Obj-c
 #    pod "Leanplum-iOS-SDK",     "2.0.1"    # Obj-c
     pod "Leanplum-iOS-SDK",     "2.0.4"
     pod "NewRelicAgent",        "5.14.2"    # Obj-c
