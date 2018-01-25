@@ -278,13 +278,13 @@ extension InternalChatRepository {
     public func removeLocalConversation(id: String) {
         conversationsLock.lock()
         if let index = allConversations.value.index(where: { $0.objectId == id }) {
-            allConversations.value.remove(at: index)
+            allConversations.removeAtIndex(index)
         }
         if let index = sellingConversations.value.index(where: { $0.objectId == id }) {
-            sellingConversations.value.remove(at: index)
+            sellingConversations.removeAtIndex(index)
         }
         if let index = buyingConversations.value.index(where: { $0.objectId == id }) {
-            buyingConversations.value.remove(at: index)
+            buyingConversations.removeAtIndex(index)
         }
         if let index = inactiveConversations.value.index(where: { $0.objectId == id }) {
             inactiveConversations.value.remove(at: index)

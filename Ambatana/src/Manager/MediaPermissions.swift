@@ -18,11 +18,11 @@ enum AuthorizationStatus {
 
 protocol MediaPermissions {
     var isCameraAvailable: Bool { get }
+    var isLibraryAccessAuthorized: Bool { get }
     var videoAuthorizationStatus: AuthorizationStatus { get }
     var libraryAuthorizationStatus: AuthorizationStatus { get }
     func requestVideoAccess(completionHandler handler: @escaping ((Bool) -> Void))
     func requestLibraryAuthorization(completionHandler handler: @escaping (AuthorizationStatus) -> Void)
-   
 }
 
 
@@ -30,6 +30,11 @@ class LGMediaPermissions: MediaPermissions {
     var isCameraAvailable: Bool {
         return UIImagePickerController.isSourceTypeAvailable(.camera)
     }
+    
+    var isLibraryAccessAuthorized: Bool {
+        return PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized
+    }
+    
     var videoAuthorizationStatus: AuthorizationStatus {
         return AVCaptureDevice.authorizationStatus(for: AVMediaType.video).authorizationStatus
     }
