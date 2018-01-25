@@ -21,6 +21,7 @@ protocol ChatInactiveConversationsListViewModelDelegate: class {
     func didStartRetrievingObjectList()
     func didFailRetrievingObjectList(_ page: Int)
     func didSucceedRetrievingObjectList(_ page: Int)
+    func didUpdateConversations()
     
     func didFailArchivingChats(viewModel: ChatInactiveConversationsListViewModel)
     func didSucceedArchivingChats(viewModel: ChatInactiveConversationsListViewModel)
@@ -412,6 +413,7 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     
     func updateObjects(newObjects: [ChatInactiveConversation]) {
         objects.value = newObjects
+        delegate?.didUpdateConversations()
     }
     
     func clear() {

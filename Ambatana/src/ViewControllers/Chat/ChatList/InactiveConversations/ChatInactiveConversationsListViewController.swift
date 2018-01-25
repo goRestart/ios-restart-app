@@ -294,6 +294,10 @@ UITableViewDelegate  {
         refreshControl.endRefreshing()
     }
     
+    func didUpdateConversations() {
+        tableView.reloadData()
+    }
+    
     func didFailArchivingChats(viewModel: ChatInactiveConversationsListViewModel) {
         viewModel.refresh { [weak self] in
             self?.didFinishArchiving(withMessage: LGLocalizedString.chatListArchiveErrorMultiple)
