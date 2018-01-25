@@ -3903,6 +3903,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("trending_items_view_post_button", comment: "")
 	}
 
+	static var trendingItemsCardTitle: String {
+		return NSLocalizedString("trending_items_card_title", comment: "")
+	}
+
+	static var trendingItemsCardAction: String {
+		return NSLocalizedString("trending_items_card_action", comment: "")
+	}
+
 	static var trendingItemIphone: String {
 		return NSLocalizedString("trending_item_iPhone", comment: "")
 	}

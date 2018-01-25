@@ -2906,6 +2906,12 @@
 // Post button for each item in the list
 "trending_items_view_post_button" = "Post";
 
+// Title for Most searched items card in feed
+"trending_items_card_title" = "Most popular items this week";
+
+// Action text for the Most searched items card fake button
+"trending_items_card_action" = "See items";
+
 // iPhone title
 "trending_item_iPhone" = "iPhone";
 

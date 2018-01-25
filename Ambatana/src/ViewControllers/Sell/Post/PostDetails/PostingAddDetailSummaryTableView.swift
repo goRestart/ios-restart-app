@@ -93,7 +93,7 @@ enum PostingSummaryOption {
         case .motorsAndAccessories, .unassigned:
             return [.price, .location]
         case .realEstate:
-            return postingFlowType == .turkish ? [.price, .propertyType, .offerType, .rooms, .sizeSquareMeters, .bathrooms, .location] : [.price, .propertyType, .offerType, .bedrooms, .bathrooms, .location]
+            return postingFlowType == .turkish ? [.price, .propertyType, .offerType, .rooms, .sizeSquareMeters, .location] : [.price, .propertyType, .offerType, .bedrooms, .bathrooms, .location]
         }
     }
 }
@@ -201,7 +201,6 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
         if indexPath.row == postingSummaryOptions.count - 1 {
             cell.showSeparator()
         }
-        
         return cell
     }
     
