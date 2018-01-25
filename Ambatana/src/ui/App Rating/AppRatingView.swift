@@ -43,7 +43,7 @@ class AppRatingView: UIView {
         self.showWithFadeIn()
         
         self.frame = frame
-        mainView.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
+        mainView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
         headerImageView.backgroundColor = UIColor.ratingViewBackgroundColor
         mainTextLabel.text = LGLocalizedString.ratingViewTitleLabelUppercase
         ratUslabel.text = LGLocalizedString.ratingViewRateUsLabel
