@@ -49,7 +49,7 @@ extension RealEstateAttributes {
         if postingFlowType == .standard {
             attributes = [propertyTypeString, offerTypeString, bedroomsString, bathroomsString]
         } else {
-            attributes = [propertyTypeString, offerTypeString, roomsString, sizeSquareMetersString]
+            attributes = [offerTypeString, propertyTypeString, roomsString, sizeSquareMetersString]
         }
         return attributes.flatMap{ $0 }.joined(separator: " ")
     }
