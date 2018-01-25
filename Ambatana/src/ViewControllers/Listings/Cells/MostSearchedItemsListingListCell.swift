@@ -11,19 +11,32 @@ import Foundation
 class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
     
     static let height: CGFloat = 230
+    
+    private struct Layout {
+        struct FontSize {
+            static let title = 17
+            static let actionTitle = 14
+        }
+        struct Margin {
+            static let cardVerticalMargin: CGFloat = 30
+        }
+        struct Height {
+            static let trendingImageView: CGFloat = 60
+            static let actionBackgroundView: CGFloat = 32
+        }
+    }
+    private var actionBackgroundViewLateralMargin: CGFloat {
+        return self.contentView.width/5
+    }
 
-    let corneredView = UIView()
-    let trendingImageView = UIImageView()
-    let titleLabel = UILabel()
-    let actionBackgroundView = UIView()
-    let actionLabel = UILabel()
+    private let corneredView = UIView()
+    private let trendingImageView = UIImageView()
+    private let titleLabel = UILabel()
+    private let actionBackgroundView = UIView()
+    private let actionLabel = UILabel()
     
     
     // MARK: - Lifecycle
-
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,10 +44,9 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
         setupUI()
         setupConstraints()
     }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        actionBackgroundView.rounded = true
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     
@@ -54,7 +66,7 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
         titleLabel.minimumScaleFactor = 0.2
         
         actionBackgroundView.backgroundColor = UIColor.grayDark
-        actionBackgroundView.rounded = true
+        actionBackgroundView.layer.cornerRadius = 15
 
         actionLabel.font = UIFont.systemMediumFont(size: 14)
         actionLabel.textColor = UIColor.white
@@ -70,19 +82,15 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
 
         corneredView.layout(with: contentView).fill()
         
-        let cardVerticalMargin: CGFloat = 30
-        
         trendingImageView.layout(with: contentView)
             .centerX()
-            .top(by: cardVerticalMargin)
+            .top(by: Layout.Margin.cardVerticalMargin)
         trendingImageView.layout()
-            .width(60)
-            .height(60)
+            .height(Layout.Height.trendingImageView)
+            .widthProportionalToHeight()
 
         titleLabel.layout(with: trendingImageView).below(by: Metrics.margin)
-        titleLabel.layout(with: contentView)
-            .leading(by: Metrics.shortMargin)
-            .trailing(by: -Metrics.shortMargin)
+        titleLabel.layout(with: contentView).fillHorizontal(by: Metrics.shortMargin)
         titleLabel.layout(with: actionBackgroundView).above(by: -Metrics.margin)
         
         let actionBackgroundViewLateralMargin = contentView.width/5
@@ -90,15 +98,15 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
             .centerX()
             .leading(by: actionBackgroundViewLateralMargin)
             .trailing(by: -actionBackgroundViewLateralMargin)
-            .bottom(by: -cardVerticalMargin)
+            .bottom(by: -Layout.Margin.cardVerticalMargin)
         actionBackgroundView.layout().height(32)
         
         actionLabel.layout(with: actionBackgroundView).fill()
     }
     
     func setupWith(data: MostSearchedItemsCardData) {
-        titleLabel.text = model.title
-        actionLabel.text = model.actionTitle
-        trendingImageView.image = model.icon
+        titleLabel.text = data.title
+        actionLabel.text = data.actionTitle
+        trendingImageView.image = data.icon
     }
 }
