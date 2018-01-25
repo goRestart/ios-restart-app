@@ -29,7 +29,7 @@ extension RealEstateAttributes {
         
         var roomsString: String?
         if let _ = bedrooms, let _ = livingRooms {
-            let numberOfRooms = NumberOfRooms(bedrooms: bedrooms, livingRooms: livingRooms)
+            let numberOfRooms = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms)
             roomsString = numberOfRooms.localizedString
         }
         
