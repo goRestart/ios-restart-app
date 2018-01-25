@@ -126,6 +126,8 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     // Rx
     fileprivate let disposeBag = DisposeBag()
     
+    private let mediaPermissions: MediaPermissions = LGMediaPermissions()
+
     fileprivate var activeField: UIView? = nil
 
     // MARK: - Lifecycle
@@ -288,7 +290,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SellListingCell.reusableID,
                 for: indexPath) as? SellListingCell else { return UICollectionViewCell() }
-            cell.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+            cell.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
             if indexPath.item < viewModel.numberOfImages {
                 cell.setupCellWithImageType(viewModel.imageAtIndex(indexPath.item))
                 cell.label.text = ""
@@ -366,12 +368,30 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     
     // MARK: - Managing images.
     
-    func deleteAlreadyUploadedImageWithIndex(_ index: Int) {
-        // delete the image file locally
+    private func deleteAlreadyUploadedImageWithIndex(_ index: Int) {
         viewModel.deleteImageAtIndex(index)
     }
     
-    func saveProductImageToDiskAtIndex(_ index: Int) {
+    private func requestLibraryAuthorizationAndSaveImageToDiskAtIndex(_ index: Int) {
+        mediaPermissions.requestLibraryAuthorization { [weak self] authorization in
+            guard let strongSelf = self else { return }
+            if strongSelf.mediaPermissions.isLibraryAccessAuthorized {
+                strongSelf.saveProductImageToDiskAtIndex(index)
+            } else {
+                let alert = UIAlertController(title: LGLocalizedString.commonErrorTitle,
+                                              message: LGLocalizedString.productSellPhotolibraryRestrictedError,
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: LGLocalizedString.commonOk, style: .default))
+                strongSelf.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
+            }
+        }
+    }
+    
+    private func saveProductImageToDiskAtIndex(_ index: Int) {
+        guard mediaPermissions.isLibraryAccessAuthorized else {
+            requestLibraryAuthorizationAndSaveImageToDiskAtIndex(index)
+            return
+        }
         showLoadingMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollLoading)
         
         // get the image and launch the saving action.
@@ -414,7 +434,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         self.navigationItem.leftBarButtonItem = closeButton;
         
         separatorContainerViewsConstraints.forEach { $0.constant = EditListingViewController.separatorOptionsViewDistance }
-        containerEditOptionsView.layer.cornerRadius = LGUIKitConstants.containerCornerRadius
+        containerEditOptionsView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
         updateButtonBottomConstraint.constant = 0
         
         titleTextField.placeholder = LGLocalizedString.sellTitleFieldHint
@@ -567,11 +587,11 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             strongSelf.categorySelectedLabel.text = category?.name ?? LGLocalizedString.categoriesUnassigned
             strongSelf.updateVerticalFields(category: category)
         }.disposed(by: disposeBag)
-
-        let categoryIsRealEstate = viewModel.category.asObservable().flatMap { x in
-            return x.map(Observable.just) ?? Observable.empty()
-            }.map { $0.isRealEstate }
-        let categoryIsEnabled = categoryIsRealEstate.asObservable().filter { !$0 }
+        
+        let categoryIsEnabled = viewModel.category.asObservable().map { category -> Bool in
+            guard let categoryValue = category, categoryValue.isRealEstate else { return true }
+            return false
+        }
         categoryIsEnabled.bind(to: categoryButton.rx.isEnabled).disposed(by: disposeBag)
         categoryIsEnabled.bind(to: categoryTitleLabel.rx.isEnabled).disposed(by: disposeBag) 
         

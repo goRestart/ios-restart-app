@@ -8,12 +8,14 @@
 
 import Foundation
 import LGCoreKit
-
+import GoogleMobileAds
 
 enum ListingCellModel {
     case listingCell(listing: Listing)
     case collectionCell(type: CollectionCellType)
     case emptyCell(vm: LGEmptyViewModel)
+    case advertisement(data: AdvertisementData)
+    case mostSearchedItems(data: MostSearchedItemsCardData)
     
     init(listing: Listing) {
         self = ListingCellModel.listingCell(listing: listing)
@@ -25,6 +27,10 @@ enum ListingCellModel {
 
     init(emptyVM: LGEmptyViewModel) {
         self = ListingCellModel.emptyCell(vm: emptyVM)
+    }
+    
+    init(mostSearchedItemsData: MostSearchedItemsCardData) {
+        self = ListingCellModel.mostSearchedItems(data: mostSearchedItemsData)
     }
 }
 
@@ -70,4 +76,30 @@ enum CollectionCellType: String {
             return LGLocalizedString.collectionYouTitle
         }
     }
+}
+
+protocol AdvertisementCellDelegate {
+    func updateAdCellHeight(newHeight: CGFloat, forPosition: Int, withBannerView bannerView: GADBannerView)
+    func bannerWasTapped(adType: EventParameterAdType,
+                         willLeaveApp: EventParameterBoolean,
+                         categories: [ListingCategory]?,
+                         feedPosition: EventParameterFeedPosition)
+}
+
+struct AdvertisementData {
+    var adUnitId: String
+    var rootViewController: UIViewController
+    var adPosition: Int
+    var bannerHeight: CGFloat
+    var delegate: AdvertisementCellDelegate
+    var adRequest: DFPRequest
+    var bannerView: GADBannerView?
+    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio
+    var categories: [ListingCategory]?
+}
+
+struct MostSearchedItemsCardData {
+    let icon: UIImage? = UIImage(named: "trending_feed")
+    let title: String = LGLocalizedString.trendingItemsCardTitle
+    let actionTitle: String = LGLocalizedString.trendingItemsCardAction
 }

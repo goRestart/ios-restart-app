@@ -8,7 +8,8 @@
 
 import Foundation
 
-class MostSearchedItemsListViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
+class MostSearchedItemsListViewController: BaseViewController, UITableViewDelegate,
+    UITableViewDataSource, MostSearchedItemsListCellDelegate {
     
     let closeButton = UIBarButtonItem()
     let tableView = UITableView()
@@ -38,9 +39,6 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
     }
     
     private func setupUI() {
-        // TODO: Check further flow for navigationBar behaviours (didLoad vs didAppear)
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        
         closeButton.image = UIImage(named: "navbar_close")
         closeButton.style = .plain
         closeButton.target = self
@@ -81,6 +79,7 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MostSearchedItemsListCell.reusableID,
                                                         for: indexPath) as? MostSearchedItemsListCell else { return UITableViewCell() }
         let item = viewModel.itemAtIndex(indexPath.row)
+        cell.delegate = self
         cell.updateWith(item: item, showSearchButton: !viewModel.isSearchEnabled)
         return cell
     }
@@ -89,4 +88,16 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
         let header = MostSearchedItemsListHeader()
         return header
     }
+    
+    
+    // MARK: - MostSearchedItemsCellDelegate
+    
+    func didPostAction(item: LocalMostSearchedItem) {
+        viewModel.postButtonAction(item: item)
+    }
+    
+    func didSearchAction(listingTitle: String) {
+        viewModel.searchButtonAction(listingTitle: listingTitle)
+    }
+    
 }

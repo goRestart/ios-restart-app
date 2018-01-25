@@ -9,11 +9,13 @@
 import LGCoreKit
 import Result
 import RxSwift
+import GoogleMobileAds
 
 protocol ListingListViewModelDelegate: class {
     func vmReloadData(_ vm: ListingListViewModel)
     func vmDidUpdateState(_ vm: ListingListViewModel, state: ViewState)
     func vmDidFinishLoading(_ vm: ListingListViewModel, page: UInt, indexes: [Int])
+    func vmReloadItemAtIndexPath(indexPath: IndexPath)
 }
 
 protocol ListingListViewModelDataDelegate: class {
@@ -25,6 +27,7 @@ protocol ListingListViewModelDataDelegate: class {
     func vmProcessReceivedListingPage(_ Listings: [ListingCellModel], page: UInt) -> [ListingCellModel]
     func vmDidSelectSellBanner(_ type: String)
     func vmDidSelectCollection(_ type: CollectionCellType)
+    func vmDidSelectMostSearchedItems()
 }
 
 struct ListingsRequesterResult {
@@ -321,7 +324,10 @@ class ListingListViewModel: BaseViewModel {
                                         originFrame: originFrame)
         case .collectionCell(let type):
             dataDelegate?.vmDidSelectCollection(type)
-        case .emptyCell:
+        case .mostSearchedItems:
+            dataDelegate?.vmDidSelectMostSearchedItems()
+            return
+        case .emptyCell, .advertisement:
             return
         }
     }
@@ -334,7 +340,7 @@ class ListingListViewModel: BaseViewModel {
                 if let thumbnailURL = listing.thumbnail?.fileURL {
                     urls.append(thumbnailURL)
                 }
-            case .emptyCell, .collectionCell:
+            case .emptyCell, .collectionCell, .advertisement, .mostSearchedItems:
                 break
             }
         }
@@ -366,7 +372,7 @@ class ListingListViewModel: BaseViewModel {
         switch item {
         case let .listingCell(listing):
             return listing
-        case .collectionCell, .emptyCell:
+        case .collectionCell, .emptyCell, .advertisement, .mostSearchedItems:
             return nil
         }
     }
@@ -376,7 +382,7 @@ class ListingListViewModel: BaseViewModel {
             switch cellModel {
             case let .listingCell(listing):
                 return listing.objectId == listingId
-            case .collectionCell, .emptyCell:
+            case .collectionCell, .emptyCell, .advertisement, .mostSearchedItems:
                 return false
             }
         })
@@ -416,6 +422,11 @@ class ListingListViewModel: BaseViewModel {
             return CGSize(width: defaultCellSize.width, height: height)
         case .emptyCell:
             return CGSize(width: defaultCellSize.width, height: 1)
+        case .advertisement(let adData):
+            guard adData.adPosition == index else { return CGSize(width: defaultCellSize.width, height: 0) }
+            return CGSize(width: defaultCellSize.width, height: adData.bannerHeight)
+        case .mostSearchedItems:
+            return CGSize(width: defaultCellSize.width, height: MostSearchedItemsListingListCell.height)
         }
     }
         
@@ -461,5 +472,47 @@ extension ListingListViewModel {
                                                      matchingFields: info.matchingFields,
                                                      nonMatchingFields: info.nonMatchingFields)
         tracker.trackEvent(event)
+    }
+}
+
+extension ListingListViewModel: AdvertisementCellDelegate {
+    func updateAdCellHeight(newHeight: CGFloat, forPosition: Int, withBannerView bannerView: GADBannerView) {
+        guard 0..<objects.count ~= forPosition else { return }
+        guard let modelToBeUpdated = objects[forPosition] as? ListingCellModel else { return }
+        switch modelToBeUpdated {
+        case .advertisement(let data):
+            guard data.adPosition == forPosition else {
+                return
+            }
+            let newAdData = AdvertisementData(adUnitId: data.adUnitId,
+                                              rootViewController: data.rootViewController,
+                                              adPosition: data.adPosition,
+                                              bannerHeight: newHeight,
+                                              delegate: data.delegate,
+                                              adRequest: data.adRequest,
+                                              bannerView: bannerView,
+                                              showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
+                                              categories: data.categories)
+            objects[forPosition] = ListingCellModel.advertisement(data: newAdData)
+            delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(item: forPosition, section: 0))
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems:
+            break
+        }
+    }
+
+    func bannerWasTapped(adType: EventParameterAdType,
+                         willLeaveApp: EventParameterBoolean,
+                         categories: [ListingCategory]?,
+                         feedPosition: EventParameterFeedPosition) {
+        let trackerEvent = TrackerEvent.adTapped(listingId: nil,
+                                                 adType: adType,
+                                                 isMine: .notAvailable,
+                                                 queryType: nil,
+                                                 query: nil,
+                                                 willLeaveApp: willLeaveApp,
+                                                 typePage: .listingList,
+                                                 categories: categories,
+                                                 feedPosition: feedPosition)
+        tracker.trackEvent(trackerEvent)
     }
 }

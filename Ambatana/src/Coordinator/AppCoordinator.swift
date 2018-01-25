@@ -212,7 +212,7 @@ extension AppCoordinator: AppNavigator {
         openTab(.home, completion: nil)
     }
 
-    func openSell(source: PostingSource, postCategory: PostCategory?) {
+    func openSell(source: PostingSource, postCategory: PostCategory?, listingTitle: String?) {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
         case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .mostSearchedItems, .realEstatePromo:
@@ -223,9 +223,20 @@ extension AppCoordinator: AppNavigator {
 
         let sellCoordinator = SellCoordinator(source: source,
                                               postCategory: postCategory,
-                                              forcedInitialTab: forcedInitialTab)
+                                              forcedInitialTab: forcedInitialTab,
+                                              listingTitle: listingTitle)
         sellCoordinator.delegate = self
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
+    }
+    
+    func openMostSearchedItems(source: MostSearchedItemsSource, enableSearch: Bool) {
+        let mostSearchedItemsCoordinator = MostSearchedItemsCoordinator(source: source, enableSearch: enableSearch)
+        mostSearchedItemsCoordinator.delegate = self
+        openChild(coordinator: mostSearchedItemsCoordinator,
+                  parent: tabBarCtl,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
     }
 
     
@@ -235,7 +246,7 @@ extension AppCoordinator: AppNavigator {
         guard ratingManager.shouldShowRating else { return }
         let trackerEvent = TrackerEvent.appRatingStart(source)
         tracker.trackEvent(trackerEvent)
-        if featureFlags.inAppRatingIOS10, #available(iOS 10.3, *) {
+        if #available(iOS 10.3, *) {
             switch source {
             case .markedSold:
                 SKStoreReviewController.requestReview()
@@ -447,7 +458,7 @@ extension AppCoordinator: OnboardingCoordinatorDelegate {
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?) {
         delegate?.appNavigatorDidOpenApp()
         if let source = source, posting {
-            openSell(source: source, postCategory: nil)
+            openSell(source: source, postCategory: nil, listingTitle: nil)
         } else {
             openHome()
         }
@@ -559,7 +570,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
         case .home, .notifications, .chats, .profile:
             afterLogInSuccessful = { [weak self] in self?.openTab(tab, force: true, completion: nil) }
         case .sell:
-            afterLogInSuccessful = { [weak self] in self?.openSell(source: .tabBar, postCategory: nil) }
+            afterLogInSuccessful = { [weak self] in self?.openSell(source: .tabBar, postCategory: nil, listingTitle: nil) }
         }
 
         if let source = tab.logInSource, shouldOpenLogin {
@@ -571,7 +582,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
                 // tab is changed after returning from this method
                 return !shouldOpenLogin
             case .sell:
-                openSell(source: .tabBar, postCategory: nil)
+                openSell(source: .tabBar, postCategory: nil, listingTitle: nil)
                 return false
             }
         }
@@ -782,7 +793,7 @@ fileprivate extension AppCoordinator {
             }
         case .sell:
             afterDelayClosure = { [weak self] in
-                self?.openSell(source: .deepLink, postCategory: nil)
+                self?.openSell(source: .deepLink, postCategory: nil, listingTitle: nil)
             }
         case let .listing(listingId):
             tabBarCtl.clearAllPresented(nil)
@@ -921,7 +932,7 @@ fileprivate extension AppCoordinator {
 
         navCtl.showLoadingMessageAlert()
         userRatingRepository.show(ratingId) { [weak self] result in
-            if let rating = result.value, let data = RateUserData(user: rating.userFrom) {
+            if let rating = result.value, let data = RateUserData(user: rating.userFrom, listingId: rating.listingId, ratingType: rating.type.rateBackType) {
                 navCtl.dismissLoadingMessageAlert {
                     self?.openUserRating(.deepLink, data: data)
                 }
@@ -1018,6 +1029,19 @@ extension AppCoordinator: PromoteBumpCoordinatorDelegate {
             self?.keyValueStorage[.lastShownPromoteBumpDate] = Date()
             
         }
+    }
+}
+
+
+extension AppCoordinator: MostSearchedItemsCoordinatorDelegate {
+    func openSell(source: PostingSource, mostSearchedItem: LocalMostSearchedItem) {
+        openSell(source: .mostSearchedItems,
+                 postCategory: mostSearchedItem.category,
+                 listingTitle: mostSearchedItem.name)
+    }
+    
+    func openSearchFor(listingTitle: String) {
+        mainTabBarCoordinator.openMainListings(withSearchType: .user(query: listingTitle), listingFilters: ListingFilters())
     }
 }
 

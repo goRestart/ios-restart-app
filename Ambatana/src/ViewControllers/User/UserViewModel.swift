@@ -637,6 +637,7 @@ extension UserViewModel: ListingListViewModelDataDelegate {
     func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] { return listings }
     func vmDidSelectSellBanner(_ type: String) {}
     func vmDidSelectCollection(_ type: CollectionCellType) {}
+    func vmDidSelectMostSearchedItems() {}
 }
 
 

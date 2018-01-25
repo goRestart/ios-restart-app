@@ -78,7 +78,6 @@ struct Constants {
     static let distanceSliderPositions = [0, 1, 10, 20, 30, 100]
     
     // App sharing
-    static let facebookAppLinkURL = "https://fb.me/900185926729336"
     static let facebookAppInvitePreviewImageURL = "http://cdn.letgo.com/static/app-invites-facebook.jpg"
 
     // Pre Permissions
@@ -149,4 +148,8 @@ struct Constants {
     // Tracking
     static let parameterNotApply = "N/A"
     static let parameterSkipValue = "skip"
+
+    // Ads
+    static let adInFeedInitialPosition = 3
+    static let adInFeedCustomTargetingKey = "pos_var"
 }

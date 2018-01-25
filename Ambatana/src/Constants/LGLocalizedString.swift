@@ -635,6 +635,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_list_unblock", comment: "")
 	}
 
+	static var chatInactiveListTitle: String {
+		return NSLocalizedString("chat_inactive_list_title", comment: "")
+	}
+
 	static var chatLoginPopupText: String {
 		return NSLocalizedString("chat_login_popup_text", comment: "")
 	}
@@ -2079,6 +2083,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_delete_post_subtitle", comment: "")
 	}
 
+	static var productDetailSwipeToSeeRelated: String {
+		return NSLocalizedString("product_detail_swipe_to_see_related", comment: "")
+	}
+
 	static func productDistanceXFromYou(_ var1: String) -> String {
 		return String(format: NSLocalizedString("product_distance_X_from_you", comment: ""), var1)
 	}
@@ -3079,6 +3087,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_type_property_others", comment: "")
 	}
 
+	static var realEstateTypePropertyFlat: String {
+		return NSLocalizedString("real_estate_type_property_flat", comment: "")
+	}
+
+	static var realEstateTypePropertyLand: String {
+		return NSLocalizedString("real_estate_type_property_land", comment: "")
+	}
+
+	static var realEstateTypePropertyVilla: String {
+		return NSLocalizedString("real_estate_type_property_villa", comment: "")
+	}
+
 	static var realEstateBathroomsTitle: String {
 		return NSLocalizedString("real_estate_bathrooms_title", comment: "")
 	}
@@ -3147,12 +3167,52 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_bedrooms_4", comment: "")
 	}
 
+	static var realEstateRoomsTitle: String {
+		return NSLocalizedString("real_estate_rooms_title", comment: "")
+	}
+
+	static var realEstateRoomsStudio: String {
+		return NSLocalizedString("real_estate_rooms_studio", comment: "")
+	}
+
+	static var realEstateRoomsOverTen: String {
+		return NSLocalizedString("real_estate_rooms_over_ten", comment: "")
+	}
+
+	static func realEstateRoomsValue(_ var1: Int, _ var2: Int) -> String {
+		return String(format: NSLocalizedString("real_estate_rooms_value", comment: ""), var1, var2)
+	}
+
+	static var realEstateSizeSquareMetersTitle: String {
+		return NSLocalizedString("real_estate_size_square_meters_title", comment: "")
+	}
+
+	static var realEstateSizeSquareMetersPlaceholder: String {
+		return NSLocalizedString("real_estate_size_square_meters_placeholder", comment: "")
+	}
+
 	static var realEstateSummaryBedroomTitle: String {
 		return NSLocalizedString("real_estate_summary_bedroom_title", comment: "")
 	}
 
 	static var realEstateSummaryBedroomsTitle: String {
 		return NSLocalizedString("real_estate_summary_bedrooms_title", comment: "")
+	}
+
+	static var realEstateSummaryRoomsTitle: String {
+		return NSLocalizedString("real_estate_summary_rooms_title", comment: "")
+	}
+
+	static var realEstateSummaryRoomsEmpty: String {
+		return NSLocalizedString("real_estate_summary_rooms_empty", comment: "")
+	}
+
+	static var realEstateSummarySizeTitle: String {
+		return NSLocalizedString("real_estate_summary_size_title", comment: "")
+	}
+
+	static var realEstateSummarySizeEmpty: String {
+		return NSLocalizedString("real_estate_summary_size_empty", comment: "")
 	}
 
 	static var realEstateSummaryPriceEmpty: String {
@@ -3841,6 +3901,14 @@ struct LGLocalizedString {
 
 	static var trendingItemsViewPostButton: String {
 		return NSLocalizedString("trending_items_view_post_button", comment: "")
+	}
+
+	static var trendingItemsCardTitle: String {
+		return NSLocalizedString("trending_items_card_title", comment: "")
+	}
+
+	static var trendingItemsCardAction: String {
+		return NSLocalizedString("trending_items_card_action", comment: "")
 	}
 
 	static var trendingItemIphone: String {

@@ -8,9 +8,16 @@
 
 import Foundation
 
+enum MostSearchedItemsSource {
+    case categoriesHeader
+    case userProfile
+    case cameraBadge
+    case card
+}
+
 class MostSearchedItemsListViewModel: BaseViewModel {
     
-    weak var navigator: PostListingNavigator?
+    weak var navigator: MostSearchedItemsNavigator?
     let isSearchEnabled: Bool
     
     fileprivate let featureFlags: FeatureFlaggeable
@@ -36,7 +43,15 @@ class MostSearchedItemsListViewModel: BaseViewModel {
     // MARK: - Navigation
     
     func closeButtonPressed() {
-        navigator?.cancelPostListing()
+        navigator?.cancel()
+    }
+    
+    func searchButtonAction(listingTitle: String) {
+        navigator?.openSearchFor(listingTitle: listingTitle)
+    }
+    
+    func postButtonAction(item: LocalMostSearchedItem) {
+        navigator?.openSell(mostSearchedItem: item)
     }
     
     
