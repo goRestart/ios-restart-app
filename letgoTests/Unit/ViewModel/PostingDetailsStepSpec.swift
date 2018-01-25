@@ -13,6 +13,7 @@ import Nimble
 
 
 class PostingDetailStepSpec: BaseViewModelSpec {
+
     
     override func spec() {
         describe("PostListingStateSpec") {
@@ -23,7 +24,7 @@ class PostingDetailStepSpec: BaseViewModelSpec {
                 }
                 describe("next step") {
                     it("next step is offerType") {
-                        expect(sut.nextStep) == PostingDetailStep.offerType
+                        expect(sut.nextStep(postingFlowType: .standard)) == PostingDetailStep.offerType
                     }
                 }
             }
@@ -32,8 +33,15 @@ class PostingDetailStepSpec: BaseViewModelSpec {
                     sut = PostingDetailStep.offerType
                 }
                 describe("next step") {
-                    it("next step is bedrooms") {
-                        expect(sut.nextStep) == PostingDetailStep.bedrooms
+                    context("posting flow type is standard") {
+                        it("next step is bedrooms") {
+                            expect(sut.nextStep(postingFlowType: .standard)) == PostingDetailStep.bedrooms
+                        }
+                    }
+                    context("posting flow type is turkish") {
+                        it("next step is rooms") {
+                            expect(sut.nextStep(postingFlowType: .turkish)) == PostingDetailStep.rooms
+                        }
                     }
                 }
             }
@@ -43,7 +51,27 @@ class PostingDetailStepSpec: BaseViewModelSpec {
                 }
                 describe("next step") {
                     it("next step is bathrooms") {
-                        expect(sut.nextStep) == PostingDetailStep.bathrooms
+                        expect(sut.nextStep(postingFlowType: .standard)) == PostingDetailStep.bathrooms
+                    }
+                }
+            }
+            context("current step: rooms") {
+                beforeEach {
+                    sut = PostingDetailStep.rooms
+                }
+                describe("next step") {
+                    it("next step is size Square meters") {
+                        expect(sut.nextStep(postingFlowType: .turkish)) == PostingDetailStep.sizeSquareMeters
+                    }
+                }
+            }
+            context("current step: size Square meters") {
+                beforeEach {
+                    sut = PostingDetailStep.sizeSquareMeters
+                }
+                describe("next step") {
+                    it("next step is summay") {
+                        expect(sut.nextStep(postingFlowType: .turkish)) == PostingDetailStep.summary
                     }
                 }
             }
@@ -53,7 +81,7 @@ class PostingDetailStepSpec: BaseViewModelSpec {
                 }
                 describe("next step") {
                     it("next step is summary") {
-                        expect(sut.nextStep) == PostingDetailStep.summary
+                        expect(sut.nextStep(postingFlowType: .standard)) == PostingDetailStep.summary
                     }
                 }
             }
@@ -63,7 +91,7 @@ class PostingDetailStepSpec: BaseViewModelSpec {
                 }
                 describe("next step") {
                     it("next step is nil") {
-                        expect(sut.nextStep).to(beNil())
+                        expect(sut.nextStep(postingFlowType: .standard)).to(beNil())
                     }
                 }
             }

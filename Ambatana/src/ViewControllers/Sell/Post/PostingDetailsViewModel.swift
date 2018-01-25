@@ -21,7 +21,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     var buttonTitle: String {
         switch step {
-        case .bathrooms, .bedrooms, .offerType, .propertyType, .make, .model, .year:
+        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters, .offerType, .propertyType, .make, .model, .year:
             return  previousStepIsSummary ? LGLocalizedString.productPostDone : LGLocalizedString.postingButtonSkip
         case .price, .summary:
             return LGLocalizedString.productPostDone
@@ -32,7 +32,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     var shouldFollowKeyboard: Bool {
         switch step {
-        case .bathrooms, .bedrooms, .offerType, .price, .propertyType, .make, .model, .year, .summary:
+        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters, .offerType, .price, .propertyType, .make, .model, .year, .summary:
             return  true
         case .location:
             return false
@@ -50,16 +50,16 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     var doneButtonStyle: ButtonStyle {
         switch step {
-        case .bathrooms, .bedrooms, .offerType, .propertyType, .make, .model, .year:
+        case .bathrooms, .bedrooms, .rooms, .offerType, .propertyType, .make, .model, .year:
             return .postingFlow
-        case .location, .summary, .price:
+        case .location, .sizeSquareMeters, .summary, .price:
             return .primary(fontSize: .medium)
         }
     }
     
     var buttonFullWidth: Bool {
         switch step {
-        case .bathrooms, .bedrooms, .offerType, .propertyType, .make, .model, .year, .price:
+        case .bathrooms, .bedrooms, .rooms, .sizeSquareMeters, .offerType, .propertyType, .make, .model, .year, .price:
             return false
         case .location, .summary:
             return true
@@ -82,18 +82,21 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             values = NumberOfBathrooms.allValues.flatMap { $0.localizedString }
         case .bedrooms:
             values = NumberOfBedrooms.allValues.flatMap { $0.localizedString }
+        case .rooms:
+            values = NumberOfRooms.allValues.flatMap { $0.localizedString }
         case .offerType:
             values = RealEstateOfferType.allValues.flatMap { $0.localizedString }
         case .propertyType:
             values = RealEstatePropertyType.allValues.flatMap { $0.localizedString }
+        // case .sizeSquareMeters:
+            // TODO: add sizeSquareMeters view
         case .price:
-            
             let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol,
                                                       freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
             priceView.priceListing.asObservable().bind(to: priceListing).disposed(by: disposeBag)
             return priceView
         case .summary:
-            let summaryView = PostingAddDetailSummaryTableView(postCategory: postListingState.category)
+            let summaryView = PostingAddDetailSummaryTableView(postCategory: postListingState.category, postingFlowType: .turkish)
             summaryView.delegate = self
             return summaryView
         case .location:
@@ -101,7 +104,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                                                         currentPlace: postListingState.place)
             locationView.locationSelected.asObservable().bind(to: placeSelected).disposed(by: disposeBag)
             return locationView
-        case .year, .make, .model:
+        case .year, .make, .model, .sizeSquareMeters:
             return nil
         }
         let view = PostingAttributePickerTableView(values: values, selectedIndex: nil, delegate: self)
@@ -188,7 +191,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     func nextbuttonPressed() {
-        guard let next = step.nextStep else {
+        guard let next = step.nextStep(postingFlowType: .turkish) else {
             postListing(buttonNameType: .summary)
             return
         }
@@ -197,7 +200,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             set(price: priceListing.value)
         case .location:
             update(place: placeSelected.value)
-        case .bathrooms, .bedrooms, .make, .model, .year, .offerType, .propertyType, .summary:
+        case .bathrooms, .bedrooms, .make, .model, .year, .offerType, .propertyType, .summary, .sizeSquareMeters, .rooms:
             break
         }
         let nextStep = previousStepIsSummary ? .summary : next
@@ -305,35 +308,38 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     // MARK: - PostingAddDetailTableViewDelegate 
     
     func indexSelected(index: Int) {
-        var numberOfBathrooms: NumberOfBathrooms? = nil
-        var numberOfBedrooms: NumberOfBedrooms? = nil
+        var numberOfBathrooms: Float? = nil
+        var numberOfBedrooms: Int? = nil
+        var numberOfLivingRooms: Int? = nil
         var realEstatePropertyType: RealEstatePropertyType? = nil
         var realEstateOfferType: RealEstateOfferType? = nil
         
         switch step {
         case .bathrooms:
-            numberOfBathrooms = NumberOfBathrooms.allValues[index]
+            numberOfBathrooms = NumberOfBathrooms.allValues[index].rawValue
         case .bedrooms:
-            numberOfBedrooms = NumberOfBedrooms.allValues[index]
+            numberOfBedrooms = NumberOfBedrooms.allValues[index].rawValue
+        case .rooms:
+            numberOfBedrooms = NumberOfRooms.allValues[index].numberOfBedrooms
+            numberOfLivingRooms = NumberOfRooms.allValues[index].numberOfLivingRooms
         case .offerType:
             realEstateOfferType = RealEstateOfferType.allValues[index]
         case .propertyType:
             realEstatePropertyType = RealEstatePropertyType.allValues[index]
-        case .price:
-            return
-        case .summary, .location, .make, .model, .year:
+        case .price, .sizeSquareMeters, .summary, .location, .make, .model, .year:
             return
         }
         
         var realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes()
         realEstateInfo = realEstateInfo.updating(propertyType: realEstatePropertyType,
                                                  offerType: realEstateOfferType,
-                                                 bedrooms: numberOfBedrooms?.rawValue,
-                                                 bathrooms: numberOfBathrooms?.rawValue)
+                                                 bedrooms: numberOfBedrooms,
+                                                 bathrooms: numberOfBathrooms,
+                                                livingRooms: numberOfLivingRooms)
         postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
         delay(0.3) { [weak self] in
             guard let strongSelf = self else { return }
-            guard let next = strongSelf.step.nextStep else { return }
+            guard let next = strongSelf.step.nextStep(postingFlowType: .turkish) else { return }
             let nextStep = strongSelf.previousStepIsSummary ? .summary : next
             strongSelf.advanceNextStep(next: nextStep)
         }
@@ -344,6 +350,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         var removeBedrooms = false
         var removePropertyType = false
         var removeOfferType = false
+        var removeLivingRooms = false
         
         switch step {
         case .bathrooms:
@@ -354,13 +361,18 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             removeOfferType = true
         case .propertyType:
             removePropertyType = true
-        case .price:
-            return
-        case .summary, .location, .make, .model, .year:
+        case .rooms:
+            removeBedrooms = true
+            removeLivingRooms = true
+        case .price, .sizeSquareMeters, .summary, .location, .make, .model, .year:
             return
         }
         if let realEstateInfo = postListingState.verticalAttributes?.realEstateAttributes {
-            let realEstateInfo = realEstateInfo.removing(propertyType: removePropertyType, offerType: removeOfferType, bedrooms: removeBedrooms, bathrooms: removeBathrooms)
+            let realEstateInfo = realEstateInfo.removing(propertyType: removePropertyType,
+                                                         offerType: removeOfferType,
+                                                         bedrooms: removeBedrooms,
+                                                         bathrooms: removeBathrooms,
+                                                         livingRooms: removeLivingRooms)
             postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
         }
     }
@@ -376,11 +388,15 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             if let bedrooms = postListingState.verticalAttributes?.realEstateAttributes?.bedrooms {
                 positionSelected = NumberOfBedrooms(rawValue: bedrooms)?.position
             }
+        case .rooms:
+            let numberOfRooms = NumberOfRooms(numberOfBedrooms: postListingState.verticalAttributes?.realEstateAttributes?.bedrooms,
+                                              numberOfLivingRooms: postListingState.verticalAttributes?.realEstateAttributes?.livingRooms)
+            positionSelected = numberOfRooms.positionIn(allValues: NumberOfRooms.allValues)
         case .bathrooms:
             if let bathrooms = postListingState.verticalAttributes?.realEstateAttributes?.bathrooms {
                 positionSelected = NumberOfBathrooms(rawValue:bathrooms)?.position
             }
-        case .price, .make, .model, .year, .location, .summary:
+        case .price, .make, .model, .sizeSquareMeters, .year, .location, .summary:
             return nil
         }
         return positionSelected
@@ -413,9 +429,17 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             if let bedrooms = postListingState.verticalAttributes?.realEstateAttributes?.bedrooms {
                 value = NumberOfBedrooms(rawValue: bedrooms)?.summaryLocalizedString
             }
+        case .rooms:
+            if let bedrooms = postListingState.verticalAttributes?.realEstateAttributes?.bedrooms {
+                value = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: postListingState.verticalAttributes?.realEstateAttributes?.livingRooms).localizedString
+            }
         case .bathrooms:
             if let bathrooms = postListingState.verticalAttributes?.realEstateAttributes?.bathrooms {
                 value = NumberOfBathrooms(rawValue:bathrooms)?.summaryLocalizedString
+            }
+        case .sizeSquareMeters:
+            if let size = postListingState.verticalAttributes?.realEstateAttributes?.sizeSquareMeters {
+                value = String(size)
             }
         case .location:
             value = retrieveCurrentLocationSelected()

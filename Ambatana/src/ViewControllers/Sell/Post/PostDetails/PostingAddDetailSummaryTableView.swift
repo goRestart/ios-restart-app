@@ -24,6 +24,8 @@ enum PostingSummaryOption {
     case propertyType
     case offerType
     case bedrooms
+    case rooms
+    case sizeSquareMeters
     case bathrooms
     case location
     case make
@@ -41,6 +43,10 @@ enum PostingSummaryOption {
             return .offerType
         case .bedrooms:
             return .bedrooms
+        case .rooms:
+            return .rooms
+        case .sizeSquareMeters:
+            return .sizeSquareMeters
         case .bathrooms:
             return .bathrooms
         case .location:
@@ -64,6 +70,10 @@ enum PostingSummaryOption {
             return LGLocalizedString.realEstateSummaryOfferTypeEmpty
         case .bedrooms:
             return LGLocalizedString.realEstateSummaryBedroomsEmtpy
+        case .rooms:
+            return LGLocalizedString.realEstateSummaryRoomsEmpty
+        case .sizeSquareMeters:
+            return LGLocalizedString.realEstateSummarySizeEmpty
         case .bathrooms:
             return LGLocalizedString.realEstateSummaryBathroomsEmpty
         case .location:
@@ -76,14 +86,14 @@ enum PostingSummaryOption {
             return LGLocalizedString.postCategoryDetailCarYear
         }
     }
-    static func optionsIncluded(with postCategory: PostCategory) -> [PostingSummaryOption] {
+    static func optionsIncluded(with postCategory: PostCategory, postingFlowType: PostingFlowType) -> [PostingSummaryOption] {
         switch postCategory {
         case .car:
             return [.price, .make, .model, .year, .location]
         case .motorsAndAccessories, .unassigned:
             return [.price, .location]
         case .realEstate:
-            return [.price, .propertyType, .offerType, .bedrooms, .bathrooms, .location]
+            return postingFlowType == .turkish ? [.price, .propertyType, .offerType, .rooms, .sizeSquareMeters, .bathrooms, .location] : [.price, .propertyType, .offerType, .bedrooms, .bathrooms, .location]
         }
     }
 }
@@ -103,6 +113,7 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
 
     
     static let cellIdentifier = "PostingAddDetailSummaryCell"
+    
     static let cellAddDetailSummaryHeight: CGFloat = 70
     static let cellAddLocationSummaryHeight: CGFloat = 150
     
@@ -113,8 +124,8 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
     
     // MARK: - Lifecycle
     
-    init(postCategory: PostCategory?) {
-        self.postingSummaryOptions = PostingSummaryOption.optionsIncluded(with: postCategory ?? .unassigned)
+    init(postCategory: PostCategory?, postingFlowType: PostingFlowType) {
+        self.postingSummaryOptions = PostingSummaryOption.optionsIncluded(with: postCategory ?? .unassigned, postingFlowType: postingFlowType)
         super.init(frame: CGRect.zero)
         setupUI()
         setupAccessibilityIds()

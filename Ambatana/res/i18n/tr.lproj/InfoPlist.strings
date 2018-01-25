@@ -1,6 +1,6 @@
 "NSCameraUsageDescription" = "Satışa başlamak için letgo'nun kamerana erişimine izin ver";
 "NSLocationWhenInUseUsageDescription" = "letgo'nun yakınındaki ürünleri gösterebilmesi için, bulunduğun konum bilgisine ulaşması gerekir";
-"NSPhotoLibraryAddUsageDescription" = "To save images, give letgo access to your library";
+"NSPhotoLibraryAddUsageDescription" = "Fotoğrafları kaydetmek için letgo'nun albümüne erişimine izin ver";
 "NSPhotoLibraryUsageDescription" = "Satışa başlamak için letgo'nun fotoğraf albümüne erişimine izin ver";
 "sell_shortcut_title" = "Eşyalarını Sat";
 "start_browsing_shortcut_title" = "Bir Şeyler Ara";

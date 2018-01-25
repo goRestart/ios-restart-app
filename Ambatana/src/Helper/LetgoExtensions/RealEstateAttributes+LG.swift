@@ -47,5 +47,4 @@ extension RealEstateAttributes {
         }
         return tags
     }
-    
 }
