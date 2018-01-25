@@ -17,11 +17,11 @@ class ChatInactiveConversationsListViewController:
 UITableViewDelegate  {
     
     private let viewModel: ChatInactiveConversationsListViewModel
-    var editButton: UIBarButtonItem?
     private let disposeBag = DisposeBag()
     
-    private let tabBarBottomInset: CGFloat = 49
+    private var editButton: UIBarButtonItem?
     
+    private let tabBarBottomInset: CGFloat = 49
     @IBOutlet weak private var contentView: UIView!
     @IBOutlet weak private var headerView: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -52,31 +52,9 @@ UITableViewDelegate  {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "ChatInactiveConversationsListView")
         viewModel.delegate = self
-        
-        self.editButton = UIBarButtonItem(title: LGLocalizedString.chatListDelete, style: .plain, target: self,
-                                          action: #selector(edit))
-        
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
         hasTabBar = true
-        
-//        for index in 0..<viewModel.chatListsCount {
-//            let page: ChatListView
-//
-//            guard let pageVM = viewModel.chatListViewModelForTabAtIndex(index) else { continue }
-//            page = ChatListView(viewModel: pageVM)
-//            page.tableView.accessibilityId = viewModel.accessibilityIdentifierForTableViewAtIndex(index)
-//            page.footerButton.accessibilityId = .chatListViewFooterButton
-//            page.chatGroupedListViewDelegate = self
-//            page.delegate = self
-//            pages.append(page)
-//        }
-//
-//        let pageVM = viewModel.blockedUsersListViewModel
-//        let page = BlockedUsersListView(viewModel: pageVM)
-//        page.chatGroupedListViewDelegate = self
-//        page.blockedUsersListViewDelegate = self
-//        pages.append(page)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -96,19 +74,13 @@ UITableViewDelegate  {
     
     // MARK: - UI
     
-    func setupUI() {
+    private func setupUI() {
         view.backgroundColor = UIColor.listBackgroundColor
         setNavBarTitle(LGLocalizedString.chatInactiveListTitle)
         
-//        Bundle.main.loadNibNamed("ChatGroupedListView", owner: self, options: nil)
-//        contentView.frame = view.bounds
-//        contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-//        contentView.backgroundColor = UIColor.listBackgroundColor
-//        view.addSubview(contentView)
-        
         // Empty view
         emptyView.backgroundColor = UIColor.listBackgroundColor
-        refreshControl.addTarget(self, action: #selector(ChatGroupedListView.refresh),
+        refreshControl.addTarget(self, action: #selector(refresh),
                                  for: UIControlEvents.valueChanged)
         
         let cellNib = UINib(nibName: "ConversationCell", bundle: nil)
@@ -123,10 +95,20 @@ UITableViewDelegate  {
         footerButton.setStyle(.primary(fontSize: .medium))
         footerButton.isEnabled = false
         footerButton.setTitle(LGLocalizedString.chatListDelete, for: .normal)
-        footerButton.addTarget(self, action: #selector(ChatListView.deleteButtonPressed), for: .touchUpInside)
+        footerButton.addTarget(self, action: #selector(deleteButtonPressed), for: .touchUpInside)
         
         bottomInset = tabBarBottomInset
         setFooterHidden(true, animated: false)
+        
+        setupNavigationBar()
+    }
+    
+    private func setupNavigationBar() {
+        editButton = UIBarButtonItem(title: LGLocalizedString.chatListDelete,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(editButtonPressed))
+        navigationItem.setRightBarButton(editButton, animated: false)
     }
     
     func resetUI() {
@@ -143,7 +125,7 @@ UITableViewDelegate  {
         tableView.reloadData()
     }
     
-    func setupRx() {
+    private func setupRx() {
         viewModel.objects.asObservable().subscribeNext { [weak self] change in
             self?.tableView.reloadData()
             }.disposed(by: disposeBag)
@@ -158,35 +140,25 @@ UITableViewDelegate  {
     }
     
     private func setupRxNavBarBindings() {
-        viewModel.editButtonText.asObservable().subscribeNext { [weak self] editButtonText in
-            guard let strongSelf = self else { return }
-            
-            let editButton = UIBarButtonItem(title: editButtonText,
-                                             style: .plain,
-                                             target: strongSelf,
-                                             action: #selector(strongSelf.edit))
-            editButton.isEnabled = strongSelf.viewModel.editButtonEnabled.value
-            strongSelf.editButton = editButton
-            strongSelf.navigationItem.setRightBarButton(editButton, animated: false)
-        }.disposed(by: disposeBag)
-        
         viewModel.editButtonEnabled.asObservable().subscribeNext { [weak self] enabled in
-            guard let strongSelf = self else { return }
-            
-            // If becomes hidden then end editing
-            let wasEnabled = strongSelf.navigationItem.rightBarButtonItem?.isEnabled ?? false
-            if wasEnabled && !enabled {
-                self?.setEditing(false, animated: true)
+            guard let strongSelf = self, let editButton = strongSelf.editButton else { return }
+            if editButton.isEnabled && !enabled {
+                strongSelf.setEditing(false, animated: true)
             }
-            
-            strongSelf.editButton?.isEnabled = enabled
+            editButton.isEnabled = enabled
         }.disposed(by: disposeBag)
     }
     
     // MARK: - Actions
     
-    @objc func edit() {
-        setEditing(!isEditing, animated: true)
+    @objc func editButtonPressed() {
+        let newIsEditing = !isEditing
+        tableView.setEditing(newIsEditing, animated: true)
+        setFooterHidden(!newIsEditing, animated: true)
+        setEditing(newIsEditing, animated: true)
+        if viewModel.active {
+            tabBarController?.setTabBarHidden(newIsEditing, animated: true)
+        }
     }
     
     @objc func refresh() {
@@ -196,6 +168,10 @@ UITableViewDelegate  {
     @objc func clear() {
         viewModel.clear()
         tableView.reloadData()
+    }
+    
+    @objc func deleteButtonPressed() {
+        viewModel.deleteButtonPressed()
     }
     
     func setFooterHidden(_ hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {
@@ -224,8 +200,20 @@ UITableViewDelegate  {
     // MARK: - UITableViewDelegate & UITableViewDataSource
 
     func cellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
-        // Implement in subclasses
-        return UITableViewCell()
+        guard let chatData = viewModel.conversationDataAtIndex(indexPath.row) else { return UITableViewCell() }
+        guard let chatCell = tableView.dequeueReusableCell(withIdentifier: ConversationCell.reusableID,
+                                                           for: indexPath) as? ConversationCell else { return UITableViewCell() }
+        
+        chatCell.tag = (indexPath as NSIndexPath).hash // used for cell reuse on "setupCellWithData"
+        chatCell.setupCellWithData(chatData, indexPath: indexPath)
+        
+        let isSelected = viewModel.isConversationSelected(index: indexPath.row)
+        if isSelected {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        } else {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
+        return chatCell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -268,18 +256,13 @@ UITableViewDelegate  {
     
     // MARK: - ChatGroupedListViewModelDelegate
 
-    func chatGroupedListViewModelSetEditing(_ editing: Bool) {
-        setEditing(editing)
-    }
+//    func chatGroupedListViewModelSetEditing(_ editing: Bool) {
+//        setEditing(editing)
+//    }
     
     func shouldUpdateStatus() {
         //        chatGroupedListViewDelegate?.chatGroupedListViewShouldUpdateInfoIndicators()
         //        resetUI()
-    }
-    
-    func setEditing(_ editing: Bool) {
-        tableView.setEditing(editing, animated: true)
-        setFooterHidden(!editing, animated: true)
     }
     
     func didStartRetrievingObjectList() {
@@ -292,10 +275,6 @@ UITableViewDelegate  {
     
     func didSucceedRetrievingObjectList(_ page: Int) {
         refreshControl.endRefreshing()
-    }
-    
-    func didUpdateConversations() {
-        tableView.reloadData()
     }
     
     func didFailArchivingChats(viewModel: ChatInactiveConversationsListViewModel) {

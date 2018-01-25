@@ -17,11 +17,9 @@ protocol ChatInactiveConversationsListViewModelProtocol: Paginable {
 
 protocol ChatInactiveConversationsListViewModelDelegate: class {
     func shouldUpdateStatus()
-    func setEditing(_ editing: Bool)
     func didStartRetrievingObjectList()
     func didFailRetrievingObjectList(_ page: Int)
     func didSucceedRetrievingObjectList(_ page: Int)
-    func didUpdateConversations()
     
     func didFailArchivingChats(viewModel: ChatInactiveConversationsListViewModel)
     func didSucceedArchivingChats(viewModel: ChatInactiveConversationsListViewModel)
@@ -277,9 +275,9 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     }
     
     func setupRx() {
-        editing.asObservable().subscribeNext { [weak self] editing in
-            self?.delegate?.setEditing(editing)
-            }.disposed(by: disposeBag)
+//        editing.asObservable().subscribeNext { [weak self] editing in
+//            self?.delegate?.setEditing(editing)
+//            }.disposed(by: disposeBag)
     }
     
     // MARK: - Paginable
@@ -413,7 +411,6 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     
     func updateObjects(newObjects: [ChatInactiveConversation]) {
         objects.value = newObjects
-        delegate?.didUpdateConversations()
     }
     
     func clear() {
