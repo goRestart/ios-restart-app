@@ -343,8 +343,8 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .bedrooms:
             numberOfBedrooms = NumberOfBedrooms.allValues[index].rawValue
         case .rooms:
-            numberOfBedrooms = NumberOfRooms.allValues[index].bedrooms
-            numberOfLivingRooms = NumberOfRooms.allValues[index].livingRooms
+            numberOfBedrooms = NumberOfRooms.allValues[index].numberOfBedrooms
+            numberOfLivingRooms = NumberOfRooms.allValues[index].numberOfLivingRooms
         case .offerType:
             realEstateOfferType = RealEstateOfferType.allValues[index]
         case .propertyType:
@@ -412,8 +412,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                 positionSelected = NumberOfBedrooms(rawValue: bedrooms)?.position
             }
         case .rooms:
-            // TODO: think how to select bedrooms + living rooms
-            return nil
+            let numberOfRooms = NumberOfRooms(numberOfBedrooms: postListingState.verticalAttributes?.realEstateAttributes?.bedrooms,
+                                              numberOfLivingRooms: postListingState.verticalAttributes?.realEstateAttributes?.livingRooms)
+            positionSelected = numberOfRooms.positionIn(allValues: NumberOfRooms.allValues)
         case .bathrooms:
             if let bathrooms = postListingState.verticalAttributes?.realEstateAttributes?.bathrooms {
                 positionSelected = NumberOfBathrooms(rawValue:bathrooms)?.position
@@ -453,7 +454,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             }
         case .rooms:
             if let bedrooms = postListingState.verticalAttributes?.realEstateAttributes?.bedrooms {
-                value = NumberOfRooms(bedrooms: bedrooms, livingRooms: postListingState.verticalAttributes?.realEstateAttributes?.livingRooms).localizedString
+                value = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: postListingState.verticalAttributes?.realEstateAttributes?.livingRooms).localizedString
             }
         case .bathrooms:
             if let bathrooms = postListingState.verticalAttributes?.realEstateAttributes?.bathrooms {

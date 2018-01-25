@@ -158,7 +158,7 @@
 "chat_login_popup_text" = "Mesajlaşmaya başlamak için giriş yapmalısın";
 "chat_message_disclaimer_meeting_security" = "Unutma, kafe ve banka şubeleri gibi kalabalık alanlar güvenli ve uygun buluşma noktalarıdır. Buluşmaya bir arkadaşınla birlikte gitmeni öneririz.";
 "chat_message_disclaimer_scammer_append_blocked" = "Bu kullanıcıyı engellemek için buraya tıkla.";
-"chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
+"chat_message_disclaimer_scammer_base_blocked" = "Sistemimiz uygunsuz kelimelerin kullanıldığını veya tehlike oluşturabilecek bir iletişim bilgisinin paylaşıldığını tespit etti. %@";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_not_verified_alert_message" = "Kimliğini doğrulamak için Facebook, Google veya Eposta ile bağlan.";

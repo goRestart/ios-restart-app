@@ -9,52 +9,61 @@
 import Foundation
 
 struct NumberOfRooms {
-    let bedrooms: Int?
-    let livingRooms: Int?
+    let numberOfBedrooms: Int?
+    let numberOfLivingRooms: Int?
     
     var localizedString: String? {
-        if let bedrooms = bedrooms, bedrooms == 1, let livingRooms = livingRooms, livingRooms == 0 {
+        if let bedrooms = numberOfBedrooms, bedrooms == 1, let livingRooms = numberOfLivingRooms, livingRooms == 0 {
             return LGLocalizedString.realEstateRoomsStudio
-        } else if bedrooms == 10 && livingRooms == 0 {
+        } else if numberOfBedrooms == 10 && numberOfLivingRooms == 0 {
             return LGLocalizedString.realEstateRoomsOverTen
         }
-        guard let bedrooms = bedrooms, let livingRooms = livingRooms else { return nil }
+        guard let bedrooms = numberOfBedrooms, let livingRooms = numberOfLivingRooms else { return nil }
         return LGLocalizedString.realEstateRoomsValue(bedrooms, livingRooms)
     }
 
     static var allValues: [NumberOfRooms] {
-        return [NumberOfRooms(bedrooms: 1, livingRooms: 0),
-                NumberOfRooms(bedrooms: 1, livingRooms: 1),
-                NumberOfRooms(bedrooms: 2, livingRooms: 1),
-                NumberOfRooms(bedrooms: 2, livingRooms: 2),
-                NumberOfRooms(bedrooms: 3, livingRooms: 1),
-                NumberOfRooms(bedrooms: 3, livingRooms: 2),
-                NumberOfRooms(bedrooms: 4, livingRooms: 1),
-                NumberOfRooms(bedrooms: 4, livingRooms: 2),
-                NumberOfRooms(bedrooms: 4, livingRooms: 3),
-                NumberOfRooms(bedrooms: 4, livingRooms: 4),
-                NumberOfRooms(bedrooms: 5, livingRooms: 1),
-                NumberOfRooms(bedrooms: 5, livingRooms: 2),
-                NumberOfRooms(bedrooms: 5, livingRooms: 3),
-                NumberOfRooms(bedrooms: 5, livingRooms: 4),
-                NumberOfRooms(bedrooms: 6, livingRooms: 1),
-                NumberOfRooms(bedrooms: 6, livingRooms: 2),
-                NumberOfRooms(bedrooms: 6, livingRooms: 3),
-                NumberOfRooms(bedrooms: 7, livingRooms: 1),
-                NumberOfRooms(bedrooms: 7, livingRooms: 2),
-                NumberOfRooms(bedrooms: 7, livingRooms: 3),
-                NumberOfRooms(bedrooms: 8, livingRooms: 1),
-                NumberOfRooms(bedrooms: 8, livingRooms: 2),
-                NumberOfRooms(bedrooms: 8, livingRooms: 3),
-                NumberOfRooms(bedrooms: 8, livingRooms: 4),
-                NumberOfRooms(bedrooms: 9, livingRooms: 1),
-                NumberOfRooms(bedrooms: 9, livingRooms: 2),
-                NumberOfRooms(bedrooms: 9, livingRooms: 3),
-                NumberOfRooms(bedrooms: 9, livingRooms: 4),
-                NumberOfRooms(bedrooms: 9, livingRooms: 5),
-                NumberOfRooms(bedrooms: 9, livingRooms: 6),
-                NumberOfRooms(bedrooms: 10, livingRooms: 1),
-                NumberOfRooms(bedrooms: 10, livingRooms: 2),
-                NumberOfRooms(bedrooms: 10, livingRooms: 0)]
+        return [NumberOfRooms(numberOfBedrooms: 1, numberOfLivingRooms: 0),
+                NumberOfRooms(numberOfBedrooms: 1, numberOfLivingRooms: 1),
+                NumberOfRooms(numberOfBedrooms: 2, numberOfLivingRooms: 1),
+                NumberOfRooms(numberOfBedrooms: 2, numberOfLivingRooms: 2),
+                NumberOfRooms(numberOfBedrooms: 3, numberOfLivingRooms: 1),
+                NumberOfRooms(numberOfBedrooms: 3, numberOfLivingRooms: 2),
+                NumberOfRooms(numberOfBedrooms: 4, numberOfLivingRooms: 1),
+                NumberOfRooms(numberOfBedrooms: 4, numberOfLivingRooms: 2),
+                NumberOfRooms(numberOfBedrooms: 4, numberOfLivingRooms: 3),
+                NumberOfRooms(numberOfBedrooms: 4, numberOfLivingRooms: 4),
+                NumberOfRooms(numberOfBedrooms: 5, numberOfLivingRooms: 1),
+                NumberOfRooms(numberOfBedrooms: 5, numberOfLivingRooms: 2),
+                NumberOfRooms(numberOfBedrooms: 5, numberOfLivingRooms: 3),
+                NumberOfRooms(numberOfBedrooms: 5, numberOfLivingRooms: 4),
+                NumberOfRooms(numberOfBedrooms: 6, numberOfLivingRooms: 1),
+                NumberOfRooms(numberOfBedrooms: 6, numberOfLivingRooms: 2),
+                NumberOfRooms(numberOfBedrooms: 6, numberOfLivingRooms: 3),
+                NumberOfRooms(numberOfBedrooms: 7, numberOfLivingRooms: 1),
+                NumberOfRooms(numberOfBedrooms: 7, numberOfLivingRooms: 2),
+                NumberOfRooms(numberOfBedrooms: 7, numberOfLivingRooms: 3),
+                NumberOfRooms(numberOfBedrooms: 8, numberOfLivingRooms: 1),
+                NumberOfRooms(numberOfBedrooms: 8, numberOfLivingRooms: 2),
+                NumberOfRooms(numberOfBedrooms: 8, numberOfLivingRooms: 3),
+                NumberOfRooms(numberOfBedrooms: 8, numberOfLivingRooms: 4),
+                NumberOfRooms(numberOfBedrooms: 9, numberOfLivingRooms: 1),
+                NumberOfRooms(numberOfBedrooms: 9, numberOfLivingRooms: 2),
+                NumberOfRooms(numberOfBedrooms: 9, numberOfLivingRooms: 3),
+                NumberOfRooms(numberOfBedrooms: 9, numberOfLivingRooms: 4),
+                NumberOfRooms(numberOfBedrooms: 9, numberOfLivingRooms: 5),
+                NumberOfRooms(numberOfBedrooms: 9, numberOfLivingRooms: 6),
+                NumberOfRooms(numberOfBedrooms: 10, numberOfLivingRooms: 1),
+                NumberOfRooms(numberOfBedrooms: 10, numberOfLivingRooms: 2),
+                NumberOfRooms(numberOfBedrooms: 10, numberOfLivingRooms: 0)]
+    }
+    
+    public static func ==(lhs: NumberOfRooms, rhs: NumberOfRooms) -> Bool {
+        return lhs.numberOfBedrooms == rhs.numberOfBedrooms && lhs.numberOfLivingRooms == rhs.numberOfLivingRooms
+    }
+    
+    func positionIn(allValues: [NumberOfRooms]) -> Int? {
+        guard let position = allValues.index(where: {$0 == self }) else { return nil }
+        return position
     }
 }
