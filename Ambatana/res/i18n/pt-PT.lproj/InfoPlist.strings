@@ -1,5 +1,6 @@
 "NSCameraUsageDescription" = "Para começar a vender deixe que o letgo tenha acesso à sua câmara";
 "NSLocationWhenInUseUsageDescription" = "O letgo precisa de aceder à sua localização para lhe poder mostrar artigos situados nas proximidades";
+"NSPhotoLibraryAddUsageDescription" = "Para guardar as imagens autorize o letgo a aceder à sua galeria";
 "NSPhotoLibraryUsageDescription" = "Para começar a vender deixe que o letgo tenha acesso à sua biblioteca";
 "sell_shortcut_title" = "Venda suas coisas";
 "start_browsing_shortcut_title" = "Comece a navegar!";

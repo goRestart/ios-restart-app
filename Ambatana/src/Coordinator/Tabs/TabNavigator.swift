@@ -25,6 +25,8 @@ enum ListingDetailData {
 enum ChatDetailData {
     case dataIds(conversationId: String)
     case conversation(conversation: ChatConversation)
+    case inactiveConversations
+    case inactiveConversation(coversation: ChatInactiveConversation)
     case listingAPI(listing: Listing)
 }
 

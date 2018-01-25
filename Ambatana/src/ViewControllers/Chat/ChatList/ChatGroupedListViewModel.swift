@@ -36,6 +36,7 @@ protocol ChatGroupedListViewModel: class, ChatGroupedListViewModelType {
     var shouldRefreshConversationsTabTrigger: Bool { get set }
     var shouldScrollToTop: Observable<Bool> { get }
     func clear()
+    func openInactiveConversations()
 }
 
 class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
@@ -142,6 +143,10 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
     // MARK: - Public methods
 
+    func openInactiveConversations() {
+        tabNavigator?.openChat(.inactiveConversations, source: .chatList, predefinedMessage: nil)
+    }
+    
     func objectAtIndex(_ index: Int) -> T? {
         guard index < objects.value.count else { return nil }
         return objects.value[index]

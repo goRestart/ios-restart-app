@@ -635,6 +635,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_list_unblock", comment: "")
 	}
 
+	static var chatInactiveListTitle: String {
+		return NSLocalizedString("chat_inactive_list_title", comment: "")
+	}
+
 	static var chatLoginPopupText: String {
 		return NSLocalizedString("chat_login_popup_text", comment: "")
 	}
@@ -2707,6 +2711,30 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_report_login_popup_text", comment: "")
 	}
 
+	static var professionalDealerAskPhoneIntroText: String {
+		return NSLocalizedString("professional_dealer_ask_phone_intro_text", comment: "")
+	}
+
+	static var professionalDealerAskPhoneNotNowButton: String {
+		return NSLocalizedString("professional_dealer_ask_phone_not_now_button", comment: "")
+	}
+
+	static var professionalDealerAskPhoneLetsTalkText: String {
+		return NSLocalizedString("professional_dealer_ask_phone_lets_talk_text", comment: "")
+	}
+
+	static var professionalDealerAskPhoneTextfieldPlaceholder: String {
+		return NSLocalizedString("professional_dealer_ask_phone_textfield_placeholder", comment: "")
+	}
+
+	static var professionalDealerAskPhoneSendPhoneButton: String {
+		return NSLocalizedString("professional_dealer_ask_phone_send_phone_button", comment: "")
+	}
+
+	static func professionalDealerAskPhoneChatMessage(_ var1: String) -> String {
+		return String(format: NSLocalizedString("professional_dealer_ask_phone_chat_message", comment: ""), var1)
+	}
+
 	static var profileBlockedByMeLabel: String {
 		return NSLocalizedString("profile_blocked_by_me_label", comment: "")
 	}
@@ -3055,6 +3083,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_type_property_others", comment: "")
 	}
 
+	static var realEstateTypePropertyFlat: String {
+		return NSLocalizedString("real_estate_type_property_flat", comment: "")
+	}
+
+	static var realEstateTypePropertyLand: String {
+		return NSLocalizedString("real_estate_type_property_land", comment: "")
+	}
+
+	static var realEstateTypePropertyVilla: String {
+		return NSLocalizedString("real_estate_type_property_villa", comment: "")
+	}
+
 	static var realEstateBathroomsTitle: String {
 		return NSLocalizedString("real_estate_bathrooms_title", comment: "")
 	}
@@ -3123,12 +3163,48 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_bedrooms_4", comment: "")
 	}
 
+	static var realEstateRoomsTitle: String {
+		return NSLocalizedString("real_estate_rooms_title", comment: "")
+	}
+
+	static var realEstateRoomsStudio: String {
+		return NSLocalizedString("real_estate_rooms_studio", comment: "")
+	}
+
+	static var realEstateRoomsOverTen: String {
+		return NSLocalizedString("real_estate_rooms_over_ten", comment: "")
+	}
+
+	static func realEstateRoomsValue(_ var1: Int, _ var2: Int) -> String {
+		return String(format: NSLocalizedString("real_estate_rooms_value", comment: ""), var1, var2)
+	}
+
+	static var realEstateSizeSquareMetersTitle: String {
+		return NSLocalizedString("real_estate_size_square_meters_title", comment: "")
+	}
+
 	static var realEstateSummaryBedroomTitle: String {
 		return NSLocalizedString("real_estate_summary_bedroom_title", comment: "")
 	}
 
 	static var realEstateSummaryBedroomsTitle: String {
 		return NSLocalizedString("real_estate_summary_bedrooms_title", comment: "")
+	}
+
+	static var realEstateSummaryRoomsTitle: String {
+		return NSLocalizedString("real_estate_summary_rooms_title", comment: "")
+	}
+
+	static var realEstateSummaryRoomsEmtpy: String {
+		return NSLocalizedString("real_estate_summary_rooms_emtpy", comment: "")
+	}
+
+	static var realEstateSummarySizeTitle: String {
+		return NSLocalizedString("real_estate_summary_size_title", comment: "")
+	}
+
+	static var realEstateSummarySizeEmpty: String {
+		return NSLocalizedString("real_estate_summary_size_empty", comment: "")
 	}
 
 	static var realEstateSummaryPriceEmpty: String {
@@ -3793,5 +3869,89 @@ struct LGLocalizedString {
 
 	static var userRatingTitle: String {
 		return NSLocalizedString("user_rating_title", comment: "")
+	}
+
+	static var trendingItemsHeaderBubble: String {
+		return NSLocalizedString("trending_items_header_bubble", comment: "")
+	}
+
+	static func trendingItemsViewTitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("trending_items_view_title", comment: ""), var1)
+	}
+
+	static var trendingItemsViewSubtitle: String {
+		return NSLocalizedString("trending_items_view_subtitle", comment: "")
+	}
+
+	static var trendingItemsViewNumberOfSearchesTitle: String {
+		return NSLocalizedString("trending_items_view_number_of_searches_title", comment: "")
+	}
+
+	static var trendingItemsViewNumberOfSearchesItem: String {
+		return NSLocalizedString("trending_items_view_number_of_searches_item", comment: "")
+	}
+
+	static var trendingItemsViewPostButton: String {
+		return NSLocalizedString("trending_items_view_post_button", comment: "")
+	}
+
+	static var trendingItemIphone: String {
+		return NSLocalizedString("trending_item_iPhone", comment: "")
+	}
+
+	static var trendingItemAtv: String {
+		return NSLocalizedString("trending_item_atv", comment: "")
+	}
+
+	static var trendingItemSmartphone: String {
+		return NSLocalizedString("trending_item_smartphone", comment: "")
+	}
+
+	static var trendingItemSedan: String {
+		return NSLocalizedString("trending_item_sedan", comment: "")
+	}
+
+	static var trendingItemScooter: String {
+		return NSLocalizedString("trending_item_scooter", comment: "")
+	}
+
+	static var trendingItemComputer: String {
+		return NSLocalizedString("trending_item_computer", comment: "")
+	}
+
+	static var trendingItemCoupe: String {
+		return NSLocalizedString("trending_item_coupe", comment: "")
+	}
+
+	static var trendingItemTablet: String {
+		return NSLocalizedString("trending_item_tablet", comment: "")
+	}
+
+	static var trendingItemMotorcycle: String {
+		return NSLocalizedString("trending_item_motorcycle", comment: "")
+	}
+
+	static var trendingItemTruck: String {
+		return NSLocalizedString("trending_item_truck", comment: "")
+	}
+
+	static var trendingItemGadget: String {
+		return NSLocalizedString("trending_item_gadget", comment: "")
+	}
+
+	static var trendingItemTrailer: String {
+		return NSLocalizedString("trending_item_trailer", comment: "")
+	}
+
+	static var trendingItemController: String {
+		return NSLocalizedString("trending_item_controller", comment: "")
+	}
+
+	static var trendingItemDresser: String {
+		return NSLocalizedString("trending_item_dresser", comment: "")
+	}
+
+	static var trendingItemSubwoofer: String {
+		return NSLocalizedString("trending_item_subwoofer", comment: "")
 	}
 }
