@@ -8,14 +8,13 @@
 
 import Foundation
 
-protocol ListingDeckOnBoardingNavigator {
+protocol ListingDeckOnBoardingNavigator: class {
     func close()
 }
 
 final class ListingDeckOnBoardingViewModel: BaseViewModel, ListingDeckOnBoardingViewModelType {
 
     weak var navigator: ListingDeckOnBoardingNavigator?
-
     func close() { navigator?.close() }
 
 }

@@ -24,6 +24,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
         var imageDownloader: MockImageDownloader!
 
         var myUserRepository: MockMyUserRepository!
+        var mockUserRepository: MockUserRepository!
         var listingRepository: MockListingRepository!
         var chatWrapper: MockChatWrapper!
         var locationManager: MockLocationManager!
@@ -90,6 +91,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
             }
 
             beforeEach {
+                mockUserRepository = MockUserRepository.makeMock()
                 myUserRepository = MockMyUserRepository.makeMock()
                 listingRepository = MockListingRepository.makeMock()
                 chatWrapper = MockChatWrapper()
@@ -106,6 +108,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 imageDownloader = MockImageDownloader()
 
                 listingViewModelMaker = MockListingViewModelMaker(myUserRepository: myUserRepository,
+                                                                  userRepository: mockUserRepository,
                                                                   listingRepository: listingRepository,
                                                                   chatWrapper: chatWrapper,
                                                                   locationManager: locationManager,

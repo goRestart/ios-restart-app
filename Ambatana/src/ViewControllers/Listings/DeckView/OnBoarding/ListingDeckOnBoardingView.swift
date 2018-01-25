@@ -7,8 +7,15 @@
 //
 
 import Foundation
+import RxSwift
 
-final class ListingDeckOnBoardingView: UIView {
+protocol ListingDeckOnBoardingViewRxType: class {
+    var rxConfirmButton: Reactive<UIButton> { get }
+}
+
+final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
+    var rxConfirmButton: Reactive<UIButton> { return confirmButton.rx }
+    
     private struct Layout {
         struct FontSize {
             static let title: Int = 23

@@ -104,6 +104,10 @@
 		0ADE58D21FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */; };
 		0ADE58D31FC4609400F3DB17 /* ListingCardDetailsViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */; };
 		0AEB4FF02018AA93003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FEF2018AA93003365DE /* ListingDeckOnBoardingViewModel.swift */; };
+		0AEB4FF22018C25F003365DE /* ListingDeckOnBoardingBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FF12018C25F003365DE /* ListingDeckOnBoardingBinder.swift */; };
+		0AEB4FF52018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FF42018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift */; };
+		0AEB4FF62018C791003365DE /* ListingDeckOnBoardingBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FF12018C25F003365DE /* ListingDeckOnBoardingBinder.swift */; };
+		0AEB4FF72018C795003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB4FEF2018AA93003365DE /* ListingDeckOnBoardingViewModel.swift */; };
 		0AF5EB661FD0112E001DFAE2 /* CLLocationCoordinate2D+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF5EB651FD0112E001DFAE2 /* CLLocationCoordinate2D+Equatable.swift */; };
 		0AF5EB681FD0118F001DFAE2 /* MapViewSnapShot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF5EB671FD0118F001DFAE2 /* MapViewSnapShot.swift */; };
 		0AF5EB691FD012A4001DFAE2 /* CLLocationCoordinate2D+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF5EB651FD0112E001DFAE2 /* CLLocationCoordinate2D+Equatable.swift */; };
@@ -1632,6 +1636,8 @@
 		0ACE7DAC1FD2C3A10068E47B /* DeckCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeckCoordinator.swift; sourceTree = "<group>"; };
 		0ADE58D11FC45F3100F3DB17 /* ListingCardDetailsViewBinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCardDetailsViewBinder.swift; sourceTree = "<group>"; };
 		0AEB4FEF2018AA93003365DE /* ListingDeckOnBoardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingViewModel.swift; sourceTree = "<group>"; };
+		0AEB4FF12018C25F003365DE /* ListingDeckOnBoardingBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingBinder.swift; sourceTree = "<group>"; };
+		0AEB4FF42018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListingDeckOnBoardingBinderSpec.swift; sourceTree = "<group>"; };
 		0AF5EB651FD0112E001DFAE2 /* CLLocationCoordinate2D+Equatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLLocationCoordinate2D+Equatable.swift"; sourceTree = "<group>"; };
 		0AF5EB671FD0118F001DFAE2 /* MapViewSnapShot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewSnapShot.swift; sourceTree = "<group>"; };
 		0AF5EB6B1FD05EA8001DFAE2 /* QuickChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickChatView.swift; sourceTree = "<group>"; };
@@ -2539,6 +2545,7 @@
 		0A0AF97A1FA864700024EF22 /* ListingDeck */ = {
 			isa = PBXGroup;
 			children = (
+				0AEB4FF32018C336003365DE /* OnBoarding */,
 				0A0AF97B1FA864900024EF22 /* ListingDeckViewModelBinderSpec.swift */,
 				0A653BBF1FAB7C8600C2AA77 /* ListingDeckViewModelSpec.swift */,
 				0A93E2011FCE95A000955A3A /* PhotoViewerViewControllerBinderSpec.swift */,
@@ -2569,6 +2576,7 @@
 				0A7A05842018A9A20009D74C /* ListingDeckOnBoardingView.swift */,
 				0A7A05872018A9AE0009D74C /* ListingDeckOnBoardingViewController.swift */,
 				0AEB4FEF2018AA93003365DE /* ListingDeckOnBoardingViewModel.swift */,
+				0AEB4FF12018C25F003365DE /* ListingDeckOnBoardingBinder.swift */,
 			);
 			path = OnBoarding;
 			sourceTree = "<group>";
@@ -2629,6 +2637,14 @@
 				0ACE7DAC1FD2C3A10068E47B /* DeckCoordinator.swift */,
 			);
 			path = DeckCoordinator;
+			sourceTree = "<group>";
+		};
+		0AEB4FF32018C336003365DE /* OnBoarding */ = {
+			isa = PBXGroup;
+			children = (
+				0AEB4FF42018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift */,
+			);
+			path = OnBoarding;
 			sourceTree = "<group>";
 		};
 		2E00C4DE1D00364C00B95010 /* LGAlertViewController */ = {
@@ -5757,6 +5773,7 @@
 				C765EE491E7FEA4500063750 /* DeepLink+MockFactory.swift in Sources */,
 				50D08DC71E69AF14009CC260 /* String+LGSpec.swift in Sources */,
 				50D08DBF1E69AF14009CC260 /* MockPurchaseableProductsResponse.swift in Sources */,
+				0AEB4FF52018C347003365DE /* ListingDeckOnBoardingBinderSpec.swift in Sources */,
 				50D08DD11E69AF14009CC260 /* VersionCheckerSpec.swift in Sources */,
 				50D08DCE1E69AF14009CC260 /* PurchasesShopperSpec.swift in Sources */,
 				50D08DD91E69AF14009CC260 /* LGConfigRetrieveServiceSpec.swift in Sources */,
@@ -6259,6 +6276,7 @@
 				C77B7DBA1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,
 				C7BAC9CD1E49E81E005BD0AF /* Listing+LG.swift in Sources */,
 				C7DE8ACB1C888761005CF37E /* EditListingViewModel.swift in Sources */,
+				0AEB4FF22018C25F003365DE /* ListingDeckOnBoardingBinder.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
 				727463B21FB0AEAB00AD8261 /* LGSearchMap.swift in Sources */,
 				6A5E19E81D548F5400F92692 /* Int+LG.swift in Sources */,
@@ -6752,6 +6770,7 @@
 				0A63DFC11FB0A9D000C065F2 /* ListingCardDetailsView.swift in Sources */,
 				2E52CCC91CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */,
 				C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */,
+				0AEB4FF72018C795003365DE /* ListingDeckOnBoardingViewModel.swift in Sources */,
 				C730FD121E77FC5A00175C27 /* BooleanDAO.swift in Sources */,
 				C7DB420C1C5138B500400945 /* UIColor+RGB.swift in Sources */,
 				501495EF1D895B5800AC67CA /* DiscoverListingListRequester.swift in Sources */,
@@ -6835,6 +6854,7 @@
 				2E373FAD1D3E6F4500AC811C /* UserRatingCell.swift in Sources */,
 				C7DB421E1C5138B500400945 /* FacebookTracker.swift in Sources */,
 				721384021F20EB97006DB039 /* TaxonomiesViewController.swift in Sources */,
+				0AEB4FF62018C791003365DE /* ListingDeckOnBoardingBinder.swift in Sources */,
 				C7B5889B1CE1E025009B3975 /* ConversationCell.swift in Sources */,
 				C73FABB71DD37968008F4519 /* SettingsLogoutCell.swift in Sources */,
 				C7DE8AE11C88A98B005CF37E /* PostListingViewController.swift in Sources */,

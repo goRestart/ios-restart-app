@@ -45,6 +45,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 listing = .product(productMock)
 
                 listingViewModelMaker = MockListingViewModelMaker(myUserRepository: MockMyUserRepository(),
+                                                                  userRepository: MockUserRepository(),
                                                                   listingRepository: MockListingRepository(),
                                                                   chatWrapper: MockChatWrapper(),
                                                                   locationManager: MockLocationManager(),

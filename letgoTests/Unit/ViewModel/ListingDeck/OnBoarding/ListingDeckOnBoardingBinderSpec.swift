@@ -1,0 +1,75 @@
+//
+//  ListingDeckOnBoardingBinderSpec.swift
+//  letgoTests
+//
+//  Created by Facundo Menzella on 24/01/2018.
+//  Copyright © 2018 Ambatana. All rights reserved.
+//
+
+@testable import LetGoGodMode
+import RxTest
+import RxSwift
+import LGCoreKit
+import Quick
+import Nimble
+
+class ListingDeckOnBoardingBinderSpec: QuickSpec {
+
+    override func spec() {
+        var sut: ListingDeckOnBoardingBinder!
+        var viewController: MockListingDeckOnBoardingViewControllerType!
+        var view: MockListingDeckOnBoardingViewRxType!
+
+        describe("ListingDeckOnBoardingBinderSpec") {
+            beforeEach {
+                sut = ListingDeckOnBoardingBinder()
+                viewController = MockListingDeckOnBoardingViewControllerType()
+                view = MockListingDeckOnBoardingViewRxType()
+            }
+
+            afterEach {
+                viewController.resetVariables()
+            }
+
+            context("the confirm button is tapped") {
+                beforeEach {
+                    sut.viewController = viewController
+
+                    sut.bind(withView: view)
+                    view.confirmButton.sendActions(for: .touchUpInside)
+                }
+                it("close method is called") {
+                    expect(viewController.isCloseCalled) == 1
+                }
+            }
+
+            context("we dealloc the viewcontroller") {
+                beforeEach {
+                    sut.viewController = viewController
+                    sut.bind(withView: view)
+                    viewController = MockListingDeckOnBoardingViewControllerType()
+                }
+                it("and the binder's viewcontroller reference dies too (so weak)") {
+                    expect(sut.viewController).toEventually(beNil())
+                }
+            }
+        }
+    }
+}
+
+private class MockListingDeckOnBoardingViewRxType: ListingDeckOnBoardingViewRxType {
+    var rxConfirmButton: Reactive<UIButton> { return confirmButton.rx }
+    var confirmButton: UIButton = UIButton()
+}   
+
+private class MockListingDeckOnBoardingViewControllerType: ListingDeckOnBoardingViewControllerType {
+    var isCloseCalled: Int = 0
+
+    func resetVariables() {
+        isCloseCalled = 0
+    }
+
+    func close() {
+        isCloseCalled += 1
+    }
+}

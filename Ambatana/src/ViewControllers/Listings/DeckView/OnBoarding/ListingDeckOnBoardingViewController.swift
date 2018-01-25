@@ -8,11 +8,15 @@
 
 import Foundation
 
-protocol ListingDeckOnBoardingViewModelType {
+protocol ListingDeckOnBoardingViewModelType: class {
     func close()
 }
 
-final class ListingDeckOnBoardingViewController: BaseViewController {
+protocol ListingDeckOnBoardingViewControllerType: class {
+    func close()
+}
+
+final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeckOnBoardingViewModelType {
 
     private let onboardingiew = ListingDeckOnBoardingView()
     private let viewModel: ListingDeckOnBoardingViewModelType
@@ -32,10 +36,14 @@ final class ListingDeckOnBoardingViewController: BaseViewController {
         super.viewDidLoad()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         tapGesture.delaysTouchesBegan = true
-        onboardingiew.addGestureRecognizer(tap)
+        onboardingiew.addGestureRecognizer(tapGesture)
     }
 
-    private func didTapView() {
+    func close() {
+        didTapView()
+    }
+
+    @objc private func didTapView() {
         viewModel.close()
     }
 }
