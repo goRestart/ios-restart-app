@@ -69,6 +69,7 @@ class PostListingViewModel: BaseViewModel {
     
     fileprivate var imagesSelected: [UIImage]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
+    fileprivate var title: String?
     
     let selectedDetail = Variable<CategoryDetailSelectedInfo?>(nil)
     var selectedCarAttributes: CarAttributes = CarAttributes.emptyCarAttributes()
@@ -330,6 +331,11 @@ fileprivate extension PostListingViewModel {
                 strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess()
             }
         }.disposed(by: disposeBag)
+        
+        state.asObservable().bind { [weak self] state in
+            guard let strongSelf = self else { return }
+            strongSelf.title = strongSelf.postDetailViewModel.listingTitle ?? state.verticalAttributes?.generatedTitle(postingFlowType: strongSelf.featureFlags.postingFlowType)
+        }.disposed(by: disposeBag)
     }
     
     func openPostAbandonAlertNotLoggedIn() {
@@ -381,7 +387,6 @@ fileprivate extension PostListingViewModel {
         let description = postDetailViewModel.listingDescription ?? ""
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
-        let title = postDetailViewModel.listingTitle ?? state.value.verticalAttributes?.generatedTitle(postingFlowType: featureFlags.postingFlowType)
         return ListingCreationParams.make(title: title,
                                    description: description,
                                    currency: currency,
