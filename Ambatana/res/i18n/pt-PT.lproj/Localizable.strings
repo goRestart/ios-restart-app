@@ -785,7 +785,7 @@
 "real_estate_summary_offer_type_empty" = "Adicionar tipo de publicação";
 "real_estate_summary_price_empty" = "Adicionar preço";
 "real_estate_summary_price_title" = "Preço: %@";
-"real_estate_summary_rooms_emtpy" = "Adicionar quartos";
+"real_estate_summary_rooms_empty" = "Adicionar quartos";
 "real_estate_summary_rooms_title" = "quartos";
 "real_estate_summary_size_empty" = "Adicionar tamanho";
 "real_estate_summary_size_title" = "Tamanho";

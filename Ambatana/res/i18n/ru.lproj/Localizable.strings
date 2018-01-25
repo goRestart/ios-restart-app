@@ -785,7 +785,7 @@
 "real_estate_summary_offer_type_empty" = "Добавьте тип объявления";
 "real_estate_summary_price_empty" = "Добавить цену";
 "real_estate_summary_price_title" = "Цена: %@";
-"real_estate_summary_rooms_emtpy" = "Добавить комнаты";
+"real_estate_summary_rooms_empty" = "Добавить комнаты";
 "real_estate_summary_rooms_title" = "комнаты";
 "real_estate_summary_size_empty" = "Добавить размер";
 "real_estate_summary_size_title" = "Размер";

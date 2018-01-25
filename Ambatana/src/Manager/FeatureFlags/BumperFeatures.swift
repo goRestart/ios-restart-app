@@ -39,6 +39,7 @@ extension Bumper  {
         flags.append(RealEstateImprovements.self)
         flags.append(RealEstatePromos.self)
         flags.append(AllowEmojisOnChat.self)
+        flags.append(ShowAdsInFeedWithRatio.self)
         Bumper.initialize(flags)
     } 
 
@@ -170,6 +171,11 @@ extension Bumper  {
     static var allowEmojisOnChat: AllowEmojisOnChat {
         guard let value = Bumper.value(for: AllowEmojisOnChat.key) else { return .control }
         return AllowEmojisOnChat(rawValue: value) ?? .control 
+    }
+
+    static var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
+        guard let value = Bumper.value(for: ShowAdsInFeedWithRatio.key) else { return .control }
+        return ShowAdsInFeedWithRatio(rawValue: value) ?? .control 
     } 
 }
 
@@ -557,6 +563,24 @@ enum AllowEmojisOnChat: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShowAdsInFeedWithRatio: String, BumperFeature  {
+    case control, baseline, ten, fifteen, twenty
+    static var defaultValue: String { return ShowAdsInFeedWithRatio.control.rawValue }
+    static var enumValues: [ShowAdsInFeedWithRatio] { return [.control, .baseline, .ten, .fifteen, .twenty]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show ads in feed every X cells" } 
+    static func fromPosition(_ position: Int) -> ShowAdsInFeedWithRatio {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .ten
+            case 3: return .fifteen
+            case 4: return .twenty
             default: return .control
         }
     }

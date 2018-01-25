@@ -785,7 +785,7 @@
 "real_estate_summary_offer_type_empty" = "Lisää ilmoituksen tyyppi";
 "real_estate_summary_price_empty" = "Lisää hinta";
 "real_estate_summary_price_title" = "Hinta: %@";
-"real_estate_summary_rooms_emtpy" = "Lisää huoneet";
+"real_estate_summary_rooms_empty" = "Lisää huoneet";
 "real_estate_summary_rooms_title" = "Huoneet";
 "real_estate_summary_size_empty" = "Lisää koko";
 "real_estate_summary_size_title" = "Koko";

@@ -785,7 +785,7 @@
 "real_estate_summary_offer_type_empty" = "Lägg till typ av annons";
 "real_estate_summary_price_empty" = "Lägg till pris";
 "real_estate_summary_price_title" = "Pris: %@";
-"real_estate_summary_rooms_emtpy" = "Lägg till rum";
+"real_estate_summary_rooms_empty" = "Lägg till rum";
 "real_estate_summary_rooms_title" = "rum";
 "real_estate_summary_size_empty" = "Lägg till yta";
 "real_estate_summary_size_title" = "Yta";

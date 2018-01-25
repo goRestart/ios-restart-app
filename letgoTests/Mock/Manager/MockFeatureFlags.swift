@@ -49,6 +49,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstateImprovements: RealEstateImprovements = .control
     var realEstatePromos: RealEstatePromos = .control
     var allowEmojisOnChat: AllowEmojisOnChat = .control
+    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
@@ -58,6 +59,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var signUpEmailTermsAndConditionsAcceptRequired = false
     var moreInfoShoppingAdUnitId = ""
     var moreInfoDFPAdUnitId = ""
+    var feedDFPAdUnitId: String? = ""
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

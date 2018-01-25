@@ -1156,7 +1156,7 @@ extension ChatViewModel {
                     return $0.talkerId != myUserRepository.myUser?.objectId
                 }
             })?.base {
-            messages.value.insert(meetingSecurityDisclaimerMessage, at: messages.value.index(before: lastInterlocutorMessageIndex))
+            messages.insert(meetingSecurityDisclaimerMessage, atIndex: messages.value.index(before: lastInterlocutorMessageIndex))
         }
     }
 
