@@ -829,9 +829,9 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
     func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         var totalListings = listings
-        totalListings = addMostSearchedItemsTo(listings: totalListings, page: page)
-        totalListings = addCollectionsTo(listings: totalListings, page: page)
-        totalListings = addAdsTo(listings: totalListings, page: page)
+        totalListings = addMostSearchedItems(to: totalListings)
+        totalListings = addCollections(to: totalListings, page: page)
+        totalListings = addAds(to: totalListings, page: page)
         return totalListings
     }
 
@@ -852,7 +852,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     
     func vmDidSelectSellBanner(_ type: String) {}
 
-    private func addCollectionsTo(listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
+    private func addCollections(to listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         guard searchType == nil else { return listings }
         guard listings.count > bannerCellPosition else { return listings }
         var cellModels = listings
@@ -864,7 +864,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         return cellModels
     }
 
-    private func addAdsTo(listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
+    private func addAds(to listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         if page == 0 {
             lastAdPosition = Constants.adInFeedInitialPosition
             previousPagesAdsOffset = 0
@@ -909,7 +909,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         return cellModels
     }
     
-    private func addMostSearchedItemsTo(listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
+    private func addMostSearchedItems(to listings: [ListingCellModel]) -> [ListingCellModel] {
         guard searchType == nil else { return listings }
         guard listings.count > mostSearchedItemsCellPosition else { return listings }
         var cellModels = listings
