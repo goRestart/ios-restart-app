@@ -389,8 +389,11 @@ class FeatureFlags: FeatureFlaggeable {
     }
     
     var postingFlowType: PostingFlowType {
-        switch (locationCountryCode, localeCountryCode) {
-        case (.turkey?, _), (_, .turkey?):
+        if Bumper.enabled {
+            return Bumper.realEstateFlowType == .standard ? .standard : .turkish
+        }
+        switch locationCountryCode {
+        case .turkey?:
             // TODO: change to turkish when all development is done.
             return .standard
         default:

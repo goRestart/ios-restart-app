@@ -40,6 +40,7 @@ extension Bumper  {
         flags.append(RealEstatePromos.self)
         flags.append(AllowEmojisOnChat.self)
         flags.append(ShowAdsInFeedWithRatio.self)
+        flags.append(RealEstateFlowType.self)
         Bumper.initialize(flags)
     } 
 
@@ -176,6 +177,11 @@ extension Bumper  {
     static var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
         guard let value = Bumper.value(for: ShowAdsInFeedWithRatio.key) else { return .control }
         return ShowAdsInFeedWithRatio(rawValue: value) ?? .control 
+    }
+
+    static var realEstateFlowType: RealEstateFlowType {
+        guard let value = Bumper.value(for: RealEstateFlowType.key) else { return .standard }
+        return RealEstateFlowType(rawValue: value) ?? .standard 
     } 
 }
 
@@ -582,6 +588,21 @@ enum ShowAdsInFeedWithRatio: String, BumperFeature  {
             case 3: return .fifteen
             case 4: return .twenty
             default: return .control
+        }
+    }
+}
+
+enum RealEstateFlowType: String, BumperFeature  {
+    case standard, turkish
+    static var defaultValue: String { return RealEstateFlowType.standard.rawValue }
+    static var enumValues: [RealEstateFlowType] { return [.standard, .turkish]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Real Estate Flow Type" } 
+    static func fromPosition(_ position: Int) -> RealEstateFlowType {
+        switch position { 
+            case 0: return .standard
+            case 1: return .turkish
+            default: return .standard
         }
     }
 }
