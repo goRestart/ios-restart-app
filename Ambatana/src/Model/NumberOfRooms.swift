@@ -15,7 +15,7 @@ struct NumberOfRooms {
     var localizedString: String? {
         if let bedrooms = bedrooms, bedrooms == 1, let livingRooms = livingRooms, livingRooms == 0 {
             return LGLocalizedString.realEstateRoomsStudio
-        } else if let bedrooms = bedrooms, bedrooms == 10 && livingRooms == nil {
+        } else if bedrooms == 10 && livingRooms == 0 {
             return LGLocalizedString.realEstateRoomsOverTen
         }
         guard let bedrooms = bedrooms, let livingRooms = livingRooms else { return nil }
@@ -55,6 +55,6 @@ struct NumberOfRooms {
                 NumberOfRooms(bedrooms: 9, livingRooms: 6),
                 NumberOfRooms(bedrooms: 10, livingRooms: 1),
                 NumberOfRooms(bedrooms: 10, livingRooms: 2),
-                NumberOfRooms(bedrooms: 10, livingRooms: nil)]
+                NumberOfRooms(bedrooms: 10, livingRooms: 0)]
     }
 }
