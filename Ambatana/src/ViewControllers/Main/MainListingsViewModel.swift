@@ -829,9 +829,9 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
 
     func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         var totalListings = listings
-        totalListings = addCollectionsTo(listings: listings, page: page)
-        totalListings = addAdsTo(listings: listings, page: page)
-        totalListings = addMostSearchedItemsTo(listings: listings, page: page)
+        totalListings = addMostSearchedItemsTo(listings: totalListings, page: page)
+        totalListings = addCollectionsTo(listings: totalListings, page: page)
+        totalListings = addAdsTo(listings: totalListings, page: page)
         return totalListings
     }
 
