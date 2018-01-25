@@ -103,7 +103,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             priceView.priceListing.asObservable().bind(to: priceListing).disposed(by: disposeBag)
             return priceView
         case .summary:
-            let summaryView = PostingAddDetailSummaryTableView(postCategory: postListingState.category, postingFlowType: .turkish)
+            let summaryView = PostingAddDetailSummaryTableView(postCategory: postListingState.category, postingFlowType: featureFlags.postingFlowType)
             summaryView.delegate = self
             return summaryView
         case .location:
@@ -207,7 +207,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     func nextbuttonPressed() {
-        guard let next = step.nextStep(postingFlowType: .turkish) else {
+        guard let next = step.nextStep(postingFlowType: featureFlags.postingFlowType) else {
             postListing(buttonNameType: .summary)
             return
         }
@@ -309,12 +309,13 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
-        return ListingCreationParams.make(title: postListingBasicInfo.title.value,
-                                                                description: postListingBasicInfo.description.value,
-                                                                currency: currency,
-                                                                location: location,
-                                                                postalAddress: postalAddress,
-                                                                postListingState: postListingState)
+        let title = postListingBasicInfo.title.value.isEmpty ? postListingState.verticalAttributes?.generatedTitle(postingFlowType: featureFlags.postingFlowType) : postListingBasicInfo.title.value
+        return ListingCreationParams.make(title: title,
+                                          description: postListingBasicInfo.description.value,
+                                          currency: currency,
+                                          location: location,
+                                          postalAddress: postalAddress,
+                                          postListingState: postListingState)
     }
     
     private func update(place: Place?) {
@@ -362,7 +363,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         postListingState = postListingState.updating(realEstateInfo: realEstateInfo)
         delay(0.3) { [weak self] in
             guard let strongSelf = self else { return }
-            guard let next = strongSelf.step.nextStep(postingFlowType: .turkish) else { return }
+            guard let next = strongSelf.step.nextStep(postingFlowType: strongSelf.featureFlags.postingFlowType) else { return }
             let nextStep = strongSelf.previousStepIsSummary ? .summary : next
             strongSelf.advanceNextStep(next: nextStep)
         }
