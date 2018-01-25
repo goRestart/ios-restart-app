@@ -156,7 +156,7 @@ extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSou
             delegate?.relatedListingsView(self, showListing: listing, atIndex: indexPath.row,
                                           listingListModels: objects, requester: requester,
                                           thumbnailImage: thumbnailImage, originFrame: originFrame)
-        case .collectionCell, .emptyCell:
+        case .collectionCell, .emptyCell, .advertisement:
             // No banners or collections here
             break
         }

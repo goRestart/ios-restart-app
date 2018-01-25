@@ -128,7 +128,6 @@
 "chat_forbidden_disclaimer_seller_wo_name" = "Có vẻ như người dùng này không còn quan tâm đến bài đăng của bạn.";
 "chat_inactive_conversations_button" = "Xem trò chuyện được lưu trữ";
 "chat_inactive_conversations_explanation_label" = "Trò chuyện từ 3 tháng trở lên sẽ tự động vào lưu trữ.";
-"chat_inactive_list_title" = "Inactive Chats";
 "chat_list_account_deleted" = "Tài khoản bị xóa";
 "chat_list_account_deleted_username" = "Không hoạt động";
 "chat_list_all_empty_title" = "KHÔNG (CHƯA) CÓ TRÒ CHUYỆN!";
@@ -770,11 +769,6 @@
 "real_estate_offer_type_title" = "Loại Bài đăng";
 "real_estate_price_title" = "Giá";
 "real_estate_related_search_title" = "Kết quả liên quan";
-"real_estate_rooms_over_ten" = "Over 10";
-"real_estate_rooms_studio" = "Studio (1+0)";
-"real_estate_rooms_title" = "No. of rooms";
-"real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_title" = "Size";
 "real_estate_summary_bathroom_title" = "phòng tắm";
 "real_estate_summary_bathrooms_empty" = "Thêm số phòng tắm";
 "real_estate_summary_bathrooms_title" = "phòng tắm";
@@ -785,10 +779,6 @@
 "real_estate_summary_offer_type_empty" = "Thêm loại bài đăng";
 "real_estate_summary_price_empty" = "Thêm giá";
 "real_estate_summary_price_title" = "Giá: %@";
-"real_estate_summary_rooms_emtpy" = "Add rooms";
-"real_estate_summary_rooms_title" = "rooms";
-"real_estate_summary_size_empty" = "Add size";
-"real_estate_summary_size_title" = "Size";
 "real_estate_summary_title" = "Tổng hợp";
 "real_estate_summary_type_property_empty" = "Thêm loại nhà đất";
 "real_estate_title_generator_bathrooms_0" = "Không có";
@@ -815,13 +805,13 @@
 "real_estate_tooltip_sell_button" = "Đăng bất động sản cho thuê hoặc bán tại mục Nhà đất mới của chúng tôi";
 "real_estate_type_property_apartment" = "Căn hộ";
 "real_estate_type_property_commercial" = "Thương mại";
-"real_estate_type_property_flat" = "Căn hộ/nhà";
+"real_estate_type_property_flat" = "Flat / Residence";
 "real_estate_type_property_house" = "Nhà";
-"real_estate_type_property_land" = "Đất";
+"real_estate_type_property_land" = "Land";
 "real_estate_type_property_others" = "Khác";
 "real_estate_type_property_room" = "Phòng";
 "real_estate_type_property_title" = "Loại Nhà đất";
-"real_estate_type_property_villa" = "Nhà liền kề/Biệt thự";
+"real_estate_type_property_villa" = "Detached House / Villa";
 "related_items_title" = "Bài đăng liên quan";
 "report_user_counterfeit" = "Hàng giả";
 "report_user_error_already_reported" = "Bạn đã báo cáo người dùng này rồi!";

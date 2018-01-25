@@ -18,8 +18,6 @@ open class MockLocationRepository: LocationRepository {
     public var locationEnabledValue: Bool = true
     public var authorizationStatusValue: CLAuthorizationStatus = .notDetermined
     
-    public var locationDataSourceType: LocationDataSourceType = .apple(shouldUseRegion: false)
-    
     // MARK: - Lifecycle
     
     required public init() {
@@ -31,7 +29,6 @@ open class MockLocationRepository: LocationRepository {
     public var lastKnownLocation: CLLocation?
     
     public func setLocationManagerDelegate(delegate: CLLocationManagerDelegate) {}
-    public func setLocationDataSourceType(locationDataSourceType: LocationDataSourceType) {}
     
     public func locationEnabled() -> Bool {
         return locationEnabledValue

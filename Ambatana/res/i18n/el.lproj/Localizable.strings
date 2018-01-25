@@ -128,7 +128,6 @@
 "chat_forbidden_disclaimer_seller_wo_name" = "Φαίνεται πώς αυτός ο χρήστης δεν ενδιαφέρεται πια για την καταχώρησή σας.";
 "chat_inactive_conversations_button" = "Δείτε αρχειοθετημένες συνομιλίες";
 "chat_inactive_conversations_explanation_label" = "Οι συνομιλίες που είναι παλιότερες από 3 μήνες θα αρχειοθετηθούν αυτόματα.";
-"chat_inactive_list_title" = "Inactive Chats";
 "chat_list_account_deleted" = "Διαγραμμένος λογαριασμός";
 "chat_list_account_deleted_username" = "Ανενεργός";
 "chat_list_all_empty_title" = "ΚΑΜΙΑ ΣΥΝΟΜΙΛΙΑ (ΑΚΟΜΗ!)";
@@ -770,11 +769,6 @@
 "real_estate_offer_type_title" = "Τύπος Καταχώρησης";
 "real_estate_price_title" = "Τιμή";
 "real_estate_related_search_title" = "Συναφή αποτελέσματα";
-"real_estate_rooms_over_ten" = "Over 10";
-"real_estate_rooms_studio" = "Studio (1+0)";
-"real_estate_rooms_title" = "No. of rooms";
-"real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_title" = "Size";
 "real_estate_summary_bathroom_title" = "μπάνιο";
 "real_estate_summary_bathrooms_empty" = "Προσθήκη αριθμού μπάνιων";
 "real_estate_summary_bathrooms_title" = "μπάνια";
@@ -785,10 +779,6 @@
 "real_estate_summary_offer_type_empty" = "Προσθήκη τύπου καταχώρησης";
 "real_estate_summary_price_empty" = "Προσθήκη τιμής";
 "real_estate_summary_price_title" = "Τιμή: %@";
-"real_estate_summary_rooms_emtpy" = "Add rooms";
-"real_estate_summary_rooms_title" = "rooms";
-"real_estate_summary_size_empty" = "Add size";
-"real_estate_summary_size_title" = "Size";
 "real_estate_summary_title" = "Σύνολο";
 "real_estate_summary_type_property_empty" = "Προσθήκη τύπου ιδιοκτησίας";
 "real_estate_title_generator_bathrooms_0" = "Κανένα";
@@ -815,13 +805,13 @@
 "real_estate_tooltip_sell_button" = "Δημοσιεύστε ιδιοκτησίες για πώληση ή ενοικίαση στη νέα μας κατηγορία \"Σπίτια\"";
 "real_estate_type_property_apartment" = "Διαμέρισμα";
 "real_estate_type_property_commercial" = "Εμπορική";
-"real_estate_type_property_flat" = "Διαμέρισμα / Κατοικία";
+"real_estate_type_property_flat" = "Flat / Residence";
 "real_estate_type_property_house" = "Σπίτι";
-"real_estate_type_property_land" = "Γη";
+"real_estate_type_property_land" = "Land";
 "real_estate_type_property_others" = "Άλλα";
 "real_estate_type_property_room" = "Δωμάτιο";
 "real_estate_type_property_title" = "Τύπος Ιδιοκτησίας";
-"real_estate_type_property_villa" = "Μονοκατοικία / Βίλα";
+"real_estate_type_property_villa" = "Detached House / Villa";
 "related_items_title" = "Σχετικές καταχωρήσεις";
 "report_user_counterfeit" = "Πλαστά στοιχεία";
 "report_user_error_already_reported" = "Έχετε ήδη κάνει αναφορά αυτού του χρήστη!";

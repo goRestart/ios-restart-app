@@ -344,7 +344,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     
     private func updateObjects(newObjects: [T]) {
         guard !shouldWriteInCollectionVariable else { return }
-        objects.value = newObjects
+        objects.replaceAll(with: newObjects)
     }
 }
 

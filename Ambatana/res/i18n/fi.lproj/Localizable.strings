@@ -128,7 +128,6 @@
 "chat_forbidden_disclaimer_seller_wo_name" = "Näyttää siltä, että tämä käyttäjä ei ole enää kiinnostunut ilmoituksestasi.";
 "chat_inactive_conversations_button" = "Näytä arkistoidut keskustelut";
 "chat_inactive_conversations_explanation_label" = "Yli kolme kuukautta vanhat keskustelut arkistoidaan automaattisesti.";
-"chat_inactive_list_title" = "Inactive Chats";
 "chat_list_account_deleted" = "Tili poistettu";
 "chat_list_account_deleted_username" = "Passiivinen";
 "chat_list_all_empty_title" = "EI KESKUSTELUJA (VIELÄ!)";
@@ -770,11 +769,6 @@
 "real_estate_offer_type_title" = "Ilmoituksen tyyppi";
 "real_estate_price_title" = "Hinta";
 "real_estate_related_search_title" = "Samankaltaiset tulokset";
-"real_estate_rooms_over_ten" = "Over 10";
-"real_estate_rooms_studio" = "Studio (1+0)";
-"real_estate_rooms_title" = "No. of rooms";
-"real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_title" = "Size";
 "real_estate_summary_bathroom_title" = "kylpyhuone";
 "real_estate_summary_bathrooms_empty" = "Lisää kylpyhuoneiden määrä";
 "real_estate_summary_bathrooms_title" = "kylpyhuoneet";
@@ -785,10 +779,6 @@
 "real_estate_summary_offer_type_empty" = "Lisää ilmoituksen tyyppi";
 "real_estate_summary_price_empty" = "Lisää hinta";
 "real_estate_summary_price_title" = "Hinta: %@";
-"real_estate_summary_rooms_emtpy" = "Add rooms";
-"real_estate_summary_rooms_title" = "rooms";
-"real_estate_summary_size_empty" = "Add size";
-"real_estate_summary_size_title" = "Size";
 "real_estate_summary_title" = "Yhteenveto";
 "real_estate_summary_type_property_empty" = "Lisää kiinteistön tyyppi";
 "real_estate_title_generator_bathrooms_0" = "Ei ole";
@@ -815,13 +805,13 @@
 "real_estate_tooltip_sell_button" = "Julkaise kiinteistö myytäväksi tai vuokrattavaksi uudessa Asunnot-kategoriassamme";
 "real_estate_type_property_apartment" = "Huoneisto";
 "real_estate_type_property_commercial" = "Kaupallinen";
-"real_estate_type_property_flat" = "Asunto";
+"real_estate_type_property_flat" = "Flat / Residence";
 "real_estate_type_property_house" = "Talo";
-"real_estate_type_property_land" = "Tontti";
+"real_estate_type_property_land" = "Land";
 "real_estate_type_property_others" = "Muu";
 "real_estate_type_property_room" = "Huone";
 "real_estate_type_property_title" = "Kiinteistön tyyppi";
-"real_estate_type_property_villa" = "Omakotitalo/huvila";
+"real_estate_type_property_villa" = "Detached House / Villa";
 "related_items_title" = "Samankaltaisia ilmoituksia";
 "report_user_counterfeit" = "Väärennettyjä tuotteita";
 "report_user_error_already_reported" = "Olet jo ilmiantanut tämän käyttäjän!";

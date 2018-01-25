@@ -128,7 +128,6 @@
 "chat_forbidden_disclaimer_seller_wo_name" = "Похоже, этот пользователь больше не заинтересован в вашем объявлении.";
 "chat_inactive_conversations_button" = "Смотреть архивные чаты";
 "chat_inactive_conversations_explanation_label" = "Чаты со сроком более 3 месяцев автоматически архивируются.";
-"chat_inactive_list_title" = "Inactive Chats";
 "chat_list_account_deleted" = "Удаленный аккаунт";
 "chat_list_account_deleted_username" = "Неактивно";
 "chat_list_all_empty_title" = "НЕТ ЧАТОВ (ПОКА ЧТО!)";
@@ -770,11 +769,6 @@
 "real_estate_offer_type_title" = "Тип объявления";
 "real_estate_price_title" = "Цена";
 "real_estate_related_search_title" = "Похожие результаты";
-"real_estate_rooms_over_ten" = "Over 10";
-"real_estate_rooms_studio" = "Studio (1+0)";
-"real_estate_rooms_title" = "No. of rooms";
-"real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_title" = "Size";
 "real_estate_summary_bathroom_title" = "ванная";
 "real_estate_summary_bathrooms_empty" = "Добавьте количество ванных";
 "real_estate_summary_bathrooms_title" = "ванных";
@@ -785,10 +779,6 @@
 "real_estate_summary_offer_type_empty" = "Добавьте тип объявления";
 "real_estate_summary_price_empty" = "Добавить цену";
 "real_estate_summary_price_title" = "Цена: %@";
-"real_estate_summary_rooms_emtpy" = "Add rooms";
-"real_estate_summary_rooms_title" = "rooms";
-"real_estate_summary_size_empty" = "Add size";
-"real_estate_summary_size_title" = "Size";
 "real_estate_summary_title" = "Итого";
 "real_estate_summary_type_property_empty" = "Добавьте тип недвижимости";
 "real_estate_title_generator_bathrooms_0" = "Нет";
@@ -815,13 +805,13 @@
 "real_estate_tooltip_sell_button" = "Разместите жилье на продажу или в аренду в новой категории Жилье";
 "real_estate_type_property_apartment" = "Апартаменты";
 "real_estate_type_property_commercial" = "Коммерческая";
-"real_estate_type_property_flat" = "Квартира / Дом";
+"real_estate_type_property_flat" = "Flat / Residence";
 "real_estate_type_property_house" = "Дом";
-"real_estate_type_property_land" = "Земля";
+"real_estate_type_property_land" = "Land";
 "real_estate_type_property_others" = "Другое";
 "real_estate_type_property_room" = "Комната";
 "real_estate_type_property_title" = "Тип недвижимости";
-"real_estate_type_property_villa" = "Особняк / Вилла";
+"real_estate_type_property_villa" = "Detached House / Villa";
 "related_items_title" = "Похожие объявления";
 "report_user_counterfeit" = "Поддельные товары";
 "report_user_error_already_reported" = "Вы уже пожаловались на этого пользователя!";
