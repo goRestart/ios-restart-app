@@ -843,7 +843,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     }
     
     func vmDidSelectMostSearchedItems() {
-        navigator?.openMostSearchedItems(source: .card)
+        navigator?.openMostSearchedItems(source: .card, enableSearch: false)
     }
 
     func vmUserDidTapInvite() {
@@ -913,9 +913,9 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         guard searchType == nil else { return listings }
         guard listings.count > mostSearchedItemsCellPosition else { return listings }
         var cellModels = listings
-        if featureFlags.mostSearchedDemandedItems.isActive {
-            let collectionModel = ListingCellModel.mostSearchedItems
-            cellModels.insert(collectionModel, at: mostSearchedItemsCellPosition)
+        if isMostSearchedItemsEnabled {
+            let mostSearchedItemsModel = ListingCellModel.mostSearchedItems(data: MostSearchedItemsCardData())
+            cellModels.insert(mostSearchedItemsModel, at: mostSearchedItemsCellPosition)
         }
         return cellModels
     }

@@ -116,9 +116,9 @@ class GridDrawerManager {
         case .advertisement(let adData):
             guard let cell = cell as? AdvertisementCell else { return }
             return advertisementDrawer.draw(adData, style: cellStyle, inCell: cell)
-        case .mostSearchedItems:
+        case .mostSearchedItems(let data):
             guard let cell = cell as? MostSearchedItemsListingListCell else { return }
-            return mostSearchedItemsDrawer.draw(style: cellStyle, inCell: cell)
+            return mostSearchedItemsDrawer.draw(data, style: cellStyle, inCell: cell)
         default:
             assert(false, "⛔️ You shouldn't be here")
         }

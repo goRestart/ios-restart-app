@@ -6,10 +6,10 @@
 //  Copyright © 2018 Ambatana. All rights reserved.
 //
 
-class MostSearchedItemsCellDrawer: BaseCollectionCellDrawer<MostSearchedItemsListingListCell> {
-    func willDisplay(_ model: AdvertisementData, inCell cell: AdvertisementCell) { }
+class MostSearchedItemsCellDrawer: BaseCollectionCellDrawer<MostSearchedItemsListingListCell>, GridCellDrawer  {
+    func willDisplay(_ model: MostSearchedItemsCardData, inCell cell: MostSearchedItemsListingListCell) { }
     
-    func draw(style: CellStyle, inCell cell: MostSearchedItemsListingListCell) {
-
+    func draw(_ model: MostSearchedItemsCardData, style: CellStyle, inCell cell: MostSearchedItemsListingListCell) {
+        cell.setupWith(data: model)
     }
 }

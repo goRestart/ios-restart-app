@@ -43,10 +43,8 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
     private func setupUI() {
         backgroundColor = UIColor.clear
         corneredView.backgroundColor = UIColor.lgBlack
-        
+    
         corneredView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
-        
-        trendingImageView.image = UIImage(named: "trending_feed")
 
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.textColor = UIColor.white
@@ -54,7 +52,6 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
         titleLabel.numberOfLines = 2
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.minimumScaleFactor = 0.2
-        titleLabel.text = LGLocalizedString.trendingItemsCardTitle
         
         actionBackgroundView.backgroundColor = UIColor.grayDark
         actionBackgroundView.rounded = true
@@ -64,7 +61,6 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
         actionLabel.textAlignment = .center
         actionLabel.adjustsFontSizeToFitWidth = true
         actionLabel.minimumScaleFactor = 0.2
-        actionLabel.text = LGLocalizedString.trendingItemsCardAction
     }
 
     private func setupConstraints() {
@@ -98,5 +94,11 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
         actionBackgroundView.layout().height(32)
         
         actionLabel.layout(with: actionBackgroundView).fill()
+    }
+    
+    func setupWith(data: MostSearchedItemsCardData) {
+        titleLabel.text = model.title
+        actionLabel.text = model.actionTitle
+        trendingImageView.image = model.icon
     }
 }
