@@ -15,7 +15,7 @@ protocol DeckNavigator: class {
     func closeDeck()
 }
 
-final class DeckCoordinator: NSObject, Coordinator, DeckNavigator {
+final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOnBoardingNavigator {
 
     var child: Coordinator?
     let viewController: UIViewController
@@ -30,6 +30,7 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator {
     fileprivate var interactiveTransitioner: UIPercentDrivenInteractiveTransition?
     fileprivate var navigationController: UINavigationController? { return deckViewController.navigationController }
 
+    fileprivate var shouldShowDeckOnBoarding: Bool = true // TODO: Implement in user defaults
 
     convenience init(listing: Listing,
                      listingListRequester: ListingListRequester,
@@ -94,13 +95,31 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator {
         navCtl.pushViewController(photoViewer, animated: true)
     }
 
+    func openDeckOnBoarding() {
+        let viewModel = ListingDeckOnBoardingViewModel()
+        viewModel.navigator = self
+        let onboarding = ListingDeckOnBoardingViewController(viewModel: viewModel)
+        onboarding.modalPresentationStyle = .overFullScreen
+
+        navigationController?.present(onboarding, animated: true, completion: nil)
+    }
+
     func closeDeck() {
-        closeCoordinator(animated: true, completion: nil)
+        if shouldShowDeckOnBoarding {
+            openDeckOnBoarding()
+            shouldShowDeckOnBoarding = false
+        } else {
+            closeCoordinator(animated: true, completion: nil)
+        }
     }
 
     func closePhotoViewer() {
         guard let navCtl = viewController.navigationController else { return }
         navCtl.popViewController(animated: true)
+    }
+
+    func closeDeckOnboarding() {
+        navigationController?.dismiss(animated: true, completion: nil)
     }
 }
 

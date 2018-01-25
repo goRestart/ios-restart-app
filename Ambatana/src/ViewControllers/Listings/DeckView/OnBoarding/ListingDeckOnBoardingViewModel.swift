@@ -9,12 +9,12 @@
 import Foundation
 
 protocol ListingDeckOnBoardingNavigator: class {
-    func close()
+    func closeDeckOnboarding()
 }
 
 final class ListingDeckOnBoardingViewModel: BaseViewModel, ListingDeckOnBoardingViewModelType {
 
     weak var navigator: ListingDeckOnBoardingNavigator?
-    func close() { navigator?.close() }
+    func close() { navigator?.closeDeckOnboarding() }
 
 }

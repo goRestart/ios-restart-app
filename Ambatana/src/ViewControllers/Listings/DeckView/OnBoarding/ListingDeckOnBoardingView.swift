@@ -34,6 +34,7 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
         }
     }
     private let containerView = UIView()
+    private let visualEffect = UIVisualEffectView(effect: UIBlurEffect(style: .light))
     private let imageView = UIImageView(image: #imageLiteral(resourceName: "nit_onboarding"))
     private let titleLabel = UILabel()
     private let underline = UIView()
@@ -49,12 +50,26 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     private func setupUI() {
-        backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        backgroundColor = UIColor.black
+        setupBlur()
         setupContainerView()
         setupImageView()
         setupTitle()
         setupUnderline()
         setupConfirmButton()
+    }
+
+    private func setupBlur() {
+        visualEffect.translatesAutoresizingMaskIntoConstraints = false
+        visualEffect.alpha = 0.5
+        addSubview(visualEffect)
+        let constraints = [
+            visualEffect.leadingAnchor.constraint(equalTo: leadingAnchor),
+            visualEffect.topAnchor.constraint(equalTo: topAnchor),
+            visualEffect.trailingAnchor.constraint(equalTo: trailingAnchor),
+            visualEffect.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ]
+        NSLayoutConstraint.activate(constraints)
     }
 
     private func setupContainerView() {

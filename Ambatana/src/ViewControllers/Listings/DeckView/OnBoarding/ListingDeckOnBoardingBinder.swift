@@ -20,7 +20,7 @@ final class ListingDeckOnBoardingBinder {
         disposeBag = bag
     }
 
-    func bindTap(withView view: ListingDeckOnBoardingViewRxType, disposeBag: DisposeBag) {
+    private func bindTap(withView view: ListingDeckOnBoardingViewRxType, disposeBag: DisposeBag) {
         view.rxConfirmButton.tap.bind { [weak viewController] in
             viewController?.close()
         }.disposed(by: disposeBag)

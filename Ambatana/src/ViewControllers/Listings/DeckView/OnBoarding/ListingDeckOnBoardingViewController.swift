@@ -16,10 +16,11 @@ protocol ListingDeckOnBoardingViewControllerType: class {
     func close()
 }
 
-final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeckOnBoardingViewModelType {
+final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeckOnBoardingViewControllerType {
 
     private let onboardingiew = ListingDeckOnBoardingView()
     private let viewModel: ListingDeckOnBoardingViewModelType
+    private let binder = ListingDeckOnBoardingBinder()
 
     override func loadView() {
         self.view = onboardingiew
@@ -34,6 +35,10 @@ final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeck
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        binder.viewController = self
+        binder.bind(withView: onboardingiew)
+        
+        onboardingiew.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         tapGesture.delaysTouchesBegan = true
         onboardingiew.addGestureRecognizer(tapGesture)
