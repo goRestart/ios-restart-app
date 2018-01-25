@@ -1,6 +1,6 @@
 "NSCameraUsageDescription" = "Để bắt đầu bán hàng, hãy để letgo truy cập vào camera của bạn";
 "NSLocationWhenInUseUsageDescription" = "letgo cần truy cập địa điểm của bạn để hiển thị các sản phẩm ở khu vực quanh bạn";
-"NSPhotoLibraryAddUsageDescription" = "Để lưu ảnh, hãy cho phép letgo truy cập thư viện của bạn";
+"NSPhotoLibraryAddUsageDescription" = "To save images, give letgo access to your library";
 "NSPhotoLibraryUsageDescription" = "Để bắt đầu bán, hãy để letgo truy cập vào thư viện của bạn";
 "sell_shortcut_title" = "Bán đồ của bạn";
 "start_browsing_shortcut_title" = "Bắt đầu duyệt";

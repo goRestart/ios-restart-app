@@ -126,6 +126,8 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     // Rx
     fileprivate let disposeBag = DisposeBag()
     
+    private let mediaPermissions: MediaPermissions = LGMediaPermissions()
+
     fileprivate var activeField: UIView? = nil
 
     // MARK: - Lifecycle
@@ -366,12 +368,30 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     
     // MARK: - Managing images.
     
-    func deleteAlreadyUploadedImageWithIndex(_ index: Int) {
-        // delete the image file locally
+    private func deleteAlreadyUploadedImageWithIndex(_ index: Int) {
         viewModel.deleteImageAtIndex(index)
     }
     
-    func saveProductImageToDiskAtIndex(_ index: Int) {
+    private func requestLibraryAuthorizationAndSaveImageToDiskAtIndex(_ index: Int) {
+        mediaPermissions.requestLibraryAuthorization { [weak self] authorization in
+            guard let strongSelf = self else { return }
+            if strongSelf.mediaPermissions.isLibraryAccessAuthorized {
+                strongSelf.saveProductImageToDiskAtIndex(index)
+            } else {
+                let alert = UIAlertController(title: LGLocalizedString.commonErrorTitle,
+                                              message: LGLocalizedString.productSellPhotolibraryRestrictedError,
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: LGLocalizedString.commonOk, style: .default))
+                strongSelf.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
+            }
+        }
+    }
+    
+    private func saveProductImageToDiskAtIndex(_ index: Int) {
+        guard mediaPermissions.isLibraryAccessAuthorized else {
+            requestLibraryAuthorizationAndSaveImageToDiskAtIndex(index)
+            return
+        }
         showLoadingMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollLoading)
         
         // get the image and launch the saving action.

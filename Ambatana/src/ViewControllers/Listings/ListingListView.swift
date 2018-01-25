@@ -439,6 +439,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
     }
 
+    func vmReloadItemAtIndexPath(indexPath: IndexPath) {
+        collectionView.reloadItems(at: [indexPath])
+    }
+
 
     // MARK: - Private methods
     // MARK: > UI

@@ -427,9 +427,11 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     private func setupZoomRx() {
         cellZooming.asObservable().distinctUntilChanged().bind { [weak self] zooming in
             UIView.animate(withDuration: 0.3) {
-                self?.itemsAlpha.value = zooming ? 0 : 1
-                self?.moreInfoAlpha.value = zooming ? 0 : 1
-                self?.updateNavigationBarAlpha(zooming ? 0 : 1)
+                let alphaValue: CGFloat = zooming ? 0 : 1
+                self?.itemsAlpha.value = alphaValue
+                self?.moreInfoAlpha.value = alphaValue
+                self?.moreInfoTooltip?.alpha = alphaValue
+                self?.updateNavigationBarAlpha(alphaValue)
             }
             }.disposed(by: disposeBag)
     }
@@ -837,6 +839,7 @@ extension ListingCarouselViewController: UserViewDelegate {
         fullScreenAvatarHeight?.constant = viewSide
         UIView.animate(withDuration: 0.25, animations: { [weak self] in
             self?.updateNavigationBarAlpha(0)
+            self?.moreInfoTooltip?.alpha = 0
             self?.fullScreenAvatarEffectView.alpha = 1
             self?.fullScreenAvatarView.alpha = 1
             self?.view.layoutIfNeeded()
@@ -850,6 +853,7 @@ extension ListingCarouselViewController: UserViewDelegate {
         fullScreenAvatarHeight?.constant = userView.userAvatarImageView.frame.size.height
         UIView.animate(withDuration: 0.25, animations: { [weak self] in
             self?.updateNavigationBarAlpha(1)
+            self?.moreInfoTooltip?.alpha = 1
             self?.fullScreenAvatarEffectView.alpha = 0
             self?.fullScreenAvatarView.alpha = 0
             self?.view.layoutIfNeeded()
