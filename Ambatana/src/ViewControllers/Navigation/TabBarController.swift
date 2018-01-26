@@ -268,10 +268,8 @@ final class TabBarController: UITabBarController {
             viewModel.notificationsBadge.asObservable().bind(to: notificationsTab.rx.badgeValue).disposed(by: disposeBag)
         }
         
-        if let sellTab = vcs[Tab.sell.index].tabBarItem {
-            if viewModel.shouldShowCameraBadge {
-                viewModel.sellBadge.asObservable().bind(to: sellTab.rx.badgeValue).disposed(by: disposeBag)
-            }
+        if let sellTab = vcs[Tab.sell.index].tabBarItem, viewModel.shouldShowCameraBadge {
+            viewModel.sellBadge.asObservable().bind(to: sellTab.rx.badgeValue).disposed(by: disposeBag)
         }
     }
 }
