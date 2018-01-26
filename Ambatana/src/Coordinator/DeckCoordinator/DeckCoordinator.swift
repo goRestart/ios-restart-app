@@ -30,7 +30,8 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
     fileprivate var interactiveTransitioner: UIPercentDrivenInteractiveTransition?
     fileprivate var navigationController: UINavigationController? { return deckViewController.navigationController }
 
-    fileprivate var shouldShowDeckOnBoarding: Bool = true // TODO: Implement in user defaults
+    fileprivate var shouldShowDeckOnBoarding: Bool { return !keyValueStorage[.didShowDeckOnBoarding] }
+    fileprivate let keyValueStorage: KeyValueStorageable
 
     convenience init(listing: Listing,
                      listingListRequester: ListingListRequester,
@@ -41,7 +42,8 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
                   source: source,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   sessionManager: Core.sessionManager,
-                  listingNavigator: listingNavigator)
+                  listingNavigator: listingNavigator,
+                  keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
     private init(listing: Listing,
@@ -49,7 +51,8 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
                  source: EventParameterListingVisitSource,
                  bubbleNotificationManager: BubbleNotificationManager,
                  sessionManager: SessionManager,
-                 listingNavigator: ListingDetailNavigator) {
+                 listingNavigator: ListingDetailNavigator,
+                 keyValueStorage: KeyValueStorageable) {
 
         let viewModel = ListingDeckViewModel(listing: listing,
                                              listingListRequester: listingListRequester,
@@ -63,6 +66,7 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
         self.viewController = deckViewController
         self.bubbleNotificationManager = bubbleNotificationManager
         self.sessionManager = sessionManager
+        self.keyValueStorage = keyValueStorage
         super.init()
         viewModel.deckNavigator = self
     }
@@ -95,22 +99,26 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
         navCtl.pushViewController(photoViewer, animated: true)
     }
 
-    func openDeckOnBoarding() {
+    private func openDeckOnBoarding() {
         let viewModel = ListingDeckOnBoardingViewModel()
         viewModel.navigator = self
         let onboarding = ListingDeckOnBoardingViewController(viewModel: viewModel, animator: OnBoardingAnimator())
         onboarding.modalPresentationStyle = .custom
 
         navigationController?.present(onboarding, animated: true, completion: nil)
+        didOpenDeckOnBoarding()
     }
 
     func closeDeck() {
         if shouldShowDeckOnBoarding {
             openDeckOnBoarding()
-            shouldShowDeckOnBoarding = false
         } else {
             closeCoordinator(animated: true, completion: nil)
         }
+    }
+
+    private func didOpenDeckOnBoarding() {
+        keyValueStorage[.didShowDeckOnBoarding] = true
     }
 
     func closePhotoViewer() {

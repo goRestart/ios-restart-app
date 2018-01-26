@@ -53,7 +53,7 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
         visualEffect.alpha = alpha
     }
 
-    func reduceContainerView() {
+    func compressContentView() {
         containerView.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
     }
 

@@ -38,6 +38,7 @@ final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeck
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         onboardingView.backgroundColor = UIColor.darkBarBackground
         binder.viewController = self
         binder.bind(withView: onboardingView)
@@ -49,7 +50,7 @@ final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeck
 
     func prepareForPresentation() {
         onboardingView.setVisualEffectAlpha(0)
-        onboardingView.reduceContainerView()
+        onboardingView.compressContentView()
     }
 
     func finishPresentation() {
@@ -63,7 +64,7 @@ final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeck
 
     func finishDismiss() {
         onboardingView.setVisualEffectAlpha(0)
-        onboardingView.reduceContainerView()
+        onboardingView.compressContentView()
     }
 
     func close() {
