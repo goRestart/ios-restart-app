@@ -178,33 +178,43 @@ class ExpandableCategorySelectionView: UIView {
         let buttonIndex = button.tag
         guard 0..<viewModel.categoriesAvailable.count ~= buttonIndex else { return }
         shrink(animated: true)
-        viewModel.categoryButtonDidPressed(listingCategory: viewModel.categoriesAvailable[buttonIndex])
+        viewModel.categoryButtonDidPressed(category: viewModel.categoriesAvailable[buttonIndex])
     }
 }
 
-fileprivate extension ListingCategory {
+fileprivate extension ExpandableCategory {
     var title: String {
         switch self {
-        case .unassigned:
-            return LGLocalizedString.categoriesUnassignedItems
-        case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
-            return name
-        case .realEstate:
-            return LGLocalizedString.productPostSelectCategoryHousing
+            case .listingCategory(let listingCategory):
+            switch listingCategory {
+            case .unassigned:
+                return LGLocalizedString.categoriesUnassignedItems
+            case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+                return listingCategory.name
+            case .realEstate:
+                return LGLocalizedString.productPostSelectCategoryHousing
+            }
+        case .mostSearchedItems:
+            return "Trending"
         }
     }
     var icon: UIImage? {
         switch self {
-        case .unassigned:
-            return #imageLiteral(resourceName: "items")
-        case .cars:
-            return #imageLiteral(resourceName: "carIcon")
-        case .motorsAndAccessories:
-            return #imageLiteral(resourceName: "motorsAndAccesories")
-        case .realEstate:
-            return #imageLiteral(resourceName: "housingIcon")
-        case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
-            return image
+        case .listingCategory(let listingCategory):
+            switch listingCategory {
+            case .unassigned:
+                return #imageLiteral(resourceName: "items")
+            case .cars:
+                return #imageLiteral(resourceName: "carIcon")
+            case .motorsAndAccessories:
+                return #imageLiteral(resourceName: "motorsAndAccesories")
+            case .realEstate:
+                return #imageLiteral(resourceName: "housingIcon")
+            case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+                return listingCategory.image
+            }
+        case .mostSearchedItems:
+            return #imageLiteral(resourceName: "trending_feed")
         }
     }
 }

@@ -64,8 +64,12 @@ class TabBarViewModel: BaseViewModel {
         navigator?.openSell(source: .sellButton, postCategory: nil, listingTitle: nil)
     }
     
-    func expandableButtonPressed(listingCategory: ListingCategory) {
-        navigator?.openSell(source: .sellButton, postCategory: listingCategory.postCategory, listingTitle: nil)
+    func expandableButtonPressed(category: ExpandableCategory) {
+        if category == .mostSearchedItems {
+            navigator?.openMostSearchedItems(source: .expandableMenu, enableSearch: false)
+        } else if let postCategory = category.listingCategory?.postCategory {
+            navigator?.openSell(source: .sellButton, postCategory: postCategory, listingTitle: nil)
+        }
     }
     
     
