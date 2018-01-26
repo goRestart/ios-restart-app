@@ -145,6 +145,7 @@ enum EventName: String {
     case inappChatNotificationComplete      = "in-app-chat-notification-complete"
 
     case signupCaptcha                      = "signup-captcha"
+    case loginCaptcha                       = "login-captcha"
 
     case notificationCenterStart            = "notification-center-start"
     case notificationCenterComplete         = "notification-center-complete"
