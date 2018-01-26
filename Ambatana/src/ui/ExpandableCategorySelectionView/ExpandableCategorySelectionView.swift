@@ -171,14 +171,14 @@ class ExpandableCategorySelectionView: UIView {
     
     @objc fileprivate dynamic func closeButtonPressed() {
         shrink(animated: true)
-        viewModel.closeButtonDidPressed()
+        viewModel.closeButtonAction()
     }
 
     @objc fileprivate dynamic func buttonPressed(_ button: UIButton) {
         let buttonIndex = button.tag
         guard 0..<viewModel.categoriesAvailable.count ~= buttonIndex else { return }
         shrink(animated: true)
-        viewModel.categoryButtonDidPressed(category: viewModel.categoriesAvailable[buttonIndex])
+        viewModel.pressCategoryAction(category: viewModel.categoriesAvailable[buttonIndex])
     }
 }
 
@@ -195,7 +195,7 @@ fileprivate extension ExpandableCategory {
                 return LGLocalizedString.productPostSelectCategoryHousing
             }
         case .mostSearchedItems:
-            return "Trending"
+            return LGLocalizedString.trendingItemsExpandableMenuButton
         }
     }
     var icon: UIImage? {

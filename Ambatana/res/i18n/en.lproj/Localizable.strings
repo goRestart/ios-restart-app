@@ -142,6 +142,9 @@
 // Categories real Estate
 "categories_real_estate" = "Housing";
 
+// Categories real Estate
+"categories_real_estate_title" = "Real Estate";
+
 // Categories sports leisure and games. Check image @ "categories_cars_and_motors" segment
 "categories_sports_leisure_and_games" = "Sports, Leisure and Games";
 
@@ -184,8 +187,11 @@
 // Category "Cars"
 "categories_inFeed_cars" = "Cars";
 
-// Category "Real Estate"
+// Category "Housing"
 "categories_inFeed_real_estate" = "Housing";
+
+// Category "Real Estate"
+"categories_inFeed_real_estate_title" = "Real Estate";
 
 // Show more header element
 "categories_super_keywords_inFeed_show_more" = "Show more";
@@ -1915,6 +1921,9 @@
 // Product post category selection real Estate button
 "product_post_select_category_housing" = "Housing for Rent / Sale";
 
+// Product post category selection real Estate button
+"product_post_select_category_real_estate" = "Real Estate";
+
 // Product report confirm message. Message displayal is like the other dialog messages
 "product_report_confirm_message" = "Are you sure you want to report this listing?";
 
@@ -2483,6 +2492,9 @@
 // Tooltip text included on sell button
 "real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 
+// Tooltip text included on sell button with real estate
+"real_estate_tooltip_sell_button_title" = "Post property for sale or rent in our new Real Estate category";
+
 // Message inside expandable sell your stuff menu to announce RE
 "real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
 
@@ -2911,6 +2923,9 @@
 
 // Action text for the Most searched items card fake button
 "trending_items_card_action" = "See items";
+
+// Button title for trending category in Expandable menu
+"trending_items_expandable_menu_button" = "Trending";
 
 // iPhone title
 "trending_item_iPhone" = "iPhone";

@@ -785,7 +785,7 @@
 "real_estate_summary_offer_type_empty" = "판매 종류 추가";
 "real_estate_summary_price_empty" = "가격 추가";
 "real_estate_summary_price_title" = "가격: %@";
-"real_estate_summary_rooms_empty" = "Add rooms";
+"real_estate_summary_rooms_empty" = "방 추가하기";
 "real_estate_summary_rooms_title" = "방";
 "real_estate_summary_size_empty" = "사이즈 추가하기";
 "real_estate_summary_size_title" = "사이즈";

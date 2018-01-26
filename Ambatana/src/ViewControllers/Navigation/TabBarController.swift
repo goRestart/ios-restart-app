@@ -315,10 +315,11 @@ extension TabBarController {
 // MARK: - ExpandableCategorySelectionDelegate
 
 extension TabBarController: ExpandableCategorySelectionDelegate {
-    func closeButtonDidPressed() {
+    func didPressCloseButton() {
         floatingSellButton.showWithAnimation()
     }
-    func categoryButtonDidPressed(category: ExpandableCategory) {
+    
+    func didPress(category: ExpandableCategory) {
         floatingSellButton.showWithAnimation()
         let event = TrackerEvent.listingSellYourStuffButton()
         tracker.trackEvent(event)

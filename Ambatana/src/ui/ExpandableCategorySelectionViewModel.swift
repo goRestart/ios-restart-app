@@ -34,8 +34,8 @@ enum ExpandableCategory: Equatable {
 }
 
 protocol ExpandableCategorySelectionDelegate: class {
-    func closeButtonDidPressed()
-    func categoryButtonDidPressed(category: ExpandableCategory)
+    func didPressCloseButton()
+    func didPress(category: ExpandableCategory)
 }
 
 class ExpandableCategorySelectionViewModel: BaseViewModel {
@@ -61,11 +61,11 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
     
     // Button actions: 
     
-    func closeButtonDidPressed() {
-        delegate?.closeButtonDidPressed()
+    func closeButtonAction() {
+        delegate?.didPressCloseButton()
     }
     
-    func categoryButtonDidPressed(category: ExpandableCategory) {
-        delegate?.categoryButtonDidPressed(category: category)
+    func pressCategoryAction(category: ExpandableCategory) {
+        delegate?.didPress(category: category)
     }
 }

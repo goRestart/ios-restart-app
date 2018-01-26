@@ -785,7 +785,7 @@
 "real_estate_summary_offer_type_empty" = "Hirdetéstípus hozzáadása";
 "real_estate_summary_price_empty" = "Ár hozzáadása";
 "real_estate_summary_price_title" = "Ára: %@";
-"real_estate_summary_rooms_empty" = "Add rooms";
+"real_estate_summary_rooms_empty" = "Szobák hozzáadása";
 "real_estate_summary_rooms_title" = "szobák";
 "real_estate_summary_size_empty" = "Méret hozzáadása";
 "real_estate_summary_size_title" = "Méret";
