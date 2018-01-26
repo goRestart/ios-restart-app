@@ -93,7 +93,7 @@ class RealEstateAttributesLGSpec: QuickSpec {
                                                    sizeSquareMeters: nil)
                     }
                     it ("result should equal: OTHER For rent") {
-                        expect(sut.generateTitle(postingFlowType: .turkish)) == "OTHER For rent"
+                        expect(sut.generateTitle(postingFlowType: .turkish)) == "For rent OTHER"
                     }
                 }
                 context("attributes with studio (1+0)") {
@@ -119,7 +119,7 @@ class RealEstateAttributesLGSpec: QuickSpec {
                                                    sizeSquareMeters: nil)
                     }
                     it ("result should equal: OTHER For rent Over 10") {
-                        expect(sut.generateTitle(postingFlowType: .turkish)) == "OTHER For rent Over 10"
+                        expect(sut.generateTitle(postingFlowType: .turkish)) == "For rent OTHER Over 10"
                     }
                 }
             }
