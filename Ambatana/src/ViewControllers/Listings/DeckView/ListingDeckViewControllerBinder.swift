@@ -43,6 +43,8 @@ protocol ListingDeckViewModelType: class {
     var rxObjectChanges: Observable<CollectionChange<ListingCellModel>> { get }
     var rxIsChatEnabled: Observable<Bool> { get }
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement)
+
+    var userHasScrolled: Bool { get set }
 }
 
 protocol ListingDeckViewControllerBinderCellType {
@@ -146,6 +148,10 @@ final class ListingDeckViewControllerBinder {
     private func bindContentOffset(withViewController viewController: ListingDeckViewControllerBinderType,
                                    viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
                                    disposeBag: DisposeBag) {
+        viewController.rxContentOffset.skip(1).take(1).bind { [weak viewModel] _ in
+            viewModel?.userHasScrolled = true
+        }.disposed(by: disposeBag)
+
         let pageSignal: Observable<Int> = viewController.rxContentOffset.map { _ in return listingDeckView.currentPage }
         pageSignal.skip(1).distinctUntilChanged().bind { [weak viewModel] page in
             // TODO: Tracking 3109

@@ -21,6 +21,7 @@ final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeck
     private let onboardingView = ListingDeckOnBoardingView()
     private let viewModel: ListingDeckOnBoardingViewModelType
     private let binder = ListingDeckOnBoardingBinder()
+
     private var animator: OnBoardingAnimator?
 
     override func loadView() {
@@ -65,12 +66,13 @@ final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeck
     func finishDismiss() {
         onboardingView.setVisualEffectAlpha(0)
         onboardingView.compressContentView()
+>>>>>>> ABIOS-listing-deck-view
     }
 
     func close() {
         didTapView()
     }
-  
+
     @objc private func didTapView() {
         viewModel.close()
     }

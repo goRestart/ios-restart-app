@@ -137,8 +137,19 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                 it("the viewmodel moves to the current item") {
                     expect(viewModelType.moveToProductIsCalled) == 1
                 }
+                it("the viewmodel detects that the user has scrolled") {
+                    expect(viewModelType.userHasScrollCalled) == 1
+                }
             }
 
+            context("the user does not scroll") {
+                beforeEach {
+                    sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
+                }
+                it("the viewmodel does not register any scroll") {
+                    expect(viewModelType.userHasScrollCalled) == 0
+                }
+            }
 
 
             context("the keyboard appears") {
@@ -260,6 +271,9 @@ private class MockListingDeckViewModelType: ListingDeckViewModelType {
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
         moveToProductIsCalled += 1
     }
+
+    var userHasScrollCalled: Int = 0
+    var userHasScrolled: Bool = false { didSet { userHasScrollCalled += 1 } }
 
     func resetVariables() {
         moveToProductIsCalled = 0

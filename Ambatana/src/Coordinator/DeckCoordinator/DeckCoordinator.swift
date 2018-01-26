@@ -26,11 +26,15 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
 
     fileprivate weak var previousNavigationDelegate: UINavigationControllerDelegate?
     fileprivate let deckViewController: ListingDeckViewController
+    fileprivate let deckViewModel: ListingDeckViewModel
 
     fileprivate var interactiveTransitioner: UIPercentDrivenInteractiveTransition?
     fileprivate var navigationController: UINavigationController? { return deckViewController.navigationController }
 
-    fileprivate var shouldShowDeckOnBoarding: Bool { return !keyValueStorage[.didShowDeckOnBoarding] }
+    fileprivate var shouldShowDeckOnBoarding: Bool {
+        return !deckViewModel.userHasScrolled && !keyValueStorage[.didShowDeckOnBoarding]
+    }
+
     fileprivate let keyValueStorage: KeyValueStorageable
 
     convenience init(listing: Listing,
@@ -63,6 +67,7 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
         viewModel.navigator = listingNavigator
 
         self.deckViewController = deckViewController
+        self.deckViewModel = viewModel
         self.viewController = deckViewController
         self.bubbleNotificationManager = bubbleNotificationManager
         self.sessionManager = sessionManager
@@ -105,8 +110,9 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
         let onboarding = ListingDeckOnBoardingViewController(viewModel: viewModel, animator: OnBoardingAnimator())
         onboarding.modalPresentationStyle = .custom
 
-        navigationController?.present(onboarding, animated: true, completion: nil)
-        didOpenDeckOnBoarding()
+        navigationController?.present(onboarding, animated: true, completion: { [weak self] in
+            self?.didOpenDeckOnBoarding()
+        })
     }
 
     func closeDeck() {
