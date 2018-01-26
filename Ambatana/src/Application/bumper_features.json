@@ -137,7 +137,7 @@
     },
     {
         "name": "RemoveCategoryWhenClosingPosting",
-        "values": ["control", "baseline", "Active"],
+        "values": ["control", "baseline", "active"],
         "description": "Remove category real estate if user closes posting"
     }
 ]
