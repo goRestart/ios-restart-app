@@ -100,6 +100,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         locationLabel.font = UIFont.systemMediumFont(size: 13)
         locationLabel.textAlignment = .left
         locationLabel.textColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
+        locationLabel.backgroundColor = UIColor.white
 
         locationLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         locationLabel.setContentHuggingPriority(.required, for: .vertical)
@@ -109,10 +110,12 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         mapHeader.axis = .horizontal
         mapHeader.distribution = .fillProportionally
         mapHeader.setContentCompressionResistancePriority(.required, for: .vertical)
+        mapHeader.backgroundColor = UIColor.white
 
         let location = UIImageView(image: #imageLiteral(resourceName: "nit_location"))
         location.contentMode = .center
         location.layout().width(16)
+        location.backgroundColor = UIColor.white
 
         setupLocationLabel()
 
@@ -140,7 +143,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
     }
 
     private func setupMap() {
-        backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0)
+        backgroundColor = UIColor.white
         mapView.delegate = self
         addSubview(mapView)
         mapView.translatesAutoresizingMaskIntoConstraints = false

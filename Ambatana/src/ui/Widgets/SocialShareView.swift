@@ -78,6 +78,11 @@ class SocialShareView: UIView {
         setAvailableButtons()
     }
 
+    func setupBackgroundColor(_ color: UIColor) {
+        backgroundColor = color
+        containerView.backgroundColor = color
+        containerView.subviews.forEach { $0.backgroundColor = color }
+    }
     
     func setupWithShareTypes(_ shareTypes: [ShareType], useBigButtons: Bool) {
         self.shareTypes = shareTypes

@@ -42,8 +42,10 @@ final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeck
 
         onboardingView.backgroundColor = UIColor.darkBarBackground
         binder.viewController = self
-        binder.bind(withView: onboardingView)
-        
+        binder.bind(withView: onboardingiew)
+
+        onboardingiew.backgroundColor = UIColor.darkBarBackground
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         tapGesture.delaysTouchesBegan = true
         onboardingView.addGestureRecognizer(tapGesture)
@@ -66,7 +68,6 @@ final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeck
     func finishDismiss() {
         onboardingView.setVisualEffectAlpha(0)
         onboardingView.compressContentView()
->>>>>>> ABIOS-listing-deck-view
     }
 
     func close() {

@@ -160,6 +160,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
             titleLabel.textAlignment = .left
             titleLabel.numberOfLines = 1
             titleLabel.setContentHuggingPriority(.required, for: .vertical)
+            titleLabel.backgroundColor = UIColor.white
         }
 
         func setupPriceLabel() {
@@ -167,6 +168,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
             priceLabel.textAlignment = .left
             priceLabel.numberOfLines = 1
             priceLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+            priceLabel.backgroundColor = UIColor.white
         }
 
         setupHeaderStackView()
@@ -188,6 +190,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         detailLabel.textAlignment = .left
         detailLabel.font = UIFont.systemRegularFont(size: 15)
         detailLabel.textColor = #colorLiteral(red: 0.7803921569, green: 0.8078431373, blue: 0.7803921569, alpha: 1)
+        detailLabel.backgroundColor = UIColor.white
     }
 
     private func setupStatsView() {
@@ -197,6 +200,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         statsView.layout(with: scrollView).leading(by: Metrics.margin).trailing(by: -Metrics.margin)
         statsView.timePostedView.layer.borderColor = UIColor.grayLight.cgColor
         statsView.timePostedView.layer.borderWidth = 1.0
+        statsView.backgroundColor = UIColor.white
     }
 
     private func setupMapView() {
@@ -242,6 +246,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
                 .leading(by: Metrics.margin).trailing(by: -Metrics.margin)
 
             socialMediaHeader.textColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
+            socialMediaHeader.backgroundColor = UIColor.white
             socialMediaHeader.font = UIFont.systemRegularFont(size: 13)
             socialMediaHeader.textAlignment = .left
             socialMediaHeader.text = LGLocalizedString.productShareTitleLabel
@@ -257,7 +262,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
                 .leading(by: 7.0).trailing(by: -7.0)
             socialShareView.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor,
                                                     constant: -2*Metrics.margin).isActive = true
-
+            socialShareView.setupBackgroundColor(.white)
             socialShareView.delegate = self
         }
 
