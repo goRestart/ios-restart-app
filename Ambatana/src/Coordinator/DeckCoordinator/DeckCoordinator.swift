@@ -98,8 +98,8 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
     func openDeckOnBoarding() {
         let viewModel = ListingDeckOnBoardingViewModel()
         viewModel.navigator = self
-        let onboarding = ListingDeckOnBoardingViewController(viewModel: viewModel)
-        onboarding.modalPresentationStyle = .overFullScreen
+        let onboarding = ListingDeckOnBoardingViewController(viewModel: viewModel, animator: OnBoardingAnimator())
+        onboarding.modalPresentationStyle = .custom
 
         navigationController?.present(onboarding, animated: true, completion: nil)
     }

@@ -49,8 +49,20 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
+    func setVisualEffectAlpha(_ alpha: CGFloat) {
+        visualEffect.alpha = alpha
+    }
+
+    func reduceContainerView() {
+        containerView.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
+    }
+
+    func expandContainerView() {
+        containerView.transform = CGAffineTransform.identity
+    }
+
     private func setupUI() {
-        backgroundColor = UIColor.black
+        backgroundColor = UIColor.clear
         setupBlur()
         setupContainerView()
         setupImageView()
@@ -62,6 +74,8 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
     private func setupBlur() {
         visualEffect.translatesAutoresizingMaskIntoConstraints = false
         visualEffect.alpha = 0.5
+        visualEffect.backgroundColor = UIColor.black
+
         addSubview(visualEffect)
         let constraints = [
             visualEffect.leadingAnchor.constraint(equalTo: leadingAnchor),

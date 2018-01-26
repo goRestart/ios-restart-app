@@ -16,39 +16,72 @@ protocol ListingDeckOnBoardingViewControllerType: class {
     func close()
 }
 
-final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeckOnBoardingViewControllerType {
+final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeckOnBoardingViewControllerType, UIViewControllerTransitioningDelegate {
 
-    private let onboardingiew = ListingDeckOnBoardingView()
+    private let onboardingView = ListingDeckOnBoardingView()
     private let viewModel: ListingDeckOnBoardingViewModelType
     private let binder = ListingDeckOnBoardingBinder()
+    private var animator: OnBoardingAnimator?
 
     override func loadView() {
-        self.view = onboardingiew
+        self.view = onboardingView
     }
 
-    init<T>(viewModel: T) where T: ListingDeckOnBoardingViewModelType, T: BaseViewModel {
+    init<T>(viewModel: T, animator: OnBoardingAnimator) where T: ListingDeckOnBoardingViewModelType, T: BaseViewModel {
         self.viewModel = viewModel
+        self.animator = animator
         super.init(viewModel: viewModel, nibName: nil)
+        self.transitioningDelegate = self
     }
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        onboardingView.backgroundColor = UIColor.darkBarBackground
         binder.viewController = self
-        binder.bind(withView: onboardingiew)
+        binder.bind(withView: onboardingView)
         
-        onboardingiew.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         tapGesture.delaysTouchesBegan = true
-        onboardingiew.addGestureRecognizer(tapGesture)
+        onboardingView.addGestureRecognizer(tapGesture)
+    }
+
+    func prepareForPresentation() {
+        onboardingView.setVisualEffectAlpha(0)
+        onboardingView.reduceContainerView()
+    }
+
+    func finishPresentation() {
+        onboardingView.setVisualEffectAlpha(0.7)
+        onboardingView.expandContainerView()
+    }
+
+    func prepareForDismissal() {
+        finishPresentation()
+    }
+
+    func finishDismiss() {
+        onboardingView.setVisualEffectAlpha(0)
+        onboardingView.reduceContainerView()
     }
 
     func close() {
         didTapView()
     }
-
+  
     @objc private func didTapView() {
         viewModel.close()
+    }
+
+    func animationController(forPresented presented: UIViewController,
+                             presenting: UIViewController,
+                             source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return animator
+    }
+
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        animator?.presenting = false
+        return animator
     }
 }
