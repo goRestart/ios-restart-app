@@ -168,7 +168,22 @@ enum ButtonStyle {
         case .primary, .terciary, .google, .facebook, .dark, .logout:
             return UIColor.white
         case .secondary:
-            return UIColor.primaryColor
+            return UIColor.primaryColorDisabled
+        case .darkField:
+            return UIColor.white
+        case .lightField:
+            return UIColor.lgBlack
+        }
+    }
+
+    var titleColorDisabled: UIColor {
+        switch self {
+        case .postingFlow:
+            return UIColor.white
+        case .primary, .terciary, .google, .facebook, .dark, .logout:
+            return UIColor.white
+        case .secondary:
+            return UIColor.primaryColorDisabled
         case .darkField:
             return UIColor.white
         case .lightField:
@@ -245,6 +260,8 @@ extension UIButton {
         titleLabel?.font = style.titleFont
         titleLabel?.lineBreakMode = .byTruncatingTail
         setTitleColor(style.titleColor, for: .normal)
+        setTitleColor(style.titleColorDisabled, for: .disabled)
+
         let padding = style.sidePadding
 
         let left = contentEdgeInsets.left < padding ? padding : contentEdgeInsets.left
