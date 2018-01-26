@@ -134,5 +134,10 @@
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "show ads in feed every X cells"
+    },
+    {
+        "name": "RemoveCategoryWhenClosingPosting",
+        "values": ["control", "baseline", "Active"],
+        "description": "Remove category real estate if user closes posting"
     }
 ]
