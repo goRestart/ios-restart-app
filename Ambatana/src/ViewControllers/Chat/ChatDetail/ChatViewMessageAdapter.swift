@@ -157,6 +157,19 @@ class ChatViewMessageAdapter {
                                status: nil, warningStatus: .normal)
     }
 
+    func createAskPhoneMessageWith(action: (() -> Void)?) -> ChatViewMessage? {
+
+        return ChatViewMessage(objectId: nil, talkerId: "", sentAt: Date(), receivedAt: nil, readAt: nil,
+                               type: .askPhoneNumber(text: "_ Call now or add your phone number so we can give you a call",
+                                                     action: action),
+                               status: nil, warningStatus: .normal)
+    }
+
+    func createAutomaticAnswerWith(message: String) -> ChatViewMessage? {
+        return ChatViewMessage(objectId: nil, talkerId: "", sentAt: Date(), receivedAt: nil, readAt: nil,
+                               type: .text(text: message), status: nil, warningStatus: .normal)
+    }
+
     private func createDisclaimerMessage(_ disclaimerText: NSAttributedString, showAvatar: Bool, actionTitle: String?,
                                          action: (() -> ())?) -> ChatViewMessage {
         let disclaimer = ChatViewMessageType.disclaimer(showAvatar: showAvatar, text: disclaimerText,
