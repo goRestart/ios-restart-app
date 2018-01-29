@@ -136,17 +136,14 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     /* Return all attributes in the cache whose frame intersects with the rect passed to the method */
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        var layoutAttributes = [UICollectionViewLayoutAttributes]()
-        for attributes in cache {
-            if attributes.frame.intersects(rect) {
-                layoutAttributes.append(attributes)
-            }
-        }
-        return layoutAttributes
+        return cache.filter { $0.frame.intersects(rect) }
     }
 
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        return attributesForItem(at: indexPath)
+        guard indexPath.row < cache.count && indexPath.row >= 0 else {
+            return attributesForItem(at: indexPath)
+        }
+        return cache[indexPath.row]
     }
 
     private func attributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes {
