@@ -10,23 +10,19 @@ import Result
 import RxSwift
 
 class LGChatRepository: InternalChatRepository {
-    
     var chatStatus: Observable<WSChatStatus> {
         return wsChatStatus.asObservable()
     }
     var chatEvents: Observable<ChatEvent> {
         return dataSource.eventBus.asObservable()
     }
-    var inactiveConversationsCount: Observable<Int?> {
-        return inactiveConversationsCountVariable.asObservable()
-    }
     
     let allConversations = CollectionVariable<ChatConversation>([])
     let sellingConversations = CollectionVariable<ChatConversation>([])
     let buyingConversations = CollectionVariable<ChatConversation>([])
-    let inactiveConversations = CollectionVariable<ChatInactiveConversation>([])
+    let inactiveConversations = Variable<[ChatInactiveConversation]>([])
+    let inactiveConversationsCount = Variable<Int?>(nil)
     let conversationsLock: NSLock = NSLock()
-    let inactiveConversationsCountVariable = Variable<Int?>(nil)
     
     let wsChatStatus = Variable<WSChatStatus>(.closed)
     let dataSource: ChatDataSource
@@ -53,10 +49,9 @@ class LGChatRepository: InternalChatRepository {
             }.disposed(by: disposeBag)
         
         chatStatus.subscribeNext { [weak self] status in
-            guard let userId = self?.myUserRepository.myUser?.objectId else { return }
             switch status {
             case .openAuthenticated:
-                self?.updateInactiveConversationsCount(for: userId)
+                self?.updateInactiveConversationsCount()
             case .closed, .closing, .opening, .openNotVerified, .openNotAuthenticated:
                 break
             }
@@ -202,7 +197,10 @@ class LGChatRepository: InternalChatRepository {
     }
     
     func internalArchiveInactiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?) {
-        dataSource.archiveInactiveConversations(conversationIds) { result in
+        dataSource.archiveInactiveConversations(conversationIds) { [weak self] result in
+            if let _ = result.value, let inactiveConversationsCount = self?.inactiveConversationsCount.value {
+                self?.inactiveConversationsCount.value = inactiveConversationsCount - conversationIds.count
+            }
             handleWebSocketResult(result, completion: completion)
         }
     }
@@ -232,6 +230,16 @@ class LGChatRepository: InternalChatRepository {
         }
     }
     
+    // MARK: - Clean
+    
+    func cleanInactiveConversations() {
+        inactiveConversations.value.removeAll()
+    }
+    
+    func clean() {
+        cleanInactiveConversations()
+    }
+    
     
     // MARK: - Server events
     
@@ -256,10 +264,10 @@ class LGChatRepository: InternalChatRepository {
         handleWebSocketResult(finalResult, completion: completion)
     }
     
-    private func updateInactiveConversationsCount(for userId: String) {
+    private func updateInactiveConversationsCount() {
         fetchInactiveConversationsCount { [weak self] result in
             if let count = result.value {
-                self?.inactiveConversationsCountVariable.value = count
+                self?.inactiveConversationsCount.value = count
             }
         }
     }

@@ -46,7 +46,7 @@ struct LGChatInactiveConversation: ChatInactiveConversation, Decodable {
          "has_muted_you": false
      },
      "messages": [{
-         "message_id": "1e68fa71-159a-4f75-97ae-86b449d2b0cf",
+         "id": "1e68fa71-159a-4f75-97ae-86b449d2b0cf",
          "talker_id": "194853ed-f553-47dc-9ccc-e57a41df110b",
          "text": "Hi! I'd like to buy it",
          "warnings": [],
@@ -56,7 +56,7 @@ struct LGChatInactiveConversation: ChatInactiveConversation, Decodable {
          "text": "Hi! I'd like to buy it",
          "type": "quick_answer"
      }, {
-         "message_id": "5315c7eb-d4d3-4794-96c9-2558c32913a8",
+         "id": "5315c7eb-d4d3-4794-96c9-2558c32913a8",
          "talker_id": "194853ed-f553-47dc-9ccc-e57a41df110b",
          "text": "Hi! I'd like to buy it",
          "warnings": [],
@@ -73,7 +73,7 @@ struct LGChatInactiveConversation: ChatInactiveConversation, Decodable {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
         objectId = try keyedContainer.decode(String.self, forKey: .objectId)
         let lastMessageSentAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .lastMessageSentAt)
-        lastMessageSentAt = Date.chatDate(millisecondsIntervalSince1970: lastMessageSentAtValue)
+        lastMessageSentAt = Date.makeChatDate(millisecondsIntervalSince1970: lastMessageSentAtValue)
         listing = try keyedContainer.decodeIfPresent(LGChatListing.self, forKey: .listing)
         interlocutor = try keyedContainer.decodeIfPresent(LGChatInterlocutor.self, forKey: .interlocutor)
         messages = (try keyedContainer.decode(FailableDecodableArray<LGChatInactiveMessage>.self, forKey: .messages)).validElements

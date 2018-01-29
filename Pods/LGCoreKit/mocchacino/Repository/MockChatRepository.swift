@@ -16,12 +16,19 @@ open class MockChatRepository: InternalChatRepository {
     
     public let chatStatusPublishSubject = PublishSubject<WSChatStatus>()
     public let chatEventsPublishSubject = PublishSubject<ChatEvent>()
-    public let inactiveConversationsCountPublishSubject = PublishSubject<Int?>()
     
     // MARK: - Lifecycle
     
     required public init() {
         
+    }
+    
+    public func cleanInactiveConversations() {
+        inactiveConversations.value.removeAll()
+    }
+    
+    public func clean() {
+        cleanInactiveConversations()
     }
     
     
@@ -35,14 +42,11 @@ open class MockChatRepository: InternalChatRepository {
         return chatEventsPublishSubject.asObservable()
     }
     
-    public var inactiveConversationsCount: Observable<Int?> {
-        return inactiveConversationsCountPublishSubject.asObservable()
-    }
-    
     public let allConversations = CollectionVariable<ChatConversation>([])
     public let sellingConversations = CollectionVariable<ChatConversation>([])
     public let buyingConversations = CollectionVariable<ChatConversation>([])
-    public let inactiveConversations = CollectionVariable<ChatInactiveConversation>([])
+    public let inactiveConversations = Variable<[ChatInactiveConversation]>([])
+    public let inactiveConversationsCount = Variable<Int?>(nil)
     public let conversationsLock: NSLock = NSLock()
     
     public func createNewMessage(_ talkerId: String,

@@ -24,7 +24,7 @@ struct LGChatInactiveMessage: ChatInactiveMessage, Decodable {
 
     /*
      {
-     "message_id": "5315c7eb-d4d3-4794-96c9-2558c32913a8",
+     "id": "5315c7eb-d4d3-4794-96c9-2558c32913a8",
      "talker_id": "194853ed-f553-47dc-9ccc-e57a41df110b",
      "warnings": [],
      "sent_at": 1514579418571,
@@ -41,13 +41,13 @@ struct LGChatInactiveMessage: ChatInactiveMessage, Decodable {
         objectId = try keyedContainer.decode(String.self, forKey: .objectId)
         talkerId = try keyedContainer.decode(String.self, forKey: .talkerId)
         let sentAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .sentAt)
-        sentAt = Date.chatDate(millisecondsIntervalSince1970: sentAtValue)
+        sentAt = Date.makeChatDate(millisecondsIntervalSince1970: sentAtValue)
         warnings = (try keyedContainer.decode(FailableDecodableArray<ChatMessageWarning>.self, forKey: .warnings)).validElements
         content = try keyedContainer.decode(LGChatMessageContent.self, forKey: .content)
     }
 
     enum CodingKeys: String, CodingKey {
-        case objectId = "message_id"
+        case objectId = "id"
         case talkerId = "talker_id"
         case sentAt = "sent_at"
         case warnings
