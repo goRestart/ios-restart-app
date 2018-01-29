@@ -140,8 +140,9 @@ fileprivate extension PostCategorySelectionView {
                           image: #imageLiteral(resourceName: "categories_motors_inactive"),
                           postCategoryLink: .motorsAndAccessories)
             case .realEstate:
+                let title = FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.productPostSelectCategoryRealEstate : LGLocalizedString.productPostSelectCategoryHousing
                 addButton(button: realEstateCategoryButton,
-                          title: LGLocalizedString.productPostSelectCategoryHousing,
+                          title: title,
                           image: #imageLiteral(resourceName: "categories_realestate_inactive"),
                           postCategoryLink: .realEstate)
             }
