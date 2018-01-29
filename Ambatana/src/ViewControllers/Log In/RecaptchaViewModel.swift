@@ -61,7 +61,13 @@ class RecaptchaViewModel: BaseViewModel {
     }
 
     private func trackVisit() {
-        let event = TrackerEvent.signupCaptcha()
+        let event: TrackerEvent
+        switch action {
+        case .login:
+            event = TrackerEvent.loginCaptcha()
+        case .signup:
+            event = TrackerEvent.signupCaptcha()
+        }
         tracker.trackEvent(event)
     }
 }
