@@ -62,7 +62,6 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
         sizeTextField.keyboardType = .numberPad
         sizeTextField.font = UIFont.systemBoldFont(size: 26)
         sizeTextField.textColor = UIColor.white
-        sizeTextField.keyboardType = .decimalPad
         sizeTextField.autocorrectionType = .no
         sizeTextField.autocapitalizationType = .none
         sizeTextField.delegate = self

@@ -92,7 +92,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .offerType:
             values = RealEstateOfferType.allValues.flatMap { $0.localizedString }
         case .propertyType:
-            values = RealEstatePropertyType.allValues.flatMap { $0.localizedString }
+            values = RealEstatePropertyType.allValues(postingFlowType: featureFlags.postingFlowType).flatMap { $0.localizedString }
         case .sizeSquareMeters:
             let sizeView = PostingAddDetailSizeView(frame: CGRect.zero)
             sizeView.sizeListingObservable.bind(to: sizeListing).disposed(by: disposeBag)
@@ -352,7 +352,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         case .offerType:
             realEstateOfferType = RealEstateOfferType.allValues[index]
         case .propertyType:
-            realEstatePropertyType = RealEstatePropertyType.allValues[index]
+            realEstatePropertyType = RealEstatePropertyType.allValues(postingFlowType: featureFlags.postingFlowType)[index]
         case .price, .sizeSquareMeters, .summary, .location, .make, .model, .year:
             return
         }
@@ -408,7 +408,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         var positionSelected: Int? = nil
         switch step {
         case .propertyType:
-            positionSelected = postListingState.verticalAttributes?.realEstateAttributes?.propertyType?.position
+            positionSelected = postListingState.verticalAttributes?.realEstateAttributes?.propertyType?.position(postingFlowType: featureFlags.postingFlowType)
         case .offerType:
             positionSelected = postListingState.verticalAttributes?.realEstateAttributes?.offerType?.position
         case .bedrooms:
