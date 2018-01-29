@@ -43,6 +43,15 @@ protocol AppEnvironment {
 }
 
 extension AppEnvironment {
+    
+    var amplitudeAPIKey: String {
+        #if APP_STORE
+            return "6d37fbd6c25243c57676e6d4ce7948bf"
+        #else
+            return "1c32ba5ed444237608436bad4f310307"
+        #endif
+    }
+
     func websiteUrl(_ endpoint: String) -> String {
         return String(format: "\(websiteBaseUrl)\(endpoint)", arguments: [endpoint])
     }
