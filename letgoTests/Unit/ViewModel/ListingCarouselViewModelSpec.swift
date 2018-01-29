@@ -146,7 +146,8 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                                                                   featureFlags: featureFlags,
                                                                   purchasesShopper: purchasesShopper,
                                                                   monetizationRepository: monetizationRepository,
-                                                                  tracker: tracker)
+                                                                  tracker: tracker,
+                                                                  keyValueStorage: keyValueStorage)
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()

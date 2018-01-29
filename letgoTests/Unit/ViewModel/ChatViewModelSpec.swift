@@ -99,12 +99,14 @@ class ChatViewModelSpec: BaseViewModelSpec {
 
                 conversation = chatConversation
                 let predefinedMessage = String.makeRandom()
+                let openChatAutomaticMessage: ChatWrapperMessageType = .phone("666-666-666")
                 sut = ChatViewModel(conversation: conversation, myUserRepository: myUserRepository,
                                     chatRepository: chatRepository, listingRepository: listingRepository,
                                     userRepository: userRepository, stickersRepository: stickersRepository,
                                     tracker: tracker, configManager: configManager, sessionManager: sessionManager,
                                     keyValueStorage: keyValueStorage, navigator: nil, featureFlags: featureFlags,
-                                    source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionManager, predefinedMessage: predefinedMessage)
+                                    source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionManager,
+                                    predefinedMessage: predefinedMessage, openChatAutomaticMessage: openChatAutomaticMessage)
                 
                 sut.delegate = self
                 disposeBag = DisposeBag()

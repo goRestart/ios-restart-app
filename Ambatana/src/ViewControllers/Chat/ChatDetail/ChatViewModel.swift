@@ -103,7 +103,8 @@ class ChatViewModel: BaseViewModel {
     
     let showStickerBadge = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersBadgeAlreadyShown])
     
-    var predefinedMessage: String?
+    var predefinedMessage: String? // is writen in the text field when opening the chat
+    var openChatAutomaticMessage: ChatWrapperMessageType?  // is SENT when opening the chat
 
     // fileprivate
     fileprivate let myUserRepository: MyUserRepository
@@ -221,10 +222,14 @@ class ChatViewModel: BaseViewModel {
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
-                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: predefinedMessage)
+                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager,
+                  predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil)
     }
     
-    convenience init?(listing: Listing, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
+    convenience init?(listing: Listing,
+                      navigator: ChatDetailNavigator?,
+                      source: EventParameterTypePage,
+                      openChatAutomaticMessage: ChatWrapperMessageType?) {
         guard let _ = listing.objectId, let sellerId = listing.user.objectId else { return nil }
 
         let myUserRepository = Core.myUserRepository
@@ -247,7 +252,8 @@ class ChatViewModel: BaseViewModel {
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
-                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil)
+                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil,
+                  openChatAutomaticMessage: openChatAutomaticMessage)
         self.setupConversationFrom(listing: listing)
     }
     
@@ -255,7 +261,8 @@ class ChatViewModel: BaseViewModel {
           listingRepository: ListingRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
-          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?) {
+          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?,
+          openChatAutomaticMessage: ChatWrapperMessageType?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -278,7 +285,8 @@ class ChatViewModel: BaseViewModel {
         } else {
             self.predefinedMessage = predefinedMessage?.stringByRemovingEmoji()
         }
-        
+        self.openChatAutomaticMessage = openChatAutomaticMessage
+
         super.init()
         setupRx()
         loadStickers()
@@ -330,6 +338,10 @@ class ChatViewModel: BaseViewModel {
         chatRepository.showConversation(sellerId, listingId: listingId) { [weak self] result in
             if let value = result.value {
                 self?.conversation.value = value
+                if let autoMessage = self?.openChatAutomaticMessage {
+                    self?.sendMessage(type: autoMessage)
+                    self?.openChatAutomaticMessage = nil
+                }
                 self?.refreshMessages()
                 self?.setupChatEventsRx()
             } else if let _ = result.error {
@@ -566,7 +578,7 @@ class ChatViewModel: BaseViewModel {
 
     func professionalSellerBannerActionButtonTapped() {
         guard let phoneNum = interlocutorPhoneNumber.value,
-            let phoneUrl = URL(string: "tel://\(phoneNum)") else { return }
+            let phoneUrl = URL(string: "tel:\(phoneNum)") else { return }
         UIApplication.shared.openURL(phoneUrl)
     }
 
@@ -621,7 +633,7 @@ extension ChatViewModel {
         guard message.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
-        
+
         if type.isUserText || (showKeyboardWhenQuickAnswer && type.isQuickAnswer) {
             delegate?.vmDidSendMessage()
         }
@@ -634,7 +646,7 @@ extension ChatViewModel {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let _ = result.value {
-                strongSelf.afterSendMessageEvents()
+                strongSelf.afterSendMessageEvents(type: type)
                 strongSelf.trackMessageSent(type: type)
             } else if let error = result.error {
                 strongSelf.trackMessageSentError(type: type, error: error)
@@ -659,8 +671,11 @@ extension ChatViewModel {
         }
     }
 
-    private func afterSendMessageEvents() {
+    private func afterSendMessageEvents(type: ChatWrapperMessageType) {
         firstInteractionDone.value = true
+        if let listingId = conversation.value.listing?.objectId, type.isPhone {
+            saveProSellerAlreadySentPhoneInChatFor(listingId: listingId)
+        }
         if shouldAskListingSold {
             var interfaceText: String
             var alertTitle: String
@@ -757,6 +772,16 @@ extension ChatViewModel {
         addSecurityMeetingDisclaimerIfNeeded()
         guard isBuyer else { return }
         sellerDidntAnswer.value = false
+    }
+
+    fileprivate func saveProSellerAlreadySentPhoneInChatFor(listingId: String) {
+        var listingsWithPhoneSent = keyValueStorage.proSellerAlreadySentPhoneInChat
+
+        for listingWithPhone in listingsWithPhoneSent {
+            if listingWithPhone == listingId { return }
+        }
+        listingsWithPhoneSent.append(listingId)
+        keyValueStorage.proSellerAlreadySentPhoneInChat = listingsWithPhoneSent
     }
 }
 

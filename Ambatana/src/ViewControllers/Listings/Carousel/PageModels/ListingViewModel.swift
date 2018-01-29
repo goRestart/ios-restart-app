@@ -51,7 +51,8 @@ class ListingViewModel: BaseViewModel {
                                     featureFlags: FeatureFlags.sharedInstance,
                                     purchasesShopper: LGPurchasesShopper.sharedInstance,
                                     monetizationRepository: Core.monetizationRepository,
-                                    tracker: TrackerProxy.sharedInstance)
+                                    tracker: TrackerProxy.sharedInstance,
+                                    keyValueStorage: KeyValueStorage.sharedInstance)
         }
     }
 
@@ -152,6 +153,7 @@ class ListingViewModel: BaseViewModel {
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let showFeaturedStripeHelper: ShowFeaturedStripeHelper
     fileprivate let visitSource: EventParameterListingVisitSource
+    fileprivate let keyValueStorage: KeyValueStorageable
 
     let isShowingFeaturedStripe = Variable<Bool>(false)
     fileprivate let isListingDetailsCompleted = Variable<Bool>(false)
@@ -178,7 +180,8 @@ class ListingViewModel: BaseViewModel {
          featureFlags: FeatureFlaggeable,
          purchasesShopper: PurchasesShopper,
          monetizationRepository: MonetizationRepository,
-         tracker: Tracker) {
+         tracker: Tracker,
+         keyValueStorage: KeyValueStorageable) {
         self.listing = Variable<Listing>(listing)
         self.visitSource = visitSource
         self.socialSharer = socialSharer
@@ -187,6 +190,7 @@ class ListingViewModel: BaseViewModel {
         self.listingRepository = listingRepository
         self.countryHelper = countryHelper
         self.trackHelper = ProductVMTrackHelper(tracker: tracker, listing: listing, featureFlags: featureFlags)
+        self.keyValueStorage = keyValueStorage
         self.chatWrapper = chatWrapper
         self.locationManager = locationManager
         self.chatViewMessageAdapter = chatViewMessageAdapter
@@ -622,6 +626,18 @@ extension ListingViewModel {
             }
         }
     }
+
+    func openAskPhone() {
+        ifLoggedInRunActionElseOpenSignUp(from: .directChat, infoMessage: LGLocalizedString.chatLoginPopupText) { [weak self] in
+            guard let strongSelf = self else  { return }
+            if let listingId = strongSelf.listing.value.objectId,
+                strongSelf.keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId) {
+                strongSelf.chatWithSeller()
+            } else {
+                strongSelf.navigator?.openAskPhoneFor(listing: strongSelf.listing.value)
+            }
+        }
+    }
 }
 
 
@@ -810,7 +826,7 @@ extension ListingViewModel {
         case .otherAvailable, .otherAvailableFree:
             if isProfessional {
                 actionButtons.append(UIAction(interface: .button(LGLocalizedString.productProfessionalChatButton, .secondary(fontSize: .big, withBorder: false)),
-                                              action: { [weak self] in self?.chatWithSeller() }))
+                                              action: { [weak self] in self?.openAskPhone() }))
             }
         case .availableFree:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldFreeButton, .terciary),
