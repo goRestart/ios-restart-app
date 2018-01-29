@@ -110,7 +110,6 @@ class ChatViewModel: BaseViewModel {
     var professionalBannerHasCallAction: Bool {
         return PhoneCallsHelper.deviceCanCall && featureFlags.allowCallsForProfessionals.isActive
     }
-    fileprivate var shouldRemindUserToSendPhoneNumber: Bool = false
     fileprivate var hasSentAutomaticAnswerForPhoneMessage: Bool = false
     fileprivate var hasSentAutomaticAnswerForOtherMessage: Bool = false
 
@@ -466,12 +465,11 @@ class ChatViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
                 guard let user = result.value else { return }
                 strongSelf.interlocutor = user
-                strongSelf.interlocutorIsProfessional.value = user.type == .pro //user.phone != nil <- use this tmp Patch until bouncer fixes response
+                strongSelf.interlocutorIsProfessional.value = user.type == .pro
                 strongSelf.interlocutorPhoneNumber.value = user.phone
                 if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
                     strongSelf.messages.append(userInfoMessage)
                 }
-                strongSelf.shouldRemindUserToSendPhoneNumber = user.phone != nil
             }
         }.disposed(by: disposeBag)
 
@@ -629,6 +627,9 @@ extension ChatViewModel {
         sendMessage(type: .quickAnswer(quickAnswer))
     }
 
+    func send(phone: String) {
+        sendMessage(type: .phone(phone))
+    }
 
     func sendPhoneFrom(alert: UIAlertController) {
         guard let textField = alert.textFields?[0],
@@ -637,7 +638,7 @@ extension ChatViewModel {
                 delegate?.vmShowAutoFadingMessage(LGLocalizedString.professionalDealerAskPhoneAlertNotValidPhone, completion: nil)
                 return
         }
-        sendMessage(type: .phone(textFieldText))
+        send(phone: textFieldText)
     }
 
     fileprivate func sendMessage(type: ChatWrapperMessageType) {
@@ -692,7 +693,8 @@ extension ChatViewModel {
         firstInteractionDone.value = true
         if let listingId = conversation.value.listing?.objectId,
             !keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId),
-            interlocutorIsProfessional.value {
+            interlocutorIsProfessional.value,
+            featureFlags.allowCallsForProfessionals.isActive {
             switch type {
             case .phone:
                 saveProSellerAlreadySentPhoneInChatFor(listingId: listingId)
@@ -1084,12 +1086,11 @@ extension ChatViewModel {
         }
     }
 
-    private var askPhoneMessage: ChatViewMessage? {
+    var askPhoneMessage: ChatViewMessage? {
         guard let listingId = conversation.value.listing?.objectId,
             !keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId),
             featureFlags.allowCallsForProfessionals.isActive,
-            interlocutorIsProfessional.value,
-            shouldRemindUserToSendPhoneNumber else { return nil }
+            interlocutorIsProfessional.value else { return nil }
 
         let askPhoneAction: (() -> Void)? = { [weak self] in
             self?.delegate?.vmAskPhoneNumber()
