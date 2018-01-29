@@ -34,23 +34,22 @@ UITableViewDelegate  {
     
     var refreshControl = UIRefreshControl()
     
-    @IBOutlet weak var tableViewBottomInset: NSLayoutConstraint!
     @IBOutlet weak var activityIndicatorBottomInset: NSLayoutConstraint!
     @IBOutlet weak var emptyViewBottomInset: NSLayoutConstraint!
     
     var bottomInset: CGFloat = 0 {
         didSet {
-            tableView.contentInset.bottom = bottomInset
             activityIndicatorBottomInset.constant = bottomInset/2
             emptyViewBottomInset.constant = bottomInset
         }
     }
     
+    // MARK: - Lifecycle
+    
     init(viewModel: ChatInactiveConversationsListViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "ChatInactiveConversationsListView")
-        viewModel.delegate = self
-        automaticallyAdjustsScrollViewInsets = false
+        edgesForExtendedLayout = UIRectEdge.bottom
         hidesBottomBarWhenPushed = false
         hasTabBar = true
     }
@@ -65,7 +64,12 @@ UITableViewDelegate  {
         setupUI()
         setupRx()
         
+        viewModel.delegate = self
         viewModel.retrieveFirstPage()
+    }
+    
+    deinit {
+        viewModel.clean()
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -78,6 +82,20 @@ UITableViewDelegate  {
             tabBarController?.setTabBarHidden(editing, animated: true)
         }
         viewModel.editing.value = editing
+    }
+    
+    private func setFooterHidden(_ hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {
+        let visibilityOK = ( footerViewBottom.constant < 0 ) == hidden
+        guard !visibilityOK else { return }
+        
+        footerButton.isEnabled = !hidden && (tableView.indexPathsForSelectedRows?.count ?? 0) > 0
+        bottomInset = hidden ? tabBarBottomInset : 0
+        footerViewBottom.constant = hidden ? -footerView.frame.height : 0
+        
+        let duration : TimeInterval = (animated ? TimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
+        UIView.animate(withDuration: duration, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
+            }, completion: completion)
     }
     
     // MARK: - UI
@@ -98,7 +116,6 @@ UITableViewDelegate  {
         tableView.delegate = self
         tableView.dataSource = self
         
-        // Footer
         footerButton.setStyle(.primary(fontSize: .medium))
         footerButton.isEnabled = false
         footerButton.setTitle(LGLocalizedString.chatListDelete, for: .normal)
@@ -118,7 +135,7 @@ UITableViewDelegate  {
         navigationItem.setRightBarButton(editButton, animated: false)
     }
     
-    func updateUI() {
+    private func updateUI() {
         if viewModel.activityIndicatorAnimating {
             activityIndicator.startAnimating()
         } else {
@@ -133,8 +150,8 @@ UITableViewDelegate  {
     }
     
     private func setupRx() {
-        viewModel.objects.asObservable()
-            .subscribeNext { [weak self] change in
+        viewModel.status.asObservable()
+            .subscribeNext { [weak self] _ in
                 self?.updateUI()
             }
             .disposed(by: disposeBag)
@@ -165,36 +182,20 @@ UITableViewDelegate  {
     }
     
     @objc func refresh() {
-        activityIndicator.startAnimating()
-        viewModel.refresh { [weak self] in
-            self?.activityIndicator.stopAnimating()
-        }
+        viewModel.retrieveFirstPage()
     }
     
     @objc func deleteButtonPressed() {
         viewModel.deleteButtonPressed()
-        updateUI()
-    }
-    
-    func setFooterHidden(_ hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {
-        let visibilityOK = ( footerViewBottom.constant < 0 ) == hidden
-        guard !visibilityOK else { return }
-        
-        if !hidden, let selectedRows = tableView.indexPathsForSelectedRows?.count {
-            footerButton.isEnabled = selectedRows > 0
-        }
-        bottomInset = hidden ? tabBarBottomInset : 0
-        footerViewBottom.constant = hidden ? -footerView.frame.height : 0
-        
-        let duration : TimeInterval = (animated ? TimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
-        UIView.animate(withDuration: duration, animations: { [weak self] in
-            self?.view.layoutIfNeeded()
-            }, completion: completion)
     }
 
     // MARK: - UITableViewDelegate & UITableViewDataSource
-
-    func cellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.objectCount
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let chatData = viewModel.conversationDataAtIndex(indexPath.row)
             else { return UITableViewCell() }
         guard let chatCell = tableView.dequeueReusableCell(withIdentifier: ConversationCell.reusableID,
@@ -213,14 +214,6 @@ UITableViewDelegate  {
         return chatCell
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.objectCount
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return cellForRowAtIndexPath(indexPath)
-    }
-    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         DispatchQueue.main.async { [weak self] in
             self?.viewModel.setCurrentIndex(indexPath.row)
@@ -237,12 +230,8 @@ UITableViewDelegate  {
     
     // MARK: - ChatInactiveConversationsListViewModelDelegate
     
-    func shouldUpdateStatus() {
-        updateUI()
-    }
-    
     func didStartRetrievingObjectList() {
-        updateUI()
+        
     }
     
     func didFailRetrievingObjectList(_ page: Int) {
@@ -257,25 +246,25 @@ UITableViewDelegate  {
         }
     }
     
-    func didFailArchivingChats(viewModel: ChatInactiveConversationsListViewModel) {
+    func didFailArchivingChats() {
         dismissLoadingMessageAlert { [weak self] in
             self?.showAutoFadingOutMessageAlert(LGLocalizedString.chatListArchiveErrorMultiple)
         }
     }
     
-    func didSucceedArchivingChats(viewModel: ChatInactiveConversationsListViewModel) {
+    func didSucceedArchivingChats() {
         dismissLoadingMessageAlert { [weak self] in
             self?.setEditing(false, animated: true)
         }
     }
     
-    func didFailUnarchivingChats(viewModel: ChatInactiveConversationsListViewModel) {
+    func didFailUnarchivingChats() {
         dismissLoadingMessageAlert { [weak self] in
             self?.showAutoFadingOutMessageAlert(LGLocalizedString.chatListUnarchiveErrorMultiple)
         }
     }
     
-    func didSucceedUnarchivingChats(viewModel: ChatInactiveConversationsListViewModel) {
+    func didSucceedUnarchivingChats() {
         dismissLoadingMessageAlert { [weak self] in
             self?.setEditing(false, animated: true)
         }

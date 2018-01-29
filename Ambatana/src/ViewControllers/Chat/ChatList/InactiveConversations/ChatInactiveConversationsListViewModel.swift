@@ -12,19 +12,17 @@ import RxSwift
 
 protocol ChatInactiveConversationsListViewModelProtocol: RxPaginable {
     var editing: Variable<Bool> { get }
-    func refresh(completion: (() -> Void)?)
 }
 
 protocol ChatInactiveConversationsListViewModelDelegate: class {
-    func shouldUpdateStatus()
     func didStartRetrievingObjectList()
     func didFailRetrievingObjectList(_ page: Int)
     func didSucceedRetrievingObjectList(_ page: Int)
     
-    func didFailArchivingChats(viewModel: ChatInactiveConversationsListViewModel)
-    func didSucceedArchivingChats(viewModel: ChatInactiveConversationsListViewModel)
-    func didFailUnarchivingChats(viewModel: ChatInactiveConversationsListViewModel)
-    func didSucceedUnarchivingChats(viewModel: ChatInactiveConversationsListViewModel)
+    func didFailArchivingChats()
+    func didSucceedArchivingChats()
+    func didFailUnarchivingChats()
+    func didSucceedUnarchivingChats()
     func shouldShowDeleteConfirmation(title: String,
                                       message: String,
                                       cancelText: String,
@@ -33,38 +31,22 @@ protocol ChatInactiveConversationsListViewModelDelegate: class {
 }
 
 class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConversationsListViewModelProtocol {
-    
     weak var delegate: ChatInactiveConversationsListViewModelDelegate?
     weak var navigator: TabNavigator?
     
     private var chatRepository: ChatRepository
     private let tracker: Tracker
-    private var multipageRequester: MultiPageRequester<ChatInactiveConversation>?
     
-    var selectedConversationIds = Variable<[String]>([])
-    var objects = Variable<[ChatInactiveConversation]>([])
+    let conversations = Variable<[ChatInactiveConversation]>([])
+    let selectedConversationIds = Variable<[String]>([])
+    let rx_objectCount = Variable<Int>(0)
     
     let editing = Variable<Bool>(false)
-    
-    private(set) var status: ViewState = .loading {
-        didSet {
-            switch status {
-            case let .error(emptyVM):
-                if let emptyReason = emptyViewModel?.emptyReason {
-                    trackErrorStateShown(reason: emptyReason, errorCode: emptyVM.errorCode)
-                }
-            case .loading, .data, .empty:
-                break
-            }
-        }
-    }
-
-    let rx_status = Variable<ViewState>(.loading)
-    let rx_objectCount = Variable<Int>(0)
     let editButtonEnabled = Variable<Bool>(true)
     let editButtonText = Variable<String?>(nil)
     let deleteButtonEnabled = Variable<Bool>(false)
-    
+    let status = Variable<ViewState>(.loading)
+
     private let disposeBag = DisposeBag()
     
     var emptyStatusViewModel: LGEmptyViewModel {
@@ -93,28 +75,73 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
         self.chatRepository = chatRepository
         self.tracker = tracker
         super.init()
-        objects.value = chatRepository.inactiveConversations.value
-        multipageRequester = MultiPageRequester() { [weak self] (page, completion) in
-            self?.fetchConversations(page: page, completion: completion)
-        }
         setupRx()
     }
     
-    // MARK: Conversations
+    func clean() {
+        chatRepository.cleanInactiveConversations()
+    }
+    
+    // MARK: - RX
+    
+    func setupRx() {
+        chatRepository.inactiveConversations.asObservable()
+            .bind(to: conversations)
+            .disposed(by: disposeBag)
+        
+        conversations.asObservable()
+            .map { conversations in
+                return conversations.count > 0
+            }
+            .bind(to: editButtonEnabled)
+            .disposed(by: disposeBag)
+        
+        selectedConversationIds.asObservable()
+            .map { $0.count > 0 }
+            .bind(to: deleteButtonEnabled)
+            .disposed(by: disposeBag)
+        
+        editing.asObservable()
+            .map { [weak self] editing in
+                return self?.editButtonText(forEditing: editing)
+            }
+            .bind(to: editButtonText)
+            .disposed(by: disposeBag)
+        
+        status.asObservable()
+            .subscribeNext { [weak self] viewState in
+                switch viewState {
+                case let .error(emptyVM):
+                    if let emptyReason = self?.emptyViewModel?.emptyReason {
+                        self?.trackErrorStateShown(reason: emptyReason, errorCode: emptyVM.errorCode)
+                    }
+                case .loading, .data, .empty:
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    // MARK: - Conversations
+    
+    func openConversation(index: Int) {
+        guard let conversation = objectAtIndex(index) else { return }
+        navigator?.openChat(.inactiveConversation(coversation: conversation),
+                            source: .chatList,
+                            predefinedMessage: nil)
+    }
     
     func isConversationSelected(index: Int) -> Bool {
         guard let conversation = objectAtIndex(index),
-            let id = conversation.objectId else {
-                return false
-        }
+            let id = conversation.objectId
+            else { return false }
         return selectedConversationIds.value.contains(id)
     }
     
     func selectConversation(index: Int, editing: Bool) {
         guard let conversation = objectAtIndex(index),
-            let id = conversation.objectId else {
-                return
-        }
+            let id = conversation.objectId
+            else { return }
         if editing {
             selectedConversationIds.value.append(id)
         } else {
@@ -129,19 +156,12 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
             let conversation = objectAtIndex(index),
             let id = conversation.objectId,
             let indexInArray = selectedConversationIds.value.index(of: id)
-        else { return }
+            else { return }
         selectedConversationIds.value.remove(at: indexInArray)
     }
     
     func deselectAllConversations() {
         selectedConversationIds.value.removeAll()
-    }
-    
-    func openConversation(index: Int) {
-        guard let conversation = objectAtIndex(index) else { return }
-        navigator?.openChat(.inactiveConversation(coversation: conversation),
-                            source: .chatList,
-                            predefinedMessage: nil)
     }
     
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {
@@ -157,7 +177,16 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
                                     messageDate: nil)
     }
     
-    // MARK: Delete inactive conversations
+    func objectAtIndex(_ index: Int) -> ChatInactiveConversation? {
+        guard index < conversations.value.count else { return nil }
+        return conversations.value[index]
+    }
+    
+    func selectedObjectsAtIndexes(_ indexes: [Int]) -> [ChatInactiveConversation]? {
+        return indexes.filter { $0 < objectCount && $0 >= 0 }.flatMap { conversations.value[$0] }
+    }
+    
+    // MARK: - Delete Inactive Conversations
     
     func deleteButtonPressed() {
         guard !selectedConversationIds.value.isEmpty else { return }
@@ -190,15 +219,15 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     
     private func deleteSelectedChats() {
         guard !selectedConversationIds.value.isEmpty else {
-            delegate?.didFailArchivingChats(viewModel: self)
+            delegate?.didFailArchivingChats()
             return
         }
         chatRepository.archiveInactiveConversations(selectedConversationIds.value) { [weak self] result in
             guard let strongSelf = self else { return }
             if let _ = result.error {
-                strongSelf.delegate?.didFailArchivingChats(viewModel: strongSelf)
+                strongSelf.delegate?.didFailArchivingChats()
             } else {
-                strongSelf.delegate?.didSucceedArchivingChats(viewModel: strongSelf)
+                strongSelf.delegate?.didSucceedArchivingChats()
             }
         }
     }
@@ -210,18 +239,14 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
         tracker.trackEvent(event)
     }
     
-    // MARK:
-    
-    func didFinishLoading() {
-        
-    }
+    // MARK: Helpers
     
     func editButtonText(forEditing editing: Bool) -> String {
         return editing ? LGLocalizedString.commonCancel : LGLocalizedString.chatListDelete
     }
     
     var activityIndicatorAnimating: Bool {
-        switch status {
+        switch status.value {
         case .empty, .error, .data:
             return false
         case .loading:
@@ -230,7 +255,7 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     }
     
     var emptyViewHidden: Bool {
-        switch status {
+        switch status.value {
         case .empty, .error:
             return false
         case .loading, .data:
@@ -239,7 +264,7 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     }
     
     var emptyViewModel: LGEmptyViewModel? {
-        switch status {
+        switch status.value {
         case let .empty(viewModel):
             return viewModel
         case let .error(viewModel):
@@ -250,7 +275,7 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     }
     
     var tableViewHidden: Bool {
-        switch status {
+        switch status.value {
         case .empty, .error, .loading:
             return true
         case .data:
@@ -258,179 +283,61 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
         }
     }
     
-    private func emptyViewModelForError(_ error: RepositoryError) -> LGEmptyViewModel? {
+    private func emptyViewModelForError(_ error: RepositoryError) -> LGEmptyViewModel {
         let retryAction: () -> () = { [weak self] in
             self?.retrieveFirstPage()
         }
-        var emptyVM: LGEmptyViewModel?
         switch error {
-        case let .network(errorCode, onBackground):
-            emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: retryAction)
+        case let .network(errorCode, _):
+            return LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: retryAction)
         case let .wsChatError(chatRepositoryError):
             switch chatRepositoryError {
-            case let .network(errorCode, onBackground):
-                emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: retryAction)
+            case let .network(errorCode, _):
+                return LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: retryAction)
             case .internalError, .notAuthenticated, .userNotVerified, .userBlocked, .apiError, .differentCountry:
-                emptyVM = LGEmptyViewModel.genericErrorWithRetry(action: retryAction)
+                return LGEmptyViewModel.genericErrorWithRetry(action: retryAction)
             }
         case .internalError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
-            emptyVM = LGEmptyViewModel.genericErrorWithRetry(action: retryAction)
+            return LGEmptyViewModel.genericErrorWithRetry(action: retryAction)
         }
-        return emptyVM
     }
     
-    func setupRx() {
-        objects.asObservable().map { messages in
-            return messages.count
-            }.bind(to: rx_objectCount).disposed(by: disposeBag)
-        
-        rx_objectCount.asObservable()
-            .map { $0 > 0 }
-            .bind(to: editButtonEnabled)
-            .disposed(by: disposeBag)
-        
-        selectedConversationIds.asObservable()
-            .map { $0.count > 0 }
-            .bind(to: deleteButtonEnabled)
-            .disposed(by: disposeBag)
-
-        editing.asObservable()
-            .map { [weak self] editing in
-                return self?.editButtonText(forEditing: editing)
-            }
-            .bind(to: editButtonText)
-            .disposed(by: disposeBag)
-    }
-    
-    // MARK: - Paginable
+    // MARK: Paginable
     
     let firstPage: Int = 1
     var nextPage: Int = 1
     var isLastPage: Bool = false
     var isLoading: Bool = false
     var objectCount: Int {
-        return rx_objectCount.value
+        return conversations.value.count
     }
     
     func retrievePage(_ page: Int) {
-        retrievePage(page, completion: nil)
-    }
-    
-    // MARK: > fetch data
-    
-    func refresh(completion: (() -> Void)?) {
-        guard canRetrieve else { return }
-        if objectCount == 0 {
-            retrievePage(firstPage, completion: completion)
-        } else {
-            reloadCurrentPagesWith(completion: completion)
-        }
-    }
-    
-    func retrievePage(_ page: Int, completion: (() -> Void)?) {
         let firstPage = (page == 1)
         isLoading = true
-        var hasToRetrieveFirstPage: Bool = false
         delegate?.didStartRetrievingObjectList()
-        
-        fetchConversations(page: page) { [weak self] result in
+        let offset = max(0, page - 1) * resultsPerPage
+        chatRepository.fetchInactiveConversations(limit: resultsPerPage, offset: offset) { [weak self] result in
             guard let strongSelf = self else { return }
             if let value = result.value {
-                if firstPage {
-                    strongSelf.updateObjects(newObjects: value)
-                } else {
-                    strongSelf.updateObjects(newObjects: strongSelf.objects.value + value)
-                }
-                
                 strongSelf.isLastPage = value.count < strongSelf.resultsPerPage
                 strongSelf.nextPage = page + 1
-                
                 if firstPage && strongSelf.objectCount == 0 {
-                    strongSelf.status = .empty(strongSelf.emptyStatusViewModel)
+                    strongSelf.status.value = .empty(strongSelf.emptyStatusViewModel)
                 } else {
-                    strongSelf.status = .data
+                    strongSelf.status.value = .data
                 }
-                strongSelf.delegate?.shouldUpdateStatus()
                 strongSelf.delegate?.didSucceedRetrievingObjectList(page)
             } else if let error = result.error {
-                
                 if firstPage && strongSelf.objectCount == 0 {
-                    if let emptyVM = strongSelf.emptyViewModelForError(error) {
-                        strongSelf.status = .error(emptyVM)
-                    } else {
-                        hasToRetrieveFirstPage = true
-                    }
+                    strongSelf.status.value = .error(strongSelf.emptyViewModelForError(error))
                 } else {
-                    strongSelf.status = .data
+                    strongSelf.status.value = .data
                 }
-                strongSelf.delegate?.shouldUpdateStatus()
                 strongSelf.delegate?.didFailRetrievingObjectList(page)
             }
             strongSelf.isLoading = false
-            if hasToRetrieveFirstPage {
-                strongSelf.retrieveFirstPage()
-            }
-            completion?()
         }
-        didFinishLoading()
-    }
-    
-    func fetchConversations(page: Int, completion: ((Result<[ChatInactiveConversation], RepositoryError>) -> ())?) {
-        let offset = max(0, page - 1) * resultsPerPage
-        chatRepository.fetchInactiveConversations(limit: resultsPerPage,
-                                                  offset: offset,
-                                                  completion: completion)
-    }
-    
-    private func reloadCurrentPagesWith(completion: (() -> ())?) {
-        guard firstPage < nextPage else {
-            completion?()
-            return
-        }
-        
-        isLoading = true
-        delegate?.didStartRetrievingObjectList()
-        
-        let pages: [Int] = Array(firstPage..<nextPage)
-        multipageRequester?.request(pages: pages) { [weak self] result in
-            guard let strongSelf = self else { return }
-            strongSelf.isLoading = false
-            
-            if let reloadedData = result.value {
-                if reloadedData.isEmpty {
-                    strongSelf.status = .empty(strongSelf.emptyStatusViewModel)
-                } else {
-                    strongSelf.status = .data
-                }
-                strongSelf.updateObjects(newObjects: reloadedData)
-                strongSelf.delegate?.didSucceedRetrievingObjectList(strongSelf.nextPage)
-            } else if let error = result.error {
-                if let emptyVM = strongSelf.emptyViewModelForError(error) {
-                    strongSelf.status = .error(emptyVM)
-                } else {
-                    strongSelf.retrieveFirstPage()
-                }
-                strongSelf.updateObjects(newObjects: [])
-                strongSelf.delegate?.didFailRetrievingObjectList(strongSelf.nextPage)
-            }
-            strongSelf.didFinishLoading()
-            completion?()
-        }
-    }
-    
-    // MARK: > Data helpers
-    
-    func objectAtIndex(_ index: Int) -> ChatInactiveConversation? {
-        guard index < objects.value.count else { return nil }
-        return objects.value[index]
-    }
-    
-    func selectedObjectsAtIndexes(_ indexes: [Int]) -> [ChatInactiveConversation]? {
-        return indexes.filter { $0 < objectCount && $0 >= 0 }.flatMap { objects.value[$0] }
-    }
-    
-    func updateObjects(newObjects: [ChatInactiveConversation]) {
-        objects.value = newObjects
     }
 }
 
