@@ -10,10 +10,6 @@ import LGCoreKit
 import Result
 import RxSwift
 
-protocol ChatInactiveConversationsListViewModelProtocol: RxPaginable {
-    var editing: Variable<Bool> { get }
-}
-
 protocol ChatInactiveConversationsListViewModelDelegate: class {
     func didStartRetrievingObjectList()
     func didFailRetrievingObjectList(_ page: Int)
@@ -30,7 +26,7 @@ protocol ChatInactiveConversationsListViewModelDelegate: class {
                                       action: @escaping () -> ())
 }
 
-class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConversationsListViewModelProtocol {
+class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     weak var delegate: ChatInactiveConversationsListViewModelDelegate?
     weak var navigator: TabNavigator?
     
