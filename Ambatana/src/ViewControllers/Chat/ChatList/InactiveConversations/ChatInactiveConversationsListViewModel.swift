@@ -10,7 +10,7 @@ import LGCoreKit
 import Result
 import RxSwift
 
-protocol ChatInactiveConversationsListViewModelProtocol: Paginable {
+protocol ChatInactiveConversationsListViewModelProtocol: RxPaginable {
     var editing: Variable<Bool> { get }
     func refresh(completion: (() -> Void)?)
 }
@@ -25,12 +25,11 @@ protocol ChatInactiveConversationsListViewModelDelegate: class {
     func didSucceedArchivingChats(viewModel: ChatInactiveConversationsListViewModel)
     func didFailUnarchivingChats(viewModel: ChatInactiveConversationsListViewModel)
     func didSucceedUnarchivingChats(viewModel: ChatInactiveConversationsListViewModel)
-    func viewModel(viewModel: ChatInactiveConversationsListViewModel,
-                   showDeleteConfirmationWithTitle title: String,
-                   message: String,
-                   cancelText: String,
-                   actionText: String,
-                   action: @escaping () -> ())
+    func shouldShowDeleteConfirmation(title: String,
+                                      message: String,
+                                      cancelText: String,
+                                      actionText: String,
+                                      action: @escaping () -> ())
 }
 
 class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConversationsListViewModelProtocol {
@@ -42,7 +41,7 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     private let tracker: Tracker
     private var multipageRequester: MultiPageRequester<ChatInactiveConversation>?
     
-    private var selectedConversationIds: Set<String>
+    var selectedConversationIds = Variable<[String]>([])
     var objects = Variable<[ChatInactiveConversation]>([])
     
     let editing = Variable<Bool>(false)
@@ -59,9 +58,12 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
             }
         }
     }
-    
-    let editButtonText = Variable<String?>(nil)
+
+    let rx_status = Variable<ViewState>(.loading)
+    let rx_objectCount = Variable<Int>(0)
     let editButtonEnabled = Variable<Bool>(true)
+    let editButtonText = Variable<String?>(nil)
+    let deleteButtonEnabled = Variable<Bool>(false)
     
     private let disposeBag = DisposeBag()
     
@@ -87,8 +89,8 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     
     required init(navigator: TabNavigator?,
                   chatRepository: ChatRepository,
-                  tracker: Tracker) {        self.chatRepository = chatRepository
-        self.selectedConversationIds = Set<String>()
+                  tracker: Tracker) {
+        self.chatRepository = chatRepository
         self.tracker = tracker
         super.init()
         objects.value = chatRepository.inactiveConversations.value
@@ -105,7 +107,7 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
             let id = conversation.objectId else {
                 return false
         }
-        return selectedConversationIds.contains(id)
+        return selectedConversationIds.value.contains(id)
     }
     
     func selectConversation(index: Int, editing: Bool) {
@@ -114,7 +116,7 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
                 return
         }
         if editing {
-            selectedConversationIds.insert(id)
+            selectedConversationIds.value.append(id)
         } else {
             navigator?.openChat(.inactiveConversation(coversation: conversation),
                                    source: .chatList,
@@ -123,21 +125,23 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     }
     
     func deselectConversation(index: Int, editing: Bool) {
-        guard let conversation = objectAtIndex(index), let id = conversation.objectId else { return }
-        if editing {
-            selectedConversationIds.remove(id)
-        }
+        guard editing,
+            let conversation = objectAtIndex(index),
+            let id = conversation.objectId,
+            let indexInArray = selectedConversationIds.value.index(of: id)
+        else { return }
+        selectedConversationIds.value.remove(at: indexInArray)
     }
     
     func deselectAllConversations() {
-        selectedConversationIds.removeAll()
+        selectedConversationIds.value.removeAll()
     }
     
     func openConversation(index: Int) {
         guard let conversation = objectAtIndex(index) else { return }
         navigator?.openChat(.inactiveConversation(coversation: conversation),
-                               source: .chatList,
-                               predefinedMessage: nil)
+                            source: .chatList,
+                            predefinedMessage: nil)
     }
     
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {
@@ -156,15 +160,13 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     // MARK: Delete inactive conversations
     
     func deleteButtonPressed() {
-        guard !selectedConversationIds.isEmpty else { return }
-        let count = selectedConversationIds.count
-        delegate?.viewModel(
-            viewModel: self,
-            showDeleteConfirmationWithTitle: deleteConfirmationTitle(count),
-            message: deleteConfirmationMessage(count),
-            cancelText: deleteConfirmationCancelTitle(),
-            actionText: deleteConfirmationSendButton()) { [weak self] in
-                self?.deleteSelectedChats()
+        guard !selectedConversationIds.value.isEmpty else { return }
+        let count = selectedConversationIds.value.count
+        delegate?.shouldShowDeleteConfirmation(title: deleteConfirmationTitle(count),
+                                               message: deleteConfirmationMessage(count),
+                                               cancelText: deleteConfirmationCancelTitle(),
+                                               actionText: deleteConfirmationSendButton()) { [weak self] in
+                                                self?.deleteSelectedChats()
         }
     }
     
@@ -187,12 +189,11 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     }
     
     private func deleteSelectedChats() {
-        guard !selectedConversationIds.isEmpty else {
+        guard !selectedConversationIds.value.isEmpty else {
             delegate?.didFailArchivingChats(viewModel: self)
             return
         }
-        let conversationIds = Array(selectedConversationIds)
-        chatRepository.archiveConversations(conversationIds) { [weak self] result in
+        chatRepository.archiveInactiveConversations(selectedConversationIds.value) { [weak self] result in
             guard let strongSelf = self else { return }
             if let _ = result.error {
                 strongSelf.delegate?.didFailArchivingChats(viewModel: strongSelf)
@@ -213,6 +214,10 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     
     func didFinishLoading() {
         
+    }
+    
+    func editButtonText(forEditing editing: Bool) -> String {
+        return editing ? LGLocalizedString.commonCancel : LGLocalizedString.chatListDelete
     }
     
     var activityIndicatorAnimating: Bool {
@@ -275,9 +280,26 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     }
     
     func setupRx() {
-//        editing.asObservable().subscribeNext { [weak self] editing in
-//            self?.delegate?.setEditing(editing)
-//            }.disposed(by: disposeBag)
+        objects.asObservable().map { messages in
+            return messages.count
+            }.bind(to: rx_objectCount).disposed(by: disposeBag)
+        
+        rx_objectCount.asObservable()
+            .map { $0 > 0 }
+            .bind(to: editButtonEnabled)
+            .disposed(by: disposeBag)
+        
+        selectedConversationIds.asObservable()
+            .map { $0.count > 0 }
+            .bind(to: deleteButtonEnabled)
+            .disposed(by: disposeBag)
+
+        editing.asObservable()
+            .map { [weak self] editing in
+                return self?.editButtonText(forEditing: editing)
+            }
+            .bind(to: editButtonText)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Paginable
@@ -287,7 +309,7 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     var isLastPage: Bool = false
     var isLoading: Bool = false
     var objectCount: Int {
-        return objects.value.count
+        return rx_objectCount.value
     }
     
     func retrievePage(_ page: Int) {
@@ -314,7 +336,6 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
         fetchConversations(page: page) { [weak self] result in
             guard let strongSelf = self else { return }
             if let value = result.value {
-                
                 if firstPage {
                     strongSelf.updateObjects(newObjects: value)
                 } else {
@@ -389,7 +410,6 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
                 } else {
                     strongSelf.retrieveFirstPage()
                 }
-                
                 strongSelf.updateObjects(newObjects: [])
                 strongSelf.delegate?.didFailRetrievingObjectList(strongSelf.nextPage)
             }
@@ -411,13 +431,6 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, ChatInactiveConvers
     
     func updateObjects(newObjects: [ChatInactiveConversation]) {
         objects.value = newObjects
-    }
-    
-    func clear() {
-        updateObjects(newObjects: [])
-        nextPage = 1
-        isLastPage = false
-        isLoading = false
     }
 }
 

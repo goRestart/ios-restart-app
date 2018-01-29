@@ -12,7 +12,6 @@ import RxSwift
 class ChatInactiveConversationsListViewController:
     BaseViewController,
     ChatInactiveConversationsListViewModelDelegate,
-    ScrollableToTop,
     UITableViewDataSource,
 UITableViewDelegate  {
     
@@ -44,7 +43,6 @@ UITableViewDelegate  {
             tableView.contentInset.bottom = bottomInset
             activityIndicatorBottomInset.constant = bottomInset/2
             emptyViewBottomInset.constant = bottomInset
-            view.updateConstraints()
         }
     }
     
@@ -67,9 +65,19 @@ UITableViewDelegate  {
         setupUI()
         setupRx()
         
-        // TODO: here or in did appear?
         viewModel.retrieveFirstPage()
-        scrollToTop()
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        tableView.setEditing(editing, animated: true)
+        setFooterHidden(!editing, animated: true)
+        
+        if viewModel.active {
+            tabBarController?.setTabBarHidden(editing, animated: true)
+        }
+        viewModel.editing.value = editing
     }
     
     // MARK: - UI
@@ -78,7 +86,6 @@ UITableViewDelegate  {
         view.backgroundColor = UIColor.listBackgroundColor
         setNavBarTitle(LGLocalizedString.chatInactiveListTitle)
         
-        // Empty view
         emptyView.backgroundColor = UIColor.listBackgroundColor
         refreshControl.addTarget(self, action: #selector(refresh),
                                  for: UIControlEvents.valueChanged)
@@ -111,7 +118,7 @@ UITableViewDelegate  {
         navigationItem.setRightBarButton(editButton, animated: false)
     }
     
-    func resetUI() {
+    func updateUI() {
         if viewModel.activityIndicatorAnimating {
             activityIndicator.startAnimating()
         } else {
@@ -126,52 +133,47 @@ UITableViewDelegate  {
     }
     
     private func setupRx() {
-        viewModel.objects.asObservable().subscribeNext { [weak self] change in
-            self?.tableView.reloadData()
-            }.disposed(by: disposeBag)
-        
-//        viewModel.shouldScrollToTop.subscribeNext { [weak self] shouldScrollToTop in
-//            guard let tableView = self?.tableView, tableView.numberOfRows(inSection: 0) > 0 else { return }
-//            let indexPath = IndexPath(row: 0, section: 0)
-//            tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-//            }.disposed(by: disposeBag)
-        
-        setupRxNavBarBindings()
-    }
-    
-    private func setupRxNavBarBindings() {
-        viewModel.editButtonEnabled.asObservable().subscribeNext { [weak self] enabled in
-            guard let strongSelf = self, let editButton = strongSelf.editButton else { return }
-            if editButton.isEnabled && !enabled {
-                strongSelf.setEditing(false, animated: true)
+        viewModel.objects.asObservable()
+            .subscribeNext { [weak self] change in
+                self?.updateUI()
             }
-            editButton.isEnabled = enabled
-        }.disposed(by: disposeBag)
+            .disposed(by: disposeBag)
+
+        viewModel.editButtonText.asObservable()
+            .subscribeNext { [weak self] text in
+                self?.editButton?.title = text
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.editButtonEnabled.asObservable()
+            .subscribeNext { [weak self] enabled in
+                self?.editButton?.isEnabled = enabled
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.deleteButtonEnabled.asObservable()
+            .subscribeNext { [weak self] enabled in
+                self?.footerButton.isEnabled = enabled
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Actions
     
     @objc func editButtonPressed() {
-        let newIsEditing = !isEditing
-        tableView.setEditing(newIsEditing, animated: true)
-        setFooterHidden(!newIsEditing, animated: true)
-        setEditing(newIsEditing, animated: true)
-        if viewModel.active {
-            tabBarController?.setTabBarHidden(newIsEditing, animated: true)
-        }
+        setEditing(!isEditing, animated: true)
     }
     
     @objc func refresh() {
-        viewModel.refresh(completion: nil)
-    }
-    
-    @objc func clear() {
-        viewModel.clear()
-        tableView.reloadData()
+        activityIndicator.startAnimating()
+        viewModel.refresh { [weak self] in
+            self?.activityIndicator.stopAnimating()
+        }
     }
     
     @objc func deleteButtonPressed() {
         viewModel.deleteButtonPressed()
+        updateUI()
     }
     
     func setFooterHidden(_ hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {
@@ -189,20 +191,15 @@ UITableViewDelegate  {
             self?.view.layoutIfNeeded()
             }, completion: completion)
     }
-    
-    // MARK: - ScrollableToTop
-    
-    func scrollToTop() {
-        guard let tableView = tableView else { return }
-        tableView.setContentOffset(CGPoint.zero, animated: true)
-    }
 
     // MARK: - UITableViewDelegate & UITableViewDataSource
 
     func cellForRowAtIndexPath(_ indexPath: IndexPath) -> UITableViewCell {
-        guard let chatData = viewModel.conversationDataAtIndex(indexPath.row) else { return UITableViewCell() }
+        guard let chatData = viewModel.conversationDataAtIndex(indexPath.row)
+            else { return UITableViewCell() }
         guard let chatCell = tableView.dequeueReusableCell(withIdentifier: ConversationCell.reusableID,
-                                                           for: indexPath) as? ConversationCell else { return UITableViewCell() }
+                                                           for: indexPath) as? ConversationCell
+            else { return UITableViewCell() }
         
         chatCell.tag = (indexPath as NSIndexPath).hash // used for cell reuse on "setupCellWithData"
         chatCell.setupCellWithData(chatData, indexPath: indexPath)
@@ -231,102 +228,65 @@ UITableViewDelegate  {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        didSelectRowAtIndex(indexPath.row, editing: tableView.isEditing)
+        viewModel.selectConversation(index: indexPath.row, editing: tableView.isEditing)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        didDeselectRowAtIndex(indexPath.row, editing: tableView.isEditing)
+        viewModel.deselectConversation(index: indexPath.row, editing: tableView.isEditing)
     }
     
-    func didSelectRowAtIndex(_ index: Int, editing: Bool) {
-        if editing, let selectedRows = tableView.indexPathsForSelectedRows?.count {
-            footerButton.isEnabled = selectedRows > 0
-        } else {
-            footerButton.isEnabled = false
-        }
-    }
-    
-    func didDeselectRowAtIndex(_ index: Int, editing: Bool) {
-        if editing, let selectedRows = tableView.indexPathsForSelectedRows?.count{
-            footerButton.isEnabled = selectedRows > 0
-        } else {
-            footerButton.isEnabled = false
-        }
-    }
-    
-    // MARK: - ChatGroupedListViewModelDelegate
-
-//    func chatGroupedListViewModelSetEditing(_ editing: Bool) {
-//        setEditing(editing)
-//    }
+    // MARK: - ChatInactiveConversationsListViewModelDelegate
     
     func shouldUpdateStatus() {
-        //        chatGroupedListViewDelegate?.chatGroupedListViewShouldUpdateInfoIndicators()
-        //        resetUI()
+        updateUI()
     }
     
     func didStartRetrievingObjectList() {
-        
+        updateUI()
     }
     
     func didFailRetrievingObjectList(_ page: Int) {
-        refreshControl.endRefreshing()
+        if refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
+        }
     }
     
     func didSucceedRetrievingObjectList(_ page: Int) {
-        refreshControl.endRefreshing()
+        if refreshControl.isRefreshing {
+            refreshControl.endRefreshing()
+        }
     }
     
     func didFailArchivingChats(viewModel: ChatInactiveConversationsListViewModel) {
-        viewModel.refresh { [weak self] in
-            self?.didFinishArchiving(withMessage: LGLocalizedString.chatListArchiveErrorMultiple)
+        dismissLoadingMessageAlert { [weak self] in
+            self?.showAutoFadingOutMessageAlert(LGLocalizedString.chatListArchiveErrorMultiple)
         }
     }
     
     func didSucceedArchivingChats(viewModel: ChatInactiveConversationsListViewModel) {
-        viewModel.refresh { [weak self] in
-            self?.didFinishArchiving(withMessage: nil)
+        dismissLoadingMessageAlert { [weak self] in
+            self?.setEditing(false, animated: true)
         }
     }
     
     func didFailUnarchivingChats(viewModel: ChatInactiveConversationsListViewModel) {
-        viewModel.refresh { [weak self] in
-            self?.didFinishUnarchiving(withMessage: LGLocalizedString.chatListUnarchiveErrorMultiple)
+        dismissLoadingMessageAlert { [weak self] in
+            self?.showAutoFadingOutMessageAlert(LGLocalizedString.chatListUnarchiveErrorMultiple)
         }
     }
     
     func didSucceedUnarchivingChats(viewModel: ChatInactiveConversationsListViewModel) {
-        viewModel.refresh { [weak self] in
-            self?.didFinishUnarchiving(withMessage: nil)
+        dismissLoadingMessageAlert { [weak self] in
+            self?.setEditing(false, animated: true)
         }
     }
     
-    func viewModel(viewModel: ChatInactiveConversationsListViewModel,
-                   showDeleteConfirmationWithTitle title: String,
-                   message: String,
-                   cancelText: String,
-                   actionText: String,
-                   action: @escaping () -> ()) {
-        showDeleteConfirmation(withTitle: title,
-            message: message,
-            cancelText: cancelText,
-            actionText: actionText) { [weak self] in
-                self?.didStartArchiving()
-                action()
-        }
-    }
-    
-    
-    ////
-    
-    
-    // MARK: - ChatListViewDelegate
-    
-    func showDeleteConfirmation(withTitle title: String,
-                                message: String,
-                                cancelText: String,
-                                actionText: String,
-                                action: @escaping () -> ()) {
+    func shouldShowDeleteConfirmation(title: String,
+                                      message: String,
+                                      cancelText: String,
+                                      actionText: String,
+                                      action: @escaping () -> ()) {
+        
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: cancelText, style: .cancel, handler: nil)
         let archiveAction = UIAlertAction(title: actionText, style: .destructive) { (_) -> Void in
@@ -335,29 +295,5 @@ UITableViewDelegate  {
         alert.addAction(cancelAction)
         alert.addAction(archiveAction)
         present(alert, animated: true, completion: nil)
-    }
-    
-    func didStartArchiving() {
-        showLoadingMessageAlert()
-    }
-    
-    func didFinishArchiving(withMessage message: String?) {
-        dismissLoadingMessageAlert { [weak self] in
-            if let message = message {
-                self?.showAutoFadingOutMessageAlert(message)
-            } else {
-                self?.setEditing(false, animated: true)
-            }
-        }
-    }
-    
-    func didFinishUnarchiving(withMessage message: String?) {
-        dismissLoadingMessageAlert { [weak self] in
-            if let message = message {
-                self?.showAutoFadingOutMessageAlert(message)
-            } else {
-                self?.setEditing(false, animated: true)
-            }
-        }
     }
 }
