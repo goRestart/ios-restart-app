@@ -158,7 +158,7 @@
 "chat_login_popup_text" = "Mesajlaşmaya başlamak için giriş yapmalısın";
 "chat_message_disclaimer_meeting_security" = "Unutma, kafe ve banka şubeleri gibi kalabalık alanlar güvenli ve uygun buluşma noktalarıdır. Buluşmaya bir arkadaşınla birlikte gitmeni öneririz.";
 "chat_message_disclaimer_scammer_append_blocked" = "Bu kullanıcıyı engellemek için buraya tıkla.";
-"chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
+"chat_message_disclaimer_scammer_base_blocked" = "Sistemimiz uygunsuz kelimelerin kullanıldığını veya tehlike oluşturabilecek bir iletişim bilgisinin paylaşıldığını tespit etti. %@";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_not_verified_alert_message" = "Kimliğini doğrulamak için Facebook, Google veya Eposta ile bağlan.";
@@ -203,6 +203,7 @@
 "common_cancel" = "İptal et";
 "common_chat_not_available" = "Oops! Sohbet bulunamadı.";
 "common_collapse" = "Daha az göster";
+"common_confirm" = "Confirm";
 "common_error" = "Hata";
 "common_error_connection_failed" = "Bir hata oluştu. Lütfen, İnternet bağlantını kontrol et.";
 "common_error_generic_body" = "Bir hata oluştu.";
@@ -663,12 +664,18 @@
 "product_share_title_label" = "BU İLANI PAYLAŞ";
 "product_share_title_on_letgo" = "%@ letgo'da!";
 "product_stickers_selection_wo_name" = "Satıcıya göndermek istediğin etiketi seç.";
+"professional_dealer_ask_phone_add_phone_cell_button" = "Add your number";
+"professional_dealer_ask_phone_add_phone_cell_message" = "Call now or add your phone number so we can give you a call";
+"professional_dealer_ask_phone_alert_enter_phone" = "Add your phone number";
+"professional_dealer_ask_phone_alert_not_valid_phone" = "Please enter a valid  phone number";
 "professional_dealer_ask_phone_chat_message" = "Telefon numaram %@";
 "professional_dealer_ask_phone_intro_text" = "Ben profesyonel araba satıcısıyım ve kişisel olarak sana yardımcı olmak istiyorum. Telefon numaranı verdiğinde sana en iyi fırsatları sunabilirim.";
 "professional_dealer_ask_phone_lets_talk_text" = "Konuşalım";
 "professional_dealer_ask_phone_not_now_button" = "Şimdi değil";
 "professional_dealer_ask_phone_send_phone_button" = "Telefon numarasını yolla";
 "professional_dealer_ask_phone_textfield_placeholder" = "Telefon numarasını gir";
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or leave your number so we can call you.";
+"professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
 "profile_blocked_by_me_label" = "Bu kullanıcıyı engelledin";
 "profile_blocked_by_me_label_w_name" = "%@ isimli kullanıcıyı engelledin";
 "profile_blocked_by_other_label" = "Bu kullanıcı tarafından engellendin";
@@ -785,7 +792,7 @@
 "real_estate_summary_offer_type_empty" = "İlan tipi ekle";
 "real_estate_summary_price_empty" = "Fiyat ekle";
 "real_estate_summary_price_title" = "Fiyat: %@";
-"real_estate_summary_rooms_emtpy" = "Oda ekle";
+"real_estate_summary_rooms_empty" = "Oda ekle";
 "real_estate_summary_rooms_title" = "oda";
 "real_estate_summary_size_empty" = "Büyüklüğü belirt";
 "real_estate_summary_size_title" = "Büyüklük";

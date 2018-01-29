@@ -634,7 +634,7 @@ extension ChatViewModel {
         guard let textField = alert.textFields?[0],
             let textFieldText = textField.text,
             textFieldText.isPhoneNumber else {
-                delegate?.vmShowAutoFadingMessage("_ This is not a valid phone number", completion: nil)
+                delegate?.vmShowAutoFadingMessage(LGLocalizedString.professionalDealerAskPhoneAlertNotValidPhone, completion: nil)
                 return
         }
         sendMessage(type: .phone(textFieldText))
@@ -697,12 +697,14 @@ extension ChatViewModel {
             case .phone:
                 saveProSellerAlreadySentPhoneInChatFor(listingId: listingId)
                 if !hasSentAutomaticAnswerForPhoneMessage {
-                    sendProfessionalAutomaticAnswerWith(message: "_ thanks for your phone", isPhone: true)
+                    sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksPhoneCellMessage,
+                                                        isPhone: true)
                     disableAskPhoneMessageButton()
                 }
             case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing:
                 if !hasSentAutomaticAnswerForOtherMessage {
-                    sendProfessionalAutomaticAnswerWith(message: "_ thanks for nothing", isPhone: false)
+                    sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,
+                                                        isPhone: false)
                 }
             }
         }

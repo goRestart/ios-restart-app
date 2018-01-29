@@ -128,7 +128,7 @@
 "chat_forbidden_disclaimer_seller_wo_name" = "Sembra che questo utente non sia più interessato al tuo annuncio.";
 "chat_inactive_conversations_button" = "Vedi chat archiviate";
 "chat_inactive_conversations_explanation_label" = "Le chat più vecchie di 3 mesi vengono automaticamente archiviate.";
-"chat_inactive_list_title" = "Inactive Chats";
+"chat_inactive_list_title" = "Conversazioni inattive";
 "chat_list_account_deleted" = "Account eliminato";
 "chat_list_account_deleted_username" = "Inattivo";
 "chat_list_all_empty_title" = "NESSUNA CONVERSAZIONE (ANCORA!)";
@@ -203,6 +203,7 @@
 "common_cancel" = "Annulla";
 "common_chat_not_available" = "Ops! Chat non trovata.";
 "common_collapse" = "Mostra Meno";
+"common_confirm" = "Confirm";
 "common_error" = "Errore";
 "common_error_connection_failed" = "Si è verificato un errore. Verifica la tua connessione Internet.";
 "common_error_generic_body" = "Si è verificato un errore.";
@@ -663,12 +664,18 @@
 "product_share_title_label" = "CONDIVIDI QUESTO ANNUNCIO";
 "product_share_title_on_letgo" = "%@ su letgo!";
 "product_stickers_selection_wo_name" = "Seleziona l'adesivo da inviare al venditore.";
+"professional_dealer_ask_phone_add_phone_cell_button" = "Add your number";
+"professional_dealer_ask_phone_add_phone_cell_message" = "Call now or add your phone number so we can give you a call";
+"professional_dealer_ask_phone_alert_enter_phone" = "Add your phone number";
+"professional_dealer_ask_phone_alert_not_valid_phone" = "Please enter a valid  phone number";
 "professional_dealer_ask_phone_chat_message" = "Il mio numero di telefono è %@";
 "professional_dealer_ask_phone_intro_text" = "Sono un rivenditore professionale di auto e sarei lieto di aiutarti di persona. Condividi il tuo numero di telefono in modo che possa fornirti il miglior servizio!";
 "professional_dealer_ask_phone_lets_talk_text" = "Parliamone";
 "professional_dealer_ask_phone_not_now_button" = "Non adesso";
 "professional_dealer_ask_phone_send_phone_button" = "Invia numero di telefono";
 "professional_dealer_ask_phone_textfield_placeholder" = "Inserisci numero di telefono";
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or leave your number so we can call you.";
+"professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
 "profile_blocked_by_me_label" = "Hai bloccato questo utente";
 "profile_blocked_by_me_label_w_name" = "Hai bloccato %@";
 "profile_blocked_by_other_label" = "Sei stato bloccato da questo utente";
@@ -785,7 +792,7 @@
 "real_estate_summary_offer_type_empty" = "Aggiungi tipo di annuncio";
 "real_estate_summary_price_empty" = "Aggiungi prezzo";
 "real_estate_summary_price_title" = "Prezzo: %@";
-"real_estate_summary_rooms_emtpy" = "Aggiungi stanze";
+"real_estate_summary_rooms_empty" = "Aggiungi stanze";
 "real_estate_summary_rooms_title" = "stanze";
 "real_estate_summary_size_empty" = "Aggiungi dimensione";
 "real_estate_summary_size_title" = "Dimensioni";

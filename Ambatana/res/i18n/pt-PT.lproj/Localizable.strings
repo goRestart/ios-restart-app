@@ -203,6 +203,7 @@
 "common_cancel" = "Cancelar";
 "common_chat_not_available" = "Ops! Chat não encontrado.";
 "common_collapse" = "Mostrar menos";
+"common_confirm" = "Confirm";
 "common_error" = "Erro";
 "common_error_connection_failed" = "Ocorreu um erro. Por favor verifique a sua ligação à internet.";
 "common_error_generic_body" = "Ocorreu um erro.";
@@ -663,12 +664,18 @@
 "product_share_title_label" = "PARTILHAR ESTA PUBLICAÇÃO";
 "product_share_title_on_letgo" = "%@ no letgo!";
 "product_stickers_selection_wo_name" = "Selecione o autocolante que quer enviar ao vendedor.";
+"professional_dealer_ask_phone_add_phone_cell_button" = "Add your number";
+"professional_dealer_ask_phone_add_phone_cell_message" = "Call now or add your phone number so we can give you a call";
+"professional_dealer_ask_phone_alert_enter_phone" = "Add your phone number";
+"professional_dealer_ask_phone_alert_not_valid_phone" = "Please enter a valid  phone number";
 "professional_dealer_ask_phone_chat_message" = "O meu número de telefone é %@";
 "professional_dealer_ask_phone_intro_text" = "Sou um vendedor de automóveis profissional e gostaria de o ajudar pessoalmente. Partilhe o seu número de telefone para que lhe possa fazer a melhor oferta!";
 "professional_dealer_ask_phone_lets_talk_text" = "Vamos conversar";
 "professional_dealer_ask_phone_not_now_button" = "Agora não";
 "professional_dealer_ask_phone_send_phone_button" = "Enviar número de telefone";
 "professional_dealer_ask_phone_textfield_placeholder" = "Inserir número de telefone";
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or leave your number so we can call you.";
+"professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
 "profile_blocked_by_me_label" = "Bloqueou este utilizador";
 "profile_blocked_by_me_label_w_name" = "Bloqueou %@";
 "profile_blocked_by_other_label" = "Foi bloqueado por este utilizador";
@@ -785,7 +792,7 @@
 "real_estate_summary_offer_type_empty" = "Adicionar tipo de publicação";
 "real_estate_summary_price_empty" = "Adicionar preço";
 "real_estate_summary_price_title" = "Preço: %@";
-"real_estate_summary_rooms_emtpy" = "Adicionar quartos";
+"real_estate_summary_rooms_empty" = "Adicionar quartos";
 "real_estate_summary_rooms_title" = "quartos";
 "real_estate_summary_size_empty" = "Adicionar tamanho";
 "real_estate_summary_size_title" = "Tamanho";

@@ -203,6 +203,7 @@
 "common_cancel" = "Отмена";
 "common_chat_not_available" = "Упс! Чат не найден.";
 "common_collapse" = "Скрыть";
+"common_confirm" = "Confirm";
 "common_error" = "Ошибка";
 "common_error_connection_failed" = "Произошла ошибка. Проверьте ваше соединение с Интернет.";
 "common_error_generic_body" = "Произошла ошибка.";
@@ -663,12 +664,18 @@
 "product_share_title_label" = "ПОДЕЛИТЬСЯ ОБЪЯВЛЕНИЕМ";
 "product_share_title_on_letgo" = "%@ на letgo!";
 "product_stickers_selection_wo_name" = "Выберите стикер для отправки продавцу.";
+"professional_dealer_ask_phone_add_phone_cell_button" = "Add your number";
+"professional_dealer_ask_phone_add_phone_cell_message" = "Call now or add your phone number so we can give you a call";
+"professional_dealer_ask_phone_alert_enter_phone" = "Add your phone number";
+"professional_dealer_ask_phone_alert_not_valid_phone" = "Please enter a valid  phone number";
 "professional_dealer_ask_phone_chat_message" = "Мой номер телефона %@";
 "professional_dealer_ask_phone_intro_text" = "Я профессиональный автодилер и с удовольствием помогу вам лично. Пожалуйста, оставьте свой номер телефона, чтобы я подобрал вам лучший вариант!";
 "professional_dealer_ask_phone_lets_talk_text" = "Обсудить";
 "professional_dealer_ask_phone_not_now_button" = "Не сейчас";
 "professional_dealer_ask_phone_send_phone_button" = "Отправить номер телефона";
 "professional_dealer_ask_phone_textfield_placeholder" = "Введите номер телефона";
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or leave your number so we can call you.";
+"professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
 "profile_blocked_by_me_label" = "Вы заблокировали этого пользователя";
 "profile_blocked_by_me_label_w_name" = "Вы заблокировали %@";
 "profile_blocked_by_other_label" = "Вы заблокировали этого пользователя";
@@ -785,7 +792,7 @@
 "real_estate_summary_offer_type_empty" = "Добавьте тип объявления";
 "real_estate_summary_price_empty" = "Добавить цену";
 "real_estate_summary_price_title" = "Цена: %@";
-"real_estate_summary_rooms_emtpy" = "Добавить комнаты";
+"real_estate_summary_rooms_empty" = "Добавить комнаты";
 "real_estate_summary_rooms_title" = "комнаты";
 "real_estate_summary_size_empty" = "Добавить размер";
 "real_estate_summary_size_title" = "Размер";

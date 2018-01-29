@@ -657,7 +657,7 @@ extension ChatViewController: ChatViewModelDelegate {
     }
     
     func vmAskPhoneNumber() {
-        let alert = UIAlertController(title: "_ Enter your phone number so the dealer can call you",
+        let alert = UIAlertController(title: LGLocalizedString.professionalDealerAskPhoneAlertEnterPhone,
                                       message: nil,
                                       preferredStyle: .alert)
 
@@ -665,7 +665,7 @@ extension ChatViewController: ChatViewModelDelegate {
             textField.keyboardType = .phonePad
         }
 
-        let confirmAction = UIAlertAction(title: "_ Confirm", style: .default) { [weak self] _ in
+        let confirmAction = UIAlertAction(title: LGLocalizedString.commonConfirm, style: .default) { [weak self] _ in
             self?.viewModel.sendPhoneFrom(alert: alert)
         }
         alert.addAction(confirmAction)

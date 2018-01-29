@@ -51,7 +51,7 @@
 "categories_inFeed_fashion" = "Mode";
 "categories_inFeed_home" = "Hem";
 "categories_inFeed_motors" = "Motor";
-"categories_inFeed_others" = "Annan";
+"categories_inFeed_others" = "Övrigt";
 "categories_inFeed_real_estate" = "Bostad";
 "categories_inFeed_sports_leisure_games" = "Fritid";
 "categories_movies_books_and_music" = "Filmer, böcker och musik";
@@ -203,6 +203,7 @@
 "common_cancel" = "Avbryt";
 "common_chat_not_available" = "Hoppsan! Chatten kunder inte hittas.";
 "common_collapse" = "Visa mindre";
+"common_confirm" = "Confirm";
 "common_error" = "Fel";
 "common_error_connection_failed" = "Ett fel uppstod. Var god kontrollera din internetanslutning.";
 "common_error_generic_body" = "Ett fel uppstod.";
@@ -663,12 +664,18 @@
 "product_share_title_label" = "DELA ANNONS";
 "product_share_title_on_letgo" = "%@ på letgo!";
 "product_stickers_selection_wo_name" = "Välj den sticker du vill skicka till säljaren.";
+"professional_dealer_ask_phone_add_phone_cell_button" = "Add your number";
+"professional_dealer_ask_phone_add_phone_cell_message" = "Call now or add your phone number so we can give you a call";
+"professional_dealer_ask_phone_alert_enter_phone" = "Add your phone number";
+"professional_dealer_ask_phone_alert_not_valid_phone" = "Please enter a valid  phone number";
 "professional_dealer_ask_phone_chat_message" = "Mitt telefonnummer är %@";
 "professional_dealer_ask_phone_intro_text" = "Jag är en professionell bilhandlare som gärna skulle vilja hjälpa dig personligen. Vänligen ange ditt telefonnummer så kan jag hjälpa dig att göra ett riktigt klipp!";
 "professional_dealer_ask_phone_lets_talk_text" = "Kan vi prata?";
 "professional_dealer_ask_phone_not_now_button" = "Inte nu";
 "professional_dealer_ask_phone_send_phone_button" = "Skicka telefonnummer";
 "professional_dealer_ask_phone_textfield_placeholder" = "Ange telefonnummer";
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or leave your number so we can call you.";
+"professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
 "profile_blocked_by_me_label" = "Den här användaren har blockerats av dig";
 "profile_blocked_by_me_label_w_name" = "%@ har blockerats av dig";
 "profile_blocked_by_other_label" = "Denna användare har blockerat dig";
@@ -785,7 +792,7 @@
 "real_estate_summary_offer_type_empty" = "Lägg till typ av annons";
 "real_estate_summary_price_empty" = "Lägg till pris";
 "real_estate_summary_price_title" = "Pris: %@";
-"real_estate_summary_rooms_emtpy" = "Lägg till rum";
+"real_estate_summary_rooms_empty" = "Lägg till rum";
 "real_estate_summary_rooms_title" = "rum";
 "real_estate_summary_size_empty" = "Lägg till yta";
 "real_estate_summary_size_title" = "Yta";
@@ -817,7 +824,7 @@
 "real_estate_type_property_commercial" = "Företagslokal";
 "real_estate_type_property_flat" = "Lägenhet / Boende";
 "real_estate_type_property_house" = "Hus";
-"real_estate_type_property_land" = "Land";
+"real_estate_type_property_land" = "Mark";
 "real_estate_type_property_others" = "Annat";
 "real_estate_type_property_room" = "Rum";
 "real_estate_type_property_title" = "Typ av fastighet";

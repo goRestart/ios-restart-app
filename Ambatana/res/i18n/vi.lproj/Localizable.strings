@@ -203,6 +203,7 @@
 "common_cancel" = "Hủy";
 "common_chat_not_available" = "Ồ! Không tìm thấy trò chuyện.";
 "common_collapse" = "Rút gọn";
+"common_confirm" = "Confirm";
 "common_error" = "Lỗi";
 "common_error_connection_failed" = "Đã có lỗi xảy ra. Xin vui lòng kiểm tra kết nối Internet của bạn.";
 "common_error_generic_body" = "Có lỗi xảy ra.";
@@ -663,12 +664,18 @@
 "product_share_title_label" = "CHIA SẺ BÀI ĐĂNG NÀY";
 "product_share_title_on_letgo" = "%@ trên letgo!";
 "product_stickers_selection_wo_name" = "Chọn nhãn dán bạn muốn gửi tới người bán.";
+"professional_dealer_ask_phone_add_phone_cell_button" = "Add your number";
+"professional_dealer_ask_phone_add_phone_cell_message" = "Call now or add your phone number so we can give you a call";
+"professional_dealer_ask_phone_alert_enter_phone" = "Add your phone number";
+"professional_dealer_ask_phone_alert_not_valid_phone" = "Please enter a valid  phone number";
 "professional_dealer_ask_phone_chat_message" = "Số điện thoại của tôi là %@";
 "professional_dealer_ask_phone_intro_text" = "Tôi là một người kinh doanh xe hơi chuyên nghiệp và muốn trực tiếp giúp bạn. Xin vui lòng chia sẻ số điện thoại của bạn để tôi có thể mang đến cho bạn những giao dịch tốt nhất!";
 "professional_dealer_ask_phone_lets_talk_text" = "Hãy trò chuyện";
 "professional_dealer_ask_phone_not_now_button" = "Không phải bây giờ";
 "professional_dealer_ask_phone_send_phone_button" = "Gửi số điện thoại";
 "professional_dealer_ask_phone_textfield_placeholder" = "Nhập số điện thoại";
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or leave your number so we can call you.";
+"professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
 "profile_blocked_by_me_label" = "Bạn đã chặn người dùng này";
 "profile_blocked_by_me_label_w_name" = "Bạn đã chặn %@";
 "profile_blocked_by_other_label" = "Bạn đã bị người dùng này chặn";
@@ -785,7 +792,7 @@
 "real_estate_summary_offer_type_empty" = "Thêm loại bài đăng";
 "real_estate_summary_price_empty" = "Thêm giá";
 "real_estate_summary_price_title" = "Giá: %@";
-"real_estate_summary_rooms_emtpy" = "Thêm phòng";
+"real_estate_summary_rooms_empty" = "Thêm phòng";
 "real_estate_summary_rooms_title" = "phòng";
 "real_estate_summary_size_empty" = "Thêm diện tích";
 "real_estate_summary_size_title" = "Diện tích";

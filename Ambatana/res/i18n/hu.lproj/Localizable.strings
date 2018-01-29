@@ -203,6 +203,7 @@
 "common_cancel" = "Mégse";
 "common_chat_not_available" = "Hoppá! A csevegés nem található.";
 "common_collapse" = "Kevesebbet";
+"common_confirm" = "Confirm";
 "common_error" = "Hiba";
 "common_error_connection_failed" = "Hiba történt. Kérjük, ellenőrizd az internetkapcsolatot.";
 "common_error_generic_body" = "Hiba történt.";
@@ -663,12 +664,18 @@
 "product_share_title_label" = "HIRDETÉS MEGOSZTÁSA";
 "product_share_title_on_letgo" = "%@ a letgo piacán!";
 "product_stickers_selection_wo_name" = "Válaszd ki a matricát, amit az eladónak küldenél.";
+"professional_dealer_ask_phone_add_phone_cell_button" = "Add your number";
+"professional_dealer_ask_phone_add_phone_cell_message" = "Call now or add your phone number so we can give you a call";
+"professional_dealer_ask_phone_alert_enter_phone" = "Add your phone number";
+"professional_dealer_ask_phone_alert_not_valid_phone" = "Please enter a valid  phone number";
 "professional_dealer_ask_phone_chat_message" = "Telefonszámom: %@";
 "professional_dealer_ask_phone_intro_text" = "Professzionális autókereskedő vagyok, ezért szeretnék személyesen segíteni. Kérlek, add meg telefonszámodat, hogy a lehető legjobb árat nyújthassam!";
 "professional_dealer_ask_phone_lets_talk_text" = "Beszéljünk";
 "professional_dealer_ask_phone_not_now_button" = "Most nem";
 "professional_dealer_ask_phone_send_phone_button" = "Telefonszám küldése";
 "professional_dealer_ask_phone_textfield_placeholder" = "Telefonszám megadása";
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or leave your number so we can call you.";
+"professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
 "profile_blocked_by_me_label" = "Ezt a felhasználót blokkoltad";
 "profile_blocked_by_me_label_w_name" = "%@ felhasználót blokkoltad";
 "profile_blocked_by_other_label" = "Ez a felhasználó blokkolt téged";
@@ -785,7 +792,7 @@
 "real_estate_summary_offer_type_empty" = "Hirdetéstípus hozzáadása";
 "real_estate_summary_price_empty" = "Ár hozzáadása";
 "real_estate_summary_price_title" = "Ára: %@";
-"real_estate_summary_rooms_emtpy" = "Szobák hozzáadása";
+"real_estate_summary_rooms_empty" = "Szobák hozzáadása";
 "real_estate_summary_rooms_title" = "szobák";
 "real_estate_summary_size_empty" = "Méret hozzáadása";
 "real_estate_summary_size_title" = "Méret";

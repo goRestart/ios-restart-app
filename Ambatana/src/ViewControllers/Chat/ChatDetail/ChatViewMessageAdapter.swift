@@ -160,7 +160,7 @@ class ChatViewMessageAdapter {
     func createAskPhoneMessageWith(action: (() -> Void)?) -> ChatViewMessage? {
 
         return ChatViewMessage(objectId: nil, talkerId: "", sentAt: Date(), receivedAt: nil, readAt: nil,
-                               type: .askPhoneNumber(text: "_ Call now or add your phone number so we can give you a call",
+                               type: .askPhoneNumber(text: LGLocalizedString.professionalDealerAskPhoneAddPhoneCellMessage,
                                                      action: action),
                                status: nil, warningStatus: .normal)
     }

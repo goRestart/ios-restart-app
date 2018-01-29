@@ -203,6 +203,7 @@
 "common_cancel" = "Annuleren";
 "common_chat_not_available" = "Oeps! Chat niet gevonden.";
 "common_collapse" = "Toon minder";
+"common_confirm" = "Confirm";
 "common_error" = "Fout";
 "common_error_connection_failed" = "Er is een fout opgetreden. Gelieve je internetverbinding te controleren.";
 "common_error_generic_body" = "Er is een fout opgetreden.";
@@ -663,12 +664,18 @@
 "product_share_title_label" = "DEEL DEZE ADVERTENTIE";
 "product_share_title_on_letgo" = "%@ op letgo!";
 "product_stickers_selection_wo_name" = "Kies de sticker die je wilt verzenden naar de verkoper.";
+"professional_dealer_ask_phone_add_phone_cell_button" = "Add your number";
+"professional_dealer_ask_phone_add_phone_cell_message" = "Call now or add your phone number so we can give you a call";
+"professional_dealer_ask_phone_alert_enter_phone" = "Add your phone number";
+"professional_dealer_ask_phone_alert_not_valid_phone" = "Please enter a valid  phone number";
 "professional_dealer_ask_phone_chat_message" = "Mijn telefoonnummer is %@";
 "professional_dealer_ask_phone_intro_text" = "Ik ben een professionele autohandelaar, ik help je dus graag persoonlijk. Deel alstublieft je telefoonnummer zodat ik je de beste deal kan geven!";
 "professional_dealer_ask_phone_lets_talk_text" = "Laten we praten";
 "professional_dealer_ask_phone_not_now_button" = "Niet nu";
 "professional_dealer_ask_phone_send_phone_button" = "Verstuur telefoonnummer";
 "professional_dealer_ask_phone_textfield_placeholder" = "Voer telefoonnummer in";
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or leave your number so we can call you.";
+"professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
 "profile_blocked_by_me_label" = "Je hebt deze gebruiker geblokkeerd";
 "profile_blocked_by_me_label_w_name" = "Je hebt %@ geblokkeerd";
 "profile_blocked_by_other_label" = "Je bent geblokkeerd door deze gebruiker";
@@ -785,7 +792,7 @@
 "real_estate_summary_offer_type_empty" = "Soort advertentie toevoegen";
 "real_estate_summary_price_empty" = "Prijs toevoegen";
 "real_estate_summary_price_title" = "Prijs:%@";
-"real_estate_summary_rooms_emtpy" = "Kamers toevoegen";
+"real_estate_summary_rooms_empty" = "Kamers toevoegen";
 "real_estate_summary_rooms_title" = "kamers";
 "real_estate_summary_size_empty" = "Grootte toevoegen";
 "real_estate_summary_size_title" = "Grootte";

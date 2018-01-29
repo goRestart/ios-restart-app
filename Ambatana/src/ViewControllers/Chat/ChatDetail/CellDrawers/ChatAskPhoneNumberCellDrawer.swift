@@ -23,7 +23,7 @@ class ChatAskPhoneNumberCellDrawer: BaseChatCellDrawer<ChatAskPhoneNumberCell> {
             cell.buttonAction = action
             cell.leavePhoneNumberButton.isEnabled = action != nil
             cell.leavePhoneNumberButton.setStyle(.secondary(fontSize: .small, withBorder: true))
-            cell.leavePhoneNumberButton.setTitle("_ Leave phone number", for: .normal)
+            cell.leavePhoneNumberButton.setTitle(LGLocalizedString.professionalDealerAskPhoneAddPhoneCellButton, for: .normal)
         default:
             break
         }

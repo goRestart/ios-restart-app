@@ -203,6 +203,7 @@
 "common_cancel" = "Avbryt";
 "common_chat_not_available" = "Oops! Kunne ikke finne chat.";
 "common_collapse" = "Vis mindre";
+"common_confirm" = "Confirm";
 "common_error" = "Feil";
 "common_error_connection_failed" = "En feil har oppstått. Vennligst sjekk din internett-tilkobling.";
 "common_error_generic_body" = "En feil oppstod.";
@@ -663,12 +664,18 @@
 "product_share_title_label" = "DEL DENNE ANNONSEN";
 "product_share_title_on_letgo" = "%@ på letgo!";
 "product_stickers_selection_wo_name" = "Velg etiketten du ønsker å sende til selgeren.";
+"professional_dealer_ask_phone_add_phone_cell_button" = "Add your number";
+"professional_dealer_ask_phone_add_phone_cell_message" = "Call now or add your phone number so we can give you a call";
+"professional_dealer_ask_phone_alert_enter_phone" = "Add your phone number";
+"professional_dealer_ask_phone_alert_not_valid_phone" = "Please enter a valid  phone number";
 "professional_dealer_ask_phone_chat_message" = "Mitt telefonnummer er %@";
 "professional_dealer_ask_phone_intro_text" = "Jeg er en profesjonell bilforhandler og ønsker å hjelpe deg best mulig. Vennligst del ditt telefonnummer slik at jeg kan gi deg den beste dealen!";
 "professional_dealer_ask_phone_lets_talk_text" = "La oss ta en prat";
 "professional_dealer_ask_phone_not_now_button" = "Ikke nå";
 "professional_dealer_ask_phone_send_phone_button" = "Send telefonnummer";
 "professional_dealer_ask_phone_textfield_placeholder" = "Legg inn telefonnummer";
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or leave your number so we can call you.";
+"professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
 "profile_blocked_by_me_label" = "Du har blokkert denne brukeren";
 "profile_blocked_by_me_label_w_name" = "Du har blokkert %@";
 "profile_blocked_by_other_label" = "Du har blitt blokkert av denne brukeren";
@@ -785,7 +792,7 @@
 "real_estate_summary_offer_type_empty" = "Legg til annonsetype";
 "real_estate_summary_price_empty" = "Legg til pris";
 "real_estate_summary_price_title" = "Pris: %@";
-"real_estate_summary_rooms_emtpy" = "Legg til rom";
+"real_estate_summary_rooms_empty" = "Legg til rom";
 "real_estate_summary_rooms_title" = "rom";
 "real_estate_summary_size_empty" = "Legg til areal";
 "real_estate_summary_size_title" = "Areal";

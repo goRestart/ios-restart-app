@@ -203,6 +203,7 @@
 "common_cancel" = "Cancel";
 "common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Show Less";
+"common_confirm" = "Confirm";
 "common_error" = "Error";
 "common_error_connection_failed" = "An error has occurred. Please check your Internet connection.";
 "common_error_generic_body" = "An error occurred.";
@@ -663,12 +664,18 @@
 "product_share_title_label" = "SHARE THIS LISTING";
 "product_share_title_on_letgo" = "%@ on letgo!";
 "product_stickers_selection_wo_name" = "Select the sticker you want to send to the seller.";
+"professional_dealer_ask_phone_add_phone_cell_button" = "Add your number";
+"professional_dealer_ask_phone_add_phone_cell_message" = "Call now or add your phone number so we can give you a call";
+"professional_dealer_ask_phone_alert_enter_phone" = "Add your phone number";
+"professional_dealer_ask_phone_alert_not_valid_phone" = "Please enter a valid  phone number";
 "professional_dealer_ask_phone_chat_message" = "My phone number is %@";
 "professional_dealer_ask_phone_intro_text" = "I'm a professional car dealer so I'd love to help you in person. Please share your phone number so I can give you the best deal!";
 "professional_dealer_ask_phone_lets_talk_text" = "Let's Talk";
 "professional_dealer_ask_phone_not_now_button" = "Not now";
 "professional_dealer_ask_phone_send_phone_button" = "Send phone number";
 "professional_dealer_ask_phone_textfield_placeholder" = "Enter phone number";
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or leave your number so we can call you.";
+"professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
 "profile_blocked_by_me_label" = "You've blocked this user";
 "profile_blocked_by_me_label_w_name" = "You've blocked %@";
 "profile_blocked_by_other_label" = "You've been blocked by this user";
@@ -785,7 +792,7 @@
 "real_estate_summary_offer_type_empty" = "Add type of listing";
 "real_estate_summary_price_empty" = "Add price";
 "real_estate_summary_price_title" = "Price: %@";
-"real_estate_summary_rooms_emtpy" = "Add rooms";
+"real_estate_summary_rooms_empty" = "Add rooms";
 "real_estate_summary_rooms_title" = "rooms";
 "real_estate_summary_size_empty" = "Add size";
 "real_estate_summary_size_title" = "Size";
