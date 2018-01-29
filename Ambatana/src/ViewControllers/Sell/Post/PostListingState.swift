@@ -114,6 +114,18 @@ final class PostListingState {
                                 place: place)
     }
     
+    func removeRealEstateCategory() -> PostListingState {
+        guard category == .realEstate else { return self }
+        return PostListingState(step: step,
+                                previousStep: previousStep,
+                                category: .unassigned,
+                                pendingToUploadImages: pendingToUploadImages,
+                                lastImagesUploadResult: lastImagesUploadResult,
+                                price: price,
+                                verticalAttributes: nil,
+                                place: place)
+    }
+    
     func updatingStepToUploadingImages() -> PostListingState {
         switch step {
         case .imageSelection, .errorUpload:
