@@ -42,9 +42,9 @@ final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeck
 
         onboardingView.backgroundColor = UIColor.darkBarBackground
         binder.viewController = self
-        binder.bind(withView: onboardingiew)
+        binder.bind(withView: onboardingView)
 
-        onboardingiew.backgroundColor = UIColor.darkBarBackground
+        onboardingView.backgroundColor = UIColor.darkBarBackground
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         tapGesture.delaysTouchesBegan = true
