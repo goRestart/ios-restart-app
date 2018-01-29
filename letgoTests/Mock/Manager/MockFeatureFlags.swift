@@ -50,6 +50,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstatePromos: RealEstatePromos = .control
     var allowEmojisOnChat: AllowEmojisOnChat = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
+    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

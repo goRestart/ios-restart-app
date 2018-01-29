@@ -40,6 +40,7 @@ extension Bumper  {
         flags.append(RealEstatePromos.self)
         flags.append(AllowEmojisOnChat.self)
         flags.append(ShowAdsInFeedWithRatio.self)
+        flags.append(RemoveCategoryWhenClosingPosting.self)
         Bumper.initialize(flags)
     } 
 
@@ -176,6 +177,11 @@ extension Bumper  {
     static var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
         guard let value = Bumper.value(for: ShowAdsInFeedWithRatio.key) else { return .control }
         return ShowAdsInFeedWithRatio(rawValue: value) ?? .control 
+    }
+
+    static var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting {
+        guard let value = Bumper.value(for: RemoveCategoryWhenClosingPosting.key) else { return .control }
+        return RemoveCategoryWhenClosingPosting(rawValue: value) ?? .control 
     } 
 }
 
@@ -581,6 +587,22 @@ enum ShowAdsInFeedWithRatio: String, BumperFeature  {
             case 2: return .ten
             case 3: return .fifteen
             case 4: return .twenty
+            default: return .control
+        }
+    }
+}
+
+enum RemoveCategoryWhenClosingPosting: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return RemoveCategoryWhenClosingPosting.control.rawValue }
+    static var enumValues: [RemoveCategoryWhenClosingPosting] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Remove category real estate if user closes posting" } 
+    static func fromPosition(_ position: Int) -> RemoveCategoryWhenClosingPosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

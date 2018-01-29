@@ -206,6 +206,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     
     
     private func closeAndPost() {
+        if featureFlags.removeCategoryWhenClosingPosting.isActive {
+            postListingState = postListingState.removeRealEstateCategory()
+        }
         if postListingState.pendingToUploadImages != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
