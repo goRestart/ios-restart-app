@@ -1018,6 +1018,10 @@ struct TrackerEvent {
     static func signupCaptcha() -> TrackerEvent {
         return TrackerEvent(name: .signupCaptcha, params: EventParameters())
     }
+    
+    static func loginCaptcha() -> TrackerEvent {
+        return TrackerEvent(name: .loginCaptcha, params: EventParameters())
+    }
 
     static func notificationCenterStart() -> TrackerEvent {
         return TrackerEvent(name: .notificationCenterStart, params: EventParameters())
