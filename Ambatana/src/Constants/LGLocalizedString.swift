@@ -199,6 +199,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_real_estate", comment: "")
 	}
 
+	static var categoriesRealEstateTitle: String {
+		return NSLocalizedString("categories_real_estate_title", comment: "")
+	}
+
 	static var categoriesSportsLeisureAndGames: String {
 		return NSLocalizedString("categories_sports_leisure_and_games", comment: "")
 	}
@@ -257,6 +261,10 @@ struct LGLocalizedString {
 
 	static var categoriesInfeedRealEstate: String {
 		return NSLocalizedString("categories_inFeed_real_estate", comment: "")
+	}
+
+	static var categoriesInfeedRealEstateTitle: String {
+		return NSLocalizedString("categories_inFeed_real_estate_title", comment: "")
 	}
 
 	static var categoriesSuperKeywordsInfeedShowMore: String {
@@ -2575,6 +2583,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_select_category_housing", comment: "")
 	}
 
+	static var productPostSelectCategoryRealEstate: String {
+		return NSLocalizedString("product_post_select_category_real_estate", comment: "")
+	}
+
 	static var productReportConfirmMessage: String {
 		return NSLocalizedString("product_report_confirm_message", comment: "")
 	}
@@ -3337,6 +3349,10 @@ struct LGLocalizedString {
 
 	static var realEstateTooltipSellButton: String {
 		return NSLocalizedString("real_estate_tooltip_sell_button", comment: "")
+	}
+
+	static var realEstateTooltipSellButtonTitle: String {
+		return NSLocalizedString("real_estate_tooltip_sell_button_title", comment: "")
 	}
 
 	static var realEstateTooltipOverlayExpandableMenu: String {

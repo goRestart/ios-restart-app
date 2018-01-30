@@ -49,6 +49,8 @@ class ABTests {
     let allowEmojisOnChat = IntABDynamicVar(key: "20180109AllowEmojisOnChat", defaultValue: 0)
     let showAdsInFeedWithRatio = IntABDynamicVar(key: "20180111ShowAdsInFeedWithRatio", defaultValue: 0)
     let removeCategoryWhenClosingPosting = IntABDynamicVar(key: "20180126RemoveCategoryWhenClosingPosting", defaultValue: 0)
+    let realEstateNewCopy = IntABDynamicVar(key: "20180126RealEstateNewCopy", defaultValue: 0)
+    
     init() {
     }
     
@@ -89,6 +91,7 @@ class ABTests {
         result.append(allowEmojisOnChat)
         result.append(showAdsInFeedWithRatio)
         result.append(removeCategoryWhenClosingPosting)
+        result.append(realEstateNewCopy)
         
         return result
     }

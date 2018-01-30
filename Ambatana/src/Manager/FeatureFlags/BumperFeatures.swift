@@ -42,6 +42,7 @@ extension Bumper  {
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(RemoveCategoryWhenClosingPosting.self)
+        flags.append(RealEstateNewCopy.self)
         Bumper.initialize(flags)
     } 
 
@@ -188,6 +189,11 @@ extension Bumper  {
     static var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting {
         guard let value = Bumper.value(for: RemoveCategoryWhenClosingPosting.key) else { return .control }
         return RemoveCategoryWhenClosingPosting(rawValue: value) ?? .control 
+    }
+
+    static var realEstateNewCopy: RealEstateNewCopy {
+        guard let value = Bumper.value(for: RealEstateNewCopy.key) else { return .control }
+        return RealEstateNewCopy(rawValue: value) ?? .control 
     } 
 }
 
@@ -620,6 +626,22 @@ enum RemoveCategoryWhenClosingPosting: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Remove category real estate if user closes posting" } 
     static func fromPosition(_ position: Int) -> RemoveCategoryWhenClosingPosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum RealEstateNewCopy: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return RealEstateNewCopy.control.rawValue }
+    static var enumValues: [RealEstateNewCopy] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Try real estate copy instead of housing" } 
+    static func fromPosition(_ position: Int) -> RealEstateNewCopy {
         switch position { 
             case 0: return .control
             case 1: return .baseline
