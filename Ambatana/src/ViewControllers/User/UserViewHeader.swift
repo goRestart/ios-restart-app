@@ -85,8 +85,9 @@ class UserViewHeader: UIView {
     @IBOutlet weak var indicatorViewLeadingConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var dummyUserDisclaimerContainerView: UIView!
-    @IBOutlet weak var dummyUserDisclaimerContainerViewHeight: NSLayoutConstraint!
+    var dummyUserDisclaimerView: DummyUserDisclaimerView?
     
+    @IBOutlet weak var dummyUserDisclaimerContainerViewHeight: NSLayoutConstraint!
     weak var delegate: UserViewHeaderDelegate?
 
     let tab = Variable<UserViewHeaderTab>(.selling)
@@ -194,12 +195,19 @@ extension UserViewHeader {
     
     func setupDummyView(infoText: String) {
         guard let containerView = dummyUserDisclaimerContainerView else { return }
-        let dummyUserDisclaimerView = DummyUserDisclaimerView(frame: CGRect(x: 0,
-                                                                        y: 0,
-                                                                        width: bounds.width,
-                                                                        height: UserViewHeader.dummyUserContainerViewHeight),
-                                                                    infoText: infoText)
-        containerView.addSubview(dummyUserDisclaimerView)
+        guard dummyUserDisclaimerView == nil else { return }
+        //self.layoutSubviews()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.dummyUserDisclaimerView = DummyUserDisclaimerView(infoText: infoText)
+        self.dummyUserDisclaimerContainerViewHeight.constant += 70
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+        self.dummyUserDisclaimerView?.translatesAutoresizingMaskIntoConstraints = false
+        if let dummyUserDisclaimerView = self.dummyUserDisclaimerView {
+            containerView.addSubview(dummyUserDisclaimerView)
+            dummyUserDisclaimerView.layout(with: containerView).fill()
+        }
     }
 
     fileprivate func modeUpdated() {

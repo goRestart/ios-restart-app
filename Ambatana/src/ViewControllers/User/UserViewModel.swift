@@ -73,6 +73,10 @@ class UserViewModel: BaseViewModel {
     
     let listingListViewModel: Variable<ListingListViewModel>
     
+    var areDummyUsersEnabled: Bool {
+        return featureFlags.dummyUsersInfoProfile.isActive
+    }
+    
     weak var delegate: UserViewModelDelegate?
     weak var navigator: TabNavigator?
     weak var profileNavigator: ProfileTabNavigator? {
@@ -456,7 +460,7 @@ fileprivate extension UserViewModel {
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityStateString
             strongSelf.userIsProfessional.value = user?.type == .pro
-            strongSelf.userIsDummy.value = user?.type == .dummy
+            strongSelf.userIsDummy.value = true
             
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .myUser : .otherUser
             

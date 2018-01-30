@@ -19,9 +19,9 @@ class DummyUserDisclaimerView: UIView {
     
     // MARK: - Lifecycle
     
-    required init(frame: CGRect, infoText: String) {
+    required init(infoText: String) {
         self.infoText = infoText
-        super.init(frame: frame)
+        super.init(frame: CGRect.zero)
         setupUI()
         setupConstraints()
     }
@@ -63,7 +63,7 @@ class DummyUserDisclaimerView: UIView {
         
         textLabel.layout(with: infoImageView).toLeft(by: Metrics.shortMargin)
         textLabel.layout(with: self)
-            .trailing(by: -Metrics.bigMargin)
+            .trailing(by: -50)
             .centerY()
         textLabel.layout().height(35)
     }

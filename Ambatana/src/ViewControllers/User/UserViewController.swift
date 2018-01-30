@@ -29,7 +29,7 @@ class UserViewController: BaseViewController {
         return navigationBarHeight + statusBarHeight + headerExpandedPadding
     }
     fileprivate var headerExpandedPadding: CGFloat {
-        return 86 + dummyUserViewHeight
+        return 86
     }
 
     fileprivate var headerCollapsedBottom: CGFloat {
@@ -40,11 +40,10 @@ class UserViewController: BaseViewController {
         }
     }
     fileprivate var headerCollapsedHeight: CGFloat {
-        return 44 + dummyUserViewHeight
+        return 44
     }
     
     fileprivate var dummyUserViewHeight: CGFloat {
-        //print(headerContainer.header.dummyUserDisclaimerContainerView?.height)
         return headerContainer.header.dummyUserDisclaimerContainerView?.height ?? 0
     }
 
@@ -349,18 +348,16 @@ extension UserViewController {
     }
 
     fileprivate func scrollDidChange(_ contentOffsetInsetY: CGFloat) {
-        print("enter did change")
-        print(contentOffsetInsetY)
         let minBottom = headerExpandedBottom
         let maxBottom = headerCollapsedBottom
 
         let bottom = min(maxBottom, contentOffsetInsetY - listingListViewTopMargin)
-        headerContainerBottom.constant = bottom
+        headerContainerBottom.constant = bottom - dummyUserViewHeight
 
         let percentage = min(1, abs(bottom - maxBottom) / abs(maxBottom - minBottom))
 
         let height = headerCollapsedHeight + percentage * (headerExpandedHeight - headerCollapsedHeight)
-        headerContainerHeight.constant = height
+        headerContainerHeight.constant = height + dummyUserViewHeight
 
         // header expands more than 100% to hide the avatar when pulling
         let headerPercentage = abs(bottom - maxBottom) / abs(maxBottom - minBottom)
@@ -369,7 +366,7 @@ extension UserViewController {
         // update top on error/first load views
         let maxTop = abs(headerExpandedBottom + listingListViewTopMargin)
         let minTop = abs(headerCollapsedBottom)
-        let top = minTop + percentage * (maxTop - minTop)
+        let top = minTop + dummyUserViewHeight + percentage * (maxTop - minTop)
         let firstLoadPadding = UIEdgeInsets(top: top,
                                             left: listingListView.firstLoadPadding.left,
                                             bottom: listingListView.firstLoadPadding.bottom,
@@ -494,16 +491,6 @@ extension UserViewController {
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
             self?.headerContainer.header.selectedColor = bgColor
         }.disposed(by: disposeBag)
-        
-        Observable.combineLatest(
-            viewModel.userName.asObservable(),
-            viewModel.userIsDummy.asObservable()) { ($0, $1) }
-            .filter({ $1 })
-            .subscribeNext { [weak self] (userName, userIsDummy) in
-                guard let userName = userName else { return }
-                let infoText = LGLocalizedString.profileDummyUserInfo(userName)
-                self?.headerContainer.header.setupDummyView(infoText: infoText)
-            }.disposed(by: disposeBag)
 
         // Ratings
         viewModel.userRatingAverage.asObservable().subscribeNext { [weak self] userRatingAverage in
@@ -589,6 +576,19 @@ extension UserViewController {
 
         // Tab switch
         headerContainer.header.tab.asObservable().bind(to: viewModel.tab).disposed(by: disposeBag)
+        
+        // Dummy users
+        if viewModel.areDummyUsersEnabled {
+            Observable.combineLatest(
+                viewModel.userName.asObservable(),
+                viewModel.userIsDummy.asObservable()) { ($0, $1) }
+                .filter({ $1 })
+                .subscribeNext { [weak self] (userName, userIsDummy) in
+                    guard let userName = userName else { return }
+                    let infoText = LGLocalizedString.profileDummyUserInfo(userName)
+                    self?.headerContainer.header.setupDummyView(infoText: infoText)
+            }.disposed(by: disposeBag)
+        }
     }
     
     private func setupUserLabelsContainerRx() {
