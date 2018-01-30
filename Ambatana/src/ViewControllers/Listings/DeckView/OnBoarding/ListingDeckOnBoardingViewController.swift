@@ -47,7 +47,6 @@ final class ListingDeckOnBoardingViewController: BaseViewController, ListingDeck
         onboardingView.backgroundColor = UIColor.darkBarBackground
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapView))
-        tapGesture.delaysTouchesBegan = true
         onboardingView.addGestureRecognizer(tapGesture)
     }
 

@@ -44,7 +44,7 @@ class OnBoardingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
 
     func animatePop(using transitionContext: UIViewControllerContextTransitioning, duration: TimeInterval) {
-        guard let toViewController = transitionContext.viewController(forKey: .to),
+        guard let toViewController = transitionContext.viewController(forKey: .from),
         let onboardingViewController = toViewController as? ListingDeckOnBoardingViewController else { return }
 
         onboardingViewController.prepareForDismissal()
