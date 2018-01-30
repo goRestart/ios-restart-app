@@ -128,6 +128,7 @@
 "chat_forbidden_disclaimer_seller_wo_name" = "Det verkar som att den här användaren inte längre är intresserad av din annons.";
 "chat_inactive_conversations_button" = "Se arkiverade chattar";
 "chat_inactive_conversations_explanation_label" = "Chattar äldre än 3 månader arkiveras automatiskt.";
+"chat_inactive_list_title" = "Inaktiva chattar";
 "chat_list_account_deleted" = "Kontot har avslutats";
 "chat_list_account_deleted_username" = "Inaktiv";
 "chat_list_all_empty_title" = "INGEN CHATT (ÄNNU!)";
@@ -769,6 +770,11 @@
 "real_estate_offer_type_title" = "Typ av annons";
 "real_estate_price_title" = "Pris";
 "real_estate_related_search_title" = "Liknande resultat";
+"real_estate_rooms_over_ten" = "Över 10";
+"real_estate_rooms_studio" = "Studio (1+0)";
+"real_estate_rooms_title" = "Antal rum";
+"real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_title" = "Yta";
 "real_estate_summary_bathroom_title" = "badrum";
 "real_estate_summary_bathrooms_empty" = "Lägg till antal badrum";
 "real_estate_summary_bathrooms_title" = "badrum";
@@ -779,6 +785,10 @@
 "real_estate_summary_offer_type_empty" = "Lägg till typ av annons";
 "real_estate_summary_price_empty" = "Lägg till pris";
 "real_estate_summary_price_title" = "Pris: %@";
+"real_estate_summary_rooms_empty" = "Lägg till rum";
+"real_estate_summary_rooms_title" = "rum";
+"real_estate_summary_size_empty" = "Lägg till yta";
+"real_estate_summary_size_title" = "Yta";
 "real_estate_summary_title" = "Sammanfattning";
 "real_estate_summary_type_property_empty" = "Lägg till fastighetstyp";
 "real_estate_title_generator_bathrooms_0" = "0";
@@ -805,13 +815,13 @@
 "real_estate_tooltip_sell_button" = "Nu kan du hyra ut eller sälja din bostad i vår nya Bostadskategori";
 "real_estate_type_property_apartment" = "Lägenhet";
 "real_estate_type_property_commercial" = "Företagslokal";
-"real_estate_type_property_flat" = "Flat / Residence";
+"real_estate_type_property_flat" = "Lägenhet / Boende";
 "real_estate_type_property_house" = "Hus";
 "real_estate_type_property_land" = "Land";
 "real_estate_type_property_others" = "Annat";
 "real_estate_type_property_room" = "Rum";
 "real_estate_type_property_title" = "Typ av fastighet";
-"real_estate_type_property_villa" = "Detached House / Villa";
+"real_estate_type_property_villa" = "Avskilt Hus / Villa";
 "related_items_title" = "Liknande annonser";
 "report_user_counterfeit" = "Oäkta varor";
 "report_user_error_already_reported" = "Du har redan rapporterat denna användare!";

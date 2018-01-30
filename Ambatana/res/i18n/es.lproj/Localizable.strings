@@ -128,6 +128,7 @@
 "chat_forbidden_disclaimer_seller_wo_name" = "Parece que este usuario ya no está interesado en tu anuncio.";
 "chat_inactive_conversations_button" = "Ver chats archivados";
 "chat_inactive_conversations_explanation_label" = "Los chats anteriores a 3 meses se archivan automáticamente.";
+"chat_inactive_list_title" = "Chats inactivos";
 "chat_list_account_deleted" = "Cuenta eliminada";
 "chat_list_account_deleted_username" = "Inactivo";
 "chat_list_all_empty_title" = "NO HAY CHATS (¡TODAVÍA!)";
@@ -769,6 +770,11 @@
 "real_estate_offer_type_title" = "Tipo de anuncio";
 "real_estate_price_title" = "Precio";
 "real_estate_related_search_title" = "Resultados relacionados";
+"real_estate_rooms_over_ten" = "Más de 10";
+"real_estate_rooms_studio" = "Estudio (1+0)";
+"real_estate_rooms_title" = "Nº de habitaciones";
+"real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_title" = "Tamaño";
 "real_estate_summary_bathroom_title" = "baño";
 "real_estate_summary_bathrooms_empty" = "Añadir nº de baños";
 "real_estate_summary_bathrooms_title" = "baños";
@@ -779,6 +785,10 @@
 "real_estate_summary_offer_type_empty" = "Añadir tipo de anuncio";
 "real_estate_summary_price_empty" = "Añadir precio";
 "real_estate_summary_price_title" = "Precio: %@";
+"real_estate_summary_rooms_empty" = "Añade habitaciones";
+"real_estate_summary_rooms_title" = "habitaciones";
+"real_estate_summary_size_empty" = "Añadir tamaño";
+"real_estate_summary_size_title" = "Tamaño";
 "real_estate_summary_title" = "Resumen";
 "real_estate_summary_type_property_empty" = "Añadir tipo de propiedad";
 "real_estate_title_generator_bathrooms_0" = "Ninguno";
@@ -805,13 +815,13 @@
 "real_estate_tooltip_sell_button" = "Publica propiedades en venta o alquiler en la categoría de Viviendas";
 "real_estate_type_property_apartment" = "Piso";
 "real_estate_type_property_commercial" = "Comercial";
-"real_estate_type_property_flat" = "Flat / Residence";
+"real_estate_type_property_flat" = "Piso / Residencia";
 "real_estate_type_property_house" = "Casa";
-"real_estate_type_property_land" = "Land";
+"real_estate_type_property_land" = "Terreno";
 "real_estate_type_property_others" = "Otro";
 "real_estate_type_property_room" = "Habitación";
 "real_estate_type_property_title" = "Tipo de propiedad";
-"real_estate_type_property_villa" = "Detached House / Villa";
+"real_estate_type_property_villa" = "Casa / Villa";
 "related_items_title" = "Anuncios relacionados";
 "report_user_counterfeit" = "Productos falsificados";
 "report_user_error_already_reported" = "¡Ya has denunciado a este usuario!";
