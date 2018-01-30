@@ -15,7 +15,7 @@ class UserViewController: BaseViewController {
     fileprivate static let navBarUserViewHeight: CGFloat = 36
     fileprivate static let userLabelsVerticalMargin: CGFloat = 10
     fileprivate var userBgViewDefaultHeight: CGFloat {
-        return navigationBarHeight + statusBarHeight + 84
+        return headerExpandedHeight
     }
     
     fileprivate var listingListViewTopMargin: CGFloat {
@@ -28,9 +28,7 @@ class UserViewController: BaseViewController {
     fileprivate var headerExpandedHeight: CGFloat {
         return navigationBarHeight + statusBarHeight + headerExpandedPadding
     }
-    fileprivate var headerExpandedPadding: CGFloat {
-        return 86
-    }
+    fileprivate var headerExpandedPadding: CGFloat = 86
 
     fileprivate var headerCollapsedBottom: CGFloat {
         if #available(iOS 11, *) {
@@ -39,9 +37,7 @@ class UserViewController: BaseViewController {
             return -(20 + 44 + headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
         }
     }
-    fileprivate var headerCollapsedHeight: CGFloat {
-        return 44
-    }
+    fileprivate var headerCollapsedHeight: CGFloat = 44
     
     fileprivate var dummyUserViewHeight: CGFloat {
         return headerContainer.header.dummyUserDisclaimerContainerView?.height ?? 0
