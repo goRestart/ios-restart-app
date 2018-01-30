@@ -11,6 +11,11 @@ import CoreTelephony
 import bumper
 import RxSwift
 
+enum PostingFlowType: String {
+    case standard
+    case turkish
+}
+
 protocol FeatureFlaggeable: class {
 
     var trackingData: Observable<[String]?> { get }
@@ -51,6 +56,7 @@ protocol FeatureFlaggeable: class {
     
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
+    var postingFlowType: PostingFlowType { get }
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
@@ -398,11 +404,24 @@ class FeatureFlags: FeatureFlaggeable {
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
-        switch (locationCountryCode, localeCountryCode) {
-        case (.turkey?, _), (_, .turkey?):
+        switch locationCountryCode {
+        case .turkey?:
             return false
         default:
             return true
+        }
+    }
+    
+    var postingFlowType: PostingFlowType {
+        if Bumper.enabled {
+            return Bumper.realEstateFlowType == .standard ? .standard : .turkish
+        }
+        switch locationCountryCode {
+        case .turkey?:
+            // TODO: change to turkish when all development is done.
+            return .standard
+        default:
+            return .standard
         }
     }
 
