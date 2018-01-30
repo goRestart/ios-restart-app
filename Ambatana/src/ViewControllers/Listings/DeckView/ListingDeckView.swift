@@ -51,6 +51,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         quickChatView.isRemovedWhenResigningFirstResponder = false
         setupDirectChatView(quickChatView: quickChatView)
         self.quickChatView = quickChatView
+        focusOnCollectionView()
     }
 
     private func setupUI() {
