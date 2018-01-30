@@ -7049,7 +7049,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-D\" \"APP_STORE\"";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
 				PROVISIONING_PROFILE = "";
