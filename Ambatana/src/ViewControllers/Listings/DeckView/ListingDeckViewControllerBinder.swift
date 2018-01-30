@@ -94,7 +94,7 @@ final class ListingDeckViewControllerBinder {
     private func bindActions(withViewModel viewModel: ListingDeckViewModelType,
                              listingDeckView: ListingDeckViewType,
                              disposeBag: DisposeBag) {
-        viewModel.rxActionButtons.bind { [weak self, weak listingDeckView] actionButtons in
+        viewModel.rxActionButtons.bind { [weak self] actionButtons in
             self?.listingDeckViewController?.updateViewWithActions(actionButtons)
             self?.bindActionButtonTap(withActions: actionButtons,
                                       listingDeckView: listingDeckView, disposeBag: disposeBag)
@@ -147,10 +147,6 @@ final class ListingDeckViewControllerBinder {
     private func bindContentOffset(withViewController viewController: ListingDeckViewControllerBinderType,
                                    viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
                                    disposeBag: DisposeBag) {
-        viewController.rxContentOffset.skip(1).take(1).bind { [weak viewModel] _ in
-            viewModel?.userHasScrolled = true
-        }.disposed(by: disposeBag)
-
         let pageSignal: Observable<Int> = viewController.rxContentOffset.map { _ in return listingDeckView.currentPage }
         pageSignal.skip(1).distinctUntilChanged().bind { [weak viewModel] page in
             // TODO: Tracking 3109

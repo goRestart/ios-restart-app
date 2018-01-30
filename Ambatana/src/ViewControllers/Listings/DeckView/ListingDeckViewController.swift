@@ -102,6 +102,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     // ScrollViewDelegate
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        viewModel.userHasScrolled = true
         contentOffsetVar.value = scrollView.contentOffset.x
     }
 
