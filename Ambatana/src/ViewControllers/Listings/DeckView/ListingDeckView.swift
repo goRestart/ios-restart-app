@@ -28,7 +28,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     var currentPage: Int { return collectionLayout.page }
     var bumpUpBanner: BumpUpBanner { return itemActionsView.bumpUpBanner }
     var isBumpUpVisible: Bool { return itemActionsView.isBumpUpVisisble }
-
     
     override init(frame: CGRect) {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
@@ -100,15 +99,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         addSubview(quickChatView)
         quickChatView.translatesAutoresizingMaskIntoConstraints = false
         quickChatView.layout(with: self).fill()
-    }
-
-    func enableScrollForItemAtPage(_ page: Int) {
-        collectionView.cellForItem(at: IndexPath(item: page - 1,
-                                                 section: 0))?.contentView.isUserInteractionEnabled = false
-        collectionView.cellForItem(at: IndexPath(item: page + 1,
-                                                 section: 0))?.contentView.isUserInteractionEnabled = false
-
-        collectionView.cellForItem(at: IndexPath(item: page, section: 0))?.contentView.isUserInteractionEnabled = true
     }
 
     func pageOffset(givenOffset: CGFloat) -> CGFloat {

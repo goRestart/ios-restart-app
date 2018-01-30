@@ -93,7 +93,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
             cell.populateWith(listingViewModel: listing, imageDownloader: viewModel.imageDownloader)
             binder.bind(cell: cell)
             cell.delegate = self
-            cell.contentView.isUserInteractionEnabled = (indexPath.row == listingDeckView.currentPage)
             
             return cell
         }
@@ -140,7 +139,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
 extension ListingDeckViewController: ListingDeckViewControllerBinderType {
 
-    var rxContentOffset: Observable<CGFloat> { return  contentOffsetVar.asObservable() }
+    var rxContentOffset: ControlProperty<CGPoint> { return listingDeckView.collectionView.rx.contentOffset }
 
     func setLetGoRightButtonWith(_ action: UIAction, buttonTintColor: UIColor?, tapBlock: (ControlEvent<Void>) -> Void) {
         super.setLetGoRightButtonWith(action, buttonTintColor: buttonTintColor, tapBlock: tapBlock)
@@ -190,10 +189,6 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
 
     func didTapCardAction() {
         viewModel.didTapCardAction()
-    }
-
-    func pageDidChange(current: Int) {
-        listingDeckView.enableScrollForItemAtPage(current)
     }
 
     func showBumpUpBanner(bumpInfo: BumpUpInfo) {

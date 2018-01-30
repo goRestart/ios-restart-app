@@ -13,14 +13,13 @@ import RxSwift
 
 protocol ListingDeckViewControllerBinderType: class {
     var keyboardChanges: Observable<KeyboardChange> { get }
-    var rxContentOffset: Observable<CGFloat> { get }
+    var rxContentOffset: ControlProperty<CGPoint> { get }
 
     func updateWith(keyboardChange: KeyboardChange)
     func vmShowOptions(_ cancelLabel: String, actions: [UIAction])
     func showBumpUpBanner(bumpInfo: BumpUpInfo)
     func didTapShare()
     func didTapCardAction()
-    func pageDidChange(current: Int)
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool)
     func setNavigationBarRightButtons(_ actions: [UIButton])
     func setLetGoRightButtonWith(_ action: UIAction, buttonTintColor: UIColor?, tapBlock: (ControlEvent<Void>) -> Void )
@@ -157,18 +156,14 @@ final class ListingDeckViewControllerBinder {
             // TODO: Tracking 3109
             viewModel?.moveToProductAtIndex(page, movement: .swipeRight)
         }.disposed(by: disposeBag)
-
-        pageSignal.distinctUntilChanged().bind { [weak viewController] page in
-            viewController?.pageDidChange(current: page)
-        }.disposed(by: disposeBag)
     }
 
     private func bindChat(withViewController viewController: ListingDeckViewControllerBinderType,
                           viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
                           disposeBag: DisposeBag) {
         let contentOffsetAlphaSignal: Observable<CGFloat> = viewController.rxContentOffset
-            .map { [weak listingDeckView] x in
-                let pageOffset = listingDeckView?.pageOffset(givenOffset: x).truncatingRemainder(dividingBy: 1.0) ?? 0.5
+            .map { [weak listingDeckView] point in
+                let pageOffset = listingDeckView?.pageOffset(givenOffset: point.x).truncatingRemainder(dividingBy: 1.0) ?? 0.5
                 guard pageOffset >= 0.5 else {
                     return 2*pageOffset
                 }
