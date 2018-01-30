@@ -45,10 +45,11 @@ protocol AppEnvironment {
 extension AppEnvironment {
     
     var amplitudeAPIKey: String {
+        // Why this default implementation: https://ambatana.atlassian.net/browse/ABIOS-2510
         #if GOD_MODE
-            return "1c32ba5ed444237608436bad4f310307"
+            return DevelopmentEnvironment.amplitudeKey
         #else
-            return "6d37fbd6c25243c57676e6d4ce7948bf"
+            return ProductionEnvironment.amplitudeKey
         #endif
     }
 

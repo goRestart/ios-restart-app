@@ -7,6 +7,8 @@
 //
 
 class DevelopmentEnvironment: AppEnvironment {
+    static let amplitudeKey = "1c32ba5ed444237608436bad4f310307"
+
     // General
     let appleAppId = "986339882"
     let facebookAppId = "924384130976182"
