@@ -460,7 +460,7 @@ fileprivate extension UserViewModel {
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityStateString
             strongSelf.userIsProfessional.value = user?.type == .pro
-            strongSelf.userIsDummy.value = true
+            strongSelf.userIsDummy.value = user?.type == .dummy
             
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .myUser : .otherUser
             

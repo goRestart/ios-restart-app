@@ -196,16 +196,13 @@ extension UserViewHeader {
     func setupDummyView(infoText: String) {
         guard let containerView = dummyUserDisclaimerContainerView else { return }
         guard dummyUserDisclaimerView == nil else { return }
-        //self.layoutSubviews()
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        
         self.dummyUserDisclaimerView = DummyUserDisclaimerView(infoText: infoText)
         self.dummyUserDisclaimerContainerViewHeight.constant += 70
         self.setNeedsLayout()
         self.layoutIfNeeded()
-        self.dummyUserDisclaimerView?.translatesAutoresizingMaskIntoConstraints = false
         if let dummyUserDisclaimerView = self.dummyUserDisclaimerView {
             containerView.addSubview(dummyUserDisclaimerView)
+            self.dummyUserDisclaimerView?.translatesAutoresizingMaskIntoConstraints = false
             dummyUserDisclaimerView.layout(with: containerView).fill()
         }
     }
