@@ -43,6 +43,8 @@ class UserViewHeader: UIView {
     fileprivate static let buildTrustButtonInsetSmall: CGFloat = 10
     fileprivate static let buildTrustButtonInsetBig: CGFloat = 15
     fileprivate static let buildTrustButtonTitleInset: CGFloat = 10
+    
+    fileprivate static let dummyUserContainerViewHeight: CGFloat = 70
 
     @IBOutlet weak var avatarRatingsContainerView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -82,6 +84,9 @@ class UserViewHeader: UIView {
     @IBOutlet weak var indicatorView: UIView!
     @IBOutlet weak var indicatorViewLeadingConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var dummyUserDisclaimerContainerView: UIView!
+    @IBOutlet weak var dummyUserDisclaimerContainerViewHeight: NSLayoutConstraint!
+    
     weak var delegate: UserViewHeaderDelegate?
 
     let tab = Variable<UserViewHeaderTab>(.selling)
@@ -186,6 +191,16 @@ extension UserViewHeader {
         userRelationLabel.text = userRelationText
         updateInfoAndAccountsVisibility()
     }
+    
+    func setupDummyView(infoText: String) {
+        guard let containerView = dummyUserDisclaimerContainerView else { return }
+        let dummyUserDisclaimerView = DummyUserDisclaimerView(frame: CGRect(x: 0,
+                                                                        y: 0,
+                                                                        width: bounds.width,
+                                                                        height: UserViewHeader.dummyUserContainerViewHeight),
+                                                                    infoText: infoText)
+        containerView.addSubview(dummyUserDisclaimerView)
+    }
 
     fileprivate func modeUpdated() {
         verifiedSimpleContainer.isHidden = false
@@ -228,7 +243,6 @@ extension UserViewHeader {
         verifiedSimpleTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser : ""
         verifiedSimpleContainerHeight.constant = anyAccountVerified ? UserViewHeader.simpleContainerHeight : UserViewHeader.simpleContainerEmptyHeight
     
-
         if buildTrustButtonVisible {
             buildTrustSeparator.isHidden = !anyAccountVerified
             buildTrustContainerButtonWidth.constant = anyAccountVerified ? 0 : UserViewHeader.halfWidthScreen

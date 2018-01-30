@@ -1,5 +1,6 @@
 extension UserType: MockFactory {
     public static func makeMock() -> UserType {
-        return Bool.makeRandom() ? .user : .pro
+        let allValues: [UserType] = [.user, .pro, .dummy]
+        return allValues.random()!
     }
 }

@@ -15,9 +15,9 @@ class UserViewController: BaseViewController {
     fileprivate static let navBarUserViewHeight: CGFloat = 36
     fileprivate static let userLabelsVerticalMargin: CGFloat = 10
     fileprivate var userBgViewDefaultHeight: CGFloat {
-        return headerExpandedHeight
+        return navigationBarHeight + statusBarHeight + 84
     }
-
+    
     fileprivate var listingListViewTopMargin: CGFloat {
         return navigationBarHeight + statusBarHeight
     }
@@ -28,7 +28,9 @@ class UserViewController: BaseViewController {
     fileprivate var headerExpandedHeight: CGFloat {
         return navigationBarHeight + statusBarHeight + headerExpandedPadding
     }
-    fileprivate let headerExpandedPadding: CGFloat = 86
+    fileprivate var headerExpandedPadding: CGFloat {
+        return 86 + dummyUserViewHeight
+    }
 
     fileprivate var headerCollapsedBottom: CGFloat {
         if #available(iOS 11, *) {
@@ -37,7 +39,14 @@ class UserViewController: BaseViewController {
             return -(20 + 44 + headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
         }
     }
-    fileprivate let headerCollapsedHeight: CGFloat = 44
+    fileprivate var headerCollapsedHeight: CGFloat {
+        return 44 + dummyUserViewHeight
+    }
+    
+    fileprivate var dummyUserViewHeight: CGFloat {
+        //print(headerContainer.header.dummyUserDisclaimerContainerView?.height)
+        return headerContainer.header.dummyUserDisclaimerContainerView?.height ?? 0
+    }
 
     fileprivate static let navbarHeaderMaxThresold: CGFloat = 0.5
     fileprivate static let userLabelsMinThreshold: CGFloat = 0.5
@@ -340,6 +349,8 @@ extension UserViewController {
     }
 
     fileprivate func scrollDidChange(_ contentOffsetInsetY: CGFloat) {
+        print("enter did change")
+        print(contentOffsetInsetY)
         let minBottom = headerExpandedBottom
         let maxBottom = headerCollapsedBottom
 
@@ -354,7 +365,7 @@ extension UserViewController {
         // header expands more than 100% to hide the avatar when pulling
         let headerPercentage = abs(bottom - maxBottom) / abs(maxBottom - minBottom)
         headerExpandedPercentage.value = headerPercentage
-
+        
         // update top on error/first load views
         let maxTop = abs(headerExpandedBottom + listingListViewTopMargin)
         let minTop = abs(headerCollapsedBottom)
@@ -483,6 +494,16 @@ extension UserViewController {
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
             self?.headerContainer.header.selectedColor = bgColor
         }.disposed(by: disposeBag)
+        
+        Observable.combineLatest(
+            viewModel.userName.asObservable(),
+            viewModel.userIsDummy.asObservable()) { ($0, $1) }
+            .filter({ $1 })
+            .subscribeNext { [weak self] (userName, userIsDummy) in
+                guard let userName = userName else { return }
+                let infoText = LGLocalizedString.profileDummyUserInfo(userName)
+                self?.headerContainer.header.setupDummyView(infoText: infoText)
+            }.disposed(by: disposeBag)
 
         // Ratings
         viewModel.userRatingAverage.asObservable().subscribeNext { [weak self] userRatingAverage in
