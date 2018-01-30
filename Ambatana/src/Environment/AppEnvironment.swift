@@ -43,6 +43,16 @@ protocol AppEnvironment {
 }
 
 extension AppEnvironment {
+    
+    var amplitudeAPIKey: String {
+        // Why this default implementation: https://ambatana.atlassian.net/browse/ABIOS-2510
+        #if GOD_MODE
+            return DevelopmentEnvironment.amplitudeKey
+        #else
+            return ProductionEnvironment.amplitudeKey
+        #endif
+    }
+
     func websiteUrl(_ endpoint: String) -> String {
         return String(format: "\(websiteBaseUrl)\(endpoint)", arguments: [endpoint])
     }
