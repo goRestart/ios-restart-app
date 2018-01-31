@@ -197,7 +197,7 @@ extension UserViewHeader {
         guard let containerView = dummyUserDisclaimerContainerView else { return }
         guard dummyUserDisclaimerView == nil else { return }
         self.dummyUserDisclaimerView = DummyUserDisclaimerView(infoText: infoText)
-        self.dummyUserDisclaimerContainerViewHeight.constant += 70
+        self.dummyUserDisclaimerContainerViewHeight.constant += DummyUserDisclaimerView.viewHeight
         self.setNeedsLayout()
         self.layoutIfNeeded()
         if let dummyUserDisclaimerView = self.dummyUserDisclaimerView {
