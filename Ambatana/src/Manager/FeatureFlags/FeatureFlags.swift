@@ -52,6 +52,9 @@ protocol FeatureFlaggeable: class {
     var allowEmojisOnChat: AllowEmojisOnChat { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
+    var realEstateNewCopy: RealEstateNewCopy { get }
+    
+    var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -124,6 +127,14 @@ extension ShowAdsInFeedWithRatio {
 }
 
 extension RemoveCategoryWhenClosingPosting {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension RealEstateNewCopy {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension DummyUsersInfoProfile {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -388,6 +399,21 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return RemoveCategoryWhenClosingPosting.fromPosition(abTests.removeCategoryWhenClosingPosting.value)
     }
+    
+    var realEstateNewCopy: RealEstateNewCopy {
+        if Bumper.enabled {
+            return Bumper.realEstateNewCopy
+        }
+        return RealEstateNewCopy.fromPosition(abTests.realEstateNewCopy.value)
+    }
+    
+    var dummyUsersInfoProfile: DummyUsersInfoProfile {
+        if Bumper.enabled {
+            return Bumper.dummyUsersInfoProfile
+        }
+        return DummyUsersInfoProfile.fromPosition(abTests.dummyUsersInfoProfile.value)
+    }
+    
 
     // MARK: - Country features
 
