@@ -54,6 +54,8 @@ protocol FeatureFlaggeable: class {
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
     
+    var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
+
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
     var postingFlowType: PostingFlowType { get }
@@ -129,6 +131,10 @@ extension RemoveCategoryWhenClosingPosting {
 }
 
 extension RealEstateNewCopy {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension DummyUsersInfoProfile {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -400,6 +406,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return RealEstateNewCopy.fromPosition(abTests.realEstateNewCopy.value)
     }
+    
+    var dummyUsersInfoProfile: DummyUsersInfoProfile {
+        if Bumper.enabled {
+            return Bumper.dummyUsersInfoProfile
+        }
+        return DummyUsersInfoProfile.fromPosition(abTests.dummyUsersInfoProfile.value)
+    }
+    
 
     // MARK: - Country features
 

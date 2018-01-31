@@ -619,6 +619,9 @@
 // Common collapse
 "common_collapse" = "Show Less";
 
+// Common Confirm
+"common_confirm" = "Confirm";
+
 // Common error
 "common_error" = "Error";
 
@@ -2047,6 +2050,24 @@
 // Ask phone number automatic message
 "professional_dealer_ask_phone_chat_message" = "My phone number is %@";
 
+// Request phone cell text message text
+"professional_dealer_ask_phone_add_phone_cell_message" = "Call now or add your phone number so we can give you a call";
+
+// Request phone cell text button text
+"professional_dealer_ask_phone_add_phone_cell_button" = "Add your number";
+
+// Automatic message thanks for leaving phone text
+"professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
+
+// Automatic message thanks for contacting text
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or add your number so we can call you.";
+
+// Ask phone alert title
+"professional_dealer_ask_phone_alert_enter_phone" = "Add your phone number";
+
+// Not valid phone number error alert text
+"professional_dealer_ask_phone_alert_not_valid_phone" = "Please enter a valid  phone number";
+
 // Profile, you blocked this user label (wo username)
 "profile_blocked_by_me_label" = "You've blocked this user";
 
@@ -2133,6 +2154,9 @@
 
 // Text to verify accounts
 "profile_connect_accounts_message" = "You still haven't verified your account with:";
+
+// Text for dummy user info
+"profile_dummy_user_info" = "Hi! I'm %@ from letgo. I’m here to help you improve your listing and start selling.";
 
 // Promote bump up title text
 "promote_bump_title" = "Attract more buyers";
@@ -2923,6 +2947,9 @@
 
 // Action text for the Most searched items card fake button
 "trending_items_card_action" = "See items";
+
+// Button title for trending category in Expandable menu
+"trending_items_expandable_menu_button" = "Trending";
 
 // iPhone title
 "trending_item_iPhone" = "iPhone";

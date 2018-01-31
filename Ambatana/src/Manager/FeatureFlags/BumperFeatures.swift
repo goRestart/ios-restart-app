@@ -43,6 +43,7 @@ extension Bumper  {
         flags.append(RealEstateFlowType.self)
         flags.append(RemoveCategoryWhenClosingPosting.self)
         flags.append(RealEstateNewCopy.self)
+        flags.append(DummyUsersInfoProfile.self)
         Bumper.initialize(flags)
     } 
 
@@ -194,6 +195,11 @@ extension Bumper  {
     static var realEstateNewCopy: RealEstateNewCopy {
         guard let value = Bumper.value(for: RealEstateNewCopy.key) else { return .control }
         return RealEstateNewCopy(rawValue: value) ?? .control 
+    }
+
+    static var dummyUsersInfoProfile: DummyUsersInfoProfile {
+        guard let value = Bumper.value(for: DummyUsersInfoProfile.key) else { return .control }
+        return DummyUsersInfoProfile(rawValue: value) ?? .control 
     } 
 }
 
@@ -642,6 +648,22 @@ enum RealEstateNewCopy: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Try real estate copy instead of housing" } 
     static func fromPosition(_ position: Int) -> RealEstateNewCopy {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum DummyUsersInfoProfile: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return DummyUsersInfoProfile.control.rawValue }
+    static var enumValues: [DummyUsersInfoProfile] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Add info for dummy users in profile" } 
+    static func fromPosition(_ position: Int) -> DummyUsersInfoProfile {
         switch position { 
             case 0: return .control
             case 1: return .baseline
