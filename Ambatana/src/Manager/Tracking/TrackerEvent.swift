@@ -732,7 +732,7 @@ struct TrackerEvent {
     static func phoneNumberSent(typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
-        return TrackerEvent(name: .phoneNumberRequest, params: params)
+        return TrackerEvent(name: .phoneNumberSent, params: params)
     }
 
     static func phoneNumberNotNow(typePage: EventParameterTypePage) -> TrackerEvent {

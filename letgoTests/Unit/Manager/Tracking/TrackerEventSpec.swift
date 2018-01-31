@@ -1263,6 +1263,93 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["reason"] as? String) == TrackerEvent.notApply
                 }
             }
+
+            describe("listingDetailCall") {
+                beforeEach {
+                    var product = MockProduct.makeMock()
+                    product.objectId = "AAAAA"
+
+                    sut = TrackerEvent.listingDetailCall(.product(product), source: .listingList,
+                                                         typePage: .listingDetail, sellerUserRating: 2.5,
+                                                         feedPosition: .position(index:1), isFreePosting: .falseParameter,
+                                                         isBumpedUp: .trueParameter)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-detail-call"))
+                }
+                it("contains listing id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("AAAAA"))
+                }
+                it("contains source") {
+                    let source = sut.params!.stringKeyParams["visit-source"] as? String
+                    expect(source).to(equal("product-list"))
+                }
+                it("contains type-page") {
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal("product-detail"))
+                }
+                it("contains seller rating") {
+                    let rating = sut.params!.stringKeyParams["seller-user-rating"] as? Float
+                    expect(rating).to(equal(2.5))
+                }
+                it("contains feed position") {
+                    let position = sut.params!.stringKeyParams["feed-position"] as? String
+                    expect(position).to(equal("2"))
+                }
+                it("contains is free posting") {
+                    let isFree = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(isFree).to(equal("false"))
+                }
+                it("contains is bumped up") {
+                    let isBumped = sut.params!.stringKeyParams["bump-up"] as? String
+                    expect(isBumped).to(equal("true"))
+                }
+            }
+
+            describe("chatBannerCall") {
+                beforeEach {
+                    var chatListing = MockChatListing.makeMock()
+                    chatListing.objectId = "AAAAA"
+
+                    sut = TrackerEvent.chatBannerCall(chatListing, source: .unknown,
+                                                      typePage: .chat, sellerUserRating: 2.5,
+                                                      isFreePosting: .falseParameter,
+                                                      isBumpedUp: .falseParameter)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-detail-call"))
+                }
+                it("contains listing id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("AAAAA"))
+                }
+                it("contains source") {
+                    let source = sut.params!.stringKeyParams["visit-source"] as? String
+                    expect(source).to(equal("N/A"))
+                }
+                it("contains type-page") {
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal("chat"))
+                }
+                it("contains seller rating") {
+                    let rating = sut.params!.stringKeyParams["seller-user-rating"] as? Float
+                    expect(rating).to(equal(2.5))
+                }
+                it("contains feed position, and is always N/A") {
+                    let position = sut.params!.stringKeyParams["feed-position"] as? String
+                    expect(position).to(equal("N/A"))
+                }
+                it("contains is free posting") {
+                    let isFree = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(isFree).to(equal("false"))
+                }
+                it("contains is bumped up") {
+                    let isBumped = sut.params!.stringKeyParams["bump-up"] as? String
+                    expect(isBumped).to(equal("false"))
+                }
+            }
+
             describe("adTapped") {
                 beforeEach {
                     sut = TrackerEvent.adTapped(listingId: "listing123",
@@ -1298,7 +1385,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["type-page"] as? String) == "product-detail-more-info"
                 }
                 it("contains categories") {
-                    sut.params!.stringKeyParams["category-id"] as? String == "4,2"
+                    expect(sut.params!.stringKeyParams["category-id"] as? String) == "4,2"
                 }
                 it("contains feed position") {
                     expect(sut.params!.stringKeyParams["feed-position"] as? String) == "15"
@@ -2835,6 +2922,48 @@ class TrackerEventSpec: QuickSpec {
                 it("has related-source param") {
                     let source = sut.params?.stringKeyParams["related-source"] as? String
                     expect(source) == "product-not-found"
+                }
+            }
+
+            describe("phoneNumberRequest") {
+                beforeEach {
+                    sut = TrackerEvent.phoneNumberRequest(typePage: .chat)
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("phone-number-request"))
+                }
+                it("has type-page param") {
+                    let typePage = sut.params?.stringKeyParams["type-page"] as? String
+                    expect(typePage) == "chat"
+                }
+            }
+
+            describe("phoneNumberSent") {
+                beforeEach {
+                    sut = TrackerEvent.phoneNumberSent(typePage: .listingDetail)
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("phone-number-sent"))
+                }
+                it("has type-page param") {
+                    let typePage = sut.params?.stringKeyParams["type-page"] as? String
+                    expect(typePage) == "product-detail"
+                }
+            }
+
+            describe("phoneNumberNotNow") {
+                beforeEach {
+                    sut = TrackerEvent.phoneNumberNotNow(typePage: .chat)
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("phone-number-not-now"))
+                }
+                it("has type-page param") {
+                    let typePage = sut.params?.stringKeyParams["type-page"] as? String
+                    expect(typePage) == "chat"
                 }
             }
             
