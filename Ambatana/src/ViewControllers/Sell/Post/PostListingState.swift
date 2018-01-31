@@ -29,6 +29,15 @@ public enum VerticalAttributes {
             return nil
         }
     }
+    
+    func generatedTitle(postingFlowType: PostingFlowType) -> String {
+        switch self {
+        case .carInfo(let carAttributes):
+            return carAttributes.generatedTitle
+        case .realEstateInfo(let attributes):
+            return attributes.generateTitle(postingFlowType: postingFlowType)
+        }
+    }
 }
 
 final class PostListingState {
@@ -45,6 +54,10 @@ final class PostListingState {
     var isRealEstate: Bool {
         guard let category = category, category == .realEstate else { return false }
         return true
+    }
+    
+    var sizeSquareMeters: Int? {
+        return verticalAttributes?.realEstateAttributes?.sizeSquareMeters
     }
     
     
@@ -104,6 +117,18 @@ final class PostListingState {
                                 verticalAttributes: verticalAttributes,
                                 place: place,
                                 title: title)
+    }
+    
+    func removeRealEstateCategory() -> PostListingState {
+        guard category == .realEstate else { return self }
+        return PostListingState(step: step,
+                                previousStep: previousStep,
+                                category: .unassigned,
+                                pendingToUploadImages: pendingToUploadImages,
+                                lastImagesUploadResult: lastImagesUploadResult,
+                                price: price,
+                                verticalAttributes: nil,
+                                place: place)
     }
     
     func updatingStepToUploadingImages() -> PostListingState {

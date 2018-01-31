@@ -15,7 +15,7 @@ class RealEstateAttributesLGSpec: QuickSpec {
     override func spec() {
         var sut: RealEstateAttributes!
         
-        describe("Generate real estate posting") {
+        describe("Generate real estate .standard posting") {
             context("with no data on attributes") {
                 beforeEach {
                     sut = RealEstateAttributes(propertyType: nil,
@@ -26,7 +26,7 @@ class RealEstateAttributesLGSpec: QuickSpec {
                                                sizeSquareMeters: nil)
                 }
                 it ("returns empty title") {
-                    expect(sut.generateTitle()) == ""
+                    expect(sut.generateTitle(postingFlowType: .standard)) == ""
                 }
                 context("attributes with property and offertype") {
                     beforeEach {
@@ -38,7 +38,7 @@ class RealEstateAttributesLGSpec: QuickSpec {
                                                    sizeSquareMeters: nil)
                     }
                     it ("result should equal: OTHER For rent") {
-                        expect(sut.generateTitle()) == "OTHER For rent"
+                        expect(sut.generateTitle(postingFlowType: .standard)) == "OTHER For rent"
                     }
                 }
                 context("attributes with bedrooms") {
@@ -51,7 +51,7 @@ class RealEstateAttributesLGSpec: QuickSpec {
                                                    sizeSquareMeters: nil)
                     }
                     it ("result should equal: 3BR") {
-                        expect(sut.generateTitle()) == "3BR"
+                        expect(sut.generateTitle(postingFlowType: .standard)) == "3BR"
                     }
                 }
                 context("attributes with bathrooms") {
@@ -64,7 +64,62 @@ class RealEstateAttributesLGSpec: QuickSpec {
                                                    sizeSquareMeters: nil)
                     }
                     it ("result should equal: OTHER For rent 3BA") {
-                        expect(sut.generateTitle()) == "OTHER For rent 3BA"
+                        expect(sut.generateTitle(postingFlowType: .standard)) == "OTHER For rent 3BA"
+                    }
+                }
+            }
+        }
+        
+        describe("Generate real estate .turkish posting") {
+            context("with no data on attributes") {
+                beforeEach {
+                    sut = RealEstateAttributes(propertyType: nil,
+                                               offerType: nil,
+                                               bedrooms: nil,
+                                               bathrooms: nil,
+                                               livingRooms: nil,
+                                               sizeSquareMeters: nil)
+                }
+                it ("returns empty title") {
+                    expect(sut.generateTitle(postingFlowType: .turkish)) == ""
+                }
+                context("attributes with property and offertype") {
+                    beforeEach {
+                        sut = RealEstateAttributes(propertyType: .other,
+                                                   offerType: .rent,
+                                                   bedrooms: nil,
+                                                   bathrooms: nil,
+                                                   livingRooms: nil,
+                                                   sizeSquareMeters: nil)
+                    }
+                    it ("result should equal: OTHER For rent") {
+                        expect(sut.generateTitle(postingFlowType: .turkish)) == "For rent OTHER"
+                    }
+                }
+                context("attributes with studio (1+0)") {
+                    beforeEach {
+                        sut = RealEstateAttributes(propertyType: .flat,
+                                                   offerType: nil,
+                                                   bedrooms: 1,
+                                                   bathrooms: nil,
+                                                   livingRooms: 0,
+                                                   sizeSquareMeters: nil)
+                    }
+                    it ("result should equal: studio (1+0)") {
+                        expect(sut.generateTitle(postingFlowType: .turkish)) == "FLAT / RESIDENCE Studio (1+0)"
+                    }
+                }
+                context("attributes with over 10 rooms") {
+                    beforeEach {
+                        sut = RealEstateAttributes(propertyType: .other,
+                                                   offerType: .rent,
+                                                   bedrooms: 10,
+                                                   bathrooms: nil,
+                                                   livingRooms: 0,
+                                                   sizeSquareMeters: nil)
+                    }
+                    it ("result should equal: OTHER For rent Over 10") {
+                        expect(sut.generateTitle(postingFlowType: .turkish)) == "For rent OTHER Over 10"
                     }
                 }
             }

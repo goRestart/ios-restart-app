@@ -140,5 +140,25 @@
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "show ads in feed every X cells"
+    },
+    {
+        "name": "RealEstateFlowType",
+        "values": ["standard", "turkish"],
+        "description": "Real Estate Flow Type"
+    },
+    {
+        "name": "RemoveCategoryWhenClosingPosting",
+        "values": ["control", "baseline", "active"],
+        "description": "Remove category real estate if user closes posting"
+    },
+    {
+        "name": "RealEstateNewCopy",
+        "values": ["control", "baseline", "active"],
+        "description": "Try real estate copy instead of housing"
+    },
+    {
+        "name": "DummyUsersInfoProfile",
+        "values": ["control", "baseline", "active"],
+        "description": "Add info for dummy users in profile"
     }
 ]
