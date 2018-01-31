@@ -30,7 +30,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     private static let realEstateTurkishContainerHeight: CGFloat = 179 // (4 x 44 + 3 separators)
     
     enum TextFieldTag: Int {
-        case listingTitle = 1000, listingPrice, listingDescription
+        case listingTitle = 1000, listingPrice, listingDescription, sizeSquareMeters
     }
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -219,9 +219,18 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let tag = TextFieldTag(rawValue: textField.tag), tag == .listingTitle else { return }
-        if let text = textField.text {
-            viewModel.userFinishedEditingTitle(text)
+        guard let tag = TextFieldTag(rawValue: textField.tag)else { return }
+        switch tag {
+        case .listingTitle:
+            if let text = textField.text {
+                viewModel.userFinishedEditingTitle(text)
+            }
+        case .sizeSquareMeters:
+            if let text = textField.text {
+                viewModel.realEstateSizeEditionFinished(value: text)
+            }
+        case .listingDescription, .listingPrice:
+            break
         }
     }
 
@@ -249,6 +258,8 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
                 viewModel.price = text.isEmpty ? nil : text
             case .listingDescription:
                 break
+            case .sizeSquareMeters:
+                viewModel.realEstateSizeEditionFinished(value: text)
             }
         }
         return true
@@ -471,9 +482,9 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         priceTextField.tag = TextFieldTag.listingPrice.rawValue
         priceTextField.insetX = 16.0
         
-        realEstateTurkishSizeTextField.placeholder = LGLocalizedString.productNegotiablePrice
-        realEstateTurkishSizeTextField.text = viewModel.price
-        realEstateTurkishSizeTextField.tag = TextFieldTag.listingPrice.rawValue
+        realEstateTurkishSizeTextField.placeholder = LGLocalizedString.realEstateSummarySizeTitle
+        realEstateTurkishSizeTextField.text = viewModel.realEstateSizeSquareMetersString
+        realEstateTurkishSizeTextField.tag = TextFieldTag.sizeSquareMeters.rawValue
         realEstateTurkishSizeTextField.insetX = 16.0
 
         descriptionTextView.text = viewModel.descr ?? ""
@@ -502,7 +513,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         realEstateTurkishPropertyTypeTitleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
         realEstateTurkishOfferTypeTitleLabel.text = LGLocalizedString.realEstateOfferTypeTitle
         realEstateTurkishNumberOfRoomsTitleLabel.text = LGLocalizedString.realEstateRoomsTitle
-        realEstateTurkishSizeTitleLabel.text = LGLocalizedString.realEstateSizeSquareMetersTitle
+        realEstateTurkishSizeTitleLabel.text = Constants.sizeSquareMetersUnit
         
         sendButton.setTitle(LGLocalizedString.editProductSendButton, for: .normal)
         sendButton.setStyle(.primary(fontSize:.big))

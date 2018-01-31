@@ -158,6 +158,11 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         return listingImages.images
     }
     
+    var realEstateSizeSquareMetersString: String? {
+        guard let size = realEstateSizeSquareMeters.value else { return nil }
+        return String(size)
+    }
+    
     fileprivate(set) var categories: [ListingCategory] = []
     fileprivate let initialListing: Listing
     fileprivate var savedListing: Listing?
@@ -251,18 +256,19 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         case .realEstate(let realEstate):
             self.realEstatePropertyType.value = realEstate.realEstateAttributes.propertyType
             self.realEstateOfferType.value = realEstate.realEstateAttributes.offerType
-            if let bedrooms = realEstate.realEstateAttributes.bedrooms {
-                self.realEstateNumberOfBedrooms.value = bedrooms
-            }
+            self.realEstateNumberOfBedrooms.value = realEstate.realEstateAttributes.bedrooms
+            
             if let bathrooms = realEstate.realEstateAttributes.bathrooms {
                 self.realEstateNumberOfBathrooms.value = NumberOfBathrooms(rawValue: bathrooms)
             }
-            if let livingRooms = realEstate.realEstateAttributes.livingRooms {
-                self.realEstateNumberOfLivingRooms.value = livingRooms
-            }
+            
+            self.realEstateNumberOfLivingRooms.value = realEstate.realEstateAttributes.livingRooms
+            
             if let bedrooms = realEstate.realEstateAttributes.bedrooms, let livingRooms = realEstate.realEstateAttributes.livingRooms {
                 self.realEstateNumberOfRooms.value = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms)
             }
+            self.realEstateSizeSquareMeters.value = realEstate.realEstateAttributes.sizeSquareMeters
+            
         }
 
         self.shouldShareInFB = false
@@ -437,7 +443,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         ) { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
                 let numberOfRooms = NumberOfRooms(numberOfBedrooms: attributeValues[selectedIndex].numberOfBedrooms, numberOfLivingRooms: attributeValues[selectedIndex].numberOfLivingRooms)
-                self?.realEstateNumberOfRooms.value = numberOfRooms
+                self?.realEstateNumberOfBedrooms.value = numberOfRooms.numberOfBedrooms
+                self?.realEstateNumberOfLivingRooms.value = numberOfRooms.numberOfLivingRooms
             } else {
                 self?.realEstateNumberOfRooms.value = nil
             }
@@ -464,6 +471,10 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
             }
         }
         navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
+    func realEstateSizeEditionFinished(value: String) {
+        realEstateSizeSquareMeters.value = Int(value)
     }
 
     var fbShareContent: FBSDKShareLinkContent? {
@@ -560,7 +571,9 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         let checkingRealEstateChanges = Observable.combineLatest(realEstatePropertyType.asObservable(),
                                                                  realEstateOfferType.asObservable(),
                                                                  realEstateNumberOfBathrooms.asObservable(),
-                                                                 realEstateNumberOfBedrooms.asObservable())
+                                                                 realEstateNumberOfBedrooms.asObservable(),
+                                                                 realEstateSizeSquareMeters.asObservable(),
+                                                                 realEstateNumberOfLivingRooms.asObservable())
         let checkAllChanges = Observable.combineLatest(checkingCarChanges.asObservable(),
                                                        checkingRealEstateChanges.asObservable())
         checkAllChanges.asObservable().bind { [weak self] _ in
