@@ -220,15 +220,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let tag = TextFieldTag(rawValue: textField.tag)else { return }
+        guard let text = textField.text else { return }
         switch tag {
         case .listingTitle:
-            if let text = textField.text {
-                viewModel.userFinishedEditingTitle(text)
-            }
+            viewModel.userFinishedEditingTitle(text)
         case .sizeSquareMeters:
-            if let text = textField.text {
-                viewModel.realEstateSizeEditionFinished(value: text)
-            }
+            viewModel.realEstateSizeEditionFinished(value: text)
         case .listingDescription, .listingPrice:
             break
         }
