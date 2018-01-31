@@ -578,11 +578,10 @@ extension UserViewController {
             Observable.combineLatest(
                 viewModel.userName.asObservable(),
                 viewModel.userIsDummy.asObservable()) { ($0, $1) }
-                .filter({ $1 })
                 .subscribeNext { [weak self] (userName, userIsDummy) in
                     guard let userName = userName else { return }
                     let infoText = LGLocalizedString.profileDummyUserInfo(userName)
-                    self?.headerContainer.header.setupDummyView(infoText: infoText)
+                    self?.headerContainer.header.setupDummyView(isDummy: userIsDummy, infoText: infoText)
             }.disposed(by: disposeBag)
         }
     }

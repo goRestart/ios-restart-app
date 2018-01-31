@@ -48,6 +48,8 @@ class DummyUserDisclaimerView: UIView {
     }
     
     private func setupConstraints() {
+        translatesAutoresizingMaskIntoConstraints = false
+        
         let subviews = [corneredBackgroundView, infoImageView, textLabel]
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
         addSubviews(subviews)

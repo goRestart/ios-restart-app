@@ -193,18 +193,23 @@ extension UserViewHeader {
         updateInfoAndAccountsVisibility()
     }
     
-    func setupDummyView(infoText: String) {
-        guard let containerView = dummyUserDisclaimerContainerView else { return }
-        guard dummyUserDisclaimerView == nil else { return }
-        self.dummyUserDisclaimerView = DummyUserDisclaimerView(infoText: infoText)
-        self.dummyUserDisclaimerContainerViewHeight.constant += DummyUserDisclaimerView.viewHeight
-        self.setNeedsLayout()
-        self.layoutIfNeeded()
-        if let dummyUserDisclaimerView = self.dummyUserDisclaimerView {
-            containerView.addSubview(dummyUserDisclaimerView)
-            self.dummyUserDisclaimerView?.translatesAutoresizingMaskIntoConstraints = false
-            dummyUserDisclaimerView.layout(with: containerView).fill()
+    func setupDummyView(isDummy: Bool, infoText: String) {
+        if let containerView = dummyUserDisclaimerContainerView,
+            isDummy && dummyUserDisclaimerView?.superview == nil {
+            if dummyUserDisclaimerView == nil {
+                dummyUserDisclaimerView = DummyUserDisclaimerView(infoText: infoText)
+            }
+            if let dummyUserDisclaimerView = self.dummyUserDisclaimerView {
+                dummyUserDisclaimerContainerViewHeight.constant += DummyUserDisclaimerView.viewHeight
+                containerView.addSubview(dummyUserDisclaimerView)
+                dummyUserDisclaimerView.layout(with: containerView).fill()
+            }
+        } else {
+            dummyUserDisclaimerContainerViewHeight.constant = 0
+            dummyUserDisclaimerView?.removeFromSuperview()
         }
+        setNeedsLayout()
+        layoutIfNeeded()
     }
 
     fileprivate func modeUpdated() {
