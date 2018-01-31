@@ -17,7 +17,7 @@ class UserViewController: BaseViewController {
     fileprivate var userBgViewDefaultHeight: CGFloat {
         return headerExpandedHeight
     }
-
+    
     fileprivate var listingListViewTopMargin: CGFloat {
         return navigationBarHeight + statusBarHeight
     }
@@ -38,6 +38,10 @@ class UserViewController: BaseViewController {
         }
     }
     fileprivate let headerCollapsedHeight: CGFloat = 44
+    
+    fileprivate var dummyUserViewHeight: CGFloat {
+        return headerContainer.header.dummyUserDisclaimerContainerView?.height ?? 0
+    }
 
     fileprivate static let navbarHeaderMaxThresold: CGFloat = 0.5
     fileprivate static let userLabelsMinThreshold: CGFloat = 0.5
@@ -344,21 +348,21 @@ extension UserViewController {
         let maxBottom = headerCollapsedBottom
 
         let bottom = min(maxBottom, contentOffsetInsetY - listingListViewTopMargin)
-        headerContainerBottom.constant = bottom
+        headerContainerBottom.constant = bottom - dummyUserViewHeight
 
         let percentage = min(1, abs(bottom - maxBottom) / abs(maxBottom - minBottom))
 
         let height = headerCollapsedHeight + percentage * (headerExpandedHeight - headerCollapsedHeight)
-        headerContainerHeight.constant = height
+        headerContainerHeight.constant = height + dummyUserViewHeight
 
         // header expands more than 100% to hide the avatar when pulling
         let headerPercentage = abs(bottom - maxBottom) / abs(maxBottom - minBottom)
         headerExpandedPercentage.value = headerPercentage
-
+        
         // update top on error/first load views
         let maxTop = abs(headerExpandedBottom + listingListViewTopMargin)
         let minTop = abs(headerCollapsedBottom)
-        let top = minTop + percentage * (maxTop - minTop)
+        let top = minTop + dummyUserViewHeight + percentage * (maxTop - minTop)
         let firstLoadPadding = UIEdgeInsets(top: top,
                                             left: listingListView.firstLoadPadding.left,
                                             bottom: listingListView.firstLoadPadding.bottom,
@@ -568,6 +572,18 @@ extension UserViewController {
 
         // Tab switch
         headerContainer.header.tab.asObservable().bind(to: viewModel.tab).disposed(by: disposeBag)
+        
+        // Dummy users
+        if viewModel.areDummyUsersEnabled {
+            Observable.combineLatest(
+                viewModel.userName.asObservable(),
+                viewModel.userIsDummy.asObservable()) { ($0, $1) }
+                .subscribeNext { [weak self] (userName, userIsDummy) in
+                    guard let userName = userName else { return }
+                    let infoText = LGLocalizedString.profileDummyUserInfo(userName)
+                    self?.headerContainer.header.setupDummyView(isDummy: userIsDummy, infoText: infoText)
+            }.disposed(by: disposeBag)
+        }
     }
     
     private func setupUserLabelsContainerRx() {
