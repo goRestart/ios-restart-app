@@ -51,9 +51,13 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstatePromos: RealEstatePromos = .control
     var allowEmojisOnChat: AllowEmojisOnChat = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
+    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
+    var realEstateNewCopy: RealEstateNewCopy = .control
+    var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
+    var postingFlowType: PostingFlowType = .standard
     var locationRequiresManualChangeSuggestion = false
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false

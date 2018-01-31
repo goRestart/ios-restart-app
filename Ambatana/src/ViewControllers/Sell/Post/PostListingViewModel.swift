@@ -70,6 +70,7 @@ class PostListingViewModel: BaseViewModel {
     
     fileprivate var imagesSelected: [UIImage]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
+    fileprivate var title: String?
     
     let selectedDetail = Variable<CategoryDetailSelectedInfo?>(nil)
     var selectedCarAttributes: CarAttributes = CarAttributes.emptyCarAttributes()
@@ -334,6 +335,11 @@ fileprivate extension PostListingViewModel {
                 guard let strongSelf = self else { return }
                 strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess()
             }
+        }.disposed(by: disposeBag)
+        
+        state.asObservable().bind { [weak self] state in
+            guard let strongSelf = self else { return }
+            strongSelf.title = strongSelf.postDetailViewModel.listingTitle ?? state.verticalAttributes?.generatedTitle(postingFlowType: strongSelf.featureFlags.postingFlowType)
         }.disposed(by: disposeBag)
     }
     

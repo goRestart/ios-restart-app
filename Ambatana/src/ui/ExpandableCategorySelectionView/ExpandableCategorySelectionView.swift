@@ -192,7 +192,7 @@ fileprivate extension ExpandableCategory {
             case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
                 return listingCategory.name
             case .realEstate:
-                return LGLocalizedString.productPostSelectCategoryHousing
+                return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.productPostSelectCategoryRealEstate : LGLocalizedString.productPostSelectCategoryHousing
             }
         case .mostSearchedItems:
             return LGLocalizedString.trendingItemsExpandableMenuButton

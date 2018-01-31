@@ -835,6 +835,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_collapse", comment: "")
 	}
 
+	static var commonConfirm: String {
+		return NSLocalizedString("common_confirm", comment: "")
+	}
+
 	static var commonError: String {
 		return NSLocalizedString("common_error", comment: "")
 	}
@@ -2751,6 +2755,30 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("professional_dealer_ask_phone_chat_message", comment: ""), var1)
 	}
 
+	static var professionalDealerAskPhoneAddPhoneCellMessage: String {
+		return NSLocalizedString("professional_dealer_ask_phone_add_phone_cell_message", comment: "")
+	}
+
+	static var professionalDealerAskPhoneAddPhoneCellButton: String {
+		return NSLocalizedString("professional_dealer_ask_phone_add_phone_cell_button", comment: "")
+	}
+
+	static var professionalDealerAskPhoneThanksPhoneCellMessage: String {
+		return NSLocalizedString("professional_dealer_ask_phone_thanks_phone_cell_message", comment: "")
+	}
+
+	static var professionalDealerAskPhoneThanksOtherCellMessage: String {
+		return NSLocalizedString("professional_dealer_ask_phone_thanks_other_cell_message", comment: "")
+	}
+
+	static var professionalDealerAskPhoneAlertEnterPhone: String {
+		return NSLocalizedString("professional_dealer_ask_phone_alert_enter_phone", comment: "")
+	}
+
+	static var professionalDealerAskPhoneAlertNotValidPhone: String {
+		return NSLocalizedString("professional_dealer_ask_phone_alert_not_valid_phone", comment: "")
+	}
+
 	static var profileBlockedByMeLabel: String {
 		return NSLocalizedString("profile_blocked_by_me_label", comment: "")
 	}
@@ -2865,6 +2893,10 @@ struct LGLocalizedString {
 
 	static var profileConnectAccountsMessage: String {
 		return NSLocalizedString("profile_connect_accounts_message", comment: "")
+	}
+
+	static func profileDummyUserInfo(_ var1: String) -> String {
+		return String(format: NSLocalizedString("profile_dummy_user_info", comment: ""), var1)
 	}
 
 	static var promoteBumpTitle: String {

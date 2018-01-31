@@ -10,7 +10,7 @@ import LGCoreKit
 
 extension RealEstateAttributes {
     
-    func generateTitle() -> String {
+    func generateTitle(postingFlowType: PostingFlowType) -> String {
         let propertyTypeString = propertyType?.shortLocalizedString.localizedUppercase
         let offerTypeString = offerType?.shortLocalizedString.capitalizedFirstLetterOnly
         var bedroomsString: String?
@@ -26,7 +26,31 @@ extension RealEstateAttributes {
         {
             bathroomsString = bathroomsValue.shortLocalizedString.localizedUppercase
         }
-        let attributes = [propertyTypeString, offerTypeString, bedroomsString, bathroomsString]
+        
+        var roomsString: String?
+        if let _ = bedrooms, let _ = livingRooms {
+            let numberOfRooms = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms)
+            roomsString = numberOfRooms.localizedString
+        }
+        
+        var sizeSquareMetersString: String?
+        if let size = sizeSquareMeters {
+            sizeSquareMetersString = String(size) + Constants.sizeSquareMetersUnit
+        }
+        
+        if let bathroomsRawValue = bathrooms,
+            let bathroomsValue = NumberOfBathrooms(rawValue: bathroomsRawValue),
+            bathroomsValue != .zero
+        {
+            bathroomsString = bathroomsValue.shortLocalizedString.localizedUppercase
+        }
+        
+        let attributes: [String?]
+        if postingFlowType == .standard {
+            attributes = [propertyTypeString, offerTypeString, bedroomsString, bathroomsString]
+        } else {
+            attributes = [offerTypeString, propertyTypeString, roomsString, sizeSquareMetersString]
+        }
         return attributes.flatMap{ $0 }.joined(separator: " ")
     }
     
@@ -47,5 +71,4 @@ extension RealEstateAttributes {
         }
         return tags
     }
-    
 }
