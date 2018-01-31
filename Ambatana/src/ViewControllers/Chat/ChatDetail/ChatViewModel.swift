@@ -584,6 +584,8 @@ class ChatViewModel: BaseViewModel {
     func professionalSellerBannerActionButtonTapped() {
         guard let phoneNumber = interlocutorPhoneNumber.value else { return }
         PhoneCallsHelper.call(phoneNumber: phoneNumber)
+
+        trackCallSeller()
     }
 
 }
@@ -639,6 +641,7 @@ extension ChatViewModel {
                 return
         }
         send(phone: textFieldText)
+        tracker.trackEvent(TrackerEvent.phoneNumberSent(typePage: .chat))
     }
 
     fileprivate func sendMessage(type: ChatWrapperMessageType) {
@@ -1094,6 +1097,7 @@ extension ChatViewModel {
 
         let askPhoneAction: (() -> Void)? = { [weak self] in
             self?.delegate?.vmAskPhoneNumber()
+            self?.tracker.trackEvent(TrackerEvent.phoneNumberRequest(typePage: .chat))
         }
 
         return chatViewMessageAdapter.createAskPhoneMessageWith(action: askPhoneAction)
@@ -1384,6 +1388,19 @@ fileprivate extension ChatViewModel {
                                                        typePage: .chat)
         let markAsSold = TrackerEvent.listingMarkAsSold(trackingInfo: trackingInfo)
         tracker.trackEvent(markAsSold)
+    }
+
+    func trackCallSeller() {
+        guard let chatListing = conversation.value.listing else { return }
+
+        let isFreePosting: Bool? = conversation.value.listing?.price.isFree
+        let callSeller = TrackerEvent.chatBannerCall(chatListing,
+                                                     source: .unknown,
+                                                     typePage: EventParameterTypePage.chat,
+                                                     sellerUserRating: interlocutor?.ratingAverage,
+                                                     isFreePosting: EventParameterBoolean.init(bool: isFreePosting),
+                                                     isBumpedUp: .notAvailable)
+        tracker.trackEvent(callSeller)
     }
 
     private func buildSendMessageInfo(withType type: ChatWrapperMessageType, error: RepositoryError?) -> SendMessageTrackingInfo? {

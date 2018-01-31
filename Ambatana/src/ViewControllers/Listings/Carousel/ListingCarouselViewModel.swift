@@ -527,6 +527,7 @@ class ListingCarouselViewModel: BaseViewModel {
     func callSeller() {
         guard let phoneNumber = ownerPhoneNumber.value else { return }
         PhoneCallsHelper.call(phoneNumber: phoneNumber)
+        currentListingViewModel?.trackCallTapped(source: source, feedPosition: trackingFeedPosition)
     }
 
 
