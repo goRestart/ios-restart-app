@@ -14,6 +14,15 @@ enum ABType {
     case none
 }
 
+enum ABGroupType {
+    case legacyABTests
+    case core
+    case realEstate
+    case money
+    case retention
+    case chat
+}
+
 protocol ABDynamicVar {
     associatedtype ValueType
     var key: String { get }
@@ -21,7 +30,7 @@ protocol ABDynamicVar {
     var value: ValueType { get }
     var defaultValue: ValueType { get }
     var lpVar: LPVar { get }
-    var trackingData: String? { get }
+    var trackingData: String { get }
 }
 
 struct BoolABDynamicVar: ABDynamicVar, ABVariable {
@@ -32,12 +41,14 @@ struct BoolABDynamicVar: ABDynamicVar, ABVariable {
     var value: Bool {
         return lpVar.boolValue()
     }
+    let abGroupType: ABGroupType
 
-    init(key: String, defaultValue: Bool) {
+    init(key: String, defaultValue: Bool, abGroupType: ABGroupType) {
         self.key = key
         self.type = .bool
         self.defaultValue = defaultValue
-        self.lpVar = LPVar.define(key, with: defaultValue);
+        self.lpVar = LPVar.define(key, with: defaultValue)
+        self.abGroupType = abGroupType
     }
 }
 
@@ -49,12 +60,14 @@ struct StringABDynamicVar: ABDynamicVar, ABVariable {
     var value: String {
         return lpVar.stringValue()
     }
+    let abGroupType: ABGroupType
 
-    init(key: String, defaultValue: String) {
+    init(key: String, defaultValue: String, abGroupType: ABGroupType) {
         self.key = key
         self.type = .string
         self.defaultValue = defaultValue
         self.lpVar = LPVar.define(key, with: defaultValue)
+        self.abGroupType = abGroupType
     }
 }
 
@@ -66,12 +79,14 @@ struct IntABDynamicVar: ABDynamicVar, ABVariable {
     var value: Int {
         return lpVar.longValue()
     }
-
-    init(key: String, defaultValue: Int) {
+    let abGroupType: ABGroupType
+    
+    init(key: String, defaultValue: Int, abGroupType: ABGroupType) {
         self.key = key
         self.type = .int
         self.defaultValue = defaultValue
         self.lpVar = LPVar.define(key, withLong: defaultValue)
+        self.abGroupType = abGroupType
     }
 }
 
@@ -83,22 +98,25 @@ struct FloatABDynamicVar: ABDynamicVar, ABVariable {
     var value: Float {
         return lpVar.floatValue()
     }
-
-    init(key: String, defaultValue: Float) {
+    let abGroupType: ABGroupType
+    
+    init(key: String, defaultValue: Float, abGroupType: ABGroupType) {
         self.key = key
         self.type = .float
         self.defaultValue = defaultValue
         self.lpVar = LPVar.define(key, with: defaultValue)
+        self.abGroupType = abGroupType
     }
 }
 
 protocol ABVariable {
-    var trackingData: String? { get }
+    var trackingData: String { get }
+    var abGroupType: ABGroupType { get }
     func register()
 }
 
 extension ABDynamicVar {
-    var trackingData: String? {
+    var trackingData: String {
         return "\(key)-\(value)"
     }
     func register() {

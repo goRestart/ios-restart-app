@@ -483,6 +483,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         realEstateTurkishSizeTextField.placeholder = LGLocalizedString.realEstateSummarySizeTitle
         realEstateTurkishSizeTextField.text = viewModel.realEstateSizeSquareMetersString
         realEstateTurkishSizeTextField.tag = TextFieldTag.sizeSquareMeters.rawValue
+        realEstateTurkishSizeTextField.keyboardType = .numberPad
         realEstateTurkishSizeTextField.insetX = 16.0
 
         descriptionTextView.text = viewModel.descr ?? ""
