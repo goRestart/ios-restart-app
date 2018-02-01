@@ -219,7 +219,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let tag = TextFieldTag(rawValue: textField.tag)else { return }
+        guard let tag = TextFieldTag(rawValue: textField.tag) else { return }
         guard let text = textField.text else { return }
         switch tag {
         case .listingTitle:
@@ -656,17 +656,17 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         }.disposed(by: disposeBag)
         
         viewModel.realEstateOfferType.asObservable()
-            .map {$0?.localizedString }
+            .map { $0?.localizedString }
             .bind(to: realEstateStandardOfferTypeSelectedLabel.rx.text)
             .disposed(by: disposeBag)
         
         viewModel.realEstatePropertyType.asObservable()
-            .map {$0?.localizedString }
+            .map { $0?.localizedString }
             .bind(to: realEstateStandardPropertyTypeSelectedLabel.rx.text)
             .disposed(by: disposeBag)
         
         viewModel.realEstateNumberOfBathrooms.asObservable()
-            .map {$0?.localizedString }
+            .map { $0?.localizedString }
             .bind(to: realEstateStandardNumberOfBathroomsSelectedLabel.rx.text)
             .disposed(by: disposeBag)
 
@@ -676,17 +676,17 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         }.bind(to: realEstateStandardNumberOfBedroomsSelectedLabel.rx.text).disposed(by: disposeBag)
         
         viewModel.realEstateOfferType.asObservable()
-            .map {$0?.localizedString }
+            .map { $0?.localizedString }
             .bind(to: realEstateTurkishOfferTypeSelectedLabel.rx.text)
             .disposed(by: disposeBag)
         
         viewModel.realEstatePropertyType.asObservable()
-            .map {$0?.localizedString }
+            .map { $0?.localizedString }
             .bind(to: realEstateTurkishPropertyTypeSelectedLabel.rx.text)
             .disposed(by: disposeBag)
         
         viewModel.realEstateNumberOfRooms.asObservable()
-            .map {$0?.localizedString}
+            .map { $0?.localizedString }
             .bind(to: realEstateTurkishNumberOfRoomsSelectedLabel.rx.text)
             .disposed(by: disposeBag)
 

@@ -435,10 +435,10 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     
     func realEstateNumberOfRoomsButtonPressed() {
         let attributeValues = NumberOfRooms.allValues
-        let values = attributeValues.map { $0.localizedString }
+        let values = attributeValues.flatMap { $0.localizedString }
         let vm = ListingAttributePickerViewModel(
             title: LGLocalizedString.realEstateRoomsTitle,
-            attributes: values.flatMap { $0 },
+            attributes: values,
             selectedAttribute: NumberOfRooms(numberOfBedrooms: realEstateNumberOfBedrooms.value, numberOfLivingRooms: realEstateNumberOfLivingRooms.value).localizedString
         ) { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
