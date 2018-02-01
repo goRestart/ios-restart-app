@@ -59,6 +59,8 @@ class ChatViewMessageAdapter {
             } else {
                 type = ChatViewMessageType.text(text: message.text)
             }
+        case .phone:
+            type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(message.text))
         }
         return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt,
                                receivedAt: message.receivedAt, readAt: message.readAt, type: type,

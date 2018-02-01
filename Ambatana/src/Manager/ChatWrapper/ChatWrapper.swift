@@ -105,7 +105,7 @@ extension ChatWrapperMessageType {
         case let .periscopeDirect(text):
             return text
         case let .phone(text):
-            return LGLocalizedString.professionalDealerAskPhoneChatMessage(text)
+            return text
         }
     }
 
@@ -124,7 +124,7 @@ extension ChatWrapperMessageType {
         case .favoritedListing:
             return .favoritedListing
         case .phone:
-            return .text
+            return .phone
         }
     }
     
