@@ -148,12 +148,10 @@ enum ButtonStyle {
     
     var borderColor: UIColor {
         switch self {
-        case .primary, .terciary, .google, .facebook, .dark, .logout:
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField:
             return UIColor.white
         case .secondary:
             return UIColor.primaryColor
-        case .darkField:
-            return UIColor.white
         case .lightField:
             return UIColor.lgBlack
         case .postingFlow:
@@ -165,12 +163,10 @@ enum ButtonStyle {
         switch self {
         case .postingFlow:
             return UIColor.gray
-        case .primary, .terciary, .google, .facebook, .dark, .logout:
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField:
             return UIColor.white
         case .secondary:
             return UIColor.primaryColorDisabled
-        case .darkField:
-            return UIColor.white
         case .lightField:
             return UIColor.lgBlack
         }
@@ -180,12 +176,10 @@ enum ButtonStyle {
         switch self {
         case .postingFlow:
             return UIColor.white
-        case .primary, .terciary, .google, .facebook, .dark, .logout:
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField:
             return UIColor.white
         case .secondary:
             return UIColor.primaryColorDisabled
-        case .darkField:
-            return UIColor.white
         case .lightField:
             return UIColor.lgBlack
         }
