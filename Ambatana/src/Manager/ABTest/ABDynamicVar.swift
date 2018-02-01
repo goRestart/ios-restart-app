@@ -15,6 +15,7 @@ enum ABType {
 }
 
 enum ABGroupType {
+    case base
     case core
     case realEstate
     case money

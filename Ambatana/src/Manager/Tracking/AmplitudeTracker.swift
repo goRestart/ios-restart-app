@@ -33,6 +33,7 @@ final class AmplitudeTracker: Tracker {
     private static let userPropUserRating = "user-rating"
 
     // AB Tests
+    private static let userPropABTests = "AB-test"
     private static let userPropABTestsCore = "AB-test-core"
     private static let userPropABTestsRealEstate = "AB-test-realEstate"
     private static let userPropABTestsMoney = "AB-test-money"
@@ -163,6 +164,7 @@ final class AmplitudeTracker: Tracker {
     private func setupABTestsRx(featureFlags: FeatureFlaggeable) {
         featureFlags.trackingData.asObservable().bind { trackingData in
             guard let trackingData = trackingData else { return }
+            var baseAbtests: [String] = []
             var coreAbtests: [String] = []
             var moneyAbTests: [String] = []
             var realEstateAbTests: [String] = []
@@ -170,6 +172,8 @@ final class AmplitudeTracker: Tracker {
             var chatAbTests: [String] = []
             trackingData.forEach({ (identifier, abGroupType) in
                 switch abGroupType {
+                case .base:
+                    baseAbtests.append(identifier)
                 case .core:
                     coreAbtests.append(identifier)
                 case .money:
@@ -186,7 +190,8 @@ final class AmplitudeTracker: Tracker {
                                                  AmplitudeTracker.userPropABTestsMoney: moneyAbTests,
                                                  AmplitudeTracker.userPropABTestsRealEstate: realEstateAbTests,
                                                  AmplitudeTracker.userPropABTestsRetention: retentionAbTests,
-                                                 AmplitudeTracker.userPropABTestsChat: chatAbTests]
+                                                 AmplitudeTracker.userPropABTestsChat: chatAbTests,
+                                                 AmplitudeTracker.userPropABTests: baseAbtests]
             dict.forEach({ (type, variables) in
                 let identify = AMPIdentify()
                 let trackingDataValue = NSArray(array: variables)
