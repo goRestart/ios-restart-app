@@ -25,9 +25,10 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     private static let titleDisclaimerBottomConstraintHidden: CGFloat = 8
     private static let separatorOptionsViewDistance = LGUIKitConstants.onePixelSize
     private static let viewOptionGenericHeight: CGFloat = 50
-    private static let carsInfoContainerHeight: CGFloat = 134 // (3 x 44 + 2 separators)
-    private static let realEstateInfoContainerHeight: CGFloat = 179 // (4 x 44 + 3 separators)
-    private static let realEstateTurkishContainerHeight: CGFloat = 179 // (4 x 44 + 3 separators)
+    private static let viewOptionVerticalCellHeight: CGFloat = 44
+    private static var carsInfoContainerHeight: CGFloat = 3*EditListingViewController.viewOptionVerticalCellHeight + 2
+    private static var realEstateInfoContainerHeight: CGFloat = 4*EditListingViewController.viewOptionVerticalCellHeight + 3
+    private static var realEstateTurkishContainerHeight: CGFloat = 4*EditListingViewController.viewOptionVerticalCellHeight + 3
     
     enum TextFieldTag: Int {
         case listingTitle = 1000, listingPrice, listingDescription, sizeSquareMeters
