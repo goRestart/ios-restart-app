@@ -34,7 +34,7 @@ class ABTests {
     let requestsTimeOut = IntABDynamicVar(key: "20170929RequestTimeOut", defaultValue: 30, abGroupType: .core)
     let newBumpUpExplanation = IntABDynamicVar(key: "20171004NewBumpUpExplanation", defaultValue: 0, abGroupType: .core)
     let homeRelatedEnabled = IntABDynamicVar(key: "20171011HomeRelatedEnabled", defaultValue: 0, abGroupType: .core)
-    let hideChatButtonOnFeaturedCells = IntABDynamicVar(key: "20171011ChatButtonOnFeaturedCells", defaultValue: 0, abGroupType: .core)
+    let hideChatButtonOnFeaturedCells = IntABDynamicVar(key: "20171011ChatButtonOnFeaturedCells", defaultValue: 0, abGroupType: .money)
     let newItemPage = IntABDynamicVar(key: "20171027NewItemPage", defaultValue: 0, abGroupType: .core)
     let taxonomiesAndTaxonomyChildrenInFeed = IntABDynamicVar(key: "20171031TaxonomiesAndTaxonomyChildrenInFeed", defaultValue: 0, abGroupType: .core)
     let showPriceStepRealEstatePosting = IntABDynamicVar(key: "20171106RealEstatePostingOrder", defaultValue: 0, abGroupType: .realEstate)
