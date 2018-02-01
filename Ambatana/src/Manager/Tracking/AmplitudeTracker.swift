@@ -37,6 +37,7 @@ final class AmplitudeTracker: Tracker {
     private static let userPropABTestsRealEstate = "AB-test-realEstate"
     private static let userPropABTestsMoney = "AB-test-money"
     private static let userPropABTestsRetention = "AB-test-retention"
+    private static let userPropABTestsRetention = "AB-test-chat"
     
     private static let userPropMktPushNotificationKey = "marketing-push-notification"
     private static let userPropMktPushNotificationValueOn = "on"
@@ -166,6 +167,7 @@ final class AmplitudeTracker: Tracker {
             var moneyAbTests: [String] = []
             var realEstateAbTests: [String] = []
             var retentionAbTests: [String] = []
+            var chatAbTests: [String] = []
             trackingData.forEach({ (identifier, abGroupType) in
                 switch abGroupType {
                 case .core:
@@ -176,12 +178,15 @@ final class AmplitudeTracker: Tracker {
                     realEstateAbTests.append(identifier)
                 case .retention:
                     retentionAbTests.append(identifier)
+                case .chat:
+                    chatAbTests.append(identifier)
                 }
             })
             let dict: [String: [String]] = [AmplitudeTracker.userPropABTestsCore: coreAbtests,
                                                  AmplitudeTracker.userPropABTestsMoney: moneyAbTests,
                                                  AmplitudeTracker.userPropABTestsRealEstate: realEstateAbTests,
-                                                 AmplitudeTracker.userPropABTestsRetention: retentionAbTests]
+                                                 AmplitudeTracker.userPropABTestsRetention: retentionAbTests,
+                                                 AmplitudeTracker.userPropABTestsChat: chatAbTests]
             dict.forEach({ (type, variables) in
                 let identify = AMPIdentify()
                 let trackingDataValue = NSArray(array: variables)
