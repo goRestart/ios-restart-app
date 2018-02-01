@@ -436,11 +436,8 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     func realEstateNumberOfRoomsButtonPressed() {
         let attributeValues = NumberOfRooms.allValues
         let values = attributeValues.flatMap { $0.localizedString }
-        let vm = ListingAttributePickerViewModel(
-            title: LGLocalizedString.realEstateRoomsTitle,
-            attributes: values,
-            selectedAttribute: NumberOfRooms(numberOfBedrooms: realEstateNumberOfBedrooms.value, numberOfLivingRooms: realEstateNumberOfLivingRooms.value).localizedString
-        ) { [weak self] selectedIndex in
+        
+        let selectionUpdateblock: ((Int?) -> Void) = { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
                 let numberOfRooms = NumberOfRooms(numberOfBedrooms: attributeValues[selectedIndex].numberOfBedrooms, numberOfLivingRooms: attributeValues[selectedIndex].numberOfLivingRooms)
                 self?.realEstateNumberOfBedrooms.value = numberOfRooms.numberOfBedrooms
@@ -449,6 +446,12 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                 self?.realEstateNumberOfRooms.value = nil
             }
         }
+        let vm = ListingAttributePickerViewModel(title: LGLocalizedString.realEstateRoomsTitle,
+                                                 attributes: values,
+                                                 selectedAttribute: NumberOfRooms(numberOfBedrooms: realEstateNumberOfBedrooms.value,
+                                                                                  numberOfLivingRooms: realEstateNumberOfLivingRooms.value).localizedString,
+                                                 selectionUpdate: selectionUpdateblock)
+        
         navigator?.openListingAttributePicker(viewModel: vm)
     }
     
