@@ -8,6 +8,11 @@
 
 import LGCoreKit
 
+enum ExpandableCategoryStyle {
+    case red
+    case white
+}
+
 enum ExpandableCategory: Equatable {
     case listingCategory(listingCategory: ListingCategory)
     case mostSearchedItems
@@ -21,6 +26,15 @@ enum ExpandableCategory: Equatable {
         }
     }
     
+    var style: ExpandableCategoryStyle {
+        switch self {
+        case .listingCategory(_):
+            return .red
+        case .mostSearchedItems:
+            return .white
+        }
+    }
+    
     static public func ==(lhs: ExpandableCategory, rhs: ExpandableCategory) -> Bool {
         switch (lhs, rhs) {
         case (.listingCategory(_), .listingCategory(_)):
@@ -31,6 +45,8 @@ enum ExpandableCategory: Equatable {
             return false
         }
     }
+    
+    
 }
 
 protocol ExpandableCategorySelectionDelegate: class {

@@ -64,7 +64,7 @@ class ExpandableCategorySelectionView: UIView {
             guard let actionIndex = viewModel.categoriesAvailable.index(of: category) else { return }
             
             let button = UIButton(type: .custom)
-            button.setStyle(.primary(fontSize: .medium))
+            button.setStyle(.secondary(fontSize: .medium, withBorder: false))
             button.tag = actionIndex
             button.setImage(category.icon, for: .normal)
             button.setTitle(category.title, for: .normal)

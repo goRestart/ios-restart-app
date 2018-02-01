@@ -43,7 +43,7 @@ enum PostCategory: Equatable {
         case .realEstate:
             return baseSteps(postingFlowType: postingFlowType) - delta
         case .otherItems, .motorsAndAccessories:
-            return baseSteps
+            return baseSteps(postingFlowType: postingFlowType)
         }
     }
     

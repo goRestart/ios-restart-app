@@ -123,12 +123,13 @@ final class PostListingState {
         guard category == .realEstate else { return self }
         return PostListingState(step: step,
                                 previousStep: previousStep,
-                                category: .unassigned,
+                                category: .otherItems(listingCategory: nil),
                                 pendingToUploadImages: pendingToUploadImages,
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
                                 verticalAttributes: nil,
-                                place: place)
+                                place: place,
+                                title: nil)
     }
     
     func updatingStepToUploadingImages() -> PostListingState {
