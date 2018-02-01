@@ -24,8 +24,9 @@ class ChatAskPhoneNumberCellDrawer: BaseChatCellDrawer<ChatAskPhoneNumberCell> {
             cell.leavePhoneNumberButton.isEnabled = action != nil
             cell.leavePhoneNumberButton.setStyle(.secondary(fontSize: .small, withBorder: true))
             cell.leavePhoneNumberButton.setTitle(LGLocalizedString.professionalDealerAskPhoneAddPhoneCellButton, for: .normal)
-        default:
-            break
+        case .text, .sticker, .offer, .userInfo, .disclaimer:
+            cell.buttonAction = nil
+            cell.leavePhoneNumberButton.isHidden = true
         }
     }
 }
