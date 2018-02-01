@@ -33,8 +33,11 @@ final class AmplitudeTracker: Tracker {
     private static let userPropUserRating = "user-rating"
 
     // AB Tests
-    private static let userPropABTests = "AB-test"
-
+    private static let userPropABTestsCore = "AB-test-core"
+    private static let userPropABTestsRealEstate = "AB-test-realEstate"
+    private static let userPropABTestsMoney = "AB-test-money"
+    private static let userPropABTestsRetention = "AB-test-retention"
+    
     private static let userPropMktPushNotificationKey = "marketing-push-notification"
     private static let userPropMktPushNotificationValueOn = "on"
     private static let userPropMktPushNotificationValueOff = "off"
@@ -159,10 +162,32 @@ final class AmplitudeTracker: Tracker {
     private func setupABTestsRx(featureFlags: FeatureFlaggeable) {
         featureFlags.trackingData.asObservable().bind { trackingData in
             guard let trackingData = trackingData else { return }
-            let identify = AMPIdentify()
-            let trackingDataValue = NSArray(array: trackingData)
-            identify.set(AmplitudeTracker.userPropABTests, value: trackingDataValue)
-            Amplitude.instance().identify(identify)
+            var coreAbtests: [String] = []
+            var moneyAbTests: [String] = []
+            var realEstateAbTests: [String] = []
+            var retentionAbTests: [String] = []
+            trackingData.forEach({ (identifier, abGroupType) in
+                switch abGroupType {
+                case .core:
+                    coreAbtests.append(identifier)
+                case .money:
+                    moneyAbTests.append(identifier)
+                case .realEstate:
+                    realEstateAbTests.append(identifier)
+                case .retention:
+                    retentionAbTests.append(identifier)
+                }
+            })
+            let dict: [String: [String]] = [AmplitudeTracker.userPropABTestsCore: coreAbtests,
+                                                 AmplitudeTracker.userPropABTestsMoney: moneyAbTests,
+                                                 AmplitudeTracker.userPropABTestsRealEstate: realEstateAbTests,
+                                                 AmplitudeTracker.userPropABTestsRetention: retentionAbTests]
+            dict.forEach({ (type, variables) in
+                let identify = AMPIdentify()
+                let trackingDataValue = NSArray(array: variables)
+                identify.set(type, value: trackingDataValue)
+                Amplitude.instance().identify(identify)
+            })
         }.disposed(by: disposeBag)
     }
 }
