@@ -433,17 +433,20 @@ class ChatViewModel: BaseViewModel {
 
         let expressBannerTriggered = Observable.combineLatest(firstInteractionDone.asObservable(),
                                                               expressBannerTimerFinished.asObservable()) { $0 || $1 }
+
+        let relatedListingsObservable = Observable.combineLatest(hasRelatedListings.asObservable(),
+                                                                 relatedListingsState.asObservable().map { !$0.isVisible }) { $0 && $1 }
         /**
             Express chat banner is shown after 3 seconds or 1st interaction if:
                 - the listing has related listings
                 - we're not showing the related listings already over the keyboard
                 - user hasn't SENT messages via express chat for this listing
+                - interlocutor is not professional
          */
         Observable.combineLatest(expressBannerTriggered,
-                                 hasRelatedListings.asObservable(),
-                                 relatedListingsState.asObservable().map { $0.isVisible },
+                                 relatedListingsObservable,
                                  expressMessagesAlreadySent.asObservable(),
-                                 interlocutorIsProfessional.asObservable()) { $0 && $1 && !$2 && !$3 && !$4 }
+                                 interlocutorIsProfessional.asObservable()) { $0 && $1 && !$2 && !$3 }
             .distinctUntilChanged().bind(to: shouldShowExpressBanner).disposed(by: disposeBag)
 
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
@@ -822,7 +825,7 @@ extension ChatViewModel {
         guard let automaticAnswerMessage = chatViewMessageAdapter.createAutomaticAnswerWith(message: message) else { return }
         messages.insert(automaticAnswerMessage, atIndex: 0)
         hasSentAutomaticAnswerForPhoneMessage = isPhone
-        hasSentAutomaticAnswerForOtherMessage = hasSentAutomaticAnswerForPhoneMessage || !isPhone
+        hasSentAutomaticAnswerForOtherMessage = true
     }
 
     private func disableAskPhoneMessageButton() {
@@ -1248,7 +1251,7 @@ extension ChatViewModel {
                     return $0.talkerId != myUserRepository.myUser?.objectId
                 }
             })?.base {
-            messages.value.insert(meetingSecurityDisclaimerMessage, at: messages.value.index(before: lastInterlocutorMessageIndex))
+            messages.insert(meetingSecurityDisclaimerMessage, atIndex: messages.value.index(before: lastInterlocutorMessageIndex))
         }
     }
 
