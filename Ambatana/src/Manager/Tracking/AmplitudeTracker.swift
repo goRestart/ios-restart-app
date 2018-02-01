@@ -37,7 +37,7 @@ final class AmplitudeTracker: Tracker {
     private static let userPropABTestsRealEstate = "AB-test-realEstate"
     private static let userPropABTestsMoney = "AB-test-money"
     private static let userPropABTestsRetention = "AB-test-retention"
-    private static let userPropABTestsRetention = "AB-test-chat"
+    private static let userPropABTestsChat = "AB-test-chat"
     
     private static let userPropMktPushNotificationKey = "marketing-push-notification"
     private static let userPropMktPushNotificationValueOn = "on"
