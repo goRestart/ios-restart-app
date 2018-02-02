@@ -100,7 +100,6 @@ class ChatViewModelSpec: BaseViewModelSpec {
 
                 conversation = chatConversation
                 let predefinedMessage = String.makeRandom()
-//                let openChatAutomaticMessage: ChatWrapperMessageType = .phone("666-666-666")
                 sut = ChatViewModel(conversation: conversation, myUserRepository: myUserRepository,
                                     chatRepository: chatRepository, listingRepository: listingRepository,
                                     userRepository: userRepository, stickersRepository: stickersRepository,
