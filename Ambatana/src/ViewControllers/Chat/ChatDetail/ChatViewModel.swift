@@ -637,7 +637,7 @@ extension ChatViewModel {
     }
 
     func sendPhoneFrom(alert: UIAlertController) {
-        guard let textField = alert.textFields?[0],
+        guard let textField = alert.textFields?.first,
             let textFieldText = textField.text,
             textFieldText.isPhoneNumber else {
                 delegate?.vmShowAutoFadingMessage(LGLocalizedString.professionalDealerAskPhoneAlertNotValidPhone, completion: nil)
