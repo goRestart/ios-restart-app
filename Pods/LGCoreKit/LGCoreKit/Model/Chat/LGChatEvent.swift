@@ -205,7 +205,7 @@ private struct ChatEventDataDecodable: Decodable {
         conversationId = try keyedContainer.decodeIfPresent(String.self, forKey: .conversationId)
         warnings = (try keyedContainer.decodeIfPresent(FailableDecodableArray<ChatMessageWarning>.self, forKey: .warnings))?.validElements
         let sentAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .sentAt)
-        sentAt = Date.chatDate(millisecondsIntervalSince1970: sentAtValue)
+        sentAt = Date.makeChatDate(millisecondsIntervalSince1970: sentAtValue)
         messageType = try keyedContainer.decodeIfPresent(ChatMessageType.self, forKey: .messageType)
         text = try keyedContainer.decodeIfPresent(String.self, forKey: .text)
         talkerId = try keyedContainer.decodeIfPresent(String.self, forKey: .talkerId)

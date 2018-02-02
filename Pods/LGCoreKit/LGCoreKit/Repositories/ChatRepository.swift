@@ -48,9 +48,9 @@ public protocol ChatRepository: class {
     var allConversations: CollectionVariable<ChatConversation> { get }
     var sellingConversations: CollectionVariable<ChatConversation> { get }
     var buyingConversations: CollectionVariable<ChatConversation> { get }
-    var inactiveConversations: CollectionVariable<ChatInactiveConversation> { get }
+    var inactiveConversations: Variable<[ChatInactiveConversation]> { get }
+    var inactiveConversationsCount: Variable<Int?> { get }
     var conversationsLock: NSLock { get }
-    var inactiveConversationsCount: Observable<Int?> { get }
     
     // MARK: > Messages
     
@@ -91,6 +91,11 @@ public protocol ChatRepository: class {
     // MARK: > Server events
     
     func chatEventsIn(_ conversationId: String) -> Observable<ChatEvent>
+    
+    // MARK: > Cleaning
+    
+    func cleanInactiveConversations()
+    func clean()
 }
 
 

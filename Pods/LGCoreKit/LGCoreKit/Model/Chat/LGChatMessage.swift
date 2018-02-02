@@ -107,11 +107,11 @@ struct LGChatMessage: ChatMessage, Decodable {
         talkerId = try keyedContainer.decode(String.self, forKey: .talkerId)
         text = try keyedContainer.decode(String.self, forKey: .text)
         let sentAtValue = try keyedContainer.decode(Double.self, forKey: .sentAt)
-        sentAt = Date.chatDate(millisecondsIntervalSince1970: sentAtValue)
+        sentAt = Date.makeChatDate(millisecondsIntervalSince1970: sentAtValue)
         let receivedAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .receivedAt)
-        receivedAt = Date.chatDate(millisecondsIntervalSince1970: receivedAtValue)
+        receivedAt = Date.makeChatDate(millisecondsIntervalSince1970: receivedAtValue)
         let readAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .readAt)
-        readAt = Date.chatDate(millisecondsIntervalSince1970: readAtValue)
+        readAt = Date.makeChatDate(millisecondsIntervalSince1970: readAtValue)
         // ChatMessageType defaults to .text as fallback for future message types
         let stringChatMessageType = try keyedContainer.decode(String.self, forKey: .type)
         type = ChatMessageType(rawValue: stringChatMessageType) ?? .text

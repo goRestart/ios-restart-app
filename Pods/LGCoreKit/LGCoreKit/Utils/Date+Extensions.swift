@@ -11,7 +11,7 @@ import Foundation
 extension Date {
     
     /// Date creation for Chat (websockets).
-    static func chatDate(millisecondsIntervalSince1970 milliseconds: Double?) -> Date? {
+    static func makeChatDate(millisecondsIntervalSince1970 milliseconds: Double?) -> Date? {
         guard let millisecondsValue = milliseconds else { return nil }
         let seconds = millisecondsValue/1000
         return Date(timeIntervalSince1970: seconds)

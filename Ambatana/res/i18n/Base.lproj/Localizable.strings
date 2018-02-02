@@ -469,6 +469,9 @@
 // Chat list Unblock
 "chat_list_unblock" = "Unblock";
 
+// Inactive chats screen title
+"chat_inactive_list_title" = "Inactive Chats";
+
 // Login info when trying to chat logged-out
 "chat_login_popup_text" = "To start chatting, you have to log in";
 
@@ -2351,11 +2354,35 @@
 // Real Estate number of bedrooms 4
 "real_estate_bedrooms_4" = "4+";
 
+"real_estate_rooms_title" = "No. of rooms";
+
+"real_estate_rooms_studio" = "Studio (1+0)";
+
+"real_estate_rooms_over_ten" = "Over 10";
+
+// Real estate number of rooms depend on bedrooms and living rooms
+"real_estate_rooms_value" = "%d + %d";
+
+// Size square meters title
+"real_estate_size_square_meters_title" = "Size";
+
 // bedroom
 "real_estate_summary_bedroom_title" = "bedroom";
 
 // bedrooms
 "real_estate_summary_bedrooms_title" = "bedrooms";
+
+// rooms
+"real_estate_summary_rooms_title" = "rooms";
+
+// Rooms empty
+"real_estate_summary_rooms_emtpy" = "Add rooms";
+
+// Size
+"real_estate_summary_size_title" = "Size";
+
+// size empty
+"real_estate_summary_size_empty" = "Add size";
 
 // Real Estate summary price empty value
 "real_estate_summary_price_empty" = "Add price";

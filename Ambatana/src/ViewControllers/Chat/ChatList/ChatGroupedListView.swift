@@ -234,8 +234,8 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         setFooterHidden(true, animated: false)
         
         inactiveConversationHeaderView.translatesAutoresizingMaskIntoConstraints = false
-        inactiveConversationHeaderView.buttonAction = {
-            // go to inactive conversation screen
+        inactiveConversationHeaderView.buttonAction = { [weak self] in
+            self?.viewModel.openInactiveConversations()
         }
     }
 

@@ -132,6 +132,10 @@ extension TabCoordinator: TabNavigator {
         switch data {
         case let .conversation(conversation):
             openConversation(conversation, source: source, predefinedMessage: predefinedMessage)
+        case .inactiveConversations:
+            openInactiveConversations()
+        case let .inactiveConversation(conversation):
+            openInactiveConversation(conversation: conversation)
         case let .listingAPI(listing):
             openListingChat(listing, source: source)
         case let .dataIds(conversationId):
@@ -326,6 +330,18 @@ fileprivate extension TabCoordinator {
     func openConversation(_ conversation: ChatConversation, source: EventParameterTypePage, predefinedMessage: String?) {
         let vm = ChatViewModel(conversation: conversation, navigator: self, source: source, predefinedMessage: predefinedMessage)
         let vc = ChatViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openInactiveConversations() {
+        let vm = ChatInactiveConversationsListViewModel(navigator: self)
+        let vc = ChatInactiveConversationsListViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openInactiveConversation(conversation: ChatInactiveConversation) {
+        let vm = ChatInactiveConversationDetailsViewModel()
+        let vc = ChatInactiveConversationDetailsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
 

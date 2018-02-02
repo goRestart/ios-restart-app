@@ -65,7 +65,7 @@ class ChatModelsMapper {
             logMessage(.debug, type: .parsing, message: "could not parse inactiveConversationCount - key: inactive_conversations - \(dict)")
             return []
         }
-        return array.map(inactiveConversation).flatMap{ $0 }
+        return array.flatMap(inactiveConversation)
     }
     
     static func inactiveConversation(from dict: [AnyHashable : Any]) -> ChatInactiveConversation? {
