@@ -45,6 +45,8 @@ class DummyUserDisclaimerView: UIView {
         textLabel.textColor = UIColor.grayText
         textLabel.numberOfLines = 2
         textLabel.text = infoText
+        textLabel.adjustsFontSizeToFitWidth = true
+        textLabel.minimumScaleFactor = 0.2
     }
     
     private func setupConstraints() {
