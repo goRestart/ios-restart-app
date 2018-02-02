@@ -53,10 +53,12 @@
 "categories_inFeed_motors" = "Motors";
 "categories_inFeed_others" = "Other";
 "categories_inFeed_real_estate" = "Housing";
+"categories_inFeed_real_estate_title" = "Real Estate";
 "categories_inFeed_sports_leisure_games" = "Leisure";
 "categories_movies_books_and_music" = "Movies, Books and Music";
 "categories_other" = "Other";
 "categories_real_estate" = "Housing";
+"categories_real_estate_title" = "Real Estate";
 "categories_sports_leisure_and_games" = "Sports, Leisure and Games";
 "categories_super_keywords_inFeed_show_more" = "Show more";
 "categories_title" = "Categories";
@@ -622,6 +624,7 @@
 "product_post_select_category_housing" = "Housing for Rent / Sale";
 "product_post_select_category_motors_and_accessories" = "Other Vehicles and Parts";
 "product_post_select_category_other" = "Other items";
+"product_post_select_category_real_estate" = "Real Estate";
 "product_post_select_category_title" = "What are you posting?";
 "product_post_use_photo" = "Post";
 "product_post_use_photo_not_logged" = "Use Photo";
@@ -674,13 +677,14 @@
 "professional_dealer_ask_phone_not_now_button" = "Not now";
 "professional_dealer_ask_phone_send_phone_button" = "Send phone number";
 "professional_dealer_ask_phone_textfield_placeholder" = "Enter phone number";
-"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or leave your number so we can call you.";
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or add your number so we can call you.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
 "profile_blocked_by_me_label" = "You've blocked this user";
 "profile_blocked_by_me_label_w_name" = "You've blocked %@";
 "profile_blocked_by_other_label" = "You've been blocked by this user";
 "profile_build_trust_button" = "Build Trust";
 "profile_connect_accounts_message" = "You still haven't verified your account with:";
+"profile_dummy_user_info" = "Hi! I'm %@ from letgo. I’m here to help you improve your listing and start selling.";
 "profile_favourites_my_user_no_products_button" = "Keep Browsing";
 "profile_favourites_my_user_no_products_label" = "NO FAVORITES (YET!)";
 "profile_favourites_products_tab" = "Favorites";
@@ -820,6 +824,7 @@
 "real_estate_title_generator_property_type_room" = "room";
 "real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
 "real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
+"real_estate_tooltip_sell_button_title" = "Post property for sale or rent in our new Real Estate category";
 "real_estate_type_property_apartment" = "Apartment";
 "real_estate_type_property_commercial" = "Commercial";
 "real_estate_type_property_flat" = "Flat / Residence";

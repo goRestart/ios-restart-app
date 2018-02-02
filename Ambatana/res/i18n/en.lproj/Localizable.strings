@@ -2060,7 +2060,7 @@
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
 
 // Automatic message thanks for contacting text
-"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or leave your number so we can call you.";
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or add your number so we can call you.";
 
 // Ask phone alert title
 "professional_dealer_ask_phone_alert_enter_phone" = "Add your phone number";
@@ -2154,6 +2154,9 @@
 
 // Text to verify accounts
 "profile_connect_accounts_message" = "You still haven't verified your account with:";
+
+// Text for dummy user info
+"profile_dummy_user_info" = "Hi! I'm %@ from letgo. I’m here to help you improve your listing and start selling.";
 
 // Promote bump up title text
 "promote_bump_title" = "Attract more buyers";

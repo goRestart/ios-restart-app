@@ -53,10 +53,12 @@
 "categories_inFeed_motors" = "Motori";
 "categories_inFeed_others" = "Altro";
 "categories_inFeed_real_estate" = "Alloggi";
+"categories_inFeed_real_estate_title" = "Immobili";
 "categories_inFeed_sports_leisure_games" = "tempo libero";
 "categories_movies_books_and_music" = "Film, Libri e Musica";
 "categories_other" = "Altro";
 "categories_real_estate" = "Alloggi";
+"categories_real_estate_title" = "Immobili";
 "categories_sports_leisure_and_games" = "Sport, Tempo libero e Giochi";
 "categories_super_keywords_inFeed_show_more" = "Mostra Altro";
 "categories_title" = "Categorie";
@@ -622,6 +624,7 @@
 "product_post_select_category_housing" = "Alloggi in vendita o affitto";
 "product_post_select_category_motors_and_accessories" = "Altri veicoli e ricambi";
 "product_post_select_category_other" = "Altri articoli";
+"product_post_select_category_real_estate" = "Immobili";
 "product_post_select_category_title" = "Che cosa stai pubblicando?";
 "product_post_use_photo" = "Pubblica";
 "product_post_use_photo_not_logged" = "Utilizza Foto";
@@ -674,13 +677,14 @@
 "professional_dealer_ask_phone_not_now_button" = "Non adesso";
 "professional_dealer_ask_phone_send_phone_button" = "Invia numero di telefono";
 "professional_dealer_ask_phone_textfield_placeholder" = "Inserisci numero di telefono";
-"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or leave your number so we can call you.";
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or add your number so we can call you.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
 "profile_blocked_by_me_label" = "Hai bloccato questo utente";
 "profile_blocked_by_me_label_w_name" = "Hai bloccato %@";
 "profile_blocked_by_other_label" = "Sei stato bloccato da questo utente";
 "profile_build_trust_button" = "Crea fiducia";
 "profile_connect_accounts_message" = "Non hai ancora verificato il tuo account con:";
+"profile_dummy_user_info" = "Hi! I'm %@ from letgo. I’m here to help you improve your listing and start selling.";
 "profile_favourites_my_user_no_products_button" = "Continua la consultazione";
 "profile_favourites_my_user_no_products_label" = "ANCORA NESSUN PREFERITO!";
 "profile_favourites_products_tab" = "Preferiti";
@@ -820,6 +824,7 @@
 "real_estate_title_generator_property_type_room" = "Stanza";
 "real_estate_tooltip_overlay_expandable_menu" = "Se stai per pubblicare una proprietà in vendita o in affitto, prova la nostra nuova categoria \"Case\"!";
 "real_estate_tooltip_sell_button" = "Pubblica proprietà in vendita o in affitto all'interno della nuova categoria Case";
+"real_estate_tooltip_sell_button_title" = "Pubblica proprietà in vendita o in affitto nella nostra nuova categoria Immobili";
 "real_estate_type_property_apartment" = "Appartamento";
 "real_estate_type_property_commercial" = "Fondo commerciale";
 "real_estate_type_property_flat" = "Appartamento / Residence";
