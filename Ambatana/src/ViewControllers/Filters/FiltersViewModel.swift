@@ -302,7 +302,7 @@ class FiltersViewModel: BaseViewModel {
     }
     
     func propertyTypeButtonPressed() {
-        let attributeValues = RealEstatePropertyType.allValues
+        let attributeValues = RealEstatePropertyType.allValues(postingFlowType: featureFlags.postingFlowType)
         let values = attributeValues.map { $0.localizedString }
         let vm = ListingAttributePickerViewModel(
             title: LGLocalizedString.realEstateTypePropertyTitle,

@@ -35,6 +35,8 @@ enum AppReport: ReportType {
             switch error {
             case .unableToConvertHTMLToString:
                 return 3001
+            case .breadcrumb:
+                return 3002
             }
         }
     }
@@ -42,6 +44,7 @@ enum AppReport: ReportType {
 
 enum UIKitReportError {
     case unableToConvertHTMLToString
+    case breadcrumb
 }
 
 enum MonetizationReportError {

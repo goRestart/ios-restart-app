@@ -30,24 +30,24 @@ enum PostCategory {
         return realEstateEnabled ? [.car, PostCategory.realEstate, PostCategory.motorsAndAccessories, PostCategory.unassigned] : [PostCategory.car, PostCategory.motorsAndAccessories, PostCategory.unassigned]
     }
     
-    func numberOfSteps(shouldShowPrice: Bool) -> CGFloat {
+    func numberOfSteps(shouldShowPrice: Bool, postingFlowType: PostingFlowType) -> CGFloat {
         let delta: CGFloat = shouldShowPrice ? 0 :  1
         switch self {
         case .car:
-            return baseSteps - delta
+            return baseSteps(postingFlowType: postingFlowType) - delta
         case .realEstate:
-            return baseSteps - delta
+            return baseSteps(postingFlowType: postingFlowType) - delta
         case .unassigned, .motorsAndAccessories:
-            return baseSteps
+            return baseSteps(postingFlowType: postingFlowType)
         }
     }
     
-    private var baseSteps: CGFloat {
+    private func baseSteps(postingFlowType: PostingFlowType) -> CGFloat {
         switch self {
         case .car:
             return 3
         case .realEstate:
-            return 5
+            return postingFlowType == .standard ? 5 : 6
         case .unassigned, .motorsAndAccessories:
             return 0
         }
@@ -140,8 +140,9 @@ fileprivate extension PostCategorySelectionView {
                           image: #imageLiteral(resourceName: "categories_motors_inactive"),
                           postCategoryLink: .motorsAndAccessories)
             case .realEstate:
+                let title = FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.productPostSelectCategoryRealEstate : LGLocalizedString.productPostSelectCategoryHousing
                 addButton(button: realEstateCategoryButton,
-                          title: LGLocalizedString.productPostSelectCategoryHousing,
+                          title: title,
                           image: #imageLiteral(resourceName: "categories_realestate_inactive"),
                           postCategoryLink: .realEstate)
             }

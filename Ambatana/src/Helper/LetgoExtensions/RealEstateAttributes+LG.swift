@@ -10,7 +10,7 @@ import LGCoreKit
 
 extension RealEstateAttributes {
     
-    func generateTitle() -> String {
+    func generateTitle(postingFlowType: PostingFlowType) -> String {
         let propertyTypeString = propertyType?.shortLocalizedString.localizedUppercase
         let offerTypeString = offerType?.shortLocalizedString.capitalizedFirstLetterOnly
         var bedroomsString: String?
@@ -26,11 +26,35 @@ extension RealEstateAttributes {
         {
             bathroomsString = bathroomsValue.shortLocalizedString.localizedUppercase
         }
-        let attributes = [propertyTypeString, offerTypeString, bedroomsString, bathroomsString]
+        
+        var roomsString: String?
+        if let _ = bedrooms, let _ = livingRooms {
+            let numberOfRooms = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms)
+            roomsString = numberOfRooms.localizedString
+        }
+        
+        var sizeSquareMetersString: String?
+        if let size = sizeSquareMeters {
+            sizeSquareMetersString = String(size) + Constants.sizeSquareMetersUnit
+        }
+        
+        if let bathroomsRawValue = bathrooms,
+            let bathroomsValue = NumberOfBathrooms(rawValue: bathroomsRawValue),
+            bathroomsValue != .zero
+        {
+            bathroomsString = bathroomsValue.shortLocalizedString.localizedUppercase
+        }
+        
+        let attributes: [String?]
+        if postingFlowType == .standard {
+            attributes = [propertyTypeString, offerTypeString, bedroomsString, bathroomsString]
+        } else {
+            attributes = [offerTypeString, propertyTypeString, roomsString, sizeSquareMetersString]
+        }
         return attributes.flatMap{ $0 }.joined(separator: " ")
     }
     
-    func generateTags() ->  [String] {
+    func generateTags(postingFlowType: PostingFlowType) ->  [String] {
         var tags = [String]()
         if let propertyType = propertyType {
             tags.append(propertyType.shortLocalizedString.localizedUppercase)
@@ -38,14 +62,24 @@ extension RealEstateAttributes {
         if let offerType = offerType {
             tags.append(offerType.shortLocalizedString.localizedCapitalized)
         }
-        if let bedrooms = bedrooms, let numBedrooms = NumberOfBedrooms(rawValue: bedrooms) {
-            tags.append(numBedrooms.shortLocalizedString.localizedUppercase)
-        }
-        if let bathrooms = bathrooms, let numBathrooms = NumberOfBathrooms(rawValue: bathrooms) {
-            let bathroomsTag = bathrooms == 0 ? LGLocalizedString.realEstateAttributeTagBathroom0.localizedUppercase : numBathrooms.shortLocalizedString.localizedUppercase
-            tags.append(bathroomsTag)
+        switch postingFlowType {
+        case .standard:
+            if let bedrooms = bedrooms, let numBedrooms = NumberOfBedrooms(rawValue: bedrooms) {
+                tags.append(numBedrooms.shortLocalizedString.localizedUppercase)
+            }
+            if let bathrooms = bathrooms, let numBathrooms = NumberOfBathrooms(rawValue: bathrooms) {
+                let bathroomsTag = bathrooms == 0 ? LGLocalizedString.realEstateAttributeTagBathroom0.localizedUppercase : numBathrooms.shortLocalizedString.localizedUppercase
+                tags.append(bathroomsTag)
+            }
+        case .turkish:
+            if let numberOfRoomsTag = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms).localizedString {
+                tags.append(numberOfRoomsTag)
+            }
+            if let sizeSquareMeters = sizeSquareMeters {
+                let sizeSquareMetersTag = String(sizeSquareMeters) + Constants.sizeSquareMetersUnit
+                tags.append(sizeSquareMetersTag)
+            }
         }
         return tags
     }
-    
 }

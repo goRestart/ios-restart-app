@@ -7,13 +7,14 @@
 //
 
 class DevelopmentEnvironment: AppEnvironment {
+    static let amplitudeKey = "1c32ba5ed444237608436bad4f310307"
+
     // General
     let appleAppId = "986339882"
     let facebookAppId = "924384130976182"
     
     // Tracking
     let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
-    let amplitudeAPIKey = "1c32ba5ed444237608436bad4f310307"
     
     // Google login
     let googleServerClientID = "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com"

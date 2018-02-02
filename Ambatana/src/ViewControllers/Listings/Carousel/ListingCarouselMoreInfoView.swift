@@ -151,6 +151,8 @@ class ListingCarouselMoreInfoView: UIView {
         // We need to call invalidateLayout in the CollectionView to fix what appears to be an iOS 10 UIKit bug:
         // https://stackoverflow.com/a/44467194
         tagCollectionView.collectionViewLayout.invalidateLayout()
+        mapView.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
+        dragView.layer.cornerRadius = dragView.height / 2.0
     }
 
     func dismissed() {
@@ -355,56 +357,113 @@ extension ListingCarouselMoreInfoView: UIScrollViewDelegate {
 
 fileprivate extension ListingCarouselMoreInfoView {
     func setupUI() {
-        
+        report(AppReport.uikit(error: .breadcrumb), message: "Setup UI start")
+
         setupMapView(inside: mapViewContainer)
-        mapView.cornerRadius = LGUIKitConstants.mapCornerRadius
+        report(AppReport.uikit(error: .breadcrumb), message: "setupMapView")
+
         mapView.clipsToBounds = true
+        report(AppReport.uikit(error: .breadcrumb), message: "mapView.clipToBounds")
 
         titleText.textColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "titleText.textColor")
+
         titleText.font = UIFont.productTitleFont
+        report(AppReport.uikit(error: .breadcrumb), message: "titleText.font")
+
         titleText.linkTextAttributes = [:]
+        report(AppReport.uikit(error: .breadcrumb), message: "titleText.linkTextAttributes")
+
         titleText.textContainerInset = UIEdgeInsets.zero
+        report(AppReport.uikit(error: .breadcrumb), message: "titleText.textContainerInset")
+
         titleText.textContainer.lineFragmentPadding = 0
+        report(AppReport.uikit(error: .breadcrumb), message: "titleText.textContainer")
+
         titleText.delegate = self
-        
+        report(AppReport.uikit(error: .breadcrumb), message: "titleText.delegate")
+
         priceLabel.textColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "priceLabel.textColor")
+
         priceLabel.font = UIFont.productPriceFont
-        
+        report(AppReport.uikit(error: .breadcrumb), message: "priceLabel.font")
+
         autoTitleLabel.textColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "autoTitleLabel.textColor")
+
         autoTitleLabel.font = UIFont.productTitleDisclaimersFont
+        report(AppReport.uikit(error: .breadcrumb), message: "autoTitleLabel.font")
+
         autoTitleLabel.alpha = 0.5
-        
+        report(AppReport.uikit(error: .breadcrumb), message: "autoTitleLabel.alpha")
+
         transTitleLabel.textColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "transTitleLabel.textColor")
+
         transTitleLabel.font = UIFont.productTitleDisclaimersFont
+        report(AppReport.uikit(error: .breadcrumb), message: "transTitleLabel.font")
+
         transTitleLabel.alpha = 0.5
+        report(AppReport.uikit(error: .breadcrumb), message: "transTitleLabel.alpha")
+
         
         addressLabel.textColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "addressLabel.textColor")
+
         addressLabel.font = UIFont.productAddresFont
-        
+        report(AppReport.uikit(error: .breadcrumb), message: "addressLabel.font")
+
         distanceLabel.textColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "distanceLabel.textColor")
+
         distanceLabel.font = UIFont.productDistanceFont
+        report(AppReport.uikit(error: .breadcrumb), message: "distanceLabel.font")
+
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleDescriptionState))
         descriptionLabel.delegate = self
         descriptionLabel.linkTextAttributes = [:]
+        report(AppReport.uikit(error: .breadcrumb), message: "descriptionLabel.linkTextAttributes")
+
         descriptionLabel.textColor = UIColor.grayLight
+        report(AppReport.uikit(error: .breadcrumb), message: "descriptionLabel.textColor")
+
+
         descriptionLabel.addGestureRecognizer(tapGesture)
         descriptionLabel.expandText = LGLocalizedString.commonExpand.localizedUppercase
         descriptionLabel.collapseText = LGLocalizedString.commonCollapse.localizedUppercase
         descriptionLabel.gradientColor = .clear
+        report(AppReport.uikit(error: .breadcrumb), message: "descriptionLabel.gradientColor")
+
         descriptionLabel.expandTextColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "dragView.rounded")
+
 
         setupSocialShareView()
 
-        dragView.rounded = true
+        dragView.clipsToBounds = true
+        report(AppReport.uikit(error: .breadcrumb), message: "dragView.rounded")
+
         dragView.layer.borderColor = UIColor.white.cgColor
+        report(AppReport.uikit(error: .breadcrumb), message: "dragView.layer.borderColor")
+
         dragView.layer.borderWidth = 1
+        report(AppReport.uikit(error: .breadcrumb), message: "dragView.layer.borderWidth")
+
         dragView.backgroundColor = .clear
+        report(AppReport.uikit(error: .breadcrumb), message: "dragView.backgroundColor")
+
         
         dragViewTitle.text = LGLocalizedString.productMoreInfoOpenButton
+        report(AppReport.uikit(error: .breadcrumb), message: "dragViewTitle.text")
+
         dragViewTitle.textColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "dragViewTitle.textColor")
+
         dragViewTitle.font = UIFont.systemSemiBoldFont(size: 13)
-        
+        report(AppReport.uikit(error: .breadcrumb), message: "dragViewTitle.font")
+
         [dragView, dragViewTitle, dragViewImage].forEach { view in
             view?.layer.shadowColor = UIColor.black.cgColor
             view?.layer.shadowOpacity = 0.5
@@ -412,19 +471,24 @@ fileprivate extension ListingCarouselMoreInfoView {
             view?.layer.shadowOffset = CGSize.zero
             view?.layer.masksToBounds = false
         }
-        
+        report(AppReport.uikit(error: .breadcrumb), message: "view?.layer")
+
         if #available(iOS 11, *) {
             scrollViewToSuperviewTopConstraint.constant = safeAreaInsets.top
         } else {
             scrollViewToSuperviewTopConstraint.constant = ListingCarouselMoreInfoView.navBarDefaultHeight
         }
+        report(AppReport.uikit(error: .breadcrumb), message: "scrollViewToSuperviewTopConstraint.constant")
 
         scrollView.delegate = self
     }
     
     func setupTagCollectionView() {
+        report(AppReport.uikit(error: .breadcrumb), message: "setupTagCollectionView")
         tagCollectionViewModel = TagCollectionViewModel(tags: [], delegate: tagCollectionView)
+        report(AppReport.uikit(error: .breadcrumb), message: "TagCollectionViewModel init")
         tagCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.reusableID)
+        report(AppReport.uikit(error: .breadcrumb), message: "tagCollectionView.register(TagCollectionViewCell.self,")
         tagCollectionView.dataSource = tagCollectionViewModel
         tagCollectionView.defaultSetup()
     }

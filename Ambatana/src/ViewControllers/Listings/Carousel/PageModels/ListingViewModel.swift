@@ -334,7 +334,8 @@ class ListingViewModel: BaseViewModel {
             let productInfo = ListingVMProductInfo(listing: listing,
                                                    isAutoTranslated: listing.isTitleAutoTranslated(strongSelf.countryHelper),
                                                    distance: strongSelf.distanceString(listing),
-                                                   freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed)
+                                                   freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed,
+                                                   postingFlowType: strongSelf.featureFlags.postingFlowType)
             strongSelf.productInfo.value = productInfo
 
         }.disposed(by: disposeBag)
