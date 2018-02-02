@@ -1497,3 +1497,10 @@ extension ChatViewModel {
         return false
     }
 }
+
+extension ChatViewModel: MeetingAssistantDataDelegate {
+    func sendMeeting(meeting: AssistantMeeting) {
+        // 🦄
+//        sendMeetingMessage(meeting: meeting)
+    }
+}

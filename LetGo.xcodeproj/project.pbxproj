@@ -177,6 +177,22 @@
 		2E75EC531FA89F5B00C5F48F /* AdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */; };
 		2E75EC541FA89F5B00C5F48F /* AdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */; };
 		2E8ED6A71EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8ED6A61EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift */; };
+		2E92CBF920248DC600451B65 /* MeetingAssistantCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E92CBF220248DC500451B65 /* MeetingAssistantCoordinator.swift */; };
+		2E92CBFA20248DC600451B65 /* MeetingAssistantNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E92CBF320248DC500451B65 /* MeetingAssistantNavigator.swift */; };
+		2E92CBFB20248DC600451B65 /* MeetingAssistantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E92CBF420248DC500451B65 /* MeetingAssistantViewController.swift */; };
+		2E92CBFC20248DC600451B65 /* MeetingAssistantViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E92CBF520248DC500451B65 /* MeetingAssistantViewController.xib */; };
+		2E92CBFD20248DC600451B65 /* MeetingAssistantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E92CBF620248DC500451B65 /* MeetingAssistantViewModel.swift */; };
+		2E92CBFE20248DC600451B65 /* SuggestedLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E92CBF720248DC500451B65 /* SuggestedLocationCell.swift */; };
+		2E92CBFF20248DC600451B65 /* SuggestedLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E92CBF820248DC500451B65 /* SuggestedLocationCell.xib */; };
+		2E92CC0020248E2800451B65 /* MeetingAssistantCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E92CBF220248DC500451B65 /* MeetingAssistantCoordinator.swift */; };
+		2E92CC0120248E2800451B65 /* MeetingAssistantNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E92CBF320248DC500451B65 /* MeetingAssistantNavigator.swift */; };
+		2E92CC0220248E2800451B65 /* MeetingAssistantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E92CBF420248DC500451B65 /* MeetingAssistantViewController.swift */; };
+		2E92CC0320248E2800451B65 /* MeetingAssistantViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E92CBF520248DC500451B65 /* MeetingAssistantViewController.xib */; };
+		2E92CC0420248E2800451B65 /* MeetingAssistantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E92CBF620248DC500451B65 /* MeetingAssistantViewModel.swift */; };
+		2E92CC0520248E2800451B65 /* SuggestedLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E92CBF720248DC500451B65 /* SuggestedLocationCell.swift */; };
+		2E92CC0620248E2800451B65 /* SuggestedLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E92CBF820248DC500451B65 /* SuggestedLocationCell.xib */; };
+		2E92CC0820248EE700451B65 /* MeetingParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E92CC0720248EE600451B65 /* MeetingParser.swift */; };
+		2E92CC0920248EEE00451B65 /* MeetingParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E92CC0720248EE600451B65 /* MeetingParser.swift */; };
 		2E97169E1D59E958009B3A32 /* ExpressChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */; };
 		2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */; };
 		2E9716A31D5A0535009B3A32 /* ExpressChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9716A11D5A0535009B3A32 /* ExpressChatCell.swift */; };
@@ -1601,6 +1617,14 @@
 		2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdBannerTrackingStatus.swift; sourceTree = "<group>"; };
 		2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdsRequester.swift; path = Ads/AdsRequester.swift; sourceTree = "<group>"; };
 		2E8ED6A61EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FilterTagsVC+RemoveRelatedTagsSpec.swift"; sourceTree = "<group>"; };
+		2E92CBF220248DC500451B65 /* MeetingAssistantCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingAssistantCoordinator.swift; sourceTree = "<group>"; };
+		2E92CBF320248DC500451B65 /* MeetingAssistantNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingAssistantNavigator.swift; sourceTree = "<group>"; };
+		2E92CBF420248DC500451B65 /* MeetingAssistantViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingAssistantViewController.swift; sourceTree = "<group>"; };
+		2E92CBF520248DC500451B65 /* MeetingAssistantViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MeetingAssistantViewController.xib; sourceTree = "<group>"; };
+		2E92CBF620248DC500451B65 /* MeetingAssistantViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingAssistantViewModel.swift; sourceTree = "<group>"; };
+		2E92CBF720248DC500451B65 /* SuggestedLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedLocationCell.swift; sourceTree = "<group>"; };
+		2E92CBF820248DC500451B65 /* SuggestedLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SuggestedLocationCell.xib; sourceTree = "<group>"; };
+		2E92CC0720248EE600451B65 /* MeetingParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingParser.swift; sourceTree = "<group>"; };
 		2E97169C1D59E958009B3A32 /* ExpressChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatViewController.swift; sourceTree = "<group>"; };
 		2E97169D1D59E958009B3A32 /* ExpressChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExpressChatViewController.xib; sourceTree = "<group>"; };
 		2E9716A11D5A0535009B3A32 /* ExpressChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpressChatCell.swift; sourceTree = "<group>"; };
@@ -2574,6 +2598,20 @@
 			name = Ads;
 			sourceTree = "<group>";
 		};
+		2E92CBF120248DC500451B65 /* MeetingAssistant */ = {
+			isa = PBXGroup;
+			children = (
+				2E92CBF220248DC500451B65 /* MeetingAssistantCoordinator.swift */,
+				2E92CBF320248DC500451B65 /* MeetingAssistantNavigator.swift */,
+				2E92CBF420248DC500451B65 /* MeetingAssistantViewController.swift */,
+				2E92CBF520248DC500451B65 /* MeetingAssistantViewController.xib */,
+				2E92CBF620248DC500451B65 /* MeetingAssistantViewModel.swift */,
+				2E92CBF720248DC500451B65 /* SuggestedLocationCell.swift */,
+				2E92CBF820248DC500451B65 /* SuggestedLocationCell.xib */,
+			);
+			path = MeetingAssistant;
+			sourceTree = "<group>";
+		};
 		2E9716A01D5A04F3009B3A32 /* ExpressChat */ = {
 			isa = PBXGroup;
 			children = (
@@ -2720,6 +2758,7 @@
 		50560B871B25D18F0021D8D9 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				2E92CBF120248DC500451B65 /* MeetingAssistant */,
 				5033F6CB1B5D0AE60004FECB /* BaseView.swift */,
 				50560B881B25D18F0021D8D9 /* BaseViewController.swift */,
 				50560B891B25D18F0021D8D9 /* BaseViewModel.swift */,
@@ -4337,6 +4376,7 @@
 				C7E590311E5EC9F1002921B2 /* MultiPageRequester.swift */,
 				2E4BDE711EDD7E6A00CBDC8C /* DistanceBubbleTextGenerator.swift */,
 				507532E11FEA47D400FCF9D5 /* UILabel+Rx.swift */,
+				2E92CC0720248EE600451B65 /* MeetingParser.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -4777,10 +4817,12 @@
 				6A38ADE51C64C4F9009E1A31 /* TourLocationViewController.xib in Resources */,
 				508011151D474ED80073F362 /* Chat.xcassets in Resources */,
 				506DC19C1BBE7D8A00E59D27 /* levelup.caf in Resources */,
+				2E92CBFC20248DC600451B65 /* MeetingAssistantViewController.xib in Resources */,
 				C7F22D821DB7A3A200353803 /* RecaptchaViewController.xib in Resources */,
 				C7B588A01CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
 				50BCE92E1BF6357600C130CD /* ToastView.xib in Resources */,
 				6AF75D0D1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */,
+				2E92CBFF20248DC600451B65 /* SuggestedLocationCell.xib in Resources */,
 				2E2208EB1DD4C0F300FB2483 /* EmptyCell.xib in Resources */,
 				C72794381D549342009C25AB /* ChangePasswordViewController.xib in Resources */,
 				C7DE8AE21C88A98B005CF37E /* PostListingViewController.xib in Resources */,
@@ -4943,6 +4985,7 @@
 				C7DE8ADA1C8892C9005CF37E /* PostListingCameraView.xib in Resources */,
 				C73FABC51DD46A1D008F4519 /* SettingsSwitchCell.xib in Resources */,
 				2E373FAF1D3E6F4E00AC811C /* UserRatingListViewController.xib in Resources */,
+				2E92CC0620248E2800451B65 /* SuggestedLocationCell.xib in Resources */,
 				C77B7DB41DBE3C3E0043C624 /* ListHeaderContainer.xib in Resources */,
 				C7DB427B1C5138B500400945 /* GoogleService-Info.plist in Resources */,
 				C7DB427C1C5138B500400945 /* RememberPasswordViewController.xib in Resources */,
@@ -4950,6 +4993,7 @@
 				C7415ED91DE880BD0003D6C1 /* SimpleListingsViewController.xib in Resources */,
 				C74016DD1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
+				2E92CC0320248E2800451B65 /* MeetingAssistantViewController.xib in Resources */,
 				5080111C1D474ED80073F362 /* Errors.xcassets in Resources */,
 				2E10CF641F84E6890019B58F /* OldBumpUpPayViewController.xib in Resources */,
 				C7F18AA21C89D62600D23319 /* GalleryImageCell.xib in Resources */,
@@ -5750,6 +5794,7 @@
 				6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */,
 				72854D131F85183E00E54530 /* PostingDetailsViewModel.swift in Sources */,
 				8E814F3F1F34732F00C88432 /* LGSliderThumb.swift in Sources */,
+				2E92CBFD20248DC600451B65 /* MeetingAssistantViewModel.swift in Sources */,
 				6A5E1A001D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
 				2EF4E3B01D3688AB00A09DFD /* ConfigDAO.swift in Sources */,
 				C7132A3F1BF246D40000747A /* ListingFilters.swift in Sources */,
@@ -5836,11 +5881,13 @@
 				C74931761D3526EF00E117F1 /* UserRatingCoordinator.swift in Sources */,
 				50582C291D6C7F4F00787E91 /* AccessibilityId.swift in Sources */,
 				C7B588851CE1DFA6009B3975 /* ChatOthersMessageCellDrawer.swift in Sources */,
+				2E92CC0820248EE700451B65 /* MeetingParser.swift in Sources */,
 				50261B211AFB49C0006E88E0 /* ProductionEnvironment.swift in Sources */,
 				6A5E1A121D548F5400F92692 /* UINavigationController+LG.swift in Sources */,
 				72FE02DF1F98D38F005BD672 /* PostingAddDetailPriceView.swift in Sources */,
 				2E6691B21FBDF2D000FC2A77 /* PromoteBumpNavigator.swift in Sources */,
 				2ECB417E2008CC6900482EF7 /* AdvertisementCell.swift in Sources */,
+				2E92CBFE20248DC600451B65 /* SuggestedLocationCell.swift in Sources */,
 				C7F3F1E51DE5EF6A00652447 /* TourBlurBackgroundViewController.swift in Sources */,
 				C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */,
 				6A5E19F21D548F5400F92692 /* UnicodeScalar+LG.swift in Sources */,
@@ -5869,6 +5916,7 @@
 				D412E0861B4F179F00683FFD /* ListingListView.swift in Sources */,
 				72854D231F8E287600E54530 /* NumberOfBedrooms.swift in Sources */,
 				C7E73E8D1CD20A49000F2591 /* ViewState.swift in Sources */,
+				2E92CBF920248DC600451B65 /* MeetingAssistantCoordinator.swift in Sources */,
 				C7890A851E55B96D0079964C /* MotionDeviceOrientation.swift in Sources */,
 				C749C78F1C10836C00F7118E /* BaseCellDrawer.swift in Sources */,
 				C7111EFF1CA4389C000C5C5A /* PushNotification.swift in Sources */,
@@ -6013,6 +6061,7 @@
 				C7126BDB1E6053AA00038CC4 /* ListingVMTrackHelper.swift in Sources */,
 				723A45C91DDC4D470001D02C /* UILabel+LG.swift in Sources */,
 				2E4A94EE1E4C8D4200218916 /* ShowFeaturedStripeHelper.swift in Sources */,
+				2E92CBFA20248DC600451B65 /* MeetingAssistantNavigator.swift in Sources */,
 				6A12E0551C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */,
 				C7DE8AC71C888761005CF37E /* EditListingViewController.swift in Sources */,
 				6ADACDC71CEDC68A008A5603 /* ChatStickersView.swift in Sources */,
@@ -6089,6 +6138,7 @@
 				6A5E1A181D548F5400F92692 /* UIView+Geometry.swift in Sources */,
 				2E75EC4F1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift in Sources */,
 				50146BD01D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
+				2E92CBFB20248DC600451B65 /* MeetingAssistantViewController.swift in Sources */,
 				6AF75D041CF3600D00EACCF0 /* ChatStickerCell.swift in Sources */,
 				2E373FA51D3D019600AC811C /* UserRatingListViewController.swift in Sources */,
 				721384041F20EC43006DB039 /* TaxonomiesTableView.swift in Sources */,
@@ -6306,6 +6356,7 @@
 				6A3C73101CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
 				2ED5E52E1EC5BAFB00B6D4F6 /* FilterListingListRequesterFactory.swift in Sources */,
 				72854D141F85183E00E54530 /* PostingDetailsViewModel.swift in Sources */,
+				2E92CC0420248E2800451B65 /* MeetingAssistantViewModel.swift in Sources */,
 				6A5E19E31D548F5400F92692 /* GoogleLoginHelper.swift in Sources */,
 				8E814F401F34732F00C88432 /* LGSliderThumb.swift in Sources */,
 				6A5E1A011D548F5400F92692 /* MapZoomBlocker.swift in Sources */,
@@ -6392,11 +6443,13 @@
 				50D67B9E1D182F07003AC0A5 /* SellNavigator.swift in Sources */,
 				50C63B741DC3A79100836D85 /* SocialSharer.swift in Sources */,
 				6A38ADE31C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
+				2E92CC0920248EEE00451B65 /* MeetingParser.swift in Sources */,
 				2E9716A81D5A284F009B3A32 /* ExpressChatCell.swift in Sources */,
 				C7DB41DD1C5138B500400945 /* ProductionEnvironment.swift in Sources */,
 				72FE02E01F98D38F005BD672 /* PostingAddDetailPriceView.swift in Sources */,
 				50582C2A1D6C7F4F00787E91 /* AccessibilityId.swift in Sources */,
 				2ECB417F2008CC6900482EF7 /* AdvertisementCell.swift in Sources */,
+				2E92CC0520248E2800451B65 /* SuggestedLocationCell.swift in Sources */,
 				C74931771D3526EF00E117F1 /* UserRatingCoordinator.swift in Sources */,
 				2E6691B31FBDF2D000FC2A77 /* PromoteBumpNavigator.swift in Sources */,
 				6A5E1A131D548F5400F92692 /* UINavigationController+LG.swift in Sources */,
@@ -6425,6 +6478,7 @@
 				C7732F701D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
 				72854D241F8E287600E54530 /* NumberOfBedrooms.swift in Sources */,
 				2EBC92161E0ABC73007F0F82 /* PurchaseableProductsResponse.swift in Sources */,
+				2E92CC0020248E2800451B65 /* MeetingAssistantCoordinator.swift in Sources */,
 				C7DB41EF1C5138B500400945 /* ListingListView.swift in Sources */,
 				C7890A861E55B96D0079964C /* MotionDeviceOrientation.swift in Sources */,
 				2EBC92131E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
@@ -6569,6 +6623,7 @@
 				C7126BDC1E6053AA00038CC4 /* ListingVMTrackHelper.swift in Sources */,
 				6A12E0561C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */,
 				F57D3A2F1FED01A6006F2CA4 /* TagCollectionViewCell.swift in Sources */,
+				2E92CC0120248E2800451B65 /* MeetingAssistantNavigator.swift in Sources */,
 				2E4A94EF1E4C8D4200218916 /* ShowFeaturedStripeHelper.swift in Sources */,
 				2E4C60A61DDF61B300595490 /* ChatBanner.swift in Sources */,
 				C7DE8AC81C888761005CF37E /* EditListingViewController.swift in Sources */,
@@ -6645,6 +6700,7 @@
 				C749317A1D3533DE00E117F1 /* UserRatingNavigator.swift in Sources */,
 				2E75EC501FA86F6E00C5F48F /* AdBannerTrackingStatus.swift in Sources */,
 				6A5E1A191D548F5400F92692 /* UIView+Geometry.swift in Sources */,
+				2E92CC0220248E2800451B65 /* MeetingAssistantViewController.swift in Sources */,
 				50146BD11D4F5F9F00B0F635 /* ChatsTabCoordinator.swift in Sources */,
 				50CA9FB11C91696800350C5F /* UserViewModel.swift in Sources */,
 				721384051F20EC43006DB039 /* TaxonomiesTableView.swift in Sources */,

@@ -92,4 +92,5 @@ protocol ChatDetailNavigator: TabNavigator {
                            sourceRateBuyers: SourceRateBuyers?,
                            trackingInfo: MarkAsSoldTrackingInfo)
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
+    func openAssistantFor(buyerId: String, sellerId: String, dataDelegate: MeetingAssistantDataDelegate)
 }
