@@ -18,7 +18,7 @@ enum PostingFlowType: String {
 
 protocol FeatureFlaggeable: class {
 
-    var trackingData: Observable<[String]?> { get }
+    var trackingData: Observable<[(String, ABGroupType)]?> { get }
     var syncedData: Observable<Bool> { get }
     func variablesUpdated()
 
@@ -202,7 +202,7 @@ class FeatureFlags: FeatureFlaggeable {
 
     // MARK: - A/B Tests features
 
-    var trackingData: Observable<[String]?> {
+    var trackingData: Observable<[(String, ABGroupType)]?> {
         return abTests.trackingData.asObservable()
     }
 
