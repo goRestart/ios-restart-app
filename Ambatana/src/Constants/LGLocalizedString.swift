@@ -2895,6 +2895,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_connect_accounts_message", comment: "")
 	}
 
+	static func profileDummyUserInfo(_ var1: String) -> String {
+		return String(format: NSLocalizedString("profile_dummy_user_info", comment: ""), var1)
+	}
+
 	static var promoteBumpTitle: String {
 		return NSLocalizedString("promote_bump_title", comment: "")
 	}

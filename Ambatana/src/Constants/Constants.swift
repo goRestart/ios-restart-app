@@ -93,6 +93,7 @@ struct Constants {
     static let maxPriceFractionalCharacters = 2
     static let currencyDefault = "US"
     static let defaultPrice: ListingPrice = .normal(0)
+    static let sizeSquareMetersUnit: String = "㎡"
 
     // Messages retrieving
     static let numMessagesPerPage = 40

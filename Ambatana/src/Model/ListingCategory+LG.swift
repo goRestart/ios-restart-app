@@ -33,7 +33,7 @@ extension ListingCategory {
         case .cars:
             return LGLocalizedString.categoriesCar
         case .realEstate:
-            return LGLocalizedString.categoriesRealEstate
+            return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.categoriesRealEstateTitle : LGLocalizedString.categoriesRealEstate
         }
     }
     
@@ -60,7 +60,7 @@ extension ListingCategory {
         case .cars:
             return LGLocalizedString.categoriesInfeedCars
         case .realEstate:
-            return LGLocalizedString.categoriesInfeedRealEstate
+            return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.categoriesInfeedRealEstateTitle : LGLocalizedString.categoriesInfeedRealEstate
         }
     }
     

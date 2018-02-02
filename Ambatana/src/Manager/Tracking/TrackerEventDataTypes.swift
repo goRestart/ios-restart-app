@@ -146,6 +146,7 @@ enum EventName: String {
     case inappChatNotificationComplete      = "in-app-chat-notification-complete"
 
     case signupCaptcha                      = "signup-captcha"
+    case loginCaptcha                       = "login-captcha"
 
     case notificationCenterStart            = "notification-center-start"
     case notificationCenterComplete         = "notification-center-complete"
@@ -339,6 +340,7 @@ enum EventParameterName: String {
     case bathrooms            = "bathroom-number"
     case location             = "location"
     case sqrMeters            = "sqr-meters"
+    case rooms                = "rooms-number"
     case openField            = "open-field"
 }
 
@@ -1091,6 +1093,8 @@ enum EventParameterOptionSummary: String {
     case propertyType = "property-type"
     case offerType = "deal-type"
     case bedrooms = "bedroom-number"
+    case rooms = "rooms-number"
+    case sizeSquareMeters = "size"
     case bathrooms = "bathroom-number"
     case location = "location"
     case make = "make"
@@ -1107,6 +1111,10 @@ enum EventParameterOptionSummary: String {
             self = .offerType
         case .bedrooms:
             self = .bedrooms
+        case .rooms:
+            self = .rooms
+        case .sizeSquareMeters:
+            self = .sizeSquareMeters
         case .bathrooms:
             self = .bathrooms
         case .location:
