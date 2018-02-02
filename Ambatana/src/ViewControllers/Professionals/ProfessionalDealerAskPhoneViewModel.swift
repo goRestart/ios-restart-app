@@ -18,11 +18,22 @@ class ProfessionalDealerAskPhoneViewModel: BaseViewModel {
 
     weak var navigator: ListingDetailNavigator?
     private let listing: Listing
+    private let tracker: Tracker
 
-    init(listing: Listing) {
+    convenience init(listing: Listing) {
+        self.init(listing: listing, tracker: TrackerProxy.sharedInstance)
+    }
+
+    init(listing: Listing, tracker: Tracker) {
         self.listing = listing
+        self.tracker = tracker
         super.init()
         setupRx()
+    }
+
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        tracker.trackEvent(TrackerEvent.phoneNumberRequest(typePage: .listingDetail))
     }
 
     func setupRx() {
@@ -41,6 +52,7 @@ class ProfessionalDealerAskPhoneViewModel: BaseViewModel {
                                     openChat: true,
                                     withPhoneNum: phoneNumber.value,
                                     source: .listingDetail)
+        tracker.trackEvent(TrackerEvent.phoneNumberSent(typePage: .listingDetail))
     }
 
     func closePressed() {
@@ -55,5 +67,6 @@ class ProfessionalDealerAskPhoneViewModel: BaseViewModel {
                                     openChat: true,
                                     withPhoneNum: nil,
                                     source: .listingDetail)
+        tracker.trackEvent(TrackerEvent.phoneNumberNotNow(typePage: .listingDetail))
     }
 }

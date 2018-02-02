@@ -322,7 +322,42 @@ struct TrackerEvent {
         params[.isBumpedUp] = isBumpedUp.rawValue
         return TrackerEvent(name: .listingDetailVisit, params: params)
     }
-    
+
+    static func listingDetailCall(_ listing: Listing,
+                                  source: EventParameterListingVisitSource,
+                                  typePage: EventParameterTypePage,
+                                  sellerAverageUserRating: Float?,
+                                  feedPosition: EventParameterFeedPosition,
+                                  isFreePosting: EventParameterBoolean,
+                                  isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params.addListingParams(listing)
+        params[.listingVisitSource] = source.rawValue
+        params[.sellerUserRating] = sellerAverageUserRating
+        params[.typePage] = typePage.rawValue
+        params[.feedPosition] = feedPosition.value
+        params[.freePosting] = isFreePosting.rawValue
+        params[.isBumpedUp] = isBumpedUp.rawValue
+        return TrackerEvent(name: .listingDetailCall, params: params)
+    }
+
+    static func chatBannerCall(_ chatListing: ChatListing,
+                               source: EventParameterListingVisitSource,
+                               typePage: EventParameterTypePage,
+                               sellerAverageUserRating: Float?,
+                               isFreePosting: EventParameterBoolean,
+                               isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params.addChatListingParams(chatListing)
+        params[.listingVisitSource] = source.rawValue
+        params[.sellerUserRating] = sellerAverageUserRating
+        params[.typePage] = typePage.rawValue
+        params[.feedPosition] = EventParameterFeedPosition.none.value
+        params[.freePosting] = isFreePosting.rawValue
+        params[.isBumpedUp] = isBumpedUp.rawValue
+        return TrackerEvent(name: .listingDetailCall, params: params)
+    }
+
     static func listingNotAvailable(_ source: EventParameterListingVisitSource, reason: EventParameterNotAvailableReason) -> TrackerEvent {
         var params = EventParameters()
         params[.listingVisitSource] = source.rawValue
@@ -686,6 +721,24 @@ struct TrackerEvent {
             params[.relatedSource] = src.rawValue
         }
         return TrackerEvent(name: .relatedListings, params: params)
+    }
+
+    static func phoneNumberRequest(typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        return TrackerEvent(name: .phoneNumberRequest, params: params)
+    }
+
+    static func phoneNumberSent(typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        return TrackerEvent(name: .phoneNumberSent, params: params)
+    }
+
+    static func phoneNumberNotNow(typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        return TrackerEvent(name: .phoneNumberNotNow, params: params)
     }
 
     static func firstMessage(info: SendMessageTrackingInfo,

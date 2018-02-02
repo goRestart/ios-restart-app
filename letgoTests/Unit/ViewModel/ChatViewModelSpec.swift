@@ -66,7 +66,8 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                     chatConversation: MockChatConversation,
                                     commandSuccess: Bool = true,
                                     user: MockUser,
-                                    chatRepoError: ChatRepositoryError? = nil) {
+                                    chatRepoError: ChatRepositoryError? = nil,
+                                    openChatAutomaticMessage: ChatWrapperMessageType? = nil) {
                 
                 safetyTipsShown = false
                 textFieldCleaned = false
@@ -99,7 +100,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
 
                 conversation = chatConversation
                 let predefinedMessage = String.makeRandom()
-                let openChatAutomaticMessage: ChatWrapperMessageType = .phone("666-666-666")
+//                let openChatAutomaticMessage: ChatWrapperMessageType = .phone("666-666-666")
                 sut = ChatViewModel(conversation: conversation, myUserRepository: myUserRepository,
                                     chatRepository: chatRepository, listingRepository: listingRepository,
                                     userRepository: userRepository, stickersRepository: stickersRepository,
@@ -301,66 +302,155 @@ class ChatViewModelSpec: BaseViewModelSpec {
             
             describe("send message") {
                 describe("new conversation") {
-                    beforeEach {
-                        mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
-                        chatMessages = []
-                        productResult = self.makeMockProduct(with: .approved)
-                        chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
-                        chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false)
-                        user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
-                        
-                        buildChatViewModel(myUser: mockMyUser,
-                                           chatMessages: chatMessages,
-                                           product: productResult,
-                                           chatConversation: chatConversation,
-                                           user: user)
-                        sut.active = true
-                    }
-                    context("quick answer") {
+                    describe ("with a regular user") {
                         beforeEach {
-                            sut.send(quickAnswer: .meetUp)
-                            expect(tracker.trackedEvents.count).toEventually(equal(3))
+                            featureFlags.allowCallsForProfessionals = .active
+                            mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
+                            chatMessages = []
+                            productResult = self.makeMockProduct(with: .approved)
+                            chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                            chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false)
+                            user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
+                            user.type = .user
+                            buildChatViewModel(myUser: mockMyUser,
+                                               chatMessages: chatMessages,
+                                               product: productResult,
+                                               chatConversation: chatConversation,
+                                               user: user)
+                            sut.active = true
                         }
-                        it("adds one element on messages") {
-                            expect(messages.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text]
+                        context("quick answer") {
+                            beforeEach {
+                                sut.send(quickAnswer: .meetUp)
+                                expect(tracker.trackedEvents.count).toEventually(equal(3))
+                            }
+                            it("adds interlocutor introduction and one element on messages") {
+                                expect(messages.lastValue?.map{ $0.value }) == [QuickAnswer.meetUp.text, sut.userInfoMessage!.value]
+                            }
+                            it("tracks sent first message + message sent") {
+                                expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
+                            }
+                            it("should not clean textField") {
+
+                                expect(self.textFieldCleaned) == false
+                            }
                         }
-                        it("tracks sent first message + message sent") {
-                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
+                        context("custom text") {
+                            beforeEach {
+                                sut.send(text: "text")
+                                expect(tracker.trackedEvents.count).toEventually(equal(3))
+                            }
+                            it("adds interlocutor introduction and one element on messages") {
+                                expect(messages.lastValue?.map{ $0.value }) == ["text", sut.userInfoMessage!.value]
+                            }
+                            it("tracks sent first message + message sent") {
+                                expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
+                            }
+                            it("should clean textField") {
+                                expect(self.textFieldCleaned) == true
+                            }
                         }
-                        it("should not clean textField") {
-                            expect(self.textFieldCleaned) == false
+                        context("sticker") {
+                            var sticker: MockSticker!
+                            beforeEach {
+                                sticker = MockSticker.makeMock()
+                                sut.send(sticker: sticker)
+                                expect(tracker.trackedEvents.count).toEventually(equal(3))
+                            }
+                            it("adds interlocutor introduction and one element on messages") {
+                                expect(messages.lastValue?.map{ $0.value }) == [sticker.name, sut.userInfoMessage!.value]
+                            }
+                            it("tracks sent first message + message sent") {
+                                expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
+                            }
+                            it("should clean textField") {
+                                expect(self.textFieldCleaned) == false
+                            }
                         }
                     }
-                    context("custom text") {
-                        beforeEach {
-                            sut.send(text: "text")
-                            expect(tracker.trackedEvents.count).toEventually(equal(3))
+                    describe ("with a professional user") {
+                        context ("allowCallsForProfessionals ABTest active") {
+                            beforeEach {
+                                featureFlags.allowCallsForProfessionals = .active
+                                mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
+                                chatMessages = []
+                                productResult = self.makeMockProduct(with: .approved)
+                                chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                                chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false)
+                                user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
+                                user.type = .pro
+                                user.phone = "666-666-666"
+                                buildChatViewModel(myUser: mockMyUser,
+                                                   chatMessages: chatMessages,
+                                                   product: productResult,
+                                                   chatConversation: chatConversation,
+                                                   user: user)
+                                sut.active = true
+                            }
+                            context("send phone") {
+                                beforeEach {
+                                    sut.send(phone: "123-456-789")
+                                    expect(tracker.trackedEvents.count).toEventually(equal(3))
+                                }
+                                it("adds interlocutor introduction, the user message and the automatic messages") {
+                                    expect(messages.lastValue?.map{ $0.value }) == [LGLocalizedString.professionalDealerAskPhoneThanksPhoneCellMessage,
+                                                                                    LGLocalizedString.professionalDealerAskPhoneAddPhoneCellMessage,
+                                                                                    LGLocalizedString.professionalDealerAskPhoneChatMessage("123-456-789"),
+                                                                                    sut.userInfoMessage!.value]
+                                }
+                                it("tracks sent first message + message sent") {
+                                    expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
+                                }
+                            }
+                            context("send regular text") {
+                                beforeEach {
+                                    sut.send(text: "hello")
+                                    expect(tracker.trackedEvents.count).toEventually(equal(3))
+                                }
+                                it("adds interlocutor introduction, the user message and the automatic messages") {
+                                    expect(messages.lastValue?.map{ $0.value }) == [LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,
+                                                                                    LGLocalizedString.professionalDealerAskPhoneAddPhoneCellMessage,
+                                                                                    "hello",
+                                                                                    sut.userInfoMessage!.value]
+                                }
+                                it("tracks sent first message + message sent") {
+                                    expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
+                                }
+                            }
                         }
-                        it("adds one element on messages") {
-                            expect(messages.lastValue?.map{ $0.value }) == ["text"]
-                        }
-                        it("tracks sent first message + message sent") {
-                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
-                        }
-                        it("should clean textField") {
-                            expect(self.textFieldCleaned) == true
-                        }
-                    }
-                    context("sticker") {
-                        var sticker: MockSticker!
-                        beforeEach {
-                            sticker = MockSticker.makeMock()
-                            sut.send(sticker: sticker)
-                            expect(tracker.trackedEvents.count).toEventually(equal(3))
-                        }
-                        it("adds one element on messages") {
-                            expect(messages.lastValue?.map{ $0.value }) == [sticker.name]
-                        }
-                        it("tracks sent first message + message sent") {
-                            expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
-                        }
-                        it("should clean textField") {
-                            expect(self.textFieldCleaned) == false
+                        context ("allowCallsForProfessionals ABTest inactive") {
+                            beforeEach {
+                                featureFlags.allowCallsForProfessionals = .baseline
+                                mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
+                                chatMessages = []
+                                productResult = self.makeMockProduct(with: .approved)
+                                chatInterlocutor = self.makeChatInterlocutor(with: .active, isMuted: false, isBanned: false, hasMutedYou: false)
+                                chatConversation = self.makeChatConversation(with: chatInterlocutor, unreadMessageCount: 0, lastMessageSentAt: nil, amISelling: false)
+                                user = self.makeUser(with: .active, isDummy: false, userId: mockMyUser.objectId!)
+                                user.type = .pro
+                                user.phone = "666-666-666"
+                                buildChatViewModel(myUser: mockMyUser,
+                                                   chatMessages: chatMessages,
+                                                   product: productResult,
+                                                   chatConversation: chatConversation,
+                                                   user: user)
+                                sut.active = true
+                            }
+                            context("custom text") {
+                                beforeEach {
+                                    sut.send(text: "text")
+                                    expect(tracker.trackedEvents.count).toEventually(equal(3))
+                                }
+                                it("adds interlocutor introduction and one element on messages") {
+                                    expect(messages.lastValue?.map{ $0.value }) == ["text", sut.userInfoMessage!.value]
+                                }
+                                it("tracks sent first message + message sent") {
+                                    expect(tracker.trackedEvents.map { $0.actualName }) == ["chat-window-open", "product-detail-ask-question", "user-sent-message"]
+                                }
+                                it("should clean textField") {
+                                    expect(self.textFieldCleaned) == true
+                                }
+                            }
                         }
                     }
                 }
@@ -677,6 +767,8 @@ extension ChatViewModelSpec: ChatViewModelDelegate {
     func vmDidNotifyMessage(_ message: String, completion: (() -> ())?) {}
     
     func vmDidPressDirectAnswer(quickAnswer: QuickAnswer) {}
+
+    func vmAskPhoneNumber() {}
 }
 
 extension ChatViewModelSpec {

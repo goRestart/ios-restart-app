@@ -140,6 +140,7 @@ class ListingViewModel: BaseViewModel {
 
     // Repository, helpers & tracker
     let trackHelper: ProductVMTrackHelper
+    var sellerAverageUserRating: Float?
 
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let userRepository: UserRepository
@@ -226,6 +227,7 @@ class ListingViewModel: BaseViewModel {
                     if let value = result.value {
                         strongSelf.isProfessional.value = value.type == .pro
                         strongSelf.phoneNumber.value = value.phone
+                        strongSelf.sellerAverageUserRating = value.ratingAverage
                     }
                 }
             }
@@ -629,7 +631,7 @@ extension ListingViewModel {
     }
 
     func openAskPhone() {
-        ifLoggedInRunActionElseOpenSignUp(from: .directChat, infoMessage: LGLocalizedString.chatLoginPopupText) { [weak self] in
+        ifLoggedInRunActionElseOpenSignUp(from: .chatProUser, infoMessage: LGLocalizedString.chatLoginPopupText) { [weak self] in
             guard let strongSelf = self else  { return }
             if let listingId = strongSelf.listing.value.objectId,
                 strongSelf.keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId) {
