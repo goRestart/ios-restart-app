@@ -1270,7 +1270,7 @@ class TrackerEventSpec: QuickSpec {
                     product.objectId = "AAAAA"
 
                     sut = TrackerEvent.listingDetailCall(.product(product), source: .listingList,
-                                                         typePage: .listingDetail, sellerUserRating: 2.5,
+                                                         typePage: .listingDetail, sellerAverageUserRating: 2.5,
                                                          feedPosition: .position(index:1), isFreePosting: .falseParameter,
                                                          isBumpedUp: .trueParameter)
                 }
@@ -1313,7 +1313,7 @@ class TrackerEventSpec: QuickSpec {
                     chatListing.objectId = "AAAAA"
 
                     sut = TrackerEvent.chatBannerCall(chatListing, source: .unknown,
-                                                      typePage: .chat, sellerUserRating: 2.5,
+                                                      typePage: .chat, sellerAverageUserRating: 2.5,
                                                       isFreePosting: .falseParameter,
                                                       isBumpedUp: .falseParameter)
                 }

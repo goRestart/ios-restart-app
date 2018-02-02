@@ -326,14 +326,14 @@ struct TrackerEvent {
     static func listingDetailCall(_ listing: Listing,
                                   source: EventParameterListingVisitSource,
                                   typePage: EventParameterTypePage,
-                                  sellerUserRating: Float?,
+                                  sellerAverageUserRating: Float?,
                                   feedPosition: EventParameterFeedPosition,
                                   isFreePosting: EventParameterBoolean,
                                   isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.listingVisitSource] = source.rawValue
-        params[.sellerUserRating] = sellerUserRating
+        params[.sellerUserRating] = sellerAverageUserRating
         params[.typePage] = typePage.rawValue
         params[.feedPosition] = feedPosition.value
         params[.freePosting] = isFreePosting.rawValue
@@ -344,13 +344,13 @@ struct TrackerEvent {
     static func chatBannerCall(_ chatListing: ChatListing,
                                source: EventParameterListingVisitSource,
                                typePage: EventParameterTypePage,
-                               sellerUserRating: Float?,
+                               sellerAverageUserRating: Float?,
                                isFreePosting: EventParameterBoolean,
                                isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
         params.addChatListingParams(chatListing)
         params[.listingVisitSource] = source.rawValue
-        params[.sellerUserRating] = sellerUserRating
+        params[.sellerUserRating] = sellerAverageUserRating
         params[.typePage] = typePage.rawValue
         params[.feedPosition] = EventParameterFeedPosition.none.value
         params[.freePosting] = isFreePosting.rawValue

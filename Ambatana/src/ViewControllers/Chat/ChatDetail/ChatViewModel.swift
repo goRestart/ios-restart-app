@@ -1397,7 +1397,7 @@ fileprivate extension ChatViewModel {
         let callSeller = TrackerEvent.chatBannerCall(chatListing,
                                                      source: .unknown,
                                                      typePage: EventParameterTypePage.chat,
-                                                     sellerUserRating: interlocutor?.ratingAverage,
+                                                     sellerAverageUserRating: interlocutor?.ratingAverage,
                                                      isFreePosting: EventParameterBoolean.init(bool: isFreePosting),
                                                      isBumpedUp: .notAvailable)
         tracker.trackEvent(callSeller)

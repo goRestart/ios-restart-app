@@ -140,7 +140,7 @@ class ListingViewModel: BaseViewModel {
 
     // Repository, helpers & tracker
     let trackHelper: ProductVMTrackHelper
-    var sellerUserRating: Float?
+    var sellerAverageUserRating: Float?
 
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let userRepository: UserRepository
@@ -227,7 +227,7 @@ class ListingViewModel: BaseViewModel {
                     if let value = result.value {
                         strongSelf.isProfessional.value = value.type == .pro
                         strongSelf.phoneNumber.value = value.phone
-                        strongSelf.sellerUserRating = value.ratingAverage
+                        strongSelf.sellerAverageUserRating = value.ratingAverage
                     }
                 }
             }

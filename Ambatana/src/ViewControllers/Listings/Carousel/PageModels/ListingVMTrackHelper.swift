@@ -66,7 +66,10 @@ extension ListingViewModel {
                          feedPosition: EventParameterFeedPosition) {
         let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :
             EventParameterBoolean.falseParameter
-        trackHelper.trackCallTapped(source: source, sellerUserRating: sellerUserRating, feedPosition: feedPosition, isShowingFeaturedStripe: isBumpedUp)
+        trackHelper.trackCallTapped(source: source,
+                                    sellerAverageUserRating: sellerAverageUserRating,
+                                    feedPosition: feedPosition,
+                                    isShowingFeaturedStripe: isBumpedUp)
     }
 
 
@@ -299,13 +302,13 @@ extension ProductVMTrackHelper {
     }
 
     func trackCallTapped(source: EventParameterListingVisitSource,
-                         sellerUserRating: Float?,
+                         sellerAverageUserRating: Float?,
                          feedPosition: EventParameterFeedPosition,
                          isShowingFeaturedStripe: EventParameterBoolean) {
         let trackerEvent = TrackerEvent.listingDetailCall(listing,
                                                           source: source,
                                                           typePage: .listingDetail,
-                                                          sellerUserRating: sellerUserRating,
+                                                          sellerAverageUserRating: sellerAverageUserRating,
                                                           feedPosition: feedPosition,
                                                           isFreePosting: EventParameterBoolean.init(bool: listing.price.isFree),
                                                           isBumpedUp: isShowingFeaturedStripe)
