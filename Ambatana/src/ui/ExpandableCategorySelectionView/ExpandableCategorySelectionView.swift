@@ -64,7 +64,12 @@ class ExpandableCategorySelectionView: UIView {
             guard let actionIndex = viewModel.categoriesAvailable.index(of: category) else { return }
             
             let button = UIButton(type: .custom)
-            button.setStyle(.secondary(fontSize: .medium, withBorder: false))
+            switch category.style {
+            case .redBackground:
+                button.setStyle(.primary(fontSize: .medium))
+            case .whiteBackground:
+                button.setStyle(.secondary(fontSize: .medium, withBorder: false))
+            }
             button.tag = actionIndex
             button.setImage(category.icon, for: .normal)
             button.setTitle(category.title, for: .normal)
@@ -214,7 +219,7 @@ fileprivate extension ExpandableCategory {
                 return listingCategory.image
             }
         case .mostSearchedItems:
-            return #imageLiteral(resourceName: "trending_feed")
+            return UIImage(named: "trending_expandable")
         }
     }
 }

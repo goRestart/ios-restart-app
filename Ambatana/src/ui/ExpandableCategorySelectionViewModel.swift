@@ -9,8 +9,8 @@
 import LGCoreKit
 
 enum ExpandableCategoryStyle {
-    case red
-    case white
+    case redBackground
+    case whiteBackground
 }
 
 enum ExpandableCategory: Equatable {
@@ -29,9 +29,9 @@ enum ExpandableCategory: Equatable {
     var style: ExpandableCategoryStyle {
         switch self {
         case .listingCategory(_):
-            return .red
+            return .redBackground
         case .mostSearchedItems:
-            return .white
+            return .whiteBackground
         }
     }
     
