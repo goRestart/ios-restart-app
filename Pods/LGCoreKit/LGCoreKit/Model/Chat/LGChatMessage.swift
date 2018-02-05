@@ -13,6 +13,7 @@ public enum ChatMessageType: String, Decodable {
     case quickAnswer = "quick_answer"
     case expressChat = "express_chat"
     case favoritedListing  = "favorited_product"
+    case phone = "phone"
 }
 
 public enum ChatMessageWarning: String, Decodable {
