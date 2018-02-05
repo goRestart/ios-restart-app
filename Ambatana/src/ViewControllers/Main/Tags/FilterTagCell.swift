@@ -68,6 +68,8 @@ class FilterTagCell: UICollectionViewCell {
             return FilterTagCell.sizeForText(numberOfBedrooms.shortLocalizedString)
         case .realEstateNumberOfBathrooms(let numberOfBathrooms):
             return FilterTagCell.sizeForText(numberOfBathrooms.shortLocalizedString)
+        case .realEstateNumberOfRooms(let numberOfRooms):
+            return FilterTagCell.sizeForText(numberOfRooms.localizedString)
         }
     }
     

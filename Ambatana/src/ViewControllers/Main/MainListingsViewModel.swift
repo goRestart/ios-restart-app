@@ -394,6 +394,7 @@ class MainListingsViewModel: BaseViewModel {
         var realEstateOfferType: RealEstateOfferType? = nil
         var realEstateNumberOfBedrooms: NumberOfBedrooms? = nil
         var realEstateNumberOfBathrooms: NumberOfBathrooms? = nil
+        var realEstateNumberOfRooms: NumberOfRooms? = nil
 
         for filterTag in tags {
             switch filterTag {

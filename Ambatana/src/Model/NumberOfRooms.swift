@@ -9,17 +9,16 @@
 import Foundation
 
 struct NumberOfRooms {
-    let numberOfBedrooms: Int?
-    let numberOfLivingRooms: Int?
+    let numberOfBedrooms: Int
+    let numberOfLivingRooms: Int
     
-    var localizedString: String? {
-        if let bedrooms = numberOfBedrooms, bedrooms == 1, let livingRooms = numberOfLivingRooms, livingRooms == 0 {
+    var localizedString: String {
+        if numberOfBedrooms == 1 && numberOfLivingRooms == 0 {
             return LGLocalizedString.realEstateRoomsStudio
         } else if numberOfBedrooms == 10 && numberOfLivingRooms == 0 {
             return LGLocalizedString.realEstateRoomsOverTen
         }
-        guard let bedrooms = numberOfBedrooms, let livingRooms = numberOfLivingRooms else { return nil }
-        return LGLocalizedString.realEstateRoomsValue(bedrooms, livingRooms)
+        return LGLocalizedString.realEstateRoomsValue(numberOfBedrooms, numberOfLivingRooms)
     }
 
     static var allValues: [NumberOfRooms] {
