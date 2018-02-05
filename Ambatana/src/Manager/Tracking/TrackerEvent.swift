@@ -951,7 +951,7 @@ struct TrackerEvent {
         return TrackerEvent(name: .openApp, params: params)
     }
 
-    static func chatsDeleteComplete(numberOfConversations: Int, isInactiveConversation: Bool) -> TrackerEvent {
+    static func chatDeleteComplete(numberOfConversations: Int, isInactiveConversation: Bool) -> TrackerEvent {
         var params = EventParameters()
         params[.chatsDeleted] = numberOfConversations
         params[.inactiveConversations] = isInactiveConversation
