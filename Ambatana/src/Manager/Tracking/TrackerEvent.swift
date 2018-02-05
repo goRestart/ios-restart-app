@@ -951,6 +951,13 @@ struct TrackerEvent {
         return TrackerEvent(name: .openApp, params: params)
     }
 
+    static func chatDeleteComplete(numberOfConversations: Int, isInactiveConversation: Bool) -> TrackerEvent {
+        var params = EventParameters()
+        params[.chatsDeleted] = numberOfConversations
+        params[.inactiveConversations] = isInactiveConversation
+        return TrackerEvent(name: .chatDeleteComplete, params: params)
+    }
+    
     static func expressChatStart(_ trigger: EventParameterExpressChatTrigger) -> TrackerEvent {
         var params = EventParameters()
         params[.expressChatTrigger] = trigger.rawValue

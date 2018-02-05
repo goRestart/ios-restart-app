@@ -88,6 +88,7 @@ enum EventName: String {
     case userMessageSentError               = "user-sent-message-error"
     case chatRelatedItemsStart              = "chat-related-items-start"
     case chatRelatedItemsComplete           = "chat-related-items-complete"
+    case chatDeleteComplete                 = "chat-delete-complete"
 
     case profileVisit                       = "profile-visit"
     case profileEditStart                   = "profile-edit-start"
@@ -337,6 +338,8 @@ enum EventParameterName: String {
     case sqrMeters            = "sqr-meters"
     case rooms                = "rooms-number"
     case openField            = "open-field"
+    case chatsDeleted         = "chats-deleted"
+    case inactiveConversations = "inactive-conversations"
 }
 
 enum EventParameterBoolean: String {
