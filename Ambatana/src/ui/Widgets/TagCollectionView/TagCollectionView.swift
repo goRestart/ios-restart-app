@@ -3,15 +3,30 @@ import UIKit
 import LGCoreKit
 
 class TagCollectionView: UICollectionView, TagCollectionViewModelDelegate {
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+        register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.reusableID)
+    }
+    
+    init(viewModel: TagCollectionViewModel) {
+        let flowLayout = CenterAlignedCollectionViewFlowLayout()
+        flowLayout.estimatedItemSize = CGSize(width: 1, height: 1)
+        flowLayout.minimumInteritemSpacing = 5
+        flowLayout.minimumLineSpacing = 5
+        
+        super.init(frame: CGRect.zero, collectionViewLayout: flowLayout)
+        
+        register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.reusableID)
+        dataSource = viewModel
+        delegate = viewModel
     }
     
     func defaultSetup() {
         report(AppReport.uikit(error: .breadcrumb), message: "TagCollectionView defaultSetup")
         backgroundColor = .clear
-        let flowLayout = LeftAlignedCollectionViewFlowLayout()
+        let flowLayout = CenterAlignedCollectionViewFlowLayout()
         flowLayout.estimatedItemSize = CGSize(width: 1, height: 1)
         flowLayout.minimumInteritemSpacing = 5
         flowLayout.minimumLineSpacing = 5
@@ -40,7 +55,7 @@ class TagCollectionView: UICollectionView, TagCollectionViewModelDelegate {
         report(AppReport.uikit(error: .breadcrumb), message: "invalidateIntrinsicContentSize")
     }
     
-    func vmReloadData(_ vm: TagCollectionViewModel) {
+    func vmDidReloadData(_ vm: TagCollectionViewModel) {
         reloadData()
         report(AppReport.uikit(error: .breadcrumb), message: "TagCollectionView vmReloadData invalidateLayout")
         collectionViewLayout.invalidateLayout()

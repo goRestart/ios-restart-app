@@ -13,13 +13,18 @@ import UIKit
 import RxSwift
 
 
-class ExpandableCategorySelectionView: UIView {
+class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , TagCollectionViewModelSelectionDelegate {
     
     static let distanceBetweenButtons: CGFloat = 10
     
     fileprivate let viewModel: ExpandableCategorySelectionViewModel
     fileprivate var buttons: [UIButton] = []
     fileprivate var closeButton: UIButton = UIButton()
+    
+    fileprivate var tagCollectionViewModel: TagCollectionViewModel?
+    fileprivate var tagsView: UIView?
+    fileprivate var titleTagsLabel: UILabel?
+    fileprivate var tagCollectionView: TagCollectionView?
     
     fileprivate let buttonSpacing: CGFloat
     fileprivate let bottomDistance: CGFloat
@@ -38,8 +43,10 @@ class ExpandableCategorySelectionView: UIView {
         self.buttonSpacing = buttonSpacing
         self.bottomDistance = bottomDistance
         self.viewModel = viewModel
+        
         super.init(frame: frame)
         setupUI()
+        setupTagCollectionView()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -86,8 +93,6 @@ class ExpandableCategorySelectionView: UIView {
             button.layout().height(buttonHeight)
             buttons.append(button)
         })
-        
-        
     }
 
     fileprivate func setupUI() {
@@ -111,6 +116,7 @@ class ExpandableCategorySelectionView: UIView {
         addButtons()
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOutside))
+        tapRecognizer.delegate = self
         addGestureRecognizer(tapRecognizer)
         setAccesibilityIds()
     }
@@ -151,6 +157,55 @@ class ExpandableCategorySelectionView: UIView {
         closeButton.accessibilityId = .expandableCategorySelectionCloseButton
     }
     
+    fileprivate func setupTagCollectionView() {
+        tagCollectionViewModel = TagCollectionViewModel(tags: viewModel.tags)
+        if let tagCollectionViewModel = self.tagCollectionViewModel {
+            self.tagCollectionView = TagCollectionView(viewModel: tagCollectionViewModel)
+            self.tagsView = UIView()
+            self.titleTagsLabel = UILabel()
+        }
+        
+        guard let tagCollectionViewModel = self.tagCollectionViewModel,
+            let tagCollectionView = self.tagCollectionView,
+            let tagsView = self.tagsView,
+            let titleTagsLabel = self.titleTagsLabel else { return }
+        
+        //tagCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.reusableID)
+        //tagCollectionView.dataSource = tagCollectionViewModel
+        tagCollectionView.defaultSetup()
+        tagCollectionViewModel.selectionDelegate = self
+        
+        titleTagsLabel.textColor = .white
+        //titleTagsLabel.font =
+        titleTagsLabel.text = "most indemand items"
+        
+        tagsView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(tagsView)
+        
+        let tagsSubviews = [titleTagsLabel, tagCollectionView]
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: tagsSubviews)
+        tagsView.addSubviews(tagsSubviews)
+        
+        tagsView.layout(with: self)
+            .top()
+            .fillHorizontal()
+        if let highestButton = buttons.last {
+            tagsView.layout(with: highestButton)
+                .above(by: -Metrics.bigMargin)
+        }
+        
+        titleTagsLabel.layout(with: tagsView)
+            .top(by: 40)
+            .fillHorizontal(by: Metrics.bigMargin)
+        titleTagsLabel.layout().height(15)
+                
+        tagCollectionView.layout(with: tagsView)
+            .fillHorizontal()
+            .bottom(by: -Metrics.bigMargin)
+        tagCollectionView.layout(with: titleTagsLabel)
+            .below(by: Metrics.bigMargin)
+    }
+    
     
     // MARK: - Actions
     
@@ -184,6 +239,24 @@ class ExpandableCategorySelectionView: UIView {
         guard 0..<viewModel.categoriesAvailable.count ~= buttonIndex else { return }
         shrink(animated: true)
         viewModel.pressCategoryAction(category: viewModel.categoriesAvailable[buttonIndex])
+    }
+    
+    
+    // MARK: - TapGestureRecognizerDelegate
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard let touchView = touch.view,
+            let tagCollectionView = tagCollectionView else { return true }
+        // Ignore touches explicitly in tagCollectionView cells
+        return touchView.isEqual(tagCollectionView) ||
+            !touchView.isDescendant(of: tagCollectionView)
+    }
+    
+    
+    // MARK: - TagCollectionViewModelSelectionDelegate
+    
+    func vmDidSelect(tagAtIndex index: Int) {
+        viewModel.pressTagAtIndex(index)
     }
 }
 

@@ -51,13 +51,22 @@ enum ExpandableCategory: Equatable {
 
 protocol ExpandableCategorySelectionDelegate: class {
     func didPressCloseButton()
-    func didPress(category: ExpandableCategory)
+    func didPressCategory(_ category: ExpandableCategory)
+    func didPressTag(_ mostSearchedItem: LocalMostSearchedItem)
 }
 
 class ExpandableCategorySelectionViewModel: BaseViewModel {
     
     weak var delegate: ExpandableCategorySelectionDelegate?
     let categoriesAvailable: [ExpandableCategory]
+    
+    var mostSearchedItems: [LocalMostSearchedItem] {
+        return LocalMostSearchedItem.allValues
+    }
+    var tags: [String] {
+        return mostSearchedItems.map { $0.name }
+    }
+    
     
     // MARK: - View lifecycle
     
@@ -75,13 +84,19 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
         super.init()
     }
     
-    // Button actions: 
+    
+    // MARK: - UI Actions
     
     func closeButtonAction() {
         delegate?.didPressCloseButton()
     }
     
     func pressCategoryAction(category: ExpandableCategory) {
-        delegate?.didPress(category: category)
+        delegate?.didPressCategory(category)
+    }
+    
+    func pressTagAtIndex(_ index: Int) {
+        let mostSearchedItem = mostSearchedItems[index]
+        delegate?.didPressTag(mostSearchedItem)
     }
 }
