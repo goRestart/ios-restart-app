@@ -81,7 +81,7 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
         super.didBecomeActive(firstTime)
         
         if firstTime {
-            //trackVisit()
+            tracker.trackEvent(TrackerEvent.chatInactiveConversationsShown())
         }
     }
     

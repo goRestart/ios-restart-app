@@ -89,6 +89,8 @@ enum EventName: String {
     case chatRelatedItemsStart              = "chat-related-items-start"
     case chatRelatedItemsComplete           = "chat-related-items-complete"
     case chatDeleteComplete                 = "chat-delete-complete"
+    case chatViewInactiveConversations      = "chat-view-inactive-conversations"
+    case chatInactiveConversationsShown     = "chat-inactive-conversations-shown"
 
     case profileVisit                       = "profile-visit"
     case profileEditStart                   = "profile-edit-start"
