@@ -21,22 +21,36 @@ class MostSearchedItemsListViewModel: BaseViewModel {
     let isSearchEnabled: Bool
     
     fileprivate let featureFlags: FeatureFlaggeable
+    fileprivate let keyValueStorage: KeyValueStorage
     
     let mostSearchedItems: [LocalMostSearchedItem]
     
     
     // MARK: - Lifecycle
     
-    init(featureFlags: FeatureFlaggeable, isSearchEnabled: Bool) {
+    convenience init(isSearchEnabled: Bool) {
+        self.init(featureFlags: FeatureFlags.sharedInstance,
+                  notificationsManager: LGNotificationsManager.sharedInstance,
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  isSearchEnabled: isSearchEnabled)
+    }
+    
+    init(featureFlags: FeatureFlaggeable,
+         notificationsManager: NotificationsManager,
+         keyValueStorage: KeyValueStorage,
+         isSearchEnabled: Bool) {
         self.featureFlags = featureFlags
+        self.keyValueStorage = keyValueStorage
         self.isSearchEnabled = isSearchEnabled
         mostSearchedItems = LocalMostSearchedItem.allValues
         super.init()
-    }
-    
-    convenience init(isSearchEnabled: Bool) {
-        self.init(featureFlags: FeatureFlags.sharedInstance,
-                  isSearchEnabled: isSearchEnabled)
+        
+        let isShowingSellBadge = featureFlags.mostSearchedDemandedItems == .cameraBadge &&
+            !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
+        if isShowingSellBadge {
+            keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown] = true
+            notificationsManager.clearNewSellFeatureIndicator()
+        }
     }
     
     

@@ -41,6 +41,10 @@ extension Bumper  {
         flags.append(RealEstatePromos.self)
         flags.append(AllowEmojisOnChat.self)
         flags.append(ShowAdsInFeedWithRatio.self)
+        flags.append(RealEstateFlowType.self)
+        flags.append(RemoveCategoryWhenClosingPosting.self)
+        flags.append(RealEstateNewCopy.self)
+        flags.append(DummyUsersInfoProfile.self)
         Bumper.initialize(flags)
     } 
 
@@ -182,6 +186,26 @@ extension Bumper  {
     static var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
         guard let value = Bumper.value(for: ShowAdsInFeedWithRatio.key) else { return .control }
         return ShowAdsInFeedWithRatio(rawValue: value) ?? .control 
+    }
+
+    static var realEstateFlowType: RealEstateFlowType {
+        guard let value = Bumper.value(for: RealEstateFlowType.key) else { return .standard }
+        return RealEstateFlowType(rawValue: value) ?? .standard 
+    }
+
+    static var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting {
+        guard let value = Bumper.value(for: RemoveCategoryWhenClosingPosting.key) else { return .control }
+        return RemoveCategoryWhenClosingPosting(rawValue: value) ?? .control 
+    }
+
+    static var realEstateNewCopy: RealEstateNewCopy {
+        guard let value = Bumper.value(for: RealEstateNewCopy.key) else { return .control }
+        return RealEstateNewCopy(rawValue: value) ?? .control 
+    }
+
+    static var dummyUsersInfoProfile: DummyUsersInfoProfile {
+        guard let value = Bumper.value(for: DummyUsersInfoProfile.key) else { return .control }
+        return DummyUsersInfoProfile(rawValue: value) ?? .control 
     } 
 }
 
@@ -606,6 +630,69 @@ enum ShowAdsInFeedWithRatio: String, BumperFeature  {
             case 2: return .ten
             case 3: return .fifteen
             case 4: return .twenty
+            default: return .control
+        }
+    }
+}
+
+enum RealEstateFlowType: String, BumperFeature  {
+    case standard, turkish
+    static var defaultValue: String { return RealEstateFlowType.standard.rawValue }
+    static var enumValues: [RealEstateFlowType] { return [.standard, .turkish]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Real Estate Flow Type" } 
+    static func fromPosition(_ position: Int) -> RealEstateFlowType {
+        switch position { 
+            case 0: return .standard
+            case 1: return .turkish
+            default: return .standard
+        }
+    }
+}
+
+enum RemoveCategoryWhenClosingPosting: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return RemoveCategoryWhenClosingPosting.control.rawValue }
+    static var enumValues: [RemoveCategoryWhenClosingPosting] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Remove category real estate if user closes posting" } 
+    static func fromPosition(_ position: Int) -> RemoveCategoryWhenClosingPosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum RealEstateNewCopy: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return RealEstateNewCopy.control.rawValue }
+    static var enumValues: [RealEstateNewCopy] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Try real estate copy instead of housing" } 
+    static func fromPosition(_ position: Int) -> RealEstateNewCopy {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum DummyUsersInfoProfile: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return DummyUsersInfoProfile.control.rawValue }
+    static var enumValues: [DummyUsersInfoProfile] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Add info for dummy users in profile" } 
+    static func fromPosition(_ position: Int) -> DummyUsersInfoProfile {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

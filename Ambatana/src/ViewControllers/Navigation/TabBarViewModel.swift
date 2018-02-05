@@ -14,10 +14,18 @@ class TabBarViewModel: BaseViewModel {
 
     var notificationsBadge = Variable<String?>(nil)
     var chatsBadge = Variable<String?>(nil)
-    var favoriteBadge = Variable<String?>(nil)
+    var sellBadge = Variable<String?>(nil)
     
     var shouldShowRealEstateTooltip: Bool {
-        return featureFlags.realEstateEnabled.isActive && featureFlags.realEstateImprovements.isActive && !keyValueStorage[.realEstateTooltipSellButtonAlreadyShown]
+        return featureFlags.realEstateEnabled.isActive &&
+            featureFlags.realEstateImprovements.isActive &&
+            !keyValueStorage[.realEstateTooltipSellButtonAlreadyShown]
+    }
+    var isMostSearchedItemsCameraBadgeEnabled: Bool {
+        return featureFlags.mostSearchedDemandedItems == .cameraBadge
+    }
+    var shouldShowCameraBadge: Bool {
+        return isMostSearchedItemsCameraBadgeEnabled && !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
     }
 
     private let notificationsManager: NotificationsManager
@@ -72,7 +80,8 @@ class TabBarViewModel: BaseViewModel {
         titleTextAttributes[.foregroundColor] = UIColor.white
         titleTextAttributes[.font] = UIFont.systemSemiBoldFont(size: 17)
         
-        let titleText = NSAttributedString(string: LGLocalizedString.realEstateTooltipSellButton, attributes: titleTextAttributes)
+        let title = featureFlags.realEstateNewCopy.isActive ? LGLocalizedString.realEstateTooltipSellButtonTitle : LGLocalizedString.realEstateTooltipSellButton
+        let titleText = NSAttributedString(string: title, attributes: titleTextAttributes)
         
         let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
         fullTitle.append(NSAttributedString(string: " "))
@@ -92,13 +101,19 @@ class TabBarViewModel: BaseViewModel {
     private func setupRx() {
         notificationsManager.unreadMessagesCount.asObservable()
             .map { $0.flatMap { $0 > 0 ? String($0) : nil } }
-            .bind(to: chatsBadge).disposed(by: disposeBag)
+            .bind(to: chatsBadge)
+            .disposed(by: disposeBag)
         
         Observable.combineLatest(myUserRepository.rx_myUser,
             notificationsManager.unreadNotificationsCount.asObservable(),
             resultSelector: { (myUser, count) -> String? in
                 guard myUser != nil else { return String(1) }
                 return count.flatMap { $0 > 0 ? String($0) : nil }
-            }).bind(to: notificationsBadge).disposed(by: disposeBag)
+            }).bind(to: notificationsBadge)
+            .disposed(by: disposeBag)
+        
+        notificationsManager.newSellFeatureIndicator.asObservable()
+            .bind(to: sellBadge)
+            .disposed(by: disposeBag)
     }
 }

@@ -66,6 +66,7 @@ class UserViewModel: BaseViewModel {
     let userRelationText = Variable<String?>(nil)
     let userName = Variable<String?>(nil)
     let userIsProfessional = Variable<Bool>(false)
+    let userIsDummy = Variable<Bool>(false)
     let userLocation = Variable<String?>(nil)
     let userAccounts = Variable<UserViewHeaderAccounts?>(nil)
     let pushPermissionsDisabledWarning = Variable<Bool?>(nil)
@@ -74,6 +75,10 @@ class UserViewModel: BaseViewModel {
     }
     
     let listingListViewModel: Variable<ListingListViewModel>
+    
+    var areDummyUsersEnabled: Bool {
+        return featureFlags.dummyUsersInfoProfile.isActive
+    }
     
     weak var delegate: UserViewModelDelegate?
     weak var navigator: TabNavigator?
@@ -458,6 +463,7 @@ fileprivate extension UserViewModel {
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityStateString
             strongSelf.userIsProfessional.value = user?.type == .pro
+            strongSelf.userIsDummy.value = user?.type == .dummy
             
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .myUser : .otherUser
             

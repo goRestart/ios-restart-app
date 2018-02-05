@@ -582,7 +582,13 @@ extension AppCoordinator: UITabBarControllerDelegate {
                 // tab is changed after returning from this method
                 return !shouldOpenLogin
             case .sell:
-                openSell(source: .tabBar, postCategory: nil, listingTitle: nil)
+                let shouldOpenMostSearchedItems = featureFlags.mostSearchedDemandedItems == .cameraBadge &&
+                    !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
+                if shouldOpenMostSearchedItems {
+                    openMostSearchedItems(source: .cameraBadge, enableSearch: false)
+                } else {
+                    openSell(source: .tabBar, postCategory: nil, listingTitle: nil)
+                }
                 return false
             }
         }

@@ -174,34 +174,6 @@
                         <constraint firstItem="YZ9-F8-6xl" firstAttribute="centerX" secondItem="Tuz-bh-YPQ" secondAttribute="centerX" id="xic-HV-ef0"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G2f-92-HRP">
-                    <rect key="frame" x="0.0" y="106" width="200" height="44"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="44" id="Jhh-pQ-QHg"/>
-                    </constraints>
-                    <state key="normal" title="_SELLING">
-                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t8v-cE-HJj">
-                    <rect key="frame" x="200" y="106" width="200" height="44"/>
-                    <state key="normal" title="_SOLD">
-                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LcY-cj-y5R">
-                    <rect key="frame" x="400" y="106" width="200" height="44"/>
-                    <state key="normal" title="_FAVORITES">
-                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mQP-bS-pyz">
-                    <rect key="frame" x="0.0" y="147" width="200" height="3"/>
-                    <color key="backgroundColor" red="0.92669773101806641" green="0.0" blue="0.9401547908782959" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="3" id="ePg-KH-l1v"/>
-                    </constraints>
-                </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sT8-Xm-l7l" userLabel="Avatar Ratings Container View">
                     <rect key="frame" x="218" y="-40" width="164.5" height="80"/>
                     <subviews>
@@ -292,29 +264,81 @@
                         </mask>
                     </variation>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k0n-l0-8u1">
+                    <rect key="frame" x="0.0" y="106" width="600" height="44"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G2f-92-HRP">
+                            <rect key="frame" x="0.0" y="0.0" width="200" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="200" id="hqW-Xs-K8e"/>
+                            </constraints>
+                            <state key="normal" title="_SELLING">
+                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t8v-cE-HJj">
+                            <rect key="frame" x="200" y="0.0" width="200" height="44"/>
+                            <state key="normal" title="_SOLD">
+                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LcY-cj-y5R">
+                            <rect key="frame" x="400" y="0.0" width="200" height="44"/>
+                            <state key="normal" title="_FAVORITES">
+                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mQP-bS-pyz">
+                            <rect key="frame" x="0.0" y="41" width="200" height="3"/>
+                            <color key="backgroundColor" red="0.92669773101806641" green="0.0" blue="0.9401547908782959" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="3" id="PHK-Hl-r4x"/>
+                                <constraint firstAttribute="height" constant="3" id="ePg-KH-l1v"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="G2f-92-HRP" firstAttribute="leading" secondItem="k0n-l0-8u1" secondAttribute="leading" id="0ns-Gj-Fgj"/>
+                        <constraint firstItem="mQP-bS-pyz" firstAttribute="leading" secondItem="k0n-l0-8u1" secondAttribute="leading" id="741-9W-5E0"/>
+                        <constraint firstAttribute="trailing" secondItem="LcY-cj-y5R" secondAttribute="trailing" id="AZx-CJ-1kc"/>
+                        <constraint firstAttribute="height" constant="44" id="MvO-9y-2wl"/>
+                        <constraint firstItem="LcY-cj-y5R" firstAttribute="leading" secondItem="t8v-cE-HJj" secondAttribute="trailing" id="N1M-pp-Lmu"/>
+                        <constraint firstAttribute="bottom" secondItem="LcY-cj-y5R" secondAttribute="bottom" id="QTl-JM-36X"/>
+                        <constraint firstItem="t8v-cE-HJj" firstAttribute="leading" secondItem="G2f-92-HRP" secondAttribute="trailing" id="T4E-dK-qpS"/>
+                        <constraint firstItem="mQP-bS-pyz" firstAttribute="width" secondItem="G2f-92-HRP" secondAttribute="width" id="cp0-8E-9cy"/>
+                        <constraint firstAttribute="bottom" secondItem="mQP-bS-pyz" secondAttribute="bottom" id="iKM-GU-a0E"/>
+                        <constraint firstItem="t8v-cE-HJj" firstAttribute="top" secondItem="k0n-l0-8u1" secondAttribute="top" id="l4R-no-MiQ"/>
+                        <constraint firstAttribute="bottom" secondItem="G2f-92-HRP" secondAttribute="bottom" id="pLo-xo-RxN"/>
+                        <constraint firstItem="LcY-cj-y5R" firstAttribute="top" secondItem="k0n-l0-8u1" secondAttribute="top" id="pRb-YZ-DVk"/>
+                        <constraint firstItem="G2f-92-HRP" firstAttribute="top" secondItem="k0n-l0-8u1" secondAttribute="top" id="vqM-wI-7ux"/>
+                        <constraint firstAttribute="bottom" secondItem="t8v-cE-HJj" secondAttribute="bottom" id="xIL-ZL-gUW"/>
+                        <constraint firstItem="G2f-92-HRP" firstAttribute="width" secondItem="LcY-cj-y5R" secondAttribute="width" id="yOw-0T-BwN"/>
+                        <constraint firstItem="G2f-92-HRP" firstAttribute="width" secondItem="t8v-cE-HJj" secondAttribute="width" id="z3r-4K-CuV"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tsk-AV-yNO">
+                    <rect key="frame" x="0.0" y="150" width="600" height="0.0"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" id="sQq-nX-dNB"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="t8v-cE-HJj" secondAttribute="bottom" id="0eM-AE-OwZ"/>
-                <constraint firstItem="LcY-cj-y5R" firstAttribute="leading" secondItem="t8v-cE-HJj" secondAttribute="trailing" id="6xf-Ng-gOj"/>
+                <constraint firstAttribute="trailing" secondItem="Tsk-AV-yNO" secondAttribute="trailing" id="3NI-rX-7Pa"/>
                 <constraint firstAttribute="trailing" secondItem="Tuz-bh-YPQ" secondAttribute="trailing" id="7fA-lf-WJP"/>
-                <constraint firstItem="t8v-cE-HJj" firstAttribute="height" secondItem="G2f-92-HRP" secondAttribute="height" id="8pE-o2-pr6"/>
-                <constraint firstItem="t8v-cE-HJj" firstAttribute="width" secondItem="G2f-92-HRP" secondAttribute="width" id="Kqg-uB-Bfb"/>
-                <constraint firstItem="mQP-bS-pyz" firstAttribute="width" secondItem="G2f-92-HRP" secondAttribute="width" id="Qbt-G6-VIV"/>
+                <constraint firstAttribute="bottom" secondItem="Tsk-AV-yNO" secondAttribute="bottom" id="ERF-jd-Xxs"/>
+                <constraint firstItem="k0n-l0-8u1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="HoS-5e-4Yc"/>
+                <constraint firstItem="k0n-l0-8u1" firstAttribute="top" secondItem="Tuz-bh-YPQ" secondAttribute="bottom" id="OzA-FY-ogW"/>
                 <constraint firstItem="Tuz-bh-YPQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Rh8-og-LeO"/>
-                <constraint firstItem="G2f-92-HRP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Sx5-Ng-FkD"/>
-                <constraint firstItem="G2f-92-HRP" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="1:3" id="TCG-E5-CEQ"/>
-                <constraint firstItem="LcY-cj-y5R" firstAttribute="width" secondItem="G2f-92-HRP" secondAttribute="width" id="ZyB-xc-qjv"/>
                 <constraint firstItem="sT8-Xm-l7l" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="aiM-v2-FCh"/>
-                <constraint firstItem="t8v-cE-HJj" firstAttribute="leading" secondItem="G2f-92-HRP" secondAttribute="trailing" id="gR3-V2-Q59"/>
-                <constraint firstAttribute="bottom" secondItem="mQP-bS-pyz" secondAttribute="bottom" id="nbr-sb-97w"/>
-                <constraint firstItem="G2f-92-HRP" firstAttribute="top" secondItem="Tuz-bh-YPQ" secondAttribute="bottom" id="uMM-MJ-CHt"/>
-                <constraint firstItem="LcY-cj-y5R" firstAttribute="height" secondItem="G2f-92-HRP" secondAttribute="height" id="ujs-sq-TL5"/>
-                <constraint firstAttribute="bottom" secondItem="G2f-92-HRP" secondAttribute="bottom" id="wDm-uv-ci5"/>
+                <constraint firstItem="Tsk-AV-yNO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="cyM-a2-flO"/>
+                <constraint firstAttribute="trailing" secondItem="k0n-l0-8u1" secondAttribute="trailing" id="k3x-KC-cku"/>
+                <constraint firstItem="Tsk-AV-yNO" firstAttribute="top" secondItem="k0n-l0-8u1" secondAttribute="bottom" id="wWb-DA-52D"/>
                 <constraint firstItem="sT8-Xm-l7l" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-40" id="x5c-Lp-jan"/>
                 <constraint firstItem="Tuz-bh-YPQ" firstAttribute="top" secondItem="sT8-Xm-l7l" secondAttribute="bottom" id="x6i-Yr-x2x"/>
-                <constraint firstItem="mQP-bS-pyz" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="xH2-SK-2Zd"/>
-                <constraint firstAttribute="bottom" secondItem="LcY-cj-y5R" secondAttribute="bottom" id="xaO-aR-ycW"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -327,9 +351,11 @@
                 <outlet property="buildTrustButtonHeight" destination="dBU-Ee-TTm" id="kwg-KL-k8U"/>
                 <outlet property="buildTrustContainerButtonWidth" destination="adJ-ae-9Fu" id="WG6-VI-o7N"/>
                 <outlet property="buildTrustSeparator" destination="CNl-1u-MM3" id="gL1-Vo-Tjc"/>
+                <outlet property="dummyUserDisclaimerContainerView" destination="Tsk-AV-yNO" id="WH9-Hw-8zC"/>
+                <outlet property="dummyUserDisclaimerContainerViewHeight" destination="sQq-nX-dNB" id="oFe-UA-8DR"/>
                 <outlet property="favoritesButton" destination="LcY-cj-y5R" id="LKb-gg-vhk"/>
                 <outlet property="indicatorView" destination="mQP-bS-pyz" id="GeM-my-Azp"/>
-                <outlet property="indicatorViewLeadingConstraint" destination="xH2-SK-2Zd" id="wsZ-Cd-PXH"/>
+                <outlet property="indicatorViewLeadingConstraint" destination="741-9W-5E0" id="3gk-ob-g3h"/>
                 <outlet property="infoView" destination="Tuz-bh-YPQ" id="ksv-Yy-FkN"/>
                 <outlet property="ratingCountContainerLeading" destination="Kb3-8E-ES6" id="wFh-F3-ymH"/>
                 <outlet property="ratingCountContainerTrailing" destination="6r5-GU-xjZ" id="wVg-Tc-KvE"/>
@@ -337,7 +363,7 @@
                 <outlet property="ratingsButton" destination="4Ch-CZ-5Ya" id="j4O-Pu-ZdH"/>
                 <outlet property="ratingsLabel" destination="aqu-Rs-NBg" id="BDz-g0-Mqw"/>
                 <outlet property="sellingButton" destination="G2f-92-HRP" id="IFD-Vf-g42"/>
-                <outlet property="sellingButtonWidthConstraint" destination="TCG-E5-CEQ" id="qMq-YH-Jcu"/>
+                <outlet property="sellingButtonWidthConstraint" destination="hqW-Xs-K8e" id="43L-Z5-9ev"/>
                 <outlet property="simpleEmailButtonWidth" destination="3Al-wE-KeT" id="mkq-K6-W9t"/>
                 <outlet property="simpleFacebookButtonWidth" destination="yby-bx-5v3" id="Oar-P9-baf"/>
                 <outlet property="simpleGoogleButtonWidth" destination="Mhr-Tp-r6f" id="cL0-Ro-eTI"/>
@@ -349,6 +375,7 @@
                 <outlet property="verifiedSimpleContainerWidth" destination="1nf-4a-mjQ" id="53v-9H-qC4"/>
                 <outlet property="verifiedSimpleTitle" destination="Yd6-8R-Jyu" id="HDP-8E-omh"/>
             </connections>
+            <point key="canvasLocation" x="-119" y="31"/>
         </view>
     </objects>
     <resources>
