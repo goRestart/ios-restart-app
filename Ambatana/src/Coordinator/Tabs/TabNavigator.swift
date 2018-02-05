@@ -95,3 +95,7 @@ protocol ChatDetailNavigator: TabNavigator {
                            trackingInfo: MarkAsSoldTrackingInfo)
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
 }
+
+protocol ChatInactiveDetailNavigator: TabNavigator {
+    func closeChatInactiveDetail()
+}
