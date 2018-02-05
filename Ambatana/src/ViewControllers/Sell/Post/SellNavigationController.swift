@@ -106,7 +106,8 @@ class SellNavigationController: UINavigationController {
         
         viewModel.categorySelected.asObservable().map { [weak self] category in
                 guard let strongSelf = self else { return nil }
-                return category?.numberOfSteps(shouldShowPrice: strongSelf.viewModel.shouldShowPriceStep)
+                return category?.numberOfSteps(shouldShowPrice: strongSelf.viewModel.shouldShowPriceStep,
+                                               postingFlowType: strongSelf.viewModel.postingFlowType)
             }.bind { [weak self] number in
                 self?.viewModel.numberOfSteps.value = number ?? 0
             }.disposed(by: disposeBag)
@@ -117,7 +118,6 @@ class SellNavigationController: UINavigationController {
                 let totalStep = Int(totalSteps)
                 self?.stepLabel.text = LGLocalizedString.realEstateCurrentStepOfTotal(current, totalStep)
             }.disposed(by: disposeBag)
-        
     }
     
     func setupUI() {

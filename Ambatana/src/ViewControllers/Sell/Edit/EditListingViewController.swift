@@ -25,11 +25,13 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     private static let titleDisclaimerBottomConstraintHidden: CGFloat = 8
     private static let separatorOptionsViewDistance = LGUIKitConstants.onePixelSize
     private static let viewOptionGenericHeight: CGFloat = 50
-    private static let carsInfoContainerHeight: CGFloat = 134 // (3 x 44 + 2 separators)
-    private static let realEstateInfoContainerHeight: CGFloat = 179 // (4 x 44 + 3 separators)
+    private static let viewOptionVerticalCellHeight: CGFloat = 44
+    private static var carsInfoContainerHeight: CGFloat = 3*EditListingViewController.viewOptionVerticalCellHeight + 2
+    private static var realEstateInfoContainerHeight: CGFloat = 4*EditListingViewController.viewOptionVerticalCellHeight + 3
+    private static var realEstateTurkishContainerHeight: CGFloat = 4*EditListingViewController.viewOptionVerticalCellHeight + 3
     
     enum TextFieldTag: Int {
-        case listingTitle = 1000, listingPrice, listingDescription
+        case listingTitle = 1000, listingPrice, listingDescription, sizeSquareMeters
     }
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -78,7 +80,8 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var verticalFieldsContainerConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var carInfoContainer: UIView!
-    @IBOutlet weak var realEstateInfoContainer: UIView!
+    @IBOutlet weak var realEstateStandardContainer: UIView!
+    @IBOutlet weak var realEstateTurkishContainer: UIView!
 
     @IBOutlet weak var carsMakeTitleLabel: UILabel!
     @IBOutlet weak var carsMakeSelectedLabel: UILabel!
@@ -92,23 +95,37 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var carsYearSelectedLabel: UILabel!
     @IBOutlet weak var carsYearButton: UIButton!
     
-    @IBOutlet weak var realEstatePropertyTypeTitleLabel: UILabel!
-    @IBOutlet weak var realEstatePropertyTypeSelectedLabel: UILabel!
-    @IBOutlet weak var realEstatePropertyTypeButton: UIButton!
+    @IBOutlet weak var realEstateStandardPropertyTypeTitleLabel: UILabel!
+    @IBOutlet weak var realEstateStandardPropertyTypeSelectedLabel: UILabel!
+    @IBOutlet weak var realEstateStandardPropertyTypeButton: UIButton!
     
-    @IBOutlet weak var realEstateOfferTypeTitleLabel: UILabel!
-    @IBOutlet weak var realEstateOfferTypeSelectedLabel: UILabel!
-    @IBOutlet weak var realEstateOfferTypeButton: UIButton!
+    @IBOutlet weak var realEstateStandardOfferTypeTitleLabel: UILabel!
+    @IBOutlet weak var realEstateStandardOfferTypeSelectedLabel: UILabel!
+    @IBOutlet weak var realEstateStandardOfferTypeButton: UIButton!
     
-    @IBOutlet weak var realEstateNumberOfBedroomsTitleLabel: UILabel!
-    @IBOutlet weak var realEstateNumberOfBedroomsSelectedLabel: UILabel!
-    @IBOutlet weak var realEstateNumberOfBedroomsButton: UIButton!
+    @IBOutlet weak var realEstateStandardNumberOfBedroomsTitleLabel: UILabel!
+    @IBOutlet weak var realEstateStandardNumberOfBedroomsSelectedLabel: UILabel!
+    @IBOutlet weak var realEstateStandardNumberOfBedroomsButton: UIButton!
     
-    @IBOutlet weak var realEstateNumberOfBathroomsTitleLabel: UILabel!
-    @IBOutlet weak var realEstateNumberOfBathroomsSelectedLabel: UILabel!
-    @IBOutlet weak var realEstateNumberOfBathroomsButton: UIButton!
+    @IBOutlet weak var realEstateStandardNumberOfBathroomsTitleLabel: UILabel!
+    @IBOutlet weak var realEstateStandardNumberOfBathroomsSelectedLabel: UILabel!
+    @IBOutlet weak var realEstateStandardNumberOfBathroomsButton: UIButton!
     
-
+    @IBOutlet weak var realEstateTurkishPropertyTypeTitleLabel: UILabel!
+    @IBOutlet weak var realEstateTurkishPropertyTypeSelectedLabel: UILabel!
+    @IBOutlet weak var realEstateTurkishPropertyTypeButton: UIButton!
+    
+    @IBOutlet weak var realEstateTurkishOfferTypeTitleLabel: UILabel!
+    @IBOutlet weak var realEstateTurkishOfferTypeSelectedLabel: UILabel!
+    @IBOutlet weak var realEstateTurkishOfferTypeButton: UIButton!
+    
+    @IBOutlet weak var realEstateTurkishNumberOfRoomsTitleLabel: UILabel!
+    @IBOutlet weak var realEstateTurkishNumberOfRoomsSelectedLabel: UILabel!
+    @IBOutlet weak var realEstateTurkishNumberOfRoomsButton: UIButton!
+    
+    @IBOutlet weak var realEstateTurkishSizeTitleLabel: UILabel!
+    @IBOutlet weak var realEstateTurkishSizeTextField: LGTextField!
+    
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var shareFBSwitch: UISwitch!
     @IBOutlet weak var shareFBLabel: UILabel!
@@ -203,9 +220,15 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let tag = TextFieldTag(rawValue: textField.tag), tag == .listingTitle else { return }
-        if let text = textField.text {
+        guard let tag = TextFieldTag(rawValue: textField.tag) else { return }
+        guard let text = textField.text else { return }
+        switch tag {
+        case .listingTitle:
             viewModel.userFinishedEditingTitle(text)
+        case .sizeSquareMeters:
+            viewModel.realEstateSizeEditionFinished(value: text)
+        case .listingDescription, .listingPrice:
+            break
         }
     }
 
@@ -233,6 +256,8 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
                 viewModel.price = text.isEmpty ? nil : text
             case .listingDescription:
                 break
+            case .sizeSquareMeters:
+                viewModel.realEstateSizeEditionFinished(value: text)
             }
         }
         return true
@@ -454,6 +479,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         priceTextField.text = viewModel.price
         priceTextField.tag = TextFieldTag.listingPrice.rawValue
         priceTextField.insetX = 16.0
+        
+        realEstateTurkishSizeTextField.placeholder = LGLocalizedString.realEstateSummarySizeTitle
+        realEstateTurkishSizeTextField.text = viewModel.realEstateSizeSquareMetersString
+        realEstateTurkishSizeTextField.tag = TextFieldTag.sizeSquareMeters.rawValue
+        realEstateTurkishSizeTextField.keyboardType = .numberPad
+        realEstateTurkishSizeTextField.insetX = 16.0
 
         descriptionTextView.text = viewModel.descr ?? ""
         descriptionTextView.textColor = UIColor.blackText
@@ -473,10 +504,15 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         carsModelTitleLabel.text = LGLocalizedString.postCategoryDetailCarModel
         carsYearTitleLabel.text = LGLocalizedString.postCategoryDetailCarYear
         
-        realEstatePropertyTypeTitleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
-        realEstateOfferTypeTitleLabel.text = LGLocalizedString.realEstateOfferTypeTitle
-        realEstateNumberOfBedroomsTitleLabel.text = LGLocalizedString.realEstateBedroomsTitle
-        realEstateNumberOfBathroomsTitleLabel.text = LGLocalizedString.realEstateBathroomsTitle
+        realEstateStandardPropertyTypeTitleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
+        realEstateStandardOfferTypeTitleLabel.text = LGLocalizedString.realEstateOfferTypeTitle
+        realEstateStandardNumberOfBedroomsTitleLabel.text = LGLocalizedString.realEstateBedroomsTitle
+        realEstateStandardNumberOfBathroomsTitleLabel.text = LGLocalizedString.realEstateBathroomsTitle
+        
+        realEstateTurkishPropertyTypeTitleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
+        realEstateTurkishOfferTypeTitleLabel.text = LGLocalizedString.realEstateOfferTypeTitle
+        realEstateTurkishNumberOfRoomsTitleLabel.text = LGLocalizedString.realEstateRoomsTitle
+        realEstateTurkishSizeTitleLabel.text = Constants.sizeSquareMetersUnit
         
         sendButton.setTitle(LGLocalizedString.editProductSendButton, for: .normal)
         sendButton.setStyle(.primary(fontSize:.big))
@@ -622,24 +658,40 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         }.disposed(by: disposeBag)
         
         viewModel.realEstateOfferType.asObservable()
-            .map {$0?.localizedString }
-            .bind(to: realEstateOfferTypeSelectedLabel.rx.text)
+            .map { $0?.localizedString }
+            .bind(to: realEstateStandardOfferTypeSelectedLabel.rx.text)
             .disposed(by: disposeBag)
         
         viewModel.realEstatePropertyType.asObservable()
-            .map {$0?.localizedString }
-            .bind(to: realEstatePropertyTypeSelectedLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        viewModel.realEstateNumberOfBedrooms.asObservable()
-            .map {$0?.localizedString }
-            .bind(to: realEstateNumberOfBedroomsSelectedLabel.rx.text)
+            .map { $0?.localizedString }
+            .bind(to: realEstateStandardPropertyTypeSelectedLabel.rx.text)
             .disposed(by: disposeBag)
         
         viewModel.realEstateNumberOfBathrooms.asObservable()
-            .map {$0?.localizedString }
-            .bind(to: realEstateNumberOfBathroomsSelectedLabel.rx.text)
+            .map { $0?.localizedString }
+            .bind(to: realEstateStandardNumberOfBathroomsSelectedLabel.rx.text)
             .disposed(by: disposeBag)
+
+        viewModel.realEstateNumberOfBedrooms.asObservable().map { (bedrooms) -> String? in
+            guard let bedrooms = bedrooms else { return nil }
+            return NumberOfBedrooms(rawValue: bedrooms)?.localizedString
+        }.bind(to: realEstateStandardNumberOfBedroomsSelectedLabel.rx.text).disposed(by: disposeBag)
+        
+        viewModel.realEstateOfferType.asObservable()
+            .map { $0?.localizedString }
+            .bind(to: realEstateTurkishOfferTypeSelectedLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.realEstatePropertyType.asObservable()
+            .map { $0?.localizedString }
+            .bind(to: realEstateTurkishPropertyTypeSelectedLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.realEstateNumberOfRooms.asObservable()
+            .map { $0?.localizedString }
+            .bind(to: realEstateTurkishNumberOfRoomsSelectedLabel.rx.text)
+            .disposed(by: disposeBag)
+
 
         carsMakeButton.rx.tap.bind { [weak self] in
             self?.viewModel.carMakeButtonPressed()
@@ -651,17 +703,27 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             self?.viewModel.carYearButtonPressed()
             }.disposed(by: disposeBag)
         
-        realEstatePropertyTypeButton.rx.tap.bind { [weak self] in
+        realEstateStandardPropertyTypeButton.rx.tap.bind { [weak self] in
             self?.viewModel.realEstatePropertyTypeButtonPressed()
             }.disposed(by: disposeBag)
-        realEstateOfferTypeButton.rx.tap.bind { [weak self] in
+        realEstateStandardOfferTypeButton.rx.tap.bind { [weak self] in
             self?.viewModel.realEstateOfferTypeButtonPressed()
             }.disposed(by: disposeBag)
-        realEstateNumberOfBedroomsButton.rx.tap.bind { [weak self] in
+        realEstateStandardNumberOfBedroomsButton.rx.tap.bind { [weak self] in
             self?.viewModel.realEstateNumberOfBedroomsButtonPressed()
             }.disposed(by: disposeBag)
-        realEstateNumberOfBathroomsButton.rx.tap.bind { [weak self] in
+        realEstateStandardNumberOfBathroomsButton.rx.tap.bind { [weak self] in
             self?.viewModel.realEstateNumberOfBathroomsButtonPressed()
+            }.disposed(by: disposeBag)
+        
+        realEstateTurkishPropertyTypeButton.rx.tap.bind { [weak self] in
+            self?.viewModel.realEstatePropertyTypeButtonPressed()
+            }.disposed(by: disposeBag)
+        realEstateTurkishOfferTypeButton.rx.tap.bind { [weak self] in
+            self?.viewModel.realEstateOfferTypeButtonPressed()
+            }.disposed(by: disposeBag)
+        realEstateTurkishNumberOfRoomsButton.rx.tap.bind { [weak self] in
+            self?.viewModel.realEstateNumberOfRoomsButtonPressed()
             }.disposed(by: disposeBag)
 
         viewModel.loadingProgress.asObservable().map { $0 == nil }.bind(to: loadingView.rx.isHidden).disposed(by: disposeBag)
@@ -721,6 +783,21 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         verticalFieldsContainerConstraint.constant = 0
     }
     
+    private func showRealEstateAttributesView() {
+        let heightContainer: CGFloat
+        switch featureFlags.postingFlowType {
+        case .standard:
+            realEstateStandardContainer.isHidden = false
+            realEstateTurkishContainer.isHidden = true
+            heightContainer = EditListingViewController.realEstateInfoContainerHeight
+        case .turkish:
+            realEstateStandardContainer.isHidden = true
+            realEstateTurkishContainer.isHidden = false
+            heightContainer = EditListingViewController.realEstateTurkishContainerHeight
+        }
+        verticalFieldsContainerConstraint.constant = heightContainer
+    }
+    
     private func updateVerticalFields(category: ListingCategory?) {
         guard let category = category else {
             hideVerticalFields()
@@ -729,13 +806,14 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         switch category {
         case .cars:
             carInfoContainer.isHidden = false
-            realEstateInfoContainer.isHidden = true
+            realEstateStandardContainer.isHidden = true
+            realEstateTurkishContainer.isHidden = true
             verticalFieldsContainerConstraint.constant = EditListingViewController.carsInfoContainerHeight
         case .realEstate:
             carInfoContainer.isHidden = true
-            realEstateInfoContainer.isHidden = false
-            verticalFieldsContainerConstraint.constant = EditListingViewController.realEstateInfoContainerHeight
-        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
+            showRealEstateAttributesView()
+        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
+             .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
             hideVerticalFields()
         }
         

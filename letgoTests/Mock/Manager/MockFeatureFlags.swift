@@ -12,11 +12,11 @@ import RxSwift
 
 class MockFeatureFlags: FeatureFlaggeable {
 
-    var trackingData: Observable<[String]?> {
+    var trackingData: Observable<[(String, ABGroupType)]?> {
         return trackingDataVar.asObservable()
     }
     func variablesUpdated() {}
-    let trackingDataVar = Variable<[String]?>(nil)
+    let trackingDataVar = Variable<[(String, ABGroupType)]?>(nil)
 
     var showNPSSurvey: Bool = false
     var surveyUrl: String = ""
@@ -50,9 +50,13 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstatePromos: RealEstatePromos = .control
     var allowEmojisOnChat: AllowEmojisOnChat = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
+    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
+    var realEstateNewCopy: RealEstateNewCopy = .control
+    var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
+    var postingFlowType: PostingFlowType = .standard
     var locationRequiresManualChangeSuggestion = false
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false

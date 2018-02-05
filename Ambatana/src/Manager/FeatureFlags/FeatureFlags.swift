@@ -11,9 +11,14 @@ import CoreTelephony
 import bumper
 import RxSwift
 
+enum PostingFlowType: String {
+    case standard
+    case turkish
+}
+
 protocol FeatureFlaggeable: class {
 
-    var trackingData: Observable<[String]?> { get }
+    var trackingData: Observable<[(String, ABGroupType)]?> { get }
     var syncedData: Observable<Bool> { get }
     func variablesUpdated()
 
@@ -46,9 +51,14 @@ protocol FeatureFlaggeable: class {
     var realEstatePromos: RealEstatePromos { get }
     var allowEmojisOnChat: AllowEmojisOnChat { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
+    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
+    var realEstateNewCopy: RealEstateNewCopy { get }
+    
+    var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
+    var postingFlowType: PostingFlowType { get }
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
@@ -116,6 +126,18 @@ extension ShowAdsInFeedWithRatio {
     var isActive: Bool { get { return self != .control && self != .baseline } }
 }
 
+extension RemoveCategoryWhenClosingPosting {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension RealEstateNewCopy {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension DummyUsersInfoProfile {
+    var isActive: Bool { get { return self == .active } }
+}
+
 class FeatureFlags: FeatureFlaggeable {
 
     static let sharedInstance: FeatureFlags = FeatureFlags()
@@ -168,7 +190,7 @@ class FeatureFlags: FeatureFlaggeable {
 
     // MARK: - A/B Tests features
 
-    var trackingData: Observable<[String]?> {
+    var trackingData: Observable<[(String, ABGroupType)]?> {
         return abTests.trackingData.asObservable()
     }
 
@@ -370,15 +392,50 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ShowAdsInFeedWithRatio.fromPosition(abTests.showAdsInFeedWithRatio.value)
     }
+    
+    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting {
+        if Bumper.enabled {
+            return Bumper.removeCategoryWhenClosingPosting
+        }
+        return RemoveCategoryWhenClosingPosting.fromPosition(abTests.removeCategoryWhenClosingPosting.value)
+    }
+    
+    var realEstateNewCopy: RealEstateNewCopy {
+        if Bumper.enabled {
+            return Bumper.realEstateNewCopy
+        }
+        return RealEstateNewCopy.fromPosition(abTests.realEstateNewCopy.value)
+    }
+    
+    var dummyUsersInfoProfile: DummyUsersInfoProfile {
+        if Bumper.enabled {
+            return Bumper.dummyUsersInfoProfile
+        }
+        return DummyUsersInfoProfile.fromPosition(abTests.dummyUsersInfoProfile.value)
+    }
+    
 
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
-        switch (locationCountryCode, localeCountryCode) {
-        case (.turkey?, _), (_, .turkey?):
+        switch locationCountryCode {
+        case .turkey?:
             return false
         default:
             return true
+        }
+    }
+    
+    var postingFlowType: PostingFlowType {
+        if Bumper.enabled {
+            return Bumper.realEstateFlowType == .standard ? .standard : .turkish
+        }
+        switch locationCountryCode {
+        case .turkey?:
+            // TODO: change to turkish when all development is done.
+            return .standard
+        default:
+            return .standard
         }
     }
 

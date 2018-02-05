@@ -190,7 +190,7 @@ fileprivate extension ListingCategory {
         case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
             return name
         case .realEstate:
-            return LGLocalizedString.productPostSelectCategoryHousing
+            return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.productPostSelectCategoryRealEstate : LGLocalizedString.productPostSelectCategoryHousing
         }
     }
     var icon: UIImage? {

@@ -165,7 +165,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         gradientShadowBottomView.layer.sublayers?.forEach{ $0.frame = gradientShadowBottomView.bounds }
     }
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -1303,6 +1302,15 @@ extension ListingCarouselViewController: ListingDetailOnboardingViewDelegate {
         // nav bar shown again, but under the onboarding
         navigationController?.setNavigationBarHidden(false, animated: false)
         productOnboardingView = nil
+    }
+}
+
+extension ListingCarouselViewController {
+    // MARK: UITabBarController / TabBar animations & position
+
+    override func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)? = nil) {
+        viewControllerToPresent.modalPresentationStyle = .overFullScreen
+        super.present(viewControllerToPresent, animated: flag, completion: completion)
     }
 }
 

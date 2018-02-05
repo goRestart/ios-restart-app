@@ -52,28 +52,11 @@ extension RealEstatePropertyType {
         }
     }
     
-    static var allValues: [RealEstatePropertyType] {
-        return [.apartment, .room, .house, .commercial, .other]
+    static func allValues(postingFlowType: PostingFlowType) -> [RealEstatePropertyType] {
+        return postingFlowType == .turkish ? [.flat, .villa, .commercial, .land, .other] : [.apartment, .room, .house, .commercial, .other]
     }
     
-    var position: Int {
-        switch self {
-        case .apartment:
-            return 0
-        case .room:
-            return 1
-        case .house:
-            return 2
-        case .commercial:
-            return 3
-        case .other:
-            return 4
-        case .flat:
-            return 5
-        case .land:
-            return 6
-        case .villa:
-            return 7
-        }
+    func position(postingFlowType: PostingFlowType) -> Int? {
+        return RealEstatePropertyType.allValues(postingFlowType: postingFlowType).index(of: self)
     }
 }
