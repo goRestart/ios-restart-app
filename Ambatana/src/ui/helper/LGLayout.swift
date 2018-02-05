@@ -317,11 +317,11 @@ extension LGLayout {
     // MARK: Quick layout
 
     @discardableResult
-    func fill() -> LGLayout {
-        left()
-        right()
-        top()
-        bottom()
+    func fill(by constant: CGFloat = 0) -> LGLayout {
+        left(by: constant)
+        right(by: -constant)
+        top(by: constant)
+        bottom(by: -constant)
         return self
     }
 
