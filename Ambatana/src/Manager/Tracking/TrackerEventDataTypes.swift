@@ -40,7 +40,8 @@ enum EventName: String {
     case filterStart                        = "filter-start"
     case filterComplete                     = "filter-complete"
     case filterLocationStart                = "filter-location-start"
-    
+
+    case listingDetailCall                  = "product-detail-call"
     case listingDetailVisit                 = "product-detail-visit"
     case listingDetailVisitMoreInfo         = "product-detail-visit-more-info"
     case listingNotAvailable                = "product-not-available"
@@ -175,6 +176,10 @@ enum EventName: String {
     case adTapped                           = "ad-tapped"
     case featuredMoreInfo                   = "featured-more-info"
     case openOptionOnSummary                = "posting-summary-open"
+
+    case phoneNumberRequest                 = "phone-number-request"
+    case phoneNumberSent                    = "phone-number-sent"
+    case phoneNumberNotNow                  = "phone-number-not-now"
 
 
     // Constants
@@ -370,6 +375,7 @@ enum EventParameterLoginSourceValue: String {
     case install = "install"
     case directChat = "direct-chat"
     case directQuickAnswer = "direct-quick-answer"
+    case chatProUser = "chat-pro-user"
 }
 
 enum EventParameterProductItemType: String {
@@ -565,6 +571,7 @@ enum EventParameterMessageType: String {
     case quickAnswer = "quick-answer"
     case expressChat = "express-chat"
     case periscopeDirect = "periscope-direct"
+    case phone      = "phone"
 }
 
 enum EventParameterLoginError {

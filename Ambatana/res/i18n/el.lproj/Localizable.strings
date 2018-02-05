@@ -53,12 +53,12 @@
 "categories_inFeed_motors" = "Μηχανές";
 "categories_inFeed_others" = "Άλλο";
 "categories_inFeed_real_estate" = "Μεσιτικά";
-"categories_inFeed_real_estate_title" = "Real Estate";
+"categories_inFeed_real_estate_title" = "Μεσιτικά";
 "categories_inFeed_sports_leisure_games" = "Χόμπι";
 "categories_movies_books_and_music" = "Ταινίες, Βιβλία και Μουσική";
 "categories_other" = "Άλλα";
 "categories_real_estate" = "Μεσιτικά";
-"categories_real_estate_title" = "Real Estate";
+"categories_real_estate_title" = "Μεσιτικά";
 "categories_sports_leisure_and_games" = "Αθλητικά, Ψυχαγωγία και Παιχνίδια";
 "categories_super_keywords_inFeed_show_more" = "Δείτε Περισσότερα";
 "categories_title" = "Κατηγορίες";
@@ -624,7 +624,7 @@
 "product_post_select_category_housing" = "Σπίτι για Ενοικίαση / Πώληση";
 "product_post_select_category_motors_and_accessories" = "Άλλα Οχήματα και Εξαρτήματα";
 "product_post_select_category_other" = "Άλλα αντικείμενα";
-"product_post_select_category_real_estate" = "Real Estate";
+"product_post_select_category_real_estate" = "Μεσιτικά";
 "product_post_select_category_title" = "Τί δημοσιεύετε;";
 "product_post_use_photo" = "Δημοσιεύστε";
 "product_post_use_photo_not_logged" = "Χρήση Φωτογραφίας";
@@ -684,7 +684,7 @@
 "profile_blocked_by_other_label" = "Ο χρήστης αυτός σας έχει μπλοκάρει";
 "profile_build_trust_button" = "Κερδίστε Εμπιστοσύνη";
 "profile_connect_accounts_message" = "Δεν έχετε επιβεβαιώσει ακόμη το λογαριασμό με:";
-"profile_dummy_user_info" = "Hi! I'm %@ from letgo. I’m here to help you improve your listing and start selling.";
+"profile_dummy_user_info" = "Γεια σας! Είμαι ο %@ από το letgo. Είμαι εδώ για να σας βοηθήσω να βελτιώσετε την καταχώρησή σας και να ξεκινήσετε να πουλάτε.";
 "profile_favourites_my_user_no_products_button" = "Συνεχίστε την πλοήγηση";
 "profile_favourites_my_user_no_products_label" = "ΚΑΝΕΝΑ ΑΓΑΠΗΜΕΝΟ (ΑΚΟΜΗ!)";
 "profile_favourites_products_tab" = "Αγαπημένα";
@@ -824,7 +824,7 @@
 "real_estate_title_generator_property_type_room" = "Δωμάτιο";
 "real_estate_tooltip_overlay_expandable_menu" = "Αν δημοσιεύετε ιδιοκτησίες για πώληση ή ενοικίαση, δοκιμάστε τη νέα μας κατηγορία \"Σπίτια\"!";
 "real_estate_tooltip_sell_button" = "Δημοσιεύστε ιδιοκτησίες για πώληση ή ενοικίαση στη νέα μας κατηγορία \"Σπίτια\"";
-"real_estate_tooltip_sell_button_title" = "Post property for sale or rent in our new Real Estate category";
+"real_estate_tooltip_sell_button_title" = "Δημοσιεύστε ιδιοκτησία για πώληση ή ενοικίαση στη νέα μας κατηγορία Μεσιτικά";
 "real_estate_type_property_apartment" = "Διαμέρισμα";
 "real_estate_type_property_commercial" = "Εμπορική";
 "real_estate_type_property_flat" = "Διαμέρισμα / Κατοικία";

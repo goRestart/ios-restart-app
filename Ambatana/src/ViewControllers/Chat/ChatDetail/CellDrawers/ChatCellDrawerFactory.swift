@@ -31,6 +31,8 @@ class ChatCellDrawerFactory {
             return ChatDisclaimerCellDrawer(autoHide: autoHide)
         case .userInfo:
             return ChatOtherInfoCellDrawer(autoHide: autoHide)
+        case .askPhoneNumber:
+            return ChatAskPhoneNumberCellDrawer(autoHide: autoHide)
         }
     }
     
@@ -40,5 +42,6 @@ class ChatCellDrawerFactory {
         ChatStickerCellDrawer.registerCell(tableView)
         ChatDisclaimerCellDrawer.registerCell(tableView)
         ChatOtherInfoCellDrawer.registerCell(tableView)
+        ChatAskPhoneNumberCellDrawer.registerCell(tableView)
     }
 }

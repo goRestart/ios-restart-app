@@ -53,12 +53,12 @@
 "categories_inFeed_motors" = "Motors";
 "categories_inFeed_others" = "Overige";
 "categories_inFeed_real_estate" = "Huisvesting";
-"categories_inFeed_real_estate_title" = "Real Estate";
+"categories_inFeed_real_estate_title" = "Onroerend Goed";
 "categories_inFeed_sports_leisure_games" = "Vrije tijd";
 "categories_movies_books_and_music" = "Films, boeken en muziek";
 "categories_other" = "Overige";
 "categories_real_estate" = "Huisvesting";
-"categories_real_estate_title" = "Real Estate";
+"categories_real_estate_title" = "Onroerend Goed";
 "categories_sports_leisure_and_games" = "Sport, vrije tijd en games";
 "categories_super_keywords_inFeed_show_more" = "Toon meer";
 "categories_title" = "Categorieën";
@@ -624,7 +624,7 @@
 "product_post_select_category_housing" = "Woningen te Huur / te Koop";
 "product_post_select_category_motors_and_accessories" = "Overige Voertuigen en Onderdelen";
 "product_post_select_category_other" = "Overige items";
-"product_post_select_category_real_estate" = "Real Estate";
+"product_post_select_category_real_estate" = "Onroerend Goed";
 "product_post_select_category_title" = "Wat wil je verkopen?";
 "product_post_use_photo" = "Plaats";
 "product_post_use_photo_not_logged" = "Gebruik foto";
@@ -684,7 +684,7 @@
 "profile_blocked_by_other_label" = "Je bent geblokkeerd door deze gebruiker";
 "profile_build_trust_button" = "Bouw vertrouwen";
 "profile_connect_accounts_message" = "Je hebt jouw account nog niet geverifieerd met:";
-"profile_dummy_user_info" = "Hi! I'm %@ from letgo. I’m here to help you improve your listing and start selling.";
+"profile_dummy_user_info" = "Hoi! Ik ben %@ van letgo. Ik ben er om je te helpen je advertentie te verbeteren en te beginnen met verkopen.";
 "profile_favourites_my_user_no_products_button" = "Blijf browsen";
 "profile_favourites_my_user_no_products_label" = "(NOG!) GEEN FAVORIETEN";
 "profile_favourites_products_tab" = "Favorieten";
@@ -824,7 +824,7 @@
 "real_estate_title_generator_property_type_room" = "Kamer";
 "real_estate_tooltip_overlay_expandable_menu" = "Als je onroerend goed te koop of te huur aanbiedt, probeer dan onze nieuwe categorie Woningen!";
 "real_estate_tooltip_sell_button" = "Plaats onroerend goed te koop of te huur in onze nieuwe categorie Woningen";
-"real_estate_tooltip_sell_button_title" = "Post property for sale or rent in our new Real Estate category";
+"real_estate_tooltip_sell_button_title" = "Plaats onroerend goed te koop of te huur in onze nieuwe categorie Onroerend Goed";
 "real_estate_type_property_apartment" = "Appartement";
 "real_estate_type_property_commercial" = "Commercial";
 "real_estate_type_property_flat" = "Flat / Residentie";
