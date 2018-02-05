@@ -59,6 +59,7 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
     
     weak var delegate: ExpandableCategorySelectionDelegate?
     let categoriesAvailable: [ExpandableCategory]
+    let tagsEnabled: Bool
     
     var mostSearchedItems: [LocalMostSearchedItem] {
         return LocalMostSearchedItem.allValues
@@ -70,17 +71,18 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
     
     // MARK: - View lifecycle
     
-    init(realEstateEnabled: Bool, mostSearchedItemsEnabled: Bool) {
+    init(realEstateEnabled: Bool, trendingButtonEnabled: Bool, tagsEnabled: Bool) {
         var categories: [ExpandableCategory] = [.listingCategory(listingCategory: .unassigned),
                                                 .listingCategory(listingCategory: .motorsAndAccessories),
                                                 .listingCategory(listingCategory: .cars)]
         if realEstateEnabled {
             categories.insert(.listingCategory(listingCategory: .realEstate), at: categories.count-1)
         }
-        if mostSearchedItemsEnabled {
+        if trendingButtonEnabled {
             categories.insert(.mostSearchedItems, at: 0)
         }
         self.categoriesAvailable = categories
+        self.tagsEnabled = tagsEnabled
         super.init()
     }
     

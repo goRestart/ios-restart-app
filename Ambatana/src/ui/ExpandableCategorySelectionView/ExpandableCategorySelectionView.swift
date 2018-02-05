@@ -158,6 +158,8 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
     }
     
     fileprivate func setupTagCollectionView() {
+        guard viewModel.tagsEnabled else { return }
+        
         tagCollectionViewModel = TagCollectionViewModel(tags: viewModel.tags)
         if let tagCollectionViewModel = self.tagCollectionViewModel {
             self.tagCollectionView = TagCollectionView(viewModel: tagCollectionViewModel)
