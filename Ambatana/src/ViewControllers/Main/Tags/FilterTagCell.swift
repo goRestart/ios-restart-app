@@ -70,6 +70,9 @@ class FilterTagCell: UICollectionViewCell {
             return FilterTagCell.sizeForText(numberOfBathrooms.shortLocalizedString)
         case .realEstateNumberOfRooms(let numberOfRooms):
             return FilterTagCell.sizeForText(numberOfRooms.localizedString)
+        case .sizeSquareMetersRange(let minSize, let maxSize):
+            let sizeSquareMeters = FilterTagCell.stringForSizeRange(startSize: minSize, endSize: maxSize)
+            return FilterTagCell.sizeForText(sizeSquareMeters)
         }
     }
     
@@ -125,6 +128,29 @@ class FilterTagCell: UICollectionViewCell {
             return ""
         }
     }
+    
+    private static func stringForSizeRange(startSize: Int?, endSize: Int?) -> String {
+        var startText = ""
+        var endText = ""
+        
+        if let startSize = startSize {
+            startText = String(startSize)
+        }
+        if let endSize = endSize {
+            endText = String(endSize)
+        }
+        
+        if !startText.isEmpty && !endText.isEmpty {
+            return startText.addSquareMeterUnit + " " + "-" + " " + endText.addSquareMeterUnit
+        } else if !startText.isEmpty {
+            return startText.addSquareMeterUnit
+        } else if !endText.isEmpty {
+            return endText.addSquareMeterUnit
+        } else {
+            // should never ever happen
+            return ""
+        }
+    }
 
 
     // MARK: - Lifecycle
@@ -160,7 +186,9 @@ class FilterTagCell: UICollectionViewCell {
         switch tag {
         case .taxonomy(let taxonomy):
             setColoredCellStyle(taxonomy.color)
-        case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange, .freeStuff, .distance, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
+        case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange,
+             .freeStuff, .distance, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
+             .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
             setDefaultCellStyle()
         }
     }
@@ -221,8 +249,11 @@ class FilterTagCell: UICollectionViewCell {
             tagLabel.text = numberOfBedrooms.shortLocalizedString
         case .realEstateNumberOfBathrooms(let numberOfBathrooms):
             tagLabel.text = numberOfBathrooms.shortLocalizedString
+        case .sizeSquareMetersRange(let minSize, let maxSize):
+            tagLabel.text = FilterTagCell.stringForSizeRange(startSize: minSize, endSize: maxSize)
+        case .realEstateNumberOfRooms(let numberOfRooms):
+            tagLabel.text = numberOfRooms.localizedString
         }
-       
     }
 
 

@@ -395,6 +395,8 @@ class MainListingsViewModel: BaseViewModel {
         var realEstateNumberOfBedrooms: NumberOfBedrooms? = nil
         var realEstateNumberOfBathrooms: NumberOfBathrooms? = nil
         var realEstateNumberOfRooms: NumberOfRooms? = nil
+        var realEstateSizeSquareMetersMin: Int? = nil
+        var realEstateSizeSquareMetersMax: Int? = nil
 
         for filterTag in tags {
             switch filterTag {
@@ -436,6 +438,11 @@ class MainListingsViewModel: BaseViewModel {
                 realEstateNumberOfBedrooms = numberOfBedrooms
             case .realEstateNumberOfBathrooms(let numberOfBathrooms):
                 realEstateNumberOfBathrooms = numberOfBathrooms
+            case .realEstateNumberOfRooms(let numberOfRooms):
+                realEstateNumberOfRooms = numberOfRooms
+            case .sizeSquareMetersRange(let minSize, let maxSize):
+                realEstateSizeSquareMetersMin = minSize
+                realEstateSizeSquareMetersMax = maxSize
             }
         }
 

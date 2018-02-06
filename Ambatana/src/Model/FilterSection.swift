@@ -7,7 +7,7 @@
 //
 
 enum FilterSection: Int {
-    case location, categories, carsInfo, distance, sortBy, within, price, realEstateInfo
+    case location, categories, carsInfo, distance, sortBy, within, price, realEstateInfoStandard, realEstateInfoTurkish
 }
 
 extension FilterSection {
@@ -28,16 +28,30 @@ extension FilterSection {
             return LGLocalizedString.filtersSectionSortby.localizedUppercase
         case .price:
             return LGLocalizedString.filtersSectionPrice.localizedUppercase
-        case .realEstateInfo:
+        case .realEstateInfoStandard:
+            return LGLocalizedString.filtersSectionRealEstateInfo.localizedUppercase
+        case .realEstateInfoTurkish:
             return LGLocalizedString.filtersSectionRealEstateInfo.localizedUppercase
         }
     }
+    
+    var isRealEstateSection: Bool {
+        switch self {
+        case .location, .categories, .carsInfo, .distance, .sortBy, .within, .price:
+            return false
+        case .realEstateInfoStandard, .realEstateInfoTurkish:
+            return true
+        }
+        
+    }
 
-    static func allValues(priceAsLast: Bool) -> [FilterSection] {
+    static func allValues(priceAsLast: Bool, postingFlowType: PostingFlowType) -> [FilterSection] {
+        let realEstateSection: FilterSection = postingFlowType == .standard ? .realEstateInfoStandard : .realEstateInfoTurkish
+        
         if priceAsLast {
-            return [.location, .categories, .carsInfo, .realEstateInfo, .distance, .sortBy, .within, .price]
+            return [.location, .categories, .carsInfo, realEstateSection, .distance, .sortBy, .within, .price]
         } else {
-            return [.location, .distance, .categories, .price, .carsInfo, .realEstateInfo, .sortBy, .within]
+            return [.location, .distance, .categories, .price, .carsInfo, realEstateSection, .sortBy, .within]
         }
     }
 }

@@ -74,6 +74,8 @@ struct ListingFilters {
     var realEstateOfferType: RealEstateOfferType?
     var realEstateNumberOfBedrooms: NumberOfBedrooms?
     var realEstateNumberOfBathrooms: NumberOfBathrooms?
+    var realEstateNumberOfRooms: NumberOfRooms?
+    var realEstateSizeSquareMeters: Int?
 
     init() {
         self.init(
@@ -95,7 +97,9 @@ struct ListingFilters {
             realEstatePropertyType: nil,
             realEstateOfferType: nil,
             realEstateNumberOfBedrooms: nil,
-            realEstateNumberOfBathrooms: nil
+            realEstateNumberOfBathrooms: nil,
+            realEstateNumberOfRooms: nil,
+            realEstateSizeSquareMeters: nil
         )
     }
     
@@ -117,7 +121,9 @@ struct ListingFilters {
          realEstatePropertyType: RealEstatePropertyType?,
          realEstateOfferType: RealEstateOfferType?,
          realEstateNumberOfBedrooms: NumberOfBedrooms?,
-         realEstateNumberOfBathrooms: NumberOfBathrooms?
+         realEstateNumberOfBathrooms: NumberOfBathrooms?,
+         realEstateNumberOfRooms: NumberOfRooms?,
+         realEstateSizeSquareMeters: Int?
          ) {
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
@@ -138,6 +144,8 @@ struct ListingFilters {
         self.realEstateOfferType = realEstateOfferType
         self.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
         self.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
+        self.realEstateNumberOfRooms = realEstateNumberOfRooms
+        self.realEstateSizeSquareMeters = realEstateSizeSquareMeters
     }
     
     func updating(selectedCategories: [ListingCategory]) -> ListingFilters {
@@ -159,7 +167,9 @@ struct ListingFilters {
                               realEstatePropertyType: realEstatePropertyType,
                               realEstateOfferType: realEstateOfferType,
                               realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
-                              realEstateNumberOfBathrooms: realEstateNumberOfBathrooms)
+                              realEstateNumberOfBathrooms: realEstateNumberOfBathrooms,
+                              realEstateNumberOfRooms: realEstateNumberOfRooms,
+                              realEstateSizeSquareMeters: realEstateSizeSquareMeters)
     }
     
     
@@ -178,7 +188,8 @@ struct ListingFilters {
     }
     
     var hasAnyRealEstateAttributes: Bool {
-        return realEstateOfferType != nil || realEstatePropertyType != nil || realEstateNumberOfBathrooms != nil || realEstateNumberOfBedrooms != nil
+        return realEstateOfferType != nil || realEstatePropertyType != nil || realEstateNumberOfBathrooms != nil
+            || realEstateNumberOfBedrooms != nil || realEstateNumberOfRooms != nil || realEstateSizeSquareMeters != nil
     }
     
     var hasAnyCarAttributes: Bool {
@@ -232,22 +243,24 @@ extension ListingFilters: Equatable {
         }
         
         return a.place == b.place &&
-        a.distanceRadius == b.distanceRadius &&
-        a.distanceType == b.distanceType &&
-        a.selectedCategories == b.selectedCategories &&
-        a.selectedTaxonomy == b.selectedTaxonomy &&
-        a.selectedWithin == b.selectedWithin &&
-        a.selectedOrdering == b.selectedOrdering &&
-        a.filterCoordinates == b.filterCoordinates &&
-        a.priceRange == b.priceRange &&
-        a.carMakeId == b.carMakeId &&
-        a.carModelId == b.carModelId &&
-        a.carYearStart == b.carYearStart &&
-        a.carYearEnd == b.carYearEnd &&
-        a.realEstatePropertyType == b.realEstatePropertyType &&
-        a.realEstateOfferType == b.realEstateOfferType &&
-        a.realEstateNumberOfBedrooms == b.realEstateNumberOfBedrooms &&
-        a.realEstateNumberOfBathrooms == b.realEstateNumberOfBathrooms
+            a.distanceRadius == b.distanceRadius &&
+            a.distanceType == b.distanceType &&
+            a.selectedCategories == b.selectedCategories &&
+            a.selectedTaxonomy == b.selectedTaxonomy &&
+            a.selectedWithin == b.selectedWithin &&
+            a.selectedOrdering == b.selectedOrdering &&
+            a.filterCoordinates == b.filterCoordinates &&
+            a.priceRange == b.priceRange &&
+            a.carMakeId == b.carMakeId &&
+            a.carModelId == b.carModelId &&
+            a.carYearStart == b.carYearStart &&
+            a.carYearEnd == b.carYearEnd &&
+            a.realEstatePropertyType == b.realEstatePropertyType &&
+            a.realEstateOfferType == b.realEstateOfferType &&
+            a.realEstateNumberOfBedrooms == b.realEstateNumberOfBedrooms &&
+            a.realEstateNumberOfBathrooms == b.realEstateNumberOfBathrooms &&
+            a.realEstateSizeSquareMeters == b.realEstateSizeSquareMeters &&
+            a.realEstateNumberOfRooms! == b.realEstateNumberOfRooms
     }
 }
 

@@ -106,6 +106,10 @@ class FiltersViewModel: BaseViewModel {
         return productFilter.realEstateNumberOfBedrooms?.summaryLocalizedString
     }
     
+    var currentNumberOfRoomsName: String? {
+        return productFilter.realEstateNumberOfRooms?.localizedString
+    }
+    
     var modelCellEnabled: Bool {
         return currentCarMakeName != nil
     }
@@ -262,11 +266,12 @@ class FiltersViewModel: BaseViewModel {
     // MARK: - Actions
 
     fileprivate func generateSections() -> [FilterSection] {
-        let updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive)
+        let updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive,
+                                                      postingFlowType: featureFlags.postingFlowType)
 
         return updatedSections.filter { $0 != .price ||  isPriceCellEnabled }
             .filter {$0 != .carsInfo ||  isCarsInfoCellEnabled }
-            .filter {$0 != .realEstateInfo || isRealEstateInfoCellEnabled }
+            .filter {!$0.isRealEstateSection || isRealEstateInfoCellEnabled }
     }
 
     func locationButtonPressed() {

@@ -57,12 +57,17 @@ struct NumberOfRooms {
                 NumberOfRooms(numberOfBedrooms: 10, numberOfLivingRooms: 0)]
     }
     
-    public static func ==(lhs: NumberOfRooms, rhs: NumberOfRooms) -> Bool {
-        return lhs.numberOfBedrooms == rhs.numberOfBedrooms && lhs.numberOfLivingRooms == rhs.numberOfLivingRooms
-    }
-    
     func positionIn(allValues: [NumberOfRooms]) -> Int? {
         guard let position = allValues.index(where: {$0 == self }) else { return nil }
         return position
     }
+}
+
+func ==(lhs: NumberOfRooms?, rhs: NumberOfRooms?) -> Bool {
+    guard let lhs = lhs else {
+        guard let _ = rhs else { return true }
+        return false
+    }
+    guard let rhs = rhs else { return false }
+    return lhs.numberOfBedrooms == rhs.numberOfBedrooms && lhs.numberOfLivingRooms == rhs.numberOfLivingRooms
 }
