@@ -183,6 +183,13 @@ class FiltersViewModel: BaseViewModel {
         return productFilter.priceRange.max
     }
     
+    private var minSize: Int? {
+        return productFilter.realEstateSizeRange?.min
+    }
+    private var maxSize: Int? {
+        return productFilter.realEstateSizeRange?.max
+    }
+    
     fileprivate var priceRangeAvailable: Bool {
         return productFilter.priceRange != .freePrice
     }
@@ -194,6 +201,15 @@ class FiltersViewModel: BaseViewModel {
     var maxPriceString: String? {
         guard let maxPrice = maxPrice else { return nil }
         return String(maxPrice)
+    }
+    
+    var minSizeString: String? {
+        guard let minSize = minSize else { return nil }
+        return String(minSize)
+    }
+    var maxSizeString: String? {
+        guard let maxSize = maxSize else { return nil }
+        return String(maxSize)
     }
     
     var isFreeActive: Bool {
@@ -371,17 +387,22 @@ class FiltersViewModel: BaseViewModel {
     }
 
     func validateFilters() -> Bool {
-        guard validatePriceRange() else {
+        guard validatePriceRange else {
             delegate?.vmShowAutoFadingMessage(LGLocalizedString.filtersPriceWrongRangeError, completion: { [weak self] in
                 self?.delegate?.vmForcePriceFix()
                 })
+            return false
+        }
+        guard validateSizeRange else {
+            delegate?.vmShowAutoFadingMessage(LGLocalizedString.filtersSizeWrongRangeError, completion: { [weak self] in
+                self?.delegate?.vmForcePriceFix()
+            })
             return false
         }
         return true
     }
 
     func saveFilters() {
-
         // Tracking
         let trackingEvent = TrackerEvent.filterComplete(productFilter.filterCoordinates,
                                                         distanceRadius: productFilter.distanceRadius,
@@ -566,6 +587,10 @@ class FiltersViewModel: BaseViewModel {
         return 5
     }
     
+    var numberOfRealEstateTurkishRows: Int {
+        return 6
+    }
+    
     func setMinPrice(_ value: String?) {
         guard let value = value, !productFilter.priceRange.free else { return }
         productFilter.priceRange = .priceRange(min: Int(value), max: maxPrice)
@@ -575,13 +600,32 @@ class FiltersViewModel: BaseViewModel {
         guard let value = value, !productFilter.priceRange.free else { return }
         productFilter.priceRange = .priceRange(min: minPrice, max: Int(value))
     }
+    
+    func setMinSize(_ value: String?) {
+        guard let value = value else { return }
+        productFilter.realEstateSizeRange = SizeRange(min: Int(value), max: maxSize)
+    }
+    
+    func setMaxSize(_ value: String?) {
+        guard let value = value else { return }
+        productFilter.realEstateSizeRange = SizeRange(min: minSize, max: Int(value))
+    }
 
-    private func validatePriceRange() -> Bool {
+    private var validatePriceRange: Bool {
         // if one is empty, is OK
         guard let minPrice = minPrice else { return true }
         guard let maxPrice = maxPrice else { return true }
         guard minPrice > maxPrice else { return true }
 
+        return false
+    }
+    
+    private var validateSizeRange: Bool {
+        // if one is empty, is OK
+        guard let minPrice = minSize else { return true }
+        guard let maxPrice = maxSize else { return true }
+        guard minPrice > maxPrice else { return true }
+        
         return false
     }
 

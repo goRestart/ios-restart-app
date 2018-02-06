@@ -16,6 +16,8 @@ protocol FilterRangePriceCellDelegate: class {
 enum TextFieldPriceType: Int {
     case priceFrom = 0
     case priceTo = 1
+    case sizeFrom = 2
+    case sizeTo = 3
 }
 
 class FilterRangePriceCell: UICollectionViewCell, ReusableCell, FilterCell {

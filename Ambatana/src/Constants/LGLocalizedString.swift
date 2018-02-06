@@ -411,6 +411,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_inactive_conversations_button", comment: "")
 	}
 
+	static var chatInactiveConversationRelationExplanation: String {
+		return NSLocalizedString("chat_inactive_conversation_relation_explanation", comment: "")
+	}
+
 	static func chatAccountDeletedWName(_ var1: String) -> String {
 		return String(format: NSLocalizedString("chat_account_deleted_w_name", comment: ""), var1)
 	}
@@ -1293,6 +1297,10 @@ struct LGLocalizedString {
 
 	static var filtersPriceWrongRangeError: String {
 		return NSLocalizedString("filters_price_wrong_range_error", comment: "")
+	}
+
+	static var filtersSizeWrongRangeError: String {
+		return NSLocalizedString("filters_size_wrong_range_error", comment: "")
 	}
 
 	static var filtersSortClosest: String {
@@ -3127,6 +3135,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_type_property_commercial", comment: "")
 	}
 
+	static var realEstateTypePropertyBusiness: String {
+		return NSLocalizedString("real_estate_type_property_business", comment: "")
+	}
+
 	static var realEstateTypePropertyOthers: String {
 		return NSLocalizedString("real_estate_type_property_others", comment: "")
 	}
@@ -3935,6 +3947,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("trending_items_view_title", comment: ""), var1)
 	}
 
+	static var trendingItemsViewTitleNoLocation: String {
+		return NSLocalizedString("trending_items_view_title_no_location", comment: "")
+	}
+
 	static var trendingItemsViewSubtitle: String {
 		return NSLocalizedString("trending_items_view_subtitle", comment: "")
 	}
@@ -3943,8 +3959,8 @@ struct LGLocalizedString {
 		return NSLocalizedString("trending_items_view_number_of_searches_title", comment: "")
 	}
 
-	static var trendingItemsViewNumberOfSearchesItem: String {
-		return NSLocalizedString("trending_items_view_number_of_searches_item", comment: "")
+	static func trendingItemsViewNumberOfSearchesItem(_ var1: String) -> String {
+		return String(format: NSLocalizedString("trending_items_view_number_of_searches_item", comment: ""), var1)
 	}
 
 	static var trendingItemsViewPostButton: String {
@@ -3957,6 +3973,14 @@ struct LGLocalizedString {
 
 	static var trendingItemsCardAction: String {
 		return NSLocalizedString("trending_items_card_action", comment: "")
+	}
+
+	static var trendingItemsProfileTitle: String {
+		return NSLocalizedString("trending_items_profile_title", comment: "")
+	}
+
+	static var trendingItemsProfileSubtitle: String {
+		return NSLocalizedString("trending_items_profile_subtitle", comment: "")
 	}
 
 	static var trendingItemsExpandableMenuButton: String {
@@ -4021,5 +4045,9 @@ struct LGLocalizedString {
 
 	static var trendingItemSubwoofer: String {
 		return NSLocalizedString("trending_item_subwoofer", comment: "")
+	}
+
+	static var trendingItemsExpandableMenuSubsetTitle: String {
+		return NSLocalizedString("trending_items_expandable_menu_subset_title", comment: "")
 	}
 }

@@ -8,6 +8,15 @@
 
 import LGCoreKit
 
+struct SizeRange: Equatable {
+    let min: Int?
+    let max: Int?
+}
+
+func ==(lhs: SizeRange, rhs: SizeRange) -> Bool {
+    return lhs.min == rhs.min && lhs.max == rhs.max
+}
+
 enum FilterPriceRange: Equatable {
     case freePrice
     case priceRange(min: Int?, max: Int?)
@@ -75,7 +84,7 @@ struct ListingFilters {
     var realEstateNumberOfBedrooms: NumberOfBedrooms?
     var realEstateNumberOfBathrooms: NumberOfBathrooms?
     var realEstateNumberOfRooms: NumberOfRooms?
-    var realEstateSizeSquareMeters: Int?
+    var realEstateSizeRange: SizeRange?
 
     init() {
         self.init(
@@ -99,7 +108,7 @@ struct ListingFilters {
             realEstateNumberOfBedrooms: nil,
             realEstateNumberOfBathrooms: nil,
             realEstateNumberOfRooms: nil,
-            realEstateSizeSquareMeters: nil
+            realEstateSizeRange: nil
         )
     }
     
@@ -123,7 +132,7 @@ struct ListingFilters {
          realEstateNumberOfBedrooms: NumberOfBedrooms?,
          realEstateNumberOfBathrooms: NumberOfBathrooms?,
          realEstateNumberOfRooms: NumberOfRooms?,
-         realEstateSizeSquareMeters: Int?
+         realEstateSizeRange: SizeRange?
          ) {
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
@@ -145,7 +154,7 @@ struct ListingFilters {
         self.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
         self.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
         self.realEstateNumberOfRooms = realEstateNumberOfRooms
-        self.realEstateSizeSquareMeters = realEstateSizeSquareMeters
+        self.realEstateSizeRange = realEstateSizeRange
     }
     
     func updating(selectedCategories: [ListingCategory]) -> ListingFilters {
@@ -169,7 +178,7 @@ struct ListingFilters {
                               realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
                               realEstateNumberOfBathrooms: realEstateNumberOfBathrooms,
                               realEstateNumberOfRooms: realEstateNumberOfRooms,
-                              realEstateSizeSquareMeters: realEstateSizeSquareMeters)
+                              realEstateSizeRange: realEstateSizeRange)
     }
     
     
@@ -189,7 +198,7 @@ struct ListingFilters {
     
     var hasAnyRealEstateAttributes: Bool {
         return realEstateOfferType != nil || realEstatePropertyType != nil || realEstateNumberOfBathrooms != nil
-            || realEstateNumberOfBedrooms != nil || realEstateNumberOfRooms != nil || realEstateSizeSquareMeters != nil
+            || realEstateNumberOfBedrooms != nil || realEstateNumberOfRooms != nil || realEstateSizeRange != nil
     }
     
     var hasAnyCarAttributes: Bool {
@@ -259,7 +268,7 @@ extension ListingFilters: Equatable {
             a.realEstateOfferType == b.realEstateOfferType &&
             a.realEstateNumberOfBedrooms == b.realEstateNumberOfBedrooms &&
             a.realEstateNumberOfBathrooms == b.realEstateNumberOfBathrooms &&
-            a.realEstateSizeSquareMeters == b.realEstateSizeSquareMeters &&
+            a.realEstateSizeRange == b.realEstateSizeRange &&
             a.realEstateNumberOfRooms! == b.realEstateNumberOfRooms
     }
 }

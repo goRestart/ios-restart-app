@@ -140,6 +140,10 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             viewModel.setMinPrice(value)
         case TextFieldPriceType.priceTo.rawValue:
             viewModel.setMaxPrice(value)
+        case TextFieldPriceType.sizeFrom.rawValue:
+            viewModel.setMinSize(value)
+        case TextFieldPriceType.sizeTo.rawValue:
+            viewModel.setMaxSize(value)
         default:
             break
         }
@@ -174,9 +178,17 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
         case .price:
             return CGSize(width: view.bounds.width, height: Layout.Height.prices)
-        case .realEstateInfoStandard, .realEstateInfoTurkish:
+        case .realEstateInfoStandard:
             if indexPath.item == 1 || indexPath.item == 2 {
                 return CGSize(width: view.bounds.width, height: Layout.Height.singleCheckWithMargin)
+            }
+            return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
+        case .realEstateInfoTurkish:
+            if indexPath.item == 1 || indexPath.item == 2 {
+                return CGSize(width: view.bounds.width, height: Layout.Height.singleCheckWithMargin)
+            }
+            if indexPath.item == 4 || indexPath.item == 5 {
+                return CGSize(width: view.bounds.width * 0.5, height: Layout.Height.prices)
             }
             return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
         }
@@ -202,8 +214,10 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             return viewModel.numOfSortOptions
         case .price:
             return viewModel.numberOfPriceRows
-        case .realEstateInfoStandard, .realEstateInfoTurkish:
+        case .realEstateInfoStandard:
             return viewModel.numberOfRealEstateRows
+        case .realEstateInfoTurkish:
+            return viewModel.numberOfRealEstateTurkishRows
         }
     }
     
@@ -388,18 +402,18 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.subtitleLabel.text = viewModel.currentNumberOfBedroomsName ?? LGLocalizedString.filtersRealEstateBedroomsNotSet
                     cell.topSeparator?.isHidden = false
                     return cell
-                case 4:
+                case 4, 5:
                     // price
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterPriceCell.reusableID,
                                                                         for: indexPath) as? FilterPriceCell else { return UICollectionViewCell() }
-                    cell.tag = indexPath.row
-                    cell.titleLabel.text = indexPath.row == 0 ? LGLocalizedString.filtersPriceFrom :
+                    cell.tag = indexPath.row == 4 ? TextFieldPriceType.sizeFrom.rawValue : TextFieldPriceType.sizeTo.rawValue
+                    cell.titleLabel.text = indexPath.row == 4 ? LGLocalizedString.filtersPriceFrom :
                         LGLocalizedString.filtersPriceTo
-                    cell.bottomSeparator?.isHidden =  indexPath.row == 0
-                    cell.topSeparator?.isHidden =  indexPath.row != 0
-                    cell.textField.text = indexPath.row == 0 ? viewModel.minPriceString : viewModel.maxPriceString
+                    cell.bottomSeparator?.isHidden =  false
+                    cell.topSeparator?.isHidden =  false
+                    cell.textField.text = indexPath.row == 4 ? viewModel.minSizeString : viewModel.maxSizeString
                     cell.delegate = self
-                    if indexPath.row == 1 {
+                    if indexPath.row == 5 {
                         priceToCellFrame = cell.frame
                     }
                     return cell
