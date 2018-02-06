@@ -39,6 +39,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
         var purchasesShopper: MockPurchasesShopper!
         var monetizationRepository: MockMonetizationRepository!
         var tracker: MockTracker!
+        var keyValueStorage: MockKeyValueStorage!
 
         var disposeBag: DisposeBag!
         var scheduler: TestScheduler!
@@ -64,7 +65,8 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                         featureFlags: featureFlags,
                                         purchasesShopper: purchasesShopper,
                                         monetizationRepository: monetizationRepository,
-                                        tracker: tracker)
+                                        tracker: tracker,
+                                        keyValueStorage: keyValueStorage)
                 sut.delegate = self
                 sut.navigator = self
                 disposeBag = DisposeBag()
@@ -88,6 +90,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 purchasesShopper = MockPurchasesShopper()
                 monetizationRepository = MockMonetizationRepository()
                 tracker = MockTracker()
+                keyValueStorage = MockKeyValueStorage()
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
@@ -931,6 +934,14 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     }
 
     func closeFeaturedInfo() {
+
+    }
+
+    func openAskPhoneFor(listing: Listing) {
+
+    }
+
+    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) {
 
     }
 }
