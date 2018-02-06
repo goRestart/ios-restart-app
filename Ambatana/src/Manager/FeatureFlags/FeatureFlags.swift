@@ -320,7 +320,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.showPriceStepRealEstatePosting
         }
-        return .control
+        return ShowPriceStepRealEstatePosting.fromPosition(abTests.showPriceStepRealEstatePosting.value)
     }
     
     var showClockInDirectAnswer: ShowClockInDirectAnswer {

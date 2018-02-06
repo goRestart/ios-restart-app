@@ -14,6 +14,16 @@ enum ChatViewMessageType {
     case sticker(url: String)
     case disclaimer(showAvatar: Bool, text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
     case userInfo(name: String, address: String?, facebook: Bool, google: Bool, email: Bool)
+    case askPhoneNumber(text: String, action: (() -> Void)?)
+
+    var isAskPhoneNumber: Bool {
+        switch self {
+        case .askPhoneNumber:
+            return true
+        case .text, .offer, .sticker, .disclaimer, .userInfo:
+            return false
+        }
+    }
 }
 
 enum ChatViewMessageWarningStatus: String {
@@ -52,7 +62,7 @@ struct ChatViewMessage: BaseModel {
         switch type {
         case .text, .offer:
             return true
-        case .sticker, .disclaimer, .userInfo:
+        case .sticker, .disclaimer, .userInfo, .askPhoneNumber:
             return false
         }
     }
@@ -69,6 +79,8 @@ struct ChatViewMessage: BaseModel {
             return text.string
         case .userInfo(let name, _, _, _, _):
             return name
+        case .askPhoneNumber(let text, _):
+            return text
         }
     }
     

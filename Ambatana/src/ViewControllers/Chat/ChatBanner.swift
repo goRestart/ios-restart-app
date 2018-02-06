@@ -20,7 +20,7 @@ class ChatBanner: UIView {
     private var action: UIAction?
 
 
-    func setupChatBannerWith(_ title: String, action: UIAction, buttonIcon: UIImage? = nil) {
+    func setupChatBannerWith(_ title: String, action: UIAction?, buttonIcon: UIImage? = nil) {
         self.action = action
         layer.borderWidth = 1
         layer.borderColor = UIColor.grayLight.cgColor
@@ -51,9 +51,17 @@ class ChatBanner: UIView {
             .leftMargin(by: Metrics.margin)
             .top(by: Metrics.veryShortMargin, relatedBy: .greaterThanOrEqual)
             .bottom(by: -Metrics.veryShortMargin, relatedBy: .lessThanOrEqual)
-        actionButton.layout()
-            .width(ChatBanner.actionButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
-            .height(LGUIKitConstants.smallButtonHeight)
+
+        if let _ = action {
+            actionButton.layout()
+                .width(ChatBanner.actionButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
+                .height(LGUIKitConstants.smallButtonHeight)
+        } else {
+            actionButton.layout()
+                .width(0)
+                .height(LGUIKitConstants.smallButtonHeight)
+        }
+
         actionButton.layout(with: self).centerY()
             .top(by: Metrics.veryShortMargin, relatedBy: .greaterThanOrEqual)
             .bottom(by: -Metrics.veryShortMargin, relatedBy: .lessThanOrEqual)
@@ -77,8 +85,8 @@ class ChatBanner: UIView {
         // action button
         actionButton.titleLabel?.adjustsFontSizeToFitWidth = true
         actionButton.titleLabel?.minimumScaleFactor = 0.8
-        actionButton.setTitle(action.text, for: .normal)
-        actionButton.setStyle(action.buttonStyle ?? .secondary(fontSize: .small, withBorder: true))
+        actionButton.setTitle(action?.text, for: .normal)
+        actionButton.setStyle(action?.buttonStyle ?? .secondary(fontSize: .small, withBorder: true))
         if let buttonImage = buttonIcon {
             actionButton.setImage(buttonImage, for: .normal)
             actionButton.imageView?.contentMode = .scaleAspectFit
