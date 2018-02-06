@@ -356,6 +356,10 @@ extension UserViewModel {
                                        alertType: .iconAlert(icon: UIImage(named: "custom_permission_profile")),
                                        actions: [negative, positive])
     }
+    
+    func openMostSearchedItems() {
+        navigator?.openMostSearchedItems(source: .userProfile, enableSearch: false)
+    }
 }
 
 
