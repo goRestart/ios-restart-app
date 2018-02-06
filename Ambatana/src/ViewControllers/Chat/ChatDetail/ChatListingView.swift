@@ -69,6 +69,7 @@ class ChatListingView: UIView {
         listingName.font = UIFont.chatListingViewNameFont
         listingPrice.font = UIFont.chatListingViewPriceFont
         
+        userAvatar.contentMode = .scaleAspectFill
         userAvatar.layer.minificationFilter = kCAFilterTrilinear
         proTag.isHidden = true
     }
