@@ -663,6 +663,6 @@ extension UserViewController: ListingListViewHeaderDelegate, PushPermissionsHead
         return viewModel.pushPermissionsDisabledWarning.value ?? false
     }
     private var showMostSearchedItemsHeader: Bool {
-        return viewModel.isMostSearchedItemsEnabled
+        return viewModel.isMostSearchedItemsEnabled && viewModel.tab.value == .selling
     }
 }

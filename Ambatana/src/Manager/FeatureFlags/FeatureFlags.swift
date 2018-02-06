@@ -112,8 +112,7 @@ extension MostSearchedDemandedItems {
         get {
             return self == .cameraBadge ||
                 self == .trendingButtonExpandableMenu ||
-                self == .subsetAboveExpandableMenu ||
-                self == .subsetInsideExpandableMenu
+                self == .subsetAboveExpandableMenu
         }
     }
 }

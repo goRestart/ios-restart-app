@@ -90,7 +90,7 @@ class MostSearchedItemsUserHeader: UIView {
         
         disclosureImageView.layout(with: self)
             .centerY()
-            .trailing(by: -Metrics.bigMargin)
+            .trailing(by: -Metrics.shortMargin)
         disclosureImageView.layout()
             .width(8)
             .height(13)
