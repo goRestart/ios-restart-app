@@ -10,41 +10,19 @@ import UIKit
 import LGCoreKit
 import GoogleMobileAds
 
-class AdvertisementCell: UICollectionViewCell, ReusableCell, GADBannerViewDelegate, GADAdSizeDelegate {
+class AdvertisementCell: UICollectionViewCell, ReusableCell {
 
-    var delegate: AdvertisementCellDelegate?
-    var cellIndex: Int?
-    var banner: DFPBannerView?
-    var categories: [ListingCategory]?
+    private var banner: DFPBannerView?
 
     func setupWith(adData: AdvertisementData) {
-        cellIndex = adData.adPosition
-        categories = adData.categories
-        delegate = adData.delegate
-
-        if let loadedBanner = adData.bannerView {
-            banner = loadedBanner as? DFPBannerView
-        } else {
-            banner = DFPBannerView(adSize: kGADAdSizeFluid)
-
-            banner?.adUnitID = adData.adUnitId
-            banner?.rootViewController = adData.rootViewController
-            banner?.adSizeDelegate = self
-            banner?.frame = contentView.frame
-
-            banner?.delegate = self
-            banner?.validAdSizes = [NSValueFromGADAdSize(kGADAdSizeFluid)]
-
-            banner?.load(adData.adRequest)
-            banner?.tag = adData.adPosition
-        }
-
-        guard let bannerView = banner else { return }
+        guard let bannerView = adData.bannerView as? DFPBannerView else { return }
+        banner = bannerView
+        bannerView.frame = contentView.frame
         contentView.addSubview(bannerView)
         bannerView.translatesAutoresizingMaskIntoConstraints = false
         bannerView.layout(with: contentView).fill()
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         resetUI()
@@ -61,50 +39,10 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell, GADBannerViewDelega
             subView.removeFromSuperview()
         }
         banner = nil
-        cellIndex = nil
-        delegate = nil
-        categories = nil
     }
 
     private func setAccessibilityIds() {
         accessibilityId = .advertisementCell
         banner?.accessibilityId = .advertisementCellBanner
-    }
-
-    
-    // MARK: - GADBannerViewDelegate
-
-    func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
-        let sizeFromAdSize = CGSizeFromGADAdSize(size)
-        delegate?.updateAdCellHeight(newHeight: sizeFromAdSize.height, forPosition: bannerView.tag, withBannerView: bannerView)
-    }
-
-    func adViewDidReceiveAd(_ bannerView: GADBannerView) { }
-
-    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
-        logMessage(.info, type: .monetization, message: "Feed banner in position \(bannerView.tag) failed with error: \(error.localizedDescription)")
-        delegate?.updateAdCellHeight(newHeight: 0, forPosition: bannerView.tag, withBannerView: bannerView)
-    }
-
-    func adViewWillPresentScreen(_ bannerView: GADBannerView) {
-        var feedPosition: EventParameterFeedPosition = .none
-        if let index = cellIndex {
-            feedPosition = .position(index: index)
-        }
-        delegate?.bannerWasTapped(adType: .dfp,
-                                  willLeaveApp: .falseParameter,
-                                  categories: categories,
-                                  feedPosition: feedPosition)
-    }
-
-    func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
-        var feedPosition: EventParameterFeedPosition = .none
-        if let index = cellIndex {
-            feedPosition = .position(index: index)
-        }
-        delegate?.bannerWasTapped(adType: .dfp,
-                                  willLeaveApp: .trueParameter,
-                                  categories: categories,
-                                  feedPosition: feedPosition)
     }
 }
