@@ -21,6 +21,7 @@ class MostSearchedItemsCoordinator: Coordinator {
     weak var presentedAlertController: UIAlertController?
     var bubbleNotificationManager: BubbleNotificationManager
     var sessionManager: SessionManager
+    fileprivate let locationManager: LocationManager
 
     fileprivate let featureFlags: FeatureFlaggeable
     weak var delegate: MostSearchedItemsCoordinatorDelegate?
@@ -31,19 +32,23 @@ class MostSearchedItemsCoordinator: Coordinator {
                   enableSearch: enableSearch,
                   featureFlags: FeatureFlags.sharedInstance,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
-                  sessionManager: Core.sessionManager)
+                  sessionManager: Core.sessionManager,
+                  locationManager: Core.locationManager)
     }
     
     init(source: MostSearchedItemsSource,
          enableSearch: Bool,
          featureFlags: FeatureFlags,
          bubbleNotificationManager: BubbleNotificationManager,
-         sessionManager: SessionManager) {
+         sessionManager: SessionManager,
+         locationManager: LocationManager) {
+        self.featureFlags = featureFlags
         self.bubbleNotificationManager = bubbleNotificationManager
         self.sessionManager = sessionManager
-        self.featureFlags = featureFlags
+        self.locationManager = locationManager
         
-        let mostSearchedItemsVM = MostSearchedItemsListViewModel(isSearchEnabled: enableSearch)
+        let mostSearchedItemsVM = MostSearchedItemsListViewModel(isSearchEnabled: enableSearch,
+                                                                 locationManager: locationManager)
         let mostSearchedItemsVC = MostSearchedItemsListViewController(viewModel: mostSearchedItemsVM)
         let navigationController = UINavigationController(rootViewController: mostSearchedItemsVC)
         self.viewController = navigationController

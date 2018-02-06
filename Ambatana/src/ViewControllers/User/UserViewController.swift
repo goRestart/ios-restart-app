@@ -647,7 +647,7 @@ extension UserViewController: ListingListViewHeaderDelegate, PushPermissionsHead
             let mostSearchedItemsHeader = MostSearchedItemsUserHeader()
             mostSearchedItemsHeader.tag = 1
             mostSearchedItemsHeader.delegate = self
-            header.addHeader(mostSearchedItemsHeader, height: PushPermissionsHeader.viewHeight)
+            header.addHeader(mostSearchedItemsHeader, height: MostSearchedItemsUserHeader.viewHeight)
         }
     }
 

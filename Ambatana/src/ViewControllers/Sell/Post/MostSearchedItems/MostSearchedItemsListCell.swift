@@ -44,16 +44,6 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
         postButton.rounded = true
     }
     
-    // TODO: Check if we need to implement prepareForReuse when further navigation is done
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//        resetUI()
-//    }
-//
-//    private func resetUI() {
-//        accessoryType = .none
-//    }
-    
     
     // MARK: - UI
     
@@ -144,7 +134,9 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
     func updateWith(item: LocalMostSearchedItem, showSearchButton: Bool) {
         self.item = item
         titleLabel.text = item.name
-        numberOfSearchesLabel.text = item.searchCount
+        if let searchCount = item.searchCount {
+            numberOfSearchesLabel.text = LGLocalizedString.trendingItemsViewNumberOfSearchesItem(searchCount)
+        }
         searchButton.isHidden = showSearchButton
     }
     

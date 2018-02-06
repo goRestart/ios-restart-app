@@ -85,7 +85,7 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = MostSearchedItemsListHeader()
+        let header = MostSearchedItemsListHeader(title: viewModel.titleString)
         return header
     }
     

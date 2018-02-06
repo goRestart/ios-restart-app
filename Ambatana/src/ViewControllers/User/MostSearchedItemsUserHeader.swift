@@ -50,12 +50,12 @@ class MostSearchedItemsUserHeader: UIView {
         
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.textColor = UIColor.black
-        titleLabel.text = "Not sure what to sell?"
+        titleLabel.text = LGLocalizedString.trendingItemsProfileTitle
         addSubview(titleLabel)
         
         subtitleLabel.font = UIFont.boldSystemFont(ofSize: 11)
         subtitleLabel.textColor = UIColor.black
-        subtitleLabel.text = "See what people nearby are looking for"
+        subtitleLabel.text = LGLocalizedString.trendingItemsProfileSubtitle
         addSubview(subtitleLabel)
         
         disclosureImageView.image = UIImage(named: "ic_disclosure")
@@ -81,12 +81,12 @@ class MostSearchedItemsUserHeader: UIView {
         titleLabel.layout(with: trendingImageView).toLeft(by: Metrics.shortMargin)
         titleLabel.layout(with: disclosureImageView).toRight(by: Metrics.shortMargin)
         titleLabel.layout(with: self).top(by: Metrics.veryShortMargin)
-        titleLabel.layout().height(20)
+        titleLabel.layout().height(30)
         
         subtitleLabel.layout(with: trendingImageView).toLeft(by: Metrics.shortMargin)
         subtitleLabel.layout(with: disclosureImageView).toRight(by: Metrics.shortMargin)
         subtitleLabel.layout(with: titleLabel).below(by: Metrics.veryShortMargin)
-        subtitleLabel.layout().height(15)
+        subtitleLabel.layout().height(13)
         
         disclosureImageView.layout(with: self)
             .centerY()

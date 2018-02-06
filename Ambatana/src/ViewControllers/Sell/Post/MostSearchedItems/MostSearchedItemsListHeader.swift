@@ -19,13 +19,9 @@ class MostSearchedItemsListHeader: UIView {
     
     // MARK: - Lifecycle
     
-    convenience init() {
-        self.init(frame: CGRect.zero)
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUI()
+    init(title: String) {
+        super.init(frame: CGRect.zero)
+        setupUI(title: title)
         setupConstraints()
     }
     
@@ -36,13 +32,11 @@ class MostSearchedItemsListHeader: UIView {
     
     // MARK: - UI
     
-    private func setupUI() {
-        backgroundColor = .red
-        
+    private func setupUI(title: String) {
         titleLabel.font = UIFont.boldSystemFont(ofSize: 23)
         titleLabel.textColor = UIColor.black
         titleLabel.numberOfLines = 2
-        titleLabel.text = LGLocalizedString.trendingItemsViewTitle("TODO") // TODO: Set user location with city
+        titleLabel.text = title
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.minimumScaleFactor = 0.2
         
@@ -50,6 +44,8 @@ class MostSearchedItemsListHeader: UIView {
         descriptionLabel.textColor = UIColor.darkGrayText
         descriptionLabel.numberOfLines = 2
         descriptionLabel.text = LGLocalizedString.trendingItemsViewSubtitle
+        descriptionLabel.adjustsFontSizeToFitWidth = true
+        descriptionLabel.minimumScaleFactor = 0.2
         
         subtitleImageView.image = UIImage(named: "ic_search")
         
@@ -69,17 +65,13 @@ class MostSearchedItemsListHeader: UIView {
         subtitleView.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subtitleViews)
         subtitleView.addSubviews(subtitleViews)
         
-        titleLabel.layout(with: self)
-            .leading(by: Metrics.bigMargin)
-            .trailing(by: -Metrics.bigMargin)
+        titleLabel.layout(with: self).fillHorizontal(by: Metrics.bigMargin)
         titleLabel.layout(with: self).below(by: Metrics.bigMargin)
         titleLabel.layout().height(56)
-        
-        descriptionLabel.layout(with: self)
-            .leading(by: Metrics.bigMargin)
-            .trailing(by: -Metrics.bigMargin)
+
+        descriptionLabel.layout(with: self).fillHorizontal(by: Metrics.bigMargin)
         descriptionLabel.layout(with: titleLabel).below(by: Metrics.margin)
-        descriptionLabel.layout().height(50)
+        descriptionLabel.layout().height(60)
         
         subtitleView.layout(with: self).fillHorizontal()
         subtitleView.layout(with: descriptionLabel).below(by: Metrics.margin)
