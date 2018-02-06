@@ -74,8 +74,11 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
         self.featureFlags = featureFlags
         self.tracker = tracker
         super.init()
-        messages = chatViewMessages(fromConversation: conversation)
-    }
+        messages = conversation.messages.flatMap { [weak self] in
+            guard let strongSelf = self else { return nil }
+            return strongSelf.ch
+        }atViewMessageAdapter.adapt($0)
+        }
     
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
@@ -94,18 +97,6 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
     
     func textOfMessageAtIndex(_ index: Int) -> String? {
         return messageAtIndex(index)?.value
-    }
-    
-    private func chatViewMessages(fromConversation conversation: ChatInactiveConversation) -> [ChatViewMessage] {
-        var chatViewMessages = [ChatViewMessage]()
-        conversation.messages.forEach { [weak self] message in
-            guard let strongSelf = self else { return }
-            let chatViewMessage = strongSelf.chatViewMessageAdapter.adapt(message)
-            chatViewMessages.append(chatViewMessage)
-        }
-        let disclaimerMessage = chatViewMessageAdapter.createMessageSuspiciousDisclaimerMessage(nil)
-        chatViewMessages = chatViewMessageAdapter.addDisclaimers(chatViewMessages, disclaimerMessage: disclaimerMessage)
-        return chatViewMessages
     }
     
     // MARK: - Options Menu
