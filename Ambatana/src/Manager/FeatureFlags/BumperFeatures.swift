@@ -24,7 +24,6 @@ extension Bumper  {
         flags.append(SearchAutocomplete.self)
         flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
-        flags.append(NewBumpUpExplanation.self)
         flags.append(HomeRelatedEnabled.self)
         flags.append(HideChatButtonOnFeaturedCells.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
@@ -100,11 +99,6 @@ extension Bumper  {
     static var requestsTimeOut: RequestsTimeOut {
         guard let value = Bumper.value(for: RequestsTimeOut.key) else { return .baseline }
         return RequestsTimeOut(rawValue: value) ?? .baseline 
-    }
-
-    static var newBumpUpExplanation: NewBumpUpExplanation {
-        guard let value = Bumper.value(for: NewBumpUpExplanation.key) else { return .control }
-        return NewBumpUpExplanation(rawValue: value) ?? .control 
     }
 
     static var homeRelatedEnabled: HomeRelatedEnabled {
@@ -347,22 +341,6 @@ enum RequestsTimeOut: String, BumperFeature  {
             case 3: return .sixty
             case 4: return .hundred_and_twenty
             default: return .baseline
-        }
-    }
-}
-
-enum NewBumpUpExplanation: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return NewBumpUpExplanation.control.rawValue }
-    static var enumValues: [NewBumpUpExplanation] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show new bump up explanation view" } 
-    static func fromPosition(_ position: Int) -> NewBumpUpExplanation {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
         }
     }
 }
