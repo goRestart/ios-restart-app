@@ -42,6 +42,7 @@ extension Bumper  {
         flags.append(RemoveCategoryWhenClosingPosting.self)
         flags.append(RealEstateNewCopy.self)
         flags.append(DummyUsersInfoProfile.self)
+        flags.append(ShowInactiveConversations.self)
         Bumper.initialize(flags)
     } 
 
@@ -188,6 +189,11 @@ extension Bumper  {
     static var dummyUsersInfoProfile: DummyUsersInfoProfile {
         guard let value = Bumper.value(for: DummyUsersInfoProfile.key) else { return .control }
         return DummyUsersInfoProfile(rawValue: value) ?? .control 
+    }
+
+    static var showInactiveConversations: Bool {
+        guard let value = Bumper.value(for: ShowInactiveConversations.key) else { return false }
+        return ShowInactiveConversations(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -627,5 +633,14 @@ enum DummyUsersInfoProfile: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum ShowInactiveConversations: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return ShowInactiveConversations.no.rawValue }
+    static var enumValues: [ShowInactiveConversations] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show button to access inactive conversations" } 
+    var asBool: Bool { return self == .yes }
 }
 

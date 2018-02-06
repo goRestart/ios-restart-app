@@ -12,6 +12,15 @@ struct LGAccount: Account, Decodable {
     let provider: AccountProvider
     let verified: Bool
 
+    init(provider: AccountProvider, verified: Bool) {
+        self.provider = provider
+        self.verified = verified
+    }
+    
+    init(account: Account) {
+        self.init(provider: account.provider, verified: account.verified)
+    }
+    
     // MARK: - Decodable
     
     /*

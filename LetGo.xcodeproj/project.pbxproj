@@ -823,6 +823,12 @@
 		8E26E95D1ED5B5B90086D3EC /* FilterDistanceSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26E95B1ED5B5B90086D3EC /* FilterDistanceSlider.swift */; };
 		8E69F3F21E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E69F3F11E9E30EE00E14F12 /* CategoryDetailTableView.swift */; };
 		8E69F3F31E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E69F3F11E9E30EE00E14F12 /* CategoryDetailTableView.swift */; };
+		8E8017982010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8017972010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift */; };
+		8E8017992010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E8017972010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift */; };
+		8E80179B2010DB67004CE244 /* ChatInactiveConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E80179A2010DB67004CE244 /* ChatInactiveConversationsListViewController.swift */; };
+		8E80179C2010DB68004CE244 /* ChatInactiveConversationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E80179A2010DB67004CE244 /* ChatInactiveConversationsListViewController.swift */; };
+		8E80179E2010DC50004CE244 /* ChatInactiveConversationsListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E80179D2010DC4F004CE244 /* ChatInactiveConversationsListView.xib */; };
+		8E80179F2010DC50004CE244 /* ChatInactiveConversationsListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E80179D2010DC4F004CE244 /* ChatInactiveConversationsListView.xib */; };
 		8E814F391F3472C000C88432 /* LGSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F381F3472C000C88432 /* LGSlider.swift */; };
 		8E814F3A1F3472C000C88432 /* LGSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F381F3472C000C88432 /* LGSlider.swift */; };
 		8E814F3C1F3472E800C88432 /* LGSliderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F3B1F3472E800C88432 /* LGSliderViewModel.swift */; };
@@ -832,6 +838,8 @@
 		8E814F421F3475AB00C88432 /* FilterSliderYearCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F411F3475AB00C88432 /* FilterSliderYearCell.swift */; };
 		8E814F431F3475AB00C88432 /* FilterSliderYearCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E814F411F3475AB00C88432 /* FilterSliderYearCell.swift */; };
 		8E85EA261FD0539700A24ADE /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E85EA251FD0539700A24ADE /* Data+Extensions.swift */; };
+		8EA489481FF4FFDD00F47B8F /* ChatInactiveConversationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA489471FF4FFDD00F47B8F /* ChatInactiveConversationHeaderView.swift */; };
+		8EA489491FF53F3C00F47B8F /* ChatInactiveConversationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA489471FF4FFDD00F47B8F /* ChatInactiveConversationHeaderView.swift */; };
 		8EBE07861FD59F3F009EBC1A /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E85EA251FD0539700A24ADE /* Data+Extensions.swift */; };
 		8EBEF9791F3CA50500473822 /* LGSliderViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */; };
 		8EC2051E1EAE52F000E4E5EC /* UIView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2051D1EAE52F000E4E5EC /* UIView+LG.swift */; };
@@ -840,6 +848,10 @@
 		8EF026161EDD74020097A3A9 /* FiltersNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF026151EDD74020097A3A9 /* FiltersNavigator.swift */; };
 		8EF026171EDD7E880097A3A9 /* FiltersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF026131EDD73F70097A3A9 /* FiltersCoordinator.swift */; };
 		8EF026181EDD7E8C0097A3A9 /* FiltersNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF026151EDD74020097A3A9 /* FiltersNavigator.swift */; };
+		8EF1CDAF2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */; };
+		8EF1CDB02010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */; };
+		8EF1CDB22010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
+		8EF1CDB32010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */; };
 		C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
 		C703BE001C7F1AF900EC8EF2 /* EditLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C703BDFC1C7F1AF900EC8EF2 /* EditLocationViewController.xib */; };
@@ -2037,15 +2049,21 @@
 		8E26E9581ED5AF9A0086D3EC /* FilterDistanceSlider.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterDistanceSlider.xib; sourceTree = "<group>"; };
 		8E26E95B1ED5B5B90086D3EC /* FilterDistanceSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDistanceSlider.swift; sourceTree = "<group>"; };
 		8E69F3F11E9E30EE00E14F12 /* CategoryDetailTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryDetailTableView.swift; sourceTree = "<group>"; };
+		8E8017972010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationsListViewModel.swift; sourceTree = "<group>"; };
+		8E80179A2010DB67004CE244 /* ChatInactiveConversationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationsListViewController.swift; sourceTree = "<group>"; };
+		8E80179D2010DC4F004CE244 /* ChatInactiveConversationsListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatInactiveConversationsListView.xib; sourceTree = "<group>"; };
 		8E814F381F3472C000C88432 /* LGSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGSlider.swift; path = LGSlider/LGSlider.swift; sourceTree = "<group>"; };
 		8E814F3B1F3472E800C88432 /* LGSliderViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGSliderViewModel.swift; path = LGSlider/LGSliderViewModel.swift; sourceTree = "<group>"; };
 		8E814F3E1F34732F00C88432 /* LGSliderThumb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGSliderThumb.swift; path = LGSlider/LGSliderThumb.swift; sourceTree = "<group>"; };
 		8E814F411F3475AB00C88432 /* FilterSliderYearCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSliderYearCell.swift; sourceTree = "<group>"; };
 		8E85EA251FD0539700A24ADE /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
+		8EA489471FF4FFDD00F47B8F /* ChatInactiveConversationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationHeaderView.swift; sourceTree = "<group>"; };
 		8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSliderViewModelSpec.swift; sourceTree = "<group>"; };
 		8EC2051D1EAE52F000E4E5EC /* UIView+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+LG.swift"; sourceTree = "<group>"; };
 		8EF026131EDD73F70097A3A9 /* FiltersCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersCoordinator.swift; sourceTree = "<group>"; };
 		8EF026151EDD74020097A3A9 /* FiltersNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersNavigator.swift; sourceTree = "<group>"; };
+		8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationDetailsViewModel.swift; sourceTree = "<group>"; };
+		8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationDetailsViewController.swift; sourceTree = "<group>"; };
 		97046DEB81A876CB375E76E9 /* Pods-LetGoGodMode.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.adhoc.xcconfig"; sourceTree = "<group>"; };
 		9DF506523FC9C0A89601A8E3 /* Pods-LetGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.debug.xcconfig"; sourceTree = "<group>"; };
 		A4F90A24DB7817F94793400D /* Pods_LGPushNotifications.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGPushNotifications.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3774,6 +3792,18 @@
 			name = DistanceSlider;
 			sourceTree = "<group>";
 		};
+		8E8017962010B8C8004CE244 /* InactiveConversations */ = {
+			isa = PBXGroup;
+			children = (
+				8EA489471FF4FFDD00F47B8F /* ChatInactiveConversationHeaderView.swift */,
+				8E80179A2010DB67004CE244 /* ChatInactiveConversationsListViewController.swift */,
+				8E80179D2010DC4F004CE244 /* ChatInactiveConversationsListView.xib */,
+				8E8017972010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift */,
+				8EF1CDAD2010F0F900D324F6 /* Details */,
+			);
+			path = InactiveConversations;
+			sourceTree = "<group>";
+		};
 		8E814F371F3472AA00C88432 /* LGSlider */ = {
 			isa = PBXGroup;
 			children = (
@@ -3782,6 +3812,15 @@
 				8E814F3E1F34732F00C88432 /* LGSliderThumb.swift */,
 			);
 			name = LGSlider;
+			sourceTree = "<group>";
+		};
+		8EF1CDAD2010F0F900D324F6 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */,
+				8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */,
+			);
+			path = Details;
 			sourceTree = "<group>";
 		};
 		ABA47C14BB52140048297810 /* Frameworks */ = {
@@ -4225,6 +4264,7 @@
 				C7B588971CE1E025009B3975 /* ChatGroupedListViewModel.swift */,
 				C7B588981CE1E025009B3975 /* ChatListView.swift */,
 				C731B8771CE22BBE00F31D46 /* ChatListViewModel.swift */,
+				8E8017962010B8C8004CE244 /* InactiveConversations */,
 			);
 			path = ChatList;
 			sourceTree = "<group>";
@@ -4844,6 +4884,7 @@
 				C7363FB61BF9CB8D00A4BF6F /* FilterTagCell.xib in Resources */,
 				C7DE8AD91C8892C9005CF37E /* PostListingCameraView.xib in Resources */,
 				C73FABC41DD46A1D008F4519 /* SettingsSwitchCell.xib in Resources */,
+				8E80179E2010DC50004CE244 /* ChatInactiveConversationsListView.xib in Resources */,
 				2E373FA61D3D019600AC811C /* UserRatingListViewController.xib in Resources */,
 				C73189CA1DBE3847005A93EE /* ListHeaderContainer.xib in Resources */,
 				2ECB41802008CC6900482EF7 /* AdvertisementCell.xib in Resources */,
@@ -4967,6 +5008,7 @@
 				C743FEBA1E44E46000B4E912 /* PossibleBuyerCell.xib in Resources */,
 				C7B5888C1CE1DFA6009B3975 /* ChatMyMessageCell.xib in Resources */,
 				6A879DA31C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */,
+				8E80179F2010DC50004CE244 /* ChatInactiveConversationsListView.xib in Resources */,
 				C7B588901CE1DFA6009B3975 /* ChatOthersMessageCell.xib in Resources */,
 				C7DB42741C5138B500400945 /* MainSignUpViewController.xib in Resources */,
 				6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
@@ -5742,6 +5784,7 @@
 				D4BFE5B61B640C36006A8CB6 /* MainListingsViewModel.swift in Sources */,
 				C727FBBE1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */,
 				6A5E1A041D548F5400F92692 /* TypeAliases.swift in Sources */,
+				8EF1CDB22010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */,
 				50E557BE1E421CF500327B6A /* LoginNavigator.swift in Sources */,
 				C74931731D351E8300E117F1 /* RateUserViewModel.swift in Sources */,
 				C783D9891C64C15B000EE5CA /* ReportUserCell.swift in Sources */,
@@ -5811,6 +5854,7 @@
 				6A5E1A161D548F5400F92692 /* UITextField+LG.swift in Sources */,
 				C7126BD91E6053AA00038CC4 /* ListingViewModelStatus.swift in Sources */,
 				C749316E1D34FD0200E117F1 /* RateUserViewController.swift in Sources */,
+				8E8017982010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift in Sources */,
 				2E75EC531FA89F5B00C5F48F /* AdsRequester.swift in Sources */,
 				C79643111D4F5AFA000C5FCE /* RelatedListingsView.swift in Sources */,
 				5095988D1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */,
@@ -5873,6 +5917,7 @@
 				C74931761D3526EF00E117F1 /* UserRatingCoordinator.swift in Sources */,
 				50582C291D6C7F4F00787E91 /* AccessibilityId.swift in Sources */,
 				C7B588851CE1DFA6009B3975 /* ChatOthersMessageCellDrawer.swift in Sources */,
+				8EF1CDAF2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift in Sources */,
 				50261B211AFB49C0006E88E0 /* ProductionEnvironment.swift in Sources */,
 				6A5E1A121D548F5400F92692 /* UINavigationController+LG.swift in Sources */,
 				72FE02DF1F98D38F005BD672 /* PostingAddDetailPriceView.swift in Sources */,
@@ -5881,6 +5926,7 @@
 				C7F3F1E51DE5EF6A00652447 /* TourBlurBackgroundViewController.swift in Sources */,
 				C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */,
 				6A5E19F21D548F5400F92692 /* UnicodeScalar+LG.swift in Sources */,
+				8EA489481FF4FFDD00F47B8F /* ChatInactiveConversationHeaderView.swift in Sources */,
 				C7AFFB041E7054780052A9CA /* WebSurveyViewModel.swift in Sources */,
 				72B935F61E3F917500F93F73 /* UserProduct+LG.swift in Sources */,
 				C7363FB21BF9CB5B00A4BF6F /* FilterTagsView.swift in Sources */,
@@ -6066,6 +6112,7 @@
 				C7415ED61DE880BD0003D6C1 /* SimpleListingsViewController.swift in Sources */,
 				50C59BDB1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
 				C783D9811C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
+				8E80179B2010DB67004CE244 /* ChatInactiveConversationsListViewController.swift in Sources */,
 				50C2E19B1E6FFACE006639BB /* PostListingRedCamButtonFooter.swift in Sources */,
 				726E35C01FE13FB200F98776 /* RetrieveListingParams+LG.swift in Sources */,
 				72D928DC1E83DD340030F4C3 /* ConfigManager.swift in Sources */,
@@ -6300,6 +6347,7 @@
 				72AAA5A31DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */,
 				7226F0FC1E962CA200B54D01 /* ChatRelatedItemsState.swift in Sources */,
 				C7732F761D8842B800EAD5B7 /* OnboardingNavigator.swift in Sources */,
+				8EF1CDB32010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift in Sources */,
 				C7DB41AA1C5138B500400945 /* MainListingsViewModel.swift in Sources */,
 				50E557BF1E421CF500327B6A /* LoginNavigator.swift in Sources */,
 				6A5E1A051D548F5400F92692 /* TypeAliases.swift in Sources */,
@@ -6368,6 +6416,7 @@
 				C75B55FA1C7E12C90001F5CD /* FilterDisclosureCell.swift in Sources */,
 				C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
+				8E8017992010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift in Sources */,
 				C7126BDA1E6053AA00038CC4 /* ListingViewModelStatus.swift in Sources */,
 				C727944A1D54944E009C25AB /* SettingsViewModel.swift in Sources */,
 				2E75EC541FA89F5B00C5F48F /* AdsRequester.swift in Sources */,
@@ -6430,6 +6479,7 @@
 				50D67B9E1D182F07003AC0A5 /* SellNavigator.swift in Sources */,
 				50C63B741DC3A79100836D85 /* SocialSharer.swift in Sources */,
 				6A38ADE31C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
+				8EF1CDB02010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift in Sources */,
 				2E9716A81D5A284F009B3A32 /* ExpressChatCell.swift in Sources */,
 				C7DB41DD1C5138B500400945 /* ProductionEnvironment.swift in Sources */,
 				72FE02E01F98D38F005BD672 /* PostingAddDetailPriceView.swift in Sources */,
@@ -6438,6 +6488,7 @@
 				C74931771D3526EF00E117F1 /* UserRatingCoordinator.swift in Sources */,
 				2E6691B31FBDF2D000FC2A77 /* PromoteBumpNavigator.swift in Sources */,
 				6A5E1A131D548F5400F92692 /* UINavigationController+LG.swift in Sources */,
+				8EA489491FF53F3C00F47B8F /* ChatInactiveConversationHeaderView.swift in Sources */,
 				C7AFFB051E7054780052A9CA /* WebSurveyViewModel.swift in Sources */,
 				C7B588801CE1DFA6009B3975 /* ChatCellDrawer.swift in Sources */,
 				72B935F71E3F917500F93F73 /* UserProduct+LG.swift in Sources */,
@@ -6624,6 +6675,7 @@
 				F5A836AE1FD1BA11009E636D /* ListingAttributePickerViewController.swift in Sources */,
 				C7DB421B1C5138B500400945 /* FilterHeaderCell.swift in Sources */,
 				50C59BDC1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
+				8E80179C2010DB68004CE244 /* ChatInactiveConversationsListViewController.swift in Sources */,
 				C783D9821C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
 				50C2E19C1E6FFACE006639BB /* PostListingRedCamButtonFooter.swift in Sources */,
 				726E35C11FE13FB200F98776 /* RetrieveListingParams+LG.swift in Sources */,

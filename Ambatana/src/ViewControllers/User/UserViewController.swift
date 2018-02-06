@@ -218,7 +218,7 @@ extension UserViewController: ListingListViewScrollDelegate {
     }
 
     func listingListView(_ listingListView: ListingListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
-        scrollDidChange(contentOffsetY)
+        updateLayoutConstraints(contentOffsetY)
     }
 }
 
@@ -343,7 +343,7 @@ extension UserViewController {
         }
     }
 
-    fileprivate func scrollDidChange(_ contentOffsetInsetY: CGFloat) {
+    fileprivate func updateLayoutConstraints(_ contentOffsetInsetY: CGFloat) {
         let minBottom = headerExpandedBottom
         let maxBottom = headerCollapsedBottom
 
@@ -582,6 +582,9 @@ extension UserViewController {
                     guard let userName = userName else { return }
                     let infoText = LGLocalizedString.profileDummyUserInfo(userName)
                     self?.headerContainer.header.setupDummyView(isDummy: userIsDummy, infoText: infoText)
+                    if let contentOffsetY = self?.listingListView.collectionView.contentOffset.y {
+                        self?.updateLayoutConstraints(contentOffsetY)
+                    }
             }.disposed(by: disposeBag)
         }
     }

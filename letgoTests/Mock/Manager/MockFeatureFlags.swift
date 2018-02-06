@@ -51,6 +51,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
+    var showInactiveConversations: Bool = false
     
     // Country dependant features
     var freePostingModeAllowed = false
