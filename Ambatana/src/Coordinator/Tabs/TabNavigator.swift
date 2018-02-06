@@ -77,6 +77,9 @@ protocol ListingDetailNavigator: TabNavigator {
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType)
     func openFeaturedInfo()
     func closeFeaturedInfo()
+
+    func openAskPhoneFor(listing: Listing)
+    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage)
 }
 
 protocol SimpleProductsNavigator: class {

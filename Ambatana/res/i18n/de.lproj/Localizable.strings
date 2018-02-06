@@ -53,12 +53,12 @@
 "categories_inFeed_motors" = "Fahrzeuge";
 "categories_inFeed_others" = "Andere";
 "categories_inFeed_real_estate" = "Wohnen";
-"categories_inFeed_real_estate_title" = "Real Estate";
+"categories_inFeed_real_estate_title" = "Immobilien";
 "categories_inFeed_sports_leisure_games" = "Freizeit";
 "categories_movies_books_and_music" = "Filme, Bücher und Musik";
 "categories_other" = "Sonstige";
 "categories_real_estate" = "Wohnen";
-"categories_real_estate_title" = "Real Estate";
+"categories_real_estate_title" = "Immobilien";
 "categories_sports_leisure_and_games" = "Sport und Freizeit";
 "categories_super_keywords_inFeed_show_more" = "Mehr anzeigen";
 "categories_title" = "Kategorien";
@@ -624,7 +624,7 @@
 "product_post_select_category_housing" = "Immobilien zur Miete / zum Verkauf";
 "product_post_select_category_motors_and_accessories" = "Andere Fahrzeuge und Teile";
 "product_post_select_category_other" = "Etwas anderes";
-"product_post_select_category_real_estate" = "Real Estate";
+"product_post_select_category_real_estate" = "Immobilien";
 "product_post_select_category_title" = "Was stellst du ein?";
 "product_post_use_photo" = "Foto verwenden";
 "product_post_use_photo_not_logged" = "Foto nutzen";
@@ -684,7 +684,7 @@
 "profile_blocked_by_other_label" = "Du wurdest von diesem Nutzer blockiert";
 "profile_build_trust_button" = "Schaffe Vertrauen";
 "profile_connect_accounts_message" = "Du hast dein Benutzerkonto noch nicht verifiziert mit:";
-"profile_dummy_user_info" = "Hi! I'm %@ from letgo. I’m here to help you improve your listing and start selling.";
+"profile_dummy_user_info" = "Hallo! Ich bin %@ von letgo. Meine Aufgabe ist es, dir zu helfen dein Angebot zu verbessern, damit du erfolgreich verkaufen kannst.";
 "profile_favourites_my_user_no_products_button" = "Mehr entdecken";
 "profile_favourites_my_user_no_products_label" = "(NOCH) KEINE FAVORITEN!";
 "profile_favourites_products_tab" = "Favoriten";
@@ -824,7 +824,7 @@
 "real_estate_title_generator_property_type_room" = "Zimmer";
 "real_estate_tooltip_overlay_expandable_menu" = "Falls du Miet- oder Kaufobjekte einstellen möchtest, probiere unsere neue Wohnen-Kategorie aus!";
 "real_estate_tooltip_sell_button" = "Stelle Immobilien zum Verkauf oder zur Miete in unserer neuen Wohnen-Kategorie ein";
-"real_estate_tooltip_sell_button_title" = "Post property for sale or rent in our new Real Estate category";
+"real_estate_tooltip_sell_button_title" = "Stelle Miet- oder Kaufimmobilien in unserer neuen Kategorie für Immobilien ein";
 "real_estate_type_property_apartment" = "Wohnung";
 "real_estate_type_property_commercial" = "Werbung";
 "real_estate_type_property_flat" = "Wohnung / Wohnhaus";
