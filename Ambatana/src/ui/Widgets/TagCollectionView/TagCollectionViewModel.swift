@@ -9,6 +9,7 @@ protocol TagCollectionViewModelSelectionDelegate: class {
 }
 
 class TagCollectionViewModel: NSObject {
+    let cellStyle: TagCollectionViewCellStyle
     weak var delegate: TagCollectionViewModelDelegate?
     weak var selectionDelegate: TagCollectionViewModelSelectionDelegate?
     var tags: [String] {
@@ -17,9 +18,10 @@ class TagCollectionViewModel: NSObject {
         }
     }
     
-    init(tags: [String], delegate: TagCollectionViewModelDelegate? = nil) {
+    init(tags: [String], cellStyle: TagCollectionViewCellStyle, delegate: TagCollectionViewModelDelegate? = nil) {
         self.delegate = delegate
         self.tags = tags
+        self.cellStyle = cellStyle
     }
 }
 
@@ -35,6 +37,7 @@ extension TagCollectionViewModel: UICollectionViewDataSource {
             else {
                 return UICollectionViewCell()
         }
+        cell.setupWith(style: cellStyle)
         cell.configure(with: tags[indexPath.row])
         return cell
     }

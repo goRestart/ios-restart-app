@@ -4022,4 +4022,8 @@ struct LGLocalizedString {
 	static var trendingItemSubwoofer: String {
 		return NSLocalizedString("trending_item_subwoofer", comment: "")
 	}
+
+	static var trendingItemsExpandableMenuSubsetTitle: String {
+		return NSLocalizedString("trending_items_expandable_menu_subset_title", comment: "")
+	}
 }

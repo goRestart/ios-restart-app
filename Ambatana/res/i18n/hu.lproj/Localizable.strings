@@ -53,12 +53,12 @@
 "categories_inFeed_motors" = "Motorok";
 "categories_inFeed_others" = "Egyéb";
 "categories_inFeed_real_estate" = "Ingatlan";
-"categories_inFeed_real_estate_title" = "Real Estate";
+"categories_inFeed_real_estate_title" = "Ingatlan";
 "categories_inFeed_sports_leisure_games" = "Szabadidő";
 "categories_movies_books_and_music" = "Filmek, könyvek, zenék";
 "categories_other" = "Egyéb";
 "categories_real_estate" = "Ingatlan";
-"categories_real_estate_title" = "Real Estate";
+"categories_real_estate_title" = "Ingatlan";
 "categories_sports_leisure_and_games" = "Sport, szabadidő, játékok";
 "categories_super_keywords_inFeed_show_more" = "Többet";
 "categories_title" = "Kategóriák";
@@ -205,7 +205,7 @@
 "common_cancel" = "Mégse";
 "common_chat_not_available" = "Hoppá! A csevegés nem található.";
 "common_collapse" = "Kevesebbet";
-"common_confirm" = "Confirm";
+"common_confirm" = "Megerősítés";
 "common_error" = "Hiba";
 "common_error_connection_failed" = "Hiba történt. Kérjük, ellenőrizd az internetkapcsolatot.";
 "common_error_generic_body" = "Hiba történt.";
@@ -624,7 +624,7 @@
 "product_post_select_category_housing" = "Kiadó és eladó ingatlan";
 "product_post_select_category_motors_and_accessories" = "Más járművek és alkatrészek";
 "product_post_select_category_other" = "Valami más";
-"product_post_select_category_real_estate" = "Real Estate";
+"product_post_select_category_real_estate" = "Ingatlan";
 "product_post_select_category_title" = "Mit készülsz meghirdetni?";
 "product_post_use_photo" = "Meghirdetem";
 "product_post_use_photo_not_logged" = "Fotó használata";
@@ -684,7 +684,7 @@
 "profile_blocked_by_other_label" = "Ez a felhasználó blokkolt téged";
 "profile_build_trust_button" = "Kelts bizalmat";
 "profile_connect_accounts_message" = "Még nem erősítetted meg fiókodat:";
-"profile_dummy_user_info" = "Hi! I'm %@ from letgo. I’m here to help you improve your listing and start selling.";
+"profile_dummy_user_info" = "Szia! %@ vagyok a letgo piacáról. Azért jöttem, hogy javítsunk a hirdetéseden, és ezzel vásárlót szerezzünk.";
 "profile_favourites_my_user_no_products_button" = "Tovább böngészek";
 "profile_favourites_my_user_no_products_label" = "NINCSENEK KEDVENCEK (EGYELŐRE!)";
 "profile_favourites_products_tab" = "Kedvencek";
@@ -824,7 +824,7 @@
 "real_estate_title_generator_property_type_room" = "Szoba";
 "real_estate_tooltip_overlay_expandable_menu" = "Ha eladó vagy kiadó ingatlant hirdetnél, próbáld ki az új Ingatlan kategóriát!";
 "real_estate_tooltip_sell_button" = "Új Ingatlan kategóriánkban bérelhetsz és eladó ingatlant hirdethetsz meg";
-"real_estate_tooltip_sell_button_title" = "Post property for sale or rent in our new Real Estate category";
+"real_estate_tooltip_sell_button_title" = "Tölts fel eladó vagy kiadó ingatlant az új Ingatlan kategóriánkban";
 "real_estate_type_property_apartment" = "Lakás";
 "real_estate_type_property_commercial" = "Kereskedelmi";
 "real_estate_type_property_flat" = "Lakás";
