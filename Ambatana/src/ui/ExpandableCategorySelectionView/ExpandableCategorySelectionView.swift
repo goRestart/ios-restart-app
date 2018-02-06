@@ -17,6 +17,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
     
     static let distanceBetweenButtons: CGFloat = 10
     static let multipleRowTagsCollectionViewHeightThreshold: CGFloat = 300
+    static let singleRowTagsCollectionViewHeight: CGFloat = 40
     
     fileprivate let viewModel: ExpandableCategorySelectionViewModel
     fileprivate var buttons: [UIButton] = []
@@ -214,7 +215,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
                 tagCollectionView.layout(with: tagsView).bottom(by: -Metrics.bigMargin)
             } else {
                 tagCollectionView.layout(with: titleTagsLabel).below(by: Metrics.shortMargin)
-                tagCollectionView.layout().height(40)
+                tagCollectionView.layout().height(ExpandableCategorySelectionView.singleRowTagsCollectionViewHeight)
             }
         }
     }
