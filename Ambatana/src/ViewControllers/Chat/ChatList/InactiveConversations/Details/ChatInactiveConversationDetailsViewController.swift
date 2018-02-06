@@ -142,10 +142,6 @@ ChatInactiveConversationsViewModelDelegate {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
     // MARK: - Copy/Paste feature
     
     /**
