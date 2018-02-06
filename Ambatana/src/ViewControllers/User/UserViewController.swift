@@ -655,7 +655,7 @@ extension UserViewController: ListingListViewHeaderDelegate, PushPermissionsHead
         viewModel.pushPermissionsWarningPressed()
     }
     
-    func didTapView() {
+    func didTapMostSearchedItemsHeader() {
         viewModel.openMostSearchedItems()
     }
 

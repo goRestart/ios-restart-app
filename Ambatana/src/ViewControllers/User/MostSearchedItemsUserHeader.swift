@@ -7,7 +7,7 @@
 //
 
 protocol MostSearchedItemsUserHeaderDelegate: class {
-    func didTapView()
+    func didTapMostSearchedItemsHeader()
 }
 
 class MostSearchedItemsUserHeader: UIView {
@@ -100,6 +100,6 @@ class MostSearchedItemsUserHeader: UIView {
     // MARK: - UI Actions
     
     @objc private dynamic func tapAction() {
-        delegate?.didTapView()
+        delegate?.didTapMostSearchedItemsHeader()
     }
 }
