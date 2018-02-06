@@ -831,6 +831,8 @@ extension ChatViewModel {
             self?.delete() { [weak self] success in
                 if success {
                     self?.isDeleted = true
+                    self?.tracker.trackEvent(TrackerEvent.chatDeleteComplete(numberOfConversations: 1,
+                                                                             isInactiveConversation: false))
                 }
                 let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
                 self?.delegate?.vmDidNotifyMessage(message) { [weak self] in

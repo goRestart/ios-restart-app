@@ -3788,8 +3788,8 @@
 		8EF1CDAD2010F0F900D324F6 /* Details */ = {
 			isa = PBXGroup;
 			children = (
-				8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */,
 				8EF1CDB12010F19B00D324F6 /* ChatInactiveConversationDetailsViewController.swift */,
+				8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";

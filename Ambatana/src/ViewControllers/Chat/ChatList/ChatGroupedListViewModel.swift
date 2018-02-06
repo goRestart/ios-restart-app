@@ -144,6 +144,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     // MARK: - Public methods
 
     func openInactiveConversations() {
+        tracker.trackEvent(TrackerEvent.chatViewInactiveConversations())
         tabNavigator?.openChat(.inactiveConversations, source: .chatList, predefinedMessage: nil)
     }
     

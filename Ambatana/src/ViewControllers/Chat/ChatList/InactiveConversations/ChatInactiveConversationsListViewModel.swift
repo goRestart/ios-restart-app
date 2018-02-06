@@ -68,6 +68,7 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     required init(navigator: TabNavigator?,
                   chatRepository: ChatRepository,
                   tracker: Tracker) {
+        self.navigator = navigator
         self.chatRepository = chatRepository
         self.tracker = tracker
         super.init()
@@ -224,6 +225,10 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
                 strongSelf.delegate?.didFailArchivingChats()
             } else {
                 strongSelf.delegate?.didSucceedArchivingChats()
+                strongSelf.tracker.trackEvent(
+                    TrackerEvent.chatDeleteComplete(numberOfConversations: strongSelf.selectedConversationIds.value.count,
+                                                    isInactiveConversation: true)
+                )
             }
         }
     }

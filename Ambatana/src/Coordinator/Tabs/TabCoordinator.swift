@@ -340,8 +340,10 @@ fileprivate extension TabCoordinator {
     }
     
     func openInactiveConversation(conversation: ChatInactiveConversation) {
-        let vm = ChatInactiveConversationDetailsViewModel()
+        let vm = ChatInactiveConversationDetailsViewModel(conversation: conversation)
         let vc = ChatInactiveConversationDetailsViewController(viewModel: vm)
+        vm.delegate = vc
+        vm.navigator = self
         navigationController.pushViewController(vc, animated: true)
     }
 
@@ -524,6 +526,14 @@ extension TabCoordinator: ChatDetailNavigator {
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
         openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.chatLoginPopupText),
                           loggedInAction: loggedInAction, cancelAction: nil)
+    }
+}
+
+// MARK: > ChatInactiveDetailNavigator
+
+extension TabCoordinator: ChatInactiveDetailNavigator {
+    func closeChatInactiveDetail() {
+        navigationController.popViewController(animated: true)
     }
 }
 
