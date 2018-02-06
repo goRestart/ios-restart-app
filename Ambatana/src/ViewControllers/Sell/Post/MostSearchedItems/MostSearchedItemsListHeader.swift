@@ -10,11 +10,11 @@ class MostSearchedItemsListHeader: UIView {
     
     static let viewHeight: CGFloat = 180
     
-    let titleLabel = UILabel()
-    let descriptionLabel = UILabel()
-    let subtitleView = UIView()
-    let subtitleImageView = UIImageView()
-    let subtitleLabel = UILabel()
+    private let titleLabel = UILabel()
+    private let descriptionLabel = UILabel()
+    private let subtitleView = UIView()
+    private let subtitleImageView = UIImageView()
+    private let subtitleLabel = UILabel()
     
     
     // MARK: - Lifecycle

@@ -14,10 +14,10 @@ class MostSearchedItemsUserHeader: UIView {
     
     static let viewHeight: CGFloat = 68
     
-    let trendingImageView = UIImageView()
-    let titleLabel = UILabel()
-    let subtitleLabel = UILabel()
-    let disclosureImageView = UIImageView()
+    private let trendingImageView = UIImageView()
+    private let titleLabel = UILabel()
+    private let subtitleLabel = UILabel()
+    private let disclosureImageView = UIImageView()
     
     weak var delegate: MostSearchedItemsUserHeaderDelegate?
     
