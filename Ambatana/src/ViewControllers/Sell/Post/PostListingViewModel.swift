@@ -407,7 +407,8 @@ fileprivate extension PostListingViewModel {
 
 fileprivate extension PostListingViewModel {
     func trackVisit() {
-        let event = TrackerEvent.listingSellStart(postingSource.typePage,buttonName: postingSource.buttonName,
+        let event = TrackerEvent.listingSellStart(postingSource.typePage,
+                                                  buttonName: postingSource.buttonName,
                                                   sellButtonPosition: postingSource.sellButtonPosition,
                                                   category: postCategory?.listingCategory)
         tracker.trackEvent(event)
@@ -427,8 +428,8 @@ extension PostingSource {
             return .notifications
         case .deleteListing:
             return .listingDelete
-        case .mostSearchedItems: // TODO: Temporary. To be defined
-            return .sell
+        case .mostSearchedItems:
+            return .mostSearched
         case .realEstatePromo:
             return .realEstatePromo
         }

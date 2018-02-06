@@ -755,6 +755,7 @@ enum EventParameterTypePage: String {
     case inAppNotification = "in-app-notification"
     case filter = "filter"
     case realEstatePromo = "real-estate-promo"
+    case mostSearched = "most-searched"
 }
 
 enum EventParameterPermissionType: String {
