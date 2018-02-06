@@ -17,8 +17,6 @@ protocol ChatInactiveConversationsListViewModelDelegate: class {
     
     func didFailArchivingChats()
     func didSucceedArchivingChats()
-    func didFailUnarchivingChats()
-    func didSucceedUnarchivingChats()
     func shouldShowDeleteConfirmation(title: String,
                                       message: String,
                                       cancelText: String,
@@ -92,6 +90,10 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
             }
             .bind(to: editButtonEnabled)
             .disposed(by: disposeBag)
+        
+        conversations.asObservable().subscribeNext { [weak self] conversations in
+            self?.rx_objectCount.value = conversations.count
+        }.disposed(by: disposeBag)
         
         selectedConversationIds.asObservable()
             .map { $0.count > 0 }

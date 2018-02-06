@@ -154,5 +154,10 @@
         "name": "DummyUsersInfoProfile",
         "values": ["control", "baseline", "active"],
         "description": "Add info for dummy users in profile"
+    },
+    {
+        "name": "ShowInactiveConversations",
+        "values": ["No", "Yes"],
+        "description": "Show button to access inactive conversations"
     }
 ]

@@ -98,8 +98,7 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
     
     private func chatViewMessages(fromConversation conversation: ChatInactiveConversation) -> [ChatViewMessage] {
         var chatViewMessages = [ChatViewMessage]()
-        let inactiveMessages = conversation.messages
-        inactiveMessages.forEach { [weak self] message in
+        conversation.messages.forEach { [weak self] message in
             guard let strongSelf = self else { return }
             let chatViewMessage = strongSelf.chatViewMessageAdapter.adapt(message)
             chatViewMessages.append(chatViewMessage)

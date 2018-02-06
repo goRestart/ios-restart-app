@@ -37,6 +37,7 @@ protocol ChatGroupedListViewModel: class, ChatGroupedListViewModelType {
     var shouldScrollToTop: Observable<Bool> { get }
     func clear()
     func openInactiveConversations()
+    var shouldShowInactiveConversations: Bool { get }
 }
 
 class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
@@ -44,6 +45,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     let shouldWriteInCollectionVariable: Bool
     let notificationsManager: NotificationsManager
     fileprivate let tracker: Tracker
+    let featureFlags: FeatureFlaggeable
     
     private let chatRepository: ChatRepository
     let inactiveConversationsCount = Variable<Int?>(nil)
@@ -66,6 +68,10 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     weak var chatGroupedDelegate : ChatGroupedListViewModelDelegate?
     weak var tabNavigator: TabNavigator?
 
+    var shouldShowInactiveConversations: Bool {
+        return featureFlags.showInactiveConversations
+    }
+    
     // MARK: - Paginable
 
     let firstPage: Int = 1
@@ -110,7 +116,8 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
          tabNavigator: TabNavigator?,
          notificationsManager: NotificationsManager = LGNotificationsManager.sharedInstance,
          tracker: Tracker = TrackerProxy.sharedInstance,
-         chatRepository: ChatRepository = Core.chatRepository) {
+         chatRepository: ChatRepository = Core.chatRepository,
+         featureFlags: FeatureFlags = FeatureFlags.sharedInstance) {
         self.objects = collectionVariable
         self.shouldWriteInCollectionVariable = shouldWriteInCollectionVariable
         self.status = .loading
@@ -118,6 +125,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         self.notificationsManager = notificationsManager
         self.tracker = tracker
         self.chatRepository = chatRepository
+        self.featureFlags = featureFlags
         super.init()
         
         self.multipageRequester = MultiPageRequester() { [weak self] (page, completion) in
