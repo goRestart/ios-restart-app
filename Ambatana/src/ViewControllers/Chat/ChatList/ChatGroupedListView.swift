@@ -269,6 +269,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     }
     
     private func showInactiveConversationsHeader(with count: Int) {
+        guard viewModel.shouldShowInactiveConversations else { return }
         guard inactiveConversationHeaderView.superview == nil else { return }
         inactiveConversationHeaderView.inactiveConvesationsCount = count
         headerView.addSubview(inactiveConversationHeaderView)
