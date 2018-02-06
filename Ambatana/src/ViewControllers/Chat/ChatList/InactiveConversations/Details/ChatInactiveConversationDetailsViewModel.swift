@@ -76,8 +76,7 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
         super.init()
         messages = conversation.messages.flatMap { [weak self] in
             guard let strongSelf = self else { return nil }
-            return strongSelf.ch
-        }atViewMessageAdapter.adapt($0)
+            return strongSelf.chatViewMessageAdapter.adapt($0)
         }
     
     override func didBecomeActive(_ firstTime: Bool) {
