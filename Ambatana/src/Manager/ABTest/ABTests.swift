@@ -51,6 +51,7 @@ class ABTests {
     let removeCategoryWhenClosingPosting = IntABDynamicVar(key: "20180126RemoveCategoryWhenClosingPosting", defaultValue: 0, abGroupType: .legacyABTests)
     let realEstateNewCopy = IntABDynamicVar(key: "20180126RealEstateNewCopy", defaultValue: 0, abGroupType: .realEstate)
     let dummyUsersInfoProfile = IntABDynamicVar(key: "20180130DummyUsersInfoProfile", defaultValue: 0, abGroupType: .retention)
+    let showInactiveConversations = BoolABDynamicVar(key: "20180206ShowInactiveConversations", defaultValue: false, abGroupType: .chat)
     
     init() {
     }
@@ -94,6 +95,7 @@ class ABTests {
         result.append(removeCategoryWhenClosingPosting)
         result.append(realEstateNewCopy)
         result.append(dummyUsersInfoProfile)
+        result.append(showInactiveConversations)
         
         return result
     }
