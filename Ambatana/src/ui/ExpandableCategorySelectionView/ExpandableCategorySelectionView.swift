@@ -23,9 +23,21 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
     fileprivate var buttons: [UIButton] = []
     fileprivate var closeButton: UIButton = UIButton()
     
-    fileprivate var tagCollectionViewModel: TagCollectionViewModel?
-    fileprivate var tagsView: UIView?
-    fileprivate var titleTagsLabel: UILabel?
+    fileprivate let tagCollectionViewModel: TagCollectionViewModel
+    fileprivate let tagsView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    fileprivate let titleTagsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        label.font = UIFont.systemSemiBoldFont(size: 13)
+        label.text = LGLocalizedString.trendingItemsExpandableMenuSubsetTitle
+        label.textAlignment = .center
+        return label
+    }()
     fileprivate var tagCollectionView: TagCollectionView?
     
     fileprivate let buttonSpacing: CGFloat
@@ -45,6 +57,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         self.buttonSpacing = buttonSpacing
         self.bottomDistance = bottomDistance
         self.viewModel = viewModel
+        self.tagCollectionViewModel = TagCollectionViewModel(tags: viewModel.tags, cellStyle: .whiteBackground)
         
         super.init(frame: frame)
         setupUI()
@@ -159,40 +172,13 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         closeButton.accessibilityId = .expandableCategorySelectionCloseButton
     }
     
-    fileprivate func setupTagsView() {
-        guard viewModel.tagsEnabled else { return }
-        tagCollectionViewModel = TagCollectionViewModel(tags: viewModel.tags, cellStyle: .whiteBackground)
-        guard let tagCollectionViewModel = self.tagCollectionViewModel else { return }
-        
-        self.tagsView = UIView()
-        self.titleTagsLabel = UILabel()
-
-        guard let tagsView = self.tagsView,
-            let titleTagsLabel = self.titleTagsLabel else { return }
-        
-        titleTagsLabel.textColor = .white
-        titleTagsLabel.font = UIFont.systemSemiBoldFont(size: 13)
-        titleTagsLabel.text = LGLocalizedString.trendingItemsExpandableMenuSubsetTitle
-        titleTagsLabel.textAlignment = .center
-        
-        tagsView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(tagsView)
-        
-        let tagsSubviews = [titleTagsLabel]
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: tagsSubviews)
-        tagsView.addSubviews(tagsSubviews)
-        
-        tagsView.layout(with: self)
-            .top()
-            .fillHorizontal()
+    /// We choose the layout depending on the content size
+    private func collectionViewlayout() -> TagCollectionViewFlowLayout {
+        tagsView.layout(with: self).top().fillHorizontal()
         if let highestButton = buttons.last {
-            tagsView.layout(with: highestButton)
-                .above(by: -Metrics.bigMargin)
+            tagsView.layout(with: highestButton).above(by: -Metrics.bigMargin)
         }
-        
-        titleTagsLabel.layout(with: tagsView)
-            .top(by: 40)
-            .fillHorizontal(by: Metrics.bigMargin)
+        titleTagsLabel.layout(with: tagsView).top(by: 40).fillHorizontal(by: Metrics.bigMargin)
         titleTagsLabel.layout().height(15)
         
         setNeedsLayout()
@@ -204,11 +190,19 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         } else {
             flowLayout = TagCollectionViewFlowLayout.singleRowWithScroll
         }
-        
-        self.tagCollectionView = TagCollectionView(viewModel: tagCollectionViewModel, flowLayout: flowLayout)
+        return flowLayout
+    }
+    
+    fileprivate func setupTagsView() {
+        guard viewModel.tagsEnabled else { return }
+        tagCollectionViewModel.selectionDelegate = self
+
+        tagsView.addSubview(titleTagsLabel)
+        addSubview(tagsView)
+
+        tagCollectionView = TagCollectionView(viewModel: tagCollectionViewModel, flowLayout: collectionViewlayout())
         if let tagCollectionView = self.tagCollectionView {
             tagsView.addSubview(tagCollectionView)
-            tagCollectionViewModel.selectionDelegate = self
             tagCollectionView.layout(with: tagsView).fillHorizontal()
             if (tagsView.height > ExpandableCategorySelectionView.multipleRowTagsCollectionViewHeightThreshold) {
                 tagCollectionView.layout(with: titleTagsLabel).below(by: Metrics.bigMargin)
