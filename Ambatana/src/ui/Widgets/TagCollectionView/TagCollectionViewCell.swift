@@ -31,14 +31,22 @@ enum TagCollectionViewCellStyle {
             return UIColor.darkGrayText
         }
     }
+    
+    var padding: UIEdgeInsets {
+        switch self {
+        case .blackBackground:
+            return UIEdgeInsets(top: 5, left: 12, bottom: 5, right: 12)
+        case .whiteBackground:
+            return UIEdgeInsets(top: 6, left: 15, bottom: 6, right: 15)
+        }
+    }
 }
 
 class TagCollectionViewCell: UICollectionViewCell, ReusableCell {
     
     var style: TagCollectionViewCellStyle = TagCollectionViewCellStyle.blackBackground
     let tagLabel: UIRoundedLabelWithPadding = {
-        //let label = UIRoundedLabelWithPadding(frame: .zero, padding: UIEdgeInsets(top: 6, left: 15, bottom: 6, right: 15))
-        let label = UIRoundedLabelWithPadding(frame: .zero, padding: UIEdgeInsets(top: 5, left: 12, bottom: 5, right: 12))
+        let label = UIRoundedLabelWithPadding(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.clipsToBounds = true
         return label
@@ -57,11 +65,6 @@ class TagCollectionViewCell: UICollectionViewCell, ReusableCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepareForReuse() {
-        tagLabel.text = nil
-        super.prepareForReuse()
-    }
-    
     
     // MARK: - UI
     
@@ -70,6 +73,7 @@ class TagCollectionViewCell: UICollectionViewCell, ReusableCell {
         tagLabel.backgroundColor = style.backgroundColor
         tagLabel.font = style.font
         tagLabel.textColor = style.textColor
+        tagLabel.padding = style.padding
     }
     
     private func setupViews() {
