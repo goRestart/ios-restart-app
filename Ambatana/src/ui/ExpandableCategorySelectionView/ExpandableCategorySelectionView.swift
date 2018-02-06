@@ -198,19 +198,18 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         setNeedsLayout()
         layoutIfNeeded()
         
-        var flowLayout: TagCollectionViewFlowLayout
-        if (tagsView.height > ExpandableCategorySelectionView.multipleRowTagsCollectionViewHeightThreshold) {
+        let flowLayout: TagCollectionViewFlowLayout
+        if tagsView.height > ExpandableCategorySelectionView.multipleRowTagsCollectionViewHeightThreshold {
             flowLayout = TagCollectionViewFlowLayout.centerAligned
         } else {
             flowLayout = TagCollectionViewFlowLayout.singleRowWithScroll
         }
-        
         self.tagCollectionView = TagCollectionView(viewModel: tagCollectionViewModel, flowLayout: flowLayout)
         if let tagCollectionView = self.tagCollectionView {
             tagsView.addSubview(tagCollectionView)
             tagCollectionViewModel.selectionDelegate = self
             tagCollectionView.layout(with: tagsView).fillHorizontal()
-            if (tagsView.height > ExpandableCategorySelectionView.multipleRowTagsCollectionViewHeightThreshold) {
+            if tagsView.height > ExpandableCategorySelectionView.multipleRowTagsCollectionViewHeightThreshold {
                 tagCollectionView.layout(with: titleTagsLabel).below(by: Metrics.bigMargin)
                 tagCollectionView.layout(with: tagsView).bottom(by: -Metrics.bigMargin)
             } else {
