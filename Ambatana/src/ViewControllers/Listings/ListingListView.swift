@@ -705,9 +705,7 @@ extension ListingListView: GADBannerViewDelegate, GADAdSizeDelegate {
     }
 
     func adViewWillPresentScreen(_ bannerView: GADBannerView) {
-        var feedPosition: EventParameterFeedPosition = .none
-        feedPosition = .position(index: bannerView.tag)
-
+        let feedPosition: EventParameterFeedPosition = .position(index: bannerView.tag)
         viewModel.bannerWasTapped(adType: .dfp,
                                   willLeaveApp: .falseParameter,
                                   categories: viewModel.categoriesForBannerIn(position: bannerView.tag),
@@ -715,8 +713,7 @@ extension ListingListView: GADBannerViewDelegate, GADAdSizeDelegate {
     }
 
     func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
-        var feedPosition: EventParameterFeedPosition = .none
-        feedPosition = .position(index: bannerView.tag)
+        let feedPosition: EventParameterFeedPosition = .position(index: bannerView.tag)
         viewModel.bannerWasTapped(adType: .dfp,
                                   willLeaveApp: .trueParameter,
                                   categories: viewModel.categoriesForBannerIn(position: bannerView.tag),
