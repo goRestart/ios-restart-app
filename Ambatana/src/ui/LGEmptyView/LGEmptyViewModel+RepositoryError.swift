@@ -89,8 +89,20 @@ fileprivate extension LGEmptyViewModel {
             return .noInternetConection
         case .wsChatError(let chatError):
             return reason(for: chatError)
-        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
-            return .unknown
+        case .serverError:
+            return .serverError
+        case .notFound:
+            return .notFound
+        case .userNotVerified:
+            return .userNotVerified
+        case .internalError:
+            return .internalError
+        case .unauthorized:
+            return .unauthorized
+        case .forbidden:
+            return .forbidden
+        case .tooManyRequests:
+            return .tooManyRequests
         }
     }
 
@@ -98,8 +110,18 @@ fileprivate extension LGEmptyViewModel {
         switch chatError {
         case .network:
             return .noInternetConection
-        case .notAuthenticated, .userNotVerified, .userBlocked, .internalError, .apiError, .differentCountry:
-            return .unknown
+        case .apiError:
+            return .chatServerError
+        case .internalError:
+            return .wsInternalError
+        case .userNotVerified:
+            return .userNotVerified
+        case .userBlocked:
+            return .chatUserBlocked
+        case .notAuthenticated:
+            return .notAuthenticated
+        case .differentCountry:
+            return .differentCountry
         }
     }
     
@@ -109,7 +131,11 @@ fileprivate extension LGEmptyViewModel {
             return errorCode
         case .wsChatError(let chatError):
             return errorCode(for: chatError)
-        case .internalError, .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified, .serverError:
+        case .serverError(let code):
+            return code
+        case .internalError(let message):
+            return Int(message)
+        case .notFound, .unauthorized, .forbidden, .tooManyRequests, .userNotVerified:
             return nil
         }
     }
@@ -118,7 +144,11 @@ fileprivate extension LGEmptyViewModel {
         switch chatError {
         case .network(let errorCode, _):
             return errorCode
-        case .notAuthenticated, .userNotVerified, .userBlocked, .internalError, .apiError, .differentCountry:
+        case .apiError(let httpCode):
+            return httpCode
+        case .internalError(let message):
+            return Int(message)
+        case .notAuthenticated, .userNotVerified, .userBlocked, .differentCountry:
             return nil
         }
     }
