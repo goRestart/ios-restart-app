@@ -18,8 +18,7 @@ class GridDrawerManager {
 
     var cellStyle: CellStyle = .mainList
     var freePostingAllowed: Bool = true
-    var featuredShouldShowChatButton: Bool = true
-    
+
     private let listingDrawer = ListingCellDrawer()
     private let collectionDrawer = ListingCollectionCellDrawer()
     private let emptyCellDrawer = EmptyCellDrawer()
@@ -67,7 +66,6 @@ class GridDrawerManager {
                                    delegate: delegate,
                                    isFree: listing.price.isFree && freePostingAllowed,
                                    isFeatured: isFeatured,
-                                   featuredShouldShowChatButton: featuredShouldShowChatButton,
                                    isMine: isMine,
                                    price: listing.priceString(freeModeAllowed: freePostingAllowed),
                                    shouldShowPrice: false)
@@ -98,7 +96,6 @@ class GridDrawerManager {
                                    delegate: delegate,
                                    isFree: listing.price.isFree && freePostingAllowed,
                                    isFeatured: isFeatured,
-                                   featuredShouldShowChatButton: featuredShouldShowChatButton,
                                    isMine: isMine,
                                    price: listing.priceString(freeModeAllowed: freePostingAllowed),
                                    shouldShowPrice: shouldShowPrice)

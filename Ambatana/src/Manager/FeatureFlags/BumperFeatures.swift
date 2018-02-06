@@ -25,7 +25,6 @@ extension Bumper  {
         flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
         flags.append(HomeRelatedEnabled.self)
-        flags.append(HideChatButtonOnFeaturedCells.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(NewItemPage.self)
         flags.append(ShowPriceStepRealEstatePosting.self)
@@ -104,11 +103,6 @@ extension Bumper  {
     static var homeRelatedEnabled: HomeRelatedEnabled {
         guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return .control }
         return HomeRelatedEnabled(rawValue: value) ?? .control 
-    }
-
-    static var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
-        guard let value = Bumper.value(for: HideChatButtonOnFeaturedCells.key) else { return .control }
-        return HideChatButtonOnFeaturedCells(rawValue: value) ?? .control 
     }
 
     static var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
@@ -352,22 +346,6 @@ enum HomeRelatedEnabled: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show the related button in the main feed" } 
     static func fromPosition(_ position: Int) -> HomeRelatedEnabled {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum HideChatButtonOnFeaturedCells: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return HideChatButtonOnFeaturedCells.control.rawValue }
-    static var enumValues: [HideChatButtonOnFeaturedCells] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "hide chat button on the featured listing cells" } 
-    static func fromPosition(_ position: Int) -> HideChatButtonOnFeaturedCells {
         switch position { 
             case 0: return .control
             case 1: return .baseline

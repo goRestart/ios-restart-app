@@ -61,11 +61,6 @@
         "description": "Show the related button in the main feed"
     },
     {
-        "name": "HideChatButtonOnFeaturedCells",
-        "values": ["control", "baseline", "active"],
-        "description": "hide chat button on the featured listing cells"
-    },
-    {
         "name": "TaxonomiesAndTaxonomyChildrenInFeed",
         "values": ["control", "baseline", "active"],
         "description": "Taxonomies and taxonomy children in feed as filter tags"
