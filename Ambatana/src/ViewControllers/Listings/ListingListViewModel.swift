@@ -453,7 +453,7 @@ class ListingListViewModel: BaseViewModel {
         switch cellModel {
         case .advertisement(let data):
             categories = data.categories
-        default:
+        case .listingCell, .collectionCell, .emptyCell:
             break
         }
         return categories

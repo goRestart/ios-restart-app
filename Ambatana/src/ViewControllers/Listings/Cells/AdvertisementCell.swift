@@ -8,19 +8,16 @@
 
 import UIKit
 import LGCoreKit
-import GoogleMobileAds
 
 class AdvertisementCell: UICollectionViewCell, ReusableCell {
 
-    private var banner: DFPBannerView?
-
     func setupWith(adData: AdvertisementData) {
-        guard let bannerView = adData.bannerView as? DFPBannerView else { return }
-        banner = bannerView
+        guard let bannerView = adData.bannerView else { return }
         bannerView.frame = contentView.frame
         contentView.addSubview(bannerView)
         bannerView.translatesAutoresizingMaskIntoConstraints = false
         bannerView.layout(with: contentView).fill()
+        bannerView.accessibilityId = .advertisementCellBanner
     }
 
     override func awakeFromNib() {
@@ -38,11 +35,9 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell {
         contentView.subviews.forEach { subView in
             subView.removeFromSuperview()
         }
-        banner = nil
     }
 
     private func setAccessibilityIds() {
         accessibilityId = .advertisementCell
-        banner?.accessibilityId = .advertisementCellBanner
     }
 }
