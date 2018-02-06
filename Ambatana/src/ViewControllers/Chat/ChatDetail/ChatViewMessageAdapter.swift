@@ -59,6 +59,8 @@ class ChatViewMessageAdapter {
             } else {
                 type = ChatViewMessageType.text(text: message.text)
             }
+        case .phone:
+            type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(message.text))
         }
         return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt,
                                receivedAt: message.receivedAt, readAt: message.readAt, type: type,
@@ -180,6 +182,19 @@ class ChatViewMessageAdapter {
         return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
                                type: .userInfo(name: name, address: address, facebook: facebook, google: google, email: email),
                                status: nil, warningStatus: .normal)
+    }
+
+    func createAskPhoneMessageWith(action: (() -> Void)?) -> ChatViewMessage? {
+
+        return ChatViewMessage(objectId: nil, talkerId: "", sentAt: Date(), receivedAt: nil, readAt: nil,
+                               type: .askPhoneNumber(text: LGLocalizedString.professionalDealerAskPhoneAddPhoneCellMessage,
+                                                     action: action),
+                               status: nil, warningStatus: .normal)
+    }
+
+    func createAutomaticAnswerWith(message: String) -> ChatViewMessage? {
+        return ChatViewMessage(objectId: nil, talkerId: "", sentAt: Date(), receivedAt: nil, readAt: nil,
+                               type: .text(text: message), status: nil, warningStatus: .normal)
     }
 
     private func createDisclaimerMessage(_ disclaimerText: NSAttributedString, showAvatar: Bool, actionTitle: String?,
