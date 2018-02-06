@@ -53,10 +53,16 @@ class ChatListingView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        roundAvatar()
+    }
+    
+    private func roundAvatar() {
+        userAvatar.setNeedsLayout()
+        userAvatar.layoutIfNeeded()
         userAvatar.layer.cornerRadius = userAvatar.frame.height / 2
     }
     
-    func setupUI() {
+    private func setupUI() {
         listingImage.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
         listingImage.backgroundColor = UIColor.placeholderBackgroundColor()
         userName.font = UIFont.chatListingViewUserFont

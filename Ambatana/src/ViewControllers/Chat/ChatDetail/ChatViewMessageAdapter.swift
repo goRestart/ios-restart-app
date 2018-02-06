@@ -68,6 +68,33 @@ class ChatViewMessageAdapter {
                                warningStatus: ChatViewMessageWarningStatus(status: message.warnings))
     }
     
+    func adapt(_ message: ChatInactiveMessage) -> ChatViewMessage {
+        let type: ChatViewMessageType
+        let text = message.content.text ?? ""
+        switch message.content.type {
+        case .offer:
+            type = ChatViewMessageType.offer(text: text)
+        case .text, .quickAnswer, .expressChat, .favoritedListing:
+            type = ChatViewMessageType.text(text: text)
+        case .sticker:
+            if let sticker = stickersRepository.sticker(text) {
+                type = ChatViewMessageType.sticker(url: sticker.url)
+            } else {
+                type = ChatViewMessageType.text(text: text)
+            }
+        case .phone:
+            type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(text))
+        }
+        return ChatViewMessage(objectId: message.objectId,
+                               talkerId: message.talkerId,
+                               sentAt: message.sentAt,
+                               receivedAt: nil,
+                               readAt: nil,
+                               type: type,
+                               status: nil,
+                               warningStatus: ChatViewMessageWarningStatus(status: message.warnings))
+    }
+    
     func addDisclaimers(_ messages: [ChatViewMessage], disclaimerMessage: ChatViewMessage) -> [ChatViewMessage] {
         return messages.reduce([ChatViewMessage]()) { [weak self] (array, message) -> [ChatViewMessage] in
             if message.warningStatus == .spam && message.talkerId != self?.myUserRepository.myUser?.objectId {

@@ -104,11 +104,8 @@ struct LGChatConversation: ChatConversation, Decodable {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
         objectId = try keyedContainer.decode(String.self, forKey: .objectId)
         unreadMessageCount = try keyedContainer.decode(Int.self, forKey: .unreadMessageCount)
-        if let lastMessageSentAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .lastMessageSentAt) {
-            lastMessageSentAt = Date(timeIntervalSince1970: lastMessageSentAtValue/1000)
-        } else {
-            lastMessageSentAt = nil
-        }
+        let lastMessageSentAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .lastMessageSentAt)
+        lastMessageSentAt = Date.makeChatDate(millisecondsIntervalSince1970: lastMessageSentAtValue)
         amISelling = try keyedContainer.decode(Bool.self, forKey: .amISelling)
         listing = try keyedContainer.decodeIfPresent(LGChatListing.self, forKey: .listing)
         interlocutor = try keyedContainer.decodeIfPresent(LGChatInterlocutor.self, forKey: .interlocutor)
