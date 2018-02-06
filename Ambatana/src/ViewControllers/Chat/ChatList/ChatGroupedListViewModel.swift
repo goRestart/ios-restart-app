@@ -312,21 +312,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         let retryAction: () -> () = { [weak self] in
             self?.retrieveFirstPage()
         }
-        var emptyVM: LGEmptyViewModel?
-        switch error {
-        case let .network(errorCode, onBackground):
-            emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: retryAction)
-        case let .wsChatError(chatRepositoryError):
-            switch chatRepositoryError {
-            case let .network(errorCode, onBackground):
-                emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: retryAction)
-            case .internalError, .notAuthenticated, .userNotVerified, .userBlocked, .apiError, .differentCountry:
-                emptyVM = LGEmptyViewModel.genericErrorWithRetry(action: retryAction)
-            }
-        case .internalError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
-            emptyVM = LGEmptyViewModel.genericErrorWithRetry(action: retryAction)
-        }
-        return emptyVM
+        return LGEmptyViewModel.map(from: error, action: retryAction)
     }
     
     private func updateObjects(newObjects: [T]) {

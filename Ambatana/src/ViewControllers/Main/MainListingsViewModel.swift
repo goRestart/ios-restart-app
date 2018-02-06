@@ -787,8 +787,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
 
         if page == 0 && !hasProducts {
-            if let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
-                                                                               action:  { [weak viewModel] in viewModel?.refresh() }) {
+            if let emptyViewModel = LGEmptyViewModel.map(from: error, action: { [weak viewModel] in viewModel?.refresh() }) {
                 listViewModel.setErrorState(emptyViewModel)
             }
         }

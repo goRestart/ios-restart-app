@@ -1423,6 +1423,8 @@
 		D4BFE5B41B640C36006A8CB6 /* MainListingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5AF1B640C36006A8CB6 /* MainListingsViewController.swift */; };
 		D4BFE5B51B640C36006A8CB6 /* MainListingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4BFE5B01B640C36006A8CB6 /* MainListingsViewController.xib */; };
 		D4BFE5B61B640C36006A8CB6 /* MainListingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5B11B640C36006A8CB6 /* MainListingsViewModel.swift */; };
+		F52405C92029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52405C82029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift */; };
+		F52405CA2029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52405C82029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift */; };
 		F57D3A251FECFCFC006F2CA4 /* TagCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57D3A241FECFCFC006F2CA4 /* TagCollectionView.swift */; };
 		F57D3A271FECFD2D006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57D3A261FECFD2D006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		F57D3A291FED011C006F2CA4 /* TagCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57D3A281FED011C006F2CA4 /* TagCollectionViewModel.swift */; };
@@ -2349,6 +2351,7 @@
 		D4BFE5AF1B640C36006A8CB6 /* MainListingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainListingsViewController.swift; sourceTree = "<group>"; };
 		D4BFE5B01B640C36006A8CB6 /* MainListingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainListingsViewController.xib; sourceTree = "<group>"; };
 		D4BFE5B11B640C36006A8CB6 /* MainListingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainListingsViewModel.swift; sourceTree = "<group>"; };
+		F52405C82029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LGEmptyViewModel+RepositoryError.swift"; sourceTree = "<group>"; };
 		F57D3A241FECFCFC006F2CA4 /* TagCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagCollectionView.swift; sourceTree = "<group>"; };
 		F57D3A261FECFD2D006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		F57D3A281FED011C006F2CA4 /* TagCollectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagCollectionViewModel.swift; sourceTree = "<group>"; };
@@ -3480,6 +3483,7 @@
 			children = (
 				50EC64031C64B05500DC04C5 /* LGEmptyView.swift */,
 				50EC64091C64F99E00DC04C5 /* LGEmptyViewModel.swift */,
+				F52405C82029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift */,
 			);
 			path = LGEmptyView;
 			sourceTree = "<group>";
@@ -5765,6 +5769,7 @@
 				50146BC41D4F5F5B00B0F635 /* TabNavigator.swift in Sources */,
 				50C9E4C91B735344001E4E92 /* TrackerEventDataTypes.swift in Sources */,
 				6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */,
+				F52405C92029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift in Sources */,
 				C70A426D1E9666C100B6EFD8 /* CollectionType+Find.swift in Sources */,
 				C7111F021CA438AC000C5C5A /* UniversalLink.swift in Sources */,
 				7285C95B1F83C75F00BD16E9 /* SellNavigationController.swift in Sources */,
@@ -6326,6 +6331,7 @@
 				50CA9FAC1C91695F00350C5F /* UserViewController.swift in Sources */,
 				C70A426E1E9666C100B6EFD8 /* CollectionType+Find.swift in Sources */,
 				50146BC51D4F5F5B00B0F635 /* TabNavigator.swift in Sources */,
+				F52405CA2029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift in Sources */,
 				7285C95C1F83C75F00BD16E9 /* SellNavigationController.swift in Sources */,
 				F57D3A321FED01A6006F2CA4 /* UIRoundedLabelWithPadding.swift in Sources */,
 				C7DB41AD1C5138B500400945 /* AppEnvironment.swift in Sources */,
