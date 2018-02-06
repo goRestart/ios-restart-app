@@ -10,7 +10,6 @@ import Result
 import RxSwift
 
 class LGChatRepository: InternalChatRepository {
-
     var chatStatus: Observable<WSChatStatus> {
         return wsChatStatus.asObservable()
     }
@@ -21,16 +20,18 @@ class LGChatRepository: InternalChatRepository {
     let allConversations = CollectionVariable<ChatConversation>([])
     let sellingConversations = CollectionVariable<ChatConversation>([])
     let buyingConversations = CollectionVariable<ChatConversation>([])
+    let inactiveConversations = Variable<[ChatInactiveConversation]>([])
+    let inactiveConversationsCount = Variable<Int?>(nil)
     let conversationsLock: NSLock = NSLock()
-
+    
     let wsChatStatus = Variable<WSChatStatus>(.closed)
     let dataSource: ChatDataSource
     let myUserRepository: MyUserRepository
     private let userRepository: UserRepository
     private let listingRepository: ListingRepository
-
+    
     private let disposeBag = DisposeBag()
-
+    
     init(dataSource: ChatDataSource,
          myUserRepository: MyUserRepository,
          userRepository: UserRepository,
@@ -41,12 +42,21 @@ class LGChatRepository: InternalChatRepository {
         self.listingRepository = listingRepository
         setupRx()
     }
-
+    
     func setupRx() {
         dataSource.socketStatus.asObservable().subscribeNext { [weak self] status in
             self?.wsChatStatus.value = WSChatStatus(wsStatus: status)
-        }.disposed(by: disposeBag)
-
+            }.disposed(by: disposeBag)
+        
+        chatStatus.subscribeNext { [weak self] status in
+            switch status {
+            case .openAuthenticated:
+                self?.updateInactiveConversationsCount()
+            case .closed, .closing, .opening, .openNotVerified, .openNotAuthenticated:
+                break
+            }
+            }.disposed(by: disposeBag)
+        
         // Automatically mark as received
         chatEvents.subscribeNext { [weak self] event in
             guard let conversationId = event.conversationId else { return }
@@ -58,7 +68,7 @@ class LGChatRepository: InternalChatRepository {
             default:
                 return
             }
-        }.disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
         
         userRepository.events.subscribeNext { [weak self] event in
             switch event {
@@ -67,7 +77,7 @@ class LGChatRepository: InternalChatRepository {
             case .unblock(let userId):
                 self?.updateLocalConversation(interlocutorId: userId, isBlocked: false)
             }
-        }.disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
         
         listingRepository.events.subscribeNext { [weak self] event in
             switch event {
@@ -82,110 +92,134 @@ class LGChatRepository: InternalChatRepository {
             case .create, .favorite, .unFavorite:
                 break
             }
-        }.disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
     
-
+    
     // MARK: > Public Methods
     // MARK: - Messages
-
+    
     func createNewMessage(_ talkerId: String, text: String, type: ChatMessageType) -> ChatMessage {
         let message = LGChatMessage(objectId: LGUUID().UUIDString, talkerId: talkerId, text: text, sentAt: nil,
                                     receivedAt: nil, readAt: nil, type: type, warnings: [])
         return message
     }
-
+    
     func indexMessages(_ conversationId: String, numResults: Int, offset: Int,
-                              completion: ChatMessagesCompletion?) {
+                       completion: ChatMessagesCompletion?) {
         dataSource.indexMessages(conversationId, numResults: numResults, offset: offset) { [weak self] result in
             self?.handleQueryMessages(conversationId, result: result, completion: completion)
         }
     }
-
+    
     func indexMessagesNewerThan(_ messageId: String, conversationId: String, completion: ChatMessagesCompletion?) {
         dataSource.indexMessagesNewerThan(messageId, conversationId: conversationId) { [weak self] result in
             self?.handleQueryMessages(conversationId, result: result, completion: completion)
         }
     }
-
+    
     func indexMessagesOlderThan(_ messageId: String, conversationId: String, numResults: Int,
-                                       completion: ChatMessagesCompletion?) {
+                                completion: ChatMessagesCompletion?) {
         dataSource.indexMessagesOlderThan(messageId, conversationId: conversationId, numResults: numResults) {
             [weak self] result in
             self?.handleQueryMessages(conversationId, result: result, completion: completion)
         }
     }
-
-
+    
+    
     // MARK: - Conversations
-
+    
     func internalIndexConversations(_ numResults: Int, offset: Int, filter: WebSocketConversationFilter,
-                                   completion: ChatConversationsCompletion?) {
+                                    completion: ChatConversationsCompletion?) {
         dataSource.indexConversations(numResults, offset: offset, filter: filter) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
-
+    
     func showConversation(_ conversationId: String, completion: ChatConversationCompletion?) {
         dataSource.showConversation(conversationId) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
-
+    
     func showConversation(_ sellerId: String, listingId: String, completion: ChatConversationCompletion?) {
         dataSource.showConversation(sellerId, listingId: listingId) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
-
-
+    
+    func fetchInactiveConversationsCount(completion: ChatCountCompletion?) {
+        dataSource.fetchInactiveConversationsCount { result in
+            handleWebSocketResult(result, completion: completion)
+        }
+    }
+    
+    func fetchInactiveConversations(limit: Int, offset: Int, completion: ChatInactiveConversationsCompletion?) {
+        dataSource.fetchInactiveConversations(limit: limit, offset: offset) { [weak self] result in
+            if let inactiveConversation = result.value {
+                self?.inactiveConversations.value = inactiveConversation
+            }
+            handleWebSocketResult(result, completion: completion)
+        }
+    }
+    
+    
     // MARK: - Events
-
+    
     func typingStarted(_ conversationId: String) {
         dataSource.typingStarted(conversationId)
     }
-
+    
     func typingStopped(_ conversationId: String) {
         dataSource.typingStopped(conversationId)
     }
-
-
+    
+    
     // MARK: - Commands
-
+    
     func internalSendMessage(_ conversationId: String, messageId: String, type: ChatMessageType, text: String,
                              completion: ChatCommandCompletion?) {
         dataSource.sendMessage(conversationId, messageId: messageId, type: type.rawValue, text: text) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
-
+    
     func internalConfirmRead(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
         dataSource.confirmRead(conversationId, messageIds: messageIds) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
-
+    
     func internalArchiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?) {
         dataSource.archiveConversations(conversationIds) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
-
+    
+    func internalArchiveInactiveConversations(_ conversationIds: [String], completion: ChatCommandCompletion?) {
+        dataSource.archiveInactiveConversations(conversationIds) { [weak self] result in
+            if let _ = result.value, let inactiveConversationsCount = self?.inactiveConversationsCount.value {
+                self?.inactiveConversationsCount.value = inactiveConversationsCount - conversationIds.count
+            }
+            handleWebSocketResult(result, completion: completion)
+        }
+    }
+    
     func confirmReception(_ conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
         dataSource.confirmReception(conversationId, messageIds: messageIds) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
-
+    
     func internalUnarchiveConversation(_ conversationId: String, completion: ChatCommandCompletion?) {
         dataSource.unarchiveConversations([conversationId]) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
-
-
+    
+    
     // MARK: - Unread counts
-
+    
     func chatUnreadMessagesCount(_ completion: ChatUnreadMessagesCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
             completion?(ChatUnreadMessagesResult(error: .internalError(message: "Missing myUserId")))
@@ -195,17 +229,27 @@ class LGChatRepository: InternalChatRepository {
             handleApiResult(result, completion: completion)
         }
     }
-
-
+    
+    // MARK: - Clean
+    
+    func cleanInactiveConversations() {
+        inactiveConversations.value.removeAll()
+    }
+    
+    func clean() {
+        cleanInactiveConversations()
+    }
+    
+    
     // MARK: - Server events
-
+    
     func chatEventsIn(_ conversationId: String) -> Observable<ChatEvent> {
         return dataSource.eventBus.filter { $0.conversationId == conversationId }
     }
-
-
+    
+    
     // MARK: - Private
-
+    
     private func handleQueryMessages(_ conversationId: String, result: ChatWebSocketMessagesResult,
                                      completion: ChatMessagesCompletion?) {
         var finalResult = result
@@ -218,6 +262,14 @@ class LGChatRepository: InternalChatRepository {
             }
         }
         handleWebSocketResult(finalResult, completion: completion)
+    }
+    
+    private func updateInactiveConversationsCount() {
+        fetchInactiveConversationsCount { [weak self] result in
+            if let count = result.value {
+                self?.inactiveConversationsCount.value = count
+            }
+        }
     }
 }
 
@@ -245,3 +297,4 @@ extension WSChatStatus {
         }
     }
 }
+

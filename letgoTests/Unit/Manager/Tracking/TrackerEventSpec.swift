@@ -4253,13 +4253,48 @@ class TrackerEventSpec: QuickSpec {
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("posting-summary-open"))
                 }
-                it("contains type parameter") {
+                it("contains open field") {
                     let param = sut.params!.stringKeyParams["open-field"] as? String
                     expect(param) == "location"
                 }
-                it("contains type parameter") {
+                it("contains posting type") {
                     let param = sut.params!.stringKeyParams["posting-type"] as? String
                     expect(param) == "real-estate"
+                }
+            }
+            
+            describe("chat delete complete") {
+                beforeEach {
+                    sut = TrackerEvent.chatDeleteComplete(numberOfConversations: 10, isInactiveConversation: false)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-delete-complete"))
+                }
+                it("contains chats deleted") {
+                    let param = sut.params!.stringKeyParams["chats-deleted"] as? Int
+                    expect(param) == 10
+                }
+                it("contains inactive conversations boolean") {
+                    let param = sut.params!.stringKeyParams["inactive-conversations"] as? Bool
+                    expect(param) == false
+                }
+            }
+            
+            describe("chat view inactive conversations") {
+                beforeEach {
+                    sut = TrackerEvent.chatViewInactiveConversations()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-view-inactive-conversations"))
+                }
+            }
+            
+            describe("chat inactive conversations shown") {
+                beforeEach {
+                    sut = TrackerEvent.chatInactiveConversationsShown()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-inactive-conversations-shown"))
                 }
             }
         }
