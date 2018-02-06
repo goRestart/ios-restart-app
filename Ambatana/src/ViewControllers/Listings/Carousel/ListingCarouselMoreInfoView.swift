@@ -151,7 +151,7 @@ class ListingCarouselMoreInfoView: UIView {
         // We need to call invalidateLayout in the CollectionView to fix what appears to be an iOS 10 UIKit bug:
         // https://stackoverflow.com/a/44467194
         tagCollectionView.collectionViewLayout.invalidateLayout()
-        mapView.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
+        mapView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
         dragView.layer.cornerRadius = dragView.height / 2.0
     }
 

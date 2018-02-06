@@ -29,6 +29,10 @@ class PostListingBasicDetailViewModel: BaseViewModel {
         guard !isFree.value else { return .free }
         return .normal(price.value.toPriceDouble())
     }
+    
+    var listingTitle: String? {
+        return title.value.isEmpty ? nil : title.value
+    }
 
     var listingDescription: String? {
         return description.value.isEmpty ? nil : description.value

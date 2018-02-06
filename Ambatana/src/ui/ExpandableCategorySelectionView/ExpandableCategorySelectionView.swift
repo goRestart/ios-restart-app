@@ -64,7 +64,12 @@ class ExpandableCategorySelectionView: UIView {
             guard let actionIndex = viewModel.categoriesAvailable.index(of: category) else { return }
             
             let button = UIButton(type: .custom)
-            button.setStyle(.primary(fontSize: .medium))
+            switch category.style {
+            case .redBackground:
+                button.setStyle(.primary(fontSize: .medium))
+            case .whiteBackground:
+                button.setStyle(.secondary(fontSize: .medium, withBorder: false))
+            }
             button.tag = actionIndex
             button.setImage(category.icon, for: .normal)
             button.setTitle(category.title, for: .normal)
@@ -171,40 +176,50 @@ class ExpandableCategorySelectionView: UIView {
     
     @objc fileprivate dynamic func closeButtonPressed() {
         shrink(animated: true)
-        viewModel.closeButtonDidPressed()
+        viewModel.closeButtonAction()
     }
 
     @objc fileprivate dynamic func buttonPressed(_ button: UIButton) {
         let buttonIndex = button.tag
         guard 0..<viewModel.categoriesAvailable.count ~= buttonIndex else { return }
         shrink(animated: true)
-        viewModel.categoryButtonDidPressed(listingCategory: viewModel.categoriesAvailable[buttonIndex])
+        viewModel.pressCategoryAction(category: viewModel.categoriesAvailable[buttonIndex])
     }
 }
 
-fileprivate extension ListingCategory {
+fileprivate extension ExpandableCategory {
     var title: String {
         switch self {
-        case .unassigned:
-            return LGLocalizedString.categoriesUnassignedItems
-        case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
-            return name
-        case .realEstate:
-            return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.productPostSelectCategoryRealEstate : LGLocalizedString.productPostSelectCategoryHousing
+            case .listingCategory(let listingCategory):
+            switch listingCategory {
+            case .unassigned:
+                return LGLocalizedString.categoriesUnassignedItems
+            case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+                return listingCategory.name
+            case .realEstate:
+                return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.productPostSelectCategoryRealEstate : LGLocalizedString.productPostSelectCategoryHousing
+            }
+        case .mostSearchedItems:
+            return LGLocalizedString.trendingItemsExpandableMenuButton
         }
     }
     var icon: UIImage? {
         switch self {
-        case .unassigned:
-            return #imageLiteral(resourceName: "items")
-        case .cars:
-            return #imageLiteral(resourceName: "carIcon")
-        case .motorsAndAccessories:
-            return #imageLiteral(resourceName: "motorsAndAccesories")
-        case .realEstate:
-            return #imageLiteral(resourceName: "housingIcon")
-        case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
-            return image
+        case .listingCategory(let listingCategory):
+            switch listingCategory {
+            case .unassigned:
+                return #imageLiteral(resourceName: "items")
+            case .cars:
+                return #imageLiteral(resourceName: "carIcon")
+            case .motorsAndAccessories:
+                return #imageLiteral(resourceName: "motorsAndAccesories")
+            case .realEstate:
+                return #imageLiteral(resourceName: "housingIcon")
+            case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+                return listingCategory.image
+            }
+        case .mostSearchedItems:
+            return UIImage(named: "trending_expandable")
         }
     }
 }

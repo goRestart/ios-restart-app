@@ -13,6 +13,7 @@ enum MostSearchedItemsSource {
     case userProfile
     case cameraBadge
     case card
+    case expandableMenu
 }
 
 class MostSearchedItemsListViewModel: BaseViewModel {
