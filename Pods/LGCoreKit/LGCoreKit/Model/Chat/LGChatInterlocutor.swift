@@ -99,9 +99,9 @@ struct LGChatInterlocutor: ChatInterlocutor, Decodable {
         } else {
             avatar = nil
         }
-        isBanned = try keyedContainer.decode(Bool.self, forKey: .isBanned)
-        isMuted = try keyedContainer.decode(Bool.self, forKey: .isMuted)
-        hasMutedYou = try keyedContainer.decode(Bool.self, forKey: .hasMutedYou)
+        isBanned = try keyedContainer.decodeIfPresent(Bool.self, forKey: .isBanned) ?? false
+        isMuted = try keyedContainer.decodeIfPresent(Bool.self, forKey: .isMuted) ?? false
+        hasMutedYou = try keyedContainer.decodeIfPresent(Bool.self, forKey: .hasMutedYou) ?? false
         status = try keyedContainer.decode(UserStatus.self, forKey: .status)
     }
     

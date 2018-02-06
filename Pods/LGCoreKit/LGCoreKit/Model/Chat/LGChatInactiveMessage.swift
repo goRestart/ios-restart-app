@@ -26,7 +26,6 @@ struct LGChatInactiveMessage: ChatInactiveMessage, Decodable {
      {
      "id": "5315c7eb-d4d3-4794-96c9-2558c32913a8",
      "talker_id": "194853ed-f553-47dc-9ccc-e57a41df110b",
-     "warnings": [],
      "sent_at": 1514579418571,
      "content": {
          "text": "Hi! I'd like to buy it",
@@ -42,7 +41,8 @@ struct LGChatInactiveMessage: ChatInactiveMessage, Decodable {
         talkerId = try keyedContainer.decode(String.self, forKey: .talkerId)
         let sentAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .sentAt)
         sentAt = Date.makeChatDate(millisecondsIntervalSince1970: sentAtValue)
-        warnings = (try keyedContainer.decode(FailableDecodableArray<ChatMessageWarning>.self, forKey: .warnings)).validElements
+        let warningsElements = try keyedContainer.decodeIfPresent(FailableDecodableArray<ChatMessageWarning>.self, forKey: .warnings)
+        warnings = warningsElements?.validElements ?? []
         content = try keyedContainer.decode(LGChatMessageContent.self, forKey: .content)
     }
 
