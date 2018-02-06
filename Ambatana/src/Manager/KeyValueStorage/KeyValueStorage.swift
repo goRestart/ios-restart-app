@@ -251,6 +251,18 @@ extension KeyValueStorageable {
             currentUserProperties = userProperties
         }
     }
+
+    var proSellerAlreadySentPhoneInChat: [String] {
+        get {
+            return currentUserProperties?.proSellerAlreadySentPhoneInChat ??
+                UserDefaultsUser.proSellerAlreadySentPhoneInChatDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.proSellerAlreadySentPhoneInChat = newValue
+            currentUserProperties = userProperties
+        }
+    }
 }
 
 
