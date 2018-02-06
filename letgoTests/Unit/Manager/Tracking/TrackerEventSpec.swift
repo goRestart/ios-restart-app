@@ -4142,7 +4142,7 @@ class TrackerEventSpec: QuickSpec {
             
             describe("empty state error") {
                 beforeEach {
-                    sut = TrackerEvent.emptyStateVisit(typePage: .chat, reason: .unknown, errorCode: 404)
+                    sut = TrackerEvent.emptyStateVisit(typePage: .chat, reason: .notFound, errorCode: 404)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("empty-state-error"))
@@ -4153,7 +4153,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains reason parameter") {
                     let param = sut.params!.stringKeyParams["reason"] as? String
-                    expect(param) == "unknown"
+                    expect(param) == "not-found"
                 }
                 it("contains error details parameter") {
                     let param = sut.params!.stringKeyParams["error-details"] as? String

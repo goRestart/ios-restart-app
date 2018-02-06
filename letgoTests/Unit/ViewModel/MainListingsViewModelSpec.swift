@@ -214,9 +214,9 @@ class MainListingsViewModelSpec: QuickSpec {
                         let eventNames = mockTracker.trackedEvents.flatMap { $0.name }
                         expect(eventNames) == [.emptyStateError]
                     }
-                    it("fires empty-state-error with .unknown") {
+                    it("fires empty-state-error with .tooManyRequests") {
                         let eventParams = mockTracker.trackedEvents.flatMap { $0.params }.first
-                        expect(eventParams?.stringKeyParams["reason"] as? String) == "unknown"
+                        expect(eventParams?.stringKeyParams["reason"] as? String) == "too-many-requests"
                     }
                 }
                 context("with internet connection error") {
