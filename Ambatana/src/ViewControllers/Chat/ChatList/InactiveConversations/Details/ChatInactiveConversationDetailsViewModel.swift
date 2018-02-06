@@ -81,7 +81,7 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
         super.didBecomeActive(firstTime)
         
         if firstTime {
-            //trackVisit()
+            tracker.trackEvent(TrackerEvent.chatInactiveConversationsShown())
         }
     }
     
@@ -128,6 +128,8 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
             self?.delete() { [weak self] success in
                 if success {
                     self?.isDeleted = true
+                    self?.tracker.trackEvent(TrackerEvent.chatDeleteComplete(numberOfConversations: 1,
+                                                                             isInactiveConversation: true))
                 }
                 let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
                 self?.delegate?.vmDidNotifyMessage(message) { [weak self] in

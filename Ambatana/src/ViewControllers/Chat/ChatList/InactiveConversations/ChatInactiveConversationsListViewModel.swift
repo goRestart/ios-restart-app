@@ -225,6 +225,10 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
                 strongSelf.delegate?.didFailArchivingChats()
             } else {
                 strongSelf.delegate?.didSucceedArchivingChats()
+                strongSelf.tracker.trackEvent(
+                    TrackerEvent.chatDeleteComplete(numberOfConversations: strongSelf.selectedConversationIds.value.count,
+                                                    isInactiveConversation: true)
+                )
             }
         }
     }
