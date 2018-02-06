@@ -74,7 +74,8 @@ class ExpandableCategorySelectionViewModel: BaseViewModel {
                                                 .listingCategory(listingCategory: .motorsAndAccessories),
                                                 .listingCategory(listingCategory: .cars)]
         if realEstateEnabled {
-            categories.insert(.listingCategory(listingCategory: .realEstate), at: categories.count-1)
+            let insertIndex = categories.count >= 1 ? 1 : 0
+            categories.insert(.listingCategory(listingCategory: .realEstate), at: insertIndex)
         }
         if trendingButtonEnabled {
             categories.insert(.mostSearchedItems, at: 0)
