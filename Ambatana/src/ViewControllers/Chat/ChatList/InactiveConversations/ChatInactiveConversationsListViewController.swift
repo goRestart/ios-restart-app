@@ -155,6 +155,12 @@ UITableViewDelegate  {
                 self?.updateUI()
             }
             .disposed(by: disposeBag)
+        
+        viewModel.rx_objectCount.asObservable()
+            .subscribeNext { [weak self] _ in
+                self?.updateUI()
+            }
+            .disposed(by: disposeBag)
 
         viewModel.editButtonText.asObservable()
             .subscribeNext { [weak self] text in
@@ -253,18 +259,6 @@ UITableViewDelegate  {
     }
     
     func didSucceedArchivingChats() {
-        dismissLoadingMessageAlert { [weak self] in
-            self?.setEditing(false, animated: true)
-        }
-    }
-    
-    func didFailUnarchivingChats() {
-        dismissLoadingMessageAlert { [weak self] in
-            self?.showAutoFadingOutMessageAlert(LGLocalizedString.chatListUnarchiveErrorMultiple)
-        }
-    }
-    
-    func didSucceedUnarchivingChats() {
         dismissLoadingMessageAlert { [weak self] in
             self?.setEditing(false, animated: true)
         }

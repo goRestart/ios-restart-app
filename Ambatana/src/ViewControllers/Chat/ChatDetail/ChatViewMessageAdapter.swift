@@ -51,7 +51,7 @@ class ChatViewMessageAdapter {
         switch message.type {
         case .offer:
             type = ChatViewMessageType.offer(text: message.text)
-        case .text, .quickAnswer, .expressChat, .favoritedListing, .phone:
+        case .text, .quickAnswer, .expressChat, .favoritedListing:
             type = ChatViewMessageType.text(text: message.text)
         case .sticker:
             if let sticker = stickersRepository.sticker(message.text) {
@@ -74,7 +74,7 @@ class ChatViewMessageAdapter {
         switch message.content.type {
         case .offer:
             type = ChatViewMessageType.offer(text: text)
-        case .text, .quickAnswer, .expressChat, .favoritedListing, .phone:
+        case .text, .quickAnswer, .expressChat, .favoritedListing:
             type = ChatViewMessageType.text(text: text)
         case .sticker:
             if let sticker = stickersRepository.sticker(text) {
@@ -82,6 +82,8 @@ class ChatViewMessageAdapter {
             } else {
                 type = ChatViewMessageType.text(text: text)
             }
+        case .phone:
+            type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(text))
         }
         return ChatViewMessage(objectId: message.objectId,
                                talkerId: message.talkerId,

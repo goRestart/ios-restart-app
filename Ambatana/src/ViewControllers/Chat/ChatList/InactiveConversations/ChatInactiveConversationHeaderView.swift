@@ -50,10 +50,13 @@ class ChatInactiveConversationHeaderView: UIView {
         label.font = UIFont.systemRegularFont(size: 12)
         label.textColor = UIColor.blackTextHighAlpha
         label.text = LGLocalizedString.chatInactiveConversationsExplanationLabel
-        label.numberOfLines = 2
+        label.numberOfLines = 3
         label.adjustsFontSizeToFitWidth = true
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         button.setStyle(.terciary)
+        button.titleLabel?.font = UIFont.systemMediumFont(size: 12)
+        button.titleLabel?.numberOfLines = 2
+        button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
     
     private func setupLayout() {
