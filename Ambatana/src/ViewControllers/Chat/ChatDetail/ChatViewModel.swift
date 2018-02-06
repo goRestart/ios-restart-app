@@ -201,7 +201,7 @@ class ChatViewModel: BaseViewModel {
 
     fileprivate var interlocutorEnabled: Bool {
         switch chatStatus.value {
-        case .forbidden, .userDeleted, .userPendingDelete:
+        case .forbidden, .userDeleted, .userPendingDelete, .inactiveConversation:
             return false
         case .available, .listingSold, .listingGivenAway, .listingDeleted, .blocked, .blockedBy:
             return true
@@ -985,10 +985,10 @@ extension ChatViewModel {
                 strongSelf.refreshChat()
                 strongSelf.chatStatus.value = strongSelf.recoverConversationChatStatusForUnblock()
                 switch strongSelf.chatStatus.value {
-                case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
+                case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted, .inactiveConversation:
                     strongSelf.chatEnabled.value = false
                 case .available, .listingSold, .listingGivenAway, .listingDeleted:
-                    strongSelf.chatEnabled.value =  true
+                    strongSelf.chatEnabled.value = true
                 }
             } else {
                 strongSelf.delegate?.vmDidNotifyMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
@@ -1089,7 +1089,7 @@ extension ChatViewModel {
         switch chatStatus.value {
         case .userDeleted, .userPendingDelete:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(conversation.value.interlocutor?.name)
-        case .available, .blocked, .blockedBy, .forbidden, .listingDeleted, .listingSold, .listingGivenAway:
+        case .available, .blocked, .blockedBy, .forbidden, .listingDeleted, .listingSold, .listingGivenAway, .inactiveConversation:
             return nil
         }
     }
@@ -1466,7 +1466,7 @@ fileprivate extension ChatConversation {
     
     var chatEnabled: Bool {
         switch chatStatus {
-        case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
+        case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted, .inactiveConversation:
             return false
         case .available, .listingSold, .listingDeleted, .listingGivenAway:
             return true
@@ -1477,7 +1477,7 @@ fileprivate extension ChatConversation {
         switch chatStatus {
         case .forbidden,  .userPendingDelete, .userDeleted, .listingDeleted, .listingSold, .listingGivenAway:
             return !amISelling
-        case .available, .blocked, .blockedBy:
+        case .available, .blocked, .blockedBy, .inactiveConversation:
             return false
         }
     }

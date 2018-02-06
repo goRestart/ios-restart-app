@@ -924,7 +924,7 @@ enum EventParameterRelatedShownReason: String {
         switch chatInfoStatus {
         case .forbidden:
             self = .forbidden
-        case .blocked, .blockedBy:
+        case .blocked, .blockedBy, .inactiveConversation:
             self = .unanswered48h
         case .listingDeleted:
             self = .listingDeleted

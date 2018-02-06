@@ -18,6 +18,7 @@ ChatInactiveConversationsViewModelDelegate {
     
     let viewModel: ChatInactiveConversationDetailsViewModel
     let listingView: ChatListingView
+    let relationInfoView = RelationInfoView.relationInfoView()
     let tableView = UITableView()
     var selectedCellIndexPath: IndexPath?
     
@@ -53,6 +54,7 @@ ChatInactiveConversationsViewModelDelegate {
     
     private func setupUI() {
         setupNavigationBar()
+        setupRelationInfoView()
         setupTableView()
     }
     
@@ -60,6 +62,18 @@ ChatInactiveConversationsViewModelDelegate {
         setupListingView()
         setNavBarTitleStyle(.custom(listingView))
         setLetGoRightButtonWith(imageName: "ic_more_options", selector: "optionsBtnPressed")
+    }
+    
+    private func setupRelationInfoView() {
+        relationInfoView.setupUIForStatus(.inactiveConversation, otherUserName: nil)
+        relationInfoView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(relationInfoView)
+        relationInfoView.layout(with: view).left().right()
+        if #available(iOS 11, *) {
+            relationInfoView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        } else {
+            relationInfoView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        }
     }
     
     private func setupTableView() {
@@ -74,12 +88,11 @@ ChatInactiveConversationsViewModelDelegate {
             tableView.contentInsetAdjustmentBehavior = .never
         }
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.layout(with: relationInfoView).top(to: .bottom)
         tableView.layout(with: view).left().right()
         if #available(iOS 11, *) {
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         } else {
-            tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         }
         if let patternBackground = UIColor.emptyViewBackgroundColor {
