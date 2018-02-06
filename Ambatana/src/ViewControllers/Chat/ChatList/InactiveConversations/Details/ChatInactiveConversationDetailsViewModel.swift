@@ -78,6 +78,7 @@ class ChatInactiveConversationDetailsViewModel: BaseViewModel {
             guard let strongSelf = self else { return nil }
             return strongSelf.chatViewMessageAdapter.adapt($0)
         }
+    }
     
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
