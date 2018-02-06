@@ -226,6 +226,7 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
             if let _ = result.error {
                 strongSelf.delegate?.didFailArchivingChats()
             } else {
+                strongSelf.deselectAllConversations()
                 strongSelf.delegate?.didSucceedArchivingChats()
                 strongSelf.tracker.trackEvent(
                     TrackerEvent.chatDeleteComplete(numberOfConversations: strongSelf.selectedConversationIds.value.count,
