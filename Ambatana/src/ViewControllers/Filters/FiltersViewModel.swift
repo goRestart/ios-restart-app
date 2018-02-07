@@ -239,7 +239,13 @@ class FiltersViewModel: BaseViewModel {
     }
     
     var filterRealEstateSections: [FilterRealEstateSection] {
-        return FilterRealEstateSection.allValues(postingFlowType: featureFlags.postingFlowType)
+        return FilterRealEstateSection.allValues(postingFlowType: postingFlowType)
+    }
+    
+    var postingFlowType: PostingFlowType {
+        guard let location = productFilter.place else { return featureFlags.postingFlowType }
+        guard let countryCode = location.postalAddress?.countryCode, let country = CountryCode(rawValue: countryCode.localizedLowercase) else { return featureFlags.postingFlowType }
+        return country == .turkey ? .turkish : .standard
     }
 
     fileprivate var productFilter : ListingFilters
@@ -326,7 +332,7 @@ class FiltersViewModel: BaseViewModel {
     }
     
     func propertyTypeButtonPressed() {
-        let attributeValues = RealEstatePropertyType.allValues(postingFlowType: featureFlags.postingFlowType)
+        let attributeValues = RealEstatePropertyType.allValues(postingFlowType: postingFlowType)
         let values = attributeValues.map { $0.localizedString }
         let vm = ListingAttributePickerViewModel(
             title: LGLocalizedString.realEstateTypePropertyTitle,
@@ -605,7 +611,7 @@ class FiltersViewModel: BaseViewModel {
     }
     
     var numberOfRealEstateRows: Int {
-        return featureFlags.postingFlowType == .standard ? 5 : 6
+        return postingFlowType == .standard ? 5 : 6
     }
     
     func setMinPrice(_ value: String?) {
@@ -666,9 +672,20 @@ class FiltersViewModel: BaseViewModel {
 
 extension FiltersViewModel: EditLocationDelegate {
     func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {
+        if productFilter.place?.postalAddress?.countryCode != place.postalAddress?.countryCode {
+            cleanRealEstateFilters()
+        }
         productFilter.place = place
         productFilter.distanceRadius = distanceRadius
         delegate?.vmDidUpdate()
+    }
+    
+    private func cleanRealEstateFilters(){
+        productFilter.realEstateNumberOfRooms = nil
+        productFilter.realEstateNumberOfBedrooms = nil
+        productFilter.realEstateNumberOfBathrooms = nil
+        productFilter.realEstateOfferType = nil
+        productFilter.realEstateSizeRange = nil
     }
 }
 
