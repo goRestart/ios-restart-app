@@ -13,13 +13,32 @@ import UIKit
 import RxSwift
 
 
-class ExpandableCategorySelectionView: UIView {
+class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , TagCollectionViewModelSelectionDelegate {
     
     static let distanceBetweenButtons: CGFloat = 10
+    static let multipleRowTagsCollectionViewHeightThreshold: CGFloat = 400
+    static let singleRowTagsCollectionViewHeight: CGFloat = 40
     
     fileprivate let viewModel: ExpandableCategorySelectionViewModel
     fileprivate var buttons: [UIButton] = []
     fileprivate var closeButton: UIButton = UIButton()
+    
+    fileprivate let tagCollectionViewModel: TagCollectionViewModel
+    fileprivate let tagsView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    fileprivate let titleTagsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        label.font = UIFont.systemSemiBoldFont(size: 13)
+        label.text = LGLocalizedString.trendingItemsExpandableMenuSubsetTitle
+        label.textAlignment = .center
+        return label
+    }()
+    fileprivate var tagCollectionView: TagCollectionView?
     
     fileprivate let buttonSpacing: CGFloat
     fileprivate let bottomDistance: CGFloat
@@ -29,6 +48,9 @@ class ExpandableCategorySelectionView: UIView {
     
     fileprivate var topConstraints: [NSLayoutConstraint] = []
     fileprivate let disposeBag: DisposeBag = DisposeBag()
+    fileprivate var canLayoutMultipleRowTagCollectionView: Bool {
+        return tagsView.height > ExpandableCategorySelectionView.multipleRowTagsCollectionViewHeightThreshold
+    }
     
     
     // MARK: - Lifecycle
@@ -38,8 +60,11 @@ class ExpandableCategorySelectionView: UIView {
         self.buttonSpacing = buttonSpacing
         self.bottomDistance = bottomDistance
         self.viewModel = viewModel
+        self.tagCollectionViewModel = TagCollectionViewModel(tags: viewModel.tags, cellStyle: .whiteBackground)
+        
         super.init(frame: frame)
         setupUI()
+        setupTagsView()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -86,8 +111,6 @@ class ExpandableCategorySelectionView: UIView {
             button.layout().height(buttonHeight)
             buttons.append(button)
         })
-        
-        
     }
 
     fileprivate func setupUI() {
@@ -111,6 +134,7 @@ class ExpandableCategorySelectionView: UIView {
         addButtons()
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOutside))
+        tapRecognizer.delegate = self
         addGestureRecognizer(tapRecognizer)
         setAccesibilityIds()
     }
@@ -151,6 +175,47 @@ class ExpandableCategorySelectionView: UIView {
         closeButton.accessibilityId = .expandableCategorySelectionCloseButton
     }
     
+    /// We choose the layout depending on the content size
+    private func collectionViewlayout() -> TagCollectionViewFlowLayout {
+        layoutIfNeeded()
+        
+        let flowLayout: TagCollectionViewFlowLayout
+        if canLayoutMultipleRowTagCollectionView {
+            flowLayout = TagCollectionViewFlowLayout.centerAligned
+        } else {
+            flowLayout = TagCollectionViewFlowLayout.singleRowWithScroll
+        }
+        return flowLayout
+    }
+    
+    fileprivate func setupTagsView() {
+        guard viewModel.tagsEnabled else { return }
+        tagCollectionViewModel.selectionDelegate = self
+
+        tagsView.addSubview(titleTagsLabel)
+        addSubview(tagsView)
+        
+        tagsView.layout(with: self).top().fillHorizontal()
+        if let highestButton = buttons.last {
+            tagsView.layout(with: highestButton).above(by: -Metrics.bigMargin)
+        }
+        titleTagsLabel.layout(with: tagsView).top(by: 40).fillHorizontal(by: Metrics.bigMargin)
+        titleTagsLabel.layout().height(15)
+
+        tagCollectionView = TagCollectionView(viewModel: tagCollectionViewModel, flowLayout: collectionViewlayout())
+        if let tagCollectionView = self.tagCollectionView {
+            tagsView.addSubview(tagCollectionView)
+            tagCollectionView.layout(with: tagsView).fillHorizontal()
+            if canLayoutMultipleRowTagCollectionView {
+                tagCollectionView.layout(with: titleTagsLabel).below(by: Metrics.bigMargin)
+                tagCollectionView.layout(with: tagsView).bottom(by: -Metrics.bigMargin)
+            } else {
+                tagCollectionView.layout(with: titleTagsLabel).below(by: Metrics.shortMargin)
+                tagCollectionView.layout().height(ExpandableCategorySelectionView.singleRowTagsCollectionViewHeight)
+            }
+        }
+    }
+    
     
     // MARK: - Actions
     
@@ -184,6 +249,24 @@ class ExpandableCategorySelectionView: UIView {
         guard 0..<viewModel.categoriesAvailable.count ~= buttonIndex else { return }
         shrink(animated: true)
         viewModel.pressCategoryAction(category: viewModel.categoriesAvailable[buttonIndex])
+    }
+    
+    
+    // MARK: - TapGestureRecognizerDelegate
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard let touchView = touch.view,
+            let tagCollectionView = tagCollectionView else { return true }
+        // Ignore touches explicitly in tagCollectionView cells
+        return touchView.isEqual(tagCollectionView) ||
+            !touchView.isDescendant(of: tagCollectionView)
+    }
+    
+    
+    // MARK: - TagCollectionViewModelSelectionDelegate
+    
+    func vm(_ vm: TagCollectionViewModel, didSelectTagAtIndex index: Int) {
+        viewModel.pressTagAtIndex(index)
     }
 }
 
