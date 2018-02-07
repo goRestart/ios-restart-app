@@ -13,7 +13,7 @@ protocol FilterRangePriceCellDelegate: class {
     func priceTextFieldValueChanged(_ value: String?, tag: Int)
 }
 
-enum TextFieldPriceType: Int {
+enum TextFieldNumberType: Int {
     case priceFrom = 0
     case priceTo = 1
     case sizeFrom = 2
@@ -94,8 +94,8 @@ class FilterRangePriceCell: UICollectionViewCell, ReusableCell, FilterCell {
         
         textFieldFrom.delegate = self
         textFieldTo.delegate = self
-        textFieldFrom.tag = TextFieldPriceType.priceFrom.rawValue
-        textFieldTo.tag = TextFieldPriceType.priceTo.rawValue
+        textFieldFrom.tag = TextFieldNumberType.priceFrom.rawValue
+        textFieldTo.tag = TextFieldNumberType.priceTo.rawValue
     }
     
     private func resetUI() {

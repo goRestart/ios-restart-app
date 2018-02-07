@@ -136,13 +136,13 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
 
     func priceTextFieldValueChanged(_ value: String?, tag: Int) {
         switch tag {
-        case TextFieldPriceType.priceFrom.rawValue:
+        case TextFieldNumberType.priceFrom.rawValue:
             viewModel.setMinPrice(value)
-        case TextFieldPriceType.priceTo.rawValue:
+        case TextFieldNumberType.priceTo.rawValue:
             viewModel.setMaxPrice(value)
-        case TextFieldPriceType.sizeFrom.rawValue:
+        case TextFieldNumberType.sizeFrom.rawValue:
             viewModel.setMinSize(value)
-        case TextFieldPriceType.sizeTo.rawValue:
+        case TextFieldNumberType.sizeTo.rawValue:
             viewModel.setMaxSize(value)
         default:
             break
@@ -358,7 +358,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 case .sizeFrom, .sizeTo:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterTextFieldIntCell.reusableID,
                                                                         for: indexPath) as? FilterTextFieldIntCell else { return UICollectionViewCell() }
-                    cell.tag = realEstateSection == .sizeFrom ? TextFieldPriceType.sizeFrom.rawValue : TextFieldPriceType.sizeTo.rawValue
+                    cell.tag = realEstateSection == .sizeFrom ? TextFieldNumberType.sizeFrom.rawValue : TextFieldNumberType.sizeTo.rawValue
                     cell.textField.placeholder = Constants.sizeSquareMetersUnit
                     cell.titleLabel.text = realEstateSection == .sizeFrom ? LGLocalizedString.filtersPriceFrom :
                         LGLocalizedString.filtersPriceTo
