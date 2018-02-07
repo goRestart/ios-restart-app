@@ -65,7 +65,6 @@ class FilterPriceCell: UICollectionViewCell, FilterCell, ReusableCell {
         NSLayoutConstraint.activate(constraints)
         
         textField.tintColor = UIColor.primaryColor
-        textField.placeholder = LGLocalizedString.filtersSectionPrice
         textField.delegate = self
         textField.textAlignment = .left
     }

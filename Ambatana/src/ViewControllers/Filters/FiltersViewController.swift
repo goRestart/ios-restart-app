@@ -399,14 +399,15 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.isUserInteractionEnabled = true
                     cell.titleLabel.isEnabled = true
                     cell.titleLabel.text = LGLocalizedString.realEstateRoomsTitle
-                    cell.subtitleLabel.text = viewModel.currentNumberOfBedroomsName ?? LGLocalizedString.filtersRealEstateBedroomsNotSet
+                    cell.subtitleLabel.text = viewModel.currentNumberOfRoomsName ?? LGLocalizedString.filtersRealEstateBedroomsNotSet
                     cell.topSeparator?.isHidden = false
                     return cell
                 case 4, 5:
-                    // price
+                    // size
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterPriceCell.reusableID,
                                                                         for: indexPath) as? FilterPriceCell else { return UICollectionViewCell() }
                     cell.tag = indexPath.row == 4 ? TextFieldPriceType.sizeFrom.rawValue : TextFieldPriceType.sizeTo.rawValue
+                    cell.textField.placeholder = Constants.sizeSquareMetersUnit
                     cell.titleLabel.text = indexPath.row == 4 ? LGLocalizedString.filtersPriceFrom :
                         LGLocalizedString.filtersPriceTo
                     cell.bottomSeparator?.isHidden =  false
@@ -539,8 +540,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 viewModel.selectOfferTypeAtIndex(indexPath.row - 1)
             case 3:
                 // bedrooms
-                viewModel.numberOfBedroomsPressed()
-            case 4:
+                viewModel.numberOfRoomsPressed()
+            case 4, 5:
                 // price
                 break
             default:

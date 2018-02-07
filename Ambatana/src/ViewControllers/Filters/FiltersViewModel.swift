@@ -358,6 +358,24 @@ class FiltersViewModel: BaseViewModel {
         navigator?.openListingAttributePicker(viewModel: vm)
     }
     
+    func numberOfRoomsPressed() {
+        let attributeValues = NumberOfRooms.allValues
+        let values = attributeValues.map { $0.localizedString }
+        let vm = ListingAttributePickerViewModel(
+            title: LGLocalizedString.realEstateRoomsTitle,
+            attributes: values,
+            selectedAttribute: productFilter.realEstateNumberOfRooms?.localizedString
+        ) { [weak self] selectedIndex in
+            if let selectedIndex = selectedIndex {
+                self?.productFilter.realEstateNumberOfRooms = attributeValues[selectedIndex]
+            } else {
+                self?.productFilter.realEstateNumberOfRooms = nil
+            }
+            self?.delegate?.vmDidUpdate()
+        }
+        navigator?.openListingAttributePicker(viewModel: vm)
+    }
+    
     func numberOfBathroomsPressed() {
         let attributeValues = NumberOfBathrooms.allValues
         let values = attributeValues.map { $0.localizedString }
