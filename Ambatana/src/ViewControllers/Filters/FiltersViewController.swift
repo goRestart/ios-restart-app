@@ -178,19 +178,16 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
         case .price:
             return CGSize(width: view.bounds.width, height: Layout.Height.prices)
-        case .realEstateInfoStandard:
-            if indexPath.item == 1 || indexPath.item == 2 {
+        case .realEstateInfo:
+            let filterRealEstateSection = viewModel.filterRealEstateSections[indexPath.item]
+            switch filterRealEstateSection {
+            case .propertyType, .numberOfBathrooms, .numberOfBedrooms, .numberOfRooms:
+                return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
+            case .offerTypeRent, .offerTypeSale:
                 return CGSize(width: view.bounds.width, height: Layout.Height.singleCheckWithMargin)
-            }
-            return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
-        case .realEstateInfoTurkish:
-            if indexPath.item == 1 || indexPath.item == 2 {
-                return CGSize(width: view.bounds.width, height: Layout.Height.singleCheckWithMargin)
-            }
-            if indexPath.item == 4 || indexPath.item == 5 {
+            case .sizeFrom, .sizeTo:
                 return CGSize(width: view.bounds.width * 0.5, height: Layout.Height.prices)
             }
-            return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
         }
     }
     
@@ -214,29 +211,25 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             return viewModel.numOfSortOptions
         case .price:
             return viewModel.numberOfPriceRows
-        case .realEstateInfoStandard:
+        case .realEstateInfo:
             return viewModel.numberOfRealEstateRows
-        case .realEstateInfoTurkish:
-            return viewModel.numberOfRealEstateTurkishRows
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
-        at indexPath: IndexPath) -> UICollectionReusableView {
-        
-            if (kind == UICollectionElementKindSectionHeader) {
-                let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
-                    withReuseIdentifier: FilterHeaderCell.reusableID, for: indexPath)
-                guard let headerCell = cell as? FilterHeaderCell else { return UICollectionReusableView() }
-                
-                let section = viewModel.sections[indexPath.section]
-                headerCell.topSeparator?.isHidden = indexPath.section == 0
-                headerCell.titleLabel.text = section.name
-                
-                return headerCell
-            }
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        if (kind == UICollectionElementKindSectionHeader) {
+            let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
+                                                                       withReuseIdentifier: FilterHeaderCell.reusableID, for: indexPath)
+            guard let headerCell = cell as? FilterHeaderCell else { return UICollectionReusableView() }
             
-            return UICollectionReusableView()
+            let section = viewModel.sections[indexPath.section]
+            headerCell.topSeparator?.isHidden = indexPath.section == 0
+            headerCell.titleLabel.text = section.name
+            
+            return headerCell
+        }
+        return UICollectionReusableView()
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
@@ -308,10 +301,10 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 default:
                     return UICollectionViewCell()
                 }
-            case .realEstateInfoStandard:
-                switch indexPath.item {
-                case 0:
-                    // propertyType
+            case .realEstateInfo:
+                let realEstateSection = viewModel.filterRealEstateSections[indexPath.item]
+                switch realEstateSection {
+                case .propertyType:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = true
@@ -319,8 +312,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.titleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
                     cell.subtitleLabel.text = viewModel.currentPropertyTypeName ?? LGLocalizedString.filtersRealEstatePropertyTypeNotSet
                     return cell
-                case 1:
-                    // For sale option
+                case .offerTypeSale:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
                                                                         for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
                     cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
@@ -329,8 +321,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.bottomSeparator.isHidden = true
                     cell.setMargin(top: true)
                     return cell
-                case 2:
-                    // For rent option
+                case .offerTypeRent:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
                                                                         for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
                     cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
@@ -339,8 +330,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.bottomSeparator.isHidden = false
                     cell.setMargin(bottom: true)
                     return cell
-                case 3:
-                    // Number of bedrooms
+                case .numberOfBedrooms:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = true
@@ -349,8 +339,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.subtitleLabel.text = viewModel.currentNumberOfBedroomsName ?? LGLocalizedString.filtersRealEstateBedroomsNotSet
                     cell.topSeparator?.isHidden = false
                     return cell
-                case 4:
-                    // Number of bathrooms
+                case .numberOfBathrooms:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = true
@@ -358,42 +347,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.titleLabel.text = LGLocalizedString.realEstateBathroomsTitle
                     cell.subtitleLabel.text = viewModel.currentNumberOfBathroomsName ?? LGLocalizedString.filtersRealEstateBathroomsNotSet
                     return cell
-                default:
-                    return UICollectionViewCell()
-                }
-            case .realEstateInfoTurkish:
-                switch indexPath.item {
-                case 0:
-                    // propertyType
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
-                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
-                    cell.isUserInteractionEnabled = true
-                    cell.titleLabel.isEnabled = true
-                    cell.titleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
-                    cell.subtitleLabel.text = viewModel.currentPropertyTypeName ?? LGLocalizedString.filtersRealEstatePropertyTypeNotSet
-                    return cell
-                case 1:
-                    // For sale option
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
-                                                                        for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
-                    cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
-                    cell.isSelected = viewModel.isOfferTypeSelectedAtIndex(indexPath.row - 1)
-                    cell.topSeparator.isHidden = false
-                    cell.bottomSeparator.isHidden = true
-                    cell.setMargin(top: true)
-                    return cell
-                case 2:
-                    // For rent option
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
-                                                                        for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
-                    cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
-                    cell.isSelected = viewModel.isOfferTypeSelectedAtIndex(indexPath.row - 1)
-                    cell.topSeparator.isHidden = false
-                    cell.bottomSeparator.isHidden = false
-                    cell.setMargin(bottom: true)
-                    return cell
-                case 3:
-                    // Number of rooms
+                case .numberOfRooms:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = true
@@ -402,19 +356,18 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.subtitleLabel.text = viewModel.currentNumberOfRoomsName ?? LGLocalizedString.filtersRealEstateBedroomsNotSet
                     cell.topSeparator?.isHidden = false
                     return cell
-                case 4, 5:
-                    // size
+                case .sizeFrom, .sizeTo:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterPriceCell.reusableID,
                                                                         for: indexPath) as? FilterPriceCell else { return UICollectionViewCell() }
-                    cell.tag = indexPath.row == 4 ? TextFieldPriceType.sizeFrom.rawValue : TextFieldPriceType.sizeTo.rawValue
+                    cell.tag = realEstateSection == .sizeFrom ? TextFieldPriceType.sizeFrom.rawValue : TextFieldPriceType.sizeTo.rawValue
                     cell.textField.placeholder = Constants.sizeSquareMetersUnit
-                    cell.titleLabel.text = indexPath.row == 4 ? LGLocalizedString.filtersPriceFrom :
+                    cell.titleLabel.text = realEstateSection == .sizeFrom ? LGLocalizedString.filtersPriceFrom :
                         LGLocalizedString.filtersPriceTo
                     cell.bottomSeparator?.isHidden =  false
                     cell.topSeparator?.isHidden =  false
-                    cell.textField.text = indexPath.row == 4 ? viewModel.minSizeString : viewModel.maxSizeString
+                    cell.textField.text = realEstateSection == .sizeFrom ? viewModel.minSizeString : viewModel.maxSizeString
                     cell.delegate = self
-                    if indexPath.row == 5 {
+                    if realEstateSection == .sizeTo {
                         priceToCellFrame = cell.frame
                     }
                     return cell
@@ -507,44 +460,19 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             default:
                 break
             }
-        case .realEstateInfoStandard:
-            switch indexPath.item {
-            case 0:
-                // propertyType
+        case .realEstateInfo:
+            switch viewModel.filterRealEstateSections[indexPath.item] {
+            case .propertyType:
                 viewModel.propertyTypeButtonPressed()
-            case 1:
-                // for sale
+            case .offerTypeRent, .offerTypeSale:
                 viewModel.selectOfferTypeAtIndex(indexPath.row - 1)
-            case 2:
-                // for rent
-                viewModel.selectOfferTypeAtIndex(indexPath.row - 1)
-            case 3:
-                // bedrooms
+            case .numberOfBedrooms:
                 viewModel.numberOfBedroomsPressed()
-            case 4:
-                // bathrooms
+            case .numberOfBathrooms:
                 viewModel.numberOfBathroomsPressed()
-            default:
-                break
-            }
-        case .realEstateInfoTurkish:
-            switch indexPath.item {
-            case 0:
-                // propertyType
-                viewModel.propertyTypeButtonPressed()
-            case 1:
-                // for sale
-                viewModel.selectOfferTypeAtIndex(indexPath.row - 1)
-            case 2:
-                // for rent
-                viewModel.selectOfferTypeAtIndex(indexPath.row - 1)
-            case 3:
-                // bedrooms
+            case .numberOfRooms:
                 viewModel.numberOfRoomsPressed()
-            case 4, 5:
-                // price
-                break
-            default:
+            case .sizeTo, .sizeFrom:
                 break
             }
         case .within:

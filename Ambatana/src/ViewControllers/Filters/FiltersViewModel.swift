@@ -237,6 +237,10 @@ class FiltersViewModel: BaseViewModel {
             return nil
         }
     }
+    
+    var filterRealEstateSections: [FilterRealEstateSection] {
+        return FilterRealEstateSection.allValues(postingFlowType: featureFlags.postingFlowType)
+    }
 
     fileprivate var productFilter : ListingFilters
     
@@ -282,8 +286,7 @@ class FiltersViewModel: BaseViewModel {
     // MARK: - Actions
 
     fileprivate func generateSections() -> [FilterSection] {
-        let updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive,
-                                                      postingFlowType: featureFlags.postingFlowType)
+        let updatedSections = FilterSection.allValues(priceAsLast: !featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive)
 
         return updatedSections.filter { $0 != .price ||  isPriceCellEnabled }
             .filter {$0 != .carsInfo ||  isCarsInfoCellEnabled }
@@ -602,11 +605,7 @@ class FiltersViewModel: BaseViewModel {
     }
     
     var numberOfRealEstateRows: Int {
-        return 5
-    }
-    
-    var numberOfRealEstateTurkishRows: Int {
-        return 6
+        return featureFlags.postingFlowType == .standard ? 5 : 6
     }
     
     func setMinPrice(_ value: String?) {

@@ -698,6 +698,8 @@
 		724D77AC1FC7085000DB43C0 /* ListingCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724D77AA1FC7085000DB43C0 /* ListingCreationViewController.swift */; };
 		724D77AE1FC709DE00DB43C0 /* ListingCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724D77AD1FC709DE00DB43C0 /* ListingCreationViewModel.swift */; };
 		724D77AF1FC709DE00DB43C0 /* ListingCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 724D77AD1FC709DE00DB43C0 /* ListingCreationViewModel.swift */; };
+		7265F459202B10EA00533FE7 /* FilterRealEstateSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7265F458202B10EA00533FE7 /* FilterRealEstateSection.swift */; };
+		7265F45A202B10EA00533FE7 /* FilterRealEstateSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7265F458202B10EA00533FE7 /* FilterRealEstateSection.swift */; };
 		726D50FF2007C12300C7DA2A /* realEstateBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 726D50FD2007C12200C7DA2A /* realEstateBanner.png */; };
 		726D51002007C12300C7DA2A /* realEstateBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 726D50FD2007C12200C7DA2A /* realEstateBanner.png */; };
 		726E35BD1FE0342100F98776 /* EditOptionDisclosureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726E35BC1FE0342100F98776 /* EditOptionDisclosureView.swift */; };
@@ -1955,6 +1957,7 @@
 		724D77A81FC3467700DB43C0 /* CarAttributes+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CarAttributes+LGSpec.swift"; sourceTree = "<group>"; };
 		724D77AA1FC7085000DB43C0 /* ListingCreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCreationViewController.swift; sourceTree = "<group>"; };
 		724D77AD1FC709DE00DB43C0 /* ListingCreationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingCreationViewModel.swift; sourceTree = "<group>"; };
+		7265F458202B10EA00533FE7 /* FilterRealEstateSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterRealEstateSection.swift; sourceTree = "<group>"; };
 		726D50FE2007C12300C7DA2A /* es */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = es; path = realEstateImageLocalized/es.lproj/realEstateBanner.png; sourceTree = "<group>"; };
 		726D51012007C13100C7DA2A /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = realEstateImageLocalized/en.lproj/realEstateBanner.png; sourceTree = "<group>"; };
 		726D51022007C13300C7DA2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = realEstateImageLocalized/Base.lproj/realEstateBanner.png; sourceTree = "<group>"; };
@@ -2952,6 +2955,7 @@
 				50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */,
 				C7363FB91BFA3E6500A4BF6F /* DistanceType+LG.swift */,
 				C780281C1BF0FB64002B26C5 /* FilterSection.swift */,
+				7265F458202B10EA00533FE7 /* FilterRealEstateSection.swift */,
 				C7BAC9CC1E49E81E005BD0AF /* Listing+LG.swift */,
 				72C7A1C21FA73AC80089F175 /* ListingPrice+LG.swift */,
 				C7239A191C158139006CB5A6 /* Listing+Negotiable.swift */,
@@ -5651,6 +5655,7 @@
 				50146BDC1D4F90F100B0F635 /* MainTabNavigator.swift in Sources */,
 				50D4C3221F8CBF39000E8069 /* SuggestiveSearch+LG.swift in Sources */,
 				50CBCD5F1BF0BB8F00A329BB /* CollectionViewFooter.swift in Sources */,
+				7265F459202B10EA00533FE7 /* FilterRealEstateSection.swift in Sources */,
 				0A0CD7F81FD97FBB00B0BACF /* FilterCell.swift in Sources */,
 				8E814F391F3472C000C88432 /* LGSlider.swift in Sources */,
 				50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */,
@@ -6207,6 +6212,7 @@
 				2E75EC4A1FA0959A00C5F48F /* FeaturedInfoViewController.swift in Sources */,
 				C7B5882C1CE1DE1C009B3975 /* BlockedUsersListViewModel.swift in Sources */,
 				50D4C3231F8CBF39000E8069 /* SuggestiveSearch+LG.swift in Sources */,
+				7265F45A202B10EA00533FE7 /* FilterRealEstateSection.swift in Sources */,
 				2E373FB01D3E6F5100AC811C /* UserRatingListViewModel.swift in Sources */,
 				0A0CD7F91FD9806C00B0BACF /* FilterCell.swift in Sources */,
 				8E814F3A1F3472C000C88432 /* LGSlider.swift in Sources */,
