@@ -72,6 +72,11 @@ class TabBarViewModel: BaseViewModel {
         }
     }
     
+    func tagPressed(mostSearchedItem: LocalMostSearchedItem) {
+        navigator?.openSell(source: .mostSearchedItems,
+                            postCategory: mostSearchedItem.category,
+                            listingTitle: mostSearchedItem.name)
+    }
     
     func realEstateTooltipText() -> NSMutableAttributedString {
         var newTextAttributes = [NSAttributedStringKey : Any]()

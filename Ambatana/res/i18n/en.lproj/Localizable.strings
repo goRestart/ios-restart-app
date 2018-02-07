@@ -2995,3 +2995,6 @@
 
 // Subwoofer title
 "trending_item_subwoofer" = "subwoofer";
+
+// Title for subset of most trending items in expandable menu
+"trending_items_expandable_menu_subset_title" = "MOST IN-DEMAND ITEMS";
