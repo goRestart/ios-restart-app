@@ -5,7 +5,7 @@ protocol TagCollectionViewModelDelegate: class {
 }
 
 protocol TagCollectionViewModelSelectionDelegate: class {
-    func vmDidSelect(tagAtIndex index: Int)
+    func vmDidSelect(_ vm: TagCollectionViewModel, tagAtIndex index: Int)
 }
 
 class TagCollectionViewModel: NSObject {
@@ -22,6 +22,7 @@ class TagCollectionViewModel: NSObject {
         self.delegate = delegate
         self.tags = tags
         self.cellStyle = cellStyle
+        register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.reusableID)
     }
 }
 
