@@ -42,8 +42,6 @@ class MostSearchedItemsUserHeader: UIView {
     // MARK: - UI
     
     private func setupUI() {
-        //backgroundColor = .clear
-        
         trendingImageView.image = UIImage(named: "trending_icon")
         trendingImageView.contentMode = .scaleAspectFit
         addSubview(trendingImageView)
