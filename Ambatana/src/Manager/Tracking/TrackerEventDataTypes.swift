@@ -89,6 +89,9 @@ enum EventName: String {
     case userMessageSentError               = "user-sent-message-error"
     case chatRelatedItemsStart              = "chat-related-items-start"
     case chatRelatedItemsComplete           = "chat-related-items-complete"
+    case chatDeleteComplete                 = "chat-delete-complete"
+    case chatViewInactiveConversations      = "chat-view-inactive-conversations"
+    case chatInactiveConversationsShown     = "chat-inactive-conversations-shown"
 
     case profileVisit                       = "profile-visit"
     case profileEditStart                   = "profile-edit-start"
@@ -342,6 +345,8 @@ enum EventParameterName: String {
     case sqrMeters            = "sqr-meters"
     case rooms                = "rooms-number"
     case openField            = "open-field"
+    case chatsDeleted         = "chats-deleted"
+    case inactiveConversations = "inactive-conversations"
     case mostSearchedButton   = "most-searched-button"
 }
 
@@ -921,7 +926,7 @@ enum EventParameterRelatedShownReason: String {
         switch chatInfoStatus {
         case .forbidden:
             self = .forbidden
-        case .blocked, .blockedBy:
+        case .blocked, .blockedBy, .inactiveConversation:
             self = .unanswered48h
         case .listingDeleted:
             self = .listingDeleted

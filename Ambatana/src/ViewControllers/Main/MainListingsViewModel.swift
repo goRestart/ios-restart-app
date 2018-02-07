@@ -893,11 +893,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                            rootViewController: adsDelegate.rootViewControllerForAds(),
                                            adPosition: lastAdPosition,
                                            bannerHeight: LGUIKitConstants.advertisementCellPlaceholderHeight,
-                                           delegate: self.listViewModel,
                                            adRequest: request,
                                            bannerView: nil,
                                            showAdsInFeedWithRatio: featureFlags.showAdsInFeedWithRatio,
-                                           categories: filters.selectedCategories)
+                                           categories: filters.selectedCategories,
+                                           adRequested: false)
 
             let adsCellModel = ListingCellModel.advertisement(data: adData)
             cellModels.insert(adsCellModel, at: adRelativePosition)

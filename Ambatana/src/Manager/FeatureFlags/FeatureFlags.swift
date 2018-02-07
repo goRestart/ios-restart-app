@@ -54,8 +54,8 @@ protocol FeatureFlaggeable: class {
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
-    
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
+    var showInactiveConversations: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -100,7 +100,7 @@ extension PromoteBumpUpAfterSell {
 }
 
 extension AllowCallsForProfessionals {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { get { return self == .control || self == .baseline } }
 }
 
 extension ShowSecurityMeetingChatMessage {
@@ -431,6 +431,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.dummyUsersInfoProfile
         }
         return DummyUsersInfoProfile.fromPosition(abTests.dummyUsersInfoProfile.value)
+    }
+    
+    var showInactiveConversations: Bool {
+        if Bumper.enabled {
+            return Bumper.showInactiveConversations
+        }
+        return abTests.showInactiveConversations.value
     }
     
 
