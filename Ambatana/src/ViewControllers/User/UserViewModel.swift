@@ -70,6 +70,9 @@ class UserViewModel: BaseViewModel {
     let userLocation = Variable<String?>(nil)
     let userAccounts = Variable<UserViewHeaderAccounts?>(nil)
     let pushPermissionsDisabledWarning = Variable<Bool?>(nil)
+    var isMostSearchedItemsEnabled: Bool {
+        return featureFlags.mostSearchedDemandedItems.isActive
+    }
     
     let listingListViewModel: Variable<ListingListViewModel>
     
@@ -352,6 +355,10 @@ extension UserViewModel {
                                        text: LGLocalizedString.profilePermissionsAlertMessage,
                                        alertType: .iconAlert(icon: UIImage(named: "custom_permission_profile")),
                                        actions: [negative, positive])
+    }
+    
+    func openMostSearchedItems() {
+        navigator?.openMostSearchedItems(source: .userProfile, enableSearch: false)
     }
 }
 

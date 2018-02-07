@@ -112,8 +112,7 @@
     },
     {
         "name": "MostSearchedDemandedItems",
-        "values": ["control", "baseline", "cameraBadge", "trendingButtonExpandableMenu", "subsetAboveExpandableMenu",
-                   "subsetInsideExpandableMenu"],
+        "values": ["control", "baseline", "cameraBadge", "trendingButtonExpandableMenu", "subsetAboveExpandableMenu"],
         "description": "Display a list of top seller items that inspire users to post new items"
     },
     {

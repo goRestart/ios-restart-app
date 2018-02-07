@@ -50,7 +50,7 @@ enum CategoryHeaderElement {
         case .showMore:
             return #imageLiteral(resourceName: "showMore")
         case .mostSearchedItems:
-            return #imageLiteral(resourceName: "trending_feed")
+            return #imageLiteral(resourceName: "trending_icon")
         }
     }
     

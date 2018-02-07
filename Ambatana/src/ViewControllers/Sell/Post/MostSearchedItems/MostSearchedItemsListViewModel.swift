@@ -6,27 +6,35 @@
 //  Copyright © 2018 Ambatana. All rights reserved.
 //
 
-import Foundation
+import LGCoreKit
 
 class MostSearchedItemsListViewModel: BaseViewModel {
     
     weak var navigator: MostSearchedItemsNavigator?
     let isSearchEnabled: Bool
-    
+    fileprivate let locationManager: LocationManager
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let keyValueStorage: KeyValueStorage
     fileprivate let postingSource: PostingSource
     
     let mostSearchedItems: [LocalMostSearchedItem]
+    var titleString: String {
+        if let city = locationManager.currentLocation?.postalAddress?.city {
+            return LGLocalizedString.trendingItemsViewTitle(city)
+        } else {
+            return LGLocalizedString.trendingItemsViewTitleNoLocation
+        }
+    }
     
     
     // MARK: - Lifecycle
     
-    convenience init(isSearchEnabled: Bool, postingSource: PostingSource) {
+    convenience init(isSearchEnabled: Bool, locationManager: LocationManager, postingSource: PostingSource) {
         self.init(featureFlags: FeatureFlags.sharedInstance,
                   notificationsManager: LGNotificationsManager.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   isSearchEnabled: isSearchEnabled,
+                  locationManager: locationManager,
                   postingSource: postingSource)
     }
     
@@ -34,10 +42,12 @@ class MostSearchedItemsListViewModel: BaseViewModel {
          notificationsManager: NotificationsManager,
          keyValueStorage: KeyValueStorage,
          isSearchEnabled: Bool,
+         locationManager: LocationManager,
          postingSource: PostingSource) {
         self.featureFlags = featureFlags
         self.keyValueStorage = keyValueStorage
         self.isSearchEnabled = isSearchEnabled
+        self.locationManager = locationManager
         self.postingSource = postingSource
         mostSearchedItems = LocalMostSearchedItem.allValues
         super.init()

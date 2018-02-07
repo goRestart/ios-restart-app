@@ -535,9 +535,9 @@ enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
 }
 
 enum MostSearchedDemandedItems: String, BumperFeature  {
-    case control, baseline, cameraBadge, trendingButtonExpandableMenu, subsetAboveExpandableMenu, subsetInsideExpandableMenu
+    case control, baseline, cameraBadge, trendingButtonExpandableMenu, subsetAboveExpandableMenu
     static var defaultValue: String { return MostSearchedDemandedItems.control.rawValue }
-    static var enumValues: [MostSearchedDemandedItems] { return [.control, .baseline, .cameraBadge, .trendingButtonExpandableMenu, .subsetAboveExpandableMenu, .subsetInsideExpandableMenu]}
+    static var enumValues: [MostSearchedDemandedItems] { return [.control, .baseline, .cameraBadge, .trendingButtonExpandableMenu, .subsetAboveExpandableMenu]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Display a list of top seller items that inspire users to post new items" } 
     static func fromPosition(_ position: Int) -> MostSearchedDemandedItems {
@@ -547,7 +547,6 @@ enum MostSearchedDemandedItems: String, BumperFeature  {
             case 2: return .cameraBadge
             case 3: return .trendingButtonExpandableMenu
             case 4: return .subsetAboveExpandableMenu
-            case 5: return .subsetInsideExpandableMenu
             default: return .control
         }
     }
