@@ -2261,7 +2261,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains notApply mostSearchedButton param") {
                     let mostSearchedButton = sut.params!.stringKeyParams["most-searched-button"] as? String
-                    expect(mostSearchedButton).to(equal("NA"))
+                    expect(mostSearchedButton).to(equal(EventParameterMostSearched.notApply.rawValue))
                 }
                 describe("listingSellStart mostSearchedButton") {
                     let eventParameterMostSearched = EventParameterMostSearched.makeMock()
