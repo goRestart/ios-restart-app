@@ -56,16 +56,10 @@ class MostSearchedItemsListHeader: UITableViewHeaderFooterView, ReusableCell {
     }
     
     private func setupConstraints() {
-        //translatesAutoresizingMaskIntoConstraints = false
-        //contentView.translatesAutoresizingMaskIntoConstraints = false
-        
-        //contentView.layout(with: self).fill()
-        
         let containerSubviews = [titleLabel, descriptionLabel, subtitleView]
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: containerSubviews)
         contentView.addSubviews(containerSubviews)
     
-        
         let subtitleViews = [subtitleImageView, subtitleLabel]
         subtitleView.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subtitleViews)
         subtitleView.addSubviews(subtitleViews)
