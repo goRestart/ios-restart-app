@@ -137,17 +137,26 @@ class MainListingsViewModel: BaseViewModel {
             }
         }
         
-        if let propertyType = filters.realEstatePropertyType {
-            resultTags.append(.realEstatePropertyType(propertyType))
-        }
-        if let offerType = filters.realEstateOfferType {
-            resultTags.append(.realEstateOfferType(offerType))
-        }
-        if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
-            resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
-        }
-        if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
-            resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
+        if filters.selectedCategories.contains(.realEstate) {
+            if let propertyType = filters.realEstatePropertyType {
+                resultTags.append(.realEstatePropertyType(propertyType))
+            }
+            if let offerType = filters.realEstateOfferType {
+                resultTags.append(.realEstateOfferType(offerType))
+            }
+            
+            if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
+                resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
+            }
+            if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
+                resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
+            }
+            if let numberOfRooms = filters.realEstateNumberOfRooms {
+                resultTags.append(.realEstateNumberOfRooms(numberOfRooms))
+            }
+            if filters.realEstateSizeRange?.min != nil || filters.realEstateSizeRange?.max != nil {
+                resultTags.append(.sizeSquareMetersRange(from: filters.realEstateSizeRange?.min, to: filters.realEstateSizeRange?.max))
+            }
         }
 
         return resultTags
@@ -513,6 +522,9 @@ class MainListingsViewModel: BaseViewModel {
         filters.realEstateOfferType = realEstateOfferType
         filters.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
         filters.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
+        
+        filters.realEstateNumberOfRooms = realEstateNumberOfRooms
+        filters.realEstateSizeRange = SizeRange(min: realEstateSizeSquareMetersMin, max: realEstateSizeSquareMetersMax)
         
         updateCategoriesHeader()
         updateRealEstateBanner()
