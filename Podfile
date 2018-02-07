@@ -34,7 +34,7 @@ def shared_pods
     pod "NewRelicAgent",        "6.1.0"     # Obj-c
 
     # letgo Core
-    pod "LGCoreKit",             "4.7.0"
+    pod "LGCoreKit",             "4.7.1"
 #   pod "LGCoreKit",            :path => "../lgcorekit"
 #   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '4e854b4b09d6cd21c31e70581000765da2114829'
 
