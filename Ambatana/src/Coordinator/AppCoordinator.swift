@@ -215,7 +215,9 @@ extension AppCoordinator: AppNavigator {
     func openSell(source: PostingSource, postCategory: PostCategory?, listingTitle: String?) {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
-        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .mostSearchedItems, .realEstatePromo:
+        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .realEstatePromo,
+             .mostSearchedTabBarCamera, .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable,
+             .mostSearchedCategoryHeader, .mostSearchedCard:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera:
             forcedInitialTab = .camera
@@ -229,7 +231,7 @@ extension AppCoordinator: AppNavigator {
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
     
-    func openMostSearchedItems(source: MostSearchedItemsSource, enableSearch: Bool) {
+    func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {
         let mostSearchedItemsCoordinator = MostSearchedItemsCoordinator(source: source, enableSearch: enableSearch)
         mostSearchedItemsCoordinator.delegate = self
         openChild(coordinator: mostSearchedItemsCoordinator,
@@ -585,7 +587,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
                 let shouldOpenMostSearchedItems = featureFlags.mostSearchedDemandedItems == .cameraBadge &&
                     !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
                 if shouldOpenMostSearchedItems {
-                    openMostSearchedItems(source: .cameraBadge, enableSearch: false)
+                    openMostSearchedItems(source: .mostSearchedTabBarCamera, enableSearch: false)
                 } else {
                     openSell(source: .tabBar, postCategory: nil, listingTitle: nil)
                 }
@@ -1041,7 +1043,7 @@ extension AppCoordinator: PromoteBumpCoordinatorDelegate {
 
 extension AppCoordinator: MostSearchedItemsCoordinatorDelegate {
     func openSell(source: PostingSource, mostSearchedItem: LocalMostSearchedItem) {
-        openSell(source: .mostSearchedItems,
+        openSell(source: source,
                  postCategory: mostSearchedItem.category,
                  listingTitle: mostSearchedItem.name)
     }

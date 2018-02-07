@@ -342,6 +342,7 @@ enum EventParameterName: String {
     case sqrMeters            = "sqr-meters"
     case rooms                = "rooms-number"
     case openField            = "open-field"
+    case mostSearchedButton   = "most-searched-button"
 }
 
 enum EventParameterBoolean: String {
@@ -1128,6 +1129,15 @@ enum EventParameterOptionSummary: String {
             self = .year
         }
     }
+}
+
+enum EventParameterMostSearched: String {
+    case notApply                   = "NA"
+    case tabBarCamera               = "tabbar-camera"
+    case trendingExpandableButton   = "trending-salchicha"
+    case postingTags                = "posting-tags"
+    case feedBubble                 = "feed-bubble"
+    case feedCard                   = "feed-card"
 }
 
 struct EventParameters {

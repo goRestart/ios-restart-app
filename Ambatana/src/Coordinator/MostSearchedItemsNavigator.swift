@@ -8,7 +8,7 @@
 
 protocol MostSearchedItemsNavigator: class {
     func cancel()
-    func openSell(mostSearchedItem: LocalMostSearchedItem)
+    func openSell(mostSearchedItem: LocalMostSearchedItem, source: PostingSource)
     func openSearchFor(listingTitle: String)
 }
 

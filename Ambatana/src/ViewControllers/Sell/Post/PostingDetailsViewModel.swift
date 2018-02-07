@@ -240,7 +240,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                 let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                            sellButtonPosition: postingSource.sellButtonPosition,
                                                            imageSource: uploadedImageSource,
-                                                           price: String.fromPriceDouble(postListingState.price?.value ?? 0))
+                                                           price: String.fromPriceDouble(postListingState.price?.value ?? 0),
+                                                           typePage: postingSource.typePage,
+                                                           mostSearchedButton: postingSource.mostSearchedButton)
                 navigator?.closePostProductAndPostInBackground(params: listingParams,
                                                                trackingInfo: trackingInfo)
             } else {
@@ -262,8 +264,12 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     private  func postListing(buttonNameType: EventParameterButtonNameType) {
-        let trackingInfo = PostListingTrackingInfo(buttonName: buttonNameType, sellButtonPosition: postingSource.sellButtonPosition,
-                                                   imageSource: uploadedImageSource, price: String.fromPriceDouble(postListingState.price?.value ?? 0))
+        let trackingInfo = PostListingTrackingInfo(buttonName: buttonNameType,
+                                                   sellButtonPosition: postingSource.sellButtonPosition,
+                                                   imageSource: uploadedImageSource,
+                                                   price: String.fromPriceDouble(postListingState.price?.value ?? 0),
+                                                   typePage: postingSource.typePage,
+                                                   mostSearchedButton: postingSource.mostSearchedButton)
         if sessionManager.loggedIn {
             openListingPosting(trackingInfo: trackingInfo)
         } else if let images = postListingState.pendingToUploadImages {
