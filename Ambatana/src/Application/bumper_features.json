@@ -112,7 +112,7 @@
     },
     {
         "name": "AllowCallsForProfessionals",
-        "values": ["control", "baseline", "active"],
+        "values": ["control", "baseline", "inactive"],
         "description": "Users can call professional sellers"
     },
     {
