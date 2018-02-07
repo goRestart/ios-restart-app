@@ -979,6 +979,7 @@
 "trending_items_view_number_of_searches_item" = "%@ searches";
 "trending_items_view_number_of_searches_title" = "Κορυφαίες αναζητήσεις αυτήν την εβδομάδα";
 "trending_items_view_post_button" = "Δημοσίευση";
+"trending_items_view_search_button" = "Search";
 "trending_items_view_subtitle" = "Δημοσιεύστε ένα από αυτά και κερδίστε χρήματα σε λιγότερο από μια εβδομάδα";
 "trending_items_view_title" = "Τα πιο δημοφιλή αντικείμενα σε %@";
 "trending_items_view_title_no_location" = "Δημοφιλέστερα αντικείμενα";

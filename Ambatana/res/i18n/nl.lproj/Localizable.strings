@@ -979,6 +979,7 @@
 "trending_items_view_number_of_searches_item" = "%@ zoekopdrachten";
 "trending_items_view_number_of_searches_title" = "Top zoekopdrachten van deze week";
 "trending_items_view_post_button" = "Plaats";
+"trending_items_view_search_button" = "Search";
 "trending_items_view_subtitle" = "Plaats een van deze en verdien binnen een week geld";
 "trending_items_view_title" = "Meest populaire items in %@";
 "trending_items_view_title_no_location" = "Meest populaire items";

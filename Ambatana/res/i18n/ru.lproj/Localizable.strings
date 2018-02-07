@@ -979,6 +979,7 @@
 "trending_items_view_number_of_searches_item" = "%@ поисков";
 "trending_items_view_number_of_searches_title" = "Поиски недели";
 "trending_items_view_post_button" = "Разместить";
+"trending_items_view_search_button" = "Search";
 "trending_items_view_subtitle" = "Разместите один из них и получите деньги меньше чем за неделю";
 "trending_items_view_title" = "Самые популярные товары в %@";
 "trending_items_view_title_no_location" = "Самые популярные товары";

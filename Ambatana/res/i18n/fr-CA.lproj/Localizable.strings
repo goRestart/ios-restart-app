@@ -979,6 +979,7 @@
 "trending_items_view_number_of_searches_item" = "%@ searches";
 "trending_items_view_number_of_searches_title" = "Les plus recherchés de la semaine";
 "trending_items_view_post_button" = "Publier";
+"trending_items_view_search_button" = "Search";
 "trending_items_view_subtitle" = "Publiez l'un d'entre eux et gagnez de l'argent en moins d'une semaine";
 "trending_items_view_title" = "Produits les plus populaires en %@";
 "trending_items_view_title_no_location" = "Articles les plus populaires";

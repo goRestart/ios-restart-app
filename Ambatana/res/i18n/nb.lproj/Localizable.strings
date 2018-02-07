@@ -979,6 +979,7 @@
 "trending_items_view_number_of_searches_item" = "%@ searches";
 "trending_items_view_number_of_searches_title" = "Søkeord denne uken";
 "trending_items_view_post_button" = "Publiser";
+"trending_items_view_search_button" = "Search";
 "trending_items_view_subtitle" = "Publiser en av disse og tjen penger i løpet av en uke";
 "trending_items_view_title" = "Mest populære produktene i %@";
 "trending_items_view_title_no_location" = "Most popular items";

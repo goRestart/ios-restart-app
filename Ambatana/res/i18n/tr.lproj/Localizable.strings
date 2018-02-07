@@ -979,6 +979,7 @@
 "trending_items_view_number_of_searches_item" = "%@ searches";
 "trending_items_view_number_of_searches_title" = "Bu haftanın en çok arananları";
 "trending_items_view_post_button" = "Yayınla";
+"trending_items_view_search_button" = "Search";
 "trending_items_view_subtitle" = "Bunlardan birini yayınla ve bir haftada para kazan";
 "trending_items_view_title" = "%@ konumunda en çok beğenilen ilanlar";
 "trending_items_view_title_no_location" = "En çok beğenilenler";

@@ -328,6 +328,7 @@ extension TabBarController: ExpandableCategorySelectionDelegate {
     }
     
     func didPressTag(_ tag: LocalMostSearchedItem) {
+        floatingSellButton.showWithAnimation()
         viewModel.tagPressed(mostSearchedItem: tag)
     }
 }

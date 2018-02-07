@@ -979,6 +979,7 @@
 "trending_items_view_number_of_searches_item" = "%@ 검색";
 "trending_items_view_number_of_searches_title" = "이번 주 검색하기";
 "trending_items_view_post_button" = "게시";
+"trending_items_view_search_button" = "Search";
 "trending_items_view_subtitle" = "이 중 한개를 게시하고 일주일 내에 수익을 얻어보세요";
 "trending_items_view_title" = "%@에서 가장 인기있는 상품";
 "trending_items_view_title_no_location" = "가장 인기 있는 상품";

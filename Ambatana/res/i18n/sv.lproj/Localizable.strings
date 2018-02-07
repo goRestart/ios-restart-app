@@ -979,6 +979,7 @@
 "trending_items_view_number_of_searches_item" = "%@ sökningar";
 "trending_items_view_number_of_searches_title" = "Sökningar denna vecka";
 "trending_items_view_post_button" = "Publicera";
+"trending_items_view_search_button" = "Search";
 "trending_items_view_subtitle" = "Lägg upp en av dessa och tjäna pengar inom en vecka";
 "trending_items_view_title" = "Populäraste prylar i %@";
 "trending_items_view_title_no_location" = "Populäraste prylar";

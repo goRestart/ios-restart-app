@@ -979,6 +979,7 @@
 "trending_items_view_number_of_searches_item" = "%@ searches";
 "trending_items_view_number_of_searches_title" = "Eheti keresések";
 "trending_items_view_post_button" = "Hirdetek";
+"trending_items_view_search_button" = "Search";
 "trending_items_view_subtitle" = "Hirdess meg egy ilyet, és egy hét alatt eladhatod";
 "trending_items_view_title" = "Legnépszerűbb hirdetések: %@";
 "trending_items_view_title_no_location" = "Most popular items";

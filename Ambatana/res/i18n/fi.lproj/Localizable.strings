@@ -979,6 +979,7 @@
 "trending_items_view_number_of_searches_item" = "%@ hakua";
 "trending_items_view_number_of_searches_title" = "Tämän viikon suosituimmat haut";
 "trending_items_view_post_button" = "Julkaise";
+"trending_items_view_search_button" = "Search";
 "trending_items_view_subtitle" = "Julkaise joku näistä ja tienaa rahaa alle viikossa";
 "trending_items_view_title" = "Suosituimmat kohteet: %@";
 "trending_items_view_title_no_location" = "Suosituimmat kohteet";
