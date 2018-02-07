@@ -2234,8 +2234,11 @@ class TrackerEventSpec: QuickSpec {
 
             describe("listingSellStart") {
                 beforeEach {
-                    sut = TrackerEvent.listingSellStart(.sell, buttonName: .sellYourStuff,
-                        sellButtonPosition: .tabBar, category: .cars)
+                    sut = TrackerEvent.listingSellStart(.sell,
+                                                        buttonName: .sellYourStuff,
+                                                        sellButtonPosition: .tabBar,
+                                                        category: .cars,
+                                                        mostSearchedButton: .notApply)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-start"))
@@ -2255,6 +2258,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains category id param") {
                     let name = sut.params!.stringKeyParams["category-id"] as? Int
                     expect(name).to(equal(9))
+                }
+                it("contains notApply mostSearchedButton param") {
+                    let mostSearchedButton = sut.params!.stringKeyParams["most-searched-button"] as? String
+                    expect(mostSearchedButton).to(equal("NA"))
                 }
             }
 
@@ -2289,9 +2296,14 @@ class TrackerEventSpec: QuickSpec {
                     product.price = .normal(20)
                     product.images = MockFile.makeMocks(count: 2)
                     product.descr = String.makeRandom()
-                    sut = TrackerEvent.listingSellComplete(Listing.product(product), buttonName: .done,
-                                                           sellButtonPosition: .floatingButton, negotiable: .yes,
-                                                           pictureSource: .gallery, freePostingModeAllowed: true)
+                    sut = TrackerEvent.listingSellComplete(Listing.product(product),
+                                                           buttonName: .done,
+                                                           sellButtonPosition: .floatingButton,
+                                                           negotiable: .yes,
+                                                           pictureSource: .gallery,
+                                                           freePostingModeAllowed: true,
+                                                           typePage: .sell,
+                                                           mostSearchedButton: .notApply)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
@@ -2381,9 +2393,14 @@ class TrackerEventSpec: QuickSpec {
                     car.images = MockFile.makeMocks(count: 2)
                     car.descr = String.makeRandom()
                     car.carAttributes = CarAttributes(makeId: "makeId", make: "make", modelId: "modelId", model: "model", year: 1234)
-                    sut = TrackerEvent.listingSellComplete(Listing.car(car), buttonName: .done,
-                                                           sellButtonPosition: .floatingButton, negotiable: .yes,
-                                                           pictureSource: .gallery, freePostingModeAllowed: true)
+                    sut = TrackerEvent.listingSellComplete(Listing.car(car),
+                                                           buttonName: .done,
+                                                           sellButtonPosition: .floatingButton,
+                                                           negotiable: .yes,
+                                                           pictureSource: .gallery,
+                                                           freePostingModeAllowed: true,
+                                                           typePage: .sell,
+                                                           mostSearchedButton: .notApply)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
@@ -2490,9 +2507,14 @@ class TrackerEventSpec: QuickSpec {
                                                                            bathrooms: 3.0,
                                                                            livingRooms: nil,
                                                                            sizeSquareMeters: nil)
-                    sut = TrackerEvent.listingSellComplete(Listing.realEstate(realEstate), buttonName: .done,
-                                                           sellButtonPosition: .floatingButton, negotiable: .yes,
-                                                           pictureSource: .gallery, freePostingModeAllowed: true)
+                    sut = TrackerEvent.listingSellComplete(Listing.realEstate(realEstate),
+                                                           buttonName: .done,
+                                                           sellButtonPosition: .floatingButton,
+                                                           negotiable: .yes,
+                                                           pictureSource: .gallery,
+                                                           freePostingModeAllowed: true,
+                                                           typePage: .sell,
+                                                           mostSearchedButton: .notApply)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))

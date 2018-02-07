@@ -73,7 +73,7 @@ class TabBarViewModel: BaseViewModel {
     }
     
     func tagPressed(mostSearchedItem: LocalMostSearchedItem) {
-        navigator?.openSell(source: .mostSearchedItems,
+        navigator?.openSell(source: .mostSearchedTagsExpandable,
                             postCategory: mostSearchedItem.category,
                             listingTitle: mostSearchedItem.name)
     }
