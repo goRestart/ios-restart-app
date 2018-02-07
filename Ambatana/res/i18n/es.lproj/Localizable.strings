@@ -332,7 +332,7 @@
 "filters_section_real_estate_info" = "Características de la propiedad";
 "filters_section_sortby" = "Ordenar por";
 "filters_section_within" = "Publicado en";
-"filters_size_wrong_range_error" = "The minimum size can’t be higher than the maximum size.";
+"filters_size_wrong_range_error" = "El tamaño mínimo no puede superior al tamaño máximo.";
 "filters_sort_closest" = "Más cercanos primero";
 "filters_sort_newest" = "Más recientes primero";
 "filters_sort_price_asc" = "De más barato a más caro";
@@ -974,6 +974,8 @@
 "trending_items_expandable_menu_button" = "Tendencias";
 "trending_items_expandable_menu_subset_title" = "ARTÍCULOS MÁS POPULARES";
 "trending_items_header_bubble" = "Tendencias";
+"trending_items_profile_subtitle" = "See what people in your area are looking for";
+"trending_items_profile_title" = "Not sure what to sell?";
 "trending_items_view_number_of_searches_item" = "%@ searches";
 "trending_items_view_number_of_searches_title" = "Las búsquedas más populares de la semana";
 "trending_items_view_post_button" = "Publicar";

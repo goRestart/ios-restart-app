@@ -59,10 +59,39 @@ class ChatViewMessageAdapter {
             } else {
                 type = ChatViewMessageType.text(text: message.text)
             }
+        case .phone:
+            type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(message.text))
         }
         return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt,
                                receivedAt: message.receivedAt, readAt: message.readAt, type: type,
                                status: message.messageStatus,
+                               warningStatus: ChatViewMessageWarningStatus(status: message.warnings))
+    }
+    
+    func adapt(_ message: ChatInactiveMessage) -> ChatViewMessage {
+        let type: ChatViewMessageType
+        let text = message.content.text ?? ""
+        switch message.content.type {
+        case .offer:
+            type = ChatViewMessageType.offer(text: text)
+        case .text, .quickAnswer, .expressChat, .favoritedListing:
+            type = ChatViewMessageType.text(text: text)
+        case .sticker:
+            if let sticker = stickersRepository.sticker(text) {
+                type = ChatViewMessageType.sticker(url: sticker.url)
+            } else {
+                type = ChatViewMessageType.text(text: text)
+            }
+        case .phone:
+            type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(text))
+        }
+        return ChatViewMessage(objectId: message.objectId,
+                               talkerId: message.talkerId,
+                               sentAt: message.sentAt,
+                               receivedAt: nil,
+                               readAt: nil,
+                               type: type,
+                               status: nil,
                                warningStatus: ChatViewMessageWarningStatus(status: message.warnings))
     }
     
@@ -155,6 +184,19 @@ class ChatViewMessageAdapter {
         return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
                                type: .userInfo(name: name, address: address, facebook: facebook, google: google, email: email),
                                status: nil, warningStatus: .normal)
+    }
+
+    func createAskPhoneMessageWith(action: (() -> Void)?) -> ChatViewMessage? {
+
+        return ChatViewMessage(objectId: nil, talkerId: "", sentAt: Date(), receivedAt: nil, readAt: nil,
+                               type: .askPhoneNumber(text: LGLocalizedString.professionalDealerAskPhoneAddPhoneCellMessage,
+                                                     action: action),
+                               status: nil, warningStatus: .normal)
+    }
+
+    func createAutomaticAnswerWith(message: String) -> ChatViewMessage? {
+        return ChatViewMessage(objectId: nil, talkerId: "", sentAt: Date(), receivedAt: nil, readAt: nil,
+                               type: .text(text: message), status: nil, warningStatus: .normal)
     }
 
     private func createDisclaimerMessage(_ disclaimerText: NSAttributedString, showAvatar: Bool, actionTitle: String?,

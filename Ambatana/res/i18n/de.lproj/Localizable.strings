@@ -332,7 +332,7 @@
 "filters_section_real_estate_info" = "Immobilieninformationen";
 "filters_section_sortby" = "Sortiert nach";
 "filters_section_within" = "Eingestellt innerhalb";
-"filters_size_wrong_range_error" = "The minimum size can’t be higher than the maximum size.";
+"filters_size_wrong_range_error" = "Die Mindestgröße kann nicht größer sein als die Maximalgröße.";
 "filters_sort_closest" = "Nächste zuerst";
 "filters_sort_newest" = "Neueste zuerst";
 "filters_sort_price_asc" = "Preis aufsteigend";
@@ -959,7 +959,7 @@
 "trending_item_controller" = "Controller";
 "trending_item_coupe" = "Zweitürer";
 "trending_item_dresser" = "Kommode";
-"trending_item_gadget" = "gadget";
+"trending_item_gadget" = "Gadget";
 "trending_item_iPhone" = "iPhone";
 "trending_item_motorcycle" = "Motorrad";
 "trending_item_scooter" = "Motorroller";
@@ -967,13 +967,15 @@
 "trending_item_smartphone" = "Smartphone";
 "trending_item_subwoofer" = "Subwoofer";
 "trending_item_tablet" = "Tablet";
-"trending_item_trailer" = "trailer";
-"trending_item_truck" = "truck";
+"trending_item_trailer" = "Anhänger";
+"trending_item_truck" = "Truck";
 "trending_items_card_action" = "Anzeigen";
 "trending_items_card_title" = "Beliebt in dieser Woche";
 "trending_items_expandable_menu_button" = "Beliebt";
 "trending_items_expandable_menu_subset_title" = "BELIEBTESTE ARTIKEL";
 "trending_items_header_bubble" = "Beliebt";
+"trending_items_profile_subtitle" = "See what people in your area are looking for";
+"trending_items_profile_title" = "Not sure what to sell?";
 "trending_items_view_number_of_searches_item" = "%@ Suchen";
 "trending_items_view_number_of_searches_title" = "Meistgesucht in dieser Woche";
 "trending_items_view_post_button" = "Einstellen";

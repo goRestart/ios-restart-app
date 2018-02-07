@@ -40,7 +40,8 @@ enum EventName: String {
     case filterStart                        = "filter-start"
     case filterComplete                     = "filter-complete"
     case filterLocationStart                = "filter-location-start"
-    
+
+    case listingDetailCall                  = "product-detail-call"
     case listingDetailVisit                 = "product-detail-visit"
     case listingDetailVisitMoreInfo         = "product-detail-visit-more-info"
     case listingNotAvailable                = "product-not-available"
@@ -88,6 +89,9 @@ enum EventName: String {
     case userMessageSentError               = "user-sent-message-error"
     case chatRelatedItemsStart              = "chat-related-items-start"
     case chatRelatedItemsComplete           = "chat-related-items-complete"
+    case chatDeleteComplete                 = "chat-delete-complete"
+    case chatViewInactiveConversations      = "chat-view-inactive-conversations"
+    case chatInactiveConversationsShown     = "chat-inactive-conversations-shown"
 
     case profileVisit                       = "profile-visit"
     case profileEditStart                   = "profile-edit-start"
@@ -175,6 +179,10 @@ enum EventName: String {
     case adTapped                           = "ad-tapped"
     case featuredMoreInfo                   = "featured-more-info"
     case openOptionOnSummary                = "posting-summary-open"
+
+    case phoneNumberRequest                 = "phone-number-request"
+    case phoneNumberSent                    = "phone-number-sent"
+    case phoneNumberNotNow                  = "phone-number-not-now"
 
 
     // Constants
@@ -337,6 +345,8 @@ enum EventParameterName: String {
     case sqrMeters            = "sqr-meters"
     case rooms                = "rooms-number"
     case openField            = "open-field"
+    case chatsDeleted         = "chats-deleted"
+    case inactiveConversations = "inactive-conversations"
 }
 
 enum EventParameterBoolean: String {
@@ -370,6 +380,7 @@ enum EventParameterLoginSourceValue: String {
     case install = "install"
     case directChat = "direct-chat"
     case directQuickAnswer = "direct-quick-answer"
+    case chatProUser = "chat-pro-user"
 }
 
 enum EventParameterProductItemType: String {
@@ -565,6 +576,7 @@ enum EventParameterMessageType: String {
     case quickAnswer = "quick-answer"
     case expressChat = "express-chat"
     case periscopeDirect = "periscope-direct"
+    case phone      = "phone"
 }
 
 enum EventParameterLoginError {
@@ -912,7 +924,7 @@ enum EventParameterRelatedShownReason: String {
         switch chatInfoStatus {
         case .forbidden:
             self = .forbidden
-        case .blocked, .blockedBy:
+        case .blocked, .blockedBy, .inactiveConversation:
             self = .unanswered48h
         case .listingDeleted:
             self = .listingDeleted

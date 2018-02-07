@@ -332,7 +332,7 @@
 "filters_section_real_estate_info" = "Emlak Bilgisi";
 "filters_section_sortby" = "Sırala";
 "filters_section_within" = "YAYINLANMA ZAMANI";
-"filters_size_wrong_range_error" = "The minimum size can’t be higher than the maximum size.";
+"filters_size_wrong_range_error" = "Minimum büyüklük maksimum büyüklüğü aşmamalıdır.";
 "filters_sort_closest" = "İlk önce en yakını";
 "filters_sort_newest" = "İlk önce en yenisi";
 "filters_sort_price_asc" = "Düşük fiyattan yüksek fiyata";
@@ -971,9 +971,11 @@
 "trending_item_truck" = "kamyonet";
 "trending_items_card_action" = "Ürünleri gör";
 "trending_items_card_title" = "Bu haftanın en çok beğenilenleri";
-"trending_items_expandable_menu_button" = "Yükselişte olanlar";
+"trending_items_expandable_menu_button" = "En Popüler";
 "trending_items_expandable_menu_subset_title" = "EN ÇOK BEĞENİLEN ÜRÜNLER";
 "trending_items_header_bubble" = "En Popüler";
+"trending_items_profile_subtitle" = "See what people in your area are looking for";
+"trending_items_profile_title" = "Not sure what to sell?";
 "trending_items_view_number_of_searches_item" = "%@ searches";
 "trending_items_view_number_of_searches_title" = "Bu haftanın en çok arananları";
 "trending_items_view_post_button" = "Yayınla";

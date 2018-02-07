@@ -24,6 +24,7 @@ class ChatListViewModel: BaseChatGroupedListViewModel<ChatConversation> {
     weak var delegate: ChatListViewModelDelegate?
     
     fileprivate var chatRepository: ChatRepository
+    fileprivate let tracker: Tracker
 
     private(set) var chatsType: ChatsType
     fileprivate var selectedConversationIds: Set<String>
@@ -39,16 +40,22 @@ class ChatListViewModel: BaseChatGroupedListViewModel<ChatConversation> {
 
     convenience init(chatsType: ChatsType,
                      tabNavigator: TabNavigator?) {
-        self.init(chatRepository: Core.chatRepository, chats: [], chatsType: chatsType, tabNavigator: tabNavigator)
+        self.init(chatRepository: Core.chatRepository,
+                  chats: [],
+                  chatsType: chatsType,
+                  tabNavigator: tabNavigator,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
     required init(chatRepository: ChatRepository,
-                     chats: [ChatConversation],
-                     chatsType: ChatsType,
-                     tabNavigator: TabNavigator?) {
+                  chats: [ChatConversation],
+                  chatsType: ChatsType,
+                  tabNavigator: TabNavigator?,
+                  tracker: Tracker) {
         self.chatRepository = chatRepository
         self.chatsType = chatsType
         self.selectedConversationIds = Set<String>()
+        self.tracker = tracker
         
         let collectionVariable: CollectionVariable<ChatConversation>
         switch chatsType {
@@ -185,6 +192,8 @@ fileprivate extension ChatListViewModel {
                 strongSelf.delegate?.chatListViewModelDidFailArchivingChats(strongSelf)
             } else {
                 strongSelf.delegate?.chatListViewModelDidSucceedArchivingChats(strongSelf)
+                strongSelf.tracker.trackEvent(TrackerEvent.chatDeleteComplete(numberOfConversations: conversationIds.count,
+                                                                              isInactiveConversation: false))
             }
         }
     }

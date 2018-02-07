@@ -971,9 +971,11 @@
 "trending_item_truck" = "truck";
 "trending_items_card_action" = "See items";
 "trending_items_card_title" = "This week's popular items";
-"trending_items_expandable_menu_button" = "Trending";
+"trending_items_expandable_menu_button" = "Populært";
 "trending_items_expandable_menu_subset_title" = "MOST POPULAR ITEMS";
 "trending_items_header_bubble" = "Populært";
+"trending_items_profile_subtitle" = "See what people in your area are looking for";
+"trending_items_profile_title" = "Not sure what to sell?";
 "trending_items_view_number_of_searches_item" = "%@ searches";
 "trending_items_view_number_of_searches_title" = "Søkeord denne uken";
 "trending_items_view_post_button" = "Publiser";

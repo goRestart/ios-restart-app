@@ -19,6 +19,7 @@ enum ChatInfoViewStatus: Int {
     case userPendingDelete
     case userDeleted
     case available
+    case inactiveConversation
 
     func infoText(otherUserName userName: String?) -> String {
         switch self {
@@ -50,6 +51,8 @@ enum ChatInfoViewStatus: Int {
             }
         case .available:
             return ""
+        case .inactiveConversation:
+            return LGLocalizedString.chatInactiveConversationRelationExplanation
         }
     }
 
@@ -60,7 +63,7 @@ enum ChatInfoViewStatus: Int {
 
     var bgColor: UIColor {
         switch self {
-        case .forbidden, .userDeleted, .userPendingDelete, .blockedBy, .listingDeleted:
+        case .forbidden, .userDeleted, .userPendingDelete, .blockedBy, .listingDeleted, .inactiveConversation:
             return UIColor.lgBlack
         case .blocked:
             return UIColor.primaryColor
@@ -81,7 +84,7 @@ enum ChatInfoViewStatus: Int {
             return UIImage(named: "ic_blocked_white") ?? UIImage()
         case .blockedBy:
             return UIImage(named: "ic_blocked_white_line") ?? UIImage()
-        case .listingDeleted:
+        case .listingDeleted, .inactiveConversation:
             return UIImage(named: "ic_alert_yellow_white_inside") ?? UIImage()
         case .listingSold, .listingGivenAway:
             return UIImage(named: "ic_sold_white") ?? UIImage()
@@ -92,7 +95,7 @@ enum ChatInfoViewStatus: Int {
 
     var isHidden: Bool {
         switch self {
-        case .forbidden, .blocked, .blockedBy, .listingDeleted, .listingSold, .listingGivenAway, .userDeleted, .userPendingDelete:
+        case .forbidden, .blocked, .blockedBy, .listingDeleted, .listingSold, .listingGivenAway, .userDeleted, .userPendingDelete, .inactiveConversation:
             return false
         case .available:
             return true

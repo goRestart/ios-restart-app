@@ -38,23 +38,25 @@ enum WebSocketErrorType: Int {
 
 
 enum WebSocketResponseType: String {
-    case ack                            = "ack"
+    case ack = "ack"
     
-    case error                          = "error"
+    case error = "error"
     
-    case messageList                    = "message_list"
-    case conversationCreated            = "conversation_created"
-    case conversationList               = "conversation_list"
-    case conversationDetails            = "conversation_details"
+    case messageList = "message_list"
+    case conversationCreated = "conversation_created"
+    case conversationList = "conversation_list"
+    case conversationDetails = "conversation_details"
+    case fetchInactiveConversationsCount = "inactive_conversations_count"
+    case fetchInactiveConversations = "inactive_conversation_list"
+    case pong = "pong"
     
-    case interlocutorTypingStarted      = "interlocutor_typing_started"
-    case interlocutorTypingStopped      = "interlocutor_typing_stopped"
-    case interlocutorMessageSent        = "interlocutor_message_sent"
+    case interlocutorTypingStarted = "interlocutor_typing_started"
+    case interlocutorTypingStopped = "interlocutor_typing_stopped"
+    case interlocutorMessageSent = "interlocutor_message_sent"
     case interlocutorReceptionConfirmed = "interlocutor_reception_confirmed"
-    case interlocutorReadConfirmed      = "interlocutor_read_confirmed"
-    case authenticationTokenExpired     = "authentication_token_expired"
-    case talkerUnauthenticated          = "talker_unauthenticated"
-    case pong                           = "pong"
+    case interlocutorReadConfirmed = "interlocutor_read_confirmed"
+    case authenticationTokenExpired = "authentication_token_expired"
+    case talkerUnauthenticated = "talker_unauthenticated"
     
     enum ResponseSuperType {
         case ack
@@ -69,11 +71,12 @@ enum WebSocketResponseType: String {
             return .ack
         case .error:
             return .error
-        case .messageList, .conversationCreated, .conversationList, .conversationDetails, .pong:
+        case .messageList, .conversationCreated, .conversationList, .conversationDetails,
+             .fetchInactiveConversationsCount, .fetchInactiveConversations, .pong:
             return .query
         case .interlocutorTypingStarted, .interlocutorTypingStopped, .interlocutorMessageSent,
-        .interlocutorReceptionConfirmed, .interlocutorReadConfirmed, .authenticationTokenExpired,
-        .talkerUnauthenticated:
+             .interlocutorReceptionConfirmed, .interlocutorReadConfirmed, .authenticationTokenExpired,
+             .talkerUnauthenticated:
             return .event
         }
     }

@@ -322,7 +322,42 @@ struct TrackerEvent {
         params[.isBumpedUp] = isBumpedUp.rawValue
         return TrackerEvent(name: .listingDetailVisit, params: params)
     }
-    
+
+    static func listingDetailCall(_ listing: Listing,
+                                  source: EventParameterListingVisitSource,
+                                  typePage: EventParameterTypePage,
+                                  sellerAverageUserRating: Float?,
+                                  feedPosition: EventParameterFeedPosition,
+                                  isFreePosting: EventParameterBoolean,
+                                  isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params.addListingParams(listing)
+        params[.listingVisitSource] = source.rawValue
+        params[.sellerUserRating] = sellerAverageUserRating
+        params[.typePage] = typePage.rawValue
+        params[.feedPosition] = feedPosition.value
+        params[.freePosting] = isFreePosting.rawValue
+        params[.isBumpedUp] = isBumpedUp.rawValue
+        return TrackerEvent(name: .listingDetailCall, params: params)
+    }
+
+    static func chatBannerCall(_ chatListing: ChatListing,
+                               source: EventParameterListingVisitSource,
+                               typePage: EventParameterTypePage,
+                               sellerAverageUserRating: Float?,
+                               isFreePosting: EventParameterBoolean,
+                               isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params.addChatListingParams(chatListing)
+        params[.listingVisitSource] = source.rawValue
+        params[.sellerUserRating] = sellerAverageUserRating
+        params[.typePage] = typePage.rawValue
+        params[.feedPosition] = EventParameterFeedPosition.none.value
+        params[.freePosting] = isFreePosting.rawValue
+        params[.isBumpedUp] = isBumpedUp.rawValue
+        return TrackerEvent(name: .listingDetailCall, params: params)
+    }
+
     static func listingNotAvailable(_ source: EventParameterListingVisitSource, reason: EventParameterNotAvailableReason) -> TrackerEvent {
         var params = EventParameters()
         params[.listingVisitSource] = source.rawValue
@@ -688,6 +723,24 @@ struct TrackerEvent {
         return TrackerEvent(name: .relatedListings, params: params)
     }
 
+    static func phoneNumberRequest(typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        return TrackerEvent(name: .phoneNumberRequest, params: params)
+    }
+
+    static func phoneNumberSent(typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        return TrackerEvent(name: .phoneNumberSent, params: params)
+    }
+
+    static func phoneNumberNotNow(typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        return TrackerEvent(name: .phoneNumberNotNow, params: params)
+    }
+
     static func firstMessage(info: SendMessageTrackingInfo,
                              listingVisitSource: EventParameterListingVisitSource,
                              feedPosition: EventParameterFeedPosition) -> TrackerEvent {
@@ -951,6 +1004,21 @@ struct TrackerEvent {
         return TrackerEvent(name: .openApp, params: params)
     }
 
+    static func chatDeleteComplete(numberOfConversations: Int, isInactiveConversation: Bool) -> TrackerEvent {
+        var params = EventParameters()
+        params[.chatsDeleted] = numberOfConversations
+        params[.inactiveConversations] = isInactiveConversation
+        return TrackerEvent(name: .chatDeleteComplete, params: params)
+    }
+    
+    static func chatViewInactiveConversations() -> TrackerEvent {
+        return TrackerEvent(name: .chatViewInactiveConversations, params: EventParameters())
+    }
+    
+    static func chatInactiveConversationsShown() -> TrackerEvent {
+        return TrackerEvent(name: .chatInactiveConversationsShown, params: EventParameters())
+    }
+    
     static func expressChatStart(_ trigger: EventParameterExpressChatTrigger) -> TrackerEvent {
         var params = EventParameters()
         params[.expressChatTrigger] = trigger.rawValue
