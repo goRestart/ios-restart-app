@@ -459,7 +459,7 @@ class ListingListViewModel: BaseViewModel {
         switch cellModel {
         case .advertisement(let data):
             categories = data.categories
-        case .listingCell, .collectionCell, .emptyCell:
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems:
             break
         }
         return categories
@@ -483,7 +483,7 @@ class ListingListViewModel: BaseViewModel {
                                               categories: data.categories,
                                               adRequested: true)
             objects[position] = ListingCellModel.advertisement(data: newAdData)
-        case .listingCell, .collectionCell, .emptyCell:
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems:
             break
         }
     }
