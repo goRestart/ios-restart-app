@@ -486,7 +486,7 @@ fileprivate extension ListingCarouselMoreInfoView {
     
     func setupTagCollectionView() {
         report(AppReport.uikit(error: .breadcrumb), message: "setupTagCollectionView")
-        tagCollectionViewModel = TagCollectionViewModel(tags: [], delegate: tagCollectionView)
+        tagCollectionViewModel = TagCollectionViewModel(tags: [], cellStyle: .blackBackground, delegate: tagCollectionView)
         report(AppReport.uikit(error: .breadcrumb), message: "TagCollectionViewModel init")
         tagCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.reusableID)
         report(AppReport.uikit(error: .breadcrumb), message: "tagCollectionView.register(TagCollectionViewCell.self,")

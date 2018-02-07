@@ -243,7 +243,8 @@ final class TabBarController: UITabBarController {
     func setupExpandableCategoriesView() {
         view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()
         let vm = ExpandableCategorySelectionViewModel(realEstateEnabled: featureFlags.realEstateEnabled.isActive,
-                                                      mostSearchedItemsEnabled: featureFlags.mostSearchedDemandedItems == .trendingButtonExpandableMenu)
+                                                      trendingButtonEnabled: featureFlags.mostSearchedDemandedItems == .trendingButtonExpandableMenu,
+                                                      tagsEnabled: featureFlags.mostSearchedDemandedItems == .subsetAboveExpandableMenu)
         vm.delegate = self
         
         let bottomDistance = view.bounds.height - floatingSellButton.frame.maxY
@@ -319,11 +320,15 @@ extension TabBarController: ExpandableCategorySelectionDelegate {
         floatingSellButton.showWithAnimation()
     }
     
-    func didPress(category: ExpandableCategory) {
+    func didPressCategory(_ category: ExpandableCategory) {
         floatingSellButton.showWithAnimation()
         let event = TrackerEvent.listingSellYourStuffButton()
         tracker.trackEvent(event)
         viewModel.expandableButtonPressed(category: category)
+    }
+    
+    func didPressTag(_ tag: LocalMostSearchedItem) {
+        viewModel.tagPressed(mostSearchedItem: tag)
     }
 }
 
