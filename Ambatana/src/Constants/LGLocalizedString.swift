@@ -1299,6 +1299,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_price_wrong_range_error", comment: "")
 	}
 
+	static var filtersSizeWrongRangeError: String {
+		return NSLocalizedString("filters_size_wrong_range_error", comment: "")
+	}
+
 	static var filtersSortClosest: String {
 		return NSLocalizedString("filters_sort_closest", comment: "")
 	}

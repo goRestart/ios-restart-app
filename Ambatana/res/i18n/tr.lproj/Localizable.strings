@@ -128,7 +128,7 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Bu hesap letgo ekibi tarafından incelemeye alınmıştır.";
 "chat_forbidden_disclaimer_seller_w_name" = "Görünüşe göre %@ artık ilanınla ilgilenmiyor.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Görünüşe göre bu kullanıcı artık ilanınla ilgilenmiyor.";
-"chat_inactive_conversation_relation_explanation" = "Archived by Letgo becuase there hasn't been any activity in the last 3 months.";
+"chat_inactive_conversation_relation_explanation" = "Son üç aydır herhangi bir hareket olmadığı için letgo tarafından arşivlenmiştir.";
 "chat_inactive_conversations_button" = "Arşivlenmiş sohbetleri gör";
 "chat_inactive_conversations_explanation_label" = "3 aydan daha eski olan sohbetler otomatik olarak arşivlenir.";
 "chat_inactive_list_title" = "Aktif olmayan Sohbetler";
@@ -332,6 +332,7 @@
 "filters_section_real_estate_info" = "Emlak Bilgisi";
 "filters_section_sortby" = "Sırala";
 "filters_section_within" = "YAYINLANMA ZAMANI";
+"filters_size_wrong_range_error" = "Minimum büyüklük maksimum büyüklüğü aşmamalıdır.";
 "filters_sort_closest" = "İlk önce en yakını";
 "filters_sort_newest" = "İlk önce en yenisi";
 "filters_sort_price_asc" = "Düşük fiyattan yüksek fiyata";
@@ -970,7 +971,7 @@
 "trending_item_truck" = "kamyonet";
 "trending_items_card_action" = "Ürünleri gör";
 "trending_items_card_title" = "Bu haftanın en çok beğenilenleri";
-"trending_items_expandable_menu_button" = "Yükselişte olanlar";
+"trending_items_expandable_menu_button" = "En Popüler";
 "trending_items_expandable_menu_subset_title" = "EN ÇOK BEĞENİLEN ÜRÜNLER";
 "trending_items_header_bubble" = "En Popüler";
 "trending_items_view_number_of_searches_item" = "%@ searches";

@@ -128,7 +128,7 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "This account is under review by the letgo team.";
 "chat_forbidden_disclaimer_seller_w_name" = "Looks like %@ is no longer interested in your listing.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Looks like this user is no longer interested in your listing.";
-"chat_inactive_conversation_relation_explanation" = "Archived by Letgo becuase there hasn't been any activity in the last 3 months.";
+"chat_inactive_conversation_relation_explanation" = "Archived by letgo because there hasn't been any activity in the last 3 months.";
 "chat_inactive_conversations_button" = "View archived chats";
 "chat_inactive_conversations_explanation_label" = "Chats older than 3 months are automatically archived.";
 "chat_inactive_list_title" = "Inactive Chats";
@@ -332,6 +332,7 @@
 "filters_section_real_estate_info" = "Property info";
 "filters_section_sortby" = "Sort by";
 "filters_section_within" = "Posted within";
+"filters_size_wrong_range_error" = "The minimum size can’t be higher than the maximum size.";
 "filters_sort_closest" = "Closest first";
 "filters_sort_newest" = "Newest first";
 "filters_sort_price_asc" = "Price: low to high";

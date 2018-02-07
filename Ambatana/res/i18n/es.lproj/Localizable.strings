@@ -128,7 +128,7 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Esta cuenta está siendo revisada por el equipo de letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Parece que %@ ya no está interesado en tu anuncio.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Parece que este usuario ya no está interesado en tu anuncio.";
-"chat_inactive_conversation_relation_explanation" = "Archived by Letgo becuase there hasn't been any activity in the last 3 months.";
+"chat_inactive_conversation_relation_explanation" = "Archivado por letgo porque no ha habido actividad en los últimos 3 meses.";
 "chat_inactive_conversations_button" = "Ver chats archivados";
 "chat_inactive_conversations_explanation_label" = "Los chats anteriores a 3 meses se archivan automáticamente.";
 "chat_inactive_list_title" = "Chats inactivos";
@@ -332,6 +332,7 @@
 "filters_section_real_estate_info" = "Características de la propiedad";
 "filters_section_sortby" = "Ordenar por";
 "filters_section_within" = "Publicado en";
+"filters_size_wrong_range_error" = "El tamaño mínimo no puede superior al tamaño máximo.";
 "filters_sort_closest" = "Más cercanos primero";
 "filters_sort_newest" = "Más recientes primero";
 "filters_sort_price_asc" = "De más barato a más caro";
