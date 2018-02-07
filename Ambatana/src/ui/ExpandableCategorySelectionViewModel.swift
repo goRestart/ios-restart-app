@@ -37,8 +37,8 @@ enum ExpandableCategory: Equatable {
     
     static public func ==(lhs: ExpandableCategory, rhs: ExpandableCategory) -> Bool {
         switch (lhs, rhs) {
-        case (.listingCategory, .listingCategory):
-            return true
+        case (.listingCategory(let lListingCategory), .listingCategory(let rListingCategory)):
+            return lListingCategory == rListingCategory
         case (.mostSearchedItems, .mostSearchedItems):
             return true
         default:
