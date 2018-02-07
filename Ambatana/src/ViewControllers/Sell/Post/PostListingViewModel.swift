@@ -397,13 +397,23 @@ fileprivate extension PostListingViewModel {
         let description = postDetailViewModel.listingDescription ?? ""
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
-        let title = postDetailViewModel.listingTitle ?? state.value.verticalAttributes?.generatedTitle(postingFlowType: featureFlags.postingFlowType)
+        
+        var title: String?
+        if let listingTitle = postDetailViewModel.listingTitle {
+            title = listingTitle
+        } else if let verticalGeneratedTitle = state.value.verticalAttributes?.generatedTitle(postingFlowType: featureFlags.postingFlowType) {
+            title = verticalGeneratedTitle
+        } else if let stateTitle = state.value.title {
+            title = stateTitle
+        }
+        
+        //let title = postDetailViewModel.listingTitle ?? state.value.verticalAttributes?.generatedTitle(postingFlowType: featureFlags.postingFlowType)
         return ListingCreationParams.make(title: title,
-                                   description: description,
-                                   currency: currency,
-                                   location: location,
-                                   postalAddress: postalAddress,
-                                   postListingState: state.value)
+                                          description: description,
+                                          currency: currency,
+                                          location: location,
+                                          postalAddress: postalAddress,
+                                          postListingState: state.value)
     }
 }
 
