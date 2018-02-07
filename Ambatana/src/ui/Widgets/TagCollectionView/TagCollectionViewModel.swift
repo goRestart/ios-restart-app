@@ -5,7 +5,7 @@ protocol TagCollectionViewModelDelegate: class {
 }
 
 protocol TagCollectionViewModelSelectionDelegate: class {
-    func vmDidSelect(_ vm: TagCollectionViewModel, tagAtIndex index: Int)
+    func vm(_ vm: TagCollectionViewModel, didSelectTagAtIndex index: Int)
 }
 
 class TagCollectionViewModel: NSObject {
@@ -18,11 +18,12 @@ class TagCollectionViewModel: NSObject {
         }
     }
     
-    init(tags: [String], cellStyle: TagCollectionViewCellStyle, delegate: TagCollectionViewModelDelegate? = nil) {
+    init(tags: [String],
+         cellStyle: TagCollectionViewCellStyle,
+         delegate: TagCollectionViewModelDelegate? = nil) {
         self.delegate = delegate
         self.tags = tags
         self.cellStyle = cellStyle
-        register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.reusableID)
     }
 }
 
@@ -46,6 +47,6 @@ extension TagCollectionViewModel: UICollectionViewDataSource {
 
 extension TagCollectionViewModel: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectionDelegate?.vmDidSelect(tagAtIndex: indexPath.item)
+        selectionDelegate?.vm(self, didSelectTagAtIndex: indexPath.item)
     }
 }
