@@ -99,7 +99,7 @@ struct AdvertisementData {
 }
 
 struct MostSearchedItemsCardData {
-    let icon: UIImage? = UIImage(named: "trending_feed")
+    let icon: UIImage? = UIImage(named: "trending_icon")
     let title: String = LGLocalizedString.trendingItemsCardTitle
     let actionTitle: String = LGLocalizedString.trendingItemsCardAction
 }

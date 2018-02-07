@@ -843,7 +843,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     }
     
     func vmDidSelectMostSearchedItems() {
-        navigator?.openMostSearchedItems(source: .card, enableSearch: false)
+        navigator?.openMostSearchedItems(source: .mostSearchedCard, enableSearch: false)
     }
 
     func vmUserDidTapInvite() {
@@ -1388,7 +1388,7 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
     }
     
     func openMostSearchedItems() {
-        navigator?.openMostSearchedItems(source: .categoriesHeader, enableSearch: true)
+        navigator?.openMostSearchedItems(source: .mostSearchedCategoryHeader, enableSearch: true)
     }
 }
 

@@ -358,7 +358,7 @@ extension UserViewModel {
     }
     
     func openMostSearchedItems() {
-        navigator?.openMostSearchedItems(source: .userProfile, enableSearch: false)
+        navigator?.openMostSearchedItems(source: .mostSearchedUserProfile, enableSearch: false)
     }
 }
 

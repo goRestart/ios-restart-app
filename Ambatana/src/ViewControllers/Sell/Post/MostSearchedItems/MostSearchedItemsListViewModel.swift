@@ -8,14 +8,6 @@
 
 import LGCoreKit
 
-enum MostSearchedItemsSource {
-    case categoriesHeader
-    case userProfile
-    case cameraBadge
-    case card
-    case expandableMenu
-}
-
 class MostSearchedItemsListViewModel: BaseViewModel {
     
     weak var navigator: MostSearchedItemsNavigator?
@@ -23,6 +15,7 @@ class MostSearchedItemsListViewModel: BaseViewModel {
     fileprivate let locationManager: LocationManager
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let keyValueStorage: KeyValueStorage
+    fileprivate let postingSource: PostingSource
     
     let mostSearchedItems: [LocalMostSearchedItem]
     var titleString: String {
@@ -36,23 +29,26 @@ class MostSearchedItemsListViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    convenience init(isSearchEnabled: Bool, locationManager: LocationManager) {
+    convenience init(isSearchEnabled: Bool, locationManager: LocationManager, postingSource: PostingSource) {
         self.init(featureFlags: FeatureFlags.sharedInstance,
                   notificationsManager: LGNotificationsManager.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   isSearchEnabled: isSearchEnabled,
-                  locationManager: locationManager)
+                  locationManager: locationManager,
+                  postingSource: postingSource)
     }
     
     init(featureFlags: FeatureFlaggeable,
          notificationsManager: NotificationsManager,
          keyValueStorage: KeyValueStorage,
          isSearchEnabled: Bool,
-         locationManager: LocationManager) {
+         locationManager: LocationManager,
+         postingSource: PostingSource) {
         self.featureFlags = featureFlags
         self.keyValueStorage = keyValueStorage
         self.isSearchEnabled = isSearchEnabled
         self.locationManager = locationManager
+        self.postingSource = postingSource
         mostSearchedItems = LocalMostSearchedItem.allValues
         super.init()
         
@@ -76,7 +72,7 @@ class MostSearchedItemsListViewModel: BaseViewModel {
     }
     
     func postButtonAction(item: LocalMostSearchedItem) {
-        navigator?.openSell(mostSearchedItem: item)
+        navigator?.openSell(mostSearchedItem: item, source: postingSource)
     }
     
     

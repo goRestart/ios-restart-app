@@ -66,14 +66,14 @@ class TabBarViewModel: BaseViewModel {
     
     func expandableButtonPressed(category: ExpandableCategory) {
         if category == .mostSearchedItems {
-            navigator?.openMostSearchedItems(source: .expandableMenu, enableSearch: false)
+            navigator?.openMostSearchedItems(source: .mostSearchedTrendingExpandable, enableSearch: false)
         } else if let postCategory = category.listingCategory?.postCategory {
             navigator?.openSell(source: .sellButton, postCategory: postCategory, listingTitle: nil)
         }
     }
     
     func tagPressed(mostSearchedItem: LocalMostSearchedItem) {
-        navigator?.openSell(source: .mostSearchedItems,
+        navigator?.openSell(source: .mostSearchedTagsExpandable,
                             postCategory: mostSearchedItem.category,
                             listingTitle: mostSearchedItem.name)
     }

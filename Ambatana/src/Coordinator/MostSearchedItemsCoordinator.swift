@@ -26,7 +26,7 @@ class MostSearchedItemsCoordinator: Coordinator {
     fileprivate let featureFlags: FeatureFlaggeable
     weak var delegate: MostSearchedItemsCoordinatorDelegate?
     
-    convenience init(source: MostSearchedItemsSource,
+    convenience init(source: PostingSource,
                      enableSearch: Bool) {
         self.init(source: source,
                   enableSearch: enableSearch,
@@ -36,7 +36,7 @@ class MostSearchedItemsCoordinator: Coordinator {
                   locationManager: Core.locationManager)
     }
     
-    init(source: MostSearchedItemsSource,
+    init(source: PostingSource,
          enableSearch: Bool,
          featureFlags: FeatureFlags,
          bubbleNotificationManager: BubbleNotificationManager,
@@ -48,7 +48,8 @@ class MostSearchedItemsCoordinator: Coordinator {
         self.locationManager = locationManager
         
         let mostSearchedItemsVM = MostSearchedItemsListViewModel(isSearchEnabled: enableSearch,
-                                                                 locationManager: locationManager)
+                                                                 locationManager: locationManager,
+                                                                 postingSource: source)
         let mostSearchedItemsVC = MostSearchedItemsListViewController(viewModel: mostSearchedItemsVM)
         let navigationController = UINavigationController(rootViewController: mostSearchedItemsVC)
         self.viewController = navigationController
@@ -70,9 +71,9 @@ extension MostSearchedItemsCoordinator: MostSearchedItemsNavigator {
         dismissViewController(animated: true, completion: nil)
     }
     
-    func openSell(mostSearchedItem: LocalMostSearchedItem) {
+    func openSell(mostSearchedItem: LocalMostSearchedItem, source: PostingSource) {
         closeCoordinator(animated: true) { [weak self] in
-            self?.delegate?.openSell(source: .mostSearchedItems, mostSearchedItem: mostSearchedItem)
+            self?.delegate?.openSell(source: source, mostSearchedItem: mostSearchedItem)
         }
     }
     

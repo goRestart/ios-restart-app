@@ -301,6 +301,9 @@
 // Chat inactive conversations cell
 "chat_inactive_conversations_button" = "View archived chats";
 
+// Chat message shown on top of all inactive conversations
+"chat_inactive_conversation_relation_explanation" = "Archived by letgo because there hasn't been any activity in the last 3 months.";
+
 // When a user asked to delete his account (short info message)
 "chat_account_deleted_w_name" = "%@'s account has been deleted";
 
@@ -956,6 +959,9 @@
 
 // Alert text when min price is higher than max price
 "filters_price_wrong_range_error" = "The minimum price can’t be higher than the maximum price.";
+
+// Alert text when min size is higher than max size
+"filters_size_wrong_range_error" = "The minimum size can’t be higher than the maximum size.";
 
 // Filters sort option closest
 "filters_sort_closest" = "Closest first";
@@ -2327,6 +2333,9 @@
 // Real Estate property type commercial
 "real_estate_type_property_commercial" = "Commercial";
 
+// Real Estate property type business
+"real_estate_type_property_business" = "Business";
+
 // Real Estate property type others
 "real_estate_type_property_others" = "Other";
 
@@ -2930,23 +2939,32 @@
 // Title for Most searched items list view
 "trending_items_view_title" = "Most popular items in %@";
 
+// Title for Most searched items list view without location available
+"trending_items_view_title_no_location" = "Most popular items";
+
 // Subtitle for Most searched items list view
 "trending_items_view_subtitle" = "Post one of these, and make money in under a week";
 
 // Title for the list of Most searched items list view
-"trending_items_view_number_of_searches_title" = "Searches this week";
+"trending_items_view_number_of_searches_title" = "This week's top searches";
 
 // Number of searches for item info
-"trending_items_view_number_of_searches_item" = "% searches";
+"trending_items_view_number_of_searches_item" = "%@ searches";
 
 // Post button for each item in the list
 "trending_items_view_post_button" = "Post";
 
 // Title for Most searched items card in feed
-"trending_items_card_title" = "Most popular items this week";
+"trending_items_card_title" = "This week's popular items";
 
 // Action text for the Most searched items card fake button
 "trending_items_card_action" = "See items";
+
+// Title for Most searched items header in user profile
+"trending_items_profile_title" = "Not sure what to sell?";
+
+// Subtitle for Most searched items header in user profile
+"trending_items_profile_subtitle" = "See what people in your area are looking for";
 
 // Button title for trending category in Expandable menu
 "trending_items_expandable_menu_button" = "Trending";
@@ -2997,4 +3015,4 @@
 "trending_item_subwoofer" = "subwoofer";
 
 // Title for subset of most trending items in expandable menu
-"trending_items_expandable_menu_subset_title" = "MOST IN-DEMAND ITEMS";
+"trending_items_expandable_menu_subset_title" = "MOST POPULAR ITEMS";

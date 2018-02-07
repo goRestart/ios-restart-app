@@ -128,7 +128,7 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Denne kontoen gjennomgås av letgo's team.";
 "chat_forbidden_disclaimer_seller_w_name" = "Det ser ut som %@ ikke lenger er interessert i din annonse.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Det er ut som denne brukeren ikke lenger er interessert i din annonse.";
-"chat_inactive_conversation_relation_explanation" = "Archived by Letgo becuase there hasn't been any activity in the last 3 months.";
+"chat_inactive_conversation_relation_explanation" = "Arkivert av letgo ettersom det ikke har vært noen aktivitet de siste tre månedene.";
 "chat_inactive_conversations_button" = "Vis arkiverte samtaler";
 "chat_inactive_conversations_explanation_label" = "Samtaler som er eldre enn tre måneder blir arkivert automatisk.";
 "chat_inactive_list_title" = "Inaktive samtaler";
@@ -332,6 +332,7 @@
 "filters_section_real_estate_info" = "Eiendomsdetaljer";
 "filters_section_sortby" = "Sorter etter";
 "filters_section_within" = "Publisert";
+"filters_size_wrong_range_error" = "The minimum size can’t be higher than the maximum size.";
 "filters_sort_closest" = "Nærmest først";
 "filters_sort_newest" = "Nyeste først";
 "filters_sort_price_asc" = "Pris lav til høy";
@@ -970,9 +971,11 @@
 "trending_item_truck" = "truck";
 "trending_items_card_action" = "See items";
 "trending_items_card_title" = "This week's popular items";
-"trending_items_expandable_menu_button" = "Trending";
+"trending_items_expandable_menu_button" = "Populært";
 "trending_items_expandable_menu_subset_title" = "MOST POPULAR ITEMS";
 "trending_items_header_bubble" = "Populært";
+"trending_items_profile_subtitle" = "See what people in your area are looking for";
+"trending_items_profile_title" = "Not sure what to sell?";
 "trending_items_view_number_of_searches_item" = "%@ searches";
 "trending_items_view_number_of_searches_title" = "Søkeord denne uken";
 "trending_items_view_post_button" = "Publiser";

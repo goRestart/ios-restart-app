@@ -19,8 +19,13 @@ enum PostingSource {
     case onboardingCamera
     case notifications
     case deleteListing
-    case mostSearchedItems
     case realEstatePromo
+    case mostSearchedTabBarCamera
+    case mostSearchedTrendingExpandable
+    case mostSearchedTagsExpandable
+    case mostSearchedCategoryHeader
+    case mostSearchedCard
+    case mostSearchedUserProfile
 }
 
 
@@ -187,7 +192,9 @@ class PostListingViewModel: BaseViewModel {
                 let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                            sellButtonPosition: postingSource.sellButtonPosition,
                                                            imageSource: uploadedImageSource,
-                                                           price: postDetailViewModel.price.value)
+                                                           price: postDetailViewModel.price.value,
+                                                           typePage: postingSource.typePage,
+                                                           mostSearchedButton: postingSource.mostSearchedButton)
                 navigator?.closePostProductAndPostInBackground(params: listingParams,
                                                                trackingInfo: trackingInfo)
             } else {
@@ -356,8 +363,12 @@ fileprivate extension PostListingViewModel {
     }
     
     func postListing() {
-        let trackingInfo = PostListingTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
-                                                   imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
+        let trackingInfo = PostListingTrackingInfo(buttonName: .done,
+                                                   sellButtonPosition: postingSource.sellButtonPosition,
+                                                   imageSource: uploadedImageSource,
+                                                   price: postDetailViewModel.price.value,
+                                                   typePage: postingSource.typePage,
+                                                   mostSearchedButton: postingSource.mostSearchedButton)
         if sessionManager.loggedIn {
             guard let images = state.value.lastImagesUploadResult?.value,
                 let listingCreationParams = makeListingParams(images: images) else { return }
@@ -407,9 +418,11 @@ fileprivate extension PostListingViewModel {
 
 fileprivate extension PostListingViewModel {
     func trackVisit() {
-        let event = TrackerEvent.listingSellStart(postingSource.typePage,buttonName: postingSource.buttonName,
+        let event = TrackerEvent.listingSellStart(postingSource.typePage,
+                                                  buttonName: postingSource.buttonName,
                                                   sellButtonPosition: postingSource.sellButtonPosition,
-                                                  category: postCategory?.listingCategory)
+                                                  category: postCategory?.listingCategory,
+                                                  mostSearchedButton: postingSource.mostSearchedButton)
         tracker.trackEvent(event)
     }
 }
@@ -427,8 +440,9 @@ extension PostingSource {
             return .notifications
         case .deleteListing:
             return .listingDelete
-        case .mostSearchedItems: // TODO: Temporary. To be defined
-            return .sell
+        case .mostSearchedTabBarCamera, .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable,
+             .mostSearchedCategoryHeader, .mostSearchedCard, .mostSearchedUserProfile:
+            return .mostSearched
         case .realEstatePromo:
             return .realEstatePromo
         }
@@ -436,7 +450,9 @@ extension PostingSource {
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .mostSearchedItems:
+        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
+             .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
+             .mostSearchedCard, .mostSearchedUserProfile:
             return nil
         case .onboardingButton:
             return .sellYourStuff
@@ -446,16 +462,39 @@ extension PostingSource {
             return .realEstatePromo
         }
     }
+    
     var sellButtonPosition: EventParameterSellButtonPosition {
         switch self {
         case .tabBar:
             return .tabBar
         case .sellButton:
             return .floatingButton
-        case .onboardingButton, .onboardingCamera, .deepLink, .notifications, .deleteListing, .mostSearchedItems:
+        case .onboardingButton, .onboardingCamera, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
+             .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
+             .mostSearchedCard, .mostSearchedUserProfile:
             return .none
         case .realEstatePromo:
             return .realEstatePromo
+        }
+    }
+    
+    var mostSearchedButton: EventParameterMostSearched {
+        switch self {
+        case .tabBar, .sellButton, .deepLink, .onboardingButton, .onboardingCamera,
+             .notifications, .deleteListing, .realEstatePromo:
+            return .notApply
+        case .mostSearchedTabBarCamera:
+            return .tabBarCamera
+        case .mostSearchedTrendingExpandable:
+            return .trendingExpandableButton
+        case .mostSearchedTagsExpandable:
+            return .postingTags
+        case .mostSearchedCategoryHeader:
+            return .feedBubble
+        case .mostSearchedCard:
+            return .feedCard
+        case .mostSearchedUserProfile:
+            return .userProfile
         }
     }
 }
