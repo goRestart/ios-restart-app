@@ -9,6 +9,7 @@
 import CHTCollectionViewWaterfallLayout
 import RxSwift
 import LGCoreKit
+import GoogleMobileAds
 
 protocol ListingListViewScrollDelegate: class {
     func listingListView(_ listingListView: ListingListView, didScrollDown scrollDown: Bool)
@@ -309,9 +310,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func collectionView(_ collectionView: UICollectionView,
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let item = viewModel.itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
+        requestAdFor(cellModel: item, inPosition: indexPath.row)
         let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
-        drawerManager.draw(item, inCell: cell, delegate: viewModel.listingCellDelegate, shouldShowPrice: viewModel.shouldShowPrices)
         cell.tag = (indexPath as NSIndexPath).hash
+        drawerManager.draw(item, inCell: cell, delegate: viewModel.listingCellDelegate, shouldShowPrice: viewModel.shouldShowPrices)
         (cell as? ListingCell)?.isRelatedEnabled = cellsDelegate?.shouldShowRelatedListingsButton() ?? false
         return cell
     }
@@ -634,6 +636,27 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             break
         }
     }
+
+    fileprivate func requestAdFor(cellModel: ListingCellModel, inPosition: Int) {
+        switch cellModel {
+        case .advertisement(let data):
+            guard !data.adRequested else { return }
+            let banner = DFPBannerView(adSize: kGADAdSizeFluid)
+
+            banner.adUnitID = data.adUnitId
+            banner.rootViewController = data.rootViewController
+            banner.adSizeDelegate = self
+            banner.delegate = self
+            banner.validAdSizes = [NSValueFromGADAdSize(kGADAdSizeFluid)]
+            banner.tag = data.adPosition
+
+            banner.load(data.adRequest)
+
+            viewModel.updateAdvertisementRequestedIn(position: inPosition, withBanner: banner)
+        case .collectionCell, .emptyCell, .listingCell:
+            break
+        }
+    }
 }
 
 @available(iOS 10, *)
@@ -661,5 +684,39 @@ extension ListingListView {
         errorTitleLabel.accessibilityId = .listingListErrorTitleLabel
         errorBodyLabel.accessibilityId = .listingListErrorBodyLabel
         errorButton.accessibilityId = .listingListErrorButton
+    }
+}
+
+
+// MARK: - GADBannerViewDelegate, GADAdSizeDelegate
+
+extension ListingListView: GADBannerViewDelegate, GADAdSizeDelegate {
+
+    func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
+        let sizeFromAdSize = CGSizeFromGADAdSize(size)
+        viewModel.updateAdCellHeight(newHeight: sizeFromAdSize.height, forPosition: bannerView.tag, withBannerView: bannerView)
+    }
+
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) { }
+
+    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
+        logMessage(.info, type: .monetization, message: "Feed banner in position \(bannerView.tag) failed with error: \(error.localizedDescription)")
+        viewModel.updateAdCellHeight(newHeight: 0, forPosition: bannerView.tag, withBannerView: bannerView)
+    }
+
+    func adViewWillPresentScreen(_ bannerView: GADBannerView) {
+        let feedPosition: EventParameterFeedPosition = .position(index: bannerView.tag)
+        viewModel.bannerWasTapped(adType: .dfp,
+                                  willLeaveApp: .falseParameter,
+                                  categories: viewModel.categoriesForBannerIn(position: bannerView.tag),
+                                  feedPosition: feedPosition)
+    }
+
+    func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
+        let feedPosition: EventParameterFeedPosition = .position(index: bannerView.tag)
+        viewModel.bannerWasTapped(adType: .dfp,
+                                  willLeaveApp: .trueParameter,
+                                  categories: viewModel.categoriesForBannerIn(position: bannerView.tag),
+                                  feedPosition: feedPosition)
     }
 }
