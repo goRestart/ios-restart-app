@@ -156,8 +156,14 @@ class LGChatRepository: InternalChatRepository {
     
     func fetchInactiveConversations(limit: Int, offset: Int, completion: ChatInactiveConversationsCompletion?) {
         dataSource.fetchInactiveConversations(limit: limit, offset: offset) { [weak self] result in
-            if let inactiveConversation = result.value {
-                self?.inactiveConversations.value = inactiveConversation
+            guard let strongSelf = self else { return }
+            if let inactiveConversations = result.value {
+                let isFirstPage = offset == 0
+                if isFirstPage {
+                    strongSelf.inactiveConversations.value = inactiveConversations
+                } else {
+                    strongSelf.inactiveConversations.value = strongSelf.inactiveConversations.value + inactiveConversations
+                }
             }
             handleWebSocketResult(result, completion: completion)
         }
