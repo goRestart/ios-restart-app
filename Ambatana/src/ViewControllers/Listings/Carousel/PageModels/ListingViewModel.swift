@@ -308,7 +308,7 @@ class ListingViewModel: BaseViewModel {
         }.disposed(by: disposeBag)
 
         // bumpeable listing check
-        status.asObservable().bind { [weak self] status in
+        status.asObservable().skip(1).bind { [weak self] status in
             if status.shouldRefreshBumpBanner {
                 self?.refreshBumpeableBanner()
             } else {
