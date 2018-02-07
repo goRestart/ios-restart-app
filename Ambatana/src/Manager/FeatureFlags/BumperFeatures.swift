@@ -535,16 +535,16 @@ enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
 }
 
 enum AllowCallsForProfessionals: String, BumperFeature  {
-    case control, baseline, active
+    case control, baseline, inactive
     static var defaultValue: String { return AllowCallsForProfessionals.control.rawValue }
-    static var enumValues: [AllowCallsForProfessionals] { return [.control, .baseline, .active]}
+    static var enumValues: [AllowCallsForProfessionals] { return [.control, .baseline, .inactive]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Users can call professional sellers" } 
     static func fromPosition(_ position: Int) -> AllowCallsForProfessionals {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .active
+            case 2: return .inactive
             default: return .control
         }
     }

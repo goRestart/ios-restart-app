@@ -250,7 +250,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
             }
             describe("quick answers") {
                 beforeEach {
-                    featureFlags.allowCallsForProfessionals = .active
+                    featureFlags.allowCallsForProfessionals = .control
                 }
                 describe ("seller is not professional") {
                     beforeEach {
@@ -1117,7 +1117,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                     }
                     context("approved - normal") {
                         beforeEach {
-                            featureFlags.allowCallsForProfessionals = .active
+                            featureFlags.allowCallsForProfessionals = .control
                         }
                         context ("non professional seller") {
                             beforeEach {
@@ -1216,7 +1216,7 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                     }
                     context("approved - free") {
                         beforeEach {
-                            featureFlags.allowCallsForProfessionals = .active
+                            featureFlags.allowCallsForProfessionals = .control
                         }
                         context ("non professional seller") {
                             beforeEach {

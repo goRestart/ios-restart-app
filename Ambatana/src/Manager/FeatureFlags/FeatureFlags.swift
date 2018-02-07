@@ -99,7 +99,7 @@ extension PromoteBumpUpAfterSell {
 }
 
 extension AllowCallsForProfessionals {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { get { return self == .control || self == .baseline } }
 }
 
 extension ShowSecurityMeetingChatMessage {
