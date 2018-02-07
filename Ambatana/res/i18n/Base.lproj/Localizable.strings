@@ -2954,6 +2954,9 @@
 // Post button for each item in the list
 "trending_items_view_post_button" = "Post";
 
+// Search button for each item in the list
+"trending_items_view_search_button" = "Search";
+
 // Title for Most searched items card in feed
 "trending_items_card_title" = "This week's popular items";
 

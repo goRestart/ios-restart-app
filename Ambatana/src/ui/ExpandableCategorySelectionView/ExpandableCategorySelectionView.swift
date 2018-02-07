@@ -266,6 +266,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
     // MARK: - TagCollectionViewModelSelectionDelegate
     
     func vm(_ vm: TagCollectionViewModel, didSelectTagAtIndex index: Int) {
+        shrink(animated: true)
         viewModel.pressTagAtIndex(index)
     }
 }

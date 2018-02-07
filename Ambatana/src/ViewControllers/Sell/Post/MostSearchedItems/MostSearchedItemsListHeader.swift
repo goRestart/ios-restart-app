@@ -8,7 +8,7 @@
 
 class MostSearchedItemsListHeader: UITableViewHeaderFooterView, ReusableCell {
     
-    static let viewHeight: CGFloat = 180
+    static let viewHeight: CGFloat = 200
     
     private let titleLabel = UILabel()
     private let descriptionLabel = UILabel()

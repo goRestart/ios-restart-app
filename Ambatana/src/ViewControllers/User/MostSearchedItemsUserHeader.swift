@@ -78,7 +78,7 @@ class MostSearchedItemsUserHeader: UIView {
         
         titleLabel.layout(with: trendingImageView).toLeft(by: Metrics.shortMargin)
         titleLabel.layout(with: disclosureImageView).toRight(by: Metrics.shortMargin)
-        titleLabel.layout(with: self).top(by: Metrics.veryShortMargin)
+        titleLabel.layout(with: self).top(by: Metrics.shortMargin)
         titleLabel.layout().height(30)
         
         subtitleLabel.layout(with: trendingImageView).toLeft(by: Metrics.shortMargin)

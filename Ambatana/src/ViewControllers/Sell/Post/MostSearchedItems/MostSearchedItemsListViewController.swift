@@ -51,6 +51,7 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
         edgesForExtendedLayout = []
         tableView.estimatedRowHeight = MostSearchedItemsListCell.cellHeight
         tableView.sectionHeaderHeight = MostSearchedItemsListHeader.viewHeight
+        tableView.bounces = false
     }
     
     private func setupConstraints() {
@@ -90,6 +91,10 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
             MostSearchedItemsListHeader.reusableID) as? MostSearchedItemsListHeader else { return nil }
         header.updateTitleTo(viewModel.titleString)
         return header
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return MostSearchedItemsListHeader.viewHeight
     }
     
     

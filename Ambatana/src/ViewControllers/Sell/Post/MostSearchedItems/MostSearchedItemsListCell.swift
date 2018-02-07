@@ -55,14 +55,12 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
         
         numberOfSearchesImageView.image = UIImage(named: "ic_search")
         
-        // TODO: Localize strings
         numberOfSearchesLabel.font = UIFont.systemMediumFont(size: 13)
         numberOfSearchesLabel.textColor = UIColor.grayText
-        numberOfSearchesLabel.text = "4,394 searches"
         numberOfSearchesLabel.adjustsFontSizeToFitWidth = true
         numberOfSearchesLabel.minimumScaleFactor = 0.2
         
-        searchButton.setTitle("Search", for: .normal)
+        searchButton.setTitle(LGLocalizedString.trendingItemsViewSearchButton, for: .normal)
         searchButton.setTitleColor(UIColor.grayText, for: .normal)
         searchButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         searchButton.setImage(UIImage(named: "ic_search")?.withRenderingMode(.alwaysTemplate), for: .normal)
@@ -73,7 +71,7 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
         searchButton.addTarget(self, action: #selector(searchAction), for: .touchUpInside)
         
         postButton.setStyle(.primary(fontSize: .big))
-        postButton.setTitle("Post", for: .normal)
+        postButton.setTitle(LGLocalizedString.trendingItemsViewPostButton, for: .normal)
         postButton.titleLabel?.adjustsFontSizeToFitWidth = true
         postButton.titleLabel?.minimumScaleFactor = 0.2
         postButton.addTarget(self, action: #selector(postAction), for: .touchUpInside)
