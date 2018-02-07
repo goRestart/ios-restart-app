@@ -974,6 +974,8 @@
 "trending_items_expandable_menu_button" = "Trending";
 "trending_items_expandable_menu_subset_title" = "MEEST POPULAIRE ITEMS";
 "trending_items_header_bubble" = "Trending";
+"trending_items_profile_subtitle" = "See what people in your area are looking for";
+"trending_items_profile_title" = "Not sure what to sell?";
 "trending_items_view_number_of_searches_item" = "%@ zoekopdrachten";
 "trending_items_view_number_of_searches_title" = "Top zoekopdrachten van deze week";
 "trending_items_view_post_button" = "Plaats";

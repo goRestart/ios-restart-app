@@ -12,7 +12,7 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
     UITableViewDataSource, MostSearchedItemsListCellDelegate {
     
     let closeButton = UIBarButtonItem()
-    let tableView = UITableView()
+    let tableView = UITableView(frame: CGRect.zero, style: .grouped)
     
     let viewModel: MostSearchedItemsListViewModel
     
@@ -24,6 +24,7 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
         super.init(viewModel: viewModel, nibName: nil, navBarBackgroundStyle: .transparent(substyle: .light))
         
         tableView.register(MostSearchedItemsListCell.self, forCellReuseIdentifier: MostSearchedItemsListCell.reusableID)
+        tableView.register(MostSearchedItemsListHeader.self, forHeaderFooterViewReuseIdentifier: MostSearchedItemsListHeader.reusableID)
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -85,7 +86,9 @@ class MostSearchedItemsListViewController: BaseViewController, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = MostSearchedItemsListHeader(title: viewModel.titleString)
+        guard let header: MostSearchedItemsListHeader = tableView.dequeueReusableHeaderFooterView(withIdentifier:
+            MostSearchedItemsListHeader.reusableID) as? MostSearchedItemsListHeader else { return nil }
+        header.updateTitleTo(viewModel.titleString)
         return header
     }
     

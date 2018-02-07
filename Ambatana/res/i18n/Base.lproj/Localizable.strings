@@ -2964,7 +2964,7 @@
 "trending_items_profile_title" = "Not sure what to sell?";
 
 // Subtitle for Most searched items header in user profile
-"trending_items_profile_subtitle" = "See what people nearby are looking for";
+"trending_items_profile_subtitle" = "See what people in your area are looking for";
 
 // Button title for trending category in Expandable menu
 "trending_items_expandable_menu_button" = "Trending";

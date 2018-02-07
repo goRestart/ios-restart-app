@@ -974,6 +974,8 @@
 "trending_items_expandable_menu_button" = "트렌딩";
 "trending_items_expandable_menu_subset_title" = "가장 인기 있는 상품";
 "trending_items_header_bubble" = "인기 있는 상품";
+"trending_items_profile_subtitle" = "See what people in your area are looking for";
+"trending_items_profile_title" = "Not sure what to sell?";
 "trending_items_view_number_of_searches_item" = "%@ 검색";
 "trending_items_view_number_of_searches_title" = "이번 주 검색하기";
 "trending_items_view_post_button" = "게시";

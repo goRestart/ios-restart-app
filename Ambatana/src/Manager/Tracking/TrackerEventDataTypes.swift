@@ -1132,7 +1132,7 @@ enum EventParameterOptionSummary: String {
 }
 
 enum EventParameterMostSearched: String {
-    case notApply                   = "NA"
+    case notApply                   = "N/A"
     case tabBarCamera               = "tabbar-camera"
     case trendingExpandableButton   = "trending-salchicha"
     case postingTags                = "posting-tags"

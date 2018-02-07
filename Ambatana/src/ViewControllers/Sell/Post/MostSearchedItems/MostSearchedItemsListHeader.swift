@@ -6,7 +6,7 @@
 //  Copyright © 2018 Ambatana. All rights reserved.
 //
 
-class MostSearchedItemsListHeader: UIView {
+class MostSearchedItemsListHeader: UITableViewHeaderFooterView, ReusableCell {
     
     static let viewHeight: CGFloat = 180
     
@@ -19,9 +19,9 @@ class MostSearchedItemsListHeader: UIView {
     
     // MARK: - Lifecycle
     
-    init(title: String) {
-        super.init(frame: CGRect.zero)
-        setupUI(title: title)
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        setupUI()
         setupConstraints()
     }
     
@@ -32,11 +32,12 @@ class MostSearchedItemsListHeader: UIView {
     
     // MARK: - UI
     
-    private func setupUI(title: String) {
+    private func setupUI() {
+        contentView.backgroundColor = .white
+        
         titleLabel.font = UIFont.boldSystemFont(ofSize: 23)
         titleLabel.textColor = UIColor.black
         titleLabel.numberOfLines = 2
-        titleLabel.text = title
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.minimumScaleFactor = 0.2
         
@@ -55,26 +56,30 @@ class MostSearchedItemsListHeader: UIView {
     }
     
     private func setupConstraints() {
-        translatesAutoresizingMaskIntoConstraints = false
+        //translatesAutoresizingMaskIntoConstraints = false
+        //contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        //contentView.layout(with: self).fill()
         
         let containerSubviews = [titleLabel, descriptionLabel, subtitleView]
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: containerSubviews)
-        addSubviews(containerSubviews)
+        contentView.addSubviews(containerSubviews)
+    
         
         let subtitleViews = [subtitleImageView, subtitleLabel]
         subtitleView.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subtitleViews)
         subtitleView.addSubviews(subtitleViews)
         
-        titleLabel.layout(with: self).fillHorizontal(by: Metrics.bigMargin)
-        titleLabel.layout(with: self).below(by: Metrics.bigMargin)
+        titleLabel.layout(with: contentView).fillHorizontal(by: Metrics.bigMargin)
+        titleLabel.layout(with: contentView).top(by: Metrics.bigMargin)
         titleLabel.layout().height(56)
 
-        descriptionLabel.layout(with: self).fillHorizontal(by: Metrics.bigMargin)
-        descriptionLabel.layout(with: titleLabel).below(by: Metrics.margin)
+        descriptionLabel.layout(with: contentView).fillHorizontal(by: Metrics.bigMargin)
+        descriptionLabel.layout(with: titleLabel).top(to: .bottom, by: Metrics.margin)
         descriptionLabel.layout().height(60)
         
-        subtitleView.layout(with: self).fillHorizontal()
-        subtitleView.layout(with: descriptionLabel).below(by: Metrics.margin)
+        subtitleView.layout(with: contentView).fillHorizontal()
+        subtitleView.layout(with: descriptionLabel).top(to: .bottom, by: Metrics.margin)
         subtitleView.layout().height(15)
         
         subtitleImageView.layout(with: subtitleView)
@@ -88,5 +93,9 @@ class MostSearchedItemsListHeader: UIView {
             .fillVertical()
             .trailing(by: Metrics.bigMargin)
         subtitleLabel.layout(with: subtitleImageView).toLeft(by: Metrics.margin)
+    }
+    
+    func updateTitleTo(_ title: String) {
+        titleLabel.text = title
     }
 }

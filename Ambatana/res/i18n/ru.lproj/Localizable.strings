@@ -974,6 +974,8 @@
 "trending_items_expandable_menu_button" = "В тренде";
 "trending_items_expandable_menu_subset_title" = "САМЫЕ ПОПУЛЯРНЫЕ ТОВАРЫ";
 "trending_items_header_bubble" = "В тренде";
+"trending_items_profile_subtitle" = "See what people in your area are looking for";
+"trending_items_profile_title" = "Not sure what to sell?";
 "trending_items_view_number_of_searches_item" = "%@ поисков";
 "trending_items_view_number_of_searches_title" = "Поиски недели";
 "trending_items_view_post_button" = "Разместить";

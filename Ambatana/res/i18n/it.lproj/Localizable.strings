@@ -974,6 +974,8 @@
 "trending_items_expandable_menu_button" = "Tendenza";
 "trending_items_expandable_menu_subset_title" = "ARTICOLI PIÙ POPOLARI";
 "trending_items_header_bubble" = "Tendenza";
+"trending_items_profile_subtitle" = "See what people in your area are looking for";
+"trending_items_profile_title" = "Not sure what to sell?";
 "trending_items_view_number_of_searches_item" = "%@ ricerche";
 "trending_items_view_number_of_searches_title" = "Ricerche principali di questa settimana";
 "trending_items_view_post_button" = "Pubblica";
