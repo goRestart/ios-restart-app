@@ -19,7 +19,11 @@ class MostSearchedItemsListViewModel: BaseViewModel {
     
     let mostSearchedItems: [LocalMostSearchedItem]
     var titleString: String {
-        return LGLocalizedString.trendingItemsViewTitleNoLocation
+        if let city = locationManager.currentLocation?.postalAddress?.city, !city.isEmpty {
+            return LGLocalizedString.trendingItemsViewTitle(city)
+        } else {
+            return LGLocalizedString.trendingItemsViewTitleNoLocation
+        }
     }
     
     

@@ -407,7 +407,6 @@ fileprivate extension PostListingViewModel {
             title = stateTitle
         }
         
-        //let title = postDetailViewModel.listingTitle ?? state.value.verticalAttributes?.generatedTitle(postingFlowType: featureFlags.postingFlowType)
         return ListingCreationParams.make(title: title,
                                           description: description,
                                           currency: currency,
