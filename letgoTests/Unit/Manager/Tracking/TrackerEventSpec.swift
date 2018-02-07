@@ -2263,6 +2263,40 @@ class TrackerEventSpec: QuickSpec {
                     let mostSearchedButton = sut.params!.stringKeyParams["most-searched-button"] as? String
                     expect(mostSearchedButton).to(equal("NA"))
                 }
+                describe("listingSellStart mostSearchedButton") {
+                    let eventParameterMostSearched = EventParameterMostSearched.makeMock()
+                    
+                    beforeEach {
+                        sut = TrackerEvent.listingSellStart(.mostSearched,
+                                                            buttonName: nil,
+                                                            sellButtonPosition: .none,
+                                                            category: .cars,
+                                                            mostSearchedButton: eventParameterMostSearched)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue).to(equal("product-sell-start"))
+                    }
+                    it("contains the page from which the event has been sent") {
+                        let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                        expect(typePage).to(equal("most-searched"))
+                    }
+                    it("contains button name from which the event has been sent") {
+                        let name = sut.params!.stringKeyParams["button-name"] as? String
+                        expect(name).to(beNil())
+                    }
+                    it("contains button position from which the event has been sent") {
+                        let position = sut.params!.stringKeyParams["sell-button-position"] as? String
+                        expect(position).to(equal("N/A"))
+                    }
+                    it("contains category id param") {
+                        let name = sut.params!.stringKeyParams["category-id"] as? Int
+                        expect(name).to(equal(9))
+                    }
+                    it("contains notApply mostSearchedButton param") {
+                        let mostSearchedButton = sut.params!.stringKeyParams["most-searched-button"] as? String
+                        expect(mostSearchedButton).to(equal(eventParameterMostSearched.rawValue))
+                    }
+                }
             }
 
             describe("listingSellError") {
@@ -2340,6 +2374,10 @@ class TrackerEventSpec: QuickSpec {
                     let data = sut.params!.stringKeyParams["sell-button-position"] as? String
                     expect(data).to(equal("big-button"))
                 }
+                it("contains N/A most-searched-button") {
+                    let data = sut.params!.stringKeyParams["most-searched-button"] as? String
+                    expect(data).to(equal(EventParameterMostSearched.notApply.rawValue))
+                }
                 it("contains negotiable-price") {
                     let data = sut.params!.stringKeyParams["negotiable-price"] as? String
                     expect(data).to(equal("yes"))
@@ -2379,6 +2417,107 @@ class TrackerEventSpec: QuickSpec {
                 it("contains bathrooms") {
                     let data = sut.params!.stringKeyParams["bathroom-number"] as? String
                     expect(data).to(equal("N/A"))
+                }
+                describe("listingSellComplete mostSearchedButton") {
+                    let eventParameterMostSearched = EventParameterMostSearched.makeMock()
+                    
+                    beforeEach {
+                        var product = MockProduct.makeMock()
+                        product.objectId = "r4nd0m1D"
+                        product.name = "name"
+                        product.descr = nil
+                        product.category = .homeAndGarden
+                        product.price = .normal(20)
+                        product.images = MockFile.makeMocks(count: 2)
+                        product.descr = String.makeRandom()
+                        sut = TrackerEvent.listingSellComplete(Listing.product(product),
+                                                               buttonName: .done,
+                                                               sellButtonPosition: .floatingButton,
+                                                               negotiable: .yes,
+                                                               pictureSource: .gallery,
+                                                               freePostingModeAllowed: true,
+                                                               typePage: .sell,
+                                                               mostSearchedButton: eventParameterMostSearched)
+                    }
+                    it("has its event name") {
+                        expect(sut.name.rawValue).to(equal("product-sell-complete"))
+                    }
+                    it("contains free-posting") {
+                        let freePostingParameter = sut.params!.stringKeyParams["free-posting"] as? String
+                        expect(freePostingParameter).to(equal("false"))
+                    }
+                    it("contains product-id") {
+                        let productId = sut.params!.stringKeyParams["product-id"] as? String
+                        expect(productId).to(equal("r4nd0m1D"))
+                    }
+                    it("contains category-id") {
+                        let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
+                        expect(categoryId).to(equal(4))
+                    }
+                    it("contains product-name") {
+                        let data = sut.params!.stringKeyParams["product-name"] as? String
+                        expect(data).to(equal("name"))
+                    }
+                    it("contains product-description") {
+                        let data = sut.params!.stringKeyParams["product-description"] as? Bool
+                        expect(data).to(equal(true))
+                    }
+                    it("contains number-photos-posting") {
+                        let data = sut.params!.stringKeyParams["number-photos-posting"] as? Int
+                        expect(data).to(equal(2))
+                    }
+                    it("contains button-name") {
+                        let data = sut.params!.stringKeyParams["button-name"] as? String
+                        expect(data).to(equal("done"))
+                    }
+                    it("contains sell-button-position") {
+                        let data = sut.params!.stringKeyParams["sell-button-position"] as? String
+                        expect(data).to(equal("big-button"))
+                    }
+                    it("contains most-searched-button") {
+                        let data = sut.params!.stringKeyParams["most-searched-button"] as? String
+                        expect(data).to(equal(eventParameterMostSearched.rawValue))
+                    }
+                    it("contains negotiable-price") {
+                        let data = sut.params!.stringKeyParams["negotiable-price"] as? String
+                        expect(data).to(equal("yes"))
+                    }
+                    it("contains picture-source") {
+                        let data = sut.params!.stringKeyParams["picture-source"] as? String
+                        expect(data).to(equal("gallery"))
+                    }
+                    it("contains posting-type") {
+                        let data = sut.params!.stringKeyParams["posting-type"] as? String
+                        expect(data).to(equal("stuff"))
+                    }
+                    it("contains make") {
+                        let data = sut.params!.stringKeyParams["product-make"] as? String
+                        expect(data).to(equal("N/A"))
+                    }
+                    it("contains model") {
+                        let data = sut.params!.stringKeyParams["product-model"] as? String
+                        expect(data).to(equal("N/A"))
+                    }
+                    it("contains year") {
+                        let data = sut.params!.stringKeyParams["product-year"] as? String
+                        expect(data).to(equal("N/A"))
+                    }
+                    it("contains property type") {
+                        let data = sut.params!.stringKeyParams["property-type"] as? String
+                        expect(data).to(equal("N/A"))
+                    }
+                    it("contains deal type") {
+                        let data = sut.params!.stringKeyParams["deal-type"] as? String
+                        expect(data).to(equal("N/A"))
+                    }
+                    it("contains bedrooms") {
+                        let data = sut.params!.stringKeyParams["bedroom-number"] as? String
+                        expect(data).to(equal("N/A"))
+                    }
+                    it("contains bathrooms") {
+                        let data = sut.params!.stringKeyParams["bathroom-number"] as? String
+                        expect(data).to(equal("N/A"))
+                    }
                 }
             }
             
@@ -2436,6 +2575,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains sell-button-position") {
                     let data = sut.params!.stringKeyParams["sell-button-position"] as? String
                     expect(data).to(equal("big-button"))
+                }
+                it("contains N/A most-searched-button") {
+                    let data = sut.params!.stringKeyParams["most-searched-button"] as? String
+                    expect(data).to(equal(EventParameterMostSearched.notApply.rawValue))
                 }
                 it("contains negotiable-price") {
                     let data = sut.params!.stringKeyParams["negotiable-price"] as? String
@@ -2550,6 +2693,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains sell-button-position") {
                     let data = sut.params!.stringKeyParams["sell-button-position"] as? String
                     expect(data).to(equal("big-button"))
+                }
+                it("contains N/A most-searched-button") {
+                    let data = sut.params!.stringKeyParams["most-searched-button"] as? String
+                    expect(data).to(equal(EventParameterMostSearched.notApply.rawValue))
                 }
                 it("contains negotiable-price") {
                     let data = sut.params!.stringKeyParams["negotiable-price"] as? String

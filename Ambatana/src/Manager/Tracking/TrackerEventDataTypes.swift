@@ -1138,6 +1138,11 @@ enum EventParameterMostSearched: String {
     case postingTags                = "posting-tags"
     case feedBubble                 = "feed-bubble"
     case feedCard                   = "feed-card"
+    case userProfile                = "user-profile"
+    
+    static var allValues: [EventParameterMostSearched] {
+        return [.notApply, .tabBarCamera, .trendingExpandableButton, .postingTags, .feedBubble, .feedCard, .userProfile]
+    }
 }
 
 struct EventParameters {

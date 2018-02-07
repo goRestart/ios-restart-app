@@ -48,7 +48,7 @@ class MostSearchedItemsCoordinator: Coordinator {
         self.locationManager = locationManager
         
         let mostSearchedItemsVM = MostSearchedItemsListViewModel(isSearchEnabled: enableSearch,
-                                                                 locationManager: locationManager)
+                                                                 locationManager: locationManager,
                                                                  postingSource: source)
         let mostSearchedItemsVC = MostSearchedItemsListViewController(viewModel: mostSearchedItemsVM)
         let navigationController = UINavigationController(rootViewController: mostSearchedItemsVC)

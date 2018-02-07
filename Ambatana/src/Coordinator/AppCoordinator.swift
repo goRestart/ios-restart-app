@@ -217,7 +217,7 @@ extension AppCoordinator: AppNavigator {
         switch source {
         case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .realEstatePromo,
              .mostSearchedTabBarCamera, .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable,
-             .mostSearchedCategoryHeader, .mostSearchedCard:
+             .mostSearchedCategoryHeader, .mostSearchedCard, .mostSearchedUserProfile:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera:
             forcedInitialTab = .camera

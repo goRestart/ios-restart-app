@@ -36,6 +36,7 @@
 		01A04805200CE474008725A1 /* LocalMostSearchedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A04803200CE474008725A1 /* LocalMostSearchedItem.swift */; };
 		01A0480A200CEF53008725A1 /* DailyCountIncrementer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */; };
 		01A0480B200CEF53008725A1 /* DailyCountIncrementer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */; };
+		01B06D88202B187100083DD1 /* MockEventParameterMostSearched.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B06D87202B187100083DD1 /* MockEventParameterMostSearched.swift */; };
 		01C7778E1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C7778D1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift */; };
 		01C7778F1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C7778D1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift */; };
 		0A0CD7F81FD97FBB00B0BACF /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */; };
@@ -1563,6 +1564,7 @@
 		01920C882010E27F00B73875 /* MostSearchedItemsNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsNavigator.swift; sourceTree = "<group>"; };
 		01A04803200CE474008725A1 /* LocalMostSearchedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalMostSearchedItem.swift; sourceTree = "<group>"; };
 		01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCountIncrementer.swift; sourceTree = "<group>"; };
+		01B06D87202B187100083DD1 /* MockEventParameterMostSearched.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEventParameterMostSearched.swift; sourceTree = "<group>"; };
 		01C7778D1FFE4B92001A04C7 /* MostSearchedItemsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListCell.swift; sourceTree = "<group>"; };
 		0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		0A6D88BE1F7CED6900819E89 /* DeepLinksRouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLinksRouterSpec.swift; sourceTree = "<group>"; };
@@ -3358,6 +3360,7 @@
 			isa = PBXGroup;
 			children = (
 				50D08D6A1E69AF14009CC260 /* MockTracker.swift */,
+				01B06D87202B187100083DD1 /* MockEventParameterMostSearched.swift */,
 			);
 			path = Tracking;
 			sourceTree = "<group>";
@@ -5625,6 +5628,7 @@
 				50D08DE61E69AF14009CC260 /* SignUpViewModelSpec.swift in Sources */,
 				727463AD1FB0674D00AD8261 /* ListingPrice+LGSpec.swift in Sources */,
 				502047221EEA9A2F006C0EC2 /* MockFeatureFlagsDAO.swift in Sources */,
+				01B06D88202B187100083DD1 /* MockEventParameterMostSearched.swift in Sources */,
 				50D08DC01E69AF14009CC260 /* CGFloat+LGSpec.swift in Sources */,
 				724D77A71FC338E200DB43C0 /* RealEstateAttributes+LGSpec.swift in Sources */,
 				72D928D81E83D1C60030F4C3 /* ChatViewModelSpec.swift in Sources */,

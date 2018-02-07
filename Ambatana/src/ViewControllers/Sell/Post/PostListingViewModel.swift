@@ -25,6 +25,7 @@ enum PostingSource {
     case mostSearchedTagsExpandable
     case mostSearchedCategoryHeader
     case mostSearchedCard
+    case mostSearchedUserProfile
 }
 
 
@@ -440,7 +441,7 @@ extension PostingSource {
         case .deleteListing:
             return .listingDelete
         case .mostSearchedTabBarCamera, .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable,
-             .mostSearchedCategoryHeader, .mostSearchedCard:
+             .mostSearchedCategoryHeader, .mostSearchedCard, .mostSearchedUserProfile:
             return .mostSearched
         case .realEstatePromo:
             return .realEstatePromo
@@ -450,7 +451,8 @@ extension PostingSource {
     var buttonName: EventParameterButtonNameType? {
         switch self {
         case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
-             .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader, .mostSearchedCard:
+             .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
+             .mostSearchedCard, .mostSearchedUserProfile:
             return nil
         case .onboardingButton:
             return .sellYourStuff
@@ -468,7 +470,8 @@ extension PostingSource {
         case .sellButton:
             return .floatingButton
         case .onboardingButton, .onboardingCamera, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
-             .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader, .mostSearchedCard:
+             .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
+             .mostSearchedCard, .mostSearchedUserProfile:
             return .none
         case .realEstatePromo:
             return .realEstatePromo
@@ -490,6 +493,8 @@ extension PostingSource {
             return .feedBubble
         case .mostSearchedCard:
             return .feedCard
+        case .mostSearchedUserProfile:
+            return .userProfile
         }
     }
 }
