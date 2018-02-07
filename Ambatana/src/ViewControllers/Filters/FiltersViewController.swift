@@ -107,7 +107,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             guard let maxPriceCell = collectionView.cellForItem(at: indexPath) as? FilterRangePriceCell else { return }
             maxPriceCell.textFieldTo.becomeFirstResponder()
         } else {
-            guard let maxPriceCell = collectionView.cellForItem(at: indexPath) as? FilterPriceCell else { return }
+            guard let maxPriceCell = collectionView.cellForItem(at: indexPath) as? FilterTextFieldIntCell else { return }
             maxPriceCell.textField.becomeFirstResponder()
         }
 
@@ -268,7 +268,6 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.isSelected = viewModel.categorySelectedAtIndex(indexPath.row)
                     return cell
                 }
-                
             case .carsInfo:
                 switch indexPath.item {
                 case 0:
@@ -357,8 +356,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.topSeparator?.isHidden = false
                     return cell
                 case .sizeFrom, .sizeTo:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterPriceCell.reusableID,
-                                                                        for: indexPath) as? FilterPriceCell else { return UICollectionViewCell() }
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterTextFieldIntCell.reusableID,
+                                                                        for: indexPath) as? FilterTextFieldIntCell else { return UICollectionViewCell() }
                     cell.tag = realEstateSection == .sizeFrom ? TextFieldPriceType.sizeFrom.rawValue : TextFieldPriceType.sizeTo.rawValue
                     cell.textField.placeholder = Constants.sizeSquareMetersUnit
                     cell.titleLabel.text = realEstateSection == .sizeFrom ? LGLocalizedString.filtersPriceFrom :
@@ -371,8 +370,6 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                         priceToCellFrame = cell.frame
                     }
                     return cell
-                default:
-                    return UICollectionViewCell()
                 }
             case .within:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
@@ -415,9 +412,10 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                         return UICollectionViewCell()
                     }
                 } else {
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterPriceCell.reusableID,
-                                                                        for: indexPath) as? FilterPriceCell else { return UICollectionViewCell() }
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterTextFieldIntCell.reusableID,
+                                                                        for: indexPath) as? FilterTextFieldIntCell else { return UICollectionViewCell() }
                     cell.tag = indexPath.row
+                    cell.textField.placeholder = LGLocalizedString.filtersSectionPrice
                     cell.titleLabel.text = indexPath.row == 0 ? LGLocalizedString.filtersPriceFrom :
                         LGLocalizedString.filtersPriceTo
                     cell.bottomSeparator?.isHidden =  indexPath.row == 0
@@ -499,7 +497,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                                 forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
                                 withReuseIdentifier: FilterHeaderCell.reusableID)
         collectionView.register(FilterRangePriceCell.self, forCellWithReuseIdentifier: FilterRangePriceCell.reusableID)
-        collectionView.register(FilterPriceCell.self, forCellWithReuseIdentifier: FilterPriceCell.reusableID)
+        collectionView.register(FilterTextFieldIntCell.self, forCellWithReuseIdentifier: FilterTextFieldIntCell.reusableID)
         collectionView.register(FilterFreeCell.self, forCellWithReuseIdentifier: FilterFreeCell.reusableID)
 
         // Navbar

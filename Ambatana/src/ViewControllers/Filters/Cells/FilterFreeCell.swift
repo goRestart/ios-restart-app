@@ -80,7 +80,7 @@ class FilterFreeCell: UICollectionViewCell, FilterCell, ReusableCell {
     }
     
     private func setAccessibilityIds() {
-        self.accessibilityId =  .filterPriceCell
+        self.accessibilityId =  .filterTextFieldIntCell
         titleLabel.accessibilityId =  .filterFreeCellTitleLabel
     }
 }
