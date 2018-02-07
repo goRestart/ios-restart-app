@@ -269,7 +269,7 @@ extension ListingFilters: Equatable {
             a.realEstateNumberOfBedrooms == b.realEstateNumberOfBedrooms &&
             a.realEstateNumberOfBathrooms == b.realEstateNumberOfBathrooms &&
             a.realEstateSizeRange == b.realEstateSizeRange &&
-            a.realEstateNumberOfRooms! == b.realEstateNumberOfRooms
+            a.realEstateNumberOfRooms == b.realEstateNumberOfRooms
     }
 }
 
