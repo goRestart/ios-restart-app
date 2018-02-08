@@ -184,6 +184,10 @@ class MainListingsViewModel: BaseViewModel {
         return true
     }
 
+    private var shouldShowCollections: Bool {
+        return keyValueStorage[.lastSuggestiveSearches].count >= minimumSearchesSavedToShowCollection && filters.noFilterCategoryApplied
+    }
+    
     let mainListingsHeader = Variable<MainListingsHeader>([])
     let filterTitle = Variable<String?>(nil)
     let filterDescription = Variable<String?>(nil)
@@ -202,7 +206,7 @@ class MainListingsViewModel: BaseViewModel {
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
     fileprivate var collections: [CollectionCellType] {
-        guard keyValueStorage[.lastSuggestiveSearches].count >= minimumSearchesSavedToShowCollection else { return [] }
+        guard shouldShowCollections else { return [] }
         return [.selectedForYou]
     }
     fileprivate let keyValueStorage: KeyValueStorage
