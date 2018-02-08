@@ -12,8 +12,9 @@ protocol MostSearchedItemsUserHeaderDelegate: class {
 
 class MostSearchedItemsUserHeader: UIView {
     
-    static let viewHeight: CGFloat = 68
+    static let viewHeight: CGFloat = 88
     
+    private let corneredBackgroundView = UIView()
     private let trendingImageView = UIImageView()
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
@@ -42,32 +43,33 @@ class MostSearchedItemsUserHeader: UIView {
     // MARK: - UI
     
     private func setupUI() {
+        corneredBackgroundView.backgroundColor = .white
+        corneredBackgroundView.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
+        
         trendingImageView.image = UIImage(named: "trending_icon")
         trendingImageView.contentMode = .scaleAspectFit
-        addSubview(trendingImageView)
         
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.textColor = UIColor.black
         titleLabel.text = LGLocalizedString.trendingItemsProfileTitle
-        addSubview(titleLabel)
         
-        subtitleLabel.font = UIFont.boldSystemFont(ofSize: 11)
+        subtitleLabel.font = UIFont.systemRegularFont(size: 11)
         subtitleLabel.textColor = UIColor.black
         subtitleLabel.text = LGLocalizedString.trendingItemsProfileSubtitle
-        addSubview(subtitleLabel)
         
         disclosureImageView.image = UIImage(named: "ic_disclosure")
         disclosureImageView.contentMode = .center
-        addSubview(disclosureImageView)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
         addGestureRecognizer(tap)
     }
     
     private func setupConstraints() {
-        let subviews = [trendingImageView, titleLabel, subtitleLabel, disclosureImageView]
+        let subviews = [corneredBackgroundView, trendingImageView, titleLabel, subtitleLabel, disclosureImageView]
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
         addSubviews(subviews)
+        
+        corneredBackgroundView.layout(with: self).fill(by: Metrics.shortMargin)
         
         trendingImageView.layout(with: self)
             .centerY()
@@ -78,17 +80,17 @@ class MostSearchedItemsUserHeader: UIView {
         
         titleLabel.layout(with: trendingImageView).toLeft(by: Metrics.shortMargin)
         titleLabel.layout(with: disclosureImageView).toRight(by: Metrics.shortMargin)
-        titleLabel.layout(with: self).top(by: Metrics.shortMargin)
+        titleLabel.layout(with: self).centerY(by: -(titleLabel.height/2 + Metrics.shortMargin))
         titleLabel.layout().height(30)
         
         subtitleLabel.layout(with: trendingImageView).toLeft(by: Metrics.shortMargin)
         subtitleLabel.layout(with: disclosureImageView).toRight(by: Metrics.shortMargin)
-        subtitleLabel.layout(with: titleLabel).below(by: Metrics.veryShortMargin)
+        subtitleLabel.layout(with: self).centerY(by: subtitleLabel.height/2 + Metrics.margin)
         subtitleLabel.layout().height(13)
         
         disclosureImageView.layout(with: self)
             .centerY()
-            .trailing(by: -Metrics.shortMargin)
+            .trailing(by: -Metrics.bigMargin)
         disclosureImageView.layout()
             .width(8)
             .height(13)
