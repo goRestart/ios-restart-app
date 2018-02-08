@@ -843,7 +843,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     }
     
     func vmDidSelectMostSearchedItems() {
-        navigator?.openMostSearchedItems(source: .mostSearchedCard, enableSearch: false)
+        navigator?.openMostSearchedItems(source: .mostSearchedCard, enableSearch: true)
     }
 
     func vmUserDidTapInvite() {
