@@ -52,10 +52,14 @@ class MostSearchedItemsUserHeader: UIView {
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.textColor = UIColor.black
         titleLabel.text = LGLocalizedString.trendingItemsProfileTitle
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.minimumScaleFactor = 0.4
         
         subtitleLabel.font = UIFont.systemRegularFont(size: 11)
         subtitleLabel.textColor = UIColor.black
         subtitleLabel.text = LGLocalizedString.trendingItemsProfileSubtitle
+        subtitleLabel.adjustsFontSizeToFitWidth = true
+        subtitleLabel.minimumScaleFactor = 0.4
         
         disclosureImageView.image = UIImage(named: "ic_disclosure")
         disclosureImageView.contentMode = .center
@@ -78,13 +82,13 @@ class MostSearchedItemsUserHeader: UIView {
             .width(46)
             .height(46)
         
-        titleLabel.layout(with: trendingImageView).toLeft(by: Metrics.shortMargin)
-        titleLabel.layout(with: disclosureImageView).toRight(by: Metrics.shortMargin)
+        titleLabel.layout(with: trendingImageView).leading(to: .trailing, by: Metrics.shortMargin)
+        titleLabel.layout(with: disclosureImageView).trailing(by: -Metrics.shortMargin)
         titleLabel.layout(with: self).centerY(by: -(titleLabel.height/2 + Metrics.shortMargin))
         titleLabel.layout().height(30)
         
-        subtitleLabel.layout(with: trendingImageView).toLeft(by: Metrics.shortMargin)
-        subtitleLabel.layout(with: disclosureImageView).toRight(by: Metrics.shortMargin)
+        subtitleLabel.layout(with: trendingImageView).leading(to: .trailing, by: Metrics.shortMargin)
+        subtitleLabel.layout(with: disclosureImageView).trailing(by: -Metrics.shortMargin)
         subtitleLabel.layout(with: self).centerY(by: subtitleLabel.height/2 + Metrics.margin)
         subtitleLabel.layout().height(13)
         
