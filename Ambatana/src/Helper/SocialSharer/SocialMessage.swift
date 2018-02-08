@@ -14,7 +14,6 @@ import AppsFlyerLib
 typealias MessageWithURLCompletion = (String) -> ()
 typealias NativeShareItemsCompletion = ([Any]) -> ()
 typealias FBSDKShareLinkContentCompletion = (FBSDKShareLinkContent) -> ()
-typealias TwitterComposerCompletion = (TWTRComposer) -> ()
 typealias AppsFlyerGenerateInviteURLCompletion = (URL?) -> ()
 
 
@@ -36,18 +35,9 @@ enum ShareSource: String {
 // MARK: - SocialMessage
 
 protocol SocialMessage {
-    var whatsappShareText: String { get }
-    var telegramShareText: String { get }
     var emailShareSubject: String { get }
-    var emailShareBody: String { get }
     var emailShareIsHtml: Bool { get }
-    var fbShareContent: FBSDKShareLinkContent { get }
-    var fbMessengerShareContent: FBSDKShareLinkContent { get }
-    var twitterShareText: String { get }
-    var smsShareText: String { get }
-    var copyLinkText: String { get }
-    var nativeShareItems: [Any] { get }
-    
+
     static var utmMediumKey: String { get }
     static var utmMediumValue: String { get }
     static var utmCampaignKey: String { get }
@@ -55,8 +45,6 @@ protocol SocialMessage {
     static var utmSourceKey: String { get }
     static var utmSourceValue: String { get }
     
-    var emailShareSubject: String { get }
-    var emailShareIsHtml: Bool { get }
     var fallbackToStore: Bool { get }
     var controlParameter: String { get }
     
@@ -69,8 +57,6 @@ protocol SocialMessage {
     func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion)
     func retrieveFBShareContent(completion: @escaping FBSDKShareLinkContentCompletion)
     func retrieveFBMessengerShareContent(completion: @escaping FBSDKShareLinkContentCompletion)
-    func retrieveTwitterComposer(completion: @escaping TwitterComposerCompletion)
-    func retrieveTwitterComposer(text: String, completion: @escaping TwitterComposerCompletion)
     func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion)
 }
 
@@ -131,15 +117,6 @@ extension SocialMessage {
                 shareContent.contentURL = url
             }
             completion(shareContent)
-        }
-    }
-    
-    func retrieveTwitterComposer(text: String, completion: @escaping TwitterComposerCompletion) {
-        let twitterComposer = TWTRComposer()
-        twitterComposer.setText(text)
-        retrieveShareURL(source: .twitter) { url in
-            twitterComposer.setURL(url)
-            completion(twitterComposer)
         }
     }
     
@@ -287,10 +264,6 @@ struct ListingSocialMessage: SocialMessage {
         }
     }
     
-    func retrieveTwitterComposer(completion: @escaping TwitterComposerCompletion) {
-        retrieveTwitterComposer(text: fullMessage, completion: completion)
-    }
-    
     func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
         retrieveShareURL(source: source,
                          campaign: AppShareSocialMessage.utmCampaignValue,
@@ -343,10 +316,6 @@ struct AppShareSocialMessage: SocialMessage {
                 completion(shareBody)
             }
         }
-    }
-
-    func retrieveTwitterComposer(completion: @escaping TwitterComposerCompletion) {
-        retrieveTwitterComposer(text: LGLocalizedString.appShareMessageText, completion: completion)
     }
 
     func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion) {
@@ -447,10 +416,6 @@ struct UserSocialMessage: SocialMessage {
                 completion(self.messageText)
             }
         }
-    }
-    
-    func retrieveTwitterComposer(completion: @escaping TwitterComposerCompletion) {
-        retrieveTwitterComposer(text: LGLocalizedString.appShareMessageText, completion: completion)
     }
 
     func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion) {
