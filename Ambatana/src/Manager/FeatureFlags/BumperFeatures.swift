@@ -34,7 +34,6 @@ extension Bumper  {
         flags.append(BumpUpPriceDifferentiation.self)
         flags.append(PromoteBumpUpAfterSell.self)
         flags.append(MoreInfoAFShOrDFP.self)
-        flags.append(ShowSecurityMeetingChatMessage.self)
         flags.append(AllowCallsForProfessionals.self)
         flags.append(RealEstateImprovements.self)
         flags.append(RealEstatePromos.self)
@@ -45,6 +44,7 @@ extension Bumper  {
         flags.append(RealEstateNewCopy.self)
         flags.append(DummyUsersInfoProfile.self)
         flags.append(ShowInactiveConversations.self)
+        flags.append(ShowSecurityMeetingChatMessage.self)
         Bumper.initialize(flags)
     } 
 
@@ -153,11 +153,6 @@ extension Bumper  {
         return MoreInfoAFShOrDFP(rawValue: value) ?? .control 
     }
 
-    static var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
-        guard let value = Bumper.value(for: ShowSecurityMeetingChatMessage.key) else { return .control }
-        return ShowSecurityMeetingChatMessage(rawValue: value) ?? .control 
-    }
-
     static var allowCallsForProfessionals: AllowCallsForProfessionals {
         guard let value = Bumper.value(for: AllowCallsForProfessionals.key) else { return .control }
         return AllowCallsForProfessionals(rawValue: value) ?? .control 
@@ -206,6 +201,11 @@ extension Bumper  {
     static var showInactiveConversations: Bool {
         guard let value = Bumper.value(for: ShowInactiveConversations.key) else { return false }
         return ShowInactiveConversations(rawValue: value)?.asBool ?? false
+    }
+
+    static var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
+        guard let value = Bumper.value(for: ShowSecurityMeetingChatMessage.key) else { return .control }
+        return ShowSecurityMeetingChatMessage(rawValue: value) ?? .control 
     } 
 }
 
@@ -518,22 +518,6 @@ enum MoreInfoAFShOrDFP: String, BumperFeature  {
     }
 }
 
-enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return ShowSecurityMeetingChatMessage.control.rawValue }
-    static var enumValues: [ShowSecurityMeetingChatMessage] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show a disclaimer message on chat after the first conversation from the interlocutor" } 
-    static func fromPosition(_ position: Int) -> ShowSecurityMeetingChatMessage {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum AllowCallsForProfessionals: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return AllowCallsForProfessionals.control.rawValue }
@@ -686,5 +670,22 @@ enum ShowInactiveConversations: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show button to access inactive conversations" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
+    case control, baseline, variant1, variant2
+    static var defaultValue: String { return ShowSecurityMeetingChatMessage.control.rawValue }
+    static var enumValues: [ShowSecurityMeetingChatMessage] { return [.control, .baseline, .variant1, .variant2]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show a disclaimer message on chat after the first conversation from the interlocutor" } 
+    static func fromPosition(_ position: Int) -> ShowSecurityMeetingChatMessage {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variant1
+            case 3: return .variant2
+            default: return .control
+        }
+    }
 }
 

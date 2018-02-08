@@ -46,7 +46,6 @@ protocol FeatureFlaggeable: class {
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var realEstateImprovements: RealEstateImprovements { get }
     var realEstatePromos: RealEstatePromos { get }
     var allowEmojisOnChat: AllowEmojisOnChat { get }
@@ -55,6 +54,7 @@ protocol FeatureFlaggeable: class {
     var realEstateNewCopy: RealEstateNewCopy { get }
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var showInactiveConversations: Bool { get }
+    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -99,10 +99,6 @@ extension PromoteBumpUpAfterSell {
 }
 
 extension AllowCallsForProfessionals {
-    var isActive: Bool { get { return self == .active } }
-}
-
-extension ShowSecurityMeetingChatMessage {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -358,13 +354,6 @@ class FeatureFlags: FeatureFlaggeable {
         return MoreInfoAFShOrDFP.fromPosition(abTests.moreInfoAFShOrDFP.value)
     }
     
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
-        if Bumper.enabled {
-            return Bumper.showSecurityMeetingChatMessage
-        }
-        return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
-    }
-    
     var realEstateImprovements: RealEstateImprovements {
         if Bumper.enabled {
             return Bumper.realEstateImprovements
@@ -419,6 +408,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.showInactiveConversations
         }
         return abTests.showInactiveConversations.value
+    }
+    
+    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
+        if Bumper.enabled {
+            return Bumper.showSecurityMeetingChatMessage
+        }
+        return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
     }
     
 

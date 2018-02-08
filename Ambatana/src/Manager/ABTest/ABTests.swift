@@ -43,7 +43,6 @@ class ABTests {
     let promoteBumpUpAfterSell = IntABDynamicVar(key: "20171127PromoteBumpUpAfterSell", defaultValue: 0, abGroupType: .legacyABTests)
     let allowCallsForProfessionals = IntABDynamicVar(key: "20171228allowCallsForProfessionals", defaultValue: 0, abGroupType: .legacyABTests)
     let moreInfoAFShOrDFP = IntABDynamicVar(key: "20171213MoreInfoAFShOrDFP", defaultValue: 0, abGroupType: .legacyABTests)
-    let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20171219ShowSecurityMeetingChatMessage", defaultValue: 0, abGroupType: .legacyABTests)
     let realEstateImprovements = IntABDynamicVar(key: "20180103RealEstateImprovements", defaultValue: 0, abGroupType: .legacyABTests)
     let realEstatePromos = IntABDynamicVar(key: "20180108RealEstatePromos", defaultValue: 0, abGroupType: .legacyABTests)
     let allowEmojisOnChat = IntABDynamicVar(key: "20180109AllowEmojisOnChat", defaultValue: 0, abGroupType: .legacyABTests)
@@ -52,6 +51,7 @@ class ABTests {
     let realEstateNewCopy = IntABDynamicVar(key: "20180126RealEstateNewCopy", defaultValue: 0, abGroupType: .realEstate)
     let dummyUsersInfoProfile = IntABDynamicVar(key: "20180130DummyUsersInfoProfile", defaultValue: 0, abGroupType: .retention)
     let showInactiveConversations = BoolABDynamicVar(key: "20180206ShowInactiveConversations", defaultValue: false, abGroupType: .chat)
+    let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20180207ShowSecurityMeetingChatMessage", defaultValue: 0, abGroupType: .chat)
     
     init() {
     }
@@ -87,7 +87,6 @@ class ABTests {
         result.append(promoteBumpUpAfterSell)
         result.append(allowCallsForProfessionals)
         result.append(moreInfoAFShOrDFP)
-        result.append(showSecurityMeetingChatMessage)
         result.append(realEstateImprovements)
         result.append(realEstatePromos)
         result.append(allowEmojisOnChat)
@@ -96,6 +95,7 @@ class ABTests {
         result.append(realEstateNewCopy)
         result.append(dummyUsersInfoProfile)
         result.append(showInactiveConversations)
+        result.append(showSecurityMeetingChatMessage)
         
         return result
     }
