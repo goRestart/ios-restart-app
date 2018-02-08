@@ -44,6 +44,7 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         navigationController?.setNavigationBarHidden(false, animated: false)
         setupConstraints()
         setupUI()
+        setupRx()
         infoView?.setupView(viewModel: viewModel)
     }
     
@@ -75,6 +76,14 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         buttonNext.setStyle(viewModel.doneButtonStyle)
         
         buttonNext.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
+    }
+    
+    func setupRx() {
+        viewModel.sizeListingObservable.bind { [weak self] size in
+            guard let strongSelf = self else { return }
+            strongSelf.buttonNext.setStyle(strongSelf.viewModel.doneButtonStyle)
+            strongSelf.buttonNext.setTitle(strongSelf.viewModel.buttonTitle, for: .normal)
+        }.disposed(by: disposeBag)
     }
     
     private func setupNavigationBar() {

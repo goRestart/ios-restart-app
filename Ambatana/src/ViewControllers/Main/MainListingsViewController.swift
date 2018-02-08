@@ -12,7 +12,6 @@ import UIKit
 import CHTCollectionViewWaterfallLayout
 import RxSwift
 
-
 enum SearchSuggestionType {
     case suggestive
     case lastSearch
@@ -33,7 +32,7 @@ enum SearchSuggestionType {
 }
 
 class MainListingsViewController: BaseViewController, ListingListViewScrollDelegate, MainListingsViewModelDelegate,
-    FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop {
+    FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop, MainListingsAdsDelegate {
     
     // ViewModel
     var viewModel: MainListingsViewModel
@@ -104,6 +103,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         viewModel.delegate = self
+        viewModel.adsDelegate = self
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
         hasTabBar = true
@@ -152,11 +152,6 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         if #available(iOS 11.0, *) {
             listingListView.collectionView.contentInsetAdjustmentBehavior = .never
         }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        navbarSearch.endEdit()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -253,6 +248,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
 
+    // MARK: - MainListingsAdsDelegate
+
+    func rootViewControllerForAds() -> UIViewController {
+        return self
+    }
+
+
     // MARK: UITextFieldDelegate Methods
 
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
@@ -321,7 +323,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     @objc fileprivate func endEdit() {
-        suggestionsSearchesContainer.isHidden = true
+        // ☢️☢️ Changing tabs when constructing the app from a push notifications calls didDissappear before didLoad
+        if let searchContainer = suggestionsSearchesContainer {
+            searchContainer.isHidden = true
+        }
         setFiltersNavBarButton()
         setInviteNavBarButton()
         navbarSearch.endEdit()
@@ -522,7 +527,8 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         if shouldShowCategoryCollectionBanner {
             let screenWidth: CGFloat = UIScreen.main.bounds.size.width
             categoriesHeader = CategoriesHeaderCollectionView(categories: viewModel.categoryHeaderElements,
-                                                              frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight))
+                                                              frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight),
+                                                              categoryHighlighted: viewModel.categoryHeaderHighlighted)
             categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }
@@ -740,6 +746,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navbarSearch.searchTextField.endEditing(true)
         guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section) else { return }
         switch sectionType {
         case .suggestive:

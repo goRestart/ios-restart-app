@@ -6,8 +6,8 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import Branch
 import FBSDKShareKit
-import TwitterKit
 import LGCoreKit
 import AppsFlyerLib
 
@@ -36,6 +36,18 @@ enum ShareSource: String {
 // MARK: - SocialMessage
 
 protocol SocialMessage {
+    var whatsappShareText: String { get }
+    var telegramShareText: String { get }
+    var emailShareSubject: String { get }
+    var emailShareBody: String { get }
+    var emailShareIsHtml: Bool { get }
+    var fbShareContent: FBSDKShareLinkContent { get }
+    var fbMessengerShareContent: FBSDKShareLinkContent { get }
+    var twitterShareText: String { get }
+    var smsShareText: String { get }
+    var copyLinkText: String { get }
+    var nativeShareItems: [Any] { get }
+    
     static var utmMediumKey: String { get }
     static var utmMediumValue: String { get }
     static var utmCampaignKey: String { get }

@@ -1263,6 +1263,93 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["reason"] as? String) == TrackerEvent.notApply
                 }
             }
+
+            describe("listingDetailCall") {
+                beforeEach {
+                    var product = MockProduct.makeMock()
+                    product.objectId = "AAAAA"
+
+                    sut = TrackerEvent.listingDetailCall(.product(product), source: .listingList,
+                                                         typePage: .listingDetail, sellerAverageUserRating: 2.5,
+                                                         feedPosition: .position(index:1), isFreePosting: .falseParameter,
+                                                         isBumpedUp: .trueParameter)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-detail-call"))
+                }
+                it("contains listing id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("AAAAA"))
+                }
+                it("contains source") {
+                    let source = sut.params!.stringKeyParams["visit-source"] as? String
+                    expect(source).to(equal("product-list"))
+                }
+                it("contains type-page") {
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal("product-detail"))
+                }
+                it("contains seller rating") {
+                    let rating = sut.params!.stringKeyParams["seller-user-rating"] as? Float
+                    expect(rating).to(equal(2.5))
+                }
+                it("contains feed position") {
+                    let position = sut.params!.stringKeyParams["feed-position"] as? String
+                    expect(position).to(equal("2"))
+                }
+                it("contains is free posting") {
+                    let isFree = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(isFree).to(equal("false"))
+                }
+                it("contains is bumped up") {
+                    let isBumped = sut.params!.stringKeyParams["bump-up"] as? String
+                    expect(isBumped).to(equal("true"))
+                }
+            }
+
+            describe("chatBannerCall") {
+                beforeEach {
+                    var chatListing = MockChatListing.makeMock()
+                    chatListing.objectId = "AAAAA"
+
+                    sut = TrackerEvent.chatBannerCall(chatListing, source: .unknown,
+                                                      typePage: .chat, sellerAverageUserRating: 2.5,
+                                                      isFreePosting: .falseParameter,
+                                                      isBumpedUp: .falseParameter)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-detail-call"))
+                }
+                it("contains listing id") {
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal("AAAAA"))
+                }
+                it("contains source") {
+                    let source = sut.params!.stringKeyParams["visit-source"] as? String
+                    expect(source).to(equal("N/A"))
+                }
+                it("contains type-page") {
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal("chat"))
+                }
+                it("contains seller rating") {
+                    let rating = sut.params!.stringKeyParams["seller-user-rating"] as? Float
+                    expect(rating).to(equal(2.5))
+                }
+                it("contains feed position, and is always N/A") {
+                    let position = sut.params!.stringKeyParams["feed-position"] as? String
+                    expect(position).to(equal("N/A"))
+                }
+                it("contains is free posting") {
+                    let isFree = sut.params!.stringKeyParams["free-posting"] as? String
+                    expect(isFree).to(equal("false"))
+                }
+                it("contains is bumped up") {
+                    let isBumped = sut.params!.stringKeyParams["bump-up"] as? String
+                    expect(isBumped).to(equal("false"))
+                }
+            }
+
             describe("adTapped") {
                 beforeEach {
                     sut = TrackerEvent.adTapped(listingId: "listing123",
@@ -1271,7 +1358,9 @@ class TrackerEventSpec: QuickSpec {
                                                 queryType: .title,
                                                 query: "patata",
                                                 willLeaveApp: .trueParameter,
-                                                typePage: .listingDetailMoreInfo)
+                                                typePage: .listingDetailMoreInfo,
+                                                categories: [.homeAndGarden, .motorsAndAccessories],
+                                                feedPosition: .position(index: 14))
                 }
                 it("contains product id") {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
@@ -1294,6 +1383,12 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains type page") {
                     expect(sut.params!.stringKeyParams["type-page"] as? String) == "product-detail-more-info"
+                }
+                it("contains categories") {
+                    expect(sut.params!.stringKeyParams["category-id"] as? String) == "4,2"
+                }
+                it("contains feed position") {
+                    expect(sut.params!.stringKeyParams["feed-position"] as? String) == "15"
                 }
             }
             describe("listingNotAvailable") {
@@ -2389,7 +2484,12 @@ class TrackerEventSpec: QuickSpec {
                     realEstate.price = .normal(20)
                     realEstate.images = MockFile.makeMocks(count: 2)
                     realEstate.descr = String.makeRandom()
-                    realEstate.realEstateAttributes = RealEstateAttributes(propertyType: .room, offerType: .rent, bedrooms: nil, bathrooms: 3.0)
+                    realEstate.realEstateAttributes = RealEstateAttributes(propertyType: .room,
+                                                                           offerType: .rent,
+                                                                           bedrooms: nil,
+                                                                           bathrooms: 3.0,
+                                                                           livingRooms: nil,
+                                                                           sizeSquareMeters: nil)
                     sut = TrackerEvent.listingSellComplete(Listing.realEstate(realEstate), buttonName: .done,
                                                            sellButtonPosition: .floatingButton, negotiable: .yes,
                                                            pictureSource: .gallery, freePostingModeAllowed: true)
@@ -2721,7 +2821,12 @@ class TrackerEventSpec: QuickSpec {
                         realEstate.price = .normal(20)
                         realEstate.images = MockFile.makeMocks(count: 2)
                         realEstate.descr = String.makeRandom()
-                        let realEstateAttributes = RealEstateAttributes(propertyType: .room, offerType: .rent, bedrooms: 3, bathrooms: 1.0)
+                        let realEstateAttributes = RealEstateAttributes(propertyType: .room,
+                                                                        offerType: .rent,
+                                                                        bedrooms: 3,
+                                                                        bathrooms: 1.0,
+                                                                        livingRooms: nil,
+                                                                        sizeSquareMeters: nil)
                         realEstate.realEstateAttributes = realEstateAttributes
                         sut = TrackerEvent.listingEditComplete(nil, listing: .realEstate(realEstate), category: nil, editedFields: [.title, .category])
                     }
@@ -2817,6 +2922,48 @@ class TrackerEventSpec: QuickSpec {
                 it("has related-source param") {
                     let source = sut.params?.stringKeyParams["related-source"] as? String
                     expect(source) == "product-not-found"
+                }
+            }
+
+            describe("phoneNumberRequest") {
+                beforeEach {
+                    sut = TrackerEvent.phoneNumberRequest(typePage: .chat)
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("phone-number-request"))
+                }
+                it("has type-page param") {
+                    let typePage = sut.params?.stringKeyParams["type-page"] as? String
+                    expect(typePage) == "chat"
+                }
+            }
+
+            describe("phoneNumberSent") {
+                beforeEach {
+                    sut = TrackerEvent.phoneNumberSent(typePage: .listingDetail)
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("phone-number-sent"))
+                }
+                it("has type-page param") {
+                    let typePage = sut.params?.stringKeyParams["type-page"] as? String
+                    expect(typePage) == "product-detail"
+                }
+            }
+
+            describe("phoneNumberNotNow") {
+                beforeEach {
+                    sut = TrackerEvent.phoneNumberNotNow(typePage: .chat)
+                }
+
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("phone-number-not-now"))
+                }
+                it("has type-page param") {
+                    let typePage = sut.params?.stringKeyParams["type-page"] as? String
+                    expect(typePage) == "chat"
                 }
             }
             
@@ -4106,13 +4253,48 @@ class TrackerEventSpec: QuickSpec {
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("posting-summary-open"))
                 }
-                it("contains type parameter") {
+                it("contains open field") {
                     let param = sut.params!.stringKeyParams["open-field"] as? String
                     expect(param) == "location"
                 }
-                it("contains type parameter") {
+                it("contains posting type") {
                     let param = sut.params!.stringKeyParams["posting-type"] as? String
                     expect(param) == "real-estate"
+                }
+            }
+            
+            describe("chat delete complete") {
+                beforeEach {
+                    sut = TrackerEvent.chatDeleteComplete(numberOfConversations: 10, isInactiveConversation: false)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-delete-complete"))
+                }
+                it("contains chats deleted") {
+                    let param = sut.params!.stringKeyParams["chats-deleted"] as? Int
+                    expect(param) == 10
+                }
+                it("contains inactive conversations boolean") {
+                    let param = sut.params!.stringKeyParams["inactive-conversations"] as? Bool
+                    expect(param) == false
+                }
+            }
+            
+            describe("chat view inactive conversations") {
+                beforeEach {
+                    sut = TrackerEvent.chatViewInactiveConversations()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-view-inactive-conversations"))
+                }
+            }
+            
+            describe("chat inactive conversations shown") {
+                beforeEach {
+                    sut = TrackerEvent.chatInactiveConversationsShown()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("chat-inactive-conversations-shown"))
                 }
             }
         }

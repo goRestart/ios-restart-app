@@ -7,12 +7,11 @@
 //
 
 class DevelopmentEnvironment: AppEnvironment {
+    static let amplitudeKey = "1c32ba5ed444237608436bad4f310307"
+
     // General
     let appleAppId = "986339882"
     let facebookAppId = "924384130976182"
-    
-    // Tracking
-    let amplitudeAPIKey = "1c32ba5ed444237608436bad4f310307"
     
     // AppsFlyer
     let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
@@ -29,10 +28,6 @@ class DevelopmentEnvironment: AppEnvironment {
     let configFileName = "ios-devel"
     let configURL = "https://letgo-images-devel.s3.amazonaws.com/config/ios.json"
 
-    // Twitter
-    let twitterConsumerKey = "krEbU50JQnxY9WkNp6zevuOpK"
-    let twitterConsumerSecret = "QftWuBwJMb0UrfvGOErcIS6Oyf7d6RGn60HfN4DRLjgt7XmTgI"
-
     // Leanplum
     let leanplumAppId = "app_gYgnjLc98J3vIVHbmdD9W0Qwvy0A3KHMdo4PKd0zJD4"
     let leanplumEnvKey = "dev_4pEk10FFVnVlZLhlVAmV2yrM1M7huTZgLQMntH61dyk"
@@ -47,4 +42,8 @@ class DevelopmentEnvironment: AppEnvironment {
     let adTestModeActive = true
     let moreInfoAdUnitIdDFP = "/21636273254/turkey/iOS/moreinfo/320x100"
     let moreInfoAdUnitIdDFPUSA = "/21666124832/us/iOS/moreinfo/320x100"
+
+    let feedAdUnitIdDFPUSA10Ratio = "/21666124832/us/iOS/feed/fluid_var_a"
+    let feedAdUnitIdDFPUSA15Ratio = "/21666124832/us/iOS/feed/fluid_var_b"
+    let feedAdUnitIdDFPUSA20Ratio = "/21666124832/us/iOS/feed/fluid_var_c"
 }

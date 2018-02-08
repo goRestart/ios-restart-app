@@ -64,7 +64,7 @@ class LetgoURLHelper {
 
     static func buildRecaptchaURL() -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteRecaptchaEndpoint) else { return nil }
-        guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
+        guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         return urlComponents.url
     }
 

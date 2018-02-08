@@ -11,9 +11,14 @@ import CoreTelephony
 import bumper
 import RxSwift
 
+enum PostingFlowType: String {
+    case standard
+    case turkish
+}
+
 protocol FeatureFlaggeable: class {
 
-    var trackingData: Observable<[String]?> { get }
+    var trackingData: Observable<[(String, ABGroupType)]?> { get }
     var syncedData: Observable<Bool> { get }
     func variablesUpdated()
 
@@ -23,13 +28,9 @@ protocol FeatureFlaggeable: class {
 
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var newCarsMultiRequesterEnabled: Bool { get }
-    var inAppRatingIOS10: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
-    var appRatingDialogInactive: Bool { get }
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
-    var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
@@ -49,14 +50,21 @@ protocol FeatureFlaggeable: class {
     var realEstateImprovements: RealEstateImprovements { get }
     var realEstatePromos: RealEstatePromos { get }
     var allowEmojisOnChat: AllowEmojisOnChat { get }
+    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
+    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
+    var realEstateNewCopy: RealEstateNewCopy { get }
+    var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
+    var showInactiveConversations: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
+    var postingFlowType: PostingFlowType { get }
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
     var moreInfoShoppingAdUnitId: String { get }
     var moreInfoDFPAdUnitId: String { get }
+    var feedDFPAdUnitId: String? { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -114,6 +122,22 @@ extension AllowEmojisOnChat {
     var isActive: Bool { get { return self == .active } }
 }
 
+extension ShowAdsInFeedWithRatio {
+    var isActive: Bool { get { return self != .control && self != .baseline } }
+}
+
+extension RemoveCategoryWhenClosingPosting {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension RealEstateNewCopy {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension DummyUsersInfoProfile {
+    var isActive: Bool { get { return self == .active } }
+}
+
 class FeatureFlags: FeatureFlaggeable {
 
     static let sharedInstance: FeatureFlags = FeatureFlags()
@@ -166,7 +190,7 @@ class FeatureFlags: FeatureFlaggeable {
 
     // MARK: - A/B Tests features
 
-    var trackingData: Observable<[String]?> {
+    var trackingData: Observable<[(String, ABGroupType)]?> {
         return abTests.trackingData.asObservable()
     }
 
@@ -214,20 +238,6 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.pricedBumpUpEnabled.value
     }
 
-    var newCarsMultiRequesterEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.newCarsMultiRequesterEnabled
-        }
-        return abTests.newCarsMultiRequesterEnabled.value
-    }
-
-    var inAppRatingIOS10: Bool {
-        if Bumper.enabled {
-            return Bumper.inAppRatingIOS10
-        }
-        return abTests.inAppRatingIOS10.value
-    }
-
     var userReviewsReportEnabled: Bool {
         if Bumper.enabled {
             return Bumper.userReviewsReportEnabled
@@ -240,20 +250,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.dynamicQuickAnswers
         }
         return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
-    }
-
-    var appRatingDialogInactive: Bool {
-        if Bumper.enabled {
-            return Bumper.appRatingDialogInactive
-        }
-        return abTests.appRatingDialogInactive.value
-    }
-
-    var locationDataSourceEndpoint: LocationDataSourceEndpoint {
-        if Bumper.enabled {
-            return Bumper.locationDataSourceEndpoint
-        }
-        return LocationDataSourceEndpoint.fromPosition(abTests.locationDataSourceType.value)
     }
 
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {
@@ -324,7 +320,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.showPriceStepRealEstatePosting
         }
-        return .control
+        return ShowPriceStepRealEstatePosting.fromPosition(abTests.showPriceStepRealEstatePosting.value)
     }
     
     var showClockInDirectAnswer: ShowClockInDirectAnswer {
@@ -390,14 +386,63 @@ class FeatureFlags: FeatureFlaggeable {
         return AllowEmojisOnChat.fromPosition(abTests.allowEmojisOnChat.value)
     }
 
+    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
+        if Bumper.enabled {
+            return Bumper.showAdsInFeedWithRatio
+        }
+        return ShowAdsInFeedWithRatio.fromPosition(abTests.showAdsInFeedWithRatio.value)
+    }
+    
+    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting {
+        if Bumper.enabled {
+            return Bumper.removeCategoryWhenClosingPosting
+        }
+        return RemoveCategoryWhenClosingPosting.fromPosition(abTests.removeCategoryWhenClosingPosting.value)
+    }
+    
+    var realEstateNewCopy: RealEstateNewCopy {
+        if Bumper.enabled {
+            return Bumper.realEstateNewCopy
+        }
+        return RealEstateNewCopy.fromPosition(abTests.realEstateNewCopy.value)
+    }
+    
+    var dummyUsersInfoProfile: DummyUsersInfoProfile {
+        if Bumper.enabled {
+            return Bumper.dummyUsersInfoProfile
+        }
+        return DummyUsersInfoProfile.fromPosition(abTests.dummyUsersInfoProfile.value)
+    }
+    
+    var showInactiveConversations: Bool {
+        if Bumper.enabled {
+            return Bumper.showInactiveConversations
+        }
+        return abTests.showInactiveConversations.value
+    }
+    
+
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
-        switch (locationCountryCode, localeCountryCode) {
-        case (.turkey?, _), (_, .turkey?):
+        switch locationCountryCode {
+        case .turkey?:
             return false
         default:
             return true
+        }
+    }
+    
+    var postingFlowType: PostingFlowType {
+        if Bumper.enabled {
+            return Bumper.realEstateFlowType == .standard ? .standard : .turkish
+        }
+        switch locationCountryCode {
+        case .turkey?:
+            // TODO: change to turkish when all development is done.
+            return .standard
+        default:
+            return .standard
         }
     }
 
@@ -457,6 +502,24 @@ class FeatureFlags: FeatureFlaggeable {
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFPUSA
         default:
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFP
+        }
+    }
+
+    var feedDFPAdUnitId: String? {
+        switch sensorLocationCountryCode {
+        case .usa?:
+            switch showAdsInFeedWithRatio {
+            case .baseline, .control:
+                return nil
+            case .ten:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
+            case .fifteen:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA15Ratio
+            case .twenty:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio
+            }
+        default:
+            return nil
         }
     }
 

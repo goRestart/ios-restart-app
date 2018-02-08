@@ -12,11 +12,11 @@ import RxSwift
 
 class MockFeatureFlags: FeatureFlaggeable {
 
-    var trackingData: Observable<[String]?> {
+    var trackingData: Observable<[(String, ABGroupType)]?> {
         return trackingDataVar.asObservable()
     }
     func variablesUpdated() {}
-    let trackingDataVar = Variable<[String]?>(nil)
+    let trackingDataVar = Variable<[(String, ABGroupType)]?>(nil)
 
     var showNPSSurvey: Bool = false
     var surveyUrl: String = ""
@@ -28,8 +28,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var inAppRatingIOS10: Bool = false
     var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
-    var locationDataSourceEndpoint: LocationDataSourceEndpoint = .control
-    var appRatingDialogInactive: Bool = false
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed = .control
     var newItemPage: NewItemPage = .control
 
@@ -51,14 +49,21 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstateImprovements: RealEstateImprovements = .control
     var realEstatePromos: RealEstatePromos = .control
     var allowEmojisOnChat: AllowEmojisOnChat = .control
+    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
+    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
+    var realEstateNewCopy: RealEstateNewCopy = .control
+    var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
+    var showInactiveConversations: Bool = false
     
     // Country dependant features
     var freePostingModeAllowed = false
+    var postingFlowType: PostingFlowType = .standard
     var locationRequiresManualChangeSuggestion = false
     var signUpEmailNewsletterAcceptRequired = false
     var signUpEmailTermsAndConditionsAcceptRequired = false
     var moreInfoShoppingAdUnitId = ""
     var moreInfoDFPAdUnitId = ""
+    var feedDFPAdUnitId: String? = ""
 
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

@@ -62,6 +62,17 @@ extension ListingViewModel {
                                   typePage: typePage)
     }
 
+    func trackCallTapped(source: EventParameterListingVisitSource,
+                         feedPosition: EventParameterFeedPosition) {
+        let isBumpedUp = isShowingFeaturedStripe.value ? EventParameterBoolean.trueParameter :
+            EventParameterBoolean.falseParameter
+        trackHelper.trackCallTapped(source: source,
+                                    sellerAverageUserRating: sellerAverageUserRating,
+                                    feedPosition: feedPosition,
+                                    isShowingFeaturedStripe: isBumpedUp)
+    }
+
+
     // MARK: Share
 
     func trackShareStarted(_ shareType: ShareType?, buttonPosition: EventParameterButtonPosition) {
@@ -241,8 +252,15 @@ extension ProductVMTrackHelper {
 
 extension ProductVMTrackHelper {
 
-    func trackVisit(_ visitUserAction: ListingVisitUserAction, source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition, isShowingFeaturedStripe: EventParameterBoolean) {
-        let trackerEvent = TrackerEvent.listingDetailVisit(listing, visitUserAction: visitUserAction, source: source, feedPosition: feedPosition, isBumpedUp: isShowingFeaturedStripe)
+    func trackVisit(_ visitUserAction: ListingVisitUserAction,
+                    source: EventParameterListingVisitSource,
+                    feedPosition: EventParameterFeedPosition,
+                    isShowingFeaturedStripe: EventParameterBoolean) {
+        let trackerEvent = TrackerEvent.listingDetailVisit(listing,
+                                                           visitUserAction: visitUserAction,
+                                                           source: source,
+                                                           feedPosition: feedPosition,
+                                                           isBumpedUp: isShowingFeaturedStripe)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -277,7 +295,23 @@ extension ProductVMTrackHelper {
                                                          queryType: queryType,
                                                          query: query,
                                                          willLeaveApp: willLeaveApp,
-                                                         typePage: typePage)
+                                                         typePage: typePage,
+                                                         categories: nil,
+                                                         feedPosition: .none)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func trackCallTapped(source: EventParameterListingVisitSource,
+                         sellerAverageUserRating: Float?,
+                         feedPosition: EventParameterFeedPosition,
+                         isShowingFeaturedStripe: EventParameterBoolean) {
+        let trackerEvent = TrackerEvent.listingDetailCall(listing,
+                                                          source: source,
+                                                          typePage: .listingDetail,
+                                                          sellerAverageUserRating: sellerAverageUserRating,
+                                                          feedPosition: feedPosition,
+                                                          isFreePosting: EventParameterBoolean.init(bool: listing.price.isFree),
+                                                          isBumpedUp: isShowingFeaturedStripe)
         tracker.trackEvent(trackerEvent)
     }
 

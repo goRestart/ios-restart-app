@@ -50,6 +50,7 @@ struct Constants {
     // Deep links other apps
     static let whatsAppShareURL = "whatsapp://send?text=%@"
     static let telegramShareURL = "tg://msg?text=%@"
+    static let twitterShareURL = "https://twitter.com/intent/tweet?text=%@"
 
     // Onboarding
     static let abTestSyncTimeout: TimeInterval = 5
@@ -77,7 +78,6 @@ struct Constants {
     static let distanceSliderPositions = [0, 1, 10, 20, 30, 100]
     
     // App sharing
-    static let facebookAppLinkURL = "https://fb.me/900185926729336"
     static let facebookAppInvitePreviewImageURL = "http://cdn.letgo.com/static/app-invites-facebook.jpg"
 
     // Pre Permissions
@@ -93,6 +93,7 @@ struct Constants {
     static let maxPriceFractionalCharacters = 2
     static let currencyDefault = "US"
     static let defaultPrice: ListingPrice = .normal(0)
+    static let sizeSquareMetersUnit: String = "㎡"
 
     // Messages retrieving
     static let numMessagesPerPage = 40
@@ -148,4 +149,8 @@ struct Constants {
     // Tracking
     static let parameterNotApply = "N/A"
     static let parameterSkipValue = "skip"
+
+    // Ads
+    static let adInFeedInitialPosition = 3
+    static let adInFeedCustomTargetingKey = "pos_var"
 }

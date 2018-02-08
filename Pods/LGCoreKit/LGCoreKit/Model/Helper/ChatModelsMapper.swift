@@ -51,4 +51,35 @@ class ChatModelsMapper {
         }
         return nil
     }
+    
+    static func inactiveConversationCount(from dict: [AnyHashable : Any]) -> Int? {
+        guard let count = dict["count"] as? Int else {
+            logMessage(.debug, type: .parsing, message: "could not parse inactiveConversationCount \(dict)")
+            return nil
+        }
+        return count
+    }
+    
+    static func inactiveConversations(from dict: [AnyHashable : Any]) -> [ChatInactiveConversation] {
+        guard let array = dict["inactive_conversations"] as? [[AnyHashable : Any]] else {
+            logMessage(.debug, type: .parsing, message: "could not parse inactiveConversationCount - key: inactive_conversations - \(dict)")
+            return []
+        }
+        return array.flatMap(inactiveConversation)
+    }
+    
+    static func inactiveConversation(from dict: [AnyHashable : Any]) -> ChatInactiveConversation? {
+        guard let data = try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted) else {
+            logMessage(.debug, type: .parsing, message: "could not parse inactiveConversationCount to data: \(dict)")
+            return nil
+        }
+        do {
+            let conversation = try LGChatInactiveConversation.decode(jsonData: data)
+            return conversation
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse inactiveConversationCount to object LGChatInactiveConversation: \(dict)")
+        }
+        return nil
+    }
 }
+

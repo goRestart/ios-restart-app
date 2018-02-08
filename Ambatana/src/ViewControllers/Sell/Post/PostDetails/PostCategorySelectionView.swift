@@ -30,24 +30,24 @@ enum PostCategory {
         return realEstateEnabled ? [.car, PostCategory.realEstate, PostCategory.motorsAndAccessories, PostCategory.unassigned] : [PostCategory.car, PostCategory.motorsAndAccessories, PostCategory.unassigned]
     }
     
-    func numberOfSteps(shouldShowPrice: Bool) -> CGFloat {
+    func numberOfSteps(shouldShowPrice: Bool, postingFlowType: PostingFlowType) -> CGFloat {
         let delta: CGFloat = shouldShowPrice ? 0 :  1
         switch self {
         case .car:
-            return baseSteps - delta
+            return baseSteps(postingFlowType: postingFlowType) - delta
         case .realEstate:
-            return baseSteps - delta
+            return baseSteps(postingFlowType: postingFlowType) - delta
         case .unassigned, .motorsAndAccessories:
-            return baseSteps
+            return baseSteps(postingFlowType: postingFlowType)
         }
     }
     
-    private var baseSteps: CGFloat {
+    private func baseSteps(postingFlowType: PostingFlowType) -> CGFloat {
         switch self {
         case .car:
             return 3
         case .realEstate:
-            return 5
+            return postingFlowType == .standard ? 5 : 6
         case .unassigned, .motorsAndAccessories:
             return 0
         }
@@ -140,8 +140,9 @@ fileprivate extension PostCategorySelectionView {
                           image: #imageLiteral(resourceName: "categories_motors_inactive"),
                           postCategoryLink: .motorsAndAccessories)
             case .realEstate:
+                let title = FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.productPostSelectCategoryRealEstate : LGLocalizedString.productPostSelectCategoryHousing
                 addButton(button: realEstateCategoryButton,
-                          title: LGLocalizedString.productPostSelectCategoryHousing,
+                          title: title,
                           image: #imageLiteral(resourceName: "categories_realestate_inactive"),
                           postCategoryLink: .realEstate)
             }
@@ -173,7 +174,15 @@ fileprivate extension PostCategorySelectionView {
             .leading(by: Metrics.bigMargin)
             .trailing(by: -Metrics.bigMargin)
             .top()
-        carsCategoryButton.layout(with: realEstateEnabled ? realEstateCategoryButton : motorsAndAccessoriesButton)
+        carsCategoryButton.layout(with: motorsAndAccessoriesButton)
+            .above(by: -Metrics.bigMargin)
+
+        motorsAndAccessoriesButton.layout()
+            .height(categoryButtonHeight)
+        motorsAndAccessoriesButton.layout(with: categoriesContainerView)
+            .leading(by: Metrics.bigMargin)
+            .trailing(by: -Metrics.bigMargin)
+        motorsAndAccessoriesButton.layout(with: realEstateEnabled ? realEstateCategoryButton : otherCategoryButton)
             .above(by: -Metrics.bigMargin)
         
         if realEstateEnabled {
@@ -182,17 +191,9 @@ fileprivate extension PostCategorySelectionView {
             realEstateCategoryButton.layout(with: categoriesContainerView)
                 .leading(by: Metrics.bigMargin)
                 .trailing(by: -Metrics.bigMargin)
-            realEstateCategoryButton .layout(with: motorsAndAccessoriesButton)
+            realEstateCategoryButton .layout(with: otherCategoryButton)
                 .above(by: -Metrics.bigMargin)
         }
-
-        motorsAndAccessoriesButton.layout()
-            .height(categoryButtonHeight)
-        motorsAndAccessoriesButton.layout(with: categoriesContainerView)
-            .leading(by: Metrics.bigMargin)
-            .trailing(by: -Metrics.bigMargin)
-        motorsAndAccessoriesButton.layout(with: otherCategoryButton)
-            .above(by: -Metrics.bigMargin)
         
         otherCategoryButton.layout()
             .height(categoryButtonHeight)
