@@ -127,9 +127,9 @@ enum LocalMostSearchedItem: Int {
         case .tablet:
             return .otherItems(listingCategory: .electronics)
         case .motorcycle:
-            return .car
-        case .truck:
             return .motorsAndAccessories
+        case .truck:
+            return .car
         case .gadget:
             return .otherItems(listingCategory: .electronics)
         case .trailer:
