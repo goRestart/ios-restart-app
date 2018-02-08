@@ -52,12 +52,14 @@ class MostSearchedItemsUserHeader: UIView {
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.textColor = UIColor.black
         titleLabel.text = LGLocalizedString.trendingItemsProfileTitle
+        titleLabel.numberOfLines = 2
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.minimumScaleFactor = 0.4
         
         subtitleLabel.font = UIFont.systemRegularFont(size: 11)
         subtitleLabel.textColor = UIColor.black
         subtitleLabel.text = LGLocalizedString.trendingItemsProfileSubtitle
+        subtitleLabel.numberOfLines = 2
         subtitleLabel.adjustsFontSizeToFitWidth = true
         subtitleLabel.minimumScaleFactor = 0.4
         
@@ -90,7 +92,7 @@ class MostSearchedItemsUserHeader: UIView {
         subtitleLabel.layout(with: trendingImageView).leading(to: .trailing, by: Metrics.shortMargin)
         subtitleLabel.layout(with: disclosureImageView).trailing(by: -Metrics.margin)
         subtitleLabel.layout(with: self).centerY(by: subtitleLabel.height/2 + Metrics.margin)
-        subtitleLabel.layout().height(13)
+        subtitleLabel.layout().height(20)
         
         disclosureImageView.layout(with: self)
             .centerY()
