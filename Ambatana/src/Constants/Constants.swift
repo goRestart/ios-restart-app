@@ -153,4 +153,7 @@ struct Constants {
     // Ads
     static let adInFeedInitialPosition = 3
     static let adInFeedCustomTargetingKey = "pos_var"
+
+    // Professional Dealers
+    static let usaPhoneNumberDigitsCount = 10
 }

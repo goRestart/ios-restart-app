@@ -662,7 +662,7 @@ extension ChatViewController: ChatViewModelDelegate {
                                       preferredStyle: .alert)
 
         alert.addTextField { textField in
-            textField.keyboardType = .phonePad
+            textField.keyboardType = .numberPad
         }
 
         let confirmAction = UIAlertAction(title: LGLocalizedString.commonConfirm, style: .default) { [weak self] _ in
