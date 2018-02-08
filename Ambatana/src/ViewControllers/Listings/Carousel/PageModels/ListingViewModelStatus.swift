@@ -149,9 +149,9 @@ enum ListingViewModelStatus {
 
     var shouldRefreshBumpBanner: Bool {
         switch self {
-        case .available, .availableFree, .pendingAndFeatured:
+        case .available, .availableFree, .pendingAndFeatured, .pending:
             return true
-        case .otherAvailable, .otherAvailableFree, .pending, .notAvailable, .sold, .otherSold, .otherSoldFree, .soldFree:
+        case .otherAvailable, .otherAvailableFree, .notAvailable, .sold, .otherSold, .otherSoldFree, .soldFree:
             return false
         }
     }

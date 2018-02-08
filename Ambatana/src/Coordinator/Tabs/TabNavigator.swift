@@ -25,6 +25,8 @@ enum ListingDetailData {
 enum ChatDetailData {
     case dataIds(conversationId: String)
     case conversation(conversation: ChatConversation)
+    case inactiveConversations
+    case inactiveConversation(coversation: ChatInactiveConversation)
     case listingAPI(listing: Listing)
 }
 
@@ -95,4 +97,8 @@ protocol ChatDetailNavigator: TabNavigator {
                            sourceRateBuyers: SourceRateBuyers?,
                            trackingInfo: MarkAsSoldTrackingInfo)
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
+}
+
+protocol ChatInactiveDetailNavigator: TabNavigator {
+    func closeChatInactiveDetail()
 }

@@ -547,7 +547,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 userProduct.objectId = myUser.objectId
                                 product.user = userProduct
                                 product.featured = false
-                                product.status = .pending
+                                product.status = .deleted
                                 purchasesShopper.isBumpUpPending = false
 
                                 buildListingViewModel()
@@ -559,7 +559,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 expect(sut.bumpUpBannerInfo.value).to(beNil())
                             }
                         }
-                        context ("product status is pending, but is already bumped") {
+                        context ("product status is pending, and is already bumped") {
                             beforeEach {
 
                                 self.calledOpenFreeBumpUpView = false

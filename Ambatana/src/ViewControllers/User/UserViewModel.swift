@@ -365,6 +365,7 @@ fileprivate extension UserViewModel {
             guard let user = result.value else { return }
             self?.updateAccounts(user)
             self?.updateRatings(user)
+            self?.updateDummyInfo(user)
         }
     }
     
@@ -495,6 +496,12 @@ fileprivate extension UserViewModel {
         guard let user = user else { return }
         userRatingAverage.value = user.ratingAverage?.roundNearest(0.5)
         userRatingCount.value = user.ratingCount
+    }
+    
+    func updateDummyInfo(_ user: User?) {
+        guard let user = user else { return }
+        userName.value = user.name
+        userIsDummy.value = user.type == .dummy
     }
     
     func setupUserRelationRxBindings() {
