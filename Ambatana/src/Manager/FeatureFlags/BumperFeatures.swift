@@ -35,6 +35,7 @@ extension Bumper  {
         flags.append(PromoteBumpUpAfterSell.self)
         flags.append(MoreInfoAFShOrDFP.self)
         flags.append(ShowSecurityMeetingChatMessage.self)
+        flags.append(MostSearchedDemandedItems.self)
         flags.append(AllowCallsForProfessionals.self)
         flags.append(RealEstateImprovements.self)
         flags.append(RealEstatePromos.self)
@@ -156,6 +157,11 @@ extension Bumper  {
     static var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
         guard let value = Bumper.value(for: ShowSecurityMeetingChatMessage.key) else { return .control }
         return ShowSecurityMeetingChatMessage(rawValue: value) ?? .control 
+    }
+
+    static var mostSearchedDemandedItems: MostSearchedDemandedItems {
+        guard let value = Bumper.value(for: MostSearchedDemandedItems.key) else { return .control }
+        return MostSearchedDemandedItems(rawValue: value) ?? .control 
     }
 
     static var allowCallsForProfessionals: AllowCallsForProfessionals {
@@ -529,6 +535,24 @@ enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum MostSearchedDemandedItems: String, BumperFeature  {
+    case control, baseline, cameraBadge, trendingButtonExpandableMenu, subsetAboveExpandableMenu
+    static var defaultValue: String { return MostSearchedDemandedItems.control.rawValue }
+    static var enumValues: [MostSearchedDemandedItems] { return [.control, .baseline, .cameraBadge, .trendingButtonExpandableMenu, .subsetAboveExpandableMenu]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Display a list of top seller items that inspire users to post new items" } 
+    static func fromPosition(_ position: Int) -> MostSearchedDemandedItems {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .cameraBadge
+            case 3: return .trendingButtonExpandableMenu
+            case 4: return .subsetAboveExpandableMenu
             default: return .control
         }
     }

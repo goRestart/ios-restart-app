@@ -30,7 +30,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed = .control
     var newItemPage: NewItemPage = .control
-
     var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: RealEstateEnabled = .control
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
@@ -46,6 +45,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var allowCallsForProfessionals: AllowCallsForProfessionals = .control
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP = .control
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
+    var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
+
     var realEstateImprovements: RealEstateImprovements = .control
     var realEstatePromos: RealEstatePromos = .control
     var allowEmojisOnChat: AllowEmojisOnChat = .control

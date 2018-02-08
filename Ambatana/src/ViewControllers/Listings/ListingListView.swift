@@ -653,7 +653,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             banner.load(data.adRequest)
 
             viewModel.updateAdvertisementRequestedIn(position: inPosition, withBanner: banner)
-        case .collectionCell, .emptyCell, .listingCell:
+        case .collectionCell, .emptyCell, .listingCell, .mostSearchedItems:        
             break
         }
     }

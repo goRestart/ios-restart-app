@@ -960,6 +960,9 @@
 // Alert text when min price is higher than max price
 "filters_price_wrong_range_error" = "The minimum price can’t be higher than the maximum price.";
 
+// Alert text when min size is higher than max size
+"filters_size_wrong_range_error" = "The minimum size can’t be higher than the maximum size.";
+
 // Filters sort option closest
 "filters_sort_closest" = "Closest first";
 
@@ -2951,6 +2954,9 @@
 // Post button for each item in the list
 "trending_items_view_post_button" = "Post";
 
+// Search button for each item in the list
+"trending_items_view_search_button" = "Search";
+
 // Title for Most searched items card in feed
 "trending_items_card_title" = "This week's popular items";
 
@@ -2961,7 +2967,7 @@
 "trending_items_profile_title" = "Not sure what to sell?";
 
 // Subtitle for Most searched items header in user profile
-"trending_items_profile_subtitle" = "See what people nearby are looking for";
+"trending_items_profile_subtitle" = "See what people in your area are looking for";
 
 // Button title for trending category in Expandable menu
 "trending_items_expandable_menu_button" = "Trending";

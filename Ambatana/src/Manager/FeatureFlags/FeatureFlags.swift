@@ -47,6 +47,7 @@ protocol FeatureFlaggeable: class {
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
+    var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var realEstateImprovements: RealEstateImprovements { get }
     var realEstatePromos: RealEstatePromos { get }
     var allowEmojisOnChat: AllowEmojisOnChat { get }
@@ -104,6 +105,16 @@ extension AllowCallsForProfessionals {
 
 extension ShowSecurityMeetingChatMessage {
     var isActive: Bool { get { return self == .active } }
+}
+
+extension MostSearchedDemandedItems {
+    var isActive: Bool {
+        get {
+            return self == .cameraBadge ||
+                self == .trendingButtonExpandableMenu ||
+                self == .subsetAboveExpandableMenu
+        }
+    }
 }
 
 extension RealEstateEnabled {
@@ -364,6 +375,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
     }
+    
+    var mostSearchedDemandedItems: MostSearchedDemandedItems {
+        if Bumper.enabled {
+            return Bumper.mostSearchedDemandedItems
+        }
+        return MostSearchedDemandedItems.fromPosition(abTests.mostSearchedDemandedItems.value)
+    }
+    
     
     var realEstateImprovements: RealEstateImprovements {
         if Bumper.enabled {
