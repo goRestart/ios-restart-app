@@ -210,7 +210,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
                 tagCollectionView.layout(with: titleTagsLabel).below(by: Metrics.bigMargin)
                 tagCollectionView.layout(with: tagsView).bottom(by: -Metrics.bigMargin)
             } else {
-                tagCollectionView.layout(with: titleTagsLabel).below(by: Metrics.shortMargin)
+                tagCollectionView.layout(with: titleTagsLabel).below(by: Metrics.margin)
                 tagCollectionView.layout().height(ExpandableCategorySelectionView.singleRowTagsCollectionViewHeight)
             }
         }

@@ -24,8 +24,8 @@ enum TagCollectionViewFlowLayout {
         case .singleRowWithScroll:
             let flowLayout = UICollectionViewFlowLayout()
             flowLayout.estimatedItemSize = CGSize(width: 1, height: 1)
-            flowLayout.minimumInteritemSpacing = 5
-            flowLayout.minimumLineSpacing = 0
+            flowLayout.minimumInteritemSpacing = 10
+            flowLayout.minimumLineSpacing = 10
             flowLayout.scrollDirection = .horizontal
             return flowLayout
         }
