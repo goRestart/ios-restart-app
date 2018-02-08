@@ -83,12 +83,12 @@ class MostSearchedItemsUserHeader: UIView {
             .height(46)
         
         titleLabel.layout(with: trendingImageView).leading(to: .trailing, by: Metrics.shortMargin)
-        titleLabel.layout(with: disclosureImageView).trailing(by: -Metrics.shortMargin)
+        titleLabel.layout(with: disclosureImageView).trailing(by: -Metrics.margin)
         titleLabel.layout(with: self).centerY(by: -(titleLabel.height/2 + Metrics.shortMargin))
         titleLabel.layout().height(30)
         
         subtitleLabel.layout(with: trendingImageView).leading(to: .trailing, by: Metrics.shortMargin)
-        subtitleLabel.layout(with: disclosureImageView).trailing(by: -Metrics.shortMargin)
+        subtitleLabel.layout(with: disclosureImageView).trailing(by: -Metrics.margin)
         subtitleLabel.layout(with: self).centerY(by: subtitleLabel.height/2 + Metrics.margin)
         subtitleLabel.layout().height(13)
         
