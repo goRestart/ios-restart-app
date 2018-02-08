@@ -154,8 +154,8 @@ class MainListingsViewModel: BaseViewModel {
             if let numberOfRooms = filters.realEstateNumberOfRooms {
                 resultTags.append(.realEstateNumberOfRooms(numberOfRooms))
             }
-            if filters.realEstateSizeRange?.min != nil || filters.realEstateSizeRange?.max != nil {
-                resultTags.append(.sizeSquareMetersRange(from: filters.realEstateSizeRange?.min, to: filters.realEstateSizeRange?.max))
+            if filters.realEstateSizeRange.min != nil || filters.realEstateSizeRange.max != nil {
+                resultTags.append(.sizeSquareMetersRange(from: filters.realEstateSizeRange.min, to: filters.realEstateSizeRange.max))
             }
         }
 

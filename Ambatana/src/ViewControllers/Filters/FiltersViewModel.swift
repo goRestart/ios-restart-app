@@ -184,10 +184,10 @@ class FiltersViewModel: BaseViewModel {
     }
     
     private var minSize: Int? {
-        return productFilter.realEstateSizeRange?.min
+        return productFilter.realEstateSizeRange.min
     }
     private var maxSize: Int? {
-        return productFilter.realEstateSizeRange?.max
+        return productFilter.realEstateSizeRange.max
     }
     
     fileprivate var priceRangeAvailable: Bool {
@@ -669,7 +669,7 @@ class FiltersViewModel: BaseViewModel {
         productFilter.realEstateNumberOfBedrooms = nil
         productFilter.realEstateNumberOfBathrooms = nil
         productFilter.realEstateOfferType = nil
-        productFilter.realEstateSizeRange = nil
+        productFilter.realEstateSizeRange = SizeRange(min: nil, max: nil)
     }
     
     private func removeFiltersRelatedIfNeeded(category: ListingCategory) {
