@@ -39,7 +39,6 @@ class ABTests {
     let taxonomiesAndTaxonomyChildrenInFeed = IntABDynamicVar(key: "20171031TaxonomiesAndTaxonomyChildrenInFeed", defaultValue: 0, abGroupType: .legacyABTests)
     let showPriceStepRealEstatePosting = IntABDynamicVar(key: "20171106RealEstatePostingOrder", defaultValue: 0, abGroupType: .legacyABTests)
     let showClockInDirectAnswer = IntABDynamicVar(key: "20171031ShowClockInDirectAnswer", defaultValue: 0, abGroupType: .legacyABTests)
-    let bumpUpPriceDifferentiation = IntABDynamicVar(key: "20171114BumpUpPriceDifferentiation", defaultValue: 0, abGroupType: .legacyABTests)
     let promoteBumpUpAfterSell = IntABDynamicVar(key: "20171127PromoteBumpUpAfterSell", defaultValue: 0, abGroupType: .legacyABTests)
     let allowCallsForProfessionals = IntABDynamicVar(key: "20171228allowCallsForProfessionals", defaultValue: 0, abGroupType: .legacyABTests)
     let moreInfoAFShOrDFP = IntABDynamicVar(key: "20171213MoreInfoAFShOrDFP", defaultValue: 0, abGroupType: .legacyABTests)
@@ -52,6 +51,7 @@ class ABTests {
     let realEstateNewCopy = IntABDynamicVar(key: "20180126RealEstateNewCopy", defaultValue: 0, abGroupType: .realEstate)
     let dummyUsersInfoProfile = IntABDynamicVar(key: "20180130DummyUsersInfoProfile", defaultValue: 0, abGroupType: .retention)
     let showInactiveConversations = BoolABDynamicVar(key: "20180206ShowInactiveConversations", defaultValue: false, abGroupType: .chat)
+    let increaseMinPriceBumps  = IntABDynamicVar(key: "20180208IncreaseMinPriceBumps", defaultValue: 0, abGroupType: .money)
     
     init() {
     }
@@ -83,7 +83,6 @@ class ABTests {
         result.append(taxonomiesAndTaxonomyChildrenInFeed)
         result.append(showPriceStepRealEstatePosting)
         result.append(showClockInDirectAnswer)
-        result.append(bumpUpPriceDifferentiation)
         result.append(promoteBumpUpAfterSell)
         result.append(allowCallsForProfessionals)
         result.append(moreInfoAFShOrDFP)
@@ -96,6 +95,7 @@ class ABTests {
         result.append(realEstateNewCopy)
         result.append(dummyUsersInfoProfile)
         result.append(showInactiveConversations)
+        result.append(increaseMinPriceBumps)
         
         return result
     }

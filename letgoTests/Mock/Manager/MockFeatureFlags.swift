@@ -41,7 +41,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
-    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation = .control
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell = .control
     var allowCallsForProfessionals: AllowCallsForProfessionals = .control
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP = .control
@@ -54,6 +53,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstateNewCopy: RealEstateNewCopy = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var showInactiveConversations: Bool = false
+    var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
