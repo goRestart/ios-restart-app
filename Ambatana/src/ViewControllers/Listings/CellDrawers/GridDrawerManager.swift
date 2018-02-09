@@ -23,6 +23,7 @@ class GridDrawerManager {
     private let collectionDrawer = ListingCollectionCellDrawer()
     private let emptyCellDrawer = EmptyCellDrawer()
     private let advertisementDrawer = AdvertisementCellDrawer()
+    private let mostSearchedItemsDrawer = MostSearchedItemsCellDrawer()
     private let showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: FeatureFlags.sharedInstance,
                                                                     myUserRepository: Core.myUserRepository)
     private let myUserRepository: MyUserRepository
@@ -36,6 +37,7 @@ class GridDrawerManager {
         ListingCollectionCellDrawer.registerCell(collectionView)
         EmptyCellDrawer.registerCell(collectionView)
         AdvertisementCellDrawer.registerCell(collectionView)
+        MostSearchedItemsCellDrawer.registerClassCell(collectionView)
     }
     
     func cell(_ model: ListingCellModel, collectionView: UICollectionView, atIndexPath: IndexPath) -> UICollectionViewCell {
@@ -48,6 +50,8 @@ class GridDrawerManager {
             return emptyCellDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .advertisement:
             return advertisementDrawer.cell(collectionView, atIndexPath: atIndexPath)
+        case .mostSearchedItems:
+            return mostSearchedItemsDrawer.cell(collectionView, atIndexPath: atIndexPath)
         }
     }
 
@@ -109,6 +113,9 @@ class GridDrawerManager {
         case .advertisement(let adData):
             guard let cell = cell as? AdvertisementCell else { return }
             return advertisementDrawer.draw(adData, style: cellStyle, inCell: cell)
+        case .mostSearchedItems(let data):
+            guard let cell = cell as? MostSearchedItemsListingListCell else { return }
+            return mostSearchedItemsDrawer.draw(data, style: cellStyle, inCell: cell)
         default:
             assert(false, "⛔️ You shouldn't be here")
         }

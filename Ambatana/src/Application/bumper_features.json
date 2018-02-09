@@ -96,8 +96,13 @@
         "description": "show a disclaimer message on chat after the first conversation from the interlocutor"
     },
     {
+        "name": "MostSearchedDemandedItems",
+        "values": ["control", "baseline", "cameraBadge", "trendingButtonExpandableMenu", "subsetAboveExpandableMenu"],
+        "description": "Display a list of top seller items that inspire users to post new items"
+    },
+    {
         "name": "AllowCallsForProfessionals",
-        "values": ["control", "baseline", "active"],
+        "values": ["control", "baseline", "inactive"],
         "description": "Users can call professional sellers"
     },
     {

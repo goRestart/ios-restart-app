@@ -70,9 +70,14 @@ class ListingCreationViewModel : BaseViewModel {
     }
     
     private func trackPost(withListing listing: Listing, trackingInfo: PostListingTrackingInfo) {
-        let event = TrackerEvent.listingSellComplete(listing, buttonName: trackingInfo.buttonName, sellButtonPosition: trackingInfo.sellButtonPosition,
-                                                     negotiable: trackingInfo.negotiablePrice, pictureSource: trackingInfo.imageSource,
-                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+        let event = TrackerEvent.listingSellComplete(listing,
+                                                     buttonName: trackingInfo.buttonName,
+                                                     sellButtonPosition: trackingInfo.sellButtonPosition,
+                                                     negotiable: trackingInfo.negotiablePrice,
+                                                     pictureSource: trackingInfo.imageSource,
+                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                     typePage: trackingInfo.typePage,
+                                                     mostSearchedButton: trackingInfo.mostSearchedButton)
         
         tracker.trackEvent(event)
         
