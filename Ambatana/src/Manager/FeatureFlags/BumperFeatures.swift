@@ -45,6 +45,7 @@ extension Bumper  {
         flags.append(RealEstateNewCopy.self)
         flags.append(DummyUsersInfoProfile.self)
         flags.append(ShowInactiveConversations.self)
+        flags.append(MainFeedAspectRatio.self)
         Bumper.initialize(flags)
     } 
 
@@ -206,6 +207,11 @@ extension Bumper  {
     static var showInactiveConversations: Bool {
         guard let value = Bumper.value(for: ShowInactiveConversations.key) else { return false }
         return ShowInactiveConversations(rawValue: value)?.asBool ?? false
+    }
+
+    static var mainFeedAspectRatio: MainFeedAspectRatio {
+        guard let value = Bumper.value(for: MainFeedAspectRatio.key) else { return .control }
+        return MainFeedAspectRatio(rawValue: value) ?? .control 
     } 
 }
 
@@ -686,5 +692,22 @@ enum ShowInactiveConversations: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show button to access inactive conversations" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum MainFeedAspectRatio: String, BumperFeature  {
+    case control, baseline, square, squareOrLessThanW9H16
+    static var defaultValue: String { return MainFeedAspectRatio.control.rawValue }
+    static var enumValues: [MainFeedAspectRatio] { return [.control, .baseline, .square, .squareOrLessThanW9H16]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Limit the aspect ratio of the images in the main feed" } 
+    static func fromPosition(_ position: Int) -> MainFeedAspectRatio {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .square
+            case 3: return .squareOrLessThanW9H16
+            default: return .control
+        }
+    }
 }
 

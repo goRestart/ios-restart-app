@@ -159,5 +159,10 @@
         "name": "ShowInactiveConversations",
         "values": ["No", "Yes"],
         "description": "Show button to access inactive conversations"
+    },
+    {
+        "name": "MainFeedAspectRatio",
+        "values": ["control", "baseline", "square", "squareOrLessThanW9H16"],
+        "description": "Limit the aspect ratio of the images in the main feed"
     }
 ]

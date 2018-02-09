@@ -54,6 +54,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstateNewCopy: RealEstateNewCopy = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var showInactiveConversations: Bool = false
+    var mainFeedAspectRatio: MainFeedAspectRatio = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
