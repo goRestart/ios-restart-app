@@ -446,8 +446,7 @@ class FeatureFlags: FeatureFlaggeable {
         }
         switch locationCountryCode {
         case .turkey?:
-            // TODO: change to turkish when all development is done.
-            return .standard
+            return .turkish
         default:
             return .standard
         }
