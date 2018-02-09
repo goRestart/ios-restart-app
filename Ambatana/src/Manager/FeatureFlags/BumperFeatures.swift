@@ -31,7 +31,6 @@ extension Bumper  {
         flags.append(NewItemPage.self)
         flags.append(ShowPriceStepRealEstatePosting.self)
         flags.append(ShowClockInDirectAnswer.self)
-        flags.append(BumpUpPriceDifferentiation.self)
         flags.append(PromoteBumpUpAfterSell.self)
         flags.append(MoreInfoAFShOrDFP.self)
         flags.append(ShowSecurityMeetingChatMessage.self)
@@ -45,6 +44,7 @@ extension Bumper  {
         flags.append(RealEstateNewCopy.self)
         flags.append(DummyUsersInfoProfile.self)
         flags.append(ShowInactiveConversations.self)
+        flags.append(IncreaseMinPriceBumps.self)
         Bumper.initialize(flags)
     } 
 
@@ -138,11 +138,6 @@ extension Bumper  {
         return ShowClockInDirectAnswer(rawValue: value) ?? .control 
     }
 
-    static var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation {
-        guard let value = Bumper.value(for: BumpUpPriceDifferentiation.key) else { return .control }
-        return BumpUpPriceDifferentiation(rawValue: value) ?? .control 
-    }
-
     static var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
         guard let value = Bumper.value(for: PromoteBumpUpAfterSell.key) else { return .control }
         return PromoteBumpUpAfterSell(rawValue: value) ?? .control 
@@ -206,6 +201,11 @@ extension Bumper  {
     static var showInactiveConversations: Bool {
         guard let value = Bumper.value(for: ShowInactiveConversations.key) else { return false }
         return ShowInactiveConversations(rawValue: value)?.asBool ?? false
+    }
+
+    static var increaseMinPriceBumps: IncreaseMinPriceBumps {
+        guard let value = Bumper.value(for: IncreaseMinPriceBumps.key) else { return .control }
+        return IncreaseMinPriceBumps(rawValue: value) ?? .control 
     } 
 }
 
@@ -469,22 +469,6 @@ enum ShowClockInDirectAnswer: String, BumperFeature  {
     }
 }
 
-enum BumpUpPriceDifferentiation: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return BumpUpPriceDifferentiation.control.rawValue }
-    static var enumValues: [BumpUpPriceDifferentiation] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Scale bump prices according to listing price" } 
-    static func fromPosition(_ position: Int) -> BumpUpPriceDifferentiation {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum PromoteBumpUpAfterSell: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return PromoteBumpUpAfterSell.control.rawValue }
@@ -686,5 +670,21 @@ enum ShowInactiveConversations: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show button to access inactive conversations" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum IncreaseMinPriceBumps: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return IncreaseMinPriceBumps.control.rawValue }
+    static var enumValues: [IncreaseMinPriceBumps] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Charge min price of 1.99$ instead of 0.99$ on bumps" } 
+    static func fromPosition(_ position: Int) -> IncreaseMinPriceBumps {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
 }
 

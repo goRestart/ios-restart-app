@@ -504,7 +504,7 @@ fileprivate extension AppCoordinator {
         purchasesShopper.bumpInfoRequesterDelegate = self
         monetizationRepository.retrieveBumpeableListingInfo(
             listingId: listingId,
-            withPriceDifferentiation: featureFlags.bumpUpPriceDifferentiation.isActive) { [weak self] result in
+            withHigherMinimumPrice: featureFlags.increaseMinPriceBumps.bucketValue) { [weak self] result in
                 guard let strongSelf = self else { return }
                 guard let value = result.value  else { return }
                 let paymentItems = value.paymentItems.filter { $0.provider == .apple }
