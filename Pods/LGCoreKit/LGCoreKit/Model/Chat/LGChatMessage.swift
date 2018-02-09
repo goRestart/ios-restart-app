@@ -13,6 +13,7 @@ public enum ChatMessageType: String, Decodable {
     case quickAnswer = "quick_answer"
     case expressChat = "express_chat"
     case favoritedListing  = "favorited_product"
+    case phone = "phone"
 }
 
 public enum ChatMessageWarning: String, Decodable {
@@ -107,13 +108,12 @@ struct LGChatMessage: ChatMessage, Decodable {
         talkerId = try keyedContainer.decode(String.self, forKey: .talkerId)
         text = try keyedContainer.decode(String.self, forKey: .text)
         let sentAtValue = try keyedContainer.decode(Double.self, forKey: .sentAt)
-        sentAt = Date(timeIntervalSince1970: sentAtValue/1000)
-        if let receivedAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .receivedAt) {
-            receivedAt = Date(timeIntervalSince1970: receivedAtValue/1000)
-        }
-        if let readAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .readAt) {
-            readAt = Date(timeIntervalSince1970: readAtValue/1000)
-        }
+        sentAt = Date.makeChatDate(millisecondsIntervalSince1970: sentAtValue)
+        let receivedAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .receivedAt)
+        receivedAt = Date.makeChatDate(millisecondsIntervalSince1970: receivedAtValue)
+        let readAtValue = try keyedContainer.decodeIfPresent(Double.self, forKey: .readAt)
+        readAt = Date.makeChatDate(millisecondsIntervalSince1970: readAtValue)
+        // ChatMessageType defaults to .text as fallback for future message types
         let stringChatMessageType = try keyedContainer.decode(String.self, forKey: .type)
         type = ChatMessageType(rawValue: stringChatMessageType) ?? .text
         warnings = (try keyedContainer.decode(FailableDecodableArray<ChatMessageWarning>.self, forKey: .warnings)).validElements

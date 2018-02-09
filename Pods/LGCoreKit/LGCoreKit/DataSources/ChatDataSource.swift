@@ -19,6 +19,12 @@ typealias ChatWebSocketConversationsCompletion = (ChatWebSocketConversationsResu
 typealias ChatWebSocketConversationResult = Result<ChatConversation, WebSocketError>
 typealias ChatWebSocketConversationCompletion = (ChatWebSocketConversationResult) -> Void
 
+typealias ChatWebSocketInactiveConversationsResult = Result<[ChatInactiveConversation], WebSocketError>
+typealias ChatWebSocketInactiveConversationsCompletion = (ChatWebSocketInactiveConversationsResult) -> Void
+
+typealias ChatWebSocketCountResult = Result<Int, WebSocketError>
+typealias ChatWebSocketCountCompletion = (ChatWebSocketCountResult) -> Void
+
 typealias ChatWebSocketCommandResult = Result<Void, WebSocketError>
 typealias ChatWebSocketCommandCompletion = (ChatWebSocketCommandResult) -> Void
 
@@ -26,11 +32,11 @@ typealias ChatWebSocketUnreadCountResult = Result<ChatUnreadMessages, ApiError>
 typealias ChatWebSocketUnreadCountCompletion = (ChatWebSocketUnreadCountResult) -> Void
 
 protocol ChatDataSource {
-
+    
     // Event bus reception
     var eventBus: PublishSubject<ChatEvent> { get }
     var socketStatus: Variable<WebSocketStatus> { get }
-
+    
     // Messages
     func indexMessages(_ conversationId: String, numResults: Int, offset: Int, completion: ChatWebSocketMessagesCompletion?)
     func indexMessagesNewerThan(_ messageId: String, conversationId: String, completion: ChatWebSocketMessagesCompletion?)
@@ -40,7 +46,9 @@ protocol ChatDataSource {
     func indexConversations(_ numResults: Int, offset: Int, filter: WebSocketConversationFilter, completion: ChatWebSocketConversationsCompletion?)
     func showConversation(_ conversationId: String, completion: ChatWebSocketConversationCompletion?)
     func showConversation(_ sellerId: String, listingId: String, completion: ChatWebSocketConversationCompletion?)
-
+    func fetchInactiveConversationsCount(completion: ChatWebSocketCountCompletion?)
+    func fetchInactiveConversations(limit: Int, offset: Int, completion: ChatWebSocketInactiveConversationsCompletion?)
+    
     // Events
     func typingStarted(_ conversationId: String)
     func typingStopped(_ conversationId: String)
@@ -51,7 +59,9 @@ protocol ChatDataSource {
     func confirmRead(_ conversationId: String, messageIds: [String], completion: ChatWebSocketCommandCompletion?)
     func archiveConversations(_ conversationIds: [String], completion: ChatWebSocketCommandCompletion?)
     func unarchiveConversations(_ conversationIds: [String], completion: ChatWebSocketCommandCompletion?)
-
+    func archiveInactiveConversations(_ conversationIds: [String], completion: ChatWebSocketCommandCompletion?)
+    
     // Unread messages
     func unreadMessages(_ userId: String, completion: ChatWebSocketUnreadCountCompletion?)
 }
+

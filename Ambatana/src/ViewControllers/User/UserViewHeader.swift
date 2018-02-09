@@ -317,6 +317,8 @@ extension UserViewHeader {
         ratingCountLabel.textColor = UIColor.lgBlack
         ratingsLabel.font = UIFont.systemRegularFont(size: 13)
         ratingsLabel.textColor = UIColor.grayDark
+        
+        avatarImageView.contentMode = .scaleAspectFill
     }
 
     private func setupVerifiedViews() {

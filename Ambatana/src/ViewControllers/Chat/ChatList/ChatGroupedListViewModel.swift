@@ -36,6 +36,8 @@ protocol ChatGroupedListViewModel: class, ChatGroupedListViewModelType {
     var shouldRefreshConversationsTabTrigger: Bool { get set }
     var shouldScrollToTop: Observable<Bool> { get }
     func clear()
+    func openInactiveConversations()
+    var shouldShowInactiveConversations: Bool { get }
 }
 
 class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
@@ -43,6 +45,11 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     let shouldWriteInCollectionVariable: Bool
     let notificationsManager: NotificationsManager
     fileprivate let tracker: Tracker
+    let featureFlags: FeatureFlaggeable
+    
+    private let chatRepository: ChatRepository
+    let inactiveConversationsCount = Variable<Int?>(nil)
+    
     private(set) var status: ViewState {
         didSet {
             switch status {
@@ -61,6 +68,10 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     weak var chatGroupedDelegate : ChatGroupedListViewModelDelegate?
     weak var tabNavigator: TabNavigator?
 
+    var shouldShowInactiveConversations: Bool {
+        return featureFlags.showInactiveConversations
+    }
+    
     // MARK: - Paginable
 
     let firstPage: Int = 1
@@ -90,25 +101,31 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     convenience init(objects: [T],
                      tabNavigator: TabNavigator?,
                      notificationsManager: NotificationsManager = LGNotificationsManager.sharedInstance,
-                     tracker: Tracker = TrackerProxy.sharedInstance) {
+                     tracker: Tracker = TrackerProxy.sharedInstance,
+                     chatRepository: ChatRepository = Core.chatRepository) {
         self.init(collectionVariable: CollectionVariable(objects),
                   shouldWriteInCollectionVariable: false,
                   tabNavigator: tabNavigator,
                   notificationsManager: notificationsManager,
-                  tracker: tracker)
+                  tracker: tracker,
+                  chatRepository: chatRepository)
     }
     
     init(collectionVariable: CollectionVariable<T>,
          shouldWriteInCollectionVariable: Bool,
          tabNavigator: TabNavigator?,
          notificationsManager: NotificationsManager = LGNotificationsManager.sharedInstance,
-         tracker: Tracker = TrackerProxy.sharedInstance) {
+         tracker: Tracker = TrackerProxy.sharedInstance,
+         chatRepository: ChatRepository = Core.chatRepository,
+         featureFlags: FeatureFlags = FeatureFlags.sharedInstance) {
         self.objects = collectionVariable
         self.shouldWriteInCollectionVariable = shouldWriteInCollectionVariable
         self.status = .loading
         self.tabNavigator = tabNavigator
         self.notificationsManager = notificationsManager
         self.tracker = tracker
+        self.chatRepository = chatRepository
+        self.featureFlags = featureFlags
         super.init()
         
         self.multipageRequester = MultiPageRequester() { [weak self] (page, completion) in
@@ -134,6 +151,11 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
     // MARK: - Public methods
 
+    func openInactiveConversations() {
+        tracker.trackEvent(TrackerEvent.chatViewInactiveConversations())
+        tabNavigator?.openChat(.inactiveConversations, source: .chatList, predefinedMessage: nil)
+    }
+    
     func objectAtIndex(_ index: Int) -> T? {
         guard index < objects.value.count else { return nil }
         return objects.value[index]
@@ -354,6 +376,8 @@ fileprivate extension BaseChatGroupedListViewModel {
                 self?.notificationsManager.updateChatCounters()
             }.disposed(by: disposeBag)
         }
+        
+        chatRepository.inactiveConversationsCount.asObservable().bind(to: inactiveConversationsCount).disposed(by: disposeBag)
     }
     
     func setupInactiveRx() {

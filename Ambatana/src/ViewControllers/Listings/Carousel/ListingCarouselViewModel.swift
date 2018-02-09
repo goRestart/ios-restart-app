@@ -116,8 +116,7 @@ class ListingCarouselViewModel: BaseViewModel {
     let ownerIsProfessional = Variable<Bool>(false)
     let ownerPhoneNumber = Variable<String?>(nil)
     var deviceCanCall: Bool {
-        guard let callUrl = URL(string: "tel://") else { return false }
-        return UIApplication.shared.canOpenURL(callUrl)
+        return PhoneCallsHelper.deviceCanCall
     }
 
     let quickAnswers = Variable<[[QuickAnswer]]>([[]])
@@ -526,9 +525,9 @@ class ListingCarouselViewModel: BaseViewModel {
     }
     
     func callSeller() {
-        guard let phoneNum = ownerPhoneNumber.value,
-            let phoneUrl = URL(string: "tel://\(phoneNum)") else { return }
-        UIApplication.shared.openURL(phoneUrl)
+        guard let phoneNumber = ownerPhoneNumber.value else { return }
+        PhoneCallsHelper.call(phoneNumber: phoneNumber)
+        currentListingViewModel?.trackCallTapped(source: source, feedPosition: trackingFeedPosition)
     }
 
 
