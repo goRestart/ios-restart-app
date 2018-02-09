@@ -48,6 +48,7 @@ func ==(a: FilterCategoryItem, b: FilterCategoryItem) -> Bool {
 protocol FiltersViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdate()
     func vmForcePriceFix()
+    func vmForceSizeFix()
 }
 
 protocol FiltersViewModelDataDelegate: class {
@@ -422,7 +423,7 @@ class FiltersViewModel: BaseViewModel {
         }
         guard validateSizeRange else {
             delegate?.vmShowAutoFadingMessage(LGLocalizedString.filtersSizeWrongRangeError, completion: { [weak self] in
-                self?.delegate?.vmForcePriceFix()
+                self?.delegate?.vmForceSizeFix()
             })
             return false
         }
