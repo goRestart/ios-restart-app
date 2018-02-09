@@ -57,6 +57,7 @@ protocol SocialMessage {
     func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion)
     func retrieveFBShareContent(completion: @escaping FBSDKShareLinkContentCompletion)
     func retrieveFBMessengerShareContent(completion: @escaping FBSDKShareLinkContentCompletion)
+    func retrieveTwitterShareText(completion: @escaping MessageWithURLCompletion)
     func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion)
 }
 
@@ -120,6 +121,11 @@ extension SocialMessage {
         }
     }
     
+    func retrieveTwitterShareText(completion: @escaping MessageWithURLCompletion) {
+        retrieveShareURL(source: .twitter) { url in
+            completion(LGLocalizedString.appShareMessageText)
+        }
+    }
     
     // MARK: - AppsFlyer
     

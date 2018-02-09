@@ -228,8 +228,9 @@ fileprivate extension SocialSharer {
     }
 
     func shareInTwitter(_ socialMessage: SocialMessage, viewController: UIViewController) {
-        // TODO: retention check
-        //shareInURL(.twitter, text: socialMessage.twitterShareText, urlScheme: Constants.twitterShareURL)
+        socialMessage.retrieveTwitterShareText { [weak self] shareText in
+            self?.shareInURL(.twitter, text: shareText, urlScheme: Constants.twitterShareURL)
+        }
     }
 
     func shareInTelegram(_ socialMessage: SocialMessage) {
