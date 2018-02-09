@@ -637,20 +637,13 @@ class FiltersViewModel: BaseViewModel {
 
     private var validatePriceRange: Bool {
         // if one is empty, is OK
-        guard let minPrice = minPrice else { return true }
-        guard let maxPrice = maxPrice else { return true }
-        guard minPrice > maxPrice else { return true }
-
-        return false
+        guard let minPrice = minPrice, let maxPrice = maxPrice else { return true }
+        return minPrice < maxPrice
     }
     
     private var validateSizeRange: Bool {
-        // if one is empty, is OK
-        guard let minPrice = minSize else { return true }
-        guard let maxPrice = maxSize else { return true }
-        guard minPrice > maxPrice else { return true }
-        
-        return false
+        guard let minSize = minSize, let maxSize = maxSize else { return true }
+        return minSize < maxSize
     }
 
     private func isValidCategory(_ index: Int) -> Bool {
