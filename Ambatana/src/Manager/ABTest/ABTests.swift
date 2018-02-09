@@ -90,6 +90,7 @@ class ABTests {
         result.append(moreInfoAFShOrDFP)
         result.append(showSecurityMeetingChatMessage)
         result.append(realEstateImprovements)
+        result.append(mostSearchedDemandedItems)
         result.append(realEstatePromos)
         result.append(allowEmojisOnChat)
         result.append(showAdsInFeedWithRatio)
