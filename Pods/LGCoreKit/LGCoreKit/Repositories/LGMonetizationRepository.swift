@@ -33,9 +33,9 @@ class LGMonetizationRepository : MonetizationRepository {
     // MARK: - Public methods
 
     func retrieveBumpeableListingInfo(listingId: String,
-                                      withPriceDifferentiation priceDif: Bool,
+                                      withHigherMinimumPrice minPriceVersion: Int,
                                       completion: BumpeableListingCompletion?) {
-        dataSource.retrieveBumpeableListingInfo(listingId: listingId, withPriceDifferentiation: priceDif) { result in
+        dataSource.retrieveBumpeableListingInfo(listingId: listingId, withHigherMinimumPrice: minPriceVersion) { result in
             handleApiResult(result, completion: completion)
         }
     }

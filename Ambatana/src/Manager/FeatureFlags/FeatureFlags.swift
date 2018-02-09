@@ -38,7 +38,6 @@ protocol FeatureFlaggeable: class {
     var homeRelatedEnabled: HomeRelatedEnabled { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
-    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation { get }
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
@@ -53,6 +52,7 @@ protocol FeatureFlaggeable: class {
     var realEstateNewCopy: RealEstateNewCopy { get }
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var showInactiveConversations: Bool { get }
+    var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -85,10 +85,6 @@ extension TaxonomiesAndTaxonomyChildrenInFeed {
 }
 
 extension ShowPriceStepRealEstatePosting {
-    var isActive: Bool { get { return self == .active } }
-}
-
-extension BumpUpPriceDifferentiation {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -134,6 +130,17 @@ extension RealEstateNewCopy {
 
 extension DummyUsersInfoProfile {
     var isActive: Bool { get { return self == .active } }
+}
+
+extension IncreaseMinPriceBumps {
+    var bucketValue: Int {
+        switch self {
+        case .control, .baseline:
+            return 0
+        case .active:
+            return 2
+        }
+    }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -314,13 +321,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
     }
 
-    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation {
-        if Bumper.enabled {
-            return Bumper.bumpUpPriceDifferentiation
-        }
-        return BumpUpPriceDifferentiation.fromPosition(abTests.bumpUpPriceDifferentiation.value)
-    }
-
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
         if Bumper.enabled {
             return Bumper.promoteBumpUpAfterSell
@@ -403,6 +403,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.showInactiveConversations
         }
         return abTests.showInactiveConversations.value
+    }
+
+    var increaseMinPriceBumps: IncreaseMinPriceBumps {
+        if Bumper.enabled {
+            return Bumper.increaseMinPriceBumps
+        }
+        return IncreaseMinPriceBumps.fromPosition(abTests.increaseMinPriceBumps.value)
     }
     
 
