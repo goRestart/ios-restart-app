@@ -35,9 +35,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstateEnabled: RealEstateEnabled = .control
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
-    var newBumpUpExplanation: NewBumpUpExplanation = .control
     var homeRelatedEnabled: HomeRelatedEnabled = .control
-    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells = .control
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control

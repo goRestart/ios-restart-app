@@ -24,9 +24,7 @@ extension Bumper  {
         flags.append(SearchAutocomplete.self)
         flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
-        flags.append(NewBumpUpExplanation.self)
         flags.append(HomeRelatedEnabled.self)
-        flags.append(HideChatButtonOnFeaturedCells.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(NewItemPage.self)
         flags.append(ShowPriceStepRealEstatePosting.self)
@@ -103,19 +101,9 @@ extension Bumper  {
         return RequestsTimeOut(rawValue: value) ?? .baseline 
     }
 
-    static var newBumpUpExplanation: NewBumpUpExplanation {
-        guard let value = Bumper.value(for: NewBumpUpExplanation.key) else { return .control }
-        return NewBumpUpExplanation(rawValue: value) ?? .control 
-    }
-
     static var homeRelatedEnabled: HomeRelatedEnabled {
         guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return .control }
         return HomeRelatedEnabled(rawValue: value) ?? .control 
-    }
-
-    static var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
-        guard let value = Bumper.value(for: HideChatButtonOnFeaturedCells.key) else { return .control }
-        return HideChatButtonOnFeaturedCells(rawValue: value) ?? .control 
     }
 
     static var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
@@ -357,22 +345,6 @@ enum RequestsTimeOut: String, BumperFeature  {
     }
 }
 
-enum NewBumpUpExplanation: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return NewBumpUpExplanation.control.rawValue }
-    static var enumValues: [NewBumpUpExplanation] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show new bump up explanation view" } 
-    static func fromPosition(_ position: Int) -> NewBumpUpExplanation {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum HomeRelatedEnabled: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return HomeRelatedEnabled.control.rawValue }
@@ -380,22 +352,6 @@ enum HomeRelatedEnabled: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show the related button in the main feed" } 
     static func fromPosition(_ position: Int) -> HomeRelatedEnabled {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum HideChatButtonOnFeaturedCells: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return HideChatButtonOnFeaturedCells.control.rawValue }
-    static var enumValues: [HideChatButtonOnFeaturedCells] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "hide chat button on the featured listing cells" } 
-    static func fromPosition(_ position: Int) -> HideChatButtonOnFeaturedCells {
         switch position { 
             case 0: return .control
             case 1: return .baseline
