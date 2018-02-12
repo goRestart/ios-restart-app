@@ -91,7 +91,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     private func setupBackground() {
         background.backgroundColor = UIColor.white
         contentView.addSubview(background)
-        background.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
+        background.cornerRadius = LGUIKitConstants.mediumCornerRadius
         background.layout(with: contentView)
             .top(to: .topMargin).left(to: .leftMargin).right(to: .rightMargin).bottom(to: .bottomMargin)
 
@@ -284,7 +284,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         switch shape {
             case .square:
                 placeholderImage = UIImage(named: "notificationBasicImageSquarePlaceholder")
-                basicImage.layer.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
+                basicImage.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
             case .circle:
                 placeholderImage = UIImage(named: "notificationBasicImageRoundPlaceholder")
                 basicImage.layer.cornerRadius = Metrics.modularNotificationBasicImageSize/2
@@ -332,7 +332,7 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         var placeholderImage: UIImage?
         switch shape {
             case .square:
-                thumbnailImageView.layer.cornerRadius = LGUIKitConstants.notificationCellCornerRadius
+                thumbnailImageView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
                 placeholderImage = UIImage(named: "notificationThumbnailSquarePlaceholder")
             case .circle:
                 thumbnailImageView.layer.cornerRadius = Metrics.modularNotificationThumbnailSize/2

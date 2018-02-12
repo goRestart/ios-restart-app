@@ -90,7 +90,7 @@ enum PostingSummaryOption {
         switch postCategory {
         case .car:
             return [.price, .make, .model, .year, .location]
-        case .motorsAndAccessories, .unassigned:
+        case .motorsAndAccessories, .otherItems:
             return [.price, .location]
         case .realEstate:
             return postingFlowType == .turkish ? [.price, .propertyType, .offerType, .rooms, .sizeSquareMeters, .location] : [.price, .propertyType, .offerType, .bedrooms, .bathrooms, .location]
@@ -125,7 +125,8 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
     // MARK: - Lifecycle
     
     init(postCategory: PostCategory?, postingFlowType: PostingFlowType) {
-        self.postingSummaryOptions = PostingSummaryOption.optionsIncluded(with: postCategory ?? .unassigned, postingFlowType: postingFlowType)
+        self.postingSummaryOptions = PostingSummaryOption.optionsIncluded(with: postCategory ?? .otherItems(listingCategory: nil),
+                                                                          postingFlowType: postingFlowType)
         super.init(frame: CGRect.zero)
         setupUI()
         setupAccessibilityIds()
