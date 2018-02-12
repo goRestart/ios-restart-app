@@ -16,7 +16,7 @@ class ChatAskPhoneNumberCellDrawer: BaseChatCellDrawer<ChatAskPhoneNumberCell> {
     }
 
     override func draw(_ cell: ChatAskPhoneNumberCell, message: ChatViewMessage) {
-        cell.messageLabel.text = message.value
+        cell.set(text: message.value)
         cell.dateLabel.text = message.sentAt?.formattedTime()
         switch message.type {
         case let .askPhoneNumber(_, action):
