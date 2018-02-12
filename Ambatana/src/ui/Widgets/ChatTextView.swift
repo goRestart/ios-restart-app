@@ -227,7 +227,7 @@ extension ChatTextView: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard !string.hasEmojis() else { return false }
+        guard !string.containsEmoji else { return false }
         return true
     }
 }

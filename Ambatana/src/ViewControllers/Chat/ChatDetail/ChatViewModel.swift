@@ -290,7 +290,7 @@ class ChatViewModel: BaseViewModel {
         if featureFlags.allowEmojisOnChat.isActive {
             self.predefinedMessage = predefinedMessage
         } else {
-            self.predefinedMessage = predefinedMessage?.stringByRemovingEmoji()
+            self.predefinedMessage = predefinedMessage?.removingEmoji()
         }
         self.openChatAutomaticMessage = openChatAutomaticMessage
 
