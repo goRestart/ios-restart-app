@@ -107,11 +107,21 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             guard let maxPriceCell = collectionView.cellForItem(at: indexPath) as? FilterRangePriceCell else { return }
             maxPriceCell.textFieldTo.becomeFirstResponder()
         } else {
-            guard let maxPriceCell = collectionView.cellForItem(at: indexPath) as? FilterPriceCell else { return }
+            guard let maxPriceCell = collectionView.cellForItem(at: indexPath) as? FilterTextFieldIntCell else { return }
             maxPriceCell.textField.becomeFirstResponder()
         }
 
         // move to "to price" cell
+        collectionView.scrollRectToVisible(priceToCellFrame, animated: false)
+    }
+    
+    func vmForceSizeFix() {
+        guard let sizeSectionIndex = viewModel.sections.index(of: .realEstateInfo) else { return }
+        let indexPath = IndexPath(item: 5, section: sizeSectionIndex)
+        guard let maxSizeCell = collectionView.cellForItem(at: indexPath) as? FilterTextFieldIntCell else { return }
+        maxSizeCell.textField.becomeFirstResponder()
+        
+        // move to "from size" cell
         collectionView.scrollRectToVisible(priceToCellFrame, animated: false)
     }
 
@@ -136,10 +146,14 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
 
     func priceTextFieldValueChanged(_ value: String?, tag: Int) {
         switch tag {
-        case TextFieldPriceType.priceFrom.rawValue:
+        case TextFieldNumberType.priceFrom.rawValue:
             viewModel.setMinPrice(value)
-        case TextFieldPriceType.priceTo.rawValue:
+        case TextFieldNumberType.priceTo.rawValue:
             viewModel.setMaxPrice(value)
+        case TextFieldNumberType.sizeFrom.rawValue:
+            viewModel.setMinSize(value)
+        case TextFieldNumberType.sizeTo.rawValue:
+            viewModel.setMaxSize(value)
         default:
             break
         }
@@ -175,10 +189,15 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         case .price:
             return CGSize(width: view.bounds.width, height: Layout.Height.prices)
         case .realEstateInfo:
-            if indexPath.item == 1 || indexPath.item == 2 {
+            let filterRealEstateSection = viewModel.filterRealEstateSections[indexPath.item]
+            switch filterRealEstateSection {
+            case .propertyType, .numberOfBathrooms, .numberOfBedrooms, .numberOfRooms:
+                return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
+            case .offerTypeRent, .offerTypeSale:
                 return CGSize(width: view.bounds.width, height: Layout.Height.singleCheckWithMargin)
+            case .sizeFrom, .sizeTo:
+                return CGSize(width: view.bounds.width * 0.5, height: Layout.Height.prices)
             }
-            return CGSize(width: view.bounds.width, height: Layout.Height.singleCheck)
         }
     }
     
@@ -208,21 +227,19 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
-        at indexPath: IndexPath) -> UICollectionReusableView {
-        
-            if (kind == UICollectionElementKindSectionHeader) {
-                let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
-                    withReuseIdentifier: FilterHeaderCell.reusableID, for: indexPath)
-                guard let headerCell = cell as? FilterHeaderCell else { return UICollectionReusableView() }
-                
-                let section = viewModel.sections[indexPath.section]
-                headerCell.topSeparator?.isHidden = indexPath.section == 0
-                headerCell.titleLabel.text = section.name
-                
-                return headerCell
-            }
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        if (kind == UICollectionElementKindSectionHeader) {
+            let cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
+                                                                       withReuseIdentifier: FilterHeaderCell.reusableID, for: indexPath)
+            guard let headerCell = cell as? FilterHeaderCell else { return UICollectionReusableView() }
             
-            return UICollectionReusableView()
+            let section = viewModel.sections[indexPath.section]
+            headerCell.topSeparator?.isHidden = indexPath.section == 0
+            headerCell.titleLabel.text = section.name
+            
+            return headerCell
+        }
+        return UICollectionReusableView()
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
@@ -261,7 +278,6 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.isSelected = viewModel.categorySelectedAtIndex(indexPath.row)
                     return cell
                 }
-                
             case .carsInfo:
                 switch indexPath.item {
                 case 0:
@@ -295,9 +311,9 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     return UICollectionViewCell()
                 }
             case .realEstateInfo:
-                switch indexPath.item {
-                case 0:
-                    // propertyType
+                let realEstateSection = viewModel.filterRealEstateSections[indexPath.item]
+                switch realEstateSection {
+                case .propertyType:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = true
@@ -305,8 +321,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.titleLabel.text = LGLocalizedString.realEstateTypePropertyTitle
                     cell.subtitleLabel.text = viewModel.currentPropertyTypeName ?? LGLocalizedString.filtersRealEstatePropertyTypeNotSet
                     return cell
-                case 1:
-                    // For sale option
+                case .offerTypeSale:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
                                                                         for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
                     cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
@@ -315,8 +330,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.bottomSeparator.isHidden = true
                     cell.setMargin(top: true)
                     return cell
-                case 2:
-                    // For rent option
+                case .offerTypeRent:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
                                                                         for: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
                     cell.titleLabel.text = viewModel.offerTypeNameAtIndex(indexPath.row - 1)
@@ -325,8 +339,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.bottomSeparator.isHidden = false
                     cell.setMargin(bottom: true)
                     return cell
-                case 3:
-                    // Number of bedrooms
+                case .numberOfBedrooms:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = true
@@ -335,8 +348,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.subtitleLabel.text = viewModel.currentNumberOfBedroomsName ?? LGLocalizedString.filtersRealEstateBedroomsNotSet
                     cell.topSeparator?.isHidden = false
                     return cell
-                case 4:
-                    // Number of bathrooms
+                case .numberOfBathrooms:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
                                                                         for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
                     cell.isUserInteractionEnabled = true
@@ -344,8 +356,30 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                     cell.titleLabel.text = LGLocalizedString.realEstateBathroomsTitle
                     cell.subtitleLabel.text = viewModel.currentNumberOfBathroomsName ?? LGLocalizedString.filtersRealEstateBathroomsNotSet
                     return cell
-                default:
-                    return UICollectionViewCell()
+                case .numberOfRooms:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterDisclosureCell.reusableID,
+                                                                        for: indexPath) as? FilterDisclosureCell else { return UICollectionViewCell() }
+                    cell.isUserInteractionEnabled = true
+                    cell.titleLabel.isEnabled = true
+                    cell.titleLabel.text = LGLocalizedString.realEstateRoomsTitle
+                    cell.subtitleLabel.text = viewModel.currentNumberOfRoomsName ?? LGLocalizedString.filtersRealEstateBedroomsNotSet
+                    cell.topSeparator?.isHidden = false
+                    return cell
+                case .sizeFrom, .sizeTo:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterTextFieldIntCell.reusableID,
+                                                                        for: indexPath) as? FilterTextFieldIntCell else { return UICollectionViewCell() }
+                    cell.tag = realEstateSection == .sizeFrom ? TextFieldNumberType.sizeFrom.rawValue : TextFieldNumberType.sizeTo.rawValue
+                    cell.textField.placeholder = Constants.sizeSquareMetersUnit
+                    cell.titleLabel.text = realEstateSection == .sizeFrom ? LGLocalizedString.filtersPriceFrom :
+                        LGLocalizedString.filtersPriceTo
+                    cell.bottomSeparator?.isHidden =  false
+                    cell.topSeparator?.isHidden =  false
+                    cell.textField.text = realEstateSection == .sizeFrom ? viewModel.minSizeString : viewModel.maxSizeString
+                    cell.delegate = self
+                    if realEstateSection == .sizeTo {
+                        priceToCellFrame = cell.frame
+                    }
+                    return cell
                 }
             case .within:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterSingleCheckCell.reusableID,
@@ -388,9 +422,10 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                         return UICollectionViewCell()
                     }
                 } else {
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterPriceCell.reusableID,
-                                                                        for: indexPath) as? FilterPriceCell else { return UICollectionViewCell() }
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterTextFieldIntCell.reusableID,
+                                                                        for: indexPath) as? FilterTextFieldIntCell else { return UICollectionViewCell() }
                     cell.tag = indexPath.row
+                    cell.textField.placeholder = LGLocalizedString.filtersSectionPrice
                     cell.titleLabel.text = indexPath.row == 0 ? LGLocalizedString.filtersPriceFrom :
                         LGLocalizedString.filtersPriceTo
                     cell.bottomSeparator?.isHidden =  indexPath.row == 0
@@ -434,23 +469,18 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                 break
             }
         case .realEstateInfo:
-            switch indexPath.item {
-            case 0:
-                // propertyType
+            switch viewModel.filterRealEstateSections[indexPath.item] {
+            case .propertyType:
                 viewModel.propertyTypeButtonPressed()
-            case 1:
-                // for sale
+            case .offerTypeRent, .offerTypeSale:
                 viewModel.selectOfferTypeAtIndex(indexPath.row - 1)
-            case 2:
-                // for rent
-                viewModel.selectOfferTypeAtIndex(indexPath.row - 1)
-            case 3:
-                // bedrooms
+            case .numberOfBedrooms:
                 viewModel.numberOfBedroomsPressed()
-            case 4:
-                // bathrooms
+            case .numberOfBathrooms:
                 viewModel.numberOfBathroomsPressed()
-            default:
+            case .numberOfRooms:
+                viewModel.numberOfRoomsPressed()
+            case .sizeTo, .sizeFrom:
                 break
             }
         case .within:
@@ -477,7 +507,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
                                 forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
                                 withReuseIdentifier: FilterHeaderCell.reusableID)
         collectionView.register(FilterRangePriceCell.self, forCellWithReuseIdentifier: FilterRangePriceCell.reusableID)
-        collectionView.register(FilterPriceCell.self, forCellWithReuseIdentifier: FilterPriceCell.reusableID)
+        collectionView.register(FilterTextFieldIntCell.self, forCellWithReuseIdentifier: FilterTextFieldIntCell.reusableID)
         collectionView.register(FilterFreeCell.self, forCellWithReuseIdentifier: FilterFreeCell.reusableID)
 
         // Navbar

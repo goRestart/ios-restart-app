@@ -324,4 +324,8 @@ extension String {
             return false
         }
     }
+    
+    var addSquareMeterUnit: String {
+        return self + Constants.sizeSquareMetersUnit
+    }
 }
