@@ -485,7 +485,7 @@
 "chat_login_popup_text" = "To start chatting, you have to log in";
 
 // Disclaimer message shown on the first message receive from the interlocutor
-"chat_message_disclaimer_meeting_security" = "Remember, busy public places like coffee shops and bank lobbies are safe, convenient meeting spots. Consider bringing a friend.";
+"chat_message_disclaimer_meeting_security" = "Try meeting at busier public places like coffee shops and bank lobbies. They are convenient and safe.";
 
 // Disclaimer shown for each suspicious message received in chat with no blocked user
 "chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
@@ -2340,7 +2340,7 @@
 "real_estate_type_property_others" = "Other";
 
 // Real Estate property type flat
-"real_estate_type_property_flat" = "Flat / Residence";
+"real_estate_type_property_flat" = "Flat";
 
 // Real Estate property type land
 "real_estate_type_property_land" = "Land";
@@ -2953,6 +2953,9 @@
 
 // Post button for each item in the list
 "trending_items_view_post_button" = "Post";
+
+// Search button for each item in the list
+"trending_items_view_search_button" = "Search";
 
 // Title for Most searched items card in feed
 "trending_items_card_title" = "This week's popular items";

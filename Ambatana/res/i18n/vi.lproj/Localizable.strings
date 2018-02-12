@@ -829,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "Đăng nhà đất để bán hoặc cho thuê trong mục Bất động sản mới của chúng tôi";
 "real_estate_type_property_apartment" = "Căn hộ";
 "real_estate_type_property_commercial" = "Thương mại";
-"real_estate_type_property_flat" = "Căn hộ/nhà";
+"real_estate_type_property_flat" = "Căn hộ";
 "real_estate_type_property_house" = "Nhà";
 "real_estate_type_property_land" = "Đất";
 "real_estate_type_property_others" = "Khác";
@@ -979,6 +979,7 @@
 "trending_items_view_number_of_searches_item" = "%@ searches";
 "trending_items_view_number_of_searches_title" = "Tìm kiếm trong tuần này";
 "trending_items_view_post_button" = "Đăng";
+"trending_items_view_search_button" = "Search";
 "trending_items_view_subtitle" = "Đăng một trong số này, và kiếm tiền trong chưa đến một tuần";
 "trending_items_view_title" = "Những món đồ phổ biến nhất tại %@";
 "trending_items_view_title_no_location" = "Most popular items";

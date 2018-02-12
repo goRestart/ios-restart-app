@@ -55,21 +55,4 @@ extension LGEmptyViewModel {
         guard let icon = icon else { return 0 }
         return icon.size.height
     }
-
-    static func respositoryErrorWithRetry(_ error: RepositoryError, action: (() -> ())?) -> LGEmptyViewModel? {
-        switch error {
-        case let .network(errorCode, onBackground):
-            return onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: action)
-        case .internalError, .forbidden, .unauthorized, .notFound, .tooManyRequests, .userNotVerified, .serverError:
-            return LGEmptyViewModel.genericErrorWithRetry(action: action)
-        case let .wsChatError(chatRepositoryError):
-            switch chatRepositoryError {
-            case let .network(errorCode, onBackground):
-                return onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: action)
-            case .userBlocked, .userNotVerified, .notAuthenticated, .apiError, .internalError, .differentCountry:
-                return LGEmptyViewModel.genericErrorWithRetry(action: action)
-            }
-
-        }
-    }
 }

@@ -37,7 +37,7 @@ class DummyUserDisclaimerView: UIView {
         backgroundColor = UIColor.grayBackground
         
         corneredBackgroundView.backgroundColor = UIColor.white
-        corneredBackgroundView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        corneredBackgroundView.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
         
         infoImageView.image = UIImage(named: "ic_info")
         

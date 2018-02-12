@@ -273,10 +273,15 @@ class ListingPostedViewModel: BaseViewModel {
         let buttonName = trackingInfo.buttonName
         let negotiable = trackingInfo.negotiablePrice
         let pictureSource = trackingInfo.imageSource
-        let event = TrackerEvent.listingSellComplete(postedListing, buttonName: buttonName,
+        let typePage = trackingInfo.typePage
+        let mostSearchedButton = trackingInfo.mostSearchedButton
+        let event = TrackerEvent.listingSellComplete(postedListing,
+                                                     buttonName: buttonName,
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: negotiable, pictureSource: pictureSource,
-                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                     typePage: typePage,
+                                                     mostSearchedButton: mostSearchedButton)
         tracker.trackEvent(event)
 
         // Track product was sold in the first 24h (and not tracked before)

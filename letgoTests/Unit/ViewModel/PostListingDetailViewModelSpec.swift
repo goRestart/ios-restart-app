@@ -51,24 +51,6 @@ class PostListingBasicDetailViewModelSpec: BaseViewModelSpec {
                     }
                 }
             }
-            context("listing title creation") {
-                context("title not specified") {
-                    beforeEach {
-                        sut.title.value = ""
-                    }
-                    it ("listingTitle is nil") {
-                        expect(sut.listingTitle).to(beNil())
-                    }
-                }
-                context("title specified") {
-                    beforeEach {
-                        sut.title.value = "cool thing"
-                    }
-                    it ("listingTitle has a value") {
-                        expect(sut.listingTitle) == "cool thing"
-                    }
-                }
-            }
             context("listing description creation") {
                 context("description not specified") {
                     beforeEach {

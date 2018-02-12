@@ -159,7 +159,7 @@
 "chat_list_unarchive_error_multiple" = "Ocorreu um erro ao desarquivar estas conversas. Por favor tente novamente.";
 "chat_list_unblock" = "Desbloquear";
 "chat_login_popup_text" = "Para começar a conversar deve primeiro fazer login";
-"chat_message_disclaimer_meeting_security" = "Lembre-se, espaços públicos movimentados tais como cafés ou halls de bancos são espaços de encontro convenientes e seguros. Considere levar consigo um amigo.";
+"chat_message_disclaimer_meeting_security" = "Tente marcar um encontro num espaço público tal como um café ou um hall de um banco. São lugares convenientes e seguros.";
 "chat_message_disclaimer_scammer_append_blocked" = "Toque aqui para bloquear este utilizador.";
 "chat_message_disclaimer_scammer_base_blocked" = "Seja extremamente cuidadoso ao trocar contactos de telefone/email. Os utilizadores fraudulentos pedem com frequência para abandonar o chat do letgo. %@";
 "chat_message_field_hint" = "Escreva a sua mensagem aqui";
@@ -829,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "Publique propriedades para venda ou arrendamento na nossa nova categoria Imobiliário";
 "real_estate_type_property_apartment" = "Apartamento";
 "real_estate_type_property_commercial" = "Comércio";
-"real_estate_type_property_flat" = "Apartamento / Residência";
+"real_estate_type_property_flat" = "Apartamento";
 "real_estate_type_property_house" = "Moradia";
 "real_estate_type_property_land" = "Terreno";
 "real_estate_type_property_others" = "Outro";
@@ -974,11 +974,12 @@
 "trending_items_expandable_menu_button" = "Tendências";
 "trending_items_expandable_menu_subset_title" = "ITENS MAIS POPULARES";
 "trending_items_header_bubble" = "Tendências";
-"trending_items_profile_subtitle" = "See what people in your area are looking for";
-"trending_items_profile_title" = "Not sure what to sell?";
+"trending_items_profile_subtitle" = "Veja o que procuram as pessoas da sua área";
+"trending_items_profile_title" = "Não tem a certeza sobre o que vender?";
 "trending_items_view_number_of_searches_item" = "%@ pesquisas";
 "trending_items_view_number_of_searches_title" = "Principais pesquisas desta semana";
 "trending_items_view_post_button" = "Publicar";
+"trending_items_view_search_button" = "Pesquisar";
 "trending_items_view_subtitle" = "Publique um destes a faça dinheiro numa semana";
 "trending_items_view_title" = "Os itens mais populares em %@";
 "trending_items_view_title_no_location" = "Os itens mais populares";

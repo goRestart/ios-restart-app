@@ -159,7 +159,7 @@
 "chat_list_unarchive_error_multiple" = "Er is een fout opgetreden tijdens het terugplaatsen van deze gesprekken. Probeer het nog eens.";
 "chat_list_unblock" = "Deblokkeer";
 "chat_login_popup_text" = "Om te beginnen met chatten, moet je inloggen";
-"chat_message_disclaimer_meeting_security" = "Drukke openbare plaatsen zoals coffeeshops en banklobby's zijn veilige, handige ontmoetingsplekken. Je kunt een vriend(in) meenemen.";
+"chat_message_disclaimer_meeting_security" = "Probeer op drukkere openbare plaatsen af te spreken zoals coffeeshops en banklobby's. Deze zijn praktisch en veilig.";
 "chat_message_disclaimer_scammer_append_blocked" = "Klik hier om deze gebruiker te blokkeren.";
 "chat_message_disclaimer_scammer_base_blocked" = "Wees extra voorzichtig bij het uitwisselen van telefoon/e-mailgegevens. Frauduleuze gebruikers vragen je vaak om de letgo chat te verlaten. %@";
 "chat_message_field_hint" = "Schrijf hier je bericht...";
@@ -829,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "Plaats onroerend goed te koop of te huur in onze nieuwe categorie Onroerend Goed";
 "real_estate_type_property_apartment" = "Appartement";
 "real_estate_type_property_commercial" = "Commercial";
-"real_estate_type_property_flat" = "Flat / Residentie";
+"real_estate_type_property_flat" = "Flat";
 "real_estate_type_property_house" = "Huis";
 "real_estate_type_property_land" = "Grond";
 "real_estate_type_property_others" = "Overig";
@@ -974,11 +974,12 @@
 "trending_items_expandable_menu_button" = "Trending";
 "trending_items_expandable_menu_subset_title" = "MEEST POPULAIRE ITEMS";
 "trending_items_header_bubble" = "Trending";
-"trending_items_profile_subtitle" = "See what people in your area are looking for";
-"trending_items_profile_title" = "Not sure what to sell?";
+"trending_items_profile_subtitle" = "Zie waar mensen in jouw omgeving naar op zoek zijn";
+"trending_items_profile_title" = "Weet je niet wat je wilt verkopen?";
 "trending_items_view_number_of_searches_item" = "%@ zoekopdrachten";
 "trending_items_view_number_of_searches_title" = "Top zoekopdrachten van deze week";
 "trending_items_view_post_button" = "Plaats";
+"trending_items_view_search_button" = "Zoeken";
 "trending_items_view_subtitle" = "Plaats een van deze en verdien binnen een week geld";
 "trending_items_view_title" = "Meest populaire items in %@";
 "trending_items_view_title_no_location" = "Meest populaire items";
