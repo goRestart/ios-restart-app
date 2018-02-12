@@ -161,7 +161,7 @@ extension ListingCategory {
         case .motorsAndAccessories:
             return .motorsAndAccessories
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
-            return .unassigned
+            return .otherItems(listingCategory: nil)
         }
     }
 }

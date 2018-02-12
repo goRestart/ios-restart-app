@@ -170,7 +170,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        thumbnailImageView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        thumbnailImageView.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
         avatarImageView.layer.cornerRadius = avatarImageView.width/2
         avatarImageView.clipsToBounds = true
         listingLabel.font = UIFont.conversationProductFont

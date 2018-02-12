@@ -17,7 +17,7 @@ protocol AppNavigator: class {
     func open()
     func openForceUpdateAlertIfNeeded()
     func openHome()
-    func openSell(source: PostingSource, postCategory: PostCategory?)
+    func openSell(source: PostingSource, postCategory: PostCategory?, listingTitle: String?)
     func openAppRating(_ source: EventParameterRatingSource)
     func openUserRating(_ source: RateUserSource, data: RateUserData)
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
@@ -27,4 +27,5 @@ protocol AppNavigator: class {
     func openDeepLink(deepLink: DeepLink)
     func openAppStore()
     func openPromoteBumpForListingId(listingId: String, purchaseableProduct: PurchaseableProduct)
+    func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
 }

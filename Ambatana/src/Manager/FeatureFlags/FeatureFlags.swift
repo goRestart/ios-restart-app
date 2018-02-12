@@ -35,18 +35,16 @@ protocol FeatureFlaggeable: class {
     var realEstateEnabled: RealEstateEnabled { get }
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
-    var newBumpUpExplanation: NewBumpUpExplanation { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
-    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
-    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation { get }
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
+    var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var realEstateImprovements: RealEstateImprovements { get }
     var realEstatePromos: RealEstatePromos { get }
     var allowEmojisOnChat: AllowEmojisOnChat { get }
@@ -55,6 +53,7 @@ protocol FeatureFlaggeable: class {
     var realEstateNewCopy: RealEstateNewCopy { get }
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var showInactiveConversations: Bool { get }
+    var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -90,20 +89,26 @@ extension ShowPriceStepRealEstatePosting {
     var isActive: Bool { get { return self == .active } }
 }
 
-extension BumpUpPriceDifferentiation {
-    var isActive: Bool { get { return self == .active } }
-}
-
 extension PromoteBumpUpAfterSell {
     var isActive: Bool { get { return self == .active } }
 }
 
 extension AllowCallsForProfessionals {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { get { return self == .control || self == .baseline } }
 }
 
 extension ShowSecurityMeetingChatMessage {
     var isActive: Bool { get { return self == .active } }
+}
+
+extension MostSearchedDemandedItems {
+    var isActive: Bool {
+        get {
+            return self == .cameraBadge ||
+                self == .trendingButtonExpandableMenu ||
+                self == .subsetAboveExpandableMenu
+        }
+    }
 }
 
 extension RealEstateEnabled {
@@ -136,6 +141,17 @@ extension RealEstateNewCopy {
 
 extension DummyUsersInfoProfile {
     var isActive: Bool { get { return self == .active } }
+}
+
+extension IncreaseMinPriceBumps {
+    var bucketValue: Int {
+        switch self {
+        case .control, .baseline:
+            return 0
+        case .active:
+            return 2
+        }
+    }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -281,25 +297,11 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
     }
     
-    var newBumpUpExplanation: NewBumpUpExplanation {
-        if Bumper.enabled {
-            return Bumper.newBumpUpExplanation
-        }
-        return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
-    }
-
     var homeRelatedEnabled: HomeRelatedEnabled {
         if Bumper.enabled {
             return Bumper.homeRelatedEnabled
         }
         return HomeRelatedEnabled.fromPosition(abTests.homeRelatedEnabled.value)
-    }
-
-    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
-        if Bumper.enabled {
-            return Bumper.hideChatButtonOnFeaturedCells
-        }
-        return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
     }
 
     var newItemPage: NewItemPage {
@@ -330,13 +332,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
     }
 
-    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation {
-        if Bumper.enabled {
-            return Bumper.bumpUpPriceDifferentiation
-        }
-        return BumpUpPriceDifferentiation.fromPosition(abTests.bumpUpPriceDifferentiation.value)
-    }
-
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
         if Bumper.enabled {
             return Bumper.promoteBumpUpAfterSell
@@ -364,6 +359,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
     }
+    
+    var mostSearchedDemandedItems: MostSearchedDemandedItems {
+        if Bumper.enabled {
+            return Bumper.mostSearchedDemandedItems
+        }
+        return MostSearchedDemandedItems.fromPosition(abTests.mostSearchedDemandedItems.value)
+    }
+    
     
     var realEstateImprovements: RealEstateImprovements {
         if Bumper.enabled {
@@ -419,6 +422,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.showInactiveConversations
         }
         return abTests.showInactiveConversations.value
+    }
+
+    var increaseMinPriceBumps: IncreaseMinPriceBumps {
+        if Bumper.enabled {
+            return Bumper.increaseMinPriceBumps
+        }
+        return IncreaseMinPriceBumps.fromPosition(abTests.increaseMinPriceBumps.value)
     }
     
 

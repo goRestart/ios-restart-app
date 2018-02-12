@@ -179,7 +179,7 @@ class ChatTextView: UIView {
         leftBackground.translatesAutoresizingMaskIntoConstraints = false
         leftBackground.backgroundColor = UIColor.white
         leftBackground.clipsToBounds = true
-        leftBackground.layer.cornerRadius = LGUIKitConstants.chatTextViewCornerRadius
+        leftBackground.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
         addSubview(leftBackground)
         let rightBackground = UIView()
         rightBackground.translatesAutoresizingMaskIntoConstraints = false
