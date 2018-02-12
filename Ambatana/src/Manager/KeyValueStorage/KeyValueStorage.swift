@@ -58,6 +58,8 @@ extension DefaultsKeys {
     static let realEstateTooltipSellButtonAlreadyShown = DefaultsKey<Bool>("realEstateTooltipSellButtonAlreadyShown")
     
     static let mostSearchedItemsCameraBadgeAlreadyShown = DefaultsKey<Bool>("mostSearchedItemsBadgeAlreadyShown")
+    
+    static let lastShownSecurityWarningDate = DefaultsKey<Date?>("lastShownSecurityWarningDate")
 }
 
 
@@ -263,6 +265,7 @@ extension KeyValueStorageable {
             currentUserProperties = userProperties
         }
     }
+    
 }
 
 

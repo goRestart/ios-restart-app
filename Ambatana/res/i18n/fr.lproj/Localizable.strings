@@ -159,7 +159,7 @@
 "chat_list_unarchive_error_multiple" = "Une erreur est survenue lors de la désarchivation de ces conversations. Veuillez réessayer.";
 "chat_list_unblock" = "Débloquer";
 "chat_login_popup_text" = "Pour commencer à chatter, vous devez vous connecter";
-"chat_message_disclaimer_meeting_security" = "Souvenez-vous que les lieux publics achalandés comme les cafés et les halls des banques sont des endroits pratiques et sécuritaires pour se rencontrer. Envisagez de venir avec un(e) ami(e).";
+"chat_message_disclaimer_meeting_security" = "Essayez d'effectuer les rencontres dans des lieux comme les cafés ou les halls de banques. Ce sont des endroits pratiques et sécuritaires.";
 "chat_message_disclaimer_scammer_append_blocked" = "Cliquez-ici pour bloquer cet utilisateur.";
 "chat_message_disclaimer_scammer_base_blocked" = "Soyez très prudents lorsque vous donnez votre email/téléphone. Les fraudeurs demandent souvent de communiquer en dehors de letgo. %@";
 "chat_message_field_hint" = "Entrez votre message ici";
@@ -974,12 +974,12 @@
 "trending_items_expandable_menu_button" = "Tendance";
 "trending_items_expandable_menu_subset_title" = "ARTICLES LES PLUS POPULAIRES";
 "trending_items_header_bubble" = "Tendance";
-"trending_items_profile_subtitle" = "See what people in your area are looking for";
-"trending_items_profile_title" = "Not sure what to sell?";
+"trending_items_profile_subtitle" = "Découvrez ce que les gens de votre secteur recherchent";
+"trending_items_profile_title" = "Pas certain de ce que vous devriez vendre ?";
 "trending_items_view_number_of_searches_item" = "%@ searches";
 "trending_items_view_number_of_searches_title" = "Les plus recherchés de la semaine";
 "trending_items_view_post_button" = "Publier";
-"trending_items_view_search_button" = "Search";
+"trending_items_view_search_button" = "Recherche";
 "trending_items_view_subtitle" = "Publiez l'un d'entre eux et gagnez de l'argent en moins d'une semaine";
 "trending_items_view_title" = "Produits les plus populaires en %@";
 "trending_items_view_title_no_location" = "Articles les plus populaires";

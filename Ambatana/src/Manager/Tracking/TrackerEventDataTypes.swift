@@ -998,8 +998,18 @@ enum EventParameterEmptyReason: String {
     case noInternetConection = "no-internet-connection"
     case serverError         = "server-error"
     case emptyResults        = "empty-results"
-    case unknown             = "unknown"
     case verification        = "verification"
+    case userNotVerified     = "user-not-verified"
+    case notFound            = "not-found"
+    case unauthorized        = "unauthorized"
+    case forbidden           = "forbidden"
+    case tooManyRequests     = "too-many-requests"
+    case chatServerError     = "chat-server-error"
+    case internalError       = "internal-error"
+    case wsInternalError     = "ws-internal-error"
+    case chatUserBlocked     = "chat-user-blocked"
+    case notAuthenticated    = "not-authenticated"
+    case differentCountry    = "different-country"
 }
 
 enum EventParameterQuickAnswerType: String {

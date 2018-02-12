@@ -74,6 +74,10 @@ struct ListingFilters {
     var realEstateOfferType: RealEstateOfferType?
     var realEstateNumberOfBedrooms: NumberOfBedrooms?
     var realEstateNumberOfBathrooms: NumberOfBathrooms?
+    
+    var noFilterCategoryApplied: Bool {
+        return selectedCategories.isEmpty
+    }
 
     init() {
         self.init(

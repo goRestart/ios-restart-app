@@ -840,7 +840,10 @@ extension ChatViewModel {
         let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent(date: sentAt).markAsReceived().markAsRead()
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
-        addSecurityMeetingDisclaimerIfNeeded()
+        if let securityMeetingIndex = securityMeetingIndex(for: messages.value) {
+            messages.insert(chatViewMessageAdapter.createSecurityMeetingDisclaimerMessage(),
+                             atIndex: securityMeetingIndex)
+        }
         guard isBuyer else { return }
         sellerDidntAnswer.value = false
     }
@@ -1254,18 +1257,10 @@ extension ChatViewModel {
 
         var chatMessages = chatViewMessageAdapter.addDisclaimers(filteredViewMessages,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
-        // Add security meeting disclaimer after first response from interlocutor. Ignore if we have more then one page
-        if featureFlags.showSecurityMeetingChatMessage.isActive && newMessages.count < Constants.numMessagesPerPage,
-            let lastInterlocutorMessageIndex = chatMessages.reversed().index(where: {
-                switch $0.type {
-                case .disclaimer, .userInfo, .askPhoneNumber:
-                    return false
-                case .offer, .sticker, .text:
-                    return $0.talkerId != myUserRepository.myUser?.objectId
-                }
-            })?.base {
-            let meetingSecurityDisclaimerMessage = chatViewMessageAdapter.createMeetingSecurityDisclaimerMessage()
-            chatMessages.insert(meetingSecurityDisclaimerMessage, at: chatMessages.index(before: lastInterlocutorMessageIndex))
+        
+        if let securityMeetingIndex = securityMeetingIndex(for: chatMessages) {
+            chatMessages.insert(chatViewMessageAdapter.createSecurityMeetingDisclaimerMessage(),
+                                at: securityMeetingIndex)
         }
         // Add disclaimer at the bottom of the first page
         if let bottomDisclaimerMessage = bottomDisclaimerMessage {
@@ -1283,21 +1278,69 @@ extension ChatViewModel {
         messages.appendContentsOf(chatMessages)
     }
     
-    fileprivate func addSecurityMeetingDisclaimerIfNeeded() {
-        guard messages.value.count < Constants.numMessagesPerPage else { return }
-        let meetingSecurityDisclaimerMessage = chatViewMessageAdapter.createMeetingSecurityDisclaimerMessage()
-        guard messages.value.filter({ $0 == meetingSecurityDisclaimerMessage }).count == 0 else { return }
-        if featureFlags.showSecurityMeetingChatMessage.isActive,
-            let lastInterlocutorMessageIndex = messages.value.reversed().index(where: {
+    fileprivate func securityMeetingIndex(for messages: [ChatViewMessage]) -> Int? {
+        var isFirstPage: Bool {
+            return messages.count < Constants.numMessagesPerPage
+        }
+        var priceIsEqualOrHigherThan250: Bool {
+            if let price = conversation.value.listing?.price.value {
+                return price > Double(250)
+            }
+            return false
+        }
+        var firstInterlocutorMessageIndex: Int? {
+            guard let i = messages.reversed().index(where: {
                 switch $0.type {
                 case .disclaimer, .userInfo, .askPhoneNumber:
                     return false
                 case .offer, .sticker, .text:
                     return $0.talkerId != myUserRepository.myUser?.objectId
                 }
-            })?.base {
-            messages.insert(meetingSecurityDisclaimerMessage, atIndex: messages.value.index(before: lastInterlocutorMessageIndex))
+            }) else { return nil }
+            let index = messages.index(before: i.base)
+            return index
         }
+        var fifthInterlocutorMessageIndex: Int? {
+            let elementNumber = 5
+            let interlocutorMessages = messages.reversed().filter {
+                switch $0.type {
+                case .disclaimer, .userInfo, .askPhoneNumber:
+                    return false
+                case .offer, .sticker, .text:
+                    return $0.talkerId != myUserRepository.myUser?.objectId
+                }
+            }
+            guard interlocutorMessages.count >= elementNumber else { return nil }
+            let fifthInterlocutorMessage = interlocutorMessages[elementNumber-1]
+            
+            let index = messages.index(where: {
+                $0 == fifthInterlocutorMessage
+            })
+            return index
+        }
+        var securityTooltipWasShownToday: Bool {
+            if let lastShownDate = keyValueStorage[.lastShownSecurityWarningDate] {
+                return lastShownDate.isFromLast24h()
+            }
+            return false
+        }
+
+        guard isFirstPage else { return nil }
+        switch featureFlags.showSecurityMeetingChatMessage {
+        case .baseline, .control:
+            return firstInterlocutorMessageIndex
+        case .variant1:
+            guard priceIsEqualOrHigherThan250 else { return nil }
+            if isBuyer {
+                return firstInterlocutorMessageIndex
+            } else if !securityTooltipWasShownToday {
+                keyValueStorage[.lastShownSecurityWarningDate] = Date()
+                return firstInterlocutorMessageIndex
+            }
+        case .variant2:
+            return fifthInterlocutorMessageIndex
+        }
+        return nil
     }
 
     private func afterRetrieveChatMessagesEvents() {

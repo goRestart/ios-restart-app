@@ -159,7 +159,7 @@
 "chat_list_unarchive_error_multiple" = "저장하신 대화들에 대한 저장을 취소하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_list_unblock" = "차단해제";
 "chat_login_popup_text" = "채팅을 시작하기 위해서, 사용자께서는 반드시 로그인 하셔야합니다";
-"chat_message_disclaimer_meeting_security" = "커피숍, 은행 로비와 같은 장소는 안전하고, 편리하게 구매자 혹은 판매자를 만날 수 있는 장소라는 것을 기억해주세요. 친구를 데리고 가는 것도 좋은 방법입니다.";
+"chat_message_disclaimer_meeting_security" = "커피숍이나 은행 로비와 같이 사람이 많은 공공장소에서 만나세요. 이러한 장소들은 편리하며 안전합니다.";
 "chat_message_disclaimer_scammer_append_blocked" = "이곳을 클릭하여 해당 사용자를 차단하세요.";
 "chat_message_disclaimer_scammer_base_blocked" = "휴대전화 정보/이메일 정보를 교환할 때는 조심하여 주십시오. 사기를 계획하는 사용자가 letgo 채팅으로 물어볼 수도 있습니다. %@";
 "chat_message_field_hint" = "메세지를 이곳에 입력하세요";
@@ -332,7 +332,7 @@
 "filters_section_real_estate_info" = "상품 정보";
 "filters_section_sortby" = "분류하기";
 "filters_section_within" = "안에 입력하세요";
-"filters_size_wrong_range_error" = "The minimum size can’t be higher than the maximum size.";
+"filters_size_wrong_range_error" = "최소 크기는 최대 크기보다 클 수 없습니다.";
 "filters_sort_closest" = "가장 가까운 순서대로";
 "filters_sort_newest" = "새로 올라온 순서대로";
 "filters_sort_price_asc" = "낮은가격에서 높은 가격으로";
@@ -974,12 +974,12 @@
 "trending_items_expandable_menu_button" = "트렌딩";
 "trending_items_expandable_menu_subset_title" = "가장 인기 있는 상품";
 "trending_items_header_bubble" = "인기 있는 상품";
-"trending_items_profile_subtitle" = "See what people in your area are looking for";
-"trending_items_profile_title" = "Not sure what to sell?";
+"trending_items_profile_subtitle" = "근처의 사람들이 어떤 상품을 찾고 있는지 알아보세요";
+"trending_items_profile_title" = "무엇을 판매해야할지 잘 모르시겠다구요?";
 "trending_items_view_number_of_searches_item" = "%@ 검색";
 "trending_items_view_number_of_searches_title" = "이번 주 검색하기";
 "trending_items_view_post_button" = "게시";
-"trending_items_view_search_button" = "Search";
+"trending_items_view_search_button" = "검색";
 "trending_items_view_subtitle" = "이 중 한개를 게시하고 일주일 내에 수익을 얻어보세요";
 "trending_items_view_title" = "%@에서 가장 인기있는 상품";
 "trending_items_view_title_no_location" = "가장 인기 있는 상품";
