@@ -43,7 +43,6 @@ protocol FeatureFlaggeable: class {
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var realEstateImprovements: RealEstateImprovements { get }
     var realEstatePromos: RealEstatePromos { get }
@@ -348,13 +347,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.moreInfoAFShOrDFP
         }
         return MoreInfoAFShOrDFP.fromPosition(abTests.moreInfoAFShOrDFP.value)
-    }
-    
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
-        if Bumper.enabled {
-            return Bumper.showSecurityMeetingChatMessage
-        }
-        return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
     }
     
     var mostSearchedDemandedItems: MostSearchedDemandedItems {
