@@ -84,7 +84,7 @@ struct ListingFilters {
     var realEstateNumberOfBedrooms: NumberOfBedrooms?
     var realEstateNumberOfBathrooms: NumberOfBathrooms?
     var realEstateNumberOfRooms: NumberOfRooms?
-    var realEstateSizeRange: SizeRange?
+    var realEstateSizeRange: SizeRange
 
     init() {
         self.init(
@@ -108,7 +108,7 @@ struct ListingFilters {
             realEstateNumberOfBedrooms: nil,
             realEstateNumberOfBathrooms: nil,
             realEstateNumberOfRooms: nil,
-            realEstateSizeRange: nil
+            realEstateSizeRange: SizeRange(min: nil, max: nil)
         )
     }
     
@@ -132,7 +132,7 @@ struct ListingFilters {
          realEstateNumberOfBedrooms: NumberOfBedrooms?,
          realEstateNumberOfBathrooms: NumberOfBathrooms?,
          realEstateNumberOfRooms: NumberOfRooms?,
-         realEstateSizeRange: SizeRange?
+         realEstateSizeRange: SizeRange
          ) {
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
@@ -198,7 +198,7 @@ struct ListingFilters {
     
     var hasAnyRealEstateAttributes: Bool {
         return realEstateOfferType != nil || realEstatePropertyType != nil || realEstateNumberOfBathrooms != nil
-            || realEstateNumberOfBedrooms != nil || realEstateNumberOfRooms != nil || realEstateSizeRange != nil
+            || realEstateNumberOfBedrooms != nil || realEstateNumberOfRooms != nil || realEstateSizeRange != SizeRange(min: nil, max: nil)
     }
     
     var hasAnyCarAttributes: Bool {
