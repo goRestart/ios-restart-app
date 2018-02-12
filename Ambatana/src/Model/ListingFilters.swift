@@ -85,6 +85,10 @@ struct ListingFilters {
     var realEstateNumberOfBathrooms: NumberOfBathrooms?
     var realEstateNumberOfRooms: NumberOfRooms?
     var realEstateSizeRange: SizeRange
+    
+    var noFilterCategoryApplied: Bool {
+        return selectedCategories.isEmpty
+    }
 
     init() {
         self.init(

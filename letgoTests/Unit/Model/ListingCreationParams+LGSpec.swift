@@ -28,7 +28,7 @@ class ListingCreationParamsLGSpec: QuickSpec {
             describe("price") {
                 context("make with price") {
                     beforeEach {
-                        var postListingState = PostListingState(postCategory: .motorsAndAccessories)
+                        var postListingState = PostListingState(postCategory: .motorsAndAccessories, title: nil)
                         postListingState = postListingState.updatingStepToUploadingImages()
                         postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         postListingState = postListingState.updatingAfterUploadingSuccess()
@@ -46,7 +46,7 @@ class ListingCreationParamsLGSpec: QuickSpec {
                 }
                 context("make with negotiable") {
                     beforeEach {
-                        var postListingState = PostListingState(postCategory: .motorsAndAccessories)
+                        var postListingState = PostListingState(postCategory: .motorsAndAccessories, title: nil)
                         postListingState = postListingState.updatingStepToUploadingImages()
                         postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         postListingState = postListingState.updatingAfterUploadingSuccess()
@@ -64,7 +64,7 @@ class ListingCreationParamsLGSpec: QuickSpec {
                 }
                 context("make with no price") {
                     beforeEach {
-                        var postListingState = PostListingState(postCategory: .motorsAndAccessories)
+                        var postListingState = PostListingState(postCategory: .motorsAndAccessories, title: nil)
                         postListingState = postListingState.updatingStepToUploadingImages()
                         postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         postListingState = postListingState.updatingAfterUploadingSuccess()
@@ -81,7 +81,7 @@ class ListingCreationParamsLGSpec: QuickSpec {
                 }
                 context("make with free") {
                     beforeEach {
-                        var postListingState = PostListingState(postCategory: .motorsAndAccessories)
+                        var postListingState = PostListingState(postCategory: .motorsAndAccessories, title: nil)
                         postListingState = postListingState.updatingStepToUploadingImages()
                         postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         postListingState = postListingState.updatingAfterUploadingSuccess()
@@ -101,7 +101,7 @@ class ListingCreationParamsLGSpec: QuickSpec {
         }
         describe("location") {
             beforeEach {
-                postListingState = PostListingState(postCategory: .realEstate)
+                postListingState = PostListingState(postCategory: .realEstate, title: nil)
                 postListingState = postListingState.updatingStepToUploadingImages()
                 postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                 postListingState = postListingState.updatingAfterUploadingSuccess()

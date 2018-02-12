@@ -54,9 +54,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         didSet {
             switch status {
             case let .error(emptyVM):
-                if let emptyReason = emptyViewModel?.emptyReason {
-                    trackErrorStateShown(reason: emptyReason, errorCode: emptyVM.errorCode)
-                }
+                trackErrorStateShown(emptyViewModel: emptyVM)
             case .loading, .data, .empty:
                 break
             }
@@ -334,21 +332,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         let retryAction: () -> () = { [weak self] in
             self?.retrieveFirstPage()
         }
-        var emptyVM: LGEmptyViewModel?
-        switch error {
-        case let .network(errorCode, onBackground):
-            emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: retryAction)
-        case let .wsChatError(chatRepositoryError):
-            switch chatRepositoryError {
-            case let .network(errorCode, onBackground):
-                emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: retryAction)
-            case .internalError, .notAuthenticated, .userNotVerified, .userBlocked, .apiError, .differentCountry:
-                emptyVM = LGEmptyViewModel.genericErrorWithRetry(action: retryAction)
-            }
-        case .internalError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
-            emptyVM = LGEmptyViewModel.genericErrorWithRetry(action: retryAction)
-        }
-        return emptyVM
+        return LGEmptyViewModel.map(from: error, action: retryAction)
     }
     
     private func updateObjects(newObjects: [T]) {
@@ -404,8 +388,10 @@ fileprivate extension BaseChatGroupedListViewModel {
 // MARK: - Tracking
 
 fileprivate extension BaseChatGroupedListViewModel {
-    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?) {
-        let event = TrackerEvent.emptyStateVisit(typePage: .chatList, reason: reason, errorCode: errorCode)
+    
+    func trackErrorStateShown(emptyViewModel: LGEmptyViewModel) {
+        guard let emptyReason = emptyViewModel.emptyReason else { return }
+        let event = TrackerEvent.emptyStateVisit(typePage: .chatList, reason: emptyReason, errorCode: emptyViewModel.errorCode)
         tracker.trackEvent(event)
     }
 }

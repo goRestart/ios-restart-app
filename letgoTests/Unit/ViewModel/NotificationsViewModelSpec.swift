@@ -88,7 +88,7 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                             .toEventually(equal("no-internet-connection"))
                     }
                 }
-                context("fails with too many requests errpr") {
+                context("fails with too many requests error") {
                     beforeEach {
                         let notificationsRepository = MockNotificationsRepository()
                         notificationsRepository.indexResult = Result<[NotificationModel], RepositoryError>(error: .tooManyRequests)
@@ -104,9 +104,9 @@ class NotificationsViewModelSpec: BaseViewModelSpec {
                         expect(tracker.trackedEvents.flatMap { $0.name })
                             .toEventually(equal([.emptyStateError]))
                     }
-                    it("fires empty-state-error with .unknown") {
+                    it("fires empty-state-error with .tooManyRequests") {
                         expect((tracker.trackedEvents.flatMap { $0.params }.first)?.stringKeyParams["reason"] as? String)
-                            .toEventually(equal("unknown"))
+                            .toEventually(equal("too-many-requests"))
                     }
                 }
             }

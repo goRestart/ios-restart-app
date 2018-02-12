@@ -829,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "Publiez une propriété à vendre ou à louer dans notre nouvelle catégorie Immobilier";
 "real_estate_type_property_apartment" = "Appartement";
 "real_estate_type_property_commercial" = "Publicité";
-"real_estate_type_property_flat" = "Appartement / Résidence";
+"real_estate_type_property_flat" = "Appartement";
 "real_estate_type_property_house" = "Maison";
 "real_estate_type_property_land" = "Terrain";
 "real_estate_type_property_others" = "Autre";

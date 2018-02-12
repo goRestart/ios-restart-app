@@ -49,7 +49,7 @@ UITableViewDelegate  {
     init(viewModel: ChatInactiveConversationsListViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "ChatInactiveConversationsListView")
-        edgesForExtendedLayout = UIRectEdge.bottom
+        edgesForExtendedLayout = []
         hidesBottomBarWhenPushed = false
         hasTabBar = true
     }

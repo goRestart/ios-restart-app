@@ -114,6 +114,16 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         // move to "to price" cell
         collectionView.scrollRectToVisible(priceToCellFrame, animated: false)
     }
+    
+    func vmForceSizeFix() {
+        guard let sizeSectionIndex = viewModel.sections.index(of: .realEstateInfo) else { return }
+        let indexPath = IndexPath(item: 5, section: sizeSectionIndex)
+        guard let maxSizeCell = collectionView.cellForItem(at: indexPath) as? FilterTextFieldIntCell else { return }
+        maxSizeCell.textField.becomeFirstResponder()
+        
+        // move to "from size" cell
+        collectionView.scrollRectToVisible(priceToCellFrame, animated: false)
+    }
 
     // MARK: FilterDistanceCellDelegate
     

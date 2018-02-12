@@ -24,17 +24,14 @@ extension Bumper  {
         flags.append(SearchAutocomplete.self)
         flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
-        flags.append(NewBumpUpExplanation.self)
         flags.append(HomeRelatedEnabled.self)
-        flags.append(HideChatButtonOnFeaturedCells.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(NewItemPage.self)
         flags.append(ShowPriceStepRealEstatePosting.self)
         flags.append(ShowClockInDirectAnswer.self)
-        flags.append(BumpUpPriceDifferentiation.self)
         flags.append(PromoteBumpUpAfterSell.self)
         flags.append(MoreInfoAFShOrDFP.self)
-        flags.append(ShowSecurityMeetingChatMessage.self)
+        flags.append(MostSearchedDemandedItems.self)
         flags.append(AllowCallsForProfessionals.self)
         flags.append(RealEstateImprovements.self)
         flags.append(RealEstatePromos.self)
@@ -45,6 +42,9 @@ extension Bumper  {
         flags.append(RealEstateNewCopy.self)
         flags.append(DummyUsersInfoProfile.self)
         flags.append(ShowInactiveConversations.self)
+        flags.append(MainFeedAspectRatio.self)
+        flags.append(IncreaseMinPriceBumps.self)
+        flags.append(ShowSecurityMeetingChatMessage.self)
         Bumper.initialize(flags)
     } 
 
@@ -103,19 +103,9 @@ extension Bumper  {
         return RequestsTimeOut(rawValue: value) ?? .baseline 
     }
 
-    static var newBumpUpExplanation: NewBumpUpExplanation {
-        guard let value = Bumper.value(for: NewBumpUpExplanation.key) else { return .control }
-        return NewBumpUpExplanation(rawValue: value) ?? .control 
-    }
-
     static var homeRelatedEnabled: HomeRelatedEnabled {
         guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return .control }
         return HomeRelatedEnabled(rawValue: value) ?? .control 
-    }
-
-    static var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
-        guard let value = Bumper.value(for: HideChatButtonOnFeaturedCells.key) else { return .control }
-        return HideChatButtonOnFeaturedCells(rawValue: value) ?? .control 
     }
 
     static var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
@@ -138,11 +128,6 @@ extension Bumper  {
         return ShowClockInDirectAnswer(rawValue: value) ?? .control 
     }
 
-    static var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation {
-        guard let value = Bumper.value(for: BumpUpPriceDifferentiation.key) else { return .control }
-        return BumpUpPriceDifferentiation(rawValue: value) ?? .control 
-    }
-
     static var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
         guard let value = Bumper.value(for: PromoteBumpUpAfterSell.key) else { return .control }
         return PromoteBumpUpAfterSell(rawValue: value) ?? .control 
@@ -153,9 +138,9 @@ extension Bumper  {
         return MoreInfoAFShOrDFP(rawValue: value) ?? .control 
     }
 
-    static var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
-        guard let value = Bumper.value(for: ShowSecurityMeetingChatMessage.key) else { return .control }
-        return ShowSecurityMeetingChatMessage(rawValue: value) ?? .control 
+    static var mostSearchedDemandedItems: MostSearchedDemandedItems {
+        guard let value = Bumper.value(for: MostSearchedDemandedItems.key) else { return .control }
+        return MostSearchedDemandedItems(rawValue: value) ?? .control 
     }
 
     static var allowCallsForProfessionals: AllowCallsForProfessionals {
@@ -206,6 +191,21 @@ extension Bumper  {
     static var showInactiveConversations: Bool {
         guard let value = Bumper.value(for: ShowInactiveConversations.key) else { return false }
         return ShowInactiveConversations(rawValue: value)?.asBool ?? false
+    }
+
+    static var mainFeedAspectRatio: MainFeedAspectRatio {
+        guard let value = Bumper.value(for: MainFeedAspectRatio.key) else { return .control }
+        return MainFeedAspectRatio(rawValue: value) ?? .control 
+    }
+
+    static var increaseMinPriceBumps: IncreaseMinPriceBumps {
+        guard let value = Bumper.value(for: IncreaseMinPriceBumps.key) else { return .control }
+        return IncreaseMinPriceBumps(rawValue: value) ?? .control 
+    }
+
+    static var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
+        guard let value = Bumper.value(for: ShowSecurityMeetingChatMessage.key) else { return .control }
+        return ShowSecurityMeetingChatMessage(rawValue: value) ?? .control 
     } 
 }
 
@@ -357,22 +357,6 @@ enum RequestsTimeOut: String, BumperFeature  {
     }
 }
 
-enum NewBumpUpExplanation: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return NewBumpUpExplanation.control.rawValue }
-    static var enumValues: [NewBumpUpExplanation] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show new bump up explanation view" } 
-    static func fromPosition(_ position: Int) -> NewBumpUpExplanation {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum HomeRelatedEnabled: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return HomeRelatedEnabled.control.rawValue }
@@ -380,22 +364,6 @@ enum HomeRelatedEnabled: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show the related button in the main feed" } 
     static func fromPosition(_ position: Int) -> HomeRelatedEnabled {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum HideChatButtonOnFeaturedCells: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return HideChatButtonOnFeaturedCells.control.rawValue }
-    static var enumValues: [HideChatButtonOnFeaturedCells] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "hide chat button on the featured listing cells" } 
-    static func fromPosition(_ position: Int) -> HideChatButtonOnFeaturedCells {
         switch position { 
             case 0: return .control
             case 1: return .baseline
@@ -469,22 +437,6 @@ enum ShowClockInDirectAnswer: String, BumperFeature  {
     }
 }
 
-enum BumpUpPriceDifferentiation: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return BumpUpPriceDifferentiation.control.rawValue }
-    static var enumValues: [BumpUpPriceDifferentiation] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Scale bump prices according to listing price" } 
-    static func fromPosition(_ position: Int) -> BumpUpPriceDifferentiation {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum PromoteBumpUpAfterSell: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return PromoteBumpUpAfterSell.control.rawValue }
@@ -518,33 +470,35 @@ enum MoreInfoAFShOrDFP: String, BumperFeature  {
     }
 }
 
-enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return ShowSecurityMeetingChatMessage.control.rawValue }
-    static var enumValues: [ShowSecurityMeetingChatMessage] { return [.control, .baseline, .active]}
+enum MostSearchedDemandedItems: String, BumperFeature  {
+    case control, baseline, cameraBadge, trendingButtonExpandableMenu, subsetAboveExpandableMenu
+    static var defaultValue: String { return MostSearchedDemandedItems.control.rawValue }
+    static var enumValues: [MostSearchedDemandedItems] { return [.control, .baseline, .cameraBadge, .trendingButtonExpandableMenu, .subsetAboveExpandableMenu]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show a disclaimer message on chat after the first conversation from the interlocutor" } 
-    static func fromPosition(_ position: Int) -> ShowSecurityMeetingChatMessage {
+    static var description: String { return "Display a list of top seller items that inspire users to post new items" } 
+    static func fromPosition(_ position: Int) -> MostSearchedDemandedItems {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .active
+            case 2: return .cameraBadge
+            case 3: return .trendingButtonExpandableMenu
+            case 4: return .subsetAboveExpandableMenu
             default: return .control
         }
     }
 }
 
 enum AllowCallsForProfessionals: String, BumperFeature  {
-    case control, baseline, active
+    case control, baseline, inactive
     static var defaultValue: String { return AllowCallsForProfessionals.control.rawValue }
-    static var enumValues: [AllowCallsForProfessionals] { return [.control, .baseline, .active]}
+    static var enumValues: [AllowCallsForProfessionals] { return [.control, .baseline, .inactive]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Users can call professional sellers" } 
     static func fromPosition(_ position: Int) -> AllowCallsForProfessionals {
         switch position { 
             case 0: return .control
             case 1: return .baseline
-            case 2: return .active
+            case 2: return .inactive
             default: return .control
         }
     }
@@ -686,5 +640,55 @@ enum ShowInactiveConversations: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show button to access inactive conversations" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum MainFeedAspectRatio: String, BumperFeature  {
+    case control, baseline, square, squareOrLessThanW9H16
+    static var defaultValue: String { return MainFeedAspectRatio.control.rawValue }
+    static var enumValues: [MainFeedAspectRatio] { return [.control, .baseline, .square, .squareOrLessThanW9H16]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Limit the aspect ratio of the images in the main feed" } 
+    static func fromPosition(_ position: Int) -> MainFeedAspectRatio {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .square
+            case 3: return .squareOrLessThanW9H16
+            default: return .control
+        }
+    }
+}
+
+enum IncreaseMinPriceBumps: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return IncreaseMinPriceBumps.control.rawValue }
+    static var enumValues: [IncreaseMinPriceBumps] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Charge min price of 1.99$ instead of 0.99$ on bumps" } 
+    static func fromPosition(_ position: Int) -> IncreaseMinPriceBumps {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
+    case control, baseline, variant1, variant2
+    static var defaultValue: String { return ShowSecurityMeetingChatMessage.control.rawValue }
+    static var enumValues: [ShowSecurityMeetingChatMessage] { return [.control, .baseline, .variant1, .variant2]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "show a disclaimer message on chat after the first conversation from the interlocutor" } 
+    static func fromPosition(_ position: Int) -> ShowSecurityMeetingChatMessage {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .variant1
+            case 3: return .variant2
+            default: return .control
+        }
+    }
 }
 
