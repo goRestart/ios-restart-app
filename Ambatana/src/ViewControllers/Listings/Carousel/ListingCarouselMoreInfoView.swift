@@ -151,7 +151,7 @@ class ListingCarouselMoreInfoView: UIView {
         // We need to call invalidateLayout in the CollectionView to fix what appears to be an iOS 10 UIKit bug:
         // https://stackoverflow.com/a/44467194
         tagCollectionView.collectionViewLayout.invalidateLayout()
-        mapView.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
+        mapView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
         dragView.layer.cornerRadius = dragView.height / 2.0
     }
 
@@ -362,6 +362,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         setupMapView(inside: mapViewContainer)
         report(AppReport.uikit(error: .breadcrumb), message: "setupMapView")
 
+        mapView.cornerRadius = LGUIKitConstants.bigCornerRadius
         mapView.clipsToBounds = true
         report(AppReport.uikit(error: .breadcrumb), message: "mapView.clipToBounds")
 
@@ -485,7 +486,7 @@ fileprivate extension ListingCarouselMoreInfoView {
     
     func setupTagCollectionView() {
         report(AppReport.uikit(error: .breadcrumb), message: "setupTagCollectionView")
-        tagCollectionViewModel = TagCollectionViewModel(tags: [], delegate: tagCollectionView)
+        tagCollectionViewModel = TagCollectionViewModel(tags: [], cellStyle: .blackBackground, delegate: tagCollectionView)
         report(AppReport.uikit(error: .breadcrumb), message: "TagCollectionViewModel init")
         tagCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.reusableID)
         report(AppReport.uikit(error: .breadcrumb), message: "tagCollectionView.register(TagCollectionViewCell.self,")

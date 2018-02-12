@@ -303,7 +303,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                 describe("new conversation") {
                     describe ("with a regular user") {
                         beforeEach {
-                            featureFlags.allowCallsForProfessionals = .active
+                            featureFlags.allowCallsForProfessionals = .control
                             mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
                             chatMessages = []
                             productResult = self.makeMockProduct(with: .approved)
@@ -370,7 +370,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                     describe ("with a professional user") {
                         context ("allowCallsForProfessionals ABTest active") {
                             beforeEach {
-                                featureFlags.allowCallsForProfessionals = .active
+                                featureFlags.allowCallsForProfessionals = .control
                                 mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
                                 chatMessages = []
                                 productResult = self.makeMockProduct(with: .approved)
@@ -419,7 +419,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                         }
                         context ("allowCallsForProfessionals ABTest inactive") {
                             beforeEach {
-                                featureFlags.allowCallsForProfessionals = .baseline
+                                featureFlags.allowCallsForProfessionals = .inactive
                                 mockMyUser = self.makeMockMyUser(with: .active, isDummy: false)
                                 chatMessages = []
                                 productResult = self.makeMockProduct(with: .approved)

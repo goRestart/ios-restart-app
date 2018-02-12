@@ -347,6 +347,7 @@ enum EventParameterName: String {
     case openField            = "open-field"
     case chatsDeleted         = "chats-deleted"
     case inactiveConversations = "inactive-conversations"
+    case mostSearchedButton   = "most-searched-button"
 }
 
 enum EventParameterBoolean: String {
@@ -462,7 +463,7 @@ enum EventParameterPostingType: String {
     
     init(category: PostCategory) {
         switch category {
-        case .unassigned, .motorsAndAccessories:
+        case .otherItems, .motorsAndAccessories:
             self = .stuff
         case .car:
             self = .car
@@ -760,6 +761,7 @@ enum EventParameterTypePage: String {
     case inAppNotification = "in-app-notification"
     case filter = "filter"
     case realEstatePromo = "real-estate-promo"
+    case mostSearched = "most-searched"
 }
 
 enum EventParameterPermissionType: String {
@@ -1141,6 +1143,20 @@ enum EventParameterOptionSummary: String {
         case .year:
             self = .year
         }
+    }
+}
+
+enum EventParameterMostSearched: String {
+    case notApply                   = "N/A"
+    case tabBarCamera               = "tabbar-camera"
+    case trendingExpandableButton   = "trending-salchicha"
+    case postingTags                = "posting-tags"
+    case feedBubble                 = "feed-bubble"
+    case feedCard                   = "feed-card"
+    case userProfile                = "user-profile"
+    
+    static var allValues: [EventParameterMostSearched] {
+        return [.notApply, .tabBarCamera, .trendingExpandableButton, .postingTags, .feedBubble, .feedCard, .userProfile]
     }
 }
 
