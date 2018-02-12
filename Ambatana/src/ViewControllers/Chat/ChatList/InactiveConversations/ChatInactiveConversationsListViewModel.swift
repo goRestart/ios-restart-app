@@ -226,12 +226,12 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
             if let _ = result.error {
                 strongSelf.delegate?.didFailArchivingChats()
             } else {
-                strongSelf.deselectAllConversations()
-                strongSelf.delegate?.didSucceedArchivingChats()
                 strongSelf.tracker.trackEvent(
                     TrackerEvent.chatDeleteComplete(numberOfConversations: strongSelf.selectedConversationIds.value.count,
                                                     isInactiveConversation: true)
                 )
+                strongSelf.deselectAllConversations()
+                strongSelf.delegate?.didSucceedArchivingChats()
             }
         }
     }
@@ -287,23 +287,11 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
         }
     }
     
-    private func emptyViewModelForError(_ error: RepositoryError) -> LGEmptyViewModel {
+    private func emptyViewModelForError(_ error: RepositoryError) -> LGEmptyViewModel? {
         let retryAction: () -> () = { [weak self] in
             self?.retrieveFirstPage()
         }
-        switch error {
-        case let .network(errorCode, _):
-            return LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: retryAction)
-        case let .wsChatError(chatRepositoryError):
-            switch chatRepositoryError {
-            case let .network(errorCode, _):
-                return LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: retryAction)
-            case .internalError, .notAuthenticated, .userNotVerified, .userBlocked, .apiError, .differentCountry:
-                return LGEmptyViewModel.genericErrorWithRetry(action: retryAction)
-            }
-        case .internalError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
-            return LGEmptyViewModel.genericErrorWithRetry(action: retryAction)
-        }
+        return LGEmptyViewModel.map(from: error, action: retryAction)
     }
     
     // MARK: Paginable
@@ -319,6 +307,7 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
     func retrievePage(_ page: Int) {
         let firstPage = (page == 1)
         isLoading = true
+        var hasToRetrieveFirstPage: Bool = false
         delegate?.didStartRetrievingObjectList()
         let offset = max(0, page - 1) * resultsPerPage
         chatRepository.fetchInactiveConversations(limit: resultsPerPage, offset: offset) { [weak self] result in
@@ -334,13 +323,20 @@ class ChatInactiveConversationsListViewModel: BaseViewModel, RxPaginable {
                 strongSelf.delegate?.didSucceedRetrievingObjectList(page)
             } else if let error = result.error {
                 if firstPage && strongSelf.objectCount == 0 {
-                    strongSelf.status.value = .error(strongSelf.emptyViewModelForError(error))
+                    if let emptyVM = strongSelf.emptyViewModelForError(error) {
+                        strongSelf.status.value = .error(emptyVM)
+                    } else {
+                        hasToRetrieveFirstPage = true
+                    }
                 } else {
                     strongSelf.status.value = .data
                 }
                 strongSelf.delegate?.didFailRetrievingObjectList(page)
             }
             strongSelf.isLoading = false
+            if hasToRetrieveFirstPage {
+                strongSelf.retrieveFirstPage()
+            }
         }
     }
 }

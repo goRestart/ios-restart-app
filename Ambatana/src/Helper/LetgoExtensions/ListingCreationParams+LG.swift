@@ -43,7 +43,7 @@ extension ListingCreationParams {
                                                                 images: postListingState.lastImagesUploadResult?.value ?? [],
                                                                 realEstateAttributes: postListingState.verticalAttributes?.realEstateAttributes ?? RealEstateAttributes.emptyRealEstateAttributes())
                 listingCreationParams = ListingCreationParams.realEstate(realEstateParams)
-            case .motorsAndAccessories, .unassigned:
+            case .motorsAndAccessories, .otherItems:
                 let productParams = ProductCreationParams(name: title,
                                                           description: description,
                                                           price: postListingState.price ?? Constants.defaultPrice,
@@ -58,7 +58,7 @@ extension ListingCreationParams {
             let productParams = ProductCreationParams(name: title,
                                                       description: description,
                                                       price: postListingState.price ?? Constants.defaultPrice,
-                                                      category: .unassigned,
+                                                      category: postListingState.category?.listingCategory ?? .unassigned,
                                                       currency: currency,
                                                       location: location,
                                                       postalAddress: postalAddress,

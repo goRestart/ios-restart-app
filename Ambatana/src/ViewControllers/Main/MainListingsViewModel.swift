@@ -61,6 +61,7 @@ class MainListingsViewModel: BaseViewModel {
             return false
         }
     }
+    let mostSearchedItemsCellPosition: Int = 6
     let bannerCellPosition: Int = 8
     let suggestedSearchesLimit: Int = 10
     var filters: ListingFilters
@@ -74,6 +75,9 @@ class MainListingsViewModel: BaseViewModel {
 
     var isTaxonomiesAndTaxonomyChildrenInFeedEnabled: Bool {
         return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive
+    }
+    var isMostSearchedItemsEnabled: Bool {
+        return featureFlags.mostSearchedDemandedItems.isActive
     }
     
     var defaultBubbleText: String {
@@ -184,6 +188,10 @@ class MainListingsViewModel: BaseViewModel {
         return true
     }
 
+    private var shouldShowCollections: Bool {
+        return keyValueStorage[.lastSuggestiveSearches].count >= minimumSearchesSavedToShowCollection && filters.noFilterCategoryApplied
+    }
+    
     let mainListingsHeader = Variable<MainListingsHeader>([])
     let filterTitle = Variable<String?>(nil)
     let filterDescription = Variable<String?>(nil)
@@ -202,7 +210,7 @@ class MainListingsViewModel: BaseViewModel {
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
     fileprivate var collections: [CollectionCellType] {
-        guard keyValueStorage[.lastSuggestiveSearches].count >= minimumSearchesSavedToShowCollection else { return [] }
+        guard shouldShowCollections else { return [] }
         return [.selectedForYou]
     }
     fileprivate let keyValueStorage: KeyValueStorage
@@ -528,10 +536,13 @@ class MainListingsViewModel: BaseViewModel {
             filters.selectedTaxonomyChildren = [taxonomyChild]
         case .superKeywordGroup(let taxonomy):
             filters.selectedTaxonomy = taxonomy
-        case .other:
+        case .showMore:
             tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                          name: categoryHeaderInfo.name))
             return // do not update any filters
+        case .mostSearchedItems:
+            // TODO: Add tracker. Also check .showMore's tracker top in another method
+            return
         }
         applyFilters(categoryHeaderInfo)
     }
@@ -787,8 +798,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
 
         if page == 0 && !hasProducts {
-            if let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
-                                                                               action:  { [weak viewModel] in viewModel?.refresh() }) {
+            if let emptyViewModel = LGEmptyViewModel.map(from: error, action: { [weak viewModel] in viewModel?.refresh() }) {
                 listViewModel.setErrorState(emptyViewModel)
             }
         }
@@ -821,9 +831,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     }
 
     func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
-        let cellModelsWithCollections = addCollectionsTo(listings: listings, page: page)
-        let cellModelsWithAds = addAdsTo(listings: cellModelsWithCollections, page: page)
-        return cellModelsWithAds
+        var totalListings = listings
+        totalListings = addMostSearchedItems(to: totalListings)
+        totalListings = addCollections(to: totalListings, page: page)
+        totalListings = addAds(to: totalListings, page: page)
+        return totalListings
     }
 
     func vmDidSelectCollection(_ type: CollectionCellType){
@@ -832,6 +844,10 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         delegate?.vmDidSearch()
         navigator?.openMainListings(withSearchType: .collection(type: type, query: query), listingFilters: filters)
     }
+    
+    func vmDidSelectMostSearchedItems() {
+        navigator?.openMostSearchedItems(source: .mostSearchedCard, enableSearch: true)
+    }
 
     func vmUserDidTapInvite() {
         navigator?.openAppInvite()
@@ -839,7 +855,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     
     func vmDidSelectSellBanner(_ type: String) {}
 
-    private func addCollectionsTo(listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
+    private func addCollections(to listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         guard searchType == nil else { return listings }
         guard listings.count > bannerCellPosition else { return listings }
         var cellModels = listings
@@ -851,7 +867,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         return cellModels
     }
 
-    private func addAdsTo(listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
+    private func addAds(to listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         if page == 0 {
             lastAdPosition = Constants.adInFeedInitialPosition
             previousPagesAdsOffset = 0
@@ -880,11 +896,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                            rootViewController: adsDelegate.rootViewControllerForAds(),
                                            adPosition: lastAdPosition,
                                            bannerHeight: LGUIKitConstants.advertisementCellPlaceholderHeight,
-                                           delegate: self.listViewModel,
                                            adRequest: request,
                                            bannerView: nil,
                                            showAdsInFeedWithRatio: featureFlags.showAdsInFeedWithRatio,
-                                           categories: filters.selectedCategories)
+                                           categories: filters.selectedCategories,
+                                           adRequested: false)
 
             let adsCellModel = ListingCellModel.advertisement(data: adData)
             cellModels.insert(adsCellModel, at: adRelativePosition)
@@ -893,6 +909,17 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             canInsertAds = adRelativePosition < cellModels.count
         }
         previousPagesAdsOffset = previousPagesAdsOffset + (cellModels.count - listings.count)
+        return cellModels
+    }
+    
+    private func addMostSearchedItems(to listings: [ListingCellModel]) -> [ListingCellModel] {
+        guard searchType == nil else { return listings }
+        guard listings.count > mostSearchedItemsCellPosition else { return listings }
+        var cellModels = listings
+        if isMostSearchedItemsEnabled {
+            let mostSearchedItemsModel = ListingCellModel.mostSearchedItems(data: MostSearchedItemsCardData())
+            cellModels.insert(mostSearchedItemsModel, at: mostSearchedItemsCellPosition)
+        }
         return cellModels
     }
 
@@ -1361,6 +1388,10 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
         let vm = TaxonomiesViewModel(taxonomies: getTaxonomies(), taxonomySelected: nil, taxonomyChildSelected: nil, source: .listingList)
         vm.taxonomiesDelegate = self
         navigator?.openTaxonomyList(withViewModel: vm)
+    }
+    
+    func openMostSearchedItems() {
+        navigator?.openMostSearchedItems(source: .mostSearchedCategoryHeader, enableSearch: true)
     }
 }
 

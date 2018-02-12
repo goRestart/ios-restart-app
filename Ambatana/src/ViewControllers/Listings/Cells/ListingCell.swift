@@ -224,7 +224,7 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
 
     // Sets up the UI
     private func setupUI() {
-        cellContent.layer.cornerRadius = LGUIKitConstants.listingCellCornerRadius
+        cellContent.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
         let rotation = CGFloat(Double.pi/4)
         stripeInfoView.transform = CGAffineTransform(rotationAngle: rotation)
         stripeLabel.textColor = UIColor.redText
