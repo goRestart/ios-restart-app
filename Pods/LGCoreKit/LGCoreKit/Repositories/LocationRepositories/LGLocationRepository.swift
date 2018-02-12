@@ -11,6 +11,7 @@ import Result
 
 public class LGLocationRepository: LocationRepository {
 
+    let locationApiDataSource: LocationDataSource
     let appleLocationDataSource: LocationDataSource
     let niordLocationDataSource: LocationDataSource
     let ipLookupDataSource: IPLookupDataSource
@@ -18,11 +19,12 @@ public class LGLocationRepository: LocationRepository {
     
     // MARK: - Lifecycle
 
-    public init(appleLocationDataSource: LocationDataSource,
+    public init(locationApiDataSource: LocationDataSource,
+                appleLocationDataSource: LocationDataSource,
                 niordLocationDataSource: LocationDataSource,
                 ipLookupDataSource: IPLookupDataSource,
                 locationManager: CLLocationManagerProtocol) {
-        
+        self.locationApiDataSource = locationApiDataSource
         self.appleLocationDataSource = appleLocationDataSource
         self.niordLocationDataSource = niordLocationDataSource
         self.ipLookupDataSource = ipLookupDataSource
@@ -134,7 +136,15 @@ public class LGLocationRepository: LocationRepository {
             }
         }
     }
-    
+
+    public func retrieveSuggestedLocationsForListing(listingId: String, completion: MeetingSuggestedLocationsRepositoryCompletion?) {
+        locationApiDataSource.retrieveSuggestedLocationsForListing(
+            listingId: listingId) { result in
+                handleApiResult(result, completion: completion)
+        }
+    }
+
+
     // MARK: - Helpers
     
     private func makeCircularRegion(withLocation location: LGLocation?) -> CLCircularRegion? {

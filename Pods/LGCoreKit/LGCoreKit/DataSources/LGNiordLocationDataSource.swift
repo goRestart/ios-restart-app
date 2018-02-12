@@ -68,6 +68,12 @@ class LGNiordLocationDataSource: LocationDataSource {
             }
         }
     }
+
+    func retrieveSuggestedLocationsForListing(listingId: String,
+                                              completion: MeetingSuggestedLocationsDataSourceCompletion?) {
+        // Only implemented in LocationApiDataSource
+    }
+    
     
     // MARK: - Helpers
     

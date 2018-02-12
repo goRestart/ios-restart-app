@@ -21,6 +21,8 @@ public typealias PostalAddressLocationRepositoryCompletion = (PostalAddressLocat
 public typealias IPLookupLocationRepositoryResult = Result<LGLocationCoordinates2D, IPLookupLocationError>
 public typealias IPLookupLocationRepositoryCompletion = (IPLookupLocationRepositoryResult) -> Void
 
+public typealias MeetingSuggestedLocationsRepositoryResult = Result<[SuggestedLocation], RepositoryError>
+public typealias MeetingSuggestedLocationsRepositoryCompletion = (MeetingSuggestedLocationsRepositoryResult) -> Void
 
 public protocol LocationRepository {
     
@@ -43,5 +45,8 @@ public protocol LocationRepository {
     func retrieveLocationSuggestionDetails(placeId: String, completion: LocationSuggestionDetailsRepositoryCompletion?)
     func retrievePostalAddress(location: LGLocationCoordinates2D, completion: PostalAddressLocationRepositoryCompletion?)
     func retrieveIPLookupLocation(completion: IPLookupLocationRepositoryCompletion?)
+
+    // MARK: Chat Norris - Suggested locations for meetings
+    func retrieveSuggestedLocationsForListing(listingId: String, completion: MeetingSuggestedLocationsRepositoryCompletion?)
 }
 

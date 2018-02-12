@@ -25,6 +25,9 @@ public typealias SuggestionLocationDetailsDataSourceCompletion = (LocationSugges
 public typealias PostalAddressLocationDataSourceResult = Result<Place, LocationError>
 public typealias PostalAddressLocationDataSourceCompletion = (PostalAddressLocationDataSourceResult) -> Void
 
+public typealias MeetingSuggestedLocationsDataSourceResult = Result<[SuggestedLocation], ApiError>
+public typealias MeetingSuggestedLocationsDataSourceCompletion = (MeetingSuggestedLocationsDataSourceResult) -> Void
+
 public protocol LocationDataSource {
     func retrieveLocationSuggestions(addressString: String,
                                      region: CLCircularRegion?,
@@ -33,4 +36,6 @@ public protocol LocationDataSource {
                                completion: PostalAddressLocationDataSourceCompletion?)
     func retrieveLocationSuggestionDetails(placeId: String,
                                            completion: SuggestionLocationDetailsDataSourceCompletion?)
+    func retrieveSuggestedLocationsForListing(listingId: String,
+                                              completion: MeetingSuggestedLocationsDataSourceCompletion?)
 }

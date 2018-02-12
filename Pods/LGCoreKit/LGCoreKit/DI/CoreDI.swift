@@ -65,10 +65,12 @@ final class CoreDI: InternalDI {
         let countryInfoDAO: CountryInfoDAO = CountryInfoPlistDAO()
         let countryHelper = CountryHelper(locale: locale, countryInfoDAO: countryInfoDAO)
 
+        let locationApiDataSource = LocationApiDataSource(apiClient: apiClient)
         let appleLocationDataSource = LGAppleLocationDataSource()
         let niordLocationDataSource = LGNiordLocationDataSource(apiClient: apiClient, locale: locale)
         let ipLookupDataSource = LGIPLookupDataSource(apiClient: apiClient)
-        locationRepository = LGLocationRepository(appleLocationDataSource: appleLocationDataSource,
+        locationRepository = LGLocationRepository(locationApiDataSource: locationApiDataSource,
+                                                  appleLocationDataSource: appleLocationDataSource,
                                                   niordLocationDataSource: niordLocationDataSource,
                                                   ipLookupDataSource: ipLookupDataSource,
                                                   locationManager: CLLocationManager())

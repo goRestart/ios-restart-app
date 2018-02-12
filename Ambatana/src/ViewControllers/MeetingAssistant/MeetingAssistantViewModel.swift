@@ -20,12 +20,6 @@ protocol MeetingAssistantDataDelegate: class {
     func sendMeeting(meeting: AssistantMeeting)
 }
 
-struct SuggestedLocation {
-    var locationId: String?
-    var locationName: String
-    var locationCoords: LGLocationCoordinates2D
-}
-
 struct MockSuggestedLocation : SuggestedLocation {
     var objectId: String?
     var locationId: String
@@ -164,9 +158,8 @@ class MeetingAssistantViewModel: BaseViewModel {
         }
         sugLocDelegate?.suggestedLocationDidStart()
         activityIndicatorActive.value = true
-        chatRepository.retrieveSuggestedLocationsForBuyer(
-            buyerId: buyerId,
-            sellerId: sellerId) { [weak self] result in
+        chatRepository.retrieveSuggestedLocationsForListing(
+            listingId: "🦄🦄🦄🦄🦄") { [weak self] result in
                 self?.activityIndicatorActive.value = false
                 if let value = result.value {
                     self?.suggestedLocations = value

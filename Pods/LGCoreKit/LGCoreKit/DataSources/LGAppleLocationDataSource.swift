@@ -58,4 +58,9 @@ class LGAppleLocationDataSource: LocationDataSource {
                                             completion: SuggestionLocationDetailsDataSourceCompletion?){
         // Apple geocode does not need to retrieve place details
     }
+
+    func retrieveSuggestedLocationsForListing(listingId: String,
+                                              completion: MeetingSuggestedLocationsDataSourceCompletion?) {
+        // Only implemented in LocationApiDataSource
+    }
 }
