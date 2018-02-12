@@ -275,11 +275,12 @@ class ChatViewController: TextViewController {
         setTableBottomMargin(total, animated: animated)
     }
 
-    fileprivate func setupProfessionalSellerBanner() {
+    fileprivate func setupProfessionalSellerBannerWithPhone(phoneNumber: String?) {
         var action: UIAction? = nil
         var buttonIcon: UIImage? = nil
-        if viewModel.professionalBannerHasCallAction {
-            action = UIAction(interface: .button(LGLocalizedString.chatProfessionalBannerButtonTitle, .primary(fontSize: .small)),
+        if let phone = phoneNumber, phone.isPhoneNumber, viewModel.professionalBannerHasCallAction {
+            action = UIAction(interface: .button(LGLocalizedString.chatProfessionalBannerButtonTitle,
+                                                 .primary(fontSize: .small)),
                               action: { [weak self] in
                                 self?.viewModel.professionalSellerBannerActionButtonTapped()
             })
@@ -555,8 +556,8 @@ fileprivate extension ChatViewController {
 
         showProfessionalBanner.asObservable().bind { [weak self] (isPro, phoneNum) in
             guard let strongSelf = self else { return }
-            guard let phone = phoneNum, phone.isPhoneNumber && isPro else { return }
-            strongSelf.setupProfessionalSellerBanner()
+            guard isPro else { return }
+            strongSelf.setupProfessionalSellerBannerWithPhone(phoneNumber: phoneNum)
             strongSelf.showProfessionalSellerBanner()
         }.disposed(by: disposeBag)
     }
