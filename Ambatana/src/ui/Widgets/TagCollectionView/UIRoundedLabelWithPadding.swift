@@ -8,8 +8,7 @@ class UIRoundedLabelWithPadding: UILabel {
         }
     }
     
-    init(frame: CGRect, padding: UIEdgeInsets) {
-        self.padding = padding
+    override init(frame: CGRect) {
         super.init(frame: frame)
     }
     

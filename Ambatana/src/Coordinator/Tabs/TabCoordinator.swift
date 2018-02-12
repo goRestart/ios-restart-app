@@ -90,7 +90,7 @@ extension TabCoordinator: TabNavigator {
     }
 
     func openSell(source: PostingSource, postCategory: PostCategory?) {
-        appNavigator?.openSell(source: source, postCategory: postCategory)
+        appNavigator?.openSell(source: source, postCategory: postCategory, listingTitle: nil)
     }
 
     func openAppRating(_ source: EventParameterRatingSource) {
@@ -159,6 +159,10 @@ extension TabCoordinator: TabNavigator {
         let vm = UserRatingListViewModel(userId: userId, tabNavigator: self)
         let vc = UserRatingListViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {
+        appNavigator?.openMostSearchedItems(source: source, enableSearch: enableSearch)
     }
     
     func openDeepLink(_ deeplink: DeepLink) {

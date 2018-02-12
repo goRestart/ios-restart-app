@@ -30,22 +30,20 @@ class MockFeatureFlags: FeatureFlaggeable {
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
     var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed = .control
     var newItemPage: NewItemPage = .control
-
     var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: RealEstateEnabled = .control
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
-    var newBumpUpExplanation: NewBumpUpExplanation = .control
     var homeRelatedEnabled: HomeRelatedEnabled = .control
-    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells = .control
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
-    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation = .control
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell = .control
     var allowCallsForProfessionals: AllowCallsForProfessionals = .control
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP = .control
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
+    var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
+
     var realEstateImprovements: RealEstateImprovements = .control
     var realEstatePromos: RealEstatePromos = .control
     var allowEmojisOnChat: AllowEmojisOnChat = .control
@@ -54,6 +52,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstateNewCopy: RealEstateNewCopy = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var showInactiveConversations: Bool = false
+    var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
