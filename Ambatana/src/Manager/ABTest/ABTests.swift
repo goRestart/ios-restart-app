@@ -49,6 +49,7 @@ class ABTests {
     let realEstateNewCopy = IntABDynamicVar(key: "20180126RealEstateNewCopy", defaultValue: 0, abGroupType: .realEstate)
     let dummyUsersInfoProfile = IntABDynamicVar(key: "20180130DummyUsersInfoProfile", defaultValue: 0, abGroupType: .retention)
     let showInactiveConversations = BoolABDynamicVar(key: "20180206ShowInactiveConversations", defaultValue: false, abGroupType: .chat)
+    let mainFeedAspectRatio = IntABDynamicVar(key: "20180208MainFeedAspectRatio", defaultValue: 0, abGroupType: .core)
     let increaseMinPriceBumps  = IntABDynamicVar(key: "20180208IncreaseMinPriceBumps", defaultValue: 0, abGroupType: .money)
     let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20180207ShowSecurityMeetingChatMessage", defaultValue: 0, abGroupType: .chat)
     
@@ -92,6 +93,7 @@ class ABTests {
         result.append(realEstateNewCopy)
         result.append(dummyUsersInfoProfile)
         result.append(showInactiveConversations)
+        result.append(mainFeedAspectRatio)
         result.append(increaseMinPriceBumps)
         result.append(showSecurityMeetingChatMessage)
         
