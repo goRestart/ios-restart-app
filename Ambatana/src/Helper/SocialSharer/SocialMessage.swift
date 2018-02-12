@@ -122,10 +122,9 @@ extension SocialMessage {
     }
     
     func retrieveTwitterShareText(completion: @escaping MessageWithURLCompletion) {
-        retrieveShareURL(source: .twitter) { url in
-            completion(LGLocalizedString.appShareMessageText)
-        }
+        retrieveFullMessageWithURL(source: .twitter, completion: completion)
     }
+    
     
     // MARK: - AppsFlyer
     
