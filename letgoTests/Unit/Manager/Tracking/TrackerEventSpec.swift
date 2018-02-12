@@ -991,7 +991,9 @@ class TrackerEventSpec: QuickSpec {
                             categories: [.electronics, .motorsAndAccessories],
                             sortBy: ListingSortCriteria.distance, postedWithin: ListingTimeCriteria.day,
                             priceRange: .priceRange(min: 5, max: 100), freePostingModeAllowed: true, carMake: "make",
-                            carModel: "model", carYearStart: 1990, carYearEnd: 2000)
+                            carModel: "model", carYearStart: 1990, carYearEnd: 2000, propertyType: "flat", offerType: "sale",
+                            bedrooms: 2, bathrooms: 3, sizeSqrMetersMin: 1, sizeSqrMetersMax: nil,
+                            rooms: NumberOfRooms(numberOfBedrooms: 2, numberOfLivingRooms: 1))
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -1042,8 +1044,29 @@ class TrackerEventSpec: QuickSpec {
                     it ("end") {
                         expect(sut.params!.stringKeyParams["product-year-end"] as? String) == "2000"
                     }
+                    it ("property-type") {
+                        expect(sut.params!.stringKeyParams["property-type"] as? String) == "flat"
+                    }
+                    it ("offer-type") {
+                        expect(sut.params!.stringKeyParams["deal-type"] as? String) == "sale"
+                    }
+                    it ("bedrooms") {
+                        expect(sut.params!.stringKeyParams["bedroom-number"] as? String) == "2"
+                    }
+                    it ("bathrooms") {
+                        expect(sut.params!.stringKeyParams["bathroom-number"] as? String) == "3.0"
+                    }
+                    it ("sizeSqrMetersMin") {
+                        expect(sut.params!.stringKeyParams["size-from"] as? String) == "1"
+                    }
+                    it ("sizeSqrMetersMax") {
+                        expect(sut.params!.stringKeyParams["size-to"] as? String) == "N/A"
+                    }
+                    it ("rooms-number") {
+                        expect(sut.params!.stringKeyParams["room-number"] as? String) == "2+1"
+                    }
                     it ("vertical fields") {
-                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end"
+                        expect(sut.params!.stringKeyParams["vertical-fields"] as? String) == "product-make,product-model,product-year-start,product-year-end,property-type,deal-type,bedroom-number,bathroom-number,size-from,room-number"
                     }
                 }
                 context("not receiving all params, contains the default params") {
@@ -1051,7 +1074,9 @@ class TrackerEventSpec: QuickSpec {
                         sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.km,
                             categories: nil, sortBy: nil, postedWithin: nil, priceRange: .priceRange(min: nil, max: nil),
                             freePostingModeAllowed: false, carMake: nil,
-                            carModel: nil, carYearStart: nil, carYearEnd: nil)
+                            carModel: nil, carYearStart: nil, carYearEnd: nil, propertyType: nil, offerType: nil,
+                            bedrooms: nil, bathrooms: nil, sizeSqrMetersMin: nil, sizeSqrMetersMax: nil,
+                            rooms: nil)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("filter-complete"))
@@ -2368,6 +2393,14 @@ class TrackerEventSpec: QuickSpec {
                     let data = sut.params!.stringKeyParams["bathroom-number"] as? String
                     expect(data).to(equal("N/A"))
                 }
+                it("contains rooms") {
+                    let data = sut.params!.stringKeyParams["room-number"] as? String
+                    expect(data).to(equal("N/A"))
+                }
+                it("contains size") {
+                    let data = sut.params!.stringKeyParams["size"] as? String
+                    expect(data).to(equal("N/A"))
+                }
             }
             
             describe("listingSellComplete car") {
@@ -2472,6 +2505,14 @@ class TrackerEventSpec: QuickSpec {
                     let data = sut.params!.stringKeyParams["bathroom-number"] as? String
                     expect(data).to(equal("N/A"))
                 }
+                it("contains rooms") {
+                    let data = sut.params!.stringKeyParams["room-number"] as? String
+                    expect(data).to(equal("N/A"))
+                }
+                it("contains size") {
+                    let data = sut.params!.stringKeyParams["size"] as? String
+                    expect(data).to(equal("N/A"))
+                }
             }
             
             describe("listingSellComplete real estate") {
@@ -2488,8 +2529,8 @@ class TrackerEventSpec: QuickSpec {
                                                                            offerType: .rent,
                                                                            bedrooms: nil,
                                                                            bathrooms: 3.0,
-                                                                           livingRooms: nil,
-                                                                           sizeSquareMeters: nil)
+                                                                           livingRooms: 1,
+                                                                           sizeSquareMeters: 100)
                     sut = TrackerEvent.listingSellComplete(Listing.realEstate(realEstate), buttonName: .done,
                                                            sellButtonPosition: .floatingButton, negotiable: .yes,
                                                            pictureSource: .gallery, freePostingModeAllowed: true)
@@ -2568,6 +2609,14 @@ class TrackerEventSpec: QuickSpec {
                 it("contains bathrooms") {
                     let data = sut.params!.stringKeyParams["bathroom-number"] as? String
                     expect(data).to(equal("3.0"))
+                }
+                it("contains rooms") {
+                    let data = sut.params!.stringKeyParams["room-number"] as? String
+                    expect(data).to(equal("skip"))
+                }
+                it("contains size") {
+                    let data = sut.params!.stringKeyParams["size"] as? String
+                    expect(data).to(equal("100"))
                 }
             }
 

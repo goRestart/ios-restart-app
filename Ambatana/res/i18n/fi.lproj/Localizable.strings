@@ -159,7 +159,7 @@
 "chat_list_unarchive_error_multiple" = "Näitä keskusteluja palautettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_list_unblock" = "Poista Esto";
 "chat_login_popup_text" = "Sinun täytyy kirjautua sisään aloittaaksesi keskustelun";
-"chat_message_disclaimer_meeting_security" = "Muista, että vilkkaat julkiset paikat, kuten kahvilat ja pankin aulat ovat turvallisia, käteviä tapaamispaikkoja. Harkitse myös ottavasi ystäväsi mukaan.";
+"chat_message_disclaimer_meeting_security" = "Pyri tapaamiseen vilkkailla julkisilla paikoilla, kuten kahviloissa ja pankkien auloissa. Ne ovat käteviä ja turvallisia.";
 "chat_message_disclaimer_scammer_append_blocked" = "Paina tästä estääksesi tämän käyttäjän.";
 "chat_message_disclaimer_scammer_base_blocked" = "Ole erityisen varovainen, kun vaihdatte puhelinnumeroita/sähköpostiosoitteita. Vilpillisissä aikeissa liikkeellä olevat käyttäjät pyytävät usein poistumaan letgon keskustelusta. %@";
 "chat_message_field_hint" = "Kirjoita viestisi tähän";
@@ -974,11 +974,12 @@
 "trending_items_expandable_menu_button" = "Nousussa";
 "trending_items_expandable_menu_subset_title" = "SUOSITUIMMAT KOHTEET";
 "trending_items_header_bubble" = "Nousussa";
-"trending_items_profile_subtitle" = "See what people in your area are looking for";
-"trending_items_profile_title" = "Not sure what to sell?";
+"trending_items_profile_subtitle" = "Katso, mitä ihmiset alueellasi etsivät";
+"trending_items_profile_title" = "Etkö ole varma, mitä myisit?";
 "trending_items_view_number_of_searches_item" = "%@ hakua";
 "trending_items_view_number_of_searches_title" = "Tämän viikon suosituimmat haut";
 "trending_items_view_post_button" = "Julkaise";
+"trending_items_view_search_button" = "Hae";
 "trending_items_view_subtitle" = "Julkaise joku näistä ja tienaa rahaa alle viikossa";
 "trending_items_view_title" = "Suosituimmat kohteet: %@";
 "trending_items_view_title_no_location" = "Suosituimmat kohteet";

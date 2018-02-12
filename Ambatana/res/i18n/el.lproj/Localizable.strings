@@ -159,7 +159,7 @@
 "chat_list_unarchive_error_multiple" = "Παρουσιάστηκε σφάλμα κατά την αφαίρεση των συνομιλιών από τα αρχειοθετημένα. Παρακαλώ προσπαθήστε ξανά.";
 "chat_list_unblock" = "Ξεμπλοκάρισμα";
 "chat_login_popup_text" = "Για να ξεκινήσετε να συνομιλείτε, θα πρέπει να συνδεθείτε";
-"chat_message_disclaimer_meeting_security" = "Να θυμάστε, οι δημόσιοι χώροι και οι καφετέριες είναι ασφαλή και βολικά σημεία συνάντησης. Σκεφτείτε μήπως φέρετε κάποιον φίλο.";
+"chat_message_disclaimer_meeting_security" = "Προσπαθήστε να κάνετε συναντήσεις σε πολυσύχναστους δημόσιους χώρους, όπως καφετέριες και τράπεζες. Είναι κατάλληλοι και ασφαλείς.";
 "chat_message_disclaimer_scammer_append_blocked" = "Πατήστε εδώ για να μπλοκάρετε αυτόν το χρήστη.";
 "chat_message_disclaimer_scammer_base_blocked" = "Να είστε ιδαίτερα προσεκτικοί όταν ανταλλάζετε πληροφορίες τηλεφώνου/email. Οι χρήστες που θέλουν να σας εξαπατήσουν, συχνά ζητούν να αποχωρήσετε από τη letgo συνομιλία. %@";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
@@ -974,11 +974,12 @@
 "trending_items_expandable_menu_button" = "Δημοφιλή";
 "trending_items_expandable_menu_subset_title" = "ΔΗΜΟΦΙΛΕΣΤΕΡΑ ΑΝΤΙΚΕΙΜΕΝΑ";
 "trending_items_header_bubble" = "Δημοφιλή";
-"trending_items_profile_subtitle" = "See what people in your area are looking for";
-"trending_items_profile_title" = "Not sure what to sell?";
+"trending_items_profile_subtitle" = "Δείτε τι ψάχνουν άλλοι χρήστες στην περιοχή σας";
+"trending_items_profile_title" = "Δεν είστε σίγουροι τι να πουλήσετε;";
 "trending_items_view_number_of_searches_item" = "%@ searches";
 "trending_items_view_number_of_searches_title" = "Κορυφαίες αναζητήσεις αυτήν την εβδομάδα";
 "trending_items_view_post_button" = "Δημοσίευση";
+"trending_items_view_search_button" = "Αναζήτηση";
 "trending_items_view_subtitle" = "Δημοσιεύστε ένα από αυτά και κερδίστε χρήματα σε λιγότερο από μια εβδομάδα";
 "trending_items_view_title" = "Τα πιο δημοφιλή αντικείμενα σε %@";
 "trending_items_view_title_no_location" = "Δημοφιλέστερα αντικείμενα";
