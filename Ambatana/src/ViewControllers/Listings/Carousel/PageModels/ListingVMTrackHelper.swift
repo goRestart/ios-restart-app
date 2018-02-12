@@ -394,6 +394,7 @@ extension ProductVMTrackHelper {
             .set(quickAnswerType: messageType.quickAnswerType)
             .set(typePage: .listingDetail)
             .set(isBumpedUp: isBumpedUp)
+            .set(containsEmoji: messageType.text.containsEmoji)
         if let error = error {
             sendMessageInfo.set(error: error.chatError)
         }
