@@ -159,7 +159,7 @@
 "chat_list_unarchive_error_multiple" = "Beim Rückgängigmachen der Archivierung dieser Gespräche ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_unblock" = "Blockierung aufheben";
 "chat_login_popup_text" = "Bitte melde dich an, um ein Gespräch zu beginnen";
-"chat_message_disclaimer_meeting_security" = "Denke daran, dass gutbesuchte, öffentliche Plätze wie Cafés und Banken sichere, praktische Treffpunkte sind. Bringe gegebenenfalls auch einen Freund mit.";
+"chat_message_disclaimer_meeting_security" = "Triff dich an gutbesuchten, öffentlichen Plätze wie Cafés und Banken, da dies sichere und praktische Treffpunkte sind.";
 "chat_message_disclaimer_scammer_append_blocked" = "Drücke hier, um diesen Nutzer zu blockieren";
 "chat_message_disclaimer_scammer_base_blocked" = "Sei besonders vorsichtig, wenn du Kontaktinformationen wie Telefonnummern oder E-Mail-Adressen austauschst. Betrügerische Nutzer wollen häufig außerhalb des letgo-Systems kommunizieren. %@";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
@@ -974,12 +974,12 @@
 "trending_items_expandable_menu_button" = "Beliebt";
 "trending_items_expandable_menu_subset_title" = "BELIEBTESTE ARTIKEL";
 "trending_items_header_bubble" = "Beliebt";
-"trending_items_profile_subtitle" = "See what people in your area are looking for";
-"trending_items_profile_title" = "Not sure what to sell?";
+"trending_items_profile_subtitle" = "Schau dir an, wonach Leute in deiner Gegend suchen";
+"trending_items_profile_title" = "Nicht sicher, was du verkaufen möchtest?";
 "trending_items_view_number_of_searches_item" = "%@ Suchen";
 "trending_items_view_number_of_searches_title" = "Meistgesucht in dieser Woche";
 "trending_items_view_post_button" = "Einstellen";
-"trending_items_view_search_button" = "Search";
+"trending_items_view_search_button" = "Suchen";
 "trending_items_view_subtitle" = "Stelle einen dieser Artikel ein und verdiene Geld in unter einer Woche";
 "trending_items_view_title" = "Beliebteste Artikel in %@";
 "trending_items_view_title_no_location" = "Beliebteste Artikel";

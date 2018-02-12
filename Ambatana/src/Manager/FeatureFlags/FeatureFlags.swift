@@ -43,7 +43,6 @@ protocol FeatureFlaggeable: class {
     var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var realEstateImprovements: RealEstateImprovements { get }
     var realEstatePromos: RealEstatePromos { get }
@@ -54,6 +53,7 @@ protocol FeatureFlaggeable: class {
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var showInactiveConversations: Bool { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
+    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -95,10 +95,6 @@ extension PromoteBumpUpAfterSell {
 
 extension AllowCallsForProfessionals {
     var isActive: Bool { get { return self == .control || self == .baseline } }
-}
-
-extension ShowSecurityMeetingChatMessage {
-    var isActive: Bool { get { return self == .active } }
 }
 
 extension MostSearchedDemandedItems {
@@ -353,13 +349,6 @@ class FeatureFlags: FeatureFlaggeable {
         return MoreInfoAFShOrDFP.fromPosition(abTests.moreInfoAFShOrDFP.value)
     }
     
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
-        if Bumper.enabled {
-            return Bumper.showSecurityMeetingChatMessage
-        }
-        return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
-    }
-    
     var mostSearchedDemandedItems: MostSearchedDemandedItems {
         if Bumper.enabled {
             return Bumper.mostSearchedDemandedItems
@@ -429,6 +418,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.increaseMinPriceBumps
         }
         return IncreaseMinPriceBumps.fromPosition(abTests.increaseMinPriceBumps.value)
+    }
+    
+    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
+        if Bumper.enabled {
+            return Bumper.showSecurityMeetingChatMessage
+        }
+        return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
     }
     
 

@@ -159,7 +159,7 @@
 "chat_list_unarchive_error_multiple" = "При разархивировании чатов произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_list_unblock" = "Разблокировать";
 "chat_login_popup_text" = "Для того, чтобы начать переписку, Вам необходимо войти в систему";
-"chat_message_disclaimer_meeting_security" = "Помните, публичные места вроде кофейни и холла банка - это безопасные места для встречи. Постарайтесь приходить с другом.";
+"chat_message_disclaimer_meeting_security" = "Старайтесь встречаться в публичных местах вроде кофейни и холла банка. Это удобно и безопасно.";
 "chat_message_disclaimer_scammer_append_blocked" = "Нажмите здесь, чтобы заблокировать такого пользователя.";
 "chat_message_disclaimer_scammer_base_blocked" = "Будьте особенно осторожны, когда обмениваетесь телефонами или е-мейлами. Мошенники часто просят пообщаться вне чата letgo. %@";
 "chat_message_field_hint" = "Введите сообщение";
@@ -974,12 +974,12 @@
 "trending_items_expandable_menu_button" = "В тренде";
 "trending_items_expandable_menu_subset_title" = "САМЫЕ ПОПУЛЯРНЫЕ ТОВАРЫ";
 "trending_items_header_bubble" = "В тренде";
-"trending_items_profile_subtitle" = "See what people in your area are looking for";
-"trending_items_profile_title" = "Not sure what to sell?";
+"trending_items_profile_subtitle" = "Посмотрите, что ищут люди в вашем районе";
+"trending_items_profile_title" = "Не знаете что продать?";
 "trending_items_view_number_of_searches_item" = "%@ поисков";
 "trending_items_view_number_of_searches_title" = "Поиски недели";
 "trending_items_view_post_button" = "Разместить";
-"trending_items_view_search_button" = "Search";
+"trending_items_view_search_button" = "Поиск";
 "trending_items_view_subtitle" = "Разместите один из них и получите деньги меньше чем за неделю";
 "trending_items_view_title" = "Самые популярные товары в %@";
 "trending_items_view_title_no_location" = "Самые популярные товары";
