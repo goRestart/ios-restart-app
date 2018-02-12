@@ -605,8 +605,7 @@ extension UserViewModel: ListingListViewModelDataDelegate {
                        error: RepositoryError) {
         guard page == 0 && !hasListings else { return }
         
-        if var emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
-                                                                           action: { [weak viewModel] in viewModel?.refresh() }) {
+        if var emptyViewModel = LGEmptyViewModel.map(from: error, action: { [weak viewModel] in viewModel?.refresh() }) {
             emptyViewModel.icon = nil
             viewModel.setErrorState(emptyViewModel)
         }
