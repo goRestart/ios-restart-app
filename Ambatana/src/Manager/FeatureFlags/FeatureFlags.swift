@@ -35,9 +35,7 @@ protocol FeatureFlaggeable: class {
     var realEstateEnabled: RealEstateEnabled { get }
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
-    var newBumpUpExplanation: NewBumpUpExplanation { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
-    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var newItemPage: NewItemPage { get }
@@ -46,6 +44,7 @@ protocol FeatureFlaggeable: class {
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
+    var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var realEstateImprovements: RealEstateImprovements { get }
     var realEstatePromos: RealEstatePromos { get }
     var allowEmojisOnChat: AllowEmojisOnChat { get }
@@ -95,11 +94,21 @@ extension PromoteBumpUpAfterSell {
 }
 
 extension AllowCallsForProfessionals {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { get { return self == .control || self == .baseline } }
 }
 
 extension ShowSecurityMeetingChatMessage {
     var isActive: Bool { get { return self == .active } }
+}
+
+extension MostSearchedDemandedItems {
+    var isActive: Bool {
+        get {
+            return self == .cameraBadge ||
+                self == .trendingButtonExpandableMenu ||
+                self == .subsetAboveExpandableMenu
+        }
+    }
 }
 
 extension RealEstateEnabled {
@@ -288,25 +297,11 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
     }
     
-    var newBumpUpExplanation: NewBumpUpExplanation {
-        if Bumper.enabled {
-            return Bumper.newBumpUpExplanation
-        }
-        return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
-    }
-
     var homeRelatedEnabled: HomeRelatedEnabled {
         if Bumper.enabled {
             return Bumper.homeRelatedEnabled
         }
         return HomeRelatedEnabled.fromPosition(abTests.homeRelatedEnabled.value)
-    }
-
-    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
-        if Bumper.enabled {
-            return Bumper.hideChatButtonOnFeaturedCells
-        }
-        return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
     }
 
     var newItemPage: NewItemPage {
@@ -364,6 +359,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
     }
+    
+    var mostSearchedDemandedItems: MostSearchedDemandedItems {
+        if Bumper.enabled {
+            return Bumper.mostSearchedDemandedItems
+        }
+        return MostSearchedDemandedItems.fromPosition(abTests.mostSearchedDemandedItems.value)
+    }
+    
     
     var realEstateImprovements: RealEstateImprovements {
         if Bumper.enabled {

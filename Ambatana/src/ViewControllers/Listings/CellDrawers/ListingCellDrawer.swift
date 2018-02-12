@@ -20,8 +20,8 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
             cell.setupImageUrl(thumbURL)
         }
         if model.isFeatured {
-            cell.setupFeaturedStripe(withTextColor: model.featuredShouldShowChatButton ? UIColor.blackText : UIColor.red)
-            if style == .mainList, model.featuredShouldShowChatButton {
+            cell.setupFeaturedStripe(withTextColor: UIColor.blackText)
+            if style == .mainList {
                 cell.setupFeaturedListingInfoWith(price: model.price, title: model.title, isMine: model.isMine)
             } else {
                 cell.updateInfoViewHeightToZero()

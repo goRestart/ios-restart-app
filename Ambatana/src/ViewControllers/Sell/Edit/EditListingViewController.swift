@@ -315,7 +315,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SellListingCell.reusableID,
                 for: indexPath) as? SellListingCell else { return UICollectionViewCell() }
-            cell.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+            cell.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
             if indexPath.item < viewModel.numberOfImages {
                 cell.setupCellWithImageType(viewModel.imageAtIndex(indexPath.item))
                 cell.label.text = ""
@@ -459,7 +459,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         self.navigationItem.leftBarButtonItem = closeButton;
         
         separatorContainerViewsConstraints.forEach { $0.constant = EditListingViewController.separatorOptionsViewDistance }
-        containerEditOptionsView.layer.cornerRadius = LGUIKitConstants.containerCornerRadius
+        containerEditOptionsView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
         updateButtonBottomConstraint.constant = 0
         
         titleTextField.placeholder = LGLocalizedString.sellTitleFieldHint

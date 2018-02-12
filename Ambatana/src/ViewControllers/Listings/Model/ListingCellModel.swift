@@ -15,6 +15,7 @@ enum ListingCellModel {
     case collectionCell(type: CollectionCellType)
     case emptyCell(vm: LGEmptyViewModel)
     case advertisement(data: AdvertisementData)
+    case mostSearchedItems(data: MostSearchedItemsCardData)
     
     init(listing: Listing) {
         self = ListingCellModel.listingCell(listing: listing)
@@ -27,6 +28,10 @@ enum ListingCellModel {
     init(emptyVM: LGEmptyViewModel) {
         self = ListingCellModel.emptyCell(vm: emptyVM)
     }
+    
+    init(mostSearchedItemsData: MostSearchedItemsCardData) {
+        self = ListingCellModel.mostSearchedItems(data: mostSearchedItemsData)
+    }
 }
 
 
@@ -37,7 +42,6 @@ struct ListingData {
     var delegate: ListingCellDelegate?
     var isFree: Bool
     var isFeatured: Bool
-    var featuredShouldShowChatButton: Bool
     var isMine: Bool
     var price: String
     var shouldShowPrice: Bool
@@ -73,22 +77,20 @@ enum CollectionCellType: String {
     }
 }
 
-protocol AdvertisementCellDelegate {
-    func updateAdCellHeight(newHeight: CGFloat, forPosition: Int, withBannerView bannerView: GADBannerView)
-    func bannerWasTapped(adType: EventParameterAdType,
-                         willLeaveApp: EventParameterBoolean,
-                         categories: [ListingCategory]?,
-                         feedPosition: EventParameterFeedPosition)
-}
-
 struct AdvertisementData {
     var adUnitId: String
     var rootViewController: UIViewController
     var adPosition: Int
     var bannerHeight: CGFloat
-    var delegate: AdvertisementCellDelegate
     var adRequest: DFPRequest
     var bannerView: GADBannerView?
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio
     var categories: [ListingCategory]?
+    var adRequested: Bool
+}
+
+struct MostSearchedItemsCardData {
+    let icon: UIImage? = UIImage(named: "trending_icon")
+    let title: String = LGLocalizedString.trendingItemsCardTitle
+    let actionTitle: String = LGLocalizedString.trendingItemsCardAction
 }
