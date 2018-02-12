@@ -100,6 +100,8 @@ class ChatViewModel: BaseViewModel {
     var shouldUpdateQuickAnswers = Variable<Bool>(false)
     let interlocutorIsProfessional = Variable<Bool>(false)
     let interlocutorPhoneNumber = Variable<String?>(nil)
+    let lastMessageSentType = Variable<ChatWrapperMessageType?>(nil)
+    let messagesDidFinishRefreshing = Variable<Bool>(false)
 
     var keyForTextCaching: String { return userDefaultsSubKey }
     
@@ -112,6 +114,8 @@ class ChatViewModel: BaseViewModel {
     }
     fileprivate var hasSentAutomaticAnswerForPhoneMessage: Bool = false
     fileprivate var hasSentAutomaticAnswerForOtherMessage: Bool = false
+    fileprivate var hasShownAskedPhoneMessage: Bool = false
+
 
     // fileprivate
     fileprivate let myUserRepository: MyUserRepository
@@ -476,6 +480,16 @@ class ChatViewModel: BaseViewModel {
             }
         }.disposed(by: disposeBag)
 
+        let automaticMessagesSignal = Observable.combineLatest(messagesDidFinishRefreshing.asObservable(),
+                                                               interlocutorIsProfessional.asObservable(),
+                                                               lastMessageSentType.asObservable()) { ($0, $1, $2) }
+
+        automaticMessagesSignal.asObservable().bind { [weak self] (messagesFinishedRefresh, isPro, messageType) in
+            guard messagesFinishedRefresh else { return }
+            guard isPro else { return }
+            self?.professionalSellerAfterMessageEventsFor(messageType: messageType)
+        }.disposed(by: disposeBag)
+
         setupChatEventsRx()
     }
 
@@ -697,25 +711,8 @@ extension ChatViewModel {
 
     private func afterSendMessageEvents(type: ChatWrapperMessageType) {
         firstInteractionDone.value = true
-        if let listingId = conversation.value.listing?.objectId,
-            !keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId),
-            interlocutorIsProfessional.value,
-            featureFlags.allowCallsForProfessionals.isActive {
-            switch type {
-            case .phone:
-                saveProSellerAlreadySentPhoneInChatFor(listingId: listingId)
-                if !hasSentAutomaticAnswerForPhoneMessage {
-                    sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksPhoneCellMessage,
-                                                        isPhone: true)
-                    disableAskPhoneMessageButton()
-                }
-            case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing:
-                if !hasSentAutomaticAnswerForOtherMessage {
-                    sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,
-                                                        isPhone: false)
-                }
-            }
-        }
+        lastMessageSentType.value = type
+
         if shouldAskListingSold {
             var interfaceText: String
             var alertTitle: String
@@ -745,6 +742,40 @@ extension ChatViewModel {
                 self?.delegate?.vmDidEndEditing(animated: true)
                 self?.navigator?.openAppRating(.chat)
             }
+        }
+    }
+
+    private func professionalSellerAfterMessageEventsFor(messageType: ChatWrapperMessageType?) {
+        guard let type = messageType else {
+            insertAskPhoneNumberMessage()
+            return
+        }
+
+        if let listingId = conversation.value.listing?.objectId,
+            !keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId),
+            featureFlags.allowCallsForProfessionals.isActive {
+
+            switch type {
+            case .phone:
+                saveProSellerAlreadySentPhoneInChatFor(listingId: listingId)
+                if !hasSentAutomaticAnswerForPhoneMessage {
+                    sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksPhoneCellMessage,
+                                                        isPhone: true)
+                    disableAskPhoneMessageButton()
+                }
+            case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing:
+                insertAskPhoneNumberMessage()
+                if !hasSentAutomaticAnswerForOtherMessage {
+                    sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,
+                                                        isPhone: false)
+                }
+            }
+        }
+    }
+
+    private func insertAskPhoneNumberMessage() {
+        if let askPhoneNumber = askPhoneMessage {
+            messages.insert(askPhoneNumber, atIndex: 0)
         }
     }
 
@@ -1094,17 +1125,25 @@ extension ChatViewModel {
         }
     }
 
+    var shouldShowAskPhoneMessage: Bool {
+        guard let lastMessage = lastMessageSentType.value else { return !hasShownAskedPhoneMessage }
+        return !hasShownAskedPhoneMessage &&
+            interlocutorIsProfessional.value &&
+            messagesDidFinishRefreshing.value &&
+            !lastMessage.isPhone
+    }
+
     var askPhoneMessage: ChatViewMessage? {
         guard let listingId = conversation.value.listing?.objectId,
             !keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId),
             featureFlags.allowCallsForProfessionals.isActive,
-            interlocutorIsProfessional.value else { return nil }
+            shouldShowAskPhoneMessage else { return nil }
 
         let askPhoneAction: (() -> Void)? = { [weak self] in
             self?.delegate?.vmAskPhoneNumber()
             self?.tracker.trackEvent(TrackerEvent.phoneNumberRequest(typePage: .chat))
         }
-
+        hasShownAskedPhoneMessage = true
         return chatViewMessageAdapter.createAskPhoneMessageWith(action: askPhoneAction)
     }
 
@@ -1119,6 +1158,7 @@ extension ChatViewModel {
                 strongSelf.mergeMessages(newMessages: value)
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.checkSellerDidntAnswer(value)
+                strongSelf.messagesDidFinishRefreshing.value = true
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -1137,6 +1177,7 @@ extension ChatViewModel {
                     strongSelf.isLastPage = true
                 }
                 strongSelf.updateMessages(newMessages: value, isFirstPage: false)
+                strongSelf.messagesDidFinishRefreshing.value = true
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -1149,6 +1190,7 @@ extension ChatViewModel {
             self?.isLoading = false
             guard let newMessages = result.value else { return }
             self?.mergeMessages(newMessages: newMessages)
+            self?.messagesDidFinishRefreshing.value = true
         }
     }
 
@@ -1188,9 +1230,6 @@ extension ChatViewModel {
             // Add user info as 1st message
             if let userInfoMessage = userInfoMessage, shouldShowOtherUserInfo {
                 messages.append(userInfoMessage)
-            }
-            if let askPhoneNumber = askPhoneMessage {
-                messages.insert(askPhoneNumber, atIndex: 0)
             }
         }
         markAsReadMessages(newMessages)
