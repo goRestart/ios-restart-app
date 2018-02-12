@@ -443,8 +443,14 @@ class FiltersViewModel: BaseViewModel {
                                                         carMake: productFilter.carMakeName,
                                                         carModel: productFilter.carModelName,
                                                         carYearStart: productFilter.carYearStart?.value,
-                                                        carYearEnd: productFilter.carYearEnd?.value)
-        TrackerProxy.sharedInstance.trackEvent(trackingEvent)
+                                                        carYearEnd: productFilter.carYearEnd?.value,
+                                                        propertyType: productFilter.realEstatePropertyType?.rawValue,
+                                                        offerType: productFilter.realEstateOfferType?.rawValue,
+                                                        bedrooms: productFilter.realEstateNumberOfBedrooms?.rawValue,
+                                                        bathrooms: productFilter.realEstateNumberOfBathrooms?.rawValue,
+                                                        sizeSqrMetersMin: productFilter.realEstateSizeRange.min,
+                                                        sizeSqrMetersMax: productFilter.realEstateSizeRange.max,
+                                                        rooms: productFilter.realEstateNumberOfRooms)
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
     }
     
@@ -648,34 +654,17 @@ class FiltersViewModel: BaseViewModel {
         // index is in range and avoid the extra blank cell in case num categories is odd
         return index < numOfCategories && !(isOddNumCategories && index == numOfCategories-1)
     }
-
-    private func resetCarsInfo() {
-        productFilter.carMakeId = nil
-        productFilter.carModelId = nil
-        productFilter.carMakeName = nil
-        productFilter.carModelName = nil
-        productFilter.carYearStart = nil
-        productFilter.carYearEnd = nil
-    }
-    
-    fileprivate func cleanRealEstateFilters() {
-        productFilter.realEstateNumberOfRooms = nil
-        productFilter.realEstateNumberOfBedrooms = nil
-        productFilter.realEstateNumberOfBathrooms = nil
-        productFilter.realEstateOfferType = nil
-        productFilter.realEstateSizeRange = SizeRange(min: nil, max: nil)
-    }
     
     private func removeFiltersRelatedIfNeeded(category: ListingCategory) {
         switch category {
         case .realEstate:
-            resetCarsInfo()
+            productFilter = productFilter.resetingCarAttributes()
         case .cars:
-            cleanRealEstateFilters()
+            productFilter = productFilter.resetingRealEstateAttributes()
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden,
              .motorsAndAccessories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
-            cleanRealEstateFilters()
-            resetCarsInfo()
+            productFilter = productFilter.resetingCarAttributes()
+            productFilter = productFilter.resetingRealEstateAttributes()
         }
     }
 }
@@ -686,7 +675,7 @@ class FiltersViewModel: BaseViewModel {
 extension FiltersViewModel: EditLocationDelegate {
     func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {
         if productFilter.place?.postalAddress?.countryCode != place.postalAddress?.countryCode {
-            cleanRealEstateFilters()
+            productFilter = productFilter.resetingRealEstateAttributes()
         }
         productFilter.place = place
         productFilter.distanceRadius = distanceRadius

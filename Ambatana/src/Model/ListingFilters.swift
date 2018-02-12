@@ -185,6 +185,54 @@ struct ListingFilters {
                               realEstateSizeRange: realEstateSizeRange)
     }
     
+    func resetingRealEstateAttributes() -> ListingFilters {
+        return ListingFilters(place: place,
+                              distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
+                              distanceType: distanceType,
+                              selectedCategories: selectedCategories,
+                              selectedTaxonomyChildren: selectedTaxonomyChildren,
+                              selectedTaxonomy: selectedTaxonomy,
+                              selectedWithin: selectedWithin,
+                              selectedOrdering: selectedOrdering,
+                              priceRange: priceRange,
+                              carMakeId: carMakeId,
+                              carMakeName: carMakeName,
+                              carModelId: carModelId,
+                              carModelName: carModelName,
+                              carYearStart: carYearStart,
+                              carYearEnd: carYearEnd,
+                              realEstatePropertyType: nil,
+                              realEstateOfferType: nil,
+                              realEstateNumberOfBedrooms: nil,
+                              realEstateNumberOfBathrooms: nil,
+                              realEstateNumberOfRooms: nil,
+                              realEstateSizeRange: SizeRange(min: nil, max: nil))
+    }
+    
+    func resetingCarAttributes() -> ListingFilters {
+        return ListingFilters(place: place,
+                              distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
+                              distanceType: distanceType,
+                              selectedCategories: selectedCategories,
+                              selectedTaxonomyChildren: selectedTaxonomyChildren,
+                              selectedTaxonomy: selectedTaxonomy,
+                              selectedWithin: selectedWithin,
+                              selectedOrdering: selectedOrdering,
+                              priceRange: priceRange,
+                              carMakeId: nil,
+                              carMakeName: nil,
+                              carModelId: nil,
+                              carModelName: nil,
+                              carYearStart: nil,
+                              carYearEnd: nil,
+                              realEstatePropertyType: realEstatePropertyType,
+                              realEstateOfferType: realEstateOfferType,
+                              realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
+                              realEstateNumberOfBathrooms: realEstateNumberOfBathrooms,
+                              realEstateNumberOfRooms: realEstateNumberOfRooms,
+                              realEstateSizeRange: realEstateSizeRange)
+    }
+    
     
     mutating func toggleCategory(_ category: ListingCategory) {
         if let categoryIndex = indexForCategory(category) {

@@ -20,6 +20,15 @@ struct NumberOfRooms {
         }
         return LGLocalizedString.realEstateRoomsValue(numberOfBedrooms, numberOfLivingRooms)
     }
+    
+    var trackingString: String {
+        if numberOfBedrooms == 1 && numberOfLivingRooms == 0 {
+            return "Studio (1+0)"
+        } else if numberOfBedrooms == 10 && numberOfLivingRooms == 0 {
+            return "Over 10"
+        }
+        return "\(numberOfBedrooms)+\(numberOfLivingRooms)"
+    }
 
     static var allValues: [NumberOfRooms] {
         return [NumberOfRooms(numberOfBedrooms: 1, numberOfLivingRooms: 0),
