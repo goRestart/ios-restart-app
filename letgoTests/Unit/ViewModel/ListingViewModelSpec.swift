@@ -124,6 +124,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 context("buyer selection enabled newMarkAsSoldFlow") {
                     context("allow calling dealers test disabled") {
                         beforeEach {
+                            featureFlags.allowCallsForProfessionals = .inactive
                             let userListing = MockUserListing.makeMock()
                             listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
                             buildListingViewModel()
@@ -155,7 +156,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                     }
                     context("allow calling dealers test enabled") {
                         beforeEach {
-                            featureFlags.allowCallsForProfessionals = .active
+                            featureFlags.allowCallsForProfessionals = .control
                             let userListing = MockUserListing.makeMock()
                             listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
                             buildListingViewModel()
@@ -434,7 +435,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
 
             describe ("check user type") {
                 beforeEach {
-                    featureFlags.allowCallsForProfessionals = .active
+                    featureFlags.allowCallsForProfessionals = .control
                 }
                 context ("User is professional and has a phone number") {
                     beforeEach {
@@ -547,7 +548,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 userProduct.objectId = myUser.objectId
                                 product.user = userProduct
                                 product.featured = false
-                                product.status = .pending
+                                product.status = .deleted
                                 purchasesShopper.isBumpUpPending = false
 
                                 buildListingViewModel()
@@ -559,7 +560,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 expect(sut.bumpUpBannerInfo.value).to(beNil())
                             }
                         }
-                        context ("product status is pending, but is already bumped") {
+                        context ("product status is pending, and is already bumped") {
                             beforeEach {
 
                                 self.calledOpenFreeBumpUpView = false

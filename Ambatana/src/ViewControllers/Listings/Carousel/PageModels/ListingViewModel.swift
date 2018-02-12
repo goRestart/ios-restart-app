@@ -308,7 +308,7 @@ class ListingViewModel: BaseViewModel {
         }.disposed(by: disposeBag)
 
         // bumpeable listing check
-        status.asObservable().bind { [weak self] status in
+        status.asObservable().skip(1).bind { [weak self] status in
             if status.shouldRefreshBumpBanner {
                 self?.refreshBumpeableBanner()
             } else {
@@ -394,7 +394,7 @@ class ListingViewModel: BaseViewModel {
             isUpdatingBumpUpBanner = true
             monetizationRepository.retrieveBumpeableListingInfo(
                 listingId: listingId,
-                withPriceDifferentiation: featureFlags.bumpUpPriceDifferentiation.isActive,
+                withHigherMinimumPrice: featureFlags.increaseMinPriceBumps.bucketValue,
                 completion: { [weak self] result in
                     guard let strongSelf = self else { return }
                     strongSelf.isUpdatingBumpUpBanner = false

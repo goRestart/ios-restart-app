@@ -162,16 +162,16 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
         // Redraw masked rounded corners
         emailButton.setRoundedCorners([.topLeft, .topRight],
-                                      cornerRadius: LGUIKitConstants.textfieldCornerRadius)
+                                      cornerRadius: LGUIKitConstants.mediumCornerRadius)
         switch viewModel.currentActionType {
         case .signup:
             passwordButton.setRoundedCorners([], cornerRadius: 0)
         case .login:
             passwordButton.setRoundedCorners([.bottomLeft, .bottomRight],
-                                             cornerRadius: LGUIKitConstants.textfieldCornerRadius)
+                                             cornerRadius: LGUIKitConstants.mediumCornerRadius)
         }
         usernameButton.setRoundedCorners([.bottomLeft, .bottomRight],
-                                         cornerRadius: LGUIKitConstants.textfieldCornerRadius)
+                                         cornerRadius: LGUIKitConstants.mediumCornerRadius)
     }
 
 
@@ -577,7 +577,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         passwordButton.setRoundedCorners([], cornerRadius: 0)
         passwordTextField.returnKeyType = .next
         usernameButton.setRoundedCorners([.bottomLeft, .bottomRight],
-                                         cornerRadius: LGUIKitConstants.textfieldCornerRadius)
+                                         cornerRadius: LGUIKitConstants.mediumCornerRadius)
         usernameButton.isHidden = false
         usernameIconImageView.isHidden = false
         usernameTextField.isHidden = false
@@ -592,7 +592,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
     private func setupLoginUI() {
         passwordButton.setRoundedCorners([.bottomLeft, .bottomRight],
-                                         cornerRadius: LGUIKitConstants.textfieldCornerRadius)
+                                         cornerRadius: LGUIKitConstants.mediumCornerRadius)
         passwordTextField.returnKeyType = .send
         usernameButton.isHidden = true
         usernameIconImageView.isHidden = true

@@ -65,7 +65,7 @@ class BumpUpFreeViewController: BaseViewController {
             imageContainer.isHidden = true
         }
 
-        listingImageView.layer.cornerRadius = LGUIKitConstants.listingCellCornerRadius
+        listingImageView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
         shareButtonsContainerWidth.constant = CGFloat(viewModel.shareTypes.count)*BumpUpFreeViewController.shareButtonWidth
         titleLabel.text = viewModel.title
         subtitleLabel.text = viewModel.subtitle

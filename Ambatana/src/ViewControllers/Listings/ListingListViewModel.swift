@@ -27,6 +27,7 @@ protocol ListingListViewModelDataDelegate: class {
     func vmProcessReceivedListingPage(_ Listings: [ListingCellModel], page: UInt) -> [ListingCellModel]
     func vmDidSelectSellBanner(_ type: String)
     func vmDidSelectCollection(_ type: CollectionCellType)
+    func vmDidSelectMostSearchedItems()
 }
 
 struct ListingsRequesterResult {
@@ -65,6 +66,10 @@ protocol ListingListRequester: class {
 
 class ListingListViewModel: BaseViewModel {
 
+    private let cellMinHeight: CGFloat = 80.0
+    private var cellAspectRatio: CGFloat {
+        return 198.0 / cellMinHeight
+    }
     var cellWidth: CGFloat {
         return (UIScreen.main.bounds.size.width - (listingListFixedInset*2)) / CGFloat(numberOfColumns)
     }
@@ -81,6 +86,8 @@ class ListingListViewModel: BaseViewModel {
     weak var delegate: ListingListViewModelDelegate?
     weak var dataDelegate: ListingListViewModelDataDelegate?
     weak var listingCellDelegate: ListingCellDelegate?
+    
+    let featureFlags: FeatureFlags
     
     // Requester
     var listingListRequester: ListingListRequester?
@@ -102,7 +109,7 @@ class ListingListViewModel: BaseViewModel {
     private var indexToTitleMapping: [Int:String]
 
     // UI
-    private(set) var defaultCellSize: CGSize
+    private(set) var defaultCellSize: CGSize = .zero
     
     private(set) var isLastPage: Bool = false
     private(set) var isLoading: Bool = false
@@ -146,26 +153,27 @@ class ListingListViewModel: BaseViewModel {
          tracker: Tracker = TrackerProxy.sharedInstance,
          imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
          reporter: CrashlyticsReporter = CrashlyticsReporter(),
-         shouldShowPrices: Bool = false) {
+         shouldShowPrices: Bool = false,
+         featureFlags: FeatureFlags = FeatureFlags.sharedInstance) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
         self.pageNumber = 0
         self.refreshing = false
         self.state = .loading
         self.numberOfColumns = numberOfColumns
         self.listingListRequester = requester
-        self.defaultCellSize = CGSize.zero
         self.tracker = tracker
         self.reporter = reporter
         self.imageDownloader = imageDownloader
         self.indexToTitleMapping = [:]
         self.shouldShowPrices = shouldShowPrices
+        self.featureFlags = featureFlags
         super.init()
-        let cellHeight = cellWidth * ListingCell.LayoutConstants.aspectRatio
+        let cellHeight = cellWidth * cellAspectRatio
         self.defaultCellSize = CGSize(width: cellWidth, height: cellHeight)
     }
     
-    convenience init(listViewModel: ListingListViewModel) {
-        self.init(requester: listViewModel.listingListRequester)
+    convenience init(listViewModel: ListingListViewModel, featureFlags: FeatureFlags = FeatureFlags.sharedInstance) {
+        self.init(requester: listViewModel.listingListRequester, featureFlags: featureFlags)
         self.pageNumber = listViewModel.pageNumber
         self.state = listViewModel.state
         self.objects = listViewModel.objects
@@ -323,6 +331,9 @@ class ListingListViewModel: BaseViewModel {
                                         originFrame: originFrame)
         case .collectionCell(let type):
             dataDelegate?.vmDidSelectCollection(type)
+        case .mostSearchedItems:
+            dataDelegate?.vmDidSelectMostSearchedItems()
+            return
         case .emptyCell, .advertisement:
             return
         }
@@ -336,7 +347,7 @@ class ListingListViewModel: BaseViewModel {
                 if let thumbnailURL = listing.thumbnail?.fileURL {
                     urls.append(thumbnailURL)
                 }
-            case .emptyCell, .collectionCell, .advertisement:
+            case .emptyCell, .collectionCell, .advertisement, .mostSearchedItems:
                 break
             }
         }
@@ -368,7 +379,7 @@ class ListingListViewModel: BaseViewModel {
         switch item {
         case let .listingCell(listing):
             return listing
-        case .collectionCell, .emptyCell, .advertisement:
+        case .collectionCell, .emptyCell, .advertisement, .mostSearchedItems:
             return nil
         }
     }
@@ -378,12 +389,68 @@ class ListingListViewModel: BaseViewModel {
             switch cellModel {
             case let .listingCell(listing):
                 return listing.objectId == listingId
-            case .collectionCell, .emptyCell, .advertisement:
+            case .collectionCell, .emptyCell, .advertisement, .mostSearchedItems:
                 return false
             }
         })
     }
+    
+    private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat) -> CGFloat {
+        let minHeightForFeaturedListing: CGFloat = 105.0
 
+        var height: CGFloat = 0.0
+        if let featured = listing.featured, featured {
+            height += minHeightForFeaturedListing
+            if let title = listing.title {
+                height += title.heightForWidth(width: width, maxLines: 2, withFont: UIFont.mediumBodyFont)
+            }
+        }
+        return height
+    }
+    
+    private func cellSize(for listing: Listing, widthConstraint: CGFloat, variant abTest: MainFeedAspectRatio) -> CGSize? {
+        let maxPortraitAspectRatio = AspectRatio.w1h2
+        let minCellHeight: CGFloat = 80.0
+        let priceViewHeight: CGFloat = 30.0
+
+        guard let thumbSize = listing.thumbnailSize?.toCGSize, thumbSize.height != 0 && thumbSize.width != 0 else {
+            return nil
+        }
+        let thumbnailAspectRatio = AspectRatio(size: thumbSize)
+        let cellAspectRatio: AspectRatio
+        if thumbnailAspectRatio.isMore(.portrait, than: maxPortraitAspectRatio) {
+            cellAspectRatio = maxPortraitAspectRatio
+        } else {
+            cellAspectRatio = thumbnailAspectRatio
+        }
+        
+        var cellHeight = round(cellAspectRatio.size(setting: widthConstraint, in: .width).height)
+        cellHeight = max(minCellHeight, cellHeight)
+        cellHeight += featuredInfoAdditionalCellHeight(for: listing, width: widthConstraint)
+        cellHeight += priceViewHeight
+        let cellSize = CGSize(width: widthConstraint, height: cellHeight)
+        
+        let result: CGSize
+        switch abTest {
+        case .control, .baseline:
+            result = cellSize
+        case .square:
+            result = AspectRatio.square.size(setting: widthConstraint, in: .width)
+        case .squareOrLessThanW9H16:
+            switch thumbnailAspectRatio.orientation {
+            case .square, .landscape:
+                result = AspectRatio.square.size(setting: widthConstraint, in: .width)
+            case .portrait:
+                if thumbnailAspectRatio.isMore(.portrait, than: .w9h16) {
+                    result = AspectRatio.w9h16.size(setting: widthConstraint, in: .width)
+                } else {
+                    result = thumbSize
+                }
+            }
+        }
+        return result
+    }
+    
     /**
         Returns the size of the cell at the given index path.
     
@@ -392,36 +459,22 @@ class ListingListViewModel: BaseViewModel {
     */
     func sizeForCellAtIndex(_ index: Int) -> CGSize {
         guard let item = itemAtIndex(index) else { return defaultCellSize }
+        let size: CGSize
         switch item {
         case let .listingCell(listing):
-            guard let thumbnailSize = listing.thumbnailSize, thumbnailSize.height != 0 && thumbnailSize.width != 0
-                else { return defaultCellSize }
-            
-            let thumbFactor = min(ListingCell.LayoutConstants.maxThumbFactor,
-                                  CGFloat(thumbnailSize.height / thumbnailSize.width))
-            let imageFinalHeight = max(ListingCell.LayoutConstants.minHeight, round(defaultCellSize.width * thumbFactor))
-
-            var featuredInfoFinalHeight: CGFloat = 0.0
-            if let featured = listing.featured, featured {
-                var listingTitleHeight: CGFloat = 0.0
-                if let title = listing.title {
-                    listingTitleHeight = title.heightForWidth(width: defaultCellSize.width, maxLines: 2, withFont: UIFont.mediumBodyFont)
-                }
-                featuredInfoFinalHeight = CGFloat(ListingCell.LayoutConstants.featuredInfoMinHeight) + listingTitleHeight
-            }
-            
-            let priceViewHeight: CGFloat = ListingCell.LayoutConstants.priceViewHeight
-
-            return CGSize(width: defaultCellSize.width, height: imageFinalHeight + featuredInfoFinalHeight + priceViewHeight)
+            size = cellSize(for: listing, widthConstraint: cellWidth, variant: featureFlags.mainFeedAspectRatio) ?? defaultCellSize
         case .collectionCell:
-            let height = defaultCellSize.width * ListingCell.LayoutConstants.bannerAspectRatio
-            return CGSize(width: defaultCellSize.width, height: height)
+            let bannerAspectRatio = AspectRatio.w4h3
+            size = bannerAspectRatio.size(setting: cellWidth, in: .width)
         case .emptyCell:
-            return CGSize(width: defaultCellSize.width, height: 1)
+            size = CGSize(width: cellWidth, height: 1)
         case .advertisement(let adData):
-            guard adData.adPosition == index else { return CGSize(width: defaultCellSize.width, height: 0) }
-            return CGSize(width: defaultCellSize.width, height: adData.bannerHeight)
+            guard adData.adPosition == index else { return CGSize(width: cellWidth, height: 0) }
+            size = CGSize(width: cellWidth, height: adData.bannerHeight)
+        case .mostSearchedItems:
+            return CGSize(width: cellWidth, height: MostSearchedItemsListingListCell.height)
         }
+        return size
     }
         
     /**
@@ -444,6 +497,42 @@ class ListingListViewModel: BaseViewModel {
             return indexToTitleMapping[lastValidIndex]
         }
         return nil
+    }
+
+    func categoriesForBannerIn(position: Int) -> [ListingCategory]? {
+        guard 0..<objects.count ~= position else { return nil }
+        var categories: [ListingCategory]? = nil
+        let cellModel = objects[position]
+        switch cellModel {
+        case .advertisement(let data):
+            categories = data.categories
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems:
+            break
+        }
+        return categories
+    }
+
+    func updateAdvertisementRequestedIn(position: Int, withBanner: DFPBannerView) {
+        guard 0..<objects.count ~= position else { return }
+        let modelToBeUpdated = objects[position]
+        switch modelToBeUpdated {
+        case .advertisement(let data):
+            guard data.adPosition == position else {
+                return
+            }
+            let newAdData = AdvertisementData(adUnitId: data.adUnitId,
+                                              rootViewController: data.rootViewController,
+                                              adPosition: data.adPosition,
+                                              bannerHeight: data.bannerHeight,
+                                              adRequest: data.adRequest,
+                                              bannerView: withBanner,
+                                              showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
+                                              categories: data.categories,
+                                              adRequested: true)
+            objects[position] = ListingCellModel.advertisement(data: newAdData)
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems:
+            break
+        }
     }
 }
 
@@ -469,10 +558,10 @@ extension ListingListViewModel {
     }
 }
 
-extension ListingListViewModel: AdvertisementCellDelegate {
+extension ListingListViewModel {
     func updateAdCellHeight(newHeight: CGFloat, forPosition: Int, withBannerView bannerView: GADBannerView) {
         guard 0..<objects.count ~= forPosition else { return }
-        guard let modelToBeUpdated = objects[forPosition] as? ListingCellModel else { return }
+        let modelToBeUpdated = objects[forPosition]
         switch modelToBeUpdated {
         case .advertisement(let data):
             guard data.adPosition == forPosition else {
@@ -482,14 +571,14 @@ extension ListingListViewModel: AdvertisementCellDelegate {
                                               rootViewController: data.rootViewController,
                                               adPosition: data.adPosition,
                                               bannerHeight: newHeight,
-                                              delegate: data.delegate,
                                               adRequest: data.adRequest,
                                               bannerView: bannerView,
                                               showAdsInFeedWithRatio: data.showAdsInFeedWithRatio,
-                                              categories: data.categories)
+                                              categories: data.categories,
+                                              adRequested: data.adRequested)
             objects[forPosition] = ListingCellModel.advertisement(data: newAdData)
             delegate?.vmReloadItemAtIndexPath(indexPath: IndexPath(item: forPosition, section: 0))
-        case .listingCell, .collectionCell, .emptyCell:
+        case .listingCell, .collectionCell, .emptyCell, .mostSearchedItems:
             break
         }
     }
