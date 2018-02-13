@@ -1468,6 +1468,7 @@ fileprivate extension ChatViewModel {
             .set(typePage: typePage)
             .set(sellerRating: sellerRating)
             .set(isBumpedUp: .falseParameter)
+            .set(containsEmoji: type.text.containsEmoji)
         if let error = error {
             sendMessageInfo.set(error: error.chatError)
         }
