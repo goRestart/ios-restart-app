@@ -295,6 +295,40 @@ class StringLGSpec: QuickSpec {
                     expect("123 123".isOnlyDigits) == false
                 }
             }
+            context("isPhoneNumber") {
+                describe("correct US phone number") {
+                    beforeEach {
+                        sut = "1234567890"
+                    }
+                    it("returns true") {
+                        expect(sut.isPhoneNumber) == true
+                    }
+                }
+                describe("too many digits") {
+                    beforeEach {
+                        sut = "12345678901"
+                    }
+                    it("returns false") {
+                        expect(sut.isPhoneNumber) == false
+                    }
+                }
+                describe("not enough digits ") {
+                    beforeEach {
+                        sut = "12345678"
+                    }
+                    it("returns false") {
+                        expect(sut.isPhoneNumber) == false
+                    }
+                }
+                describe("has unaccepted characters") {
+                    beforeEach {
+                        sut = "+123456789"
+                    }
+                    it("returns false") {
+                        expect(sut.isPhoneNumber) == false
+                    }
+                }
+            }
         }
         
         describe("makeBold:ignoringText:font") {
