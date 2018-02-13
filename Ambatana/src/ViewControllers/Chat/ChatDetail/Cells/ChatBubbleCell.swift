@@ -41,6 +41,20 @@ class ChatBubbleCell: UITableViewCell {
         backgroundColor = .clear
     }
     
+    func set(text: String) {
+        switch text.emojiOnlyCount {
+        case 1:
+            messageLabel.font = UIFont.systemRegularFont(size: 49)
+        case 2:
+            messageLabel.font = UIFont.systemRegularFont(size: 37)
+        case 3:
+            messageLabel.font = UIFont.systemRegularFont(size: 27)
+        default:
+            messageLabel.font = UIFont.bigBodyFont
+        }
+        messageLabel.text = text
+    }
+    
     @objc func menuControllerWillHide(_ notification: Notification) {
         setSelected(false, animated: true)
     }
