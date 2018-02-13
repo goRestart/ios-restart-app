@@ -45,6 +45,7 @@ extension Bumper  {
         flags.append(MainFeedAspectRatio.self)
         flags.append(IncreaseMinPriceBumps.self)
         flags.append(ShowSecurityMeetingChatMessage.self)
+        flags.append(EmojiSizeIncrement.self)
         Bumper.initialize(flags)
     } 
 
@@ -206,6 +207,11 @@ extension Bumper  {
     static var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
         guard let value = Bumper.value(for: ShowSecurityMeetingChatMessage.key) else { return .control }
         return ShowSecurityMeetingChatMessage(rawValue: value) ?? .control 
+    }
+
+    static var emojiSizeIncrement: EmojiSizeIncrement {
+        guard let value = Bumper.value(for: EmojiSizeIncrement.key) else { return .control }
+        return EmojiSizeIncrement(rawValue: value) ?? .control 
     } 
 }
 
@@ -687,6 +693,22 @@ enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .variant1
             case 3: return .variant2
+            default: return .control
+        }
+    }
+}
+
+enum EmojiSizeIncrement: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return EmojiSizeIncrement.control.rawValue }
+    static var enumValues: [EmojiSizeIncrement] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Increase the size of emojis the text is only emojis and < 4" } 
+    static func fromPosition(_ position: Int) -> EmojiSizeIncrement {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

@@ -129,7 +129,7 @@ class ChatViewController: TextViewController {
         if featureFlags.allowEmojisOnChat.isActive {
             return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
         } else {
-            guard !text.hasEmojis() else { return false }
+            guard !text.containsEmoji else { return false }
             return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
         }
     }
