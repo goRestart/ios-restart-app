@@ -742,29 +742,27 @@ extension ChatViewModel {
     }
 
     private func professionalSellerAfterMessageEventsFor(messageType: ChatWrapperMessageType?) {
+        guard featureFlags.allowCallsForProfessionals.isActive else { return }
+        guard let listingId = conversation.value.listing?.objectId,
+            !keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId) else { return }
         guard let type = messageType else {
             insertAskPhoneNumberMessage()
             return
         }
 
-        if let listingId = conversation.value.listing?.objectId,
-            !keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId),
-            featureFlags.allowCallsForProfessionals.isActive {
-
-            switch type {
-            case .phone:
-                saveProSellerAlreadySentPhoneInChatFor(listingId: listingId)
-                if !hasSentAutomaticAnswerForPhoneMessage {
-                    sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksPhoneCellMessage,
-                                                        isPhone: true)
-                    disableAskPhoneMessageButton()
-                }
-            case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing:
-                insertAskPhoneNumberMessage()
-                if !hasSentAutomaticAnswerForOtherMessage {
-                    sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,
-                                                        isPhone: false)
-                }
+        switch type {
+        case .phone:
+            saveProSellerAlreadySentPhoneInChatFor(listingId: listingId)
+            if !hasSentAutomaticAnswerForPhoneMessage {
+                sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksPhoneCellMessage,
+                                                    isPhone: true)
+                disableAskPhoneMessageButton()
+            }
+        case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing:
+            insertAskPhoneNumberMessage()
+            if !hasSentAutomaticAnswerForOtherMessage {
+                sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,
+                                                    isPhone: false)
             }
         }
     }
