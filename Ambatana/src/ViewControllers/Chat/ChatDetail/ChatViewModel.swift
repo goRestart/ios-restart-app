@@ -347,7 +347,6 @@ class ChatViewModel: BaseViewModel {
                 self?.conversation.value = value
                 if let autoMessage = self?.openChatAutomaticMessage {
                     self?.sendMessage(type: autoMessage)
-                    self?.openChatAutomaticMessage = nil
                 }
                 self?.refreshMessages()
                 self?.setupChatEventsRx()
@@ -706,6 +705,7 @@ extension ChatViewModel {
     }
 
     private func afterSendMessageEvents(type: ChatWrapperMessageType) {
+        openChatAutomaticMessage = nil
         firstInteractionDone.value = true
         lastMessageSentType.value = type
 
@@ -1123,6 +1123,9 @@ extension ChatViewModel {
     }
 
     var shouldShowAskPhoneMessage: Bool {
+        if let openAutomaticMessage = openChatAutomaticMessage, openAutomaticMessage.isPhone {
+            return false
+        }
         guard let lastMessage = lastMessageSentType.value else { return !hasShownAskedPhoneMessage }
         return !hasShownAskedPhoneMessage &&
             interlocutorIsProfessional.value &&

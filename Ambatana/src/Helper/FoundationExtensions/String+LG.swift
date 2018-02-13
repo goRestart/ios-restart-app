@@ -303,11 +303,11 @@ extension String {
     }
 
     var isPhoneNumber: Bool {
-
-        let pattern = UnicodeScalar("0")..."9"
-        let onlyDigitsString = String(unicodeScalars
-            .flatMap { pattern ~= $0 ? Character($0) : nil })
-        return onlyDigitsString.count == Constants.usaPhoneNumberDigitsCount
+        let noPlusOrHyphenString = self.components(separatedBy: ["+","-"]).joined(separator: "")
+        guard let _ = Int(noPlusOrHyphenString) else {
+            return false
+        }
+        return noPlusOrHyphenString.count == Constants.usaPhoneNumberDigitsCount
     }
     
     var addSquareMeterUnit: String {
