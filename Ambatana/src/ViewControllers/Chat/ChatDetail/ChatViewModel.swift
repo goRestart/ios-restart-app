@@ -291,11 +291,7 @@ class ChatViewModel: BaseViewModel {
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
         self.source = source
-        if featureFlags.allowEmojisOnChat.isActive {
-            self.predefinedMessage = predefinedMessage
-        } else {
-            self.predefinedMessage = predefinedMessage?.stringByRemovingEmoji()
-        }
+        self.predefinedMessage = predefinedMessage
         self.openChatAutomaticMessage = openChatAutomaticMessage
 
         super.init()
@@ -1507,6 +1503,7 @@ fileprivate extension ChatViewModel {
             .set(typePage: typePage)
             .set(sellerRating: sellerRating)
             .set(isBumpedUp: .falseParameter)
+            .set(containsEmoji: type.text.containsEmoji)
         if let error = error {
             sendMessageInfo.set(error: error.chatError)
         }

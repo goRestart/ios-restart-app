@@ -192,15 +192,6 @@ extension String {
         return slugId
     }
     
-    func stringByRemovingEmoji() -> String {
-        return String(self.filter { !$0.isEmoji })
-    }
-    
-    func hasEmojis() -> Bool {
-        let emojis = unicodeScalars.filter { $0.isEmoji }
-        return emojis.count > 0
-    }
-    
     func trunc(_ length: Int, trailing: String? = "...") -> String {
         guard count > length else { return self }
         let substring = String(self[..<self.index(self.startIndex, offsetBy: length)])
@@ -317,5 +308,9 @@ extension String {
         let onlyDigitsString = String(unicodeScalars
             .flatMap { pattern ~= $0 ? Character($0) : nil })
         return onlyDigitsString.count == Constants.usaPhoneNumberDigitsCount
+    }
+    
+    var addSquareMeterUnit: String {
+        return self + Constants.sizeSquareMetersUnit
     }
 }

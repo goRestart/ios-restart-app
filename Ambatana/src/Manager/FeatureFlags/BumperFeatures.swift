@@ -35,7 +35,6 @@ extension Bumper  {
         flags.append(AllowCallsForProfessionals.self)
         flags.append(RealEstateImprovements.self)
         flags.append(RealEstatePromos.self)
-        flags.append(AllowEmojisOnChat.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(RemoveCategoryWhenClosingPosting.self)
@@ -45,6 +44,7 @@ extension Bumper  {
         flags.append(MainFeedAspectRatio.self)
         flags.append(IncreaseMinPriceBumps.self)
         flags.append(ShowSecurityMeetingChatMessage.self)
+        flags.append(EmojiSizeIncrement.self)
         Bumper.initialize(flags)
     } 
 
@@ -158,11 +158,6 @@ extension Bumper  {
         return RealEstatePromos(rawValue: value) ?? .control 
     }
 
-    static var allowEmojisOnChat: AllowEmojisOnChat {
-        guard let value = Bumper.value(for: AllowEmojisOnChat.key) else { return .control }
-        return AllowEmojisOnChat(rawValue: value) ?? .control 
-    }
-
     static var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
         guard let value = Bumper.value(for: ShowAdsInFeedWithRatio.key) else { return .control }
         return ShowAdsInFeedWithRatio(rawValue: value) ?? .control 
@@ -206,6 +201,11 @@ extension Bumper  {
     static var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
         guard let value = Bumper.value(for: ShowSecurityMeetingChatMessage.key) else { return .control }
         return ShowSecurityMeetingChatMessage(rawValue: value) ?? .control 
+    }
+
+    static var emojiSizeIncrement: EmojiSizeIncrement {
+        guard let value = Bumper.value(for: EmojiSizeIncrement.key) else { return .control }
+        return EmojiSizeIncrement(rawValue: value) ?? .control 
     } 
 }
 
@@ -536,22 +536,6 @@ enum RealEstatePromos: String, BumperFeature  {
     }
 }
 
-enum AllowEmojisOnChat: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return AllowEmojisOnChat.control.rawValue }
-    static var enumValues: [AllowEmojisOnChat] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "allow user to write / read emojis" } 
-    static func fromPosition(_ position: Int) -> AllowEmojisOnChat {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum ShowAdsInFeedWithRatio: String, BumperFeature  {
     case control, baseline, ten, fifteen, twenty
     static var defaultValue: String { return ShowAdsInFeedWithRatio.control.rawValue }
@@ -687,6 +671,22 @@ enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .variant1
             case 3: return .variant2
+            default: return .control
+        }
+    }
+}
+
+enum EmojiSizeIncrement: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return EmojiSizeIncrement.control.rawValue }
+    static var enumValues: [EmojiSizeIncrement] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Increase the size of emojis the text is only emojis and < 4" } 
+    static func fromPosition(_ position: Int) -> EmojiSizeIncrement {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

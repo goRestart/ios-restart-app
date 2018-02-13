@@ -342,10 +342,13 @@ enum EventParameterName: String {
     case bedrooms             = "bedroom-number"
     case bathrooms            = "bathroom-number"
     case location             = "location"
-    case sqrMeters            = "sqr-meters"
-    case rooms                = "rooms-number"
+    case sizeSqrMeters        = "size"
+    case sizeSqrMetersMin     = "size-from"
+    case sizeSqrMetersMax     = "size-to"
+    case rooms                = "room-number"
     case openField            = "open-field"
     case chatsDeleted         = "chats-deleted"
+    case chatContainsEmoji    = "contain-emoji"
     case inactiveConversations = "inactive-conversations"
     case mostSearchedButton   = "most-searched-button"
 }
@@ -560,6 +563,36 @@ enum EventParameterBedroomsRealEstate {
     var name: String {
         switch self {
         case .bedrooms(let value):
+            guard let value = value else { return Constants.parameterSkipValue }
+            return String(value)
+        case .notApply:
+            return Constants.parameterNotApply
+        }
+    }
+}
+
+enum EventParameterRoomsRealEstate {
+    case rooms(bedrooms: Int?, livingRooms: Int?)
+    case notApply
+    
+    var name: String {
+        switch self {
+        case .rooms(let bedrooms, let livingRooms):
+            guard let bedrooms = bedrooms, let livingRooms = livingRooms else { return Constants.parameterSkipValue }
+            return NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms).trackingString
+        case .notApply:
+            return Constants.parameterNotApply
+        }
+    }
+}
+
+enum EventParameterSizeRealEstate {
+    case size(value: Int?)
+    case notApply
+    
+    var name: String {
+        switch self {
+        case .size(let value):
             guard let value = value else { return Constants.parameterSkipValue }
             return String(value)
         case .notApply:

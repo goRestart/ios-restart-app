@@ -829,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "새로운 기능! 새로운 부동산 항목에 매매나 임대를 위한 부동산을 게시해보세요";
 "real_estate_type_property_apartment" = "아파트";
 "real_estate_type_property_commercial" = "상업용";
-"real_estate_type_property_flat" = "아파트/거주공간";
+"real_estate_type_property_flat" = "아파트";
 "real_estate_type_property_house" = "가정집";
 "real_estate_type_property_land" = "토지";
 "real_estate_type_property_others" = "기타";

@@ -829,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "Δημοσιεύστε ιδιοκτησία για πώληση ή ενοικίαση στη νέα μας κατηγορία Μεσιτικά";
 "real_estate_type_property_apartment" = "Διαμέρισμα";
 "real_estate_type_property_commercial" = "Εμπορική";
-"real_estate_type_property_flat" = "Διαμέρισμα / Κατοικία";
+"real_estate_type_property_flat" = "Διαμέρισμα";
 "real_estate_type_property_house" = "Σπίτι";
 "real_estate_type_property_land" = "Γη";
 "real_estate_type_property_others" = "Άλλα";

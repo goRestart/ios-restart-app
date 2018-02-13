@@ -168,11 +168,11 @@ extension RateUserViewModel {
     }
     
     func setDescription(text: String) -> Bool {
-        let descriptionWithoutEmoji = text.stringByRemovingEmoji()        
+        let descriptionWithoutEmoji = text.removingEmoji()
         if descriptionWithoutEmoji != descriptionPlaceholder {
             description.value = descriptionWithoutEmoji.isEmpty ? nil : descriptionWithoutEmoji
         }
-        return !text.hasEmojis()
+        return !text.containsEmoji
     }
 }
 

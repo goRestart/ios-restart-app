@@ -111,11 +111,6 @@
         "description": "show real estate promos"
     },
     {
-        "name": "AllowEmojisOnChat",
-        "values": ["control", "baseline", "active"],
-        "description": "allow user to write / read emojis"
-    },
-    {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "show ads in feed every X cells"
@@ -159,5 +154,10 @@
         "name": "ShowSecurityMeetingChatMessage",
         "values": ["control", "baseline", "variant1", "variant2"],
         "description": "show a disclaimer message on chat after the first conversation from the interlocutor"
+    },
+    {
+        "name": "EmojiSizeIncrement",
+        "values": ["control", "baseline", "active"],
+        "description": "Increase the size of emojis the text is only emojis and < 4"
     }
 ]

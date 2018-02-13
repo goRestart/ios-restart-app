@@ -127,13 +127,13 @@ enum AccessibilityId: String {
     case filterDisclosureCellTitleLabel
     case filterDisclosureCellSubtitleLabel
 
-    case filterPriceCell
-    case filterPriceCellTitleLabel
-    case filterPriceCellTextField
-    case filterPriceCellTitleLabelFrom
-    case filterPriceCellTitleLabelTo
-    case filterPriceCellTextFieldFrom
-    case filterPriceCellTextFieldTo
+    case filterTextFieldIntCell
+    case filterTextFieldIntCellTitleLabel
+    case filterTextFieldIntCellTextField
+    case filterTextFieldIntCellTitleLabelFrom
+    case filterTextFieldIntCellTitleLabelTo
+    case filterTextFieldIntCellTextFieldFrom
+    case filterTextFieldIntCellTextFieldTo
     
     case filterFreeCell
     case filterFreeCellTitleLabel
