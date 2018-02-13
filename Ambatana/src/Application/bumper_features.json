@@ -159,5 +159,10 @@
         "name": "ShowSecurityMeetingChatMessage",
         "values": ["control", "baseline", "variant1", "variant2"],
         "description": "show a disclaimer message on chat after the first conversation from the interlocutor"
+    },
+    {
+        "name": "NoAdsInFeedForNewUsers",
+        "values": ["control", "baseline", "AdsEverywhere", "NoAdsAtAll", "AdsOnlyInFeed"],
+        "description": "Change logic for showing ads to new users (2 weeks old)"
     }
 ]

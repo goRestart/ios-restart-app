@@ -52,7 +52,8 @@ class ABTests {
     let mainFeedAspectRatio = IntABDynamicVar(key: "20180208MainFeedAspectRatio", defaultValue: 0, abGroupType: .core)
     let increaseMinPriceBumps  = IntABDynamicVar(key: "20180208IncreaseMinPriceBumps", defaultValue: 0, abGroupType: .money)
     let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20180207ShowSecurityMeetingChatMessage", defaultValue: 0, abGroupType: .chat)
-    
+    let noAdsInFeedForNewUsers = IntABDynamicVar(key: "20180212NoAdsInFeedForNewUsers", defaultValue: 0, abGroupType: .money)
+
     init() {
     }
     
@@ -96,6 +97,7 @@ class ABTests {
         result.append(mainFeedAspectRatio)
         result.append(increaseMinPriceBumps)
         result.append(showSecurityMeetingChatMessage)
+        result.append(noAdsInFeedForNewUsers)
         
         return result
     }

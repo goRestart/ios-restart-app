@@ -45,6 +45,7 @@ extension Bumper  {
         flags.append(MainFeedAspectRatio.self)
         flags.append(IncreaseMinPriceBumps.self)
         flags.append(ShowSecurityMeetingChatMessage.self)
+        flags.append(NoAdsInFeedForNewUsers.self)
         Bumper.initialize(flags)
     } 
 
@@ -206,6 +207,11 @@ extension Bumper  {
     static var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
         guard let value = Bumper.value(for: ShowSecurityMeetingChatMessage.key) else { return .control }
         return ShowSecurityMeetingChatMessage(rawValue: value) ?? .control 
+    }
+
+    static var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
+        guard let value = Bumper.value(for: NoAdsInFeedForNewUsers.key) else { return .control }
+        return NoAdsInFeedForNewUsers(rawValue: value) ?? .control 
     } 
 }
 
@@ -687,6 +693,24 @@ enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .variant1
             case 3: return .variant2
+            default: return .control
+        }
+    }
+}
+
+enum NoAdsInFeedForNewUsers: String, BumperFeature  {
+    case control, baseline, adsEverywhere, noAdsAtAll, adsOnlyInFeed
+    static var defaultValue: String { return NoAdsInFeedForNewUsers.control.rawValue }
+    static var enumValues: [NoAdsInFeedForNewUsers] { return [.control, .baseline, .adsEverywhere, .noAdsAtAll, .adsOnlyInFeed]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Change logic for showing ads to new users (2 weeks old)" } 
+    static func fromPosition(_ position: Int) -> NoAdsInFeedForNewUsers {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .adsEverywhere
+            case 3: return .noAdsAtAll
+            case 4: return .adsOnlyInFeed
             default: return .control
         }
     }

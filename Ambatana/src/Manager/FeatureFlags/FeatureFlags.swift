@@ -55,6 +55,7 @@ protocol FeatureFlaggeable: class {
     var mainFeedAspectRatio: MainFeedAspectRatio { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
+    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -126,6 +127,19 @@ extension AllowEmojisOnChat {
 
 extension ShowAdsInFeedWithRatio {
     var isActive: Bool { get { return self != .control && self != .baseline } }
+}
+
+extension NoAdsInFeedForNewUsers {
+    var shouldShowAdsInFeed: Bool {
+        get {
+            return self == .adsEverywhere || self == .adsOnlyInFeed
+        }
+    }
+    var shouldShowAdsInMoreInfo: Bool {
+        get {
+            return self == .control || self == .baseline || self == .adsEverywhere
+        }
+    }
 }
 
 extension RemoveCategoryWhenClosingPosting {
@@ -434,6 +448,13 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
     }
+
+    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
+        if Bumper.enabled {
+            return Bumper.noAdsInFeedForNewUsers
+        }
+        return NoAdsInFeedForNewUsers.fromPosition(abTests.noAdsInFeedForNewUsers.value)
+    }
     
 
     // MARK: - Country features
@@ -519,6 +540,20 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     var feedDFPAdUnitId: String? {
+        if Bumper.enabled {
+            // Bumper overrides country restriction
+            switch showAdsInFeedWithRatio {
+            case .baseline, .control:
+                return nil
+            case .ten:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
+            case .fifteen:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA15Ratio
+            case .twenty:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio
+            }
+        }
+
         switch sensorLocationCountryCode {
         case .usa?:
             switch showAdsInFeedWithRatio {
