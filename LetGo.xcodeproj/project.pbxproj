@@ -2057,6 +2057,7 @@
 		72C7A1C21FA73AC80089F175 /* ListingPrice+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListingPrice+LG.swift"; sourceTree = "<group>"; };
 		72C7A1C51FAB31EF0089F175 /* PostingAddDetailSummaryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingAddDetailSummaryTableViewCell.swift; path = Ambatana/src/ViewControllers/Sell/Post/PostingAddDetailSummaryTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		72C99E9B1DED7417006361C1 /* ChangePasswordCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordCoordinator.swift; sourceTree = "<group>"; };
+		72CD80BA2031EE1C0042E1E0 /* tr */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tr; path = realEstateImageLocalized/tr.lproj/realEstateBanner.png; sourceTree = "<group>"; };
 		72D57CCE1E5767FC0009FA06 /* notificationservice.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = notificationservice.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		72D57CD01E5767FC0009FA06 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		72D57CD21E5767FC0009FA06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -6983,6 +6984,7 @@
 				726D50FE2007C12300C7DA2A /* es */,
 				726D51012007C13100C7DA2A /* en */,
 				726D51022007C13300C7DA2A /* Base */,
+				72CD80BA2031EE1C0042E1E0 /* tr */,
 			);
 			name = realEstateBanner.png;
 			sourceTree = "<group>";
