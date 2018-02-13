@@ -422,9 +422,12 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                 positionSelected = NumberOfBedrooms(rawValue: bedrooms)?.position
             }
         case .rooms:
-            let numberOfRooms = NumberOfRooms(numberOfBedrooms: postListingState.verticalAttributes?.realEstateAttributes?.bedrooms,
-                                              numberOfLivingRooms: postListingState.verticalAttributes?.realEstateAttributes?.livingRooms)
-            positionSelected = numberOfRooms.positionIn(allValues: NumberOfRooms.allValues)
+            if let bedrooms = postListingState.verticalAttributes?.realEstateAttributes?.bedrooms,
+                let livingRooms = postListingState.verticalAttributes?.realEstateAttributes?.livingRooms {
+                let numberOfRooms = NumberOfRooms(numberOfBedrooms: bedrooms,
+                                                  numberOfLivingRooms: livingRooms)
+                positionSelected = numberOfRooms.positionIn(allValues: NumberOfRooms.allValues)
+            }
         case .bathrooms:
             if let bathrooms = postListingState.verticalAttributes?.realEstateAttributes?.bathrooms {
                 positionSelected = NumberOfBathrooms(rawValue:bathrooms)?.position
@@ -463,8 +466,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                 value = NumberOfBedrooms(rawValue: bedrooms)?.summaryLocalizedString
             }
         case .rooms:
-            if let bedrooms = postListingState.verticalAttributes?.realEstateAttributes?.bedrooms {
-                value = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: postListingState.verticalAttributes?.realEstateAttributes?.livingRooms).localizedString
+            if let bedrooms = postListingState.verticalAttributes?.realEstateAttributes?.bedrooms,
+                let livingRooms = postListingState.verticalAttributes?.realEstateAttributes?.livingRooms {
+                value = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms).localizedString
             }
         case .bathrooms:
             if let bathrooms = postListingState.verticalAttributes?.realEstateAttributes?.bathrooms {
@@ -472,7 +476,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             }
         case .sizeSquareMeters:
             if let size = postListingState.sizeSquareMeters {
-                value = String(size) + Constants.sizeSquareMetersUnit
+                value = String(size).addSquareMeterUnit
             }
         case .location:
             value = retrieveCurrentLocationSelected()

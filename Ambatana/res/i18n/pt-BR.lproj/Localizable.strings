@@ -829,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "Post property for sale or rent in our new Real Estate category";
 "real_estate_type_property_apartment" = "Apartment";
 "real_estate_type_property_commercial" = "Commercial";
-"real_estate_type_property_flat" = "Flat / Residence";
+"real_estate_type_property_flat" = "Flat";
 "real_estate_type_property_house" = "House";
 "real_estate_type_property_land" = "Land";
 "real_estate_type_property_others" = "Other";

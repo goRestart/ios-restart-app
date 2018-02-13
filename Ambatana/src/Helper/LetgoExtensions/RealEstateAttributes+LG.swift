@@ -28,7 +28,7 @@ extension RealEstateAttributes {
         }
         
         var roomsString: String?
-        if let _ = bedrooms, let _ = livingRooms {
+        if let bedrooms = bedrooms, let livingRooms = livingRooms {
             let numberOfRooms = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms)
             roomsString = numberOfRooms.localizedString
         }
@@ -72,7 +72,8 @@ extension RealEstateAttributes {
                 tags.append(bathroomsTag)
             }
         case .turkish:
-            if let numberOfRoomsTag = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms).localizedString {
+            if let bedrooms = bedrooms, let livingRooms = livingRooms {
+                let numberOfRoomsTag = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms).localizedString
                 tags.append(numberOfRoomsTag)
             }
             if let sizeSquareMeters = sizeSquareMeters {

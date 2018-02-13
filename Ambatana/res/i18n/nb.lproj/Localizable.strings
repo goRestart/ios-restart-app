@@ -829,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "Post property for sale or rent in our new Real Estate category";
 "real_estate_type_property_apartment" = "Leilighet";
 "real_estate_type_property_commercial" = "Kommersielt";
-"real_estate_type_property_flat" = "Leilighet / bolig";
+"real_estate_type_property_flat" = "Leilighet";
 "real_estate_type_property_house" = "Enebolig";
 "real_estate_type_property_land" = "Tomt";
 "real_estate_type_property_others" = "Annet";
