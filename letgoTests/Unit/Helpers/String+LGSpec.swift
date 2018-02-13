@@ -15,45 +15,6 @@ class StringLGSpec: QuickSpec {
         var sut: String!
 
         describe("String + LG methods") {
-            context("hasEmojis") {
-                describe("contains unicodes but not emojis") {
-                    beforeEach {
-                        sut = "abz12309ASDFѶڅ ࠄDਇቔḶ₸⍓♶㈶힘𐭄AS𓁦"
-                    }
-                    it("Doesn't detect any emoji") {
-                        expect(sut.hasEmojis()) == false
-                    }
-                }
-                describe("contains unicodes with emojis") {
-                    beforeEach {
-                        sut = "abz123🇹🇬6️⃣09AS👍DFѶڅ ࠄDਇቔḶ₸⍓♶㈶힘𐭄AS𓁦✍🏿"
-                    }
-                    it("Detects emojis") {
-                        expect(sut.hasEmojis()) == true
-                    }
-                }
-            }
-            context("stringByRemovingEmoji") {
-                var withoutEmojis: String!
-                describe("contains unicodes but not emojis") {
-                    beforeEach {
-                        sut = "abz12309ASDFѶڅ ࠄDਇቔḶ₸⍓♶㈶힘𐭄AS𓁦"
-                        withoutEmojis = sut.stringByRemovingEmoji()
-                    }
-                    it("leaves string as it is") {
-                        expect(sut) == withoutEmojis
-                    }
-                }
-                describe("contains unicodes with emojis") {
-                    beforeEach {
-                        sut = "abz123🇹🇬6️⃣09AS👍DFѶڅ ࠄDਇቔḶ₸⍓♶㈶힘𐭄AS𓁦✍🏿"
-                        withoutEmojis = sut.stringByRemovingEmoji()
-                    }
-                    it("removes emojis from the string") {
-                        expect(withoutEmojis) == "abz12309ASDFѶڅ ࠄDਇቔḶ₸⍓♶㈶힘𐭄AS𓁦"
-                    }
-                }
-            }
             context("isEmail") {
                 describe("correct email") {
                     beforeEach {

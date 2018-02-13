@@ -1646,6 +1646,7 @@ class TrackerEventSpec: QuickSpec {
                         .set(typePage: .listingDetail)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
+                        .set(containsEmoji: true)
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
                                                     feedPosition: .position(index:1))
@@ -1708,6 +1709,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains feed-position") {
                     let feedPosition = sut.params!.stringKeyParams["feed-position"] as? String
                     expect(feedPosition).to(equal("2"))
+                }
+                it("has contains emoji") {
+                    let emoji = sut.params!.stringKeyParams["contain-emoji"] as? Bool
+                    expect(emoji) == true
                 }
                 describe("text message") {
                     beforeEach {
@@ -1800,6 +1805,7 @@ class TrackerEventSpec: QuickSpec {
                         .set(typePage: .listingDetail)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
+                        .set(containsEmoji: false)
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
                                                     feedPosition: .position(index:1))
@@ -1850,6 +1856,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains feed-position") {
                     let feedPosition = sut.params!.stringKeyParams["feed-position"] as? String
                     expect(feedPosition).to(equal("2"))
+                }
+                it("has contains emoji") {
+                    let emoji = sut.params!.stringKeyParams["contain-emoji"] as? Bool
+                    expect(emoji) == false
                 }
                 describe("text message") {
                     beforeEach {
@@ -3165,6 +3175,7 @@ class TrackerEventSpec: QuickSpec {
                         .set(typePage: .chat)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
+                        .set(containsEmoji: false)
                     sut = TrackerEvent.userMessageSent(info: sendMessageInfo)
                 }
                 it("has its event name") {
@@ -3208,6 +3219,10 @@ class TrackerEventSpec: QuickSpec {
                 it("has free-posting param") {
                     let freePosting = sut.params!.stringKeyParams["free-posting"] as? String
                     expect(freePosting) == "false"
+                }
+                it("has contains emoji") {
+                    let emoji = sut.params!.stringKeyParams["contain-emoji"] as? Bool
+                    expect(emoji) == false
                 }
                 describe("text message") {
                     beforeEach {
@@ -3296,6 +3311,7 @@ class TrackerEventSpec: QuickSpec {
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
                         .set(error: error)
+                        .set(containsEmoji: false)
                     sut = TrackerEvent.userMessageSentError(info: sendMessageInfo)
                 }
                 it("has its event name") {
@@ -3347,6 +3363,10 @@ class TrackerEventSpec: QuickSpec {
                 it("has error-details param") {
                     let value = sut.params!.stringKeyParams["error-details"] as? String
                     expect(value) == "404"
+                }
+                it("has contains emoji") {
+                    let emoji = sut.params!.stringKeyParams["contain-emoji"] as? Bool
+                    expect(emoji) == false
                 }
                 describe("text message") {
                     beforeEach {
