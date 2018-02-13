@@ -77,7 +77,7 @@ def shared_pods
 
     pod "KeychainSwift",        "10.0.0"
     
-    pod 'lottie-ios',           "2.5.0"
+    pod 'lottie-ios',           "2.5.0" # Obj-c
 
 end
 
