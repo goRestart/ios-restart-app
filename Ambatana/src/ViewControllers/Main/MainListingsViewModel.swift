@@ -834,7 +834,9 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         var totalListings = listings
         totalListings = addMostSearchedItems(to: totalListings)
         totalListings = addCollections(to: totalListings, page: page)
-        totalListings = addAds(to: totalListings, page: page)
+        if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
+            totalListings = addAds(to: totalListings, page: page)
+        }
         return totalListings
     }
 
