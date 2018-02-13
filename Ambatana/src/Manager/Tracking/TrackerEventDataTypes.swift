@@ -346,7 +346,7 @@ enum EventParameterName: String {
     case rooms                = "rooms-number"
     case openField            = "open-field"
     case chatsDeleted         = "chats-deleted"
-    case chatContainEmoji     = "contain-emoji"
+    case chatContainsEmoji    = "contain-emoji"
     case inactiveConversations = "inactive-conversations"
     case mostSearchedButton   = "most-searched-button"
 }

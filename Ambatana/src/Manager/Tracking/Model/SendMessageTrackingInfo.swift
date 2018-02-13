@@ -34,7 +34,7 @@ class SendMessageTrackingInfo {
     
     @discardableResult
     func set(containsEmoji: Bool) -> Self {
-        params[.chatContainEmoji] = containsEmoji
+        params[.chatContainsEmoji] = containsEmoji
         return self
     }
 

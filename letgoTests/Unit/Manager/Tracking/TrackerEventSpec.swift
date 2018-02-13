@@ -1646,7 +1646,7 @@ class TrackerEventSpec: QuickSpec {
                         .set(typePage: .listingDetail)
                         .set(sellerRating: 4)
                         .set(isBumpedUp: .trueParameter)
-                        .set(containsEmoji: false)
+                        .set(containsEmoji: true)
                     sut = TrackerEvent.firstMessage(info: sendMessageInfo,
                                                     listingVisitSource: .listingList,
                                                     feedPosition: .position(index:1))
@@ -1712,7 +1712,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("has contains emoji") {
                     let emoji = sut.params!.stringKeyParams["contain-emoji"] as? Bool
-                    expect(emoji) == false
+                    expect(emoji) == true
                 }
                 describe("text message") {
                     beforeEach {
