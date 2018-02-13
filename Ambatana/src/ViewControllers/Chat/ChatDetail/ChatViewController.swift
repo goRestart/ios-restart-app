@@ -126,12 +126,7 @@ class ChatViewController: TextViewController {
     }
     
     override func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if featureFlags.allowEmojisOnChat.isActive {
-            return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
-        } else {
-            guard !text.containsEmoji else { return false }
-            return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
-        }
+        return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
     }
 
     
