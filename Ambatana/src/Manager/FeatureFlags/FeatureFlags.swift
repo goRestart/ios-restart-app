@@ -46,7 +46,6 @@ protocol FeatureFlaggeable: class {
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var realEstateImprovements: RealEstateImprovements { get }
     var realEstatePromos: RealEstatePromos { get }
-    var allowEmojisOnChat: AllowEmojisOnChat { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
@@ -119,10 +118,6 @@ extension RealEstateImprovements {
 
 extension RealEstatePromos {
     var isActive: Bool { get { return self == .control || self == .baseline } }
-}
-
-extension AllowEmojisOnChat {
-    var isActive: Bool { get { return self == .active } }
 }
 
 extension ShowAdsInFeedWithRatio {
@@ -373,13 +368,6 @@ class FeatureFlags: FeatureFlaggeable {
         return RealEstatePromos.fromPosition(abTests.realEstatePromos.value)
     }
     
-    var allowEmojisOnChat: AllowEmojisOnChat {
-        if Bumper.enabled {
-            return Bumper.allowEmojisOnChat
-        }
-        return AllowEmojisOnChat.fromPosition(abTests.allowEmojisOnChat.value)
-    }
-
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
         if Bumper.enabled {
             return Bumper.showAdsInFeedWithRatio
