@@ -192,15 +192,6 @@ extension String {
         return slugId
     }
     
-    func stringByRemovingEmoji() -> String {
-        return String(self.filter { !$0.isEmoji })
-    }
-    
-    func hasEmojis() -> Bool {
-        let emojis = unicodeScalars.filter { $0.isEmoji }
-        return emojis.count > 0
-    }
-    
     func trunc(_ length: Int, trailing: String? = "...") -> String {
         guard count > length else { return self }
         let substring = String(self[..<self.index(self.startIndex, offsetBy: length)])

@@ -54,6 +54,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showInactiveConversations: Bool = false
     var mainFeedAspectRatio: MainFeedAspectRatio = .control
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
+    var emojiSizeIncrement: EmojiSizeIncrement = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

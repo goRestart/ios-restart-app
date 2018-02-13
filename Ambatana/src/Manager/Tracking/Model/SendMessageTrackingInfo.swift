@@ -31,6 +31,12 @@ class SendMessageTrackingInfo {
         params[.messageType] = messageType.rawValue
         return self
     }
+    
+    @discardableResult
+    func set(containsEmoji: Bool) -> Self {
+        params[.chatContainsEmoji] = containsEmoji
+        return self
+    }
 
     @discardableResult
     func set(quickAnswerType: EventParameterQuickAnswerType?) -> Self {

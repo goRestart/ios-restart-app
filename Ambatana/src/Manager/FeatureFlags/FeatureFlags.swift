@@ -55,6 +55,7 @@ protocol FeatureFlaggeable: class {
     var mainFeedAspectRatio: MainFeedAspectRatio { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
+    var emojiSizeIncrement: EmojiSizeIncrement { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -433,6 +434,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.showSecurityMeetingChatMessage
         }
         return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
+    }
+    
+    var emojiSizeIncrement: EmojiSizeIncrement {
+        if Bumper.enabled {
+            return Bumper.emojiSizeIncrement
+        }
+        return EmojiSizeIncrement.fromPosition(abTests.emojiSizeIncrement.value)
     }
     
 
