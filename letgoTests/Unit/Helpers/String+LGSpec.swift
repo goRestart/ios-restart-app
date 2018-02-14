@@ -15,45 +15,6 @@ class StringLGSpec: QuickSpec {
         var sut: String!
 
         describe("String + LG methods") {
-            context("hasEmojis") {
-                describe("contains unicodes but not emojis") {
-                    beforeEach {
-                        sut = "abz12309ASDFѶڅ ࠄDਇቔḶ₸⍓♶㈶힘𐭄AS𓁦"
-                    }
-                    it("Doesn't detect any emoji") {
-                        expect(sut.hasEmojis()) == false
-                    }
-                }
-                describe("contains unicodes with emojis") {
-                    beforeEach {
-                        sut = "abz123🇹🇬6️⃣09AS👍DFѶڅ ࠄDਇቔḶ₸⍓♶㈶힘𐭄AS𓁦✍🏿"
-                    }
-                    it("Detects emojis") {
-                        expect(sut.hasEmojis()) == true
-                    }
-                }
-            }
-            context("stringByRemovingEmoji") {
-                var withoutEmojis: String!
-                describe("contains unicodes but not emojis") {
-                    beforeEach {
-                        sut = "abz12309ASDFѶڅ ࠄDਇቔḶ₸⍓♶㈶힘𐭄AS𓁦"
-                        withoutEmojis = sut.stringByRemovingEmoji()
-                    }
-                    it("leaves string as it is") {
-                        expect(sut) == withoutEmojis
-                    }
-                }
-                describe("contains unicodes with emojis") {
-                    beforeEach {
-                        sut = "abz123🇹🇬6️⃣09AS👍DFѶڅ ࠄDਇቔḶ₸⍓♶㈶힘𐭄AS𓁦✍🏿"
-                        withoutEmojis = sut.stringByRemovingEmoji()
-                    }
-                    it("removes emojis from the string") {
-                        expect(withoutEmojis) == "abz12309ASDFѶڅ ࠄDਇቔḶ₸⍓♶㈶힘𐭄AS𓁦"
-                    }
-                }
-            }
             context("isEmail") {
                 describe("correct email") {
                     beforeEach {
@@ -332,6 +293,40 @@ class StringLGSpec: QuickSpec {
                 }
                 it ("returns false if there's any non-digit - others") {
                     expect("123 123".isOnlyDigits) == false
+                }
+            }
+            context("isPhoneNumber") {
+                describe("correct US phone number") {
+                    beforeEach {
+                        sut = "1234567890"
+                    }
+                    it("returns true") {
+                        expect(sut.isPhoneNumber) == true
+                    }
+                }
+                describe("too many digits") {
+                    beforeEach {
+                        sut = "12345678901"
+                    }
+                    it("returns false") {
+                        expect(sut.isPhoneNumber) == false
+                    }
+                }
+                describe("not enough digits ") {
+                    beforeEach {
+                        sut = "12345678"
+                    }
+                    it("returns false") {
+                        expect(sut.isPhoneNumber) == false
+                    }
+                }
+                describe("has unaccepted characters") {
+                    beforeEach {
+                        sut = "+123456789"
+                    }
+                    it("returns false") {
+                        expect(sut.isPhoneNumber) == false
+                    }
                 }
             }
         }

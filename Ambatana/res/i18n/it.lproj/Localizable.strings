@@ -829,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "Pubblica proprietà in vendita o in affitto nella nostra nuova categoria Immobili";
 "real_estate_type_property_apartment" = "Appartamento";
 "real_estate_type_property_commercial" = "Fondo commerciale";
-"real_estate_type_property_flat" = "Appartamento / Residence";
+"real_estate_type_property_flat" = "Appartamento";
 "real_estate_type_property_house" = "Intera casa";
 "real_estate_type_property_land" = "Terreno";
 "real_estate_type_property_others" = "Altro";

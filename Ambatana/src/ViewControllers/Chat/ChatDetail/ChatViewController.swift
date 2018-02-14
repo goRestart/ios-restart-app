@@ -126,12 +126,7 @@ class ChatViewController: TextViewController {
     }
     
     override func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if featureFlags.allowEmojisOnChat.isActive {
-            return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
-        } else {
-            guard !text.hasEmojis() else { return false }
-            return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
-        }
+        return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
     }
 
     
@@ -275,11 +270,12 @@ class ChatViewController: TextViewController {
         setTableBottomMargin(total, animated: animated)
     }
 
-    fileprivate func setupProfessionalSellerBanner() {
+    fileprivate func setupProfessionalSellerBannerWithPhone(phoneNumber: String?) {
         var action: UIAction? = nil
         var buttonIcon: UIImage? = nil
-        if viewModel.professionalBannerHasCallAction {
-            action = UIAction(interface: .button(LGLocalizedString.chatProfessionalBannerButtonTitle, .primary(fontSize: .small)),
+        if let phone = phoneNumber, phone.isPhoneNumber, viewModel.professionalBannerHasCallAction {
+            action = UIAction(interface: .button(LGLocalizedString.chatProfessionalBannerButtonTitle,
+                                                 .primary(fontSize: .small)),
                               action: { [weak self] in
                                 self?.viewModel.professionalSellerBannerActionButtonTapped()
             })
@@ -555,8 +551,8 @@ fileprivate extension ChatViewController {
 
         showProfessionalBanner.asObservable().bind { [weak self] (isPro, phoneNum) in
             guard let strongSelf = self else { return }
-            guard let phone = phoneNum, phone.isPhoneNumber && isPro else { return }
-            strongSelf.setupProfessionalSellerBanner()
+            guard isPro else { return }
+            strongSelf.setupProfessionalSellerBannerWithPhone(phoneNumber: phoneNum)
             strongSelf.showProfessionalSellerBanner()
         }.disposed(by: disposeBag)
     }
@@ -662,7 +658,7 @@ extension ChatViewController: ChatViewModelDelegate {
                                       preferredStyle: .alert)
 
         alert.addTextField { textField in
-            textField.keyboardType = .phonePad
+            textField.keyboardType = .numberPad
         }
 
         let confirmAction = UIAlertAction(title: LGLocalizedString.commonConfirm, style: .default) { [weak self] _ in

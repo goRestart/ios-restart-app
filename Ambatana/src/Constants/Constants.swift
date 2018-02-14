@@ -155,4 +155,6 @@ struct Constants {
     static let adInFeedCustomTargetingKey = "pos_var"
     static let newUserTimeThresholdForAds = TimeInterval.make(days: 15)
 
+    // Professional Dealers
+    static let usaPhoneNumberDigitsCount = 10
 }

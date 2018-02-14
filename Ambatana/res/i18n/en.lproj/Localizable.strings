@@ -2340,7 +2340,7 @@
 "real_estate_type_property_others" = "Other";
 
 // Real Estate property type flat
-"real_estate_type_property_flat" = "Flat / Residence";
+"real_estate_type_property_flat" = "Flat";
 
 // Real Estate property type land
 "real_estate_type_property_land" = "Land";

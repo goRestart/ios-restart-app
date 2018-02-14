@@ -829,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "Yeni Emlak kategorimizde satılık veya kiralık emlak ilanı yayınlayabilirsin";
 "real_estate_type_property_apartment" = "Daire";
 "real_estate_type_property_commercial" = "İş yeri";
-"real_estate_type_property_flat" = "Daire / Residence";
+"real_estate_type_property_flat" = "Daire";
 "real_estate_type_property_house" = "Müstakil Ev";
 "real_estate_type_property_land" = "Arsa";
 "real_estate_type_property_others" = "Diğer";

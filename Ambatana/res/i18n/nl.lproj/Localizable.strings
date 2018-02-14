@@ -829,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "Plaats onroerend goed te koop of te huur in onze nieuwe categorie Onroerend Goed";
 "real_estate_type_property_apartment" = "Appartement";
 "real_estate_type_property_commercial" = "Commercial";
-"real_estate_type_property_flat" = "Flat / Residentie";
+"real_estate_type_property_flat" = "Flat";
 "real_estate_type_property_house" = "Huis";
 "real_estate_type_property_land" = "Grond";
 "real_estate_type_property_others" = "Overig";

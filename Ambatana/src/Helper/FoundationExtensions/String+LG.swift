@@ -192,15 +192,6 @@ extension String {
         return slugId
     }
     
-    func stringByRemovingEmoji() -> String {
-        return String(self.filter { !$0.isEmoji })
-    }
-    
-    func hasEmojis() -> Bool {
-        let emojis = unicodeScalars.filter { $0.isEmoji }
-        return emojis.count > 0
-    }
-    
     func trunc(_ length: Int, trailing: String? = "...") -> String {
         guard count > length else { return self }
         let substring = String(self[..<self.index(self.startIndex, offsetBy: length)])
@@ -312,16 +303,14 @@ extension String {
     }
 
     var isPhoneNumber: Bool {
-        do {
-            let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.phoneNumber.rawValue)
-            let matches = detector.matches(in: self, options: [], range: NSMakeRange(0, self.count))
-            if let res = matches.first {
-                return res.resultType == .phoneNumber && res.range.location == 0 && res.range.length == self.count
-            } else {
-                return false
-            }
-        } catch {
+        let noPlusOrHyphenString = self.components(separatedBy: ["+","-"]).joined(separator: "")
+        guard let _ = Int(noPlusOrHyphenString) else {
             return false
         }
+        return noPlusOrHyphenString.count == Constants.usaPhoneNumberDigitsCount
+    }
+    
+    var addSquareMeterUnit: String {
+        return self + Constants.sizeSquareMetersUnit
     }
 }

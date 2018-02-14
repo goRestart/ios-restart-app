@@ -43,7 +43,6 @@ class ABTests {
     let realEstateImprovements = IntABDynamicVar(key: "20180103RealEstateImprovements", defaultValue: 0, abGroupType: .legacyABTests)
     let mostSearchedDemandedItems = IntABDynamicVar(key: "20180104MostSearchedDemandedItems", defaultValue: 0, abGroupType: .retention)
     let realEstatePromos = IntABDynamicVar(key: "20180108RealEstatePromos", defaultValue: 0, abGroupType: .legacyABTests)
-    let allowEmojisOnChat = IntABDynamicVar(key: "20180109AllowEmojisOnChat", defaultValue: 0, abGroupType: .legacyABTests)
     let showAdsInFeedWithRatio = IntABDynamicVar(key: "20180111ShowAdsInFeedWithRatio", defaultValue: 0, abGroupType: .legacyABTests)
     let removeCategoryWhenClosingPosting = IntABDynamicVar(key: "20180126RemoveCategoryWhenClosingPosting", defaultValue: 0, abGroupType: .legacyABTests)
     let realEstateNewCopy = IntABDynamicVar(key: "20180126RealEstateNewCopy", defaultValue: 0, abGroupType: .realEstate)
@@ -53,7 +52,8 @@ class ABTests {
     let increaseMinPriceBumps  = IntABDynamicVar(key: "20180208IncreaseMinPriceBumps", defaultValue: 0, abGroupType: .money)
     let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20180207ShowSecurityMeetingChatMessage", defaultValue: 0, abGroupType: .chat)
     let noAdsInFeedForNewUsers = IntABDynamicVar(key: "20180212NoAdsInFeedForNewUsers", defaultValue: 0, abGroupType: .money)
-
+    let emojiSizeIncrement = IntABDynamicVar(key: "20180212EmojiSizeIncrement", defaultValue: 0, abGroupType: .chat)
+    
     init() {
     }
     
@@ -88,7 +88,6 @@ class ABTests {
         result.append(realEstateImprovements)
         result.append(mostSearchedDemandedItems)
         result.append(realEstatePromos)
-        result.append(allowEmojisOnChat)
         result.append(showAdsInFeedWithRatio)
         result.append(removeCategoryWhenClosingPosting)
         result.append(realEstateNewCopy)
@@ -98,6 +97,7 @@ class ABTests {
         result.append(increaseMinPriceBumps)
         result.append(showSecurityMeetingChatMessage)
         result.append(noAdsInFeedForNewUsers)
+        result.append(emojiSizeIncrement)
         
         return result
     }

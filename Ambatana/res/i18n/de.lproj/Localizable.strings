@@ -829,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "Stelle Miet- oder Kaufimmobilien in unserer neuen Kategorie für Immobilien ein";
 "real_estate_type_property_apartment" = "Wohnung";
 "real_estate_type_property_commercial" = "Werbung";
-"real_estate_type_property_flat" = "Wohnung / Wohnhaus";
+"real_estate_type_property_flat" = "Wohnung";
 "real_estate_type_property_house" = "Haus";
 "real_estate_type_property_land" = "Grundstück";
 "real_estate_type_property_others" = "Andere";
