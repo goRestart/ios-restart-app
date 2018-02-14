@@ -162,7 +162,7 @@
     },
     {
         "name": "NoAdsInFeedForNewUsers",
-        "values": ["control", "baseline", "AdsEverywhere", "NoAdsAtAll", "AdsOnlyInFeed"],
+        "values": ["control", "baseline", "AdsEverywhere", "NoAdsForNewUsers", "AdsForNewUsersOnlyInFeed"],
         "description": "Change logic for showing ads to new users (2 weeks old)"
     }
 ]

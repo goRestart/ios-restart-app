@@ -699,9 +699,9 @@ enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
 }
 
 enum NoAdsInFeedForNewUsers: String, BumperFeature  {
-    case control, baseline, adsEverywhere, noAdsAtAll, adsOnlyInFeed
+    case control, baseline, adsEverywhere, noAdsForNewUsers, adsForNewUsersOnlyInFeed
     static var defaultValue: String { return NoAdsInFeedForNewUsers.control.rawValue }
-    static var enumValues: [NoAdsInFeedForNewUsers] { return [.control, .baseline, .adsEverywhere, .noAdsAtAll, .adsOnlyInFeed]}
+    static var enumValues: [NoAdsInFeedForNewUsers] { return [.control, .baseline, .adsEverywhere, .noAdsForNewUsers, .adsForNewUsersOnlyInFeed]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Change logic for showing ads to new users (2 weeks old)" } 
     static func fromPosition(_ position: Int) -> NoAdsInFeedForNewUsers {
@@ -709,8 +709,8 @@ enum NoAdsInFeedForNewUsers: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .adsEverywhere
-            case 3: return .noAdsAtAll
-            case 4: return .adsOnlyInFeed
+            case 3: return .noAdsForNewUsers
+            case 4: return .adsForNewUsersOnlyInFeed
             default: return .control
         }
     }
