@@ -4231,6 +4231,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
+                    product.status = .pending
                     sut = TrackerEvent.listingBumpUpComplete(.product(product), price: .free, type: .free, restoreRetriesCount: 8,
                                                              network: .facebook, transactionStatus: .purchasingPurchased,
                                                              storeProductId: nil, isPromotedBump: .falseParameter)
