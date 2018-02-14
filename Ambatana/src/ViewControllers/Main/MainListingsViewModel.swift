@@ -1457,19 +1457,6 @@ extension NoAdsInFeedForNewUsers {
         guard self.ratio != 0 else { return "" }
         let numberOfAd = ((position - Constants.adInFeedInitialPosition)/self.ratio) + 1
         return "var_c_pos_\(numberOfAd)"
-
-//        guard self.ratio != 0 else { return "" }
-//        let numberOfAd = ((position - Constants.adInFeedInitialPosition)/self.ratio) + 1
-//        switch self {
-//        case .control, .baseline:
-//            return ""
-//        case .ten:
-//            return "var_a_pos_\(numberOfAd)"
-//        case .fifteen:
-//            return "var_b_pos_\(numberOfAd)"
-//        case .twenty:
-//            return "var_c_pos_\(numberOfAd)"
-//        }
     }
 }
 
