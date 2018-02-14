@@ -83,6 +83,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     }
     
     @objc func onNavbarReset() {
+        resignFirstResponder()
         viewModel.resetFilters()
     }
     
@@ -168,6 +169,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard indexPath.section < viewModel.sections.count else { return .zero }
         switch viewModel.sections[indexPath.section] {
         case .distance:
             return CGSize(width: view.bounds.width, height: Layout.Height.distance)
