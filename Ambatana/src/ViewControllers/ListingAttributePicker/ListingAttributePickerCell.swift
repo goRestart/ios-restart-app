@@ -43,6 +43,13 @@ final class ListingAttributePickerCell: UITableViewCell, ReusableCell {
             case .dark: return .primaryColor
             }
         }
+        
+        var gradientEnabled: Bool {
+            switch self {
+            case .dark: return false
+            case .light: return true
+            }
+        }
     }
     
     fileprivate let checkMarkSize: CGSize = CGSize(width: 17, height: 12)
