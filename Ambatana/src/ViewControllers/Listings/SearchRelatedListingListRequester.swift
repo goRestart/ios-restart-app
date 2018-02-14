@@ -179,6 +179,9 @@ fileprivate extension SearchRelatedListingListRequester {
         params.numberOfBathrooms = filters?.realEstateNumberOfBathrooms?.rawValue
         params.numberOfLivingRooms = filters?.realEstateNumberOfRooms?.numberOfLivingRooms
         
+        params.sizeSquareMetersFrom = filters?.realEstateSizeRange.min
+        params.sizeSquareMetersTo = filters?.realEstateSizeRange.max
+        
         if let priceRange = filters?.priceRange {
             switch priceRange {
             case .freePrice:
