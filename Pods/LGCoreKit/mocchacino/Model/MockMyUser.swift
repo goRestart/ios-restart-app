@@ -13,4 +13,5 @@ public struct MockMyUser: MyUser {
     public var email: String?
     public var location: LGLocation?
     public var localeIdentifier: String?
+    public var creationDate: Date?
 }

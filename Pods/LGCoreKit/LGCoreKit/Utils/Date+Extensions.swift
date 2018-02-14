@@ -16,4 +16,20 @@ extension Date {
         let seconds = millisecondsValue/1000
         return Date(timeIntervalSince1970: seconds)
     }
+
+    static func userCreationDateFrom(string: String?) -> Date? {
+        guard let stringDate = string else { return nil }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd"
+        let date = formatter.date(from: stringDate)
+        return date
+    }
+
+    static func userCreationStringFrom(date: Date?) -> String? {
+        guard let creationDate = date else { return nil }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd"
+        let creationDateString = formatter.string(from: creationDate)
+        return creationDateString
+    }
 }
