@@ -45,6 +45,7 @@ extension Bumper  {
         flags.append(IncreaseMinPriceBumps.self)
         flags.append(ShowSecurityMeetingChatMessage.self)
         flags.append(EmojiSizeIncrement.self)
+        flags.append(ShowBumpUpBannerOnNotValidatedListings.self)
         Bumper.initialize(flags)
     } 
 
@@ -206,6 +207,11 @@ extension Bumper  {
     static var emojiSizeIncrement: EmojiSizeIncrement {
         guard let value = Bumper.value(for: EmojiSizeIncrement.key) else { return .control }
         return EmojiSizeIncrement(rawValue: value) ?? .control 
+    }
+
+    static var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
+        guard let value = Bumper.value(for: ShowBumpUpBannerOnNotValidatedListings.key) else { return .control }
+        return ShowBumpUpBannerOnNotValidatedListings(rawValue: value) ?? .control 
     } 
 }
 
@@ -683,6 +689,22 @@ enum EmojiSizeIncrement: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Increase the size of emojis the text is only emojis and < 4" } 
     static func fromPosition(_ position: Int) -> EmojiSizeIncrement {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShowBumpUpBannerOnNotValidatedListings: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowBumpUpBannerOnNotValidatedListings.control.rawValue }
+    static var enumValues: [ShowBumpUpBannerOnNotValidatedListings] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show the bump banner for listings pending validation" } 
+    static func fromPosition(_ position: Int) -> ShowBumpUpBannerOnNotValidatedListings {
         switch position { 
             case 0: return .control
             case 1: return .baseline
