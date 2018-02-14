@@ -52,7 +52,8 @@ class ABTests {
     let increaseMinPriceBumps  = IntABDynamicVar(key: "20180208IncreaseMinPriceBumps", defaultValue: 0, abGroupType: .money)
     let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20180207ShowSecurityMeetingChatMessage", defaultValue: 0, abGroupType: .chat)
     let emojiSizeIncrement = IntABDynamicVar(key: "20180212EmojiSizeIncrement", defaultValue: 0, abGroupType: .chat)
-    
+    let showBumpUpBannerOnNotValidatedListings = IntABDynamicVar(key: "20180214showBumpUpBannerOnNotValidatedListings", defaultValue: 0, abGroupType: .money)
+
     init() {
     }
     
@@ -96,6 +97,7 @@ class ABTests {
         result.append(increaseMinPriceBumps)
         result.append(showSecurityMeetingChatMessage)
         result.append(emojiSizeIncrement)
+        result.append(showBumpUpBannerOnNotValidatedListings)
         
         return result
     }
