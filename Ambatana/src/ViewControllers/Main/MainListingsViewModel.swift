@@ -141,17 +141,26 @@ class MainListingsViewModel: BaseViewModel {
             }
         }
         
-        if let propertyType = filters.realEstatePropertyType {
-            resultTags.append(.realEstatePropertyType(propertyType))
-        }
-        if let offerType = filters.realEstateOfferType {
-            resultTags.append(.realEstateOfferType(offerType))
-        }
-        if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
-            resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
-        }
-        if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
-            resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
+        if filters.selectedCategories.contains(.realEstate) {
+            if let propertyType = filters.realEstatePropertyType {
+                resultTags.append(.realEstatePropertyType(propertyType))
+            }
+            if let offerType = filters.realEstateOfferType {
+                resultTags.append(.realEstateOfferType(offerType))
+            }
+            
+            if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
+                resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
+            }
+            if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
+                resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
+            }
+            if let numberOfRooms = filters.realEstateNumberOfRooms {
+                resultTags.append(.realEstateNumberOfRooms(numberOfRooms))
+            }
+            if filters.realEstateSizeRange.min != nil || filters.realEstateSizeRange.max != nil {
+                resultTags.append(.sizeSquareMetersRange(from: filters.realEstateSizeRange.min, to: filters.realEstateSizeRange.max))
+            }
         }
 
         return resultTags
@@ -402,6 +411,9 @@ class MainListingsViewModel: BaseViewModel {
         var realEstateOfferType: RealEstateOfferType? = nil
         var realEstateNumberOfBedrooms: NumberOfBedrooms? = nil
         var realEstateNumberOfBathrooms: NumberOfBathrooms? = nil
+        var realEstateNumberOfRooms: NumberOfRooms? = nil
+        var realEstateSizeSquareMetersMin: Int? = nil
+        var realEstateSizeSquareMetersMax: Int? = nil
 
         for filterTag in tags {
             switch filterTag {
@@ -443,6 +455,11 @@ class MainListingsViewModel: BaseViewModel {
                 realEstateNumberOfBedrooms = numberOfBedrooms
             case .realEstateNumberOfBathrooms(let numberOfBathrooms):
                 realEstateNumberOfBathrooms = numberOfBathrooms
+            case .realEstateNumberOfRooms(let numberOfRooms):
+                realEstateNumberOfRooms = numberOfRooms
+            case .sizeSquareMetersRange(let minSize, let maxSize):
+                realEstateSizeSquareMetersMin = minSize
+                realEstateSizeSquareMetersMax = maxSize
             }
         }
 
@@ -513,6 +530,9 @@ class MainListingsViewModel: BaseViewModel {
         filters.realEstateOfferType = realEstateOfferType
         filters.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
         filters.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
+        
+        filters.realEstateNumberOfRooms = realEstateNumberOfRooms
+        filters.realEstateSizeRange = SizeRange(min: realEstateSizeSquareMetersMin, max: realEstateSizeSquareMetersMax)
         
         updateCategoriesHeader()
         updateRealEstateBanner()

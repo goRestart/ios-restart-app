@@ -87,9 +87,8 @@ class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UITextFi
         phoneTextField.textColor = UIColor.white
         phoneTextField.textAlignment = .left
         phoneTextField.tintColor = UIColor.primaryColor
-        phoneTextField.keyboardType = UIKeyboardType.phonePad
+        phoneTextField.keyboardType = .numberPad
         phoneTextField.delegate = self
-
 
         sendPhoneButton.frame = CGRect(x: 0, y: 0, width: 0, height: Metrics.buttonHeight)
         sendPhoneButton.setStyle(.primary(fontSize: .medium))

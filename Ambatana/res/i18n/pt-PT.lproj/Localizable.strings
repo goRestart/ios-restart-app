@@ -829,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "Publique propriedades para venda ou arrendamento na nossa nova categoria Imobiliário";
 "real_estate_type_property_apartment" = "Apartamento";
 "real_estate_type_property_commercial" = "Comércio";
-"real_estate_type_property_flat" = "Apartamento / Residência";
+"real_estate_type_property_flat" = "Apartamento";
 "real_estate_type_property_house" = "Moradia";
 "real_estate_type_property_land" = "Terreno";
 "real_estate_type_property_others" = "Outro";

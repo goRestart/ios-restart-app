@@ -829,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "Annonsera ut bostäder till salu eller för uthyrning i vår nya Bostadskategori";
 "real_estate_type_property_apartment" = "Lägenhet";
 "real_estate_type_property_commercial" = "Företagslokal";
-"real_estate_type_property_flat" = "Lägenhet / Boende";
+"real_estate_type_property_flat" = "Lägenhet";
 "real_estate_type_property_house" = "Hus";
 "real_estate_type_property_land" = "Mark";
 "real_estate_type_property_others" = "Annat";

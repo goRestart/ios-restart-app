@@ -435,7 +435,12 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     
     func realEstateNumberOfRoomsButtonPressed() {
         let attributeValues = NumberOfRooms.allValues
-        let values = attributeValues.flatMap { $0.localizedString }
+        let values: [String] = attributeValues.flatMap { $0.localizedString }
+        var selectedAttribute: String? = nil
+        if let bedrooms = realEstateNumberOfBedrooms.value, let livingRooms = realEstateNumberOfLivingRooms.value {
+            selectedAttribute = NumberOfRooms(numberOfBedrooms: bedrooms,
+                          numberOfLivingRooms: livingRooms).localizedString
+        }
         
         let selectionUpdateblock: ((Int?) -> Void) = { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
@@ -448,8 +453,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         }
         let vm = ListingAttributePickerViewModel(title: LGLocalizedString.realEstateRoomsTitle,
                                                  attributes: values,
-                                                 selectedAttribute: NumberOfRooms(numberOfBedrooms: realEstateNumberOfBedrooms.value,
-                                                                                  numberOfLivingRooms: realEstateNumberOfLivingRooms.value).localizedString,
+                                                 selectedAttribute: selectedAttribute,
                                                  selectionUpdate: selectionUpdateblock)
         
         navigator?.openListingAttributePicker(viewModel: vm)
@@ -586,6 +590,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         let bedroomsAndLivingRooms = Observable.combineLatest(realEstateNumberOfBedrooms.asObservable(), realEstateNumberOfLivingRooms.asObservable())
         
         bedroomsAndLivingRooms.asObservable().bind { [weak self] (bedrooms, livingRooms) in
+            guard let bedrooms = bedrooms, let livingRooms = livingRooms else { return }
             self?.realEstateNumberOfRooms.value = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms)
         }.disposed(by: disposeBag)
     }

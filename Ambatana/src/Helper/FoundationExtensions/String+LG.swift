@@ -303,16 +303,14 @@ extension String {
     }
 
     var isPhoneNumber: Bool {
-        do {
-            let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.phoneNumber.rawValue)
-            let matches = detector.matches(in: self, options: [], range: NSMakeRange(0, self.count))
-            if let res = matches.first {
-                return res.resultType == .phoneNumber && res.range.location == 0 && res.range.length == self.count
-            } else {
-                return false
-            }
-        } catch {
+        let noPlusOrHyphenString = self.components(separatedBy: ["+","-"]).joined(separator: "")
+        guard let _ = Int(noPlusOrHyphenString) else {
             return false
         }
+        return noPlusOrHyphenString.count == Constants.usaPhoneNumberDigitsCount
+    }
+    
+    var addSquareMeterUnit: String {
+        return self + Constants.sizeSquareMetersUnit
     }
 }

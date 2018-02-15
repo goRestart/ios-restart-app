@@ -76,9 +76,6 @@ struct Constants {
     // Filters
     static var distanceSliderDefaultPosition = 0
     static let distanceSliderPositions = [0, 1, 10, 20, 30, 100]
-    
-    // App sharing
-    static let facebookAppInvitePreviewImageURL = "http://cdn.letgo.com/static/app-invites-facebook.jpg"
 
     // Pre Permissions
     static let pushPermissionRepeatTime = TimeInterval.make(days: 1)
@@ -153,4 +150,7 @@ struct Constants {
     // Ads
     static let adInFeedInitialPosition = 3
     static let adInFeedCustomTargetingKey = "pos_var"
+
+    // Professional Dealers
+    static let usaPhoneNumberDigitsCount = 10
 }
