@@ -40,7 +40,6 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
         setupUI()
         setupConstraints()
         setupRx()
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -64,6 +63,7 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
         sizeTextField.textColor = UIColor.white
         sizeTextField.autocorrectionType = .no
         sizeTextField.autocapitalizationType = .none
+        sizeTextField.becomeFirstResponder()
         sizeTextField.delegate = self
         
         let tapBackground = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
