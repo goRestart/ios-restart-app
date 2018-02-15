@@ -1469,8 +1469,7 @@ extension MainListingsViewModel: ListingCellDelegate {
 
 extension NoAdsInFeedForNewUsers {
     var ratio: Int {
-        guard self.shouldShowAdsInFeed else { return 0 }
-        return 20
+        return shouldShowAdsInFeed ? 20 : 0
     }
 
     func customTargetingValueFor(position: Int) -> String {
