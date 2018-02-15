@@ -311,6 +311,6 @@ extension String {
     }
     
     var addSquareMeterUnit: String {
-        return self + Constants.sizeSquareMetersUnit
+        return self + " \(Constants.sizeSquareMetersUnit)"
     }
 }

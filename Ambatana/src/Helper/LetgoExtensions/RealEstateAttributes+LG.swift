@@ -35,7 +35,7 @@ extension RealEstateAttributes {
         
         var sizeSquareMetersString: String?
         if let size = sizeSquareMeters {
-            sizeSquareMetersString = String(size) + Constants.sizeSquareMetersUnit
+            sizeSquareMetersString = String(size).addSquareMeterUnit
         }
         
         if let bathroomsRawValue = bathrooms,
@@ -77,7 +77,7 @@ extension RealEstateAttributes {
                 tags.append(numberOfRoomsTag)
             }
             if let sizeSquareMeters = sizeSquareMeters {
-                let sizeSquareMetersTag = String(sizeSquareMeters) + Constants.sizeSquareMetersUnit
+                let sizeSquareMetersTag = String(sizeSquareMeters).addSquareMeterUnit
                 tags.append(sizeSquareMetersTag)
             }
         }
