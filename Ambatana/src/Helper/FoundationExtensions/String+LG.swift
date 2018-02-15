@@ -214,6 +214,13 @@ extension String {
         let urlEncoded = self.addingPercentEncoding(withAllowedCharacters: URLCombinedCharacterSet as CharacterSet)
         return urlEncoded ?? self
     }
+    
+    var percentEncodedForRFC3986: String? {
+        let unreserved = "-._~/?"
+        guard let allowed = NSMutableCharacterSet.alphanumerics as? NSMutableCharacterSet else { return nil }
+        allowed.addCharacters(in: unreserved)
+        return addingPercentEncoding(withAllowedCharacters: allowed as CharacterSet)
+    }
 
     var byWords: [String] {
         var result:[String] = []

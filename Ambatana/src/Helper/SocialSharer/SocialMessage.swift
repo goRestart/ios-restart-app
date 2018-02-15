@@ -152,22 +152,36 @@ extension SocialMessage {
         }
     }
     
-    private func appsFlyerLinkGenerator(_ generator: AppsFlyerLinkGenerator, source: ShareSource?, campaign: String,
-                                controlParameter: String, letgoURLString: String?, fallbackToStore: Bool) -> AppsFlyerLinkGenerator {
+    private func appsFlyerLinkGenerator(_ generator: AppsFlyerLinkGenerator,
+                                        source: ShareSource?,
+                                        campaign: String,
+                                controlParameter: String,
+                                letgoURLString: String?, 
+                                fallbackToStore: Bool) -> AppsFlyerLinkGenerator {
         generator.setCampaign(campaign)
         if let source = source {
             generator.setChannel(source.rawValue)
         }
+        //generator.setDeeplinkPath(controlParameter)
+        generator.setBaseDeeplink(controlParameter)
         generator.addParameterValue(Self.utmSourceValue, forKey: Self.siteIDKey)
-        generator.addParameterValue(controlParameter, forKey: Self.deepLinkPathKey)
+        //generator.addParameterValue(controlParameter, forKey: Self.deepLinkPathKey)
         if var letgoURLString = letgoURLString {
-            let iosURL = fallbackToStore ? addCampaignInfoToString(Constants.appStoreURL, source: source) : letgoURLString
-            let androidURL = fallbackToStore ? addCampaignInfoToString(Constants.playStoreURL, source: source) : letgoURLString
-            letgoURLString = addCampaignInfoToString(letgoURLString, source: source)
-            generator.addParameterValue(letgoURLString, forKey: Self.fallbackURLKey)
-            generator.addParameterValue(letgoURLString, forKey: Self.desktopURLKey)
-            generator.addParameterValue(iosURL, forKey: Self.iosURLKey)
-            generator.addParameterValue(androidURL, forKey: Self.androidURLKey)
+//            let iosURL = fallbackToStore ?
+//                addUtmParamsToURLString(Constants.appStoreURL,
+//                                        source: source,
+//                                        needsPercentEncoding: false) : letgoURLString
+//            let androidURL = fallbackToStore ?
+//                addUtmParamsToURLString(Constants.playStoreURL,
+//                                        source: source,
+//                                        needsPercentEncoding: false) : letgoURLString
+//            letgoURLString = addUtmParamsToURLString(letgoURLString,
+//                                                     source: source,
+//                                                     needsPercentEncoding: false)
+            //generator.addParameterValue(letgoURLString, forKey: Self.fallbackURLKey)
+            //generator.addParameterValue(letgoURLString, forKey: Self.desktopURLKey)
+            //generator.addParameterValue(iosURL, forKey: Self.iosURLKey)
+            //generator.addParameterValue(androidURL, forKey: Self.androidURLKey)
         }
         
         return generator
@@ -176,12 +190,17 @@ extension SocialMessage {
     
     // MARK: - Helpers
     
-    func addCampaignInfoToString(_ string: String, source: ShareSource?) -> String {
+    // Adds campaign, medium and source info to the url or path
+    func addUtmParamsToURLString(_ string: String, source: ShareSource?, needsPercentEncoding: Bool) -> String {
         guard !string.isEmpty else { return "" }
         let mediumValue = source?.rawValue ?? ""
-        return string + "?" + Self.utmCampaignKey + "=" + Self.utmCampaignValue + "&" +
+        let completeURLString = "letgo://" + string + "?" + Self.utmCampaignKey + "=" + Self.utmCampaignValue + "&" +
             Self.utmMediumKey + "=" + mediumValue + "&" +
             Self.utmSourceKey + "=" + Self.utmSourceValue
+        if let percentEncodedURLString = completeURLString.percentEncodedForRFC3986, needsPercentEncoding {
+            return completeURLString
+        }
+        return completeURLString
     }
 }
 
@@ -280,9 +299,12 @@ struct ListingSocialMessage: SocialMessage {
     }
     
     func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
+        let controlParameter = addUtmParamsToURLString("product/"+listingId,
+                                                       source: source,
+                                                       needsPercentEncoding: true)
         retrieveShareURL(source: source,
                          campaign: AppShareSocialMessage.utmCampaignValue,
-                         controlParameter: "product/"+listingId,
+                         controlParameter: controlParameter,
                          letgoURLString: letgoUrl?.absoluteString,
                          fallbackToStore: fallbackToStore,
                          completion: completion)

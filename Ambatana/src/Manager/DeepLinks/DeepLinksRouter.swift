@@ -107,6 +107,15 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
     func onAppOpenAttributionFailure(_ error: Error!) {
 
     }
+    
+    func onAppOpenAttribution(_ attributionData: [AnyHashable : Any]!) {
+//        logMessage(.verbose, type: .deepLink, message: "received branch Object \(String(describing: object))")
+//        guard let branchDeepLink = object?.deepLinkWithProperties(properties) else { return }
+//        logMessage(.verbose, type: .deepLink, message: "Resolved branch Object \(branchDeepLink.action)")
+//        deepLinksSignal.onNext(branchDeepLink)
+        guard let deeplink = buildFromAttributionData(attributionData) else { return }
+        deepLinksSignal.onNext(deeplink)
+    }
 
     // MARK: > Shortcut actions (force touch)
 
@@ -233,5 +242,17 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
         }
         return nil
     }
-
+    
+    private func buildFromAttributionData(_ attributionData: [AnyHashable : Any]) -> DeepLink? {
+        guard let deepLink = attributionData["af_dp"] as? String else { return nil }
+        guard let deepLinkUrl = URL(string: deepLinkWithScheme(deepLink: deepLink)) else { return nil }
+        guard let uriScheme = UriScheme.buildFromUrl(deepLinkUrl) else { return nil }
+        return uriScheme.deepLink
+        
+    }
+    
+    private func deepLinkWithScheme(deepLink: String) -> String {
+        guard deepLink.range(of: "letgo://") == nil else { return deepLink }
+        return "letgo://" + deepLink
+    }
 }
