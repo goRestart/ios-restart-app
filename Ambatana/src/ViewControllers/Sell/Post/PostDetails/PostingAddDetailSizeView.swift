@@ -30,6 +30,12 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
         return sizeListing.asObservable()
     }
     
+    var placeholder: NSAttributedString {
+        return NSAttributedString(string: LGLocalizedString.realEstateSizeSquareMetersPlaceholder,
+                           attributes: [NSAttributedStringKey.foregroundColor: UIColor.grayLight,
+                                        NSAttributedStringKey.font: UIFont.systemBoldFont(size: 26)])
+    }
+    
     private let disposeBag = DisposeBag()
     
     
@@ -55,9 +61,7 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
         sizeLabel.textAlignment = .center
         sizeLabel.textColor = UIColor.white
         sizeLabel.font = UIFont.systemBoldFont(size: 26)
-        sizeTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.realEstateSizeSquareMetersPlaceholder,
-                                                                  attributes: [NSAttributedStringKey.foregroundColor: UIColor.grayLight,
-                                                                               NSAttributedStringKey.font: UIFont.systemBoldFont(size: 26)])
+        sizeTextField.attributedPlaceholder = placeholder
         sizeTextField.keyboardType = .numberPad
         sizeTextField.font = UIFont.systemBoldFont(size: 26)
         sizeTextField.textColor = UIColor.white
@@ -85,10 +89,9 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
         contentTextFieldView.layout(with: self).fillHorizontal(by: 20).top(by: 20)
         contentTextFieldView.layout().height(50)
         
-        sizeTextField.layout(with: contentTextFieldView).left().fillVertical()
-        sizeTextField.layout().width(PostingAddDetailSizeView.sizeTextFieldWidth)
+        sizeTextField.layout(with: contentTextFieldView).left().centerY()
         
-        sizeLabel.layout(with: sizeTextField).right(by: 50)
+        sizeLabel.layout(with: sizeTextField).right(by: 35)
         sizeLabel.layout(with: contentTextFieldView).fillVertical()
     }
     
@@ -97,7 +100,17 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
             guard let text = text else { return nil }
             return Int(text)
         }.bind(to: sizeListing).disposed(by: disposeBag)
+        
+        sizeTextField.rx.text.asObservable().subscribeNext { [weak self] (text) in
+            guard let strongSelf = self else { return }
+            if let text = text, !text.isEmpty {
+                strongSelf.sizeTextField.attributedPlaceholder = nil
+            } else {
+                strongSelf.sizeTextField.attributedPlaceholder = strongSelf.placeholder
+            }
+        }.disposed(by: disposeBag)
     }
+
     
     // MARK: - UITextFieldDelegate
     
@@ -105,8 +118,9 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
                    replacementString string: String) -> Bool {
         guard textField == sizeTextField else { return true }
         guard let text = textField.text else { return true }
-        let newLength = text.count + string.count - range.length
-        return newLength <= PostingAddDetailSizeView.maxLengthSize
+        guard text.count + string.count - range.length <= PostingAddDetailSizeView.maxLengthSize else { return false }
+        textField.sizeToFit()
+        return true
     }
     
     
