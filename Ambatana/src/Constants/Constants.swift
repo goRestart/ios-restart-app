@@ -156,6 +156,6 @@ struct Constants {
 
     // Professional Dealers
     static let usaPhoneNumberDigitsCount = 10
-    static let firstDashPosition = 3
-    static let secondDashPosition = 7
+    static let usaFirstDashPosition = 3
+    static let usaSecondDashPosition = 7
 }

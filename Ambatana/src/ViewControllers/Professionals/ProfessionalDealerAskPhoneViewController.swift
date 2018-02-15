@@ -173,10 +173,10 @@ class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UITextFi
             viewModel.updatePhoneNumberFrom(text: newText)
             return false
         } else if range.length == 0 {
-            if range.location == Constants.firstDashPosition {
-                textField.text?.insert("-", at: String.Index(encodedOffset: Constants.firstDashPosition))
-            } else if range.location == Constants.secondDashPosition {
-                textField.text?.insert("-", at: String.Index(encodedOffset: Constants.secondDashPosition))
+            if range.location == Constants.usaFirstDashPosition {
+                textField.text?.insert("-", at: String.Index(encodedOffset: Constants.usaFirstDashPosition))
+            } else if range.location == Constants.usaSecondDashPosition {
+                textField.text?.insert("-", at: String.Index(encodedOffset: Constants.usaSecondDashPosition))
             }
         }
 

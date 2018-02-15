@@ -319,16 +319,16 @@ extension String {
         var midChunk: String = ""
         var lastChunk: String = ""
         var outputString = ""
-        let midChunkStart = String.Index(encodedOffset: Constants.firstDashPosition)
-        let midChunkEnd = String.Index(encodedOffset: Constants.secondDashPosition-1)
+        let midChunkStart = String.Index(encodedOffset: Constants.usaFirstDashPosition)
+        let midChunkEnd = String.Index(encodedOffset: Constants.usaSecondDashPosition-1)
 
-        if self.count >= Constants.firstDashPosition {
+        if self.count >= Constants.usaFirstDashPosition {
             firstChunk = String(self[self.startIndex..<midChunkStart])
             outputString = firstChunk + "-"
         } else {
             return self
         }
-        if self.count >= Constants.secondDashPosition {
+        if self.count >= Constants.usaSecondDashPosition {
             midChunk = String(self[midChunkStart..<midChunkEnd])
             outputString = outputString + midChunk + "-"
             lastChunk = String(self[midChunkEnd..<self.endIndex])
