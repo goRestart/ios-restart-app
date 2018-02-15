@@ -310,7 +310,7 @@ extension String {
         return noPlusOrHyphenString.count == Constants.usaPhoneNumberDigitsCount
     }
     
-    var addSquareMeterUnit: String {
+    var addingSquareMeterUnit: String {
         return self + " \(Constants.sizeSquareMetersUnit)"
     }
 }
