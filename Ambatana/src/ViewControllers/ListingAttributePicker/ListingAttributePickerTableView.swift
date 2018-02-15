@@ -20,7 +20,7 @@ class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewD
     
     // MARK: - Lifecycle
     
-    init(values: [String], selectedIndex: IndexPath?,  delegate: ListingAttributePickerTableViewDelegate?) {
+    init(values: [String], selectedIndex: IndexPath?, delegate: ListingAttributePickerTableViewDelegate?) {
         self.detailInfo = values
         self.delegate = delegate
         self.selectedValue = selectedIndex
@@ -35,6 +35,7 @@ class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewD
     }
     
     override func layoutSubviews() {
+        super.layoutSubviews()
         if theme.gradientEnabled { applyGradient() }
     }
     
@@ -66,7 +67,6 @@ class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewD
     }
     
     private func applyGradient() {
-        super.layoutSubviews()
         let gradient = CAGradientLayer()
         
         gradient.frame = (tableView.superview?.bounds)!
