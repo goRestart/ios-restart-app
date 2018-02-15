@@ -1,28 +1,31 @@
 //
-//  OldBumpUpPayViewController.swift
+//  BumpUpPayViewController.swift
 //  LetGo
 //
-//  Created by Dídac on 04/10/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
+//  Created by Dídac on 19/12/16.
+//  Copyright © 2016 Ambatana. All rights reserved.
 //
 
 import UIKit
 
-class OldBumpUpPayViewController: BaseViewController {
+class BumpUpPayViewController: BaseViewController {
 
     private static let titleVerticalOffsetWithImage: CGFloat = 100
     private static let titleVerticalOffsetWithoutImage: CGFloat = -100
 
-    @IBOutlet weak var closeButtonTopSafeAreaAlignment: NSLayoutConstraint!
+    @IBOutlet weak var closeButtonSafeAreaTopAlignment: NSLayoutConstraint!
     @IBOutlet weak var closeButton: UIButton!
-    @IBOutlet weak var imageContainer: UIView!
-    @IBOutlet weak var listingImageView: UIImageView!
-    @IBOutlet weak var featuredLabel: UILabel!
+    @IBOutlet weak var viewTitleLabel: UILabel!
+    @IBOutlet weak var infoContainer: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
+    @IBOutlet weak var featuredBackgroundImageView: UIImageView!
+    @IBOutlet weak var imageContainer: UIView!
+    @IBOutlet weak var listingImageView: UIImageView!
+    @IBOutlet weak var cellBottomContainer: UIView!
     @IBOutlet weak var bumpUpButton: UIButton!
 
-    @IBOutlet weak var titleVerticalCenterConstraint: NSLayoutConstraint!
+    private var shadowLayer: CALayer?
 
     private var viewModel: BumpUpPayViewModel
 
@@ -30,7 +33,7 @@ class OldBumpUpPayViewController: BaseViewController {
 
     init(viewModel: BumpUpPayViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "OldBumpUpPayViewController")
+        super.init(viewModel: viewModel, nibName: "BumpUpPayViewController")
         modalPresentationStyle = .overCurrentContext
     }
 
@@ -42,8 +45,9 @@ class OldBumpUpPayViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setAccessibilityIds()
+
         if !isSafeAreaAvailable {
-            closeButtonTopSafeAreaAlignment.constant = Metrics.veryBigMargin
+            closeButtonSafeAreaTopAlignment.constant = Metrics.veryBigMargin
         }
     }
 
@@ -51,31 +55,40 @@ class OldBumpUpPayViewController: BaseViewController {
 
     func setupUI() {
 
+        viewTitleLabel.text = LGLocalizedString.bumpUpBannerPayTextImprovement
+        infoContainer.cornerRadius = LGUIKitConstants.bigCornerRadius
+        infoContainer.layer.masksToBounds = false
+        infoContainer.applyShadow(withOpacity: 0.05, radius: 5)
+
+        imageContainer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        imageContainer.clipsToBounds = true
+        imageContainer.layer.masksToBounds = false
+        imageContainer.applyShadow(withOpacity: 0.25, radius: 5)
+
         if let imageUrl = viewModel.listing.images.first?.fileURL {
             listingImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
                 [weak self] (result, url) -> Void in
                 if let _ = result.value {
-                    self?.titleVerticalCenterConstraint.constant = OldBumpUpPayViewController.titleVerticalOffsetWithImage
                     self?.imageContainer.isHidden = false
                 } else {
-                    self?.titleVerticalCenterConstraint.constant = OldBumpUpPayViewController.titleVerticalOffsetWithoutImage
                     self?.imageContainer.isHidden = true
                 }
             })
         } else {
-            titleVerticalCenterConstraint.constant = OldBumpUpPayViewController.titleVerticalOffsetWithoutImage
             imageContainer.isHidden = true
         }
 
-        listingImageView.layer.cornerRadius = LGUIKitConstants.listingCellCornerRadius
-        titleLabel.text = LGLocalizedString.bumpUpOldViewPayTitle
-        subtitleLabel.text = LGLocalizedString.bumpUpOldViewPaySubtitle
+        listingImageView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        cellBottomContainer.clipsToBounds = true
+        cellBottomContainer.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        titleLabel.text = LGLocalizedString.bumpUpViewPayTitle
+        subtitleLabel.text = LGLocalizedString.bumpUpViewPaySubtitle
 
-        let rotation = CGFloat(Double.pi/4)
-        featuredLabel.transform = CGAffineTransform(rotationAngle: rotation)
-        featuredLabel.text = LGLocalizedString.bumpUpProductCellFeaturedStripe
-        bumpUpButton.setStyle(.primary(fontSize: .medium))
-        bumpUpButton.setTitle(LGLocalizedString.bumpUpOldViewPayButtonTitle(viewModel.price), for: .normal)
+        bumpUpButton.setStyle(.primary(fontSize: .big))
+        bumpUpButton.setTitle(LGLocalizedString.bumpUpViewPayButtonTitle(viewModel.price), for: .normal)
+        bumpUpButton.titleLabel?.numberOfLines = 2
+        bumpUpButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        bumpUpButton.titleLabel?.minimumScaleFactor = 0.8
 
         let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(gestureClose))
         swipeDownGesture.direction = .down

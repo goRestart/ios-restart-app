@@ -168,11 +168,11 @@ extension RateUserViewModel {
     }
     
     func setDescription(text: String) -> Bool {
-        let descriptionWithoutEmoji = text.stringByRemovingEmoji()        
+        let descriptionWithoutEmoji = text.removingEmoji()
         if descriptionWithoutEmoji != descriptionPlaceholder {
             description.value = descriptionWithoutEmoji.isEmpty ? nil : descriptionWithoutEmoji
         }
-        return !text.hasEmojis()
+        return !text.containsEmoji
     }
 }
 
@@ -334,7 +334,7 @@ fileprivate extension RateUserViewModel {
             self?.delegate?.vmUpdateDescription(description)
             self?.description.value = description
             
-            self?.selectedTagIndexes.value = tagIdxs
+            self?.selectedTagIndexes.replaceAll(with: tagIdxs)
             self?.delegate?.vmUpdateTags()
         }
     }

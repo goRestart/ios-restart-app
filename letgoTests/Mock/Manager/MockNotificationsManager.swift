@@ -10,7 +10,7 @@
 import RxSwift
 
 class MockNotificationsManager: NotificationsManager {
-
+    
     let unreadMessagesCount = Variable<Int?>(nil)
     let favoriteCount = Variable<Int?>(nil)
     let unreadNotificationsCount = Variable<Int?>(nil)
@@ -26,29 +26,17 @@ class MockNotificationsManager: NotificationsManager {
     let loggedInMktNofitications = Variable<Bool>(false)
     
     var updateCountersCalled: Bool = false
+    var newSellFeatureIndicator = Variable<String?>(LGNotificationsManager.newSellFeatureIndicatorValue)
 
-    func setup() {
-
-    }
+    func setup() {  }
     func updateCounters() {
         updateCountersCalled = true
     }
-    func updateChatCounters() {
-
-    }
-    func updateNotificationCounters() {
-
-    }
-    func requestFavoriteCounter() {
-
-    }
-    func increaseFavoriteCounter() {
-
-    }
-    func decreaseFavoriteCounter() {
-
-    }
-    func clearFavoriteCounter() {
-
-    }
+    func updateChatCounters() { }
+    func updateNotificationCounters() { }
+    func requestFavoriteCounter() { }
+    func increaseFavoriteCounter() { }
+    func decreaseFavoriteCounter() { }
+    func clearFavoriteCounter() { }
+    func clearNewSellFeatureIndicator() { }
 }

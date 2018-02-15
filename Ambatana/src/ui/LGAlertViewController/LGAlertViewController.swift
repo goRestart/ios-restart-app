@@ -171,7 +171,7 @@ class LGAlertViewController: UIViewController {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOutside))
         view.addGestureRecognizer(tapRecognizer)
 
-        alertContentView.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
+        alertContentView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
         
         setupButtons(alertActions)
     }

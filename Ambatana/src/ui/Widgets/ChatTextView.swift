@@ -185,7 +185,7 @@ class ChatTextView: UIView {
         leftBackground.translatesAutoresizingMaskIntoConstraints = false
         leftBackground.backgroundColor = UIColor.white
         leftBackground.clipsToBounds = true
-        leftBackground.layer.cornerRadius = LGUIKitConstants.chatTextViewCornerRadius
+        leftBackground.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
         addSubview(leftBackground)
         let rightBackground = UIView()
         rightBackground.translatesAutoresizingMaskIntoConstraints = false
@@ -233,7 +233,7 @@ extension ChatTextView: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard !string.hasEmojis() else { return false }
+        guard !string.containsEmoji else { return false }
         return true
     }
 }

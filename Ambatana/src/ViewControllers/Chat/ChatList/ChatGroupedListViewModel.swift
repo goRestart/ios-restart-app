@@ -36,6 +36,8 @@ protocol ChatGroupedListViewModel: class, ChatGroupedListViewModelType {
     var shouldRefreshConversationsTabTrigger: Bool { get set }
     var shouldScrollToTop: Observable<Bool> { get }
     func clear()
+    func openInactiveConversations()
+    var shouldShowInactiveConversations: Bool { get }
 }
 
 class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
@@ -43,13 +45,16 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     let shouldWriteInCollectionVariable: Bool
     let notificationsManager: NotificationsManager
     fileprivate let tracker: Tracker
+    let featureFlags: FeatureFlaggeable
+    
+    private let chatRepository: ChatRepository
+    let inactiveConversationsCount = Variable<Int?>(nil)
+    
     private(set) var status: ViewState {
         didSet {
             switch status {
             case let .error(emptyVM):
-                if let emptyReason = emptyViewModel?.emptyReason {
-                    trackErrorStateShown(reason: emptyReason, errorCode: emptyVM.errorCode)
-                }
+                trackErrorStateShown(emptyViewModel: emptyVM)
             case .loading, .data, .empty:
                 break
             }
@@ -61,6 +66,10 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     weak var chatGroupedDelegate : ChatGroupedListViewModelDelegate?
     weak var tabNavigator: TabNavigator?
 
+    var shouldShowInactiveConversations: Bool {
+        return featureFlags.showInactiveConversations
+    }
+    
     // MARK: - Paginable
 
     let firstPage: Int = 1
@@ -90,25 +99,31 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     convenience init(objects: [T],
                      tabNavigator: TabNavigator?,
                      notificationsManager: NotificationsManager = LGNotificationsManager.sharedInstance,
-                     tracker: Tracker = TrackerProxy.sharedInstance) {
+                     tracker: Tracker = TrackerProxy.sharedInstance,
+                     chatRepository: ChatRepository = Core.chatRepository) {
         self.init(collectionVariable: CollectionVariable(objects),
                   shouldWriteInCollectionVariable: false,
                   tabNavigator: tabNavigator,
                   notificationsManager: notificationsManager,
-                  tracker: tracker)
+                  tracker: tracker,
+                  chatRepository: chatRepository)
     }
     
     init(collectionVariable: CollectionVariable<T>,
          shouldWriteInCollectionVariable: Bool,
          tabNavigator: TabNavigator?,
          notificationsManager: NotificationsManager = LGNotificationsManager.sharedInstance,
-         tracker: Tracker = TrackerProxy.sharedInstance) {
+         tracker: Tracker = TrackerProxy.sharedInstance,
+         chatRepository: ChatRepository = Core.chatRepository,
+         featureFlags: FeatureFlags = FeatureFlags.sharedInstance) {
         self.objects = collectionVariable
         self.shouldWriteInCollectionVariable = shouldWriteInCollectionVariable
         self.status = .loading
         self.tabNavigator = tabNavigator
         self.notificationsManager = notificationsManager
         self.tracker = tracker
+        self.chatRepository = chatRepository
+        self.featureFlags = featureFlags
         super.init()
         
         self.multipageRequester = MultiPageRequester() { [weak self] (page, completion) in
@@ -134,6 +149,11 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
     // MARK: - Public methods
 
+    func openInactiveConversations() {
+        tracker.trackEvent(TrackerEvent.chatViewInactiveConversations())
+        tabNavigator?.openChat(.inactiveConversations, source: .chatList, predefinedMessage: nil)
+    }
+    
     func objectAtIndex(_ index: Int) -> T? {
         guard index < objects.value.count else { return nil }
         return objects.value[index]
@@ -312,26 +332,12 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
         let retryAction: () -> () = { [weak self] in
             self?.retrieveFirstPage()
         }
-        var emptyVM: LGEmptyViewModel?
-        switch error {
-        case let .network(errorCode, onBackground):
-            emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: retryAction)
-        case let .wsChatError(chatRepositoryError):
-            switch chatRepositoryError {
-            case let .network(errorCode, onBackground):
-                emptyVM = onBackground ? nil : LGEmptyViewModel.networkErrorWithRetry(errorCode: errorCode, action: retryAction)
-            case .internalError, .notAuthenticated, .userNotVerified, .userBlocked, .apiError, .differentCountry:
-                emptyVM = LGEmptyViewModel.genericErrorWithRetry(action: retryAction)
-            }
-        case .internalError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .serverError:
-            emptyVM = LGEmptyViewModel.genericErrorWithRetry(action: retryAction)
-        }
-        return emptyVM
+        return LGEmptyViewModel.map(from: error, action: retryAction)
     }
     
     private func updateObjects(newObjects: [T]) {
         guard !shouldWriteInCollectionVariable else { return }
-        objects.value = newObjects
+        objects.replaceAll(with: newObjects)
     }
 }
 
@@ -354,6 +360,8 @@ fileprivate extension BaseChatGroupedListViewModel {
                 self?.notificationsManager.updateChatCounters()
             }.disposed(by: disposeBag)
         }
+        
+        chatRepository.inactiveConversationsCount.asObservable().bind(to: inactiveConversationsCount).disposed(by: disposeBag)
     }
     
     func setupInactiveRx() {
@@ -380,8 +388,10 @@ fileprivate extension BaseChatGroupedListViewModel {
 // MARK: - Tracking
 
 fileprivate extension BaseChatGroupedListViewModel {
-    func trackErrorStateShown(reason: EventParameterEmptyReason, errorCode: Int?) {
-        let event = TrackerEvent.emptyStateVisit(typePage: .chatList, reason: reason, errorCode: errorCode)
+    
+    func trackErrorStateShown(emptyViewModel: LGEmptyViewModel) {
+        guard let emptyReason = emptyViewModel.emptyReason else { return }
+        let event = TrackerEvent.emptyStateVisit(typePage: .chatList, reason: emptyReason, errorCode: emptyViewModel.errorCode)
         tracker.trackEvent(event)
     }
 }

@@ -43,6 +43,10 @@ public struct RetrieveListingParams {
     public var offerType: String?
     public var numberOfBedrooms: Int?
     public var numberOfBathrooms: Float?
+    public var numberOfLivingRooms: Int?
+    public var sizeSquareMetersFrom: Int?
+    public var sizeSquareMetersTo: Int?
+    
     
     public init() { }
     
@@ -99,6 +103,9 @@ public struct RetrieveListingParams {
         }
         params["numberOfBedrooms"] = numberOfBedrooms
         params["numberOfBathrooms"] = numberOfBathrooms
+        params["numberOfLivingRooms"] = numberOfLivingRooms
+        params["sizeSquareMetersFrom"] = sizeSquareMetersFrom
+        params["sizeSquareMetersTo"] = sizeSquareMetersTo
        
         return params
     }

@@ -77,7 +77,7 @@ extension ChatDisclaimerCell {
 
 fileprivate extension ChatDisclaimerCell {
     func setupUI() {
-        backgroundCellView.layer.cornerRadius = LGUIKitConstants.chatCellCornerRadius
+        backgroundCellView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
         backgroundCellView.backgroundColor = UIColor.disclaimerColor
         backgroundCellView.layer.borderWidth = 1
         backgroundCellView.layer.borderColor = UIColor.white.cgColor

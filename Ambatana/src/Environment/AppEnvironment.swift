@@ -37,9 +37,22 @@ protocol AppEnvironment {
     var adTestModeActive: Bool { get }
     var moreInfoAdUnitIdDFP: String { get }
     var moreInfoAdUnitIdDFPUSA: String { get }
+    var feedAdUnitIdDFPUSA10Ratio: String { get }
+    var feedAdUnitIdDFPUSA15Ratio: String { get }
+    var feedAdUnitIdDFPUSA20Ratio: String { get }
 }
 
 extension AppEnvironment {
+    
+    var amplitudeAPIKey: String {
+        // Why this default implementation: https://ambatana.atlassian.net/browse/ABIOS-2510
+        #if GOD_MODE
+            return DevelopmentEnvironment.amplitudeKey
+        #else
+            return ProductionEnvironment.amplitudeKey
+        #endif
+    }
+
     func websiteUrl(_ endpoint: String) -> String {
         return String(format: "\(websiteBaseUrl)\(endpoint)", arguments: [endpoint])
     }

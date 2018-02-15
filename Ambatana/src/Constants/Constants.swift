@@ -93,6 +93,7 @@ struct Constants {
     static let maxPriceFractionalCharacters = 2
     static let currencyDefault = "US"
     static let defaultPrice: ListingPrice = .normal(0)
+    static let sizeSquareMetersUnit: String = "㎡"
 
     // Messages retrieving
     static let numMessagesPerPage = 40
@@ -148,4 +149,11 @@ struct Constants {
     // Tracking
     static let parameterNotApply = "N/A"
     static let parameterSkipValue = "skip"
+
+    // Ads
+    static let adInFeedInitialPosition = 3
+    static let adInFeedCustomTargetingKey = "pos_var"
+
+    // Professional Dealers
+    static let usaPhoneNumberDigitsCount = 10
 }

@@ -13,7 +13,7 @@ protocol FilterPriceCellDelegate: class {
     func priceTextFieldValueChanged(_ value: String?, tag: Int)
 }
 
-class FilterPriceCell: UICollectionViewCell, FilterCell, ReusableCell {
+class FilterTextFieldIntCell: UICollectionViewCell, FilterCell, ReusableCell {
     var topSeparator: UIView?
     var bottomSeparator: UIView?
     var rightSeparator: UIView?
@@ -65,9 +65,9 @@ class FilterPriceCell: UICollectionViewCell, FilterCell, ReusableCell {
         NSLayoutConstraint.activate(constraints)
         
         textField.tintColor = UIColor.primaryColor
-        textField.placeholder = LGLocalizedString.filtersSectionPrice
         textField.delegate = self
         textField.textAlignment = .left
+        textField.keyboardType = .decimalPad
     }
     
     private func resetUI() {
@@ -76,13 +76,13 @@ class FilterPriceCell: UICollectionViewCell, FilterCell, ReusableCell {
     }
     
     private func setAccessibilityIds() {
-        self.accessibilityId =  .filterPriceCell
-        titleLabel.accessibilityId =  .filterPriceCellTitleLabel
-        textField.accessibilityId =  .filterPriceCellTextField
+        self.accessibilityId =  .filterTextFieldIntCell
+        titleLabel.accessibilityId =  .filterTextFieldIntCellTitleLabel
+        textField.accessibilityId =  .filterTextFieldIntCellTextField
     }
 }
 
-extension FilterPriceCell: UITextFieldDelegate {
+extension FilterTextFieldIntCell: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         delegate?.priceTextFieldValueActive()
     }

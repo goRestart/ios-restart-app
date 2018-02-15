@@ -11,12 +11,20 @@ struct PostListingTrackingInfo {
     var sellButtonPosition: EventParameterSellButtonPosition
     var imageSource: EventParameterPictureSource
     var negotiablePrice: EventParameterNegotiablePrice
+    var typePage: EventParameterTypePage
+    var mostSearchedButton: EventParameterMostSearched
 
-    init(buttonName: EventParameterButtonNameType, sellButtonPosition: EventParameterSellButtonPosition,
-         imageSource: EventParameterPictureSource?, price: String?) {
+    init(buttonName: EventParameterButtonNameType,
+         sellButtonPosition: EventParameterSellButtonPosition,
+         imageSource: EventParameterPictureSource?,
+         price: String?,
+         typePage: EventParameterTypePage,
+         mostSearchedButton: EventParameterMostSearched) {
         self.buttonName = buttonName
         self.sellButtonPosition = sellButtonPosition
         self.imageSource = imageSource ?? .camera
+        self.typePage = typePage
+        self.mostSearchedButton = mostSearchedButton
         if let price = price, let doublePrice = Double(price) {
             negotiablePrice = doublePrice > 0 ? .no : .yes
         } else {

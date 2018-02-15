@@ -126,12 +126,7 @@ class ChatViewController: TextViewController {
     }
     
     override func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if featureFlags.allowEmojisOnChat.isActive {
-            return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
-        } else {
-            guard !text.hasEmojis() else { return false }
-            return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
-        }
+        return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
     }
 
     
@@ -275,13 +270,21 @@ class ChatViewController: TextViewController {
         setTableBottomMargin(total, animated: animated)
     }
 
-    fileprivate func setupProfessionalSellerBanner() {
-        let action = UIAction(interface: .button(LGLocalizedString.chatProfessionalBannerButtonTitle, .primary(fontSize: .small)), action: { [weak self] in
-            self?.viewModel.professionalSellerBannerActionButtonTapped()
-        })
+    fileprivate func setupProfessionalSellerBannerWithPhone(phoneNumber: String?) {
+        var action: UIAction? = nil
+        var buttonIcon: UIImage? = nil
+        if let phone = phoneNumber, phone.isPhoneNumber, viewModel.professionalBannerHasCallAction {
+            action = UIAction(interface: .button(LGLocalizedString.chatProfessionalBannerButtonTitle,
+                                                 .primary(fontSize: .small)),
+                              action: { [weak self] in
+                                self?.viewModel.professionalSellerBannerActionButtonTapped()
+            })
+            buttonIcon = #imageLiteral(resourceName: "ic_phone_call")
+        }
+
         professionalSellerBanner.setupChatBannerWith(LGLocalizedString.chatProfessionalBannerTitle,
                                                      action: action,
-                                                     buttonIcon: #imageLiteral(resourceName: "ic_phone_call"))
+                                                     buttonIcon: buttonIcon)
 
         professionalSellerBanner.layout().height(professionalSellerBannerHeight,
                                                  relatedBy: .greaterThanOrEqual)
@@ -465,7 +468,7 @@ fileprivate extension ChatViewController {
             case .forbidden, .userPendingDelete, .userDeleted:
                 self?.listingView.disableUserProfileInteraction()
                 self?.listingView.disableListingInteraction()
-            case .available, .blocked, .blockedBy, .listingSold, .listingGivenAway:
+            case .available, .blocked, .blockedBy, .listingSold, .listingGivenAway, .inactiveConversation:
                 break
             }
             }.disposed(by: disposeBag)
@@ -548,8 +551,8 @@ fileprivate extension ChatViewController {
 
         showProfessionalBanner.asObservable().bind { [weak self] (isPro, phoneNum) in
             guard let strongSelf = self else { return }
-            guard let phone = phoneNum, phone.isPhoneNumber && isPro else { return }
-            strongSelf.setupProfessionalSellerBanner()
+            guard isPro else { return }
+            strongSelf.setupProfessionalSellerBannerWithPhone(phoneNumber: phoneNum)
             strongSelf.showProfessionalSellerBanner()
         }.disposed(by: disposeBag)
     }
@@ -649,7 +652,26 @@ extension ChatViewController: ChatViewModelDelegate {
         showAutoFadingOutMessageAlert(message, completion: completion)
     }
     
-    
+    func vmAskPhoneNumber() {
+        let alert = UIAlertController(title: LGLocalizedString.professionalDealerAskPhoneAlertEnterPhone,
+                                      message: nil,
+                                      preferredStyle: .alert)
+
+        alert.addTextField { textField in
+            textField.keyboardType = .numberPad
+        }
+
+        let confirmAction = UIAlertAction(title: LGLocalizedString.commonConfirm, style: .default) { [weak self] _ in
+            self?.viewModel.sendPhoneFrom(alert: alert)
+        }
+        alert.addAction(confirmAction)
+        let cancelAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .cancel, handler: nil)
+        alert.addAction(cancelAction)
+
+        present(alert, animated: true, completion: nil)
+    }
+
+
     // MARK: > Direct answers
     
     func vmDidPressDirectAnswer(quickAnswer: QuickAnswer) {

@@ -7,13 +7,14 @@
 //
 
 class DevelopmentEnvironment: AppEnvironment {
+    static let amplitudeKey = "1c32ba5ed444237608436bad4f310307"
+
     // General
     let appleAppId = "986339882"
     let facebookAppId = "924384130976182"
     
     // Tracking
     let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
-    let amplitudeAPIKey = "1c32ba5ed444237608436bad4f310307"
     
     // Google login
     let googleServerClientID = "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com"
@@ -37,4 +38,8 @@ class DevelopmentEnvironment: AppEnvironment {
     let adTestModeActive = true
     let moreInfoAdUnitIdDFP = "/21636273254/turkey/iOS/moreinfo/320x100"
     let moreInfoAdUnitIdDFPUSA = "/21666124832/us/iOS/moreinfo/320x100"
+
+    let feedAdUnitIdDFPUSA10Ratio = "/21666124832/us/iOS/feed/fluid_var_a"
+    let feedAdUnitIdDFPUSA15Ratio = "/21666124832/us/iOS/feed/fluid_var_b"
+    let feedAdUnitIdDFPUSA20Ratio = "/21666124832/us/iOS/feed/fluid_var_c"
 }

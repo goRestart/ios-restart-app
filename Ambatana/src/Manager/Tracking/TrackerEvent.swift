@@ -185,15 +185,8 @@ struct TrackerEvent {
                             resultsCount: ItemsCount?, feedSource: EventParameterFeedSource, success: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
 
-        // Categories
-        var categoryIds: [String] = []
-        if let actualCategories = categories {
-            for category in actualCategories {
-                categoryIds.append(String(category.rawValue))
-            }
-        }
         params[.feedSource] = feedSource.rawValue
-        params[.categoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
+        params[.categoryId] = TrackerEvent.stringFrom(categories: categories)
         params[.keywordName] = taxonomy?.name ?? TrackerEvent.notApply
         // Search query
         if let actualSearchQuery = searchQuery {
@@ -254,7 +247,9 @@ struct TrackerEvent {
     static func filterComplete(_ coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
                                distanceUnit: DistanceType, categories: [ListingCategory]?, sortBy: ListingSortCriteria?,
                                postedWithin: ListingTimeCriteria?, priceRange: FilterPriceRange, freePostingModeAllowed: Bool,
-                               carMake: String?, carModel: String?, carYearStart: Int?, carYearEnd: Int?) -> TrackerEvent {
+                               carMake: String?, carModel: String?, carYearStart: Int?, carYearEnd: Int?, propertyType: String?,
+                               offerType: String?, bedrooms: Int?, bathrooms: Float?, sizeSqrMetersMin: Int?,
+                               sizeSqrMetersMax: Int?, rooms: NumberOfRooms?) -> TrackerEvent {
         var params = EventParameters()
 
         // Filter Coordinates
@@ -271,13 +266,7 @@ struct TrackerEvent {
         params[.filterDistanceUnit] = distanceUnit.string
 
         // Categories
-        var categoryIds: [String] = []
-        if let actualCategories = categories {
-            for category in actualCategories {
-                categoryIds.append(String(category.rawValue))
-            }
-        }
-        params[.categoryId] = categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
+        params[.categoryId] = TrackerEvent.stringFrom(categories: categories)
 
         // Sorting
         if let sortByParam = eventParameterSortByTypeForSorting(sortBy) {
@@ -319,6 +308,55 @@ struct TrackerEvent {
         } else {
             params[.yearEnd] = TrackerEvent.notApply
         }
+        
+        if let propertyType = propertyType {
+            params[.propertyType] = String(propertyType)
+            verticalFields.append(EventParameterName.propertyType.rawValue)
+        } else {
+            params[.propertyType] = TrackerEvent.notApply
+        }
+        
+        if let offerType = offerType {
+            params[.offerType] = String(offerType)
+            verticalFields.append(EventParameterName.offerType.rawValue)
+        } else {
+            params[.offerType] = TrackerEvent.notApply
+        }
+        
+        if let bedrooms = bedrooms {
+            params[.bedrooms] = String(bedrooms)
+            verticalFields.append(EventParameterName.bedrooms.rawValue)
+        } else {
+            params[.bedrooms] = TrackerEvent.notApply
+        }
+        
+        if let bathrooms = bathrooms {
+            params[.bathrooms] = String(bathrooms)
+            verticalFields.append(EventParameterName.bathrooms.rawValue)
+        } else {
+            params[.bathrooms] = TrackerEvent.notApply
+        }
+        
+        if let sizeSqrMetersMin = sizeSqrMetersMin {
+            params[.sizeSqrMetersMin] = String(sizeSqrMetersMin)
+            verticalFields.append(EventParameterName.sizeSqrMetersMin.rawValue)
+        } else {
+            params[.sizeSqrMeters] = TrackerEvent.notApply
+        }
+        
+        if let sizeSqrMetersMax = sizeSqrMetersMax {
+            params[.sizeSqrMetersMax] = String(sizeSqrMetersMax)
+            verticalFields.append(EventParameterName.sizeSqrMetersMax.rawValue)
+        } else {
+            params[.sizeSqrMetersMax] = TrackerEvent.notApply
+        }
+        
+        if let rooms = rooms {
+            params[.rooms] = rooms.trackingString
+            verticalFields.append(EventParameterName.rooms.rawValue)
+        } else {
+            params[.rooms] = TrackerEvent.notApply
+        }
 
         params[.verticalFields] = verticalFields.isEmpty ? TrackerEvent.notApply : verticalFields.joined(separator: ",")
 
@@ -335,7 +373,42 @@ struct TrackerEvent {
         params[.isBumpedUp] = isBumpedUp.rawValue
         return TrackerEvent(name: .listingDetailVisit, params: params)
     }
-    
+
+    static func listingDetailCall(_ listing: Listing,
+                                  source: EventParameterListingVisitSource,
+                                  typePage: EventParameterTypePage,
+                                  sellerAverageUserRating: Float?,
+                                  feedPosition: EventParameterFeedPosition,
+                                  isFreePosting: EventParameterBoolean,
+                                  isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params.addListingParams(listing)
+        params[.listingVisitSource] = source.rawValue
+        params[.sellerUserRating] = sellerAverageUserRating
+        params[.typePage] = typePage.rawValue
+        params[.feedPosition] = feedPosition.value
+        params[.freePosting] = isFreePosting.rawValue
+        params[.isBumpedUp] = isBumpedUp.rawValue
+        return TrackerEvent(name: .listingDetailCall, params: params)
+    }
+
+    static func chatBannerCall(_ chatListing: ChatListing,
+                               source: EventParameterListingVisitSource,
+                               typePage: EventParameterTypePage,
+                               sellerAverageUserRating: Float?,
+                               isFreePosting: EventParameterBoolean,
+                               isBumpedUp: EventParameterBoolean) -> TrackerEvent {
+        var params = EventParameters()
+        params.addChatListingParams(chatListing)
+        params[.listingVisitSource] = source.rawValue
+        params[.sellerUserRating] = sellerAverageUserRating
+        params[.typePage] = typePage.rawValue
+        params[.feedPosition] = EventParameterFeedPosition.none.value
+        params[.freePosting] = isFreePosting.rawValue
+        params[.isBumpedUp] = isBumpedUp.rawValue
+        return TrackerEvent(name: .listingDetailCall, params: params)
+    }
+
     static func listingNotAvailable(_ source: EventParameterListingVisitSource, reason: EventParameterNotAvailableReason) -> TrackerEvent {
         var params = EventParameters()
         params[.listingVisitSource] = source.rawValue
@@ -371,7 +444,9 @@ struct TrackerEvent {
                                  queryType: EventParameterAdQueryType?,
                                  query: String?,
                                  willLeaveApp: EventParameterBoolean,
-                                 typePage: EventParameterTypePage) -> TrackerEvent {
+                                 typePage: EventParameterTypePage,
+                                 categories: [ListingCategory]?,
+                                 feedPosition: EventParameterFeedPosition) -> TrackerEvent {
         var params = EventParameters()
 
         params[.listingId] = listingId ?? TrackerEvent.notApply
@@ -381,6 +456,9 @@ struct TrackerEvent {
         params[.adQuery] = query ?? TrackerEvent.notApply
         params[.adActionLeftApp] = willLeaveApp.rawValue
         params[.typePage] = typePage.rawValue
+        params[.feedPosition] = feedPosition.value
+        params[.categoryId] = TrackerEvent.stringFrom(categories: categories)
+
         return TrackerEvent(name: .adTapped, params: params)
     }
 
@@ -472,18 +550,25 @@ struct TrackerEvent {
     static func listingSellStart(_ typePage: EventParameterTypePage,
                                  buttonName: EventParameterButtonNameType?,
                                  sellButtonPosition: EventParameterSellButtonPosition,
-                                 category: ListingCategory?) -> TrackerEvent {
+                                 category: ListingCategory?,
+                                 mostSearchedButton: EventParameterMostSearched) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
         params[.buttonName] = buttonName?.rawValue
         params[.sellButtonPosition] = sellButtonPosition.rawValue
         params[.categoryId] = category?.rawValue ?? TrackerEvent.notApply
+        params[.mostSearchedButton] = mostSearchedButton.rawValue
         return TrackerEvent(name: .listingSellStart, params: params)
     }
     
-    static func listingSellComplete(_ listing: Listing, buttonName: EventParameterButtonNameType?,
-                                    sellButtonPosition: EventParameterSellButtonPosition?, negotiable: EventParameterNegotiablePrice?,
-                                    pictureSource: EventParameterPictureSource?, freePostingModeAllowed: Bool) -> TrackerEvent {
+    static func listingSellComplete(_ listing: Listing,
+                                    buttonName: EventParameterButtonNameType?,
+                                    sellButtonPosition: EventParameterSellButtonPosition?,
+                                    negotiable: EventParameterNegotiablePrice?,
+                                    pictureSource: EventParameterPictureSource?,
+                                    freePostingModeAllowed: Bool,
+                                    typePage: EventParameterTypePage,
+                                    mostSearchedButton: EventParameterMostSearched) -> TrackerEvent {
         var params = EventParameters()
         params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: listing.price).rawValue
         params[.listingId] = listing.objectId ?? ""
@@ -492,6 +577,8 @@ struct TrackerEvent {
         params[.numberPhotosPosting] = listing.images.count
         params[.sellButtonPosition] = sellButtonPosition?.rawValue
         params[.listingDescription] = !(listing.descr?.isEmpty ?? true)
+        params[.typePage] = typePage.rawValue
+        params[.mostSearchedButton] = mostSearchedButton.rawValue
         if let buttonName = buttonName {
             params[.buttonName] = buttonName.rawValue
         }
@@ -521,11 +608,15 @@ struct TrackerEvent {
             params[.offerType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.offerType?.rawValue).name
             params[.bathrooms] = EventParameterBathroomsRealEstate.bathrooms(value: realEstateAttributes.bathrooms).name
             params[.bedrooms] = EventParameterBedroomsRealEstate.bedrooms(value: realEstateAttributes.bedrooms).name
+            params[.rooms] = EventParameterRoomsRealEstate.rooms(bedrooms: realEstateAttributes.bedrooms, livingRooms: realEstateAttributes.livingRooms).name
+            params[.sizeSqrMeters] = EventParameterSizeRealEstate.size(value: realEstateAttributes.sizeSquareMeters).name
         } else {
             params[.propertyType] = EventParameterStringRealEstate.notApply.name
             params[.offerType] = EventParameterStringRealEstate.notApply.name
             params[.bathrooms] = EventParameterBathroomsRealEstate.notApply.name
             params[.bedrooms] = EventParameterBedroomsRealEstate.notApply.name
+            params[.rooms] = EventParameterRoomsRealEstate.notApply.name
+            params[.sizeSqrMeters] = EventParameterSizeRealEstate.notApply.name
         }
         
         return TrackerEvent(name: .listingSellComplete, params: params)
@@ -654,13 +745,16 @@ struct TrackerEvent {
             params[.offerType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.offerType?.rawValue).name
             params[.bathrooms] = EventParameterBathroomsRealEstate.bathrooms(value: realEstateAttributes.bathrooms).name
             params[.bedrooms] = EventParameterBedroomsRealEstate.bedrooms(value: realEstateAttributes.bedrooms).name
+            params[.rooms] = EventParameterRoomsRealEstate.rooms(bedrooms: realEstateAttributes.bedrooms, livingRooms: realEstateAttributes.livingRooms).name
+            params[.sizeSqrMeters] = EventParameterSizeRealEstate.size(value: realEstateAttributes.sizeSquareMeters).name
         } else {
             params[.propertyType] = EventParameterStringRealEstate.notApply.name
             params[.offerType] = EventParameterStringRealEstate.notApply.name
             params[.bathrooms] = EventParameterBathroomsRealEstate.notApply.name
             params[.bedrooms] = EventParameterBedroomsRealEstate.notApply.name
+            params[.rooms] = EventParameterRoomsRealEstate.notApply.name
+            params[.sizeSqrMeters] = EventParameterSizeRealEstate.notApply.name
         }
-
         return TrackerEvent(name: .listingEditComplete, params: params)
     }
 
@@ -694,6 +788,24 @@ struct TrackerEvent {
             params[.relatedSource] = src.rawValue
         }
         return TrackerEvent(name: .relatedListings, params: params)
+    }
+
+    static func phoneNumberRequest(typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        return TrackerEvent(name: .phoneNumberRequest, params: params)
+    }
+
+    static func phoneNumberSent(typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        return TrackerEvent(name: .phoneNumberSent, params: params)
+    }
+
+    static func phoneNumberNotNow(typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        return TrackerEvent(name: .phoneNumberNotNow, params: params)
     }
 
     static func firstMessage(info: SendMessageTrackingInfo,
@@ -959,6 +1071,21 @@ struct TrackerEvent {
         return TrackerEvent(name: .openApp, params: params)
     }
 
+    static func chatDeleteComplete(numberOfConversations: Int, isInactiveConversation: Bool) -> TrackerEvent {
+        var params = EventParameters()
+        params[.chatsDeleted] = numberOfConversations
+        params[.inactiveConversations] = isInactiveConversation
+        return TrackerEvent(name: .chatDeleteComplete, params: params)
+    }
+    
+    static func chatViewInactiveConversations() -> TrackerEvent {
+        return TrackerEvent(name: .chatViewInactiveConversations, params: EventParameters())
+    }
+    
+    static func chatInactiveConversationsShown() -> TrackerEvent {
+        return TrackerEvent(name: .chatInactiveConversationsShown, params: EventParameters())
+    }
+    
     static func expressChatStart(_ trigger: EventParameterExpressChatTrigger) -> TrackerEvent {
         var params = EventParameters()
         params[.expressChatTrigger] = trigger.rawValue
@@ -1025,6 +1152,10 @@ struct TrackerEvent {
 
     static func signupCaptcha() -> TrackerEvent {
         return TrackerEvent(name: .signupCaptcha, params: EventParameters())
+    }
+    
+    static func loginCaptcha() -> TrackerEvent {
+        return TrackerEvent(name: .loginCaptcha, params: EventParameters())
     }
 
     static func notificationCenterStart() -> TrackerEvent {
@@ -1261,6 +1392,15 @@ struct TrackerEvent {
     private static func eventParameterFreePostingWithPriceRange(_ freePostingModeAllowed: Bool, priceRange: FilterPriceRange) -> EventParameterBoolean {
         guard freePostingModeAllowed else {return .notAvailable}
         return priceRange.free ? .trueParameter : .falseParameter
+    }
+
+    private static func stringFrom(categories: [ListingCategory]?) -> String {
+        // Categories
+        var categoryIds: [String] = []
+        if let actualCategories = categories {
+            categoryIds = actualCategories.map { String($0.rawValue) }
+        }
+        return categoryIds.isEmpty ? "0" : categoryIds.joined(separator: ",")
     }
 }
 

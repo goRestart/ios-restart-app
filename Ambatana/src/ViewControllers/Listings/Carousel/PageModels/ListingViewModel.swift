@@ -51,7 +51,8 @@ class ListingViewModel: BaseViewModel {
                                     featureFlags: FeatureFlags.sharedInstance,
                                     purchasesShopper: LGPurchasesShopper.sharedInstance,
                                     monetizationRepository: Core.monetizationRepository,
-                                    tracker: TrackerProxy.sharedInstance)
+                                    tracker: TrackerProxy.sharedInstance,
+                                    keyValueStorage: KeyValueStorage.sharedInstance)
         }
 
         func make(listing: Listing, navigator: ListingDetailNavigator?,
@@ -149,6 +150,7 @@ class ListingViewModel: BaseViewModel {
 
     // Repository, helpers & tracker
     let trackHelper: ProductVMTrackHelper
+    var sellerAverageUserRating: Float?
 
     fileprivate let myUserRepository: MyUserRepository
     fileprivate let userRepository: UserRepository
@@ -162,6 +164,7 @@ class ListingViewModel: BaseViewModel {
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let showFeaturedStripeHelper: ShowFeaturedStripeHelper
     fileprivate let visitSource: EventParameterListingVisitSource
+    fileprivate let keyValueStorage: KeyValueStorageable
 
     let isShowingFeaturedStripe = Variable<Bool>(false)
     fileprivate let isListingDetailsCompleted = Variable<Bool>(false)
@@ -188,7 +191,8 @@ class ListingViewModel: BaseViewModel {
          featureFlags: FeatureFlaggeable,
          purchasesShopper: PurchasesShopper,
          monetizationRepository: MonetizationRepository,
-         tracker: Tracker) {
+         tracker: Tracker,
+         keyValueStorage: KeyValueStorageable) {
         self.listing = Variable<Listing>(listing)
         self.visitSource = visitSource
         self.socialSharer = socialSharer
@@ -197,6 +201,7 @@ class ListingViewModel: BaseViewModel {
         self.listingRepository = listingRepository
         self.countryHelper = countryHelper
         self.trackHelper = ProductVMTrackHelper(tracker: tracker, listing: listing, featureFlags: featureFlags)
+        self.keyValueStorage = keyValueStorage
         self.chatWrapper = chatWrapper
         self.locationManager = locationManager
         self.chatViewMessageAdapter = chatViewMessageAdapter
@@ -232,6 +237,7 @@ class ListingViewModel: BaseViewModel {
                     if let value = result.value {
                         strongSelf.isProfessional.value = value.type == .pro
                         strongSelf.phoneNumber.value = value.phone
+                        strongSelf.sellerAverageUserRating = value.ratingAverage
                     }
                 }
             }
@@ -312,7 +318,7 @@ class ListingViewModel: BaseViewModel {
         }.disposed(by: disposeBag)
 
         // bumpeable listing check
-        status.asObservable().bind { [weak self] status in
+        status.asObservable().skip(1).bind { [weak self] status in
             if status.shouldRefreshBumpBanner {
                 self?.refreshBumpeableBanner()
             } else {
@@ -340,7 +346,8 @@ class ListingViewModel: BaseViewModel {
             let productInfo = ListingVMProductInfo(listing: listing,
                                                    isAutoTranslated: listing.isTitleAutoTranslated(strongSelf.countryHelper),
                                                    distance: strongSelf.distanceString(listing),
-                                                   freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed)
+                                                   freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed,
+                                                   postingFlowType: strongSelf.featureFlags.postingFlowType)
             strongSelf.productInfo.value = productInfo
 
         }.disposed(by: disposeBag)
@@ -397,7 +404,7 @@ class ListingViewModel: BaseViewModel {
             isUpdatingBumpUpBanner = true
             monetizationRepository.retrieveBumpeableListingInfo(
                 listingId: listingId,
-                withPriceDifferentiation: featureFlags.bumpUpPriceDifferentiation.isActive,
+                withHigherMinimumPrice: featureFlags.increaseMinPriceBumps.bucketValue,
                 completion: { [weak self] result in
                     guard let strongSelf = self else { return }
                     strongSelf.isUpdatingBumpUpBanner = false
@@ -632,6 +639,18 @@ extension ListingViewModel {
             }
         }
     }
+
+    func openAskPhone() {
+        ifLoggedInRunActionElseOpenSignUp(from: .chatProUser, infoMessage: LGLocalizedString.chatLoginPopupText) { [weak self] in
+            guard let strongSelf = self else  { return }
+            if let listingId = strongSelf.listing.value.objectId,
+                strongSelf.keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId) {
+                strongSelf.chatWithSeller()
+            } else {
+                strongSelf.navigator?.openAskPhoneFor(listing: strongSelf.listing.value)
+            }
+        }
+    }
 }
 
 
@@ -828,7 +847,7 @@ extension ListingViewModel {
         case .otherAvailable, .otherAvailableFree:
             if isProfessional {
                 actionButtons.append(UIAction(interface: .button(LGLocalizedString.productProfessionalChatButton, .secondary(fontSize: .big, withBorder: false)),
-                                              action: { [weak self] in self?.chatWithSeller() }))
+                                              action: { [weak self] in self?.openAskPhone() }))
             }
         case .availableFree:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldFreeButton, .terciary),
