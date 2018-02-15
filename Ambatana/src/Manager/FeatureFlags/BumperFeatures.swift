@@ -45,6 +45,7 @@ extension Bumper  {
         flags.append(IncreaseMinPriceBumps.self)
         flags.append(ShowSecurityMeetingChatMessage.self)
         flags.append(EmojiSizeIncrement.self)
+        flags.append(OnboardingIncentivizePosting.self)
         Bumper.initialize(flags)
     } 
 
@@ -206,6 +207,11 @@ extension Bumper  {
     static var emojiSizeIncrement: EmojiSizeIncrement {
         guard let value = Bumper.value(for: EmojiSizeIncrement.key) else { return .control }
         return EmojiSizeIncrement(rawValue: value) ?? .control 
+    }
+
+    static var onboardingIncentivizePosting: OnboardingIncentivizePosting {
+        guard let value = Bumper.value(for: OnboardingIncentivizePosting.key) else { return .control }
+        return OnboardingIncentivizePosting(rawValue: value) ?? .control 
     } 
 }
 
@@ -687,6 +693,22 @@ enum EmojiSizeIncrement: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum OnboardingIncentivizePosting: String, BumperFeature  {
+    case control, baseline, blockingPosting
+    static var defaultValue: String { return OnboardingIncentivizePosting.control.rawValue }
+    static var enumValues: [OnboardingIncentivizePosting] { return [.control, .baseline, .blockingPosting]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Leads the user through the posting feature and onboarding improvements" } 
+    static func fromPosition(_ position: Int) -> OnboardingIncentivizePosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .blockingPosting
             default: return .control
         }
     }
