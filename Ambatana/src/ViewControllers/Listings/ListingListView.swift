@@ -311,7 +311,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         requestAdFor(cellModel: item, inPosition: indexPath.row)
         let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
         cell.tag = (indexPath as NSIndexPath).hash
-        drawerManager.draw(item, inCell: cell, delegate: viewModel.listingCellDelegate, shouldShowPrice: viewModel.shouldShowPrices)
+        drawerManager.draw(item,
+                           inCell: cell,
+                           delegate: viewModel.listingCellDelegate,
+                           shouldShowPrice: viewModel.shouldShowPrices,
+                           imageSize: viewModel.imageViewSizeForItem(at: indexPath.row))
         (cell as? ListingCell)?.isRelatedEnabled = cellsDelegate?.shouldShowRelatedListingsButton() ?? false
         return cell
     }
@@ -321,8 +325,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                         forItemAt indexPath: IndexPath) {
         DispatchQueue.main.async { [weak self] in
             if let item = self?.viewModel.itemAtIndex(indexPath.row),
-                let cell = self?.collectionView.cellForItem(at: indexPath) {
-                self?.drawerManager.willDisplay(item, inCell: cell, delegate: self?.viewModel.listingCellDelegate)
+                let cell = self?.collectionView.cellForItem(at: indexPath),
+                let imageSize = self?.viewModel.imageViewSizeForItem(at: indexPath.row) {
+                self?.drawerManager.willDisplay(item, inCell: cell, delegate: self?.viewModel.listingCellDelegate, imageSize: imageSize)
             }
 
             self?.viewModel.setCurrentItemIndex(indexPath.item)
