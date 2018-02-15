@@ -21,6 +21,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
     // UI
     @IBOutlet weak private var contentView: UIView!
+    @IBOutlet weak private var headerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var footerViewBottom: NSLayoutConstraint!
@@ -32,6 +33,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
     var refreshControl = UIRefreshControl()
 
+    private let inactiveConversationHeaderView = ChatInactiveConversationHeaderView()
     
     // > Insets
     @IBOutlet weak var tableViewBottomInset: NSLayoutConstraint!
@@ -96,9 +98,9 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         super.didBecomeActive(firstTime)
 
         if firstTime {
-            sessionManager.sessionEvents.filter { $0.isLogout }.bindNext { [weak self] _ in
+            sessionManager.sessionEvents.filter { $0.isLogout }.bind { [weak self] _ in
                 self?.clear()
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
             
             viewModel.retrieveFirstPage()
         } else if viewModel.shouldRefreshConversationsTabTrigger {
@@ -110,11 +112,11 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
 
     // MARK: - Public Methods
 
-    dynamic func refresh() {
+    @objc func refresh() {
         viewModel.refresh(completion: nil)
     }
 
-    dynamic func clear() {
+    @objc func clear() {
         viewModel.clear()
         tableView.reloadData()
     }
@@ -230,6 +232,11 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         footerButton.isEnabled = false
         bottomInset = tabBarBottomInset
         setFooterHidden(true, animated: false)
+        
+        inactiveConversationHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        inactiveConversationHeaderView.buttonAction = { [weak self] in
+            self?.viewModel.openInactiveConversations()
+        }
     }
 
     func resetUI() {
@@ -250,7 +257,27 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         guard let viewModel = viewModel as? BaseChatGroupedListViewModel<ChatConversation> else { return }
         viewModel.objects.changesObservable.subscribeNext { [weak self] change in
             self?.tableView.reloadData()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
+        
+        viewModel.inactiveConversationsCount.asObservable().subscribeNext { [weak self] count in
+            if let count = count, count > 0 {
+                self?.showInactiveConversationsHeader(with: count)
+            } else {
+                self?.hideInactiveConversationsHeader()
+            }
+        }.disposed(by: disposeBag)
+    }
+    
+    private func showInactiveConversationsHeader(with count: Int) {
+        guard viewModel.shouldShowInactiveConversations else { return }
+        inactiveConversationHeaderView.inactiveConvesationsCount = count
+        guard inactiveConversationHeaderView.superview == nil else { return }
+        headerView.addSubview(inactiveConversationHeaderView)
+        inactiveConversationHeaderView.layout(with: headerView).fill()
+    }
+    
+    private func hideInactiveConversationsHeader() {
+        inactiveConversationHeaderView.removeFromSuperview()
     }
 
     func setFooterHidden(_ hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {

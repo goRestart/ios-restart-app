@@ -8,7 +8,6 @@
 
 import Quick
 import Nimble
-import Argo
 import LGCoreKit
 @testable import LetGoGodMode
 
@@ -29,7 +28,7 @@ class ListingCreationParamsLGSpec: QuickSpec {
             describe("price") {
                 context("make with price") {
                     beforeEach {
-                        var postListingState = PostListingState(postCategory: .motorsAndAccessories)
+                        var postListingState = PostListingState(postCategory: .motorsAndAccessories, title: nil)
                         postListingState = postListingState.updatingStepToUploadingImages()
                         postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         postListingState = postListingState.updatingAfterUploadingSuccess()
@@ -47,11 +46,11 @@ class ListingCreationParamsLGSpec: QuickSpec {
                 }
                 context("make with negotiable") {
                     beforeEach {
-                        var postListingState = PostListingState(postCategory: .motorsAndAccessories)
+                        var postListingState = PostListingState(postCategory: .motorsAndAccessories, title: nil)
                         postListingState = postListingState.updatingStepToUploadingImages()
                         postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         postListingState = postListingState.updatingAfterUploadingSuccess()
-                        postListingState = postListingState.updating(price: .negotiable(0))
+                        postListingState = postListingState.updating(price: .normal(0))
                         sut = ListingCreationParams.make(title: "title",
                                                          description: "description",
                                                          currency: Currency.makeMock(),
@@ -59,13 +58,13 @@ class ListingCreationParamsLGSpec: QuickSpec {
                                                          postalAddress: PostalAddress.makeMock(),
                                                          postListingState: postListingState)
                     }
-                    it("price is negotiable zero") {
-                        expect(sut.price).to(equal(.negotiable(0)))
+                    it("price is normal zero") {
+                        expect(sut.price).to(equal(.normal(0)))
                     }
                 }
                 context("make with no price") {
                     beforeEach {
-                        var postListingState = PostListingState(postCategory: .motorsAndAccessories)
+                        var postListingState = PostListingState(postCategory: .motorsAndAccessories, title: nil)
                         postListingState = postListingState.updatingStepToUploadingImages()
                         postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         postListingState = postListingState.updatingAfterUploadingSuccess()
@@ -76,13 +75,13 @@ class ListingCreationParamsLGSpec: QuickSpec {
                                                          postalAddress: PostalAddress.makeMock(),
                                                          postListingState: postListingState)
                     }
-                    it("price is negotiable zero") {
-                        expect(sut.price).to(equal(ListingPrice.negotiable(0)))
+                    it("price is normal zero") {
+                        expect(sut.price).to(equal(ListingPrice.normal(0)))
                     }
                 }
                 context("make with free") {
                     beforeEach {
-                        var postListingState = PostListingState(postCategory: .motorsAndAccessories)
+                        var postListingState = PostListingState(postCategory: .motorsAndAccessories, title: nil)
                         postListingState = postListingState.updatingStepToUploadingImages()
                         postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                         postListingState = postListingState.updatingAfterUploadingSuccess()
@@ -102,7 +101,7 @@ class ListingCreationParamsLGSpec: QuickSpec {
         }
         describe("location") {
             beforeEach {
-                postListingState = PostListingState(postCategory: .realEstate)
+                postListingState = PostListingState(postCategory: .realEstate, title: nil)
                 postListingState = postListingState.updatingStepToUploadingImages()
                 postListingState = postListingState.updatingToSuccessUpload(uploadedImages: [MockFile].makeMocks())
                 postListingState = postListingState.updatingAfterUploadingSuccess()

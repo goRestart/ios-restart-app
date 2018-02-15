@@ -33,7 +33,7 @@ extension ListingCategory {
         case .cars:
             return LGLocalizedString.categoriesCar
         case .realEstate:
-            return LGLocalizedString.categoriesRealEstate
+            return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.categoriesRealEstateTitle : LGLocalizedString.categoriesRealEstate
         }
     }
     
@@ -60,7 +60,7 @@ extension ListingCategory {
         case .cars:
             return LGLocalizedString.categoriesInfeedCars
         case .realEstate:
-            return LGLocalizedString.categoriesInfeedRealEstate
+            return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.categoriesInfeedRealEstateTitle : LGLocalizedString.categoriesInfeedRealEstate
         }
     }
     
@@ -141,8 +141,7 @@ extension ListingCategory {
         case .cars:
             return UIImage(named: "categories_cars_tag")
         case .realEstate:
-            //TODO: add real estate value
-            return UIImage(named: "categories_cars_tag")
+            return UIImage(named: "categories_housing_tag")
         }
     }
 
@@ -162,7 +161,7 @@ extension ListingCategory {
         case .motorsAndAccessories:
             return .motorsAndAccessories
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
-            return .unassigned
+            return .otherItems(listingCategory: nil)
         }
     }
 }

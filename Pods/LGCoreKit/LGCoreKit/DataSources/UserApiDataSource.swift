@@ -7,7 +7,6 @@
 //
 
 import Result
-import Argo
 
 final class UserApiDataSource: UserDataSource {
     
@@ -59,18 +58,41 @@ final class UserApiDataSource: UserDataSource {
     // MARK: - Private methods
 
     private static func decoderArray(_ object: Any) -> [User]? {
-        guard let theProduct : [LGUser] = decode(object) else { return nil }
-        return theProduct.map{$0}
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let users = try JSONDecoder().decode(FailableDecodableArray<LGUser>.self, from: data)
+            return users.validElements
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGUser \(object)")
+        }
+        return nil
+
     }
 
     private func decoder(_ object: Any) -> User? {
-        let apiUser: LGUser? = decode(object)
-        return apiUser
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let user = try LGUser.decode(jsonData: data)
+            return user
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGUser \(object)")
+        }
+        return nil
     }
 
     static func decoderUserRelation(_ object: Any) -> UserUserRelation? {
-        let relation: LGUserUserRelation? = LGUserUserRelation.decode(JSON(object))
-        return relation
+        if let json = object as? [[String: Any]] {
+            return LGUserUserRelation.decodeFrom(jsonArray: json)
+        } else {
+            guard let data = try? JSONSerialization.data(withJSONObject: object,
+                                                         options: .prettyPrinted) else {
+                                                            logMessage(.debug,
+                                                                       type: .parsing,
+                                                                       message: "could not parse LGUserUserRelation \(object)")
+                                                            return nil
+            }
+           return LGUserUserRelation.decodeFrom(jsonData: data)
+        }
     }
 
 }

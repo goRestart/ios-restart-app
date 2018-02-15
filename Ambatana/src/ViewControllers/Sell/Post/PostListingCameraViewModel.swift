@@ -31,7 +31,7 @@ class PostListingCameraViewModel: BaseViewModel {
     let infoSubtitle = Variable<String>("")
     let infoButton = Variable<String>("")
     let shouldShowFirstTimeAlert = Variable<Bool>(false)
-
+    let shouldShowVerticalText = Variable<Bool>(true)
     var firstTimeTitle: String?
     var firstTimeSubtitle: String?
     
@@ -42,25 +42,36 @@ class PostListingCameraViewModel: BaseViewModel {
     private let featureFlags: FeatureFlaggeable
     private let mediaPermissions: MediaPermissions
     
+    let postCategory: PostCategory?
+    
+    var verticalPromotionMessage: String? {
+        if let category = postCategory, category == .realEstate && featureFlags.realEstatePromos.isActive {
+            return LGLocalizedString.realEstateCameraViewRealEstateMessage
+        }
+        return nil
+    }
 
+    
     // MARK: - Lifecycle
 
-
-    init(postingSource: PostingSource, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions) {
+    init(postingSource: PostingSource, postCategory: PostCategory?, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions) {
         self.keyValueStorage = keyValueStorage
         self.sourcePosting = postingSource
         self.featureFlags = featureFlags
         self.mediaPermissions = mediaPermissions
+        self.postCategory = postCategory
         super.init()
         setupFirstShownLiterals()
+        setupVerticalTextAlert()
         setupRX()
     }
 
-    convenience init(postingSource: PostingSource) {
+    convenience init(postingSource: PostingSource, postCategory: PostCategory?) {
         let mediaPermissions: MediaPermissions = LGMediaPermissions()
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         self.init(postingSource: postingSource,
+                  postCategory: postCategory,
                   keyValueStorage: keyValueStorage,
                   featureFlags: featureFlags,
                   mediaPermissions: mediaPermissions)
@@ -130,6 +141,9 @@ class PostListingCameraViewModel: BaseViewModel {
         shouldShowFirstTimeAlert.value = false
     }
 
+    func hideVerticalTextAlert() {
+        shouldShowVerticalText.value = false
+    }
 
     // MARK: - Private methods
 
@@ -153,28 +167,34 @@ class PostListingCameraViewModel: BaseViewModel {
                 strongSelf.infoShown.value = false
                 strongSelf.showFirstTimeAlertIfNeeded()
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         cameraState.asObservable().map{ $0.previewMode }.subscribeNext{ [weak self] previewMode in
             self?.cameraDelegate?.productCameraRequestHideTabs(previewMode)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         cameraState.asObservable().map{ $0.cameraLock }.subscribeNext{ [weak self] cameraLock in
             self?.cameraDelegate?.productCameraRequestsScrollLock(cameraLock)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         visible.asObservable().distinctUntilChanged().filter{ $0 }
             .subscribeNext{ [weak self] _ in self?.didBecomeVisible() }
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
-        shouldShowFirstTimeAlert.asObservable().filter {$0}.bindNext { [weak self] _ in
+        shouldShowFirstTimeAlert.asObservable().filter {$0}.bind { [weak self] _ in
             self?.firstTimeAlertDidShow()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func setupFirstShownLiterals() {
         firstTimeTitle = LGLocalizedString.productPostCameraFirstTimeAlertTitle
         firstTimeSubtitle = LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
+    }
+    
+    private func setupVerticalTextAlert() {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(5)) { [weak self] in
+            self?.hideVerticalTextAlert()
+        }
     }
 
     private func checkCameraState() {

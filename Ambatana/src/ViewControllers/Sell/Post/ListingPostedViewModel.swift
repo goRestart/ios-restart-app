@@ -37,9 +37,9 @@ class ListingPostedViewModel: BaseViewModel {
     var wasFreePosting: Bool {
         switch self.status {
         case let .posting(_, params):
-            return params.price.free
+            return params.price.isFree
         case let .success(listing):
-            return listing.price.free
+            return listing.price.isFree
         case .error:
             return false
         }
@@ -107,7 +107,7 @@ class ListingPostedViewModel: BaseViewModel {
         case .posting:
             return nil
         case .success:
-            return wasFreePosting ? LGLocalizedString.productPostFreeConfirmationAnotherButton : LGLocalizedString.productPostConfirmationAnotherButton
+            return wasFreePosting ? LGLocalizedString.productPostFreeConfirmationAnotherButton : LGLocalizedString.productPostConfirmationAnotherListingButton
         case .error:
             return LGLocalizedString.productPostRetryButton
         }
@@ -273,10 +273,15 @@ class ListingPostedViewModel: BaseViewModel {
         let buttonName = trackingInfo.buttonName
         let negotiable = trackingInfo.negotiablePrice
         let pictureSource = trackingInfo.imageSource
-        let event = TrackerEvent.listingSellComplete(postedListing, buttonName: buttonName,
+        let typePage = trackingInfo.typePage
+        let mostSearchedButton = trackingInfo.mostSearchedButton
+        let event = TrackerEvent.listingSellComplete(postedListing,
+                                                     buttonName: buttonName,
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
                                                      negotiable: negotiable, pictureSource: pictureSource,
-                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed)
+                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                     typePage: typePage,
+                                                     mostSearchedButton: mostSearchedButton)
         tracker.trackEvent(event)
 
         // Track product was sold in the first 24h (and not tracked before)

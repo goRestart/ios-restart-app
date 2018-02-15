@@ -10,22 +10,24 @@ import LGCoreKit
 
 protocol RecaptchaNavigator: class {
     func recaptchaClose()
-    func recaptchaFinishedWithToken(_ token: String)
+    func recaptchaFinishedWithToken(_ token: String, action: LoginActionType)
 }
 
 class RecaptchaViewModel: BaseViewModel {
 
     weak var navigator: RecaptchaNavigator?
+    private let action: LoginActionType
     private let tracker: Tracker
-    let transparentMode: Bool
 
-    convenience init(transparentMode: Bool) {
-        self.init(tracker: TrackerProxy.sharedInstance, transparentMode: transparentMode)
+    convenience init(action: LoginActionType) {
+        self.init(action: action,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
-    init(tracker: Tracker, transparentMode: Bool) {
+    init(action: LoginActionType,
+         tracker: Tracker) {
+        self.action = action
         self.tracker = tracker
-        self.transparentMode = transparentMode
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -36,7 +38,7 @@ class RecaptchaViewModel: BaseViewModel {
     }
 
     var url: URL? {
-        return LetgoURLHelper.buildRecaptchaURL(transparent: transparentMode)
+        return LetgoURLHelper.buildRecaptchaURL()
     }
 
     func closeButtonPressed() {
@@ -45,7 +47,7 @@ class RecaptchaViewModel: BaseViewModel {
 
     func startedLoadingURL(_ url: URL) {
         guard let token = tokenFromURL(url) else { return }
-        navigator?.recaptchaFinishedWithToken(token)
+        navigator?.recaptchaFinishedWithToken(token, action: action)
     }
 
     func urlLoaded(_ url: URL) { }
@@ -59,7 +61,13 @@ class RecaptchaViewModel: BaseViewModel {
     }
 
     private func trackVisit() {
-        let event = TrackerEvent.signupCaptcha()
+        let event: TrackerEvent
+        switch action {
+        case .login:
+            event = TrackerEvent.loginCaptcha()
+        case .signup:
+            event = TrackerEvent.signupCaptcha()
+        }
         tracker.trackEvent(event)
     }
 }

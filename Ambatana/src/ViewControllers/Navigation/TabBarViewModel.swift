@@ -14,11 +14,25 @@ class TabBarViewModel: BaseViewModel {
 
     var notificationsBadge = Variable<String?>(nil)
     var chatsBadge = Variable<String?>(nil)
-    var favoriteBadge = Variable<String?>(nil)
+    var sellBadge = Variable<String?>(nil)
+    
+    var shouldShowRealEstateTooltip: Bool {
+        return featureFlags.realEstateEnabled.isActive &&
+            featureFlags.realEstateImprovements.isActive &&
+            !keyValueStorage[.realEstateTooltipSellButtonAlreadyShown]
+    }
+    var isMostSearchedItemsCameraBadgeEnabled: Bool {
+        return featureFlags.mostSearchedDemandedItems == .cameraBadge
+    }
+    var shouldShowCameraBadge: Bool {
+        return isMostSearchedItemsCameraBadgeEnabled && !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
+    }
 
     private let notificationsManager: NotificationsManager
     private let myUserRepository: MyUserRepository
-
+    private let keyValueStorage: KeyValueStorage
+    private let featureFlags: FeatureFlaggeable
+    
     private let disposeBag = DisposeBag()
 
     
@@ -26,12 +40,19 @@ class TabBarViewModel: BaseViewModel {
 
     convenience override init() {
         self.init(notificationsManager: LGNotificationsManager.sharedInstance,
-                  myUserRepository: Core.myUserRepository)
+                  myUserRepository: Core.myUserRepository,
+                  keyValueStorage: KeyValueStorage.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(notificationsManager: NotificationsManager, myUserRepository: MyUserRepository) {
+    init(notificationsManager: NotificationsManager,
+         myUserRepository: MyUserRepository,
+         keyValueStorage: KeyValueStorage,
+         featureFlags: FeatureFlaggeable) {
         self.notificationsManager = notificationsManager
         self.myUserRepository = myUserRepository
+        self.keyValueStorage = keyValueStorage
+        self.featureFlags = featureFlags
         super.init()
         setupRx()
     }
@@ -40,11 +61,47 @@ class TabBarViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func sellButtonPressed() {
-        navigator?.openSell(source: .sellButton, postCategory: nil)
+        navigator?.openSell(source: .sellButton, postCategory: nil, listingTitle: nil)
     }
     
-    func expandableButtonPressed(listingCategory: ListingCategory) {
-        navigator?.openSell(source: .sellButton, postCategory: listingCategory.postCategory)
+    func expandableButtonPressed(category: ExpandableCategory) {
+        if category == .mostSearchedItems {
+            navigator?.openMostSearchedItems(source: .mostSearchedTrendingExpandable, enableSearch: false)
+        } else if let postCategory = category.listingCategory?.postCategory {
+            navigator?.openSell(source: .sellButton, postCategory: postCategory, listingTitle: nil)
+        }
+    }
+    
+    func tagPressed(mostSearchedItem: LocalMostSearchedItem) {
+        navigator?.openSell(source: .mostSearchedTagsExpandable,
+                            postCategory: mostSearchedItem.category,
+                            listingTitle: mostSearchedItem.name)
+    }
+    
+    func realEstateTooltipText() -> NSMutableAttributedString {
+        var newTextAttributes = [NSAttributedStringKey : Any]()
+        newTextAttributes[.foregroundColor] = UIColor.primaryColorHighlighted
+        newTextAttributes[.font] = UIFont.systemSemiBoldFont(size: 17)
+        
+        let newText = NSAttributedString(string: LGLocalizedString.commonNew, attributes: newTextAttributes)
+        
+        var titleTextAttributes = [NSAttributedStringKey : Any]()
+        titleTextAttributes[.foregroundColor] = UIColor.white
+        titleTextAttributes[.font] = UIFont.systemSemiBoldFont(size: 17)
+        
+        let title = featureFlags.realEstateNewCopy.isActive ? LGLocalizedString.realEstateTooltipSellButtonTitle : LGLocalizedString.realEstateTooltipSellButton
+        let titleText = NSAttributedString(string: title, attributes: titleTextAttributes)
+        
+        let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
+        fullTitle.append(NSAttributedString(string: " "))
+        fullTitle.append(titleText)
+        
+        return fullTitle
+    }
+    
+    func tooltipDismissed() {
+        guard shouldShowRealEstateTooltip else { return }
+        keyValueStorage[.realEstateTooltipSellButtonAlreadyShown] = true
     }
 
 
@@ -53,13 +110,19 @@ class TabBarViewModel: BaseViewModel {
     private func setupRx() {
         notificationsManager.unreadMessagesCount.asObservable()
             .map { $0.flatMap { $0 > 0 ? String($0) : nil } }
-            .bindTo(chatsBadge).addDisposableTo(disposeBag)
+            .bind(to: chatsBadge)
+            .disposed(by: disposeBag)
         
         Observable.combineLatest(myUserRepository.rx_myUser,
             notificationsManager.unreadNotificationsCount.asObservable(),
             resultSelector: { (myUser, count) -> String? in
                 guard myUser != nil else { return String(1) }
                 return count.flatMap { $0 > 0 ? String($0) : nil }
-            }).bindTo(notificationsBadge).addDisposableTo(disposeBag)
+            }).bind(to: notificationsBadge)
+            .disposed(by: disposeBag)
+        
+        notificationsManager.newSellFeatureIndicator.asObservable()
+            .bind(to: sellBadge)
+            .disposed(by: disposeBag)
     }
 }

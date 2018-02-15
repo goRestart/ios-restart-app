@@ -6,22 +6,19 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+#if DEBUG
+    import AdSupport
+#endif
 import AppsFlyerLib
 import Branch
 import Crashlytics
 import CocoaLumberjack
 import Fabric
 import FBSDKCoreKit
+import GoogleSignIn
 import LGCoreKit
 import RxSwift
-import TwitterKit
 import UIKit
-
-
-#if DEBUG
-    import AdSupport
-#endif
-import Firebase
 
 
 @UIApplicationMain
@@ -102,7 +99,7 @@ extension AppDelegate: UIApplicationDelegate {
         window.makeKeyAndVisible()
 
         let fbApplicationDelegate = FBSDKApplicationDelegate.sharedInstance()
-        let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions) ?? false
+        let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions)
         let fbSdkContinuation = fbApplicationDelegate?.application(application,
                                                                    didFinishLaunchingWithOptions: launchOptions) ?? false
 
@@ -230,8 +227,8 @@ extension AppDelegate: AppNavigatorDelegate {
 fileprivate extension AppDelegate {
     func setupAppearance() {
         UINavigationBar.appearance().tintColor = UIColor.lightBarButton
-        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : UIFont.pageTitleFont,
-                                                            NSForegroundColorAttributeName : UIColor.lightBarTitle]
+        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont.pageTitleFont,
+                                                            .foregroundColor : UIColor.lightBarTitle]
         UITabBar.appearance().tintColor = UIColor.tabBarIconSelectedColor
 
         UIPageControl.appearance().pageIndicatorTintColor = UIColor.pageIndicatorTintColor
@@ -256,9 +253,9 @@ fileprivate extension AppDelegate {
 
         // Logging
         #if GOD_MODE
-            DDLog.add(DDTTYLogger.sharedInstance())       // TTY = Xcode console
-            DDTTYLogger.sharedInstance().colorsEnabled =  true
-            DDLog.add(DDASLLogger.sharedInstance())       // ASL = Apple System Logs
+            DDLog.add(DDTTYLogger.sharedInstance)       // TTY = Xcode console
+            DDTTYLogger.sharedInstance.colorsEnabled =  true
+            DDLog.add(DDASLLogger.sharedInstance)       // ASL = Apple System Logs
         #endif
 
         // New Relic
@@ -269,29 +266,12 @@ fileprivate extension AppDelegate {
         #endif
 
         // Fabric
-        Twitter.sharedInstance().start(withConsumerKey: EnvironmentProxy.sharedInstance.twitterConsumerKey,
-                                       consumerSecret: EnvironmentProxy.sharedInstance.twitterConsumerSecret)
         #if DEBUG
-            Fabric.with([Twitter.self])
         #else
-            Fabric.with([Crashlytics.self, Twitter.self])
+            Fabric.with([Crashlytics.self])
             Core.reporter.addReporter(CrashlyticsReporter())
             DDLog.add(CrashlyticsLogger.sharedInstance)
         #endif
-
-        // Location data source
-        featureFlags.syncedData.filter { $0 }.asObservable().subscribeNext { [weak self] _ in
-            let locationDataSourceType: LocationDataSourceType
-            switch featureFlags.locationDataSourceEndpoint {
-            case .control, .baseline:
-                locationDataSourceType = .apple(shouldUseRegion: false)
-            case .appleWithRegion:
-                locationDataSourceType = .apple(shouldUseRegion: true)
-            case .niordWithRegion:
-                locationDataSourceType = .niord
-            }
-            self?.locationRepository?.setLocationDataSourceType(locationDataSourceType: locationDataSourceType)
-            }.addDisposableTo(disposeBag)
 
         // LGCoreKit
         let coreEnvironment = environmentHelper.coreEnvironment
@@ -304,6 +284,10 @@ fileprivate extension AppDelegate {
 
         // Branch.io
         if let branch = Branch.getInstance() {
+            #if DEBUG
+                branch.setDebug()
+            #endif
+            
             branch.initSession(launchOptions: launchOptions, andRegisterDeepLinkHandlerUsingBranchUniversalObject: {
                 [weak self] object, properties, error in
                 self?.deepLinksRouter?.deepLinkFromBranchObject(object, properties: properties)
@@ -320,9 +304,6 @@ fileprivate extension AppDelegate {
         TrackerProxy.sharedInstance.application(application,
                                                 didFinishLaunchingWithOptions: launchOptions,
                                                 featureFlags: featureFlags)
-
-        // Google app indexing
-        FIRAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
 
         LGNotificationsManager.sharedInstance.setup()
         StickersManager.sharedInstance.setup()
@@ -349,19 +330,19 @@ fileprivate extension AppDelegate {
             } else {
                 self.locationManager?.stopSensorLocationUpdates()
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         // Force update check
         appActive.filter { $0 }.subscribeNext { [weak self] active in
-            self?.configManager?.updateWithCompletion { _ in
+            self?.configManager?.updateWithCompletion {
                 self?.navigator?.openForceUpdateAlertIfNeeded()
             }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         if let featureFlags = featureFlags {
             let featureFlagsSynced = featureFlags.syncedData.asObservable().distinctUntilChanged()
             Observable.combineLatest(appActive.asObservable().distinctUntilChanged(), featureFlagsSynced.asObservable()) { ($0, $1) }
-                .bindNext { [weak self] (appActive, _) in
+                .bind { [weak self] (appActive, _) in
                     guard featureFlags.pricedBumpUpEnabled else { return }
                     if appActive {
                         // observe payment transactions
@@ -371,7 +352,7 @@ fileprivate extension AppDelegate {
                         // stop observing payment transactions
                         self?.purchasesShopper?.stopObservingTransactions()
                     }
-                }.addDisposableTo(disposeBag)
+                }.disposed(by: disposeBag)
         }
     }
 }
@@ -380,16 +361,24 @@ fileprivate extension AppDelegate {
 // MARK: > Deep linking
 
 fileprivate extension AppDelegate {
-    func app(_ app: UIApplication, openURL url: URL, sourceApplication: String?, annotation: Any?, options: [UIApplicationOpenURLOptionsKey : Any]?) -> Bool {
-
-        TrackerProxy.sharedInstance.application(app, openURL: url, sourceApplication: sourceApplication,
+    func app(_ app: UIApplication,
+             openURL url: URL,
+             sourceApplication: String?,
+             annotation: Any?,
+             options: [UIApplicationOpenURLOptionsKey : Any]?) -> Bool {
+        TrackerProxy.sharedInstance.application(app,
+                                                openURL: url,
+                                                sourceApplication: sourceApplication,
                                                 annotation: annotation)
-
-        let routerHandling = deepLinksRouter?.openUrl(url, sourceApplication: sourceApplication, annotation: annotation) ?? false
-
-        let facebookHandling = FBSDKApplicationDelegate.sharedInstance().application(app, open: url,
-                                                                                     sourceApplication: sourceApplication, annotation: annotation)
-        let googleHandling = GIDSignIn.sharedInstance().handle(url, sourceApplication: sourceApplication,
+        let routerHandling = deepLinksRouter?.openUrl(url,
+                                                      sourceApplication: sourceApplication,
+                                                      annotation: annotation) ?? false
+        let facebookHandling = FBSDKApplicationDelegate.sharedInstance().application(app,
+                                                                                     open: url,
+                                                                                     sourceApplication: sourceApplication,
+                                                                                     annotation: annotation)
+        let googleHandling = GIDSignIn.sharedInstance().handle(url,
+                                                               sourceApplication: sourceApplication,
                                                                annotation: annotation)
         if let options = options {
             AppsFlyerTracker.shared().handleOpen(url, options: options)

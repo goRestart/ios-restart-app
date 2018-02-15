@@ -47,7 +47,7 @@ class PromoteBumpViewController: BaseViewController {
     private func setupUI() {
 
         view.backgroundColor = UIColor.clear
-        alertView.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
+        alertView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
         alertView.backgroundColor = UIColor.white
 
         titleLabel.text = viewModel?.titleText
@@ -125,12 +125,12 @@ class PromoteBumpViewController: BaseViewController {
 
     // MARK: - Actions
 
-    dynamic func sellFaster() {
+    @objc func sellFaster() {
         // open product detail & bump
         viewModel?.sellFasterButtonPressed()
     }
 
-    dynamic func laterPressed() {
+    @objc func laterPressed() {
         viewModel?.laterButtonPressed()
     }
 }

@@ -19,6 +19,13 @@ enum PostingSource {
     case onboardingCamera
     case notifications
     case deleteListing
+    case realEstatePromo
+    case mostSearchedTabBarCamera
+    case mostSearchedTrendingExpandable
+    case mostSearchedTagsExpandable
+    case mostSearchedCategoryHeader
+    case mostSearchedCard
+    case mostSearchedUserProfile
 }
 
 
@@ -73,12 +80,8 @@ class PostListingViewModel: BaseViewModel {
     var selectedCarAttributes: CarAttributes = CarAttributes.emptyCarAttributes()
     var selectedRealEstateAttributes: RealEstateAttributes = RealEstateAttributes.emptyRealEstateAttributes()
     
-    var shouldShowSummaryAfter: Bool {
-        return featureFlags.tweaksCarPostingFlow.isActive
-    }
-    
     var realEstateEnabled: Bool {
-        return featureFlags.realEstateEnabled
+        return featureFlags.realEstateEnabled.isActive
     }
     
     fileprivate let disposeBag: DisposeBag
@@ -86,8 +89,12 @@ class PostListingViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    convenience init(source: PostingSource, postCategory: PostCategory?) {
+    convenience init(source: PostingSource,
+                     postCategory: PostCategory?,
+                     listingTitle: String?) {
         self.init(source: source,
+                  postCategory: postCategory,
+                  listingTitle: listingTitle,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
                   carsInfoRepository: Core.carsInfoRepository,
@@ -95,11 +102,12 @@ class PostListingViewModel: BaseViewModel {
                   sessionManager: Core.sessionManager,
                   featureFlags: FeatureFlags.sharedInstance,
                   locationManager: Core.locationManager,
-                  currencyHelper: Core.currencyHelper,
-                  postCategory: postCategory)
+                  currencyHelper: Core.currencyHelper)
     }
 
     init(source: PostingSource,
+         postCategory: PostCategory?,
+         listingTitle: String?,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
          carsInfoRepository: CarsInfoRepository,
@@ -107,23 +115,22 @@ class PostListingViewModel: BaseViewModel {
          sessionManager: SessionManager,
          featureFlags: FeatureFlaggeable,
          locationManager: LocationManager,
-         currencyHelper: CurrencyHelper,
-         postCategory: PostCategory?) {
-        self.state = Variable<PostListingState>(PostListingState(postCategory: postCategory))
+         currencyHelper: CurrencyHelper) {
+        self.state = Variable<PostListingState>(PostListingState(postCategory: postCategory, title: listingTitle))
         self.category = Variable<PostCategory?>(postCategory)
         
         self.postingSource = source
+        self.postCategory = postCategory
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.carsInfoRepository = carsInfoRepository
         self.postDetailViewModel = PostListingBasicDetailViewModel()
-        self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source)
+        self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source, postCategory: postCategory)
         self.tracker = tracker
         self.sessionManager = sessionManager
         self.featureFlags = featureFlags
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
-        self.postCategory = postCategory
         self.disposeBag = DisposeBag()
         super.init()
         self.postDetailViewModel.delegate = self
@@ -186,7 +193,9 @@ class PostListingViewModel: BaseViewModel {
                 let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                            sellButtonPosition: postingSource.sellButtonPosition,
                                                            imageSource: uploadedImageSource,
-                                                           price: postDetailViewModel.price.value)
+                                                           price: postDetailViewModel.price.value,
+                                                           typePage: postingSource.typePage,
+                                                           mostSearchedButton: postingSource.mostSearchedButton)
                 navigator?.closePostProductAndPostInBackground(params: listingParams,
                                                                trackingInfo: trackingInfo)
             } else {
@@ -298,7 +307,7 @@ extension PostListingViewModel {
             case .year:
                 strongSelf.selectedCarAttributes = strongSelf.selectedCarAttributes.updating(year: Int(categoryDetail.id))
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }
 
@@ -318,23 +327,23 @@ fileprivate extension PostListingViewModel {
         category.asObservable().subscribeNext { [weak self] category in
             guard let strongSelf = self, let category = category else { return }
             strongSelf.state.value = strongSelf.state.value.updating(category: category)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        state.asObservable().filter { $0.step == .finished }.bindNext { [weak self] _ in
+        state.asObservable().filter { $0.step == .finished }.bind { [weak self] _ in
             self?.postListing()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        state.asObservable().filter { $0.step == .addingDetails }.bindNext { [weak self] _ in
+        state.asObservable().filter { $0.step == .addingDetails }.bind { [weak self] _ in
             self?.openPostingDetails()
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         
-        state.asObservable().filter { $0.step == .uploadSuccess }.bindNext { [weak self] _ in
+        state.asObservable().filter { $0.step == .uploadSuccess }.bind { [weak self] _ in
             // Keep one second delay in order to give time to read the product posted message.
             delay(1) { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.state.value = strongSelf.state.value.updatingAfterUploadingSuccess()
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     func openPostAbandonAlertNotLoggedIn() {
@@ -350,8 +359,12 @@ fileprivate extension PostListingViewModel {
     }
     
     func postListing() {
-        let trackingInfo = PostListingTrackingInfo(buttonName: .done, sellButtonPosition: postingSource.sellButtonPosition,
-                                                   imageSource: uploadedImageSource, price: postDetailViewModel.price.value)
+        let trackingInfo = PostListingTrackingInfo(buttonName: .done,
+                                                   sellButtonPosition: postingSource.sellButtonPosition,
+                                                   imageSource: uploadedImageSource,
+                                                   price: postDetailViewModel.price.value,
+                                                   typePage: postingSource.typePage,
+                                                   mostSearchedButton: postingSource.mostSearchedButton)
         if sessionManager.loggedIn {
             guard let images = state.value.lastImagesUploadResult?.value,
                 let listingCreationParams = makeListingParams() else { return }
@@ -383,16 +396,25 @@ fileprivate extension PostListingViewModel {
     
     func makeListingParams() -> ListingCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
-        let title = postDetailViewModel.listingTitle
         let description = postDetailViewModel.listingDescription ?? ""
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
         let currency = currencyHelper.currencyWithCountryCode(postalAddress.countryCode ?? Constants.currencyDefault)
+        
+        var title: String?
+        if let listingTitle = postDetailViewModel.listingTitle {
+            title = listingTitle
+        } else if let verticalGeneratedTitle = state.value.verticalAttributes?.generatedTitle(postingFlowType: featureFlags.postingFlowType) {
+            title = verticalGeneratedTitle
+        } else if let stateTitle = state.value.title {
+            title = stateTitle
+        }
+        
         return ListingCreationParams.make(title: title,
-                                   description: description,
-                                   currency: currency,
-                                   location: location,
-                                   postalAddress: postalAddress,
-                                   postListingState: state.value)
+                                          description: description,
+                                          currency: currency,
+                                          location: location,
+                                          postalAddress: postalAddress,
+                                          postListingState: state.value)
     }
 }
 
@@ -401,9 +423,11 @@ fileprivate extension PostListingViewModel {
 
 fileprivate extension PostListingViewModel {
     func trackVisit() {
-        let event = TrackerEvent.listingSellStart(postingSource.typePage,buttonName: postingSource.buttonName,
+        let event = TrackerEvent.listingSellStart(postingSource.typePage,
+                                                  buttonName: postingSource.buttonName,
                                                   sellButtonPosition: postingSource.sellButtonPosition,
-                                                  category: postCategory?.listingCategory)
+                                                  category: postCategory?.listingCategory,
+                                                  mostSearchedButton: postingSource.mostSearchedButton)
         tracker.trackEvent(event)
     }
 }
@@ -421,27 +445,61 @@ extension PostingSource {
             return .notifications
         case .deleteListing:
             return .listingDelete
+        case .mostSearchedTabBarCamera, .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable,
+             .mostSearchedCategoryHeader, .mostSearchedCard, .mostSearchedUserProfile:
+            return .mostSearched
+        case .realEstatePromo:
+            return .realEstatePromo
         }
     }
 
     var buttonName: EventParameterButtonNameType? {
         switch self {
-        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing:
+        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
+             .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
+             .mostSearchedCard, .mostSearchedUserProfile:
             return nil
         case .onboardingButton:
             return .sellYourStuff
         case .onboardingCamera:
             return .startMakingCash
+        case .realEstatePromo:
+            return .realEstatePromo
         }
     }
+    
     var sellButtonPosition: EventParameterSellButtonPosition {
         switch self {
         case .tabBar:
             return .tabBar
         case .sellButton:
             return .floatingButton
-        case .onboardingButton, .onboardingCamera, .deepLink, .notifications, .deleteListing:
+        case .onboardingButton, .onboardingCamera, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
+             .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
+             .mostSearchedCard, .mostSearchedUserProfile:
             return .none
+        case .realEstatePromo:
+            return .realEstatePromo
+        }
+    }
+    
+    var mostSearchedButton: EventParameterMostSearched {
+        switch self {
+        case .tabBar, .sellButton, .deepLink, .onboardingButton, .onboardingCamera,
+             .notifications, .deleteListing, .realEstatePromo:
+            return .notApply
+        case .mostSearchedTabBarCamera:
+            return .tabBarCamera
+        case .mostSearchedTrendingExpandable:
+            return .trendingExpandableButton
+        case .mostSearchedTagsExpandable:
+            return .postingTags
+        case .mostSearchedCategoryHeader:
+            return .feedBubble
+        case .mostSearchedCard:
+            return .feedCard
+        case .mostSearchedUserProfile:
+            return .userProfile
         }
     }
 }

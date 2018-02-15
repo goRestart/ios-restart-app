@@ -60,6 +60,19 @@ class FilterTagCell: UICollectionViewCell {
             return FilterTagCell.sizeForText(name)
         case .yearsRange(let startYear, let endYear):
             return FilterTagCell.sizeForText(FilterTagCell.stringForYearsRange(startYear, endYear: endYear))
+        case .realEstatePropertyType(let propertyType):
+            return FilterTagCell.sizeForText(propertyType.shortLocalizedString.localizedUppercase)
+        case .realEstateOfferType(let offerType):
+            return FilterTagCell.sizeForText(offerType.shortLocalizedString.localizedUppercase)
+        case .realEstateNumberOfBedrooms(let numberOfBedrooms):
+            return FilterTagCell.sizeForText(numberOfBedrooms.shortLocalizedString)
+        case .realEstateNumberOfBathrooms(let numberOfBathrooms):
+            return FilterTagCell.sizeForText(numberOfBathrooms.shortLocalizedString)
+        case .realEstateNumberOfRooms(let numberOfRooms):
+            return FilterTagCell.sizeForText(numberOfRooms.localizedString)
+        case .sizeSquareMetersRange(let minSize, let maxSize):
+            let sizeSquareMeters = FilterTagCell.stringForSizeRange(startSize: minSize, endSize: maxSize)
+            return FilterTagCell.sizeForText(sizeSquareMeters)
         }
     }
     
@@ -67,7 +80,7 @@ class FilterTagCell: UICollectionViewCell {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: FilterTagCell.cellHeight)
         let boundingBox = text.boundingRect(with: constraintRect,
             options: NSStringDrawingOptions.usesLineFragmentOrigin,
-            attributes: [NSFontAttributeName: UIFont.mediumBodyFont], context: nil)
+            attributes: [NSAttributedStringKey.font: UIFont.mediumBodyFont], context: nil)
         return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: FilterTagCell.cellHeight)
     }
 
@@ -115,6 +128,29 @@ class FilterTagCell: UICollectionViewCell {
             return ""
         }
     }
+    
+    private static func stringForSizeRange(startSize: Int?, endSize: Int?) -> String {
+        var startText = ""
+        var endText = ""
+        
+        if let startSize = startSize {
+            startText = String(startSize)
+        }
+        if let endSize = endSize {
+            endText = String(endSize)
+        }
+        
+        if !startText.isEmpty && !endText.isEmpty {
+            return startText.addSquareMeterUnit + " " + "-" + " " + endText.addSquareMeterUnit
+        } else if !startText.isEmpty {
+            return startText.addSquareMeterUnit
+        } else if !endText.isEmpty {
+            return endText.addSquareMeterUnit
+        } else {
+            // should never ever happen
+            return ""
+        }
+    }
 
 
     // MARK: - Lifecycle
@@ -146,6 +182,17 @@ class FilterTagCell: UICollectionViewCell {
         contentView.backgroundColor = .white
     }
     
+    private func applyCellStyle(tag: FilterTag) {
+        switch tag {
+        case .taxonomy(let taxonomy):
+            setColoredCellStyle(taxonomy.color)
+        case .location, .within, .orderBy, .category, .taxonomyChild, .secondaryTaxonomyChild, .priceRange,
+             .freeStuff, .distance, .make, .model, .yearsRange, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
+             .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
+            setDefaultCellStyle()
+        }
+    }
+    
     private func setAccessibilityIds() {
         accessibilityId = .filterTagCell
         tagIcon.accessibilityId = .filterTagCellTagIcon
@@ -164,49 +211,48 @@ class FilterTagCell: UICollectionViewCell {
     
     func setupWithTag(_ tag : FilterTag) {
         filterTag = tag
-        
+        applyCellStyle(tag: tag)
         switch tag {
         case .location(let place):
-            setDefaultCellStyle()
             tagLabel.text = place.fullText(showAddress: false)
         case .orderBy(let sortOption):
-            setDefaultCellStyle()
             tagLabel.text = sortOption.name
         case .within(let timeOption):
-            setDefaultCellStyle()
             tagLabel.text = timeOption.name
         case .category(let category):
-            setDefaultCellStyle()
             tagIconWidth.constant = FilterTagCell.iconWidth
             tagIcon.image = category.imageTag
         case .taxonomyChild(let taxonomyChild):
-            setDefaultCellStyle()
             tagLabel.text = taxonomyChild.name
         case .taxonomy(let taxonomy):
-            setColoredCellStyle(taxonomy.color)
             tagLabel.text = taxonomy.name
         case .secondaryTaxonomyChild(let secondaryTaxonomyChild):
-            setDefaultCellStyle()
             tagLabel.text = secondaryTaxonomyChild.name
         case .priceRange(let minPrice, let maxPrice, let currency):
-            setDefaultCellStyle()
             tagLabel.text = FilterTagCell.stringForPriceRange(minPrice, max: maxPrice, withCurrency: currency)
         case .freeStuff:
-            setDefaultCellStyle()
             tagIconWidth.constant = FilterTagCell.iconWidth
             tagIcon.image = UIImage(named: "categories_free_tag")
         case .distance(let distance):
-            setDefaultCellStyle()
             tagLabel.text = distance.intToDistanteFormat()
         case .make(_, let name):
-            setDefaultCellStyle()
             tagLabel.text = name
         case .model(_, let name):
-            setDefaultCellStyle()
             tagLabel.text = name
         case .yearsRange(let startYear, let endYear):
-            setDefaultCellStyle()
             tagLabel.text = FilterTagCell.stringForYearsRange(startYear, endYear: endYear)
+        case .realEstatePropertyType(let propertyType):
+            tagLabel.text = propertyType.shortLocalizedString.localizedCapitalized
+        case .realEstateOfferType(let offerType):
+            tagLabel.text = offerType.shortLocalizedString.localizedCapitalized
+        case .realEstateNumberOfBedrooms(let numberOfBedrooms):
+            tagLabel.text = numberOfBedrooms.shortLocalizedString
+        case .realEstateNumberOfBathrooms(let numberOfBathrooms):
+            tagLabel.text = numberOfBathrooms.shortLocalizedString
+        case .sizeSquareMetersRange(let minSize, let maxSize):
+            tagLabel.text = FilterTagCell.stringForSizeRange(startSize: minSize, endSize: maxSize)
+        case .realEstateNumberOfRooms(let numberOfRooms):
+            tagLabel.text = numberOfRooms.localizedString
         }
     }
 

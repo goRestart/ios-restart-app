@@ -6,7 +6,13 @@
 //  Copyright (c) 2015 Branch Metrics. All rights reserved.
 //
 
+#if __has_feature(modules)
+@import Foundation;
+@import UIKit;
+#else
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#endif
 
 /**
  The `BranchActivityItemProviderDelegate` allows you  to customize the link parameters based on the channel chosen by the user.
@@ -32,4 +38,5 @@
 - (id)initWithParams:(NSDictionary *)params andTags:(NSArray *)tags andFeature:(NSString *)feature andStage:(NSString *)stage andAlias:(NSString *)alias  __attribute__((deprecated(("Use the delegate method instead"))));;
 - (id)initWithParams:(NSDictionary *)params tags:(NSArray *)tags feature:(NSString *)feature stage:(NSString *)stage campaign:(NSString *)campaign alias:(NSString *)alias delegate:(id <BranchActivityItemProviderDelegate>)delegate;
 
++ (NSString *)humanReadableChannelWithActivityType:(NSString *)activityString;
 @end

@@ -30,10 +30,10 @@ class PostIncentivatorView: UIView {
     var isFree: Bool?
 
     var incentiveText: NSAttributedString {
-        let gotAnyTextAttributes: [String : Any] = [NSForegroundColorAttributeName : UIColor.darkGrayText,
-                                                          NSFontAttributeName : UIFont.systemBoldFont(size: 15)]
-        let lookingForTextAttributes: [String : Any] = [ NSForegroundColorAttributeName : UIColor.darkGrayText,
-                                                               NSFontAttributeName : UIFont.mediumBodyFont]
+        let gotAnyTextAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.foregroundColor : UIColor.darkGrayText,
+                                                                   NSAttributedStringKey.font : UIFont.systemBoldFont(size: 15)]
+        let lookingForTextAttributes: [NSAttributedStringKey : Any] = [NSAttributedStringKey.foregroundColor : UIColor.darkGrayText,
+                                                                       NSAttributedStringKey.font : UIFont.mediumBodyFont]
 
         let secondPartString = (isFree ?? false)  ? LGLocalizedString.productPostIncentiveGotAnyFree :
             LGLocalizedString.productPostIncentiveGotAny
@@ -102,7 +102,7 @@ class PostIncentivatorView: UIView {
 
     // MARK: - Private methods
 
-    dynamic private func onTap() {
+    @objc private func onTap() {
         delegate?.incentivatorTapped()
     }
 }

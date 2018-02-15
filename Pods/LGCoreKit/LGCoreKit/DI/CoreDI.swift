@@ -9,7 +9,7 @@
 import Alamofire
 import CoreLocation
 import KeychainSwift
-import ReachabilitySwift
+import Reachability
 
 final class CoreDI: InternalDI {
     // MARK: - Lifecycle
@@ -105,7 +105,8 @@ final class CoreDI: InternalDI {
 
         let apiDataSource = UserApiDataSource(apiClient: apiClient)
         let userRepository = LGUserRepository(dataSource: apiDataSource,
-                                              myUserRepository: myUserRepository)
+                                              myUserRepository: myUserRepository,
+                                              usersDAO: UsersMemoryDAO())
         self.internalUserRepository = userRepository
 
         let chatDataSource = ChatWebSocketDataSource(webSocketClient: webSocketClient, apiClient: apiClient)

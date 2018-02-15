@@ -77,7 +77,7 @@ extension ChatDisclaimerCell {
 
 fileprivate extension ChatDisclaimerCell {
     func setupUI() {
-        backgroundCellView.layer.cornerRadius = LGUIKitConstants.chatCellCornerRadius
+        backgroundCellView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
         backgroundCellView.backgroundColor = UIColor.disclaimerColor
         backgroundCellView.layer.borderWidth = 1
         backgroundCellView.layer.borderColor = UIColor.white.cgColor
@@ -97,12 +97,12 @@ fileprivate extension ChatDisclaimerCell {
     }
 
     func setupRxBindings() {
-        button.rx.tap.asObservable().subscribeNext { [weak self] _ in
+        button.rx.tap.asObservable().subscribeNext { [weak self] in
             self?.buttonAction?()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
-    dynamic func tapped() {
+    @objc func tapped() {
         buttonAction?()
     }
 

@@ -15,45 +15,6 @@ class StringLGSpec: QuickSpec {
         var sut: String!
 
         describe("String + LG methods") {
-            context("hasEmojis") {
-                describe("contains unicodes but not emojis") {
-                    beforeEach {
-                        sut = "abz12309ASDFѶڅ ࠄDਇቔḶ₸⍓♶㈶힘𐭄AS𓁦"
-                    }
-                    it("Doesn't detect any emoji") {
-                        expect(sut.hasEmojis()) == false
-                    }
-                }
-                describe("contains unicodes with emojis") {
-                    beforeEach {
-                        sut = "abz123🇹🇬6️⃣09AS👍DFѶڅ ࠄDਇቔḶ₸⍓♶㈶힘𐭄AS𓁦✍🏿"
-                    }
-                    it("Detects emojis") {
-                        expect(sut.hasEmojis()) == true
-                    }
-                }
-            }
-            context("stringByRemovingEmoji") {
-                var withoutEmojis: String!
-                describe("contains unicodes but not emojis") {
-                    beforeEach {
-                        sut = "abz12309ASDFѶڅ ࠄDਇቔḶ₸⍓♶㈶힘𐭄AS𓁦"
-                        withoutEmojis = sut.stringByRemovingEmoji()
-                    }
-                    it("leaves string as it is") {
-                        expect(sut) == withoutEmojis
-                    }
-                }
-                describe("contains unicodes with emojis") {
-                    beforeEach {
-                        sut = "abz123🇹🇬6️⃣09AS👍DFѶڅ ࠄDਇቔḶ₸⍓♶㈶힘𐭄AS𓁦✍🏿"
-                        withoutEmojis = sut.stringByRemovingEmoji()
-                    }
-                    it("removes emojis from the string") {
-                        expect(withoutEmojis) == "abz12309ASDFѶڅ ࠄDਇቔḶ₸⍓♶㈶힘𐭄AS𓁦"
-                    }
-                }
-            }
             context("isEmail") {
                 describe("correct email") {
                     beforeEach {
@@ -334,6 +295,40 @@ class StringLGSpec: QuickSpec {
                     expect("123 123".isOnlyDigits) == false
                 }
             }
+            context("isPhoneNumber") {
+                describe("correct US phone number") {
+                    beforeEach {
+                        sut = "1234567890"
+                    }
+                    it("returns true") {
+                        expect(sut.isPhoneNumber) == true
+                    }
+                }
+                describe("too many digits") {
+                    beforeEach {
+                        sut = "12345678901"
+                    }
+                    it("returns false") {
+                        expect(sut.isPhoneNumber) == false
+                    }
+                }
+                describe("not enough digits ") {
+                    beforeEach {
+                        sut = "12345678"
+                    }
+                    it("returns false") {
+                        expect(sut.isPhoneNumber) == false
+                    }
+                }
+                describe("has unaccepted characters") {
+                    beforeEach {
+                        sut = "+123456789"
+                    }
+                    it("returns false") {
+                        expect(sut.isPhoneNumber) == false
+                    }
+                }
+            }
         }
         
         describe("makeBold:ignoringText:font") {
@@ -342,8 +337,8 @@ class StringLGSpec: QuickSpec {
                 var result: NSAttributedString!
                 var ignoreText: String!
                 var font: UIFont!
-                var regularAttributes: [String : Any]!
-                var boldAttributes: [String : Any]!
+                var regularAttributes: [NSAttributedStringKey : Any]!
+                var boldAttributes: [NSAttributedStringKey : Any]!
                 
                 context("with a valid font") {
                     context("ignoreText contained in string") {
@@ -356,25 +351,25 @@ class StringLGSpec: QuickSpec {
                             
                             regularAttributes = result.attributes(at: 0,
                                                                   longestEffectiveRange: nil,
-                                                                  in: NSRange(location: 0, length: ignoreText.characters.count))
+                                                                  in: NSRange(location: 0, length: ignoreText.count))
                             
-                            let boldStarIndex = ignoreText.characters.count > 0 ? ignoreText.characters.count + 1 : 0
-                            let boldLength = result.string.characters.count-ignoreText.characters.count
+                            let boldStarIndex = ignoreText.count > 0 ? ignoreText.count + 1 : 0
+                            let boldLength = result.string.count-ignoreText.count
                             boldAttributes = result.attributes(at: boldStarIndex,
                                                                longestEffectiveRange: nil,
                                                                in: NSRange(location: boldStarIndex, length: boldLength))
                         }
                         it("has the specified point size on regular attributes") {
-                            expect((regularAttributes[NSFontAttributeName] as! UIFont).pointSize) == 15
+                            expect((regularAttributes[NSAttributedStringKey.font] as! UIFont).pointSize) == 15
                         }
                         it("has the specified font family on regular attributes") {
-                            expect((regularAttributes[NSFontAttributeName] as! UIFont).familyName) == font.familyName
+                            expect((regularAttributes[NSAttributedStringKey.font] as! UIFont).familyName) == font.familyName
                         }
                         it("has the specified point size on bold attributes") {
-                            expect((boldAttributes[NSFontAttributeName] as! UIFont).pointSize) == 15
+                            expect((boldAttributes[NSAttributedStringKey.font] as! UIFont).pointSize) == 15
                         }
                         it("has the specified font family on bold attributes") {
-                            expect((boldAttributes[NSFontAttributeName] as! UIFont).familyName) == font.familyName
+                            expect((boldAttributes[NSAttributedStringKey.font] as! UIFont).familyName) == font.familyName
                         }
                         it("the final string is the same") {
                             expect(result.string) == sut
@@ -390,25 +385,25 @@ class StringLGSpec: QuickSpec {
                             
                             regularAttributes = result.attributes(at: 0,
                                                                   longestEffectiveRange: nil,
-                                                                  in: NSRange(location: 0, length: ignoreText.characters.count))
+                                                                  in: NSRange(location: 0, length: ignoreText.count))
                             
-                            let boldStarIndex = ignoreText.characters.count > 0 ? ignoreText.characters.count + 1 : 0
-                            let boldLength = result.string.characters.count-ignoreText.characters.count
+                            let boldStarIndex = ignoreText.count > 0 ? ignoreText.count + 1 : 0
+                            let boldLength = result.string.count-ignoreText.count
                             boldAttributes = result.attributes(at: boldStarIndex,
                                                                longestEffectiveRange: nil,
                                                                in: NSRange(location: boldStarIndex, length: boldLength))
                         }
                         it("has the specified point size on regular attributes") {
-                            expect((regularAttributes[NSFontAttributeName] as! UIFont).pointSize) == 15
+                            expect((regularAttributes[NSAttributedStringKey.font] as! UIFont).pointSize) == 15
                         }
                         it("has the specified font family on regular attributes") {
-                            expect((regularAttributes[NSFontAttributeName] as! UIFont).familyName) == font.familyName
+                            expect((regularAttributes[NSAttributedStringKey.font] as! UIFont).familyName) == font.familyName
                         }
                         it("has the specified point size on bold attributes") {
-                            expect((boldAttributes[NSFontAttributeName] as! UIFont).pointSize) == 15
+                            expect((boldAttributes[NSAttributedStringKey.font] as! UIFont).pointSize) == 15
                         }
                         it("has the specified font family on bold attributes") {
-                            expect((boldAttributes[NSFontAttributeName] as! UIFont).familyName) == font.familyName
+                            expect((boldAttributes[NSAttributedStringKey.font] as! UIFont).familyName) == font.familyName
                         }
                         it("the final string is the same") {
                             expect(result.string) == sut
@@ -424,13 +419,13 @@ class StringLGSpec: QuickSpec {
                             
                             regularAttributes = result.attributes(at: 0,
                                                                   longestEffectiveRange: nil,
-                                                                  in: NSRange(location: 0, length: sut.characters.count))
+                                                                  in: NSRange(location: 0, length: sut.count))
                         }
                         it("has the specified point size on regular attributes") {
-                            expect((regularAttributes[NSFontAttributeName] as! UIFont).pointSize) == 15
+                            expect((regularAttributes[NSAttributedStringKey.font] as! UIFont).pointSize) == 15
                         }
                         it("has the specified font family on regular attributes") {
-                            expect((regularAttributes[NSFontAttributeName] as! UIFont).familyName) == font.familyName
+                            expect((regularAttributes[NSAttributedStringKey.font] as! UIFont).familyName) == font.familyName
                         }
                         it("the final string is the same") {
                             expect(result.string) == sut

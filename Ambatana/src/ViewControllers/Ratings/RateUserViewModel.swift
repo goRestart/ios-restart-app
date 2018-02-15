@@ -13,22 +13,16 @@ struct RateUserData {
     let userId: String
     let userAvatar: URL?
     let userName: String?
+    let listingId: String?
     let ratingType: UserRatingType
 
-    init?(user: UserListing) {
+    init?(user: UserListing, listingId: String?, ratingType: UserRatingType) {
         guard let userId = user.objectId else { return nil }
         self.userId = userId
         self.userAvatar = user.avatar?.fileURL
         self.userName = user.name
-        self.ratingType = .conversation
-    }
-
-    init?(interlocutor: ChatInterlocutor) {
-        guard let userId = interlocutor.objectId else { return nil }
-        self.userId = userId
-        self.userAvatar = interlocutor.avatar?.fileURL
-        self.userName = interlocutor.name
-        self.ratingType = .conversation
+        self.listingId = listingId
+        self.ratingType = ratingType
     }
 }
 
@@ -168,17 +162,17 @@ extension RateUserViewModel {
             userRatingRepository.updateRating(previousRating, value: rating, comment: comment,
                                               completion: ratingCompletion)
         } else {
-            userRatingRepository.createRating(data.userId, value: rating, comment: comment,
+            userRatingRepository.createRating(data.userId, value: rating, comment: comment, listingId: data.listingId,
                                               type: data.ratingType, completion: ratingCompletion)
         }
     }
     
     func setDescription(text: String) -> Bool {
-        let descriptionWithoutEmoji = text.stringByRemovingEmoji()        
+        let descriptionWithoutEmoji = text.removingEmoji()
         if descriptionWithoutEmoji != descriptionPlaceholder {
             description.value = descriptionWithoutEmoji.isEmpty ? nil : descriptionWithoutEmoji
         }
-        return !text.hasEmojis()
+        return !text.containsEmoji
     }
 }
 
@@ -221,14 +215,14 @@ fileprivate extension RateUserViewModel {
                 guard let stars = stars else { return true }
                 return stars >= Constants.userRatingMinStarsPositive }
             .distinctUntilChanged()
-            .bindTo(isReviewPositive).addDisposableTo(disposeBag)
+            .bind(to: isReviewPositive).disposed(by: disposeBag)
         
         isReviewPositive.asObservable().subscribeNext { [weak self] positive in
             self?.reviewStateDidChange(positive: positive)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         Observable.combineLatest(isLoading.asObservable(),
-                                 state.asObservable(), resultSelector: { $0 })
+                                 state.asObservable(), resultSelector: { ($0, $1) })
             .map { [weak self] (isLoading, state) -> String? in
                 guard let strongSelf = self, !isLoading else { return nil }
                 
@@ -242,7 +236,7 @@ fileprivate extension RateUserViewModel {
                         return LGLocalizedString.userRatingAddCommentButton
                     }
                 }
-            }.bindTo(sendText).addDisposableTo(disposeBag)
+            }.bind(to: sendText).disposed(by: disposeBag)
         
         let ratingValid = rating.asObservable()
             .map { $0 != nil }
@@ -250,10 +244,10 @@ fileprivate extension RateUserViewModel {
         let tagsValid = selectedTagIndexes.observable
             .map { !$0.isEmpty }
             .distinctUntilChanged()
-        let comment = Observable.combineLatest(description.asObservable(), selectedTagIndexes.observable) { $0 }
-            .map { [weak self] _ in return self?.makeComment() }
+        let comment = Observable.combineLatest(description.asObservable(), selectedTagIndexes.observable) { _,_ in }
+            .map ({ [weak self] in return self?.makeComment() })
         let commentLength = comment.asObservable()
-            .map { Constants.userRatingDescriptionMaxLength - ($0?.characters.count ?? 0) }
+            .map ({ Constants.userRatingDescriptionMaxLength - ($0?.count ?? 0) })
             .distinctUntilChanged()
         let commentValid = commentLength.map { $0 >= 0 }
             
@@ -261,7 +255,7 @@ fileprivate extension RateUserViewModel {
                                  state.asObservable(),
                                  tagsValid,
                                  ratingValid,
-                                 commentValid, resultSelector: { $0 })
+                                 commentValid, resultSelector: { ($0, $1, $2, $3, $4) })
             .map { (isLoading, state, tagsValid, ratingValid, commentValid) -> Bool in
                 guard !isLoading else { return false }
                 
@@ -273,9 +267,9 @@ fileprivate extension RateUserViewModel {
                 }
             }
             .distinctUntilChanged()
-            .bindTo(sendEnabled).addDisposableTo(disposeBag)
+            .bind(to: sendEnabled).disposed(by: disposeBag)
         
-        commentLength.bindTo(descriptionCharLimit).addDisposableTo(disposeBag)
+        commentLength.bind(to: descriptionCharLimit).disposed(by: disposeBag)
     }
 }
 
@@ -312,7 +306,7 @@ fileprivate extension RateUserViewModel {
 fileprivate extension RateUserViewModel {
     func retrievePreviousRating() {
         isLoading.value = true
-        userRatingRepository.show(data.userId, type: data.ratingType) { [weak self] result in
+        userRatingRepository.show(data.userId, listingId: data.listingId, type: data.ratingType) { [weak self] result in
             self?.isLoading.value = false
             guard let userRating = result.value else { return }
             self?.previousRating = userRating
@@ -340,7 +334,7 @@ fileprivate extension RateUserViewModel {
             self?.delegate?.vmUpdateDescription(description)
             self?.description.value = description
             
-            self?.selectedTagIndexes.value = tagIdxs
+            self?.selectedTagIndexes.replaceAll(with: tagIdxs)
             self?.delegate?.vmUpdateTags()
         }
     }

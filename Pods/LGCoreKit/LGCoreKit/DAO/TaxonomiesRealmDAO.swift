@@ -7,15 +7,14 @@
 //
 
 import RealmSwift
-import Argo
 
-class RealmTaxonomy: Object {
+@objcMembers class RealmTaxonomy: Object {
     dynamic var taxonomyName: String = ""
     dynamic var taxonomyIcon: String = ""
     let children = List<RealmTaxonomyChild>()
 }
 
-class RealmTaxonomyChild: Object {
+@objcMembers class RealmTaxonomyChild: Object {
     dynamic var taxonomyChildId: Int = 0
     dynamic var taxonomyChildType: String = ""
     dynamic var taxonomyChildName: String = ""
@@ -72,10 +71,9 @@ class TaxonomiesRealmDAO: TaxonomiesDAO {
         dataBase.cancelWriteTransactionsIfNeeded()
 
         do {
-            try dataBase.write ({ [weak self] _ in
-                guard let strongSelf = self else { return }
-                strongSelf.dataBase.add(realmList)
-            })
+            try dataBase.write {
+                dataBase.add(realmList)
+            }
         } catch let error {
             logMessage(.verbose, type: CoreLoggingOptions.database, message: "Could not write in Taxonomies DB: \(error)")
         }
@@ -84,10 +82,9 @@ class TaxonomiesRealmDAO: TaxonomiesDAO {
     func clean() {
         dataBase.cancelWriteTransactionsIfNeeded()
         do {
-            try dataBase.write ({ [weak self] _ in
-                guard let strongSelf = self else { return }
-                strongSelf.dataBase.deleteAll()
-            })
+            try dataBase.write {
+                dataBase.deleteAll()
+            }
         } catch let error {
             logMessage(.verbose, type: CoreLoggingOptions.database, message: "Could not clean the Taxonomies DB: \(error)")
         }
@@ -98,8 +95,7 @@ class TaxonomiesRealmDAO: TaxonomiesDAO {
 
         do {
             let data = try Data(contentsOf: jsonURL)
-            let jsonTaxonomiesList = try JSONSerialization.jsonObject(with: data, options: [])
-            guard let taxonomiesList = decoderArray(jsonTaxonomiesList) else { return }
+            guard let taxonomiesList = decoderArray(data) else { return }
             save(taxonomies: taxonomiesList)
         } catch let error {
             logMessage(.verbose, type: CoreLoggingOptions.database, message: "Failed to create Taxonomies first run cache: \(error)")
@@ -151,8 +147,7 @@ class TaxonomiesRealmDAO: TaxonomiesDAO {
         return resultChild
     }
 
-    private func decoderArray(_ object: Any) -> [Taxonomy]? {
-        guard let taxonomies = Array<LGTaxonomy>.filteredDecode(JSON(object)).value else { return nil }
-        return taxonomies
+    private func decoderArray(_ data: Data) -> [Taxonomy]? {
+        return (try? JSONDecoder().decode(FailableDecodableArray<LGTaxonomy>.self, from: data).validElements) ?? nil
     }
 }

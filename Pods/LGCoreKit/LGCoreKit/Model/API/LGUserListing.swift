@@ -6,16 +6,10 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-import Curry
-import Runes
-
-struct LGUserListing: UserListing {
+struct LGUserListing: UserListing, Decodable {
+    private static let statusDefaultValue = UserStatus.active
     
-    // Global iVars
     let objectId: String?
-    
-    // User iVars
     let name: String?
     let avatar: File?
     let postalAddress: PostalAddress
@@ -24,57 +18,83 @@ struct LGUserListing: UserListing {
     let status: UserStatus
     
     
-    init(objectId: String?, name: String?, avatar: String?, postalAddress: PostalAddress, isDummy: Bool,
-         banned: Bool?, status: UserStatus?) {
+    // MARK: - Lifecycle
+    
+    init(objectId: String?,
+         name: String?,
+         avatar: String?,
+         postalAddress: PostalAddress,
+         isDummy: Bool,
+         banned: Bool?,
+         status: UserStatus?) {
         self.objectId = objectId
         self.name = name
         self.avatar = LGFile(id: nil, urlString: avatar)
         self.postalAddress = postalAddress
         self.isDummy = isDummy
         self.banned = banned
-        self.status = status ?? .active
+        self.status = status ?? LGUserListing.statusDefaultValue
     }
     
     init(chatInterlocutor: ChatInterlocutor) {
         let postalAddress = PostalAddress.emptyAddress()
-        self.init(objectId: chatInterlocutor.objectId, name: chatInterlocutor.name,
+        self.init(objectId: chatInterlocutor.objectId,
+                  name: chatInterlocutor.name,
                   avatar: chatInterlocutor.avatar?.fileURL?.absoluteString,
-                  postalAddress: postalAddress, isDummy: false, banned: false, status: chatInterlocutor.status)
+                  postalAddress: postalAddress,
+                  isDummy: false,
+                  banned: false,
+                  status: chatInterlocutor.status)
     }
     
     init(user: User) {
-        self.init(objectId: user.objectId, name: user.name, avatar: user.avatar?.fileURL?.absoluteString,
-                  postalAddress: user.postalAddress, isDummy: user.isDummy, banned: false, status: user.status)
+        self.init(objectId: user.objectId,
+                  name: user.name,
+                  avatar: user.avatar?.fileURL?.absoluteString,
+                  postalAddress: user.postalAddress,
+                  isDummy: user.isDummy,
+                  banned: false,
+                  status: user.status)
     }
-}
-
-extension LGUserListing : Decodable {
     
-    /**
-     "owner": {
-     "id": "DCOefspN3I",
-     "name": "DDLG",
-     "avatar_url": "https://s3.amazonaws.com/letgo-avatars-stg/images/15/a4/db/90/15a4db909cb440d02c31d3596726d83f7801112f058f0c5c5b3e9585eac7d143.jpg",
-     "zip_code": "",
-     "country_code": "ES",
-     "is_richy": false,
-     "city": "",
-     "banned": false,
-     "status": "active"
-     },     */
     
-    static func decode(_ j: JSON) -> Decoded<LGUserListing> {
-        let result1 = curry(LGUserListing.init)
-        let result2 = result1 <^> j <|? "id"
-        let result3 = result2 <*> j <|? "name"
-        let result4 = result3 <*> j <|? "avatar_url"
-        let result5 = result4 <*> PostalAddress.decode(j)
-        let result6 = result5 <*> LGArgo.mandatoryWithFallback(json: j, key: "is_richy", fallback: false)
-        let result7 = result6 <*> j <|? "banned"
-        let result  = result7 <*> j <|? "status"
-        if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGUserListing parse error: \(error)")
+    // MARK: - Decodable
+    
+    /*
+     {
+         "id": "DCOefspN3I",
+         "name": "DDLG",
+         "avatar_url": "https://s3.amazonaws.com/letgo-avatars-stg/images/15/a4/db/90/15a4db909cb440d02c31d3596726d83f7801112f058f0c5c5b3e9585eac7d143.jpg",
+         "zip_code": "",
+         "country_code": "ES",
+         "is_richy": false,
+         "city": "",
+         "banned": false,
+         "status": "active"
+     }
+     */
+    init(from decoder: Decoder) throws {
+        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        self.objectId = try keyedContainer.decodeIfPresent(String.self, forKey: .id)
+        self.name = try keyedContainer.decodeIfPresent(String.self, forKey: .name)
+        if let avatarURL = try keyedContainer.decodeIfPresent(String.self, forKey: .avatarURL) {
+            self.avatar = LGFile(id: nil, urlString: avatarURL)
+        } else {
+            self.avatar = nil
         }
-        return result
+        self.postalAddress = (try? PostalAddress(from: decoder)) ?? PostalAddress.emptyAddress()
+        self.isDummy = try keyedContainer.decodeIfPresent(Bool.self, forKey: .isDummy) ?? false
+        self.banned = try keyedContainer.decodeIfPresent(Bool.self, forKey: .isBanned)
+        let statusValue = try keyedContainer.decodeIfPresent(String.self, forKey: .status) ?? LGUserListing.statusDefaultValue.rawValue
+        self.status = UserStatus(rawValue: statusValue) ?? LGUserListing.statusDefaultValue
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "id"
+        case name = "name"
+        case avatarURL = "avatar_url"
+        case status = "status"
+        case isBanned = "banned"
+        case isDummy = "is_richy"
     }
 }

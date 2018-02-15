@@ -47,11 +47,11 @@ class NotificationsManagerSpec: QuickSpec {
 
                 disposeBag = nil
                 disposeBag = DisposeBag()
-                sut.unreadMessagesCount.asObservable().bindTo(unreadMessagesObserver).addDisposableTo(disposeBag)
-                sut.unreadNotificationsCount.asObservable().bindTo(unreadNotificationsObserver).addDisposableTo(disposeBag)
-                sut.globalCount.bindTo(globalCountObserver).addDisposableTo(disposeBag)
-                sut.marketingNotifications.asObservable().bindTo(marketingNotificationsObserver).addDisposableTo(disposeBag)
-                sut.loggedInMktNofitications.asObservable().bindTo(loggedInMarketingNotificationsObserver).addDisposableTo(disposeBag)
+                sut.unreadMessagesCount.asObservable().bind(to: unreadMessagesObserver).disposed(by: disposeBag)
+                sut.unreadNotificationsCount.asObservable().bind(to: unreadNotificationsObserver).disposed(by: disposeBag)
+                sut.globalCount.bind(to: globalCountObserver).disposed(by: disposeBag)
+                sut.marketingNotifications.asObservable().bind(to: marketingNotificationsObserver).disposed(by: disposeBag)
+                sut.loggedInMktNofitications.asObservable().bind(to: loggedInMarketingNotificationsObserver).disposed(by: disposeBag)
             }
 
             func setMyUser() {

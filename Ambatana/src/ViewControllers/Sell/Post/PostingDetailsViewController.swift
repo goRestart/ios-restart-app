@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewControllerModelDelegate {
+class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewControllerModelDelegate, PostingDetailsViewModelDelegate {
     
     fileprivate static let titleHeight: CGFloat = 60
     fileprivate static let skipButtonMinimumWidth: CGFloat = 100
@@ -31,7 +31,7 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     
     init(viewModel: PostingDetailsViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: nil)
+        super.init(viewModel: viewModel, nibName: nil, swipeBackGestureEnabled: false)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,9 +40,11 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.delegate = self
         navigationController?.setNavigationBarHidden(false, animated: false)
         setupConstraints()
         setupUI()
+        setupRx()
         infoView?.setupView(viewModel: viewModel)
     }
     
@@ -76,6 +78,14 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         buttonNext.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
     }
     
+    func setupRx() {
+        viewModel.sizeListingObservable.bind { [weak self] size in
+            guard let strongSelf = self else { return }
+            strongSelf.buttonNext.setStyle(strongSelf.viewModel.doneButtonStyle)
+            strongSelf.buttonNext.setTitle(strongSelf.viewModel.buttonTitle, for: .normal)
+        }.disposed(by: disposeBag)
+    }
+    
     private func setupNavigationBar() {
         guard let navigationController = navigationController as? SellNavigationController else { return }
         let currentStep = navigationController.currentStep
@@ -104,7 +114,16 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         
         view.addSubview(titleLabel)
         titleLabel.layout(with: view).fillHorizontal(by: Metrics.bigMargin)
-        titleLabel.layout(with: view).top(by: PostingDetailsViewController.titleHeight)
+        let topAnchor: NSLayoutYAxisAnchor
+        let constant: CGFloat
+        if #available(iOS 11, *) {
+            topAnchor = view.safeAreaLayoutGuide.topAnchor
+            constant = Metrics.bigMargin
+        } else {
+            topAnchor = view.topAnchor
+            constant = PostingDetailsViewController.titleHeight
+        }
+        titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: constant).isActive = true
         
         view.addSubview(contentView)
         contentView.layout(with: titleLabel).below(by: Metrics.bigMargin)
@@ -132,11 +151,11 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     
     // MARK: - UIActions
     
-    func closeButtonPressed() {
+    @objc func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
     
-    func nextButtonPressed() {
+    @objc func nextButtonPressed() {
         viewModel.nextbuttonPressed()
     }
 }

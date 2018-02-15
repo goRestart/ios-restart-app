@@ -13,13 +13,32 @@ import UIKit
 import RxSwift
 
 
-class ExpandableCategorySelectionView: UIView {
+class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , TagCollectionViewModelSelectionDelegate {
     
     static let distanceBetweenButtons: CGFloat = 10
+    static let multipleRowTagsCollectionViewHeightThreshold: CGFloat = 400
+    static let singleRowTagsCollectionViewHeight: CGFloat = 40
     
     fileprivate let viewModel: ExpandableCategorySelectionViewModel
     fileprivate var buttons: [UIButton] = []
     fileprivate var closeButton: UIButton = UIButton()
+    
+    fileprivate let tagCollectionViewModel: TagCollectionViewModel
+    fileprivate let tagsView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    fileprivate let titleTagsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        label.font = UIFont.systemSemiBoldFont(size: 13)
+        label.text = LGLocalizedString.trendingItemsExpandableMenuSubsetTitle
+        label.textAlignment = .center
+        return label
+    }()
+    fileprivate var tagCollectionView: TagCollectionView?
     
     fileprivate let buttonSpacing: CGFloat
     fileprivate let bottomDistance: CGFloat
@@ -29,6 +48,9 @@ class ExpandableCategorySelectionView: UIView {
     
     fileprivate var topConstraints: [NSLayoutConstraint] = []
     fileprivate let disposeBag: DisposeBag = DisposeBag()
+    fileprivate var canLayoutMultipleRowTagCollectionView: Bool {
+        return tagsView.height > ExpandableCategorySelectionView.multipleRowTagsCollectionViewHeightThreshold
+    }
     
     
     // MARK: - Lifecycle
@@ -38,8 +60,11 @@ class ExpandableCategorySelectionView: UIView {
         self.buttonSpacing = buttonSpacing
         self.bottomDistance = bottomDistance
         self.viewModel = viewModel
+        self.tagCollectionViewModel = TagCollectionViewModel(tags: viewModel.tags, cellStyle: .whiteBackground)
+        
         super.init(frame: frame)
         setupUI()
+        setupTagsView()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -64,7 +89,12 @@ class ExpandableCategorySelectionView: UIView {
             guard let actionIndex = viewModel.categoriesAvailable.index(of: category) else { return }
             
             let button = UIButton(type: .custom)
-            button.setStyle(.primary(fontSize: .medium))
+            switch category.style {
+            case .redBackground:
+                button.setStyle(.primary(fontSize: .medium))
+            case .whiteBackground:
+                button.setStyle(.secondary(fontSize: .medium, withBorder: false))
+            }
             button.tag = actionIndex
             button.setImage(category.icon, for: .normal)
             button.setTitle(category.title, for: .normal)
@@ -81,8 +111,6 @@ class ExpandableCategorySelectionView: UIView {
             button.layout().height(buttonHeight)
             buttons.append(button)
         })
-        
-        
     }
 
     fileprivate func setupUI() {
@@ -106,6 +134,7 @@ class ExpandableCategorySelectionView: UIView {
         addButtons()
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOutside))
+        tapRecognizer.delegate = self
         addGestureRecognizer(tapRecognizer)
         setAccesibilityIds()
     }
@@ -146,6 +175,47 @@ class ExpandableCategorySelectionView: UIView {
         closeButton.accessibilityId = .expandableCategorySelectionCloseButton
     }
     
+    /// We choose the layout depending on the content size
+    private func collectionViewlayout() -> TagCollectionViewFlowLayout {
+        layoutIfNeeded()
+        
+        let flowLayout: TagCollectionViewFlowLayout
+        if canLayoutMultipleRowTagCollectionView {
+            flowLayout = TagCollectionViewFlowLayout.centerAligned
+        } else {
+            flowLayout = TagCollectionViewFlowLayout.singleRowWithScroll
+        }
+        return flowLayout
+    }
+    
+    fileprivate func setupTagsView() {
+        guard viewModel.tagsEnabled else { return }
+        tagCollectionViewModel.selectionDelegate = self
+
+        tagsView.addSubview(titleTagsLabel)
+        addSubview(tagsView)
+        
+        tagsView.layout(with: self).top().fillHorizontal()
+        if let highestButton = buttons.last {
+            tagsView.layout(with: highestButton).above(by: -Metrics.bigMargin)
+        }
+        titleTagsLabel.layout(with: tagsView).top(by: 40).fillHorizontal(by: Metrics.bigMargin)
+        titleTagsLabel.layout().height(15)
+
+        tagCollectionView = TagCollectionView(viewModel: tagCollectionViewModel, flowLayout: collectionViewlayout())
+        if let tagCollectionView = self.tagCollectionView {
+            tagsView.addSubview(tagCollectionView)
+            tagCollectionView.layout(with: tagsView).fillHorizontal()
+            if canLayoutMultipleRowTagCollectionView {
+                tagCollectionView.layout(with: titleTagsLabel).below(by: Metrics.bigMargin)
+                tagCollectionView.layout(with: tagsView).bottom(by: -Metrics.bigMargin)
+            } else {
+                tagCollectionView.layout(with: titleTagsLabel).below(by: Metrics.margin)
+                tagCollectionView.layout().height(ExpandableCategorySelectionView.singleRowTagsCollectionViewHeight)
+            }
+        }
+    }
+    
     
     // MARK: - Actions
     
@@ -165,44 +235,75 @@ class ExpandableCategorySelectionView: UIView {
         }
     }
     
-    fileprivate dynamic func tapOutside() {
+    @objc fileprivate dynamic func tapOutside() {
         closeButtonPressed()
     }
     
-    fileprivate dynamic func closeButtonPressed() {
+    @objc fileprivate dynamic func closeButtonPressed() {
         shrink(animated: true)
-        viewModel.closeButtonDidPressed()
+        viewModel.closeButtonAction()
     }
 
-    fileprivate dynamic func buttonPressed(_ button: UIButton) {
+    @objc fileprivate dynamic func buttonPressed(_ button: UIButton) {
         let buttonIndex = button.tag
         guard 0..<viewModel.categoriesAvailable.count ~= buttonIndex else { return }
         shrink(animated: true)
-        viewModel.categoryButtonDidPressed(listingCategory: viewModel.categoriesAvailable[buttonIndex])
+        viewModel.pressCategoryAction(category: viewModel.categoriesAvailable[buttonIndex])
+    }
+    
+    
+    // MARK: - TapGestureRecognizerDelegate
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard let touchView = touch.view,
+            let tagCollectionView = tagCollectionView else { return true }
+        // Ignore touches explicitly in tagCollectionView cells
+        return touchView.isEqual(tagCollectionView) ||
+            !touchView.isDescendant(of: tagCollectionView)
+    }
+    
+    
+    // MARK: - TagCollectionViewModelSelectionDelegate
+    
+    func vm(_ vm: TagCollectionViewModel, didSelectTagAtIndex index: Int) {
+        shrink(animated: true)
+        viewModel.pressTagAtIndex(index)
     }
 }
 
-fileprivate extension ListingCategory {
+fileprivate extension ExpandableCategory {
     var title: String {
         switch self {
-        case .unassigned:
-            return LGLocalizedString.categoriesUnassignedItems
-        case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .realEstate:
-            return name
+            case .listingCategory(let listingCategory):
+            switch listingCategory {
+            case .unassigned:
+                return LGLocalizedString.categoriesUnassignedItems
+            case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+                return listingCategory.name
+            case .realEstate:
+                return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.productPostSelectCategoryRealEstate : LGLocalizedString.productPostSelectCategoryHousing
+            }
+        case .mostSearchedItems:
+            return LGLocalizedString.trendingItemsExpandableMenuButton
         }
     }
     var icon: UIImage? {
         switch self {
-        case .unassigned:
-            return #imageLiteral(resourceName: "items")
-        case .cars:
-            return #imageLiteral(resourceName: "carIcon")
-        case .motorsAndAccessories:
-            return #imageLiteral(resourceName: "motorsAndAccesories")
-        case .realEstate:
-            return #imageLiteral(resourceName: "housingIcon")
-        case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
-            return image
+        case .listingCategory(let listingCategory):
+            switch listingCategory {
+            case .unassigned:
+                return #imageLiteral(resourceName: "items")
+            case .cars:
+                return #imageLiteral(resourceName: "carIcon")
+            case .motorsAndAccessories:
+                return #imageLiteral(resourceName: "motorsAndAccesories")
+            case .realEstate:
+                return #imageLiteral(resourceName: "housingIcon")
+            case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+                return listingCategory.image
+            }
+        case .mostSearchedItems:
+            return UIImage(named: "trending_expandable")
         }
     }
 }

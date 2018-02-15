@@ -62,10 +62,9 @@ class LetgoURLHelper {
         return URL(string: environment.websiteUrl(Constants.websiteUserEndpoint(userId))) // not localized
     }
 
-    static func buildRecaptchaURL(transparent: Bool) -> URL? {
+    static func buildRecaptchaURL() -> URL? {
         guard let url = LetgoURLHelper.composeLocalizedURL(Constants.websiteRecaptchaEndpoint) else { return nil }
-        guard var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
-        urlComponents.percentEncodedQuery = LetgoURLHelper.buildRecaptchParameters(transparent)
+        guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
         return urlComponents.url
     }
 
@@ -147,7 +146,7 @@ class LetgoURLHelper {
         var param: [String: String] = [:]
         param["app_version"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         param["os_version"] = UIDevice.current.systemVersion
-        param["device_model"] = DeviceGuru.hardwareDescription()
+        param["device_model"] = DeviceGuru().hardwareDescription()
         param["user_id"] = userId
         param["user_name"] = userName
         param["user_email"] = email
@@ -168,8 +167,4 @@ class LetgoURLHelper {
             .encodeString()
     }
 
-    private static func buildRecaptchParameters(_ transparent: Bool) -> String {
-        let value = transparent ? "true": "false"
-        return "transparent=\(value)"
-    }
 }

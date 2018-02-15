@@ -50,11 +50,6 @@ public final class CollectionVariable<T> {
         get {
             return _value
         }
-        set {
-            _value = newValue
-            _subject.onNext(newValue)
-            _changesSubject.onNext(.composite(newValue.mapWithIndex{CollectionChange.insert($0, $1)}))
-        }
     }
     
     
@@ -136,6 +131,14 @@ public final class CollectionVariable<T> {
         _lock.unlock()
     }
     
+    public func replaceAll(with elements: [T]) {
+        _lock.lock()
+        _value = elements
+        _subject.onNext(elements)
+        _changesSubject.onNext(.composite(elements.mapWithIndex{CollectionChange.insert($0, $1)}))
+        _lock.unlock()
+    }
+
     public func replace(_ index: Int, with element: T) {
         guard 0..<value.count ~= index else { return }
         replace(index..<(index+1), with: [element])
@@ -173,7 +176,8 @@ public final class CollectionVariable<T> {
         precondition(range ~= fromIndex && range ~= toIndex, "Range out of bounds")
         
         _lock.lock()
-        Swift.swap(&_value[fromIndex], &_value[toIndex])
+        // TODO: swift 4 suggested this change, review if it works as expected
+        _value.swapAt(fromIndex, toIndex)
         if let replaceElement = element {
             _value[toIndex] = replaceElement
         }

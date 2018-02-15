@@ -2,6 +2,7 @@ import Result
 import RxSwift
 
 open class MockUserRatingRepository: UserRatingRepository {
+
     public var indexResult: UserRatingsResult!
     public var ratingResult: UserRatingResult!
 
@@ -28,6 +29,7 @@ open class MockUserRatingRepository: UserRatingRepository {
     }
 
     public func show(_ userId: String,
+                     listingId: String?,
                      type: UserRatingType,
                      completion: UserRatingCompletion?) {
         delay(result: ratingResult, completion: completion)
@@ -36,6 +38,7 @@ open class MockUserRatingRepository: UserRatingRepository {
     public func createRating(_ userId: String,
                              value: Int,
                              comment: String?,
+                             listingId: String?,
                              type: UserRatingType,
                              completion: UserRatingCompletion?) {
         delay(result: ratingResult, completion: completion)

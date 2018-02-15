@@ -19,15 +19,18 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
     var ratingAverage: Float?
     var ratingCount: Int
     var status: UserStatus
-    
+
+    var phone: String?
+    var type: UserType
+
     // MyUser
     var email: String?
     var location: LGLocation?
     var localeIdentifier: String?
     
     init(objectId: String?, name: String?, avatar: File?, accounts: [LocalAccount],
-         ratingAverage: Float?, ratingCount: Int, status: UserStatus, email: String?, location: LGLocation?,
-         localeIdentifier: String?) {
+         ratingAverage: Float?, ratingCount: Int, status: UserStatus, phone: String?, type: UserType?,
+         email: String?, location: LGLocation?, localeIdentifier: String?) {
         self.objectId = objectId
         
         self.name = name
@@ -36,6 +39,9 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
         self.ratingCount = ratingCount
         self.accounts = accounts
         self.status = status
+
+        self.phone = phone
+        self.type = type ?? .user
         
         self.email = email
         self.location = location
@@ -46,37 +52,13 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
         let localAccounts = myUser.accounts.map { LocalAccount(account: $0) }
         self.init(objectId: myUser.objectId, name: myUser.name, avatar: myUser.avatar, accounts: localAccounts,
                   ratingAverage: myUser.ratingAverage, ratingCount: myUser.ratingCount, status: myUser.status,
-                  email: myUser.email, location: myUser.location, localeIdentifier: myUser.localeIdentifier)
+                  phone: myUser.phone, type: myUser.type, email: myUser.email, location: myUser.location,
+                  localeIdentifier: myUser.localeIdentifier)
     }
 }
 
 
 // MARK: - UserDefaultsDecodable
-
-protocol LGMyUserUDKeys: LGMyUserKeys {
-    var country: String { get }
-}
-
-private struct MyUserUDKeys: LGMyUserUDKeys {
-    let objectId = "objectId"
-    let name = "name"
-    let email = "email"
-    let latitude = "latitude"
-    let longitude = "longitude"
-    let locationType = "locationType"
-    let avatar = "avatar"
-    let address = "address"
-    let city = "city"
-    let zipCode = "zipCode"
-    let state = "state"
-    let countryCode = "countryCode"
-    let country = "country"
-    let accounts = "accounts"
-    let ratingAverage = "ratingAverage"
-    let ratingCount = "ratingCount"
-    let status = "status"
-    let localeIdentifier = "localeIdentifier"
-}
 
 extension LocalMyUser {
     static func decode(_ dictionary: [String: Any]) -> LocalMyUser? {
@@ -94,13 +76,14 @@ extension LocalMyUser {
         let countryCode = dictionary[keys.countryCode] as? String
         let country = dictionary[keys.country] as? String
         let postalAddress = PostalAddress(address: address, city: city, zipCode: zipCode, state: state,
-                                          countryCode: countryCode, country: country)
+                                            countryCode: countryCode, country: country)
         let email = dictionary[keys.email] as? String
         let locationTypeRaw = dictionary[keys.locationType] as? String ?? ""
         let locationType = LGLocationType(rawValue: locationTypeRaw) ?? .regional
         
         var location: LGLocation? = nil
-        if let latitude = dictionary[keys.latitude] as? Double, let longitude = dictionary[keys.longitude] as? Double {
+        if let latitude = dictionary[keys.latitude] as? Double,
+            let longitude = dictionary[keys.longitude] as? Double {
             let clLocation = CLLocation(latitude: latitude, longitude: longitude)
             location = LGLocation(location: clLocation, type: locationType, postalAddress: postalAddress)
         }
@@ -115,19 +98,23 @@ extension LocalMyUser {
             let udStatus = UserStatus(rawValue: statusStr) {
             status = udStatus
         }
+        let phone = dictionary[keys.phone] as? String
+
+        var type = UserType.user
+        if let userTypeString = dictionary[keys.type] as? String,
+            let userType = UserType(rawValue: userTypeString) {
+            type = userType
+        }
+
         let localeIdentifier = dictionary[keys.localeIdentifier] as? String
         return self.init(objectId: objectId, name: name, avatar: avatar,
                          accounts: accounts, ratingAverage: ratingAverage, ratingCount: ratingCount, status: status,
-                         email: email, location: location, localeIdentifier: localeIdentifier)
+                         phone: phone, type: type, email: email, location: location, localeIdentifier: localeIdentifier)
     }
-    
+
     func encode() -> [String: Any] {
-        let keys = MyUserUDKeys()
-        return encode(keys)
-    }
-    
-    func encode(_ keys: LGMyUserUDKeys) -> [String: Any] {
         var dictionary: [String: Any] = [:]
+        let keys = MyUserUDKeys()
         dictionary[keys.objectId] = objectId
         dictionary[keys.name] = name
         dictionary[keys.avatar] = avatar?.fileURL?.absoluteString
@@ -147,7 +134,32 @@ extension LocalMyUser {
         dictionary[keys.ratingCount] = ratingCount
         dictionary[keys.status] = status.rawValue
         dictionary[keys.localeIdentifier] = localeIdentifier
+        dictionary[keys.phone] = phone
+        dictionary[keys.type] = type.rawValue
         
         return dictionary
+    }
+    
+    private struct MyUserUDKeys {
+        let objectId = "objectId"
+        let name = "name"
+        let email = "email"
+        let latitude = "latitude"
+        let longitude = "longitude"
+        let locationType = "locationType"
+        let avatar = "avatar"
+        let address = "address"
+        let city = "city"
+        let zipCode = "zipCode"
+        let state = "state"
+        let countryCode = "countryCode"
+        let country = "country"
+        let accounts = "accounts"
+        let ratingAverage = "ratingAverage"
+        let ratingCount = "ratingCount"
+        let status = "status"
+        let localeIdentifier = "localeIdentifier"
+        let phone = "phone"
+        let type = "type"
     }
 }

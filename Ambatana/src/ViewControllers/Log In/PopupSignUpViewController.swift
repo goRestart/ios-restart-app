@@ -6,6 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import GoogleSignIn
 import UIKit
 
 class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignInUIDelegate, SignUpViewModelDelegate {
@@ -78,18 +79,18 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
 
     private func setupUI() {
 
-        contentContainer.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        contentContainer.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
         
         connectFBButton.setStyle(.facebook)
         connectGoogleButton.setStyle(.google)
 
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             for: .normal)
-        signUpButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        signUpButton.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
 
         logInButton.setBackgroundImage(logInButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             for: .normal)
-        logInButton.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        logInButton.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
 
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, for: .normal)
         connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, for: .normal)

@@ -8,7 +8,7 @@
 
 import CoreLocation
 
-public enum LGLocationType: String {
+public enum LGLocationType: String, Decodable {
     case manual     = "manual"
     case sensor     = "sensor"
     case ipLookup   = "iplookup"

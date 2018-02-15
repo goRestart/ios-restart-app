@@ -27,7 +27,7 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
         guard let text = isDynamic ? answer.title : answer.text else { return CGSize.zero }
         let boundingBox = text.boundingRect(with: constraintRect,
             options: NSStringDrawingOptions.usesFontLeading,
-            attributes: [NSFontAttributeName: UIFont.mediumBodyFont], context: nil)
+            attributes: [NSAttributedStringKey.font: UIFont.mediumBodyFont], context: nil)
     
         var width = boundingBox.width+20
         if isDynamic {

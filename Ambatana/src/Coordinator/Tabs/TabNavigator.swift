@@ -25,6 +25,8 @@ enum ListingDetailData {
 enum ChatDetailData {
     case dataIds(conversationId: String)
     case conversation(conversation: ChatConversation)
+    case inactiveConversations
+    case inactiveConversation(coversation: ChatInactiveConversation)
     case listingAPI(listing: Listing)
 }
 
@@ -49,6 +51,7 @@ protocol TabNavigator: class {
     func openAppInvite()
     func canOpenAppInvite() -> Bool
     func openRatingList(_ userId: String)
+    func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
 }
 
 protocol ListingDetailNavigator: TabNavigator {
@@ -76,6 +79,9 @@ protocol ListingDetailNavigator: TabNavigator {
     func openContactUs(forListing listing: Listing, contactUstype: ContactUsType)
     func openFeaturedInfo()
     func closeFeaturedInfo()
+
+    func openAskPhoneFor(listing: Listing)
+    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage)
 }
 
 protocol SimpleProductsNavigator: class {
@@ -92,4 +98,8 @@ protocol ChatDetailNavigator: TabNavigator {
                            sourceRateBuyers: SourceRateBuyers?,
                            trackingInfo: MarkAsSoldTrackingInfo)
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void))
+}
+
+protocol ChatInactiveDetailNavigator: TabNavigator {
+    func closeChatInactiveDetail()
 }

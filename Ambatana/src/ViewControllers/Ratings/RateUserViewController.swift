@@ -94,11 +94,11 @@ class RateUserViewController: KeyboardViewController {
         viewModel.ratingStarPressed(button.tag)
     }
 
-    dynamic private func closeButtonPressed() {
+    @objc private func closeButtonPressed() {
         viewModel.closeButtonPressed()
     }
 
-    dynamic private func skipButtonPressed() {
+    @objc private func skipButtonPressed() {
         viewModel.skipButtonPressed()
     }
 
@@ -150,27 +150,27 @@ class RateUserViewController: KeyboardViewController {
     }
     
     private func setupRx() {
-        viewModel.state.asObservable().bindNext { [weak self] state in
+        viewModel.state.asObservable().bind { [weak self] state in
             self?.updateUI(with: state)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        viewModel.rating.asObservable().bindNext { [weak self] rating in
+        viewModel.rating.asObservable().bind { [weak self] rating in
             onMainThread { [weak self] in
                 let value = rating ?? 0
                 self?.stars.forEach { $0.isHighlighted = ($0.tag <= value) }
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        viewModel.sendText.asObservable().bindTo(sendButton.rx.title(for: .normal)).addDisposableTo(disposeBag)
-        viewModel.sendEnabled.asObservable().bindTo(sendButton.rx.isEnabled).addDisposableTo(disposeBag)
-        viewModel.isLoading.asObservable().bindTo(activityIndicator.rx.isAnimating).addDisposableTo(disposeBag)
+        viewModel.sendText.asObservable().bind(to: sendButton.rx.title(for: .normal)).disposed(by: disposeBag)
+        viewModel.sendEnabled.asObservable().bind(to: sendButton.rx.isEnabled).disposed(by: disposeBag)
+        viewModel.isLoading.asObservable().bind(to: activityIndicator.rx.isAnimating).disposed(by: disposeBag)
         
         viewModel.descriptionCharLimit.asObservable()
             .map { return String($0) }
-            .bindTo(descriptionCharCounter.rx.text)
-            .addDisposableTo(disposeBag)
+            .bind(to: descriptionCharCounter.rx.text)
+            .disposed(by: disposeBag)
 
-        keyboardChanges.bindNext { [weak self] change in
+        keyboardChanges.bind { [weak self] change in
             guard let strongSelf = self, change.visible else { return }
 
             // Current scroll view frame (as it gets resized) at the bottom
@@ -185,7 +185,7 @@ class RateUserViewController: KeyboardViewController {
             
             strongSelf.scrollView.setContentOffset(offset, animated: true)
             
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func updateUI(with state: RateUserState) {
@@ -228,10 +228,10 @@ extension RateUserViewController: RateUserViewModelDelegate {
 
 // MARK: - UIColllectionView Delegate & Datasource
 
-extension RateUserViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension RateUserViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let title = viewModel.titleForTagAt(index: indexPath.row) else { return CGSize.zero }
         return UserRatingTagCell.size(with: title)
     }

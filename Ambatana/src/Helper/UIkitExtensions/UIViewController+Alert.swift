@@ -87,7 +87,7 @@ extension UIViewController {
 extension UIViewController {
     // Shows an alert message that fades out after kLetGoFadingAlertDismissalTime seconds
     func showAutoFadingOutMessageAlert(_ message: String, time: Double = kLetGoFadingAlertDismissalTime,
-                                       completion: ((Void) -> Void)? = nil) {
+                                       completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         present(alert, animated: true, completion: nil)
         delay(time) {

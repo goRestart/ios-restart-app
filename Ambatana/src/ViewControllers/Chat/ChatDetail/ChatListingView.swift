@@ -15,12 +15,14 @@ protocol ChatListingViewDelegate: class {
 }
 
 class ChatListingView: UIView {
+    override var intrinsicContentSize: CGSize { return UILayoutFittingExpandedSize }
     @IBOutlet weak var userAvatar: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var listingName: UILabel!
     @IBOutlet weak var listingPrice: UILabel!
     @IBOutlet weak var listingImage: UIImageView!
     @IBOutlet weak var backgroundView: UIView!
+    @IBOutlet weak var proTag: UIImageView!
 
     @IBOutlet weak var listingButton: UIButton!
     @IBOutlet weak var userButton: UIButton!
@@ -51,17 +53,25 @@ class ChatListingView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        roundAvatar()
+    }
+    
+    private func roundAvatar() {
+        userAvatar.setNeedsLayout()
+        userAvatar.layoutIfNeeded()
         userAvatar.layer.cornerRadius = userAvatar.frame.height / 2
     }
     
-    func setupUI() {
-        listingImage.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+    private func setupUI() {
+        listingImage.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
         listingImage.backgroundColor = UIColor.placeholderBackgroundColor()
         userName.font = UIFont.chatListingViewUserFont
         listingName.font = UIFont.chatListingViewNameFont
         listingPrice.font = UIFont.chatListingViewPriceFont
         
+        userAvatar.contentMode = .scaleAspectFill
         userAvatar.layer.minificationFilter = kCAFilterTrilinear
+        proTag.isHidden = true
     }
 
     func disableListingInteraction() {

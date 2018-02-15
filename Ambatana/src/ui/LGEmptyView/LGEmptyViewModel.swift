@@ -12,26 +12,8 @@ struct LGEmptyViewModel {
     let body: String?
     let buttonTitle: String?
     let action: (() -> ())?
-    var secondaryButtonTitle: String?
-    var secondaryAction: (() -> ())?
-    var emptyReason: EventParameterEmptyReason?
-    var errorCode: Int?
-
-    static func networkErrorWithRetry(errorCode: Int, action: (() -> ())?) -> LGEmptyViewModel {
-        let icon = UIImage(named: "err_network")
-        let title = LGLocalizedString.commonErrorTitle
-        let body = LGLocalizedString.commonErrorNetworkBody
-        let buttonTitle = LGLocalizedString.commonErrorRetryButton
-        return LGEmptyViewModel(icon: icon, title: title, body: body, buttonTitle: buttonTitle, action: action,
-                                secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .noInternetConection, errorCode: errorCode)
-    }
-
-    static func genericErrorWithRetry(action: (() -> ())?) -> LGEmptyViewModel {
-        let icon = UIImage(named: "err_generic")
-        let title = LGLocalizedString.commonErrorTitle
-        let body = LGLocalizedString.commonErrorGenericBody
-        let buttonTitle = LGLocalizedString.commonErrorRetryButton
-        return LGEmptyViewModel(icon: icon, title: title, body: body, buttonTitle: buttonTitle, action: action,
-                                secondaryButtonTitle: nil, secondaryAction: nil, emptyReason: .unknown, errorCode: nil)
-    }
+    let secondaryButtonTitle: String?
+    let secondaryAction: (() -> ())?
+    let emptyReason: EventParameterEmptyReason?
+    let errorCode: Int?
 }

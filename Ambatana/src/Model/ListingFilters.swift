@@ -8,6 +8,15 @@
 
 import LGCoreKit
 
+struct SizeRange: Equatable {
+    let min: Int?
+    let max: Int?
+}
+
+func ==(lhs: SizeRange, rhs: SizeRange) -> Bool {
+    return lhs.min == rhs.min && lhs.max == rhs.max
+}
+
 enum FilterPriceRange: Equatable {
     case freePrice
     case priceRange(min: Int?, max: Int?)
@@ -69,6 +78,17 @@ struct ListingFilters {
     var carModelName: String?
     var carYearStart: RetrieveListingParam<Int>?
     var carYearEnd: RetrieveListingParam<Int>?
+    
+    var realEstatePropertyType: RealEstatePropertyType?
+    var realEstateOfferType: RealEstateOfferType?
+    var realEstateNumberOfBedrooms: NumberOfBedrooms?
+    var realEstateNumberOfBathrooms: NumberOfBathrooms?
+    var realEstateNumberOfRooms: NumberOfRooms?
+    var realEstateSizeRange: SizeRange
+    
+    var noFilterCategoryApplied: Bool {
+        return selectedCategories.isEmpty
+    }
 
     init() {
         self.init(
@@ -86,7 +106,13 @@ struct ListingFilters {
             carModelId: nil,
             carModelName: nil,
             carYearStart: nil,
-            carYearEnd: nil
+            carYearEnd: nil,
+            realEstatePropertyType: nil,
+            realEstateOfferType: nil,
+            realEstateNumberOfBedrooms: nil,
+            realEstateNumberOfBathrooms: nil,
+            realEstateNumberOfRooms: nil,
+            realEstateSizeRange: SizeRange(min: nil, max: nil)
         )
     }
     
@@ -104,7 +130,14 @@ struct ListingFilters {
          carModelId: RetrieveListingParam<String>?,
          carModelName: String?,
          carYearStart: RetrieveListingParam<Int>?,
-         carYearEnd: RetrieveListingParam<Int>?) {
+         carYearEnd: RetrieveListingParam<Int>?,
+         realEstatePropertyType: RealEstatePropertyType?,
+         realEstateOfferType: RealEstateOfferType?,
+         realEstateNumberOfBedrooms: NumberOfBedrooms?,
+         realEstateNumberOfBathrooms: NumberOfBathrooms?,
+         realEstateNumberOfRooms: NumberOfRooms?,
+         realEstateSizeRange: SizeRange
+         ) {
         self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
@@ -120,6 +153,12 @@ struct ListingFilters {
         self.carModelName = carModelName
         self.carYearStart = carYearStart
         self.carYearEnd = carYearEnd
+        self.realEstatePropertyType = realEstatePropertyType
+        self.realEstateOfferType = realEstateOfferType
+        self.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
+        self.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
+        self.realEstateNumberOfRooms = realEstateNumberOfRooms
+        self.realEstateSizeRange = realEstateSizeRange
     }
     
     func updating(selectedCategories: [ListingCategory]) -> ListingFilters {
@@ -137,7 +176,61 @@ struct ListingFilters {
                               carModelId: carModelId,
                               carModelName: carModelName,
                               carYearStart: carYearStart,
-                              carYearEnd: carYearEnd)
+                              carYearEnd: carYearEnd,
+                              realEstatePropertyType: realEstatePropertyType,
+                              realEstateOfferType: realEstateOfferType,
+                              realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
+                              realEstateNumberOfBathrooms: realEstateNumberOfBathrooms,
+                              realEstateNumberOfRooms: realEstateNumberOfRooms,
+                              realEstateSizeRange: realEstateSizeRange)
+    }
+    
+    func resetingRealEstateAttributes() -> ListingFilters {
+        return ListingFilters(place: place,
+                              distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
+                              distanceType: distanceType,
+                              selectedCategories: selectedCategories,
+                              selectedTaxonomyChildren: selectedTaxonomyChildren,
+                              selectedTaxonomy: selectedTaxonomy,
+                              selectedWithin: selectedWithin,
+                              selectedOrdering: selectedOrdering,
+                              priceRange: priceRange,
+                              carMakeId: carMakeId,
+                              carMakeName: carMakeName,
+                              carModelId: carModelId,
+                              carModelName: carModelName,
+                              carYearStart: carYearStart,
+                              carYearEnd: carYearEnd,
+                              realEstatePropertyType: nil,
+                              realEstateOfferType: nil,
+                              realEstateNumberOfBedrooms: nil,
+                              realEstateNumberOfBathrooms: nil,
+                              realEstateNumberOfRooms: nil,
+                              realEstateSizeRange: SizeRange(min: nil, max: nil))
+    }
+    
+    func resetingCarAttributes() -> ListingFilters {
+        return ListingFilters(place: place,
+                              distanceRadius: distanceRadius ?? Constants.distanceSliderDefaultPosition,
+                              distanceType: distanceType,
+                              selectedCategories: selectedCategories,
+                              selectedTaxonomyChildren: selectedTaxonomyChildren,
+                              selectedTaxonomy: selectedTaxonomy,
+                              selectedWithin: selectedWithin,
+                              selectedOrdering: selectedOrdering,
+                              priceRange: priceRange,
+                              carMakeId: nil,
+                              carMakeName: nil,
+                              carModelId: nil,
+                              carModelName: nil,
+                              carYearStart: nil,
+                              carYearEnd: nil,
+                              realEstatePropertyType: realEstatePropertyType,
+                              realEstateOfferType: realEstateOfferType,
+                              realEstateNumberOfBedrooms: realEstateNumberOfBedrooms,
+                              realEstateNumberOfBathrooms: realEstateNumberOfBathrooms,
+                              realEstateNumberOfRooms: realEstateNumberOfRooms,
+                              realEstateSizeRange: realEstateSizeRange)
     }
     
     
@@ -154,6 +247,15 @@ struct ListingFilters {
     func hasSelectedCategory(_ category: ListingCategory) -> Bool {
         return indexForCategory(category) != nil
     }
+    
+    var hasAnyRealEstateAttributes: Bool {
+        return realEstateOfferType != nil || realEstatePropertyType != nil || realEstateNumberOfBathrooms != nil
+            || realEstateNumberOfBedrooms != nil || realEstateNumberOfRooms != nil || realEstateSizeRange != SizeRange(min: nil, max: nil)
+    }
+    
+    var hasAnyCarAttributes: Bool {
+        return carMakeId != nil || carMakeId != nil || carYearStart != nil || carYearEnd != nil
+    }
 
     func isDefault() -> Bool {
         if let _ = place { return false } //Default is nil
@@ -164,7 +266,8 @@ struct ListingFilters {
         if selectedWithin != ListingTimeCriteria.defaultOption { return false }
         if selectedOrdering != ListingSortCriteria.defaultOption { return false }
         if priceRange != .priceRange(min: nil, max: nil) { return false }
-        if carMakeId != nil || carModelId != nil || carYearStart != nil || carYearEnd != nil { return false }
+        if hasAnyCarAttributes { return false }
+        if hasAnyRealEstateAttributes { return false }
         return true
     }
     
@@ -201,18 +304,24 @@ extension ListingFilters: Equatable {
         }
         
         return a.place == b.place &&
-        a.distanceRadius == b.distanceRadius &&
-        a.distanceType == b.distanceType &&
-        a.selectedCategories == b.selectedCategories &&
-        a.selectedTaxonomy == b.selectedTaxonomy &&
-        a.selectedWithin == b.selectedWithin &&
-        a.selectedOrdering == b.selectedOrdering &&
-        a.filterCoordinates == b.filterCoordinates &&
-        a.priceRange == b.priceRange &&
-        a.carMakeId == b.carMakeId &&
-        a.carModelId == b.carModelId &&
-        a.carYearStart == b.carYearStart &&
-        a.carYearEnd == b.carYearEnd
+            a.distanceRadius == b.distanceRadius &&
+            a.distanceType == b.distanceType &&
+            a.selectedCategories == b.selectedCategories &&
+            a.selectedTaxonomy == b.selectedTaxonomy &&
+            a.selectedWithin == b.selectedWithin &&
+            a.selectedOrdering == b.selectedOrdering &&
+            a.filterCoordinates == b.filterCoordinates &&
+            a.priceRange == b.priceRange &&
+            a.carMakeId == b.carMakeId &&
+            a.carModelId == b.carModelId &&
+            a.carYearStart == b.carYearStart &&
+            a.carYearEnd == b.carYearEnd &&
+            a.realEstatePropertyType == b.realEstatePropertyType &&
+            a.realEstateOfferType == b.realEstateOfferType &&
+            a.realEstateNumberOfBedrooms == b.realEstateNumberOfBedrooms &&
+            a.realEstateNumberOfBathrooms == b.realEstateNumberOfBathrooms &&
+            a.realEstateSizeRange == b.realEstateSizeRange &&
+            a.realEstateNumberOfRooms == b.realEstateNumberOfRooms
     }
 }
 

@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol UserListing: BaseModel {
     var name: String? { get }
     var avatar: File? { get }

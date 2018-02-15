@@ -13,6 +13,7 @@ import LGCoreKit
 class MockListingViewModelMaker: ListingViewModelMaker {
 
     let myUserRepository: MockMyUserRepository
+    let userRepository: MockUserRepository
     let listingRepository: MockListingRepository
     let chatWrapper: MockChatWrapper
     let locationManager: MockLocationManager
@@ -21,8 +22,10 @@ class MockListingViewModelMaker: ListingViewModelMaker {
     let purchasesShopper: MockPurchasesShopper
     let monetizationRepository: MockMonetizationRepository
     let tracker: MockTracker
+    let keyValueStorage: MockKeyValueStorage
 
     init(myUserRepository: MockMyUserRepository,
+         userRepository: MockUserRepository,
          listingRepository: MockListingRepository,
          chatWrapper: MockChatWrapper,
          locationManager: MockLocationManager,
@@ -30,8 +33,10 @@ class MockListingViewModelMaker: ListingViewModelMaker {
          featureFlags: MockFeatureFlags,
          purchasesShopper: MockPurchasesShopper,
          monetizationRepository: MockMonetizationRepository,
-         tracker: MockTracker) {
+         tracker: MockTracker,
+         keyValueStorage: MockKeyValueStorage) {
         self.myUserRepository = myUserRepository
+        self.userRepository = userRepository
         self.listingRepository = listingRepository
         self.chatWrapper = chatWrapper
         self.locationManager = locationManager
@@ -40,12 +45,14 @@ class MockListingViewModelMaker: ListingViewModelMaker {
         self.purchasesShopper = purchasesShopper
         self.monetizationRepository = monetizationRepository
         self.tracker = tracker
+        self.keyValueStorage = keyValueStorage
     }
 
     func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel {
         return ListingViewModel(listing: listing,
                                 visitSource: visitSource,
                                 myUserRepository: myUserRepository,
+                                userRepository: userRepository,
                                 listingRepository: listingRepository,
                                 chatWrapper: chatWrapper,
                                 chatViewMessageAdapter: ChatViewMessageAdapter(),
@@ -55,6 +62,7 @@ class MockListingViewModelMaker: ListingViewModelMaker {
                                 featureFlags: featureFlags,
                                 purchasesShopper: purchasesShopper,
                                 monetizationRepository: monetizationRepository,
-                                tracker: tracker)
+                                tracker: tracker,
+                                keyValueStorage: keyValueStorage)
     }
 }

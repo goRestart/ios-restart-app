@@ -10,6 +10,7 @@ import LGCoreKit
 import StoreKit
 import AdSupport
 import AppsFlyerLib
+import CommonCrypto
 
 enum BumpFailedErrorCode {
     case receiptInvalid
@@ -172,9 +173,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let failedBumps = keyValueStorage.userFailedBumpsInfo
 
         for (listingId, bumpInfo) in failedBumps {
-            guard let bumpDict = bumpInfo as? [String:String?],
-                let bump = FailedBumpInfo(dictionary: bumpDict)
-                else { continue }
+            guard let bump = FailedBumpInfo(dictionary: bumpInfo) else { continue }
 
             let transactionStatus = EventParameterTransactionStatus(purchasesShopperState: .restoring,
                                                                     transactionState: nil)
@@ -247,7 +246,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         let payment = SKMutablePayment(product: appstoreChosenProduct)
         if let myUserId = myUserRepository.myUser?.objectId {
             // add encrypted user id to help appstore prevent fraud
-            let hashedUserName = myUserId.sha256()
+            let hashedUserName = myUserId
             payment.applicationUsername = hashedUserName
         }
 

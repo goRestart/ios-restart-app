@@ -46,33 +46,31 @@ class LGConfigDAO : ConfigDAO {
             return nil
         }
 
-        return Config(data: data)
+        do {
+            let config = try Config.decode(jsonData: data)
+            return config
+        } catch {
+            logMessage(.debug, type: .parsing, message: "Could not parse config \(data)")
+        }
+        return nil
     }
 
     func save(_ configFile: Config) {
-
-        // create json from cfgFile: UpdateFileCfg
-        let json = configFile.jsonRepresentation()
-
-        var jsonData: Data? = nil
         do {
-            try jsonData =  JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions(rawValue: 0))
-        } catch _ {}
-
-        guard let actualJSONData = jsonData else {
-            return
-        }
-
-        // save into cache
-        let fm = FileManager.default
-        if !fm.fileExists(atPath: fileCachePath) {
-            fm.createFile(atPath: fileCachePath, contents: actualJSONData, attributes: nil)
-        }
-        else {
-            do {
-                try fm.removeItem(atPath: fileCachePath)
-            } catch _ {}
-            fm.createFile(atPath: fileCachePath, contents: actualJSONData, attributes: nil)
+            let configData = try configFile.encodeJSON()
+            // save into cache
+            let fm = FileManager.default
+            if !fm.fileExists(atPath: fileCachePath) {
+                fm.createFile(atPath: fileCachePath, contents: configData, attributes: nil)
+            }
+            else {
+                do {
+                    try fm.removeItem(atPath: fileCachePath)
+                } catch _ {}
+                fm.createFile(atPath: fileCachePath, contents: configData, attributes: nil)
+            }
+        } catch {
+            logMessage(.debug, type: .parsing, message: "Could not encode config \(configFile)")
         }
     }
 }

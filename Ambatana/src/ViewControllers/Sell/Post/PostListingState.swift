@@ -29,6 +29,15 @@ public enum VerticalAttributes {
             return nil
         }
     }
+    
+    func generatedTitle(postingFlowType: PostingFlowType) -> String {
+        switch self {
+        case .carInfo(let carAttributes):
+            return carAttributes.generatedTitle
+        case .realEstateInfo(let attributes):
+            return attributes.generateTitle(postingFlowType: postingFlowType)
+        }
+    }
 }
 
 class PostListingState {
@@ -40,16 +49,21 @@ class PostListingState {
     let price: ListingPrice?
     let verticalAttributes: VerticalAttributes?
     let place: Place?
+    let title: String?
     
     var isRealEstate: Bool {
         guard let category = category, category == .realEstate else { return false }
         return true
     }
     
+    var sizeSquareMeters: Int? {
+        return verticalAttributes?.realEstateAttributes?.sizeSquareMeters
+    }
+    
     
     // MARK: - Lifecycle
     
-    convenience init(postCategory: PostCategory?) {
+    convenience init(postCategory: PostCategory?, title: String?) {
         let step: PostListingStep = .imageSelection
         
         self.init(step: step,
@@ -59,7 +73,8 @@ class PostListingState {
                   lastImagesUploadResult: nil,
                   price: nil,
                   verticalAttributes: nil,
-                  place: nil)
+                  place: nil,
+                  title: title)
     }
     
     init(step: PostListingStep,
@@ -69,7 +84,8 @@ class PostListingState {
                  lastImagesUploadResult: FilesResult?,
                  price: ListingPrice?,
                  verticalAttributes: VerticalAttributes?,
-                 place: Place?) {
+                 place: Place?,
+                 title: String?) {
         self.step = step
         self.previousStep = previousStep
         self.category = category
@@ -78,6 +94,7 @@ class PostListingState {
         self.price = price
         self.verticalAttributes = verticalAttributes
         self.place = place
+        self.title = title
     }
     
     func updating(category: PostCategory) -> PostListingState {
@@ -88,7 +105,7 @@ class PostListingState {
             newStep = .carDetailsSelection
         case .realEstate:
             newStep = .addingDetails
-        case .unassigned, .motorsAndAccessories:
+        case .otherItems, .motorsAndAccessories:
             newStep = .finished
         }
         return PostListingState(step: newStep,
@@ -98,7 +115,21 @@ class PostListingState {
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
-                                place: place)
+                                place: place,
+                                title: title)
+    }
+    
+    func removeRealEstateCategory() -> PostListingState {
+        guard category == .realEstate else { return self }
+        return PostListingState(step: step,
+                                previousStep: previousStep,
+                                category: .otherItems(listingCategory: nil),
+                                pendingToUploadImages: pendingToUploadImages,
+                                lastImagesUploadResult: lastImagesUploadResult,
+                                price: price,
+                                verticalAttributes: nil,
+                                place: place,
+                                title: nil)
     }
     
     func updatingStepToUploadingImages() -> PostListingState {
@@ -115,7 +146,8 @@ class PostListingState {
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
-                                place: place)
+                                place: place,
+                                title: title)
     }
     
     func updating(pendingToUploadImages: [UIImage]) -> PostListingState {
@@ -138,7 +170,8 @@ class PostListingState {
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
-                                place: place)
+                                place: place,
+                                title: title)
     }
     
     func updatingAfterUploadingSuccess() -> PostListingState {
@@ -156,7 +189,8 @@ class PostListingState {
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
-                                place: place)
+                                place: place,
+                                title: title)
     }
     
     
@@ -169,7 +203,8 @@ class PostListingState {
                                 lastImagesUploadResult: FilesResult(value: uploadedImages),
                                 price: price,
                                 verticalAttributes: verticalAttributes,
-                                place: place)
+                                place: place,
+                                title: title)
     }
     
     func updating(uploadError: RepositoryError) -> PostListingState {
@@ -189,7 +224,8 @@ class PostListingState {
                                 lastImagesUploadResult: FilesResult(error: uploadError),
                                 price: price,
                                 verticalAttributes: verticalAttributes,
-                                place: place)
+                                place: place,
+                                title: title)
     }
     
     func updating(price: ListingPrice) -> PostListingState {
@@ -201,7 +237,7 @@ class PostListingState {
                 newStep = .carDetailsSelection
             case .realEstate:
                 newStep = .addingDetails
-            case .unassigned, .motorsAndAccessories:
+            case .otherItems, .motorsAndAccessories:
                 newStep = .finished
             }
         } else {
@@ -214,7 +250,8 @@ class PostListingState {
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
-                                place: place)
+                                place: place,
+                                title: title)
     }
 
     
@@ -227,7 +264,8 @@ class PostListingState {
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
                                 verticalAttributes: .carInfo(carInfo),
-                                place: place)
+                                place: place,
+                                title: title)
     }
     
     func updating(realEstateInfo: RealEstateAttributes) -> PostListingState {
@@ -239,7 +277,8 @@ class PostListingState {
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
                                 verticalAttributes: .realEstateInfo(realEstateInfo),
-                                place: place)
+                                place: place,
+                                title: title)
     }
     
     func revertToPreviousStep() -> PostListingState {
@@ -251,7 +290,8 @@ class PostListingState {
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
-                                place: place)
+                                place: place,
+                                title: title)
     }
     
     func updating(place: Place) -> PostListingState {
@@ -263,7 +303,8 @@ class PostListingState {
                                 lastImagesUploadResult: lastImagesUploadResult,
                                 price: price,
                                 verticalAttributes: verticalAttributes,
-                                place: place)
+                                place: place,
+                                title: title)
     }
 }
 

@@ -1,4 +1,4 @@
-// Using New Relic Agent Version: 5.14.2
+// Using New Relic Agent Version: 6.1.0
 //
 //  New Relic for Mobile -- iOS edition
 //
@@ -63,7 +63,7 @@ extern "C" {
 /*!
  Set this bit-wise flag to enable/disable  features.
 
- @param NRFeatureFlags the NR_OPTIONS bitwise-flag
+ @param featureFlags the NR_OPTIONS bitwise-flag
  
  Note these flags must be set before calling -startWithApplicationToken:
       See NewRelicFeatureFlags.h for more flag details.
@@ -75,7 +75,7 @@ extern "C" {
 
 /*! 
 
- @param BOOL enable or disable crash reporting
+ @param enabled enable or disable crash reporting
 
  @note call this method before +startWithApplicationToken.
        it will only be effective called before this method.
@@ -118,6 +118,13 @@ extern "C" {
  */
 + (NSString* _Null_unspecified) currentSessionId;
 
+
+/*!
+ * Returns a string that can be added to uninstrumented network requests under 
+ * the header name "X-NewRelic-ID" and it will allow New Relic to record 
+ * cross application tracing.
+ */
++ (NSString* _Nullable) crossProcessId;
 
 /*!
  Starts New Relic data collection.
@@ -787,6 +794,40 @@ extern "C" {
 + (BOOL) removeAllAttributes;
 
 
+#pragma mark - Handled Exceptions
+
+
+/*!
+ * Record a caught exception
+ * @param exception the caught exception to record
+ *
+ */
++ (void) recordHandledException:(NSException* _Nonnull)exception;
+/*!
+ *  Record a caught exception and add custom attributes.
+ * @param exception the caught exception to record.
+ * @param attributes attributes that will be appended to the handled exception event created in insights.
+ */
++ (void) recordHandledException:(NSException* _Nonnull)exception
+           withAttributes:(NSDictionary* _Nullable)attributes;
+
+#pragma mark - Handled Errors
+
+
+/*!
+ * Record an Error. This will be presented along side handled exceptions.
+ * @param error the error to record. It can be a swift error or an Objective-C NSError.
+ */
++ (void) recordError:(NSError* _Nonnull)error;
+
+/*!
+ * Record an Error. This will be presented along side handled exceptions.
+ * @param error the error to record. It can be a swift error or an Objective-C NSError.
+ * @param attributes a dictionary of attributes that will be appended to the handled exception event created in insights.
+ */
+
++ (void) recordError:(NSError* _Nonnull)error
+          attributes:(NSDictionary* _Nullable)attributes;
 
 @end
 

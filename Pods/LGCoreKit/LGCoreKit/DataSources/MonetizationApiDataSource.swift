@@ -7,14 +7,13 @@
 //
 
 import Foundation
-import Argo
 import Result
 
 class MonetizationApiDataSource : MonetizationDataSource {
 
     static let platformNameKey = "platform"
     static let platformNameValue = "ios"
-    static let priceDifferentiationKey = "bucket"
+    static let minimumBumpPriceKey = "bucket"
 
     static let paymentIdKey = "id"
     static let itemIdKey = "item_id"
@@ -46,12 +45,11 @@ class MonetizationApiDataSource : MonetizationDataSource {
     // Public methods
 
     func retrieveBumpeableListingInfo(listingId: String,
-                                      withPriceDifferentiation priceDif: Bool,
+                                      withHigherMinimumPrice minPriceVersion: Int,
                                       completion: MonetizationDataSourceBumpeableListingCompletion?) {
-        let priceDifValue = priceDif ? 1 : 0
         let request = MonetizationRouter.showBumpeable(listingId: listingId,
                                                        params: [MonetizationApiDataSource.platformNameKey:MonetizationApiDataSource.platformNameValue,
-                                                                MonetizationApiDataSource.priceDifferentiationKey:priceDifValue])
+                                                                MonetizationApiDataSource.minimumBumpPriceKey:minPriceVersion])
         apiClient.request(request, decoder: MonetizationApiDataSource.decoderBumpeableListing, completion: completion)
     }
 
@@ -86,8 +84,14 @@ class MonetizationApiDataSource : MonetizationDataSource {
     // Private methods
 
     private static func decoderBumpeableListing(object: Any) -> BumpeableListing? {
-        let bumpeableListing: LGBumpeableListing? = decode(object)
-        return bumpeableListing
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let bumpeableListing = try LGBumpeableListing.decode(jsonData: data)
+            return bumpeableListing
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGBumpeableListing \(object)")
+        }
+        return nil
     }
 
     private func buildAnalyticsParams(amplitudeId: String?, appsflyerId: String?, idfa: String?, bundleId: String?) -> [String : Any] {

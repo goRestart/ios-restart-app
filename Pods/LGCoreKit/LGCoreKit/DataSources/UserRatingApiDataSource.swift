@@ -7,8 +7,6 @@
 //
 
 import Foundation
-import Argo
-
 
 class UserRatingApiDataSource: UserRatingDataSource {
 
@@ -39,17 +37,12 @@ class UserRatingApiDataSource: UserRatingDataSource {
         apiClient.request(request, decoder: UserRatingApiDataSource.decoder, completion: completion)
     }
 
-    func show(_ userId: String, userFromId: String, type: UserRatingType, completion: UserRatingDataSourceCompletion?) {
+    func show(_ userId: String, userFromId: String, listingId: String?, type: UserRatingType, completion: UserRatingDataSourceCompletion?) {
         var params: [String: Any] = [:]
         params[userFilter] = userId
         params[userFromFilter] = userFromId
         params[typeFilter] = type.apiValue
-        switch type {
-        case .conversation:
-            break
-        case let .buyer(listingId):
-            params[listingFilter] = listingId
-        case let .seller(listingId):
+        if let listingId = listingId {
             params[listingFilter] = listingId
         }
         let request = UserRatingRouter.index(params: params)
@@ -68,16 +61,16 @@ class UserRatingApiDataSource: UserRatingDataSource {
         }
     }
 
-    func create(_ userId: String, userFromId: String, value: Int, comment: String?, type: UserRatingType, completion: UserRatingDataSourceCompletion?) {
+    func create(_ userId: String, userFromId: String, value: Int, comment: String?, listingId: String?, type: UserRatingType, completion: UserRatingDataSourceCompletion?) {
         let data = UserRatingApiDataSource.encodeUserRatingParams(userId: userId, userFromId: userFromId,
-                                                                  value: value, comment: comment, type: type)
+                                                                  value: value, comment: comment, listingId: listingId, type: type)
         let request = UserRatingRouter.create(params: data)
         apiClient.request(request, decoder: UserRatingApiDataSource.decoder, completion: completion)
     }
 
     func update(_ ratingId: String, value: Int?, comment: String?, completion: UserRatingDataSourceCompletion?) {
         let data = UserRatingApiDataSource.encodeUserRatingParams(userId: nil, userFromId: nil,
-                                                                  value: value, comment: comment, type: nil)
+                                                                  value: value, comment: comment, listingId: nil, type: nil)
         let request = UserRatingRouter.update(objectId: ratingId, params: data)
         apiClient.request(request, decoder: UserRatingApiDataSource.decoder, completion: completion)
     }
@@ -91,45 +84,44 @@ class UserRatingApiDataSource: UserRatingDataSource {
     // MARK: - Decoder
 
     private static func decoderArray(_ object: Any) -> [UserRating]? {
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        
         // Ignore ratings that can't be decoded
-        guard let ratings = Array<LGUserRating>.filteredDecode(JSON(object)).value else { return nil }
-        return ratings.map{ $0 }
+        do {
+            let ratings = try JSONDecoder().decode(FailableDecodableArray<LGUserRating>.self, from: data)
+            return ratings.validElements
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse [LGUserRating] \(object)")
+        }
+        return nil
     }
 
     private static func decoder(_ object: Any) -> UserRating? {
-        guard let userRating : LGUserRating = decode(object) else { return nil }
-        return userRating
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let rating = try LGUserRating.decode(jsonData: data)
+            return rating
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGUserRating \(object)")
+        }
+        return nil
     }
 
     // MARK: - Encoder
 
     private static func encodeUserRatingParams(userId: String?, userFromId: String?, value: Int?,
-                                                   comment: String?, type: UserRatingType?) -> [String : Any] {
+                                               comment: String?, listingId: String?, type: UserRatingType?) -> [String : Any] {
         var result: [String : Any] = [:]
         result["type"] = type?.apiValue
         result["user_id"] = userFromId
         result["user_rated_id"] = userId
         result["value"] = value
         var attributes: [String : Any] = [:]
-        attributes["product_id"] = type?.listingId
+        attributes["product_id"] = listingId
         attributes["comment"] = comment
         if !attributes.isEmpty {
             result["attributes"] = attributes
         }
         return result
-    }
-}
-
-
-private extension UserRatingType {
-    var listingId: String? {
-        switch self {
-        case .conversation:
-            return nil
-        case let .seller(listingId):
-            return listingId
-        case let .buyer(listingId):
-            return listingId
-        }
     }
 }

@@ -27,11 +27,13 @@ class PostListingBasicDetailViewModel: BaseViewModel {
     // Out variables
     var listingPrice: ListingPrice {
         guard !isFree.value else { return .free }
-        return price.value.toPriceDouble() > 0 ? .normal(price.value.toPriceDouble()) : .negotiable(price.value.toPriceDouble())
+        return .normal(price.value.toPriceDouble())
     }
+    
     var listingTitle: String? {
         return title.value.isEmpty ? nil : title.value
     }
+
     var listingDescription: String? {
         return description.value.isEmpty ? nil : description.value
     }

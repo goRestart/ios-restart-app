@@ -65,7 +65,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     
     // MARK: - Lifecycle
 
-    init(shouldShowSummaryAfter: Bool, initialValues: [CarInfoWrapper]) {
+    init(initialValues: [CarInfoWrapper]) {
         
         super.init(frame: CGRect.zero)
         
@@ -75,9 +75,6 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         gesture.delegate = self
         contentView.addGestureRecognizer(gesture)
-        if shouldShowSummaryAfter {
-            showSelectDetailValue(forDetail: .make, values: initialValues, selectedValueIndex: nil)
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -194,12 +191,12 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
             .top(by: Metrics.shortMargin)
         navigationYearButton.layout(with: navigationOkButton)
             .trailing(to: .leading, by: -Metrics.margin, relatedBy: .lessThanOrEqual)
-        navigationYearButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        navigationYearButton.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
         
         navigationOkButton.layout(with: navigationView)
             .right(by: -Metrics.margin)
             .top(by: Metrics.shortMargin)
-        navigationOkButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        navigationOkButton.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
         
         descriptionLabel.layout(with: contentView)
             .leadingMargin()
@@ -300,7 +297,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
         yearRowView.value = year
     }
     
-    func hideKeyboard() {
+    @objc func hideKeyboard() {
         tableView.hideKeyboard()
     }
     
@@ -334,7 +331,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     
     // MARK: UI Actions
     
-    dynamic func navigationButtonOkPressed() {
+    @objc func navigationButtonOkPressed() {
         tableView.hideKeyboard()
         showSelectDetail()
     }

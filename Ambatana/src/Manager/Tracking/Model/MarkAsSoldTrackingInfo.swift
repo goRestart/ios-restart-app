@@ -73,6 +73,6 @@ struct MarkAsSoldTrackingInfo {
     private func eventParameterFreePostingWithPrice(_ freePostingModeAllowed: Bool,
                                                     price: ListingPrice) -> EventParameterBoolean {
         guard freePostingModeAllowed else { return .notAvailable}
-        return price.free ? .trueParameter : .falseParameter
+        return price.isFree ? .trueParameter : .falseParameter
     }
 }

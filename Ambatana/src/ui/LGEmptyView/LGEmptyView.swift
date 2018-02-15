@@ -60,7 +60,7 @@ class LGEmptyView: UIView {
         }
     }
 
-    var title: String? {
+    @objc var title: String? {
         didSet {
             titleLabel.text = title
         }
@@ -116,7 +116,7 @@ class LGEmptyView: UIView {
 
         contentView.layer.borderColor = UIColor.lineGray.cgColor
         contentView.layer.borderWidth = LGEmptyView.contentBorderWith
-        contentView.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
+        contentView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
         contentView.backgroundColor = UIColor.white
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
@@ -284,11 +284,11 @@ class LGEmptyView: UIView {
         }
     }
 
-    dynamic private func actionButtonPressed() {
+    @objc private func actionButtonPressed() {
         action?()
     }
     
-    dynamic private func secondaryActionButtonPressed() {
+    @objc private func secondaryActionButtonPressed() {
         secondaryAction?()
     }
 }

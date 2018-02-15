@@ -11,7 +11,23 @@ import RxCocoa
 
 // MARK: - UINavigationBar helpers
 
+fileprivate extension UIBarButtonItem {
+    static func makeSpacingButton(with width: CGFloat) -> UIBarButtonItem {
+        let button = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        button.width = width
+        return button
+    }
+}
+
+
 extension UIViewController {
+
+    var isModal: Bool {
+        if presentingViewController != nil { return true }
+        if navigationController?.presentingViewController?.presentedViewController == navigationController { return true }
+        if tabBarController?.presentingViewController is UITabBarController { return true }
+        return false
+    }
 
     var barButtonsHoritzontalSpacing: CGFloat {
         switch DeviceFamily.current {
@@ -22,12 +38,16 @@ extension UIViewController {
         }
     }
 
+    func makeSpacingButton(withFixedWidth width: CGFloat) -> UIBarButtonItem {
+        return UIBarButtonItem.makeSpacingButton(with: width)
+    }
+
     func isRootViewController() -> Bool  {
         guard let navigationController = navigationController else { return false }
         guard navigationController.viewControllers.count > 0 else { return false }
         return navigationController.viewControllers[0] == self
     }
-
+    
     @discardableResult 
     func setLetGoRightButtonWith(_ action: UIAction, buttonTintColor: UIColor? = nil, tapBlock: (ControlEvent<Void>) -> Void ) -> UIBarButtonItem? {
         let rightItem = UIBarButtonItem()
@@ -134,7 +154,7 @@ extension UIViewController {
 
 // MARK: - Present/pop
 
-extension UIViewController {
+@objc extension UIViewController {
 
     // gets back one VC from the stack.
     func popBackViewController() {

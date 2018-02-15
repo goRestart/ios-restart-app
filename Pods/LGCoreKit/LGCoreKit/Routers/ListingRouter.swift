@@ -16,11 +16,15 @@ enum ListingRouter: URLRequestAuthenticable {
     case updateRealEstate(listingId: String, params: [String : Any])
     case patch(listingId: String, params: [String : Any])
     case show(listingId: String)
+    case showRealEstate(listingId: String)
     case create(params: [String : Any])
     case createRealEstate(params: [String : Any])
     case index(params: [String : Any])
-
+    case indexRealEstate(params: [String : Any])
+    case indexRealEstateRelatedSearch(params: [String : Any])
+    
     case indexRelatedListings(listingId: String, params: [String : Any])
+    case indexRelatedRealEstate(listingId: String, params: [String : Any])
     case indexDiscoverListings(listingId: String, params: [String : Any])
     case indexForUser(userId: String, params: [String : Any])
     case indexFavorites(userId: String, params: [String : Any])
@@ -49,10 +53,18 @@ enum ListingRouter: URLRequestAuthenticable {
             return ListingRouter.listingBaseUrl
         case .createRealEstate, .updateRealEstate:
             return ListingRouter.listingRealEstateBaseUrl
+        case .showRealEstate:
+            return ListingRouter.listingRealEstateBaseUrl
         case let .indexRelatedListings(listingId, _):
             return ListingRouter.listingBaseUrl + "/\(listingId)/related"
+        case let .indexRelatedRealEstate(listingId, _):
+            return ListingRouter.listingRealEstateBaseUrl + "/\(listingId)/related"
         case let .indexDiscoverListings(listingId, _):
             return ListingRouter.listingBaseUrl + "/\(listingId)/discover"
+        case .indexRealEstate:
+            return ListingRouter.listingRealEstateBaseUrl
+        case .indexRealEstateRelatedSearch:
+            return ListingRouter.listingRealEstateBaseUrl + "/related"
         case let .deleteFavorite(userId, _):
             return UserRouter.userBaseUrl       + "/\(userId)/favorites/products/"
         case let .saveFavorite(userId, _):
@@ -87,8 +99,9 @@ enum ListingRouter: URLRequestAuthenticable {
         case .delete, .update, .updateRealEstate, .patch, .create, .createRealEstate, .deleteFavorite, .saveFavorite, .userRelation, .saveReport,
              .indexLimbo, .possibleBuyers, .createTransactionOf, .retrieveTransactionsOf:
             return .user
-        case .show, .index, .indexForUser, .indexFavorites, .indexRelatedListings, .indexDiscoverListings,
-             .indexTrending, .showStats, .updateStats:
+        case .show, .index, .showRealEstate, .indexRealEstate, .indexRealEstateRelatedSearch, .indexForUser, .indexFavorites,
+             .indexRelatedListings, .indexRelatedRealEstate, .indexDiscoverListings, .indexTrending, .showStats,
+             .updateStats:
             return .nonexistent
         }
     }
@@ -119,12 +132,16 @@ enum ListingRouter: URLRequestAuthenticable {
                                             encoding: .url).asURLRequest()
         case let .show(listingId):
             return try Router<APIBaseURL>.show(endpoint: endpoint, objectId: listingId).asURLRequest()
+        case let .showRealEstate(listingId):
+            return try Router<RealEstateBaseURL>.show(endpoint: endpoint, objectId: listingId).asURLRequest()
         case let .create(params):
             return try Router<APIBaseURL>.create(endpoint: endpoint, params: params, encoding: .url).asURLRequest()
         case let .createRealEstate(params):
             return try Router<RealEstateBaseURL>.create(endpoint: endpoint, params: params, encoding: .json).asURLRequest()
         case let .indexRelatedListings(_, params):
             return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+        case let .indexRelatedRealEstate(_, params):
+            return try Router<SearchRealEstateBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexDiscoverListings(_, params):
             return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case .userRelation(_, _):
@@ -134,6 +151,10 @@ enum ListingRouter: URLRequestAuthenticable {
                                              encoding: nil).asURLRequest()
         case let .index(params):
             return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+        case let .indexRealEstate(params):
+            return try Router<SearchRealEstateBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
+        case let .indexRealEstateRelatedSearch(params):
+            return try Router<SearchRealEstateBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexForUser(_, params):
             return try Router<SearchProductsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case let .indexFavorites(_, params):

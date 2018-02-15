@@ -130,7 +130,7 @@ class BubbleNotification: UIView {
 
     private func setupUI() {
         backgroundColor = UIColor.white
-        layer.cornerRadius = LGUIKitConstants.containerCornerRadius
+        layer.cornerRadius = LGUIKitConstants.bigCornerRadius
         applyDefaultShadow()
 
         if data.hasIcon {
@@ -214,7 +214,7 @@ class BubbleNotification: UIView {
             options: [], metrics: metrics, views: views))
 
         // image text label and button
-        actionButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        actionButton.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
         containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|->=0-[textsContainer]->=0-|",
             options: [], metrics: metrics, views: views))
         leftIcon.addConstraint(NSLayoutConstraint(item: leftIcon, attribute: .height, relatedBy: .equal,
@@ -235,17 +235,17 @@ class BubbleNotification: UIView {
         layoutIfNeeded()
     }
 
-    dynamic private func buttonTapped() {
+    @objc private func buttonTapped() {
         autoDismissTimer?.invalidate()
         delegate?.bubbleNotificationActionPressed(self)
     }
 
-    dynamic private func swiped() {
+    @objc private func swiped() {
         autoDismissTimer?.invalidate()
         delegate?.bubbleNotificationSwiped(self)
     }
 
-    dynamic private func autoDismiss() {
+    @objc private func autoDismiss() {
         delegate?.bubbleNotificationTimedOut(self)
     }
 

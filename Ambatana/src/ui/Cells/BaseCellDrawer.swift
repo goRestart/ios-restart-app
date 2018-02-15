@@ -48,6 +48,10 @@ class BaseCollectionCellDrawer<T: UICollectionViewCell>: CollectionCellDrawer wh
         let cellNib = UINib(nibName: T.reusableID, bundle: nil)
         collectionView.register(cellNib, forCellWithReuseIdentifier: T.reusableID)
     }
+    
+    static func registerClassCell(_ collectionView: UICollectionView) {
+        collectionView.register(T.self, forCellWithReuseIdentifier: T.reusableID)
+    }
 
     /**
     Dequeue a cell for the given UICollectionView using the generic T to get the ID.

@@ -13,13 +13,15 @@ import Result
 import RxSwift
 
 
-protocol ListingViewModelDelegate: class, BaseViewModelDelegate {
+protocol ListingViewModelDelegate: BaseViewModelDelegate {
 
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction])
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?)
 
     var trackingFeedPosition: EventParameterFeedPosition { get }
+    
+    var listingOrigin: ListingOrigin { get }
     
     // Bump Up
     func vmResetBumpUpBannerCountdown()
@@ -29,12 +31,17 @@ protocol ListingViewModelMaker {
     func make(listing: Listing, visitSource: EventParameterListingVisitSource) -> ListingViewModel
 }
 
+enum ListingOrigin {
+    case initial, inResponseToNextRequest, inResponseToPreviousRequest
+}
+
 class ListingViewModel: BaseViewModel {
     class ConvenienceMaker: ListingViewModelMaker {
         func make(listing: Listing, visitSource source: EventParameterListingVisitSource) -> ListingViewModel {
             return ListingViewModel(listing: listing,
                                     visitSource: source,
                                     myUserRepository: Core.myUserRepository,
+                                    userRepository: Core.userRepository,
                                     listingRepository: Core.listingRepository,
                                     chatWrapper: LGChatWrapper(),
                                     chatViewMessageAdapter: ChatViewMessageAdapter(),
@@ -44,7 +51,8 @@ class ListingViewModel: BaseViewModel {
                                     featureFlags: FeatureFlags.sharedInstance,
                                     purchasesShopper: LGPurchasesShopper.sharedInstance,
                                     monetizationRepository: Core.monetizationRepository,
-                                    tracker: TrackerProxy.sharedInstance)
+                                    tracker: TrackerProxy.sharedInstance,
+                                    keyValueStorage: KeyValueStorage.sharedInstance)
         }
     }
 
@@ -57,6 +65,8 @@ class ListingViewModel: BaseViewModel {
     var isMine: Bool {
         return listing.value.isMine(myUserRepository: myUserRepository)
     }
+    let isProfessional = Variable<Bool>(false)
+    let phoneNumber = Variable<String?>(nil)
     let isFavorite = Variable<Bool>(false)
     let listingStats = Variable<ListingStats?>(nil)
 
@@ -67,7 +77,7 @@ class ListingViewModel: BaseViewModel {
     let directChatMessages = CollectionVariable<ChatViewMessage>([])
     var quickAnswers: [[QuickAnswer]] {
         guard !isMine else { return [] }
-        let isFree = listing.value.price.free && featureFlags.freePostingModeAllowed
+        let isFree = listing.value.price.isFree && featureFlags.freePostingModeAllowed
         let isNegotiable = listing.value.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
         return QuickAnswer.quickAnswersForPeriscope(isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
     }
@@ -130,8 +140,10 @@ class ListingViewModel: BaseViewModel {
 
     // Repository, helpers & tracker
     let trackHelper: ProductVMTrackHelper
+    var sellerAverageUserRating: Float?
 
     fileprivate let myUserRepository: MyUserRepository
+    fileprivate let userRepository: UserRepository
     fileprivate let listingRepository: ListingRepository
     fileprivate let chatWrapper: ChatWrapper
     fileprivate let countryHelper: CountryHelper
@@ -142,8 +154,10 @@ class ListingViewModel: BaseViewModel {
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let showFeaturedStripeHelper: ShowFeaturedStripeHelper
     fileprivate let visitSource: EventParameterListingVisitSource
+    fileprivate let keyValueStorage: KeyValueStorageable
 
     let isShowingFeaturedStripe = Variable<Bool>(false)
+    fileprivate let isListingDetailsCompleted = Variable<Bool>(false)
 
     // Retrieval status
     private var relationRetrieved = false
@@ -157,6 +171,7 @@ class ListingViewModel: BaseViewModel {
     init(listing: Listing,
          visitSource: EventParameterListingVisitSource,
          myUserRepository: MyUserRepository,
+         userRepository: UserRepository,
          listingRepository: ListingRepository,
          chatWrapper: ChatWrapper,
          chatViewMessageAdapter: ChatViewMessageAdapter,
@@ -166,14 +181,17 @@ class ListingViewModel: BaseViewModel {
          featureFlags: FeatureFlaggeable,
          purchasesShopper: PurchasesShopper,
          monetizationRepository: MonetizationRepository,
-         tracker: Tracker) {
+         tracker: Tracker,
+         keyValueStorage: KeyValueStorageable) {
         self.listing = Variable<Listing>(listing)
         self.visitSource = visitSource
         self.socialSharer = socialSharer
         self.myUserRepository = myUserRepository
+        self.userRepository = userRepository
         self.listingRepository = listingRepository
         self.countryHelper = countryHelper
         self.trackHelper = ProductVMTrackHelper(tracker: tracker, listing: listing, featureFlags: featureFlags)
+        self.keyValueStorage = keyValueStorage
         self.chatWrapper = chatWrapper
         self.locationManager = locationManager
         self.chatViewMessageAdapter = chatViewMessageAdapter
@@ -192,6 +210,28 @@ class ListingViewModel: BaseViewModel {
     
     internal override func didBecomeActive(_ firstTime: Bool) {
         guard let listingId = listing.value.objectId else { return }
+        
+        if listing.value.isRealEstate && listing.value.realEstate?.realEstateAttributes == RealEstateAttributes.emptyRealEstateAttributes() {
+            retrieveRealEstateDetails(listingId: listingId)
+        } else {
+            isListingDetailsCompleted.value = true
+        }
+
+        if featureFlags.allowCallsForProfessionals.isActive {
+            if isMine {
+                isProfessional.value = myUserRepository.myUser?.type == .pro
+                phoneNumber.value = myUserRepository.myUser?.phone
+            } else if let userId = userInfo.value.userId {
+                userRepository.show(userId) { [weak self] result in
+                    guard let strongSelf = self else { return }
+                    if let value = result.value {
+                        strongSelf.isProfessional.value = value.type == .pro
+                        strongSelf.phoneNumber.value = value.phone
+                        strongSelf.sellerAverageUserRating = value.ratingAverage
+                    }
+                }
+            }
+        }
 
         listingRepository.incrementViews(listingId: listingId, visitSource: visitSource.rawValue, visitTimestamp: Date().millisecondsSince1970, completion: nil)
 
@@ -249,30 +289,36 @@ class ListingViewModel: BaseViewModel {
     private func setupRxBindings() {
 
         if let productId = listing.value.objectId {
-            listingRepository.updateEvents(for: productId).bindNext { [weak self] listing in
+            listingRepository.updateEvents(for: productId).bind { [weak self] listing in
                 self?.listing.value = listing
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         }
 
-        status.asObservable().bindNext { [weak self] status in
+        let listingActions = Observable.combineLatest(status.asObservable(), isProfessional.asObservable()) { ($0, $1) }
+
+        listingActions.asObservable().bind { [weak self] (status, isPro) in
             guard let strongSelf = self else { return }
-            strongSelf.refreshActionButtons(status)
+            strongSelf.refreshActionButtons(status, isProfessional: isPro)
             strongSelf.refreshNavBarButtons()
-            strongSelf.directChatEnabled.value = status.directChatsAvailable
-        }.addDisposableTo(disposeBag)
+            strongSelf.directChatEnabled.value = status.directChatsAvailable && !isPro
+        }.disposed(by: disposeBag)
+        
+        isListingDetailsCompleted.asObservable().filter {$0}.bind { [weak self] _ in
+            self?.refreshNavBarButtons()
+        }.disposed(by: disposeBag)
 
         // bumpeable listing check
-        status.asObservable().bindNext { [weak self] status in
+        status.asObservable().skip(1).bind { [weak self] status in
             if status.shouldRefreshBumpBanner {
                 self?.refreshBumpeableBanner()
             } else {
                 self?.bumpUpBannerInfo.value = nil
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         isFavorite.asObservable().subscribeNext { [weak self] _ in
             self?.refreshNavBarButtons()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         listing.asObservable().subscribeNext { [weak self] listing in
             guard let strongSelf = self else { return }
@@ -290,29 +336,30 @@ class ListingViewModel: BaseViewModel {
             let productInfo = ListingVMProductInfo(listing: listing,
                                                    isAutoTranslated: listing.isTitleAutoTranslated(strongSelf.countryHelper),
                                                    distance: strongSelf.distanceString(listing),
-                                                   freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed)
+                                                   freeModeAllowed: strongSelf.featureFlags.freePostingModeAllowed,
+                                                   postingFlowType: strongSelf.featureFlags.postingFlowType)
             strongSelf.productInfo.value = productInfo
 
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        status.asObservable().bindNext { [weak self] status in
+        status.asObservable().bind { [weak self] status in
             guard let isMine = self?.isMine else { return }
             self?.shareButtonState.value = isMine ? .enabled : .hidden
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        myUserRepository.rx_myUser.bindNext { [weak self] _ in
+        myUserRepository.rx_myUser.bind { [weak self] _ in
             self?.refreshStatus()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        productIsFavoriteable.asObservable().bindNext { [weak self] favoriteable in
+        productIsFavoriteable.asObservable().bind { [weak self] favoriteable in
             self?.favoriteButtonState.value = favoriteable ? .enabled : .hidden
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         moreInfoState.asObservable().map { (state: MoreInfoState) in
             return state == .shown
-        }.distinctUntilChanged().bindNext { [weak self] shown in
+        }.distinctUntilChanged().bind { [weak self] shown in
             self?.refreshNavBarButtons()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func distanceString(_ listing: Listing) -> String? {
@@ -324,6 +371,14 @@ class ListingViewModel: BaseViewModel {
 
     private func refreshStatus() {
         status.value = ListingViewModelStatus(listing: listing.value, isMine: isMine, featureFlags: featureFlags)
+    }
+    
+    private func retrieveRealEstateDetails(listingId: String) {
+        listingRepository.retrieveRealEstate(listingId) { [weak self] (result) in
+            guard let realEstateListing = result.value else { return }
+            self?.listing.value = realEstateListing
+            self?.isListingDetailsCompleted.value = true
+        }
     }
 
     func refreshBumpeableBanner() {
@@ -339,7 +394,7 @@ class ListingViewModel: BaseViewModel {
             isUpdatingBumpUpBanner = true
             monetizationRepository.retrieveBumpeableListingInfo(
                 listingId: listingId,
-                withPriceDifferentiation: featureFlags.bumpUpPriceDifferentiation.isActive,
+                withHigherMinimumPrice: featureFlags.increaseMinPriceBumps.bucketValue,
                 completion: { [weak self] result in
                     guard let strongSelf = self else { return }
                     strongSelf.isUpdatingBumpUpBanner = false
@@ -405,12 +460,12 @@ class ListingViewModel: BaseViewModel {
         case .priced:
             guard let paymentItemId = paymentItemId else { return }
             bannerInteractionBlock = { [weak self] in
-                guard let listing = self?.listing.value else { return }
+                guard let _ = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
-
+                
                 self?.openPricedBumpUpView(purchaseableProduct: purchaseableProduct,
-                                                                  paymentItemId: paymentItemId,
-                                                                  storeProductId: paymentProviderItemId)
+                                           paymentItemId: paymentItemId,
+                                           storeProductId: paymentProviderItemId)
             }
             buttonBlock = { [weak self] in
                 self?.bumpUpProduct(productId: listingId)
@@ -574,6 +629,18 @@ extension ListingViewModel {
             }
         }
     }
+
+    func openAskPhone() {
+        ifLoggedInRunActionElseOpenSignUp(from: .chatProUser, infoMessage: LGLocalizedString.chatLoginPopupText) { [weak self] in
+            guard let strongSelf = self else  { return }
+            if let listingId = strongSelf.listing.value.objectId,
+                strongSelf.keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId) {
+                strongSelf.chatWithSeller()
+            } else {
+                strongSelf.navigator?.openAskPhoneFor(listing: strongSelf.listing.value)
+            }
+        }
+    }
 }
 
 
@@ -589,7 +656,7 @@ extension ListingViewModel {
         var navBarButtons = [UIAction]()
 
         if isMine {
-            if status.value.isEditable {
+            if status.value.isEditable && isListingDetailsCompleted.value {
                 navBarButtons.append(buildEditNavBarAction())
             }
             navBarButtons.append(buildMoreNavBarAction())
@@ -744,30 +811,34 @@ extension ListingViewModel {
 
 extension ListingViewModel {
 
-    fileprivate func refreshActionButtons(_ status: ListingViewModelStatus) {
-        actionButtons.value = buildActionButtons(status)
+    fileprivate func refreshActionButtons(_ status: ListingViewModelStatus, isProfessional: Bool) {
+        actionButtons.value = buildActionButtons(status, isProfessional: isProfessional)
     }
 
-    private func buildActionButtons(_ status: ListingViewModelStatus) -> [UIAction] {
+    private func buildActionButtons(_ status: ListingViewModelStatus, isProfessional: Bool) -> [UIAction] {
         var actionButtons = [UIAction]()
         switch status {
         case .pending, .notAvailable, .otherSold, .otherSoldFree, .pendingAndFeatured:
             break
         case .available:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldButton, .terciary),
-                action: { [weak self] in self?.confirmToMarkAsSold() }))
+                                          action: { [weak self] in self?.confirmToMarkAsSold() }))
         case .sold:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainButton, .secondary(fontSize: .big, withBorder: false)),
-                action: { [weak self] in self?.confirmToMarkAsUnSold(free: false) }))
+                                          action: { [weak self] in self?.confirmToMarkAsUnSold(free: false) }))
         case .otherAvailable, .otherAvailableFree:
-            break
+            if isProfessional {
+                actionButtons.append(UIAction(interface: .button(LGLocalizedString.productProfessionalChatButton, .secondary(fontSize: .big, withBorder: false)),
+                                              action: { [weak self] in self?.openAskPhone() }))
+            }
         case .availableFree:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productMarkAsSoldFreeButton, .terciary),
-                action: { [weak self] in self?.confirmToMarkAsSold() }))
+                                          action: { [weak self] in self?.confirmToMarkAsSold() }))
         case .soldFree:
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainFreeButton, .secondary(fontSize: .big, withBorder: false)),
-                action: { [weak self] in self?.confirmToMarkAsUnSold(free: true) }))
+                                          action: { [weak self] in self?.confirmToMarkAsUnSold(free: true) }))
         }
+
         return actionButtons
     }
 }
@@ -846,7 +917,7 @@ fileprivate extension ListingViewModel {
                                                             trackingInfo: trackingInfo)
                 }
             } else {
-                let message = strongSelf.listing.value.price.free ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
+                let message = strongSelf.listing.value.price.isFree ? LGLocalizedString.productMarkAsSoldFreeSuccessMessage : LGLocalizedString.productMarkAsSoldSuccessMessage
                 strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
             }
         }
@@ -936,7 +1007,7 @@ fileprivate extension ListingViewModel {
             let message: String
             if let value = result.value {
                 strongSelf.listing.value = value
-                message = strongSelf.listing.value.price.free ? LGLocalizedString.productSellAgainFreeSuccessMessage : LGLocalizedString.productSellAgainSuccessMessage
+                message = strongSelf.listing.value.price.isFree ? LGLocalizedString.productSellAgainFreeSuccessMessage : LGLocalizedString.productSellAgainSuccessMessage
                 self?.trackHelper.trackMarkUnsoldCompleted()
             } else {
                 message = LGLocalizedString.productSellAgainErrorGeneric
@@ -957,10 +1028,12 @@ fileprivate extension ListingViewModel {
                 let messageViewSent = messageView.markAsSent()
                 strongSelf.directChatMessages.replace(0, with: messageViewSent)
                 let feedPosition = strongSelf.delegate?.trackingFeedPosition ?? .none
-                strongSelf.trackHelper.trackMessageSent(isFirstMessage: firstMessage && !strongSelf.alreadyTrackedFirstMessageSent,
+                let isFirstMessage = firstMessage && !strongSelf.alreadyTrackedFirstMessageSent
+                let visitSource = strongSelf.visitSource(from: strongSelf.visitSource, isFirstMessage: isFirstMessage)
+                strongSelf.trackHelper.trackMessageSent(isFirstMessage: isFirstMessage,
                                                         messageType: type,
                                                         isShowingFeaturedStripe: strongSelf.isShowingFeaturedStripe.value,
-                                                        listingVisitSource: strongSelf.visitSource,
+                                                        listingVisitSource: visitSource,
                                                         feedPosition: feedPosition)
                 strongSelf.alreadyTrackedFirstMessageSent = true
             } else if let error = result.error {
@@ -986,6 +1059,19 @@ fileprivate extension ListingViewModel {
                 }
             }
         }
+    }
+    
+    fileprivate func visitSource(from originalSource: EventParameterListingVisitSource, isFirstMessage: Bool) -> EventParameterListingVisitSource {
+        guard isFirstMessage, originalSource == .favourite, let origin = delegate?.listingOrigin else {
+            return originalSource
+        }
+        var visitSource = originalSource
+        if origin == .inResponseToNextRequest {
+            visitSource = .nextFavourite
+        } else if origin == .inResponseToPreviousRequest {
+            visitSource = .previousFavourite
+        }
+        return visitSource
     }
 }
 

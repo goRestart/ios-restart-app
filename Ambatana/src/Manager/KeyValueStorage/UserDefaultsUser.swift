@@ -26,6 +26,7 @@ struct UserDefaultsUser {
     static let transactionsListingIdsDefaultValue = [String:String]()
 
     static let failedBumpsInfoDefaultValue = [String:[String:String?]]()
+    static let proSellerAlreadySentPhoneInChatDefaultValue: [String] = []
 
     var appShared: Bool
     var userLocationApproximate: Bool
@@ -43,6 +44,7 @@ struct UserDefaultsUser {
     var pendingTransactionsListingIds: [String:String] // [<transactionId> : <listingId>]
 
     var failedBumpsInfo: [String:[String:String?]] // [<listingId> : <failedBumpInfo>]
+    var proSellerAlreadySentPhoneInChat: [String]
 
     init() {
         self.init(appShared: UserDefaultsUser.appSharedDefaultValue,
@@ -59,7 +61,8 @@ struct UserDefaultsUser {
                   listingsWithExpressChatMessageSent: UserDefaultsUser.listingsWithExpressChatMessageSentDefaultValue,
                   marketingNotifications: UserDefaultsUser.marketingNotificationsDefaultValue,
                   pendingTransactionsListingIds: UserDefaultsUser.transactionsListingIdsDefaultValue,
-                  failedBumpsInfo: UserDefaultsUser.failedBumpsInfoDefaultValue)
+                  failedBumpsInfo: UserDefaultsUser.failedBumpsInfoDefaultValue,
+                  proSellerAlreadySentPhoneInChat: UserDefaultsUser.proSellerAlreadySentPhoneInChatDefaultValue)
     }
 
     init(appShared: Bool,
@@ -76,7 +79,8 @@ struct UserDefaultsUser {
          listingsWithExpressChatMessageSent: [String],
          marketingNotifications: Bool,
          pendingTransactionsListingIds: [String:String],
-         failedBumpsInfo: [String:[String:String?]]) {
+         failedBumpsInfo: [String:[String:String?]],
+         proSellerAlreadySentPhoneInChat: [String]) {
         self.appShared = appShared
         self.userLocationApproximate = userLocationApproximate
         self.chatSafetyTipsShown = chatSafetyTipsShown
@@ -92,6 +96,7 @@ struct UserDefaultsUser {
         self.marketingNotifications = marketingNotifications
         self.pendingTransactionsListingIds = pendingTransactionsListingIds
         self.failedBumpsInfo = failedBumpsInfo
+        self.proSellerAlreadySentPhoneInChat = proSellerAlreadySentPhoneInChat
     }
 }
 
@@ -128,8 +133,9 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         let marketingNotifications = dictionary.decode(UserDefaultsUserKey.marketingNotifications.rawValue,
                                                        defaultValue: UserDefaultsUser.marketingNotificationsDefaultValue)
         let pendingTransactionsListingIds = dictionary.decode(UserDefaultsUserKey.pendingTransactionsListingIds.rawValue, defaultValue: UserDefaultsUser.transactionsListingIdsDefaultValue)
-
         let failedBumpsInfo = dictionary.decode(UserDefaultsUserKey.failedBumpsInfo.rawValue, defaultValue: UserDefaultsUser.failedBumpsInfoDefaultValue)
+        let proSellerAlreadySentPhoneInChat = dictionary.decode(UserDefaultsUserKey.proSellerAlreadySentPhoneInChat.rawValue,
+                                                                defaultValue: UserDefaultsUser.proSellerAlreadySentPhoneInChatDefaultValue)
 
         return UserDefaultsUser(appShared: appShared,
                                 userLocationApproximate: userLocationApproximate,
@@ -145,7 +151,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 listingsWithExpressChatMessageSent: listingsWithExpressChatMessageSent,
                                 marketingNotifications: marketingNotifications,
                                 pendingTransactionsListingIds: pendingTransactionsListingIds,
-                                failedBumpsInfo: failedBumpsInfo)
+                                failedBumpsInfo: failedBumpsInfo,
+                                proSellerAlreadySentPhoneInChat: proSellerAlreadySentPhoneInChat)
     }
 
     func encode() -> [String: Any] {
@@ -170,6 +177,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         dict.encode(UserDefaultsUserKey.marketingNotifications.rawValue, value: marketingNotifications)
         dict.encode(UserDefaultsUserKey.pendingTransactionsListingIds.rawValue, value: pendingTransactionsListingIds)
         dict.encode(UserDefaultsUserKey.failedBumpsInfo.rawValue, value: failedBumpsInfo)
+        dict.encode(UserDefaultsUserKey.proSellerAlreadySentPhoneInChat.rawValue, value: proSellerAlreadySentPhoneInChat)
         return dict
     }
 }
@@ -202,6 +210,8 @@ private enum UserDefaultsUserKey: String {
     case pendingTransactionsListingIds = "pendingTransactionsListingIds"
 
     case failedBumpsInfo = "failedBumpsInfo"
+
+    case proSellerAlreadySentPhoneInChat = "proSellerAlreadySentPhoneInChat"
 }
 
 

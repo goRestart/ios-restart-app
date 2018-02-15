@@ -21,26 +21,6 @@
         "description": "User can bump paying"
     },
     {
-        "name": "CaptchaTransparent",
-        "values": ["No", "Yes"],
-        "description": "Captcha transparent"
-    },
-    {
-        "name": "NewCarsMultiRequesterEnabled",
-        "values": ["no", "yes"],
-        "description": "Cars multi requester enabled"
-    },
-    {
-        "name": "InAppRatingIOS10",
-        "values": ["no", "yes"],
-        "description": "New in-app rating for iOS 10.3+"
-    },
-    {
-        "name": "TweaksCarPostingFlow",
-        "values": ["control", "baseline", "active"],
-        "description": "car posting summary only at the end"
-    },
-    {
         "name": "UserReviewsReportEnabled",
         "values": ["no", "yes"],
         "description": "User reviews report enabled"
@@ -51,28 +31,13 @@
         "description": "Random quick answers with different approaches"
     },
     {
-        "name": "AppRatingDialogInactive",
-        "values": ["no", "yes"],
-        "description": "App rating dialog inactive to increase user activation"
-    },
-    {
-        "name": "ExpandableCategorySelectionMenu",
-        "values": ["control", "baseline", "expandableMenu"],
-        "description": "Show 'salchichas' menu on sell your stuff button"
-    },
-    {
-        "name": "LocationDataSourceEndpoint",
-        "values": ["control", "baseline", "appleWithRegion", "niordWithRegion"],
-        "description": "Location data source for geocode and reverse geocode"
-    },
-    {
         "name": "DefaultRadiusDistanceFeed",
         "values": ["control", "baseline", "two", "five", "ten", "thirty"],
         "description": "Default distance radius main feed."
     },
     {
         "name": "RealEstateEnabled",
-        "values": ["no", "yes"],
+        "values": ["control", "baseline", "active"],
         "description": "Allow to see Real Estate category"
     },
     {
@@ -91,24 +56,9 @@
          "description": "API requests timeout"
     },
     {
-        "name": "NewBumpUpExplanation",
-        "values": ["control", "baseline", "active"],
-        "description": "show new bump up explanation view"
-    },
-    {
-        "name": "MoreInfoAdActive",
-        "values": ["control", "baseline", "titleFirst", "cloudsightFirst"],
-        "description": "show the ad in more info"
-    },
-    {
         "name": "HomeRelatedEnabled",
         "values": ["control", "baseline", "active"],
         "description": "Show the related button in the main feed"
-    },
-    {
-        "name": "HideChatButtonOnFeaturedCells",
-        "values": ["control", "baseline", "active"],
-        "description": "hide chat button on the featured listing cells"
     },
     {
         "name": "TaxonomiesAndTaxonomyChildrenInFeed",
@@ -131,14 +81,84 @@
         "description": "Show a clock until the message is delivered correctly"
     },
     {
-        "name": "BumpUpPriceDifferentiation",
-        "values": ["control", "baseline", "active"],
-        "description": "Scale bump prices according to listing price"
-    },
-    {
         "name": "PromoteBumpUpAfterSell",
         "values": ["control", "baseline", "active"],
         "description": "Show a bump up alert after posting (once every 24h)"
+    },
+    {
+        "name": "MoreInfoAFShOrDFP",
+        "values": ["control", "baseline", "afsh", "dfp"],
+        "description": "show ad in more info, could be Adsense for shopping or DFP"
+    },
+    {
+        "name": "MostSearchedDemandedItems",
+        "values": ["control", "baseline", "cameraBadge", "trendingButtonExpandableMenu", "subsetAboveExpandableMenu"],
+        "description": "Display a list of top seller items that inspire users to post new items"
+    },
+    {
+        "name": "AllowCallsForProfessionals",
+        "values": ["control", "baseline", "inactive"],
+        "description": "Users can call professional sellers"
+    },
+    {
+        "name": "RealEstateImprovements",
+        "values": ["control", "baseline", "active"],
+        "description": "show onboarding improvements on real estate category"
+    },
+    {
+        "name": "RealEstatePromos",
+        "values": ["control", "baseline", "deactivate"],
+        "description": "show real estate promos"
+    },
+    {
+        "name": "ShowAdsInFeedWithRatio",
+        "values": ["control", "baseline", "ten", "fifteen", "twenty"],
+        "description": "show ads in feed every X cells"
+    },
+    {
+        "name": "RealEstateFlowType",
+        "values": ["standard", "turkish"],
+        "description": "Real Estate Flow Type"
+    },
+    {
+        "name": "RemoveCategoryWhenClosingPosting",
+        "values": ["control", "baseline", "active"],
+        "description": "Remove category real estate if user closes posting"
+    },
+    {
+        "name": "RealEstateNewCopy",
+        "values": ["control", "baseline", "active"],
+        "description": "Try real estate copy instead of housing"
+    },
+    {
+        "name": "DummyUsersInfoProfile",
+        "values": ["control", "baseline", "active"],
+        "description": "Add info for dummy users in profile"
+    },
+    {
+        "name": "ShowInactiveConversations",
+        "values": ["No", "Yes"],
+        "description": "Show button to access inactive conversations"
+    },
+    {
+        "name": "MainFeedAspectRatio",
+        "values": ["control", "baseline", "square", "squareOrLessThanW9H16"],
+        "description": "Limit the aspect ratio of the images in the main feed"
+    },
+    {
+        "name": "IncreaseMinPriceBumps",
+        "values": ["control", "baseline", "active"],
+        "description": "Charge min price of 1.99$ instead of 0.99$ on bumps"
+    },
+    {
+        "name": "ShowSecurityMeetingChatMessage",
+        "values": ["control", "baseline", "variant1", "variant2"],
+        "description": "show a disclaimer message on chat after the first conversation from the interlocutor"
+    },
+    {
+        "name": "EmojiSizeIncrement",
+        "values": ["control", "baseline", "active"],
+        "description": "Increase the size of emojis the text is only emojis and < 4"
     },
     {
         "name": "ForcePostListingOnboarding",

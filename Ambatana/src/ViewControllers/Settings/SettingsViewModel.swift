@@ -8,11 +8,9 @@
 
 import RxSwift
 import LGCoreKit
-import FBSDKShareKit
 
 
 enum LetGoSetting {
-    case inviteFbFriends
     case changePhoto(placeholder: UIImage?, avatarUrl: URL?)
     case changeEmail(email: String)
     case changeUsername(name: String)
@@ -170,10 +168,6 @@ class SettingsViewModel: BaseViewModel {
     private func populateSettings() {
         var settingSections = [SettingsSection]()
 
-        var promoteSettings = [LetGoSetting]()
-        promoteSettings.append(.inviteFbFriends)
-        settingSections.append(SettingsSection(title: LGLocalizedString.settingsSectionPromote, settings: promoteSettings))
-
         var profileSettings = [LetGoSetting]()
         let myUser = myUserRepository.myUser
         let placeholder = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: myUser?.name)
@@ -211,15 +205,7 @@ class SettingsViewModel: BaseViewModel {
     }
 
     private func settingSelected(_ setting: LetGoSetting) {
-        switch (setting) {
-        case .inviteFbFriends:
-            let content = FBSDKAppInviteContent()
-            content.appLinkURL = URL(string: Constants.facebookAppLinkURL)
-            content.appInvitePreviewImageURL = URL(string: Constants.facebookAppInvitePreviewImageURL)
-            guard let delegate = delegate as? FBSDKAppInviteDialogDelegate else { return }
-            navigator?.showFbAppInvite(content, delegate: delegate)
-            let trackerEvent = TrackerEvent.appInviteFriend(.facebook, typePage: .settings)
-            tracker.trackEvent(trackerEvent)
+        switch setting {
         case .changePhoto:
             delegate?.vmOpenImagePick()
         case .changeUsername:
@@ -259,9 +245,9 @@ class SettingsViewModel: BaseViewModel {
     }
 
     private func setupRx() {
-        myUserRepository.rx_myUser.bindNext { [weak self] _ in
+        myUserRepository.rx_myUser.bind { [weak self] _ in
             self?.populateSettings()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func checkMarketingNotifications(_ enabled: Bool) {

@@ -78,7 +78,6 @@ extension UIColor {
 // MARK: > Gray Palette
 
 extension UIColor {
-
     // Solid Grays
     static var lgBlack: UIColor { return UIColor(rgb: 0x2c2c2c) }
     static var grayDark: UIColor { return UIColor(rgb: 0x757575) }
@@ -86,7 +85,6 @@ extension UIColor {
     static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) }
     static var grayLighter: UIColor { return UIColor(rgb: 0xede9e9) }
     static var grayBackground: UIColor { return UIColor(rgb: 0xF7F3F3) }
-
 
     // Alpha grays
     fileprivate static let blackAlpha80 = black.withAlphaComponent(0.8)
@@ -103,7 +101,7 @@ extension UIColor {
 // MARK: > View Controller Color: 
 
 extension UIColor {
-    
+
     static var viewControllerBackground: UIColor { return grayBackground }
 }
 
@@ -190,8 +188,13 @@ extension UIColor {
 // MARK: > Separation lines
 
 extension UIColor {
+    static var separatorFilters: UIColor { return UIColor(rgb: 0xcccccc) }
     static var lineGray: UIColor { return grayLight }
     static var lineWhite: UIColor { return white }
+}
+
+extension UIColor {
+    static let filterCellsGrey = UIColor(rgb: 0xAAAAAA)
 }
 
 

@@ -22,6 +22,10 @@ class SellNavigationViewModel : BaseViewModel {
         return currentStep.value
     }
     
+    var postingFlowType: PostingFlowType {
+        return featureFlags.postingFlowType
+    }
+    
     var shouldShowPriceStep: Bool {
         return featureFlags.showPriceStepRealEstatePosting.isActive && hasInitialCategory
     }
@@ -47,10 +51,5 @@ class SellNavigationViewModel : BaseViewModel {
         if shouldModifyProgress {
             currentStep.value = currentStep.value - 1
         }
-    }
-    
-    func widthToFill(totalWidth: CGFloat) -> CGFloat {
-        guard numberOfSteps.value > 0 else { return 0 }
-        return (totalWidth/numberOfSteps.value)*currentStep.value
-    }
+    }    
 }

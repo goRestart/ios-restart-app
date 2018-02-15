@@ -10,7 +10,7 @@ import LGCoreKit
 
 protocol RateBuyersNavigator: class {
     func rateBuyersCancel()
-    func rateBuyersFinish(withUser: UserListing)
+    func rateBuyersFinish(withUser: UserListing, listingId: String?)
     func rateBuyersFinishNotOnLetgo()
 }
 

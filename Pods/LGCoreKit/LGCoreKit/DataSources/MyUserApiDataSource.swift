@@ -6,7 +6,6 @@
 //  Copyright © 2015 Ambatana Inc. All rights reserved.
 //
 
-import Argo
 import Result
 
 class MyUserApiDataSource: MyUserDataSource {
@@ -30,23 +29,21 @@ class MyUserApiDataSource: MyUserDataSource {
     func createWithEmail(_ email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
                          postalAddress: PostalAddress?, localeIdentifier: String,
                          completion: MyUserApiCompletion?) {
-        let JSONKeys = LGMyUser.ApiMyUserKeys()
-
         var data: [String: Any] = [:]
-        data[JSONKeys.email] = email
-        data[JSONKeys.password] = password
-        data[JSONKeys.name] = name
-        data[JSONKeys.latitude] = location?.coordinate.latitude
-        data[JSONKeys.longitude] = location?.coordinate.longitude
-        data[JSONKeys.locationType] = location?.type.rawValue
-        data[JSONKeys.zipCode] = postalAddress?.zipCode
-        data[JSONKeys.address] = postalAddress?.address
-        data[JSONKeys.city] = postalAddress?.city
-        data[JSONKeys.countryCode] = postalAddress?.countryCode
+        data[LGMyUser.CodingKeys.email.rawValue] = email
+        data[LGMyUser.CodingKeys.password.rawValue] = password
+        data[LGMyUser.CodingKeys.name.rawValue] = name
+        data[LGMyUser.CodingKeys.latitude.rawValue] = location?.coordinate.latitude
+        data[LGMyUser.CodingKeys.longitude.rawValue] = location?.coordinate.longitude
+        data[LGMyUser.CodingKeys.locationType.rawValue] = location?.type.rawValue
+        data[LGMyUser.CodingKeys.zipCode.rawValue] = postalAddress?.zipCode
+        data[LGMyUser.CodingKeys.address.rawValue] = postalAddress?.address
+        data[LGMyUser.CodingKeys.city.rawValue] = postalAddress?.city
+        data[LGMyUser.CodingKeys.countryCode.rawValue] = postalAddress?.countryCode
         if let newsletter = newsletter {
-            data[JSONKeys.newsletter] = newsletter 
+            data[LGMyUser.CodingKeys.newsletter.rawValue] = newsletter
         }
-        data[JSONKeys.localeIdentifier] = localeIdentifier 
+        data[LGMyUser.CodingKeys.localeIdentifier.rawValue] = localeIdentifier
 
         let request = MyUserRouter.create(params: data)
         apiClient.request(request, decoder: MyUserApiDataSource.decoder, completion: completion)
@@ -58,11 +55,8 @@ class MyUserApiDataSource: MyUserDataSource {
     }
 
     func uploadAvatar(_ avatar: Data, myUserId: String, progressBlock: ((Int) -> ())?, completion: MyUserApiCompletion?) {
-
-        let JSONKeys = LGMyUser.ApiMyUserKeys()
-
         var data: [String: Any] = [:]
-        data[JSONKeys.avatar] = avatar 
+        data[LGMyUser.CodingKeys.avatar.rawValue] = avatar
 
         let request = MyUserRouter.updateAvatar(myUserId: myUserId, params: data)
 
@@ -101,9 +95,16 @@ class MyUserApiDataSource: MyUserDataSource {
     - parameter object: The object.
     - returns: A `MyUser` object.
     */
+    
     private static func decoder(_ object: Any) -> MyUser? {
-        let apiUser: LGMyUser? = decode(object)
-        return apiUser
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        do {
+            let myUser = try LGMyUser.decode(jsonData: data)
+            return myUser
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGMyUser \(object)")
+        }
+        return nil
     }
 }
 
