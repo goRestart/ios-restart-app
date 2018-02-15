@@ -16,8 +16,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
 
-    private let contentOffsetVar = Variable<CGFloat>(0)
-
     fileprivate let listingDeckView = ListingDeckView()
     fileprivate let viewModel: ListingDeckViewModel
     fileprivate let binder = ListingDeckViewControllerBinder()
@@ -69,7 +67,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     private func setupCollectionView() {
         listingDeckView.collectionView.dataSource = self
-        listingDeckView.collectionView.delegate = self
         listingDeckView.collectionView.register(ListingCardView.self, forCellWithReuseIdentifier: Identifiers.cardView)
 
         listingDeckView.collectionView.reloadData()
@@ -97,13 +94,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
             return cell
         }
         return UICollectionViewCell()
-    }
-
-    // ScrollViewDelegate
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        viewModel.userHasScrolled = true
-        contentOffsetVar.value = scrollView.contentOffset.x
     }
 
     // MARK: NavBar
@@ -140,7 +130,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
 extension ListingDeckViewController: ListingDeckViewControllerBinderType {
 
-    var rxContentOffset: ControlProperty<CGPoint> { return listingDeckView.collectionView.rx.contentOffset }
+    var rxContentOffset: Observable<CGPoint> { return listingDeckView.rxCollectionView.contentOffset.share() }
 
     func setLetGoRightButtonWith(_ action: UIAction, buttonTintColor: UIColor?, tapBlock: (ControlEvent<Void>) -> Void) {
         super.setLetGoRightButtonWith(action, buttonTintColor: buttonTintColor, tapBlock: tapBlock)

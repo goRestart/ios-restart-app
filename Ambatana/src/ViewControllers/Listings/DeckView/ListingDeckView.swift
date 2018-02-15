@@ -15,6 +15,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     struct Layout { struct Height { static let previewFactor: CGFloat = 0.7 } }
 
     let collectionView: UICollectionView
+    let rxCollectionView: Reactive<UICollectionView>
 
     private var quickChatView: QuickChatView?
     private var dismissTap: UITapGestureRecognizer?
@@ -31,12 +32,15 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     
     override init(frame: CGRect) {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
+        rxCollectionView = collectionView.rx
+        
         super.init(frame: frame)
         setupUI()
     }
 
     required init?(coder aDecoder: NSCoder) {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
+        rxCollectionView = collectionView.rx
         super.init(coder: aDecoder)
         setupUI()
     }

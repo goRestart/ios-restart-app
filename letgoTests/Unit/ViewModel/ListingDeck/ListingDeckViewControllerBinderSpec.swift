@@ -25,7 +25,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
 
         var currentDisposeBag: DisposeBag!
 
-        describe("ListingDeckViewControllerBinder setup") {
+        fdescribe("ListingDeckViewControllerBinder setup") {
             beforeEach {
                 sut = ListingDeckViewControllerBinder()
                 viewControllerType = MockListingDeckViewControllerBinderType()
@@ -111,19 +111,8 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
             context("the view scrolls the cards with the chat enabled") {
                 beforeEach {
                     sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
-                    viewType.currentPage = 1
                     let offset = Int.makeRandom(min: 0, max: 1000)
-                    viewControllerType.colectionView.contentOffset = CGPoint(x: offset, y: 0)
-                }
-                it("pageDidChange method is called twice (initial + update)") {
-                    expect(viewControllerType.isPageDidChangeCalled) == 2
-                }
-            }
-            context("the view scrolls the cards with the chat enabled") {
-                beforeEach {
-                    sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
-                    let offset = Int.makeRandom(min: 0, max: 1000)
-                    viewControllerType.colectionView.contentOffset = CGPoint(x: offset, y: 0)
+                    viewControllerType.collectionView.contentOffset = CGPoint(x: offset, y: 0)
                 }
                 it("updateViewWithAlpha method is called twice (initial + update)") {
                     expect(viewControllerType.isUpdateViewWithAlphaCalled) == 2
@@ -135,7 +124,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                     sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
                     viewType.currentPage = 1
                     let offset = Int.makeRandom(min: 0, max: 1000)
-                    viewControllerType.colectionView.contentOffset = CGPoint(x: offset, y: 0)
+                    viewControllerType.collectionView.contentOffset = CGPoint(x: offset, y: 0)
                 }
                 it("the viewmodel moves to the current item") {
                     expect(viewModelType.moveToProductIsCalled) == 1
@@ -279,12 +268,13 @@ private class MockListingDeckViewModelType: ListingDeckViewModelType {
     var userHasScrolled: Bool = false { didSet { userHasScrollCalled += 1 } }
 
     func resetVariables() {
+        userHasScrollCalled = 0
         moveToProductIsCalled = 0
     }
 }
 
 private class MockListingDeckViewControllerBinderType: ListingDeckViewControllerBinderType {
-    var rxContentOffset: ControlProperty<CGPoint> { return colectionView.rx.contentOffset }
+    var rxContentOffset: Observable<CGPoint> { return rxCollectionView.contentOffset.share() }
 
     var keyboardChanges: Observable<KeyboardChange> { return rx_keyboardChanges.asObservable() }
 
@@ -294,7 +284,9 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
                                                                                animationOptions: .allowUserInteraction,
                                                                                visible: true,
                                                                                isLocal: true))
-    let colectionView: UICollectionView = UICollectionView()
+    let collectionView: UICollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 500, height: 100),
+                                                           collectionViewLayout: UICollectionViewFlowLayout())
+    let rxCollectionView: Reactive<UICollectionView>
 
     var isUpdateViewWithActionsCalled: Int = 0
     var isUpdateWithKeyboardChangeCalled: Int = 0
@@ -302,10 +294,13 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     var isShowBumpUpBannerBumpInfoCalled: Int = 0
     var isDidTapShareCalled: Int = 0
     var isDidTapCardActionCalled: Int = 0
-    var isPageDidChangeCalled: Int = 0
     var isUpdateViewWithAlphaCalled: Int = 0
     var isSetNavigationBarRightButtonsCalled: Int = 0
     var isSetLetGoRightButtonWithCalled: Int = 0
+
+    init() {
+        rxCollectionView = collectionView.rx
+    }
 
     func resetVariables() {
         isUpdateViewWithActionsCalled = 0
@@ -314,7 +309,6 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
         isShowBumpUpBannerBumpInfoCalled = 0
         isDidTapShareCalled = 0
         isDidTapCardActionCalled = 0
-        isPageDidChangeCalled = 0
         isUpdateViewWithAlphaCalled = 0
         isSetNavigationBarRightButtonsCalled = 0
         isSetLetGoRightButtonWithCalled = 0
@@ -337,10 +331,6 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     }
     func didTapCardAction() {
         isDidTapCardActionCalled += 1
-    }
-    func pageDidChange(current: Int) {
-        
-        isPageDidChangeCalled += 1
     }
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool) {
         isUpdateViewWithAlphaCalled += 1

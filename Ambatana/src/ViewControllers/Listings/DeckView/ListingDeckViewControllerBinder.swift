@@ -13,7 +13,7 @@ import RxSwift
 
 protocol ListingDeckViewControllerBinderType: class {
     var keyboardChanges: Observable<KeyboardChange> { get }
-    var rxContentOffset: ControlProperty<CGPoint> { get }
+    var rxContentOffset: Observable<CGPoint> { get }
 
     func updateWith(keyboardChange: KeyboardChange)
     func vmShowOptions(_ cancelLabel: String, actions: [UIAction])
@@ -157,6 +157,10 @@ final class ListingDeckViewControllerBinder {
     private func bindChat(withViewController viewController: ListingDeckViewControllerBinderType,
                           viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
                           disposeBag: DisposeBag) {
+        viewController.rxContentOffset.skip(1).bind { [weak viewModel] _ in
+            viewModel?.userHasScrolled = true
+        }.disposed(by: disposeBag)
+
         let contentOffsetAlphaSignal: Observable<CGFloat> = viewController.rxContentOffset
             .map { [weak listingDeckView] point in
                 let pageOffset = listingDeckView?.pageOffset(givenOffset: point.x).truncatingRemainder(dividingBy: 1.0) ?? 0.5
