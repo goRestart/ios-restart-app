@@ -76,6 +76,8 @@ def shared_pods
     pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6'
 
     pod "KeychainSwift",        "10.0.0"
+    
+    pod 'lottie-ios',           "2.5.0" # Obj-c
 
 end
 
