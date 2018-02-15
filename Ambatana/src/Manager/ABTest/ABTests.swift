@@ -52,7 +52,7 @@ class ABTests {
     let increaseMinPriceBumps  = IntABDynamicVar(key: "20180208IncreaseMinPriceBumps", defaultValue: 0, abGroupType: .money)
     let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20180207ShowSecurityMeetingChatMessage", defaultValue: 0, abGroupType: .chat)
     let emojiSizeIncrement = IntABDynamicVar(key: "20180212EmojiSizeIncrement", defaultValue: 0, abGroupType: .chat)
-    let forcePostListingOnboarding = IntABDynamicVar(key: "20171204ForcePostListingOnboarding", defaultValue: 0)
+    let forcePostListingOnboarding = IntABDynamicVar(key: "20171204ForcePostListingOnboarding", defaultValue: 0, abGroupType: .retention)
     
     init() {
     }

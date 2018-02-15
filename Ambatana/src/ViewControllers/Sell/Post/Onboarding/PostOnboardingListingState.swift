@@ -46,7 +46,8 @@ class PostOnboardingListingState: PostListingState {
                    lastImagesUploadResult: lastImagesUploadResult,
                    price: price,
                    verticalAttributes: verticalAttributes,
-                   place: place)
+                   place: place,
+                   title: nil)
     }
     
     
