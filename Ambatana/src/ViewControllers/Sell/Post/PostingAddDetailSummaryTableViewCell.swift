@@ -28,6 +28,17 @@ class PostingAddDetailSummaryTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         separatorView.isHidden = true
+        textLabel?.text = nil
+        textLabel?.alpha = 1.0
+        imageView?.image = nil
+        imageView?.alpha = 1.0
+    }
+    
+    func configureEmptyState(title: String) {
+        textLabel?.text = title
+        textLabel?.alpha = 0.5
+        imageView?.image = #imageLiteral(resourceName: "ic_add_summary")
+        imageView?.alpha = 0.5
     }
     
     // MARK: - UI
@@ -38,6 +49,7 @@ class PostingAddDetailSummaryTableViewCell: UITableViewCell {
         textLabel?.textColor = UIColor.grayLight
         selectionStyle = .none
         accessoryType = .disclosureIndicator
+        accessoryView = UIImageView(image: #imageLiteral(resourceName: "ic_disclosure"))
         separatorView.backgroundColor = UIColor.grayLighter
         separatorView.isHidden = true
     }

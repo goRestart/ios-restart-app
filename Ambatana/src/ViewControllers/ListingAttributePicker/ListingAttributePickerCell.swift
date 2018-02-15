@@ -25,7 +25,7 @@ final class ListingAttributePickerCell: UITableViewCell, ReusableCell {
         
         var textColor: UIColor {
             switch self {
-            case .light: return .grayLight
+            case .light: return UIColor.whiteTextHighAlpha
             case .dark: return .blackTextHighAlpha
             }
         }
