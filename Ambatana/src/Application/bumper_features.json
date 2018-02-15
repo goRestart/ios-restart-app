@@ -159,10 +159,5 @@
         "name": "EmojiSizeIncrement",
         "values": ["control", "baseline", "active"],
         "description": "Increase the size of emojis the text is only emojis and < 4"
-    },
-    {
-        "name": "ForcePostListingOnboarding",
-        "values": ["control", "baseline", "active"],
-        "description": "Force user to post a product in the onboarding"
     }
 ]

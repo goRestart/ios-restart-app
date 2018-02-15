@@ -55,7 +55,6 @@ protocol FeatureFlaggeable: class {
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var emojiSizeIncrement: EmojiSizeIncrement { get }
-    var forcePostListingOnboarding: ForcePostListingOnboarding { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -146,10 +145,6 @@ extension IncreaseMinPriceBumps {
             return 2
         }
     }
-}
-
-extension ForcePostListingOnboarding {
-    var isActive: Bool { get { return self == .active } }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -336,14 +331,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return PromoteBumpUpAfterSell.fromPosition(abTests.promoteBumpUpAfterSell.value)
     }
-    
-    var forcePostListingOnboarding: ForcePostListingOnboarding {
-        if Bumper.enabled {
-            return Bumper.forcePostListingOnboarding
-        }
-        return ForcePostListingOnboarding.fromPosition(abTests.forcePostListingOnboarding.value)
-    }
-    
 
     var allowCallsForProfessionals: AllowCallsForProfessionals {
         if Bumper.enabled {
