@@ -38,8 +38,8 @@ final class NewRelicTracker: Tracker {
     }
 
     func setInstallation(_ installation: Installation?) {
-        var sessionType =  NewRelicTracker.guestSessionType
-        var sessionId: String?
+        var sessionType = NewRelicTracker.guestSessionType
+        var sessionId: String = ""
         if let sessionIdValue = installation?.objectId {
             sessionId = sessionIdValue
             sessionType = NewRelicTracker.appSessionType

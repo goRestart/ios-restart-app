@@ -22,8 +22,9 @@ struct ListingVMProductInfo {
     let distance: String?
     let creationDate: Date?
     let category: ListingCategory?
+    fileprivate(set) var attributeTags: [String]?
 
-    init(listing: Listing, isAutoTranslated: Bool, distance: String?, freeModeAllowed: Bool) {
+    init(listing: Listing, isAutoTranslated: Bool, distance: String?, freeModeAllowed: Bool, postingFlowType: PostingFlowType) {
         self.title = listing.title
         self.titleAuto = listing.nameAuto
         self.linkedTitle = listing.title?.attributedHiddenTagsLinks
@@ -36,5 +37,18 @@ struct ListingVMProductInfo {
         self.distance = distance
         self.creationDate = listing.createdAt
         self.category = listing.category
+        self.attributeTags = tags(for: listing, postingFlowType: postingFlowType)
+    }
+}
+
+fileprivate extension ListingVMProductInfo {
+    
+    func tags(for listing: Listing, postingFlowType: PostingFlowType) -> [String]? {
+        switch listing {
+        case .product, .car:
+            return nil
+        case .realEstate(let realEstate):
+            return realEstate.realEstateAttributes.generateTags(postingFlowType: postingFlowType)
+        }
     }
 }

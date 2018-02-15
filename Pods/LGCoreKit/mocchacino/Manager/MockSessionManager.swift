@@ -50,6 +50,13 @@ open class MockSessionManager: SessionManager {
                       completion: LoginCompletion?) {
         delay(result: logInResult, completion: completion)
     }
+    
+    public func login(_ email: String,
+                      password: String,
+                      recaptchaToken: String,
+                      completion: LoginCompletion?) {
+        delay(result: logInResult, completion: completion)
+    }
 
     public func loginFacebook(_ token: String,
                               completion: LoginCompletion?) {

@@ -14,9 +14,12 @@ class LGNotificationsManager: NotificationsManager {
     // Singleton
     static let sharedInstance = LGNotificationsManager()
 
+    static let newSellFeatureIndicatorValue = " "
+    
     // Rx
     let unreadMessagesCount = Variable<Int?>(nil)
     let unreadNotificationsCount = Variable<Int?>(nil)
+    let newSellFeatureIndicator = Variable<String?>(nil)
     var globalCount: Observable<Int> {
         return Observable.combineLatest(unreadMessagesCount.asObservable(), unreadNotificationsCount.asObservable()) {
                                         (unreadMessages: Int?, notifications: Int?) in
@@ -41,6 +44,11 @@ class LGNotificationsManager: NotificationsManager {
     fileprivate var loggedIn: Variable<Bool>
     private var requestingChat = false
     private var requestingNotifications = false
+    
+    var shouldShowNewSellFeatureIndicator: Bool {
+        return featureFlags.mostSearchedDemandedItems == .cameraBadge &&
+            !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
+    }
 
 
     // MARK: - Lifecycle
@@ -87,6 +95,7 @@ class LGNotificationsManager: NotificationsManager {
     func updateCounters() {
         requestChatCounters()
         requestNotificationCounters()
+        requestNewSellFeatureIndicators()
     }
 
     func updateChatCounters() {
@@ -97,24 +106,28 @@ class LGNotificationsManager: NotificationsManager {
         requestNotificationCounters()
     }
     
+    func clearNewSellFeatureIndicator() {
+        newSellFeatureIndicator.value = nil
+    }
 
+    
     // MARK: - Private
 
     private func setupRxBindings() {
-        sessionManager.sessionEvents.bindNext { [weak self] event in
+        sessionManager.sessionEvents.bind { [weak self] event in
             switch event {
             case .login:
                 self?.updateCounters()
             case .logout:
                 self?.clearCounters()
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        sessionManager.sessionEvents.map { $0.isLogin }.bindTo(loggedIn).addDisposableTo(disposeBag)
+        sessionManager.sessionEvents.map { $0.isLogin }.bind(to: loggedIn).disposed(by: disposeBag)
 
-        globalCount.bindNext { count in
+        globalCount.bind { count in
             UIApplication.shared.applicationIconBadgeNumber = count
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         chatRepository.chatEvents.filter { event in
             switch event.type {
@@ -123,23 +136,23 @@ class LGNotificationsManager: NotificationsManager {
             default:
                 return false
             }
-        }.bindNext{ [weak self] event in
+            }.bind{ [weak self] event in
             self?.requestChatCounters()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        chatRepository.chatStatus.bindNext { [weak self] in
+        chatRepository.chatStatus.bind { [weak self] in
             self?.chatStatus = $0
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         deepLinksRouter.chatDeepLinks.filter { [weak self] _ in
             if let status = self?.chatStatus, status == .openAuthenticated { return false }
             return true
-        }.bindNext { [weak self] _ in
+        }.bind { [weak self] _ in
             self?.requestChatCounters()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
-    dynamic private func applicationWillEnterForeground() {
+    @objc private func applicationWillEnterForeground() {
         updateCounters()
     }
 
@@ -168,6 +181,11 @@ class LGNotificationsManager: NotificationsManager {
             self?.unreadNotificationsCount.value = notificationCounts
         }
     }
+    
+    private func requestNewSellFeatureIndicators() {
+        guard shouldShowNewSellFeatureIndicator else { return }
+        newSellFeatureIndicator.value = LGNotificationsManager.newSellFeatureIndicatorValue
+    }
 }
 
 
@@ -175,18 +193,18 @@ class LGNotificationsManager: NotificationsManager {
 
 fileprivate extension LGNotificationsManager {
     func setupMarketingNotifications() {
-        marketingNotifications.asObservable().skip(1).bindNext { [weak self] value in
+        marketingNotifications.asObservable().skip(1).bind { [weak self] value in
             self?.keyValueStorage.userMarketingNotifications = value
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        loggedIn.asObservable().skip(1).filter { $0 }.bindNext { [weak self] _ in
+        loggedIn.asObservable().skip(1).filter { $0 }.bind { [weak self] _ in
             guard let keyValueStorage = self?.keyValueStorage else { return }
             self?.marketingNotifications.value = keyValueStorage.userMarketingNotifications
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         let loggedInMkt: Observable<Bool> = Observable.combineLatest(marketingNotifications.asObservable(),
                                                                      loggedIn.asObservable(),
             resultSelector: { enabled, loggedIn in return !loggedIn || enabled }).skip(1)
-        loggedInMkt.bindTo(loggedInMktNofitications).addDisposableTo(disposeBag)
+        loggedInMkt.bind(to: loggedInMktNofitications).disposed(by: disposeBag)
     }
 }

@@ -89,8 +89,7 @@ class DirectAnswersHorizontalView: UIView {
 
 
 // MARK: - UICollectionView methods
-
-extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionViewDataSource {
+extension DirectAnswersHorizontalView: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
 
     fileprivate func setupCollection(sideMargin: CGFloat) {
         // CollectionView cells
@@ -101,6 +100,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
         collectionView.allowsSelection = true
         collectionView.allowsMultipleSelection = false
         collectionView.dataSource = self
+        
         collectionView.delegate = self
         collectionView.scrollsToTop = false
         collectionView.showsHorizontalScrollIndicator = false
@@ -114,7 +114,10 @@ extension DirectAnswersHorizontalView: UICollectionViewDelegate, UICollectionVie
         collectionView.accessibilityId = .directAnswersPresenterCollectionView
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         return DirectAnswerCell.sizeForDirectAnswer(answers[indexPath.row].random(), isDynamic: isDynamic)
     }
 

@@ -9,7 +9,6 @@
 import Quick
 @testable import LetGoGodMode
 import Nimble
-import Argo
 import OHHTTPStubs
 import Result
 
@@ -52,7 +51,7 @@ class LGConfigRetrieveServiceSpec: QuickSpec {
                     let path = Bundle(for: self.classForCoder).path(forResource: "iOScfgMockOK", ofType: "json")
                     let data = try! Data(contentsOf: URL(fileURLWithPath: path!))
 
-                    let cfgFile = Config(data: data)
+                    let cfgFile = try! JSONDecoder().decode(Config.self, from: data)
                     expect(cfgFile).notTo(beNil())
 
                     stub(condition: isPath("/config/ios.json")) { _ in

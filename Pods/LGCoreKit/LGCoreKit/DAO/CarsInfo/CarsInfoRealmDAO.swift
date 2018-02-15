@@ -7,15 +7,14 @@
 //
 
 import RealmSwift
-import Argo
 
-class RealmCarsMakeWithModels: Object {
+@objcMembers class RealmCarsMakeWithModels: Object {
     dynamic var makeId: String = CarAttributes.emptyMake
     dynamic var makeName: String = CarAttributes.emptyMake
     let models = List<RealmCarsModel>()
 }
 
-class RealmCarsModel: Object {
+@objcMembers class RealmCarsModel: Object {
     dynamic var modelId: String = CarAttributes.emptyModel
     dynamic var modelName: String = CarAttributes.emptyModel
 }
@@ -72,10 +71,9 @@ class CarsInfoRealmDAO: CarsInfoDAO {
 
         dataBase.cancelWriteTransactionsIfNeeded()
         do {
-            try dataBase.write ({ [weak self] _ in
-                guard let strongSelf = self else { return }
-                strongSelf.dataBase.add(realmList)
-            })
+            try dataBase.write {
+                dataBase.add(realmList)
+            }
         } catch let error {
             logMessage(.verbose, type: CoreLoggingOptions.database, message: "Could not write in Cars Info DB: \(error)")
         }
@@ -94,10 +92,9 @@ class CarsInfoRealmDAO: CarsInfoDAO {
     func clean() {
         dataBase.cancelWriteTransactionsIfNeeded()
         do {
-            try dataBase.write ({ [weak self] _ in
-                guard let strongSelf = self else { return }
-                strongSelf.dataBase.deleteAll()
-            })
+            try dataBase.write {
+                dataBase.deleteAll()
+            }
         } catch let error {
             logMessage(.verbose, type: CoreLoggingOptions.database, message: "Could not clean the Cars Info DB: \(error)")
         }
@@ -132,8 +129,16 @@ class CarsInfoRealmDAO: CarsInfoDAO {
     }
     
     private func decoder(_ object: Any) -> [CarsMakeWithModels]? {
-        let apiCarsMakeList: [ApiCarsMake]? = decode(object)
-        return apiCarsMakeList
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
+        
+        // Ignore cars makes that can't be decoded
+        do {
+            let carMakes = try JSONDecoder().decode(FailableDecodableArray<ApiCarsMake>.self, from: data)
+            return carMakes.validElements
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse ApiCarsMake \(object)")
+        }
+        return nil
     }
 
 

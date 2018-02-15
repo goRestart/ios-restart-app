@@ -29,7 +29,7 @@ class ChatBubbleCell: UITableViewCell {
     }
     
     func setupUI() {
-        bubbleView.layer.cornerRadius = LGUIKitConstants.chatCellCornerRadius
+        bubbleView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
         messageLabel.font = UIFont.bigBodyFont
         dateLabel.font = UIFont.smallBodyFontLight
         
@@ -41,7 +41,23 @@ class ChatBubbleCell: UITableViewCell {
         backgroundColor = .clear
     }
     
-    func menuControllerWillHide(_ notification: Notification) {
+    func set(text: String) {
+        if FeatureFlags.sharedInstance.emojiSizeIncrement == .active {
+            switch text.emojiOnlyCount {
+            case 1:
+                messageLabel.font = UIFont.systemRegularFont(size: 49)
+            case 2:
+                messageLabel.font = UIFont.systemRegularFont(size: 37)
+            case 3:
+                messageLabel.font = UIFont.systemRegularFont(size: 27)
+            default:
+                messageLabel.font = UIFont.bigBodyFont
+            }
+        }
+        messageLabel.text = text
+    }
+    
+    @objc func menuControllerWillHide(_ notification: Notification) {
         setSelected(false, animated: true)
     }
     

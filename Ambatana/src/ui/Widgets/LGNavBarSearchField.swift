@@ -10,30 +10,35 @@ import UIKit
 
 @IBDesignable
 class LGNavBarSearchField: UIView {
+    override var intrinsicContentSize: CGSize { return UILayoutFittingExpandedSize }
 
+    var cleanCenterXConstraint: NSLayoutConstraint?
+
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var searchTextField: LGTextField!
     @IBOutlet weak var magnifierIcon: UIImageView!
     @IBOutlet weak var logoIcon: UIImageView!
     
     @IBOutlet var magnifierIconLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet var magnifierIconCenterXConstraint: NSLayoutConstraint!
 
     var initialSearchValue = ""
 
     private var correctLayout : Bool {
         return self.frame.origin.x > 0.0
     }
-    
-    // First layout is not positioned correctly so if we try to animate when incorrect, we just wait until is correct
-    private var pendingLayout = false
-    private var editMode = false
+
     
     static func setupNavBarSearchFieldWithText(_ text: String?) -> LGNavBarSearchField {
         guard let view = Bundle.main.loadNibNamed("LGNavBarSearchField", owner: self, options: nil)?.first as?
             LGNavBarSearchField else { return LGNavBarSearchField() }
+        view.setupCenterXConstraint()
         view.setupTextFieldWithText(text)
         view.endEdit()
         return view
+    }
+
+    private func setupCenterXConstraint() {
+        cleanCenterXConstraint = magnifierIcon.leadingAnchor.constraint(equalTo: searchTextField.centerXAnchor)
     }
     
     override func layoutSubviews() {
@@ -41,14 +46,6 @@ class LGNavBarSearchField: UIView {
         
         setupContentView()
         setupTextField()
-        if correctLayout && pendingLayout {
-            if editMode {
-                setupTextFieldEditMode(false)
-            }
-            else {
-                setupTextFieldCleanMode(false)
-            }
-        }
     }
     
     /**
@@ -65,10 +62,9 @@ class LGNavBarSearchField: UIView {
     */
     
     func endEdit() {
-
         searchTextField.text = initialSearchValue
         
-        if let characters = searchTextField.text?.characters, characters.count > 0 {
+        if let text = searchTextField.text, text.count > 0 {
             setupTextFieldEditMode()
         } else {
             setupTextFieldCleanMode()
@@ -80,8 +76,8 @@ class LGNavBarSearchField: UIView {
     // MARK: - Private Methods
     
     private func setupContentView() {
-        backgroundColor = UIColor.black.withAlphaComponent(0.07)
-        layer.cornerRadius = searchTextField.frame.height/2
+        containerView.backgroundColor = UIColor.black.withAlphaComponent(0.07)
+        containerView.layer.cornerRadius = searchTextField.frame.height/2
     }
 
     private func setupTextField() {
@@ -103,51 +99,34 @@ class LGNavBarSearchField: UIView {
         Moves icons to make LGNavBarSearchField look editable
     */
     func setupTextFieldEditMode(_ animated : Bool = true) {
-        editMode = true
-        
-        guard correctLayout else {
-            pendingLayout = true
-            return
-        }
-        pendingLayout = false
-        
         logoIcon.isHidden = true
-        self.magnifierIconLeadingConstraint.constant = CGFloat(10)
-        
+        magnifierIconLeadingConstraint.constant = Metrics.shortMargin
+        magnifierIconLeadingConstraint.isActive = true
+        cleanCenterXConstraint?.isActive = false
 
         UIView.animate(withDuration: animated ? 0.2 : 0.0, animations: { () -> Void in
-
-            self.layoutIfNeeded()
-
+            self.superview?.layoutIfNeeded()
             }, completion: { (completion) -> Void in
                 self.logoIcon.isHidden = true
                 self.searchTextField.showCursor = true
-        }) 
-        
+        })
     }
     
     /**
         Moves icons to make LGNavBarSearchField look not editable / clean
     */
     func setupTextFieldCleanMode(_ animated : Bool = true) {
-        editMode = false
-        
-        guard correctLayout else {
-            pendingLayout = true
-            return
-        }
-        pendingLayout = false
-        
-        self.magnifierIconLeadingConstraint.constant = CGFloat((self.frame.width/2) - CGFloat((self.magnifierIcon.frame.size.width + self.logoIcon.frame.size.width)/2.0))
+        magnifierIconLeadingConstraint.isActive = false
+        let width = logoIcon.width + magnifierIcon.width
+        cleanCenterXConstraint?.constant = -width / 2.0
+        cleanCenterXConstraint?.isActive = true
 
-        
         UIView.animate(withDuration: animated ? 0.2 : 0.0, animations: { () -> Void in
-            
-            self.layoutIfNeeded()
-
+            self.superview?.layoutIfNeeded()
             }, completion: { (completion) -> Void in
                 self.logoIcon.isHidden = false
                 self.searchTextField.showCursor = false
             }) 
     }
+
 }

@@ -26,6 +26,8 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidNotifyMessage(_ message: String, completion: (() -> ())?)
     
     func vmDidPressDirectAnswer(quickAnswer: QuickAnswer)
+
+    func vmAskPhoneNumber()
 }
 
 struct EmptyConversation: ChatConversation {
@@ -96,12 +98,24 @@ class ChatViewModel: BaseViewModel {
     let shouldShowExpressBanner = Variable<Bool>(false)
     let relatedListingsState = Variable<ChatRelatedItemsState>(.loading)
     var shouldUpdateQuickAnswers = Variable<Bool>(false)
+    let interlocutorIsProfessional = Variable<Bool>(false)
+    let interlocutorPhoneNumber = Variable<String?>(nil)
+    let lastMessageSentType = Variable<ChatWrapperMessageType?>(nil)
+    let messagesDidFinishRefreshing = Variable<Bool>(false)
 
     var keyForTextCaching: String { return userDefaultsSubKey }
     
     let showStickerBadge = Variable<Bool>(!KeyValueStorage.sharedInstance[.stickersBadgeAlreadyShown])
     
-    var predefinedMessage: String?
+    var predefinedMessage: String? // is writen in the text field when opening the chat
+    var openChatAutomaticMessage: ChatWrapperMessageType?  // is SENT when opening the chat
+    var professionalBannerHasCallAction: Bool {
+        return PhoneCallsHelper.deviceCanCall && featureFlags.allowCallsForProfessionals.isActive
+    }
+    fileprivate var hasSentAutomaticAnswerForPhoneMessage: Bool = false
+    fileprivate var hasSentAutomaticAnswerForOtherMessage: Bool = false
+    fileprivate var hasShownAskedPhoneMessage: Bool = false
+
 
     // fileprivate
     fileprivate let myUserRepository: MyUserRepository
@@ -191,7 +205,7 @@ class ChatViewModel: BaseViewModel {
 
     fileprivate var interlocutorEnabled: Bool {
         switch chatStatus.value {
-        case .forbidden, .userDeleted, .userPendingDelete:
+        case .forbidden, .userDeleted, .userPendingDelete, .inactiveConversation:
             return false
         case .available, .listingSold, .listingGivenAway, .listingDeleted, .blocked, .blockedBy:
             return true
@@ -219,10 +233,14 @@ class ChatViewModel: BaseViewModel {
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
-                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: predefinedMessage)
+                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager,
+                  predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil)
     }
     
-    convenience init?(listing: Listing, navigator: ChatDetailNavigator?, source: EventParameterTypePage) {
+    convenience init?(listing: Listing,
+                      navigator: ChatDetailNavigator?,
+                      source: EventParameterTypePage,
+                      openChatAutomaticMessage: ChatWrapperMessageType?) {
         guard let _ = listing.objectId, let sellerId = listing.user.objectId else { return nil }
 
         let myUserRepository = Core.myUserRepository
@@ -245,7 +263,8 @@ class ChatViewModel: BaseViewModel {
                   listingRepository: listingRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
-                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil)
+                  source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil,
+                  openChatAutomaticMessage: openChatAutomaticMessage)
         self.setupConversationFrom(listing: listing)
     }
     
@@ -253,7 +272,8 @@ class ChatViewModel: BaseViewModel {
           listingRepository: ListingRepository, userRepository: UserRepository, stickersRepository: StickersRepository,
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
-          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?) {
+          ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?,
+          openChatAutomaticMessage: ChatWrapperMessageType?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -271,7 +291,9 @@ class ChatViewModel: BaseViewModel {
         self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.navigator = navigator
         self.source = source
-        self.predefinedMessage = predefinedMessage?.stringByRemovingEmoji()
+        self.predefinedMessage = predefinedMessage
+        self.openChatAutomaticMessage = openChatAutomaticMessage
+
         super.init()
         setupRx()
         loadStickers()
@@ -323,6 +345,9 @@ class ChatViewModel: BaseViewModel {
         chatRepository.showConversation(sellerId, listingId: listingId) { [weak self] result in
             if let value = result.value {
                 self?.conversation.value = value
+                if let autoMessage = self?.openChatAutomaticMessage {
+                    self?.sendMessage(type: autoMessage)
+                }
                 self?.refreshMessages()
                 self?.setupChatEventsRx()
             } else if let _ = result.error {
@@ -361,14 +386,14 @@ class ChatViewModel: BaseViewModel {
                 self?.listingPrice.value = conversation.listing?.priceString(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? ""
                 self?.listingIsNegotiable.value = conversation.listing?.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed) ?? false
             }
-            self?.listingIsFree.value = conversation.listing?.price.free ?? false
+            self?.listingIsFree.value = conversation.listing?.price.isFree ?? false
             if let _ = conversation.listing {
                 self?.shouldUpdateQuickAnswers.value = true
             }
             self?.interlocutorAvatarURL.value = conversation.interlocutor?.avatar?.fileURL
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
             self?.interlocutorId.value = conversation.interlocutor?.objectId
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         chatStatus.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
@@ -380,7 +405,7 @@ class ChatViewModel: BaseViewModel {
                 self?.messages.removeAll()
                 self?.messages.append(disclaimer)
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         let relatedListingsConversation = conversation.asObservable().map { $0.relatedListingsEnabled }
         Observable.combineLatest(relatedListingsConversation, sellerDidntAnswer.asObservable()) { [weak self] in
@@ -390,34 +415,38 @@ class ChatViewModel: BaseViewModel {
             if $0 { return .visible(listingId: listingId) }
             guard let didntAnswer = $1 else { return .loading } // If still checking if seller didn't answer. set loading state
             return didntAnswer ? .visible(listingId: listingId) : .hidden
-        }.bindTo(relatedListingsState).addDisposableTo(disposeBag)
+        }.bind(to: relatedListingsState).disposed(by: disposeBag)
         
         messages.changesObservable.subscribeNext { [weak self] change in
             self?.updateMessagesCounts(change)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        conversation.asObservable().map { $0.lastMessageSentAt == nil }.bindNext{ [weak self] result in
+        conversation.asObservable().map { $0.lastMessageSentAt == nil }.bind{ [weak self] result in
             self?.shouldTrackFirstMessage = result
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         let emptyMyMessages = myMessagesCount.asObservable().map { $0 == 0 }
         let emptyOtherMessages = otherMessagesCount.asObservable().map { $0 == 0 }
         Observable.combineLatest(emptyMyMessages, emptyOtherMessages){ $0 && $1 }.distinctUntilChanged()
-            .bindTo(isEmptyConversation).addDisposableTo(disposeBag)
+            .bind(to: isEmptyConversation).disposed(by: disposeBag)
 
         let expressBannerTriggered = Observable.combineLatest(firstInteractionDone.asObservable(),
                                                               expressBannerTimerFinished.asObservable()) { $0 || $1 }
+
+        let relatedListingsObservable = Observable.combineLatest(hasRelatedListings.asObservable(),
+                                                                 relatedListingsState.asObservable().map { !$0.isVisible }) { $0 && $1 }
         /**
             Express chat banner is shown after 3 seconds or 1st interaction if:
                 - the listing has related listings
                 - we're not showing the related listings already over the keyboard
                 - user hasn't SENT messages via express chat for this listing
+                - interlocutor is not professional
          */
         Observable.combineLatest(expressBannerTriggered,
-            hasRelatedListings.asObservable(),
-            relatedListingsState.asObservable().map { $0.isVisible },
-        expressMessagesAlreadySent.asObservable()) { $0 && $1 && !$2 && !$3 }
-            .distinctUntilChanged().bindTo(shouldShowExpressBanner).addDisposableTo(disposeBag)
+                                 relatedListingsObservable,
+                                 expressMessagesAlreadySent.asObservable(),
+                                 interlocutorIsProfessional.asObservable()) { $0 && $1 && !$2 && !$3 }
+            .distinctUntilChanged().bind(to: shouldShowExpressBanner).disposed(by: disposeBag)
 
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
                                         relatedListingsState.asObservable(),
@@ -430,23 +459,34 @@ class ChatViewModel: BaseViewModel {
                                                 return .visible
                                             }
                                         }).distinctUntilChanged()
-        directAnswers.bindTo(directAnswersState).addDisposableTo(disposeBag)
+        directAnswers.bind(to: directAnswersState).disposed(by: disposeBag)
 
-        interlocutorId.asObservable().bindNext { [weak self] interlocutorId in
+        interlocutorId.asObservable().bind { [weak self] interlocutorId in
             guard let interlocutorId = interlocutorId, self?.interlocutor?.objectId != interlocutorId else { return }
             self?.userRepository.show(interlocutorId) { [weak self] result in
                 guard let strongSelf = self else { return }
                 guard let user = result.value else { return }
                 strongSelf.interlocutor = user
+                strongSelf.interlocutorIsProfessional.value = user.type == .pro
+                strongSelf.interlocutorPhoneNumber.value = user.phone
                 if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
                     strongSelf.messages.append(userInfoMessage)
                 }
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
+
+        let automaticMessagesSignal = Observable.combineLatest(messagesDidFinishRefreshing.asObservable(),
+                                                               interlocutorIsProfessional.asObservable(),
+                                                               lastMessageSentType.asObservable()) { ($0, $1, $2) }
+
+        automaticMessagesSignal.asObservable().bind { [weak self] (messagesFinishedRefresh, isPro, messageType) in
+            guard messagesFinishedRefresh else { return }
+            guard isPro else { return }
+            self?.professionalSellerAfterMessageEventsFor(messageType: messageType)
+        }.disposed(by: disposeBag)
 
         setupChatEventsRx()
     }
-
 
     func updateMessagesCounts(_ changeInMessages: CollectionChange<ChatViewMessage>) {
         guard let myUserId = myUserRepository.myUser?.objectId else { return }
@@ -475,7 +515,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func setupChatEventsRx() {
-        chatRepository.chatStatus.bindNext { [weak self] wsChatStatus in
+        chatRepository.chatStatus.bind { [weak self] wsChatStatus in
             guard let strongSelf = self else { return }
             switch wsChatStatus {
             case .openAuthenticated:
@@ -488,7 +528,7 @@ class ChatViewModel: BaseViewModel {
             case .closed, .closing, .opening, .openNotAuthenticated:
                 break
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         guard let convId = conversation.value.objectId else { return }
         chatRepository.chatEventsIn(convId).subscribeNext { [weak self] event in
@@ -506,7 +546,7 @@ class ChatViewModel: BaseViewModel {
             case .authenticationTokenExpired, .talkerUnauthenticated:
                 break
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     
@@ -548,9 +588,16 @@ class ChatViewModel: BaseViewModel {
         showStickerBadge.value = false
     }
 
-    func bannerActionButtonTapped() {
+    func expressChatBannerActionButtonTapped() {
         guard let listingId = conversation.value.listing?.objectId else { return }
         navigator?.openExpressChat(relatedListings, sourceListingId: listingId, manualOpen: true)
+    }
+
+    func professionalSellerBannerActionButtonTapped() {
+        guard let phoneNumber = interlocutorPhoneNumber.value else { return }
+        PhoneCallsHelper.call(phoneNumber: phoneNumber)
+
+        trackCallSeller()
     }
 
 }
@@ -593,7 +640,22 @@ extension ChatViewModel {
     func send(quickAnswer: QuickAnswer) {
         sendMessage(type: .quickAnswer(quickAnswer))
     }
-    
+
+    func send(phone: String) {
+        sendMessage(type: .phone(phone))
+    }
+
+    func sendPhoneFrom(alert: UIAlertController) {
+        guard let textField = alert.textFields?.first,
+            let textFieldText = textField.text,
+            textFieldText.isPhoneNumber else {
+                delegate?.vmShowAutoFadingMessage(LGLocalizedString.professionalDealerAskPhoneAlertNotValidPhone, completion: nil)
+                return
+        }
+        send(phone: textFieldText)
+        tracker.trackEvent(TrackerEvent.phoneNumberSent(typePage: .chat))
+    }
+
     fileprivate func sendMessage(type: ChatWrapperMessageType) {
         if let preSendMessageCompletion = preSendMessageCompletion {
             preSendMessageCompletion(type)
@@ -601,10 +663,10 @@ extension ChatViewModel {
         }
 
         let message = type.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        guard message.characters.count > 0 else { return }
+        guard message.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
-        
+
         if type.isUserText || (showKeyboardWhenQuickAnswer && type.isQuickAnswer) {
             delegate?.vmDidSendMessage()
         }
@@ -617,7 +679,7 @@ extension ChatViewModel {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let _ = result.value {
-                strongSelf.afterSendMessageEvents()
+                strongSelf.afterSendMessageEvents(type: type)
                 strongSelf.trackMessageSent(type: type)
             } else if let error = result.error {
                 strongSelf.trackMessageSentError(type: type, error: error)
@@ -642,8 +704,11 @@ extension ChatViewModel {
         }
     }
 
-    private func afterSendMessageEvents() {
+    private func afterSendMessageEvents(type: ChatWrapperMessageType) {
+        openChatAutomaticMessage = nil
         firstInteractionDone.value = true
+        lastMessageSentType.value = type
+
         if shouldAskListingSold {
             var interfaceText: String
             var alertTitle: String
@@ -673,6 +738,38 @@ extension ChatViewModel {
                 self?.delegate?.vmDidEndEditing(animated: true)
                 self?.navigator?.openAppRating(.chat)
             }
+        }
+    }
+
+    private func professionalSellerAfterMessageEventsFor(messageType: ChatWrapperMessageType?) {
+        guard featureFlags.allowCallsForProfessionals.isActive else { return }
+        guard let listingId = conversation.value.listing?.objectId,
+            !keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId) else { return }
+        guard let type = messageType else {
+            insertAskPhoneNumberMessage()
+            return
+        }
+
+        switch type {
+        case .phone:
+            saveProSellerAlreadySentPhoneInChatFor(listingId: listingId)
+            if !hasSentAutomaticAnswerForPhoneMessage {
+                sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksPhoneCellMessage,
+                                                    isPhone: true)
+                disableAskPhoneMessageButton()
+            }
+        case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing:
+            insertAskPhoneNumberMessage()
+            if !hasSentAutomaticAnswerForOtherMessage {
+                sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,
+                                                    isPhone: false)
+            }
+        }
+    }
+
+    private func insertAskPhoneNumberMessage() {
+        if let askPhoneNumber = askPhoneMessage {
+            messages.insert(askPhoneNumber, atIndex: 0)
         }
     }
 
@@ -737,8 +834,36 @@ extension ChatViewModel {
         let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent(date: sentAt).markAsReceived().markAsRead()
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
+        if let securityMeetingIndex = securityMeetingIndex(for: messages.value) {
+            messages.insert(chatViewMessageAdapter.createSecurityMeetingDisclaimerMessage(),
+                             atIndex: securityMeetingIndex)
+        }
         guard isBuyer else { return }
         sellerDidntAnswer.value = false
+    }
+
+    fileprivate func saveProSellerAlreadySentPhoneInChatFor(listingId: String) {
+        var listingsWithPhoneSent = keyValueStorage.proSellerAlreadySentPhoneInChat
+
+        for listingWithPhone in listingsWithPhoneSent {
+            if listingWithPhone == listingId { return }
+        }
+        listingsWithPhoneSent.append(listingId)
+        keyValueStorage.proSellerAlreadySentPhoneInChat = listingsWithPhoneSent
+    }
+
+    fileprivate func sendProfessionalAutomaticAnswerWith(message: String, isPhone: Bool) {
+        guard let automaticAnswerMessage = chatViewMessageAdapter.createAutomaticAnswerWith(message: message) else { return }
+        messages.insert(automaticAnswerMessage, atIndex: 0)
+        hasSentAutomaticAnswerForPhoneMessage = isPhone
+        hasSentAutomaticAnswerForOtherMessage = true
+    }
+
+    private func disableAskPhoneMessageButton() {
+        guard let index = messages.value.index(where: { $0.type.isAskPhoneNumber }) else { return }
+        guard let newMessage = chatViewMessageAdapter.createAskPhoneMessageWith(action: nil) else { return }
+        let range = index..<(index+1)
+        messages.replace(range, with: [newMessage])
     }
 }
 
@@ -813,6 +938,8 @@ extension ChatViewModel {
             self?.delete() { [weak self] success in
                 if success {
                     self?.isDeleted = true
+                    self?.tracker.trackEvent(TrackerEvent.chatDeleteComplete(numberOfConversations: 1,
+                                                                             isInactiveConversation: false))
                 }
                 let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
                 self?.delegate?.vmDidNotifyMessage(message) { [weak self] in
@@ -886,10 +1013,10 @@ extension ChatViewModel {
                 strongSelf.refreshChat()
                 strongSelf.chatStatus.value = strongSelf.recoverConversationChatStatusForUnblock()
                 switch strongSelf.chatStatus.value {
-                case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
+                case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted, .inactiveConversation:
                     strongSelf.chatEnabled.value = false
                 case .available, .listingSold, .listingGivenAway, .listingDeleted:
-                    strongSelf.chatEnabled.value =  true
+                    strongSelf.chatEnabled.value = true
                 }
             } else {
                 strongSelf.delegate?.vmDidNotifyMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
@@ -990,9 +1117,34 @@ extension ChatViewModel {
         switch chatStatus.value {
         case .userDeleted, .userPendingDelete:
             return chatViewMessageAdapter.createUserDeletedDisclaimerMessage(conversation.value.interlocutor?.name)
-        case .available, .blocked, .blockedBy, .forbidden, .listingDeleted, .listingSold, .listingGivenAway:
+        case .available, .blocked, .blockedBy, .forbidden, .listingDeleted, .listingSold, .listingGivenAway, .inactiveConversation:
             return nil
         }
+    }
+
+    var shouldShowAskPhoneMessage: Bool {
+        if let openAutomaticMessage = openChatAutomaticMessage, openAutomaticMessage.isPhone {
+            return false
+        }
+        guard let lastMessage = lastMessageSentType.value else { return !hasShownAskedPhoneMessage }
+        return !hasShownAskedPhoneMessage &&
+            interlocutorIsProfessional.value &&
+            messagesDidFinishRefreshing.value &&
+            !lastMessage.isPhone
+    }
+
+    var askPhoneMessage: ChatViewMessage? {
+        guard let listingId = conversation.value.listing?.objectId,
+            !keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId),
+            featureFlags.allowCallsForProfessionals.isActive,
+            shouldShowAskPhoneMessage else { return nil }
+
+        let askPhoneAction: (() -> Void)? = { [weak self] in
+            self?.delegate?.vmAskPhoneNumber()
+            self?.tracker.trackEvent(TrackerEvent.phoneNumberRequest(typePage: .chat))
+        }
+        hasShownAskedPhoneMessage = true
+        return chatViewMessageAdapter.createAskPhoneMessageWith(action: askPhoneAction)
     }
 
     private func downloadFirstPage(_ conversationId: String) {
@@ -1006,6 +1158,7 @@ extension ChatViewModel {
                 strongSelf.mergeMessages(newMessages: value)
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.checkSellerDidntAnswer(value)
+                strongSelf.messagesDidFinishRefreshing.value = true
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -1024,6 +1177,7 @@ extension ChatViewModel {
                     strongSelf.isLastPage = true
                 }
                 strongSelf.updateMessages(newMessages: value, isFirstPage: false)
+                strongSelf.messagesDidFinishRefreshing.value = true
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -1036,6 +1190,7 @@ extension ChatViewModel {
             self?.isLoading = false
             guard let newMessages = result.value else { return }
             self?.mergeMessages(newMessages: newMessages)
+            self?.messagesDidFinishRefreshing.value = true
         }
     }
 
@@ -1059,7 +1214,7 @@ extension ChatViewModel {
         var chatMessages = chatViewMessageAdapter.addDisclaimers(mappedChatMessages,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
         // Add user info as 1st message
-        if let userInfoMessage = userInfoMessage, isLastPage {
+        if let userInfoMessage = userInfoMessage, shouldShowOtherUserInfo {
             chatMessages.append(userInfoMessage)
         }
         // Add disclaimer at the bottom of the first page
@@ -1070,12 +1225,19 @@ extension ChatViewModel {
     }
 
     private func mergeMessages(newMessages: [ChatMessage]) {
+
+        defer {
+            // Add user info as 1st message
+            if let userInfoMessage = userInfoMessage, shouldShowOtherUserInfo {
+                messages.append(userInfoMessage)
+            }
+        }
         markAsReadMessages(newMessages)
 
         let newViewMessages = newMessages.map(chatViewMessageAdapter.adapt)
         guard !newViewMessages.isEmpty else { return }
 
-        //We need to remove extra messages & disclaimers to be able to merge correctly. Will be added back before returning
+        // We need to remove extra messages & disclaimers to be able to merge correctly. Will be added back before returning
         var filteredViewMessages = messages.value.filter { $0.objectId != nil }
 
         filteredViewMessages.merge(
@@ -1083,17 +1245,19 @@ extension ChatViewModel {
             matcher: { $0.objectId == $1.objectId },
             sortBy: { (message1, message2) -> Bool in
                 if message1.sentAt == nil && message2.sentAt != nil { return true }
-                guard let sentAt1 = message1.sentAt, let sentAt2 = message2.sentAt else { return false }
+                guard let sentAt1 = message1.sentAt,
+                    let sentAt2 = message2.sentAt
+                    else { return false }
                 return sentAt1 > sentAt2
             }
         )
 
         var chatMessages = chatViewMessageAdapter.addDisclaimers(filteredViewMessages,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
-
-        // Add user info as 1st message
-        if let userInfoMessage = userInfoMessage, isLastPage {
-            chatMessages.append(userInfoMessage)
+        
+        if let securityMeetingIndex = securityMeetingIndex(for: chatMessages) {
+            chatMessages.insert(chatViewMessageAdapter.createSecurityMeetingDisclaimerMessage(),
+                                at: securityMeetingIndex)
         }
         // Add disclaimer at the bottom of the first page
         if let bottomDisclaimerMessage = bottomDisclaimerMessage {
@@ -1109,6 +1273,71 @@ extension ChatViewModel {
                                                                  disclaimerMessage: defaultDisclaimerMessage)
         messages.removeAll()
         messages.appendContentsOf(chatMessages)
+    }
+    
+    fileprivate func securityMeetingIndex(for messages: [ChatViewMessage]) -> Int? {
+        var isFirstPage: Bool {
+            return messages.count < Constants.numMessagesPerPage
+        }
+        var priceIsEqualOrHigherThan250: Bool {
+            if let price = conversation.value.listing?.price.value {
+                return price > Double(250)
+            }
+            return false
+        }
+        var firstInterlocutorMessageIndex: Int? {
+            guard let i = messages.reversed().index(where: {
+                switch $0.type {
+                case .disclaimer, .userInfo, .askPhoneNumber:
+                    return false
+                case .offer, .sticker, .text:
+                    return $0.talkerId != myUserRepository.myUser?.objectId
+                }
+            }) else { return nil }
+            let index = messages.index(before: i.base)
+            return index
+        }
+        var fifthInterlocutorMessageIndex: Int? {
+            let elementNumber = 5
+            let interlocutorMessages = messages.reversed().filter {
+                switch $0.type {
+                case .disclaimer, .userInfo, .askPhoneNumber:
+                    return false
+                case .offer, .sticker, .text:
+                    return $0.talkerId != myUserRepository.myUser?.objectId
+                }
+            }
+            guard interlocutorMessages.count >= elementNumber else { return nil }
+            let fifthInterlocutorMessage = interlocutorMessages[elementNumber-1]
+            
+            let index = messages.index(where: {
+                $0 == fifthInterlocutorMessage
+            })
+            return index
+        }
+        var securityTooltipWasShownToday: Bool {
+            if let lastShownDate = keyValueStorage[.lastShownSecurityWarningDate] {
+                return lastShownDate.isFromLast24h()
+            }
+            return false
+        }
+
+        guard isFirstPage else { return nil }
+        switch featureFlags.showSecurityMeetingChatMessage {
+        case .baseline, .control:
+            return firstInterlocutorMessageIndex
+        case .variant1:
+            guard priceIsEqualOrHigherThan250 else { return nil }
+            if isBuyer {
+                return firstInterlocutorMessageIndex
+            } else if !securityTooltipWasShownToday {
+                keyValueStorage[.lastShownSecurityWarningDate] = Date()
+                return firstInterlocutorMessageIndex
+            }
+        case .variant2:
+            return fifthInterlocutorMessageIndex
+        }
+        return nil
     }
 
     private func afterRetrieveChatMessagesEvents() {
@@ -1245,6 +1474,19 @@ fileprivate extension ChatViewModel {
         tracker.trackEvent(markAsSold)
     }
 
+    func trackCallSeller() {
+        guard let chatListing = conversation.value.listing else { return }
+
+        let isFreePosting: Bool? = conversation.value.listing?.price.isFree
+        let callSeller = TrackerEvent.chatBannerCall(chatListing,
+                                                     source: .unknown,
+                                                     typePage: EventParameterTypePage.chat,
+                                                     sellerAverageUserRating: interlocutor?.ratingAverage,
+                                                     isFreePosting: EventParameterBoolean.init(bool: isFreePosting),
+                                                     isBumpedUp: .notAvailable)
+        tracker.trackEvent(callSeller)
+    }
+
     private func buildSendMessageInfo(withType type: ChatWrapperMessageType, error: RepositoryError?) -> SendMessageTrackingInfo? {
         guard let listing = conversation.value.listing else { return nil }
         guard let userId = conversation.value.interlocutor?.objectId else { return nil }
@@ -1262,6 +1504,7 @@ fileprivate extension ChatViewModel {
             .set(typePage: typePage)
             .set(sellerRating: sellerRating)
             .set(isBumpedUp: .falseParameter)
+            .set(containsEmoji: type.text.containsEmoji)
         if let error = error {
             sendMessageInfo.set(error: error.chatError)
         }
@@ -1303,7 +1546,7 @@ fileprivate extension ChatConversation {
     
     var chatEnabled: Bool {
         switch chatStatus {
-        case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted:
+        case .forbidden, .blocked, .blockedBy, .userPendingDelete, .userDeleted, .inactiveConversation:
             return false
         case .available, .listingSold, .listingDeleted, .listingGivenAway:
             return true
@@ -1314,7 +1557,7 @@ fileprivate extension ChatConversation {
         switch chatStatus {
         case .forbidden,  .userPendingDelete, .userDeleted, .listingDeleted, .listingSold, .listingGivenAway:
             return !amISelling
-        case .available, .blocked, .blockedBy:
+        case .available, .blocked, .blockedBy, .inactiveConversation:
             return false
         }
     }

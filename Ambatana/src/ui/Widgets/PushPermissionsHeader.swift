@@ -84,7 +84,7 @@ class PushPermissionsHeader: UIView {
         addGestureRecognizer(tap)
     }
 
-    private dynamic func viewTapped() {
+    @objc private dynamic func viewTapped() {
         delegate?.pushPermissionHeaderPressed()
     }
 }

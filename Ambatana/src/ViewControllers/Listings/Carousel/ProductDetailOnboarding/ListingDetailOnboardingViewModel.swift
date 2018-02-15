@@ -60,18 +60,18 @@ class ListingDetailOnboardingViewModel : BaseViewModel {
 
     private static func tipText(textToHighlight: String?, textToHighlight2: String?, fullText: String) -> NSAttributedString {
 
-        var regularTextAttributes = [String : AnyObject]()
-        regularTextAttributes[NSForegroundColorAttributeName] = UIColor.white
-        regularTextAttributes[NSFontAttributeName] = UIFont.systemMediumFont(size: 17)
+        var regularTextAttributes = [NSAttributedStringKey : Any]()
+        regularTextAttributes[NSAttributedStringKey.foregroundColor] = UIColor.white
+        regularTextAttributes[NSAttributedStringKey.font] = UIFont.systemMediumFont(size: 17)
 
         let regularAttributedText = NSAttributedString(string: fullText, attributes: regularTextAttributes)
 
         let resultText = NSMutableAttributedString(attributedString: regularAttributedText)
 
         if let textToHighlight = textToHighlight {
-            var highlightedTextAttributes = [String : AnyObject]()
-            highlightedTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColor
-            highlightedTextAttributes[NSFontAttributeName] = UIFont.systemMediumFont(size: 17)
+            var highlightedTextAttributes = [NSAttributedStringKey : Any]()
+            highlightedTextAttributes[NSAttributedStringKey.foregroundColor] = UIColor.primaryColor
+            highlightedTextAttributes[NSAttributedStringKey.font] = UIFont.systemMediumFont(size: 17)
 
             let range = (fullText as NSString).range(of: textToHighlight)
             resultText.addAttributes(highlightedTextAttributes, range: range)

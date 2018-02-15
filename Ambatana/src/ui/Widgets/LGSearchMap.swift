@@ -63,7 +63,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         
         searchField.insetX = 40
         searchField.placeholder = LGLocalizedString.changeLocationSearchFieldHint
-        searchField.layer.cornerRadius = LGUIKitConstants.textfieldCornerRadius
+        searchField.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
         searchField.layer.borderColor = UIColor.lineGray.cgColor
         searchField.layer.borderWidth = LGUIKitConstants.onePixelSize
         searchField.delegate = self
@@ -79,7 +79,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         
         searchIcon.image = #imageLiteral(resourceName: "list_search")
         
-        suggestionsTableView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        suggestionsTableView.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
         suggestionsTableView.layer.borderColor = UIColor.lineGray.cgColor
         suggestionsTableView.layer.borderWidth = LGUIKitConstants.onePixelSize
         suggestionsTableView.delegate = self
@@ -127,15 +127,30 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     }
     
     private func setupRx() {
-        searchField.rx.text.subscribeNext{ [weak self] text in
+        searchField.rx.text.bind { [weak self] text in
             guard let searchField = self?.searchField, searchField.isFirstResponder else { return }
             guard let text = text else { return }
             self?.viewModel.searchText.value = (text, autoSelect:false)
-            }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        viewModel.placeInfoText.asObservable().subscribeNext { [weak self] infoText in
+        viewModel.placeLocation.asObservable().bind { [weak self] (place) in
+            guard let place = place else { return }
+            self?.updateCenterMap(location: place.location)
+        }.disposed(by: disposeBag)
+        
+        viewModel.placeGPSObservable.bind { [weak self] (place) in
+            guard let location = place?.location else { return }
+            self?.updateCenterMap(location: location)
+        }.disposed(by: disposeBag)
+       
+        viewModel.placeInfoText.asObservable().bind { [weak self] infoText in
             self?.searchField.text = infoText
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
+        
+        viewModel.placeSuggestedObservable.bind { [weak self] place in
+            guard let location = place?.location else { return }
+            self?.updateCenterMap(location: location)
+        }.disposed(by: disposeBag)
     }
     
     
@@ -164,7 +179,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         mapView.setRegion(region, animated: false)
     }
     
-    dynamic func gpsButtonPressed() {
+    @objc func gpsButtonPressed() {
         viewModel.showGPSLocation()
     }
     
@@ -258,7 +273,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if let textFieldText = textField.text, textFieldText.characters.count < 1 {
+        if let textFieldText = textField.text, textFieldText.count < 1 {
             return true
         }
         suggestionsTableView.isHidden = true

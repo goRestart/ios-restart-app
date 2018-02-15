@@ -36,15 +36,24 @@ class LGSearchMapViewModel: BaseViewModel {
     private let initialPlace: Place
     
     let placeLocation = Variable<Place?>(nil)
+    private let placeGPSLocation = Variable<Place?>(nil)
+    var placeGPSObservable: Observable<Place?> {
+        return placeGPSLocation.asObservable()
+    }
+    private let placeSuggestedSelected = Variable<Place?>(nil)
+    var placeSuggestedObservable: Observable<Place?> {
+        return placeSuggestedSelected.asObservable()
+    }
     let placeInfoText = Variable<String>("")
     let setLocationEnabled = Variable<Bool>(false)
+    
     let loading = Variable<Bool>(false)
     let currentDistanceRadius = Variable<Int?>(nil)
     let userMovedLocation = Variable<CLLocationCoordinate2D?>(nil)
     
-    let searchText = Variable<(String, autoSelect: Bool)>("", autoSelect: false)
+    let searchText = Variable<(String, autoSelect: Bool)>(("", autoSelect: false))
     
-    private let locationToFetch = Variable<(CLLocationCoordinate2D?, fromGps: Bool)>(nil, fromGps: false)
+    private let locationToFetch = Variable<(CLLocationCoordinate2D?, fromGps: Bool)>((nil, fromGps: false))
     
     convenience init(currentPlace: Place?) {
         let locationManager = Core.locationManager
@@ -94,6 +103,7 @@ class LGSearchMapViewModel: BaseViewModel {
         guard let location = locationManager.currentAutoLocation else { return }
         placeLocation.value = Place(postalAddress: location.postalAddress, location: LGLocationCoordinates2D(coordinates: location.coordinate))
         locationToFetch.value = (location.coordinate, fromGps: true)
+        placeGPSLocation.value = placeLocation.value
     }
     
     private func setupRX() {
@@ -101,7 +111,7 @@ class LGSearchMapViewModel: BaseViewModel {
             .debounce(0.3, scheduler: MainScheduler.instance)
             .subscribeNext{ [weak self] searchText, autoSelect in
                 self?.resultsForSearchText(searchText, autoSelectFirst: autoSelect)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
         
         locationToFetch.asObservable()
             .filter { coordinates, gpsLocation in return coordinates != nil }
@@ -113,7 +123,7 @@ class LGSearchMapViewModel: BaseViewModel {
             .subscribeNext { [weak self] place, gpsLocation in
                 self?.setPlace(place, forceLocation: false, fromGps: gpsLocation, enableSave: true)
             }
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         userMovedLocation.asObservable()
             .subscribeNext { [weak self] coordinates in
@@ -121,7 +131,7 @@ class LGSearchMapViewModel: BaseViewModel {
                 DispatchQueue.main.async {
                     self?.locationToFetch.value = (coordinates, false)
                 }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     func placeResumedDataAtPosition(_ position: Int) -> String? {
@@ -147,6 +157,7 @@ class LGSearchMapViewModel: BaseViewModel {
                 strongSelf.viewControllerDelegate?.vmHideLoading(nil, afterMessageCompletion: nil)
                 if let updatedPlace = result.value {
                     strongSelf.setPlace(updatedPlace, forceLocation: true, fromGps: false, enableSave: true)
+                    strongSelf.placeSuggestedSelected.value = updatedPlace
                 } else {
                     strongSelf.viewControllerDelegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage) {
                         strongSelf.updateMapToPreviousKnownPlace()
@@ -154,7 +165,8 @@ class LGSearchMapViewModel: BaseViewModel {
                 }
             }
         } else {
-                setPlace(place, forceLocation: true, fromGps: false, enableSave: true)
+            setPlace(place, forceLocation: true, fromGps: false, enableSave: true)
+            placeSuggestedSelected.value = place
         }
     }
 
@@ -205,12 +217,6 @@ class LGSearchMapViewModel: BaseViewModel {
 
     
     private func setPlace(_ place: Place, forceLocation: Bool, fromGps: Bool, enableSave: Bool) {
-        guard currentPlace.postalAddress?.countryCode == place.postalAddress?.countryCode else {
-            viewControllerDelegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorCountryAlertMessage) { [weak self] in
-                self?.updateMapToPreviousKnownPlace()
-            }
-            return
-        }
         currentPlace = place
         usingGPSLocation = fromGps
         setLocationEnabled.value = enableSave

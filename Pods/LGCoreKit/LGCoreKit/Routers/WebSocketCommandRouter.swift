@@ -58,4 +58,11 @@ struct WebSocketCommandRouter {
         let message = WebSocketRouter.request(with: uuid, type: .unarchiveConversations, data: data)
         return WebSocketCommandRequest(message: message, uuid: uuid, type: .unarchiveConversations)
     }
+    
+    func archiveInactiveConversations(_ conversationIds: [String]) -> WebSocketCommandRequest {
+        let uuid = uuidGenerator.UUIDString
+        let data: [String: Any] = ["conversation_ids": conversationIds]
+        let message = WebSocketRouter.request(with: uuid, type: .archiveInactiveConversations, data: data)
+        return WebSocketCommandRequest(message: message, uuid: uuid, type: .archiveInactiveConversations)
+    }
 }

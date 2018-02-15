@@ -38,7 +38,7 @@ class PostListingBasicDetailViewModelSpec: BaseViewModelSpec {
                         sut.price.value = "0"
                     }
                     it ("listingPrice is negotiable") {
-                        expect(sut.listingPrice) == ListingPrice.negotiable(0.0)
+                        expect(sut.listingPrice) == ListingPrice.normal(0.0)
                     }
                 }
                 context("has price") {
@@ -48,24 +48,6 @@ class PostListingBasicDetailViewModelSpec: BaseViewModelSpec {
                     }
                     it ("listingPrice is normal") {
                         expect(sut.listingPrice) == ListingPrice.normal(10.0)
-                    }
-                }
-            }
-            context("listing title creation") {
-                context("title not specified") {
-                    beforeEach {
-                        sut.title.value = ""
-                    }
-                    it ("listingTitle is nil") {
-                        expect(sut.listingTitle).to(beNil())
-                    }
-                }
-                context("title specified") {
-                    beforeEach {
-                        sut.title.value = "cool thing"
-                    }
-                    it ("listingTitle has a value") {
-                        expect(sut.listingTitle) == "cool thing"
                     }
                 }
             }

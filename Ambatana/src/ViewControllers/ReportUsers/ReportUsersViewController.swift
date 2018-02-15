@@ -118,10 +118,11 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
 
 // MARK: - UICollectionViewDelegate, UICollectionViewDataSource
 
-extension ReportUsersViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ReportUsersViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         return cellSize
     }
 
@@ -181,11 +182,11 @@ extension ReportUsersViewController: UITextViewDelegate {
 
 extension ReportUsersViewController {
 
-    func keyboardWillShow(_ notification: Notification) {
+    @objc func keyboardWillShow(_ notification: Notification) {
         moveBottomForKeyboard(notification, showing: true)
     }
 
-    func keyboardWillHide(_ notification: Notification) {
+    @objc func keyboardWillHide(_ notification: Notification) {
         moveBottomForKeyboard(notification, showing: false)
     }
 

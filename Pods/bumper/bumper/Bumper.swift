@@ -33,7 +33,7 @@ public class Bumper {
 
     var enabled: Bool = false {
         didSet {
-            bumperDAO.setBool(enabled, forKey: Bumper.bumperEnabledKey)
+            bumperDAO.set(enabled, forKey: Bumper.bumperEnabledKey)
         }
     }
     private var cache = [String: String]()
@@ -53,12 +53,12 @@ public class Bumper {
     }
 
     func initialize(_ bumperFeatures: [BumperFeature.Type]) {
-        enabled = bumperDAO.boolForKey(Bumper.bumperEnabledKey)
+        enabled = bumperDAO.bool(forKey: Bumper.bumperEnabledKey)
 
         cache.removeAll()
         features = bumperFeatures
         features.forEach({
-            guard let value = bumperDAO.stringForKey(Bumper.bumperPrefix + $0.key) else { return }
+            guard let value = bumperDAO.string(forKey: Bumper.bumperPrefix + $0.key) else { return }
             cache[$0.key] = $0.values.contains(value) ? value : $0.defaultValue
         })
     }
@@ -69,7 +69,7 @@ public class Bumper {
 
     func setValue(for key: String, value: String) {
         cache[key] = value
-        bumperDAO.setObject(value, forKey: Bumper.bumperPrefix + key)
+        bumperDAO.set(value, forKey: Bumper.bumperPrefix + key)
     }
 }
 

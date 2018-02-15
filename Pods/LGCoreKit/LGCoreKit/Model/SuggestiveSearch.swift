@@ -6,7 +6,7 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-public enum SuggestiveSearch: Equatable {
+public enum SuggestiveSearch: Decodable, Equatable {
     case term(name: String)
     case category(category: ListingCategory)
     case termWithCategory(name: String, category: ListingCategory)
@@ -32,6 +32,94 @@ public enum SuggestiveSearch: Equatable {
             return category
         }
     }
+
+    
+    // MARK: - Decodable
+    
+    /**
+     Expects a json in the form:
+     
+     // Category suggestions (may be empty)
+     {
+         "name": String (required),
+         "type": "category" (required),
+         "attributes": {
+             "category": String (required),
+             "categoryId": Integer (required),
+             "weight": Integer (optional)
+         }
+     }
+     
+     // Term with filter suggestions (may be empty)
+     {
+         "name": String (required),
+         "type": "filterSuggestion" (required),
+         "attributes": {
+             "category": String (required),
+             "categoryId": Integer (required),
+             "hits": Long (optional),
+             "score": Integer (optional),
+             "counts": Long (Optional)
+     }
+     
+     // Term suggestions (may be empty)
+     {
+         "name": String (required),
+         "type": "suggestion" (required),
+         "attributes": {
+             "hits": Long (optional),
+             "score": Integer (optional),
+             "counts": Long (Optional)
+         }
+     }
+     */
+    public init(from decoder: Decoder) throws {
+        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        
+        let typeValue = try keyedContainer.decode(String.self, forKey: .type)
+        switch typeValue {
+        case "suggestion":
+            let name = try keyedContainer.decode(String.self, forKey: .name)
+            self = .term(name: name)
+        case "category":
+            let attributesKeyedContainer = try keyedContainer.nestedContainer(keyedBy: AttributesCodingKeys.self,
+                                                                              forKey: .attributes)
+            let categoryId = try attributesKeyedContainer.decode(Int.self, forKey: .categoryId)
+            if let category = ListingCategory(rawValue: categoryId) {
+                self = .category(category: category)
+            } else {
+                throw DecodingError.valueNotFound(Int.self, DecodingError.Context(codingPath: [CodingKeys.type, AttributesCodingKeys.categoryId],
+                                                                                  debugDescription: "\(categoryId)"))
+            }
+        case "filterSuggestion":
+            let name = try keyedContainer.decode(String.self, forKey: .name)
+            let attributesKeyedContainer = try keyedContainer.nestedContainer(keyedBy: AttributesCodingKeys.self,
+                                                                              forKey: .attributes)
+            let categoryId = try attributesKeyedContainer.decode(Int.self, forKey: .categoryId)
+            if let category = ListingCategory(rawValue: categoryId) {
+                self = .termWithCategory(name: name, category: category)
+            } else {
+                throw DecodingError.valueNotFound(Int.self, DecodingError.Context(codingPath: [CodingKeys.type, AttributesCodingKeys.categoryId],
+                                                                                  debugDescription: "\(categoryId)"))
+            }
+        default:
+            throw DecodingError.valueNotFound(Int.self, DecodingError.Context(codingPath: [CodingKeys.type],
+                                                                              debugDescription: "\(typeValue)"))
+        }
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case name
+        case type
+        case attributes
+    }
+    
+    enum AttributesCodingKeys: String, CodingKey {
+        case categoryId
+    }
+    
+    
+    // MARK: - Equatable
     
     public static func ==(lhs: SuggestiveSearch, rhs: SuggestiveSearch) -> Bool {
         switch (lhs, rhs) {

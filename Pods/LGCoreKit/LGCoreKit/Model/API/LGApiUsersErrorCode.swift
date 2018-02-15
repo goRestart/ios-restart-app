@@ -6,31 +6,22 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-import Curry
-import Runes
+public protocol ApiUsersErrorCode {
+    var code: String { get }
+    var title: String { get }
+}
 
-struct LGApiUsersErrorCode: ApiUsersErrorCode {
+struct LGApiUsersErrorCode: ApiUsersErrorCode, Decodable {
     let code: String
     let title: String
-}
-
-extension LGApiUsersErrorCode : Decodable {
-
-    /**
-     Expects a json in the form:
-        {
-            "code": "1005",
-            "title": "User already exists"
-        }
+    
+    // MARK: Decodable
+    
+    /*
+     {
+     "code": "1005",
+     "title": "User already exists"
+     }
      */
-    static func decode(_ j: JSON) -> Decoded<LGApiUsersErrorCode> {
-        let result1 = curry(LGApiUsersErrorCode.init)
-        let result2 = result1 <^> j <| "code"
-        let result  = result2 <*> j <| "title"
-        if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGApiUsersErrorCode parse error: \(error)")
-        }
-        return result
-    }
 }
+

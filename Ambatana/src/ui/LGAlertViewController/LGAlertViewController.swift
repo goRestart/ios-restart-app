@@ -171,7 +171,7 @@ class LGAlertViewController: UIViewController {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapOutside))
         view.addGestureRecognizer(tapRecognizer)
 
-        alertContentView.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
+        alertContentView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
         
         setupButtons(alertActions)
     }
@@ -297,14 +297,14 @@ class LGAlertViewController: UIViewController {
             button.setStyle(action.buttonStyle ?? .primary(fontSize: .medium))
         }
         
-        button.rx.tap.bindNext { [weak self] _ in
+        button.rx.tap.bind { [weak self] in
             self?.dismissAlert(pushTransition: true) {
                 action.action()
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
-    dynamic private func tapOutside() {
+    @objc private func tapOutside() {
         dismissAlert(pushTransition: false) { [weak self] in
             self?.dismissAction?()
         }

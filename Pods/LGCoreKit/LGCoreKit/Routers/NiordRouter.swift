@@ -9,21 +9,20 @@
 import Foundation
 
 enum NiordRouter: URLRequestAuthenticable {
-    
     static let geocodeEndpoint = "/geocode"
-    static let geocodeDetailsEndpoint = "/api/locations/%@/details.json"
+    static let geocodeDetailsEndpoint = "/place/details"
     static let autocompleteEndpoint = "/autocomplete"
     
     case geocode(params: [String : Any])
-    case geocodeDetails(placeId: String)
+    case geocodeDetails(params: [String : Any])
     case autocomplete(params: [String : Any])
 
     var endpoint: String {
         switch self {
         case .geocode:
             return NiordRouter.geocodeEndpoint
-        case .geocodeDetails(let placeId):
-            return String(format: NiordRouter.geocodeDetailsEndpoint, placeId)
+        case .geocodeDetails:
+            return NiordRouter.geocodeDetailsEndpoint
         case .autocomplete:
             return NiordRouter.autocompleteEndpoint
         }
@@ -39,8 +38,8 @@ enum NiordRouter: URLRequestAuthenticable {
         switch self {
         case .geocode(let params):
             return try Router<NiordBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
-        case .geocodeDetails:
-            return try Router<APIBaseURL>.index(endpoint: endpoint, params: [:]).asURLRequest()
+        case .geocodeDetails(let params):
+            return try Router<NiordBaseURL>.read(endpoint: endpoint, params: params).asURLRequest()
         case .autocomplete(let params):
             return try Router<NiordBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         }

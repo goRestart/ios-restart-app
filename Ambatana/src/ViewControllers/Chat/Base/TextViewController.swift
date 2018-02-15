@@ -12,7 +12,6 @@ import RxSwift
 
 class TextViewController: KeyboardViewController {
 
-
     var viewMargins: CGFloat = 10
     var textViewMargin: CGFloat = 5
     var tableBottomMargin: CGFloat = 0 {
@@ -43,6 +42,9 @@ class TextViewController: KeyboardViewController {
     var singleTapGesture: UITapGestureRecognizer?
     let textViewBar = UIView()
     let textView = KMPlaceholderTextView()
+    let bottomSafeArea = UIView()
+    var bottomSafeAreaHeight: NSLayoutConstraint?
+
     let leftButtonsContainer = UIView()
     let sendButton = UIButton(type: .custom)
     var leftActions: [UIAction] = [] {
@@ -158,6 +160,20 @@ class TextViewController: KeyboardViewController {
         view.bringSubview(toFront: textViewBar)
 
         updateLeftActions()
+
+        let margin = textViewMargin
+
+        keyboardChanges.asObservable().bind { [weak self] change in
+            if change.visible {
+                self?.bottomSafeAreaHeight?.constant = margin
+            } else {
+                var safeArea: CGFloat = margin
+                if #available(iOS 11, *), let safeAreaBottom = self?.view.safeAreaInsets.bottom {
+                    safeArea = max(safeAreaBottom, margin)
+                }
+                self?.bottomSafeAreaHeight?.constant = safeArea
+            }
+        }.disposed(by: disposeBag)
     }
 }
 
@@ -189,7 +205,7 @@ extension TextViewController {
         tableView.transform = invertedTable ? CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0) : CGAffineTransform.identity
     }
 
-    dynamic fileprivate func scrollViewTap() {
+    @objc fileprivate func scrollViewTap() {
         dismissKeyboard(true)
         scrollViewDidTap()
     }
@@ -217,21 +233,29 @@ extension TextViewController: UITextViewDelegate {
 
         leftButtonsContainer.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(leftButtonsContainer)
-        leftButtonsContainer.layout(with: textViewBar).left(by: viewMargins).bottom(by: -textViewMargin)
-        leftButtonsContainer.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        leftButtonsContainer.layout(with: textViewBar).left(by: viewMargins)
+        leftButtonsContainer.setContentHuggingPriority(.required, for: .horizontal)
 
         textView.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(textView)
-        textView.layout(with: textViewBar).fillVertical(by: textViewMargin)
+        textView.layout(with: textViewBar).top(by: textViewMargin)
             .right(by: -viewMargins, constraintBlock: {[weak self] in self?.textViewRightConstraint = $0 })
         textView.layout(with: leftButtonsContainer).left(to: .right, by: viewMargins)
         textView.layout().height(textView.minimumHeight, constraintBlock: {[weak self] in self?.textViewHeight = $0 })
 
+        leftButtonsContainer.layout(with: textView).centerY()
+
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         textViewBar.addSubview(sendButton)
-        sendButton.layout(with: textViewBar).bottom()
-        sendButton.layout(with: textView).left(to: .right, by: viewMargins)
+        sendButton.layout(with: textView).left(to: .right, by: viewMargins).centerY()
         sendButton.layout().height(minHeight)
+
+        bottomSafeArea.translatesAutoresizingMaskIntoConstraints = false
+        textViewBar.addSubview(bottomSafeArea)
+        bottomSafeArea.layout(with: textView).below()
+        bottomSafeArea.layout(with: textViewBar).fillHorizontal().bottom()
+        bottomSafeAreaHeight = bottomSafeArea.heightAnchor.constraint(equalToConstant: 0)
+        bottomSafeAreaHeight?.isActive = true
 
         textViewBar.addTopViewBorderWith(width: LGUIKitConstants.onePixelSize, color: UIColor.lineGray)
 
@@ -242,7 +266,7 @@ extension TextViewController: UITextViewDelegate {
         textView.delegate = self
         textView.layer.borderWidth = LGUIKitConstants.onePixelSize
         textView.layer.borderColor = UIColor.lineGray.cgColor
-        textView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        textView.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
 
         sendButton.setTitleColor(UIColor.red, for: .normal)
         sendButton.setTitle("Send", for: .normal)
@@ -254,28 +278,34 @@ extension TextViewController: UITextViewDelegate {
         }
     }
 
+    @available(iOS 11.0, *)
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        bottomSafeAreaHeight?.constant = view.safeAreaInsets.bottom
+    }
+
     private func setupTextAreaRx() {
         let emptyText = textView.rx.text.map { ($0 ?? "").trim.isEmpty }
-        emptyText.bindTo(sendButton.rx.isHidden).addDisposableTo(disposeBag)
-        emptyText.bindNext { [weak self] empty in
+        emptyText.bind(to: sendButton.rx.isHidden).disposed(by: disposeBag)
+        emptyText.bind { [weak self] empty in
                 guard let strongSelf = self, let margin = self?.viewMargins else { return }
                 let rightConstraint = empty ? margin : margin + strongSelf.sendButton.width + margin
                 guard strongSelf.textRightMargin != rightConstraint else { return }
                 self?.textRightMargin = rightConstraint
                 UIView.animate(withDuration: TextViewController.animationTime, delay: 0, options: [.beginFromCurrentState],
                                animations: { [weak self] in self?.view.layoutIfNeeded() }, completion: nil)
-                }.addDisposableTo(disposeBag)
+                }.disposed(by: disposeBag)
 
-        textView.rx.text.bindNext { [weak self] text in
+        textView.rx.text.bind { [weak self] text in
             self?.fitTextView()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        textView.rx.text.skip(1).bindNext { [weak self] text in
+        textView.rx.text.skip(1).bind { [weak self] text in
             guard let keyTextCache = self?.keyForTextCaching() else { return }
             TextViewController.keyTextCache[keyTextCache] = text
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        sendButton.rx.tap.bindNext { [weak self] in self?.sendButtonPressed() }.addDisposableTo(disposeBag)
+        sendButton.rx.tap.bind { [weak self] in self?.sendButtonPressed() }.disposed(by: disposeBag)
     }
 
     fileprivate func updateLeftActions() {
@@ -291,7 +321,7 @@ extension TextViewController: UITextViewDelegate {
             if let tint = action.imageTint {
                 button.tintColor = tint
             }
-            button.rx.tap.subscribeNext(onNext: action.action).addDisposableTo(leftActionsDisposeBag)
+            button.rx.tap.subscribeNext(onNext: action.action).disposed(by: leftActionsDisposeBag)
             button.translatesAutoresizingMaskIntoConstraints = false
             leftButtonsContainer.addSubview(button)
             button.layout().width(buttonDiameter).widthProportionalToHeight()

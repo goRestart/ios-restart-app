@@ -24,9 +24,9 @@ protocol WebSocketQueryRequestConvertible: WebSocketRequestConvertible {}
 
 // MARK: > WebSocket Error
 
-enum WebSocketError: Error {
+enum WebSocketError: Error, Equatable {
     case notAuthenticated
-    case internalError
+    case internalError(withCode: Int)
     case userNotVerified
     case userBlocked
     case suspended(withCode: Int)
@@ -41,8 +41,21 @@ enum WebSocketError: Error {
         case .userInDifferentCountryError:
             self = .differentCountry
         default:
-            self = .internalError
+            self = .internalError(withCode: wsErrorType.rawValue)
         }
+    }
+}
+
+func ==(lhs: WebSocketError, rhs: WebSocketError) -> Bool {
+    switch (lhs, rhs) {
+    case (.notAuthenticated, .notAuthenticated), (.userNotVerified, .userNotVerified), (.userBlocked, .userBlocked),
+         (.differentCountry, .differentCountry):
+        return true
+    case (.internalError(let lhsCode), .internalError(let rhsCode)) where lhsCode == rhsCode,
+         (.suspended(let lhsCode), .suspended(let rhsCode)) where lhsCode == rhsCode:
+        return true
+    default:
+        return false
     }
 }
 

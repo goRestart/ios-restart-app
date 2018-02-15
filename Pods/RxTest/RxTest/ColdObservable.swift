@@ -13,7 +13,7 @@ import RxSwift
 /// Recorded events are replayed after subscription once per subscriber.
 ///
 /// Event times represent relative offset to subscription time.
-class ColdObservable<Element>
+final class ColdObservable<Element>
     : TestableObservable<Element> {
 
     override init(testScheduler: TestScheduler, recordedEvents: [Recorded<Event<Element>>]) {
@@ -26,14 +26,19 @@ class ColdObservable<Element>
         
         let i = self.subscriptions.count - 1
 
+        var disposed = false
+
         for recordedEvent in recordedEvents {
-            _ = testScheduler.scheduleRelativeVirtual((), dueTime: recordedEvent.time, action: { (_) in
-                observer.on(recordedEvent.value)
+            _ = testScheduler.scheduleRelativeVirtual((), dueTime: recordedEvent.time, action: { _ in
+                if !disposed {
+                    observer.on(recordedEvent.value)
+                }
                 return Disposables.create()
             })
         }
         
         return Disposables.create {
+            disposed = true
             let existing = self.subscriptions[i]
             self.subscriptions[i] = Subscription(existing.subscribe, self.testScheduler.clock)
         }

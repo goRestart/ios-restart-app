@@ -6,8 +6,6 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-
 class StickersApiDataSource: StickersDataSource {
     
     let apiClient: ApiClient
@@ -33,7 +31,15 @@ class StickersApiDataSource: StickersDataSource {
     private static func decoderArray(_ object: Any) -> [Sticker]? {
         guard let json = object as? [String: Any] else { return nil }
         guard let stickersJSON = json["stickers"] else { return nil }
-        guard let stickers = Array<LGSticker>.decode(JSON(stickersJSON)).value else { return nil }
-        return stickers.map{ $0 }
+        guard let data = try? JSONSerialization.data(withJSONObject: stickersJSON, options: .prettyPrinted) else { return nil }
+        
+        // Ignore stickers that can't be decoded
+        do {
+            let stickers = try JSONDecoder().decode(FailableDecodableArray<LGSticker>.self, from: data)
+            return stickers.validElements
+        } catch {
+            logMessage(.debug, type: .parsing, message: "could not parse LGSticker \(object)")
+        }
+        return nil
     }
 }

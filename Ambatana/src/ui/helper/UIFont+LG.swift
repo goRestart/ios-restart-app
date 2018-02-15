@@ -58,19 +58,19 @@ extension UIFont {
     }
     
     static func systemMediumFont(size: Int) -> UIFont {
-        return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightMedium)
+        return self.systemFont(ofSize: CGFloat(size), weight: UIFont.Weight.medium)
     }
 
     static func systemLightFont(size: Int) -> UIFont {
-        return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightLight)
+        return self.systemFont(ofSize: CGFloat(size), weight: UIFont.Weight.light)
     }
     
     static func systemRegularFont(size: Int) -> UIFont {
-        return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightRegular)
+        return self.systemFont(ofSize: CGFloat(size), weight: UIFont.Weight.regular)
     }
     
     static func systemSemiBoldFont(size: Int) -> UIFont {
-        return self.systemFont(ofSize: CGFloat(size), weight: UIFontWeightSemibold)
+        return self.systemFont(ofSize: CGFloat(size), weight: UIFont.Weight.semibold)
     }
     
     static func systemBoldFont(size: Int) -> UIFont {

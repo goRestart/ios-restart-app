@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Argo
 
 public protocol Sticker: UserDefaultsDecodable {
     var url: String { get }
@@ -15,9 +14,7 @@ public protocol Sticker: UserDefaultsDecodable {
     var type: StickerType { get }
 }
 
-public enum StickerType: String {
+public enum StickerType: String, Decodable {
     case listing = "product"
     case chat = "chat"
 }
-
-extension StickerType: Decodable {}

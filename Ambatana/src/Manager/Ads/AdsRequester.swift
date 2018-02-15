@@ -39,7 +39,7 @@ class AdsRequester {
 
     // MARK: Public methods
 
-    func makeAFShoppingRequestWithQuery(query: String?, width: CGFloat) -> GADDynamicHeightSearchRequest {
+    func makeAFShoppingRequestWithQuery(query: String?, width: CGFloat, channel: String?) -> GADDynamicHeightSearchRequest {
         let adsRequest = GADDynamicHeightSearchRequest()
 
         adsRequest.adTestEnabled = adTestModeActive
@@ -51,6 +51,7 @@ class AdsRequester {
         }
 
         adsRequest.query = query
+        adsRequest.channel = channel
 
         let stringWidth = String(Int(width))
 

@@ -145,7 +145,7 @@ class FloatingButton: UIView {
         button.addTarget(self, action: #selector(didPressButton), for: .touchUpInside)
     }
 
-    private dynamic func didPressButton() {
+    @objc private dynamic func didPressButton() {
         buttonTouchBlock?()
     }
 }

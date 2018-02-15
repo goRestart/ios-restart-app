@@ -31,7 +31,7 @@ protocol MyUserDataSource {
     - parameter completion: The completion closure.
     */
     func createWithEmail(_ email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
-        postalAddress: PostalAddress?, localeIdentifier: String, completion: MyUserApiCompletion?)
+                         postalAddress: PostalAddress?, localeIdentifier: String, completion: MyUserApiCompletion?)
 
     /**
     Updates a my user with the given parameters.

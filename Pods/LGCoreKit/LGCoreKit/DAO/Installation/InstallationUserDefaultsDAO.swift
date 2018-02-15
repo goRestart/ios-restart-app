@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Argo
 import RxSwift
 
 class InstallationUserDefaultsDAO: InstallationDAO {
@@ -36,8 +35,9 @@ class InstallationUserDefaultsDAO: InstallationDAO {
     // MARK: InstallationDAO Protocol
 
     func save(_ installation: Installation) {
-        let dict = installation.encode()
-        userDefaults.setValue(dict, forKey: InstallationUserDefaultsDAO.userDefaultsKey)
+        let installationUD = LGInstallationUD.makeInstallationUD(from: installation)
+        let data = installationUD.encode()
+        userDefaults.setValue(data, forKey: InstallationUserDefaultsDAO.userDefaultsKey)
         installationVar.value = installation
     }
 
@@ -51,7 +51,7 @@ class InstallationUserDefaultsDAO: InstallationDAO {
 
     private func fetch() -> Installation? {
         guard let dict = userDefaults.dictionary(forKey: InstallationUserDefaultsDAO.userDefaultsKey) else { return nil }
-        let installation: LGInstallation? = LGInstallation.decode(dict)
+        let installation = LGInstallationUD(dictionary: dict)
         return installation
     }
 }

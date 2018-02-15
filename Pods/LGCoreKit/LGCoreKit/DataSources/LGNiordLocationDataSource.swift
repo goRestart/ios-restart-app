@@ -7,7 +7,6 @@
 //
 
 import Result
-import Argo
 import CoreLocation
 
 class LGNiordLocationDataSource: LocationDataSource {
@@ -60,7 +59,7 @@ class LGNiordLocationDataSource: LocationDataSource {
     
     func retrieveLocationSuggestionDetails(placeId: String,
                                            completion: SuggestionLocationDetailsDataSourceCompletion?) {
-        let request = NiordRouter.geocodeDetails(placeId: placeId)
+        let request = NiordRouter.geocodeDetails(params: ["placeid": placeId])
         apiClient.request(request, decoder: LGNiordLocationDataSource.postalAddressDetailsDecoder) { result in
             if let place = result.value {
                 completion?(LocationSuggestionDetailsDataSourceResult(value: place))

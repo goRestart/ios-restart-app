@@ -26,11 +26,14 @@ enum CarouselMovement {
 
 enum AdRequestType {
     case shopping
+    case dfp
 
     var trackingParamValue: EventParameterAdType {
         switch self {
         case .shopping:
             return .shopping
+        case .dfp:
+            return .dfp
         }
     }
 }
@@ -57,6 +60,9 @@ enum AdRequestQueryType {
 
 class ListingCarouselViewModel: BaseViewModel {
 
+    // Static vars
+    static var adRequestChannel: String = "ios_moreinfo_var_a"
+
     // Paginable
     let firstPage: Int = 0
     var nextPage: Int = 1
@@ -72,6 +78,7 @@ class ListingCarouselViewModel: BaseViewModel {
             setCurrentIndex(currentIndex)
         }
     }
+    fileprivate var lastMovement: CarouselMovement = .initial
     
     weak var delegate: ListingCarouselViewModelDelegate?
     weak var navigator: ListingDetailNavigator? {
@@ -105,6 +112,12 @@ class ListingCarouselViewModel: BaseViewModel {
 
     let status = Variable<ListingViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)
+
+    let ownerIsProfessional = Variable<Bool>(false)
+    let ownerPhoneNumber = Variable<String?>(nil)
+    var deviceCanCall: Bool {
+        return PhoneCallsHelper.deviceCanCall
+    }
 
     let quickAnswers = Variable<[[QuickAnswer]]>([[]])
     let quickAnswersAvailable = Variable<Bool>(false)
@@ -165,16 +178,37 @@ class ListingCarouselViewModel: BaseViewModel {
     var shoppingAdUnitId: String {
         return featureFlags.moreInfoShoppingAdUnitId
     }
+    var dfpAdUnitId: String {
+        return featureFlags.moreInfoDFPAdUnitId
+    }
     var adActive: Bool {
-        return featureFlags.moreInfoAdActive.isActive
+        return !isMyListing && (afshAdActive || dfpAdActive)
+    }
+    var afshAdActive: Bool {
+        return featureFlags.moreInfoAFShOrDFP == .afsh
+    }
+    var dfpAdActive: Bool {
+        return featureFlags.moreInfoAFShOrDFP == .dfp
+    }
+    var dfpContentURL: String? {
+        guard let listingId = currentListingViewModel?.listing.value.objectId else { return nil}
+        return LetgoURLHelper.buildProductURL(listingId: listingId)?.absoluteString
     }
     var randomHardcodedAdQuery: String {
         let popularItems = ["ps4", "iphone", LGLocalizedString.productPostIncentiveDresser]
         let term = popularItems.random() ?? "iphone"
         return term
     }
-    var currentAdRequestType: AdRequestType? = .shopping
-    var currentAdRequestQueryType: AdRequestQueryType? = .listingTitle
+
+    var currentAdRequestType: AdRequestType? {
+        if afshAdActive {
+            return .shopping
+        } else if dfpAdActive {
+            return .dfp
+        }
+        return nil
+    }
+    var currentAdRequestQueryType: AdRequestQueryType? = nil
     var adRequestQuery: String? = nil
     var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
     let sideMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6) ? Metrics.margin : 0
@@ -311,7 +345,6 @@ class ListingCarouselViewModel: BaseViewModel {
 
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
         guard let viewModel = viewModelAt(index: index) else { return }
-        currentAdRequestType = .shopping
         adBannerTrackingStatus = nil
         currentListingViewModel?.active = false
         currentListingViewModel?.delegate = nil
@@ -319,19 +352,14 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.delegate = self
         currentListingViewModel?.active = active
         currentIndex = index
+        lastMovement = movement
         setupCurrentProductVMRxBindings(forIndex: index)
         prefetchNeighborsImages(index, movement: movement)
 
-        // Tracking
         if active {
-            let feedPosition = movement.feedPosition(for: trackingIndex)
-            if source == .relatedListings {
-                currentListingViewModel?.trackVisit(movement.visitUserAction,
-                                                    source: movement.visitSource(source),
-                                                    feedPosition: feedPosition)
-            } else {
-                currentListingViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
-            }
+            currentListingViewModel?.trackVisit(movement.visitUserAction,
+                                                source: movement.visitSource(source),
+                                                feedPosition: movement.feedPosition(for: trackingIndex))
         }
     }
 
@@ -403,12 +431,11 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func makeAFShoppingRequestWithWidth(width: CGFloat) -> GADDynamicHeightSearchRequest {
-        currentAdRequestType = .shopping
-
-        adRequestQuery = makeAdsRequestQuery()
+        adRequestQuery = makeAFShRequestQuery()
         let adWidth = width-(2*sideMargin)
-        let adsRequest = adsRequester.makeAFShoppingRequestWithQuery(query: adRequestQuery, width: adWidth)
-        
+        let adsRequest = adsRequester.makeAFShoppingRequestWithQuery(query: adRequestQuery,
+                                                                     width: adWidth,
+                                                                     channel: ListingCarouselViewModel.adRequestChannel)
         return adsRequest
     }
 
@@ -497,7 +524,13 @@ class ListingCarouselViewModel: BaseViewModel {
         currentListingViewModel?.trackOpenFeaturedInfo()
     }
     
-    
+    func callSeller() {
+        guard let phoneNumber = ownerPhoneNumber.value else { return }
+        PhoneCallsHelper.call(phoneNumber: phoneNumber)
+        currentListingViewModel?.trackCallTapped(source: source, feedPosition: trackingFeedPosition)
+    }
+
+
     // MARK: - Private Methods
 
     fileprivate func listingAt(index: Int) -> Listing? {
@@ -521,7 +554,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-        moreInfoState.asObservable().map { $0 == .shown }.distinctUntilChanged().filter { $0 }.bindNext { [weak self] _ in
+        moreInfoState.asObservable().map { $0 == .shown }.distinctUntilChanged().filter { $0 }.bind { [weak self] _ in
             if let adActive = self?.adActive, !adActive {
                 self?.currentListingViewModel?.trackVisitMoreInfo(isMine: EventParameterBoolean(bool: self?.currentListingViewModel?.isMine),
                                                                   adShown: .notAvailable,
@@ -533,49 +566,51 @@ class ListingCarouselViewModel: BaseViewModel {
             }
             self?.keyValueStorage[.listingMoreInfoTooltipDismissed] = true
             self?.delegate?.vmRemoveMoreInfoTooltip()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func setupCurrentProductVMRxBindings(forIndex index: Int) {
         activeDisposeBag = DisposeBag()
         guard let currentVM = currentListingViewModel else { return }
-        currentVM.listing.asObservable().skip(1).bindNext { [weak self] updatedListing in
+        currentVM.listing.asObservable().skip(1).bind { [weak self] updatedListing in
             guard let strongSelf = self else { return }
             strongSelf.currentViewModelIsBeingUpdated.value = true
             strongSelf.objects.replace(index, with: ListingCarouselCellModel(listing:updatedListing))
             strongSelf.currentViewModelIsBeingUpdated.value = false
-        }.addDisposableTo(activeDisposeBag)
+        }.disposed(by: activeDisposeBag)
 
-        currentVM.status.asObservable().bindTo(status).addDisposableTo(activeDisposeBag)
-        currentVM.isShowingFeaturedStripe.asObservable().bindTo(isFeatured).addDisposableTo(activeDisposeBag)
+        currentVM.status.asObservable().bind(to: status).disposed(by: activeDisposeBag)
+        currentVM.isShowingFeaturedStripe.asObservable().bind(to: isFeatured).disposed(by: activeDisposeBag)
 
-        currentVM.productInfo.asObservable().bindTo(productInfo).addDisposableTo(activeDisposeBag)
-        currentVM.productImageURLs.asObservable().bindTo(productImageURLs).addDisposableTo(activeDisposeBag)
-        currentVM.userInfo.asObservable().bindTo(userInfo).addDisposableTo(activeDisposeBag)
-        currentVM.listingStats.asObservable().bindTo(listingStats).addDisposableTo(activeDisposeBag)
+        currentVM.productInfo.asObservable().bind(to: productInfo).disposed(by: activeDisposeBag)
+        currentVM.productImageURLs.asObservable().bind(to: productImageURLs).disposed(by: activeDisposeBag)
+        currentVM.userInfo.asObservable().bind(to: userInfo).disposed(by: activeDisposeBag)
+        currentVM.listingStats.asObservable().bind(to: listingStats).disposed(by: activeDisposeBag)
+        currentVM.isProfessional.asObservable().bind(to: ownerIsProfessional).disposed(by: activeDisposeBag)
+        currentVM.phoneNumber.asObservable().bind(to: ownerPhoneNumber).disposed(by: activeDisposeBag)
 
-        currentVM.actionButtons.asObservable().bindTo(actionButtons).addDisposableTo(activeDisposeBag)
-        currentVM.navBarButtons.asObservable().bindTo(navBarButtons).addDisposableTo(activeDisposeBag)
+        currentVM.actionButtons.asObservable().bind(to: actionButtons).disposed(by: activeDisposeBag)
+        currentVM.navBarButtons.asObservable().bind(to: navBarButtons).disposed(by: activeDisposeBag)
 
         quickAnswers.value = currentVM.quickAnswers
-        currentVM.directChatEnabled.asObservable().bindTo(quickAnswersAvailable).addDisposableTo(activeDisposeBag)
+        currentVM.directChatEnabled.asObservable().bind(to: quickAnswersAvailable).disposed(by: activeDisposeBag)
 
-        currentVM.directChatEnabled.asObservable().bindTo(directChatEnabled).addDisposableTo(activeDisposeBag)
+        currentVM.directChatEnabled.asObservable().bind(to: directChatEnabled).disposed(by: activeDisposeBag)
         directChatMessages.removeAll()
         currentVM.directChatMessages.changesObservable.subscribeNext { [weak self] change in
             self?.performCollectionChange(change: change)
-        }.addDisposableTo(activeDisposeBag)
+        }.disposed(by: activeDisposeBag)
         directChatPlaceholder.value = currentVM.directChatPlaceholder
 
-        currentVM.isFavorite.asObservable().bindTo(isFavorite).addDisposableTo(activeDisposeBag)
-        currentVM.favoriteButtonState.asObservable().bindTo(favoriteButtonState).addDisposableTo(activeDisposeBag)
-        currentVM.shareButtonState.asObservable().bindTo(shareButtonState).addDisposableTo(activeDisposeBag)
-        currentVM.bumpUpBannerInfo.asObservable().bindTo(bumpUpBannerInfo).addDisposableTo(activeDisposeBag)
+        currentVM.isFavorite.asObservable().bind(to: isFavorite).disposed(by: activeDisposeBag)
+        currentVM.favoriteButtonState.asObservable().bind(to: favoriteButtonState).disposed(by: activeDisposeBag)
+        currentVM.shareButtonState.asObservable().bind(to: shareButtonState).disposed(by: activeDisposeBag)
+        currentVM.bumpUpBannerInfo.asObservable().bind(to: bumpUpBannerInfo).disposed(by: activeDisposeBag)
 
-        currentVM.socialMessage.asObservable().bindTo(socialMessage).addDisposableTo(activeDisposeBag)
+        currentVM.socialMessage.asObservable().bind(to: socialMessage).disposed(by: activeDisposeBag)
         socialSharer.value = currentVM.socialSharer
 
-        moreInfoState.asObservable().bindTo(currentVM.moreInfoState).addDisposableTo(activeDisposeBag)
+        moreInfoState.asObservable().bind(to: currentVM.moreInfoState).disposed(by: activeDisposeBag)
     }
 
     private func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
@@ -595,11 +630,9 @@ class ListingCarouselViewModel: BaseViewModel {
         }
     }
 
-    private func makeAdsRequestQuery() -> String {
+    private func makeAFShRequestQuery() -> String {
 
-        let useTitleForQuery = featureFlags.moreInfoAdActive == .titleFirst
-
-        if let title = productInfo.value?.title, useTitleForQuery {
+        if let title = productInfo.value?.title {
             currentAdRequestQueryType = .listingTitle
             return title
         } else if let autoTitle = productInfo.value?.titleAuto {
@@ -697,6 +730,19 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
         }
     }
     
+    var listingOrigin: ListingOrigin {
+        let result: ListingOrigin
+        switch lastMovement {
+        case .initial:
+            result = .initial
+        case .tap, .swipeRight:
+            result = .inResponseToNextRequest
+        case .swipeLeft:
+            result = .inResponseToPreviousRequest
+        }
+        return result
+    }
+    
     func vmResetBumpUpBannerCountdown() {
         delegate?.vmResetBumpUpBannerCountdown()
     }
@@ -752,16 +798,22 @@ extension ListingCarouselViewModel: ListingViewModelDelegate {
 // MARK: - Tracking
 
 extension CarouselMovement {
+
     func visitSource(_ originSource: EventParameterListingVisitSource) -> EventParameterListingVisitSource {
+        let sourceIsRelatedListing = originSource == .relatedListings
+        let sourceIsFavourite = originSource == .favourite
+        guard sourceIsRelatedListing || sourceIsFavourite  else {
+            return originSource
+        }
         switch self {
         case .tap:
-            return .next
+            return sourceIsFavourite ? .nextFavourite : .next
         case .swipeRight:
-            return .next
+            return sourceIsFavourite ? .nextFavourite : .next
         case .initial:
             return originSource
         case .swipeLeft:
-            return .previous
+            return sourceIsFavourite ? .previousFavourite : .previous
         }
     }
 

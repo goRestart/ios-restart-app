@@ -12,6 +12,7 @@ import RxCocoa
 
 class ListingDetailOnboardingView: BaseView {
 
+    @IBOutlet weak var closeButtonSafeAreaTopAlignment: NSLayoutConstraint!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var fingersView: UIVisualEffectView!
     @IBOutlet weak var firstLabel: UILabel!
@@ -27,12 +28,18 @@ class ListingDetailOnboardingView: BaseView {
 
     private let disposeBag = DisposeBag()
 
-
     // MARK: - Lifecycle
 
     init(viewModel: ListingDetailOnboardingViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, frame: CGRect.zero)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if !isSafeAreaAvailable {
+            closeButtonSafeAreaTopAlignment.constant = Metrics.veryBigMargin
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -56,9 +63,8 @@ class ListingDetailOnboardingView: BaseView {
 
     // MARK: - Tap actions
 
-    dynamic private func closeView() {
+    @objc private func closeView() {
         active = false
-        UIApplication.shared.setStatusBarHidden(false, with: .fade)
         removeFromSuperview()
         viewModel.close()
     }
@@ -76,7 +82,6 @@ class ListingDetailOnboardingView: BaseView {
     }
 
     private func setupViewsVisibility() {
-        UIApplication.shared.setStatusBarHidden(true, with: .fade)
         fingersView.alpha = 1
     }
 

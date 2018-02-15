@@ -63,7 +63,7 @@ class ListingHelper {
     static func titleWith(name: String?, nameAuto: String?) -> String? {
         var result: String? = nil
         if let name = name?.trim, !name.isEmpty {
-            result = name.capitalizedFirstLetterOnly
+            result = name
         } else if let nameAuto = nameAuto?.trim, !nameAuto.isEmpty {
             result = nameAuto.capitalizedFirstLetterOnly
         }
@@ -72,6 +72,6 @@ class ListingHelper {
     }
 
     static func descriptionWith(descr: String?) -> String? {
-        return descr?.capitalizedFirstLetterOnly.replacingHiddenTags
+        return descr?.replacingHiddenTags
     }
 }

@@ -52,7 +52,7 @@ extension UserRatingTagCell {
         let constraintRect = CGSize(width: CGFloat.greatestFiniteMagnitude, height: UserRatingTagCell.height)
         let boundingBox = title.boundingRect(with: constraintRect,
                                              options: NSStringDrawingOptions.usesLineFragmentOrigin,
-                                             attributes: [NSFontAttributeName: UserRatingTagCell.style.titleFont],
+                                             attributes: [NSAttributedStringKey.font: UserRatingTagCell.style.titleFont],
                                              context: nil)
         return CGSize(width: boundingBox.width + UserRatingTagCell.style.sidePadding * 2 + 10,
                       height: UserRatingTagCell.height)

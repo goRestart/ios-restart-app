@@ -22,6 +22,12 @@ extension RealEstatePropertyType {
             return LGLocalizedString.realEstateTypePropertyOthers
         case .commercial:
             return LGLocalizedString.realEstateTypePropertyCommercial
+        case .flat:
+            return LGLocalizedString.realEstateTypePropertyFlat
+        case .land:
+            return LGLocalizedString.realEstateTypePropertyLand
+        case .villa:
+            return LGLocalizedString.realEstateTypePropertyVilla
         }
     }
     
@@ -37,25 +43,20 @@ extension RealEstatePropertyType {
             return LGLocalizedString.realEstateTitleGeneratorPropertyTypeOther
         case .commercial:
             return LGLocalizedString.realEstateTitleGeneratorPropertyTypeCommercial
+        case .flat:
+            return LGLocalizedString.realEstateTypePropertyFlat
+        case .land:
+            return LGLocalizedString.realEstateTypePropertyLand
+        case .villa:
+            return LGLocalizedString.realEstateTypePropertyVilla
         }
     }
     
-    static var allValues: [RealEstatePropertyType] {
-        return [.apartment, .room, .house, .commercial, .other]
+    static func allValues(postingFlowType: PostingFlowType) -> [RealEstatePropertyType] {
+        return postingFlowType == .turkish ? [.flat, .villa, .commercial, .land, .other] : [.apartment, .room, .house, .commercial, .other]
     }
     
-    var position: Int {
-        switch self {
-        case .apartment:
-            return 0
-        case .room:
-            return 1
-        case .house:
-            return 2
-        case .commercial:
-            return 3
-        case .other:
-            return 4
-        }
+    func position(postingFlowType: PostingFlowType) -> Int? {
+        return RealEstatePropertyType.allValues(postingFlowType: postingFlowType).index(of: self)
     }
 }

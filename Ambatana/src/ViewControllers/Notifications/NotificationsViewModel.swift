@@ -90,7 +90,7 @@ class NotificationsViewModel: BaseViewModel {
         let loggedOut = myUserRepository.rx_myUser.filter { return $0 == nil }
         loggedOut.subscribeNext { [weak self] _ in
             self?.viewState.value = .loading
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func reloadNotifications() {
@@ -118,8 +118,7 @@ class NotificationsViewModel: BaseViewModel {
                 switch error {
                     case .forbidden, .internalError, .notFound, .serverError, .tooManyRequests, .unauthorized, .userNotVerified,
                          .network(errorCode: _, onBackground: false), .wsChatError:
-                        if let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
-                            action: { [weak self] in
+                        if let emptyViewModel = LGEmptyViewModel.map(from: error, action: { [weak self] in
                                 self?.viewState.value = .loading
                                 self?.reloadNotifications()
                             }) {

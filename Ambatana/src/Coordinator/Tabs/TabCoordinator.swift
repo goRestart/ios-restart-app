@@ -90,7 +90,7 @@ extension TabCoordinator: TabNavigator {
     }
 
     func openSell(source: PostingSource, postCategory: PostCategory?) {
-        appNavigator?.openSell(source: source, postCategory: postCategory)
+        appNavigator?.openSell(source: source, postCategory: postCategory, listingTitle: nil)
     }
 
     func openAppRating(_ source: EventParameterRatingSource) {
@@ -132,6 +132,10 @@ extension TabCoordinator: TabNavigator {
         switch data {
         case let .conversation(conversation):
             openConversation(conversation, source: source, predefinedMessage: predefinedMessage)
+        case .inactiveConversations:
+            openInactiveConversations()
+        case let .inactiveConversation(conversation):
+            openInactiveConversation(conversation: conversation)
         case let .listingAPI(listing):
             openListingChat(listing, source: source)
         case let .dataIds(conversationId):
@@ -155,6 +159,10 @@ extension TabCoordinator: TabNavigator {
         let vm = UserRatingListViewModel(userId: userId, tabNavigator: self)
         let vc = UserRatingListViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {
+        appNavigator?.openMostSearchedItems(source: source, enableSearch: enableSearch)
     }
     
     func openDeepLink(_ deeplink: DeepLink) {
@@ -211,9 +219,15 @@ fileprivate extension TabCoordinator {
                              discover: Bool, actionOnFirstAppear: ProductCarouselActionOnFirstAppear) {
         guard let listingId = listing.objectId else { return }
         var requestersArray: [ListingListRequester] = []
-        let relatedRequester: ListingListRequester = discover ?
-            DiscoverListingListRequester(listingId: listingId, itemsPerPage: Constants.numListingsPerPageDefault) :
-            RelatedListingListRequester(listingId: listingId, itemsPerPage: Constants.numListingsPerPageDefault)
+        let listingListRequester: ListingListRequester?
+        if discover {
+            listingListRequester = DiscoverListingListRequester(listingId: listingId,
+                                                                itemsPerPage: Constants.numListingsPerPageDefault)
+        } else {
+            listingListRequester = RelatedListingListRequester(listing: listing,
+                                                               itemsPerPage: Constants.numListingsPerPageDefault)
+        }
+        guard let relatedRequester = listingListRequester else { return }
         requestersArray.append(relatedRequester)
 
         // Adding product list after related
@@ -257,7 +271,8 @@ fileprivate extension TabCoordinator {
     func openListing(chatConversation: ChatConversation, source: EventParameterListingVisitSource) {
         guard let localProduct = LocalProduct(chatConversation: chatConversation, myUser: myUserRepository.myUser),
             let listingId = localProduct.objectId else { return }
-        let relatedRequester = RelatedListingListRequester(listingId: listingId, itemsPerPage: Constants.numListingsPerPageDefault)
+        let relatedRequester = RelatedListingListRequester(listingId: listingId,
+                                                           itemsPerPage: Constants.numListingsPerPageDefault)
         let filteredRequester = FilteredListingListRequester( itemsPerPage: Constants.numListingsPerPageDefault, offset: 0)
         let requester = ListingListMultiRequester(requesters: [relatedRequester, filteredRequester])
         let vm = ListingCarouselViewModel(listing: .product(localProduct), listingListRequester: requester,
@@ -321,9 +336,26 @@ fileprivate extension TabCoordinator {
         let vc = ChatViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    func openInactiveConversations() {
+        let vm = ChatInactiveConversationsListViewModel(navigator: self)
+        let vc = ChatInactiveConversationsListViewController(viewModel: vm)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openInactiveConversation(conversation: ChatInactiveConversation) {
+        let vm = ChatInactiveConversationDetailsViewModel(conversation: conversation)
+        let vc = ChatInactiveConversationDetailsViewController(viewModel: vm)
+        vm.delegate = vc
+        vm.navigator = self
+        navigationController.pushViewController(vc, animated: true)
+    }
 
-    func openChatFrom(listing: Listing, source: EventParameterTypePage) {
-        guard let chatVM = ChatViewModel(listing: listing, navigator: self, source: source) else { return }
+    func openChatFrom(listing: Listing, source: EventParameterTypePage, openChatAutomaticMessage: ChatWrapperMessageType?) {
+        guard let chatVM = ChatViewModel(listing: listing,
+                                         navigator: self,
+                                         source: source,
+                                         openChatAutomaticMessage: openChatAutomaticMessage) else { return }
         let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: source == .listingListFeatured)
         navigationController.pushViewController(chatVC, animated: true)
     }
@@ -388,7 +420,7 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 
     func openListingChat(_ listing: Listing, source: EventParameterTypePage) {
-        openChatFrom(listing: listing, source: source)
+        openChatFrom(listing: listing, source: source, openChatAutomaticMessage: nil)
     }
 
     func closeListingAfterDelete(_ listing: Listing) {
@@ -473,6 +505,29 @@ extension TabCoordinator: ListingDetailNavigator {
     func closeFeaturedInfo() {
         rootViewController.dismiss(animated: true, completion: nil)
     }
+
+    func openAskPhoneFor(listing: Listing) {
+        let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing)
+        askNumVM.navigator = self
+        let askNumVC = ProfessionalDealerAskPhoneViewController(viewModel: askNumVM)
+        rootViewController.present(askNumVC, animated: true, completion: nil)
+    }
+
+    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) {
+        var completion: (()->())? = nil
+        if openChat {
+            completion = { [weak self] in
+                var openChatAutomaticMessage: ChatWrapperMessageType? = nil
+                if let phone = withPhoneNum {
+                    openChatAutomaticMessage = .phone(phone)
+                }
+                self?.openChatFrom(listing: listing,
+                                   source: source,
+                                   openChatAutomaticMessage: openChatAutomaticMessage)
+            }
+        }
+        rootViewController.dismiss(animated: true, completion: completion)
+    }
 }
 
 
@@ -501,6 +556,14 @@ extension TabCoordinator: ChatDetailNavigator {
     func openLoginIfNeededFromChatDetail(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void)) {
         openLoginIfNeeded(from: from, style: .popup(LGLocalizedString.chatLoginPopupText),
                           loggedInAction: loggedInAction, cancelAction: nil)
+    }
+}
+
+// MARK: > ChatInactiveDetailNavigator
+
+extension TabCoordinator: ChatInactiveDetailNavigator {
+    func closeChatInactiveDetail() {
+        navigationController.popViewController(animated: true)
     }
 }
 

@@ -6,45 +6,44 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-import Curry
-import Runes
 
+public protocol PaymentItem {
+    var provider: PaymentProvider { get }
+    var itemId: String { get }
+    var providerItemId: String { get }
+}
 
-public struct LGPaymentItem: PaymentItem {
+public struct LGPaymentItem: PaymentItem, Decodable {
     public let provider: PaymentProvider
     public let itemId: String
     public let providerItemId: String
 
-    init(provider: PaymentProvider, itemId: String, providerItemId: String) {
-        self.provider = provider
-        self.itemId = itemId
-        self.providerItemId = providerItemId
-    }
-}
-
-
-extension LGPaymentItem: Decodable {
-
-    /**
-     Expects a json in the form:
-
+    // MARK: Decodable
+    
+    /*
      {
      "provider": "letgo",  // string, possible values, "letgo.apple" is used for hidden items ["letgo", "apple", "google", "letgo.apple"]
      "item_id": "4c72134c5-6586-798" // string, uuid4
      "provider_item_id": "com.letgo.tier1" // string, external provider ID, depending on google, apple, etc.
      }
-
      */
 
-    public static func decode(_ j: JSON) -> Decoded<LGPaymentItem> {
-        let result = curry(LGPaymentItem.init)
-            <^> j <| "provider"
-            <*> j <| "item_id"
-            <*> j <| "provider_item_id"
-        if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGPaymentItem parse error: \(error)")
+    public init(from decoder: Decoder) throws {
+        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        let providerString = try keyedContainer.decode(String.self, forKey: .provider)
+        guard let providerValue = PaymentProvider(rawValue: providerString) else {
+            throw DecodingError.valueNotFound(AccountProvider.self,
+                                              DecodingError.Context(codingPath: [],
+                                                                    debugDescription: "\(providerString)"))
         }
-        return result
+        provider = providerValue
+        itemId = try keyedContainer.decode(String.self, forKey: .itemId)
+        providerItemId = try keyedContainer.decode(String.self, forKey: .providerItemId)
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case provider = "provider"
+        case itemId = "item_id"
+        case providerItemId = "provider_item_id"
     }
 }

@@ -12,7 +12,6 @@ import UIKit
 import CHTCollectionViewWaterfallLayout
 import RxSwift
 
-
 enum SearchSuggestionType {
     case suggestive
     case lastSearch
@@ -33,12 +32,13 @@ enum SearchSuggestionType {
 }
 
 class MainListingsViewController: BaseViewController, ListingListViewScrollDelegate, MainListingsViewModelDelegate,
-    FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop {
+    FilterTagsViewDelegate, UITextFieldDelegate, ScrollableToTop, MainListingsAdsDelegate {
     
     // ViewModel
     var viewModel: MainListingsViewModel
     
     // UI
+    @IBOutlet weak var listingListViewSafeaAreaTopAlignment: NSLayoutConstraint!
     @IBOutlet weak var listingListView: ListingListView!
     
     @IBOutlet weak var tagsContainerView: UIView!
@@ -103,6 +103,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         viewModel.delegate = self
+        viewModel.adsDelegate = self
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
         hasTabBar = true
@@ -148,20 +149,14 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         setupRxBindings()
         setAccessibilityIds()
         
-        view.layoutIfNeeded()
-        topInset.value = topBarHeight + filterHeadersHeight
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        navbarSearch.endEdit()
+        if #available(iOS 11.0, *) {
+            listingListView.collectionView.contentInsetAdjustmentBehavior = .never
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        guard didCallViewDidLoaded else { return }
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        endEdit()
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -170,8 +165,8 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         // ⚠️ not showing the tags collection view causes a crash when trying to reload the collection data
         // ⚠️ while not visible (ABIOS-2696)
         showTagsView(showPrimaryTags: viewModel.primaryTags.count > 0, showSecondaryTags: viewModel.secondaryTags.count > 0, updateInsets: true)
+        endEdit()
     }
-
     
     // MARK: - ScrollableToTop
 
@@ -228,9 +223,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func updateBubbleTopConstraint() {
-        let delta = listingListView.headerBottom - topInset.value
+        let offset: CGFloat = topInset.value
+        let delta = listingListView.headerBottom - offset
         if delta > 0 {
-                infoBubbleTopConstraint.constant = infoBubbleTopMargin + delta
+            infoBubbleTopConstraint.constant = infoBubbleTopMargin + delta
         } else {
             infoBubbleTopConstraint.constant = infoBubbleTopMargin
         }
@@ -249,6 +245,13 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
     func vmFiltersChanged() {
         setFiltersNavBarButton()
+    }
+
+
+    // MARK: - MainListingsAdsDelegate
+
+    func rootViewControllerForAds() -> UIViewController {
+        return self
     }
 
 
@@ -319,8 +322,11 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         self.navigationController?.setNavigationBarHidden(hidden, animated: animated)
     }
 
-    dynamic fileprivate func endEdit() {
-        suggestionsSearchesContainer.isHidden = true
+    @objc fileprivate func endEdit() {
+        // ☢️☢️ Changing tabs when constructing the app from a push notifications calls didDissappear before didLoad
+        if let searchContainer = suggestionsSearchesContainer {
+            searchContainer.isHidden = true
+        }
         setFiltersNavBarButton()
         setInviteNavBarButton()
         navbarSearch.endEdit()
@@ -330,8 +336,10 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
         guard suggestionsSearchesContainer.isHidden else { return }
 
         viewModel.searchBegan()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel , target: self,
-                                                            action: #selector(endEdit))
+        let spacing = makeSpacingButton(withFixedWidth: Metrics.navBarDefaultSpacing)
+        let cancel = UIBarButtonItem(barButtonSystemItem: .cancel , target: self,
+                                     action: #selector(endEdit))
+        navigationItem.setRightBarButtonItems([cancel, spacing], animated: false)
         suggestionsSearchesContainer.isHidden = false
         viewModel.retrieveLastUserSearch()
         navbarSearch.beginEdit()
@@ -340,7 +348,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     /**
         Called when the search button is pressed.
     */
-    dynamic private func filtersButtonPressed(_ sender: AnyObject) {
+    @objc private func filtersButtonPressed(_ sender: AnyObject) {
         navbarSearch.searchTextField.resignFirstResponder()
         viewModel.showFilters()
     }
@@ -378,15 +386,18 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     
     private func setInviteNavBarButton() {
         guard isRootViewController() else { return }
-        guard viewModel.shouldShowInviteButton else { return }
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: LGLocalizedString.mainProductsInviteNavigationBarButton,
-                                                           style: .plain, 
-                                                           target: self, 
-                                                           action: #selector(openInvite))
+        guard viewModel.shouldShowInviteButton  else { return }
+
+        let invite = UIBarButtonItem(title: LGLocalizedString.mainProductsInviteNavigationBarButton,
+                                     style: .plain,
+                                     target: self,
+                                     action: #selector(openInvite))
+        let spacing = makeSpacingButton(withFixedWidth: Metrics.navBarDefaultSpacing)
+
+        navigationItem.setLeftBarButtonItems([invite, spacing], animated: false)
     }
     
-    dynamic private func openInvite() {
+    @objc private func openInvite() {
         viewModel.vmUserDidTapInvite()
     }
     
@@ -399,9 +410,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
         tagsContainerViewHeightConstraint.constant = showPrimaryTags ? filterTagsViewHeight : 0
         if updateInsets {
-            topInset.value = showPrimaryTags ?
-                topBarHeight + filterTagsViewHeight + filterHeadersHeight
-                : topBarHeight
+            updateTopInset()
         }
         view.layoutIfNeeded()
         
@@ -419,7 +428,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
     }
 
-    dynamic private func onBubbleTapped() {
+    @objc private func onBubbleTapped() {
         viewModel.bubbleTapped()
     }
 
@@ -430,48 +439,56 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
     }
 
     private func setupRxBindings() {
-        viewModel.infoBubbleText.asObservable().bindTo(infoBubbleLabel.rx.text).addDisposableTo(disposeBag)
-        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bindTo(infoBubbleShadow.rx.isHidden).addDisposableTo(disposeBag)
+        viewModel.infoBubbleText.asObservable().bind(to: infoBubbleLabel.rx.text).disposed(by: disposeBag)
+        viewModel.infoBubbleVisible.asObservable().map { !$0 }.bind(to: infoBubbleShadow.rx.isHidden).disposed(by: disposeBag)
 
-        topInset.asObservable().bindNext { [weak self] topInset in
-            self?.listingListView.collectionViewContentInset.top = topInset
-        }.addDisposableTo(disposeBag)
+        topInset.asObservable()
+            .bind { [weak self] topInset in
+                self?.listingListView.collectionViewContentInset.top = topInset
+            }.disposed(by: disposeBag)
 
-        viewModel.mainListingsHeader.asObservable().bindNext { [weak self] header in
+        viewModel.mainListingsHeader.asObservable().bind { [weak self] header in
             self?.listingListView.refreshDataView()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        viewModel.errorMessage.asObservable().bindNext { [weak self] errorMessage in
+        viewModel.errorMessage.asObservable().bind { [weak self] errorMessage in
             if let toastTitle = errorMessage {
                 self?.toastView?.title = toastTitle
                 self?.setToastViewHidden(false)
             } else {
                 self?.setToastViewHidden(true)
             }
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         viewModel.filterTitle.asObservable().distinctUntilChanged { (s1, s2) -> Bool in
             s1 == s2
-        }.bindNext { [weak self] filterTitle in
+        }.bind { [weak self] filterTitle in
             guard let strongSelf = self else { return }
             strongSelf.filterTitleHeaderView.text = filterTitle
-            let tagsHeight = strongSelf.primaryTagsShowing ? strongSelf.filterTagsViewHeight : 0
-            strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
-        }.addDisposableTo(disposeBag)
+            self?.updateTopInset()
+        }.disposed(by: disposeBag)
 
-        viewModel.filterDescription.asObservable().bindNext { [weak self] filterDescr in
+        viewModel.filterDescription.asObservable().bind { [weak self] filterDescr in
             guard let strongSelf = self else { return }
             strongSelf.filterDescriptionHeaderView.text = filterDescr
-            let tagsHeight = strongSelf.primaryTagsShowing ? strongSelf.filterTagsViewHeight : 0
-            strongSelf.topInset.value = strongSelf.topBarHeight + tagsHeight + strongSelf.filterHeadersHeight
-        }.addDisposableTo(disposeBag)
+            self?.updateTopInset()
+        }.disposed(by: disposeBag)
         
         navbarSearch.searchTextField?.rx.text.asObservable()
             .subscribeNext { [weak self] text in
                 self?.navBarSearchTextFieldDidUpdate(text: text ?? "")
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
-        navbarSearch.searchTextField.rx.text.asObservable().bindTo(viewModel.searchText).addDisposableTo(disposeBag)
+        navbarSearch.searchTextField.rx.text.asObservable().bind(to: viewModel.searchText).disposed(by: disposeBag)
+    }
+
+    fileprivate func updateTopInset() {
+        let tagsHeight = primaryTagsShowing ? filterTagsViewHeight : 0
+        if isSafeAreaAvailable {
+            topInset.value = tagsHeight + filterHeadersHeight
+        } else {
+            topInset.value = topBarHeight + tagsHeight + filterHeadersHeight
+        }
     }
     
     func navBarSearchTextFieldDidUpdate(text: String) {
@@ -482,7 +499,7 @@ class MainListingsViewController: BaseViewController, ListingListViewScrollDeleg
 
 // MARK: - ListingListViewHeaderDelegate
 
-extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate {
+extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate, RealEstateBannerDelegate {
 
     func totalHeaderHeight() -> CGFloat {
         var totalHeight: CGFloat = 0
@@ -491,6 +508,9 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
         }
         if shouldShowCategoryCollectionBanner {
             totalHeight += CategoriesHeaderCollectionView.viewHeight
+        }
+        if shouldShowRealEstateBanner {
+            totalHeight += RealEstateBanner().intrinsicContentSize.height
         }
         return totalHeight
     }
@@ -503,19 +523,30 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             pushHeader.delegate = self
             header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight)
         }
+       
         if shouldShowCategoryCollectionBanner {
             let screenWidth: CGFloat = UIScreen.main.bounds.size.width
             categoriesHeader = CategoriesHeaderCollectionView(categories: viewModel.categoryHeaderElements,
-                                                              frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight))
+                                                              frame: CGRect(x: 0, y: 0, width: screenWidth, height: CategoriesHeaderCollectionView.viewHeight),
+                                                              categoryHighlighted: viewModel.categoryHeaderHighlighted,
+                                                              isMostSearchedItemsEnabled: viewModel.isMostSearchedItemsEnabled)
             categoriesHeader?.delegateCategoryHeader = viewModel
-            categoriesHeader?.categorySelected.asObservable().bindNext { [weak self] categoryHeaderInfo in
+            categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }
                 self?.viewModel.updateFiltersFromHeaderCategories(category)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
             if let categoriesHeader = categoriesHeader {
                 categoriesHeader.tag = 1
                 header.addHeader(categoriesHeader, height: CategoriesHeaderCollectionView.viewHeight)
             }
+        }
+        
+        if shouldShowRealEstateBanner {
+            let realEstateBanner = RealEstateBanner()
+            realEstateBanner.tag = 2
+            let height = realEstateBanner.intrinsicContentSize.height
+            realEstateBanner.delegate = self
+            header.addHeader(realEstateBanner, height: height)
         }
     }
 
@@ -526,9 +557,16 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
     private var shouldShowCategoryCollectionBanner: Bool {
         return viewModel.mainListingsHeader.value.contains(MainListingsHeader.CategoriesCollectionBanner)
     }
+    private var shouldShowRealEstateBanner: Bool {
+        return viewModel.mainListingsHeader.value.contains(MainListingsHeader.RealEstateBanner)
+    }
 
     func pushPermissionHeaderPressed() {
         viewModel.pushPermissionsHeaderPressed()
+    }
+    
+    func realEstateBannerPressed() {
+        viewModel.navigator?.openSell(source: .realEstatePromo, postCategory: .realEstate)
     }
 }
 
@@ -552,10 +590,10 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
                                  viewModel.suggestiveSearchInfo.asObservable(),
                                  viewModel.lastSearches.asObservable()) { trendings, suggestiveSearches, lastSearches in
             return trendings.count + suggestiveSearches.count + lastSearches.count
-            }.bindNext { [weak self] totalCount in
+            }.bind { [weak self] totalCount in
                 self?.suggestionsSearchesTable.reloadData()
                 self?.suggestionsSearchesTable.isHidden = totalCount == 0
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
                                                          name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -625,7 +663,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
         return container
     }
     
-    dynamic private func cleanSearchesButtonPressed() {
+    @objc private func cleanSearchesButtonPressed() {
         viewModel.cleanUpLastSearches()
     }
     
@@ -633,11 +671,11 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
         endEdit()
     }
 
-    func keyboardWillShow(_ notification: Notification) {
+    @objc func keyboardWillShow(_ notification: Notification) {
         suggestionsSearchesTable.contentInset.bottom = notification.keyboardChange.height
     }
 
-    func keyboardWillHide(_ notification: Notification) {
+    @objc func keyboardWillHide(_ notification: Notification) {
         suggestionsSearchesTable.contentInset.bottom = 0
     }
 
@@ -709,6 +747,7 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navbarSearch.searchTextField.endEditing(true)
         guard let sectionType = SearchSuggestionType.sectionType(index: indexPath.section) else { return }
         switch sectionType {
         case .suggestive:

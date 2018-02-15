@@ -6,46 +6,40 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-import Curry
-import Runes
-
-struct ApiCarsMake: CarsMakeWithModels {
+struct ApiCarsMake: CarsMakeWithModels, Decodable {
     var makeId: String
     var makeName: String
     var models: [CarsModel]
-
-    init(makeId: String, makeName: String, models: [ApiCarsModel]) {
-        self.makeId = makeId
-        self.makeName = makeName
-        self.models = models
-    }
-}
-
-
-extension ApiCarsMake: Decodable {
-
+    
+    // MARK: Decode
+    
     /*
      {
-     "id": "f762a529-6e99-4244-9568-e31b6705edb5", // uuid4
-     "name": "Audi", // string
+     "id": "f762a529-6e99-4244-9568-e31b6705edb5",
+     "name": "Audi",
      "models": [
-        {
-            "id": "b243756c-456b-4132-8a6f-c63758551f77",  // uuid4
-            "name": "A3", // string
-        },
-        ...
+         {
+         "id": "a243756c-456b-4132-8a6f-c63758551f78",
+         "name": "A3",
+         },
+         {
+         "id": "b243756c-456b-4132-8a6f-c63758551f77",
+         "name": "A4",
+         }
      ]
      }
      */
-    public static func decode(_ j: JSON) -> Decoded<ApiCarsMake> {
-        let result1 = curry(ApiCarsMake.init)
-        let result2 = result1 <^> j <| "id"
-        let result3 = result2 <*> j <| "name"
-        let result  = result3 <*> j <|| "models"
-        if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.parsing, message: "ApiCarsMake parse error: \(error)")
-        }
-        return result
+    
+    public init(from decoder: Decoder) throws {
+        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        makeId = try keyedContainer.decode(String.self, forKey: .id)
+        makeName = try keyedContainer.decode(String.self, forKey: .name)
+        models = (try keyedContainer.decode(FailableDecodableArray<ApiCarsModel>.self, forKey: .models)).validElements
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case models
     }
 }

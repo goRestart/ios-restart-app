@@ -1,6 +1,8 @@
 KMPlaceholderTextView
 ============
 
+**:warning: If you are looking for Swift 2.3 compatible version, please take a look at KMPlaceholderTextView 1.2.2 version. :warning:**
+
 A UITextView subclass that adds support for multiline placeholder written in Swift.
 
 ![PlaceholderTextView](https://raw.githubusercontent.com/MoZhouqi/KMPlaceholderTextView/master/Screenshots/preview.gif)
@@ -40,7 +42,9 @@ Simply add the following line to your Podfile:
 platform :ios, '8.0' 
 use_frameworks!
 
-pod 'KMPlaceholderTextView', '~> 1.3.0' 
+target '<Your Target Name>' do
+  pod 'KMPlaceholderTextView', '~> 1.3.0'
+end
 ```
 
 Then, run the following command:
@@ -48,6 +52,11 @@ Then, run the following command:
 ```bash
 $ pod install
 ```
+
+If you are encountering the following warning when using Xcode 8, please make sure to set the Module in the identity inspector of your `KMPlaceholderTextView` in the interface builder to `KMPlaceholderTextView` as well:
+
+
+> warning: IB Designables: Using class UITextView for object with custom class because the class KMPlaceholderTextView does not exist
 
 ### Carthage
 
@@ -70,6 +79,7 @@ github "MoZhouqi/KMPlaceholderTextView" >= 1.3
 
 - iOS 7.0+
 - Xcode 8.0+
+- Swift 3.0+
 
 ## License
 

@@ -49,6 +49,12 @@ class ListingCreationViewController: BaseViewController {
         setStatusBarHidden(true)
     }
     
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        guard let requestFinished = viewModel.finishRequest.value, !requestFinished else { return }
+        loadingView.startAnimating()
+    }
+    
     // MARK: - UI
     
     private func setupUI() {
@@ -59,9 +65,9 @@ class ListingCreationViewController: BaseViewController {
     }
     
     private func setupRx() {
-        viewModel.finishRequest.asObservable().filter{ $0 == true }.bindNext { [weak self] finished in
+        viewModel.finishRequest.asObservable().filter{ $0 == true }.bind { [weak self] finished in
             self?.viewModel.nextStep()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
     
     private func setupConstraints() {

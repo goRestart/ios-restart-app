@@ -97,6 +97,7 @@ class UserView: UIView {
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var ratingsContainer: UIView!
     @IBOutlet weak var ratingsContainerHeight: NSLayoutConstraint!
+    @IBOutlet weak var proImageView: UIImageView!
 
     let userRatings = Variable<Float?>(nil)
 
@@ -109,6 +110,11 @@ class UserView: UIView {
     weak var delegate: UserViewDelegate?
 
     private let disposeBag = DisposeBag()
+    
+    // iOS 11+ draws with auto layout, it looks for the intrinsic content size
+    override var intrinsicContentSize: CGSize {
+        return UILayoutFittingExpandedSize
+    }
 
     
     // MARK: - Lifecycle
@@ -131,21 +137,23 @@ class UserView: UIView {
     
     // MARK: - Public methods
 
-    func setupWith(userAvatar avatar: URL?, userName: String?, userId: String?) {
-        setupWith(userAvatar: avatar, userName: userName, subtitle: nil, userId: userId)
+    func setupWith(userAvatar avatar: URL?, userName: String?, userId: String?, isProfessional: Bool) {
+        setupWith(userAvatar: avatar, userName: userName, subtitle: nil, userId: userId, isProfessional: isProfessional)
     }
 
-    func setupWith(userAvatar avatar: URL?, userName: String?, subtitle: String?, userId: String?) {
+    func setupWith(userAvatar avatar: URL?, userName: String?, subtitle: String?, userId: String?, isProfessional: Bool) {
         let placeholder = LetgoAvatar.avatarWithID(userId, name: userName)
-        setupWith(userAvatar: avatar, placeholder: placeholder, userName: userName, subtitle: subtitle)
+        setupWith(userAvatar: avatar, placeholder: placeholder, userName: userName, subtitle: subtitle, isProfessional: isProfessional)
     }
     
-    func setupWith(userAvatar avatar: URL?, userName: String?, productTitle: String?, productPrice: String?, userId: String?) {
+    func setupWith(userAvatar avatar: URL?, userName: String?, productTitle: String?, productPrice: String?,
+                   userId: String?, isProfessional: Bool) {
         let placeholder = LetgoAvatar.avatarWithID(userId, name: userName)
-        setupWith(userAvatar: avatar, placeholder: placeholder, userName: productTitle, subtitle: productPrice)
+        setupWith(userAvatar: avatar, placeholder: placeholder, userName: productTitle, subtitle: productPrice,
+                  isProfessional: isProfessional)
     }
 
-    func setupWith(userAvatar avatar: URL?, placeholder: UIImage?, userName: String?, subtitle: String?) {
+    func setupWith(userAvatar avatar: URL?, placeholder: UIImage?, userName: String?, subtitle: String?, isProfessional: Bool) {
         if let avatar = avatar, avatar != avatarURL {
             avatarURL = avatar
             userAvatarImageView.image = placeholder
@@ -159,7 +167,7 @@ class UserView: UIView {
         }
         titleLabel.text = userName
         subtitleLabel.text = subtitle
-        
+        proImageView.isHidden = !isProfessional
         if style.textHasShadow {
             [titleLabel, subtitleLabel].forEach { label in
                 label?.layer.shadowColor = UIColor.black.cgColor
@@ -195,6 +203,8 @@ class UserView: UIView {
         subtitleLabel.font = style.subtitleLabelFont
         subtitleLabel.textColor = style.subtitleLabelColor
 
+        proImageView.isHidden = true
+
         if let borderColor = style.avatarBorderColor {
             userAvatarImageView.layer.borderWidth = 2
             userAvatarImageView.layer.borderColor = borderColor.cgColor
@@ -208,7 +218,7 @@ class UserView: UIView {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(avatarLongPressed(_:)))
         addGestureRecognizer(longPressGesture)
 
-        userRatings.asObservable().bindNext { [weak self] userRating in
+        userRatings.asObservable().bind { [weak self] userRating in
             let rating = userRating ?? 0
             if rating > 0 {
                 self?.ratingsContainerHeight.constant = UserView.ratingsViewVisibleHeight
@@ -217,20 +227,20 @@ class UserView: UIView {
                 self?.ratingsContainerHeight.constant = 0
             }
             self?.subtitleLabel.isHidden = rating > 0
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         setAccesibilityIds()
     }
 
-    dynamic private func avatarPressed() {
+    @objc private func avatarPressed() {
         delegate?.userViewAvatarPressed(self)
     }
     
-    dynamic private func textPressed() {
+    @objc private func textPressed() {
         delegate?.userViewTextInfoContainerPressed(self)
     }
 
-    dynamic private func avatarLongPressed(_ recognizer: UILongPressGestureRecognizer) {
+    @objc private func avatarLongPressed(_ recognizer: UILongPressGestureRecognizer) {
         switch recognizer.state {
         case .began:
             delegate?.userViewAvatarLongPressStarted(self)

@@ -6,7 +6,7 @@
 //  Copyright © 2017 Ambatana Inc. All rights reserved.
 //
 
-public enum Listing: BaseListingModel, Priceable {
+public enum Listing: BaseListingModel, Priceable, Decodable {
     case product(Product)
     case car(Car)
     case realEstate(RealEstate)
@@ -215,5 +215,113 @@ public enum Listing: BaseListingModel, Priceable {
             let newRealEstate = lgRealEstate.updating(status: status)
             return Listing.realEstate(newRealEstate)
         }
+    }
+    
+    
+    // MARK: - Decodable
+    
+    /**
+     Expects a json in the form of (many times):
+     
+     {
+     "id": "0af7ebed-f285-4e84-8630-d1555ddbf102",
+     "name": "",
+     "category_id": 1,
+     "language_code": "US",
+     "description": "Selling a brand new, never opened FitBit, I'm asking for $75 negotiable.",
+     "price": 75,
+     "price_flag": 1,   // Can be 0 (normal), 1 (free), 2 (Negotiable), 3 (Firm price)
+     "currency": "USD",
+     "status": 1,
+     "geo": {
+     "lat": 40.733637875435,
+     "lng": -73.982275536568,
+     "country_code": "US",
+     "city": "New York",
+     "zip_code": "10003",
+     "distance": 11.90776294472
+     },
+     "owner": {
+     "id": "56da24a0-88d4-4956-a568-74739787051f",
+     "name": "GeralD1507",
+     "avatar_url": null,
+     "zip_code": "10003",
+     "country_code": "US",
+     "is_richy": false,
+     "city": "New York",
+     "banned": null
+     },
+     "images": [{
+     "url": "http:\/\/cdn.letgo.com\/images\/59\/1d\/f8\/22\/591df822060703afad9834d095ed4c2f.jpg",
+     "id": "8ecdfe97-a7ed-4068-b4b8-c68a5ae63540"
+     }],
+     "thumb": {
+     "url": "http:\/\/cdn.letgo.com\/images\/59\/1d\/f8\/22\/591df822060703afad9834d095ed4c2f_thumb.jpg",
+     "width": 576,
+     "height": 1024
+     },
+     "created_at": "2016-04-11T12:49:52+00:00",
+     "updated_at": "2016-04-11T13:13:23+00:00",
+     "image_information": "black fitbit wireless activity wristband",
+     "featured": false
+     }
+     
+     
+     category_id will decide which type of listing should be parsed to
+     
+     */
+    
+    public init(from decoder: Decoder) throws {
+        let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
+        // Generic Listings: from Feed, Products search/filters, Cars search/filters
+        if let categoryIdFeedAndProductsAndCars: Int = try keyedContainer.decodeIfPresent(Int.self, forKey: .categoryIdFeedAndProductsAndCars) {
+            let category: ListingCategory = ListingCategory(rawValue: categoryIdFeedAndProductsAndCars) ?? .unassigned
+            switch category {
+            case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
+                 .fashionAndAccesories, .babyAndChild, .other:
+                let product = try LGProduct(from: decoder)
+                self = Listing.product(product)
+            case .cars:
+                let car = try LGCar(from: decoder)
+                self = Listing.car(car)
+            case .realEstate:
+                let product = try LGProduct(from: decoder)
+                let realEstate = LGRealEstate(product: product)
+                self = Listing.realEstate(realEstate)
+            }
+            // New verticals listings, from New verticals search/filters
+        } else if let categoryIdRealEstate: Int = try keyedContainer.decodeIfPresent(Int.self, forKey: .categoryIdNewVerticals) {
+            if let category: ListingCategory = ListingCategory(rawValue: categoryIdRealEstate) {
+                switch category {
+                case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
+                     .fashionAndAccesories, .babyAndChild, .other, .cars:
+                    throw DecodingError.typeMismatch(
+                        Listing.self,
+                        DecodingError.Context(codingPath: [],
+                                              debugDescription: "invalid category for \(CodingKeys.categoryIdNewVerticals.rawValue)")
+                    )
+                case .realEstate:
+                    let realEstate = try LGRealEstate(from: decoder)
+                    self = Listing.realEstate(realEstate)
+                }
+            } else {
+                throw DecodingError.typeMismatch(
+                    Listing.self,
+                    DecodingError.Context(codingPath: [],
+                                          debugDescription: "Category not handled")
+                )
+            }
+        } else {
+            throw DecodingError.typeMismatch(
+                Listing.self,
+                DecodingError.Context(codingPath: [],
+                                      debugDescription: "Could not parse category from \(decoder)")
+            )
+        }
+    }
+        
+    enum CodingKeys: String, CodingKey {
+        case categoryIdFeedAndProductsAndCars = "category_id"
+        case categoryIdNewVerticals = "categoryId"
     }
 }

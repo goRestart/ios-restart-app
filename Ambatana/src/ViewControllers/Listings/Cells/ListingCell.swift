@@ -16,14 +16,6 @@ protocol ListingCellDelegate: class {
 
 class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
     
-    struct LayoutConstants {
-        static let minHeight: CGFloat = 80.0
-        static let aspectRatio: CGFloat = 198.0 / minHeight
-        static let bannerAspectRatio: CGFloat = 1.3
-        static let maxThumbFactor: CGFloat = 2.0
-        static let featuredInfoMinHeight: CGFloat = 105.0
-        static let priceViewHeight: CGFloat = 30.0
-    }
     static let reusableID = "ListingCell"
     static let buttonsContainerShownHeight: CGFloat = 34
     static let stripeIconWidth: CGFloat = 14
@@ -232,7 +224,7 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
 
     // Sets up the UI
     private func setupUI() {
-        cellContent.layer.cornerRadius = LGUIKitConstants.listingCellCornerRadius
+        cellContent.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
         let rotation = CGFloat(Double.pi/4)
         stripeInfoView.transform = CGAffineTransform(rotationAngle: rotation)
         stripeLabel.textColor = UIColor.redText
@@ -251,7 +243,7 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         relatedListingButton.layout(with: cellContent).proportionalWidth(multiplier: 0.3,
                                                                          add: 0,
                                                                          relatedBy: .equal,
-                                                                         priority: UILayoutPriorityRequired,
+                                                                         priority: UILayoutPriority.required,
                                                                          constraintBlock: nil)
         relatedListingButton.layout().widthProportionalToHeight()
 
@@ -278,7 +270,7 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         relatedListingButton.compress()
     }
 
-    dynamic private func openChat() {
+    @objc private func openChat() {
         guard let listing = listing else { return }
         delegate?.chatButtonPressedFor(listing: listing)
     }

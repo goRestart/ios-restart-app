@@ -21,7 +21,18 @@ import JWT
 ### Encoding a claim
 
 ```swift
-JWT.encode(["my": "payload"], algorithm: .hs256("secret".data(using: .utf8)!))
+JWT.encode(claims: ["my": "payload"], algorithm: .hs256("secret".data(using: .utf8)!))
+```
+
+#### Encoding a claim set
+
+```swift
+var claims = ClaimSet()
+claims.issuer = "fuller.li"
+claims.issuedAt = Date()
+claims["custom"] = "Hi"
+
+JWT.encode(claims: claims, algorithm, algorithm: .hs256("secret".data(using: .utf8)))
 ```
 
 #### Building a JWT with the builder pattern
@@ -40,8 +51,8 @@ When decoding a JWT, you must supply one or more algorithms and keys.
 
 ```swift
 do {
-  let payload = try JWT.decode("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.2_8pWJfyPup0YwOXK7g9Dn0cF1E3pdn299t4hSeJy5w", algorithm: .hs256("secret".data(using: .utf8)!))
-  print(payload)
+  let claims: ClaimSet = try JWT.decode("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.2_8pWJfyPup0YwOXK7g9Dn0cF1E3pdn299t4hSeJy5w", algorithm: .hs256("secret".data(using: .utf8)!))
+  print(claims)
 } catch {
   print("Failed to decode JWT: \(error)")
 }
@@ -55,6 +66,12 @@ try JWT.decode("eyJh...5w", algorithms: [
   .hs256("secret2".data(using: .utf8)!),
   .hs512("secure".data(using: .utf8)!)
 ])
+```
+
+You might also want to give your iat, exp and nbf checks some kind of leeway to account for skewed clocks. You can do this by passing a `leeway` parameter like this:
+
+```swift
+try JWT.decode("eyJh...5w", algorithm: .hs256("secret".data(using: .utf8)!), leeway: 10)
 ```
 
 #### Supported claims
@@ -79,4 +96,3 @@ This library supports the following algorithms:
 ## License
 
 JSONWebToken is licensed under the BSD license. See [LICENSE](LICENSE) for more info.
-

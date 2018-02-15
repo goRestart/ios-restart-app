@@ -95,13 +95,20 @@ class ExpressChatViewModel: BaseViewModel {
         let freePostingModeAllowed = featureFlags.freePostingModeAllowed
 
         for listing in selectedListings.value {
-            chatWrapper.sendMessageFor(listing: listing, type:.expressChat(messageText.value)) { result in
+            chatWrapper.sendMessageFor(listing: listing, type:.expressChat(messageText.value)) { [weak self] result in
+                guard let strongSelf = self else { return }
                 if let value = result.value {
-                    ExpressChatViewModel.singleMessageTrackings(tracker, shouldSendAskQuestion: value, listing: listing,
-                                                                     freePostingModeAllowed: freePostingModeAllowed)
+                    ExpressChatViewModel.singleMessageTrackings(tracker,
+                                                                shouldSendAskQuestion: value,
+                                                                listing: listing,
+                                                                freePostingModeAllowed: freePostingModeAllowed,
+                                                                containsEmoji: strongSelf.messageText.value.containsEmoji)
                 } else if let error = result.error {
-                    ExpressChatViewModel.singleMessageTrackingError(tracker, listing: listing,
-                                                                         freePostingModeAllowed: freePostingModeAllowed, error: error)
+                    ExpressChatViewModel.singleMessageTrackingError(tracker,
+                                                                    listing: listing,
+                                                                    freePostingModeAllowed: freePostingModeAllowed,
+                                                                    containsEmoji: strongSelf.messageText.value.containsEmoji,
+                                                                    error: error)
                 }
             }
         }
@@ -149,17 +156,17 @@ class ExpressChatViewModel: BaseViewModel {
 
         selectedListings.asObservable().subscribeNext { [weak self] listings in
             self?.selectedItemsCount.value = listings.count
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         selectedItemsCount.asObservable().subscribeNext { [weak self] numSelected in
             self?.sendMessageTitle.value = numSelected > 1 ?
                 LGLocalizedString.chatExpressContactVariousButtonText(String(numSelected)) :
                 LGLocalizedString.chatExpressContactOneButtonText
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         selectedItemsCount.asObservable().subscribeNext { [weak self] selectedCount in
             self?.sendButtonEnabled.value = selectedCount > 0
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 }
 
@@ -167,9 +174,14 @@ class ExpressChatViewModel: BaseViewModel {
 // MARK: - Tracking
 
 extension ExpressChatViewModel {
-    static func singleMessageTrackings(_ tracker: Tracker, shouldSendAskQuestion: Bool, listing: Listing,
-                                            freePostingModeAllowed: Bool) {
-        guard let info = buildSendMessageInfo(withListing: listing, freePostingModeAllowed: freePostingModeAllowed,
+    static func singleMessageTrackings(_ tracker: Tracker,
+                                       shouldSendAskQuestion: Bool,
+                                       listing: Listing,
+                                       freePostingModeAllowed: Bool,
+                                       containsEmoji: Bool) {
+        guard let info = buildSendMessageInfo(withListing: listing,
+                                              freePostingModeAllowed: freePostingModeAllowed,
+                                              containsEmoji: containsEmoji,
                                               error: nil) else { return }
         if shouldSendAskQuestion {
             tracker.trackEvent(TrackerEvent.firstMessage(info: info,
@@ -179,14 +191,21 @@ extension ExpressChatViewModel {
         tracker.trackEvent(TrackerEvent.userMessageSent(info: info))
     }
 
-    static func singleMessageTrackingError(_ tracker: Tracker, listing: Listing,
-                                                freePostingModeAllowed: Bool, error: RepositoryError) {
-        guard let info = buildSendMessageInfo(withListing: listing, freePostingModeAllowed: freePostingModeAllowed,
+    static func singleMessageTrackingError(_ tracker: Tracker,
+                                           listing: Listing,
+                                           freePostingModeAllowed: Bool,
+                                           containsEmoji: Bool,
+                                           error: RepositoryError) {
+        guard let info = buildSendMessageInfo(withListing: listing,
+                                              freePostingModeAllowed: freePostingModeAllowed,
+                                              containsEmoji: containsEmoji,
                                               error: error) else { return }
         tracker.trackEvent(TrackerEvent.userMessageSentError(info: info))
     }
 
-    private static func buildSendMessageInfo(withListing listing: Listing, freePostingModeAllowed: Bool,
+    private static func buildSendMessageInfo(withListing listing: Listing,
+                                             freePostingModeAllowed: Bool,
+                                             containsEmoji: Bool,
                                              error: RepositoryError?) -> SendMessageTrackingInfo? {
         let sendMessageInfo = SendMessageTrackingInfo()
             .set(listing: listing, freePostingModeAllowed: freePostingModeAllowed)
@@ -194,6 +213,7 @@ extension ExpressChatViewModel {
             .set(quickAnswerType: nil)
             .set(typePage: .expressChat)
             .set(isBumpedUp: .falseParameter)
+            .set(containsEmoji: containsEmoji)
 
         if let error = error {
             sendMessageInfo.set(error: error.chatError)

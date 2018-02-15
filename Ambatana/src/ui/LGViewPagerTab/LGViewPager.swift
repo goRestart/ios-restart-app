@@ -561,7 +561,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
     // MARK: > Actions
 
-    private dynamic func tabMenuItemPressed(_ sender: LGViewPagerTabItem) {
+    @objc private dynamic func tabMenuItemPressed(_ sender: LGViewPagerTabItem) {
         changeSelectedTab(sender, animated: true)
     }
     

@@ -9,6 +9,7 @@
 public protocol UserRating: BaseModel {
     var userToId: String { get }
     var userFrom: UserListing { get }
+    var listingId: String? { get }
     var type: UserRatingType { get }
     var value: Int { get }
     var comment: String? { get }
@@ -19,8 +20,8 @@ public protocol UserRating: BaseModel {
 
 public enum UserRatingType {
     case conversation
-    case seller(listingId: String)
-    case buyer(listingId: String)
+    case seller
+    case buyer    
 }
 
 public enum UserRatingStatus: Int {

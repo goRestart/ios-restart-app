@@ -6,32 +6,22 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-import Argo
-import Curry
-import Runes
-
-struct LGChatUnreadMessages: ChatUnreadMessages {
-    let totalUnreadMessages: Int
-
-    init(totalUnreadMessages: Int) {
-        self.totalUnreadMessages = totalUnreadMessages
-    }
+public protocol ChatUnreadMessages {
+    var totalUnreadMessages: Int { get }
 }
 
-extension LGChatUnreadMessages : Decodable {
-
-    /**
-     Expects a json in the form:
+struct LGChatUnreadMessages: ChatUnreadMessages, Decodable {
+    let totalUnreadMessages: Int
+    
+    // MARK: Decodable
+    
+    /*
      {
-        "total_unread_messages_count": 2,
+     "total_unread_messages_count": 2
      }
      */
-    static func decode(_ j: JSON) -> Decoded<LGChatUnreadMessages> {
-        let result1 = curry(LGChatUnreadMessages.init)
-        let result  = result1 <^> j <| "total_unread_messages_count"
-        if let error = result.error {
-            logMessage(.error, type: CoreLoggingOptions.parsing, message: "LGChatUnreadMessages parse error: \(error)")
-        }
-        return result
+    
+    enum CodingKeys: String, CodingKey {
+        case totalUnreadMessages = "total_unread_messages_count"
     }
 }

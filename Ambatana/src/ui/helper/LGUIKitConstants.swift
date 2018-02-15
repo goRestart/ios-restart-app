@@ -42,17 +42,9 @@ struct LGUIKitConstants {
     static let tooltipWidth: CGFloat = 270
 
     // MARK: - Corner radius
-    static let defaultCornerRadius: CGFloat = 4
-    static let listingCellCornerRadius: CGFloat = 10
-    static let galleryCellCornerRadius: CGFloat = 10
-    static let notificationCellCornerRadius: CGFloat = 10
-    static let chatTextViewCornerRadius: CGFloat = 10
-    static let tooltipCornerRadius: CGFloat = 10
-    static let chatCellCornerRadius: CGFloat = 10
-    static let textfieldCornerRadius: CGFloat = 10
-    static let alertCornerRadius: CGFloat = 15
-    static let mapCornerRadius: CGFloat = 15
-    static let containerCornerRadius: CGFloat = 15
+    static let smallCornerRadius: CGFloat = 4
+    static let mediumCornerRadius: CGFloat = 10
+    static let bigCornerRadius: CGFloat = 15
     
     // MARK: - Button Heights
     static let bigButtonHeight: CGFloat = 50
@@ -75,4 +67,7 @@ struct LGUIKitConstants {
     // MARK: - Animation
 
     static let defaultAnimationTime: TimeInterval = 0.2
+
+    // MARK: - Ads
+    static let advertisementCellPlaceholderHeight: CGFloat = 220
 }

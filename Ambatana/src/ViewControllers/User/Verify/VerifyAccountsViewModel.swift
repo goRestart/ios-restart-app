@@ -15,13 +15,6 @@ protocol VerifyAccountsViewModelDelegate: BaseViewModelDelegate {
     func vmResignResponders()
 }
 
-enum VerifyButtonState: Equatable {
-    case hidden
-    case enabled
-    case disabled
-    case loading
-}
-
 enum VerifyAccountsSource {
     case chat(title: String, description: String)
     case profile(title: String, description: String)
@@ -44,10 +37,10 @@ class VerifyAccountsViewModel: BaseViewModel {
 
     var completionBlock: (() -> Void)?
 
-    let fbButtonState = Variable<VerifyButtonState>(.hidden)
-    let googleButtonState = Variable<VerifyButtonState>(.hidden)
-    let emailButtonState = Variable<VerifyButtonState>(.hidden)
-    let typedEmailState = Variable<VerifyButtonState>(.hidden)
+    let fbButtonState = Variable<ButtonState>(.hidden)
+    let googleButtonState = Variable<ButtonState>(.hidden)
+    let emailButtonState = Variable<ButtonState>(.hidden)
+    let typedEmailState = Variable<ButtonState>(.hidden)
     private(set) var emailRequiresInput = false
     let typedEmail = Variable<String>("")
 
@@ -162,10 +155,10 @@ class VerifyAccountsViewModel: BaseViewModel {
                 guard let actionState = self?.typedEmailState.value, let buttonState = self?.emailButtonState.value else { return false }
                 return actionState != .loading && buttonState == .hidden
             }
-            .map{ $0.isEmail() ? VerifyButtonState.enabled : VerifyButtonState.disabled }
-            .bindNext { [weak self] state in
+            .map{ $0.isEmail() ? ButtonState.enabled : ButtonState.disabled }
+            .bind { [weak self] state in
                 self?.typedEmailState.value = state
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 }
 

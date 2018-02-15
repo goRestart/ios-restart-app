@@ -22,6 +22,7 @@ protocol ProductCarouselMoreInfoDelegate: class {
     func didEndScrolling(_ topOverScroll: CGFloat, bottomOverScroll: CGFloat)
     func request(fullScreen: Bool)
     func viewControllerToShowShareOptions() -> UIViewController
+    func rootViewControllerForDFPBanner() -> UIViewController
 }
 
 extension MKMapView {
@@ -32,6 +33,10 @@ extension MKMapView {
 class ListingCarouselMoreInfoView: UIView {
 
     fileprivate static let relatedItemsHeight: CGFloat = 80
+    fileprivate static let shareViewToMapMargin: CGFloat = 30
+    fileprivate static let navBarDefaultHeight: CGFloat = 64
+    fileprivate static let shareViewToBannerMargin = Metrics.margin
+    fileprivate static let dragViewVerticalExtraMargin: CGFloat = 7 // Center purposes to the custom navigation bar in carousel view
 
     @IBOutlet weak var titleText: UITextView!
     @IBOutlet weak var priceLabel: UILabel!
@@ -44,6 +49,7 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var visualEffectViewBottom: NSLayoutConstraint!
     @IBOutlet weak var descriptionLabel: LGCollapsibleLabel!
+    @IBOutlet weak var tagCollectionView: TagCollectionView!
     @IBOutlet weak var statsContainerView: UIView!
     @IBOutlet weak var statsContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var statsContainerViewTopConstraint: NSLayoutConstraint!
@@ -62,7 +68,13 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var bannerContainerViewLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var bannerContainerViewRightConstraint: NSLayoutConstraint!
 
+    @IBOutlet var shareViewToMapTopConstraint: NSLayoutConstraint!
+    @IBOutlet var shareViewToBannerTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var dragViewToVisualEffectConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scrollViewToSuperviewTopConstraint: NSLayoutConstraint!
+    
     var bannerView: GADSearchBannerView?
+    var dfpBannerView: DFPBannerView?
 
     @IBOutlet weak var socialShareContainer: UIView!
     @IBOutlet weak var socialShareTitleLabel: UILabel!
@@ -82,11 +94,14 @@ class ListingCarouselMoreInfoView: UIView {
 
     weak var viewModel: ListingCarouselViewModel?
     weak var delegate: ProductCarouselMoreInfoDelegate?
+    
+    fileprivate var tagCollectionViewModel: TagCollectionViewModel?
 
     static func moreInfoView() -> ListingCarouselMoreInfoView {
         guard let view = Bundle.main.loadNibNamed("ListingCarouselMoreInfoView", owner: self, options: nil)?.first
             as? ListingCarouselMoreInfoView else { return ListingCarouselMoreInfoView() }
         view.setupUI()
+        view.setupTagCollectionView()
         view.setupStatsView()
         view.setAccessibilityIds()
         view.addGestures()
@@ -108,7 +123,7 @@ class ListingCarouselMoreInfoView: UIView {
         setupBottomPanelRx(viewModel: viewModel)
         self.viewModel = viewModel
         if viewModel.adActive {
-            setupBannerWith(viewModel: viewModel)
+            setupAdBannerWith(viewModel: viewModel)
         }
     }
 
@@ -118,9 +133,26 @@ class ListingCarouselMoreInfoView: UIView {
             if let adBannerTrackingStatus = viewModel?.adBannerTrackingStatus {
                 viewModel?.adAlreadyRequestedWithStatus(adBannerTrackingStatus: adBannerTrackingStatus)
             } else {
-                loadAFShoppingRequest()
+                shareViewToMapTopConstraint.isActive = true
+                shareViewToBannerTopConstraint.isActive = true
+                if let useAFSh = viewModel?.afshAdActive, useAFSh {
+                    loadAFShoppingRequest()
+                } else {
+                    loadDFPRequest()
+                }
             }
+        } else {
+            hideAdsBanner()
         }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // We need to call invalidateLayout in the CollectionView to fix what appears to be an iOS 10 UIKit bug:
+        // https://stackoverflow.com/a/44467194
+        tagCollectionView.collectionViewLayout.invalidateLayout()
+        mapView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
+        dragView.layer.cornerRadius = dragView.height / 2.0
     }
 
     func dismissed() {
@@ -131,6 +163,13 @@ class ListingCarouselMoreInfoView: UIView {
     deinit {
         // MapView is a shared instance and all references must be removed
         cleanMapView()
+    }
+    
+    
+    // MARK: - UI
+    
+    func updateDragViewVerticalConstraint(statusBarHeight: CGFloat) {
+        dragViewToVisualEffectConstraint.constant = statusBarHeight + ListingCarouselMoreInfoView.dragViewVerticalExtraMargin
     }
 }
 
@@ -162,12 +201,12 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
 
     fileprivate func setupMapRx(viewModel: ListingCarouselViewModel) {
         let productLocation = viewModel.productInfo.asObservable().map { $0?.location }.unwrap()
-        productLocation.bindNext { [weak self] coordinate in
+        productLocation.bind { [weak self] coordinate in
             self?.addRegion(with: coordinate, zoomBlocker: true)
             self?.setupMapExpanded(false)
             self?.locationZone = MKCircle(center:coordinate.coordinates2DfromLocation(),
                                     radius: Constants.accurateRegionRadius)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     private func layoutMapView(inside container: UIView) {
@@ -208,7 +247,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         }
     }
     
-    dynamic func didTapMap() {
+    @objc func didTapMap() {
         mapExpanded ? compressMap() : expandMap()
     }
 
@@ -258,7 +297,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
         })
     }
     
-    func compressMap() {
+    @objc func compressMap() {
         guard mapExpanded else { return }
 
         self.delegate?.request(fullScreen: false)
@@ -318,56 +357,114 @@ extension ListingCarouselMoreInfoView: UIScrollViewDelegate {
 
 fileprivate extension ListingCarouselMoreInfoView {
     func setupUI() {
-        
+        report(AppReport.uikit(error: .breadcrumb), message: "Setup UI start")
+
         setupMapView(inside: mapViewContainer)
-        mapView.layer.cornerRadius = LGUIKitConstants.mapCornerRadius
+        report(AppReport.uikit(error: .breadcrumb), message: "setupMapView")
+
+        mapView.cornerRadius = LGUIKitConstants.bigCornerRadius
         mapView.clipsToBounds = true
+        report(AppReport.uikit(error: .breadcrumb), message: "mapView.clipToBounds")
 
         titleText.textColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "titleText.textColor")
+
         titleText.font = UIFont.productTitleFont
+        report(AppReport.uikit(error: .breadcrumb), message: "titleText.font")
+
         titleText.linkTextAttributes = [:]
+        report(AppReport.uikit(error: .breadcrumb), message: "titleText.linkTextAttributes")
+
         titleText.textContainerInset = UIEdgeInsets.zero
+        report(AppReport.uikit(error: .breadcrumb), message: "titleText.textContainerInset")
+
         titleText.textContainer.lineFragmentPadding = 0
+        report(AppReport.uikit(error: .breadcrumb), message: "titleText.textContainer")
+
         titleText.delegate = self
-        
+        report(AppReport.uikit(error: .breadcrumb), message: "titleText.delegate")
+
         priceLabel.textColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "priceLabel.textColor")
+
         priceLabel.font = UIFont.productPriceFont
-        
+        report(AppReport.uikit(error: .breadcrumb), message: "priceLabel.font")
+
         autoTitleLabel.textColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "autoTitleLabel.textColor")
+
         autoTitleLabel.font = UIFont.productTitleDisclaimersFont
+        report(AppReport.uikit(error: .breadcrumb), message: "autoTitleLabel.font")
+
         autoTitleLabel.alpha = 0.5
-        
+        report(AppReport.uikit(error: .breadcrumb), message: "autoTitleLabel.alpha")
+
         transTitleLabel.textColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "transTitleLabel.textColor")
+
         transTitleLabel.font = UIFont.productTitleDisclaimersFont
+        report(AppReport.uikit(error: .breadcrumb), message: "transTitleLabel.font")
+
         transTitleLabel.alpha = 0.5
+        report(AppReport.uikit(error: .breadcrumb), message: "transTitleLabel.alpha")
+
         
         addressLabel.textColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "addressLabel.textColor")
+
         addressLabel.font = UIFont.productAddresFont
-        
+        report(AppReport.uikit(error: .breadcrumb), message: "addressLabel.font")
+
         distanceLabel.textColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "distanceLabel.textColor")
+
         distanceLabel.font = UIFont.productDistanceFont
+        report(AppReport.uikit(error: .breadcrumb), message: "distanceLabel.font")
+
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleDescriptionState))
         descriptionLabel.delegate = self
         descriptionLabel.linkTextAttributes = [:]
+        report(AppReport.uikit(error: .breadcrumb), message: "descriptionLabel.linkTextAttributes")
+
         descriptionLabel.textColor = UIColor.grayLight
+        report(AppReport.uikit(error: .breadcrumb), message: "descriptionLabel.textColor")
+
+
         descriptionLabel.addGestureRecognizer(tapGesture)
         descriptionLabel.expandText = LGLocalizedString.commonExpand.localizedUppercase
         descriptionLabel.collapseText = LGLocalizedString.commonCollapse.localizedUppercase
         descriptionLabel.gradientColor = .clear
+        report(AppReport.uikit(error: .breadcrumb), message: "descriptionLabel.gradientColor")
+
         descriptionLabel.expandTextColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "dragView.rounded")
+
 
         setupSocialShareView()
 
-        dragView.rounded = true
+        dragView.clipsToBounds = true
+        report(AppReport.uikit(error: .breadcrumb), message: "dragView.rounded")
+
         dragView.layer.borderColor = UIColor.white.cgColor
+        report(AppReport.uikit(error: .breadcrumb), message: "dragView.layer.borderColor")
+
         dragView.layer.borderWidth = 1
+        report(AppReport.uikit(error: .breadcrumb), message: "dragView.layer.borderWidth")
+
         dragView.backgroundColor = .clear
+        report(AppReport.uikit(error: .breadcrumb), message: "dragView.backgroundColor")
+
         
         dragViewTitle.text = LGLocalizedString.productMoreInfoOpenButton
+        report(AppReport.uikit(error: .breadcrumb), message: "dragViewTitle.text")
+
         dragViewTitle.textColor = UIColor.white
+        report(AppReport.uikit(error: .breadcrumb), message: "dragViewTitle.textColor")
+
         dragViewTitle.font = UIFont.systemSemiBoldFont(size: 13)
-        
+        report(AppReport.uikit(error: .breadcrumb), message: "dragViewTitle.font")
+
         [dragView, dragViewTitle, dragViewImage].forEach { view in
             view?.layer.shadowColor = UIColor.black.cgColor
             view?.layer.shadowOpacity = 0.5
@@ -375,8 +472,26 @@ fileprivate extension ListingCarouselMoreInfoView {
             view?.layer.shadowOffset = CGSize.zero
             view?.layer.masksToBounds = false
         }
-        
+        report(AppReport.uikit(error: .breadcrumb), message: "view?.layer")
+
+        if #available(iOS 11, *) {
+            scrollViewToSuperviewTopConstraint.constant = safeAreaInsets.top
+        } else {
+            scrollViewToSuperviewTopConstraint.constant = ListingCarouselMoreInfoView.navBarDefaultHeight
+        }
+        report(AppReport.uikit(error: .breadcrumb), message: "scrollViewToSuperviewTopConstraint.constant")
+
         scrollView.delegate = self
+    }
+    
+    func setupTagCollectionView() {
+        report(AppReport.uikit(error: .breadcrumb), message: "setupTagCollectionView")
+        tagCollectionViewModel = TagCollectionViewModel(tags: [], cellStyle: .blackBackground, delegate: tagCollectionView)
+        report(AppReport.uikit(error: .breadcrumb), message: "TagCollectionViewModel init")
+        tagCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.reusableID)
+        report(AppReport.uikit(error: .breadcrumb), message: "tagCollectionView.register(TagCollectionViewCell.self,")
+        tagCollectionView.dataSource = tagCollectionViewModel
+        tagCollectionView.defaultSetup()
     }
 
     func setupStatsView() {
@@ -414,18 +529,25 @@ fileprivate extension ListingCarouselMoreInfoView {
         }
     }
 
+    fileprivate func hideAdsBanner() {
+        bannerContainerView.isHidden = true
+        bannerContainerViewHeightConstraint.constant = 0
+        if shareViewToMapTopConstraint.isActive {
+            shareViewToMapTopConstraint.constant = ListingCarouselMoreInfoView.shareViewToMapMargin
+        }
+    }
 
     // MARK: > Configuration (each view model)
 
     func setupContentRx(viewModel: ListingCarouselViewModel) {
 
-        let statusAndChat = Observable.combineLatest(viewModel.status.asObservable(), viewModel.directChatEnabled.asObservable()) { $0 }
-        statusAndChat.bindNext { [weak self] (status, chatEnabled) in
+        let statusAndChat = Observable.combineLatest(viewModel.status.asObservable(), viewModel.directChatEnabled.asObservable()) { ($0, $1) }
+        statusAndChat.bind { [weak self] (status, chatEnabled) in
             self?.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0,
                                                          bottom: status.scrollBottomInset(chatEnabled: chatEnabled), right: 0)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        viewModel.productInfo.asObservable().unwrap().bindNext { [weak self] info in
+        viewModel.productInfo.asObservable().unwrap().bind { [weak self] info in
             self?.titleText.attributedText = info.styledTitle
             self?.priceLabel.text = info.price
             self?.autoTitleLabel.text = info.titleAutoGenerated ? LGLocalizedString.productAutoGeneratedTitleLabel : nil
@@ -434,54 +556,83 @@ fileprivate extension ListingCarouselMoreInfoView {
             self?.distanceLabel.text = info.distance
             self?.descriptionLabel.mainAttributedText = info.styledDescription
             self?.descriptionLabel.setNeedsLayout()
-        }.addDisposableTo(disposeBag)
+            self?.tagCollectionViewModel?.tags = info.attributeTags ?? []
+        }.disposed(by: disposeBag)
     }
-
+    
     func setupStatsRx(viewModel: ListingCarouselViewModel) {
         let productCreation = viewModel.productInfo.asObservable().map { $0?.creationDate }
-        let statsAndCreation = Observable.combineLatest(viewModel.listingStats.asObservable().unwrap(), productCreation) { $0 }
+        let statsAndCreation = Observable.combineLatest(viewModel.listingStats.asObservable().unwrap(), productCreation) { ($0, $1) }
         let statsViewVisible = statsAndCreation.map { (stats, creation) in
             return stats.viewsCount >= Constants.minimumStatsCountToShow || stats.favouritesCount >= Constants.minimumStatsCountToShow || creation != nil
         }
-        statsViewVisible.asObservable().distinctUntilChanged().bindNext { [weak self] visible in
+        statsViewVisible.asObservable().distinctUntilChanged().bind { [weak self] visible in
             self?.statsContainerViewHeightConstraint.constant = visible ? self?.statsContainerViewHeight ?? 0 : 0
             self?.statsContainerViewTopConstraint.constant = visible ? self?.statsContainerViewTop ?? 0 : 0
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
-        statsAndCreation.bindNext { [weak self] (stats, creation) in
+        statsAndCreation.bind { [weak self] (stats, creation) in
             guard let statsView = self?.statsView else { return }
             statsView.updateStatsWithInfo(stats.viewsCount, favouritesCount: stats.favouritesCount, postedDate: creation)
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
     func setupBottomPanelRx(viewModel: ListingCarouselViewModel) {
-        viewModel.socialSharer.asObservable().bindNext { [weak self] socialSharer in
+        viewModel.socialSharer.asObservable().bind { [weak self] socialSharer in
             self?.socialShareView.socialSharer = socialSharer
-        }.addDisposableTo(disposeBag)
-        viewModel.socialMessage.asObservable().bindNext { [weak self] socialMessage in
+        }.disposed(by: disposeBag)
+        viewModel.socialMessage.asObservable().bind { [weak self] socialMessage in
             self?.socialShareView.socialMessage = socialMessage
             self?.socialShareView.isHidden = socialMessage == nil
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
     }
 
-    func setupBannerWith(viewModel: ListingCarouselViewModel) {
+    func setupAdBannerWith(viewModel: ListingCarouselViewModel) {
 
-        bannerView = GADSearchBannerView.init(adSize: kGADAdSizeFluid)
-        guard let bannerView = bannerView else { return }
-        bannerView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 0)
+        if viewModel.afshAdActive {
+            bannerView = GADSearchBannerView.init(adSize: kGADAdSizeFluid)
+            guard let bannerView = bannerView else { return }
+            bannerView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 0)
+            bannerView.autoresizingMask = .flexibleWidth
+            bannerView.adSizeDelegate = self
+            bannerView.delegate = self
 
-        bannerView.autoresizingMask = .flexibleWidth
-        bannerView.adSizeDelegate = self
-        bannerView.delegate = self
+            bannerContainerView.addSubview(bannerView)
+            bannerView.translatesAutoresizingMaskIntoConstraints = false
+            bannerView.layout(with: bannerContainerView).fill()
+        } else {
+            dfpBannerView = DFPBannerView(adSize: kGADAdSizeLargeBanner)
 
-        bannerContainerView.addSubview(bannerView)
-        bannerView.translatesAutoresizingMaskIntoConstraints = false
-        bannerView.layout(with: bannerContainerView).fill()
+            guard let dfpBanner = dfpBannerView else { return }
+            dfpBanner.rootViewController = delegate?.rootViewControllerForDFPBanner()
+            dfpBanner.delegate = self
+
+            bannerContainerView.addSubview(dfpBanner)
+            dfpBanner.translatesAutoresizingMaskIntoConstraints = false
+            dfpBanner.layout(with: bannerContainerView).top().bottom().centerX()
+
+            dfpBanner.delegate = self
+        }
     }
 
     func loadAFShoppingRequest() {
+        bannerContainerViewHeightConstraint.constant = 0
+        shareViewToMapTopConstraint.isActive = false
+        shareViewToBannerTopConstraint.isActive = true
+
         bannerView?.adUnitID = viewModel?.shoppingAdUnitId
         bannerView?.load(viewModel?.makeAFShoppingRequestWithWidth(width: frame.width))
+    }
+
+    func loadDFPRequest() {
+        bannerContainerViewHeightConstraint.constant = kGADAdSizeLargeBanner.size.height
+        shareViewToMapTopConstraint.isActive = true
+        shareViewToBannerTopConstraint.isActive = false
+
+        dfpBannerView?.adUnitID = viewModel?.dfpAdUnitId
+        let dfpRequest = DFPRequest()
+        dfpRequest.contentURL = viewModel?.dfpContentURL
+        dfpBannerView?.load(dfpRequest)
     }
 }
 
@@ -490,17 +641,37 @@ fileprivate extension ListingCarouselMoreInfoView {
 
 extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate {
     func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
-        let newFrame = CGRect(x: bannerView.frame.origin.x, y: bannerView.frame.origin.y, width: size.size.width, height: size.size.height)
+        let sizeFromAdSize = CGSizeFromGADAdSize(size)
+        let newFrame = CGRect(x: bannerView.frame.origin.x,
+                              y: bannerView.frame.origin.y,
+                              width: sizeFromAdSize.width,
+                              height: sizeFromAdSize.height)
         bannerView.frame = newFrame
-        bannerContainerViewHeightConstraint.constant = size.size.height
+        bannerContainerViewHeightConstraint.constant = sizeFromAdSize.height
         if let sideMargin = viewModel?.sideMargin {
             bannerContainerViewLeftConstraint.constant = sideMargin
             bannerContainerViewRightConstraint.constant = sideMargin
         }
-        if size.size.height > 0 {
+        if sizeFromAdSize.height > 0 {
             let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
             let bannerTop = absolutePosition.y
-            let bannerBottom = bannerTop + size.size.height
+            let bannerBottom = bannerTop + sizeFromAdSize.height
+            viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
+                                    bannerBottomPosition: bannerBottom,
+                                    screenHeight: UIScreen.main.bounds.height)
+        }
+    }
+
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        bannerContainerView.isHidden = false
+
+        bannerContainerViewHeightConstraint.constant = bannerView.height
+        shareViewToMapTopConstraint.constant = bannerView.height + ListingCarouselMoreInfoView.shareViewToMapMargin
+
+        if bannerView.frame.size.height > 0 {
+            let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
+            let bannerTop = absolutePosition.y
+            let bannerBottom = bannerTop + bannerView.frame.size.height
             viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
                                     bannerBottomPosition: bannerBottom,
                                     screenHeight: UIScreen.main.bounds.height)
@@ -508,7 +679,7 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
     }
 
     func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
-        logMessage(.info, type: .monetization, message: "Banner failed with error: \(error.localizedDescription)")
+        logMessage(.info, type: .monetization, message: "MoreInfo banner failed with error: \(error.localizedDescription)")
         bannerContainerViewHeightConstraint.constant = 0
         bannerContainerViewLeftConstraint.constant = 0
         bannerContainerViewRightConstraint.constant = 0
@@ -529,7 +700,7 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
 // MARK: - LGCollapsibleLabel
 
 extension ListingCarouselMoreInfoView {
-    func toggleDescriptionState() {
+    @objc func toggleDescriptionState() {
         UIView.animate(withDuration: 0.25, animations: {
             self.descriptionLabel.toggleState()
             self.layoutIfNeeded()
@@ -584,9 +755,9 @@ extension ListingVMProductInfo {
     var styledDescription: NSAttributedString? {
         guard let description = description else { return nil }
         let result = NSMutableAttributedString(attributedString: description)
-        result.addAttribute(NSForegroundColorAttributeName, value: UIColor.grayLight,
-                                range: NSMakeRange(0, result.length))
-        result.addAttribute(NSFontAttributeName, value: UIFont.productDescriptionFont,
+        result.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.grayLight,
+                            range: NSMakeRange(0, result.length))
+        result.addAttribute(NSAttributedStringKey.font, value: UIFont.productDescriptionFont,
                             range: NSMakeRange(0, result.length))
         return result
     }
@@ -594,9 +765,9 @@ extension ListingVMProductInfo {
     var styledTitle: NSAttributedString? {
         guard let linkedTitle = linkedTitle else { return nil }
         let result = NSMutableAttributedString(attributedString: linkedTitle)
-        result.addAttribute(NSForegroundColorAttributeName, value: UIColor.white,
+        result.addAttribute(NSAttributedStringKey.foregroundColor, value: UIColor.white,
                             range: NSMakeRange(0, result.length))
-        result.addAttribute(NSFontAttributeName, value: UIFont.productTitleFont,
+        result.addAttribute(NSAttributedStringKey.font, value: UIFont.productTitleFont,
                             range: NSMakeRange(0, result.length))
         return result
     }

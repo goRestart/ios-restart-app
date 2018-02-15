@@ -40,7 +40,8 @@ enum EventName: String {
     case filterStart                        = "filter-start"
     case filterComplete                     = "filter-complete"
     case filterLocationStart                = "filter-location-start"
-    
+
+    case listingDetailCall                  = "product-detail-call"
     case listingDetailVisit                 = "product-detail-visit"
     case listingDetailVisitMoreInfo         = "product-detail-visit-more-info"
     case listingNotAvailable                = "product-not-available"
@@ -88,6 +89,9 @@ enum EventName: String {
     case userMessageSentError               = "user-sent-message-error"
     case chatRelatedItemsStart              = "chat-related-items-start"
     case chatRelatedItemsComplete           = "chat-related-items-complete"
+    case chatDeleteComplete                 = "chat-delete-complete"
+    case chatViewInactiveConversations      = "chat-view-inactive-conversations"
+    case chatInactiveConversationsShown     = "chat-inactive-conversations-shown"
 
     case profileVisit                       = "profile-visit"
     case profileEditStart                   = "profile-edit-start"
@@ -145,6 +149,7 @@ enum EventName: String {
     case inappChatNotificationComplete      = "in-app-chat-notification-complete"
 
     case signupCaptcha                      = "signup-captcha"
+    case loginCaptcha                       = "login-captcha"
 
     case notificationCenterStart            = "notification-center-start"
     case notificationCenterComplete         = "notification-center-complete"
@@ -174,6 +179,10 @@ enum EventName: String {
     case adTapped                           = "ad-tapped"
     case featuredMoreInfo                   = "featured-more-info"
     case openOptionOnSummary                = "posting-summary-open"
+
+    case phoneNumberRequest                 = "phone-number-request"
+    case phoneNumberSent                    = "phone-number-sent"
+    case phoneNumberNotNow                  = "phone-number-not-now"
 
 
     // Constants
@@ -333,8 +342,15 @@ enum EventParameterName: String {
     case bedrooms             = "bedroom-number"
     case bathrooms            = "bathroom-number"
     case location             = "location"
-    case sqrMeters            = "sqr-meters"
+    case sizeSqrMeters        = "size"
+    case sizeSqrMetersMin     = "size-from"
+    case sizeSqrMetersMax     = "size-to"
+    case rooms                = "room-number"
     case openField            = "open-field"
+    case chatsDeleted         = "chats-deleted"
+    case chatContainsEmoji    = "contain-emoji"
+    case inactiveConversations = "inactive-conversations"
+    case mostSearchedButton   = "most-searched-button"
 }
 
 enum EventParameterBoolean: String {
@@ -368,6 +384,7 @@ enum EventParameterLoginSourceValue: String {
     case install = "install"
     case directChat = "direct-chat"
     case directQuickAnswer = "direct-quick-answer"
+    case chatProUser = "chat-pro-user"
 }
 
 enum EventParameterProductItemType: String {
@@ -382,6 +399,7 @@ enum EventParameterButtonNameType: String {
     case summary = "summary"
     case sellYourStuff = "sell-your-stuff"
     case startMakingCash = "start-making-cash"
+    case realEstatePromo = "real-estate-promo"
 }
 
 enum EventParameterButtonType: String {
@@ -400,6 +418,7 @@ enum EventParameterSellButtonPosition: String {
     case tabBar = "tabbar-camera"
     case floatingButton = "big-button"
     case none = "N/A"
+    case realEstatePromo = "real-estate-promo"
 }
 
 enum EventParameterShareNetwork: String {
@@ -447,7 +466,7 @@ enum EventParameterPostingType: String {
     
     init(category: PostCategory) {
         switch category {
-        case .unassigned, .motorsAndAccessories:
+        case .otherItems, .motorsAndAccessories:
             self = .stuff
         case .car:
             self = .car
@@ -552,6 +571,36 @@ enum EventParameterBedroomsRealEstate {
     }
 }
 
+enum EventParameterRoomsRealEstate {
+    case rooms(bedrooms: Int?, livingRooms: Int?)
+    case notApply
+    
+    var name: String {
+        switch self {
+        case .rooms(let bedrooms, let livingRooms):
+            guard let bedrooms = bedrooms, let livingRooms = livingRooms else { return Constants.parameterSkipValue }
+            return NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms).trackingString
+        case .notApply:
+            return Constants.parameterNotApply
+        }
+    }
+}
+
+enum EventParameterSizeRealEstate {
+    case size(value: Int?)
+    case notApply
+    
+    var name: String {
+        switch self {
+        case .size(let value):
+            guard let value = value else { return Constants.parameterSkipValue }
+            return String(value)
+        case .notApply:
+            return Constants.parameterNotApply
+        }
+    }
+}
+
 
 enum EventParameterMessageType: String {
     case text       = "text"
@@ -561,6 +610,7 @@ enum EventParameterMessageType: String {
     case quickAnswer = "quick-answer"
     case expressChat = "express-chat"
     case periscopeDirect = "periscope-direct"
+    case phone      = "phone"
 }
 
 enum EventParameterLoginError {
@@ -743,6 +793,8 @@ enum EventParameterTypePage: String {
     case listingSold = "product-sold"
     case inAppNotification = "in-app-notification"
     case filter = "filter"
+    case realEstatePromo = "real-estate-promo"
+    case mostSearched = "most-searched"
 }
 
 enum EventParameterPermissionType: String {
@@ -808,6 +860,9 @@ enum EventParameterListingVisitSource: String {
     case searchAndFilter = "search & filter"
     case category = "category"
     case profile = "profile"
+    case favourite = "favourite"
+    case nextFavourite = "next-favourite"
+    case previousFavourite = "previous-favourite"
     case chat = "chat"
     case openApp = "open-app"
     case notifications = "notifications"
@@ -904,7 +959,7 @@ enum EventParameterRelatedShownReason: String {
         switch chatInfoStatus {
         case .forbidden:
             self = .forbidden
-        case .blocked, .blockedBy:
+        case .blocked, .blockedBy, .inactiveConversation:
             self = .unanswered48h
         case .listingDeleted:
             self = .listingDeleted
@@ -976,8 +1031,18 @@ enum EventParameterEmptyReason: String {
     case noInternetConection = "no-internet-connection"
     case serverError         = "server-error"
     case emptyResults        = "empty-results"
-    case unknown             = "unknown"
     case verification        = "verification"
+    case userNotVerified     = "user-not-verified"
+    case notFound            = "not-found"
+    case unauthorized        = "unauthorized"
+    case forbidden           = "forbidden"
+    case tooManyRequests     = "too-many-requests"
+    case chatServerError     = "chat-server-error"
+    case internalError       = "internal-error"
+    case wsInternalError     = "ws-internal-error"
+    case chatUserBlocked     = "chat-user-blocked"
+    case notAuthenticated    = "not-authenticated"
+    case differentCountry    = "different-country"
 }
 
 enum EventParameterQuickAnswerType: String {
@@ -1027,6 +1092,7 @@ enum EventParamenterLocationTypePage: String {
 
 enum EventParameterAdType: String {
     case shopping = "shopping"
+    case dfp = "dfp"
 }
 
 enum EventParameterAdQueryType: String {
@@ -1077,6 +1143,8 @@ enum EventParameterOptionSummary: String {
     case propertyType = "property-type"
     case offerType = "deal-type"
     case bedrooms = "bedroom-number"
+    case rooms = "rooms-number"
+    case sizeSquareMeters = "size"
     case bathrooms = "bathroom-number"
     case location = "location"
     case make = "make"
@@ -1093,6 +1161,10 @@ enum EventParameterOptionSummary: String {
             self = .offerType
         case .bedrooms:
             self = .bedrooms
+        case .rooms:
+            self = .rooms
+        case .sizeSquareMeters:
+            self = .sizeSquareMeters
         case .bathrooms:
             self = .bathrooms
         case .location:
@@ -1104,6 +1176,20 @@ enum EventParameterOptionSummary: String {
         case .year:
             self = .year
         }
+    }
+}
+
+enum EventParameterMostSearched: String {
+    case notApply                   = "N/A"
+    case tabBarCamera               = "tabbar-camera"
+    case trendingExpandableButton   = "trending-salchicha"
+    case postingTags                = "posting-tags"
+    case feedBubble                 = "feed-bubble"
+    case feedCard                   = "feed-card"
+    case userProfile                = "user-profile"
+    
+    static var allValues: [EventParameterMostSearched] {
+        return [.notApply, .tabBarCamera, .trendingExpandableButton, .postingTags, .feedBubble, .feedCard, .userProfile]
     }
 }
 

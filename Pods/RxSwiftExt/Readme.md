@@ -8,14 +8,24 @@ If you're using [RxSwift](https://github.com/ReactiveX/RxSwift), you may have en
 Installation
 ===========
 
-RxSwiftExt now requires Swift 3 and RxSwift 3.0.0 or later. If your project is running on Swift 2.x, please use version `1.2` of the library.
+This branch of RxSwiftExt targets Swift 4.x and RxSwift 4.0.0 or later.
+
+* If you're looking for the Swift 3 version of RxSwiftExt, please use version `2.5.1` of the framework.
+* If your project is running on Swift 2.x, please use version `1.2` of the framework.
+
 
 #### CocoaPods
+
+Using Swift 4:
+
+```
+pod "RxSwiftExt"
+```
 
 Using Swift 3:
 
 ```
-pod "RxSwiftExt"
+pod "RxSwiftExt", '2.5.1'
 ```
 
 If you use Swift 2.x:
@@ -43,14 +53,27 @@ RxSwiftExt is all about adding operators to [RxSwift](https://github.com/Reactiv
 * [ignoreWhen](#ignorewhen)
 * [Observable.once](#once)
 * [distinct](#distinct)
-* [mapTo](#mapto)
+* [map](#map)
 * [not](#not)
 * [Observable.cascade](#cascade)
 * [retry](#retry)
 * [repeatWithBehavior](#repeatwithbehavior)
 * [catchErrorJustComplete](#catcherrorjustcomplete)
 * [pausable](#pausable)
-* [materialize/dematerialize](#materializedematerialize)
+* [pausableBuffered](#pausablebuffered)
+* [apply](#apply)
+* [filterMap](#filtermap)
+* [Observable.fromAsync](#fromasync)
+
+Two additional operators are available for `materialize()`'d sequences:
+
+* [errors](#errors-elements)
+* [elements](#errors-elements)
+
+Read below for details about each operator.
+
+Operator details
+===========
 
 #### unwrap
 
@@ -137,13 +160,13 @@ Next(d)
 Completed
 ```
 
-#### mapTo
+#### map
 
 Replace every element with the provided value.
 
 ```swift
 Observable.of(1,2,3)
-    .mapTo("Nope.")
+    .map(to: "Nope.")
     .subscribe { print($0) }
 ```
 ```
@@ -291,40 +314,83 @@ Next(3)
 
 More examples are available in the project's Playground.
 
-#### materialize/dematerialize
+#### pausableBuffered
 
-Materialize converts an observable into a sequence of Events for both items
-emitted and notifications sent. Dematerialize performs the inverse
-operation. See the documentation for
-[materialize/dematerialize](http://reactivex.io/documentation/operators/materialize-dematerialize.html)
-on ReactiveX.io.
+Pauses the elements of the source observable sequence unless the latest element from the second observable sequence is `true`. Elements emitted by the source observable are buffered (with a configurable limit) and "flushed" (re-emitted) when the observable resumes.
+
+Examples are available in the project's Playground.
+
+#### apply
+
+Apply provides a unified mechanism for applying transformations on Observable
+sequences, without having to extend ObservableType or repeating your
+transformations. For additional rationale for this see
+[discussion on github](https://github.com/RxSwiftCommunity/RxSwiftExt/issues/73)
 
 ```swift
-    let numbers = [1, 2, 3]
-    print("materialize() transformed \(numbers) to sequence of Events: ")
-    let materialized = Observable.from(numbers).materialize()
-    materialized.subscribe{ result in
-        print(result)
-    }
-    print("\n...and dematerialize() transformed it back: ")
-    materialized.dematerialize().subscribe { result in
-        print(result)
-    }
+// An ordinary function that applies some operators to its argument, and returns the resulting Observable
+func requestPolicy(_ request: Observable<Void>) -> Observable<Response> {
+    return request.retry(maxAttempts)
+        .do(onNext: sideEffect)
+        .map { Response.success }
+        .catchError { error in Observable.just(parseRequestError(error: error)) }
+
+// We can apply the function in the apply operator, which preserves the chaining style of invoking Rx operators
+let resilientRequest = request.apply(requestPolicy)
 ```
 
-```
-materialize() transformed [1, 2, 3] to sequence of Events: 
-next(next(1))
-next(next(2))
-next(next(3))
-next(completed)
-completed
+#### filterMap
 
-...and dematerialize() transformed it back: 
-next(1)
-next(2)
-next(3)
-completed
+A common pattern in Rx is to filter out some values, then map the remaining ones to something else. `filterMap` allows you to do this in one step:
+
+```swift
+// keep only odd numbers and double them
+Observable.of(1,2,3,4,5,6)
+	.filterMap { number in
+		(number % 2 == 0) ? .ignore : .map(number * 2)
+	}
+```
+
+The sequence above keeps even numbers 2, 4, 6 and produces the sequence 4, 8, 12.
+
+#### errors, elements
+
+These operators only apply to observable serquences that have been materialized with the `materialize()` operator (from RxSwift core). `errors` returns a sequence of filtered error events, ommitting elements. `elements` returns a sequence of filtered element events, ommitting errors.
+
+```swift
+let imageResult = _chooseImageButtonPressed.asObservable()
+    .flatMap { imageReceiver.image.materialize() }
+    .share()
+
+let image = imageResult
+    .elements()
+    .asDriver(onErrorDriveWith: .never())
+
+let errorMessage = imageResult
+    .errors()
+    .map(mapErrorMessages)
+    .unwrap()
+    .asDriver(onErrorDriveWith: .never())
+```
+
+#### fromAsync
+
+Turns simple asynchronous completion handlers into observable sequences. Suitable for use with existing asynchronous services which call a completion handler with only one parameter. Emits the result produced by the completion handler then completes.
+
+```swift
+func someAsynchronousService(arg1: String, arg2: Int, completionHandler:(String) -> Void) {
+    // a service that asynchronously calls
+	// the given completionHandler
+}
+
+let observableService = Observable
+    .fromAsync(someAsynchronousService)
+
+observableService("Foo", 0)
+    .subscribe(onNext: { (result) in
+        print(result)
+    })
+    .disposed(by: disposeBag)
 ```
 
 ## License

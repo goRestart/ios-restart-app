@@ -92,7 +92,7 @@ final class LGUserAgentBuilder: UserAgentBuilder {
     }
     
     private func makeDevice() -> String {
-        let model = DeviceGuru.hardwareDescription() ?? LGUserAgentBuilder.unknown
+        let model = DeviceGuru().hardwareString()
         return "Apple \(model)"
     }
 }

@@ -74,12 +74,12 @@ class EditLocationViewModel: BaseViewModel {
     let currentDistanceRadius = Variable<Int?>(nil)
 
     //Input
-    let searchText = Variable<(String, autoSelect: Bool)>("", autoSelect: false)
+    let searchText = Variable<(String, autoSelect: Bool)>(("", autoSelect: false))
     let userTouchingMap = Variable<Bool>(false)
     let userMovedLocation = Variable<CLLocationCoordinate2D?>(nil)
 
     //Internal
-    private let locationToFetch = Variable<(CLLocationCoordinate2D?, fromGps: Bool)>(nil, fromGps: false)
+    private let locationToFetch = Variable<(CLLocationCoordinate2D?, fromGps: Bool)>((nil, fromGps: false))
 
     
     // MARK: - Lifecycle
@@ -321,13 +321,13 @@ class EditLocationViewModel: BaseViewModel {
                 KeyValueStorage.sharedInstance.userLocationApproximate = value
             }
             strongSelf.updateInfoText()
-        }.addDisposableTo(disposeBag)
+        }.disposed(by: disposeBag)
 
         searchText.asObservable().skip(1)
             .debounce(0.3, scheduler: MainScheduler.instance)
             .subscribeNext{ [weak self] searchText, autoSelect in
                 self?.resultsForSearchText(searchText, autoSelectFirst: autoSelect)
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         userMovedLocation.asObservable()
             .subscribeNext { [weak self] coordinates in
@@ -335,7 +335,7 @@ class EditLocationViewModel: BaseViewModel {
                 DispatchQueue.main.async {
                     self?.locationToFetch.value = (coordinates, false)
                 }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
 
         //Place retrieval
         locationToFetch.asObservable()
@@ -351,13 +351,13 @@ class EditLocationViewModel: BaseViewModel {
             .subscribeNext { [weak self] place, gpsLocation in
                 self?.setPlace(place, forceLocation: false, fromGps: gpsLocation, enableSave: true)
             }
-            .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
         currentDistanceRadius.asObservable()
             .skip(1)
             .unwrap()
             .map { _ in true }
-            .bindTo(setLocationEnabled).addDisposableTo(disposeBag)
+            .bind(to: setLocationEnabled).disposed(by: disposeBag)
         
     }
 
@@ -471,7 +471,7 @@ extension LocationRepository {
                     return
                 }
 
-                observer.onNext(resolvedPlace, fromGps)
+                observer.onNext((resolvedPlace, fromGps))
                 observer.onCompleted()
             }
             return Disposables.create()

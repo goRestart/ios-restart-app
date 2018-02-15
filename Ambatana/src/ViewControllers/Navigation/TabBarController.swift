@@ -50,7 +50,8 @@ final class TabBarController: UITabBarController {
         self.viewModel = viewModel
         self.featureFlags = featureFlags
         self.tracker = tracker
-        self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip, image: UIImage(named: "ic_sell_white"), position: .left)
+        self.floatingSellButton = FloatingButton(with: LGLocalizedString.tabBarToolTip,
+                                                 image: UIImage(named: "ic_sell_white"), position: .left)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -64,6 +65,7 @@ final class TabBarController: UITabBarController {
 
         setupAdminAccess()
         setupSellButton()
+        setupTooltip()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -156,11 +158,21 @@ final class TabBarController: UITabBarController {
     dissapear. Also when the tabBar is set again, is added into a different layer so the constraint cannot be set again.
     */
     override func setTabBarHidden(_ hidden:Bool, animated:Bool, completion: ((Bool) -> Void)? = nil) {
-        let floatingOffset : CGFloat = (hidden ? -15 : -(tabBar.frame.height + 15))
-        floatingSellButtonMarginConstraint.constant = floatingOffset
+        if (isTabBarHidden == hidden) { return }
+
+        let frame = tabBar.frame
+        let offsetY = (hidden ? frame.size.height : 0)
+        let duration: TimeInterval = (animated ? TimeInterval(UITabBarControllerHideShowBarDuration) : 0.0)
+
+        let transform = CGAffineTransform.identity.translatedBy(x: 0, y: offsetY)
+        UIView.animate(withDuration: duration,
+                       delay: 0,
+                       options: [.curveEaseIn], animations: { [weak self] in
+                        self?.floatingSellButton.transform = transform
+        }, completion: completion)
+
         super.setTabBarHidden(hidden, animated: animated)
     }
-
 
     // MARK: - Private methods
     // MARK: > Setup
@@ -185,28 +197,61 @@ final class TabBarController: UITabBarController {
         setupBadgesRx()
     }
 
+    @available(iOS 11, *)
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        let bottom: CGFloat = -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance)
+        guard bottom != floatingSellButtonMarginConstraint.constant else { return }
+        floatingSellButtonMarginConstraint.constant = bottom
+    }
+
     private func setupSellButton() {
-        
-        if featureFlags.expandableCategorySelectionMenu.isActive {
-            floatingSellButton.buttonTouchBlock = { [weak self] in
-                self?.setupExpandableCategoriesView()
-            }
-        } else {
-            floatingSellButton.buttonTouchBlock = { [weak self] in self?.viewModel.sellButtonPressed() }
+        floatingSellButton.buttonTouchBlock = { [weak self] in
+            self?.tooltip?.removeFromSuperview()
+            self?.viewModel.tooltipDismissed()
+            self?.setupExpandableCategoriesView()
         }
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
         floatingSellButton.layout(with: view).centerX()
-        floatingSellButton.layout(with: view).bottom(by: -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance), constraintBlock: {[weak self] in self?.floatingSellButtonMarginConstraint = $0 })
-        floatingSellButton.layout(with: view).leading(by: LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .greaterThanOrEqual).trailing(by: -LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .lessThanOrEqual)
+
+        let bottom: CGFloat = -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance)
+        
+        floatingSellButton.layout(with: view)
+            .bottom(by: bottom, constraintBlock: {[weak self] in self?.floatingSellButtonMarginConstraint = $0 })
+        floatingSellButton.layout(with: view)
+            .leading(by: LGUIKitConstants.tabBarSellFloatingButtonDistance, relatedBy: .greaterThanOrEqual)
+            .trailing(by: -LGUIKitConstants.tabBarSellFloatingButtonDistance,
+                      relatedBy: .lessThanOrEqual)
+    }
+    
+    private func setupTooltip() {
+        guard viewModel.shouldShowRealEstateTooltip else { return }
+        tooltip = Tooltip(targetView: floatingSellButton, superView: view, title: viewModel.realEstateTooltipText(), style: .black(closeEnabled: true),
+                          peakOnTop: false, actionBlock: { [weak self] in
+                            self?.viewModel.tooltipDismissed()
+            }, closeBlock: { [weak self] in
+                self?.viewModel.tooltipDismissed()
+        })
+        if let toolTipShowed = tooltip {
+            view.addSubview(toolTipShowed)
+            setupExternalConstraintsForTooltip(toolTipShowed, targetView: floatingSellButton, containerView: view)
+        }
     }
     
     
     func setupExpandableCategoriesView() {
         view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()
-        let vm = ExpandableCategorySelectionViewModel(realEstateEnabled: featureFlags.realEstateEnabled)
+        let vm = ExpandableCategorySelectionViewModel(realEstateEnabled: featureFlags.realEstateEnabled.isActive,
+                                                      trendingButtonEnabled: featureFlags.mostSearchedDemandedItems == .trendingButtonExpandableMenu,
+                                                      tagsEnabled: featureFlags.mostSearchedDemandedItems == .subsetAboveExpandableMenu)
         vm.delegate = self
-        let expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame, buttonSpacing: ExpandableCategorySelectionView.distanceBetweenButtons, bottomDistance: floatingSellButtonMarginConstraint.constant, viewModel: vm)
+        
+        let bottomDistance = view.bounds.height - floatingSellButton.frame.maxY
+        let expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame,
+                                                                              buttonSpacing: ExpandableCategorySelectionView.distanceBetweenButtons,
+                                                                              bottomDistance: -bottomDistance,
+                                                                              viewModel: vm)
         expandableCategorySelectionView.tag = TabBarController.categorySelectionTag
         view.addSubview(expandableCategorySelectionView)
         expandableCategorySelectionView.layoutIfNeeded()
@@ -218,20 +263,17 @@ final class TabBarController: UITabBarController {
         guard let vcs = viewControllers, 0..<vcs.count ~= Tab.chats.index else { return }
 
         if let chatsTab = vcs[Tab.chats.index].tabBarItem {
-            viewModel.chatsBadge.asObservable().bindTo(chatsTab.rx.badgeValue).addDisposableTo(disposeBag)
-        }
-
-        if let profileTab = vcs[Tab.profile.index].tabBarItem {
-            viewModel.favoriteBadge.asObservable().bindTo(profileTab.rx.badgeValue).addDisposableTo(disposeBag)
+            viewModel.chatsBadge.asObservable().bind(to: chatsTab.rx.badgeValue).disposed(by: disposeBag)
         }
        
         if let notificationsTab = vcs[Tab.notifications.index].tabBarItem {
-            viewModel.notificationsBadge.asObservable().bindTo(notificationsTab.rx.badgeValue).addDisposableTo(disposeBag)
+            viewModel.notificationsBadge.asObservable().bind(to: notificationsTab.rx.badgeValue).disposed(by: disposeBag)
+        }
+        
+        if let sellTab = vcs[Tab.sell.index].tabBarItem, viewModel.shouldShowCameraBadge {
+            viewModel.sellBadge.asObservable().bind(to: sellTab.rx.badgeValue).disposed(by: disposeBag)
         }
     }
-    
-    
-    // MARK: > UI
 }
 
 
@@ -245,7 +287,7 @@ extension TabBarController: UIGestureRecognizerDelegate {
         self.tabBar.addGestureRecognizer(longPress)
     }
 
-    func longPressProfileItem(_ recognizer: UILongPressGestureRecognizer) {
+    @objc func longPressProfileItem(_ recognizer: UILongPressGestureRecognizer) {
         guard AdminViewController.canOpenAdminPanel() else { return }
         let admin = AdminViewController()
         let nav = UINavigationController(rootViewController: admin)
@@ -274,14 +316,20 @@ extension TabBarController {
 // MARK: - ExpandableCategorySelectionDelegate
 
 extension TabBarController: ExpandableCategorySelectionDelegate {
-    func closeButtonDidPressed() {
+    func didPressCloseButton() {
         floatingSellButton.showWithAnimation()
     }
-    func categoryButtonDidPressed(listingCategory: ListingCategory) {
+    
+    func didPressCategory(_ category: ExpandableCategory) {
         floatingSellButton.showWithAnimation()
         let event = TrackerEvent.listingSellYourStuffButton()
         tracker.trackEvent(event)
-        viewModel.expandableButtonPressed(listingCategory: listingCategory)
+        viewModel.expandableButtonPressed(category: category)
+    }
+    
+    func didPressTag(_ tag: LocalMostSearchedItem) {
+        floatingSellButton.showWithAnimation()
+        viewModel.tagPressed(mostSearchedItem: tag)
     }
 }
 

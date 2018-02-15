@@ -148,12 +148,10 @@ enum ButtonStyle {
     
     var borderColor: UIColor {
         switch self {
-        case .primary, .terciary, .google, .facebook, .dark, .logout:
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField:
             return UIColor.white
         case .secondary:
             return UIColor.primaryColor
-        case .darkField:
-            return UIColor.white
         case .lightField:
             return UIColor.lgBlack
         case .postingFlow:
@@ -165,12 +163,23 @@ enum ButtonStyle {
         switch self {
         case .postingFlow:
             return UIColor.gray
-        case .primary, .terciary, .google, .facebook, .dark, .logout:
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField:
             return UIColor.white
         case .secondary:
-            return UIColor.primaryColor
-        case .darkField:
+            return UIColor.primaryColorDisabled
+        case .lightField:
+            return UIColor.lgBlack
+        }
+    }
+
+    var titleColorDisabled: UIColor {
+        switch self {
+        case .postingFlow:
             return UIColor.white
+        case .primary, .terciary, .google, .facebook, .dark, .logout, .darkField:
+            return UIColor.white
+        case .secondary:
+            return UIColor.primaryColorDisabled
         case .lightField:
             return UIColor.lgBlack
         }
@@ -204,6 +213,7 @@ enum ButtonState {
     case hidden
     case enabled
     case disabled
+    case loading
 }
 
 extension UIButton {
@@ -215,7 +225,7 @@ extension UIButton {
         case .enabled:
             isHidden = false
             isEnabled = true
-        case .disabled:
+        case .disabled, .loading:
             isHidden = false
             isEnabled = false
         }
@@ -244,6 +254,8 @@ extension UIButton {
         titleLabel?.font = style.titleFont
         titleLabel?.lineBreakMode = .byTruncatingTail
         setTitleColor(style.titleColor, for: .normal)
+        setTitleColor(style.titleColorDisabled, for: .disabled)
+
         let padding = style.sidePadding
 
         let left = contentEdgeInsets.left < padding ? padding : contentEdgeInsets.left
