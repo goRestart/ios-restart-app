@@ -41,7 +41,8 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
                     mockListingDetailsVM.rxCardProductInfo.value = ListingVMProductInfo(listing: listing,
                                                                                          isAutoTranslated: true,
                                                                                          distance: nil,
-                                                                                         freeModeAllowed: true)
+                                                                                         freeModeAllowed: true,
+                                                                                         postingFlowType: .standard)
                 }
                 it("the proper populate method is called") {
                     expect(mockListingDetailsView.isPopulateWithProductInfoCalled).toEventually(equal(1))
@@ -115,7 +116,8 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
                     mockListingDetailsVM.rxCardProductInfo.value = ListingVMProductInfo(listing: listing,
                                                                                          isAutoTranslated: true,
                                                                                          distance: nil,
-                                                                                         freeModeAllowed: true)
+                                                                                         freeModeAllowed: true,
+                                                                                         postingFlowType: .standard)
                     let belowMinimumViews = Int.random(0, 4)
                     let belowMinimumFavs = Int.random(0, 4)
                     mockListingDetailsVM.rxCardProductStats.value = MockListingStats(viewsCount: belowMinimumViews,

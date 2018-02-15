@@ -16,10 +16,12 @@ protocol PhotoViewerViewType: class {
 }
 
 final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewType {
+    var rxTapControlEvents: Observable<UIControlEvents> { return tapControlEvents.asObservable().ignoreNil() }
+    private let tapControlEvents: Variable<UIControlEvents?> = Variable<UIControlEvents?>(nil)
 
     var rxChatButton: Reactive<UIControl>? { return (chatButton as UIControl).rx }
     var rxCollectionView: Reactive<UICollectionView> { return collectionView.rx }
-
+    
     weak var dataSource: UICollectionViewDataSource? {
         didSet { collectionView.dataSource = dataSource }
     }
@@ -82,6 +84,13 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
         collectionView.isPagingEnabled = true
         collectionView.delaysContentTouches = true
         collectionView.showsHorizontalScrollIndicator = false
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapCollectionView))
+        collectionView.addGestureRecognizer(tap)
+    }
+
+    @objc private func didTapCollectionView() {
+        tapControlEvents.value = .touchUpInside
     }
 
     private func setupPageControl() {

@@ -112,7 +112,8 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                 beforeEach {
                     sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
                     viewType.currentPage = 1
-                    viewControllerType.contentOffset.value = CGFloat(Int.makeRandom(min: 0, max: 1000))
+                    let offset = Int.makeRandom(min: 0, max: 1000)
+                    viewControllerType.colectionView.contentOffset = CGPoint(x: offset, y: 0)
                 }
                 it("pageDidChange method is called twice (initial + update)") {
                     expect(viewControllerType.isPageDidChangeCalled) == 2
@@ -121,7 +122,8 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
             context("the view scrolls the cards with the chat enabled") {
                 beforeEach {
                     sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
-                    viewControllerType.contentOffset.value = CGFloat(Int.makeRandom(min: 0, max: 1000))
+                    let offset = Int.makeRandom(min: 0, max: 1000)
+                    viewControllerType.colectionView.contentOffset = CGPoint(x: offset, y: 0)
                 }
                 it("updateViewWithAlpha method is called twice (initial + update)") {
                     expect(viewControllerType.isUpdateViewWithAlphaCalled) == 2
@@ -132,7 +134,8 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                 beforeEach {
                     sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
                     viewType.currentPage = 1
-                    viewControllerType.contentOffset.value = CGFloat(Int.makeRandom(min: 0, max: 1000))
+                    let offset = Int.makeRandom(min: 0, max: 1000)
+                    viewControllerType.colectionView.contentOffset = CGPoint(x: offset, y: 0)
                 }
                 it("the viewmodel moves to the current item") {
                     expect(viewModelType.moveToProductIsCalled) == 1
@@ -281,9 +284,9 @@ private class MockListingDeckViewModelType: ListingDeckViewModelType {
 }
 
 private class MockListingDeckViewControllerBinderType: ListingDeckViewControllerBinderType {
+    var rxContentOffset: ControlProperty<CGPoint> { return colectionView.rx.contentOffset }
 
     var keyboardChanges: Observable<KeyboardChange> { return rx_keyboardChanges.asObservable() }
-    var rxContentOffset: Observable<CGFloat> { return contentOffset.asObservable() }
 
     let rx_keyboardChanges: Variable<KeyboardChange> = Variable(KeyboardChange(height: 0,
                                                                                origin: 0,
@@ -291,7 +294,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
                                                                                animationOptions: .allowUserInteraction,
                                                                                visible: true,
                                                                                isLocal: true))
-    let contentOffset: Variable<CGFloat> = Variable<CGFloat>(0)
+    let colectionView: UICollectionView = UICollectionView()
 
     var isUpdateViewWithActionsCalled: Int = 0
     var isUpdateWithKeyboardChangeCalled: Int = 0

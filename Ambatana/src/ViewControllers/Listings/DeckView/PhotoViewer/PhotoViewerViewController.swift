@@ -188,6 +188,12 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         return imageCell
     }
 
+    // MARK: PhotoViewerVCType
+
+    func dismiss() {
+        closeView()
+    }
+
     // MARK: Actions
 
     @objc func dismissChat() {

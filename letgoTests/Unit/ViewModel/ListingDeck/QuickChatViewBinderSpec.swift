@@ -72,7 +72,7 @@ final class QuickChatViewBinderSpec: QuickSpec {
                                                   type: .text(text: String.makeRandom()),
                                                   status: nil,
                                                   warningStatus: .normal)
-                    quickChatVM.directChatMessages.value = [message]
+                    quickChatVM.directChatMessages.insert(message, atIndex: 0)
                 }
                 it("handleChatChange is called") {
                     expect(quickChatView.handleChatChangeCalled).toEventually(equal(1))

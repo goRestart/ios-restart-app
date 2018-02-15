@@ -82,6 +82,15 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
                 }
             }
 
+            context("user taps in photoviewer") {
+                beforeEach {
+                    photoView.tapControlEvents.value = .touchUpInside
+                }
+                it("dismiss is called only once") {
+                    expect(photoViewerVC.dismissIsCalled).toEventually(equal(1))
+                }
+            }
+
             context("keyboard event is sent") {
                 it("showChat is called only once") {
                     expect(photoViewerVC.keyboardIsCalled).toEventually(equal(1))
@@ -100,7 +109,9 @@ final class PhotoViewerViewControllerBinderSpec: QuickSpec {
 private class MockPhotoViewerView: PhotoViewerBinderViewType {
     let chatButton = UIButton()
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    let tapControlEvents: Variable<UIControlEvents?> = Variable<UIControlEvents?>(nil)
 
+    var rxTapControlEvents: Observable<UIControlEvents> { return tapControlEvents.asObservable().ignoreNil() }
     var rxChatButton: Reactive<UIControl>? { return (chatButton as UIControl).rx }
     var rxCollectionView: Reactive<UICollectionView> { return collectionView.rx }
 }
@@ -111,6 +122,7 @@ private class MockPhotoViewerViewController: PhotoViewerVCType {
     var showChatCalled: Int = 0
     var updatePageCalled: Int = 0
     var keyboardIsCalled: Int = 0
+    var dismissIsCalled: Int = 0
 
     private let keyboardChange: Variable<KeyboardChange>
 
@@ -126,14 +138,18 @@ private class MockPhotoViewerViewController: PhotoViewerVCType {
     }
 
     func updateWith(keyboardChange: KeyboardChange) {
-        keyboardIsCalled = keyboardIsCalled + 1
+        keyboardIsCalled += 1
+    }
+
+    func dismiss() {
+        dismissIsCalled += 1
     }
 
     func showChat() {
-        showChatCalled = showChatCalled + 1
+        showChatCalled += 1
     }
 
     func updatePage(fromContentOffset offset: CGFloat) {
-        updatePageCalled = updatePageCalled + 1
+        updatePageCalled += 1
     }
 }

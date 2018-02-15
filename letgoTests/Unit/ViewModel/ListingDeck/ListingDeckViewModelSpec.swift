@@ -116,7 +116,8 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                                                   featureFlags: featureFlags,
                                                                   purchasesShopper: purchasesShopper,
                                                                   monetizationRepository: monetizationRepository,
-                                                                  tracker: tracker)
+                                                                  tracker: tracker,
+                                                                  keyValueStorage: MockKeyValueStorage())
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
@@ -916,6 +917,9 @@ extension ListingDeckViewModelSpec: ListingDeckViewModelDelegate {
 }
 
 extension ListingDeckViewModelSpec: ListingDetailNavigator {
+    func openAskPhoneFor(listing: Listing) { }
+    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) { }
+
     func closeProductDetail() {}
     func editListing(_ listing: Listing) {}
     func openListingChat(_ listing: Listing, source: EventParameterTypePage) {}

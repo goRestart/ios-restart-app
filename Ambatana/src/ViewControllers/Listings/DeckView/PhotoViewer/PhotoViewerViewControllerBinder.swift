@@ -12,7 +12,8 @@ import RxSwift
 protocol PhotoViewerVCType: class {
     var keyboardChanges: Observable<KeyboardChange> { get }
     func updateWith(keyboardChange: KeyboardChange)
-    
+
+    func dismiss()
     func showChat()
     func updatePage(fromContentOffset offset: CGFloat)
 }
@@ -20,6 +21,7 @@ protocol PhotoViewerVCType: class {
 protocol PhotoViewerBinderViewType: class {
     var rxChatButton: Reactive<UIControl>? { get }
     var rxCollectionView: Reactive<UICollectionView> { get }
+    var rxTapControlEvents: Observable<UIControlEvents> { get }
 }
 
 final class PhotoViewerViewControllerBinder {
@@ -36,6 +38,7 @@ final class PhotoViewerViewControllerBinder {
         bindChatButton(toViewController: vc, view: toView, withDisposeBag: bag)
         bindContentOffset(toViewController: vc, view: toView, withDisposeBag: bag)
         bindKeyboard(toViewController: vc, view: toView, withDisposeBag: bag)
+        bindTapControlEvents(toViewController: vc, view: toView, withDisposeBag: bag)
     }
 
     private func bindChatButton(toViewController viewController: PhotoViewerVCType,
@@ -59,5 +62,13 @@ final class PhotoViewerViewControllerBinder {
         viewController?.keyboardChanges.bind {
             viewController?.updateWith(keyboardChange: $0)
         }.disposed(by:disposeBag)
+    }
+
+    private func bindTapControlEvents(toViewController viewController: PhotoViewerVCType?,
+                                      view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
+        view.rxTapControlEvents.bind { event in
+            guard event == .touchUpInside else { return }
+            viewController?.dismiss()
+        }.disposed(by: disposeBag)
     }
 }

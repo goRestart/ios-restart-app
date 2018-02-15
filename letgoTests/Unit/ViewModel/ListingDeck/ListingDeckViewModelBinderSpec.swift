@@ -53,7 +53,8 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                                                                   featureFlags: MockFeatureFlags(),
                                                                   purchasesShopper: MockPurchasesShopper(),
                                                                   monetizationRepository: MockMonetizationRepository(),
-                                                                  tracker: MockTracker())
+                                                                  tracker: MockTracker(),
+                                                                  keyValueStorage: MockKeyValueStorage())
                 listingListRequester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20)
                 imageDownloader = MockImageDownloader()
 
@@ -133,6 +134,9 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
 }
 
 extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
+    func openAskPhoneFor(listing: Listing) {}
+    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) {}
+    func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {}
     func openHome() {}
     func openSell(source: PostingSource, postCategory: PostCategory?) {}
     func openAppRating(_ source: EventParameterRatingSource) {}
