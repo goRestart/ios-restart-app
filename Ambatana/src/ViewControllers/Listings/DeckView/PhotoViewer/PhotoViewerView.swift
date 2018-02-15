@@ -135,10 +135,12 @@ class ChatButton: UIControl {
     private func setupUI() {
         layer.borderWidth = 1.0
         layer.borderColor = UIColor.white.cgColor
+        applyShadowToLayer(layer)
 
         let imageView = UIImageView(image: #imageLiteral(resourceName: "nit_photo_chat"))
         imageView.setContentHuggingPriority(.required, for: .horizontal)
         imageView.isUserInteractionEnabled = false
+        applyShadowToLayer(imageView.layer)
 
         let label = UILabel()
         label.text = LGLocalizedString.photoViewerChatButton
@@ -147,6 +149,7 @@ class ChatButton: UIControl {
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         label.font = textFont
         label.isUserInteractionEnabled = false
+        applyShadowToLayer(label.layer)
 
         let stackView = UIStackView(arrangedSubviews: [imageView, label])
         stackView.isLayoutMarginsRelativeArrangement = true
@@ -163,8 +166,16 @@ class ChatButton: UIControl {
         stackView.layout(with: self).fill()
     }
 
+    private func applyShadowToLayer(_ layer: CALayer) {
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.2
+        layer.shadowOffset = CGSize(width: 0, height: 2)
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
-        layer.cornerRadius = min(height, width) / 2.0
+        let cornerRadius = min(height, width) / 2.0
+        layer.cornerRadius = cornerRadius
+        layer.shadowRadius = cornerRadius
     }
 }
