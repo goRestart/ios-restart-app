@@ -141,6 +141,15 @@ extension UIFont {
     static var tourLocationDistanceLabelFont: UIFont { return systemMediumFont(size: 16) }
 }
 
+// MARK: DeckView
+
+extension UIFont {
+    static var deckTitleFont: UIFont { return systemMediumFont(size: 17) }
+    static var deckPriceFont: UIFont { return systemBoldFont(size: 27) }
+    static var deckDetailFont: UIFont { return systemRegularFont(size: 15) }
+    static var deckSocialHeaderFont: UIFont { return systemRegularFont(size: 13) }
+    static var deckUsernameFont: UIFont { return systemBoldFont(size: 15) }
+}
 
 // MARK: > PrePremission Push Settings
 extension UIFont {

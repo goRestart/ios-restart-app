@@ -151,12 +151,12 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
             scrollView.addSubview(headerStackView)
             headerStackView.translatesAutoresizingMaskIntoConstraints = false
             headerStackView.layout(with: scrollView)
-                .top(by: Metrics.veryShortMargin)
+                .top(by: Metrics.margin)
                 .leading(by: Metrics.margin).trailing(by: -Metrics.margin)
         }
 
         func setupTitleLabel() {
-            titleLabel.font = UIFont.systemMediumFont(size: 17)
+            titleLabel.font = UIFont.deckTitleFont
             titleLabel.textAlignment = .left
             titleLabel.numberOfLines = 1
             titleLabel.setContentHuggingPriority(.required, for: .vertical)
@@ -164,7 +164,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         }
 
         func setupPriceLabel() {
-            priceLabel.font = UIFont.systemBoldFont(size: 27)
+            priceLabel.font = UIFont.deckPriceFont
             priceLabel.textAlignment = .left
             priceLabel.numberOfLines = 1
             priceLabel.setContentCompressionResistancePriority(.required, for: .vertical)
@@ -188,7 +188,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         detailLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(toggleDetailLines)))
         detailLabel.numberOfLines = 3
         detailLabel.textAlignment = .left
-        detailLabel.font = UIFont.systemRegularFont(size: 15)
+        detailLabel.font = UIFont.deckDetailFont
         detailLabel.textColor = #colorLiteral(red: 0.7803921569, green: 0.8078431373, blue: 0.7803921569, alpha: 1)
         detailLabel.backgroundColor = UIColor.white
     }
@@ -247,7 +247,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
 
             socialMediaHeader.textColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
             socialMediaHeader.backgroundColor = UIColor.white
-            socialMediaHeader.font = UIFont.systemRegularFont(size: 13)
+            socialMediaHeader.font = UIFont.deckSocialHeaderFont
             socialMediaHeader.textAlignment = .left
             socialMediaHeader.text = LGLocalizedString.productShareTitleLabel
             socialMediaHeader.setContentCompressionResistancePriority(.required, for: .vertical)

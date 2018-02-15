@@ -130,7 +130,7 @@ final class ListingCardUserView: UIView {
         addSubview(userIcon)
         userIcon.layout(with: self)
             .top(by: Metrics.shortMargin)
-            .leading(by: Metrics.shortMargin).bottom(by: -Metrics.margin, relatedBy: .greaterThanOrEqual)
+            .leading(by: Metrics.margin).bottom(by: -Metrics.margin, relatedBy: .greaterThanOrEqual)
         userIcon.layout().width(Constant.Height.userIcon).widthProportionalToHeight()
 
         userIcon.contentMode = .scaleAspectFill
@@ -143,7 +143,7 @@ final class ListingCardUserView: UIView {
 
         userNameLabel.layout(with: userIcon).leading(to: .trailingMargin, by: Metrics.margin).top()
         userNameLabel.layout(with: userIcon).bottom(relatedBy: .greaterThanOrEqual)
-        userNameLabel.font = UIFont.systemBoldFont(size: 15)
+        userNameLabel.font = UIFont.deckUsernameFont
         userNameLabel.textColor = .white
     }
 
@@ -171,7 +171,7 @@ final class ListingCardUserView: UIView {
 
         actionLayoutGuide.leadingAnchor.constraint(equalTo: userNameLabel.trailingAnchor,
                                                    constant: Metrics.margin).isActive = true
-        actionLayoutGuide.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        actionLayoutGuide.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.veryShortMargin).isActive = true
         actionLayoutGuide.topAnchor.constraint(equalTo: userNameLabel.topAnchor).isActive = true
         actionLayoutGuide.bottomAnchor.constraint(equalTo: userIcon.bottomAnchor).isActive = true
     }

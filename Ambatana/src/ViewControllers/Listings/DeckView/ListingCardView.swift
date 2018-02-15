@@ -198,12 +198,12 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         countImageView.translatesAutoresizingMaskIntoConstraints = false
         countImageView.layout().widthProportionalToHeight().width(32)
         countImageView.layout(with: gradient)
-            .leading(by: Metrics.margin).top(relatedBy: .greaterThanOrEqual).bottom(relatedBy: .lessThanOrEqual)
+            .leading(by: Metrics.shortMargin).top(relatedBy: .greaterThanOrEqual).bottom(relatedBy: .lessThanOrEqual)
 
         imageCountLabel.translatesAutoresizingMaskIntoConstraints = false
         imageCountLabel.layout(with: countImageView).leading(to: .trailing)
 
-        imageCountLabel.layout(with: gradient).top(by: Metrics.margin).trailing().bottom()
+        imageCountLabel.layout(with: gradient).top(by: Metrics.shortMargin).trailing().bottom()
         imageCountLabel.textColor = .white
         imageCountLabel.font = UIFont.mediumButtonFont
 
