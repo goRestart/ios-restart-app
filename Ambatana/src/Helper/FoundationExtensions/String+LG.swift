@@ -309,8 +309,34 @@ extension String {
         }
         return noPlusOrHyphenString.count == Constants.usaPhoneNumberDigitsCount
     }
-    
+
     var addSquareMeterUnit: String {
         return self + Constants.sizeSquareMetersUnit
+    }
+
+    func addUSPhoneFormatDashes() -> String {
+        var firstChunk: String = ""
+        var midChunk: String = ""
+        var lastChunk: String = ""
+        var outputString = ""
+        let midChunkStart = String.Index(encodedOffset: Constants.firstDashPosition)
+        let midChunkEnd = String.Index(encodedOffset: Constants.secondDashPosition-1)
+
+        if self.count >= Constants.firstDashPosition {
+            firstChunk = String(self[self.startIndex..<midChunkStart])
+            outputString = firstChunk + "-"
+        } else {
+            return self
+        }
+        if self.count >= Constants.secondDashPosition {
+            midChunk = String(self[midChunkStart..<midChunkEnd])
+            outputString = outputString + midChunk + "-"
+            lastChunk = String(self[midChunkEnd..<self.endIndex])
+            outputString = outputString + lastChunk
+        } else {
+            midChunk = String(self[midChunkStart..<String.Index(encodedOffset: self.count)])
+            return outputString + midChunk
+        }
+        return outputString
     }
 }

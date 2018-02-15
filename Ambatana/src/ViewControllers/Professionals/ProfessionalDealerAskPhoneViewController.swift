@@ -166,7 +166,20 @@ class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UITextFi
                    shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         let newText = textField.textReplacingCharactersInRange(range, replacementString: string)
-        guard newText.isOnlyDigits else { return false }
+        guard newText.replacingOccurrences(of: "-", with: "").isOnlyDigits else { return false }
+
+        if string.count > 1 {
+            textField.text = string.addUSPhoneFormatDashes()
+            viewModel.updatePhoneNumberFrom(text: newText)
+            return false
+        } else if range.length == 0 {
+            if range.location == Constants.firstDashPosition {
+                textField.text?.insert("-", at: String.Index(encodedOffset: Constants.firstDashPosition))
+            } else if range.location == Constants.secondDashPosition {
+                textField.text?.insert("-", at: String.Index(encodedOffset: Constants.secondDashPosition))
+            }
+        }
+
         viewModel.updatePhoneNumberFrom(text: newText)
         return true
     }
