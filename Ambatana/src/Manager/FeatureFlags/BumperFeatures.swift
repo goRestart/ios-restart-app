@@ -107,11 +107,6 @@ extension Bumper  {
         guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return .control }
         return HomeRelatedEnabled(rawValue: value) ?? .control 
     }
-
-    static var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
-        guard let value = Bumper.value(for: HideChatButtonOnFeaturedCells.key) else { return .control }
-        return HideChatButtonOnFeaturedCells(rawValue: value) ?? .control 
-    }
     
     static var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
         guard let value = Bumper.value(for: TaxonomiesAndTaxonomyChildrenInFeed.key) else { return .control }

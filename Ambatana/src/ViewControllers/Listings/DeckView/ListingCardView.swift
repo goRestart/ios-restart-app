@@ -246,8 +246,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        contentView.setRoundedCorners([.allCorners], cornerRadius: 8.0)
-        applyShadow(withOpacity: 0.3, radius: 16.0, color: #colorLiteral(red: 0.7803921569, green: 0.8078431373, blue: 0.7803921569, alpha: 1).cgColor)
+        contentView.setRoundedCorners([.allCorners], cornerRadius: Metrics.margin)
+        applyShadow(withOpacity: 0.3, radius: Metrics.margin, color: #colorLiteral(red: 0.7803921569, green: 0.8078431373, blue: 0.7803921569, alpha: 1).cgColor)
         layer.shadowOffset = CGSize(width: 0, height: 0.5)
 
         layout.invalidateLayout()
