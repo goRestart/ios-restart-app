@@ -22,7 +22,7 @@ class ProductionEnvironment: AppEnvironment {
 
     // Config
     let configFileName = "ios-prod"
-    let configURL = "http://cdn.letgo.com/config/ios.json"
+    let configURL = "https://cdn.letgo.com/config/ios.json"
     
     // Leanplum
     let leanplumAppId = "app_gYgnjLc98J3vIVHbmdD9W0Qwvy0A3KHMdo4PKd0zJD4"
