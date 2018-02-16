@@ -229,12 +229,7 @@ struct ListingSocialMessage: SocialMessage {
 
 struct AppShareSocialMessage: SocialMessage {
 
-    private let imageUrl: URL?
     static var utmCampaignValue = "app-invite-friend"
-
-    init() {
-        imageUrl = URL(string: Constants.facebookAppInvitePreviewImageURL)
-    }
 
     var nativeShareItems: [Any] {
         if let shareUrl = branchUrl(.native) {
@@ -306,9 +301,6 @@ struct AppShareSocialMessage: SocialMessage {
         branchUniversalObject.title = LGLocalizedString.appShareSubjectText
         branchUniversalObject.contentDescription = LGLocalizedString.appShareMessageText
         branchUniversalObject.canonicalUrl = Constants.branchWebsiteURL
-        if let imageURL = imageUrl?.absoluteString {
-            branchUniversalObject.imageUrl = imageURL
-        }
         return branchUniversalObject
     }
     

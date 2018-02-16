@@ -178,6 +178,6 @@
       174
     ]
   },
-  "configURL": "http://cdn.letgo.com/config/ios.json",
+  "configURL": "https://cdn.letgo.com/config/ios.json",
   "quadKeyZoomLevel": 13
 }

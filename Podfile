@@ -34,7 +34,7 @@ def shared_pods
     pod "NewRelicAgent",        "6.1.0"     # Obj-c
 
     # letgo Core
-    pod "LGCoreKit",             "4.8.0"
+    pod "LGCoreKit",             "4.8.1"
 #   pod "LGCoreKit",            :path => "../lgcorekit"
 #   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'e2b0ee2a287ebb28b1be53f3f518f0ee2d4329a7'
 
@@ -76,6 +76,8 @@ def shared_pods
     pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6'
 
     pod "KeychainSwift",        "10.0.0"
+    
+    pod 'lottie-ios',           "2.5.0" # Obj-c
 
 end
 
