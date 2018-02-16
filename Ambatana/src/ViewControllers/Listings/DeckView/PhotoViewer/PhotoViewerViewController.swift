@@ -10,7 +10,8 @@ import Foundation
 
 final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType, UICollectionViewDataSource, UICollectionViewDelegate {
 
-    override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
+    override var prefersStatusBarHidden: Bool { return true }
+    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation { return .fade }
 
     @available(iOS 11.0, *)
     override func preferredScreenEdgesDeferringSystemGestures() -> UIRectEdge { return [.left, .top] }
@@ -39,6 +40,11 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         setupUI()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
+    }
+
     private func setupUI() {
         setupViewExtendedEdges()
         setupPhotoViewer()
@@ -47,8 +53,6 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     private func setupViewExtendedEdges() {
         if #available(iOS 11.0, *) {
             setNeedsUpdateOfScreenEdgesDeferringSystemGestures()
-        } else {
-            setNeedsStatusBarAppearanceUpdate()
         }
         edgesForExtendedLayout = .all
         automaticallyAdjustsScrollViewInsets = false
