@@ -41,8 +41,9 @@ final class ListingCardUserView: UIView {
 
     let rxShareButton: Reactive<UIButton>
     let rxActionButton: Reactive<UIButton>
+    let rxUserIcon: Reactive<UIButton>
 
-    private let userIcon = UIImageView(image: Images.placeholder)
+    private let userIcon = UIButton(type: .custom)
     private let userNameLabel = UILabel()
 
     private let effect = UIBlurEffect(style: .light)
@@ -58,7 +59,8 @@ final class ListingCardUserView: UIView {
         effectView = UIVisualEffectView(effect: effect)
         rxShareButton = shareButton.rx
         rxActionButton = actionButton.rx
-
+        rxUserIcon = userIcon.rx
+        
         super.init(frame: frame)
         setupUI()
     }
@@ -72,7 +74,7 @@ final class ListingCardUserView: UIView {
         guard let url = icon else { return }
         imageDownloader.downloadImageWithURL(url, completion: { [weak self] (result, url) in
             if let value = result.value {
-                self?.userIcon.image = value.image
+                self?.userIcon.setBackgroundImage(value.image, for: .normal)
             }
         })
     }
@@ -128,6 +130,7 @@ final class ListingCardUserView: UIView {
     private func setupUserIcon() {
         userIcon.translatesAutoresizingMaskIntoConstraints = false
         addSubview(userIcon)
+        userIcon.setBackgroundImage(Images.placeholder, for: .normal)
         userIcon.layout(with: self)
             .top(by: Metrics.shortMargin)
             .leading(by: Metrics.margin).bottom(by: -Metrics.margin, relatedBy: .greaterThanOrEqual)

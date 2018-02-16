@@ -20,6 +20,7 @@ protocol ListingDeckViewControllerBinderType: class {
     func showBumpUpBanner(bumpInfo: BumpUpInfo)
     func didTapShare()
     func didTapCardAction()
+    func didTapOnUserIcon()
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool)
     func setNavigationBarRightButtons(_ actions: [UIButton])
     func setLetGoRightButtonWith(_ action: UIAction, buttonTintColor: UIColor?, tapBlock: (ControlEvent<Void>) -> Void )
@@ -49,6 +50,7 @@ protocol ListingDeckViewModelType: class {
 protocol ListingDeckViewControllerBinderCellType {
     var rxShareButton: Reactive<UIButton> { get }
     var rxActionButton: Reactive<UIButton> { get }
+    var rxUserIcon: Reactive<UIButton> { get }
     var disposeBag: DisposeBag { get }
 }
 
@@ -88,6 +90,10 @@ final class ListingDeckViewControllerBinder {
 
         cell.rxActionButton.tap.asObservable().bind { [weak viewController] in
             viewController?.didTapCardAction()
+        }.disposed(by: cell.disposeBag)
+
+        cell.rxUserIcon.tap.asObservable().bind { [weak viewController] in
+            viewController?.didTapOnUserIcon()
         }.disposed(by: cell.disposeBag)
     }
 

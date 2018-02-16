@@ -41,6 +41,27 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                 viewType.resetVariables()
             }
 
+            context("the cell's usericon button is touched") {
+                beforeEach {
+                    sut.bind(cell: cellType)
+                    cellType.userIcon.sendActions(for: .touchUpInside)
+                }
+                it("didTapCardAction method is called one time") {
+                    expect(viewControllerType.isDidTapUserIconCalled) == 1
+                }
+            }
+
+            context("the cell's action button is touched after disposing the bag") {
+                beforeEach {
+                    sut.bind(cell: cellType)
+                    cellType.disposeBag = DisposeBag()
+                    cellType.userIcon.sendActions(for: .touchUpInside)
+                }
+                it("didTapCardAction method is not called") {
+                    expect(viewControllerType.isDidTapUserIconCalled) == 0
+                }
+            }
+
             context("the cell's action button is touched") {
                 beforeEach {
                     sut.bind(cell: cellType)
@@ -216,6 +237,9 @@ private class MockListingDeckViewControllerBinderCellType: ListingDeckViewContro
     var rxActionButton: Reactive<UIButton> { return actionButton.rx }
     let actionButton = UIButton(frame: .zero)
 
+    var rxUserIcon: Reactive<UIButton> { return userIcon.rx }
+    let userIcon = UIButton(frame: .zero)
+
     var disposeBag = DisposeBag()
 }
 
@@ -284,6 +308,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
                                                                                animationOptions: .allowUserInteraction,
                                                                                visible: true,
                                                                                isLocal: true))
+
     let collectionView: UICollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 500, height: 100),
                                                            collectionViewLayout: UICollectionViewFlowLayout())
     let rxCollectionView: Reactive<UICollectionView>
@@ -293,6 +318,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     var isVmShowOptionsCancelLabelCalled: Int = 0
     var isShowBumpUpBannerBumpInfoCalled: Int = 0
     var isDidTapShareCalled: Int = 0
+    var isDidTapUserIconCalled = 0
     var isDidTapCardActionCalled: Int = 0
     var isUpdateViewWithAlphaCalled: Int = 0
     var isSetNavigationBarRightButtonsCalled: Int = 0
@@ -312,6 +338,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
         isUpdateViewWithAlphaCalled = 0
         isSetNavigationBarRightButtonsCalled = 0
         isSetLetGoRightButtonWithCalled = 0
+        isDidTapUserIconCalled = 0
     }
 
     func updateViewWithActions(_ actions: [UIAction]) {
@@ -328,6 +355,9 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     }
     func didTapShare() {
         isDidTapShareCalled += 1
+    }
+    func didTapOnUserIcon() {
+        isDidTapUserIconCalled += 1
     }
     func didTapCardAction() {
         isDidTapCardActionCalled += 1

@@ -343,5 +343,6 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 extension ListingCardView: ListingDeckViewControllerBinderCellType {
     var rxShareButton: Reactive<UIButton> { return userView.rxShareButton }
     var rxActionButton: Reactive<UIButton> { return userView.rxActionButton }
+    var rxUserIcon: Reactive<UIButton> { return userView.rxUserIcon }
 }
 

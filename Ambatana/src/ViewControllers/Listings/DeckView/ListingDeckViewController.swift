@@ -129,6 +129,9 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 }
 
 extension ListingDeckViewController: ListingDeckViewControllerBinderType {
+    func didTapOnUserIcon() {
+        viewModel.showUser()
+    }
 
     var rxContentOffset: Observable<CGPoint> { return listingDeckView.rxCollectionView.contentOffset.share() }
 
