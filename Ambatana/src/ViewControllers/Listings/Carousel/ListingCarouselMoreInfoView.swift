@@ -36,7 +36,7 @@ class ListingCarouselMoreInfoView: UIView {
     fileprivate static let shareViewToMapMargin: CGFloat = 30
     fileprivate static let navBarDefaultHeight: CGFloat = 64
     fileprivate static let shareViewToBannerMargin = Metrics.margin
-    fileprivate static let dragViewVerticalExtraMargin: CGFloat = 7 // Center purposes to the custom navigation bar in carousel view
+    fileprivate static let dragViewVerticalExtraMargin: CGFloat = 2 // Center purposes to the custom navigation bar in carousel view
 
     @IBOutlet weak var titleText: UITextView!
     @IBOutlet weak var priceLabel: UILabel!
@@ -54,6 +54,7 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var statsContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var statsContainerViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var dragView: UIView!
+    @IBOutlet weak var dragButton: UIView!
     @IBOutlet weak var dragViewTitle: UILabel!
     @IBOutlet weak var dragViewImage: UIImageView!
 
@@ -152,7 +153,7 @@ class ListingCarouselMoreInfoView: UIView {
         // https://stackoverflow.com/a/44467194
         tagCollectionView.collectionViewLayout.invalidateLayout()
         mapView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
-        dragView.layer.cornerRadius = dragView.height / 2.0
+        dragButton.layer.cornerRadius = dragButton.height / 2.0
     }
 
     func dismissed() {
@@ -399,16 +400,17 @@ fileprivate extension ListingCarouselMoreInfoView {
 
         setupSocialShareView()
 
-        dragView.clipsToBounds = true
-        dragView.layer.borderColor = UIColor.white.cgColor
-        dragView.layer.borderWidth = 1
         dragView.backgroundColor = .clear
+        dragButton.clipsToBounds = true
+        dragButton.layer.borderColor = UIColor.white.cgColor
+        dragButton.layer.borderWidth = 1
+        dragButton.backgroundColor = .clear
         
         dragViewTitle.text = LGLocalizedString.productMoreInfoOpenButton
         dragViewTitle.textColor = UIColor.white
         dragViewTitle.font = UIFont.systemSemiBoldFont(size: 13)
 
-        [dragView, dragViewTitle, dragViewImage].forEach { view in
+        [dragButton, dragViewTitle, dragViewImage].forEach { view in
             view?.layer.shadowColor = UIColor.black.cgColor
             view?.layer.shadowOpacity = 0.5
             view?.layer.shadowRadius = 1
