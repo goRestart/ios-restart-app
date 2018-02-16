@@ -60,6 +60,7 @@ extension MeetingAssistantCoordinator: MeetingAssistantNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
     func sendMeeting(meeting: AssistantMeeting) {
-        
+        print("🤡  THE COORDINATORL!")
+
     }
 }

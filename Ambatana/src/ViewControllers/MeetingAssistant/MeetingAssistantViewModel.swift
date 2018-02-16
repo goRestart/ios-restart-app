@@ -51,8 +51,7 @@ class MeetingAssistantViewModel: BaseViewModel {
 
     var suggestedLocations: [SuggestedLocation]?
 
-    var buyerId: String?
-    var sellerId: String?
+    var listingId: String?
 
     let locationName = Variable<String?>(nil)
 
@@ -70,31 +69,30 @@ class MeetingAssistantViewModel: BaseViewModel {
 
     let disposeBag = DisposeBag()
 
-    let chatRepository: ChatRepository
+    let locationRepository: LocationRepository
 
     // MARK: - lifecycle
 
-    convenience init(buyerId: String?, sellerId: String?) {
-        self.init(buyerId: buyerId, sellerId: sellerId, chatRepository: Core.chatRepository)
+    convenience init(listingId: String?) {
+        self.init(listingId: listingId, locationRepository: Core.locationRepository)
     }
 
-    init(buyerId: String?, sellerId: String?, chatRepository: ChatRepository) {
-        self.buyerId = buyerId
-        self.sellerId = sellerId
-        self.chatRepository = chatRepository
+    init(listingId: String?, locationRepository: LocationRepository) {
+        self.listingId = listingId
+        self.locationRepository = locationRepository
         super.init()
         setupRx()
     }
 
     func setupRx() {
         Observable.combineLatest(date.asObservable(), locationName.asObservable()) { ($0, $1) }
-            .bindNext { [weak self] (date, locationName) in
+            .bind { [weak self] (date, locationName) in
                 if let _ = date, let _ = locationName {
                     self?.saveButtonEnabled.value = true
                 } else {
                     self?.saveButtonEnabled.value = false
                 }
-            }.addDisposableTo(disposeBag)
+            }.disposed(by: disposeBag)
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -139,12 +137,9 @@ class MeetingAssistantViewModel: BaseViewModel {
         let meeting: AssistantMeeting = AssistantMeeting(meetingType: .requested,
                                                          date: date.value,
                                                          locationName: locationName.value,
-                                                         locationId: selectedLocation.value?.locationId,
-                                                         location: coords,
-                                                         status: .pending,
-                                                         meetingId: nil,
-                                                         buyerId: buyerId,
-                                                         sellerId: sellerId)
+                                                         coordinates: coords,
+                                                         status: .pending)
+
         dataDelegate?.sendMeeting(meeting: meeting)
     }
 
@@ -152,14 +147,13 @@ class MeetingAssistantViewModel: BaseViewModel {
     // private methods
 
     fileprivate func retrieveSuggestedLocations() {
-        guard let buyerId = buyerId, let sellerId = sellerId else {
+        guard let listingId = listingId else {
             sugLocDelegate?.suggestedLocationDidFail()
             return
         }
         sugLocDelegate?.suggestedLocationDidStart()
         activityIndicatorActive.value = true
-        chatRepository.retrieveSuggestedLocationsForListing(
-            listingId: "🦄🦄🦄🦄🦄") { [weak self] result in
+        locationRepository.retrieveSuggestedLocationsForListing(listingId: listingId) { [weak self] result in
                 self?.activityIndicatorActive.value = false
                 if let value = result.value {
                     self?.suggestedLocations = value
@@ -178,7 +172,12 @@ class MeetingAssistantViewModel: BaseViewModel {
 
 extension MeetingAssistantViewModel: EditLocationDelegate {
     func editLocationDidSelectPlace(_ place: Place, distanceRadius: Int?) {
+        selectedLocation.value = nil
         selectedPlace = place
-        locationName.value = place.name
+        var locationFullname = place.name ?? ""
+        if let cityName = place.postalAddress?.city, !locationFullname.isEmpty {
+            locationFullname = locationFullname + ", " + cityName
+        }
+        locationName.value = locationFullname
     }
 }

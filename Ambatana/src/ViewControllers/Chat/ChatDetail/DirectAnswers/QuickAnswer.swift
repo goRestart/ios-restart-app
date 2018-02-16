@@ -34,7 +34,10 @@ enum QuickAnswer {
     case listingConditionDescribe
     case meetUpWhereYouWant
     case meetUpLocated
-    
+
+    // 🦄 hackaton
+    case meetingAssistant
+
     enum QuickAnswerType: String {
         case availability
         case price
@@ -46,6 +49,7 @@ enum QuickAnswer {
         case givenAway
         case negotiable
         case notNegotiable
+        case meetingAssistant
         
         var name: String {
             switch self {
@@ -69,6 +73,8 @@ enum QuickAnswer {
                 return LGLocalizedString.directAnswerNegotiableTitle
             case .notNegotiable:
                 return LGLocalizedString.directAnswerNotNegotiableTitle
+            case .meetingAssistant:
+                return "_Meeting Assistant"
             }
         }
     }
@@ -123,6 +129,8 @@ enum QuickAnswer {
             return LGLocalizedString.directAnswerWhereMeetUp
         case .meetUpLocated:
             return LGLocalizedString.directAnswerWhereLocated
+        case .meetingAssistant:
+            return "🗓 _Create a Meeting"
         }
     }
 
@@ -212,6 +220,8 @@ enum QuickAnswer {
             return QuickAnswerType.meetUp.name
         case .meetUpLocated:
             return QuickAnswerType.meetUp.name
+        case .meetingAssistant:
+            return QuickAnswerType.meetingAssistant.name
         default:
             return nil
         }
@@ -219,6 +229,7 @@ enum QuickAnswer {
 
     static func quickAnswersForChatWith(buyer: Bool, isFree: Bool, isDynamic: Bool, isNegotiable: Bool) -> [[QuickAnswer]] {
         var result = [[QuickAnswer]]()
+        result.append(meetingAssistantQuickAnswer())
         if isDynamic {
             if isFree {
                 if buyer {
@@ -341,5 +352,9 @@ enum QuickAnswer {
     
     static func negotiablePriceSellerQuickAnswers() -> [QuickAnswer] {
         return [.negotiableYes, .whatsOffer]
+    }
+
+    static func meetingAssistantQuickAnswer() -> [QuickAnswer] {
+        return [.meetingAssistant]
     }
 }

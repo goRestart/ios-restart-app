@@ -619,7 +619,11 @@ extension ChatViewModel {
 // MARK: - Message operations
 
 extension ChatViewModel {
-    
+
+    func sendMeetingMessage(meeting: AssistantMeeting) {
+        sendMessage(type: .chatNorris(meeting))
+    }
+
     func send(sticker: Sticker) {
         sendMessage(type: .chatSticker(sticker))
     }
@@ -709,7 +713,7 @@ extension ChatViewModel {
                                                         isPhone: true)
                     disableAskPhoneMessageButton()
                 }
-            case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing:
+            case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing, .chatNorris:
                 if !hasSentAutomaticAnswerForOtherMessage {
                     sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,
                                                         isPhone: false)
@@ -1221,7 +1225,7 @@ extension ChatViewModel {
                 switch $0.type {
                 case .disclaimer, .userInfo, .askPhoneNumber:
                     return false
-                case .offer, .sticker, .text:
+                case .offer, .sticker, .text, .chatNorris:
                     return $0.talkerId != myUserRepository.myUser?.objectId
                 }
             })?.base {
@@ -1253,7 +1257,7 @@ extension ChatViewModel {
                 switch $0.type {
                 case .disclaimer, .userInfo, .askPhoneNumber:
                     return false
-                case .offer, .sticker, .text:
+                case .offer, .sticker, .text, .chatNorris:
                     return $0.talkerId != myUserRepository.myUser?.objectId
                 }
             })?.base {
@@ -1515,17 +1519,23 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         switch answer {
         case .listingSold, .freeNotAvailable:
             onListingSoldDirectAnswer()
+            if showKeyboardWhenQuickAnswer == true {
+                delegate?.vmDidPressDirectAnswer(quickAnswer: answer)
+            } else {
+                send(quickAnswer: answer)
+            }
         case .interested, .notInterested, .meetUp, .stillAvailable, .isNegotiable, .likeToBuy, .listingCondition,
              .listingStillForSale, .whatsOffer, .negotiableYes, .negotiableNo, .freeStillHave, .freeYours,
              .freeAvailable, .stillForSale, .priceFirm, .priceWillingToNegotiate, .priceAsking, .listingConditionGood,
              .listingConditionDescribe, .meetUpLocated, .meetUpWhereYouWant:
             clearListingSoldDirectAnswer()
-        }
-        
-        if showKeyboardWhenQuickAnswer == true {
-            delegate?.vmDidPressDirectAnswer(quickAnswer: answer)
-        } else {
-            send(quickAnswer: answer)
+            if showKeyboardWhenQuickAnswer == true {
+                delegate?.vmDidPressDirectAnswer(quickAnswer: answer)
+            } else {
+                send(quickAnswer: answer)
+            }
+        case .meetingAssistant:
+            onMeetingAssistantPressed()
         }
     }
     
@@ -1537,6 +1547,10 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         if chatStatus.value == .available {
             shouldAskListingSold = true
         }
+    }
+
+    private func onMeetingAssistantPressed() {
+        navigator?.openAssistantFor(listingId: listingId ?? "N/A", dataDelegate: self)
     }
 }
 
@@ -1614,7 +1628,35 @@ extension ChatViewModel {
 
 extension ChatViewModel: MeetingAssistantDataDelegate {
     func sendMeeting(meeting: AssistantMeeting) {
+        print("🤡  THE VIEW MODEL!")
         // 🦄
-//        sendMeetingMessage(meeting: meeting)
+        sendMeetingMessage(meeting: meeting)
     }
+}
+
+// MARK: Hackaton 💩 🦄
+
+extension ChatViewModel {
+
+//    var sellerId: String? {
+//        let myUserId = myUserRepository.myUser?.objectId
+//        let interlocutorId = conversation.value.interlocutor?.objectId
+//        let currentSeller = conversation.value.amISelling ? myUserId : interlocutorId
+//        return currentSeller
+//    }
+
+    func acceptMeeting(meetingId: String) {
+        let acceptedMeeting = AssistantMeeting(meetingType: .accepted, date: nil, locationName: nil, coordinates: nil, status: .accepted)
+        sendMeetingMessage(meeting: acceptedMeeting)
+    }
+
+    func rejectMeeting(meetingId: String) {
+        let rejectedMeeting = AssistantMeeting(meetingType: .rejected, date: nil, locationName: nil, coordinates: nil, status: .rejected)
+        sendMeetingMessage(meeting: rejectedMeeting)
+    }
+
+//    func cancelMeeting(meetingId: String) {
+//        let canceledMeeting = AssistantMeeting(meetingType: .canceled, date: nil, locationName: nil, locationId: nil, location: nil, status: .canceled, meetingId: meetingId, buyerId: buyerId, sellerId: sellerId)
+//        sendMeetingMessage(meeting: canceledMeeting)
+//    }
 }

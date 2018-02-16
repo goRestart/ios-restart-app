@@ -15,12 +15,13 @@ enum ChatViewMessageType {
     case disclaimer(showAvatar: Bool, text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
     case userInfo(name: String, address: String?, facebook: Bool, google: Bool, email: Bool)
     case askPhoneNumber(text: String, action: (() -> Void)?)
+    case chatNorris(type: MeetingMessageType, date: Date?, locationName: String?, coordinates: LGLocationCoordinates2D?, status: MeetingStatus?)
 
     var isAskPhoneNumber: Bool {
         switch self {
         case .askPhoneNumber:
             return true
-        case .text, .offer, .sticker, .disclaimer, .userInfo:
+        case .text, .offer, .sticker, .disclaimer, .userInfo, .chatNorris:
             return false
         }
     }
@@ -62,7 +63,7 @@ struct ChatViewMessage: BaseModel {
         switch type {
         case .text, .offer:
             return true
-        case .sticker, .disclaimer, .userInfo, .askPhoneNumber:
+        case .sticker, .disclaimer, .userInfo, .askPhoneNumber, .chatNorris:
             return false
         }
     }
@@ -81,6 +82,13 @@ struct ChatViewMessage: BaseModel {
             return name
         case .askPhoneNumber(let text, _):
             return text
+        case let .chatNorris(type, date, locationName, coordinates, status):
+            let meeting = AssistantMeeting(meetingType: type,
+                                           date: date,
+                                           locationName: locationName,
+                                           coordinates: coordinates,
+                                           status: status)
+            return MeetingParser.textForMeeting(meeting: meeting)
         }
     }
     

@@ -554,8 +554,8 @@ extension TabCoordinator: ChatDetailNavigator {
                           loggedInAction: loggedInAction, cancelAction: nil)
     }
 
-    func openAssistantFor(buyerId: String, sellerId: String, dataDelegate: MeetingAssistantDataDelegate) {
-        let meetingAssistantVM = MeetingAssistantViewModel(buyerId: buyerId, sellerId: sellerId)
+    func openAssistantFor(listingId: String, dataDelegate: MeetingAssistantDataDelegate) {
+        let meetingAssistantVM = MeetingAssistantViewModel(listingId: listingId)
         meetingAssistantVM.dataDelegate = dataDelegate
         let meetingAssistantCoord = MeetingAssistantCoordinator(viewModel: meetingAssistantVM)
         openChild(coordinator: meetingAssistantCoord, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)

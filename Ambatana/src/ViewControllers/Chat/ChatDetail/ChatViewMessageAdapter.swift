@@ -61,6 +61,17 @@ class ChatViewMessageAdapter {
             }
         case .phone:
             type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(message.text))
+        case .chatNorris:
+            print("🗓🗓🗓🗓🗓  Meeting received!")
+            if let meeting = MeetingParser.createMeetingFromMessage(message: message.text) {
+                type = ChatViewMessageType.chatNorris(type: meeting.meetingType,
+                                                      date: meeting.date,
+                                                      locationName: meeting.locationName,
+                                                      coordinates: meeting.coordinates,
+                                                      status: meeting.status)
+            } else {
+                type = ChatViewMessageType.text(text: message.text)
+            }
         }
         return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt,
                                receivedAt: message.receivedAt, readAt: message.readAt, type: type,
@@ -84,6 +95,17 @@ class ChatViewMessageAdapter {
             }
         case .phone:
             type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(text))
+        case .chatNorris:
+            print("🗓🗓🗓🗓🗓  Meeting received!")
+            if let meeting = MeetingParser.createMeetingFromMessage(message: text) {
+                type = ChatViewMessageType.chatNorris(type: meeting.meetingType,
+                                                      date: meeting.date,
+                                                      locationName: meeting.locationName,
+                                                      coordinates: meeting.coordinates,
+                                                      status: meeting.status)
+            } else {
+                type = ChatViewMessageType.text(text: text)
+            }
         }
         return ChatViewMessage(objectId: message.objectId,
                                talkerId: message.talkerId,

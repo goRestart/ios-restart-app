@@ -33,6 +33,13 @@ class ChatCellDrawerFactory {
             return ChatOtherInfoCellDrawer(autoHide: autoHide)
         case .askPhoneNumber:
             return ChatAskPhoneNumberCellDrawer(autoHide: autoHide)
+        case .chatNorris:
+            // 🦄
+            if isMine {
+                return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide, showClock: showClock)
+            } else {
+                return ChatOthersMessageCellDrawer(autoHide: autoHide)
+            }
         }
     }
     
