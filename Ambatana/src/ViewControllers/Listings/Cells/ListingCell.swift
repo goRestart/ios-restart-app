@@ -26,7 +26,8 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
     @IBOutlet weak var cellContent: UIView!
     @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
-
+    @IBOutlet weak var thumbnailImageViewHeight: NSLayoutConstraint!
+    
     @IBOutlet weak var stripeImageView: UIImageView!
 
     @IBOutlet weak var stripeInfoView: UIView!
@@ -35,7 +36,6 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
     @IBOutlet weak var stripeIconWidth: NSLayoutConstraint!
 
     @IBOutlet weak var featuredListingInfoView: UIView!
-    @IBOutlet weak var featuredListingInfoHeight: NSLayoutConstraint!
     
     fileprivate var featuredListingPriceLabel: UILabel?
     fileprivate var featuredListingTitleLabel: UILabel?
@@ -84,7 +84,8 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         thumbnailBgColorView.backgroundColor = UIColor.placeholderBackgroundColor(id)
     }
 
-    func setupImageUrl(_ imageUrl: URL) {
+    func setupImageUrl(_ imageUrl: URL, imageSize: CGSize) {
+        thumbnailImageViewHeight.constant = imageSize.height
         thumbnailImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
             [weak self] (result, url) -> Void in
             if let (_, cached) = result.value, !cached {
@@ -127,7 +128,6 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         guard let featuredListingPriceLabel = featuredListingPriceLabel,
             let featuredListingTitleLabel = featuredListingTitleLabel,
             let featuredListingChatButton = featuredListingChatButton else {
-                featuredListingInfoHeight.constant = 0
                 return
         }
 
@@ -183,16 +183,8 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
             .right(by: -Metrics.shortMargin)
             .bottom(by: -buttonBottomMargin)
         featuredListingChatButton.layout(with: featuredListingTitleLabel).below(by: buttonTopMargin)
-
-        let totalMarginsHeight = priceTopMargin + titleTopMargin + buttonTopMargin + buttonBottomMargin
-
-        featuredListingInfoHeight.constant = ListingCell.featuredListingPriceLabelHeight + titleHeight + buttonHeight + totalMarginsHeight
     }
 
-    func updateInfoViewHeightToZero() {
-        featuredListingInfoHeight.constant = 0
-    }
-    
     func setupPriceView(price: String) {
         priceLabel = UILabel()
         
@@ -200,7 +192,6 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         priceLabel?.translatesAutoresizingMaskIntoConstraints = false
         
         guard let priceLabel = priceLabel else {
-            featuredListingInfoHeight.constant = 0
             return
         }
         
@@ -212,12 +203,10 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         
         let priceTopMargin = Metrics.shortMargin
         priceLabel.layout(with: featuredListingInfoView)
-            .top(by: priceTopMargin)
+            .centerY()
             .left(by: Metrics.shortMargin)
             .right(by: -Metrics.shortMargin)
         priceLabel.layout().height(ListingCell.featuredListingPriceLabelHeight)
-        
-        featuredListingInfoHeight.constant = ListingCell.priceLabelHeight + Metrics.shortMargin*2
     }
 
     // MARK: - Private methods
