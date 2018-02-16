@@ -217,7 +217,12 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         guard didSetupAfterLayout else { return }
         // ABIOS-2720
         // Force tabBar to hide when view appears from background.
-        self.tabBarController?.setTabBarHidden(true, animated: false)
+
+        DispatchQueue.main.async {
+            // Wait for the next RunLoop.
+            // When closing a Modal the tabBar frame value is not yet updated and we need to wait for the next runloop
+            self.tabBarController?.setTabBarHidden(true, animated: false)
+        }
         addIgnoreTouchesForMoreInfo()
     }
 
