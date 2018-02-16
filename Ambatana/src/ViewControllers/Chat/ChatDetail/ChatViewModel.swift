@@ -215,7 +215,10 @@ class ChatViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    convenience init(conversation: ChatConversation, navigator: ChatDetailNavigator?, source: EventParameterTypePage, predefinedMessage: String?) {
+    convenience init(conversation: ChatConversation,
+                     navigator: ChatDetailNavigator?,
+                     source: EventParameterTypePage,
+                     predefinedMessage: String?) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let listingRepository = Core.listingRepository
@@ -234,13 +237,14 @@ class ChatViewModel: BaseViewModel {
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager,
-                  predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil)
+                  predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil, isProfessional: false)
     }
     
     convenience init?(listing: Listing,
                       navigator: ChatDetailNavigator?,
                       source: EventParameterTypePage,
-                      openChatAutomaticMessage: ChatWrapperMessageType?) {
+                      openChatAutomaticMessage: ChatWrapperMessageType?,
+                      isProfessional: Bool) {
         guard let _ = listing.objectId, let sellerId = listing.user.objectId else { return nil }
 
         let myUserRepository = Core.myUserRepository
@@ -264,7 +268,7 @@ class ChatViewModel: BaseViewModel {
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil,
-                  openChatAutomaticMessage: openChatAutomaticMessage)
+                  openChatAutomaticMessage: openChatAutomaticMessage, isProfessional: isProfessional)
         self.setupConversationFrom(listing: listing)
     }
     
@@ -273,7 +277,7 @@ class ChatViewModel: BaseViewModel {
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
           ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?,
-          openChatAutomaticMessage: ChatWrapperMessageType?) {
+          openChatAutomaticMessage: ChatWrapperMessageType?, isProfessional: Bool) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -293,7 +297,7 @@ class ChatViewModel: BaseViewModel {
         self.source = source
         self.predefinedMessage = predefinedMessage
         self.openChatAutomaticMessage = openChatAutomaticMessage
-
+        self.interlocutorIsProfessional.value = isProfessional
         super.init()
         setupRx()
         loadStickers()
@@ -312,7 +316,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func didAppear() {
-        if chatEnabled.value {
+        if chatEnabled.value && !interlocutorIsProfessional.value {
             delegate?.vmDidBeginEditing()
         }
     }

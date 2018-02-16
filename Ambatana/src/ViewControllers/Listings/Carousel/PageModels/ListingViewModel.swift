@@ -573,7 +573,7 @@ extension ListingViewModel {
     func chatWithSeller() {
         let source: EventParameterTypePage = (moreInfoState.value == .shown) ? .listingDetailMoreInfo : .listingDetail
         trackHelper.trackChatWithSeller(source)
-        navigator?.openListingChat(listing.value, source: .listingDetail)
+        navigator?.openListingChat(listing.value, source: .listingDetail, isProfessional: isProfessional.value)
     }
 
     func sendDirectMessage(_ text: String, isDefaultText: Bool) {
