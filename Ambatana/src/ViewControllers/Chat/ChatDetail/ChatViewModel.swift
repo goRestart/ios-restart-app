@@ -1329,7 +1329,7 @@ extension ChatViewModel {
         guard isFirstPage else { return nil }
         switch featureFlags.showSecurityMeetingChatMessage {
         case .baseline, .control:
-            return firstInterlocutorMessageIndex
+            return nil
         case .variant1:
             guard priceIsEqualOrHigherThan250 else { return nil }
             if isBuyer {

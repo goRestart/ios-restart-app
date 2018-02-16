@@ -309,7 +309,9 @@ class ListingViewModel: BaseViewModel {
 
         // bumpeable listing check
         status.asObservable().skip(1).bind { [weak self] status in
-            if status.shouldRefreshBumpBanner {
+            guard let strongSelf = self else  { return }
+            let pendingAreBumpeable = strongSelf.featureFlags.showBumpUpBannerOnNotValidatedListings.isActive
+            if status.shouldRefreshBumpBanner(pendingAreBumpeable: pendingAreBumpeable) {
                 self?.refreshBumpeableBanner()
             } else {
                 self?.bumpUpBannerInfo.value = nil
@@ -382,8 +384,11 @@ class ListingViewModel: BaseViewModel {
     }
 
     func refreshBumpeableBanner() {
-        guard let listingId = listing.value.objectId, status.value.shouldRefreshBumpBanner, !isUpdatingBumpUpBanner,
-                (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
+        let pendingAreBumpeable = featureFlags.showBumpUpBannerOnNotValidatedListings.isActive
+        guard let listingId = listing.value.objectId,
+            status.value.shouldRefreshBumpBanner(pendingAreBumpeable: pendingAreBumpeable),
+            !isUpdatingBumpUpBanner,
+            (featureFlags.freeBumpUpEnabled || featureFlags.pricedBumpUpEnabled) else { return }
 
         let isBumpUpPending = purchasesShopper.isBumpUpPending(forListingId: listingId)
 

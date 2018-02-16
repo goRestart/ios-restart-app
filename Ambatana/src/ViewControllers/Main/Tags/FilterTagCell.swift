@@ -141,11 +141,11 @@ class FilterTagCell: UICollectionViewCell {
         }
         
         if !startText.isEmpty && !endText.isEmpty {
-            return startText.addSquareMeterUnit + " " + "-" + " " + endText.addSquareMeterUnit
+            return startText.addingSquareMeterUnit + " " + "-" + " " + endText.addingSquareMeterUnit
         } else if !startText.isEmpty {
-            return startText.addSquareMeterUnit
+            return startText.addingSquareMeterUnit
         } else if !endText.isEmpty {
-            return endText.addSquareMeterUnit
+            return endText.addingSquareMeterUnit
         } else {
             // should never ever happen
             return ""

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,22 +20,22 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U25-jS-eMH" userLabel="cellContent">
-                        <rect key="frame" x="2" y="2" width="149" height="295.5"/>
+                        <rect key="frame" x="10" y="5" width="133" height="290"/>
                         <subviews>
                             <view contentMode="scaleToFill" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="tP5-iE-B50" userLabel="Featured Info View">
-                                <rect key="frame" x="0.0" y="170.5" width="149" height="125"/>
+                                <rect key="frame" x="0.0" y="165" width="133" height="125"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="125" id="TsQ-E0-IIW"/>
-                                </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jgH-1b-N7M" userLabel="Thumbnail Bg Color View">
-                                <rect key="frame" x="0.0" y="0.0" width="149" height="170.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="133" height="165"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="afm-Cf-H6I" userLabel="Thumbnail Image View">
-                                <rect key="frame" x="0.0" y="0.0" width="149" height="170.5"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="afm-Cf-H6I" userLabel="Thumbnail Image View">
+                                <rect key="frame" x="0.0" y="0.0" width="133" height="165"/>
                                 <color key="tintColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="165" id="gsQ-90-QZL"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -50,18 +50,18 @@
                             <constraint firstItem="afm-Cf-H6I" firstAttribute="leading" secondItem="U25-jS-eMH" secondAttribute="leading" id="e5s-hZ-XYg"/>
                             <constraint firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" id="lJS-K5-tI7"/>
                             <constraint firstItem="afm-Cf-H6I" firstAttribute="bottom" secondItem="jgH-1b-N7M" secondAttribute="bottom" id="n5G-x7-Psy"/>
-                            <constraint firstItem="tP5-iE-B50" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="bottom" id="zNI-hZ-JxQ"/>
+                            <constraint firstItem="afm-Cf-H6I" firstAttribute="bottom" secondItem="tP5-iE-B50" secondAttribute="top" id="zNI-hZ-JxQ"/>
                         </constraints>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stripe_white" translatesAutoresizingMaskIntoConstraints="NO" id="RTJ-Uh-fyf">
-                        <rect key="frame" x="83" y="0.0" width="70" height="70"/>
+                        <rect key="frame" x="75" y="3" width="70" height="70"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="70" id="pNB-M9-nug"/>
                             <constraint firstAttribute="width" constant="70" id="rov-j5-UCc"/>
                         </constraints>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kca-PV-MAN">
-                        <rect key="frame" x="99" y="16" width="63" height="24"/>
+                        <rect key="frame" x="91" y="19" width="63" height="24"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="riv-Mj-pVV" userLabel="Stripe Info Container View">
                                 <rect key="frame" x="14" y="0.0" width="31" height="24"/>
@@ -130,7 +130,6 @@
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <connections>
                 <outlet property="cellContent" destination="U25-jS-eMH" id="Q0Q-IE-he3"/>
-                <outlet property="featuredListingInfoHeight" destination="TsQ-E0-IIW" id="0Zf-XM-yJh"/>
                 <outlet property="featuredListingInfoView" destination="tP5-iE-B50" id="6ke-JE-xS7"/>
                 <outlet property="stripeIcon" destination="wEc-7h-s7X" id="8kF-0K-e3q"/>
                 <outlet property="stripeIconWidth" destination="IFQ-gE-Ewv" id="m7o-d0-hHD"/>
@@ -139,6 +138,7 @@
                 <outlet property="stripeLabel" destination="h6x-Ls-H2g" id="wgp-sJ-XRe"/>
                 <outlet property="thumbnailBgColorView" destination="jgH-1b-N7M" id="h60-8J-u7a"/>
                 <outlet property="thumbnailImageView" destination="afm-Cf-H6I" id="90V-do-rJs"/>
+                <outlet property="thumbnailImageViewHeight" destination="gsQ-90-QZL" id="uqE-qd-VVk"/>
             </connections>
             <point key="canvasLocation" x="316" y="267"/>
         </tableViewCell>
