@@ -45,6 +45,7 @@ struct ListingData {
     var isMine: Bool
     var price: String
     var shouldShowPrice: Bool
+    let imageSize: CGSize
 
     var listingId: String? {
         return listing?.objectId
