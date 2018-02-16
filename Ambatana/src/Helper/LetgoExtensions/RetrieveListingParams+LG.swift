@@ -46,6 +46,9 @@ extension RetrieveListingParams {
         numberOfLivingRooms = filters?.realEstateNumberOfRooms?.numberOfLivingRooms
         numberOfBathrooms = filters?.realEstateNumberOfBathrooms?.rawValue
         
+        sizeSquareMetersFrom = filters?.realEstateSizeRange.min
+        sizeSquareMetersTo = filters?.realEstateSizeRange.max
+        
         if let priceRange = filters?.priceRange {
             switch priceRange {
             case .freePrice:

@@ -372,6 +372,18 @@ class ListingListViewModel: BaseViewModel {
         guard 0..<numberOfListings ~= index else { return nil }
         return objects[index]
     }
+    
+    func imageViewSizeForItem(at index: Int) -> CGSize {
+        guard
+            let listing = listingAtIndex(index),
+            let size = thumbImageViewSize(for: listing,
+                                          widthConstraint: cellWidth,
+                                          variant: featureFlags.mainFeedAspectRatio)
+            else {
+                return .zero
+        }
+        return size
+    }
 
     func listingAtIndex(_ index: Int) -> Listing? {
         guard 0..<numberOfListings ~= index else { return nil }
@@ -395,53 +407,56 @@ class ListingListViewModel: BaseViewModel {
         })
     }
     
-    private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat) -> CGFloat {
-        let minHeightForFeaturedListing: CGFloat = 105.0
-
-        var height: CGFloat = 0.0
-        if let featured = listing.featured, featured {
-            height += minHeightForFeaturedListing
-            if let title = listing.title {
-                height += title.heightForWidth(width: width, maxLines: 2, withFont: UIFont.mediumBodyFont)
-            }
+    private func featuredInfoAdditionalCellHeight(for listing: Listing, width: CGFloat, isVariantEnabled: Bool) -> CGFloat {
+        let minHeightForFeaturedListing: CGFloat = 120.0
+        guard isVariantEnabled, let featured = listing.featured, featured else {
+            return 0
+        }
+        var height: CGFloat = minHeightForFeaturedListing
+        if let title = listing.title {
+            height += title.heightForWidth(width: width, maxLines: 2, withFont: UIFont.mediumBodyFont)
         }
         return height
     }
     
-    private func cellSize(for listing: Listing, widthConstraint: CGFloat, variant abTest: MainFeedAspectRatio) -> CGSize? {
+    private func priceViewAdditionalCellHeight(variant: ShowPriceAfterSearchOrFilter) -> CGFloat {
+        let priceViewHeight: CGFloat = 45.0
+        guard variant.isActive, shouldShowPrices else {
+            return 0
+        }
+        return priceViewHeight
+    }
+    
+    private func thumbImageViewSize(for listing: Listing, widthConstraint: CGFloat, variant: MainFeedAspectRatio) -> CGSize? {
         let maxPortraitAspectRatio = AspectRatio.w1h2
         let minCellHeight: CGFloat = 80.0
-        let priceViewHeight: CGFloat = 30.0
-
-        guard let thumbSize = listing.thumbnailSize?.toCGSize, thumbSize.height != 0 && thumbSize.width != 0 else {
+        
+        guard let originalThumbSize = listing.thumbnailSize?.toCGSize, originalThumbSize.height != 0 && originalThumbSize.width != 0 else {
             return nil
         }
-        let thumbnailAspectRatio = AspectRatio(size: thumbSize)
+        let originalThumbnailAspectRatio = AspectRatio(size: originalThumbSize)
         let cellAspectRatio: AspectRatio
-        if thumbnailAspectRatio.isMore(.portrait, than: maxPortraitAspectRatio) {
+        if originalThumbnailAspectRatio.isMore(.portrait, than: maxPortraitAspectRatio) {
             cellAspectRatio = maxPortraitAspectRatio
         } else {
-            cellAspectRatio = thumbnailAspectRatio
+            cellAspectRatio = originalThumbnailAspectRatio
         }
-        
-        var cellHeight = round(cellAspectRatio.size(setting: widthConstraint, in: .width).height)
-        cellHeight = max(minCellHeight, cellHeight)
-        cellHeight += featuredInfoAdditionalCellHeight(for: listing, width: widthConstraint)
-        cellHeight += priceViewHeight
-        let cellSize = CGSize(width: widthConstraint, height: cellHeight)
-        
+        var thumbHeight = round(cellAspectRatio.size(setting: widthConstraint, in: .width).height)
+        thumbHeight = max(minCellHeight, thumbHeight)
+        let thumbSize = CGSize(width: widthConstraint, height: thumbHeight)
+
         let result: CGSize
-        switch abTest {
+        switch variant {
         case .control, .baseline:
-            result = cellSize
+            result = thumbSize
         case .square:
             result = AspectRatio.square.size(setting: widthConstraint, in: .width)
         case .squareOrLessThanW9H16:
-            switch thumbnailAspectRatio.orientation {
+            switch originalThumbnailAspectRatio.orientation {
             case .square, .landscape:
                 result = AspectRatio.square.size(setting: widthConstraint, in: .width)
             case .portrait:
-                if thumbnailAspectRatio.isMore(.portrait, than: .w9h16) {
+                if originalThumbnailAspectRatio.isMore(.portrait, than: .w9h16) {
                     result = AspectRatio.w9h16.size(setting: widthConstraint, in: .width)
                 } else {
                     result = thumbSize
@@ -449,6 +464,20 @@ class ListingListViewModel: BaseViewModel {
             }
         }
         return result
+    }
+    
+    private func cellSize(for listing: Listing, widthConstraint: CGFloat, featureFlags: FeatureFlags) -> CGSize? {
+        guard var cellHeight = thumbImageViewSize(for: listing,
+                                                  widthConstraint: widthConstraint,
+                                                  variant: featureFlags.mainFeedAspectRatio)?.height else {
+            return nil
+        }
+        cellHeight += featuredInfoAdditionalCellHeight(for: listing,
+                                                       width: widthConstraint,
+                                                       isVariantEnabled: featureFlags.pricedBumpUpEnabled)
+        cellHeight += priceViewAdditionalCellHeight(variant: featureFlags.showPriceAfterSearchOrFilter)
+        let cellSize = CGSize(width: widthConstraint, height: cellHeight)
+        return cellSize
     }
     
     /**
@@ -462,7 +491,7 @@ class ListingListViewModel: BaseViewModel {
         let size: CGSize
         switch item {
         case let .listingCell(listing):
-            size = cellSize(for: listing, widthConstraint: cellWidth, variant: featureFlags.mainFeedAspectRatio) ?? defaultCellSize
+            size = cellSize(for: listing, widthConstraint: cellWidth, featureFlags: featureFlags) ?? defaultCellSize
         case .collectionCell:
             let bannerAspectRatio = AspectRatio.w4h3
             size = bannerAspectRatio.size(setting: cellWidth, in: .width)

@@ -35,7 +35,6 @@ enum TagCollectionViewFlowLayout {
 class TagCollectionView: UICollectionView, TagCollectionViewModelDelegate {
 
     override var intrinsicContentSize: CGSize {
-        report(AppReport.uikit(error: .breadcrumb), message: "TagCollectionView intrinsicContentSize")
         if collectionViewLayout.collectionViewContentSize == .zero {
             // we need to return something different than zero or the datasource `cellForItemAt` method won't get called.
             return CGSize(width: 1, height: 1)
@@ -44,7 +43,6 @@ class TagCollectionView: UICollectionView, TagCollectionViewModelDelegate {
         let width = collectionViewLayout.collectionViewContentSize.width
 
         let msg = "TagCollectionView intrinsicContentSize \(height), \(width)"
-        report(AppReport.uikit(error: .breadcrumb), message: msg)
 
         return collectionViewLayout.collectionViewContentSize
     }
@@ -66,16 +64,13 @@ class TagCollectionView: UICollectionView, TagCollectionViewModelDelegate {
     }
     
     func defaultSetup() {
-        report(AppReport.uikit(error: .breadcrumb), message: "TagCollectionView defaultSetup")
         collectionViewLayout = TagCollectionViewFlowLayout.leftAligned.collectionFlowLayout
         setupUI()
-        report(AppReport.uikit(error: .breadcrumb), message: "TagCollectionView defaultSetup end")
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         invalidateIntrinsicContentSize()
-        report(AppReport.uikit(error: .breadcrumb), message: "invalidateIntrinsicContentSize")
     }
     
     
@@ -92,7 +87,6 @@ class TagCollectionView: UICollectionView, TagCollectionViewModelDelegate {
     
     func vmDidReloadData(_ vm: TagCollectionViewModel) {
         reloadData()
-        report(AppReport.uikit(error: .breadcrumb), message: "TagCollectionView vmReloadData invalidateLayout")
         collectionViewLayout.invalidateLayout()
     }
 }
