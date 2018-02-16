@@ -55,6 +55,7 @@ protocol FeatureFlaggeable: class {
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var emojiSizeIncrement: EmojiSizeIncrement { get }
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -145,6 +146,10 @@ extension IncreaseMinPriceBumps {
             return 2
         }
     }
+}
+
+extension OnboardingIncentivizePosting {
+    var isActive: Bool { get { return self == .blockingPosting } }
 }
 
 class FeatureFlags: FeatureFlaggeable {
@@ -429,6 +434,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.emojiSizeIncrement
         }
         return EmojiSizeIncrement.fromPosition(abTests.emojiSizeIncrement.value)
+    }
+    
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting {
+        if Bumper.enabled {
+            return Bumper.onboardingIncentivizePosting
+        }
+        return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
     }
     
 
