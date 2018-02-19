@@ -53,7 +53,8 @@ class ABTests {
     let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20180207ShowSecurityMeetingChatMessage", defaultValue: 0, abGroupType: .chat)
     let noAdsInFeedForNewUsers = IntABDynamicVar(key: "20180212NoAdsInFeedForNewUsers", defaultValue: 0, abGroupType: .money)
     let emojiSizeIncrement = IntABDynamicVar(key: "20180212EmojiSizeIncrement", defaultValue: 0, abGroupType: .chat)
-    
+    let showBumpUpBannerOnNotValidatedListings = IntABDynamicVar(key: "20180214showBumpUpBannerOnNotValidatedListings", defaultValue: 0, abGroupType: .money)
+
     init() {
     }
     
@@ -98,6 +99,7 @@ class ABTests {
         result.append(showSecurityMeetingChatMessage)
         result.append(noAdsInFeedForNewUsers)
         result.append(emojiSizeIncrement)
+        result.append(showBumpUpBannerOnNotValidatedListings)
         
         return result
     }

@@ -54,6 +54,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var mainFeedAspectRatio: MainFeedAspectRatio = .control
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
     var emojiSizeIncrement: EmojiSizeIncrement = .control
+    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

@@ -194,9 +194,7 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
         if let text = getValueSelected(section: sectionSummary) {
            cell.textLabel?.text = text
         } else {
-            cell.textLabel?.text = sectionSummary.emptyLocalizeString
-            cell.imageView?.image = UIImage(named: "items")
-            cell.imageView?.tintColor = UIColor.grayLighter
+            cell.configureEmptyState(title: sectionSummary.emptyLocalizeString)
         }
         
         if indexPath.row == postingSummaryOptions.count - 1 {

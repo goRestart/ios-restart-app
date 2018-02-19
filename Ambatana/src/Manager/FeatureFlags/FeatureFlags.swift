@@ -56,6 +56,7 @@ protocol FeatureFlaggeable: class {
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
     var emojiSizeIncrement: EmojiSizeIncrement { get }
+    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -203,6 +204,11 @@ extension IncreaseMinPriceBumps {
         }
     }
 }
+
+extension ShowBumpUpBannerOnNotValidatedListings {
+    var isActive: Bool { get { return self == .active } }
+}
+
 
 class FeatureFlags: FeatureFlaggeable {
 
@@ -494,6 +500,13 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return EmojiSizeIncrement.fromPosition(abTests.emojiSizeIncrement.value)
     }
+
+    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
+        if Bumper.enabled {
+            return Bumper.showBumpUpBannerOnNotValidatedListings
+        }
+        return ShowBumpUpBannerOnNotValidatedListings.fromPosition(abTests.showBumpUpBannerOnNotValidatedListings.value)
+    }
     
 
     // MARK: - Country features
@@ -592,7 +605,6 @@ class FeatureFlags: FeatureFlaggeable {
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio
             }
         }
-
         switch sensorLocationCountryCode {
         case .usa?:
             switch showAdsInFeedWithRatio {

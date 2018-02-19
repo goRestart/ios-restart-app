@@ -9,7 +9,9 @@
 import Foundation
 
 extension Date {
-    
+
+    static var dateFormatter: DateFormatter = DateFormatter()
+
     /// Date creation for Chat (websockets).
     static func makeChatDate(millisecondsIntervalSince1970 milliseconds: Double?) -> Date? {
         guard let millisecondsValue = milliseconds else { return nil }
@@ -19,17 +21,15 @@ extension Date {
 
     static func userCreationDateFrom(string: String?) -> Date? {
         guard let stringDate = string else { return nil }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY-MM-dd"
-        let date = formatter.date(from: stringDate)
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        let date = dateFormatter.date(from: stringDate)
         return date
     }
 
     static func userCreationStringFrom(date: Date?) -> String? {
         guard let creationDate = date else { return nil }
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY-MM-dd"
-        let creationDateString = formatter.string(from: creationDate)
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        let creationDateString = dateFormatter.string(from: creationDate)
         return creationDateString
     }
 }
