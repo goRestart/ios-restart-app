@@ -55,6 +55,7 @@ protocol FeatureFlaggeable: class {
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var emojiSizeIncrement: EmojiSizeIncrement { get }
+    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
 
     // Country dependant features
@@ -147,6 +148,11 @@ extension IncreaseMinPriceBumps {
         }
     }
 }
+
+extension ShowBumpUpBannerOnNotValidatedListings {
+    var isActive: Bool { get { return self == .active } }
+}
+
 
 extension OnboardingIncentivizePosting {
     var isActive: Bool { get { return self == .blockingPosting } }
@@ -435,6 +441,13 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return EmojiSizeIncrement.fromPosition(abTests.emojiSizeIncrement.value)
     }
+
+    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
+        if Bumper.enabled {
+            return Bumper.showBumpUpBannerOnNotValidatedListings
+        }
+        return ShowBumpUpBannerOnNotValidatedListings.fromPosition(abTests.showBumpUpBannerOnNotValidatedListings.value)
+    }
     
     var onboardingIncentivizePosting: OnboardingIncentivizePosting {
         if Bumper.enabled {
@@ -527,6 +540,18 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     var feedDFPAdUnitId: String? {
+        if Bumper.enabled {
+            switch showAdsInFeedWithRatio {
+            case .baseline, .control:
+                return nil
+            case .ten:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
+            case .fifteen:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA15Ratio
+            case .twenty:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio
+            }
+        }
         switch sensorLocationCountryCode {
         case .usa?:
             switch showAdsInFeedWithRatio {
