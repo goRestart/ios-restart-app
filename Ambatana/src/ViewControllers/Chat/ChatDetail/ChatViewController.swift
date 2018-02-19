@@ -28,7 +28,6 @@ class ChatViewController: TextViewController {
     let relatedListingsView: ChatRelatedListingsView
     let directAnswersPresenter: DirectAnswersPresenter
     let stickersView: ChatStickersView
-    var stickersWindow: UIWindow?
     let disposeBag = DisposeBag()
     let expressChatBanner: ChatBanner
     var expressChatBannerTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
@@ -98,7 +97,7 @@ class ChatViewController: TextViewController {
         setupRelatedProducts()
         setupRxBindings()
         setupStickersView()
-        initStickersWindow()
+        initStickersView()
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
                                                          name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
@@ -108,6 +107,11 @@ class ChatViewController: TextViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideStickers()
     }
 
     // Need to override this to fix the position of the Slack tableView
@@ -328,36 +332,18 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         viewModel.stickers.asObservable().bind { [weak self] stickers in
             self?.stickersView.reloadStickers(stickers)
             }.disposed(by: disposeBag)
-        stickersView.isHidden = true
         singleTapGesture?.addTarget(self, action: #selector(hideStickers))
         let textTapGesture = UITapGestureRecognizer(target: self, action: #selector(hideStickers))
         textTapGesture.delegate = self
         textView.addGestureRecognizer(textTapGesture)
     }
-
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
-                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
     
-    fileprivate func initStickersWindow() {
-        let windowFrame = CGRect(x: 0, y: view.height, width: view.width, height: view.height)
-        
-        stickersWindow = UIWindow(frame: windowFrame)
-        stickersWindow?.windowLevel = 100000001 // needs to be higher then the level of the keyboard (100000000)
-        stickersWindow?.addSubview(stickersView)
-        stickersWindow?.isHidden = true
-        stickersWindow?.backgroundColor = .clear
-        stickersView.isHidden = true
+    fileprivate func initStickersView() {
         showingStickers = false
 
         keyboardChanges.bind { [weak self] change in
             guard let `self` = self else { return }
-            let origin = change.origin
-            let height = change.height
-            let windowFrame = CGRect(x: 0, y: origin, width: self.view.width, height: height)
-            let stickersFrame = CGRect(x: 0, y: 0, width: self.view.width, height: height)
-            self.stickersWindow?.frame = windowFrame
+            let stickersFrame = CGRect(x: 0, y: change.origin, width: self.view.width, height: change.height)
             self.stickersView.frame = stickersFrame
         }.disposed(by: disposeBag)
     }
@@ -366,16 +352,15 @@ extension ChatViewController: UIGestureRecognizerDelegate {
         guard !showingStickers else { return }
         viewModel.stickersShown()
         showKeyboard(true, animated: false)
-        stickersWindow?.isHidden = false
-        stickersView.isHidden = false
+        // Add stickers view to keyboard window (is always the top window)
+        UIApplication.shared.windows.last?.addSubview(stickersView)
         showingStickers = true
         reloadLeftActions()
     }
     
     @objc func hideStickers() {
         guard showingStickers else { return }
-        stickersWindow?.isHidden = true
-        stickersView.isHidden = true
+        stickersView.removeFromSuperview()
         showingStickers = false
         reloadLeftActions()
     }
