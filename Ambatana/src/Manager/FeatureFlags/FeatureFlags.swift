@@ -40,7 +40,6 @@ protocol FeatureFlaggeable: class {
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
-    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
@@ -89,10 +88,6 @@ extension TaxonomiesAndTaxonomyChildrenInFeed {
 }
 
 extension ShowPriceStepRealEstatePosting {
-    var isActive: Bool { get { return self == .active } }
-}
-
-extension PromoteBumpUpAfterSell {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -386,13 +381,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.showClockInDirectAnswer
         }
         return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
-    }
-
-    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
-        if Bumper.enabled {
-            return Bumper.promoteBumpUpAfterSell
-        }
-        return PromoteBumpUpAfterSell.fromPosition(abTests.promoteBumpUpAfterSell.value)
     }
 
     var allowCallsForProfessionals: AllowCallsForProfessionals {

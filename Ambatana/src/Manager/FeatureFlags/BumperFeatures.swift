@@ -29,7 +29,6 @@ extension Bumper  {
         flags.append(NewItemPage.self)
         flags.append(ShowPriceStepRealEstatePosting.self)
         flags.append(ShowClockInDirectAnswer.self)
-        flags.append(PromoteBumpUpAfterSell.self)
         flags.append(MoreInfoAFShOrDFP.self)
         flags.append(MostSearchedDemandedItems.self)
         flags.append(AllowCallsForProfessionals.self)
@@ -128,11 +127,6 @@ extension Bumper  {
     static var showClockInDirectAnswer: ShowClockInDirectAnswer {
         guard let value = Bumper.value(for: ShowClockInDirectAnswer.key) else { return .control }
         return ShowClockInDirectAnswer(rawValue: value) ?? .control 
-    }
-
-    static var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
-        guard let value = Bumper.value(for: PromoteBumpUpAfterSell.key) else { return .control }
-        return PromoteBumpUpAfterSell(rawValue: value) ?? .control 
     }
 
     static var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
@@ -440,22 +434,6 @@ enum ShowClockInDirectAnswer: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show a clock until the message is delivered correctly" } 
     static func fromPosition(_ position: Int) -> ShowClockInDirectAnswer {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum PromoteBumpUpAfterSell: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return PromoteBumpUpAfterSell.control.rawValue }
-    static var enumValues: [PromoteBumpUpAfterSell] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show a bump up alert after posting (once every 24h)" } 
-    static func fromPosition(_ position: Int) -> PromoteBumpUpAfterSell {
         switch position { 
             case 0: return .control
             case 1: return .baseline

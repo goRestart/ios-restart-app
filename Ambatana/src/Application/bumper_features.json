@@ -81,11 +81,6 @@
         "description": "Show a clock until the message is delivered correctly"
     },
     {
-        "name": "PromoteBumpUpAfterSell",
-        "values": ["control", "baseline", "active"],
-        "description": "Show a bump up alert after posting (once every 24h)"
-    },
-    {
         "name": "MoreInfoAFShOrDFP",
         "values": ["control", "baseline", "afsh", "dfp"],
         "description": "show ad in more info, could be Adsense for shopping or DFP"
