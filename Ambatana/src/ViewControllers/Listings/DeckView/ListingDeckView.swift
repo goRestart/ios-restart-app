@@ -29,7 +29,8 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     var currentPage: Int { return collectionLayout.page }
     var bumpUpBanner: BumpUpBanner { return itemActionsView.bumpUpBanner }
     var isBumpUpVisible: Bool { return itemActionsView.isBumpUpVisisble }
-    
+    var cardsInsets: UIEdgeInsets { return collectionLayout.cardInsets }
+
     override init(frame: CGRect) {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
         rxCollectionView = collectionView.rx
@@ -45,9 +46,21 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         setupUI()
     }
 
+    func cardSystemLayoutSizeFittingSize(_ target: CGSize) -> CGSize {
+        return collectionLayout.cardSystemLayoutSizeFittingSize(target)
+    }
+
     @discardableResult
     override func resignFirstResponder() -> Bool {
         return quickChatView?.resignFirstResponder() ?? true
+    }
+
+    func blockSideInteractions() {
+        let current = collectionLayout.page
+
+        collectionView.cellForItem(at: IndexPath(row: current - 1, section: 0))?.isUserInteractionEnabled = false
+        collectionView.cellForItem(at: IndexPath(row: current, section: 0))?.isUserInteractionEnabled = true
+        collectionView.cellForItem(at: IndexPath(row: current + 1, section: 0))?.isUserInteractionEnabled = false
     }
     
     func setQuickChatViewModel(_ viewModel: QuickChatViewModel) {
@@ -62,8 +75,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         backgroundColor = UIColor.viewControllerBackground
         setupCollectionView()
         setupPrivateActionsView()
-
-        bringSubview(toFront: collectionView)
+        focusOnCollectionView()
     }
 
     private func setupCollectionView() {
@@ -104,6 +116,8 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         addSubview(quickChatView)
         quickChatView.translatesAutoresizingMaskIntoConstraints = false
         quickChatView.layout(with: self).fill()
+
+        focusOnCollectionView()
     }
 
     func pageOffset(givenOffset: CGFloat) -> CGFloat {

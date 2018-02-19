@@ -12,9 +12,9 @@ import RxCocoa
 import RxSwift
 
 final class ListingDeckViewController: KeyboardViewController, UICollectionViewDataSource, UICollectionViewDelegate {
-    struct Identifiers { static let cardView = "ListingCardView" }
-
     override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
+
+    var cardInsets: UIEdgeInsets { return listingDeckView.cardsInsets }
 
     fileprivate let listingDeckView = ListingDeckView()
     fileprivate let viewModel: ListingDeckViewModel
@@ -43,6 +43,11 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         listingDeckView.resignFirstResponder()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        onboardingFlashDetails()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         listingDeckView.setQuickChatViewModel(viewModel.quickChatViewModel)
@@ -56,6 +61,10 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         setupNavigationBar()
     }
 
+    func cardSystemLayoutSizeFittingSize(_ target: CGSize) -> CGSize {
+        return listingDeckView.cardSystemLayoutSizeFittingSize(target)
+    }
+
     // MARK: Rx
 
     private func setupRx() {
@@ -67,7 +76,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     private func setupCollectionView() {
         listingDeckView.collectionView.dataSource = self
-        listingDeckView.collectionView.register(ListingCardView.self, forCellWithReuseIdentifier: Identifiers.cardView)
+        listingDeckView.collectionView.register(ListingCardView.self, forCellWithReuseIdentifier: ListingCardView.reusableID)
 
         listingDeckView.collectionView.reloadData()
     }
@@ -83,14 +92,14 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Identifiers.cardView, for: indexPath) as? ListingCardView {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingCardView.reusableID, for: indexPath) as? ListingCardView {
             guard let listing = viewModel.listingCellModelAt(index: indexPath.row) else {
                 return cell
             }
             cell.populateWith(listingViewModel: listing, imageDownloader: viewModel.imageDownloader)
             binder.bind(cell: cell)
             cell.delegate = self
-            
+            cell.isUserInteractionEnabled = (indexPath.row == listingDeckView.currentPage)
             return cell
         }
         return UICollectionViewCell()
@@ -106,6 +115,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         let leftButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_red"), style: .plain, target: self, action: #selector(didTapClose))
         self.navigationItem.leftBarButtonItem  = leftButton
     }
+
+    // Actions
 
     @objc private func didTapClose() {
         closeBumpUpBanner()
@@ -128,9 +139,21 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
 }
 
+extension ListingDeckViewController {
+    private func onboardingFlashDetails() {
+        guard let current = listingDeckView.collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) else { return }
+        guard let cell = current as? ListingCardView else { return }
+        cell.onboardingFlashDetails()
+    }
+}
+
 extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func didTapOnUserIcon() {
         viewModel.showUser()
+    }
+
+    func blockSideInteractions() {
+        listingDeckView.blockSideInteractions()
     }
 
     var rxContentOffset: Observable<CGPoint> { return listingDeckView.rxCollectionView.contentOffset.share() }

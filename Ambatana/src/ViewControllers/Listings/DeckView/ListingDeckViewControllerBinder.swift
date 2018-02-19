@@ -24,7 +24,7 @@ protocol ListingDeckViewControllerBinderType: class {
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool)
     func setNavigationBarRightButtons(_ actions: [UIButton])
     func setLetGoRightButtonWith(_ action: UIAction, buttonTintColor: UIColor?, tapBlock: (ControlEvent<Void>) -> Void )
-
+    func blockSideInteractions()
     func updateViewWithActions(_ actions: [UIAction])
 }
 
@@ -147,6 +147,10 @@ final class ListingDeckViewControllerBinder {
                                     disposeBag: DisposeBag) {
         viewModel.rxObjectChanges.observeOn(MainScheduler.instance).bind { [weak listingDeckView] change in
             listingDeckView?.collectionView.handleCollectionChange(change)
+        }.disposed(by: disposeBag)
+
+        listingDeckView.collectionView.rx.didEndDecelerating.bind { [weak viewController] in
+            viewController?.blockSideInteractions()
         }.disposed(by: disposeBag)
     }
 

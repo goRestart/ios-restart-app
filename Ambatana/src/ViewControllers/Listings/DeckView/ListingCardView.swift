@@ -17,7 +17,7 @@ protocol ListingCardViewDelegate {
     func didTapOnPreview()
 }
 
-final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestureRecognizerDelegate {
+final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestureRecognizerDelegate, ReusableCell {
     private struct Layout { struct Height { static let previewFactor: CGFloat = 0.7 } }
 
     var delegate: (ListingCardDetailsViewDelegate & ListingCardViewDelegate & ListingCardDetailMapViewDelegate)? {
@@ -337,6 +337,17 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
                        options: .curveEaseIn, animations: { [weak self] in
                         self?.scrollView.setContentOffset(.zero, animated: true)
             }, completion: nil)
+    }
+
+    func onboardingFlashDetails() {
+        let currentOffset = scrollView.contentOffset
+        let flashOffset = CGPoint(x: 0, y: currentOffset.y + 10)
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
+            self.scrollView.setContentOffset(flashOffset, animated: true)
+        })
+        delay(0.2) {
+            self.scrollView.setContentOffset(currentOffset, animated: true)
+        }
     }
 }
 

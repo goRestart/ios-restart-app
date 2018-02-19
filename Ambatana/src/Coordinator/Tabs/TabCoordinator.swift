@@ -25,6 +25,7 @@ class TabCoordinator: NSObject, Coordinator {
 
     let rootViewController: UIViewController
     let navigationController: UINavigationController
+    private var deckAnimatedTransitioning: UIViewControllerAnimatedTransitioning?
 
     let listingRepository: ListingRepository
     let userRepository: UserRepository
@@ -258,9 +259,10 @@ fileprivate extension TabCoordinator {
             let coordinator = DeckCoordinator(listing: listing,
                                               listingListRequester: requester,
                                               source: source, listingNavigator: self)
+            deckAnimatedTransitioning = ListingDeckViewControllerTransitionAnimator(image: thumbnailImage, frame: originFrame)
             coordinator.coordinatorDelegate = self
-            openChild(coordinator: coordinator, parent: navigationController,
-                      animated: true, forceCloseChild: true, completion: nil)
+            openChild(coordinator: coordinator, parent: navigationController, animated: true,
+                      forceCloseChild: true, completion: nil)
         } else if showRelated {
             //Same as single product opening
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,
@@ -589,6 +591,8 @@ extension TabCoordinator: UINavigationControllerDelegate {
         } else if let animator = (fromVC as? AnimatableTransition)?.animator, operation == .pop {
             animator.pushing = false
             return animator
+        } else if let _ = toVC as? ListingDeckViewController {
+            return deckAnimatedTransitioning
         } else {
             return nil
         }

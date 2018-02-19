@@ -43,6 +43,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     var cellWidth: CGFloat { get { return visibleWidth - 2*cellLayout.insets.left } }
     var cellHeight: CGFloat { get { return visibleHeight - cellLayout.insets.top } }
+    var cardInsets: UIEdgeInsets { return cellLayout.insets }
 
     override var collectionViewContentSize : CGSize {
         let count = CGFloat(itemsCount)
@@ -64,8 +65,23 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
+    func cardSystemLayoutSizeFittingSize(_ target: CGSize) -> CGSize {
+        let width = cardSystemLayoutWidthFittingSize(target)
+        let height = cardSystemLayoutHeightFittingSize(target)
+        return CGSize(width: width, height: height)
+    }
+
+    private func cardSystemLayoutWidthFittingSize(_ target: CGSize) -> CGFloat {
+        return target.width - 2*cellLayout.insets.left
+    }
+
+    private func cardSystemLayoutHeightFittingSize(_ target: CGSize) -> CGFloat {
+        return target.width - cellLayout.insets.left
+    }
+
     override func prepare() {
         super.prepare()
+        
         if shouldInvalidateCache {
             cache.removeAll(keepingCapacity: false)
             for item in 0..<itemsCount {
