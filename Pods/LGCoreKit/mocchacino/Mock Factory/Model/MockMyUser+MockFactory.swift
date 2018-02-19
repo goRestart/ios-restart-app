@@ -13,6 +13,7 @@ extension MockMyUser: MockFactory {
                           type: UserType.makeMock(),
                           email: String.makeRandomEmail(),
                           location: LGLocation?.makeMock(),
-                          localeIdentifier: String?.makeRandom())
+                          localeIdentifier: String?.makeRandom(),
+                          creationDate: Date?.makeRandom())
     }
 }
