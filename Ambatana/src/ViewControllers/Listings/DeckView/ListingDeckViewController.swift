@@ -67,6 +67,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     private func setupCollectionView() {
         listingDeckView.collectionView.dataSource = self
+        listingDeckView.collectionView.delegate = self
         listingDeckView.collectionView.register(ListingCardView.self, forCellWithReuseIdentifier: Identifiers.cardView)
 
         listingDeckView.collectionView.reloadData()
@@ -90,10 +91,21 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
             cell.populateWith(listingViewModel: listing, imageDownloader: viewModel.imageDownloader)
             binder.bind(cell: cell)
             cell.delegate = self
-            
+            cell.isUserInteractionEnabled = (indexPath.row == listingDeckView.currentPage)
             return cell
         }
         return UICollectionViewCell()
+    }
+
+    // ScrollViewDelegate
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        viewModel.userHasScrolled = true
+        contentOffsetVar.value = scrollView.contentOffset.x
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        listingDeckView.blockSideInteractions()
     }
 
     // MARK: NavBar
