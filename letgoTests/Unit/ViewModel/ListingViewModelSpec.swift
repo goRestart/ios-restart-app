@@ -892,7 +892,7 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     func editListing(_ listing: Listing) {
 
     }
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage) {
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) {
 
     }
     func closeListingAfterDelete(_ listing: Listing) {

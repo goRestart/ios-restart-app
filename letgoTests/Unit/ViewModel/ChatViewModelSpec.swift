@@ -67,7 +67,8 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                     commandSuccess: Bool = true,
                                     user: MockUser,
                                     chatRepoError: ChatRepositoryError? = nil,
-                                    openChatAutomaticMessage: ChatWrapperMessageType? = nil) {
+                                    openChatAutomaticMessage: ChatWrapperMessageType? = nil,
+                                    isProfessional: Bool = false) {
                 
                 safetyTipsShown = false
                 textFieldCleaned = false
@@ -106,7 +107,8 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                     tracker: tracker, configManager: configManager, sessionManager: sessionManager,
                                     keyValueStorage: keyValueStorage, navigator: nil, featureFlags: featureFlags,
                                     source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionManager,
-                                    predefinedMessage: predefinedMessage, openChatAutomaticMessage: openChatAutomaticMessage)
+                                    predefinedMessage: predefinedMessage, openChatAutomaticMessage: openChatAutomaticMessage,
+                                    isProfessional: isProfessional)
                 
                 sut.delegate = self
                 disposeBag = DisposeBag()

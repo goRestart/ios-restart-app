@@ -61,9 +61,9 @@ class FilterTagCell: UICollectionViewCell {
         case .yearsRange(let startYear, let endYear):
             return FilterTagCell.sizeForText(FilterTagCell.stringForYearsRange(startYear, endYear: endYear))
         case .realEstatePropertyType(let propertyType):
-            return FilterTagCell.sizeForText(propertyType.shortLocalizedString.localizedUppercase)
+            return FilterTagCell.sizeForText(propertyType.shortLocalizedString)
         case .realEstateOfferType(let offerType):
-            return FilterTagCell.sizeForText(offerType.shortLocalizedString.localizedUppercase)
+            return FilterTagCell.sizeForText(offerType.shortLocalizedString)
         case .realEstateNumberOfBedrooms(let numberOfBedrooms):
             return FilterTagCell.sizeForText(numberOfBedrooms.shortLocalizedString)
         case .realEstateNumberOfBathrooms(let numberOfBathrooms):
