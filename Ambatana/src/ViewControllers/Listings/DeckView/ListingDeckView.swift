@@ -29,6 +29,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     var currentPage: Int { return collectionLayout.page }
     var bumpUpBanner: BumpUpBanner { return itemActionsView.bumpUpBanner }
     var isBumpUpVisible: Bool { return itemActionsView.isBumpUpVisisble }
+    var cardsInsets: UIEdgeInsets { return collectionLayout.cardInsets }
 
     override init(frame: CGRect) {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
@@ -43,6 +44,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         rxCollectionView = collectionView.rx
         super.init(coder: aDecoder)
         setupUI()
+    }
+
+    func cardSystemLayoutSizeFittingSize(_ target: CGSize) -> CGSize {
+        return collectionLayout.cardSystemLayoutSizeFittingSize(target)
     }
 
     @discardableResult
@@ -111,6 +116,8 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         addSubview(quickChatView)
         quickChatView.translatesAutoresizingMaskIntoConstraints = false
         quickChatView.layout(with: self).fill()
+
+        focusOnCollectionView()
     }
 
     func pageOffset(givenOffset: CGFloat) -> CGFloat {

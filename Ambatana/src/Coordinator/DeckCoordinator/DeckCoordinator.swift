@@ -81,8 +81,8 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
         guard let navController = parent as? UINavigationController else { return }
 
         previousNavigationDelegate = navController.delegate
-        navController.delegate = self
         navController.pushViewController(viewController, animated: true)
+        navController.delegate = self
 
         completion?()
     }
@@ -144,11 +144,15 @@ extension DeckCoordinator: UINavigationControllerDelegate {
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         switch operation {
         case .push:
-            guard let _ = toVC as? PhotoViewerViewController else { return nil }
-            return deckViewController.animationController
+            if let _ = toVC as? PhotoViewerViewController {
+                return deckViewController.animationController
+            }
+            return nil
         case .pop:
-            guard let _ = fromVC as? PhotoViewerViewController else { return nil }
-            return deckViewController.animationController
+            if let _ = fromVC as? PhotoViewerViewController { 
+                return deckViewController.animationController
+            }
+            return nil
         case .none:
             return nil
         }
