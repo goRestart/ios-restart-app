@@ -167,7 +167,6 @@ fileprivate extension SearchRelatedListingListRequester {
         params.modelId = filters?.carModelId
         params.startYear = filters?.carYearStart
         params.endYear = filters?.carYearEnd
-        params.abtest = featureFlags.defaultRadiusDistanceFeed.stringValue
         
         if let propertyType = filters?.realEstatePropertyType?.rawValue {
             params.propertyType = propertyType
