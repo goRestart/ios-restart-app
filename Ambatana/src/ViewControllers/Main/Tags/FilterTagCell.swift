@@ -61,9 +61,9 @@ class FilterTagCell: UICollectionViewCell {
         case .yearsRange(let startYear, let endYear):
             return FilterTagCell.sizeForText(FilterTagCell.stringForYearsRange(startYear, endYear: endYear))
         case .realEstatePropertyType(let propertyType):
-            return FilterTagCell.sizeForText(propertyType.shortLocalizedString.localizedUppercase)
+            return FilterTagCell.sizeForText(propertyType.shortLocalizedString)
         case .realEstateOfferType(let offerType):
-            return FilterTagCell.sizeForText(offerType.shortLocalizedString.localizedUppercase)
+            return FilterTagCell.sizeForText(offerType.shortLocalizedString)
         case .realEstateNumberOfBedrooms(let numberOfBedrooms):
             return FilterTagCell.sizeForText(numberOfBedrooms.shortLocalizedString)
         case .realEstateNumberOfBathrooms(let numberOfBathrooms):
@@ -141,11 +141,11 @@ class FilterTagCell: UICollectionViewCell {
         }
         
         if !startText.isEmpty && !endText.isEmpty {
-            return startText.addSquareMeterUnit + " " + "-" + " " + endText.addSquareMeterUnit
+            return startText.addingSquareMeterUnit + " " + "-" + " " + endText.addingSquareMeterUnit
         } else if !startText.isEmpty {
-            return startText.addSquareMeterUnit
+            return startText.addingSquareMeterUnit
         } else if !endText.isEmpty {
-            return endText.addSquareMeterUnit
+            return endText.addingSquareMeterUnit
         } else {
             // should never ever happen
             return ""

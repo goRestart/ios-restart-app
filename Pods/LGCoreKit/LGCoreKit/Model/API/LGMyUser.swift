@@ -29,6 +29,7 @@ public protocol MyUser: User {
     var email: String? { get }
     var location: LGLocation? { get }
     var localeIdentifier: String? { get }
+    var creationDate: Date? { get }
 }
 
 public extension MyUser {
@@ -64,6 +65,7 @@ struct LGMyUser: MyUser, Decodable {
     var email: String?
     var location: LGLocation?
     var localeIdentifier: String?
+    var creationDate: Date?
 
     init(objectId: String?,
          name: String?,
@@ -76,7 +78,8 @@ struct LGMyUser: MyUser, Decodable {
          type: UserType,
          email: String?,
          location: LGLocation?,
-         localeIdentifier: String?) {
+         localeIdentifier: String?,
+         creationDate: Date?) {
         self.objectId = objectId
         self.name = name
         self.avatar = avatar
@@ -90,6 +93,7 @@ struct LGMyUser: MyUser, Decodable {
         self.email = email
         self.location = location
         self.localeIdentifier = localeIdentifier
+        self.creationDate = creationDate
     }
 
 
@@ -128,7 +132,8 @@ struct LGMyUser: MyUser, Decodable {
      "country": "string",
      "state": "string",
      "timezone": "string|null",
-     "status": "string|null"
+     "status": "string|null",
+     "created_at": "2015-09-01"
      }
      */
     
@@ -165,6 +170,8 @@ struct LGMyUser: MyUser, Decodable {
         self.phone = try keyedContainer.decodeIfPresent(String.self, forKey: .phone)
         let typeValue = try keyedContainer.decodeIfPresent(String.self, forKey: .type) ?? UserType.user.rawValue
         self.type = UserType(rawValue: typeValue) ?? UserType.user
+        let userCreationDateString = try keyedContainer.decodeIfPresent(String.self, forKey: .creationDate)
+        self.creationDate = Date.userCreationDateFrom(string: userCreationDateString)
     }
     
     // TODO: some keys are only being used in repository, we may want to re-think this
@@ -190,5 +197,6 @@ struct LGMyUser: MyUser, Decodable {
         case localeIdentifier = "locale"
         case phone
         case type
+        case creationDate = "created_at"
     }
 }

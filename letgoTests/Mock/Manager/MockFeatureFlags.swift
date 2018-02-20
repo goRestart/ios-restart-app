@@ -37,11 +37,11 @@ class MockFeatureFlags: FeatureFlaggeable {
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
-    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell = .control
     var allowCallsForProfessionals: AllowCallsForProfessionals = .control
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP = .control
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
     var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
+    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
 
     var realEstateImprovements: RealEstateImprovements = .control
     var realEstatePromos: RealEstatePromos = .control
@@ -53,6 +53,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var mainFeedAspectRatio: MainFeedAspectRatio = .control
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
     var emojiSizeIncrement: EmojiSizeIncrement = .control
+    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

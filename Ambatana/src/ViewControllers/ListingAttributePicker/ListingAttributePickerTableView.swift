@@ -29,9 +29,14 @@ class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewD
         setupAccessibilityIds()
         setupLayout()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if theme.gradientEnabled { applyGradient() }
     }
     
     
@@ -59,6 +64,15 @@ class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewD
             .leading()
             .trailing()
         setupTableView(values: detailInfo)
+    }
+    
+    private func applyGradient() {
+        let gradient = CAGradientLayer()
+        
+        gradient.frame = (tableView.superview?.bounds)!
+        gradient.colors = [UIColor.black.cgColor, UIColor.clear.cgColor]
+        gradient.locations = [0.75, 1.0]
+        tableView.superview?.layer.mask = gradient
     }
     
     // MARK: - Accessibility

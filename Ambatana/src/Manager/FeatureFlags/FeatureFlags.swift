@@ -40,7 +40,6 @@ protocol FeatureFlaggeable: class {
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
-    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
@@ -54,7 +53,9 @@ protocol FeatureFlaggeable: class {
     var mainFeedAspectRatio: MainFeedAspectRatio { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
+    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
     var emojiSizeIncrement: EmojiSizeIncrement { get }
+    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -90,10 +91,6 @@ extension ShowPriceStepRealEstatePosting {
     var isActive: Bool { get { return self == .active } }
 }
 
-extension PromoteBumpUpAfterSell {
-    var isActive: Bool { get { return self == .active } }
-}
-
 extension AllowCallsForProfessionals {
     var isActive: Bool { get { return self == .control || self == .baseline } }
 }
@@ -124,6 +121,62 @@ extension ShowAdsInFeedWithRatio {
     var isActive: Bool { get { return self != .control && self != .baseline } }
 }
 
+extension NoAdsInFeedForNewUsers {
+    private var shouldShowAdsInFeedForNewUsers: Bool {
+        get {
+            return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed
+        }
+    }
+    private var shouldShowAdsInFeedForOldUsers: Bool {
+        get {
+            return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed || self == .noAdsForNewUsers
+        }
+    }
+    var shouldShowAdsInFeed: Bool {
+        get {
+            return shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
+        }
+    }
+    private var shouldShowAdsInMoreInfoForNewUsers: Bool {
+        get {
+            return self == .control || self == .baseline || self == .adsEverywhere
+        }
+    }
+    private var shouldShowAdsInMoreInfoForOldUsers: Bool {
+        get {
+            return true
+        }
+    }
+    var shouldShowAdsInMoreInfo: Bool {
+        get {
+            return shouldShowAdsInMoreInfoForNewUsers || shouldShowAdsInMoreInfoForOldUsers
+        }
+    }
+
+
+    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            // New User
+            return shouldShowAdsInFeedForNewUsers
+        } else {
+            // Old user
+            return shouldShowAdsInFeedForOldUsers
+        }
+    }
+
+    func shouldShowAdsInMoreInfoForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInMoreInfoForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            // New User
+            return shouldShowAdsInMoreInfoForNewUsers
+        } else {
+            // Old user
+            return shouldShowAdsInMoreInfoForOldUsers
+        }
+    }
+}
+
 extension RemoveCategoryWhenClosingPosting {
     var isActive: Bool { get { return self == .active } }
 }
@@ -146,6 +199,11 @@ extension IncreaseMinPriceBumps {
         }
     }
 }
+
+extension ShowBumpUpBannerOnNotValidatedListings {
+    var isActive: Bool { get { return self == .active } }
+}
+
 
 class FeatureFlags: FeatureFlaggeable {
 
@@ -325,13 +383,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
     }
 
-    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
-        if Bumper.enabled {
-            return Bumper.promoteBumpUpAfterSell
-        }
-        return PromoteBumpUpAfterSell.fromPosition(abTests.promoteBumpUpAfterSell.value)
-    }
-
     var allowCallsForProfessionals: AllowCallsForProfessionals {
         if Bumper.enabled {
             return Bumper.allowCallsForProfessionals
@@ -423,12 +474,26 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
     }
+
+    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
+        if Bumper.enabled {
+            return Bumper.noAdsInFeedForNewUsers
+        }
+        return NoAdsInFeedForNewUsers.fromPosition(abTests.noAdsInFeedForNewUsers.value)
+    }
     
     var emojiSizeIncrement: EmojiSizeIncrement {
         if Bumper.enabled {
             return Bumper.emojiSizeIncrement
         }
         return EmojiSizeIncrement.fromPosition(abTests.emojiSizeIncrement.value)
+    }
+
+    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
+        if Bumper.enabled {
+            return Bumper.showBumpUpBannerOnNotValidatedListings
+        }
+        return ShowBumpUpBannerOnNotValidatedListings.fromPosition(abTests.showBumpUpBannerOnNotValidatedListings.value)
     }
     
 
@@ -515,11 +580,24 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     var feedDFPAdUnitId: String? {
+        if Bumper.enabled {
+            // Bumper overrides country restriction
+            switch showAdsInFeedWithRatio {
+            case .baseline, .control:
+                return noAdsInFeedForNewUsers.shouldShowAdsInFeed ? EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio : nil
+            case .ten:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
+            case .fifteen:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA15Ratio
+            case .twenty:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio
+            }
+        }
         switch sensorLocationCountryCode {
         case .usa?:
             switch showAdsInFeedWithRatio {
             case .baseline, .control:
-                return nil
+                return noAdsInFeedForNewUsers.shouldShowAdsInFeed ? EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio : nil
             case .ten:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
             case .fifteen:

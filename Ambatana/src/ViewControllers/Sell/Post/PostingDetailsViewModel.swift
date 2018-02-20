@@ -476,7 +476,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             }
         case .sizeSquareMeters:
             if let size = postListingState.sizeSquareMeters {
-                value = String(size).addSquareMeterUnit
+                value = String(size).addingSquareMeterUnit
             }
         case .location:
             value = retrieveCurrentLocationSelected()

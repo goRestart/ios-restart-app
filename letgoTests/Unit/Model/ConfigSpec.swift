@@ -27,7 +27,7 @@ class ConfigSpec: QuickSpec {
                             "buildNumber": 312,
                             "forceUpdateVersions": [1, 2, 3]
                         },
-                        "configURL": "https://cdn.letgo.com/config/ios.json",
+                        "configURL": "https://static.letgo.com/mobile-config/ios.json",
                         "quadKeyZoomLevel": 15
                     }
                     """.data(using: .utf8)
@@ -44,7 +44,7 @@ class ConfigSpec: QuickSpec {
                     expect(sut.forceUpdateVersions) == [1,2,3]
                 }
                 it("has config url") {
-                    expect(sut.configURL) == "https://cdn.letgo.com/config/ios.json"
+                    expect(sut.configURL) == "https://static.letgo.com/mobile-config/ios.json"
                 }
                 it("has quad key zoom level") {
                     expect(sut.quadKeyZoomLevel) == 15
@@ -55,7 +55,7 @@ class ConfigSpec: QuickSpec {
                 beforeEach {
                     json = """
                     {
-                        "configURL": "https://cdn.letgo.com/config/ios.json",
+                        "configURL": "https://static.letgo.com/mobile-config/ios.json",
                         "quadKeyZoomLevel": 15
                     }
                     """.data(using: .utf8)
@@ -72,7 +72,7 @@ class ConfigSpec: QuickSpec {
                     expect(sut.forceUpdateVersions) == []
                 }
                 it("has config url") {
-                    expect(sut.configURL) == "https://cdn.letgo.com/config/ios.json"
+                    expect(sut.configURL) == "https://static.letgo.com/mobile-config/ios.json"
                 }
                 it("has quad key zoom level") {
                     expect(sut.quadKeyZoomLevel) == 15
@@ -86,7 +86,7 @@ class ConfigSpec: QuickSpec {
                         "currentVersionInfo": {
                             "forceUpdateVersions": [1, 2, 3]
                         },
-                        "configURL": "https://cdn.letgo.com/config/ios.json",
+                        "configURL": "https://static.letgo.com/mobile-config/ios.json",
                         "quadKeyZoomLevel": 15
                     }
                     """.data(using: .utf8)
@@ -103,7 +103,7 @@ class ConfigSpec: QuickSpec {
                     expect(sut.forceUpdateVersions) == [1,2,3]
                 }
                 it("has config url") {
-                    expect(sut.configURL) == "https://cdn.letgo.com/config/ios.json"
+                    expect(sut.configURL) == "https://static.letgo.com/mobile-config/ios.json"
                 }
                 it("has quad key zoom level") {
                     expect(sut.quadKeyZoomLevel) == 15
@@ -117,7 +117,7 @@ class ConfigSpec: QuickSpec {
                         "currentVersionInfo": {
                             "buildNumber": 312
                         },
-                        "configURL": "https://cdn.letgo.com/config/ios.json",
+                        "configURL": "https://static.letgo.com/mobile-config/ios.json",
                         "quadKeyZoomLevel": 15
                     }
                     """.data(using: .utf8)
@@ -134,7 +134,7 @@ class ConfigSpec: QuickSpec {
                     expect(sut.forceUpdateVersions) == []
                 }
                 it("has config url") {
-                    expect(sut.configURL) == "https://cdn.letgo.com/config/ios.json"
+                    expect(sut.configURL) == "https://static.letgo.com/mobile-config/ios.json"
                 }
                 it("has quad key zoom level") {
                     expect(sut.quadKeyZoomLevel) == 15
@@ -180,7 +180,7 @@ class ConfigSpec: QuickSpec {
                             "buildNumber": 312,
                             "forceUpdateVersions": [1, 2, 3]
                         },
-                        "configURL": "https://cdn.letgo.com/config/ios.json"
+                        "configURL": "https://static.letgo.com/mobile-config/ios.json"
                     }
                     """.data(using: .utf8)
                     sut = try? JSONDecoder().decode(Config.self, from: json)
@@ -196,7 +196,7 @@ class ConfigSpec: QuickSpec {
                     expect(sut.forceUpdateVersions) == [1,2,3]
                 }
                 it("has config url") {
-                    expect(sut.configURL) == "https://cdn.letgo.com/config/ios.json"
+                    expect(sut.configURL) == "https://static.letgo.com/mobile-config/ios.json"
                 }
                 it("has quad key zoom level with default value") {
                     expect(sut.quadKeyZoomLevel) == 13
@@ -212,7 +212,7 @@ class ConfigSpec: QuickSpec {
                         "buildNumber": 312,
                         "forceUpdateVersions": [1, 2, 3]
                     },
-                    "configURL": "https://cdn.letgo.com/config/ios.json",
+                    "configURL": "https://static.letgo.com/mobile-config/ios.json",
                     "quadKeyZoomLevel": 15
                 }
                 """.data(using: .utf8)!
@@ -231,7 +231,7 @@ class ConfigSpec: QuickSpec {
                 expect(sut.forceUpdateVersions) == [1,2,3]
             }
             it("has config url") {
-                expect(sut.configURL) == "https://cdn.letgo.com/config/ios.json"
+                expect(sut.configURL) == "https://static.letgo.com/mobile-config/ios.json"
             }
             it("has quad key zoom level") {
                 expect(sut.quadKeyZoomLevel) == 15

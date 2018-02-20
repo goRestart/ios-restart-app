@@ -4201,6 +4201,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
+                    product.status = .pending
                     sut = TrackerEvent.listingBumpUpStart(.product(product), price: .free, type: .free,
                                                           storeProductId: nil, isPromotedBump: .falseParameter)
                 }
@@ -4222,11 +4223,15 @@ class TrackerEventSpec: QuickSpec {
                 it("promotedBump param is false") {
                     expect(sut.params?.stringKeyParams["promoted-bump"] as? String) == "false"
                 }
+                it("has listing status") {
+                    expect(sut.params?.stringKeyParams["product-status"] as? String) == "Pending"
+                }
             }
             describe("bump up complete") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
+                    product.status = .pending
                     sut = TrackerEvent.listingBumpUpComplete(.product(product), price: .free, type: .free, restoreRetriesCount: 8,
                                                              network: .facebook, transactionStatus: .purchasingPurchased,
                                                              storeProductId: nil, isPromotedBump: .falseParameter)
@@ -4254,6 +4259,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("promotedBump param is false") {
                     expect(sut.params?.stringKeyParams["promoted-bump"] as? String) == "false"
+                }
+                it("has listing status") {
+                    expect(sut.params?.stringKeyParams["product-status"] as? String) == "Pending"
                 }
             }
             describe("bump up fail") {

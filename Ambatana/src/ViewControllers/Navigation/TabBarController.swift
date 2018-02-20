@@ -158,20 +158,24 @@ final class TabBarController: UITabBarController {
     dissapear. Also when the tabBar is set again, is added into a different layer so the constraint cannot be set again.
     */
     override func setTabBarHidden(_ hidden:Bool, animated:Bool, completion: ((Bool) -> Void)? = nil) {
-        if (isTabBarHidden == hidden) { return }
+        DispatchQueue.main.async {
+            // Wait for the next RunLoop.
+            // When closing a Modal the tabBar frame value is not yet updated and we need to wait for the next runloop
+            if (self.isTabBarHidden == hidden) { return }
 
-        let frame = tabBar.frame
-        let offsetY = (hidden ? frame.size.height : 0)
-        let duration: TimeInterval = (animated ? TimeInterval(UITabBarControllerHideShowBarDuration) : 0.0)
+            let frame = self.tabBar.frame
+            let offsetY = (hidden ? frame.size.height : 0)
+            let duration: TimeInterval = (animated ? TimeInterval(UITabBarControllerHideShowBarDuration) : 0.0)
 
-        let transform = CGAffineTransform.identity.translatedBy(x: 0, y: offsetY)
-        UIView.animate(withDuration: duration,
-                       delay: 0,
-                       options: [.curveEaseIn], animations: { [weak self] in
-                        self?.floatingSellButton.transform = transform
-        }, completion: completion)
+            let transform = CGAffineTransform.identity.translatedBy(x: 0, y: offsetY)
+            UIView.animate(withDuration: duration,
+                           delay: 0,
+                           options: [.curveEaseIn], animations: { [weak self] in
+                            self?.floatingSellButton.transform = transform
+            }, completion: completion)
 
-        super.setTabBarHidden(hidden, animated: animated)
+            super.setTabBarHidden(hidden, animated: animated)
+        }
     }
 
     // MARK: - Private methods

@@ -497,7 +497,6 @@ fileprivate extension AppCoordinator {
     }
 
     func shouldRetrieveBumpeableInfo() -> Bool {
-        guard featureFlags.promoteBumpUpAfterSell.isActive else { return false }
         if let lastShownDate = keyValueStorage[.lastShownPromoteBumpDate],
             abs(lastShownDate.timeIntervalSinceNow) < Constants.promoteAfterPostWaitTime {
             return false
