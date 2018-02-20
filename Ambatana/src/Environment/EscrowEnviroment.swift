@@ -21,7 +21,7 @@ class EscrowEnvironment: AppEnvironment {
     
     // Config
     let configFileName = "ios-prod"
-    let configURL = "https://escrow-images.s3.amazonaws.com/config/ios.json"
+    let configURL = "https://escrow-images.s3.amazonaws.com/mobile-config/ios.json"
     
     // Leanplum
     let leanplumAppId = ""
