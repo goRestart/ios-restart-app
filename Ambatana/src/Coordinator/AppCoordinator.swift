@@ -58,6 +58,7 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate var paymentItemId: String?
     fileprivate var paymentProviderItemId: String?
     fileprivate var bumpUpSource: BumpUpSource?
+    fileprivate var timeSinceLastBump: TimeInterval?
 
     weak var delegate: AppNavigatorDelegate?
 
@@ -525,12 +526,14 @@ fileprivate extension AppCoordinator {
                 // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
                 strongSelf.paymentItemId = paymentItems.first?.itemId
                 strongSelf.paymentProviderItemId = paymentItems.first?.providerItemId
+                strongSelf.timeSinceLastBump = value.timeSinceLastBump
 
                 // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
                 // a useless request to apple
                 if let _ = strongSelf.paymentItemId {
                     strongSelf.purchasesShopper.productsRequestStartForListing(listingId, withIds: paymentItems.map { $0.providerItemId })
                 }
+
         }
     }
 }
@@ -1001,13 +1004,17 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
         case .deepLink:
             tabBarCtl.clearAllPresented(nil)
             openTab(.profile, force: false) { [weak self] in
-                let triggerBumpOnAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchaseableProduct: purchase,
+                var actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchaseableProduct: purchase,
                                                                                            paymentItemId: self?.paymentItemId,
                                                                                            paymentProviderItemId: self?.paymentProviderItemId,
                                                                                            bumpUpType: .priced,
                                                                                            triggerBumpUpSource: .deepLink)
+                if let timeSinceLastBump = self?.timeSinceLastBump, timeSinceLastBump > 0 {
+                    actionOnFirstAppear = ProductCarouselActionOnFirstAppear.nonexistent
+                }
+
                 self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: requestListingId),
-                                                          source: .openApp, actionOnFirstAppear: triggerBumpOnAppear)
+                                                          source: .openApp, actionOnFirstAppear: actionOnFirstAppear)
             }
         case .promoted:
             tabBarCtl.clearAllPresented(nil)
