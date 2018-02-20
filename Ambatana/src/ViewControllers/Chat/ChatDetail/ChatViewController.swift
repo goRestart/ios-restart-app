@@ -642,7 +642,8 @@ extension ChatViewController: ChatViewModelDelegate {
                                       message: nil,
                                       preferredStyle: .alert)
 
-        alert.addTextField { textField in
+        alert.addTextField { [weak self] textField in
+            textField.delegate = self
             textField.keyboardType = .numberPad
         }
 
@@ -771,5 +772,28 @@ extension ChatViewController {
         textViewBar.accessibilityId = .chatViewTextInputBar
         expressChatBanner.accessibilityId = .expressChatBanner
         professionalSellerBanner.accessibilityId = .professionalSellerChatBanner
+    }
+}
+
+// MARK: UITextFieldDelegate
+
+extension ChatViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+        let newText = textField.textReplacingCharactersInRange(range, replacementString: string)
+        guard newText.replacingOccurrences(of: "-", with: "").isOnlyDigits else { return false }
+
+        if string.count > 1 {
+            textField.text = string.addUSPhoneFormatDashes()
+            return false
+        } else if range.length == 0 {
+            if range.location == Constants.usaFirstDashPosition {
+                textField.text?.insert("-", at: String.Index(encodedOffset: Constants.usaFirstDashPosition))
+            } else if range.location == Constants.usaSecondDashPosition {
+                textField.text?.insert("-", at: String.Index(encodedOffset: Constants.usaSecondDashPosition))
+            }
+        }
+        return true
     }
 }
