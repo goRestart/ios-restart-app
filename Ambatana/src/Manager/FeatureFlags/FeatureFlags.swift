@@ -54,6 +54,7 @@ protocol FeatureFlaggeable: class {
     var mainFeedAspectRatio: MainFeedAspectRatio { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
+    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
     var emojiSizeIncrement: EmojiSizeIncrement { get }
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
 
@@ -123,6 +124,62 @@ extension RealEstatePromos {
 
 extension ShowAdsInFeedWithRatio {
     var isActive: Bool { get { return self != .control && self != .baseline } }
+}
+
+extension NoAdsInFeedForNewUsers {
+    private var shouldShowAdsInFeedForNewUsers: Bool {
+        get {
+            return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed
+        }
+    }
+    private var shouldShowAdsInFeedForOldUsers: Bool {
+        get {
+            return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed || self == .noAdsForNewUsers
+        }
+    }
+    var shouldShowAdsInFeed: Bool {
+        get {
+            return shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
+        }
+    }
+    private var shouldShowAdsInMoreInfoForNewUsers: Bool {
+        get {
+            return self == .control || self == .baseline || self == .adsEverywhere
+        }
+    }
+    private var shouldShowAdsInMoreInfoForOldUsers: Bool {
+        get {
+            return true
+        }
+    }
+    var shouldShowAdsInMoreInfo: Bool {
+        get {
+            return shouldShowAdsInMoreInfoForNewUsers || shouldShowAdsInMoreInfoForOldUsers
+        }
+    }
+
+
+    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            // New User
+            return shouldShowAdsInFeedForNewUsers
+        } else {
+            // Old user
+            return shouldShowAdsInFeedForOldUsers
+        }
+    }
+
+    func shouldShowAdsInMoreInfoForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInMoreInfoForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            // New User
+            return shouldShowAdsInMoreInfoForNewUsers
+        } else {
+            // Old user
+            return shouldShowAdsInMoreInfoForOldUsers
+        }
+    }
 }
 
 extension RemoveCategoryWhenClosingPosting {
@@ -429,6 +486,13 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
     }
+
+    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
+        if Bumper.enabled {
+            return Bumper.noAdsInFeedForNewUsers
+        }
+        return NoAdsInFeedForNewUsers.fromPosition(abTests.noAdsInFeedForNewUsers.value)
+    }
     
     var emojiSizeIncrement: EmojiSizeIncrement {
         if Bumper.enabled {
@@ -529,9 +593,10 @@ class FeatureFlags: FeatureFlaggeable {
 
     var feedDFPAdUnitId: String? {
         if Bumper.enabled {
+            // Bumper overrides country restriction
             switch showAdsInFeedWithRatio {
             case .baseline, .control:
-                return nil
+                return noAdsInFeedForNewUsers.shouldShowAdsInFeed ? EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio : nil
             case .ten:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
             case .fifteen:
@@ -544,7 +609,7 @@ class FeatureFlags: FeatureFlaggeable {
         case .usa?:
             switch showAdsInFeedWithRatio {
             case .baseline, .control:
-                return nil
+                return noAdsInFeedForNewUsers.shouldShowAdsInFeed ? EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio : nil
             case .ten:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
             case .fifteen:

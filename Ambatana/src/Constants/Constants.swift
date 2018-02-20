@@ -150,6 +150,7 @@ struct Constants {
     // Ads
     static let adInFeedInitialPosition = 3
     static let adInFeedCustomTargetingKey = "pos_var"
+    static let newUserTimeThresholdForAds = TimeInterval.make(days: 15)
 
     // Professional Dealers
     static let usaPhoneNumberDigitsCount = 10

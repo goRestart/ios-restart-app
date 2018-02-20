@@ -854,7 +854,11 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         var totalListings = listings
         totalListings = addMostSearchedItems(to: totalListings)
         totalListings = addCollections(to: totalListings, page: page)
-        totalListings = addAds(to: totalListings, page: page)
+        let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
+        if featureFlags.showAdsInFeedWithRatio.isActive ||
+            featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) {
+            totalListings = addAds(to: totalListings, page: page)
+        }
         return totalListings
     }
 
@@ -893,7 +897,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
             previousPagesAdsOffset = 0
         }
         guard let adsDelegate = adsDelegate else { return listings }
-        guard featureFlags.showAdsInFeedWithRatio.isActive else { return listings }
         guard let feedAdUnitId = featureFlags.feedDFPAdUnitId else { return listings }
 
         var cellModels = listings
@@ -909,7 +912,14 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
                                                                   adPosition: adPositionInPage) else { break }
 
             let request = DFPRequest()
-            let customTargetingValue = featureFlags.showAdsInFeedWithRatio.customTargetingValueFor(position: lastAdPosition)
+            var customTargetingValue = ""
+
+            if featureFlags.showAdsInFeedWithRatio.isActive {
+                customTargetingValue = featureFlags.showAdsInFeedWithRatio.customTargetingValueFor(position: lastAdPosition)
+            } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
+                customTargetingValue = featureFlags.noAdsInFeedForNewUsers.customTargetingValueFor(position: lastAdPosition)
+            }
+
             request.customTargeting = [Constants.adInFeedCustomTargetingKey: customTargetingValue]
 
             let adData = AdvertisementData(adUnitId: feedAdUnitId,
@@ -948,7 +958,13 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         if lastAdPosition == 0 {
             adPosition = Constants.adInFeedInitialPosition
         } else {
-            adPosition = lastAdPosition + featureFlags.showAdsInFeedWithRatio.ratio
+            var ratio: Int = 0
+            if featureFlags.showAdsInFeedWithRatio.isActive {
+                ratio = featureFlags.showAdsInFeedWithRatio.ratio
+            } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
+                ratio = featureFlags.noAdsInFeedForNewUsers.ratio
+            }
+            adPosition = lastAdPosition + ratio
         }
         return adPosition
     }
@@ -1451,6 +1467,17 @@ extension MainListingsViewModel: ListingCellDelegate {
     }
 }
 
+extension NoAdsInFeedForNewUsers {
+    var ratio: Int {
+        return shouldShowAdsInFeed ? 20 : 0
+    }
+
+    func customTargetingValueFor(position: Int) -> String {
+        guard self.ratio != 0 else { return "" }
+        let numberOfAd = ((position - Constants.adInFeedInitialPosition)/self.ratio) + 1
+        return "var_c_pos_\(numberOfAd)"
+    }
+}
 
 extension ShowAdsInFeedWithRatio {
     var ratio: Int {
