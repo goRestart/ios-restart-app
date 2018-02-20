@@ -116,9 +116,11 @@
             <nil key="simulatedTopBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="favouriteIcon" destination="hk5-FC-QU9" id="mCJ-sQ-0Eo"/>
                 <outlet property="favouriteStatsLabel" destination="vwJ-1n-CQ1" id="Vqn-qg-7QH"/>
                 <outlet property="favouriteStatsView" destination="Mmj-j9-3P3" id="K1Q-nS-aGD"/>
                 <outlet property="favouriteStatsWidthConstraint" destination="kYf-27-ud4" id="OIZ-CE-7az"/>
+                <outlet property="statsIcon" destination="ppx-Fy-GfE" id="fyg-ZG-IaN"/>
                 <outlet property="statsSeparationConstraint" destination="Qxd-2e-PWm" id="Hdk-5J-c9Z"/>
                 <outlet property="timePostedIcon" destination="oUq-wt-vJc" id="4yZ-GC-qm8"/>
                 <outlet property="timePostedLabel" destination="ciY-4A-Wkg" id="RYh-qN-ddw"/>

@@ -10,21 +10,42 @@ import UIKit
 
 class ListingStatsView: UIView {
 
+    enum Style {
+        case light, dark
+
+        var iconTint: UIColor {
+            switch self {
+            case .light:
+                return UIColor.grayDark
+            case .dark: return UIColor.black.withAlphaComponent(0.5)
+            }
+        }
+        var statBackground: UIColor {
+            switch self {
+            case .light:
+                return UIColor.grayBackground
+            case .dark: return UIColor.black.withAlphaComponent(0.5)
+            }
+        }
+    }
+
     @IBOutlet weak var timePostedLeading: NSLayoutConstraint!
-    @IBOutlet var favouriteStatsView: UIView!
-    @IBOutlet var favouriteStatsLabel: UILabel!
-    @IBOutlet var favouriteStatsWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var favouriteStatsView: UIView!
+    @IBOutlet weak var favouriteStatsLabel: UILabel!
+    @IBOutlet weak var favouriteIcon: UIImageView!
+    @IBOutlet weak var statsIcon: UIImageView!
+    @IBOutlet weak var favouriteStatsWidthConstraint: NSLayoutConstraint!
 
-    @IBOutlet var viewsStatsView: UIView!
-    @IBOutlet var viewsStatsLabel: UILabel!
-    @IBOutlet var viewsStatsWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var viewsStatsView: UIView!
+    @IBOutlet weak var viewsStatsLabel: UILabel!
+    @IBOutlet weak var viewsStatsWidthConstraint: NSLayoutConstraint!
 
-    @IBOutlet var timePostedView: UIView!
-    @IBOutlet var timePostedLabel: UILabel!
-    @IBOutlet var timePostedIcon: UIImageView!
-    @IBOutlet var timePostedWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var timePostedView: UIView!
+    @IBOutlet weak var timePostedLabel: UILabel!
+    @IBOutlet weak var timePostedIcon: UIImageView!
+    @IBOutlet weak var timePostedWidthConstraint: NSLayoutConstraint!
 
-    @IBOutlet var statsSeparationConstraint: NSLayoutConstraint!
+    @IBOutlet weak var statsSeparationConstraint: NSLayoutConstraint!
 
     private let statsViewMaxWidth: CGFloat = 80
     private let statsSeparationWidth: CGFloat = 17
@@ -33,11 +54,21 @@ class ListingStatsView: UIView {
 
     override var intrinsicContentSize: CGSize { return CGSize(width: UIViewNoIntrinsicMetric, height: 24.0) }
 
+    private var style: Style = .dark {
+        didSet { updateStyle() }
+    }
+
     // MARK: - Lifecycle
 
     static func make() -> ListingStatsView? {
         let view = Bundle.main.loadNibNamed("ListingStatsView", owner: self, options: nil)?.first as? ListingStatsView
         view?.setupUI()
+        return view
+    }
+
+    static func make(withStyle style: Style) -> ListingStatsView? {
+        let view = make()
+        view?.style = style
         return view
     }
 
@@ -56,6 +87,23 @@ class ListingStatsView: UIView {
         viewsStatsWidthConstraint.constant = 0
         
         timePostedWidthConstraint.constant = 0
+
+        favouriteIcon.image = #imageLiteral(resourceName: "ic_stats_favorite").withRenderingMode(.alwaysTemplate)
+        statsIcon.image = #imageLiteral(resourceName: "ic_stats_views").withRenderingMode(.alwaysTemplate)
+    }
+
+    private func updateStyle() {
+        favouriteIcon.tintColor = style.iconTint
+        favouriteStatsView.backgroundColor = style.statBackground
+
+        statsIcon.tintColor = style.iconTint
+        viewsStatsView.backgroundColor = style.statBackground
+
+        timePostedIcon.tintColor = style.iconTint
+        timePostedView.backgroundColor = style.statBackground
+
+        favouriteStatsLabel.textColor = style.iconTint
+        viewsStatsLabel.textColor = style.iconTint
     }
 
     func updateStatsWithInfo(_ viewsCount: Int, favouritesCount: Int, postedDate: Date?) {
@@ -85,9 +133,11 @@ class ListingStatsView: UIView {
             timePostedView.backgroundColor = UIColor.white
             timePostedLabel.textColor = UIColor.primaryColor
         } else {
-            timePostedIcon.image = UIImage(named: "ic_stats_time")
-            timePostedView.backgroundColor = UIColor.black.withAlphaComponent(0.54)
-            timePostedLabel.textColor = UIColor.white
+            timePostedIcon.image = #imageLiteral(resourceName: "ic_stats_time").withRenderingMode(.alwaysTemplate)
+            timePostedIcon.tintColor = style.iconTint
+            timePostedView.backgroundColor = style.statBackground
+
+            timePostedLabel.textColor = style.iconTint
         }
     }
 }

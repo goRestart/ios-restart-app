@@ -53,7 +53,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     private let priceLabel = UILabel()
 
     private let detailLabel = UILabel()
-    private let statsView = ListingStatsView.make()!
+    private let statsView = ListingStatsView.make(withStyle: .light)!
 
     private var locationToStats: NSLayoutConstraint?
     private var locationToDetail: NSLayoutConstraint?
