@@ -315,6 +315,9 @@ extension String {
     }
 
     func addUSPhoneFormatDashes() -> String {
+
+        guard self.count >= Constants.usaFirstDashPosition else { return self }
+
         var firstChunk: String = ""
         var midChunk: String = ""
         var lastChunk: String = ""
@@ -325,8 +328,6 @@ extension String {
         if self.count >= Constants.usaFirstDashPosition {
             firstChunk = String(self[self.startIndex..<midChunkStart])
             outputString = firstChunk + "-"
-        } else {
-            return self
         }
         if self.count >= Constants.usaSecondDashPosition {
             midChunk = String(self[midChunkStart..<midChunkEnd])
