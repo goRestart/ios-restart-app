@@ -21,6 +21,7 @@ protocol ListingDeckViewControllerBinderType: class {
     func didTapShare()
     func didTapCardAction()
     func didTapOnUserIcon()
+    func updateSideCells()
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool)
     func setNavigationBarRightButtons(_ actions: [UIButton])
     func setLetGoRightButtonWith(_ action: UIAction, buttonTintColor: UIColor?, tapBlock: (ControlEvent<Void>) -> Void )
@@ -169,6 +170,10 @@ final class ListingDeckViewControllerBinder {
                           disposeBag: DisposeBag) {
         viewController.rxContentOffset.skip(1).bind { [weak viewModel] _ in
             viewModel?.userHasScrolled = true
+        }.disposed(by: disposeBag)
+
+        viewController.rxContentOffset.asObservable().bind { [weak viewController] _ in
+           viewController?.updateSideCells()
         }.disposed(by: disposeBag)
 
         let contentOffsetAlphaSignal: Observable<CGFloat> = viewController.rxContentOffset

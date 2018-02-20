@@ -30,6 +30,22 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         didSet { detailMapView.delegate = delegate }
     }
 
+    override var intrinsicContentSize: CGSize {
+        let titleLabelSize = titleLabel.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+        let priceLabelSize = priceLabel.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+        let detailLabelSize = detailLabel.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+        let statsViewSize = statsView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+        let detailMapViewHeight = detailMapView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+        let socialMediaHeaderSizse = socialMediaHeader.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+        let socialView = socialShareView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+
+        let height = titleLabelSize + priceLabelSize + detailLabelSize + statsViewSize +
+            detailMapViewHeight + socialMediaHeaderSizse + socialView
+
+        let spaces = Metrics.veryShortMargin + Metrics.bigMargin + 2*Metrics.margin
+        return CGSize(width: UIViewNoIntrinsicMetric, height: height + spaces)
+    }
+
     private let scrollView = UIScrollView()
 
     private let headerStackView = UIStackView()
@@ -99,6 +115,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     func disableStatsView() {
         locationToStats?.isActive = false
         locationToDetail?.isActive = true
+        scrollView.layoutIfNeeded()
     }
 
     private func enableSocialView(_ enabled: Bool) {
@@ -106,6 +123,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         socialMediaHeader.isHidden = !enabled
         mapSnapShotToBottom?.isActive = !enabled
         mapSnapShotToSocialView?.isActive = enabled
+        scrollView.layoutIfNeeded()
     }
 
     // MARK: SetupView
@@ -127,7 +145,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
 
             view.backgroundColor = .white
             view.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-            view.layout(with: scrollView).fillHorizontal()
+            view.layout(with: scrollView).fillHorizontal().top().height(0)
         }
 
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -212,10 +230,12 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
 
         locationToStats = mapPlaceHolder.topAnchor.constraint(equalTo: statsView.bottomAnchor,
                                                               constant: 2*Metrics.margin)
-        mapSnapShotToBottom = mapPlaceHolder.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor,
-                                                                     constant: -2*Metrics.margin)
-
         locationToStats?.isActive = true
+
+        mapSnapShotToBottom = mapPlaceHolder.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor,
+                                                                     constant: -2*Metrics.margin)
+        mapSnapShotToBottom?.isActive = false
+
         locationToDetail = mapPlaceHolder.topAnchor.constraint(equalTo: detailLabel.bottomAnchor)
 
         detailMapView.translatesAutoresizingMaskIntoConstraints = false
@@ -241,9 +261,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
             mapSnapShotToSocialView = socialMediaHeader.topAnchor.constraint(equalTo: mapPlaceHolder.bottomAnchor,
                                                                              constant: 2*Metrics.margin)
             mapSnapShotToSocialView?.isActive = true
-
-            socialMediaHeader.layout(with: scrollView)
-                .leading(by: Metrics.margin).trailing(by: -Metrics.margin)
+            socialMediaHeader.layout(with: scrollView).fillHorizontal(by: Metrics.margin)
 
             socialMediaHeader.textColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
             socialMediaHeader.backgroundColor = UIColor.white
@@ -258,9 +276,8 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
             socialShareView.translatesAutoresizingMaskIntoConstraints = false
             scrollView.addSubview(socialShareView)
             socialShareView.topAnchor.constraint(equalTo: socialMediaHeader.bottomAnchor).isActive = true
-            socialShareView.layout(with: scrollView)
-                .leading(by: 7.0).trailing(by: -7.0)
-            socialShareView.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor,
+            socialShareView.layout(with: scrollView).fillHorizontal(by: 7.0)
+            socialShareView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor,
                                                     constant: -2*Metrics.margin).isActive = true
             socialShareView.setupBackgroundColor(.white)
             socialShareView.delegate = self

@@ -105,6 +105,15 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         return UICollectionViewCell()
     }
 
+    private func updateCellContentInset(_ cell: ListingCardView) {
+        let collectionView = listingDeckView.collectionView
+        let cellCenter = collectionView.convert(cell.center, to: listingDeckView)
+        let ratio: CGFloat = cellCenter.x / listingDeckView.width
+        if ratio < 0.2 || ratio > 0.8 {
+            cell.layoutVerticalContentInset(animated: true)
+        }
+    }
+
     // MARK: NavBar
 
     private func setupNavigationBar() {
@@ -154,6 +163,11 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
 
     func blockSideInteractions() {
         listingDeckView.blockSideInteractions()
+    }
+
+    func updateSideCells() {
+        guard let visibles = listingDeckView.collectionView.visibleCells as? [ListingCardView] else { return }
+        visibles.forEach(updateCellContentInset)
     }
 
     var rxContentOffset: Observable<CGPoint> { return listingDeckView.rxCollectionView.contentOffset.share() }
