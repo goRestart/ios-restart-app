@@ -45,6 +45,7 @@ extension Bumper  {
         flags.append(NoAdsInFeedForNewUsers.self)
         flags.append(EmojiSizeIncrement.self)
         flags.append(ShowBumpUpBannerOnNotValidatedListings.self)
+        flags.append(SearchMultiwordExpressions.self)
         Bumper.initialize(flags)
     } 
 
@@ -206,6 +207,11 @@ extension Bumper  {
     static var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
         guard let value = Bumper.value(for: ShowBumpUpBannerOnNotValidatedListings.key) else { return .control }
         return ShowBumpUpBannerOnNotValidatedListings(rawValue: value) ?? .control 
+    }
+
+    static var searchMultiwordExpressions: SearchMultiwordExpressions {
+        guard let value = Bumper.value(for: SearchMultiwordExpressions.key) else { return .control }
+        return SearchMultiwordExpressions(rawValue: value) ?? .control 
     } 
 }
 
@@ -686,6 +692,25 @@ enum ShowBumpUpBannerOnNotValidatedListings: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum SearchMultiwordExpressions: String, BumperFeature  {
+    case control, baseline, mWE, mWERelaxedSynonyms, mWERelaxedSynonymsMM100, mWERelaxedSynonymsMM75
+    static var defaultValue: String { return SearchMultiwordExpressions.control.rawValue }
+    static var enumValues: [SearchMultiwordExpressions] { return [.control, .baseline, .mWE, .mWERelaxedSynonyms, .mWERelaxedSynonymsMM100, .mWERelaxedSynonymsMM75]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Multiword expressions when searching" } 
+    static func fromPosition(_ position: Int) -> SearchMultiwordExpressions {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .mWE
+            case 3: return .mWERelaxedSynonyms
+            case 4: return .mWERelaxedSynonymsMM100
+            case 5: return .mWERelaxedSynonymsMM75
             default: return .control
         }
     }
