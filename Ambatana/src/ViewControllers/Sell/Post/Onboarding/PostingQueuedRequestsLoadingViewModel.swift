@@ -21,7 +21,7 @@ class PostingQueuedRequestsLoadingViewModel: BaseViewModel {
     //private let trackingInfo: PostListingTrackingInfo
     private var listingResult: ListingResult?
     
-    weak var navigator: PostListingNavigator?
+    weak var navigator: PostingAdvancedCreateProductNavigator?
     private let disposeBag = DisposeBag()
     
     //var finishRequest = Variable<Bool?>(false)
@@ -86,5 +86,12 @@ class PostingQueuedRequestsLoadingViewModel: BaseViewModel {
                 strongSelf.postOnboardingState.value = strongSelf.postOnboardingState.value.updatingStepToImageUploadError(error)
             }
         }
+    }
+    
+    
+    // MARK: - Navigation
+    
+    func openPrice() {
+        navigator?.openPrice(listingCreationParams: listingCreationParams, postState: postOnboardingState.value)
     }
 }

@@ -1,32 +1,21 @@
 //
-//  PostingQueuedRequestsLoadingViewController.swift
+//  PostingAddPriceViewController.swift
 //  LetGo
 //
-//  Created by Raúl de Oñate Blanco on 04/12/2017.
-//  Copyright © 2017 Ambatana. All rights reserved.
+//  Created by Raúl de Oñate Blanco on 19/02/2018.
+//  Copyright © 2018 Ambatana. All rights reserved.
 //
 
-import Foundation
-import RxSwift
-
-class PostingQueuedRequestsLoadingViewController: BaseViewController {
-    
-    struct LoadingMetrics {
-        static var heightLoadingView: CGFloat = 60
-        static var widthLoadingView: CGFloat = 60
-    }
+class PostingAddPriceViewController: BaseViewController {
     
     private let tempNextButton = UIButton()
     
-    private var loadingView = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: LoadingMetrics.widthLoadingView, height: LoadingMetrics.widthLoadingView))
-    private let viewModel: PostingQueuedRequestsLoadingViewModel
-    
-    private let disposeBag = DisposeBag()
+    private let viewModel: PostingAddPriceViewModel
     
     
     // MARK: - Lifecycle
     
-    init(viewModel: PostingQueuedRequestsLoadingViewModel) {
+    init(viewModel: PostingAddPriceViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
     }
@@ -37,9 +26,9 @@ class PostingQueuedRequestsLoadingViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationController?.setNavigationBarHidden(true, animated: false)
-        setupConstraints()
+        //        navigationController?.setNavigationBarHidden(true, animated: false)
         setupUI()
+        setupConstraints()
         setupRx()
         //viewModel.createListingAfterUploadingImages()
     }
@@ -55,22 +44,23 @@ class PostingQueuedRequestsLoadingViewController: BaseViewController {
     private func setupUI() {
         tempNextButton.setTitleColor(.black, for: .normal)
         tempNextButton.setTitle("Next", for: .normal)
-        tempNextButton.addTarget(self, action: #selector(openPrice), for: .touchUpInside)
+        tempNextButton.addTarget(self, action: #selector(openListingPosted), for: .touchUpInside)
+        
+        viewModel.makePriceView(view: view)
     }
     
     private func setupConstraints() {
         view.addSubview(tempNextButton)
         tempNextButton.translatesAutoresizingMaskIntoConstraints = false
-
+        
         tempNextButton.layout(with: view).fill()
     }
     
     private func setupRx() {
     }
     
-    @objc private func openPrice() {
-        viewModel.openPrice()
+    @objc private func openListingPosted() {
+        viewModel.openListingPosted()
     }
     
 }
-
