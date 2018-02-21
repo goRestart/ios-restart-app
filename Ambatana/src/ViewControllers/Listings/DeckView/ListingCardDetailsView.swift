@@ -243,13 +243,13 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         detailMapView.layout(with: scrollView).fillHorizontal()
 
         let centerY = detailMapView.centerYAnchor.constraint(equalTo: mapPlaceHolder.centerYAnchor)
-        centerY.priority = UILayoutPriority(rawValue: 999)
+        centerY.priority = .required - 1
         centerY.isActive = true
 
         let mapHeightConstraint = detailMapView.heightAnchor.constraint(equalTo: mapPlaceHolder.heightAnchor,
                                                                         multiplier: 1.0)
         mapHeightConstraint.isActive = true
-        mapHeightConstraint.priority = UILayoutPriority(rawValue: 999)
+        mapHeightConstraint.priority = .required - 1
         detailMapView.isUserInteractionEnabled = true
     }
 

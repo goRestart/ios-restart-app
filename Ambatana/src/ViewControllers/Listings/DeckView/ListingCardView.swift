@@ -191,9 +191,13 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     private func setupImagesCount() {
         gradient.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(gradient)
-        gradient.topAnchor.constraint(lessThanOrEqualTo: contentView.topAnchor).isActive = true
+        let gradientTop = gradient.topAnchor.constraint(equalTo: contentView.topAnchor)
+        gradientTop.isActive = true
+        gradientTop.priority = .required - 1
+
         gradient.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         gradient.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        gradient.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.4)
 
         countImageView.contentMode = .center
         countImageView.setContentHuggingPriority(.required, for: .horizontal)

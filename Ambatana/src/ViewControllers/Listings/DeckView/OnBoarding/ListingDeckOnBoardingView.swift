@@ -91,10 +91,10 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
         addSubview(containerView)
         let containerHeight = containerView.heightAnchor.constraint(equalTo: heightAnchor,
                                                                     multiplier: Layout.Height.containerView)
-        containerHeight.priority = UILayoutPriority(rawValue: 999)
+        containerHeight.priority = .required - 1
         let containerWidth = containerView.widthAnchor.constraint(equalTo: widthAnchor,
                                                                   multiplier: Layout.Width.containerView)
-        containerWidth.priority = UILayoutPriority(rawValue: 999)
+        containerWidth.priority = .required - 1
         let constraints = [
             containerHeight,
             containerWidth,
@@ -116,7 +116,7 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
         containerView.addSubview(imageView)
         let imageHeight = imageView.heightAnchor.constraint(equalTo: containerView.heightAnchor,
                                                             multiplier: Layout.Height.imageView)
-        imageHeight.priority = UILayoutPriority(rawValue: 999)
+        imageHeight.priority = .required - 1
         let constraints = [
             imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metrics.margin),
             imageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Metrics.veryBigMargin),

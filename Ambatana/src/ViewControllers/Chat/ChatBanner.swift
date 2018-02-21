@@ -81,7 +81,7 @@ class ChatBanner: UIView {
         titleLabel.numberOfLines = 0
         titleLabel.font = UIFont.mediumBodyFont
         titleLabel.text = title
-        titleLabel.setContentHuggingPriority(UILayoutPriority(rawValue: 749), for: .horizontal)
+        titleLabel.setContentHuggingPriority(749, for: .horizontal)
         // action button
         actionButton.titleLabel?.adjustsFontSizeToFitWidth = true
         actionButton.titleLabel?.minimumScaleFactor = 0.8
@@ -96,7 +96,7 @@ class ChatBanner: UIView {
                                                         right: 0)
         }
         actionButton.addTarget(self, action: #selector(bannerActionButtonTapped), for: .touchUpInside)
-        actionButton.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .horizontal)
+        actionButton.setContentCompressionResistancePriority(751, for: .horizontal)
         actionButton.accessibilityId = .chatBannerActionButton
 
         closeButton.setImage(UIImage(named: "ic_close_dark"), for: .normal)
