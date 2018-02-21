@@ -30,7 +30,6 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
-    var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
@@ -318,13 +317,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.dynamicQuickAnswers
         }
         return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
-    }
-
-    var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {
-        if Bumper.enabled {
-            return Bumper.defaultRadiusDistanceFeed
-        }
-        return DefaultRadiusDistanceFeed.fromPosition(abTests.defaultRadiusDistanceFeed.value)
     }
     
     var searchAutocomplete: SearchAutocomplete {

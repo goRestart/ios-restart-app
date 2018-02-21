@@ -19,7 +19,6 @@ extension Bumper  {
         flags.append(PricedBumpUpEnabled.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
-        flags.append(DefaultRadiusDistanceFeed.self)
         flags.append(RealEstateEnabled.self)
         flags.append(SearchAutocomplete.self)
         flags.append(ShowPriceAfterSearchOrFilter.self)
@@ -78,11 +77,6 @@ extension Bumper  {
     static var dynamicQuickAnswers: DynamicQuickAnswers {
         guard let value = Bumper.value(for: DynamicQuickAnswers.key) else { return .control }
         return DynamicQuickAnswers(rawValue: value) ?? .control 
-    }
-
-    static var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {
-        guard let value = Bumper.value(for: DefaultRadiusDistanceFeed.key) else { return .control }
-        return DefaultRadiusDistanceFeed(rawValue: value) ?? .control 
     }
 
     static var realEstateEnabled: RealEstateEnabled {
@@ -279,25 +273,6 @@ enum DynamicQuickAnswers: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .dynamicNoKeyboard
             case 3: return .dynamicWithKeyboard
-            default: return .control
-        }
-    }
-}
-
-enum DefaultRadiusDistanceFeed: String, BumperFeature  {
-    case control, baseline, two, five, ten, thirty
-    static var defaultValue: String { return DefaultRadiusDistanceFeed.control.rawValue }
-    static var enumValues: [DefaultRadiusDistanceFeed] { return [.control, .baseline, .two, .five, .ten, .thirty]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Default distance radius main feed." } 
-    static func fromPosition(_ position: Int) -> DefaultRadiusDistanceFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .two
-            case 3: return .five
-            case 4: return .ten
-            case 5: return .thirty
             default: return .control
         }
     }

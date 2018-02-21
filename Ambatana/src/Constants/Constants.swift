@@ -154,4 +154,6 @@ struct Constants {
 
     // Professional Dealers
     static let usaPhoneNumberDigitsCount = 10
+    static let usaFirstDashPosition = 3
+    static let usaSecondDashPosition = 7
 }
