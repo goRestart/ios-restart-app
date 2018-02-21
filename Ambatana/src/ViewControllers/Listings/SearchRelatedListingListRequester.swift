@@ -167,7 +167,6 @@ fileprivate extension SearchRelatedListingListRequester {
         params.modelId = filters?.carModelId
         params.startYear = filters?.carYearStart
         params.endYear = filters?.carYearEnd
-        params.abtest = featureFlags.defaultRadiusDistanceFeed.stringValue
         
         if let propertyType = filters?.realEstatePropertyType?.rawValue {
             params.propertyType = propertyType
@@ -178,6 +177,9 @@ fileprivate extension SearchRelatedListingListRequester {
         params.numberOfBedrooms = filters?.realEstateNumberOfBedrooms?.rawValue ?? filters?.realEstateNumberOfRooms?.numberOfBedrooms
         params.numberOfBathrooms = filters?.realEstateNumberOfBathrooms?.rawValue
         params.numberOfLivingRooms = filters?.realEstateNumberOfRooms?.numberOfLivingRooms
+        
+        params.sizeSquareMetersFrom = filters?.realEstateSizeRange.min
+        params.sizeSquareMetersTo = filters?.realEstateSizeRange.max
         
         if let priceRange = filters?.priceRange {
             switch priceRange {

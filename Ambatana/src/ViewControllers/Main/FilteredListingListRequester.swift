@@ -210,8 +210,6 @@ fileprivate extension FilteredListingListRequester {
         params.countryCode = countryCode
         
         params.populate(with: filters)
-        
-        params.abtest = featureFlags.defaultRadiusDistanceFeed.stringValue
        
         return params
     }
@@ -276,24 +274,5 @@ fileprivate extension FilteredListingListRequester {
         }
 
         return VerticalTrackingInfo(category: vertical, keywords: keywords, matchingFields: matchingFields, nonMatchingFields: nonMatchingFields)
-    }
-}
-
-extension DefaultRadiusDistanceFeed {
-    var stringValue: String {
-        switch self {
-        case .control:
-            return "tbimkt1218-e"
-        case .baseline:
-            return "tbimkt1218-a"
-        case .two:
-            return "tbimkt1218-b"
-        case .five:
-            return "tbimkt1218-c"
-        case .ten:
-            return "tbimkt1218-d"
-        case .thirty:
-            return "tbimkt1218-f"
-        }
     }
 }

@@ -19,7 +19,6 @@ extension Bumper  {
         flags.append(PricedBumpUpEnabled.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
-        flags.append(DefaultRadiusDistanceFeed.self)
         flags.append(RealEstateEnabled.self)
         flags.append(SearchAutocomplete.self)
         flags.append(ShowPriceAfterSearchOrFilter.self)
@@ -29,7 +28,6 @@ extension Bumper  {
         flags.append(NewItemPage.self)
         flags.append(ShowPriceStepRealEstatePosting.self)
         flags.append(ShowClockInDirectAnswer.self)
-        flags.append(PromoteBumpUpAfterSell.self)
         flags.append(MoreInfoAFShOrDFP.self)
         flags.append(MostSearchedDemandedItems.self)
         flags.append(AllowCallsForProfessionals.self)
@@ -44,7 +42,9 @@ extension Bumper  {
         flags.append(MainFeedAspectRatio.self)
         flags.append(IncreaseMinPriceBumps.self)
         flags.append(ShowSecurityMeetingChatMessage.self)
+        flags.append(NoAdsInFeedForNewUsers.self)
         flags.append(EmojiSizeIncrement.self)
+        flags.append(ShowBumpUpBannerOnNotValidatedListings.self)
         Bumper.initialize(flags)
     } 
 
@@ -76,11 +76,6 @@ extension Bumper  {
     static var dynamicQuickAnswers: DynamicQuickAnswers {
         guard let value = Bumper.value(for: DynamicQuickAnswers.key) else { return .control }
         return DynamicQuickAnswers(rawValue: value) ?? .control 
-    }
-
-    static var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {
-        guard let value = Bumper.value(for: DefaultRadiusDistanceFeed.key) else { return .control }
-        return DefaultRadiusDistanceFeed(rawValue: value) ?? .control 
     }
 
     static var realEstateEnabled: RealEstateEnabled {
@@ -126,11 +121,6 @@ extension Bumper  {
     static var showClockInDirectAnswer: ShowClockInDirectAnswer {
         guard let value = Bumper.value(for: ShowClockInDirectAnswer.key) else { return .control }
         return ShowClockInDirectAnswer(rawValue: value) ?? .control 
-    }
-
-    static var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
-        guard let value = Bumper.value(for: PromoteBumpUpAfterSell.key) else { return .control }
-        return PromoteBumpUpAfterSell(rawValue: value) ?? .control 
     }
 
     static var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
@@ -203,9 +193,19 @@ extension Bumper  {
         return ShowSecurityMeetingChatMessage(rawValue: value) ?? .control 
     }
 
+    static var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
+        guard let value = Bumper.value(for: NoAdsInFeedForNewUsers.key) else { return .control }
+        return NoAdsInFeedForNewUsers(rawValue: value) ?? .control 
+    }
+
     static var emojiSizeIncrement: EmojiSizeIncrement {
         guard let value = Bumper.value(for: EmojiSizeIncrement.key) else { return .control }
         return EmojiSizeIncrement(rawValue: value) ?? .control 
+    }
+
+    static var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
+        guard let value = Bumper.value(for: ShowBumpUpBannerOnNotValidatedListings.key) else { return .control }
+        return ShowBumpUpBannerOnNotValidatedListings(rawValue: value) ?? .control 
     } 
 }
 
@@ -267,25 +267,6 @@ enum DynamicQuickAnswers: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .dynamicNoKeyboard
             case 3: return .dynamicWithKeyboard
-            default: return .control
-        }
-    }
-}
-
-enum DefaultRadiusDistanceFeed: String, BumperFeature  {
-    case control, baseline, two, five, ten, thirty
-    static var defaultValue: String { return DefaultRadiusDistanceFeed.control.rawValue }
-    static var enumValues: [DefaultRadiusDistanceFeed] { return [.control, .baseline, .two, .five, .ten, .thirty]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Default distance radius main feed." } 
-    static func fromPosition(_ position: Int) -> DefaultRadiusDistanceFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .two
-            case 3: return .five
-            case 4: return .ten
-            case 5: return .thirty
             default: return .control
         }
     }
@@ -429,22 +410,6 @@ enum ShowClockInDirectAnswer: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show a clock until the message is delivered correctly" } 
     static func fromPosition(_ position: Int) -> ShowClockInDirectAnswer {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum PromoteBumpUpAfterSell: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return PromoteBumpUpAfterSell.control.rawValue }
-    static var enumValues: [PromoteBumpUpAfterSell] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show a bump up alert after posting (once every 24h)" } 
-    static func fromPosition(_ position: Int) -> PromoteBumpUpAfterSell {
         switch position { 
             case 0: return .control
             case 1: return .baseline
@@ -677,6 +642,24 @@ enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
     }
 }
 
+enum NoAdsInFeedForNewUsers: String, BumperFeature  {
+    case control, baseline, adsEverywhere, noAdsForNewUsers, adsForNewUsersOnlyInFeed
+    static var defaultValue: String { return NoAdsInFeedForNewUsers.control.rawValue }
+    static var enumValues: [NoAdsInFeedForNewUsers] { return [.control, .baseline, .adsEverywhere, .noAdsForNewUsers, .adsForNewUsersOnlyInFeed]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Change logic for showing ads to new users (2 weeks old)" } 
+    static func fromPosition(_ position: Int) -> NoAdsInFeedForNewUsers {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .adsEverywhere
+            case 3: return .noAdsForNewUsers
+            case 4: return .adsForNewUsersOnlyInFeed
+            default: return .control
+        }
+    }
+}
+
 enum EmojiSizeIncrement: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return EmojiSizeIncrement.control.rawValue }
@@ -684,6 +667,22 @@ enum EmojiSizeIncrement: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Increase the size of emojis the text is only emojis and < 4" } 
     static func fromPosition(_ position: Int) -> EmojiSizeIncrement {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ShowBumpUpBannerOnNotValidatedListings: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ShowBumpUpBannerOnNotValidatedListings.control.rawValue }
+    static var enumValues: [ShowBumpUpBannerOnNotValidatedListings] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show the bump banner for listings pending validation" } 
+    static func fromPosition(_ position: Int) -> ShowBumpUpBannerOnNotValidatedListings {
         switch position { 
             case 0: return .control
             case 1: return .baseline

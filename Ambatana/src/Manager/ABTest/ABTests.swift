@@ -27,7 +27,6 @@ class ABTests {
     let dynamicQuickAnswers = IntABDynamicVar(key: "20170816DynamicQuickAnswers", defaultValue: 0, abGroupType: .legacyABTests)
     let appRatingDialogInactive = BoolABDynamicVar(key: "20170831AppRatingDialogInactive", defaultValue: false, abGroupType: .legacyABTests)
     let locationDataSourceType = IntABDynamicVar(key: "20170830LocationDataSourceType", defaultValue: 0, abGroupType: .legacyABTests)
-    let defaultRadiusDistanceFeed = IntABDynamicVar(key: "20170922DefaultRadiusDistanceFeed", defaultValue: 0, abGroupType: .legacyABTests)
     let searchAutocomplete = IntABDynamicVar(key: "20170914SearchAutocomplete", defaultValue: 0, abGroupType: .legacyABTests)
     let realEstateEnabled = IntABDynamicVar(key: "20171228realEstateEnabled", defaultValue: 0, abGroupType: .legacyABTests)
     let showPriceAfterSearchOrFilter = IntABDynamicVar(key: "20170928ShowPriceAfterSearchOrFilter", defaultValue: 0, abGroupType: .legacyABTests)
@@ -37,7 +36,6 @@ class ABTests {
     let taxonomiesAndTaxonomyChildrenInFeed = IntABDynamicVar(key: "20171031TaxonomiesAndTaxonomyChildrenInFeed", defaultValue: 0, abGroupType: .legacyABTests)
     let showPriceStepRealEstatePosting = IntABDynamicVar(key: "20171106RealEstatePostingOrder", defaultValue: 0, abGroupType: .legacyABTests)
     let showClockInDirectAnswer = IntABDynamicVar(key: "20171031ShowClockInDirectAnswer", defaultValue: 0, abGroupType: .legacyABTests)
-    let promoteBumpUpAfterSell = IntABDynamicVar(key: "20171127PromoteBumpUpAfterSell", defaultValue: 0, abGroupType: .legacyABTests)
     let allowCallsForProfessionals = IntABDynamicVar(key: "20171228allowCallsForProfessionals", defaultValue: 0, abGroupType: .legacyABTests)
     let moreInfoAFShOrDFP = IntABDynamicVar(key: "20171213MoreInfoAFShOrDFP", defaultValue: 0, abGroupType: .legacyABTests)
     let realEstateImprovements = IntABDynamicVar(key: "20180103RealEstateImprovements", defaultValue: 0, abGroupType: .legacyABTests)
@@ -51,8 +49,10 @@ class ABTests {
     let mainFeedAspectRatio = IntABDynamicVar(key: "20180208MainFeedAspectRatio", defaultValue: 0, abGroupType: .core)
     let increaseMinPriceBumps  = IntABDynamicVar(key: "20180208IncreaseMinPriceBumps", defaultValue: 0, abGroupType: .money)
     let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20180207ShowSecurityMeetingChatMessage", defaultValue: 0, abGroupType: .chat)
+    let noAdsInFeedForNewUsers = IntABDynamicVar(key: "20180212NoAdsInFeedForNewUsers", defaultValue: 0, abGroupType: .money)
     let emojiSizeIncrement = IntABDynamicVar(key: "20180212EmojiSizeIncrement", defaultValue: 0, abGroupType: .chat)
-    
+    let showBumpUpBannerOnNotValidatedListings = IntABDynamicVar(key: "20180214showBumpUpBannerOnNotValidatedListings", defaultValue: 0, abGroupType: .money)
+
     init() {
     }
     
@@ -71,7 +71,6 @@ class ABTests {
         result.append(dynamicQuickAnswers)
         result.append(appRatingDialogInactive)
         result.append(locationDataSourceType)
-        result.append(defaultRadiusDistanceFeed)
         result.append(searchAutocomplete)
         result.append(realEstateEnabled)
         result.append(showPriceAfterSearchOrFilter)
@@ -81,7 +80,6 @@ class ABTests {
         result.append(taxonomiesAndTaxonomyChildrenInFeed)
         result.append(showPriceStepRealEstatePosting)
         result.append(showClockInDirectAnswer)
-        result.append(promoteBumpUpAfterSell)
         result.append(allowCallsForProfessionals)
         result.append(moreInfoAFShOrDFP)
         result.append(realEstateImprovements)
@@ -95,7 +93,9 @@ class ABTests {
         result.append(mainFeedAspectRatio)
         result.append(increaseMinPriceBumps)
         result.append(showSecurityMeetingChatMessage)
+        result.append(noAdsInFeedForNewUsers)
         result.append(emojiSizeIncrement)
+        result.append(showBumpUpBannerOnNotValidatedListings)
         
         return result
     }

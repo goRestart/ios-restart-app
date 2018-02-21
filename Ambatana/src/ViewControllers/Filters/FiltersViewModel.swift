@@ -451,6 +451,7 @@ class FiltersViewModel: BaseViewModel {
                                                         sizeSqrMetersMin: productFilter.realEstateSizeRange.min,
                                                         sizeSqrMetersMax: productFilter.realEstateSizeRange.max,
                                                         rooms: productFilter.realEstateNumberOfRooms)
+        TrackerProxy.sharedInstance.trackEvent(trackingEvent)
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
     }
     

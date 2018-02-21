@@ -431,7 +431,55 @@ class StringLGSpec: QuickSpec {
                             expect(result.string) == sut
                         }
                     }
+                }
+            }
+        }
 
+        describe("addUSPhoneFormatDashes") {
+            var result: String!
+            context("Happy scenario, 10 or more characters") {
+                beforeEach {
+                    sut = "1234567890"
+                    result = sut.addUSPhoneFormatDashes()
+                }
+                it("position 4 & 8 are dashes, number stays the same") {
+                    expect(result) == "123-456-7890"
+                }
+            }
+            context("less than 10 characters, more than 6") {
+                beforeEach {
+                    sut = "12345678"
+                    result = sut.addUSPhoneFormatDashes()
+                }
+                it("position 4 & 8 are dashes, number stays the same") {
+                    expect(result) == "123-456-78"
+                }
+            }
+            context("exactly 6 characters") {
+                beforeEach {
+                    sut = "123456"
+                    result = sut.addUSPhoneFormatDashes()
+                }
+                it("position 4 & 8 are dashes, number stays the same") {
+                    expect(result) == "123-456"
+                }
+            }
+            context("less than 6 characters") {
+                beforeEach {
+                    sut = "1234"
+                    result = sut.addUSPhoneFormatDashes()
+                }
+                it("position 4 & 8 are dashes, number stays the same") {
+                    expect(result) == "123-4"
+                }
+            }
+            context("empty string") {
+                beforeEach {
+                    sut = ""
+                    result = sut.addUSPhoneFormatDashes()
+                }
+                it("position 4 & 8 are dashes, number stays the same") {
+                    expect(result) == ""
                 }
             }
         }

@@ -16,7 +16,7 @@ struct CarouselUI {
     static let pageControlWidth: CGFloat = 18
     static let pageControlMargin: CGFloat = 18
     static let moreInfoDragMargin: CGFloat = 45
-    static let moreInfoExtraHeight: CGFloat = 64
+    static let moreInfoExtraHeight: CGFloat = 70
     static let bottomOverscrollDragMargin: CGFloat = 70
 
     static let itemsMargin: CGFloat = 15

@@ -44,7 +44,8 @@ class ProfessionalDealerAskPhoneViewModel: BaseViewModel {
     }
 
     func updatePhoneNumberFrom(text: String) {
-        phoneNumber.value = text
+        let noDashesText = text.replacingOccurrences(of: "-", with: "")
+        phoneNumber.value = noDashesText
     }
     
     func sendPhonePressed() {
