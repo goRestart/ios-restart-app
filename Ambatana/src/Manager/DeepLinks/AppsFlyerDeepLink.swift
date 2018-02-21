@@ -9,6 +9,19 @@
 struct AppsFlyerDeepLink {
 
     let deepLink: DeepLink
+    
+    
+    // MARK: - Creation
+    
+    static func percentEncodeForAmpersands(urlString: String) -> String? {
+        // AppsFlyer SDK needs '&' to be encoded as '%3F' in order to be correctly read after the app is triggered by
+        // the deeplink
+        let nonAmpersandCharacters = CharacterSet(charactersIn: "&").inverted
+        return urlString.addingPercentEncoding(withAllowedCharacters: nonAmpersandCharacters)
+    }
+    
+    
+    // MARK: - Interpretation
 
     static func buildFromUserActivity(_ userActivity: NSUserActivity) -> AppsFlyerDeepLink? {
         guard let url = userActivity.webpageURL else { return nil }

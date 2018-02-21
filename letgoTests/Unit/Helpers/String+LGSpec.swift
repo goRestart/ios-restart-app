@@ -231,17 +231,6 @@ class StringLGSpec: QuickSpec {
                     }
                 }
             }
-            context("percentEncodedForRFC3986") {
-                describe("URL for deeplink with parameters") {
-                    beforeEach {
-                        sut = "product/a20ae309-1375-47b8-8c3b-7054a2118e17?utm_campaign=product-detail-share&utm_medium=whatsapp&utm_source=ios_app"
-                        sut = sut.percentEncodedForRFC3986
-                    }
-                    it("percent encodes it correctly") {
-                        expect(sut) == "product/a20ae309-1375-47b8-8c3b-7054a2118e17?utm_campaign%3Dproduct-detail-share%26utm_medium%3Dwhatsapp%26utm_source%3Dios_app"
-                    }
-                }
-            }
             context("contains letgo") {
                 it("returns false if does not contain letgo") {
                     expect("doesnotcontainit".containsLetgo()) == false

@@ -197,8 +197,8 @@ extension SocialMessage {
         let completeURLString = "letgo://" + string + "?" + Self.utmCampaignKey + "=" + Self.utmCampaignValue + "&" +
             Self.utmMediumKey + "=" + mediumValue + "&" +
             Self.utmSourceKey + "=" + Self.utmSourceValue
-        if let percentEncodedURLString = completeURLString.percentEncodedForRFC3986, needsPercentEncoding {
-            return completeURLString
+        if let percentEncodedURLString = AppsFlyerDeepLink.percentEncodeForAmpersands(urlString: completeURLString), needsPercentEncoding {
+            return percentEncodedURLString
         }
         return completeURLString
     }
