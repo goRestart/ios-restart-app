@@ -53,6 +53,7 @@ class ABTests {
     let emojiSizeIncrement = IntABDynamicVar(key: "20180212EmojiSizeIncrement", defaultValue: 0, abGroupType: .chat)
     let showBumpUpBannerOnNotValidatedListings = IntABDynamicVar(key: "20180214showBumpUpBannerOnNotValidatedListings", defaultValue: 0, abGroupType: .money)
     let newUserProfileView = IntABDynamicVar(key: "20180221NewUserProfileView", defaultValue: 0, abGroupType: .core)
+    let turkeyBumpPriceVATAdaptation = IntABDynamicVar(key: "20180221TurkeyBumpPriceVATAdaptation", defaultValue: 0, abGroupType: .money)
 
     init() {
     }
@@ -98,6 +99,7 @@ class ABTests {
         result.append(emojiSizeIncrement)
         result.append(showBumpUpBannerOnNotValidatedListings)
         result.append(newUserProfileView)
+        result.append(turkeyBumpPriceVATAdaptation)
         return result
     }
 

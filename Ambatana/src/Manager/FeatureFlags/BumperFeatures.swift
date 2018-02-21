@@ -46,6 +46,7 @@ extension Bumper  {
         flags.append(EmojiSizeIncrement.self)
         flags.append(ShowBumpUpBannerOnNotValidatedListings.self)
         flags.append(NewUserProfileView.self)
+        flags.append(TurkeyBumpPriceVATAdaptation.self)
         Bumper.initialize(flags)
     } 
 
@@ -212,6 +213,11 @@ extension Bumper  {
     static var newUserProfileView: NewUserProfileView {
         guard let value = Bumper.value(for: NewUserProfileView.key) else { return .control }
         return NewUserProfileView(rawValue: value) ?? .control 
+    }
+
+    static var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation {
+        guard let value = Bumper.value(for: TurkeyBumpPriceVATAdaptation.key) else { return .control }
+        return TurkeyBumpPriceVATAdaptation(rawValue: value) ?? .control 
     } 
 }
 
@@ -704,6 +710,22 @@ enum NewUserProfileView: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Refactor of the User Profile view controller" } 
     static func fromPosition(_ position: Int) -> NewUserProfileView {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum TurkeyBumpPriceVATAdaptation: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return TurkeyBumpPriceVATAdaptation.control.rawValue }
+    static var enumValues: [TurkeyBumpPriceVATAdaptation] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Change bump price scaling for listings in TR" } 
+    static func fromPosition(_ position: Int) -> TurkeyBumpPriceVATAdaptation {
         switch position { 
             case 0: return .control
             case 1: return .baseline

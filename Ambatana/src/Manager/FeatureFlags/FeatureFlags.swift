@@ -56,6 +56,7 @@ protocol FeatureFlaggeable: class {
     var emojiSizeIncrement: EmojiSizeIncrement { get }
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
     var newUserProfileView: NewUserProfileView { get }
+    var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -66,6 +67,7 @@ protocol FeatureFlaggeable: class {
     var moreInfoShoppingAdUnitId: String { get }
     var moreInfoDFPAdUnitId: String { get }
     var feedDFPAdUnitId: String? { get }
+    var bucketValue: Int { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -189,23 +191,22 @@ extension DummyUsersInfoProfile {
     var isActive: Bool { get { return self == .active } }
 }
 
-extension IncreaseMinPriceBumps {
-    var bucketValue: Int {
-        switch self {
-        case .control, .baseline:
-            return 0
-        case .active:
-            return 2
-        }
-    }
-}
-
 extension ShowBumpUpBannerOnNotValidatedListings {
     var isActive: Bool { get { return self == .active } }
 }
 
+extension IncreaseMinPriceBumps {
+    var isActive: Bool { get { return self == .active } }
+}
+extension TurkeyBumpPriceVATAdaptation {
+    var isActive: Bool { get { return self == .active } }
+}
 
 class FeatureFlags: FeatureFlaggeable {
+
+    private static let bumpPriceBucketValueDefault: Int = 0
+    private static let bumpPriceBucketValueMinPriceIncreaseUSA: Int = 2
+    private static let bumpPriceBucketValueVATDecreaseTR: Int = 4
 
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
@@ -496,6 +497,13 @@ class FeatureFlags: FeatureFlaggeable {
         return NewUserProfileView.fromPosition(abTests.newUserProfileView.value)
     }
 
+    var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation {
+        if Bumper.enabled {
+            return Bumper.turkeyBumpPriceVATAdaptation
+        }
+        return TurkeyBumpPriceVATAdaptation.fromPosition(abTests.turkeyBumpPriceVATAdaptation.value)
+    }
+
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
@@ -606,6 +614,39 @@ class FeatureFlags: FeatureFlaggeable {
             }
         default:
             return nil
+        }
+    }
+
+    /**
+     This var is used to inform money BE of the ABtests realated to variations in bump prices
+     */
+    var bucketValue: Int {
+        if Bumper.enabled {
+            if increaseMinPriceBumps.isActive {
+                return FeatureFlags.bumpPriceBucketValueMinPriceIncreaseUSA
+            } else if turkeyBumpPriceVATAdaptation.isActive {
+                return FeatureFlags.bumpPriceBucketValueVATDecreaseTR
+            } else {
+                return FeatureFlags.bumpPriceBucketValueDefault
+            }
+        }
+        switch sensorLocationCountryCode {
+        case .usa?:
+            switch increaseMinPriceBumps {
+            case .control, .baseline:
+                return FeatureFlags.bumpPriceBucketValueDefault
+            case .active:
+                return FeatureFlags.bumpPriceBucketValueMinPriceIncreaseUSA
+            }
+        case .turkey?:
+            switch turkeyBumpPriceVATAdaptation {
+            case .control, .baseline:
+                return FeatureFlags.bumpPriceBucketValueDefault
+            case .active:
+                return FeatureFlags.bumpPriceBucketValueVATDecreaseTR
+            }
+        default:
+            return FeatureFlags.bumpPriceBucketValueDefault
         }
     }
 
