@@ -14,12 +14,12 @@ final class QuickChatViewModel: QuickChatViewModelRx, DirectAnswersHorizontalVie
 
     var listingViewModel: ListingViewModel?
 
-    var areAnswersDynamic: Bool { return true } // TODO: ABIOS 3107
+    var areAnswersDynamic: Bool { return listingViewModel?.areQuickAnswersDynamic ?? false }
 
     var rxDirectChatPlaceholder: Observable<String> { return directChatPlaceholder.asObservable() }
     var rxQuickAnswers: Observable<[[QuickAnswer]]> { return quickAnswers.asObservable() }
 
-    var rxIsChatEnabled: Observable<Bool> { return chatEnabled.asObservable() } // TODO: A
+    var rxIsChatEnabled: Observable<Bool> { return chatEnabled.asObservable() }
     var rxDirectMessages: Observable<CollectionChange<ChatViewMessage>> { return directChatMessages.changesObservable }
 
     let chatEnabled = Variable<Bool>(false)

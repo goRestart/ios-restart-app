@@ -14,8 +14,13 @@ typealias DirectAnswersSupportType = UITableViewDataSource & UITableViewDelegate
 
 final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, UIGestureRecognizerDelegate {
     private struct Layout { static let outsideKeyboard: CGFloat = 120.0 }
-
+    private struct Duration {
+        static let flashInTable: TimeInterval = TimeInterval(1)
+        static let flashOutTable: TimeInterval = TimeInterval(3)
+    }
+    
     var isRemovedWhenResigningFirstResponder = true
+    var isTableInteractionEnabled = true
 
     var rxChatTextView: Reactive<ChatTextView> { return textView.rx }
     var rxToSendMessage: Observable<String> { return textView.rx.send }
@@ -28,6 +33,8 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     private let directAnswersView = DirectAnswersHorizontalView(answers: [])
     private let tableView = CustomTouchesTableView()
     private let binder = QuickChatViewBinder()
+
+    private var timer: Timer?
 
     init(chatViewModel: QuickChatViewModel) {
         self.quickChatViewModel = chatViewModel
@@ -59,27 +66,36 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     func updateWith(bottomInset: CGFloat, animationTime: TimeInterval,
                     animationOptions: UIViewAnimationOptions, completion: ((Bool) -> Void)? = nil) {
         let color = (bottomInset <= 0) ? UIColor.clear : UIColor.black.withAlphaComponent(0.5)
-        let alpha: CGFloat = (bottomInset <= 0) ? 0 : 1
-        
-        
+        let animationFunc = (bottomInset <= 0) ? dissappearAnimation : revealAnimation
+
         if bottomInset <= 0 {
             textViewBottom?.constant = isRemovedWhenResigningFirstResponder ? Layout.outsideKeyboard : -Metrics.margin
         } else {
             textViewBottom?.constant = -(bottomInset + Metrics.margin)
         }
-
         UIView.animate(withDuration: animationTime,
                        delay: 0,
                        options: animationOptions,
                        animations: {
-                        if self.isRemovedWhenResigningFirstResponder {
-                            self.textView.alpha = alpha
-                            self.directAnswersView.alpha = alpha
-                            self.tableView.alpha = alpha
-                        }
+                        animationFunc()
                         self.backgroundColor = color
                         self.layoutIfNeeded()
         }, completion: completion)
+    }
+
+    func revealAnimation() {
+        self.textView.alpha = 1
+        self.directAnswersView.alpha = 1
+        self.tableView.alpha = 1
+    }
+
+    func dissappearAnimation() {
+        timer?.invalidate()
+        if isRemovedWhenResigningFirstResponder {
+            textView.alpha = 0
+            directAnswersView.alpha = 0
+            tableView.alpha = 0
+        }
     }
 
     func setInitialText(_ text: String) {
@@ -107,6 +123,32 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         default:
             tableView.handleCollectionChange(change, animation: .none)
         }
+    }
+
+    func showDirectMessages() {
+        guard !textView.isFirstResponder else { return }
+        if timer == nil {
+            UIView.animate(withDuration: Duration.flashInTable,
+                           animations: { [weak self] in
+                            self?.tableView.alpha = 1
+            }) { (completion) in
+                self.timer?.fire()
+            }
+        }
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(timeInterval: TimeInterval(3),
+                                     target: self,
+                                     selector: #selector(dismissTimer),
+                                     userInfo: nil, repeats: false)
+    }
+
+    @objc private func dismissTimer() {
+        guard timer != nil else { return }
+        UIView.animate(withDuration: Duration.flashOutTable,
+                       animations: { [weak self] in
+                        self?.tableView.alpha = 0
+        })
+        timer = nil
     }
 
     func addDismissGestureRecognizer(_ gesture: UITapGestureRecognizer) {
@@ -197,7 +239,10 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
 
     func setupDirectMessages() {
         tableView.isCellHiddenBlock = { return $0.contentView.isHidden }
-        tableView.didSelectRowAtIndexPath = {  [weak self] _ in self?.quickChatViewModel.directMessagesItemPressed() }
+        tableView.didSelectRowAtIndexPath = {  [weak self] _ in
+            self?.quickChatViewModel.directMessagesItemPressed()
+            self?.textView.resignFirstResponder()
+        }
 
         tableView.dataSource = self
         tableView.delegate = self
@@ -209,4 +254,14 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         tableView.separatorStyle = .none
     }
 
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        let firstResponder = textView.isFirstResponder
+
+        let insideTable = tableView.point(inside: convert(point, to: tableView),  with: event) && timer != nil
+
+        let insideTextView = textView.point(inside: convert(point, to: textView), with: event)
+        let insideDirectAnswers = directAnswersView.point(inside: convert(point, to: directAnswersView), with: event)
+
+        return firstResponder || insideTable || insideTextView || insideDirectAnswers
+    }
 }

@@ -17,6 +17,7 @@ protocol QuickChatViewType: class {
     func clearChatTextView()
     func updateDirectChatWith(answers: [[QuickAnswer]], isDynamic: Bool)
     func handleChatChange(_ change: CollectionChange<ChatViewMessage>)
+    func showDirectMessages()
 }
 
 protocol QuickChatViewModelRx: class {
@@ -57,6 +58,7 @@ final class QuickChatViewBinder {
         }.disposed(by: bag)
 
         viewModel.rxDirectMessages.bind { [weak chatView] change in
+            chatView?.showDirectMessages()
             chatView?.handleChatChange(change)
         }.disposed(by: bag)
     }

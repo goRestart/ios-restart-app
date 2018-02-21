@@ -181,17 +181,18 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     }
 
     private func focusOnChat() {
+        quickChatView?.isTableInteractionEnabled = true
+
         guard let chat = quickChatView else { return }
         if dismissTap == nil {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideFullScreenChat))
             chat.addDismissGestureRecognizer(tapGesture)
             dismissTap = tapGesture
         }
-        bringSubview(toFront: chat)
     }
 
     private func focusOnCollectionView() {
-        bringSubview(toFront: collectionView)
+        quickChatView?.isTableInteractionEnabled = false
     }
 
     func hideChat() {

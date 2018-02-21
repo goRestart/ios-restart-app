@@ -19,8 +19,8 @@ final class ListingCardViewBinder {
         viewModelBag = DisposeBag()
         guard let vmDisposeBag = viewModelBag else { return }
         
-        viewModel.productIsFavorite.bind { [weak self] favorite in
-            if viewModel.cardIsFavoritable {
+        viewModel.productIsFavorite.bind { [weak self, weak viewModel] favorite in
+            if let isFavoritetable = viewModel?.cardIsFavoritable, isFavoritetable {
                 self?.cardView?.userView.set(action: .favourite(isOn: favorite))
             } else {
                 self?.cardView?.userView.set(action: .edit)

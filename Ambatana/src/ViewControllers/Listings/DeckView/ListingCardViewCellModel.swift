@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-protocol ListingCardDetailsViewModel {
+protocol ListingCardDetailsViewModel: class {
     var cardProductInfo: Observable<ListingVMProductInfo?> { get }
     var cardProductStats: Observable<ListingStats?> { get }
     var cardSocialSharer: SocialSharer { get }
