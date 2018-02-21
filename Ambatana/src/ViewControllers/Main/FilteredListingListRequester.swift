@@ -279,10 +279,10 @@ fileprivate extension FilteredListingListRequester {
 }
 
 extension SearchMultiwordExpressions {
-    var stringValue: String {
+    var stringValue: String? {
         switch self {
         case .control:
-            return "disc566-a"
+            return nil
         case .baseline:
             return "disc566-a"
         case .mWE:
@@ -292,7 +292,7 @@ extension SearchMultiwordExpressions {
         case .mWERelaxedSynonymsMM100:
             return "disc566-d"
         case .mWERelaxedSynonymsMM75:
-            return "disc566-f"
+            return "disc566-e"
         }
     }
 }
