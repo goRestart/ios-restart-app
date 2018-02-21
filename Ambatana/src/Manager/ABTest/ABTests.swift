@@ -52,6 +52,7 @@ class ABTests {
     let noAdsInFeedForNewUsers = IntABDynamicVar(key: "20180212NoAdsInFeedForNewUsers", defaultValue: 0, abGroupType: .money)
     let emojiSizeIncrement = IntABDynamicVar(key: "20180212EmojiSizeIncrement", defaultValue: 0, abGroupType: .chat)
     let showBumpUpBannerOnNotValidatedListings = IntABDynamicVar(key: "20180214showBumpUpBannerOnNotValidatedListings", defaultValue: 0, abGroupType: .money)
+    let newUserProfileView = IntABDynamicVar(key: "20180221NewUserProfileView", defaultValue: 0, abGroupType: .core)
 
     init() {
     }
@@ -96,7 +97,7 @@ class ABTests {
         result.append(noAdsInFeedForNewUsers)
         result.append(emojiSizeIncrement)
         result.append(showBumpUpBannerOnNotValidatedListings)
-        
+        result.append(newUserProfileView)
         return result
     }
 
