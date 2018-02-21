@@ -54,7 +54,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
     var emojiSizeIncrement: EmojiSizeIncrement = .control
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
-    
+    var newUserProfileView: NewUserProfileView = .control
+
     // Country dependant features
     var freePostingModeAllowed = false
     var postingFlowType: PostingFlowType = .standard
