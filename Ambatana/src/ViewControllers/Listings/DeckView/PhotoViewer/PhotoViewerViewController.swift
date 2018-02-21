@@ -48,6 +48,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     private func setupUI() {
         setupViewExtendedEdges()
         setupPhotoViewer()
+        setupOpenChatGesture()
     }
 
     private func setupViewExtendedEdges() {
@@ -66,6 +67,12 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
         binder.viewController = self
         binder.bind(toView: photoViewer)
+    }
+
+    private func setupOpenChatGesture() {
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(showChat))
+        swipeUp.direction = .up
+        view.addGestureRecognizer(swipeUp)
     }
 
     private func setupDismissChatGestures() {
@@ -135,7 +142,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         return Int(page)
     }
 
-    func showChat() {
+    @objc func showChat() {
         hideLeftButton()
 
         chatView.frame = photoViewer.frame
