@@ -45,6 +45,7 @@ extension Bumper  {
         flags.append(NoAdsInFeedForNewUsers.self)
         flags.append(EmojiSizeIncrement.self)
         flags.append(ShowBumpUpBannerOnNotValidatedListings.self)
+        flags.append(NewUserProfileView.self)
         flags.append(SearchMultiwordExpressions.self)
         Bumper.initialize(flags)
     } 
@@ -207,6 +208,11 @@ extension Bumper  {
     static var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
         guard let value = Bumper.value(for: ShowBumpUpBannerOnNotValidatedListings.key) else { return .control }
         return ShowBumpUpBannerOnNotValidatedListings(rawValue: value) ?? .control 
+    }
+
+    static var newUserProfileView: NewUserProfileView {
+        guard let value = Bumper.value(for: NewUserProfileView.key) else { return .control }
+        return NewUserProfileView(rawValue: value) ?? .control 
     }
 
     static var searchMultiwordExpressions: SearchMultiwordExpressions {
@@ -688,6 +694,22 @@ enum ShowBumpUpBannerOnNotValidatedListings: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show the bump banner for listings pending validation" } 
     static func fromPosition(_ position: Int) -> ShowBumpUpBannerOnNotValidatedListings {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum NewUserProfileView: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return NewUserProfileView.control.rawValue }
+    static var enumValues: [NewUserProfileView] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Refactor of the User Profile view controller" } 
+    static func fromPosition(_ position: Int) -> NewUserProfileView {
         switch position { 
             case 0: return .control
             case 1: return .baseline
