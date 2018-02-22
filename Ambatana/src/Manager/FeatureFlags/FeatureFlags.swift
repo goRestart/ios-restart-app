@@ -67,7 +67,7 @@ protocol FeatureFlaggeable: class {
     var moreInfoShoppingAdUnitId: String { get }
     var moreInfoDFPAdUnitId: String { get }
     var feedDFPAdUnitId: String? { get }
-    var bucketValue: Int { get }
+    var bumpPriceVariationBucket: Int { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -203,10 +203,12 @@ extension TurkeyBumpPriceVATAdaptation {
 }
 
 class FeatureFlags: FeatureFlaggeable {
-
-    private static let bumpPriceBucketValueDefault: Int = 0
-    private static let bumpPriceBucketValueMinPriceIncreaseUSA: Int = 2
-    private static let bumpPriceBucketValueVATDecreaseTR: Int = 4
+    //
+    private struct BumpPriceVariationBucket {
+        static let defaultValue: Int = 0
+        static let minPriceIncreaseUSA: Int = 2
+        static let vatDecreaseTR: Int = 4
+    }
 
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
@@ -620,33 +622,33 @@ class FeatureFlags: FeatureFlaggeable {
     /**
      This var is used to inform money BE of the ABtests realated to variations in bump prices
      */
-    var bucketValue: Int {
+    var bumpPriceVariationBucket: Int {
         if Bumper.enabled {
             if increaseMinPriceBumps.isActive {
-                return FeatureFlags.bumpPriceBucketValueMinPriceIncreaseUSA
+                return BumpPriceVariationBucket.minPriceIncreaseUSA
             } else if turkeyBumpPriceVATAdaptation.isActive {
-                return FeatureFlags.bumpPriceBucketValueVATDecreaseTR
+                return BumpPriceVariationBucket.vatDecreaseTR
             } else {
-                return FeatureFlags.bumpPriceBucketValueDefault
+                return BumpPriceVariationBucket.defaultValue
             }
         }
         switch sensorLocationCountryCode {
         case .usa?:
             switch increaseMinPriceBumps {
             case .control, .baseline:
-                return FeatureFlags.bumpPriceBucketValueDefault
+                return BumpPriceVariationBucket.defaultValue
             case .active:
-                return FeatureFlags.bumpPriceBucketValueMinPriceIncreaseUSA
+                return BumpPriceVariationBucket.minPriceIncreaseUSA
             }
         case .turkey?:
             switch turkeyBumpPriceVATAdaptation {
             case .control, .baseline:
-                return FeatureFlags.bumpPriceBucketValueDefault
+                return BumpPriceVariationBucket.defaultValue
             case .active:
-                return FeatureFlags.bumpPriceBucketValueVATDecreaseTR
+                return BumpPriceVariationBucket.vatDecreaseTR
             }
         default:
-            return FeatureFlags.bumpPriceBucketValueDefault
+            return BumpPriceVariationBucket.defaultValue
         }
     }
 

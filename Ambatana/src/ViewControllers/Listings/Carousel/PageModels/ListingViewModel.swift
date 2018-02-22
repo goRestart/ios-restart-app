@@ -399,7 +399,7 @@ class ListingViewModel: BaseViewModel {
             isUpdatingBumpUpBanner = true
             monetizationRepository.retrieveBumpeableListingInfo(
                 listingId: listingId,
-                withHigherMinimumPrice: featureFlags.bucketValue,
+                withHigherMinimumPrice: featureFlags.bumpPriceVariationBucket,
                 completion: { [weak self] result in
                     guard let strongSelf = self else { return }
                     strongSelf.isUpdatingBumpUpBanner = false
