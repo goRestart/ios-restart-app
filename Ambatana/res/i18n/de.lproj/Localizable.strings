@@ -294,6 +294,14 @@
 "direct_answer_willing_to_negotiate" = "Wärst du bereit zu verhandeln?";
 "direct_answers_hide" = "Schnelle Antworten verbergen";
 "direct_answers_show" = "Schnelle Antworten anzeigen";
+"discarded" = "Verworfen";
+"discarded_products_reason_duplicated" = "Doppeltes Angebot";
+"discarded_products_reason_good_manners" = "Verstoß gegen unsere Angebotsregeln";
+"discarded_products_reason_non_realistic_price" = "Unrealistischer Preis";
+"discarded_products_reason_photo_not_clear" = "Verschwommenes oder unscharfes Foto";
+"discarded_products_reason_poor_ad_quality" = "Verstoß gegen unsere Angebotsregeln";
+"discarded_products_reason_reference_to_competitors" = "Verweis auf andere Apps oder Webseiten";
+"discarded_products_reason_stock_photo_only" = "Enthält nur Herstellerfotos";
 "edit_product_location_alert_text" = "Erlaube den Zugriff auf deinen Standort, um zu ändern, wo dein Angebot eingestellt wird";
 "edit_product_location_alert_title" = "STANDORT ÄNDERN";
 "edit_product_send_button" = "Änderungen speichern";
@@ -316,7 +324,9 @@
 "filters_distance_not_set" = "nicht eingestellt";
 "filters_navbar_reset" = "Zurücksetzen";
 "filters_price_from" = "Von";
+"filters_price_from_feed_filter_cell" = "Von";
 "filters_price_to" = "Bis";
+"filters_price_to_feed_filter_cell" = "Bis";
 "filters_price_wrong_range_error" = "Der Mindestpreis kann nicht höher sein als der Höchstpreis.";
 "filters_real_estate_bathrooms_not_set" = "Nicht ausgewählt";
 "filters_real_estate_bedrooms_not_set" = "Nicht ausgewählt";
@@ -787,6 +797,7 @@
 "real_estate_rooms_studio" = "Studio (1+0)";
 "real_estate_rooms_title" = "Zahl der Zimmer";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "Größe";
 "real_estate_summary_bathroom_title" = "Badezimmer";
 "real_estate_summary_bathrooms_empty" = "Zahl der Badezimmer hinzufügen";
@@ -981,7 +992,7 @@
 "trending_items_view_post_button" = "Einstellen";
 "trending_items_view_search_button" = "Suchen";
 "trending_items_view_subtitle" = "Stelle einen dieser Artikel ein und verdiene Geld in unter einer Woche";
-"trending_items_view_title" = "Beliebteste Artikel in %@";
+"trending_items_view_title" = "Gefragteste Artikel in %@";
 "trending_items_view_title_no_location" = "Beliebteste Artikel";
 "trending_searches_Title" = "Beliebte Suchbegriffe";
 "unblock_user_error_generic" = "Bei der Aufhebung der Blockierung dieses Nutzers ist ein Fehler aufgetreten.";

@@ -294,6 +294,14 @@
 "direct_answer_willing_to_negotiate" = "Ben je bereid om te onderhandelen?";
 "direct_answers_hide" = "Verberg Snelle Antwoorden";
 "direct_answers_show" = "Toon Snelle Antwoorden";
+"discarded" = "Verwijderd";
+"discarded_products_reason_duplicated" = "Duplicaat advertentie";
+"discarded_products_reason_good_manners" = "Voldoet niet aan Best Practices";
+"discarded_products_reason_non_realistic_price" = "Onrealistische prijs";
+"discarded_products_reason_photo_not_clear" = "Wazige of onduidelijke foto";
+"discarded_products_reason_poor_ad_quality" = "Voldoet niet aan Best Practices";
+"discarded_products_reason_reference_to_competitors" = "Verwijzingen naar andere apps of websites";
+"discarded_products_reason_stock_photo_only" = "Bevat enkel voorraadfoto's";
 "edit_product_location_alert_text" = "Om te wijzigen waar je advertentie is geplaatst, geef toegang tot jouw locatie";
 "edit_product_location_alert_title" = "WIJZIG LOCATIE";
 "edit_product_send_button" = "Wijzigingen opslaan";
@@ -316,7 +324,9 @@
 "filters_distance_not_set" = "Niet ingesteld";
 "filters_navbar_reset" = "Reset";
 "filters_price_from" = "Van";
+"filters_price_from_feed_filter_cell" = "Van";
 "filters_price_to" = "Tot";
+"filters_price_to_feed_filter_cell" = "Tot";
 "filters_price_wrong_range_error" = "De minimumprijs mag niet hoger zijn dan de maximumprijs.";
 "filters_real_estate_bathrooms_not_set" = "Niet ingesteld";
 "filters_real_estate_bedrooms_not_set" = "Niet ingesteld";
@@ -787,6 +797,7 @@
 "real_estate_rooms_studio" = "Studio (1+0)";
 "real_estate_rooms_title" = "Aantal kamers";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "Grootte";
 "real_estate_summary_bathroom_title" = "badkamer";
 "real_estate_summary_bathrooms_empty" = "Aantal badkamers toevoegen";

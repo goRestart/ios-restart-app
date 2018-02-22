@@ -294,6 +294,14 @@
 "direct_answer_willing_to_negotiate" = "Pazarlığa açık mı?";
 "direct_answers_hide" = "Hızlı Cevapları Gizle";
 "direct_answers_show" = "Hızlı Cevapları Göster";
+"discarded" = "Reddedildi";
+"discarded_products_reason_duplicated" = "Tekrarlanmış ilan";
+"discarded_products_reason_good_manners" = "Kullanım kurallarına aykırı";
+"discarded_products_reason_non_realistic_price" = "Gerçekçi olmayan fiyat";
+"discarded_products_reason_photo_not_clear" = "Net olmayan veya bulanık fotoğraf";
+"discarded_products_reason_poor_ad_quality" = "Kullanım kurallarına aykırı";
+"discarded_products_reason_reference_to_competitors" = "Diğer web sitesi ya da uygulamalara referans";
+"discarded_products_reason_stock_photo_only" = "Sadece stok fotoğraf kullanılması";
 "edit_product_location_alert_text" = "İlanının yayınlanmış olduğu yeri değiştirmek için, konum bilgine ulaşılmasına izin ver";
 "edit_product_location_alert_title" = "KONUM DEĞİŞTİR";
 "edit_product_send_button" = "Değişiklikleri kaydet";
@@ -315,8 +323,10 @@
 "filters_car_year_before_year" = "%i yılından önce";
 "filters_distance_not_set" = "belirlenmedi";
 "filters_navbar_reset" = "Sıfırla";
-"filters_price_from" = "Minimum";
-"filters_price_to" = "Maksimum";
+"filters_price_from" = "Min";
+"filters_price_from_feed_filter_cell" = "Minimum";
+"filters_price_to" = "Max";
+"filters_price_to_feed_filter_cell" = "Maksimum";
 "filters_price_wrong_range_error" = "Minimum fiyat maksimum fiyattan yüksek olamaz.";
 "filters_real_estate_bathrooms_not_set" = "Belirlenmedi";
 "filters_real_estate_bedrooms_not_set" = "Belirlenmedi";
@@ -787,6 +797,7 @@
 "real_estate_rooms_studio" = "Stüdyo (1+0)";
 "real_estate_rooms_title" = "Oda sayısı";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "gir";
 "real_estate_size_square_meters_title" = "Büyüklük";
 "real_estate_summary_bathroom_title" = "banyo";
 "real_estate_summary_bathrooms_empty" = "Banyo sayısı ekle";
@@ -981,7 +992,7 @@
 "trending_items_view_post_button" = "Yayınla";
 "trending_items_view_search_button" = "Ara";
 "trending_items_view_subtitle" = "Bunlardan birini yayınla ve bir haftada para kazan";
-"trending_items_view_title" = "%@ konumunda en çok beğenilen ilanlar";
+"trending_items_view_title" = "%@ konumunda en çok beğenilenler";
 "trending_items_view_title_no_location" = "En çok beğenilenler";
 "trending_searches_Title" = "Popüler Aramalar";
 "unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";

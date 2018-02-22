@@ -294,6 +294,14 @@
 "direct_answer_willing_to_negotiate" = "Hajlandó vagy alkudni?";
 "direct_answers_hide" = "Gyorsválaszok elrejtése";
 "direct_answers_show" = "Gyorsválaszok megjelenítése";
+"discarded" = "Elvetve";
+"discarded_products_reason_duplicated" = "Duplikált hirdetés";
+"discarded_products_reason_good_manners" = "Nem felel meg pro tippjeinknek";
+"discarded_products_reason_non_realistic_price" = "Ésszerűtlen ár";
+"discarded_products_reason_photo_not_clear" = "Elmosott vagy nem egyértelmű fotó";
+"discarded_products_reason_poor_ad_quality" = "Nem felel meg pro tippjeinknek";
+"discarded_products_reason_reference_to_competitors" = "Más alkalmazásokra vagy weboldalakra hivatkozik";
+"discarded_products_reason_stock_photo_only" = "Csak hivatalos képeket tartalmaz";
 "edit_product_location_alert_text" = "A meghirdetés helyének módosításához hozzáférést kell adnod a tartózkodási helyedhez";
 "edit_product_location_alert_title" = "TARTÓZKODÁSI HELY MÓDOSÍTÁSA";
 "edit_product_send_button" = "Módosítások mentése";
@@ -316,7 +324,9 @@
 "filters_distance_not_set" = "nincs megadva";
 "filters_navbar_reset" = "Mégse";
 "filters_price_from" = "Ettől";
+"filters_price_from_feed_filter_cell" = "Ettől";
 "filters_price_to" = "Eddig";
+"filters_price_to_feed_filter_cell" = "Eddig";
 "filters_price_wrong_range_error" = "A minimális ár nem lehet magasabb a maximális árnál.";
 "filters_real_estate_bathrooms_not_set" = "Nincs megadva";
 "filters_real_estate_bedrooms_not_set" = "Nincs megadva";
@@ -787,6 +797,7 @@
 "real_estate_rooms_studio" = "Stúdió (1+0)";
 "real_estate_rooms_title" = "Szobák száma";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "Méret";
 "real_estate_summary_bathroom_title" = "fürdőszoba";
 "real_estate_summary_bathrooms_empty" = "Fürdőszobaszám hozzáadása";
@@ -981,7 +992,7 @@
 "trending_items_view_post_button" = "Hirdetek";
 "trending_items_view_search_button" = "Keresés";
 "trending_items_view_subtitle" = "Hirdess meg egy ilyet, és egy hét alatt eladhatod";
-"trending_items_view_title" = "Legnépszerűbb hirdetések: %@";
+"trending_items_view_title" = "%@ legnépszerűbb hirdetései";
 "trending_items_view_title_no_location" = "A legnépszerűbbek";
 "trending_searches_Title" = "Felkapott kulcsszavak";
 "unblock_user_error_generic" = "Hiba történt a blokkolás feloldása során.";
