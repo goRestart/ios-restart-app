@@ -66,7 +66,7 @@ class ProductStatusView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        cornerRadius = min(height, width) / 2.0
+        layer.cornerRadius = min(height, width) / 2.0
     }
 
     func setFeaturedStatus(_ status: ListingViewModelStatus, featured isFeatured: Bool) {

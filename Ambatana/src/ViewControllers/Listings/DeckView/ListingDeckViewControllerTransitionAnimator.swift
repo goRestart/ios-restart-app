@@ -114,7 +114,7 @@ private class DeckViewTransitionPresenter: DeckViewTransitionMode {
         imageView.frame = initialFrame
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.cornerRadius = Metrics.margin
+        imageView.layer.cornerRadius = Metrics.margin
 
         let gradient = GradientView(colors: [UIColor.black.withAlphaComponent(0.2),
                                              UIColor.black.withAlphaComponent(0)])

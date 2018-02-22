@@ -128,7 +128,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
     private func setupSnapshotView() {
         mapSnapShotView.contentMode = .scaleAspectFill
         mapSnapShotView.clipsToBounds = true
-        mapSnapShotView.cornerRadius = Layout.CornerRadius.map
+        mapSnapShotView.layer.cornerRadius = Layout.CornerRadius.map
         mapSnapShotView.translatesAutoresizingMaskIntoConstraints = false
         let height = mapSnapShotView.heightAnchor.constraint(equalToConstant: Layout.Height.snapshot)
         height.priority = .required - 1

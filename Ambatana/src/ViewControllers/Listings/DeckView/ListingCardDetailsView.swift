@@ -115,7 +115,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     func disableStatsView() {
         locationToStats?.isActive = false
         locationToDetail?.isActive = true
-        scrollView.layoutIfNeeded()
+        scrollView.setNeedsLayout()
     }
 
     private func enableSocialView(_ enabled: Bool) {
@@ -123,7 +123,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         socialMediaHeader.isHidden = !enabled
         mapSnapShotToBottom?.isActive = !enabled
         mapSnapShotToSocialView?.isActive = enabled
-        scrollView.layoutIfNeeded()
+        scrollView.setNeedsLayout()
     }
 
     // MARK: SetupView
@@ -292,7 +292,8 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         detailNumberOfLines = detailNumberOfLines.toggle()
         detailLabel.numberOfLines = detailNumberOfLines.current
 
-        scrollView.layoutIfNeeded()
+        detailLabel.setNeedsLayout()
+        scrollView.setNeedsLayout()
     }
 
     // MARK: - SocialShareViewDelegate

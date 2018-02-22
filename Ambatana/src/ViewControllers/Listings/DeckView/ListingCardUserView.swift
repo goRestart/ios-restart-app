@@ -181,7 +181,7 @@ final class ListingCardUserView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        userIcon.cornerRadius = min(userIcon.width, userIcon.height) / 2.0
+        userIcon.layer.cornerRadius = min(userIcon.width, userIcon.height) / 2.0
     }
 }
 

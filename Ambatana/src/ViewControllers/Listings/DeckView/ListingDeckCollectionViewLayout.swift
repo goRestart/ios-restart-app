@@ -170,12 +170,13 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     private func update(attributes: UICollectionViewLayoutAttributes, forItemAt indexPath: IndexPath) {
         attributes.zIndex = indexPath.row
-        var frame: CGRect = .zero
         let x = CGFloat(indexPath.row) * (cellWidth + cellLayout.insets.left / 2) + cellLayout.insets.left
         let yOffset = yInsetForItem(withInitialX: x)
-        frame = CGRect(x: x, y: yOffset, width: cellWidth, height: cellHeight - 2*yOffset)
-        attributes.frame = frame
+        attributes.frame = CGRect(x: x, y: yOffset, width: cellWidth, height: cellHeight)
         attributes.alpha = alphaForItem(withInitialX: x)
+
+        let scale = (cellHeight - 2*yOffset) / cellHeight
+        attributes.transform = CGAffineTransform.identity.scaledBy(x: 1, y: scale).translatedBy(x: 0, y: -yOffset)
     }
 
     //     Return true so that the layout is continuously invalidated as the user scrolls
