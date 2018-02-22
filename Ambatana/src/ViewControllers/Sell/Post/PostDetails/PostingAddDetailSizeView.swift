@@ -13,9 +13,7 @@ import RxSwift
 
 class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDelegate {
     
-    static private let sizeLabelWidth: CGFloat = 60
-    static private let sizeViewMargin: CGFloat = 20
-    static private let sizeTextFieldWidth: CGFloat = 150
+    static private let sizeLabelTextMargin: CGFloat = 40
     static private let maxLengthSize: Int = 8
     
     private let sizeLabel = UILabel()
@@ -58,7 +56,7 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
     private func setupUI() {
         sizeLabel.numberOfLines = 1
         sizeLabel.adjustsFontSizeToFitWidth = false
-        sizeLabel.textAlignment = .center
+        sizeLabel.textAlignment = .left
         sizeLabel.textColor = UIColor.white
         sizeLabel.font = UIFont.systemBoldFont(size: 26)
         sizeTextField.attributedPlaceholder = placeholder
@@ -73,7 +71,7 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
         let tapBackground = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
         addGestureRecognizer(tapBackground)
         
-        sizeLabel.text = Constants.sizeSquareMetersUnit
+        sizeLabel.text = Constants.sizeSquareMetersUnit + ":"
     }
     
     private func setupConstraints() {
@@ -88,11 +86,12 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
         
         contentTextFieldView.layout(with: self).fillHorizontal(by: 20).top(by: 20)
         contentTextFieldView.layout().height(50)
-        
-        sizeTextField.layout(with: contentTextFieldView).left().centerY()
-        
-        sizeLabel.layout(with: sizeTextField).right(by: 35)
+
+        sizeLabel.layout(with: contentTextFieldView).left()
         sizeLabel.layout(with: contentTextFieldView).fillVertical()
+
+        sizeTextField.layout(with: sizeLabel).leading(by: PostingAddDetailSizeView.sizeLabelTextMargin)
+        sizeTextField.layout(with: contentTextFieldView).centerY()
     }
     
     private func setupRx() {

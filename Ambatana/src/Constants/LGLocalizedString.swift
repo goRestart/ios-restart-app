@@ -1191,6 +1191,38 @@ struct LGLocalizedString {
 		return NSLocalizedString("direct_answer_not_negotiable_title", comment: "")
 	}
 
+	static var discarded: String {
+		return NSLocalizedString("discarded", comment: "")
+	}
+
+	static var discardedProductsReasonGoodManners: String {
+		return NSLocalizedString("discarded_products_reason_good_manners", comment: "")
+	}
+
+	static var discardedProductsReasonDuplicated: String {
+		return NSLocalizedString("discarded_products_reason_duplicated", comment: "")
+	}
+
+	static var discardedProductsReasonNonRealisticPrice: String {
+		return NSLocalizedString("discarded_products_reason_non_realistic_price", comment: "")
+	}
+
+	static var discardedProductsReasonPoorAdQuality: String {
+		return NSLocalizedString("discarded_products_reason_poor_ad_quality", comment: "")
+	}
+
+	static var discardedProductsReasonPhotoNotClear: String {
+		return NSLocalizedString("discarded_products_reason_photo_not_clear", comment: "")
+	}
+
+	static var discardedProductsReasonReferenceToCompetitors: String {
+		return NSLocalizedString("discarded_products_reason_reference_to_competitors", comment: "")
+	}
+
+	static var discardedProductsReasonStockPhotoOnly: String {
+		return NSLocalizedString("discarded_products_reason_stock_photo_only", comment: "")
+	}
+
 	static var editProductLocationAlertText: String {
 		return NSLocalizedString("edit_product_location_alert_text", comment: "")
 	}
@@ -1293,6 +1325,14 @@ struct LGLocalizedString {
 
 	static var filtersPriceTo: String {
 		return NSLocalizedString("filters_price_to", comment: "")
+	}
+
+	static var filtersPriceFromFeedFilterCell: String {
+		return NSLocalizedString("filters_price_from_feed_filter_cell", comment: "")
+	}
+
+	static var filtersPriceToFeedFilterCell: String {
+		return NSLocalizedString("filters_price_to_feed_filter_cell", comment: "")
 	}
 
 	static var filtersPriceWrongRangeError: String {
