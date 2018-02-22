@@ -86,6 +86,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     func populateWith(imagesURLs: [URL]) {
+        update(pageCount: imagesURLs.count)
         guard let url = imagesURLs.first else { return }
         let cache = imageDownloader?.cachedImageForUrl(url)
         guard cache == nil else {

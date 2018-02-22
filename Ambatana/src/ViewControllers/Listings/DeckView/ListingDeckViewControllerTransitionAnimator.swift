@@ -8,7 +8,12 @@
 
 import Foundation
 
-fileprivate struct Duration { static let transition: TimeInterval = 0.2 }
+fileprivate struct Duration {
+    static let transition: TimeInterval = 0.4
+
+    static let expand: TimeInterval = 0.3
+    static let alpha: TimeInterval = 0.1
+}
 
 final class ListingDeckViewControllerTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
@@ -54,13 +59,16 @@ private class DeckViewTransitionPresenter: DeckViewTransitionMode {
                            withDuration duration: TimeInterval,
                            initialFrame: CGRect,
                            image: UIImage) {
-        let containerView = transitionContext.containerView
-        let fromView = transitionContext.view(forKey: .from)!
-        guard let toVC = transitionContext.viewController(forKey: .to) as? ListingDeckViewController else { return }
-        guard let fromVC = transitionContext.viewController(forKey: .from) as? MainListingsViewController else { return }
-        fromVC.tabBarController?.setTabBarHidden(true, animated: true)
 
-        let toView = toVC.view!
+        guard let fromVC = transitionContext.viewController(forKey: .from),
+            let fromView = transitionContext.view(forKey: .from),
+            let toVC = transitionContext.viewController(forKey: .to) as? ListingDeckViewController,
+            let toView = transitionContext.view(forKey: .to) else {
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+                return
+        }
+
+        let containerView = transitionContext.containerView
 
         containerView.addSubview(toView)
         toView.frame = fromView.frame
@@ -69,21 +77,21 @@ private class DeckViewTransitionPresenter: DeckViewTransitionMode {
         toView.alpha = 0
 
         let imageView = buildTransitionImageView(withImage: image, initialFrame: initialFrame)
+        imageView.applyShadow(withOpacity: 0.6, radius: 8.0)
         containerView.addSubview(imageView)
 
         let targetFrame = buildTargetFrame(withTargetViewController: toVC, fromView: fromView)
 
-        UIView.animate(withDuration: Duration.transition,
-                       delay: 0,
-                       options: .curveEaseIn,
+        UIView.animate(withDuration: Duration.expand,
                        animations: {
                         fromView.alpha = 0
                         imageView.frame = targetFrame
-                        imageView.applyShadow(withOpacity: 0.6, radius: 8.0)
+                        toVC.updateStartIndex()
         }) { (completion) in
-            UIView.animate(withDuration: 0.5, animations: {
-                imageView.alpha = 0
-                toView.alpha = 1
+            UIView.animate(withDuration: Duration.alpha,
+                           animations: {
+                            imageView.alpha = 0
+                            toView.alpha = 1
             }, completion: { _ in
                 fromView.alpha = 1
                 imageView.removeFromSuperview()

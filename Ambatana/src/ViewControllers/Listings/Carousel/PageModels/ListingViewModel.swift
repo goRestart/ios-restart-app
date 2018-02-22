@@ -110,6 +110,20 @@ class ListingViewModel: BaseViewModel {
     let actionButtons = Variable<[UIAction]>([])
     let altActions = Variable<[UIAction]>([])
 
+    var navBarActionsNewItemPage: [UIAction] {
+        var navBarButtons = [UIAction]()
+        if isMine {
+            if status.value.isEditable && isListingDetailsCompleted.value {
+                navBarButtons.append(buildEditAction())
+            }
+            navBarButtons.append(buildDeleteAction())
+        } else {
+            navBarButtons.append(buildReportAction())
+        }
+        navBarButtons.insert(buildShareAction(), at: navBarButtons.count - 1)
+        return navBarButtons
+    }
+
     let directChatEnabled = Variable<Bool>(false)
     var directChatPlaceholder: String {
         let userName = listing.value.user.name?.toNameReduced(maxChars: Constants.maxCharactersOnUserNameChatButton) ?? ""

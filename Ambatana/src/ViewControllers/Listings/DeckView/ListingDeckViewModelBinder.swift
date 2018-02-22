@@ -23,8 +23,6 @@ final class ListingDeckViewModelBinder {
         }.disposed(by:disposeBag)
 
         currentVM.cardActionButtons.bind(to: theOneViewModel.actionButtons).disposed(by: disposeBag)
-        currentVM.cardNavBarButtons.bind(to: theOneViewModel.navBarButtons).disposed(by: disposeBag)
-        currentVM.cardAltActions.bind(to: theOneViewModel.altActions).disposed(by: disposeBag)
 
         bind(listingViewModel: currentVM, quickChatViewModel: quickChatViewModel)
         currentVM.cardBumpUpBannerInfo.bind(to: theOneViewModel.bumpUpBannerInfo).disposed(by: disposeBag)

@@ -50,6 +50,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         return collectionLayout.cardSystemLayoutSizeFittingSize(target)
     }
 
+    func scrollToIndex(_ index: IndexPath) {
+        collectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
+    }
+
     @discardableResult
     override func resignFirstResponder() -> Bool {
         return quickChatView?.resignFirstResponder() ?? true

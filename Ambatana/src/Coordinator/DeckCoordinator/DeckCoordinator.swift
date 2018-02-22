@@ -13,6 +13,7 @@ protocol DeckNavigator: class {
     func openPhotoViewer(withURLs urls: [URL], quickChatViewModel: QuickChatViewModel)
     func closePhotoViewer()
     func closeDeck()
+    func showOnBoarding()
 }
 
 final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOnBoardingNavigator {
@@ -38,10 +39,12 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
     fileprivate let keyValueStorage: KeyValueStorageable
 
     convenience init(listing: Listing,
+                     cellModels: [ListingCellModel],
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
                      listingNavigator: ListingDetailNavigator) {
         self.init(listing: listing,
+                  cellModels: cellModels,
                   listingListRequester: listingListRequester,
                   source: source,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
@@ -51,6 +54,7 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
     }
 
     private init(listing: Listing,
+                 cellModels: [ListingCellModel],
                  listingListRequester: ListingListRequester,
                  source: EventParameterListingVisitSource,
                  bubbleNotificationManager: BubbleNotificationManager,
@@ -58,7 +62,8 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
                  listingNavigator: ListingDetailNavigator,
                  keyValueStorage: KeyValueStorageable) {
 
-        let viewModel = ListingDeckViewModel(listing: listing,
+        let viewModel = ListingDeckViewModel(listModels: cellModels,
+                                             listing: listing,
                                              listingListRequester: listingListRequester,
                                              source: source,
                                              detailNavigator: listingNavigator)
@@ -123,6 +128,10 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
         }
     }
 
+    func showOnBoarding() {
+        openDeckOnBoarding()
+    }
+
     private func didOpenDeckOnBoarding() {
         keyValueStorage[.didShowDeckOnBoarding] = true
     }
@@ -172,7 +181,7 @@ extension DeckCoordinator: UINavigationControllerDelegate {
                                                                action: #selector(handleEdgeGesture))
             leftGesture.edges = .left
             let topGesture = UIScreenEdgePanGestureRecognizer(target: self,
-                                                               action: #selector(handleEdgeGesture))
+                                                              action: #selector(handleEdgeGesture))
             topGesture.edges = .top
             photoViewer.addEdgeGesture([leftGesture, topGesture])
         }

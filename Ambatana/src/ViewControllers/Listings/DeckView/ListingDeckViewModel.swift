@@ -57,25 +57,23 @@ final class ListingDeckViewModel: BaseViewModel {
     var shouldSyncFirstListing: Bool = false
     fileprivate var trackingIndex: Int?
 
-    let objects = CollectionVariable<ListingCellModel>([])
-
-    let binder: ListingDeckViewModelBinder
-
-    let navBarButtons = Variable<[UIAction]>([])
-    let actionButtons = Variable<[UIAction]>([])
-    let altActions = Variable<[UIAction]>([])
-
-    let quickChatViewModel = QuickChatViewModel()
-
-    let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
-
     fileprivate let source: EventParameterListingVisitSource
     fileprivate let listingListRequester: ListingListRequester
     fileprivate let userRepository: MyUserRepository
     fileprivate var productsViewModels: [String: ListingViewModel] = [:]
-
-    let imageDownloader: ImageDownloaderType // TODO: Fornow
     fileprivate let listingViewModelMaker: ListingViewModelMaker
+
+    let objects = CollectionVariable<ListingCellModel>([])
+
+    let binder: ListingDeckViewModelBinder
+
+    let actionButtons = Variable<[UIAction]>([])
+    var navBarButtons: [UIAction] { return currentListingViewModel?.navBarActionsNewItemPage ?? [] }
+
+    let quickChatViewModel = QuickChatViewModel()
+    let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
+    var isMine: Bool { return currentListingViewModel?.isMine ?? false }
+    let imageDownloader: ImageDownloaderType // TODO: Fornow
 
     weak var delegate: ListingDeckViewModelDelegate?
 
@@ -90,7 +88,28 @@ final class ListingDeckViewModel: BaseViewModel {
                      detailNavigator: ListingDetailNavigator) {
         let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
         let prefetching = Prefetching(previousCount: 1, nextCount: 3)
-        self.init(productListModels: nil,
+        self.init(listModels: nil,
+                  initialListing: listing,
+                  listingListRequester: listingListRequester,
+                  detailNavigator: detailNavigator,
+                  source: source,
+                  imageDownloader: ImageDownloader.make(usingImagePool: true),
+                  listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
+                  myUserRepository: Core.myUserRepository,
+                  pagination: pagination,
+                  prefetching: prefetching,
+                  shouldSyncFirstListing: false,
+                  binder: ListingDeckViewModelBinder())
+    }
+
+    convenience init(listModels: [ListingCellModel]?,
+                     listing: Listing,
+                     listingListRequester: ListingListRequester,
+                     source: EventParameterListingVisitSource,
+                     detailNavigator: ListingDetailNavigator) {
+        let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
+        let prefetching = Prefetching(previousCount: 1, nextCount: 3)
+        self.init(listModels: listModels,
                   initialListing: listing,
                   listingListRequester: listingListRequester,
                   detailNavigator: detailNavigator,
@@ -103,7 +122,7 @@ final class ListingDeckViewModel: BaseViewModel {
                   binder: ListingDeckViewModelBinder())
     }
 
-    convenience init(productListModels: [ListingCellModel]?,
+    convenience init(listModels: [ListingCellModel]?,
                      initialListing: Listing?,
                      listingListRequester: ListingListRequester,
                      detailNavigator: ListingDetailNavigator,
@@ -114,7 +133,7 @@ final class ListingDeckViewModel: BaseViewModel {
                      binder: ListingDeckViewModelBinder) {
         let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
         let prefetching = Prefetching(previousCount: 1, nextCount: 3)
-        self.init(productListModels: productListModels,
+        self.init(listModels: listModels,
                   initialListing: initialListing,
                   listingListRequester: listingListRequester,
                   detailNavigator: detailNavigator,
@@ -128,7 +147,7 @@ final class ListingDeckViewModel: BaseViewModel {
                   binder: binder)
     }
 
-    init(productListModels: [ListingCellModel]?,
+    init(listModels: [ListingCellModel]?,
          initialListing: Listing?,
          listingListRequester: ListingListRequester,
          detailNavigator: ListingDetailNavigator,
@@ -150,9 +169,9 @@ final class ListingDeckViewModel: BaseViewModel {
         self.userRepository = myUserRepository
         self.navigator = detailNavigator
 
-        if let productListModels = productListModels {
-            self.objects.appendContentsOf(productListModels)
-            self.pagination.isLast = listingListRequester.isLastPage(productListModels.count)
+        if let listModels = listModels {
+            self.objects.appendContentsOf(listModels)
+            self.pagination.isLast = listingListRequester.isLastPage(listModels.count)
         } else {
             self.objects.appendContentsOf([initialListing].flatMap{ $0 }.map { .listingCell(listing: $0) })
             self.pagination.isLast = false
@@ -318,6 +337,11 @@ final class ListingDeckViewModel: BaseViewModel {
         deckNavigator?.closeDeck()
     }
 
+    func showOnBoarding() {
+        deckNavigator?.showOnBoarding()
+    }
+
+
     func openPhotoViewer() {
         guard let urls = currentListingViewModel?.productImageURLs.value else { return }
         deckNavigator?.openPhotoViewer(withURLs: urls, quickChatViewModel: quickChatViewModel)
@@ -413,8 +437,6 @@ extension ListingDeckViewModel: ListingDeckViewModelType {
     var rxObjectChanges: Observable<CollectionChange<ListingCellModel>> { return objects.changesObservable }
     var rxActionButtons: Observable<[UIAction]> { return actionButtons.asObservable() }
     var rxBumpUpBannerInfo: Observable<BumpUpInfo?> { return bumpUpBannerInfo.asObservable() }
-    var rxNavBarButtons: Observable<[UIAction]> { return navBarButtons.asObservable() }
-    var rxAltActions: Observable<[UIAction]> { return altActions.asObservable() }
 }
 
 // MARK: Paginable

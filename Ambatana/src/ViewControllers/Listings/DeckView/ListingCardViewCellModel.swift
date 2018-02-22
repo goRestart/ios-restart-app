@@ -23,9 +23,7 @@ protocol ListingCardViewCellModel: ListingCardDetailsViewModel {
 
     var cardStatus: Observable<ListingViewModelStatus> { get }
     var cardIsShowingFeaturedStripe: Observable<Bool> { get }
-    var cardNavBarButtons: Observable<[UIAction]> { get }
     var cardActionButtons: Observable<[UIAction]> { get }
-    var cardAltActions: Observable<[UIAction]> { get }
 
     var cardIsFavoritable: Bool { get }
     var cardIsFeatured: Observable<Bool> { get  }
@@ -54,9 +52,7 @@ extension ListingViewModel: ListingCardViewCellModel {
     var cardListingObs: Observable<Listing> { return listing.asObservable() }
     var cardStatus: Observable<ListingViewModelStatus>  { return status.asObservable() }
     var cardIsShowingFeaturedStripe: Observable<Bool> { return isShowingFeaturedStripe.asObservable() }
-    var cardNavBarButtons: Observable<[UIAction]> { return navBarButtons.asObservable() }
     var cardActionButtons: Observable<[UIAction]> { return actionButtons.asObservable() }
-    var cardAltActions: Observable<[UIAction]> { return altActions.asObservable() }
 
     var cardIsFavoritable: Bool { return !isMine }
     var cardIsFeatured: Observable<Bool> { return isShowingFeaturedStripe.asObservable() }

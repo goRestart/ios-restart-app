@@ -43,8 +43,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         listingDeckView.resignFirstResponder()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewDidFirstAppear(_ animated: Bool) {
+        super.viewDidFirstAppear(animated)
         onboardingFlashDetails()
     }
 
@@ -59,6 +59,11 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
+    }
+
+    func updateStartIndex() {
+        let startIndexPath = IndexPath(item: viewModel.startIndex, section: 0)
+        listingDeckView.scrollToIndex(startIndexPath)
     }
 
     func cardSystemLayoutSizeFittingSize(_ target: CGSize) -> CGSize {
@@ -96,8 +101,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
             guard let listing = viewModel.listingCellModelAt(index: indexPath.row) else {
                 return cell
             }
-            cell.populateWith(listingViewModel: listing, imageDownloader: viewModel.imageDownloader)
             binder.bind(cell: cell)
+            cell.populateWith(listingViewModel: listing, imageDownloader: viewModel.imageDownloader)
             cell.delegate = self
             cell.isUserInteractionEnabled = (indexPath.row == listingDeckView.currentPage)
             return cell
@@ -121,11 +126,27 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .clear
 
-        let leftButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_red"), style: .plain, target: self, action: #selector(didTapClose))
-        self.navigationItem.leftBarButtonItem  = leftButton
+        self.navigationItem.leftBarButtonItem  = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_red"),
+                                                                 style: .plain,
+                                                                 target: self,
+                                                                 action: #selector(didTapClose))
+
+        self.navigationItem.rightBarButtonItem  = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_more_options"),
+                                                                  style: .plain,
+                                                                  target: self,
+                                                                  action: #selector(didTapMoreActions))
     }
 
     // Actions
+
+    @objc private func didTapMoreActions() {
+        var toShowActions = viewModel.navBarButtons
+        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
+        toShowActions.append(UIAction(interface: .text(title), action: { [weak viewModel] in
+            viewModel?.showOnBoarding()
+        }))
+        showActionSheet(LGLocalizedString.commonCancel, actions: toShowActions, barButtonItem: nil)
+    }
 
     @objc private func didTapClose() {
         closeBumpUpBanner()
@@ -137,12 +158,13 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
 
     func closeBumpUpBanner() {
+        guard listingDeckView.isBumpUpVisible else { return }
         listingDeckView.hideBumpUp()
         UIView.animate(withDuration: 0.3,
                        delay: 0,
                        usingSpringWithDamping: 6.0,
                        initialSpringVelocity: 3.0,
-                       options: .layoutSubviews, animations: {
+                       options: .curveEaseIn, animations: {
                         self.listingDeckView.layoutIfNeeded()
         }, completion: nil)
     }
@@ -172,10 +194,6 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
 
     var rxContentOffset: Observable<CGPoint> { return listingDeckView.rxCollectionView.contentOffset.share() }
 
-    func setLetGoRightButtonWith(_ action: UIAction, buttonTintColor: UIColor?, tapBlock: (ControlEvent<Void>) -> Void) {
-        super.setLetGoRightButtonWith(action, buttonTintColor: buttonTintColor, tapBlock: tapBlock)
-    }
-
     func updateViewWithActions(_ actionButtons: [UIAction]) {
         guard let actionButton = actionButtons.first else {
             listingDeckView.hideActions()
@@ -200,19 +218,24 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         }
     }
     
-    func updateViewWith(alpha: CGFloat, chatEnabled: Bool) {
-        guard chatEnabled else {
-            listingDeckView.updatePrivateActionsWith(alpha: 0)
-            listingDeckView.updateChatWith(alpha: 0)
-            return
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool) {
+        let chatAlpha: CGFloat
+        let actionsAlpha: CGFloat
+        if isMine {
+            actionsAlpha = min(1.0, alpha)
+            chatAlpha = 0
+        } else if !chatEnabled {
+            actionsAlpha = 0
+            chatAlpha = 0
+        } else {
+            chatAlpha = min(1.0, alpha)
+            actionsAlpha = 0
         }
-        let clippedAlpha = min(1.0, alpha)
-        let chatAlpha = chatEnabled ? clippedAlpha : 0
-        let actionsAlpha = chatEnabled ? 0 : clippedAlpha
 
         listingDeckView.updatePrivateActionsWith(alpha: actionsAlpha)
         listingDeckView.updateChatWith(alpha: chatAlpha)
     }
+    
 
     func didTapShare() {
         viewModel.currentListingViewModel?.shareProduct()
@@ -248,9 +271,6 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
 }
 
 extension ListingDeckViewController: ListingDeckViewModelDelegate {
-    func vmShowOptions(_ cancelLabel: String, actions: [UIAction]) {
-        showActionSheet(cancelLabel, actions: actions, barButtonItem: nil)
-    }
 
     func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
         showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItems?.first)

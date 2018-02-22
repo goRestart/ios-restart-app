@@ -256,13 +256,9 @@ fileprivate extension TabCoordinator {
                      source: EventParameterListingVisitSource, index: Int) {
         if featureFlags.newItemPage.isActive {
             // TODO: ABIOS-3100 check all the other parameters
-            let coordinator = DeckCoordinator(listing: listing,
-                                              listingListRequester: requester,
-                                              source: source, listingNavigator: self)
-            deckAnimatedTransitioning = ListingDeckViewControllerTransitionAnimator(image: thumbnailImage, frame: originFrame)
-            coordinator.coordinatorDelegate = self
-            openChild(coordinator: coordinator, parent: navigationController, animated: true,
-                      forceCloseChild: true, completion: nil)
+            openListingNewItemPage(listing, thumbnailImage: thumbnailImage, cellModels: cellModels,
+                           originFrame: originFrame,
+                           requester: requester, source: source)
         } else if showRelated {
             //Same as single product opening
             openListing(listing: listing, thumbnailImage: thumbnailImage, originFrame: originFrame,
@@ -298,6 +294,17 @@ fileprivate extension TabCoordinator {
                                                    backgroundColor: color)
         let vc = ListingCarouselViewController(viewModel: viewModel, pushAnimator: animator)
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openListingNewItemPage(_ listing: Listing, thumbnailImage: UIImage?, cellModels: [ListingCellModel],
+                     originFrame: CGRect?, requester: ListingListRequester, source: EventParameterListingVisitSource) {
+        let coordinator = DeckCoordinator(listing: listing,
+                                          cellModels: cellModels,
+                                          listingListRequester: requester,
+                                          source: source, listingNavigator: self)
+        deckAnimatedTransitioning = ListingDeckViewControllerTransitionAnimator(image: thumbnailImage, frame: originFrame)
+        coordinator.coordinatorDelegate = self
+        openChild(coordinator: coordinator, parent: navigationController, animated: true, forceCloseChild: true, completion: nil)
     }
 
     func openUser(userId: String, source: UserSource) {
