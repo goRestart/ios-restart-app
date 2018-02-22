@@ -57,6 +57,7 @@ protocol FeatureFlaggeable: class {
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
+    var searchMultiwordExpressions: SearchMultiwordExpressions { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -491,6 +492,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ShowBumpUpBannerOnNotValidatedListings.fromPosition(abTests.showBumpUpBannerOnNotValidatedListings.value)
     }
+
+    var searchMultiwordExpressions: SearchMultiwordExpressions {
+        if Bumper.enabled {
+            return Bumper.searchMultiwordExpressions
+        }
+        return SearchMultiwordExpressions.fromPosition(abTests.searchMultiwordExpressions.value)
+    }
+    
 
     var newUserProfileView: NewUserProfileView {
         if Bumper.enabled {

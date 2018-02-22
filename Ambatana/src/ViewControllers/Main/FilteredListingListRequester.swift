@@ -208,7 +208,8 @@ fileprivate extension FilteredListingListRequester {
         params.coordinates = queryCoordinates
         params.queryString = queryString
         params.countryCode = countryCode
-        
+        params.abtest = featureFlags.searchMultiwordExpressions.stringValue
+
         params.populate(with: filters)
        
         return params
@@ -274,5 +275,24 @@ fileprivate extension FilteredListingListRequester {
         }
 
         return VerticalTrackingInfo(category: vertical, keywords: keywords, matchingFields: matchingFields, nonMatchingFields: nonMatchingFields)
+    }
+}
+
+extension SearchMultiwordExpressions {
+    var stringValue: String? {
+        switch self {
+        case .control:
+            return nil
+        case .baseline:
+            return "disc566-a"
+        case .mWE:
+            return "disc566-b"
+        case .mWERelaxedSynonyms:
+            return "disc566-c"
+        case .mWERelaxedSynonymsMM100:
+            return "disc566-d"
+        case .mWERelaxedSynonymsMM75:
+            return "disc566-e"
+        }
     }
 }
