@@ -20,7 +20,7 @@ protocol ListingCardViewDelegate {
 final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestureRecognizerDelegate, ReusableCell {
     private struct Layout {
         struct Height {
-            static let previewFactor: CGFloat = 0.75
+            static let previewFactor: CGFloat = 0.65
             static let userView: CGFloat = 52.0
         }
     }
@@ -30,7 +30,6 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     let userView = ListingCardUserView()
-    var previewImageViewFrame: CGRect { return previewImageView.frame }
 
     private let binder = ListingCardViewBinder()
     private(set) var disposeBag = DisposeBag()
@@ -39,6 +38,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     private var statusTapGesture: UITapGestureRecognizer?
 
     private let previewImageView = UIImageView()
+    var previewImageViewFrame: CGRect { return previewImageView.frame }
     private var previewImageViewHeight: NSLayoutConstraint?
 
     private let gradient = GradientView(colors: [UIColor.black.withAlphaComponent(0.2), UIColor.black.withAlphaComponent(0)])
@@ -70,8 +70,6 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
         deactivateFullMap()
         previewImageView.image = nil
-
-        layoutVerticalContentInset(animated: false)
     }
 
     func populateWith(listingViewModel: ListingCardViewCellModel, imageDownloader: ImageDownloaderType) {
@@ -250,20 +248,20 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         scrollViewTapGesture = scrollTap
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        contentView.setRoundedCorners([.allCorners], cornerRadius: Metrics.margin)
-        applyShadow(withOpacity: 0.3, radius: Metrics.margin, color: #colorLiteral(red: 0.7803921569, green: 0.8078431373, blue: 0.7803921569, alpha: 1).cgColor)
-        layer.shadowOffset = CGSize(width: 0, height: 0.5)
-    }
-
     func layoutVerticalContentInset(animated: Bool) {
-        let target = (contentView.bounds.height * Layout.Height.previewFactor) - userView.bounds.height
+        let target = (contentView.bounds.height * Layout.Height.previewFactor) - Layout.Height.userView
 
         guard scrollViewContentInset.top != target else { return }
         scrollViewContentInset = UIEdgeInsets(top: target, left: 0, bottom: 0, right: 0)
         scrollView.contentInset = scrollViewContentInset
         scrollView.setContentOffset(CGPoint(x: 0, y: -scrollViewContentInset.top), animated: animated)
+    }
+
+    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
+        contentView.setRoundedCorners([.allCorners], cornerRadius: Metrics.margin)
+        applyShadow(withOpacity: 0.3, radius: Metrics.margin, color: #colorLiteral(red: 0.7803921569, green: 0.8078431373, blue: 0.7803921569, alpha: 1).cgColor)
+        layer.shadowOffset = CGSize(width: 0, height: 0.5)
     }
 
     // MARK: UIScrollViewDelegate
@@ -333,10 +331,11 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     private func scrollToDetail() {
         detailsView.isUserInteractionEnabled = true
+        let offsetY = max(contentView.height - detailsView.bounds.height - userView.bounds.height, 0)
         UIView.animate(withDuration: 0.3,
                        delay: 0,
                        options: .curveEaseIn, animations: { [weak self] in
-                        self?.scrollView.setContentOffset(.zero, animated: true)
+                        self?.scrollView.setContentOffset(CGPoint(x: 0, y: -offsetY), animated: true)
             }, completion: nil)
     }
 

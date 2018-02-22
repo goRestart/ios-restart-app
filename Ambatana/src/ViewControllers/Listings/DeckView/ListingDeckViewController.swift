@@ -15,7 +15,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
 
     var cardInsets: UIEdgeInsets { return listingDeckView.cardsInsets }
-
+    
     fileprivate let listingDeckView = ListingDeckView()
     fileprivate let viewModel: ListingDeckViewModel
     fileprivate let binder = ListingDeckViewControllerBinder()
@@ -149,7 +149,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
 
     @objc private func didTapClose() {
-        closeBumpUpBanner()
+        closeBumpUpBanner(animated: false)
         UIView.animate(withDuration: 0.3, animations: {
             self.listingDeckView.resignFirstResponder()
         }) { (completion) in
@@ -157,16 +157,19 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         }
     }
 
-    func closeBumpUpBanner() {
+    private func closeBumpUpBanner(animated: Bool) {
         guard listingDeckView.isBumpUpVisible else { return }
         listingDeckView.hideBumpUp()
-        UIView.animate(withDuration: 0.3,
-                       delay: 0,
-                       usingSpringWithDamping: 6.0,
-                       initialSpringVelocity: 3.0,
-                       options: .curveEaseIn, animations: {
-                        self.listingDeckView.layoutIfNeeded()
-        }, completion: nil)
+        if animated {
+            UIView.animate(withDuration: 0.2,
+                           delay: 0,
+                           options: .curveEaseIn,
+                           animations: { [weak self] in
+                            self?.listingDeckView.itemActionsView.layoutIfNeeded()
+                }, completion: nil)
+        } else {
+            listingDeckView.itemActionsView.layoutIfNeeded()
+        }
     }
 }
 
@@ -179,6 +182,10 @@ extension ListingDeckViewController {
 }
 
 extension ListingDeckViewController: ListingDeckViewControllerBinderType {
+    func closeBumpUpBanner() {
+        closeBumpUpBanner(animated: true)
+    }
+
     func didTapOnUserIcon() {
         viewModel.showUser()
     }
@@ -196,13 +203,9 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
 
     func updateViewWithActions(_ actionButtons: [UIAction]) {
         guard let actionButton = actionButtons.first else {
-            listingDeckView.hideActions()
             return
         }
         listingDeckView.configureActionWith(actionButton)
-        UIView.animate(withDuration: 0.2, animations: { [weak self] in
-            self?.listingDeckView.showActions()
-        })
     }
 
     func updateWith(keyboardChange: KeyboardChange) {
@@ -218,10 +221,11 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         }
     }
     
-    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool) {
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool) {
+        listingDeckView.chatEnabled = chatEnabled
         let chatAlpha: CGFloat
         let actionsAlpha: CGFloat
-        if isMine {
+        if isMine && actionsEnabled {
             actionsAlpha = min(1.0, alpha)
             chatAlpha = 0
         } else if !chatEnabled {
@@ -255,16 +259,12 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         viewModel.bumpUpBannerShown(type: bumpInfo.type)
         delay(1.0) { [weak self] in
             self?.listingDeckView.updateBumpUp(withInfo: bumpInfo)
-            self?.listingDeckView.bumpUpBanner.setNeedsLayout()
-            self?.listingDeckView.bumpUpBanner.layoutIfNeeded()
-
+            self?.listingDeckView.showBumpUp()
             UIView.animate(withDuration: 0.3,
                            delay: 0,
-                           usingSpringWithDamping: 6.0,
-                           initialSpringVelocity: 3.0,
-                           options: .layoutSubviews, animations: {
-                            self?.listingDeckView.showBumpUp()
-                            self?.listingDeckView.layoutIfNeeded()
+                           options: .curveEaseIn,
+                           animations: { [weak self] in
+                self?.listingDeckView.itemActionsView.layoutIfNeeded()
             }, completion: nil)
         }
     }

@@ -72,9 +72,15 @@ final class ListingCardUserView: UIView {
         actionButton.tintColor = .white
 
         guard let url = icon else { return }
+        guard imageDownloader.cachedImageForUrl(url) == nil else {
+            userIcon.setBackgroundImage(imageDownloader.cachedImageForUrl(url), for: .normal)
+            return
+        }
+
         imageDownloader.downloadImageWithURL(url, completion: { [weak self] (result, url) in
             if let value = result.value {
                 self?.userIcon.setBackgroundImage(value.image, for: .normal)
+                self?.userIcon.setNeedsLayout()
             }
         })
     }
@@ -137,6 +143,7 @@ final class ListingCardUserView: UIView {
         userIcon.layout().width(Constant.Height.userIcon).widthProportionalToHeight()
 
         userIcon.contentMode = .scaleAspectFill
+        userIcon.clipsToBounds = true
     }
 
     private func setupUserInfo() {

@@ -72,12 +72,16 @@ final class ListingDeckViewModel: BaseViewModel {
 
     let quickChatViewModel = QuickChatViewModel()
     let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
-    var isMine: Bool { return currentListingViewModel?.isMine ?? false }
+    var rxIsMine: Observable<Bool> { return isMine.asObservable() }
+    private let isMine: Variable<Bool> = Variable(false)
+
     let imageDownloader: ImageDownloaderType // TODO: Fornow
 
     weak var delegate: ListingDeckViewModelDelegate?
 
-    var currentListingViewModel: ListingViewModel?
+    var currentListingViewModel: ListingViewModel? {
+        didSet { isMine.value = currentListingViewModel?.isMine ?? false }
+    }
     weak var navigator: ListingDetailNavigator? { didSet { currentListingViewModel?.navigator = navigator } }
     weak var deckNavigator: DeckNavigator?
     var userHasScrolled: Bool = false
@@ -113,7 +117,8 @@ final class ListingDeckViewModel: BaseViewModel {
                   initialListing: listing,
                   listingListRequester: listingListRequester,
                   detailNavigator: detailNavigator,
-                  source: source, imageDownloader: ImageDownloader.make(usingImagePool: true),
+                  source: source,
+                  imageDownloader: ImageDownloader.make(usingImagePool: true),
                   listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
                   myUserRepository: Core.myUserRepository,
                   pagination: pagination,

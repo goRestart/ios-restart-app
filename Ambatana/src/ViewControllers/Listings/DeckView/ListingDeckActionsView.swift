@@ -41,7 +41,12 @@ final class ListingDeckActionView: UIView {
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override var intrinsicContentSize: CGSize {
-        let height: CGFloat = 4*Layout.Height.blank + Layout.Height.bumpUp + Layout.Height.actionButton
+        let height: CGFloat
+        if !isBumpUpVisisble {
+            height = 2*Layout.Height.blank + Layout.Height.actionButton
+        } else {
+            height = 2*Layout.Height.blank + Layout.Height.bumpUp + Layout.Height.actionButton
+        }
         return CGSize(width: UIViewNoIntrinsicMetric, height: height)
     }
 
@@ -68,7 +73,7 @@ final class ListingDeckActionView: UIView {
         fullViewContraints.append(contentsOf: [
             actionButton.topAnchor.constraint(equalTo: topAnchor, constant: Layout.Height.blank),
             actionButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: bottom)
-            ])
+        ])
 
         actionButton.setTitle(LGLocalizedString.productMarkAsSoldButton, for: .normal)
         actionButton.setStyle(.terciary)
@@ -101,6 +106,7 @@ final class ListingDeckActionView: UIView {
         separator.isHidden = true
 
         invalidateIntrinsicContentSize()
+        fullModeAlignment(false)
     }
 
     func updateBumpUp(withInfo info: BumpUpInfo) {
@@ -111,6 +117,7 @@ final class ListingDeckActionView: UIView {
         bumpUpBanner.isHidden = false
         separator.isHidden = false
 
+        invalidateIntrinsicContentSize()
         fullModeAlignment(true)
     }
 

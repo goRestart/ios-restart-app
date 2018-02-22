@@ -42,7 +42,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     var visibleHeight: CGFloat { get { return (collectionView?.bounds.height ?? Defaults.visibleHeight) } }
 
     var cellWidth: CGFloat { get { return visibleWidth - 2*cellLayout.insets.left } }
-    var cellHeight: CGFloat { get { return visibleHeight - cellLayout.insets.top } }
+    var cellHeight: CGFloat { get { return visibleHeight } }
     var cardInsets: UIEdgeInsets { return cellLayout.insets }
 
     override var collectionViewContentSize : CGSize {

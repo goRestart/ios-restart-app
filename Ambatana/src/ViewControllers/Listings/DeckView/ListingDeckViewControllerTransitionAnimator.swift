@@ -59,7 +59,6 @@ private class DeckViewTransitionPresenter: DeckViewTransitionMode {
                            withDuration duration: TimeInterval,
                            initialFrame: CGRect,
                            image: UIImage) {
-
         guard let fromVC = transitionContext.viewController(forKey: .from),
             let fromView = transitionContext.view(forKey: .from),
             let toVC = transitionContext.viewController(forKey: .to) as? ListingDeckViewController,
@@ -81,13 +80,12 @@ private class DeckViewTransitionPresenter: DeckViewTransitionMode {
         containerView.addSubview(imageView)
 
         let targetFrame = buildTargetFrame(withTargetViewController: toVC, fromView: fromView)
-
         UIView.animate(withDuration: Duration.expand,
                        animations: {
                         fromView.alpha = 0
                         imageView.frame = targetFrame
-                        toVC.updateStartIndex()
         }) { (completion) in
+            toVC.updateStartIndex()
             UIView.animate(withDuration: Duration.alpha,
                            animations: {
                             imageView.alpha = 0

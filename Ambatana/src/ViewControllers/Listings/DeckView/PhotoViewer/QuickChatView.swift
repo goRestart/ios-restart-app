@@ -30,6 +30,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     private let textView = ChatTextView()
     private var textViewBottom: NSLayoutConstraint?
 
+    var directAnswersViewTopAnchor: NSLayoutYAxisAnchor { return directAnswersView.topAnchor }
     private let directAnswersView = DirectAnswersHorizontalView(answers: [])
     private let tableView = CustomTouchesTableView()
     private let binder = QuickChatViewBinder()

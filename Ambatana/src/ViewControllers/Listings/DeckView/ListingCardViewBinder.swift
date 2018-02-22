@@ -18,14 +18,14 @@ final class ListingCardViewBinder {
     func bind(withViewModel viewModel: ListingCardViewCellModel) {
         viewModelBag = DisposeBag()
         guard let vmDisposeBag = viewModelBag else { return }
-        
-        viewModel.productIsFavorite.bind { [weak self, weak viewModel] favorite in
-            if let isFavoritetable = viewModel?.cardIsFavoritable, isFavoritetable {
+
+        if viewModel.cardIsFavoritable {
+            viewModel.productIsFavorite.bind { [weak self] favorite in
                 self?.cardView?.userView.set(action: .favourite(isOn: favorite))
-            } else {
-                self?.cardView?.userView.set(action: .edit)
-            }
-        }.disposed(by:vmDisposeBag)
+            }.disposed(by:vmDisposeBag)
+        } else {
+            cardView?.userView.set(action: .edit)
+        }
 
         viewModel.cardUserInfo.bind { [weak self] userInfo in
             self?.cardView?.populateWith(userInfo: userInfo)

@@ -15,7 +15,6 @@ protocol ListingCardDetailsViewType: class {
     func populateWith(socialSharer: SocialSharer)
     func populateWith(socialMessage: SocialMessage?)
     func populateWith(listingStats: ListingStats, postedDate: Date?)
-    func disableStatsView()
 }
 
 final class ListingCardDetailsViewBinder {
@@ -40,18 +39,10 @@ final class ListingCardDetailsViewBinder {
 
     private func bindStatsTo(_ viewModel: ListingCardDetailsViewModel, disposeBag: DisposeBag) {
         let productCreation = viewModel.cardProductInfo.map { $0?.creationDate }
-        let statsAndCreation = Observable.combineLatest(viewModel.cardProductStats.unwrap(),
-                                                        productCreation) { ($0, $1) }
-        let statsViewVisible: Observable<Bool> = statsAndCreation.map { (stats, creation) in
-            return stats.viewsCount >= Constants.minimumStatsCountToShow
-                || stats.favouritesCount >= Constants.minimumStatsCountToShow
-                || creation != nil
-        }
-        statsViewVisible.asObservable().distinctUntilChanged().bind { [weak self] visible in
-            guard !visible else { return }
-            self?.detailsView?.disableStatsView()
-        }.disposed(by:disposeBag)
-
+        let stats = viewModel.cardProductStats.unwrap().distinctUntilChanged({ (lhs, rhs) -> Bool in
+            return lhs.favouritesCount != rhs.favouritesCount || lhs.viewsCount != rhs.viewsCount
+        })
+        let statsAndCreation = Observable.combineLatest(stats, productCreation) { ($0, $1) }
         statsAndCreation.bind { [weak self] (stats, creation) in
             self?.detailsView?.populateWith(listingStats: stats, postedDate: creation)
         }.disposed(by:disposeBag)
@@ -63,5 +54,4 @@ final class ListingCardDetailsViewBinder {
             self?.detailsView?.populateWith(socialMessage: socialMessage)
         }.disposed(by:disposeBag)
     }
-
 }

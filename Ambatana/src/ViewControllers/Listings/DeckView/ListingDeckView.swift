@@ -12,16 +12,23 @@ import LGCoreKit
 import RxSwift
 
 final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewType {
-    struct Layout { struct Height { static let previewFactor: CGFloat = 0.7 } }
+    struct Layout {
+        struct Height { static let previewFactor: CGFloat = 0.7 }
+    }
 
     let collectionView: UICollectionView
     let rxCollectionView: Reactive<UICollectionView>
-
+    var chatEnabled: Bool = false {
+        didSet {
+            quickChatTopToCollectionBotton?.isActive = chatEnabled
+        }
+    }
     private var quickChatView: QuickChatView?
+    private var quickChatTopToCollectionBotton: NSLayoutConstraint?
     private var dismissTap: UITapGestureRecognizer?
     
     private var collectionViewTop: NSLayoutConstraint? = nil
-    private let itemActionsView = ListingDeckActionView()
+    let itemActionsView = ListingDeckActionView()
     private let collectionLayout = ListingDeckCollectionViewLayout()
 
     var rxActionButton: Reactive<UIButton> { return itemActionsView.actionButton.rx }
@@ -85,9 +92,9 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     private func setupCollectionView() {
         addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.layout(with: self).leading().trailing().top() { [weak self] constraint in
-            self?.collectionViewTop = constraint
-        }.proportionalHeight(multiplier: Layout.Height.previewFactor)
+        collectionView.layout(with: self).leading().trailing()
+        collectionViewTop = collectionView.topAnchor.constraint(equalTo: topAnchor)
+        collectionViewTop?.isActive = true
 
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.decelerationRate = 0
@@ -98,16 +105,13 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         addSubview(itemActionsView)
         itemActionsView.translatesAutoresizingMaskIntoConstraints = false
 
-        let layoutGuide = UILayoutGuide()
-        itemActionsView.addLayoutGuide(layoutGuide)
-
-        layoutGuide.topAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
-        layoutGuide.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        let collectionBottom = itemActionsView.topAnchor.constraint(equalTo: collectionView.bottomAnchor)
+        collectionBottom.priority = .required - 1
+        collectionBottom.isActive = true
+        itemActionsView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
 
         itemActionsView.layout(with: self).fillHorizontal().bottom(relatedBy: .lessThanOrEqual)
-        itemActionsView.layout(with: collectionView).below(relatedBy: .greaterThanOrEqual)
-
-        itemActionsView.centerYAnchor.constraint(equalTo: layoutGuide.centerYAnchor).isActive = true
+        itemActionsView.layout(with: collectionView).below(relatedBy: .equal)
 
         itemActionsView.setContentCompressionResistancePriority(.required, for: .vertical)
         itemActionsView.setContentHuggingPriority(.required, for: .vertical)
@@ -120,6 +124,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         addSubview(quickChatView)
         quickChatView.translatesAutoresizingMaskIntoConstraints = false
         quickChatView.layout(with: self).fill()
+
+        let directTop = quickChatView.directAnswersViewTopAnchor
+        quickChatTopToCollectionBotton = collectionView.bottomAnchor.constraint(equalTo: directTop,
+                                                                                constant: -Metrics.margin)
 
         focusOnCollectionView()
     }
@@ -154,14 +162,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         itemActionsView.actionButton.configureWith(uiAction: action)
     }
 
-    func showActions() {
-        itemActionsView.alpha = 1
-    }
-
-    func hideActions() {
-        itemActionsView.alpha = 0
-    }
-
     // MARK: Chat
 
     func updateChatWith(alpha: CGFloat) {
@@ -170,20 +170,18 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     
     func showFullScreenChat() {
         guard let chatView = quickChatView else { return }
+        quickChatTopToCollectionBotton?.isActive = false
+
         focusOnChat()
         chatView.becomeFirstResponder()
     }
 
     @objc func hideFullScreenChat() {
         quickChatView?.resignFirstResponder()
+        quickChatTopToCollectionBotton?.isActive = chatEnabled
         focusOnCollectionView()
     }
-
-    func showChat() {
-        quickChatView?.alpha = 1
-        focusOnCollectionView()
-    }
-
+    
     private func focusOnChat() {
         quickChatView?.isTableInteractionEnabled = true
 

@@ -22,7 +22,7 @@ protocol ListingDeckViewControllerBinderType: class {
     func didTapCardAction()
     func didTapOnUserIcon()
     func updateSideCells()
-    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool)
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool)
     func blockSideInteractions()
     func updateViewWithActions(_ actions: [UIAction])
 }
@@ -39,10 +39,11 @@ protocol ListingDeckViewModelType: class {
     var rxBumpUpBannerInfo: Observable<BumpUpInfo?> { get }
     var rxObjectChanges: Observable<CollectionChange<ListingCellModel>> { get }
     var rxIsChatEnabled: Observable<Bool> { get }
+    var rxIsMine: Observable<Bool> { get }
+
     func moveToProductAtIndex(_ index: Int, movement: CarouselMovement)
 
     var userHasScrolled: Bool { get set }
-    var isMine: Bool { get }
 }
 
 protocol ListingDeckViewControllerBinderCellType {
@@ -114,10 +115,7 @@ final class ListingDeckViewControllerBinder {
                             viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
                             disposeBag: DisposeBag) {
         viewModel.rxBumpUpBannerInfo.bind { [weak viewController] bumpInfo in
-            guard let bumpUp = bumpInfo else {
-                viewController?.closeBumpUpBanner()
-                return
-            }
+            guard let bumpUp = bumpInfo else { return }
             viewController?.showBumpUpBanner(bumpInfo: bumpUp)
         }.disposed(by: disposeBag)
     }
@@ -140,6 +138,10 @@ final class ListingDeckViewControllerBinder {
         listingDeckView.collectionView.rx.didEndDecelerating.bind { [weak viewController] in
             viewController?.blockSideInteractions()
         }.disposed(by: disposeBag)
+
+        listingDeckView.collectionView.rx.willDisplayCell.bind { [weak viewController] cell in
+            viewController?.updateSideCells()
+        }.disposed(by: disposeBag)
     }
 
     private func bindContentOffset(withViewController viewController: ListingDeckViewControllerBinderType,
@@ -155,12 +157,9 @@ final class ListingDeckViewControllerBinder {
     private func bindChat(withViewController viewController: ListingDeckViewControllerBinderType,
                           viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
                           disposeBag: DisposeBag) {
-        viewController.rxContentOffset.skip(1).bind { [weak viewModel] _ in
+        viewController.rxContentOffset.skip(1).bind { [weak viewModel, weak viewController] _ in
             viewModel?.userHasScrolled = true
-        }.disposed(by: disposeBag)
-
-        viewController.rxContentOffset.asObservable().bind { [weak viewController] _ in
-           viewController?.updateSideCells()
+            viewController?.closeBumpUpBanner()
         }.disposed(by: disposeBag)
 
         let contentOffsetAlphaSignal: Observable<CGFloat> = viewController.rxContentOffset
@@ -170,14 +169,17 @@ final class ListingDeckViewControllerBinder {
                     return 2*pageOffset
                 }
                 return 2*(1 - pageOffset)   
-        }
-        
-        let chatEnabled: Observable<Bool> = viewModel.rxIsChatEnabled
+        }.distinctUntilChanged()
+
+        let areActionsEnabled = viewModel.rxActionButtons.map { $0.count > 0 }
+        let chatEnabled: Observable<Bool> = viewModel.rxIsChatEnabled.distinctUntilChanged()
         Observable.combineLatest(contentOffsetAlphaSignal,
-                                 chatEnabled) { ($0, $1) }
-            .bind { [weak viewController] (offsetAlpha, isChatEnabled) in
-                viewController?.updateViewWith(alpha: offsetAlpha, chatEnabled: isChatEnabled, isMine: viewModel.isMine)
+                                 chatEnabled,
+                                 viewModel.rxIsMine.distinctUntilChanged(),
+                                 areActionsEnabled.distinctUntilChanged()) { ($0, $1, $2, $3) }
+            .bind { [weak viewController] (offsetAlpha, isChatEnabled, isMine, actionsEnabled) in
+                viewController?.updateViewWith(alpha: offsetAlpha, chatEnabled: isChatEnabled,
+                                               isMine: isMine, actionsEnabled: actionsEnabled)
         }.disposed(by: disposeBag)
     }
-    
 }

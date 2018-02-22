@@ -30,21 +30,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         didSet { detailMapView.delegate = delegate }
     }
 
-    override var intrinsicContentSize: CGSize {
-        let titleLabelSize = titleLabel.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
-        let priceLabelSize = priceLabel.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
-        let detailLabelSize = detailLabel.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
-        let statsViewSize = statsView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
-        let detailMapViewHeight = detailMapView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
-        let socialMediaHeaderSizse = socialMediaHeader.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
-        let socialView = socialShareView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
-
-        let height = titleLabelSize + priceLabelSize + detailLabelSize + statsViewSize +
-            detailMapViewHeight + socialMediaHeaderSizse + socialView
-
-        let spaces = Metrics.veryShortMargin + Metrics.bigMargin + 2*Metrics.margin
-        return CGSize(width: UIViewNoIntrinsicMetric, height: height + spaces)
-    }
+    override var intrinsicContentSize: CGSize { return scrollView.contentSize }
 
     private let scrollView = UIScrollView()
 
@@ -95,12 +81,23 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         priceLabel.text = productInfo.price
         detailLabel.attributedText = productInfo.description
         detailMapView.setLocationName(productInfo.address)
+        invalidateIntrinsicContentSize()
+        layoutIfNeeded()
     }
 
     func populateWith(listingStats: ListingStats, postedDate: Date?) {
+        guard  listingStats.viewsCount >= Constants.minimumStatsCountToShow
+            || listingStats.favouritesCount >= Constants.minimumStatsCountToShow
+            || postedDate != nil else {
+
+                disableStatsView()
+                return
+        }
         statsView.updateStatsWithInfo(listingStats.viewsCount,
                                       favouritesCount: listingStats.viewsCount,
                                       postedDate: postedDate)
+        invalidateIntrinsicContentSize()
+        layoutIfNeeded()
     }
 
     func populateWith(socialSharer: SocialSharer) {
@@ -110,12 +107,15 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     func populateWith(socialMessage: SocialMessage?) {
         socialShareView.socialMessage = socialMessage
         enableSocialView(socialMessage != nil)
+        invalidateIntrinsicContentSize()
+        layoutIfNeeded()
     }
 
     func disableStatsView() {
         locationToStats?.isActive = false
         locationToDetail?.isActive = true
-        scrollView.setNeedsLayout()
+        invalidateIntrinsicContentSize()
+        layoutIfNeeded()
     }
 
     private func enableSocialView(_ enabled: Bool) {
@@ -123,11 +123,13 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         socialMediaHeader.isHidden = !enabled
         mapSnapShotToBottom?.isActive = !enabled
         mapSnapShotToSocialView?.isActive = enabled
-        scrollView.setNeedsLayout()
+        invalidateIntrinsicContentSize()
+        layoutIfNeeded()
     }
 
     // MARK: SetupView
     private func setupUI() {
+        backgroundColor = .white
         setupScrollView()
         setupHeaderUI()
         setupDetailUI()
@@ -292,8 +294,8 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         detailNumberOfLines = detailNumberOfLines.toggle()
         detailLabel.numberOfLines = detailNumberOfLines.current
 
-        detailLabel.setNeedsLayout()
-        scrollView.setNeedsLayout()
+        invalidateIntrinsicContentSize()
+        layoutIfNeeded()
     }
 
     // MARK: - SocialShareViewDelegate
