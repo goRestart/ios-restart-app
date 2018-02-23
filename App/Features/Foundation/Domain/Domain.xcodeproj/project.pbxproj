@@ -22,6 +22,8 @@
 		1C89D6F81FF3CF3A00B3FA98 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6F41FF3CF3A00B3FA98 /* AuthError.swift */; };
 		1C89D6F91FF3CF3A00B3FA98 /* BasicCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6F51FF3CF3A00B3FA98 /* BasicCredentials.swift */; };
 		1C89D7091FF3D3AA00B3FA98 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7081FF3D3AA00B3FA98 /* RxSwift.framework */; };
+		1C93E0CB2040AD300029AD2B /* ProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93E0CA2040AD300029AD2B /* ProductRequest.swift */; };
+		1C93E0D02040AE250029AD2B /* Price.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93E0CF2040AE250029AD2B /* Price.swift */; };
 		1CB6494C2009C65F009B7CC1 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB6494B2009C65F009B7CC1 /* Image.swift */; };
 		1CB649612009CB73009B7CC1 /* UploadImageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB649602009CB73009B7CC1 /* UploadImageUseCase.swift */; };
 		1CB87BC120150CD20058BA99 /* GameSearchSuggestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB87BC020150CD20058BA99 /* GameSearchSuggestion.swift */; };
@@ -45,6 +47,8 @@
 		1C89D6F41FF3CF3A00B3FA98 /* AuthError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		1C89D6F51FF3CF3A00B3FA98 /* BasicCredentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicCredentials.swift; sourceTree = "<group>"; };
 		1C89D7081FF3D3AA00B3FA98 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../../../Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
+		1C93E0CA2040AD300029AD2B /* ProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRequest.swift; sourceTree = "<group>"; };
+		1C93E0CF2040AE250029AD2B /* Price.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Price.swift; sourceTree = "<group>"; };
 		1CB6494B2009C65F009B7CC1 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		1CB649602009CB73009B7CC1 /* UploadImageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageUseCase.swift; sourceTree = "<group>"; };
 		1CB87BC020150CD20058BA99 /* GameSearchSuggestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSearchSuggestion.swift; sourceTree = "<group>"; };
@@ -179,6 +183,7 @@
 				1C89D6F11FF3CF3A00B3FA98 /* Auth */,
 				1C40D8951FFD16EC006D5BE4 /* User */,
 				1C30D5082009310200E0A501 /* Game */,
+				1C93E0C92040AD210029AD2B /* Product */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -206,6 +211,15 @@
 				1C89D7081FF3D3AA00B3FA98 /* RxSwift.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1C93E0C92040AD210029AD2B /* Product */ = {
+			isa = PBXGroup;
+			children = (
+				1C93E0CA2040AD300029AD2B /* ProductRequest.swift */,
+				1C93E0CF2040AE250029AD2B /* Price.swift */,
+			);
+			path = Product;
 			sourceTree = "<group>";
 		};
 		1CB6494A2009C655009B7CC1 /* Image */ = {
@@ -327,6 +341,7 @@
 				1C40D8D21FFD4460006D5BE4 /* RegisterUserUseCase.swift in Sources */,
 				1C30D7352009765000E0A501 /* Identifier.swift in Sources */,
 				1C30D50A2009310B00E0A501 /* Game.swift in Sources */,
+				1C93E0D02040AE250029AD2B /* Price.swift in Sources */,
 				1C89D6F81FF3CF3A00B3FA98 /* AuthError.swift in Sources */,
 				1C40D8971FFD16F9006D5BE4 /* UserCredentials.swift in Sources */,
 				1CB649612009CB73009B7CC1 /* UploadImageUseCase.swift in Sources */,
@@ -338,6 +353,7 @@
 				1CB87BC120150CD20058BA99 /* GameSearchSuggestion.swift in Sources */,
 				1C30D514200931FC00E0A501 /* Genre.swift in Sources */,
 				1C30D721200970EE00E0A501 /* SearchGamesUseCase.swift in Sources */,
+				1C93E0CB2040AD300029AD2B /* ProductRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
