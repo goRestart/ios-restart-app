@@ -98,6 +98,9 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.decelerationRate = 0
+        collectionView.contentInset = .zero
+        collectionView.bounces = true
+        collectionView.alwaysBounceVertical = false
         collectionView.backgroundColor = UIColor.viewControllerBackground
     }
 
@@ -215,4 +218,5 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     func resetBumpUpCountdown() {
         bumpUpBanner.resetCountdown()
     }
+
 }

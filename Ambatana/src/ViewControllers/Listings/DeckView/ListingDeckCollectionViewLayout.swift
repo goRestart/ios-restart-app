@@ -55,6 +55,11 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         self.cellLayout = cellLayout
         super.init()
         self.scrollDirection = .horizontal
+        self.minimumLineSpacing = 0.0
+        self.minimumInteritemSpacing = 0.0
+        self.sectionInset = .zero;
+        self.footerReferenceSize = .zero
+        self.headerReferenceSize = .zero
     }
 
     convenience override init() {
@@ -81,7 +86,8 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     override func prepare() {
         super.prepare()
-        
+        itemSize = CGSize(width: cellWidth, height: cellHeight)
+
         if shouldInvalidateCache {
             cache.removeAll(keepingCapacity: false)
             for item in 0..<itemsCount {

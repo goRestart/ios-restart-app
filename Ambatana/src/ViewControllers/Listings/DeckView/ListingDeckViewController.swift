@@ -33,8 +33,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         self.view = listingDeckView
     }
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         listingDeckView.updateTop(wintInset: topBarHeight)
     }
 
@@ -80,6 +80,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     // MARK: CollectionView
 
     private func setupCollectionView() {
+        automaticallyAdjustsScrollViewInsets = false
         listingDeckView.collectionView.dataSource = self
         listingDeckView.collectionView.register(ListingCardView.self, forCellWithReuseIdentifier: ListingCardView.reusableID)
 
