@@ -9,6 +9,10 @@ final class GameSuggestionViewRender: NSObject, ListDiffable {
     self.suggestion = suggestion
   }
 
+  var gameId: Identifier<Game> {
+    return suggestion.id
+  }
+
   var attributedTitle: NSAttributedString? {
     let name = suggestion.value
     let query = suggestion.query

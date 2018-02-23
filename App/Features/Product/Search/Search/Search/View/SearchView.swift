@@ -6,10 +6,12 @@ import Domain
 
 public final class SearchView: View {
 
-  private let listAdapterDataSource = GameSuggestionListAdapter()
+  private var listAdapterDataSource: GameSuggestionListAdapter?
   private let updater = ListAdapterUpdater()
   private var listAdapter: ListAdapter!
-  
+  public typealias GameSelectionBlock = (Identifier<Game>) -> Void
+  private var onGameSelection: GameSelectionBlock?
+
   private let collectionView: UICollectionView = {
     let collectionViewLayout = ListCollectionViewLayout(stickyHeaders: false, topContentInset: 0, stretchToEdge: false)
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
@@ -28,6 +30,9 @@ public final class SearchView: View {
   public override func setupView() {
     addSubview(collectionView)
 
+    listAdapterDataSource = GameSuggestionListAdapter()
+    listAdapterDataSource?.delegate = self
+
     listAdapter = ListAdapter(updater: updater, viewController: nil)
     listAdapter.collectionView = collectionView
     listAdapter.dataSource = listAdapterDataSource
@@ -42,7 +47,7 @@ public final class SearchView: View {
     }
   }
   
-  public func bind(textField: UITextField) {
+  public func bind(textField: UITextField, _ onGameSelection: @escaping GameSelectionBlock) {
     let textFieldObserver = textField.rx.value
       .orEmpty
       .distinctUntilChanged()
@@ -55,12 +60,20 @@ public final class SearchView: View {
       .asObservable()
       .map(mapToView)
       .subscribe(onNext: { [weak self] suggestions in
-        self?.listAdapterDataSource.suggestions = suggestions
+        self?.listAdapterDataSource?.suggestions = suggestions
         self?.listAdapter.performUpdates(animated: true)
       }).disposed(by: bag)
+
+    self.onGameSelection = onGameSelection
   }
 
   private func mapToView(_ elements: [GameSearchSuggestion]) -> [GameSuggestionViewRender] {
     return elements.map { GameSuggestionViewRender(suggestion: $0) }
+  }
+}
+
+extension SearchView: GameSuggestionListAdapterDelegate {
+  func didSelectGameSuggestion(with id: Identifier<Game>) {
+    onGameSelection?(id)
   }
 }
