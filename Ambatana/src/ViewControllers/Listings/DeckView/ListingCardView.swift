@@ -20,8 +20,9 @@ protocol ListingCardViewDelegate {
 final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestureRecognizerDelegate, ReusableCell {
     private struct Layout {
         struct Height {
-            static let previewFactor: CGFloat = 0.65
+            static let previewFactor: CGFloat = 0.7
             static let userView: CGFloat = 52.0
+            static let whiteGradient: CGFloat = 40.0
         }
     }
 
@@ -44,6 +45,9 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     private let gradient = GradientView(colors: [UIColor.black.withAlphaComponent(0.2), UIColor.black.withAlphaComponent(0)])
     private let countImageView = UIImageView(image: #imageLiteral(resourceName: "nit_preview_count"))
     private let imageCountLabel = UILabel()
+
+    private let whiteGradient = GradientView(colors: [UIColor.white.withAlphaComponent(0),
+                                                      UIColor.white.withAlphaComponent(0.9)])
 
     private let scrollView = UIScrollView()
     private var scrollViewTapGesture: UITapGestureRecognizer?
@@ -152,9 +156,24 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         setupImagesCount()
         setupVerticalScrollView()
         setupStatusView()
+        setupWhiteGradient()
 
         backgroundColor = .clear
         contentView.backgroundColor = .white
+
+
+    }
+
+    private func setupWhiteGradient() {
+        whiteGradient.translatesAutoresizingMaskIntoConstraints = false
+        whiteGradient.clipsToBounds = true
+        contentView.addSubview(whiteGradient)
+        NSLayoutConstraint.activate([
+            whiteGradient.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            whiteGradient.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            whiteGradient.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            whiteGradient.heightAnchor.constraint(equalToConstant: Layout.Height.whiteGradient)
+        ])
     }
 
     private func setupStatusView() {
@@ -284,6 +303,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     private func updateBlur(alpha: CGFloat) {
         userView.effectView.alpha = alpha
+        whiteGradient.alpha = min(0.9, 1 - alpha)
     }
 
     private func updateCount(alpha: CGFloat) {
