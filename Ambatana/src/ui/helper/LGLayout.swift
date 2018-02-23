@@ -356,7 +356,18 @@ extension UIView {
             return LGLayout(owner: UIView(), item1: UIView(), item2: UIView())
         }
     }
-    
+
+    func addSubviewForAutoLayout(_ subview: UIView) {
+        subview.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(subview)
+    }
+
+    func addSubviewsForAutoLayout(_ subviews: [UIView]) {
+        subviews.forEach { subview in
+            addSubviewForAutoLayout(subview)
+        }
+    }
+
     func addSubviews(_ subviews: [UIView]) {
         subviews.forEach { subview in
             addSubview(subview)
