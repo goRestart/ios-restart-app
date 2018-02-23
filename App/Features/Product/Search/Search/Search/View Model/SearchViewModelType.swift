@@ -2,7 +2,7 @@ import RxSwift
 import Domain
 
 protocol SearchViewModelOutput {
-  var results: Variable<[GameSearchSuggestion]> { get }
+  var results: BehaviorSubject<[GameSearchSuggestion]> { get }
   func bind(to query: Observable<String>)
 }
 

@@ -5,7 +5,7 @@ struct SearchViewModel: SearchViewModelType, SearchViewModelOutput {
  
   var output: SearchViewModelOutput { return self }
  
-  var results = Variable<[GameSearchSuggestion]>([])
+  var results = BehaviorSubject<[GameSearchSuggestion]>(value: [])
   
   private let bag = DisposeBag()
   private let searchGames: SearchGamesUseCase
