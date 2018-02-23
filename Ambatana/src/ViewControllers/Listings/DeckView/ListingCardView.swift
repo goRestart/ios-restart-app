@@ -31,6 +31,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     let userView = ListingCardUserView()
+    private var userViewTopConstraints: [NSLayoutConstraint] = []
+    private var userViewScrollingConstraints: [NSLayoutConstraint] = []
 
     private let binder = ListingCardViewBinder()
     private(set) var disposeBag = DisposeBag()
@@ -248,9 +250,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         scrollView.backgroundColor = .clear
 
         userView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(userView)
-        userView.topAnchor.constraint(greaterThanOrEqualTo: gradient.bottomAnchor).isActive = true
-        userView.layout(with: scrollView).fillHorizontal().top().centerX().leading().trailing()
+        userView.clipsToBounds = true
+        addSubview(userView)
         userView.heightAnchor.constraint(equalToConstant: Layout.Height.userView).isActive = true
 
         detailsView.backgroundColor = .white
@@ -258,13 +259,27 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         detailsView.isUserInteractionEnabled = false
         scrollView.addSubview(detailsView)
 
-        detailsView.layout(with: userView).fillHorizontal().below()
-        detailsView.layout(with: scrollView).bottom().centerX()
+        detailsView.layout(with: scrollView).fillHorizontal().centerX()
+        detailsView.layout(with: scrollView).bottom().centerX().top()
 
         let scrollTap = UITapGestureRecognizer(target: self, action: #selector(didTapOnScrollView))
         scrollTap.delegate = self
         scrollView.addGestureRecognizer(scrollTap)
         scrollViewTapGesture = scrollTap
+
+        userViewTopConstraints.append(contentsOf: [
+            userView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            userView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            userView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
+
+        userViewScrollingConstraints.append(contentsOf: [
+            userView.topAnchor.constraint(greaterThanOrEqualTo: gradient.bottomAnchor),
+            userView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            userView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            detailsView.topAnchor.constraint(equalTo: userView.bottomAnchor)
+        ])
+        NSLayoutConstraint.activate(userViewScrollingConstraints)
     }
 
     func layoutVerticalContentInset(animated: Bool) {
@@ -286,17 +301,22 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     // MARK: UIScrollViewDelegate
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y > 0 {
-            scrollView.contentOffset.y = CGFloat(0 - Float.ulpOfOne)
-        } else if scrollView.contentOffset.y < -scrollViewContentInset.top {
-            previewImageViewHeight?.constant = abs(scrollViewContentInset.top + scrollView.contentOffset.y)
-        } else if abs(scrollView.contentOffset.y / scrollViewContentInset.top) < 0.7 {
-            let ratio = abs(scrollView.contentOffset.y / scrollViewContentInset.top) / 0.7
-            updateCount(alpha: ratio)
-            updateBlur(alpha: 1 - ratio)
+        if scrollView.contentOffset.y > -Layout.Height.userView {
+            NSLayoutConstraint.deactivate(userViewScrollingConstraints)
+            NSLayoutConstraint.activate(userViewTopConstraints)
         } else {
-            updateCount(alpha: 1.0)
-            updateBlur(alpha: 0)
+            NSLayoutConstraint.deactivate(userViewTopConstraints)
+            NSLayoutConstraint.activate(userViewScrollingConstraints)
+            if scrollView.contentOffset.y < -scrollViewContentInset.top {
+                previewImageViewHeight?.constant = abs(scrollViewContentInset.top + scrollView.contentOffset.y)
+            } else if abs(scrollView.contentOffset.y / scrollViewContentInset.top) < 0.7 {
+                let ratio = abs(scrollView.contentOffset.y / scrollViewContentInset.top) / 0.7
+                updateCount(alpha: ratio)
+                updateBlur(alpha: 1 - ratio)
+            } else {
+                updateCount(alpha: 1.0)
+                updateBlur(alpha: 0)
+            }
         }
         detailsView.isUserInteractionEnabled = abs(scrollView.contentOffset.y) < detailsThreshold
     }
