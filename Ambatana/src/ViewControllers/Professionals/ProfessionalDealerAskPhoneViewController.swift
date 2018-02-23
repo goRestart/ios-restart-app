@@ -87,9 +87,8 @@ class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UITextFi
         phoneTextField.textColor = UIColor.white
         phoneTextField.textAlignment = .left
         phoneTextField.tintColor = UIColor.primaryColor
-        phoneTextField.keyboardType = UIKeyboardType.phonePad
+        phoneTextField.keyboardType = .numberPad
         phoneTextField.delegate = self
-
 
         sendPhoneButton.frame = CGRect(x: 0, y: 0, width: 0, height: Metrics.buttonHeight)
         sendPhoneButton.setStyle(.primary(fontSize: .medium))
@@ -167,7 +166,20 @@ class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UITextFi
                    shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         let newText = textField.textReplacingCharactersInRange(range, replacementString: string)
-        guard newText.isOnlyDigits else { return false }
+        guard newText.replacingOccurrences(of: "-", with: "").isOnlyDigits else { return false }
+
+        if string.count > 1 {
+            textField.text = string.addUSPhoneFormatDashes()
+            viewModel.updatePhoneNumberFrom(text: newText)
+            return false
+        } else if range.length == 0 {
+            if range.location == Constants.usaFirstDashPosition {
+                textField.text?.insert("-", at: String.Index(encodedOffset: Constants.usaFirstDashPosition))
+            } else if range.location == Constants.usaSecondDashPosition {
+                textField.text?.insert("-", at: String.Index(encodedOffset: Constants.usaSecondDashPosition))
+            }
+        }
+
         viewModel.updatePhoneNumberFrom(text: newText)
         return true
     }

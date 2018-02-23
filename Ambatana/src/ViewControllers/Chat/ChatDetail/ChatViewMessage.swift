@@ -94,6 +94,12 @@ struct ChatViewMessage: BaseModel {
     
     public static func ==(lhs: ChatViewMessage, rhs: ChatViewMessage) -> Bool {
         return lhs.value == rhs.value
+        && lhs.objectId == rhs.objectId
+        && lhs.readAt == rhs.readAt
+        && lhs.receivedAt == rhs.receivedAt
+        && lhs.sentAt == rhs.sentAt
+        && lhs.status == rhs.status
+        && lhs.talkerId == rhs.talkerId
     }
 }
 

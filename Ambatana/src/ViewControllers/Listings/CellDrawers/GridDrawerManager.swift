@@ -18,12 +18,12 @@ class GridDrawerManager {
 
     var cellStyle: CellStyle = .mainList
     var freePostingAllowed: Bool = true
-    var featuredShouldShowChatButton: Bool = true
-    
+
     private let listingDrawer = ListingCellDrawer()
     private let collectionDrawer = ListingCollectionCellDrawer()
     private let emptyCellDrawer = EmptyCellDrawer()
     private let advertisementDrawer = AdvertisementCellDrawer()
+    private let mostSearchedItemsDrawer = MostSearchedItemsCellDrawer()
     private let showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: FeatureFlags.sharedInstance,
                                                                     myUserRepository: Core.myUserRepository)
     private let myUserRepository: MyUserRepository
@@ -37,6 +37,7 @@ class GridDrawerManager {
         ListingCollectionCellDrawer.registerCell(collectionView)
         EmptyCellDrawer.registerCell(collectionView)
         AdvertisementCellDrawer.registerCell(collectionView)
+        MostSearchedItemsCellDrawer.registerClassCell(collectionView)
     }
     
     func cell(_ model: ListingCellModel, collectionView: UICollectionView, atIndexPath: IndexPath) -> UICollectionViewCell {
@@ -49,10 +50,16 @@ class GridDrawerManager {
             return emptyCellDrawer.cell(collectionView, atIndexPath: atIndexPath)
         case .advertisement:
             return advertisementDrawer.cell(collectionView, atIndexPath: atIndexPath)
+        case .mostSearchedItems:
+            return mostSearchedItemsDrawer.cell(collectionView, atIndexPath: atIndexPath)
         }
     }
 
-    func willDisplay(_ model: ListingCellModel, inCell cell: UICollectionViewCell, delegate: ListingCellDelegate?) {
+    func willDisplay(_ model: ListingCellModel,
+                     inCell cell: UICollectionViewCell,
+                     delegate: ListingCellDelegate?,
+                     imageSize: CGSize)
+    {
         switch model {
         case let .listingCell(listing) where cell is ListingCell:
             guard let cell = cell as? ListingCell else { return }
@@ -67,10 +74,10 @@ class GridDrawerManager {
                                    delegate: delegate,
                                    isFree: listing.price.isFree && freePostingAllowed,
                                    isFeatured: isFeatured,
-                                   featuredShouldShowChatButton: featuredShouldShowChatButton,
                                    isMine: isMine,
                                    price: listing.priceString(freeModeAllowed: freePostingAllowed),
-                                   shouldShowPrice: false)
+                                   shouldShowPrice: false,
+                                   imageSize: imageSize)
             listingDrawer.willDisplay(data, inCell: cell)
         case .advertisement(let adData):
             guard let cell = cell as? AdvertisementCell else { return }
@@ -83,7 +90,9 @@ class GridDrawerManager {
     func draw(_ model: ListingCellModel,
               inCell cell: UICollectionViewCell,
               delegate: ListingCellDelegate?,
-              shouldShowPrice: Bool) {
+              shouldShowPrice: Bool,
+              imageSize: CGSize)
+    {
         switch model {
         case let .listingCell(listing) where cell is ListingCell:
             guard let cell = cell as? ListingCell else { return }
@@ -98,10 +107,10 @@ class GridDrawerManager {
                                    delegate: delegate,
                                    isFree: listing.price.isFree && freePostingAllowed,
                                    isFeatured: isFeatured,
-                                   featuredShouldShowChatButton: featuredShouldShowChatButton,
                                    isMine: isMine,
                                    price: listing.priceString(freeModeAllowed: freePostingAllowed),
-                                   shouldShowPrice: shouldShowPrice)
+                                   shouldShowPrice: shouldShowPrice,
+                                   imageSize: imageSize)
             return listingDrawer.draw(data, style: cellStyle, inCell: cell)
         case .collectionCell(let style) where cell is CollectionCell:
             guard let cell = cell as? CollectionCell else { return }
@@ -112,6 +121,9 @@ class GridDrawerManager {
         case .advertisement(let adData):
             guard let cell = cell as? AdvertisementCell else { return }
             return advertisementDrawer.draw(adData, style: cellStyle, inCell: cell)
+        case .mostSearchedItems(let data):
+            guard let cell = cell as? MostSearchedItemsListingListCell else { return }
+            return mostSearchedItemsDrawer.draw(data, style: cellStyle, inCell: cell)
         default:
             assert(false, "⛔️ You shouldn't be here")
         }

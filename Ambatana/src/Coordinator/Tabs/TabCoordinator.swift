@@ -90,7 +90,7 @@ extension TabCoordinator: TabNavigator {
     }
 
     func openSell(source: PostingSource, postCategory: PostCategory?) {
-        appNavigator?.openSell(source: source, postCategory: postCategory)
+        appNavigator?.openSell(source: source, postCategory: postCategory, listingTitle: nil)
     }
 
     func openAppRating(_ source: EventParameterRatingSource) {
@@ -137,7 +137,7 @@ extension TabCoordinator: TabNavigator {
         case let .inactiveConversation(conversation):
             openInactiveConversation(conversation: conversation)
         case let .listingAPI(listing):
-            openListingChat(listing, source: source)
+            openListingChat(listing, source: source, isProfessional: false)
         case let .dataIds(conversationId):
             openChatFromConversationId(conversationId, source: source, predefinedMessage: predefinedMessage)
         }
@@ -159,6 +159,10 @@ extension TabCoordinator: TabNavigator {
         let vm = UserRatingListViewModel(userId: userId, tabNavigator: self)
         let vc = UserRatingListViewController(viewModel: vm, hidesBottomBarWhenPushed: hidesBottomBarWhenPushed)
         navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {
+        appNavigator?.openMostSearchedItems(source: source, enableSearch: enableSearch)
     }
     
     func openDeepLink(_ deeplink: DeepLink) {
@@ -347,11 +351,15 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openChatFrom(listing: Listing, source: EventParameterTypePage, openChatAutomaticMessage: ChatWrapperMessageType?) {
+    func openChatFrom(listing: Listing,
+                      source: EventParameterTypePage,
+                      openChatAutomaticMessage: ChatWrapperMessageType?,
+                      isProfessional: Bool) {
         guard let chatVM = ChatViewModel(listing: listing,
                                          navigator: self,
                                          source: source,
-                                         openChatAutomaticMessage: openChatAutomaticMessage) else { return }
+                                         openChatAutomaticMessage: openChatAutomaticMessage,
+                                         isProfessional: isProfessional) else { return }
         let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: source == .listingListFeatured)
         navigationController.pushViewController(chatVC, animated: true)
     }
@@ -415,8 +423,8 @@ extension TabCoordinator: ListingDetailNavigator {
         openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage) {
-        openChatFrom(listing: listing, source: source, openChatAutomaticMessage: nil)
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) {
+        openChatFrom(listing: listing, source: source, openChatAutomaticMessage: nil, isProfessional: isProfessional)
     }
 
     func closeListingAfterDelete(_ listing: Listing) {
@@ -519,7 +527,8 @@ extension TabCoordinator: ListingDetailNavigator {
                 }
                 self?.openChatFrom(listing: listing,
                                    source: source,
-                                   openChatAutomaticMessage: openChatAutomaticMessage)
+                                   openChatAutomaticMessage: openChatAutomaticMessage,
+                                   isProfessional: true)
             }
         }
         rootViewController.dismiss(animated: true, completion: completion)

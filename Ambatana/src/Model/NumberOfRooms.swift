@@ -9,17 +9,25 @@
 import Foundation
 
 struct NumberOfRooms {
-    let numberOfBedrooms: Int?
-    let numberOfLivingRooms: Int?
+    let numberOfBedrooms: Int
+    let numberOfLivingRooms: Int
     
-    var localizedString: String? {
-        if let bedrooms = numberOfBedrooms, bedrooms == 1, let livingRooms = numberOfLivingRooms, livingRooms == 0 {
+    var localizedString: String {
+        if numberOfBedrooms == 1 && numberOfLivingRooms == 0 {
             return LGLocalizedString.realEstateRoomsStudio
         } else if numberOfBedrooms == 10 && numberOfLivingRooms == 0 {
             return LGLocalizedString.realEstateRoomsOverTen
         }
-        guard let bedrooms = numberOfBedrooms, let livingRooms = numberOfLivingRooms else { return nil }
-        return LGLocalizedString.realEstateRoomsValue(bedrooms, livingRooms)
+        return LGLocalizedString.realEstateRoomsValue(numberOfBedrooms, numberOfLivingRooms)
+    }
+    
+    var trackingString: String {
+        if numberOfBedrooms == 1 && numberOfLivingRooms == 0 {
+            return "Studio (1+0)"
+        } else if numberOfBedrooms == 10 && numberOfLivingRooms == 0 {
+            return "Over 10"
+        }
+        return "\(numberOfBedrooms)+\(numberOfLivingRooms)"
     }
 
     static var allValues: [NumberOfRooms] {
@@ -58,12 +66,17 @@ struct NumberOfRooms {
                 NumberOfRooms(numberOfBedrooms: 10, numberOfLivingRooms: 0)]
     }
     
-    public static func ==(lhs: NumberOfRooms, rhs: NumberOfRooms) -> Bool {
-        return lhs.numberOfBedrooms == rhs.numberOfBedrooms && lhs.numberOfLivingRooms == rhs.numberOfLivingRooms
-    }
-    
     func positionIn(allValues: [NumberOfRooms]) -> Int? {
         guard let position = allValues.index(where: {$0 == self }) else { return nil }
         return position
     }
+}
+
+func ==(lhs: NumberOfRooms?, rhs: NumberOfRooms?) -> Bool {
+    guard let lhs = lhs else {
+        guard let _ = rhs else { return true }
+        return false
+    }
+    guard let rhs = rhs else { return false }
+    return lhs.numberOfBedrooms == rhs.numberOfBedrooms && lhs.numberOfLivingRooms == rhs.numberOfLivingRooms
 }

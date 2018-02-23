@@ -78,16 +78,16 @@ class MeetingParser {
 
     static let acceptanceMark = "✅"
     static let rejectionMark = "❌"
-    static let meetingMark = "🦄"
+    static let meetingMark = "🗓"
     static let locationMark = "📍"
-    static let dateMark = "🗓"
+    static let dateMark = "🕐"
 
     static var startingChars: [String] {
         return [acceptanceMark, rejectionMark, meetingMark]
     }
 
     static var meetingIntro: String {
-        return "🦄 Would you like to meet?"
+        return meetingMark + " Would you like to meet?"
     }
 
     static func createMeetingFromMessage(message: String) -> AssistantMeeting? {

@@ -30,31 +30,33 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
-    var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
-    var newBumpUpExplanation: NewBumpUpExplanation { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
-    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
-    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
+    var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var realEstateImprovements: RealEstateImprovements { get }
     var realEstatePromos: RealEstatePromos { get }
-    var allowEmojisOnChat: AllowEmojisOnChat { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var showInactiveConversations: Bool { get }
+    var mainFeedAspectRatio: MainFeedAspectRatio { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
+    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
+    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
+    var emojiSizeIncrement: EmojiSizeIncrement { get }
+    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
+    var newUserProfileView: NewUserProfileView { get }
+    var searchMultiwordExpressions: SearchMultiwordExpressions { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -90,16 +92,18 @@ extension ShowPriceStepRealEstatePosting {
     var isActive: Bool { get { return self == .active } }
 }
 
-extension PromoteBumpUpAfterSell {
-    var isActive: Bool { get { return self == .active } }
-}
-
 extension AllowCallsForProfessionals {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { get { return self == .control || self == .baseline } }
 }
 
-extension ShowSecurityMeetingChatMessage {
-    var isActive: Bool { get { return self == .active } }
+extension MostSearchedDemandedItems {
+    var isActive: Bool {
+        get {
+            return self == .cameraBadge ||
+                self == .trendingButtonExpandableMenu ||
+                self == .subsetAboveExpandableMenu
+        }
+    }
 }
 
 extension RealEstateEnabled {
@@ -114,12 +118,64 @@ extension RealEstatePromos {
     var isActive: Bool { get { return self == .control || self == .baseline } }
 }
 
-extension AllowEmojisOnChat {
-    var isActive: Bool { get { return self == .active } }
-}
-
 extension ShowAdsInFeedWithRatio {
     var isActive: Bool { get { return self != .control && self != .baseline } }
+}
+
+extension NoAdsInFeedForNewUsers {
+    private var shouldShowAdsInFeedForNewUsers: Bool {
+        get {
+            return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed
+        }
+    }
+    private var shouldShowAdsInFeedForOldUsers: Bool {
+        get {
+            return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed || self == .noAdsForNewUsers
+        }
+    }
+    var shouldShowAdsInFeed: Bool {
+        get {
+            return shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
+        }
+    }
+    private var shouldShowAdsInMoreInfoForNewUsers: Bool {
+        get {
+            return self == .control || self == .baseline || self == .adsEverywhere
+        }
+    }
+    private var shouldShowAdsInMoreInfoForOldUsers: Bool {
+        get {
+            return true
+        }
+    }
+    var shouldShowAdsInMoreInfo: Bool {
+        get {
+            return shouldShowAdsInMoreInfoForNewUsers || shouldShowAdsInMoreInfoForOldUsers
+        }
+    }
+
+
+    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            // New User
+            return shouldShowAdsInFeedForNewUsers
+        } else {
+            // Old user
+            return shouldShowAdsInFeedForOldUsers
+        }
+    }
+
+    func shouldShowAdsInMoreInfoForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInMoreInfoForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            // New User
+            return shouldShowAdsInMoreInfoForNewUsers
+        } else {
+            // Old user
+            return shouldShowAdsInMoreInfoForOldUsers
+        }
+    }
 }
 
 extension RemoveCategoryWhenClosingPosting {
@@ -144,6 +200,11 @@ extension IncreaseMinPriceBumps {
         }
     }
 }
+
+extension ShowBumpUpBannerOnNotValidatedListings {
+    var isActive: Bool { get { return self == .active } }
+}
+
 
 class FeatureFlags: FeatureFlaggeable {
 
@@ -258,13 +319,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
     }
-
-    var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {
-        if Bumper.enabled {
-            return Bumper.defaultRadiusDistanceFeed
-        }
-        return DefaultRadiusDistanceFeed.fromPosition(abTests.defaultRadiusDistanceFeed.value)
-    }
     
     var searchAutocomplete: SearchAutocomplete {
         if Bumper.enabled {
@@ -288,25 +342,11 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
     }
     
-    var newBumpUpExplanation: NewBumpUpExplanation {
-        if Bumper.enabled {
-            return Bumper.newBumpUpExplanation
-        }
-        return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
-    }
-
     var homeRelatedEnabled: HomeRelatedEnabled {
         if Bumper.enabled {
             return Bumper.homeRelatedEnabled
         }
         return HomeRelatedEnabled.fromPosition(abTests.homeRelatedEnabled.value)
-    }
-
-    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
-        if Bumper.enabled {
-            return Bumper.hideChatButtonOnFeaturedCells
-        }
-        return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
     }
 
     var newItemPage: NewItemPage {
@@ -337,13 +377,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
     }
 
-    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
-        if Bumper.enabled {
-            return Bumper.promoteBumpUpAfterSell
-        }
-        return PromoteBumpUpAfterSell.fromPosition(abTests.promoteBumpUpAfterSell.value)
-    }
-
     var allowCallsForProfessionals: AllowCallsForProfessionals {
         if Bumper.enabled {
             return Bumper.allowCallsForProfessionals
@@ -358,12 +391,13 @@ class FeatureFlags: FeatureFlaggeable {
         return MoreInfoAFShOrDFP.fromPosition(abTests.moreInfoAFShOrDFP.value)
     }
     
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
+    var mostSearchedDemandedItems: MostSearchedDemandedItems {
         if Bumper.enabled {
-            return Bumper.showSecurityMeetingChatMessage
+            return Bumper.mostSearchedDemandedItems
         }
-        return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
+        return MostSearchedDemandedItems.fromPosition(abTests.mostSearchedDemandedItems.value)
     }
+    
     
     var realEstateImprovements: RealEstateImprovements {
         if Bumper.enabled {
@@ -379,18 +413,18 @@ class FeatureFlags: FeatureFlaggeable {
         return RealEstatePromos.fromPosition(abTests.realEstatePromos.value)
     }
     
-    var allowEmojisOnChat: AllowEmojisOnChat {
-        if Bumper.enabled {
-            return Bumper.allowEmojisOnChat
-        }
-        return AllowEmojisOnChat.fromPosition(abTests.allowEmojisOnChat.value)
-    }
-
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
         if Bumper.enabled {
             return Bumper.showAdsInFeedWithRatio
         }
         return ShowAdsInFeedWithRatio.fromPosition(abTests.showAdsInFeedWithRatio.value)
+    }
+    
+    var mainFeedAspectRatio: MainFeedAspectRatio {
+        if Bumper.enabled {
+            return Bumper.mainFeedAspectRatio
+        }
+        return MainFeedAspectRatio.fromPosition(abTests.mainFeedAspectRatio.value)
     }
     
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting {
@@ -428,6 +462,48 @@ class FeatureFlags: FeatureFlaggeable {
         return IncreaseMinPriceBumps.fromPosition(abTests.increaseMinPriceBumps.value)
     }
     
+    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
+        if Bumper.enabled {
+            return Bumper.showSecurityMeetingChatMessage
+        }
+        return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
+    }
+
+    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
+        if Bumper.enabled {
+            return Bumper.noAdsInFeedForNewUsers
+        }
+        return NoAdsInFeedForNewUsers.fromPosition(abTests.noAdsInFeedForNewUsers.value)
+    }
+    
+    var emojiSizeIncrement: EmojiSizeIncrement {
+        if Bumper.enabled {
+            return Bumper.emojiSizeIncrement
+        }
+        return EmojiSizeIncrement.fromPosition(abTests.emojiSizeIncrement.value)
+    }
+
+    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
+        if Bumper.enabled {
+            return Bumper.showBumpUpBannerOnNotValidatedListings
+        }
+        return ShowBumpUpBannerOnNotValidatedListings.fromPosition(abTests.showBumpUpBannerOnNotValidatedListings.value)
+    }
+
+    var searchMultiwordExpressions: SearchMultiwordExpressions {
+        if Bumper.enabled {
+            return Bumper.searchMultiwordExpressions
+        }
+        return SearchMultiwordExpressions.fromPosition(abTests.searchMultiwordExpressions.value)
+    }
+    
+
+    var newUserProfileView: NewUserProfileView {
+        if Bumper.enabled {
+            return Bumper.newUserProfileView
+        }
+        return NewUserProfileView.fromPosition(abTests.newUserProfileView.value)
+    }
 
     // MARK: - Country features
 
@@ -446,8 +522,7 @@ class FeatureFlags: FeatureFlaggeable {
         }
         switch locationCountryCode {
         case .turkey?:
-            // TODO: change to turkish when all development is done.
-            return .standard
+            return .turkish
         default:
             return .standard
         }
@@ -513,11 +588,24 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     var feedDFPAdUnitId: String? {
+        if Bumper.enabled {
+            // Bumper overrides country restriction
+            switch showAdsInFeedWithRatio {
+            case .baseline, .control:
+                return noAdsInFeedForNewUsers.shouldShowAdsInFeed ? EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio : nil
+            case .ten:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
+            case .fifteen:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA15Ratio
+            case .twenty:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio
+            }
+        }
         switch sensorLocationCountryCode {
         case .usa?:
             switch showAdsInFeedWithRatio {
             case .baseline, .control:
-                return nil
+                return noAdsInFeedForNewUsers.shouldShowAdsInFeed ? EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio : nil
             case .ten:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
             case .fifteen:

@@ -13,9 +13,11 @@ protocol FilterRangePriceCellDelegate: class {
     func priceTextFieldValueChanged(_ value: String?, tag: Int)
 }
 
-enum TextFieldPriceType: Int {
+enum TextFieldNumberType: Int {
     case priceFrom = 0
     case priceTo = 1
+    case sizeFrom = 2
+    case sizeTo = 3
 }
 
 class FilterRangePriceCell: UICollectionViewCell, ReusableCell, FilterCell {
@@ -92,8 +94,8 @@ class FilterRangePriceCell: UICollectionViewCell, ReusableCell, FilterCell {
         
         textFieldFrom.delegate = self
         textFieldTo.delegate = self
-        textFieldFrom.tag = TextFieldPriceType.priceFrom.rawValue
-        textFieldTo.tag = TextFieldPriceType.priceTo.rawValue
+        textFieldFrom.tag = TextFieldNumberType.priceFrom.rawValue
+        textFieldTo.tag = TextFieldNumberType.priceTo.rawValue
     }
     
     private func resetUI() {
@@ -104,11 +106,11 @@ class FilterRangePriceCell: UICollectionViewCell, ReusableCell, FilterCell {
     }
     
     private func setAccessibilityIds() {
-        accessibilityId =  .filterPriceCell
-        titleLabelFrom.accessibilityId =  .filterPriceCellTitleLabelFrom
-        titleLabelTo.accessibilityId =  .filterPriceCellTitleLabelTo
-        textFieldFrom.accessibilityId =  .filterPriceCellTextFieldFrom
-        textFieldTo.accessibilityId =  .filterPriceCellTextFieldTo
+        accessibilityId =  .filterTextFieldIntCell
+        titleLabelFrom.accessibilityId =  .filterTextFieldIntCellTitleLabelFrom
+        titleLabelTo.accessibilityId =  .filterTextFieldIntCellTitleLabelTo
+        textFieldFrom.accessibilityId =  .filterTextFieldIntCellTextFieldFrom
+        textFieldTo.accessibilityId =  .filterTextFieldIntCellTextFieldTo
     }
 }
 

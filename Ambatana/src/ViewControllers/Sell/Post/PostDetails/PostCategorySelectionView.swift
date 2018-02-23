@@ -10,15 +10,18 @@ import LGCoreKit
 import RxSwift
 import UIKit
 
-enum PostCategory {
-    case car, unassigned, motorsAndAccessories, realEstate
+enum PostCategory: Equatable {
+    case car
+    case otherItems(listingCategory: ListingCategory?)
+    case motorsAndAccessories
+    case realEstate
     
     var listingCategory: ListingCategory {
         switch self {
         case .car:
             return .cars
-        case .unassigned:
-            return .unassigned
+        case .otherItems(let category):
+            return category ?? .unassigned
         case .motorsAndAccessories:
             return .motorsAndAccessories
         case .realEstate:
@@ -27,7 +30,9 @@ enum PostCategory {
     }
     
     static func categoriesAvailable(realEstateEnabled: Bool) -> [PostCategory] {
-        return realEstateEnabled ? [.car, PostCategory.realEstate, PostCategory.motorsAndAccessories, PostCategory.unassigned] : [PostCategory.car, PostCategory.motorsAndAccessories, PostCategory.unassigned]
+        return realEstateEnabled ?
+            [.car, PostCategory.realEstate, PostCategory.motorsAndAccessories, PostCategory.otherItems(listingCategory: nil)] :
+            [PostCategory.car, PostCategory.motorsAndAccessories, PostCategory.otherItems(listingCategory: nil)]
     }
     
     func numberOfSteps(shouldShowPrice: Bool, postingFlowType: PostingFlowType) -> CGFloat {
@@ -37,7 +42,7 @@ enum PostCategory {
             return baseSteps(postingFlowType: postingFlowType) - delta
         case .realEstate:
             return baseSteps(postingFlowType: postingFlowType) - delta
-        case .unassigned, .motorsAndAccessories:
+        case .otherItems, .motorsAndAccessories:
             return baseSteps(postingFlowType: postingFlowType)
         }
     }
@@ -48,9 +53,20 @@ enum PostCategory {
             return 3
         case .realEstate:
             return postingFlowType == .standard ? 5 : 6
-        case .unassigned, .motorsAndAccessories:
+        case .otherItems, .motorsAndAccessories:
             return 0
         }
+    }
+}
+
+func ==(lhs: PostCategory, rhs: PostCategory) -> Bool {
+    switch (lhs, rhs) {
+    case (.car, .car), (.motorsAndAccessories, .motorsAndAccessories), (.realEstate, .realEstate):
+        return true
+    case (.otherItems(_), .otherItems(_)):
+        return true
+    default:
+        return false
     }
 }
 
@@ -129,11 +145,11 @@ fileprivate extension PostCategorySelectionView {
                           title: LGLocalizedString.productPostSelectCategoryCars,
                           image: #imageLiteral(resourceName: "categories_cars_inactive"),
                           postCategoryLink: .car)
-            case .unassigned:
+            case .otherItems:
                 addButton(button: otherCategoryButton,
                           title: LGLocalizedString.productPostSelectCategoryOther,
                           image: #imageLiteral(resourceName: "categories_other_items"),
-                          postCategoryLink: .unassigned)
+                          postCategoryLink: .otherItems(listingCategory: nil))
             case .motorsAndAccessories:
                 addButton(button: motorsAndAccessoriesButton,
                           title: LGLocalizedString.productPostSelectCategoryMotorsAndAccessories,

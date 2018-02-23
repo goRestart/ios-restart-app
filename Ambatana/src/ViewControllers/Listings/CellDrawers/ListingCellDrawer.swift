@@ -17,22 +17,17 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
             cell.setupBackgroundColor(id: id)
         }
         if let thumbURL = model.thumbUrl {
-            cell.setupImageUrl(thumbURL)
+            cell.setupImageUrl(thumbURL, imageSize: model.imageSize)
         }
         if model.isFeatured {
-            cell.setupFeaturedStripe(withTextColor: model.featuredShouldShowChatButton ? UIColor.blackText : UIColor.red)
-            if style == .mainList, model.featuredShouldShowChatButton {
+            cell.setupFeaturedStripe(withTextColor: UIColor.blackText)
+            if style == .mainList {
                 cell.setupFeaturedListingInfoWith(price: model.price, title: model.title, isMine: model.isMine)
-            } else {
-                cell.updateInfoViewHeightToZero()
             }
         } else if model.shouldShowPrice {
             cell.setupPriceView(price: model.price)
-        } else {
-            cell.updateInfoViewHeightToZero()
-            if model.isFree {
-                cell.setupFreeStripe()
-            }
+        } else if model.isFree {
+            cell.setupFreeStripe()
         }
     }
 

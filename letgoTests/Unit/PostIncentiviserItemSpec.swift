@@ -28,7 +28,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        expect($0.searchCount(date)).notTo(beNil())
+                        expect($0.searchCount).notTo(beNil())
                     }
                 }
             }
@@ -38,7 +38,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        expect($0.searchCount(date)).notTo(beNil())
+                        expect($0.searchCount).notTo(beNil())
                     }
                 }
             }
@@ -48,7 +48,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        expect($0.searchCount(date)).notTo(beNil())
+                        expect($0.searchCount).notTo(beNil())
                     }
                 }
             }
@@ -58,7 +58,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        expect($0.searchCount(date)).notTo(beNil())
+                        expect($0.searchCount).notTo(beNil())
                     }
                 }
             }
@@ -68,7 +68,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        expect($0.searchCount(date)).notTo(beNil())
+                        expect($0.searchCount).notTo(beNil())
                     }
                 }
             }
@@ -78,7 +78,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        expect($0.searchCount(date)).notTo(beNil())
+                        expect($0.searchCount).notTo(beNil())
                     }
                 }
             }
@@ -88,7 +88,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        expect($0.searchCount(date)).notTo(beNil())
+                        expect($0.searchCount).notTo(beNil())
                     }
                 }
             }
@@ -98,7 +98,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        expect($0.searchCount(date)).notTo(beNil())
+                        expect($0.searchCount).notTo(beNil())
                     }
                 }
             }
@@ -108,7 +108,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        expect($0.searchCount(date)).notTo(beNil())
+                        expect($0.searchCount).notTo(beNil())
                     }
                 }
             }
@@ -118,7 +118,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        expect($0.searchCount(date)).notTo(beNil())
+                        expect($0.searchCount).notTo(beNil())
                     }
                 }
             }
@@ -128,7 +128,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        expect($0.searchCount(date)).notTo(beNil())
+                        expect($0.searchCount).notTo(beNil())
                     }
                 }
             }
@@ -138,7 +138,7 @@ class PostIncentiviserItemSpec: QuickSpec {
                 }
                 it("Gives values for all items") {
                     sut.forEach {
-                        expect($0.searchCount(date)).notTo(beNil())
+                        expect($0.searchCount).notTo(beNil())
                     }
                 }
             }

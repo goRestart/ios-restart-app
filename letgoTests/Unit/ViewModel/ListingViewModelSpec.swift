@@ -124,6 +124,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 context("buyer selection enabled newMarkAsSoldFlow") {
                     context("allow calling dealers test disabled") {
                         beforeEach {
+                            featureFlags.allowCallsForProfessionals = .inactive
                             let userListing = MockUserListing.makeMock()
                             listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
                             buildListingViewModel()
@@ -155,7 +156,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                     }
                     context("allow calling dealers test enabled") {
                         beforeEach {
-                            featureFlags.allowCallsForProfessionals = .active
+                            featureFlags.allowCallsForProfessionals = .control
                             let userListing = MockUserListing.makeMock()
                             listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
                             buildListingViewModel()
@@ -434,7 +435,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
 
             describe ("check user type") {
                 beforeEach {
-                    featureFlags.allowCallsForProfessionals = .active
+                    featureFlags.allowCallsForProfessionals = .control
                 }
                 context ("User is professional and has a phone number") {
                     beforeEach {
@@ -891,7 +892,7 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     func editListing(_ listing: Listing) {
 
     }
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage) {
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) {
 
     }
     func closeListingAfterDelete(_ listing: Listing) {

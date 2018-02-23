@@ -239,14 +239,14 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
              return false
         }
 
-        let cleanReplacement = string.stringByRemovingEmoji()
+        let cleanReplacement = string.removingEmoji()
 
         let text = textField.textReplacingCharactersInRange(range, replacementString: cleanReplacement)
         if let tag = TextFieldTag(rawValue: textField.tag) {
             switch (tag) {
             case .listingTitle:
                 viewModel.title = text.isEmpty ? nil : text
-                if string.hasEmojis() {
+                if string.containsEmoji {
                     //Forcing the new text (without emojis) by returning false
                     textField.text = text
                     return false
@@ -291,10 +291,10 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if let textViewText = textView.text {
-            let cleanReplacement = text.stringByRemovingEmoji()
+            let cleanReplacement = text.removingEmoji()
             let finalText = (textViewText as NSString).replacingCharacters(in: range, with: cleanReplacement)
             viewModel.descr = finalText.isEmpty ? nil : finalText
-            if text.hasEmojis() {
+            if text.containsEmoji {
                 //Forcing the new text (without emojis) by returning false
                 textView.text = finalText
                 return false
@@ -315,7 +315,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SellListingCell.reusableID,
                 for: indexPath) as? SellListingCell else { return UICollectionViewCell() }
-            cell.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+            cell.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
             if indexPath.item < viewModel.numberOfImages {
                 cell.setupCellWithImageType(viewModel.imageAtIndex(indexPath.item))
                 cell.label.text = ""
@@ -459,7 +459,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         self.navigationItem.leftBarButtonItem = closeButton;
         
         separatorContainerViewsConstraints.forEach { $0.constant = EditListingViewController.separatorOptionsViewDistance }
-        containerEditOptionsView.layer.cornerRadius = LGUIKitConstants.containerCornerRadius
+        containerEditOptionsView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
         updateButtonBottomConstraint.constant = 0
         
         titleTextField.placeholder = LGLocalizedString.sellTitleFieldHint

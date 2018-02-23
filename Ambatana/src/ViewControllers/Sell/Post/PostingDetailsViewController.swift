@@ -128,13 +128,14 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         view.addSubview(contentView)
         contentView.layout(with: titleLabel).below(by: Metrics.bigMargin)
         contentView.layout(with: view).fillHorizontal(by: Metrics.veryShortMargin)
+        contentView.layout(with: view).bottom()
         
         
         infoView = viewModel.makeContentView(viewControllerDelegate: self)
         infoView?.setupContainerView(view: contentView)
         
         view.addSubview(buttonNext)
-        buttonNext.layout(with: contentView).below(by: Metrics.bigMargin)
+        buttonNext.layout(with: view).bottom(by: -Metrics.margin)
         buttonNext.layout().height(PostingDetailsViewController.skipButtonHeight)
         buttonNext.layout().width(PostingDetailsViewController.skipButtonMinimumWidth, relatedBy: .greaterThanOrEqual)
         if viewModel.shouldFollowKeyboard {

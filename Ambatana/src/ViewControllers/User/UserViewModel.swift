@@ -70,6 +70,9 @@ class UserViewModel: BaseViewModel {
     let userLocation = Variable<String?>(nil)
     let userAccounts = Variable<UserViewHeaderAccounts?>(nil)
     let pushPermissionsDisabledWarning = Variable<Bool?>(nil)
+    var isMostSearchedItemsEnabled: Bool {
+        return featureFlags.mostSearchedDemandedItems.isActive
+    }
     
     let listingListViewModel: Variable<ListingListViewModel>
     
@@ -353,6 +356,10 @@ extension UserViewModel {
                                        alertType: .iconAlert(icon: UIImage(named: "custom_permission_profile")),
                                        actions: [negative, positive])
     }
+    
+    func openMostSearchedItems() {
+        navigator?.openMostSearchedItems(source: .mostSearchedUserProfile, enableSearch: false)
+    }
 }
 
 
@@ -598,8 +605,7 @@ extension UserViewModel: ListingListViewModelDataDelegate {
                        error: RepositoryError) {
         guard page == 0 && !hasListings else { return }
         
-        if var emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
-                                                                           action: { [weak viewModel] in viewModel?.refresh() }) {
+        if var emptyViewModel = LGEmptyViewModel.map(from: error, action: { [weak viewModel] in viewModel?.refresh() }) {
             emptyViewModel.icon = nil
             viewModel.setErrorState(emptyViewModel)
         }
@@ -647,6 +653,7 @@ extension UserViewModel: ListingListViewModelDataDelegate {
     func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] { return listings }
     func vmDidSelectSellBanner(_ type: String) {}
     func vmDidSelectCollection(_ type: CollectionCellType) {}
+    func vmDidSelectMostSearchedItems() {}
 }
 
 
