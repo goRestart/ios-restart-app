@@ -11,12 +11,14 @@
 		1C05A2092040B4F5007DB1DA /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C93E0EC2040B4990029AD2B /* SnapKit.framework */; };
 		1C05A2132040B542007DB1DA /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C05A2142040B542007DB1DA /* UI.framework */; };
 		1C05A2152040B546007DB1DA /* Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C05A2162040B546007DB1DA /* Search.framework */; };
+		1C05A2192040B5EB007DB1DA /* ProductSelectorViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C05A2182040B5EB007DB1DA /* ProductSelectorViewModelType.swift */; };
 		1C93E0E22040B33D0029AD2B /* Listing.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C93E0E02040B33D0029AD2B /* Listing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1C05A2142040B542007DB1DA /* UI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C05A2162040B546007DB1DA /* Search.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Search.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C05A2182040B5EB007DB1DA /* ProductSelectorViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSelectorViewModelType.swift; sourceTree = "<group>"; };
 		1C93E0DD2040B33D0029AD2B /* Listing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Listing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C93E0E02040B33D0029AD2B /* Listing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Listing.h; sourceTree = "<group>"; };
 		1C93E0E12040B33D0029AD2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -39,6 +41,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C05A2172040B5A1007DB1DA /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				1C05A2182040B5EB007DB1DA /* ProductSelectorViewModelType.swift */,
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
 		1C93E0D32040B33D0029AD2B = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +95,7 @@
 		1C93E0EA2040B4280029AD2B /* Product Selector */ = {
 			isa = PBXGroup;
 			children = (
+				1C05A2172040B5A1007DB1DA /* View Model */,
 			);
 			path = "Product Selector";
 			sourceTree = "<group>";
@@ -143,6 +154,7 @@
 				TargetAttributes = {
 					1C93E0DC2040B33D0029AD2B = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -179,6 +191,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C05A2192040B5EB007DB1DA /* ProductSelectorViewModelType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +314,7 @@
 		1C93E0E62040B33D0029AD2B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -315,6 +329,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = in.skydev.Listing;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				SYSTEM_FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../../../../Carthage/Build/iOS\"";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -324,6 +339,7 @@
 		1C93E0E72040B33D0029AD2B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
