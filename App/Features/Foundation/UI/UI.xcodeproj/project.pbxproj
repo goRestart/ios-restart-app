@@ -484,6 +484,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/../../../../Carthage/Build/iOS/SnapKit.framework",
+				"$(SRCROOT)/../../../../Carthage/Build/iOS/RxSwift.framework",
 			);
 			name = "[Carthage] - Copy frameworks";
 			outputPaths = (
