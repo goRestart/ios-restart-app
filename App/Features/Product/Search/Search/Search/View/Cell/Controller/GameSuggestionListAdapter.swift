@@ -1,7 +1,13 @@
+import Domain
 import IGListKit
 
+protocol GameSuggestionListAdapterDelegate: class {
+  func didSelectGameSuggestion(with id: Identifier<Game>)
+}
+
 final class GameSuggestionListAdapter: NSObject, ListAdapterDataSource {
-  
+
+  weak var delegate: GameSuggestionListAdapterDelegate?
   var suggestions = [GameSuggestionViewRender]()
 
   func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
@@ -10,10 +16,19 @@ final class GameSuggestionListAdapter: NSObject, ListAdapterDataSource {
   
   func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
     guard let object = object as? GameSuggestionViewRender else { fatalError() }
-    return GameSuggestionSectionController(suggestion: object)
+    let controller = GameSuggestionSectionController(suggestion: object)
+    controller.delegate = self
+    return controller
   }
   
   func emptyView(for listAdapter: ListAdapter) -> UIView? {
     return nil
   }
 }
+
+extension GameSuggestionListAdapter: GameSuggestionSectionControllerDelegate {
+  func didSelectGameSuggestion(with id: Identifier<Game>) {
+    delegate?.didSelectGameSuggestion(with: id)
+  }
+}
+

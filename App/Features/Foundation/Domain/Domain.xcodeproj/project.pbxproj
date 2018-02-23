@@ -21,7 +21,6 @@
 		1C89D6F61FF3CF3A00B3FA98 /* AuthenticateUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6EF1FF3CF3A00B3FA98 /* AuthenticateUseCase.swift */; };
 		1C89D6F81FF3CF3A00B3FA98 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6F41FF3CF3A00B3FA98 /* AuthError.swift */; };
 		1C89D6F91FF3CF3A00B3FA98 /* BasicCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D6F51FF3CF3A00B3FA98 /* BasicCredentials.swift */; };
-		1C89D7091FF3D3AA00B3FA98 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7081FF3D3AA00B3FA98 /* RxSwift.framework */; };
 		1C93E0CB2040AD300029AD2B /* ProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93E0CA2040AD300029AD2B /* ProductRequest.swift */; };
 		1C93E0D02040AE250029AD2B /* Price.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C93E0CF2040AE250029AD2B /* Price.swift */; };
 		1CB6494C2009C65F009B7CC1 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CB6494B2009C65F009B7CC1 /* Image.swift */; };
@@ -59,7 +58,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C89D7091FF3D3AA00B3FA98 /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +322,7 @@
 			);
 			name = "[Carthage] - Copy frameworks";
 			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/RxSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
