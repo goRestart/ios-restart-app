@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1C1D227B1FFEC2C200BC0316 /* EmailValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C1D227A1FFEC2C200BC0316 /* EmailValidator.swift */; };
 		1C89D72E1FF3D7C500B3FA98 /* ObservableType+Completable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C89D72D1FF3D7C500B3FA98 /* ObservableType+Completable.swift */; };
-		1C89D7311FF3D7FA00B3FA98 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C89D7301FF3D7FA00B3FA98 /* RxSwift.framework */; };
 		1C913A5D1FF2C1C700646884 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C913A4F1FF2C1C700646884 /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1CACCE751FF2D37F0001B321 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACCE741FF2D37F0001B321 /* Mappable.swift */; };
 		1CACDA671FF7200A00538B78 /* String+Trim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACDA661FF7200A00538B78 /* String+Trim.swift */; };
@@ -33,7 +32,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C89D7311FF3D7FA00B3FA98 /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +245,7 @@
 			);
 			name = "[Carthage] - Copy frameworks";
 			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/RxSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

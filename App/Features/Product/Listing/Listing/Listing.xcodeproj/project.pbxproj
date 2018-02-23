@@ -13,7 +13,13 @@
 		1C05A2152040B546007DB1DA /* Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C05A2162040B546007DB1DA /* Search.framework */; };
 		1C05A2192040B5EB007DB1DA /* ProductSelectorViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C05A2182040B5EB007DB1DA /* ProductSelectorViewModelType.swift */; };
 		1C05A21B2040B879007DB1DA /* ProductSelectorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C05A21A2040B879007DB1DA /* ProductSelectorViewModel.swift */; };
+		1C05A21F2040BA20007DB1DA /* ProductSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C05A21E2040BA20007DB1DA /* ProductSelectorViewController.swift */; };
+		1C05A2212040BA51007DB1DA /* ProductSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C05A2202040BA51007DB1DA /* ProductSelectorView.swift */; };
 		1C93E0E22040B33D0029AD2B /* Listing.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C93E0E02040B33D0029AD2B /* Listing.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1CC5A6142040D0B20082BE80 /* Assembly+ProductSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC5A6132040D0B20082BE80 /* Assembly+ProductSelector.swift */; };
+		1CC5A6192040D2DB0082BE80 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC5A6182040D2DB0082BE80 /* Table.swift */; };
+		1CC5A61A2040D3540082BE80 /* ProductSelector.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1CC5A61C2040D3540082BE80 /* ProductSelector.strings */; };
+		1CC8412E2040DE7000FD0228 /* Bundle+Framework.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC8412D2040DE7000FD0228 /* Bundle+Framework.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,11 +27,17 @@
 		1C05A2162040B546007DB1DA /* Search.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Search.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C05A2182040B5EB007DB1DA /* ProductSelectorViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSelectorViewModelType.swift; sourceTree = "<group>"; };
 		1C05A21A2040B879007DB1DA /* ProductSelectorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSelectorViewModel.swift; sourceTree = "<group>"; };
+		1C05A21E2040BA20007DB1DA /* ProductSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSelectorViewController.swift; sourceTree = "<group>"; };
+		1C05A2202040BA51007DB1DA /* ProductSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSelectorView.swift; sourceTree = "<group>"; };
 		1C93E0DD2040B33D0029AD2B /* Listing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Listing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C93E0E02040B33D0029AD2B /* Listing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Listing.h; sourceTree = "<group>"; };
 		1C93E0E12040B33D0029AD2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C93E0EC2040B4990029AD2B /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = ../../../../../Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		1C93E0ED2040B4990029AD2B /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../../../../Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
+		1CC5A6132040D0B20082BE80 /* Assembly+ProductSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+ProductSelector.swift"; sourceTree = "<group>"; };
+		1CC5A6182040D2DB0082BE80 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
+		1CC5A61B2040D3540082BE80 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductSelector.strings; sourceTree = "<group>"; };
+		1CC8412D2040DE7000FD0228 /* Bundle+Framework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Framework.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +64,23 @@
 			path = "View Model";
 			sourceTree = "<group>";
 		};
+		1C05A21C2040BA0A007DB1DA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1C05A21D2040BA13007DB1DA /* View Controller */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1C05A21D2040BA13007DB1DA /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1C05A21E2040BA20007DB1DA /* ProductSelectorViewController.swift */,
+				1C05A2202040BA51007DB1DA /* ProductSelectorView.swift */,
+			);
+			path = "View Controller";
+			sourceTree = "<group>";
+		};
 		1C93E0D32040B33D0029AD2B = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				1C93E0E92040B40C0029AD2B /* Publish */,
+				1CC5A6112040D09C0082BE80 /* Infrastructure */,
 				1C93E0E82040B34B0029AD2B /* Resources */,
 			);
 			path = Listing;
@@ -81,6 +111,7 @@
 		1C93E0E82040B34B0029AD2B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1CC5A6152040D2BF0082BE80 /* Languages */,
 				1C93E0E02040B33D0029AD2B /* Listing.h */,
 				1C93E0E12040B33D0029AD2B /* Info.plist */,
 			);
@@ -98,6 +129,7 @@
 		1C93E0EA2040B4280029AD2B /* Product Selector */ = {
 			isa = PBXGroup;
 			children = (
+				1C05A21C2040BA0A007DB1DA /* View */,
 				1C05A2172040B5A1007DB1DA /* View Model */,
 			);
 			path = "Product Selector";
@@ -112,6 +144,48 @@
 				1C93E0EC2040B4990029AD2B /* SnapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1CC5A6112040D09C0082BE80 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				1CC5A6122040D0A40082BE80 /* Assembly */,
+				1CC8412B2040DE5F00FD0228 /* Extension */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		1CC5A6122040D0A40082BE80 /* Assembly */ = {
+			isa = PBXGroup;
+			children = (
+				1CC5A6132040D0B20082BE80 /* Assembly+ProductSelector.swift */,
+			);
+			path = Assembly;
+			sourceTree = "<group>";
+		};
+		1CC5A6152040D2BF0082BE80 /* Languages */ = {
+			isa = PBXGroup;
+			children = (
+				1CC5A61C2040D3540082BE80 /* ProductSelector.strings */,
+				1CC5A6182040D2DB0082BE80 /* Table.swift */,
+			);
+			path = Languages;
+			sourceTree = "<group>";
+		};
+		1CC8412B2040DE5F00FD0228 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				1CC8412C2040DE6700FD0228 /* Bundle */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		1CC8412C2040DE6700FD0228 /* Bundle */ = {
+			isa = PBXGroup;
+			children = (
+				1CC8412D2040DE7000FD0228 /* Bundle+Framework.swift */,
+			);
+			path = Bundle;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,6 +258,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CC5A61A2040D3540082BE80 /* ProductSelector.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,12 +269,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CC5A6192040D2DB0082BE80 /* Table.swift in Sources */,
 				1C05A2192040B5EB007DB1DA /* ProductSelectorViewModelType.swift in Sources */,
+				1CC8412E2040DE7000FD0228 /* Bundle+Framework.swift in Sources */,
+				1C05A2212040BA51007DB1DA /* ProductSelectorView.swift in Sources */,
 				1C05A21B2040B879007DB1DA /* ProductSelectorViewModel.swift in Sources */,
+				1C05A21F2040BA20007DB1DA /* ProductSelectorViewController.swift in Sources */,
+				1CC5A6142040D0B20082BE80 /* Assembly+ProductSelector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		1CC5A61C2040D3540082BE80 /* ProductSelector.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1CC5A61B2040D3540082BE80 /* en */,
+			);
+			name = ProductSelector.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1C93E0E32040B33D0029AD2B /* Debug */ = {
@@ -251,7 +342,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -305,7 +396,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
