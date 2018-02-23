@@ -102,6 +102,7 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
         
         sizeTextField.rx.text.asObservable().subscribeNext { [weak self] (text) in
             guard let strongSelf = self else { return }
+            strongSelf.sizeTextField.sizeToFit()
             if let text = text, !text.isEmpty {
                 strongSelf.sizeTextField.attributedPlaceholder = nil
             } else {
@@ -118,7 +119,6 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
         guard textField == sizeTextField else { return true }
         guard let text = textField.text else { return true }
         guard text.count + string.count - range.length <= PostingAddDetailSizeView.maxLengthSize else { return false }
-        textField.sizeToFit()
         return true
     }
     
