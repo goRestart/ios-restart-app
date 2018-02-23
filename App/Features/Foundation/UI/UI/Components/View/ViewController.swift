@@ -9,7 +9,5 @@ open class ViewController: UIViewController {
     bindViewModel()
   }
   
-  open func bindViewModel() {
-    fatalError("You should bind view model on your view controller")
-  }
+  open func bindViewModel() {}
 }
