@@ -12,6 +12,7 @@
 		1C05A2132040B542007DB1DA /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C05A2142040B542007DB1DA /* UI.framework */; };
 		1C05A2152040B546007DB1DA /* Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C05A2162040B546007DB1DA /* Search.framework */; };
 		1C05A2192040B5EB007DB1DA /* ProductSelectorViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C05A2182040B5EB007DB1DA /* ProductSelectorViewModelType.swift */; };
+		1C05A21B2040B879007DB1DA /* ProductSelectorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C05A21A2040B879007DB1DA /* ProductSelectorViewModel.swift */; };
 		1C93E0E22040B33D0029AD2B /* Listing.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C93E0E02040B33D0029AD2B /* Listing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -19,6 +20,7 @@
 		1C05A2142040B542007DB1DA /* UI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = UI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C05A2162040B546007DB1DA /* Search.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Search.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C05A2182040B5EB007DB1DA /* ProductSelectorViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSelectorViewModelType.swift; sourceTree = "<group>"; };
+		1C05A21A2040B879007DB1DA /* ProductSelectorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSelectorViewModel.swift; sourceTree = "<group>"; };
 		1C93E0DD2040B33D0029AD2B /* Listing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Listing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C93E0E02040B33D0029AD2B /* Listing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Listing.h; sourceTree = "<group>"; };
 		1C93E0E12040B33D0029AD2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,6 +47,7 @@
 			isa = PBXGroup;
 			children = (
 				1C05A2182040B5EB007DB1DA /* ProductSelectorViewModelType.swift */,
+				1C05A21A2040B879007DB1DA /* ProductSelectorViewModel.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C05A2192040B5EB007DB1DA /* ProductSelectorViewModelType.swift in Sources */,
+				1C05A21B2040B879007DB1DA /* ProductSelectorViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
