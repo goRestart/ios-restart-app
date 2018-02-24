@@ -5,7 +5,7 @@ protocol ProductPriceViewModelInput {
 }
 
 protocol ProductPriceViewModelOutput {
-  var description: BehaviorSubject<String> { get }
+  var price: BehaviorSubject<String> { get }
   var nextStepEnabled: Observable<Bool> { get }
 }
 
