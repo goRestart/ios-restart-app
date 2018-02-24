@@ -10,7 +10,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions  launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     window = UIWindow(frame: UIScreen.main.bounds)
 
-//    let viewController = resolver.productSelector
+//    let viewController = resolver.productPrice
 //    let navigationController = UINavigationController(rootViewController: viewController)
 //    window?.rootViewController = navigationController
     window?.makeKeyAndVisible()
