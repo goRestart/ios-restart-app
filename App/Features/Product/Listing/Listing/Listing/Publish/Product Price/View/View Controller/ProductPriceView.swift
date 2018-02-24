@@ -1,8 +1,4 @@
 import UI
-import Search
-import SnapKit
-import Core
-import Domain
 
 final class ProductPriceView: View {
 
