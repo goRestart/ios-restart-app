@@ -16,6 +16,7 @@
 		1C05A21F2040BA20007DB1DA /* ProductSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C05A21E2040BA20007DB1DA /* ProductSelectorViewController.swift */; };
 		1C05A2212040BA51007DB1DA /* ProductSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C05A2202040BA51007DB1DA /* ProductSelectorView.swift */; };
 		1C93E0E22040B33D0029AD2B /* Listing.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C93E0E02040B33D0029AD2B /* Listing.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1CC119182041A8B500ED6369 /* ProductPriceViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119172041A8B500ED6369 /* ProductPriceViewModelType.swift */; };
 		1CC5A6142040D0B20082BE80 /* Assembly+ProductSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC5A6132040D0B20082BE80 /* Assembly+ProductSelector.swift */; };
 		1CC5A6192040D2DB0082BE80 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC5A6182040D2DB0082BE80 /* Table.swift */; };
 		1CC5A61A2040D3540082BE80 /* ProductSelector.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1CC5A61C2040D3540082BE80 /* ProductSelector.strings */; };
@@ -34,6 +35,7 @@
 		1C93E0E12040B33D0029AD2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C93E0EC2040B4990029AD2B /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = ../../../../../Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		1C93E0ED2040B4990029AD2B /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../../../../Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
+		1CC119172041A8B500ED6369 /* ProductPriceViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPriceViewModelType.swift; sourceTree = "<group>"; };
 		1CC5A6132040D0B20082BE80 /* Assembly+ProductSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+ProductSelector.swift"; sourceTree = "<group>"; };
 		1CC5A6182040D2DB0082BE80 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		1CC5A61B2040D3540082BE80 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductSelector.strings; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				1C93E0EA2040B4280029AD2B /* Product Selector */,
+				1CC119152041A81500ED6369 /* Product Price */,
 			);
 			path = Publish;
 			sourceTree = "<group>";
@@ -144,6 +147,22 @@
 				1C93E0EC2040B4990029AD2B /* SnapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1CC119152041A81500ED6369 /* Product Price */ = {
+			isa = PBXGroup;
+			children = (
+				1CC119162041A8A400ED6369 /* View Model */,
+			);
+			path = "Product Price";
+			sourceTree = "<group>";
+		};
+		1CC119162041A8A400ED6369 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				1CC119172041A8B500ED6369 /* ProductPriceViewModelType.swift */,
+			);
+			path = "View Model";
 			sourceTree = "<group>";
 		};
 		1CC5A6112040D09C0082BE80 /* Infrastructure */ = {
@@ -273,6 +292,7 @@
 				1C05A2192040B5EB007DB1DA /* ProductSelectorViewModelType.swift in Sources */,
 				1CC8412E2040DE7000FD0228 /* Bundle+Framework.swift in Sources */,
 				1C05A2212040BA51007DB1DA /* ProductSelectorView.swift in Sources */,
+				1CC119182041A8B500ED6369 /* ProductPriceViewModelType.swift in Sources */,
 				1C05A21B2040B879007DB1DA /* ProductSelectorViewModel.swift in Sources */,
 				1C05A21F2040BA20007DB1DA /* ProductSelectorViewController.swift in Sources */,
 				1CC5A6142040D0B20082BE80 /* Assembly+ProductSelector.swift in Sources */,
