@@ -1,6 +1,6 @@
 import UI
 
-public final class ProductDescriptionViewController: ViewController {
+final class ProductDescriptionViewController: ViewController {
 
   private let productDescriptionView = ProductDescriptionView()
   private let viewBinder: ProductDescriptionViewBinder
