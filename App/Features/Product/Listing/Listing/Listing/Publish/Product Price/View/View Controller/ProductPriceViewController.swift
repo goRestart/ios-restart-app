@@ -2,7 +2,7 @@ import UI
 import Domain
 import RxSwift
 
-public final class ProductPriceViewController: ViewController {
+final class ProductPriceViewController: ViewController {
 
   private let productPriceView = ProductPriceView()
   private let viewBinder: ProductPriceViewBinder

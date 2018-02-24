@@ -18,6 +18,12 @@
 		1C93E0E22040B33D0029AD2B /* Listing.h in Headers */ = {isa = PBXBuildFile; fileRef = 1C93E0E02040B33D0029AD2B /* Listing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1CC119182041A8B500ED6369 /* ProductPriceViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119172041A8B500ED6369 /* ProductPriceViewModelType.swift */; };
 		1CC1191A2041AA7F00ED6369 /* ProductPriceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119192041AA7F00ED6369 /* ProductPriceViewModel.swift */; };
+		1CC1191E2041ADEA00ED6369 /* ProductPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC1191D2041ADEA00ED6369 /* ProductPriceView.swift */; };
+		1CC119212041AE7600ED6369 /* ProductPrice.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1CC119232041AE7600ED6369 /* ProductPrice.strings */; };
+		1CC119252041C42100ED6369 /* ProductPriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119242041C42100ED6369 /* ProductPriceViewController.swift */; };
+		1CC119272041C4B000ED6369 /* ProductPriceViewBinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119262041C4B000ED6369 /* ProductPriceViewBinder.swift */; };
+		1CC119292041C62100ED6369 /* Assembly+ProductPrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC119282041C62100ED6369 /* Assembly+ProductPrice.swift */; };
+		1CC1192C2041C9E000ED6369 /* String+Floatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC1192B2041C9E000ED6369 /* String+Floatable.swift */; };
 		1CC5A6142040D0B20082BE80 /* Assembly+ProductSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC5A6132040D0B20082BE80 /* Assembly+ProductSelector.swift */; };
 		1CC5A6192040D2DB0082BE80 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC5A6182040D2DB0082BE80 /* Table.swift */; };
 		1CC5A61A2040D3540082BE80 /* ProductSelector.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1CC5A61C2040D3540082BE80 /* ProductSelector.strings */; };
@@ -38,6 +44,12 @@
 		1C93E0ED2040B4990029AD2B /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../../../../Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		1CC119172041A8B500ED6369 /* ProductPriceViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPriceViewModelType.swift; sourceTree = "<group>"; };
 		1CC119192041AA7F00ED6369 /* ProductPriceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPriceViewModel.swift; sourceTree = "<group>"; };
+		1CC1191D2041ADEA00ED6369 /* ProductPriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPriceView.swift; sourceTree = "<group>"; };
+		1CC119222041AE7600ED6369 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductPrice.strings; sourceTree = "<group>"; };
+		1CC119242041C42100ED6369 /* ProductPriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPriceViewController.swift; sourceTree = "<group>"; };
+		1CC119262041C4B000ED6369 /* ProductPriceViewBinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductPriceViewBinder.swift; sourceTree = "<group>"; };
+		1CC119282041C62100ED6369 /* Assembly+ProductPrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+ProductPrice.swift"; sourceTree = "<group>"; };
+		1CC1192B2041C9E000ED6369 /* String+Floatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Floatable.swift"; sourceTree = "<group>"; };
 		1CC5A6132040D0B20082BE80 /* Assembly+ProductSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Assembly+ProductSelector.swift"; sourceTree = "<group>"; };
 		1CC5A6182040D2DB0082BE80 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		1CC5A61B2040D3540082BE80 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ProductSelector.strings; sourceTree = "<group>"; };
@@ -154,6 +166,7 @@
 		1CC119152041A81500ED6369 /* Product Price */ = {
 			isa = PBXGroup;
 			children = (
+				1CC1191B2041ADD000ED6369 /* View */,
 				1CC119162041A8A400ED6369 /* View Model */,
 			);
 			path = "Product Price";
@@ -166,6 +179,32 @@
 				1CC119192041AA7F00ED6369 /* ProductPriceViewModel.swift */,
 			);
 			path = "View Model";
+			sourceTree = "<group>";
+		};
+		1CC1191B2041ADD000ED6369 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1CC1191C2041ADD800ED6369 /* View Controller */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1CC1191C2041ADD800ED6369 /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1CC119242041C42100ED6369 /* ProductPriceViewController.swift */,
+				1CC119262041C4B000ED6369 /* ProductPriceViewBinder.swift */,
+				1CC1191D2041ADEA00ED6369 /* ProductPriceView.swift */,
+			);
+			path = "View Controller";
+			sourceTree = "<group>";
+		};
+		1CC1192A2041C9D400ED6369 /* String */ = {
+			isa = PBXGroup;
+			children = (
+				1CC1192B2041C9E000ED6369 /* String+Floatable.swift */,
+			);
+			path = String;
 			sourceTree = "<group>";
 		};
 		1CC5A6112040D09C0082BE80 /* Infrastructure */ = {
@@ -181,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				1CC5A6132040D0B20082BE80 /* Assembly+ProductSelector.swift */,
+				1CC119282041C62100ED6369 /* Assembly+ProductPrice.swift */,
 			);
 			path = Assembly;
 			sourceTree = "<group>";
@@ -188,6 +228,7 @@
 		1CC5A6152040D2BF0082BE80 /* Languages */ = {
 			isa = PBXGroup;
 			children = (
+				1CC119232041AE7600ED6369 /* ProductPrice.strings */,
 				1CC5A61C2040D3540082BE80 /* ProductSelector.strings */,
 				1CC5A6182040D2DB0082BE80 /* Table.swift */,
 			);
@@ -197,6 +238,7 @@
 		1CC8412B2040DE5F00FD0228 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				1CC1192A2041C9D400ED6369 /* String */,
 				1CC8412C2040DE6700FD0228 /* Bundle */,
 			);
 			path = Extension;
@@ -280,6 +322,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CC119212041AE7600ED6369 /* ProductPrice.strings in Resources */,
 				1CC5A61A2040D3540082BE80 /* ProductSelector.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -291,14 +334,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CC1191E2041ADEA00ED6369 /* ProductPriceView.swift in Sources */,
+				1CC119252041C42100ED6369 /* ProductPriceViewController.swift in Sources */,
 				1CC1191A2041AA7F00ED6369 /* ProductPriceViewModel.swift in Sources */,
 				1CC5A6192040D2DB0082BE80 /* Table.swift in Sources */,
 				1C05A2192040B5EB007DB1DA /* ProductSelectorViewModelType.swift in Sources */,
 				1CC8412E2040DE7000FD0228 /* Bundle+Framework.swift in Sources */,
+				1CC119272041C4B000ED6369 /* ProductPriceViewBinder.swift in Sources */,
 				1C05A2212040BA51007DB1DA /* ProductSelectorView.swift in Sources */,
 				1CC119182041A8B500ED6369 /* ProductPriceViewModelType.swift in Sources */,
 				1C05A21B2040B879007DB1DA /* ProductSelectorViewModel.swift in Sources */,
 				1C05A21F2040BA20007DB1DA /* ProductSelectorViewController.swift in Sources */,
+				1CC119292041C62100ED6369 /* Assembly+ProductPrice.swift in Sources */,
+				1CC1192C2041C9E000ED6369 /* String+Floatable.swift in Sources */,
 				1CC5A6142040D0B20082BE80 /* Assembly+ProductSelector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -306,6 +354,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		1CC119232041AE7600ED6369 /* ProductPrice.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1CC119222041AE7600ED6369 /* en */,
+			);
+			name = ProductPrice.strings;
+			sourceTree = "<group>";
+		};
 		1CC5A61C2040D3540082BE80 /* ProductSelector.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
