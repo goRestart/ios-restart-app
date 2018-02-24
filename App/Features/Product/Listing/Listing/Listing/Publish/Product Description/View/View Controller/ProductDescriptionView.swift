@@ -1,13 +1,12 @@
 import UI
 
-final class ProductPriceView: View {
+final class ProductDescriptionView: View {
 
   var inputTextField: UITextField = {
     let textField = UITextField()
-    textField.placeholder = Localize("product_price.price.input.placeholder", table: Table.productPrice, in: .framework)
+    textField.placeholder = Localize("product_description.input.placeholder", table: Table.productDescription, in: .framework)
     textField.font = .h2
     textField.textColor = .darkScript
-    textField.keyboardType = .decimalPad
     return textField
   }()
 

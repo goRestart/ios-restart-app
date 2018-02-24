@@ -1,6 +1,4 @@
 import UI
-import Domain
-import RxSwift
 
 final class ProductPriceViewController: ViewController {
 
