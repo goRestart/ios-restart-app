@@ -10,7 +10,9 @@ struct ProductPriceViewModel: ProductPriceViewModelType, ProductPriceViewModelIn
 
   var description = BehaviorSubject<String>(value: "")
   var nextStepEnabled: Observable<Bool> {
-    return description.map { !$0.trimmed.isEmpty }
+    return description
+      .map { $0.trimmed }
+      .map { !$0.isEmpty && $0.isFloatable }
   }
 
   // MARK: - Input
