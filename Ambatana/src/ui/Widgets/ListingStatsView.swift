@@ -113,7 +113,10 @@ class ListingStatsView: UIView {
         viewsStatsWidthConstraint.constant = viewsCount < Constants.minimumStatsCountToShow ? 0 : statsViewMaxWidth
 
         favouriteStatsLabel.text = favouritesCount > maxStatsDisplayedCount ? "+999" : String(favouritesCount)
+        favouriteStatsLabel.layer.add(CATransition(), forKey: kCATransition)
+
         viewsStatsLabel.text = viewsCount > maxStatsDisplayedCount ? "+999" : String(viewsCount)
+        viewsStatsLabel.layer.add(CATransition(), forKey: kCATransition)
 
         setupPostedTimeViewWithDate(postedDate)
 
@@ -139,5 +142,6 @@ class ListingStatsView: UIView {
 
             timePostedLabel.textColor = style.iconTint
         }
+        timePostedView.layer.add(CATransition(), forKey: kCATransition)
     }
 }
