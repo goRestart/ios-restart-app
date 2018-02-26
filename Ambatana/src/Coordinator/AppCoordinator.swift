@@ -395,8 +395,8 @@ extension AppCoordinator: AppNavigator {
         }
     }
 
-    func openAppInvite() {
-        AppShareViewController.showOnViewControllerIfNeeded(tabBarCtl)
+    func openAppInvite(myUserId: String?, myUserName: String?) {
+        AppShareViewController.showOnViewControllerIfNeeded(tabBarCtl, myUserId: myUserId, myUserName: myUserName)
     }
 
     func canOpenAppInvite() -> Bool {

@@ -159,6 +159,12 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     fileprivate let initialListing: Listing
     fileprivate var savedListing: Listing?
     fileprivate var shouldTrack: Bool = true
+    fileprivate var myUserId: String? {
+        return myUserRepository.myUser?.objectId
+    }
+    fileprivate var myUserName: String? {
+        return myUserRepository.myUser?.name
+    }
     
     // Repositories
     let myUserRepository: MyUserRepository
@@ -656,7 +662,10 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
     private func finishedSaving() {
         guard let listing = savedListing, shouldShareInFB else { return showSuccessMessageAndClose() }
-        let listingSocialMessage = ListingSocialMessage(listing: listing, fallbackToStore: false)
+        let listingSocialMessage = ListingSocialMessage(listing: listing,
+                                                        fallbackToStore: false,
+                                                        myUserId: myUserId,
+                                                        myUserName: myUserName)
         listingSocialMessage.retrieveFBShareContent { [weak self] fbShareContent in
             self?.shouldTrack = false
             self?.delegate?.vmShareOnFbWith(content: fbShareContent)

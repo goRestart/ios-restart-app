@@ -13,6 +13,8 @@
 		01616CC71F975C2E00F412D7 /* Taxonomy+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616CC51F975C2E00F412D7 /* Taxonomy+LG.swift */; };
 		01616CCC1F978DA900F412D7 /* SelectableFilterTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616CCB1F978DA900F412D7 /* SelectableFilterTagCell.swift */; };
 		01616CCD1F978DA900F412D7 /* SelectableFilterTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01616CCB1F978DA900F412D7 /* SelectableFilterTagCell.swift */; };
+		01619BD32044007E001D2C19 /* AppsFlyerAttributionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01619BD22044007E001D2C19 /* AppsFlyerAttributionData.swift */; };
+		01619BD42044007E001D2C19 /* AppsFlyerAttributionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01619BD22044007E001D2C19 /* AppsFlyerAttributionData.swift */; };
 		0178CBD81F0E463D00620BA6 /* UriSchemeSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */; };
 		01990F61203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01990F60203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift */; };
 		0A0CD7F81FD97FBB00B0BACF /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */; };
@@ -1503,6 +1505,7 @@
 		01602CB71F506DE500DDA296 /* Listing+NegotiableSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Listing+NegotiableSpec.swift"; sourceTree = "<group>"; };
 		01616CC51F975C2E00F412D7 /* Taxonomy+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Taxonomy+LG.swift"; sourceTree = "<group>"; };
 		01616CCB1F978DA900F412D7 /* SelectableFilterTagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableFilterTagCell.swift; sourceTree = "<group>"; };
+		01619BD22044007E001D2C19 /* AppsFlyerAttributionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerAttributionData.swift; sourceTree = "<group>"; };
 		0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UriSchemeSpec.swift; path = DeepLinks/UriSchemeSpec.swift; sourceTree = "<group>"; };
 		01990F60203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppsFlyerDeepLinkSpec.swift; path = DeepLinks/AppsFlyerDeepLinkSpec.swift; sourceTree = "<group>"; };
 		0A0CD7F71FD97FBB00B0BACF /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
@@ -2948,6 +2951,7 @@
 				C79842001CC8E8C900C300FF /* User+LG.swift */,
 				72B935F51E3F917500F93F73 /* UserProduct+LG.swift */,
 				50AB5F211ED4447200E9909D /* UserRatingTag.swift */,
+				01619BD22044007E001D2C19 /* AppsFlyerAttributionData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -6013,6 +6017,7 @@
 				C7BAC9CD1E49E81E005BD0AF /* Listing+LG.swift in Sources */,
 				C7DE8ACB1C888761005CF37E /* EditListingViewModel.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
+				01619BD32044007E001D2C19 /* AppsFlyerAttributionData.swift in Sources */,
 				727463B21FB0AEAB00AD8261 /* LGSearchMap.swift in Sources */,
 				6A5E19E81D548F5400F92692 /* Int+LG.swift in Sources */,
 				2E47610B1EF0343B003F15F2 /* ListingDetailOnboardingViewModel.swift in Sources */,
@@ -6563,6 +6568,7 @@
 				72D928E21E83EB990030F4C3 /* RatingManager.swift in Sources */,
 				2E06EAEF1D70595900A40704 /* FilterRangePriceCell.swift in Sources */,
 				C7BAC9CE1E49E81E005BD0AF /* Listing+LG.swift in Sources */,
+				01619BD42044007E001D2C19 /* AppsFlyerAttributionData.swift in Sources */,
 				C7B588581CE1DE1C009B3975 /* DirectAnswersPresenter.swift in Sources */,
 				727463B31FB0AEAB00AD8261 /* LGSearchMap.swift in Sources */,
 				C77B7DBB1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,

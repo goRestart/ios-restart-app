@@ -231,6 +231,14 @@ extension UserViewModel {
         return isMyProfile || isMyUser
     }
     
+    var myUserId: String? {
+        return myUserRepository.myUser?.objectId
+    }
+    
+    var myUserName: String? {
+        return myUserRepository.myUser?.name
+    }
+    
     func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
         
@@ -572,7 +580,10 @@ fileprivate extension UserViewModel {
                 self?.socialMessage = nil
                 return
             }
-            self?.socialMessage = UserSocialMessage(user: user, itsMe: itsMe)
+            self?.socialMessage = UserSocialMessage(user: user,
+                                                    itsMe: itsMe,
+                                                    myUserId: self?.myUserId,
+                                                    myUserName: self?.myUserName)
             }.disposed(by: disposeBag)
     }
 }
