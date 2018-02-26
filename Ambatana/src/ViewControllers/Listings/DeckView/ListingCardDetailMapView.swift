@@ -56,9 +56,10 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
     }
 
     func setRegion(_ region: MKCoordinateRegion, size: CGSize) {
-        MKMapView.snapshotAt(region, size: size, with: { (snapshot, error) in
+        MKMapView.snapshotAt(region, size: size, with: { [weak self] (snapshot, error) in
             guard error == nil, let image = snapshot?.image else { return }
-            self.mapSnapShotView.image = image
+            self?.mapSnapShotView.image = image
+            self?.mapSnapShotView.layer.add(CATransition(), forKey: kCATransition)
         })
         mapView.setRegion(region, animated: false)
         self.region = region
