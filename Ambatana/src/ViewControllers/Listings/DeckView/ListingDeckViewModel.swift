@@ -193,16 +193,14 @@ final class ListingDeckViewModel: BaseViewModel {
         super.init()
         self.shouldSyncFirstListing = shouldSyncFirstListing
         binder.viewModel = self
+
+        moveToProductAtIndex(startIndex, movement: .initial)
+        if shouldSyncFirstListing {
+            syncFirstListing()
+        }
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
-        if firstTime {
-            // TODO: ABIOS-3105 https://ambatana.atlassian.net/browse/ABIOS-3105 prepare onboarding
-            moveToProductAtIndex(startIndex, movement: .initial)
-            if shouldSyncFirstListing {
-                syncFirstListing()
-            }
-        }
         // Tracking
         currentListingViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)
     }
@@ -222,17 +220,16 @@ final class ListingDeckViewModel: BaseViewModel {
         prefetchNeighborsImages(index, movement: movement)
 
         // Tracking
-        // TODO: ABIOS-3109 https://ambatana.atlassian.net/browse/ABIOS-3109
-        //        if active {
-        //            let feedPosition = movement.feedPosition(for: trackingIndex)
-        //            if source == .relatedListings {
-        //                currentListingViewModel?.trackVisit(movement.visitUserAction,
-        //                                                    source: movement.visitSource(source),
-        //                                                    feedPosition: feedPosition)
-        //            } else {
-        //                currentListingViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
-        //            }
-        //        }
+        if active {
+            let feedPosition = movement.feedPosition(for: trackingIndex)
+            if source == .relatedListings {
+                currentListingViewModel?.trackVisit(movement.visitUserAction,
+                                                    source: movement.visitSource(source),
+                                                    feedPosition: feedPosition)
+            } else {
+                currentListingViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
+            }
+        }
     }
 
     func didTapCardAction() {

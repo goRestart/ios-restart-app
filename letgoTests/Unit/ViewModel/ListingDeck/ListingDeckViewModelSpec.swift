@@ -40,7 +40,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
         var scheduler: TestScheduler!
 
         var cellModelsObserver: TestableObserver<[ListingCellModel]>!
-        var navBarButtonsObserver: TestableObserver<[UIAction]>!
         var actionButtonsObserver: TestableObserver<[UIAction]>!
         var quickAnswersObserver: TestableObserver<[[QuickAnswer]]>!
         var quickAnswersAvailableObserver: TestableObserver<Bool>!
@@ -54,7 +53,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
             func startObserving() {
                 disposeBag = DisposeBag()
                 sut.objects.observable.bind(to: cellModelsObserver).disposed(by: disposeBag)
-                sut.navBarButtons.asObservable().bind(to:navBarButtonsObserver).disposed(by:disposeBag)
                 sut.actionButtons.asObservable().bind(to:actionButtonsObserver).disposed(by:disposeBag)
                 sut.quickChatViewModel.quickAnswers.asObservable().bind(to:quickAnswersObserver).disposed(by:disposeBag)
 
@@ -77,7 +75,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                     initialListing = .product(initialProduct)
                 }
 
-                sut = ListingDeckViewModel(productListModels: productListModels,
+                sut = ListingDeckViewModel(listModels: productListModels,
                                            initialListing: initialListing,
                                            listingListRequester: listingListRequester,
                                            detailNavigator: self,
@@ -122,7 +120,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
                 cellModelsObserver = scheduler.createObserver(Array<ListingCellModel>.self)
-                navBarButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 actionButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 quickAnswersObserver = scheduler.createObserver(Array<Array<QuickAnswer>>.self)
                 quickAnswersAvailableObserver = scheduler.createObserver(Bool.self)
@@ -490,7 +487,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         products = MockProduct.makeMocks(count: 20)
                         let productListModels = products.map { ListingCellModel.listingCell(listing: .product($0)) }
                         buildSut(productListModels: productListModels)
-                        sut.active = true
                         startObserving()
                     }
                     context("viewmodel inactive") {
@@ -501,9 +497,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         it("doesn't track any product visit") {
                             expect(tracker.trackedEvents.count) == 0
-                        }
-                        it("navbarButtons changed twice") {
-                            expect(navBarButtonsObserver.eventValues.count) == 3
                         }
                         it("actionButtons changed twice") {
                             expect(actionButtonsObserver.eventValues.count) == 3
@@ -537,14 +530,13 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             sut.moveToProductAtIndex(2, movement: .tap)
                         }
                         it("tracks 3 product visits") {
-                            expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-visit","product-detail-visit","product-detail-visit"]
+                            expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-visit",
+                                                                                    "product-detail-visit",
+                                                                                    "product-detail-visit"]
                         }
                         it("tracks with product ids of first 3 products") {
                             expect(tracker.trackedEvents.flatMap { $0.params?.stringKeyParams["product-id"] as? String })
                                 == products.prefix(through: 2).flatMap { $0.objectId }
-                        }
-                        it("navbarButtons changed twice") {
-                            expect(navBarButtonsObserver.eventValues.count) == 3
                         }
                         it("actionButtons changed twice") {
                             expect(actionButtonsObserver.eventValues.count) == 3
@@ -575,10 +567,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         sut.active = true
                         startObserving()
                     }
-                    it("there's a share navbar button") {
-                        let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                        expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
-                    }
                     it("directchatenabled is true") {
                         expect(directChatEnabledObserver.eventValues) == [true]
                     }
@@ -592,10 +580,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         it("action buttons are again empty") {
                             expect(actionButtonsObserver.eventValues.map { $0.count }) == [0, 0]
-                        }
-                        it("share navbar button remains share") {
-                            let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                     }
                     describe("user logs in, product is mine") {
@@ -612,10 +596,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         it("action buttons item is to mark as sold") {
                             expect(actionButtonsObserver.lastValue?.first?.text) == LGLocalizedString.productMarkAsSoldButton
-                        }
-                        it("navbar buttons now have share and edit") {
-                            let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                     }
                 }
@@ -649,10 +629,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                 sut.active = true
                                 startObserving()
                             }
-                            it("navbar buttons have edit and options") {
-                                let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
-                                expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
-                            }
                             it("there are no action buttons") {
                                 expect(actionButtonsObserver.lastValue?.count) == 0
                             }
@@ -671,10 +647,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                                 buildSut(initialProduct: product)
                                 sut.active = true
                                 startObserving()
-                            }
-                            it("navbar buttons have edit and options") {
-                                let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
-                                expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                             }
                             it("there are no action buttons") {
                                 expect(actionButtonsObserver.lastValue?.count) == 0
@@ -696,10 +668,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                             startObserving()
                         }
-                        it("navbar buttons have edit and options") {
-                            let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
-                        }
                         it("there is a mark sold action") {
                             expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productMarkAsSoldButton]
                         }
@@ -718,10 +686,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             buildSut(initialProduct: product)
                             sut.active = true
                             startObserving()
-                        }
-                        it("navbar buttons have edit and options") {
-                            let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarEditButton, .listingCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there is a mark sold action") {
                             expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productMarkAsSoldFreeButton]
@@ -742,10 +706,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                             startObserving()
                         }
-                        it("navbar buttons have just options") {
-                            let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
-                        }
                         it("there is a sell again action") {
                             expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productSellAgainButton]
                         }
@@ -764,10 +724,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             buildSut(initialProduct: product)
                             sut.active = true
                             startObserving()
-                        }
-                        it("navbar buttons have just options") {
-                            let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarActionsButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there is a sell again action") {
                             expect(actionButtonsObserver.lastValue?.flatMap { $0.text }) == [LGLocalizedString.productSellAgainFreeButton]
@@ -789,10 +745,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                             startObserving()
                         }
-                        it("navbar buttons has share button") {
-                            let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
-                        }
                         it("there are no action buttons") {
                             expect(actionButtonsObserver.lastValue?.count) == 0
                         }
@@ -811,10 +763,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             buildSut(initialProduct: product)
                             sut.active = true
                             startObserving()
-                        }
-                        it("navbar buttons has share button") {
-                            let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there are no action buttons") {
                             expect(actionButtonsObserver.lastValue?.count) == 0
@@ -835,10 +783,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                             startObserving()
                         }
-                        it("navbar buttons has share button") {
-                            let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
-                        }
                         it("there are no action buttons") {
                             expect(actionButtonsObserver.lastValue?.count) == 0
                         }
@@ -858,10 +802,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             sut.active = true
                             startObserving()
                         }
-                        it("navbar buttons has share button") {
-                            let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
-                        }
                         it("there are no action buttons") {
                             expect(actionButtonsObserver.lastValue?.count) == 0
                         }
@@ -880,10 +820,6 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             buildSut(initialProduct: product)
                             sut.active = true
                             startObserving()
-                        }
-                        it("navbar buttons has share button") {
-                            let accesibilityIds: [AccessibilityId] = [.listingCarouselNavBarShareButton]
-                            expect(navBarButtonsObserver.lastValue?.flatMap { $0.accessibilityId }) == accesibilityIds
                         }
                         it("there are no action buttons") {
                             expect(actionButtonsObserver.lastValue?.count) == 0
@@ -917,6 +853,8 @@ extension ListingDeckViewModelSpec: ListingDeckViewModelDelegate {
 }
 
 extension ListingDeckViewModelSpec: ListingDetailNavigator {
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) { }
+
     func openAskPhoneFor(listing: Listing) { }
     func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) { }
 

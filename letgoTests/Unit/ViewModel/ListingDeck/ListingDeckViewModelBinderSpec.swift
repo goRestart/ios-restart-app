@@ -28,7 +28,6 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
         var scheduler: TestScheduler!
         var disposeBag: DisposeBag!
 
-        var navBarButtonsObserver: TestableObserver<[UIAction]>!
         var actionButtonsObserver: TestableObserver<[UIAction]>!
 
         var quickAnswersObserver: TestableObserver<[[QuickAnswer]]>!
@@ -62,7 +61,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 let prefetching = Prefetching(previousCount: 1, nextCount: 3)
                 let myUserRepo = MockMyUserRepository.makeMock()
 
-                listingDeckViewModel = ListingDeckViewModel(productListModels: nil,
+                listingDeckViewModel = ListingDeckViewModel(listModels: nil,
                                                             initialListing: listing,
                                                             listingListRequester: listingListRequester,
                                                             detailNavigator: self,
@@ -79,7 +78,6 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
 
-                navBarButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
                 actionButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
 
                 quickAnswersObserver = scheduler.createObserver(Array<Array<QuickAnswer>>.self)
@@ -88,7 +86,6 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 bumpUpBannerInfoObserver = scheduler.createObserver(Optional<BumpUpInfo>.self)
 
                 disposeBag = DisposeBag()
-                listingDeckViewModel.navBarButtons.asObservable().skip(1).bind(to:navBarButtonsObserver).disposed(by:disposeBag)
                 listingDeckViewModel.actionButtons.asObservable().skip(1).bind(to:actionButtonsObserver).disposed(by:disposeBag)
                 listingDeckViewModel.quickChatViewModel.quickAnswers.asObservable().skip(1).bind(to:quickAnswersObserver).disposed(by:disposeBag)
                 listingDeckViewModel.quickChatViewModel.chatEnabled.asObservable().skip(1).bind(to:chatEnabled).disposed(by:disposeBag)
@@ -104,11 +101,6 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
             }
 
             context("after moving to the current viewmodel") {
-
-                it("navBarButtonsObserver changed") {
-                    expect(navBarButtonsObserver.eventValues.count) > 0
-                }
-
                 it("actionButtonsObserver changed") {
                     expect(actionButtonsObserver.eventValues.count) > 0
                 }
@@ -134,6 +126,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
 }
 
 extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) { }
     func openAskPhoneFor(listing: Listing) {}
     func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) {}
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {}

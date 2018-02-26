@@ -25,7 +25,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
 
         var currentDisposeBag: DisposeBag!
 
-        fdescribe("ListingDeckViewControllerBinder setup") {
+        describe("ListingDeckViewControllerBinder setup") {
             beforeEach {
                 sut = ListingDeckViewControllerBinder()
                 viewControllerType = MockListingDeckViewControllerBinderType()
@@ -104,39 +104,14 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                 }
             }
 
-            context("the viewmodel updates the alternative actions") {
-                beforeEach {
-                    sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
-                    viewModelType.altActions.value = [UIAction(interface: .text(String.makeRandom()),
-                                                               action: {},
-                                                               accessibilityId: nil)]
-                }
-                it("vmShowOptionsCancelLabel method is called one time") {
-                    expect(viewControllerType.isVmShowOptionsCancelLabelCalled) == 1
-                }
-            }
-
-            context("the viewmodel updates the navbar actions") {
-                beforeEach {
-                    sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
-                    viewModelType.navBarButtons.value = [UIAction(interface: .text(String.makeRandom()),
-                                                                  action: {},
-                                                                  accessibilityId: nil)]
-                }
-                it("setNavigationBarRightButtons & setLetGoRightButtonWith methods are called one time each") {
-                    expect(viewControllerType.isSetNavigationBarRightButtonsCalled) == 1
-                    expect(viewControllerType.isSetLetGoRightButtonWithCalled) == 1
-                }
-            }
-
             context("the view scrolls the cards with the chat enabled") {
                 beforeEach {
                     sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
                     let offset = Int.makeRandom(min: 0, max: 1000)
                     viewControllerType.collectionView.contentOffset = CGPoint(x: offset, y: 0)
                 }
-                it("updateViewWithAlpha method is called twice (initial + update)") {
-                    expect(viewControllerType.isUpdateViewWithAlphaCalled) == 2
+                it("updateViewWithAlpha method is called once") {
+                    expect(viewControllerType.isUpdateViewWithAlphaCalled) == 1
                 }
             }
 
@@ -163,7 +138,6 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                     expect(viewModelType.userHasScrollCalled) == 0
                 }
             }
-
 
             context("the keyboard appears") {
                 beforeEach {
@@ -265,6 +239,9 @@ private class MockListingDeckViewType: ListingDeckViewType {
 }
 
 private class MockListingDeckViewModelType: ListingDeckViewModelType {
+    var rxIsMine: Observable<Bool>  { return isMine.asObservable() }
+    var isMine: Variable<Bool> = Variable<Bool>(false)
+
     var rxIsChatEnabled: Observable<Bool> { return isChatEnabled.asObservable() }
     var isChatEnabled: Variable<Bool> = Variable<Bool>(true)
 
@@ -298,6 +275,20 @@ private class MockListingDeckViewModelType: ListingDeckViewModelType {
 }
 
 private class MockListingDeckViewControllerBinderType: ListingDeckViewControllerBinderType {
+    func closeBumpUpBanner() { }
+
+    func updateSideCells() {
+        isUpdateSideCellsCalled += 1
+    }
+
+    func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool) {
+        isUpdateViewWithAlphaCalled += 1
+    }
+
+    func blockSideInteractions() {
+        isBlockSideInteractionsCalled += 1
+    }
+
     var rxContentOffset: Observable<CGPoint> { return rxCollectionView.contentOffset.share() }
 
     var keyboardChanges: Observable<KeyboardChange> { return rx_keyboardChanges.asObservable() }
@@ -313,6 +304,8 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
                                                            collectionViewLayout: UICollectionViewFlowLayout())
     let rxCollectionView: Reactive<UICollectionView>
 
+    var isBlockSideInteractionsCalled: Int = 0
+    var isUpdateSideCellsCalled: Int = 0
     var isUpdateViewWithActionsCalled: Int = 0
     var isUpdateWithKeyboardChangeCalled: Int = 0
     var isVmShowOptionsCancelLabelCalled: Int = 0
@@ -361,9 +354,6 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     }
     func didTapCardAction() {
         isDidTapCardActionCalled += 1
-    }
-    func updateViewWith(alpha: CGFloat, chatEnabled: Bool) {
-        isUpdateViewWithAlphaCalled += 1
     }
     func setNavigationBarRightButtons(_ actions: [UIButton]) {
         isSetNavigationBarRightButtonsCalled += 1

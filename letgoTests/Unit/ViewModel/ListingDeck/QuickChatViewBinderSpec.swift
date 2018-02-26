@@ -95,12 +95,17 @@ private class MockQuickChatView: QuickChatViewType {
     var rxToSendMessage: Observable<String> { return textView.rx.send }
     var rxChatTextView: Reactive<ChatTextView> { return textView.rx }
 
+    var showDirectMessagesCalled: Int = 0
     var clearChatTextViewCalled: Int = 0
     var setInitialTextCalled: Int = 0
     var updateDirectChatCalled: Int = 0
     var handleChatChangeCalled: Int = 0
 
     private var textView = ChatTextView()
+
+    func showDirectMessages() {
+        showDirectMessagesCalled += 1
+    }
 
     func sendRandomMessage() {
         let textfield = UITextField()

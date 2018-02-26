@@ -50,9 +50,6 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
                 it("social sharer is set") {
                     expect(mockListingDetailsView.isPopulateWithSocialSharerCalled).toEventually(equal(1))
                 }
-                it("disableStatsView not called") {
-                    expect(mockListingDetailsView.isDisabledStatsViewCalled).toEventually(equal(0))
-                }
             }
 
             context("cardProductStats updates with views above minimum") {
@@ -67,9 +64,6 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
                 }
                 it("social sharer is set") {
                     expect(mockListingDetailsView.isPopulateWithSocialSharerCalled).toEventually(equal(1))
-                }
-                it("disableStatsView not called") {
-                    expect(mockListingDetailsView.isDisabledStatsViewCalled).toEventually(equal(0))
                 }
             }
 
@@ -86,16 +80,12 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
                 it("social sharer is set") {
                     expect(mockListingDetailsView.isPopulateWithSocialSharerCalled).toEventually(equal(1))
                 }
-                it("disableStatsView not called") {
-                    expect(mockListingDetailsView.isDisabledStatsViewCalled).toEventually(equal(0))
-                }
             }
 
-            context("cardProductStats updates with both stats above minimum") {
+            context("cardProductStats updates with both stats above minimum and no creation date") {
                 beforeEach {
                     let belowMinimumViews = Int.random(0, 4)
                     let belowMinimumFavs = Int.random(0, 4)
-
                     mockListingDetailsVM.rxCardProductStats.value = MockListingStats(viewsCount: belowMinimumViews,
                                                                                       favouritesCount: belowMinimumFavs)
                 }
@@ -105,8 +95,25 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
                 it("social sharer is set") {
                     expect(mockListingDetailsView.isPopulateWithSocialSharerCalled).toEventually(equal(1))
                 }
-                it("disableStatsView not called") {
-                    expect(mockListingDetailsView.isDisabledStatsViewCalled).toEventually(equal(1))
+            }
+
+            context("cardProductStats updates with both stats above minimum with creation date") {
+                beforeEach {
+                    let belowMinimumViews = Int.random(0, 4)
+                    let belowMinimumFavs = Int.random(0, 4)
+                    mockListingDetailsVM.rxCardProductInfo.value = ListingVMProductInfo(listing: Listing.makeMock(),
+                                                                                        isAutoTranslated: true,
+                                                                                        distance: nil,
+                                                                                        freeModeAllowed: true,
+                                                                                        postingFlowType: .standard)
+                    mockListingDetailsVM.rxCardProductStats.value = MockListingStats(viewsCount: belowMinimumViews,
+                                                                                     favouritesCount: belowMinimumFavs)
+                }
+                it("the proper populate method is called") {
+                    expect(mockListingDetailsView.isPopulateWithListingStatsCalled).toEventually(equal(1))
+                }
+                it("social sharer is set") {
+                    expect(mockListingDetailsView.isPopulateWithSocialSharerCalled).toEventually(equal(1))
                 }
             }
 
@@ -128,9 +135,6 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
                 }
                 it("social sharer is set") {
                     expect(mockListingDetailsView.isPopulateWithSocialSharerCalled).toEventually(equal(1))
-                }
-                it("disableStatsView not called") {
-                    expect(mockListingDetailsView.isDisabledStatsViewCalled).toEventually(equal(0))
                 }
             }
 
@@ -187,18 +191,12 @@ private class MockListingCardDetailsView: ListingCardDetailsViewType {
     var isPopulateWithSocialSharerCalled: Int = 0
     var isPopulateWithSocialMessageCalled: Int = 0
     var isPopulateWithListingStatsCalled: Int = 0
-    var isDisabledStatsViewCalled: Int = 0
 
     func resetAllVariables() {
         isPopulateWithProductInfoCalled = 0
         isPopulateWithSocialSharerCalled = 0
         isPopulateWithSocialMessageCalled = 0
         isPopulateWithListingStatsCalled = 0
-        isDisabledStatsViewCalled = 0
-    }
-
-    func disableStatsView() {
-        isDisabledStatsViewCalled += 1
     }
 
     func populateWith(productInfo: ListingVMProductInfo) {

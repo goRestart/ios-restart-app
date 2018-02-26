@@ -273,10 +273,6 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
 
 extension ListingDeckViewController: ListingDeckViewModelDelegate {
 
-    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
-        showActionSheet(cancelLabel, actions: actions, barButtonItem: navigationItem.rightBarButtonItems?.first)
-    }
-
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
         return (self, navigationItem.rightBarButtonItems?.first)
     }
