@@ -33,7 +33,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
     private let locationLabel = UILabel()
     private let mapPlaceHolder = UIView()
 
-    let mapView = MKMapView.sharedInstance
+    private lazy var mapView = MKMapView.sharedInstance
     private(set) var fullMapConstraints: [NSLayoutConstraint] = []
 
     let mapSnapShotView = UIImageView()
