@@ -314,7 +314,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
             NSLayoutConstraint.activate(userViewScrollingConstraints)
             if scrollView.contentOffset.y < -scrollViewContentInset.top {
                 previewImageViewHeight?.constant = abs(scrollViewContentInset.top + scrollView.contentOffset.y)
-            } else if abs(scrollView.contentOffset.y / scrollViewContentInset.top) < 0.7 {
+            } else if scrollViewContentInset.top != 0
+                && abs(scrollView.contentOffset.y / scrollViewContentInset.top) < 0.7 {
                 let ratio = abs(scrollView.contentOffset.y / scrollViewContentInset.top) / 0.7
                 updateCount(alpha: ratio)
                 updateBlur(alpha: 1 - ratio)
