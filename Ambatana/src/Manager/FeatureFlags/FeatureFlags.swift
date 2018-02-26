@@ -209,13 +209,8 @@ extension TurkeyBumpPriceVATAdaptation {
     var isActive: Bool { get { return self == .active } }
 }
 
-class FeatureFlags: FeatureFlaggeable {
 
-//    private struct BumpPriceVariationBucket {
-//        static let defaultValue: Int = 0
-//        static let minPriceIncreaseUSA: Int = 2
-//        static let vatDecreaseTR: Int = 4
-//    }
+class FeatureFlags: FeatureFlaggeable {
 
     static let sharedInstance: FeatureFlags = FeatureFlags()
 
