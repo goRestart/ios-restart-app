@@ -166,6 +166,11 @@
         "description": "Refactor of the User Profile view controller"
     },
     {
+        "name": "TurkeyBumpPriceVATAdaptation",
+        "values": ["control", "baseline", "active"],
+        "description": "Change bump price scaling for listings in TR"
+    },
+    {
         "name": "SearchMultiwordExpressions",
         "values": ["control", "baseline", "MWE", "MWERelaxedSynonyms", "MWERelaxedSynonymsMM100", "MWERelaxedSynonymsMM75"],
         "description": "Multiword expressions when searching"

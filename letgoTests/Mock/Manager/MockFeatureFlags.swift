@@ -55,6 +55,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var emojiSizeIncrement: EmojiSizeIncrement = .control
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
     var newUserProfileView: NewUserProfileView = .control
+    var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
     var searchMultiwordExpressions: SearchMultiwordExpressions = .control
     var showChatSafetyTips: Bool = false
 
@@ -67,7 +68,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var moreInfoShoppingAdUnitId = ""
     var moreInfoDFPAdUnitId = ""
     var feedDFPAdUnitId: String? = ""
-
+    var bumpPriceVariationBucket: BumpPriceVariationBucket = .defaultValue
+    
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
     }
