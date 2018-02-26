@@ -67,7 +67,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var moreInfoShoppingAdUnitId = ""
     var moreInfoDFPAdUnitId = ""
     var feedDFPAdUnitId: String? = ""
-    var bumpPriceVariationBucket: Int = 0
+    var bumpPriceVariationBucket: BumpPriceVariationBucket = .defaultValue
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
