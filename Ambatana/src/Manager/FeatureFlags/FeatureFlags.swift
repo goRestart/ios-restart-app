@@ -57,6 +57,7 @@ protocol FeatureFlaggeable: class {
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
     var newUserProfileView: NewUserProfileView { get }
     var searchMultiwordExpressions: SearchMultiwordExpressions { get }
+    var showChatSafetyTips: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }

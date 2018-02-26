@@ -56,6 +56,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
     var newUserProfileView: NewUserProfileView = .control
     var searchMultiwordExpressions: SearchMultiwordExpressions = .control
+    var showChatSafetyTips: Bool = false
 
     // Country dependant features
     var freePostingModeAllowed = false
