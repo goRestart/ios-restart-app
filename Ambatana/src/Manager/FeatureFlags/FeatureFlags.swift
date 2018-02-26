@@ -55,6 +55,8 @@ protocol FeatureFlaggeable: class {
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
     var emojiSizeIncrement: EmojiSizeIncrement { get }
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
+    var newUserProfileView: NewUserProfileView { get }
+    var searchMultiwordExpressions: SearchMultiwordExpressions { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -487,7 +489,21 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ShowBumpUpBannerOnNotValidatedListings.fromPosition(abTests.showBumpUpBannerOnNotValidatedListings.value)
     }
+
+    var searchMultiwordExpressions: SearchMultiwordExpressions {
+        if Bumper.enabled {
+            return Bumper.searchMultiwordExpressions
+        }
+        return SearchMultiwordExpressions.fromPosition(abTests.searchMultiwordExpressions.value)
+    }
     
+
+    var newUserProfileView: NewUserProfileView {
+        if Bumper.enabled {
+            return Bumper.newUserProfileView
+        }
+        return NewUserProfileView.fromPosition(abTests.newUserProfileView.value)
+    }
 
     // MARK: - Country features
 

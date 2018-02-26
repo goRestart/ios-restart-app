@@ -11,6 +11,7 @@ import Foundation
 import RxSwift
 
 class MockFeatureFlags: FeatureFlaggeable {
+
     var trackingData: Observable<[(String, ABGroupType)]?> {
         return trackingDataVar.asObservable()
     }
@@ -53,7 +54,9 @@ class MockFeatureFlags: FeatureFlaggeable {
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
     var emojiSizeIncrement: EmojiSizeIncrement = .control
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
-    
+    var newUserProfileView: NewUserProfileView = .control
+    var searchMultiwordExpressions: SearchMultiwordExpressions = .control
+
     // Country dependant features
     var freePostingModeAllowed = false
     var postingFlowType: PostingFlowType = .standard
