@@ -129,8 +129,9 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         setupHeaderUI()
         setupDetailUI()
         setupStatsView()
-        setupMapView()
+        setupMapPlaceHolder()
         setupSocialMedia()
+        setupMapView()
     }
 
     private func setupHeaderUI() {
@@ -200,6 +201,22 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     }
 
     private func setupMapView() {
+        detailMapView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(detailMapView)
+        detailMapView.layout(with: self).fillHorizontal()
+
+        let centerY = detailMapView.centerYAnchor.constraint(equalTo: mapPlaceHolder.centerYAnchor)
+        centerY.priority = .required - 1
+        centerY.isActive = true
+
+        let mapHeightConstraint = detailMapView.heightAnchor.constraint(equalTo: mapPlaceHolder.heightAnchor,
+                                                                        multiplier: 1.0)
+        mapHeightConstraint.isActive = true
+        mapHeightConstraint.priority = .required - 1
+        detailMapView.isUserInteractionEnabled = true
+    }
+
+    private func setupMapPlaceHolder() {
         mapPlaceHolder.translatesAutoresizingMaskIntoConstraints = false
         addSubview(mapPlaceHolder)
         mapPlaceHolder.layout().height(Layout.Height.mapView)
@@ -215,20 +232,6 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         mapSnapShotToBottom?.isActive = false
 
         locationToDetail = mapPlaceHolder.topAnchor.constraint(equalTo: detailLabel.bottomAnchor)
-
-        detailMapView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(detailMapView)
-        detailMapView.layout(with: self).fillHorizontal()
-
-        let centerY = detailMapView.centerYAnchor.constraint(equalTo: mapPlaceHolder.centerYAnchor)
-        centerY.priority = .required - 1
-        centerY.isActive = true
-
-        let mapHeightConstraint = detailMapView.heightAnchor.constraint(equalTo: mapPlaceHolder.heightAnchor,
-                                                                        multiplier: 1.0)
-        mapHeightConstraint.isActive = true
-        mapHeightConstraint.priority = .required - 1
-        detailMapView.isUserInteractionEnabled = true
     }
 
     private func setupSocialMedia() {

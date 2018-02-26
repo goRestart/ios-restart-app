@@ -132,6 +132,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
         detailsView.detailMapView.showRegion(animated: true)
         UIView.animate(withDuration: 0.3) {
+            self.userView.alpha = 0
+            self.whiteGradient.alpha = 0
             self.detailsView.detailMapView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(1)
             self.detailsView.layoutIfNeeded()
         }
@@ -141,6 +143,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         self.detailsView.detailMapView.hideMap(animated: true)
         deactivateFullMap()
         UIView.animate(withDuration: 0.3) {
+            self.userView.alpha = 1
+            self.whiteGradient.alpha = 1
             self.detailsView.detailMapView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0)
             self.detailsView.layoutIfNeeded()
         }
@@ -154,6 +158,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     private func setupUI() {
+        contentView.clipsToBounds = true
         setupPreviewImageView()
         setupImagesCount()
         setupVerticalScrollView()
@@ -251,7 +256,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
         userView.translatesAutoresizingMaskIntoConstraints = false
         userView.clipsToBounds = true
-        addSubview(userView)
+        contentView.addSubview(userView)
         userView.heightAnchor.constraint(equalToConstant: Layout.Height.userView).isActive = true
 
         detailsView.backgroundColor = .white
