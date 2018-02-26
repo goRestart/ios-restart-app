@@ -106,7 +106,7 @@ class RealEstateAttributesLGSpec: QuickSpec {
                                                    sizeSquareMeters: nil)
                     }
                     it ("result should equal: studio (1+0)") {
-                        expect(sut.generateTitle(postingFlowType: .turkish)) == "FLAT / RESIDENCE Studio (1+0)"
+                        expect(sut.generateTitle(postingFlowType: .turkish)) == "FLAT Studio (1+0)"
                     }
                 }
                 context("attributes with over 10 rooms") {
@@ -218,7 +218,7 @@ class RealEstateAttributesLGSpec: QuickSpec {
                         expect(tags[0]).to(equal("HOUSE"))
                         expect(tags[1]).to(equal("For Rent"))
                         expect(tags[2]).to(equal("2 + 2"))
-                        expect(tags[3]).to(equal("100\(Constants.sizeSquareMetersUnit)"))
+                        expect(tags[3]).to(equal("100 \(Constants.sizeSquareMetersUnit)"))
                     }
                 }
             }

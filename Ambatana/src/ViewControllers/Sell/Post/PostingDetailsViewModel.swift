@@ -240,7 +240,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                 let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                            sellButtonPosition: postingSource.sellButtonPosition,
                                                            imageSource: uploadedImageSource,
-                                                           price: String.fromPriceDouble(postListingState.price?.value ?? 0))
+                                                           price: String.fromPriceDouble(postListingState.price?.value ?? 0),
+                                                           typePage: postingSource.typePage,
+                                                           mostSearchedButton: postingSource.mostSearchedButton)
                 navigator?.closePostProductAndPostInBackground(params: listingParams,
                                                                trackingInfo: trackingInfo)
             } else {
@@ -262,8 +264,12 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     }
     
     private  func postListing(buttonNameType: EventParameterButtonNameType) {
-        let trackingInfo = PostListingTrackingInfo(buttonName: buttonNameType, sellButtonPosition: postingSource.sellButtonPosition,
-                                                   imageSource: uploadedImageSource, price: String.fromPriceDouble(postListingState.price?.value ?? 0))
+        let trackingInfo = PostListingTrackingInfo(buttonName: buttonNameType,
+                                                   sellButtonPosition: postingSource.sellButtonPosition,
+                                                   imageSource: uploadedImageSource,
+                                                   price: String.fromPriceDouble(postListingState.price?.value ?? 0),
+                                                   typePage: postingSource.typePage,
+                                                   mostSearchedButton: postingSource.mostSearchedButton)
         if sessionManager.loggedIn {
             openListingPosting(trackingInfo: trackingInfo)
         } else if let images = postListingState.pendingToUploadImages {
@@ -416,9 +422,12 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                 positionSelected = NumberOfBedrooms(rawValue: bedrooms)?.position
             }
         case .rooms:
-            let numberOfRooms = NumberOfRooms(numberOfBedrooms: postListingState.verticalAttributes?.realEstateAttributes?.bedrooms,
-                                              numberOfLivingRooms: postListingState.verticalAttributes?.realEstateAttributes?.livingRooms)
-            positionSelected = numberOfRooms.positionIn(allValues: NumberOfRooms.allValues)
+            if let bedrooms = postListingState.verticalAttributes?.realEstateAttributes?.bedrooms,
+                let livingRooms = postListingState.verticalAttributes?.realEstateAttributes?.livingRooms {
+                let numberOfRooms = NumberOfRooms(numberOfBedrooms: bedrooms,
+                                                  numberOfLivingRooms: livingRooms)
+                positionSelected = numberOfRooms.positionIn(allValues: NumberOfRooms.allValues)
+            }
         case .bathrooms:
             if let bathrooms = postListingState.verticalAttributes?.realEstateAttributes?.bathrooms {
                 positionSelected = NumberOfBathrooms(rawValue:bathrooms)?.position
@@ -435,7 +444,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
     func postingAddDetailSummary(_ postingAddDetailSummary: PostingAddDetailSummaryTableView, didSelectIndex: PostingSummaryOption) {
         
         let event = TrackerEvent.openOptionOnSummary(fieldOpen: EventParameterOptionSummary(optionSelected: didSelectIndex),
-                                                     postingType: EventParameterPostingType(category: postListingState.category ?? .unassigned))
+                                                     postingType: EventParameterPostingType(category: postListingState.category ?? .otherItems(listingCategory: nil)))
         tracker.trackEvent(event)
         navigator?.nextPostingDetailStep(step: didSelectIndex.postingDetailStep, postListingState: postListingState, uploadedImageSource: uploadedImageSource, postingSource: postingSource, postListingBasicInfo: postListingBasicInfo, previousStepIsSummary: true)
     }
@@ -457,8 +466,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
                 value = NumberOfBedrooms(rawValue: bedrooms)?.summaryLocalizedString
             }
         case .rooms:
-            if let bedrooms = postListingState.verticalAttributes?.realEstateAttributes?.bedrooms {
-                value = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: postListingState.verticalAttributes?.realEstateAttributes?.livingRooms).localizedString
+            if let bedrooms = postListingState.verticalAttributes?.realEstateAttributes?.bedrooms,
+                let livingRooms = postListingState.verticalAttributes?.realEstateAttributes?.livingRooms {
+                value = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms).localizedString
             }
         case .bathrooms:
             if let bathrooms = postListingState.verticalAttributes?.realEstateAttributes?.bathrooms {
@@ -466,7 +476,7 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
             }
         case .sizeSquareMeters:
             if let size = postListingState.sizeSquareMeters {
-                value = String(size) + Constants.sizeSquareMetersUnit
+                value = String(size).addingSquareMeterUnit
             }
         case .location:
             value = retrieveCurrentLocationSelected()

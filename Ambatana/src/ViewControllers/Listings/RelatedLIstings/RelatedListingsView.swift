@@ -31,6 +31,10 @@ class RelatedListingsView: UIView {
 
     fileprivate let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
     fileprivate let listingsDiameter: CGFloat
+    
+    fileprivate var layoutCellSize: CGSize {
+        return CGSize(width: listingsDiameter, height: listingsDiameter)
+    }
 
     fileprivate var requester: ListingListRequester?
     fileprivate var objects: [ListingCellModel] = [] {
@@ -112,7 +116,7 @@ extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSou
                                                    right: RelatedListingsView.elementsMargin)
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
-            layout.itemSize = CGSize(width: listingsDiameter, height: listingsDiameter)
+            layout.itemSize = layoutCellSize
             layout.minimumInteritemSpacing = RelatedListingsView.itemsSpacing
         }
     }
@@ -133,12 +137,12 @@ extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSou
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            guard let item = itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
-            let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
-        drawerManager.draw(item, inCell: cell, delegate: nil, shouldShowPrice: false)
-            cell.tag = (indexPath as NSIndexPath).hash
-            (cell as? ListingCell)?.isRelatedEnabled = false
-            return cell
+        guard let item = itemAtIndex(indexPath.row) else { return UICollectionViewCell() }
+        let cell = drawerManager.cell(item, collectionView: collectionView, atIndexPath: indexPath)
+        drawerManager.draw(item, inCell: cell, delegate: nil, shouldShowPrice: false, imageSize: layoutCellSize)
+        cell.tag = (indexPath as NSIndexPath).hash
+        (cell as? ListingCell)?.isRelatedEnabled = false
+        return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -156,7 +160,7 @@ extension RelatedListingsView: UICollectionViewDelegate, UICollectionViewDataSou
             delegate?.relatedListingsView(self, showListing: listing, atIndex: indexPath.row,
                                           listingListModels: objects, requester: requester,
                                           thumbnailImage: thumbnailImage, originFrame: originFrame)
-        case .collectionCell, .emptyCell, .advertisement:
+        case .collectionCell, .emptyCell, .advertisement, .mostSearchedItems:
             // No banners or collections here
             break
         }

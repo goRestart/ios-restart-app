@@ -247,7 +247,9 @@ struct TrackerEvent {
     static func filterComplete(_ coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
                                distanceUnit: DistanceType, categories: [ListingCategory]?, sortBy: ListingSortCriteria?,
                                postedWithin: ListingTimeCriteria?, priceRange: FilterPriceRange, freePostingModeAllowed: Bool,
-                               carMake: String?, carModel: String?, carYearStart: Int?, carYearEnd: Int?) -> TrackerEvent {
+                               carMake: String?, carModel: String?, carYearStart: Int?, carYearEnd: Int?, propertyType: String?,
+                               offerType: String?, bedrooms: Int?, bathrooms: Float?, sizeSqrMetersMin: Int?,
+                               sizeSqrMetersMax: Int?, rooms: NumberOfRooms?) -> TrackerEvent {
         var params = EventParameters()
 
         // Filter Coordinates
@@ -305,6 +307,55 @@ struct TrackerEvent {
             verticalFields.append(EventParameterName.yearEnd.rawValue)
         } else {
             params[.yearEnd] = TrackerEvent.notApply
+        }
+        
+        if let propertyType = propertyType {
+            params[.propertyType] = String(propertyType)
+            verticalFields.append(EventParameterName.propertyType.rawValue)
+        } else {
+            params[.propertyType] = TrackerEvent.notApply
+        }
+        
+        if let offerType = offerType {
+            params[.offerType] = String(offerType)
+            verticalFields.append(EventParameterName.offerType.rawValue)
+        } else {
+            params[.offerType] = TrackerEvent.notApply
+        }
+        
+        if let bedrooms = bedrooms {
+            params[.bedrooms] = String(bedrooms)
+            verticalFields.append(EventParameterName.bedrooms.rawValue)
+        } else {
+            params[.bedrooms] = TrackerEvent.notApply
+        }
+        
+        if let bathrooms = bathrooms {
+            params[.bathrooms] = String(bathrooms)
+            verticalFields.append(EventParameterName.bathrooms.rawValue)
+        } else {
+            params[.bathrooms] = TrackerEvent.notApply
+        }
+        
+        if let sizeSqrMetersMin = sizeSqrMetersMin {
+            params[.sizeSqrMetersMin] = String(sizeSqrMetersMin)
+            verticalFields.append(EventParameterName.sizeSqrMetersMin.rawValue)
+        } else {
+            params[.sizeSqrMeters] = TrackerEvent.notApply
+        }
+        
+        if let sizeSqrMetersMax = sizeSqrMetersMax {
+            params[.sizeSqrMetersMax] = String(sizeSqrMetersMax)
+            verticalFields.append(EventParameterName.sizeSqrMetersMax.rawValue)
+        } else {
+            params[.sizeSqrMetersMax] = TrackerEvent.notApply
+        }
+        
+        if let rooms = rooms {
+            params[.rooms] = rooms.trackingString
+            verticalFields.append(EventParameterName.rooms.rawValue)
+        } else {
+            params[.rooms] = TrackerEvent.notApply
         }
 
         params[.verticalFields] = verticalFields.isEmpty ? TrackerEvent.notApply : verticalFields.joined(separator: ",")
@@ -499,18 +550,25 @@ struct TrackerEvent {
     static func listingSellStart(_ typePage: EventParameterTypePage,
                                  buttonName: EventParameterButtonNameType?,
                                  sellButtonPosition: EventParameterSellButtonPosition,
-                                 category: ListingCategory?) -> TrackerEvent {
+                                 category: ListingCategory?,
+                                 mostSearchedButton: EventParameterMostSearched) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
         params[.buttonName] = buttonName?.rawValue
         params[.sellButtonPosition] = sellButtonPosition.rawValue
         params[.categoryId] = category?.rawValue ?? TrackerEvent.notApply
+        params[.mostSearchedButton] = mostSearchedButton.rawValue
         return TrackerEvent(name: .listingSellStart, params: params)
     }
     
-    static func listingSellComplete(_ listing: Listing, buttonName: EventParameterButtonNameType?,
-                                    sellButtonPosition: EventParameterSellButtonPosition?, negotiable: EventParameterNegotiablePrice?,
-                                    pictureSource: EventParameterPictureSource?, freePostingModeAllowed: Bool) -> TrackerEvent {
+    static func listingSellComplete(_ listing: Listing,
+                                    buttonName: EventParameterButtonNameType?,
+                                    sellButtonPosition: EventParameterSellButtonPosition?,
+                                    negotiable: EventParameterNegotiablePrice?,
+                                    pictureSource: EventParameterPictureSource?,
+                                    freePostingModeAllowed: Bool,
+                                    typePage: EventParameterTypePage,
+                                    mostSearchedButton: EventParameterMostSearched) -> TrackerEvent {
         var params = EventParameters()
         params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: listing.price).rawValue
         params[.listingId] = listing.objectId ?? ""
@@ -519,6 +577,8 @@ struct TrackerEvent {
         params[.numberPhotosPosting] = listing.images.count
         params[.sellButtonPosition] = sellButtonPosition?.rawValue
         params[.listingDescription] = !(listing.descr?.isEmpty ?? true)
+        params[.typePage] = typePage.rawValue
+        params[.mostSearchedButton] = mostSearchedButton.rawValue
         if let buttonName = buttonName {
             params[.buttonName] = buttonName.rawValue
         }
@@ -548,11 +608,15 @@ struct TrackerEvent {
             params[.offerType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.offerType?.rawValue).name
             params[.bathrooms] = EventParameterBathroomsRealEstate.bathrooms(value: realEstateAttributes.bathrooms).name
             params[.bedrooms] = EventParameterBedroomsRealEstate.bedrooms(value: realEstateAttributes.bedrooms).name
+            params[.rooms] = EventParameterRoomsRealEstate.rooms(bedrooms: realEstateAttributes.bedrooms, livingRooms: realEstateAttributes.livingRooms).name
+            params[.sizeSqrMeters] = EventParameterSizeRealEstate.size(value: realEstateAttributes.sizeSquareMeters).name
         } else {
             params[.propertyType] = EventParameterStringRealEstate.notApply.name
             params[.offerType] = EventParameterStringRealEstate.notApply.name
             params[.bathrooms] = EventParameterBathroomsRealEstate.notApply.name
             params[.bedrooms] = EventParameterBedroomsRealEstate.notApply.name
+            params[.rooms] = EventParameterRoomsRealEstate.notApply.name
+            params[.sizeSqrMeters] = EventParameterSizeRealEstate.notApply.name
         }
         
         return TrackerEvent(name: .listingSellComplete, params: params)
@@ -681,13 +745,16 @@ struct TrackerEvent {
             params[.offerType] = EventParameterStringRealEstate.realEstateParam(name: realEstateAttributes.offerType?.rawValue).name
             params[.bathrooms] = EventParameterBathroomsRealEstate.bathrooms(value: realEstateAttributes.bathrooms).name
             params[.bedrooms] = EventParameterBedroomsRealEstate.bedrooms(value: realEstateAttributes.bedrooms).name
+            params[.rooms] = EventParameterRoomsRealEstate.rooms(bedrooms: realEstateAttributes.bedrooms, livingRooms: realEstateAttributes.livingRooms).name
+            params[.sizeSqrMeters] = EventParameterSizeRealEstate.size(value: realEstateAttributes.sizeSquareMeters).name
         } else {
             params[.propertyType] = EventParameterStringRealEstate.notApply.name
             params[.offerType] = EventParameterStringRealEstate.notApply.name
             params[.bathrooms] = EventParameterBathroomsRealEstate.notApply.name
             params[.bedrooms] = EventParameterBedroomsRealEstate.notApply.name
+            params[.rooms] = EventParameterRoomsRealEstate.notApply.name
+            params[.sizeSqrMeters] = EventParameterSizeRealEstate.notApply.name
         }
-
         return TrackerEvent(name: .listingEditComplete, params: params)
     }
 

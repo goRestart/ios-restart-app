@@ -13,7 +13,7 @@ class MonetizationApiDataSource : MonetizationDataSource {
 
     static let platformNameKey = "platform"
     static let platformNameValue = "ios"
-    static let priceDifferentiationKey = "bucket"
+    static let minimumBumpPriceKey = "bucket"
 
     static let paymentIdKey = "id"
     static let itemIdKey = "item_id"
@@ -45,12 +45,11 @@ class MonetizationApiDataSource : MonetizationDataSource {
     // Public methods
 
     func retrieveBumpeableListingInfo(listingId: String,
-                                      withPriceDifferentiation priceDif: Bool,
+                                      withHigherMinimumPrice minPriceVersion: Int,
                                       completion: MonetizationDataSourceBumpeableListingCompletion?) {
-        let priceDifValue = priceDif ? 1 : 0
         let request = MonetizationRouter.showBumpeable(listingId: listingId,
                                                        params: [MonetizationApiDataSource.platformNameKey:MonetizationApiDataSource.platformNameValue,
-                                                                MonetizationApiDataSource.priceDifferentiationKey:priceDifValue])
+                                                                MonetizationApiDataSource.minimumBumpPriceKey:minPriceVersion])
         apiClient.request(request, decoder: MonetizationApiDataSource.decoderBumpeableListing, completion: completion)
     }
 

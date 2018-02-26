@@ -435,7 +435,12 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     
     func realEstateNumberOfRoomsButtonPressed() {
         let attributeValues = NumberOfRooms.allValues
-        let values = attributeValues.flatMap { $0.localizedString }
+        let values: [String] = attributeValues.flatMap { $0.localizedString }
+        var selectedAttribute: String? = nil
+        if let bedrooms = realEstateNumberOfBedrooms.value, let livingRooms = realEstateNumberOfLivingRooms.value {
+            selectedAttribute = NumberOfRooms(numberOfBedrooms: bedrooms,
+                          numberOfLivingRooms: livingRooms).localizedString
+        }
         
         let selectionUpdateblock: ((Int?) -> Void) = { [weak self] selectedIndex in
             if let selectedIndex = selectedIndex {
@@ -448,8 +453,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         }
         let vm = ListingAttributePickerViewModel(title: LGLocalizedString.realEstateRoomsTitle,
                                                  attributes: values,
-                                                 selectedAttribute: NumberOfRooms(numberOfBedrooms: realEstateNumberOfBedrooms.value,
-                                                                                  numberOfLivingRooms: realEstateNumberOfLivingRooms.value).localizedString,
+                                                 selectedAttribute: selectedAttribute,
                                                  selectionUpdate: selectionUpdateblock)
         
         navigator?.openListingAttributePicker(viewModel: vm)
@@ -478,6 +482,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     
     func realEstateSizeEditionFinished(value: String) {
         realEstateSizeSquareMeters.value = Int(value)
+    }
+
+    var fbShareContent: FBSDKShareLinkContent? {
+        if let listing = savedListing {
+            return ListingSocialMessage(listing: listing, fallbackToStore: false).fbShareContent
+        }
+        return nil
     }
 
     func openMap() {
@@ -579,6 +590,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         let bedroomsAndLivingRooms = Observable.combineLatest(realEstateNumberOfBedrooms.asObservable(), realEstateNumberOfLivingRooms.asObservable())
         
         bedroomsAndLivingRooms.asObservable().bind { [weak self] (bedrooms, livingRooms) in
+            guard let bedrooms = bedrooms, let livingRooms = livingRooms else { return }
             self?.realEstateNumberOfRooms.value = NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms)
         }.disposed(by: disposeBag)
     }
@@ -712,11 +724,11 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func finishedSaving() {
-        guard let listing = savedListing, shouldShareInFB else { return showSuccessMessageAndClose() }
-        let listingSocialMessage = ListingSocialMessage(listing: listing, fallbackToStore: false)
-        listingSocialMessage.retrieveFBShareContent { [weak self] fbShareContent in
-            self?.shouldTrack = false
-            self?.delegate?.vmShareOnFbWith(content: fbShareContent)
+        if let fbShareContent = fbShareContent, shouldShareInFB {
+            shouldTrack = false
+            delegate?.vmShareOnFbWith(content: fbShareContent)
+        } else {
+            showSuccessMessageAndClose()
         }
     }
 

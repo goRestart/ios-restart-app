@@ -58,6 +58,7 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate var paymentItemId: String?
     fileprivate var paymentProviderItemId: String?
     fileprivate var bumpUpSource: BumpUpSource?
+    fileprivate var timeSinceLastBump: TimeInterval?
 
     weak var delegate: AppNavigatorDelegate?
 
@@ -212,10 +213,12 @@ extension AppCoordinator: AppNavigator {
         openTab(.home, completion: nil)
     }
 
-    func openSell(source: PostingSource, postCategory: PostCategory?) {
+    func openSell(source: PostingSource, postCategory: PostCategory?, listingTitle: String?) {
         let forcedInitialTab: PostListingViewController.Tab?
         switch source {
-        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .realEstatePromo:
+        case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .realEstatePromo,
+             .mostSearchedTabBarCamera, .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable,
+             .mostSearchedCategoryHeader, .mostSearchedCard, .mostSearchedUserProfile:
             forcedInitialTab = nil
         case .onboardingButton, .onboardingCamera:
             forcedInitialTab = .camera
@@ -223,11 +226,23 @@ extension AppCoordinator: AppNavigator {
 
         let sellCoordinator = SellCoordinator(source: source,
                                               postCategory: postCategory,
-                                              forcedInitialTab: forcedInitialTab)
+                                              forcedInitialTab: forcedInitialTab,
+                                              listingTitle: listingTitle)
         sellCoordinator.delegate = self
         openChild(coordinator: sellCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
+    
+    func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {
+        let mostSearchedItemsCoordinator = MostSearchedItemsCoordinator(source: source, enableSearch: enableSearch)
+        mostSearchedItemsCoordinator.delegate = self
+        openChild(coordinator: mostSearchedItemsCoordinator,
+                  parent: tabBarCtl,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
+    }
 
+    
     // MARK: App Review
 
     func openAppRating(_ source: EventParameterRatingSource) {
@@ -446,7 +461,7 @@ extension AppCoordinator: OnboardingCoordinatorDelegate {
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?) {
         delegate?.appNavigatorDidOpenApp()
         if let source = source, posting {
-            openSell(source: source, postCategory: nil)
+            openSell(source: source, postCategory: nil, listingTitle: nil)
         } else {
             openHome()
         }
@@ -483,7 +498,6 @@ fileprivate extension AppCoordinator {
     }
 
     func shouldRetrieveBumpeableInfo() -> Bool {
-        guard featureFlags.promoteBumpUpAfterSell.isActive else { return false }
         if let lastShownDate = keyValueStorage[.lastShownPromoteBumpDate],
             abs(lastShownDate.timeIntervalSinceNow) < Constants.promoteAfterPostWaitTime {
             return false
@@ -504,7 +518,7 @@ fileprivate extension AppCoordinator {
         purchasesShopper.bumpInfoRequesterDelegate = self
         monetizationRepository.retrieveBumpeableListingInfo(
             listingId: listingId,
-            withPriceDifferentiation: featureFlags.bumpUpPriceDifferentiation.isActive) { [weak self] result in
+            withHigherMinimumPrice: featureFlags.bumpPriceVariationBucket.rawValue) { [weak self] result in
                 guard let strongSelf = self else { return }
                 guard let value = result.value  else { return }
                 let paymentItems = value.paymentItems.filter { $0.provider == .apple }
@@ -512,12 +526,14 @@ fileprivate extension AppCoordinator {
                 // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
                 strongSelf.paymentItemId = paymentItems.first?.itemId
                 strongSelf.paymentProviderItemId = paymentItems.first?.providerItemId
+                strongSelf.timeSinceLastBump = value.timeSinceLastBump
 
                 // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
                 // a useless request to apple
                 if let _ = strongSelf.paymentItemId {
                     strongSelf.purchasesShopper.productsRequestStartForListing(listingId, withIds: paymentItems.map { $0.providerItemId })
                 }
+
         }
     }
 }
@@ -558,7 +574,7 @@ extension AppCoordinator: UITabBarControllerDelegate {
         case .home, .notifications, .chats, .profile:
             afterLogInSuccessful = { [weak self] in self?.openTab(tab, force: true, completion: nil) }
         case .sell:
-            afterLogInSuccessful = { [weak self] in self?.openSell(source: .tabBar, postCategory: nil) }
+            afterLogInSuccessful = { [weak self] in self?.openSell(source: .tabBar, postCategory: nil, listingTitle: nil) }
         }
 
         if let source = tab.logInSource, shouldOpenLogin {
@@ -570,7 +586,13 @@ extension AppCoordinator: UITabBarControllerDelegate {
                 // tab is changed after returning from this method
                 return !shouldOpenLogin
             case .sell:
-                openSell(source: .tabBar, postCategory: nil)
+                let shouldOpenMostSearchedItems = featureFlags.mostSearchedDemandedItems == .cameraBadge &&
+                    !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
+                if shouldOpenMostSearchedItems {
+                    openMostSearchedItems(source: .mostSearchedTabBarCamera, enableSearch: false)
+                } else {
+                    openSell(source: .tabBar, postCategory: nil, listingTitle: nil)
+                }
                 return false
             }
         }
@@ -781,7 +803,7 @@ fileprivate extension AppCoordinator {
             }
         case .sell:
             afterDelayClosure = { [weak self] in
-                self?.openSell(source: .deepLink, postCategory: nil)
+                self?.openSell(source: .deepLink, postCategory: nil, listingTitle: nil)
             }
         case let .listing(listingId):
             tabBarCtl.clearAllPresented(nil)
@@ -982,13 +1004,17 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
         case .deepLink:
             tabBarCtl.clearAllPresented(nil)
             openTab(.profile, force: false) { [weak self] in
-                let triggerBumpOnAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchaseableProduct: purchase,
+                var actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchaseableProduct: purchase,
                                                                                            paymentItemId: self?.paymentItemId,
                                                                                            paymentProviderItemId: self?.paymentProviderItemId,
                                                                                            bumpUpType: .priced,
                                                                                            triggerBumpUpSource: .deepLink)
+                if let timeSinceLastBump = self?.timeSinceLastBump, timeSinceLastBump > 0 {
+                    actionOnFirstAppear = ProductCarouselActionOnFirstAppear.nonexistent
+                }
+
                 self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: requestListingId),
-                                                          source: .openApp, actionOnFirstAppear: triggerBumpOnAppear)
+                                                          source: .openApp, actionOnFirstAppear: actionOnFirstAppear)
             }
         case .promoted:
             tabBarCtl.clearAllPresented(nil)
@@ -1017,6 +1043,19 @@ extension AppCoordinator: PromoteBumpCoordinatorDelegate {
             self?.keyValueStorage[.lastShownPromoteBumpDate] = Date()
             
         }
+    }
+}
+
+
+extension AppCoordinator: MostSearchedItemsCoordinatorDelegate {
+    func openSell(source: PostingSource, mostSearchedItem: LocalMostSearchedItem) {
+        openSell(source: source,
+                 postCategory: mostSearchedItem.category,
+                 listingTitle: mostSearchedItem.name)
+    }
+    
+    func openSearchFor(listingTitle: String) {
+        mainTabBarCoordinator.openMainListings(withSearchType: .user(query: listingTitle), listingFilters: ListingFilters())
     }
 }
 

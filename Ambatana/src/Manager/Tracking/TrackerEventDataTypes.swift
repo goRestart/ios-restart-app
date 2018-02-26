@@ -220,6 +220,7 @@ enum EventParameterName: String {
     case listingPrice         = "product-price"
     case listingCurrency      = "product-currency"
     case listingDescription   = "product-description"
+    case listingStatus        = "product-status"
     case listingType          = "item-type"             // real (1) / dummy (0).
     case userId               = "user-id"
     case userToId             = "user-to-id"
@@ -342,11 +343,15 @@ enum EventParameterName: String {
     case bedrooms             = "bedroom-number"
     case bathrooms            = "bathroom-number"
     case location             = "location"
-    case sqrMeters            = "sqr-meters"
-    case rooms                = "rooms-number"
+    case sizeSqrMeters        = "size"
+    case sizeSqrMetersMin     = "size-from"
+    case sizeSqrMetersMax     = "size-to"
+    case rooms                = "room-number"
     case openField            = "open-field"
     case chatsDeleted         = "chats-deleted"
+    case chatContainsEmoji    = "contain-emoji"
     case inactiveConversations = "inactive-conversations"
+    case mostSearchedButton   = "most-searched-button"
 }
 
 enum EventParameterBoolean: String {
@@ -462,7 +467,7 @@ enum EventParameterPostingType: String {
     
     init(category: PostCategory) {
         switch category {
-        case .unassigned, .motorsAndAccessories:
+        case .otherItems, .motorsAndAccessories:
             self = .stuff
         case .car:
             self = .car
@@ -559,6 +564,36 @@ enum EventParameterBedroomsRealEstate {
     var name: String {
         switch self {
         case .bedrooms(let value):
+            guard let value = value else { return Constants.parameterSkipValue }
+            return String(value)
+        case .notApply:
+            return Constants.parameterNotApply
+        }
+    }
+}
+
+enum EventParameterRoomsRealEstate {
+    case rooms(bedrooms: Int?, livingRooms: Int?)
+    case notApply
+    
+    var name: String {
+        switch self {
+        case .rooms(let bedrooms, let livingRooms):
+            guard let bedrooms = bedrooms, let livingRooms = livingRooms else { return Constants.parameterSkipValue }
+            return NumberOfRooms(numberOfBedrooms: bedrooms, numberOfLivingRooms: livingRooms).trackingString
+        case .notApply:
+            return Constants.parameterNotApply
+        }
+    }
+}
+
+enum EventParameterSizeRealEstate {
+    case size(value: Int?)
+    case notApply
+    
+    var name: String {
+        switch self {
+        case .size(let value):
             guard let value = value else { return Constants.parameterSkipValue }
             return String(value)
         case .notApply:
@@ -760,6 +795,7 @@ enum EventParameterTypePage: String {
     case inAppNotification = "in-app-notification"
     case filter = "filter"
     case realEstatePromo = "real-estate-promo"
+    case mostSearched = "most-searched"
 }
 
 enum EventParameterPermissionType: String {
@@ -996,8 +1032,18 @@ enum EventParameterEmptyReason: String {
     case noInternetConection = "no-internet-connection"
     case serverError         = "server-error"
     case emptyResults        = "empty-results"
-    case unknown             = "unknown"
     case verification        = "verification"
+    case userNotVerified     = "user-not-verified"
+    case notFound            = "not-found"
+    case unauthorized        = "unauthorized"
+    case forbidden           = "forbidden"
+    case tooManyRequests     = "too-many-requests"
+    case chatServerError     = "chat-server-error"
+    case internalError       = "internal-error"
+    case wsInternalError     = "ws-internal-error"
+    case chatUserBlocked     = "chat-user-blocked"
+    case notAuthenticated    = "not-authenticated"
+    case differentCountry    = "different-country"
 }
 
 enum EventParameterQuickAnswerType: String {
@@ -1134,6 +1180,20 @@ enum EventParameterOptionSummary: String {
     }
 }
 
+enum EventParameterMostSearched: String {
+    case notApply                   = "N/A"
+    case tabBarCamera               = "tabbar-camera"
+    case trendingExpandableButton   = "trending-salchicha"
+    case postingTags                = "posting-tags"
+    case feedBubble                 = "feed-bubble"
+    case feedCard                   = "feed-card"
+    case userProfile                = "user-profile"
+    
+    static var allValues: [EventParameterMostSearched] {
+        return [.notApply, .tabBarCamera, .trendingExpandableButton, .postingTags, .feedBubble, .feedCard, .userProfile]
+    }
+}
+
 struct EventParameters {
     var params: [EventParameterName : Any] = [:]
     
@@ -1163,6 +1223,7 @@ struct EventParameters {
         params[.listingType] = listing.user.isDummy ?
             EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.real.rawValue
         params[.userToId] = listing.user.objectId
+        params[.listingStatus] = listing.status.string
     }
 
     internal mutating func addChatListingParams(_ listing: ChatListing) {

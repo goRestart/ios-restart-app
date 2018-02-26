@@ -34,14 +34,13 @@ class ChatInactiveConversationHeaderView: UIView {
         setupLayout()
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        button.rounded = true
+        roundButton()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: UI
@@ -57,6 +56,10 @@ class ChatInactiveConversationHeaderView: UIView {
         button.titleLabel?.font = UIFont.systemMediumFont(size: 12)
         button.titleLabel?.numberOfLines = 2
         button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    }
+    
+    private func roundButton() {
+        button.layer.cornerRadius = button.frame.size.height / 2
     }
     
     private func setupLayout() {

@@ -130,7 +130,7 @@ class BubbleNotification: UIView {
 
     private func setupUI() {
         backgroundColor = UIColor.white
-        layer.cornerRadius = LGUIKitConstants.containerCornerRadius
+        layer.cornerRadius = LGUIKitConstants.bigCornerRadius
         applyDefaultShadow()
 
         if data.hasIcon {

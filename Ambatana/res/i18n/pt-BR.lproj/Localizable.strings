@@ -159,7 +159,7 @@
 "chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
 "chat_list_unblock" = "Unblock";
 "chat_login_popup_text" = "To start chatting, you have to log in";
-"chat_message_disclaimer_meeting_security" = "Remember, busy public places like coffee shops and bank lobbies are safe, convenient meeting spots. Consider bringing a friend.";
+"chat_message_disclaimer_meeting_security" = "Try meeting at busier public places like coffee shops and bank lobbies. They are convenient and safe.";
 "chat_message_disclaimer_scammer_append_blocked" = "Tap here to block this user.";
 "chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
 "chat_message_field_hint" = "Type your message here";
@@ -332,6 +332,7 @@
 "filters_section_real_estate_info" = "Property info";
 "filters_section_sortby" = "Sort by";
 "filters_section_within" = "Posted within";
+"filters_size_wrong_range_error" = "The minimum size can’t be higher than the maximum size.";
 "filters_sort_closest" = "Closest first";
 "filters_sort_newest" = "Newest first";
 "filters_sort_price_asc" = "Price: low to high";
@@ -828,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "Post property for sale or rent in our new Real Estate category";
 "real_estate_type_property_apartment" = "Apartment";
 "real_estate_type_property_commercial" = "Commercial";
-"real_estate_type_property_flat" = "Flat / Residence";
+"real_estate_type_property_flat" = "Flat";
 "real_estate_type_property_house" = "House";
 "real_estate_type_property_land" = "Land";
 "real_estate_type_property_others" = "Other";
@@ -973,9 +974,12 @@
 "trending_items_expandable_menu_button" = "Trending";
 "trending_items_expandable_menu_subset_title" = "MOST POPULAR ITEMS";
 "trending_items_header_bubble" = "Trending";
+"trending_items_profile_subtitle" = "See what people in your area are looking for";
+"trending_items_profile_title" = "Not sure what to sell?";
 "trending_items_view_number_of_searches_item" = "%@ searches";
 "trending_items_view_number_of_searches_title" = "This week's top searches";
 "trending_items_view_post_button" = "Post";
+"trending_items_view_search_button" = "Search";
 "trending_items_view_subtitle" = "Post one of these, and make money in under a week";
 "trending_items_view_title" = "Most popular items in %@";
 "trending_items_view_title_no_location" = "Most popular items";

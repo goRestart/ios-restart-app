@@ -51,12 +51,13 @@ protocol TabNavigator: class {
     func openAppInvite()
     func canOpenAppInvite() -> Bool
     func openRatingList(_ userId: String)
+    func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
 }
 
 protocol ListingDetailNavigator: TabNavigator {
     func closeProductDetail()
     func editListing(_ listing: Listing)
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage)
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool)
     func closeListingAfterDelete(_ listing: Listing)
     func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String)
     func openPayBumpUp(forListing listing: Listing,

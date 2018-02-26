@@ -14,9 +14,12 @@ class LGNotificationsManager: NotificationsManager {
     // Singleton
     static let sharedInstance = LGNotificationsManager()
 
+    static let newSellFeatureIndicatorValue = " "
+    
     // Rx
     let unreadMessagesCount = Variable<Int?>(nil)
     let unreadNotificationsCount = Variable<Int?>(nil)
+    let newSellFeatureIndicator = Variable<String?>(nil)
     var globalCount: Observable<Int> {
         return Observable.combineLatest(unreadMessagesCount.asObservable(), unreadNotificationsCount.asObservable()) {
                                         (unreadMessages: Int?, notifications: Int?) in
@@ -41,6 +44,11 @@ class LGNotificationsManager: NotificationsManager {
     fileprivate var loggedIn: Variable<Bool>
     private var requestingChat = false
     private var requestingNotifications = false
+    
+    var shouldShowNewSellFeatureIndicator: Bool {
+        return featureFlags.mostSearchedDemandedItems == .cameraBadge &&
+            !keyValueStorage[.mostSearchedItemsCameraBadgeAlreadyShown]
+    }
 
 
     // MARK: - Lifecycle
@@ -87,6 +95,7 @@ class LGNotificationsManager: NotificationsManager {
     func updateCounters() {
         requestChatCounters()
         requestNotificationCounters()
+        requestNewSellFeatureIndicators()
     }
 
     func updateChatCounters() {
@@ -97,7 +106,11 @@ class LGNotificationsManager: NotificationsManager {
         requestNotificationCounters()
     }
     
+    func clearNewSellFeatureIndicator() {
+        newSellFeatureIndicator.value = nil
+    }
 
+    
     // MARK: - Private
 
     private func setupRxBindings() {
@@ -167,6 +180,11 @@ class LGNotificationsManager: NotificationsManager {
             guard let notificationCounts = result.value else { return }
             self?.unreadNotificationsCount.value = notificationCounts
         }
+    }
+    
+    private func requestNewSellFeatureIndicators() {
+        guard shouldShowNewSellFeatureIndicator else { return }
+        newSellFeatureIndicator.value = LGNotificationsManager.newSellFeatureIndicatorValue
     }
 }
 

@@ -128,7 +128,7 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Esta cuenta está siendo revisada por el equipo de letgo.";
 "chat_forbidden_disclaimer_seller_w_name" = "Parece que %@ ya no está interesado en tu anuncio.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Parece que este usuario ya no está interesado en tu anuncio.";
-"chat_inactive_conversation_relation_explanation" = "Archived by letgo because there hasn't been any activity in the last 3 months.";
+"chat_inactive_conversation_relation_explanation" = "Archivado por letgo porque no ha habido actividad en los últimos 3 meses.";
 "chat_inactive_conversations_button" = "Ver chats archivados";
 "chat_inactive_conversations_explanation_label" = "Los chats anteriores a 3 meses se archivan automáticamente.";
 "chat_inactive_list_title" = "Chats inactivos";
@@ -159,7 +159,7 @@
 "chat_list_unarchive_error_multiple" = "Se ha producido un error al desarchivar estas conversaciones. Por favor, inténtalo de nuevo.";
 "chat_list_unblock" = "Desbloquear";
 "chat_login_popup_text" = "Para empezar a chatear, tienes que iniciar sesión";
-"chat_message_disclaimer_meeting_security" = "Recuerda, los espacios públicos muy transitados como las cafeterías o los vestíbulos de los bancos son lugares seguros y prácticos para realizar un encuentro. Piensa también en traer a un acompañante.";
+"chat_message_disclaimer_meeting_security" = "Intenta encontrarte en un lugar público y transitado como una cafetería o el vestíbulo de un banco. Son sitios seguros y prácticos.";
 "chat_message_disclaimer_scammer_append_blocked" = "Pulsa aquí para bloquear a este usuario.";
 "chat_message_disclaimer_scammer_base_blocked" = "Ten mucho cuidado al intercambiar números de teléfono/emails. Los usuarios fraudulentos suelen pedir que abandones el chat de letgo. %@";
 "chat_message_field_hint" = "Escribe tu mensaje";
@@ -332,6 +332,7 @@
 "filters_section_real_estate_info" = "Características de la propiedad";
 "filters_section_sortby" = "Ordenar por";
 "filters_section_within" = "Publicado en";
+"filters_size_wrong_range_error" = "El tamaño mínimo no puede superior al tamaño máximo.";
 "filters_sort_closest" = "Más cercanos primero";
 "filters_sort_newest" = "Más recientes primero";
 "filters_sort_price_asc" = "De más barato a más caro";
@@ -973,9 +974,12 @@
 "trending_items_expandable_menu_button" = "Tendencias";
 "trending_items_expandable_menu_subset_title" = "ARTÍCULOS MÁS POPULARES";
 "trending_items_header_bubble" = "Tendencias";
+"trending_items_profile_subtitle" = "Esto es lo más buscado en tu zona";
+"trending_items_profile_title" = "¿No sabes qué vender?";
 "trending_items_view_number_of_searches_item" = "%@ searches";
 "trending_items_view_number_of_searches_title" = "Las búsquedas más populares de la semana";
 "trending_items_view_post_button" = "Publicar";
+"trending_items_view_search_button" = "Buscar";
 "trending_items_view_subtitle" = "Publica uno de estos y gana dinero en menos de una semana";
 "trending_items_view_title" = "Los artículos más populares en %@";
 "trending_items_view_title_no_location" = "Artículos más populares";

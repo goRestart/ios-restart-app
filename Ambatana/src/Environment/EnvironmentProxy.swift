@@ -50,16 +50,12 @@ class EnvironmentProxy: AppEnvironment {
         return environment.facebookAppId
     }
 
-    var amplitudeAPIKey: String {
-        return environment.amplitudeAPIKey
-    }
-    
     var appsFlyerAPIKey: String {
         return environment.appsFlyerAPIKey
     }
-    
-    var oneLinkID: String {
-        return environment.oneLinkID
+
+    var amplitudeAPIKey: String {
+        return environment.amplitudeAPIKey
     }
 
     var googleServerClientID: String {

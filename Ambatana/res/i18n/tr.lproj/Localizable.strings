@@ -128,7 +128,7 @@
 "chat_forbidden_disclaimer_buyer_wo_name" = "Bu hesap letgo ekibi tarafından incelemeye alınmıştır.";
 "chat_forbidden_disclaimer_seller_w_name" = "Görünüşe göre %@ artık ilanınla ilgilenmiyor.";
 "chat_forbidden_disclaimer_seller_wo_name" = "Görünüşe göre bu kullanıcı artık ilanınla ilgilenmiyor.";
-"chat_inactive_conversation_relation_explanation" = "Archived by letgo because there hasn't been any activity in the last 3 months.";
+"chat_inactive_conversation_relation_explanation" = "Son üç aydır herhangi bir hareket olmadığı için letgo tarafından arşivlenmiştir.";
 "chat_inactive_conversations_button" = "Arşivlenmiş sohbetleri gör";
 "chat_inactive_conversations_explanation_label" = "3 aydan daha eski olan sohbetler otomatik olarak arşivlenir.";
 "chat_inactive_list_title" = "Aktif olmayan Sohbetler";
@@ -159,7 +159,7 @@
 "chat_list_unarchive_error_multiple" = "Konuşmalar arşivden çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_unblock" = "Engeli Kaldır";
 "chat_login_popup_text" = "Mesajlaşmaya başlamak için giriş yapmalısın";
-"chat_message_disclaimer_meeting_security" = "Unutma, kafe ve banka şubeleri gibi kalabalık alanlar güvenli ve uygun buluşma noktalarıdır. Buluşmaya bir arkadaşınla birlikte gitmeni öneririz.";
+"chat_message_disclaimer_meeting_security" = "Kafe ve banka şubeleri gibi kalabalık alanlarda buluşmaya çalış. Bu alanlar güvenli ve uygun buluşma noktalarıdır.";
 "chat_message_disclaimer_scammer_append_blocked" = "Bu kullanıcıyı engellemek için buraya tıkla.";
 "chat_message_disclaimer_scammer_base_blocked" = "Sistemimiz uygunsuz kelimelerin kullanıldığını veya tehlike oluşturabilecek bir iletişim bilgisinin paylaşıldığını tespit etti. %@";
 "chat_message_field_hint" = "Mesajını buraya yaz";
@@ -332,6 +332,7 @@
 "filters_section_real_estate_info" = "Emlak Bilgisi";
 "filters_section_sortby" = "Sırala";
 "filters_section_within" = "YAYINLANMA ZAMANI";
+"filters_size_wrong_range_error" = "Minimum büyüklük maksimum büyüklüğü aşmamalıdır.";
 "filters_sort_closest" = "İlk önce en yakını";
 "filters_sort_newest" = "İlk önce en yenisi";
 "filters_sort_price_asc" = "Düşük fiyattan yüksek fiyata";
@@ -828,7 +829,7 @@
 "real_estate_tooltip_sell_button_title" = "Yeni Emlak kategorimizde satılık veya kiralık emlak ilanı yayınlayabilirsin";
 "real_estate_type_property_apartment" = "Daire";
 "real_estate_type_property_commercial" = "İş yeri";
-"real_estate_type_property_flat" = "Daire / Residence";
+"real_estate_type_property_flat" = "Daire";
 "real_estate_type_property_house" = "Müstakil Ev";
 "real_estate_type_property_land" = "Arsa";
 "real_estate_type_property_others" = "Diğer";
@@ -970,12 +971,15 @@
 "trending_item_truck" = "kamyonet";
 "trending_items_card_action" = "Ürünleri gör";
 "trending_items_card_title" = "Bu haftanın en çok beğenilenleri";
-"trending_items_expandable_menu_button" = "Yükselişte olanlar";
+"trending_items_expandable_menu_button" = "En Popüler";
 "trending_items_expandable_menu_subset_title" = "EN ÇOK BEĞENİLEN ÜRÜNLER";
 "trending_items_header_bubble" = "En Popüler";
+"trending_items_profile_subtitle" = "Çevrendeki insanların neler aradığına bir bak";
+"trending_items_profile_title" = "Ne satacağına karar veremiyor musun?";
 "trending_items_view_number_of_searches_item" = "%@ searches";
 "trending_items_view_number_of_searches_title" = "Bu haftanın en çok arananları";
 "trending_items_view_post_button" = "Yayınla";
+"trending_items_view_search_button" = "Ara";
 "trending_items_view_subtitle" = "Bunlardan birini yayınla ve bir haftada para kazan";
 "trending_items_view_title" = "%@ konumunda en çok beğenilen ilanlar";
 "trending_items_view_title_no_location" = "En çok beğenilenler";

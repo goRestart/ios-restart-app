@@ -208,10 +208,9 @@ fileprivate extension FilteredListingListRequester {
         params.coordinates = queryCoordinates
         params.queryString = queryString
         params.countryCode = countryCode
-        
+        params.abtest = featureFlags.searchMultiwordExpressions.stringValue
+
         params.populate(with: filters)
-        
-        params.abtest = featureFlags.defaultRadiusDistanceFeed.stringValue
        
         return params
     }
@@ -279,21 +278,21 @@ fileprivate extension FilteredListingListRequester {
     }
 }
 
-extension DefaultRadiusDistanceFeed {
-    var stringValue: String {
+extension SearchMultiwordExpressions {
+    var stringValue: String? {
         switch self {
         case .control:
-            return "tbimkt1218-e"
+            return nil
         case .baseline:
-            return "tbimkt1218-a"
-        case .two:
-            return "tbimkt1218-b"
-        case .five:
-            return "tbimkt1218-c"
-        case .ten:
-            return "tbimkt1218-d"
-        case .thirty:
-            return "tbimkt1218-f"
+            return "disc566-a"
+        case .mWE:
+            return "disc566-b"
+        case .mWERelaxedSynonyms:
+            return "disc566-c"
+        case .mWERelaxedSynonymsMM100:
+            return "disc566-d"
+        case .mWERelaxedSynonymsMM75:
+            return "disc566-e"
         }
     }
 }
