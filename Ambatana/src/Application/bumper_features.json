@@ -169,5 +169,10 @@
         "name": "SearchMultiwordExpressions",
         "values": ["control", "baseline", "MWE", "MWERelaxedSynonyms", "MWERelaxedSynonymsMM100", "MWERelaxedSynonymsMM75"],
         "description": "Multiword expressions when searching"
+    },
+    {
+        "name": "ShowChatSafetyTips",
+        "values": ["no","yes"],
+        "description": "Show chat safety tips to new users"
     }
 ]

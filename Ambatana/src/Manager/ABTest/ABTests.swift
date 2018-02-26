@@ -54,7 +54,8 @@ class ABTests {
     let showBumpUpBannerOnNotValidatedListings = IntABDynamicVar(key: "20180214showBumpUpBannerOnNotValidatedListings", defaultValue: 0, abGroupType: .money)
     let newUserProfileView = IntABDynamicVar(key: "20180221NewUserProfileView", defaultValue: 0, abGroupType: .core)
     let searchMultiwordExpressions = IntABDynamicVar(key: "20180220SearchMultiwordExpressions", defaultValue: 0, abGroupType: .core)
-
+    let showChatSafetyTips = BoolABDynamicVar(key: "20180226ShowChatSafetyTips", defaultValue: false, abGroupType: .chat)
+    
     init() {
     }
     
@@ -100,6 +101,7 @@ class ABTests {
         result.append(showBumpUpBannerOnNotValidatedListings)
         result.append(newUserProfileView)
         result.append(searchMultiwordExpressions)
+        result.append(showChatSafetyTips)
         
         return result
     }

@@ -504,6 +504,13 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return NewUserProfileView.fromPosition(abTests.newUserProfileView.value)
     }
+    
+    var showChatSafetyTips: Bool {
+        if Bumper.enabled {
+            return Bumper.showChatSafetyTips
+        }
+        return abTests.showChatSafetyTips.value
+    }
 
     // MARK: - Country features
 
