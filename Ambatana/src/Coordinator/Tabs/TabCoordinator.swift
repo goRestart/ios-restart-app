@@ -243,12 +243,18 @@ fileprivate extension TabCoordinator {
         }
 
         let requester = ListingListMultiRequester(requesters: requestersArray)
+        if featureFlags.newItemPage.isActive {
+            openListingNewItemPage(listing, thumbnailImage: thumbnailImage,
+                                   cellModels: nil, originFrame: nil,
+                                   requester: requester, source: source)
+        } else {
+            let vm = ListingCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
+                                              listingListRequester: requester, source: source,
+                                              actionOnFirstAppear: actionOnFirstAppear, trackingIndex: index)
+            vm.navigator = self
+            openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listingId)
+        }
 
-        let vm = ListingCarouselViewModel(listing: listing, thumbnailImage: thumbnailImage,
-                                          listingListRequester: requester, source: source,
-                                          actionOnFirstAppear: actionOnFirstAppear, trackingIndex: index)
-        vm.navigator = self
-        openListing(vm, thumbnailImage: thumbnailImage, originFrame: originFrame, listingId: listingId)
     }
 
     func openListing(_ listing: Listing, cellModels: [ListingCellModel], requester: ListingListRequester,
@@ -281,10 +287,17 @@ fileprivate extension TabCoordinator {
                                                            itemsPerPage: Constants.numListingsPerPageDefault)
         let filteredRequester = FilteredListingListRequester( itemsPerPage: Constants.numListingsPerPageDefault, offset: 0)
         let requester = ListingListMultiRequester(requesters: [relatedRequester, filteredRequester])
-        let vm = ListingCarouselViewModel(listing: .product(localProduct), listingListRequester: requester,
-                                          source: source, actionOnFirstAppear: .nonexistent, trackingIndex: nil)
-        vm.navigator = self
-        openListing(vm, thumbnailImage: nil, originFrame: nil, listingId: listingId)
+
+        if featureFlags.newItemPage.isActive {
+            openListingNewItemPage(listing: .product(localProduct),
+                                   listingListRequester: requester,
+                                   source: source)
+        } else {
+            let vm = ListingCarouselViewModel(listing: .product(localProduct), listingListRequester: requester,
+                                              source: source, actionOnFirstAppear: .nonexistent, trackingIndex: nil)
+            vm.navigator = self
+            openListing(vm, thumbnailImage: nil, originFrame: nil, listingId: listingId)
+        }
     }
 
     func openListing(_ viewModel: ListingCarouselViewModel, thumbnailImage: UIImage?, originFrame: CGRect?,
@@ -296,7 +309,14 @@ fileprivate extension TabCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openListingNewItemPage(_ listing: Listing, thumbnailImage: UIImage?, cellModels: [ListingCellModel],
+    func openListingNewItemPage(listing: Listing,
+                                listingListRequester: ListingListRequester,
+                                source: EventParameterListingVisitSource) {
+        openListingNewItemPage(listing, thumbnailImage: nil, cellModels: nil, originFrame: nil,
+                               requester: listingListRequester, source: source)
+    }
+
+    func openListingNewItemPage(_ listing: Listing, thumbnailImage: UIImage?, cellModels: [ListingCellModel]?,
                      originFrame: CGRect?, requester: ListingListRequester, source: EventParameterListingVisitSource) {
         let coordinator = DeckCoordinator(listing: listing,
                                           cellModels: cellModels,
@@ -603,7 +623,8 @@ extension TabCoordinator: UINavigationControllerDelegate {
         } else if let animator = (fromVC as? AnimatableTransition)?.animator, operation == .pop {
             animator.pushing = false
             return animator
-        } else if let _ = toVC as? ListingDeckViewController {
+        } else if let _ = toVC as? ListingDeckViewController,
+            fromVC.isKind(of: MainListingsViewController.self) || fromVC.isKind(of: UserViewController.self) {
             return deckAnimatedTransitioning
         } else {
             return nil

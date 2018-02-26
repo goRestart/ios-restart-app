@@ -38,8 +38,18 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     var page: Int { return Int(pageOffset(givenOffset: collectionView?.contentOffset.x ?? Defaults.offset)) }
     var interitemSpacing: CGFloat { get { return cellLayout.insets.left / 2.0 } }
-    var visibleWidth: CGFloat { get { return (collectionView?.bounds.width ?? Defaults.visibleWidth) } }
-    var visibleHeight: CGFloat { get { return (collectionView?.bounds.height ?? Defaults.visibleHeight) } }
+    var visibleWidth: CGFloat {
+        get {
+            guard let view = collectionView, view.bounds.size != .zero else { return Defaults.visibleWidth }
+            return view.bounds.width
+        }
+    }
+    var visibleHeight: CGFloat {
+        get {
+            guard let view = collectionView, view.bounds.size != .zero else { return Defaults.visibleHeight }
+            return view.bounds.height
+        }
+    }
 
     var cellWidth: CGFloat { get { return visibleWidth - 2*cellLayout.insets.left } }
     var cellHeight: CGFloat { get { return visibleHeight } }

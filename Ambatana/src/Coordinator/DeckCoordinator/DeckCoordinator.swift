@@ -39,7 +39,7 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
     fileprivate let keyValueStorage: KeyValueStorageable
 
     convenience init(listing: Listing,
-                     cellModels: [ListingCellModel],
+                     cellModels: [ListingCellModel]?,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
                      listingNavigator: ListingDetailNavigator) {
@@ -54,7 +54,7 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
     }
 
     private init(listing: Listing,
-                 cellModels: [ListingCellModel],
+                 cellModels: [ListingCellModel]?,
                  listingListRequester: ListingListRequester,
                  source: EventParameterListingVisitSource,
                  bubbleNotificationManager: BubbleNotificationManager,
@@ -169,6 +169,7 @@ extension DeckCoordinator: UINavigationControllerDelegate {
 
     func navigationController(_ navigationController: UINavigationController,
                               willShow viewController: UIViewController, animated: Bool) {
+
         previousNavigationDelegate?.navigationController?(navigationController,
                                                           willShow: viewController,
                                                           animated: true)

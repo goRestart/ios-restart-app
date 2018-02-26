@@ -35,7 +35,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     private let tableView = CustomTouchesTableView()
     private let binder = QuickChatViewBinder()
 
-    private var timer: Timer?
+    private var alphaAnimationHideTimer: Timer?
 
     init(chatViewModel: QuickChatViewModel) {
         self.quickChatViewModel = chatViewModel
@@ -91,7 +91,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     }
 
     func dissappearAnimation() {
-        timer?.invalidate()
+        alphaAnimationHideTimer?.invalidate()
         if isRemovedWhenResigningFirstResponder {
             textView.alpha = 0
             directAnswersView.alpha = 0
@@ -128,28 +128,32 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
 
     func showDirectMessages() {
         guard !textView.isFirstResponder else { return }
-        if timer == nil {
+        fireHideAnimationTimer()
+    }
+
+    private func fireHideAnimationTimer() {
+        if alphaAnimationHideTimer == nil {
             UIView.animate(withDuration: Duration.flashInTable,
                            animations: { [weak self] in
                             self?.tableView.alpha = 1
             }) { (completion) in
-                self.timer?.fire()
+                self.alphaAnimationHideTimer?.fire()
             }
         }
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: TimeInterval(3),
-                                     target: self,
-                                     selector: #selector(dismissTimer),
-                                     userInfo: nil, repeats: false)
+        alphaAnimationHideTimer?.invalidate()
+        alphaAnimationHideTimer = Timer.scheduledTimer(timeInterval: TimeInterval(3),
+                                                       target: self,
+                                                       selector: #selector(dismissTimer),
+                                                       userInfo: nil, repeats: false)
     }
 
     @objc private func dismissTimer() {
-        guard timer != nil else { return }
+        guard alphaAnimationHideTimer != nil else { return }
         UIView.animate(withDuration: Duration.flashOutTable,
                        animations: { [weak self] in
                         self?.tableView.alpha = 0
         })
-        timer = nil
+        alphaAnimationHideTimer = nil
     }
 
     func addDismissGestureRecognizer(_ gesture: UITapGestureRecognizer) {
@@ -258,7 +262,9 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         let firstResponder = textView.isFirstResponder
 
-        let insideTable = tableView.point(inside: convert(point, to: tableView),  with: event) && timer != nil
+        let insideTable = tableView.point(inside: convert(point, to: tableView),  with: event)
+            && alphaAnimationHideTimer != nil
+            && isTableInteractionEnabled
 
         let insideTextView = textView.point(inside: convert(point, to: textView), with: event)
         let insideDirectAnswers = directAnswersView.point(inside: convert(point, to: directAnswersView), with: event)

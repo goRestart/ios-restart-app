@@ -201,7 +201,6 @@ final class ListingDeckViewModel: BaseViewModel {
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
-        // Tracking
         currentListingViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)
     }
 

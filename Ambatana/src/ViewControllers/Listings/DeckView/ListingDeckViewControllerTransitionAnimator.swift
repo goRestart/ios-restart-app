@@ -33,7 +33,10 @@ final class ListingDeckViewControllerTransitionAnimator: NSObject, UIViewControl
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let duration = transitionDuration(using: transitionContext)
-        guard let originImage = image, let originFrame = frame else { return }
+        guard let originImage = image, let originFrame = frame else {
+            transitionContext.completeTransition(true)
+            return
+        }
 
         transitioner?.animateTransition(using: transitionContext,
                                        withDuration: duration,

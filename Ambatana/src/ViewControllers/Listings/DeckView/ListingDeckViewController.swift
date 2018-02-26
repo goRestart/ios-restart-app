@@ -51,9 +51,9 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         listingDeckView.setQuickChatViewModel(viewModel.quickChatViewModel)
-        setupRx()
-
         setupCollectionView()
+
+        setupRx()
     }
 
     override func viewWillAppear(_ animated: Bool) {
