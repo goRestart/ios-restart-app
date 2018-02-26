@@ -46,7 +46,7 @@ final class ListingCardUserView: UIView {
     private let userIcon = UIButton(type: .custom)
     private let userNameLabel = UILabel()
 
-    private let effect = UIBlurEffect(style: .light)
+    private let effect = UIBlurEffect(style: .dark)
     let effectView: UIVisualEffectView
 
     private let actionLayoutGuide = UILayoutGuide()
