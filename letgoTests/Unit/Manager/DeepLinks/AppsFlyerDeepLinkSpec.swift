@@ -13,8 +13,8 @@ import Nimble
 class AppsFlyerDeepLinkSpec: QuickSpec {
     
     override func spec() {
-        describe("encode") {
-            context("percentEncodeForAmpersands") {
+        describe("percentEncodeForAmpersands") {
+            context("correct encoding") {
                 var encodedString: String!
                 beforeEach {
                     let urlString = "letgo://product/0e56c1c5-fbfa-4a46-b226-e51fff967e1a?utm_campaign=product-detail-share&utm_medium=whatsapp&utm_source=ios_app"

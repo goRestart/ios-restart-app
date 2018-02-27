@@ -105,7 +105,7 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
     }
     
     func onAppOpenAttribution(_ attributionData: [AnyHashable : Any]!) {
-        guard let deeplink = buildFromAttributionData(attributionData) else { return }
+        guard let deeplink = AppsFlyerDeepLink.buildFromAttributionData(attributionData) else { return }
         deepLinksSignal.onNext(deeplink)
     }
 
@@ -233,18 +233,5 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
                                        source: .external(source: AppInstallKeys.Provider.appsflyer))
         }
         return nil
-    }
-    
-    private func buildFromAttributionData(_ attributionData: [AnyHashable : Any]) -> DeepLink? {
-        guard let deepLink = attributionData["af_dp"] as? String else { return nil }
-        guard let deepLinkUrl = URL(string: deepLinkWithScheme(deepLink: deepLink)) else { return nil }
-        guard let uriScheme = UriScheme.buildFromUrl(deepLinkUrl) else { return nil }
-        return uriScheme.deepLink
-        
-    }
-    
-    private func deepLinkWithScheme(deepLink: String) -> String {
-        guard deepLink.range(of: "letgo://") == nil else { return deepLink }
-        return "letgo://" + deepLink
     }
 }

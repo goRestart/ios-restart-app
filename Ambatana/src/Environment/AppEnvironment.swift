@@ -42,6 +42,7 @@ protocol AppEnvironment {
     
     // AppsFlyer
     var appsFlyerAPIKey: String { get }
+    var oneLinkHost: String { get }
     var oneLinkID: String { get }
 }
 
