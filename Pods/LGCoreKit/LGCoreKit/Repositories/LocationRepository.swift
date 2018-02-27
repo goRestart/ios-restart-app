@@ -9,11 +9,6 @@
 import Result
 import CoreLocation
 
-public enum LocationDataSourceType {
-    case apple(shouldUseRegion: Bool)
-    case niord
-}
-
 public typealias LocationSuggestionsRepositoryResult = Result<[Place], LocationError>
 public typealias LocationSuggestionsRepositoryCompletion = (LocationSuggestionsRepositoryResult) -> Void
 
@@ -43,8 +38,6 @@ public protocol LocationRepository {
     
     func startUpdatingLocation()
     func stopUpdatingLocation()
-    
-    func setLocationDataSourceType(locationDataSourceType: LocationDataSourceType)
     
     func retrieveLocationSuggestions(addressString: String, currentLocation: LGLocation?, completion: LocationSuggestionsRepositoryCompletion?)
     func retrieveLocationSuggestionDetails(placeId: String, completion: LocationSuggestionDetailsRepositoryCompletion?)

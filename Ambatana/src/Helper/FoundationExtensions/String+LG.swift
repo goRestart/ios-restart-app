@@ -192,15 +192,6 @@ extension String {
         return slugId
     }
     
-    func stringByRemovingEmoji() -> String {
-        return String(self.filter { !$0.isEmoji })
-    }
-    
-    func hasEmojis() -> Bool {
-        let emojis = unicodeScalars.filter { $0.isEmoji }
-        return emojis.count > 0
-    }
-    
     func trunc(_ length: Int, trailing: String? = "...") -> String {
         guard count > length else { return self }
         let substring = String(self[..<self.index(self.startIndex, offsetBy: length)])
@@ -312,16 +303,41 @@ extension String {
     }
 
     var isPhoneNumber: Bool {
-        do {
-            let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.phoneNumber.rawValue)
-            let matches = detector.matches(in: self, options: [], range: NSMakeRange(0, self.characters.count))
-            if let res = matches.first {
-                return res.resultType == .phoneNumber && res.range.location == 0 && res.range.length == self.characters.count
-            } else {
-                return false
-            }
-        } catch {
+        let noPlusOrHyphenString = self.components(separatedBy: ["+","-"]).joined(separator: "")
+        guard let _ = Int(noPlusOrHyphenString) else {
             return false
         }
+        return noPlusOrHyphenString.count == Constants.usaPhoneNumberDigitsCount
+    }
+
+    var addingSquareMeterUnit: String {
+        return self + " \(Constants.sizeSquareMetersUnit)"
+    }
+
+    func addUSPhoneFormatDashes() -> String {
+
+        guard self.count >= Constants.usaFirstDashPosition else { return self }
+
+        var firstChunk: String = ""
+        var midChunk: String = ""
+        var lastChunk: String = ""
+        var outputString = ""
+        let midChunkStart = String.Index(encodedOffset: Constants.usaFirstDashPosition)
+        let midChunkEnd = String.Index(encodedOffset: Constants.usaSecondDashPosition-1)
+
+        if self.count >= Constants.usaFirstDashPosition {
+            firstChunk = String(self[self.startIndex..<midChunkStart])
+            outputString = firstChunk + "-"
+        }
+        if self.count >= Constants.usaSecondDashPosition {
+            midChunk = String(self[midChunkStart..<midChunkEnd])
+            outputString = outputString + midChunk + "-"
+            lastChunk = String(self[midChunkEnd..<self.endIndex])
+            outputString = outputString + lastChunk
+        } else {
+            midChunk = String(self[midChunkStart..<String.Index(encodedOffset: self.count)])
+            return outputString + midChunk
+        }
+        return outputString
     }
 }

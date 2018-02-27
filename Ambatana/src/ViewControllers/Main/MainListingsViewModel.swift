@@ -10,11 +10,16 @@ import CoreLocation
 import LGCoreKit
 import Result
 import RxSwift
+import GoogleMobileAds
 
 protocol MainListingsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch()
     func vmShowTags(primaryTags: [FilterTag], secondaryTags: [FilterTag])
     func vmFiltersChanged()
+}
+
+protocol MainListingsAdsDelegate: class {
+    func rootViewControllerForAds() -> UIViewController
 }
 
 struct MainListingsHeader: OptionSet {
@@ -56,6 +61,7 @@ class MainListingsViewModel: BaseViewModel {
             return false
         }
     }
+    let mostSearchedItemsCellPosition: Int = 6
     let bannerCellPosition: Int = 8
     let suggestedSearchesLimit: Int = 10
     var filters: ListingFilters
@@ -69,6 +75,9 @@ class MainListingsViewModel: BaseViewModel {
 
     var isTaxonomiesAndTaxonomyChildrenInFeedEnabled: Bool {
         return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive
+    }
+    var isMostSearchedItemsEnabled: Bool {
+        return featureFlags.mostSearchedDemandedItems.isActive
     }
     
     var defaultBubbleText: String {
@@ -132,17 +141,26 @@ class MainListingsViewModel: BaseViewModel {
             }
         }
         
-        if let propertyType = filters.realEstatePropertyType {
-            resultTags.append(.realEstatePropertyType(propertyType))
-        }
-        if let offerType = filters.realEstateOfferType {
-            resultTags.append(.realEstateOfferType(offerType))
-        }
-        if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
-            resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
-        }
-        if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
-            resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
+        if filters.selectedCategories.contains(.realEstate) {
+            if let propertyType = filters.realEstatePropertyType {
+                resultTags.append(.realEstatePropertyType(propertyType))
+            }
+            if let offerType = filters.realEstateOfferType {
+                resultTags.append(.realEstateOfferType(offerType))
+            }
+            
+            if let numberOfBedrooms = filters.realEstateNumberOfBedrooms {
+                resultTags.append(.realEstateNumberOfBedrooms(numberOfBedrooms))
+            }
+            if let numberOfBathrooms = filters.realEstateNumberOfBathrooms {
+                resultTags.append(.realEstateNumberOfBathrooms(numberOfBathrooms))
+            }
+            if let numberOfRooms = filters.realEstateNumberOfRooms {
+                resultTags.append(.realEstateNumberOfRooms(numberOfRooms))
+            }
+            if filters.realEstateSizeRange.min != nil || filters.realEstateSizeRange.max != nil {
+                resultTags.append(.sizeSquareMetersRange(from: filters.realEstateSizeRange.min, to: filters.realEstateSizeRange.max))
+            }
         }
 
         return resultTags
@@ -179,6 +197,10 @@ class MainListingsViewModel: BaseViewModel {
         return true
     }
 
+    private var shouldShowCollections: Bool {
+        return keyValueStorage[.lastSuggestiveSearches].count >= minimumSearchesSavedToShowCollection && filters.noFilterCategoryApplied
+    }
+    
     let mainListingsHeader = Variable<MainListingsHeader>([])
     let filterTitle = Variable<String?>(nil)
     let filterDescription = Variable<String?>(nil)
@@ -197,7 +219,7 @@ class MainListingsViewModel: BaseViewModel {
     fileprivate let tracker: Tracker
     fileprivate let searchType: SearchType? // The initial search
     fileprivate var collections: [CollectionCellType] {
-        guard keyValueStorage[.lastSuggestiveSearches].count >= minimumSearchesSavedToShowCollection else { return [] }
+        guard shouldShowCollections else { return [] }
         return [.selectedForYou]
     }
     fileprivate let keyValueStorage: KeyValueStorage
@@ -205,6 +227,7 @@ class MainListingsViewModel: BaseViewModel {
     
     // > Delegate
     weak var delegate: MainListingsViewModelDelegate?
+    weak var adsDelegate: MainListingsAdsDelegate?
 
     // > Navigator
     weak var navigator: MainTabNavigator?
@@ -221,6 +244,8 @@ class MainListingsViewModel: BaseViewModel {
     fileprivate var shouldRetryLoad = false
     fileprivate var lastReceivedLocation: LGLocation?
     fileprivate var bubbleDistance: Float = 1
+    fileprivate var lastAdPosition: Int = 0
+    fileprivate var previousPagesAdsOffset: Int = 0
 
     // Search tracking state
     fileprivate var shouldTrackSearch = false
@@ -285,8 +310,7 @@ class MainListingsViewModel: BaseViewModel {
         self.shouldShowPrices.value = (!filters.isDefault() || searchType != nil) && featureFlags.showPriceAfterSearchOrFilter.isActive
         self.listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                         queryString: searchType?.query,
-                                                                                        itemsPerPage: itemsPerPage,
-                                                                                        multiRequesterEnabled: featureFlags.newCarsMultiRequesterEnabled)
+                                                                                        itemsPerPage: itemsPerPage)
         self.listViewModel = ListingListViewModel(requester: self.listingListRequester, listings: nil,
                                                   numberOfColumns: columns, tracker: tracker, shouldShowPrices: shouldShowPrices.value)
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
@@ -377,8 +401,6 @@ class MainListingsViewModel: BaseViewModel {
         Called when a filter gets removed
     */
     func updateFiltersFromTags(_ tags: [FilterTag], removedTag: FilterTag?) {
-
-        var place: Place? = nil
         var categories: [FilterCategoryItem] = []
         var taxonomyChild: TaxonomyChild? = nil
         var taxonomy: Taxonomy? = nil
@@ -388,7 +410,6 @@ class MainListingsViewModel: BaseViewModel {
         var minPrice: Int? = nil
         var maxPrice: Int? = nil
         var free: Bool = false
-        var distance: Int? = nil
         var makeId: String? = nil
         var makeName: String? = nil
         var modelId: String? = nil
@@ -399,11 +420,14 @@ class MainListingsViewModel: BaseViewModel {
         var realEstateOfferType: RealEstateOfferType? = nil
         var realEstateNumberOfBedrooms: NumberOfBedrooms? = nil
         var realEstateNumberOfBathrooms: NumberOfBathrooms? = nil
+        var realEstateNumberOfRooms: NumberOfRooms? = nil
+        var realEstateSizeSquareMetersMin: Int? = nil
+        var realEstateSizeSquareMetersMax: Int? = nil
 
         for filterTag in tags {
             switch filterTag {
-            case .location(let thePlace):
-                place = thePlace
+            case .location:
+                break
             case .category(let prodCategory):
                 categories.append(FilterCategoryItem(category: prodCategory))
             case .taxonomyChild(let taxonomyChildSelected):
@@ -421,8 +445,8 @@ class MainListingsViewModel: BaseViewModel {
                 maxPrice = maxPriceOption
             case .freeStuff:
                 free = true
-            case .distance(let distanceFilter):
-                distance = distanceFilter
+            case .distance:
+                break
             case .make(let id, let name):
                 makeId = id
                 makeName = name
@@ -440,6 +464,11 @@ class MainListingsViewModel: BaseViewModel {
                 realEstateNumberOfBedrooms = numberOfBedrooms
             case .realEstateNumberOfBathrooms(let numberOfBathrooms):
                 realEstateNumberOfBathrooms = numberOfBathrooms
+            case .realEstateNumberOfRooms(let numberOfRooms):
+                realEstateNumberOfRooms = numberOfRooms
+            case .sizeSquareMetersRange(let minSize, let maxSize):
+                realEstateSizeSquareMetersMin = minSize
+                realEstateSizeSquareMetersMax = maxSize
             }
         }
 
@@ -511,6 +540,9 @@ class MainListingsViewModel: BaseViewModel {
         filters.realEstateNumberOfBedrooms = realEstateNumberOfBedrooms
         filters.realEstateNumberOfBathrooms = realEstateNumberOfBathrooms
         
+        filters.realEstateNumberOfRooms = realEstateNumberOfRooms
+        filters.realEstateSizeRange = SizeRange(min: realEstateSizeSquareMetersMin, max: realEstateSizeSquareMetersMax)
+        
         updateCategoriesHeader()
         updateRealEstateBanner()
         updateListView()
@@ -533,10 +565,13 @@ class MainListingsViewModel: BaseViewModel {
             filters.selectedTaxonomyChildren = [taxonomyChild]
         case .superKeywordGroup(let taxonomy):
             filters.selectedTaxonomy = taxonomy
-        case .other:
+        case .showMore:
             tracker.trackEvent(TrackerEvent.filterCategoryHeaderSelected(position: categoryHeaderInfo.position,
                                                                          name: categoryHeaderInfo.name))
             return // do not update any filters
+        case .mostSearchedItems:
+            // TODO: Add tracker. Also check .showMore's tracker top in another method
+            return
         }
         applyFilters(categoryHeaderInfo)
     }
@@ -594,8 +629,7 @@ class MainListingsViewModel: BaseViewModel {
 
         listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                    queryString: queryString,
-                                                                                   itemsPerPage: currentItemsPerPage,
-                                                                                   multiRequesterEnabled: featureFlags.newCarsMultiRequesterEnabled)
+                                                                                   itemsPerPage: currentItemsPerPage)
 
         listViewModel.listingListRequester = listingListRequester
 
@@ -634,9 +668,19 @@ class MainListingsViewModel: BaseViewModel {
         if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
             categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
         } else {
-            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(realEstateIncluded: featureFlags.realEstateEnabled.isActive).map { CategoryHeaderElement.listingCategory($0) })
+            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(realEstateIncluded: featureFlags.realEstateEnabled.isActive,
+                                                                                          highlightRealEstate: featureFlags.realEstatePromos.isActive)
+                .map { CategoryHeaderElement.listingCategory($0) })
         }
         return categoryHeaderElements
+    }
+    
+    var categoryHeaderHighlighted: CategoryHeaderElement {
+        if featureFlags.realEstatePromos.isActive && featureFlags.realEstateEnabled.isActive {
+            return CategoryHeaderElement.listingCategory(.realEstate)
+        } else {
+            return CategoryHeaderElement.listingCategory(.cars)
+        }
     }
 }
 
@@ -783,8 +827,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
 
         if page == 0 && !hasProducts {
-            if let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
-                                                                               action:  { [weak viewModel] in viewModel?.refresh() }) {
+            if let emptyViewModel = LGEmptyViewModel.map(from: error, action: { [weak viewModel] in viewModel?.refresh() }) {
                 listViewModel.setErrorState(emptyViewModel)
             }
         }
@@ -817,6 +860,35 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     }
 
     func vmProcessReceivedListingPage(_ listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
+        var totalListings = listings
+        totalListings = addMostSearchedItems(to: totalListings)
+        totalListings = addCollections(to: totalListings, page: page)
+        let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
+        if featureFlags.showAdsInFeedWithRatio.isActive ||
+            featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeedForUser(createdIn: myUserCreationDate) {
+            totalListings = addAds(to: totalListings, page: page)
+        }
+        return totalListings
+    }
+
+    func vmDidSelectCollection(_ type: CollectionCellType){
+        tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
+        let query = queryForCollection(type)
+        delegate?.vmDidSearch()
+        navigator?.openMainListings(withSearchType: .collection(type: type, query: query), listingFilters: filters)
+    }
+    
+    func vmDidSelectMostSearchedItems() {
+        navigator?.openMostSearchedItems(source: .mostSearchedCard, enableSearch: true)
+    }
+
+    func vmUserDidTapInvite() {
+        navigator?.openAppInvite(myUserId: myUserId, myUserName: myUserName)
+    }
+    
+    func vmDidSelectSellBanner(_ type: String) {}
+
+    private func addCollections(to listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
         guard searchType == nil else { return listings }
         guard listings.count > bannerCellPosition else { return listings }
         var cellModels = listings
@@ -828,18 +900,92 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         return cellModels
     }
 
-    func vmDidSelectCollection(_ type: CollectionCellType){
-        tracker.trackEvent(TrackerEvent.exploreCollection(type.rawValue))
-        let query = queryForCollection(type)
-        delegate?.vmDidSearch()
-        navigator?.openMainListings(withSearchType: .collection(type: type, query: query), listingFilters: filters)
+    private func addAds(to listings: [ListingCellModel], page: UInt) -> [ListingCellModel] {
+        if page == 0 {
+            lastAdPosition = Constants.adInFeedInitialPosition
+            previousPagesAdsOffset = 0
+        }
+        guard let adsDelegate = adsDelegate else { return listings }
+        guard let feedAdUnitId = featureFlags.feedDFPAdUnitId else { return listings }
+
+        var cellModels = listings
+
+        var canInsertAds = true
+
+        while canInsertAds {
+
+            let adPositionInPage = lastAdPosition-previousPagesAdsOffset
+            guard let adRelativePosition = adPositionRelativeToPage(page: page,
+                                                                  itemsInPage: cellModels.count,
+                                                                  pageSize: listingListRequester.itemsPerPage,
+                                                                  adPosition: adPositionInPage) else { break }
+
+            let request = DFPRequest()
+            var customTargetingValue = ""
+
+            if featureFlags.showAdsInFeedWithRatio.isActive {
+                customTargetingValue = featureFlags.showAdsInFeedWithRatio.customTargetingValueFor(position: lastAdPosition)
+            } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
+                customTargetingValue = featureFlags.noAdsInFeedForNewUsers.customTargetingValueFor(position: lastAdPosition)
+            }
+
+            request.customTargeting = [Constants.adInFeedCustomTargetingKey: customTargetingValue]
+
+            let adData = AdvertisementData(adUnitId: feedAdUnitId,
+                                           rootViewController: adsDelegate.rootViewControllerForAds(),
+                                           adPosition: lastAdPosition,
+                                           bannerHeight: LGUIKitConstants.advertisementCellPlaceholderHeight,
+                                           adRequest: request,
+                                           bannerView: nil,
+                                           showAdsInFeedWithRatio: featureFlags.showAdsInFeedWithRatio,
+                                           categories: filters.selectedCategories,
+                                           adRequested: false)
+
+            let adsCellModel = ListingCellModel.advertisement(data: adData)
+            cellModels.insert(adsCellModel, at: adRelativePosition)
+
+            lastAdPosition = adAbsolutePosition()
+            canInsertAds = adRelativePosition < cellModels.count
+        }
+        previousPagesAdsOffset = previousPagesAdsOffset + (cellModels.count - listings.count)
+        return cellModels
     }
     
-    func vmUserDidTapInvite() {
-        navigator?.openAppInvite(myUserId: myUserId, myUserName: myUserName)
+    private func addMostSearchedItems(to listings: [ListingCellModel]) -> [ListingCellModel] {
+        guard searchType == nil else { return listings }
+        guard listings.count > mostSearchedItemsCellPosition else { return listings }
+        var cellModels = listings
+        if isMostSearchedItemsEnabled {
+            let mostSearchedItemsModel = ListingCellModel.mostSearchedItems(data: MostSearchedItemsCardData())
+            cellModels.insert(mostSearchedItemsModel, at: mostSearchedItemsCellPosition)
+        }
+        return cellModels
     }
-    
-    func vmDidSelectSellBanner(_ type: String) {}
+
+    private func adAbsolutePosition() -> Int {
+        var adPosition = 0
+        if lastAdPosition == 0 {
+            adPosition = Constants.adInFeedInitialPosition
+        } else {
+            var ratio: Int = 0
+            if featureFlags.showAdsInFeedWithRatio.isActive {
+                ratio = featureFlags.showAdsInFeedWithRatio.ratio
+            } else if featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInFeed {
+                ratio = featureFlags.noAdsInFeedForNewUsers.ratio
+            }
+            adPosition = lastAdPosition + ratio
+        }
+        return adPosition
+    }
+
+    private func adPositionRelativeToPage(page: UInt, itemsInPage: Int, pageSize: Int, adPosition: Int) -> Int? {
+        let pageInt = Int(page)
+        let adRelativePosition = adPosition - (pageInt*pageSize)
+        if 0..<itemsInPage ~= adRelativePosition {
+            return adRelativePosition
+        }
+        return nil
+    }
 }
 
 
@@ -1077,7 +1223,7 @@ extension MainListingsViewModel {
     }
     
     var showRealEstateBanner: Bool {
-        return !listViewModel.isListingListEmpty.value && featureFlags.realEstatePromos.isActive && filters.selectedCategories == [.realEstate] && !filters.hasAnyRealEstateAttributes
+        return !listViewModel.isListingListEmpty.value && featureFlags.realEstatePromos.isActive && filters.selectedCategories == [.realEstate]
     }
 
     func pushPermissionsHeaderPressed() {
@@ -1288,6 +1434,10 @@ extension MainListingsViewModel: CategoriesHeaderCollectionViewDelegate {
         vm.taxonomiesDelegate = self
         navigator?.openTaxonomyList(withViewModel: vm)
     }
+    
+    func openMostSearchedItems() {
+        navigator?.openMostSearchedItems(source: .mostSearchedCategoryHeader, enableSearch: true)
+    }
 }
 
 
@@ -1323,5 +1473,47 @@ extension MainListingsViewModel: ListingCellDelegate {
         navigator?.openChat(.listingAPI(listing: listing),
                             source: .listingListFeatured,
                             predefinedMessage: nil)
+    }
+}
+
+extension NoAdsInFeedForNewUsers {
+    var ratio: Int {
+        return shouldShowAdsInFeed ? 20 : 0
+    }
+
+    func customTargetingValueFor(position: Int) -> String {
+        guard self.ratio != 0 else { return "" }
+        let numberOfAd = ((position - Constants.adInFeedInitialPosition)/self.ratio) + 1
+        return "var_c_pos_\(numberOfAd)"
+    }
+}
+
+extension ShowAdsInFeedWithRatio {
+    var ratio: Int {
+        switch self {
+        case .control, .baseline:
+            return 0
+        case .ten:
+            return 10
+        case .fifteen:
+            return 15
+        case .twenty:
+            return 20
+        }
+    }
+
+    func customTargetingValueFor(position: Int) -> String {
+        guard self.ratio != 0 else { return "" }
+        let numberOfAd = ((position - Constants.adInFeedInitialPosition)/self.ratio) + 1
+        switch self {
+        case .control, .baseline:
+            return ""
+        case .ten:
+            return "var_a_pos_\(numberOfAd)"
+        case .fifteen:
+            return "var_b_pos_\(numberOfAd)"
+        case .twenty:
+            return "var_c_pos_\(numberOfAd)"
+        }
     }
 }

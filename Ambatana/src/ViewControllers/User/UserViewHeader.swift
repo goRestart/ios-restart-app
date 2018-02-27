@@ -43,6 +43,8 @@ class UserViewHeader: UIView {
     fileprivate static let buildTrustButtonInsetSmall: CGFloat = 10
     fileprivate static let buildTrustButtonInsetBig: CGFloat = 15
     fileprivate static let buildTrustButtonTitleInset: CGFloat = 10
+    
+    fileprivate static let dummyUserContainerViewHeight: CGFloat = 70
 
     @IBOutlet weak var avatarRatingsContainerView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -82,6 +84,10 @@ class UserViewHeader: UIView {
     @IBOutlet weak var indicatorView: UIView!
     @IBOutlet weak var indicatorViewLeadingConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var dummyUserDisclaimerContainerView: UIView!
+    var dummyUserDisclaimerView: DummyUserDisclaimerView?
+    
+    @IBOutlet weak var dummyUserDisclaimerContainerViewHeight: NSLayoutConstraint!
     weak var delegate: UserViewHeaderDelegate?
 
     let tab = Variable<UserViewHeaderTab>(.selling)
@@ -186,6 +192,25 @@ extension UserViewHeader {
         userRelationLabel.text = userRelationText
         updateInfoAndAccountsVisibility()
     }
+    
+    func setupDummyView(isDummy: Bool, infoText: String) {
+        if let containerView = dummyUserDisclaimerContainerView,
+            isDummy && dummyUserDisclaimerView?.superview == nil {
+            if dummyUserDisclaimerView == nil {
+                dummyUserDisclaimerView = DummyUserDisclaimerView(infoText: infoText)
+            }
+            if let dummyUserDisclaimerView = self.dummyUserDisclaimerView {
+                dummyUserDisclaimerContainerViewHeight.constant += DummyUserDisclaimerView.viewHeight
+                containerView.addSubview(dummyUserDisclaimerView)
+                dummyUserDisclaimerView.layout(with: containerView).fill()
+            }
+        } else {
+            dummyUserDisclaimerContainerViewHeight.constant = 0
+            dummyUserDisclaimerView?.removeFromSuperview()
+        }
+        setNeedsLayout()
+        layoutIfNeeded()
+    }
 
     fileprivate func modeUpdated() {
         verifiedSimpleContainer.isHidden = false
@@ -228,7 +253,6 @@ extension UserViewHeader {
         verifiedSimpleTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser : ""
         verifiedSimpleContainerHeight.constant = anyAccountVerified ? UserViewHeader.simpleContainerHeight : UserViewHeader.simpleContainerEmptyHeight
     
-
         if buildTrustButtonVisible {
             buildTrustSeparator.isHidden = !anyAccountVerified
             buildTrustContainerButtonWidth.constant = anyAccountVerified ? 0 : UserViewHeader.halfWidthScreen
@@ -293,6 +317,8 @@ extension UserViewHeader {
         ratingCountLabel.textColor = UIColor.lgBlack
         ratingsLabel.font = UIFont.systemRegularFont(size: 13)
         ratingsLabel.textColor = UIColor.grayDark
+        
+        avatarImageView.contentMode = .scaleAspectFill
     }
 
     private func setupVerifiedViews() {

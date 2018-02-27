@@ -116,8 +116,7 @@ class ListingCarouselViewModel: BaseViewModel {
     let ownerIsProfessional = Variable<Bool>(false)
     let ownerPhoneNumber = Variable<String?>(nil)
     var deviceCanCall: Bool {
-        guard let callUrl = URL(string: "tel://") else { return false }
-        return UIApplication.shared.canOpenURL(callUrl)
+        return PhoneCallsHelper.deviceCanCall
     }
 
     let quickAnswers = Variable<[[QuickAnswer]]>([[]])
@@ -164,6 +163,7 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate let listingViewModelMaker: ListingViewModelMaker
     let featureFlags: FeatureFlaggeable
     fileprivate let locationManager: LocationManager
+    fileprivate let myUserRepository: MyUserRepository
 
     fileprivate let disposeBag = DisposeBag()
 
@@ -183,7 +183,7 @@ class ListingCarouselViewModel: BaseViewModel {
         return featureFlags.moreInfoDFPAdUnitId
     }
     var adActive: Bool {
-        return !isMyListing && (afshAdActive || dfpAdActive)
+        return !isMyListing && (afshAdActive || dfpAdActive) && userShouldSeeAds
     }
     var afshAdActive: Bool {
         return featureFlags.moreInfoAFShOrDFP == .afsh
@@ -191,6 +191,11 @@ class ListingCarouselViewModel: BaseViewModel {
     var dfpAdActive: Bool {
         return featureFlags.moreInfoAFShOrDFP == .dfp
     }
+    var userShouldSeeAds: Bool {
+        let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
+        return featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInMoreInfoForUser(createdIn: myUserCreationDate)
+    }
+
     var dfpContentURL: String? {
         guard let listingId = currentListingViewModel?.listing.value.objectId else { return nil}
         return LetgoURLHelper.buildProductURL(listingId: listingId)?.absoluteString
@@ -269,7 +274,8 @@ class ListingCarouselViewModel: BaseViewModel {
                   imageDownloader: ImageDownloader.sharedInstance,
                   listingViewModelMaker: ListingViewModel.ConvenienceMaker(),
                   adsRequester: AdsRequester(),
-                  locationManager: Core.locationManager)
+                  locationManager: Core.locationManager,
+                  myUserRepository: Core.myUserRepository)
     }
 
     init(productListModels: [ListingCellModel]?,
@@ -285,7 +291,8 @@ class ListingCarouselViewModel: BaseViewModel {
          imageDownloader: ImageDownloaderType,
          listingViewModelMaker: ListingViewModelMaker,
          adsRequester: AdsRequester,
-         locationManager: LocationManager) {
+         locationManager: LocationManager,
+         myUserRepository: MyUserRepository) {
         if let productListModels = productListModels {
             self.objects.appendContentsOf(productListModels.flatMap(ListingCarouselCellModel.adapter))
             self.isLastPage = listingListRequester.isLastPage(productListModels.count)
@@ -303,6 +310,7 @@ class ListingCarouselViewModel: BaseViewModel {
         self.featureFlags = featureFlags
         self.adsRequester = adsRequester
         self.locationManager = locationManager
+        self.myUserRepository = myUserRepository
         if let initialListing = initialListing {
             self.startIndex = objects.value.index(where: { $0.listing.objectId == initialListing.objectId}) ?? 0
         } else {
@@ -526,9 +534,9 @@ class ListingCarouselViewModel: BaseViewModel {
     }
     
     func callSeller() {
-        guard let phoneNum = ownerPhoneNumber.value,
-            let phoneUrl = URL(string: "tel://\(phoneNum)") else { return }
-        UIApplication.shared.openURL(phoneUrl)
+        guard let phoneNumber = ownerPhoneNumber.value else { return }
+        PhoneCallsHelper.call(phoneNumber: phoneNumber)
+        currentListingViewModel?.trackCallTapped(source: source, feedPosition: trackingFeedPosition)
     }
 
 

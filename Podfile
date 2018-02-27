@@ -11,9 +11,9 @@ project "LetGo.xcodeproj"
 def shared_pods
     pod "AlamofireImage",       "3.3.0"
 
-    pod "FBSDKLoginKit",        "4.22.0"    # Obj-c
-    pod "FBSDKCoreKit",         "4.22.0"    # Obj-c
-    pod "FBSDKShareKit",        "4.22.0"    # Obj-c
+    pod "FBSDKLoginKit",        "4.29.0"    # Obj-c
+    pod "FBSDKCoreKit",         "4.29.0"    # Obj-c
+    pod "FBSDKShareKit",        "4.29.0"    # Obj-c
 
     pod "RxSwift",              "4.0.0"
     pod "RxSwiftExt",           "3.0.0"
@@ -23,22 +23,20 @@ def shared_pods
     pod "Google-Mobile-Ads-SDK","7.24.1"
 
     #Fabric
-    pod "Fabric",               "1.6.11"    # Obj-c
-    pod "Crashlytics",          "3.8.3"     # Obj-c
-    pod "TwitterKit",           "2.3.0"     # Obj-c
-    pod "Branch",               "0.12.27"   # Obj-c
+    pod "Fabric",               "1.7.2"     # Obj-c
+    pod "Crashlytics",          "3.9.3"     # Obj-c
+    pod "Branch",               "0.22.5"    # Obj-c
 
     # Tracking
-    pod "Amplitude-iOS",        "3.8.5"     # Obj-c
-    pod "AppsFlyerFramework",   "4.8.2"    # Obj-c
-#    pod "Leanplum-iOS-SDK",     "2.0.1"    # Obj-c
-    pod "Leanplum-iOS-SDK",     "2.0.4"
-    pod "NewRelicAgent",        "5.14.2"    # Obj-c
+    pod "Amplitude-iOS",        "4.0.4"     # Obj-c
+    pod "AppsFlyerFramework",   "4.8.2"     # Obj-c
+    pod "Leanplum-iOS-SDK",     "2.0.5"     # Obj-c
+    pod "NewRelicAgent",        "6.1.0"     # Obj-c
 
     # letgo Core
-    pod "LGCoreKit",             "4.1.2"
-#    pod "LGCoreKit",            :path => "../lgcorekit"
-#    pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '55d732bafb5e4f24223dc6e4e7733a584aa5678d'
+    pod "LGCoreKit",             "4.9.0"
+#   pod "LGCoreKit",            :path => "../lgcorekit"
+#   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'e2b0ee2a287ebb28b1be53f3f518f0ee2d4329a7'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.2.0"     # :path => "../collapsiblelabel"
@@ -49,15 +47,14 @@ def shared_pods
 
 
     # Collection View Custom Layout
-    pod "CHTCollectionViewWaterfallLayout", "0.9.5" # Obj-c
+    pod "CHTCollectionViewWaterfallLayout", "0.9.7" # Obj-c
 
     # Device info helper
     pod "DeviceGuru",           "~> 3.0.1"
 
-    # Google -> we have to ask for the Google/"subpod" so it imports Google/Core too
-    pod "Google/SignIn",        "3.0.3"     # Obj-c
+    # Google
+    pod "GoogleSignIn",         "4.1.1"     # Obj-c
 
-    pod "Firebase/AppIndexing", "3.7.1"     # Obj-c
     pod "GoogleIDFASupport",    "3.14.0"    # Obj-c
 
     # Custom camera
@@ -79,6 +76,8 @@ def shared_pods
     pod "KMPlaceholderTextView", :git => 'https://github.com/letgoapp/KMPlaceholderTextView', :commit => '426117c98e8da8fc7d64a7d3c2f0f45c48d595e6'
 
     pod "KeychainSwift",        "10.0.0"
+    
+    pod 'lottie-ios',           "2.5.0" # Obj-c
 
 end
 

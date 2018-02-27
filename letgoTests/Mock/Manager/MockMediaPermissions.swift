@@ -12,9 +12,9 @@
 import Foundation
 import Photos
 
-class MockMediaPermissions: MediaPermissions {
-    
+class MockMediaPermissions: MediaPermissions {    
     var isCameraAvailable: Bool = false
+    var isLibraryAccessAuthorized: Bool = true
     var videoAuthorizationStatus: AuthorizationStatus = .authorized
     var libraryAuthorizationStatus: AuthorizationStatus = .authorized
     

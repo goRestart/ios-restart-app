@@ -39,6 +39,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
         var purchasesShopper: MockPurchasesShopper!
         var monetizationRepository: MockMonetizationRepository!
         var tracker: MockTracker!
+        var keyValueStorage: MockKeyValueStorage!
 
         var disposeBag: DisposeBag!
         var scheduler: TestScheduler!
@@ -64,7 +65,8 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                         featureFlags: featureFlags,
                                         purchasesShopper: purchasesShopper,
                                         monetizationRepository: monetizationRepository,
-                                        tracker: tracker)
+                                        tracker: tracker,
+                                        keyValueStorage: keyValueStorage)
                 sut.delegate = self
                 sut.navigator = self
                 disposeBag = DisposeBag()
@@ -88,6 +90,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 purchasesShopper = MockPurchasesShopper()
                 monetizationRepository = MockMonetizationRepository()
                 tracker = MockTracker()
+                keyValueStorage = MockKeyValueStorage()
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
@@ -121,6 +124,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                 context("buyer selection enabled newMarkAsSoldFlow") {
                     context("allow calling dealers test disabled") {
                         beforeEach {
+                            featureFlags.allowCallsForProfessionals = .inactive
                             let userListing = MockUserListing.makeMock()
                             listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
                             buildListingViewModel()
@@ -152,7 +156,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                     }
                     context("allow calling dealers test enabled") {
                         beforeEach {
-                            featureFlags.allowCallsForProfessionals = .active
+                            featureFlags.allowCallsForProfessionals = .control
                             let userListing = MockUserListing.makeMock()
                             listingRepository.listingBuyersResult = ListingBuyersResult([userListing])
                             buildListingViewModel()
@@ -431,7 +435,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
 
             describe ("check user type") {
                 beforeEach {
-                    featureFlags.allowCallsForProfessionals = .active
+                    featureFlags.allowCallsForProfessionals = .control
                 }
                 context ("User is professional and has a phone number") {
                     beforeEach {
@@ -544,7 +548,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 userProduct.objectId = myUser.objectId
                                 product.user = userProduct
                                 product.featured = false
-                                product.status = .pending
+                                product.status = .deleted
                                 purchasesShopper.isBumpUpPending = false
 
                                 buildListingViewModel()
@@ -556,7 +560,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                                 expect(sut.bumpUpBannerInfo.value).to(beNil())
                             }
                         }
-                        context ("product status is pending, but is already bumped") {
+                        context ("product status is pending, and is already bumped") {
                             beforeEach {
 
                                 self.calledOpenFreeBumpUpView = false
@@ -888,7 +892,7 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     func editListing(_ listing: Listing) {
 
     }
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage) {
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) {
 
     }
     func closeListingAfterDelete(_ listing: Listing) {
@@ -931,6 +935,14 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     }
 
     func closeFeaturedInfo() {
+
+    }
+
+    func openAskPhoneFor(listing: Listing) {
+
+    }
+
+    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) {
 
     }
 }

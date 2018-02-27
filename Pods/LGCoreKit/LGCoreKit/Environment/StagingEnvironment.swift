@@ -7,14 +7,14 @@
 //
 
 struct StagingEnvironment: Environment {
-    let apiBaseURL = "http://api.stg.letgo.com"
+    let apiBaseURL = "https://api.stg.letgo.com"
     let realEstateBaseURL = "https://listingrealestate.stg.letgo.com"
     let searchRealEstateBaseURL = "https://searchrealestate.stg.letgo.com"
-    let bouncerBaseURL = "http://bouncer.stg.letgo.com/api"
-    let userRatingsBaseURL = "http://rating.stg.letgo.com/api"
+    let bouncerBaseURL = "https://bouncer.stg.letgo.com/api"
+    let userRatingsBaseURL = "https://rating.stg.letgo.com/api"
     let chatBaseURL = "https://chat.stg.letgo.com"
     let webSocketURL = "wss://chat.stg.letgo.com/socket"
-    let notificationsBaseURL = "http://notifications.stg.letgo.com/api"
+    let notificationsBaseURL = "https://notifications.stg.letgo.com/api"
     let paymentsBaseURL = "https://payment.stg.letgo.com/payment"
     let suggestiveSearchBaseURL = "https://suggestivesearch.letgo.com"
     let searchProductsBaseURL = "https://search-products.stg.letgo.com"

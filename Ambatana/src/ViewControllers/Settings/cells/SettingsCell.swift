@@ -62,9 +62,7 @@ class SettingsCell: UITableViewCell, ReusableCell {
 
 fileprivate extension LetGoSetting {
     var title: String {
-        switch (self) {
-        case .inviteFbFriends:
-            return LGLocalizedString.settingsInviteFacebookFriendsButton
+        switch self {
         case .changePhoto:
             return LGLocalizedString.settingsChangeProfilePictureButton
         case .changeUsername:
@@ -91,9 +89,7 @@ fileprivate extension LetGoSetting {
     }
 
     var image: UIImage? {
-        switch (self) {
-        case .inviteFbFriends:
-            return UIImage(named: "ic_setting_share_fb")
+        switch self {
         case .changeUsername:
             return UIImage(named: "ic_setting_name")
         case .changeEmail:

@@ -6,6 +6,7 @@
 //  Copyright © 2015 Ambatana. All rights reserved.
 //
 
+import GoogleSignIn
 import JBKenBurnsView
 import RxSwift
 import UIKit
@@ -161,16 +162,16 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
         // Redraw masked rounded corners
         emailButton.setRoundedCorners([.topLeft, .topRight],
-                                      cornerRadius: LGUIKitConstants.textfieldCornerRadius)
+                                      cornerRadius: LGUIKitConstants.mediumCornerRadius)
         switch viewModel.currentActionType {
         case .signup:
             passwordButton.setRoundedCorners([], cornerRadius: 0)
         case .login:
             passwordButton.setRoundedCorners([.bottomLeft, .bottomRight],
-                                             cornerRadius: LGUIKitConstants.textfieldCornerRadius)
+                                             cornerRadius: LGUIKitConstants.mediumCornerRadius)
         }
         usernameButton.setRoundedCorners([.bottomLeft, .bottomRight],
-                                         cornerRadius: LGUIKitConstants.textfieldCornerRadius)
+                                         cornerRadius: LGUIKitConstants.mediumCornerRadius)
     }
 
 
@@ -332,7 +333,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
-        guard !string.hasEmojis() else { return false }
+        guard !string.containsEmoji else { return false }
         guard let text = textField.text else { return false }
         let newLength = text.count + string.count - range.length
         let removing = text.count > newLength
@@ -576,7 +577,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         passwordButton.setRoundedCorners([], cornerRadius: 0)
         passwordTextField.returnKeyType = .next
         usernameButton.setRoundedCorners([.bottomLeft, .bottomRight],
-                                         cornerRadius: LGUIKitConstants.textfieldCornerRadius)
+                                         cornerRadius: LGUIKitConstants.mediumCornerRadius)
         usernameButton.isHidden = false
         usernameIconImageView.isHidden = false
         usernameTextField.isHidden = false
@@ -591,7 +592,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
     private func setupLoginUI() {
         passwordButton.setRoundedCorners([.bottomLeft, .bottomRight],
-                                         cornerRadius: LGUIKitConstants.textfieldCornerRadius)
+                                         cornerRadius: LGUIKitConstants.mediumCornerRadius)
         passwordTextField.returnKeyType = .send
         usernameButton.isHidden = true
         usernameIconImageView.isHidden = true

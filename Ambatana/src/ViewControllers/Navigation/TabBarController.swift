@@ -158,20 +158,24 @@ final class TabBarController: UITabBarController {
     dissapear. Also when the tabBar is set again, is added into a different layer so the constraint cannot be set again.
     */
     override func setTabBarHidden(_ hidden:Bool, animated:Bool, completion: ((Bool) -> Void)? = nil) {
-        if (isTabBarHidden == hidden) { return }
+        DispatchQueue.main.async {
+            // Wait for the next RunLoop.
+            // When closing a Modal the tabBar frame value is not yet updated and we need to wait for the next runloop
+            if (self.isTabBarHidden == hidden) { return }
 
-        let frame = tabBar.frame
-        let offsetY = (hidden ? frame.size.height : 0)
-        let duration: TimeInterval = (animated ? TimeInterval(UITabBarControllerHideShowBarDuration) : 0.0)
+            let frame = self.tabBar.frame
+            let offsetY = (hidden ? frame.size.height : 0)
+            let duration: TimeInterval = (animated ? TimeInterval(UITabBarControllerHideShowBarDuration) : 0.0)
 
-        let transform = CGAffineTransform.identity.translatedBy(x: 0, y: offsetY)
-        UIView.animate(withDuration: duration,
-                       delay: 0,
-                       options: [.curveEaseIn], animations: { [weak self] in
-                        self?.floatingSellButton.transform = transform
-        }, completion: completion)
+            let transform = CGAffineTransform.identity.translatedBy(x: 0, y: offsetY)
+            UIView.animate(withDuration: duration,
+                           delay: 0,
+                           options: [.curveEaseIn], animations: { [weak self] in
+                            self?.floatingSellButton.transform = transform
+            }, completion: completion)
 
-        super.setTabBarHidden(hidden, animated: animated)
+            super.setTabBarHidden(hidden, animated: animated)
+        }
     }
 
     // MARK: - Private methods
@@ -242,9 +246,16 @@ final class TabBarController: UITabBarController {
     
     func setupExpandableCategoriesView() {
         view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()
-        let vm = ExpandableCategorySelectionViewModel(realEstateEnabled: featureFlags.realEstateEnabled.isActive)
+        let vm = ExpandableCategorySelectionViewModel(realEstateEnabled: featureFlags.realEstateEnabled.isActive,
+                                                      trendingButtonEnabled: featureFlags.mostSearchedDemandedItems == .trendingButtonExpandableMenu,
+                                                      tagsEnabled: featureFlags.mostSearchedDemandedItems == .subsetAboveExpandableMenu)
         vm.delegate = self
-        let expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame, buttonSpacing: ExpandableCategorySelectionView.distanceBetweenButtons, bottomDistance: floatingSellButtonMarginConstraint.constant, viewModel: vm)
+        
+        let bottomDistance = view.bounds.height - floatingSellButton.frame.maxY
+        let expandableCategorySelectionView = ExpandableCategorySelectionView(frame:view.frame,
+                                                                              buttonSpacing: ExpandableCategorySelectionView.distanceBetweenButtons,
+                                                                              bottomDistance: -bottomDistance,
+                                                                              viewModel: vm)
         expandableCategorySelectionView.tag = TabBarController.categorySelectionTag
         view.addSubview(expandableCategorySelectionView)
         expandableCategorySelectionView.layoutIfNeeded()
@@ -258,20 +269,15 @@ final class TabBarController: UITabBarController {
         if let chatsTab = vcs[Tab.chats.index].tabBarItem {
             viewModel.chatsBadge.asObservable().bind(to: chatsTab.rx.badgeValue).disposed(by: disposeBag)
         }
-
-        if let profileTab = vcs[Tab.profile.index].tabBarItem {
-            viewModel.favoriteBadge.asObservable().bind(to: profileTab.rx.badgeValue).disposed(by: disposeBag)
-        }
        
         if let notificationsTab = vcs[Tab.notifications.index].tabBarItem {
             viewModel.notificationsBadge.asObservable().bind(to: notificationsTab.rx.badgeValue).disposed(by: disposeBag)
         }
+        
+        if let sellTab = vcs[Tab.sell.index].tabBarItem, viewModel.shouldShowCameraBadge {
+            viewModel.sellBadge.asObservable().bind(to: sellTab.rx.badgeValue).disposed(by: disposeBag)
+        }
     }
-    
-    
-    // MARK: > UI
-    
-    
 }
 
 
@@ -314,14 +320,20 @@ extension TabBarController {
 // MARK: - ExpandableCategorySelectionDelegate
 
 extension TabBarController: ExpandableCategorySelectionDelegate {
-    func closeButtonDidPressed() {
+    func didPressCloseButton() {
         floatingSellButton.showWithAnimation()
     }
-    func categoryButtonDidPressed(listingCategory: ListingCategory) {
+    
+    func didPressCategory(_ category: ExpandableCategory) {
         floatingSellButton.showWithAnimation()
         let event = TrackerEvent.listingSellYourStuffButton()
         tracker.trackEvent(event)
-        viewModel.expandableButtonPressed(listingCategory: listingCategory)
+        viewModel.expandableButtonPressed(category: category)
+    }
+    
+    func didPressTag(_ tag: LocalMostSearchedItem) {
+        floatingSellButton.showWithAnimation()
+        viewModel.tagPressed(mostSearchedItem: tag)
     }
 }
 

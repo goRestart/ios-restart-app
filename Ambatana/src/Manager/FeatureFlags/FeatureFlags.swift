@@ -11,9 +11,20 @@ import CoreTelephony
 import bumper
 import RxSwift
 
+enum PostingFlowType: String {
+    case standard
+    case turkish
+}
+
+enum BumpPriceVariationBucket: Int {
+    case defaultValue = 0
+    case minPriceIncreaseUSA = 2
+    case vatDecreaseTR = 4
+}
+
 protocol FeatureFlaggeable: class {
 
-    var trackingData: Observable<[String]?> { get }
+    var trackingData: Observable<[(String, ABGroupType)]?> { get }
     var syncedData: Observable<Bool> { get }
     func variablesUpdated()
 
@@ -23,40 +34,47 @@ protocol FeatureFlaggeable: class {
 
     var freeBumpUpEnabled: Bool { get }
     var pricedBumpUpEnabled: Bool { get }
-    var newCarsMultiRequesterEnabled: Bool { get }
-    var inAppRatingIOS10: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
-    var appRatingDialogInactive: Bool { get }
-    var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
-    var locationDataSourceEndpoint: LocationDataSourceEndpoint { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
-    var newBumpUpExplanation: NewBumpUpExplanation { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
-    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
-    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation { get }
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
-    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
+    var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var realEstateImprovements: RealEstateImprovements { get }
     var realEstatePromos: RealEstatePromos { get }
-    var allowEmojisOnChat: AllowEmojisOnChat { get }
+    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
+    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
+    var realEstateNewCopy: RealEstateNewCopy { get }
+    var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
+    var showInactiveConversations: Bool { get }
+    var mainFeedAspectRatio: MainFeedAspectRatio { get }
+    var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
+    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
+    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
+    var emojiSizeIncrement: EmojiSizeIncrement { get }
+    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
+    var newUserProfileView: NewUserProfileView { get }
+    var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
+    var searchMultiwordExpressions: SearchMultiwordExpressions { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
+    var postingFlowType: PostingFlowType { get }
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
     var moreInfoShoppingAdUnitId: String { get }
     var moreInfoDFPAdUnitId: String { get }
+    var feedDFPAdUnitId: String? { get }
+    var bumpPriceVariationBucket: BumpPriceVariationBucket { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -82,20 +100,18 @@ extension ShowPriceStepRealEstatePosting {
     var isActive: Bool { get { return self == .active } }
 }
 
-extension BumpUpPriceDifferentiation {
-    var isActive: Bool { get { return self == .active } }
-}
-
-extension PromoteBumpUpAfterSell {
-    var isActive: Bool { get { return self == .active } }
-}
-
 extension AllowCallsForProfessionals {
-    var isActive: Bool { get { return self == .active } }
+    var isActive: Bool { get { return self == .control || self == .baseline } }
 }
 
-extension ShowSecurityMeetingChatMessage {
-    var isActive: Bool { get { return self == .active } }
+extension MostSearchedDemandedItems {
+    var isActive: Bool {
+        get {
+            return self == .cameraBadge ||
+                self == .trendingButtonExpandableMenu ||
+                self == .subsetAboveExpandableMenu
+        }
+    }
 }
 
 extension RealEstateEnabled {
@@ -110,9 +126,89 @@ extension RealEstatePromos {
     var isActive: Bool { get { return self == .control || self == .baseline } }
 }
 
-extension AllowEmojisOnChat {
+extension ShowAdsInFeedWithRatio {
+    var isActive: Bool { get { return self != .control && self != .baseline } }
+}
+
+extension NoAdsInFeedForNewUsers {
+    private var shouldShowAdsInFeedForNewUsers: Bool {
+        get {
+            return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed
+        }
+    }
+    private var shouldShowAdsInFeedForOldUsers: Bool {
+        get {
+            return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed || self == .noAdsForNewUsers
+        }
+    }
+    var shouldShowAdsInFeed: Bool {
+        get {
+            return shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
+        }
+    }
+    private var shouldShowAdsInMoreInfoForNewUsers: Bool {
+        get {
+            return self == .control || self == .baseline || self == .adsEverywhere
+        }
+    }
+    private var shouldShowAdsInMoreInfoForOldUsers: Bool {
+        get {
+            return true
+        }
+    }
+    var shouldShowAdsInMoreInfo: Bool {
+        get {
+            return shouldShowAdsInMoreInfoForNewUsers || shouldShowAdsInMoreInfoForOldUsers
+        }
+    }
+
+
+    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            // New User
+            return shouldShowAdsInFeedForNewUsers
+        } else {
+            // Old user
+            return shouldShowAdsInFeedForOldUsers
+        }
+    }
+
+    func shouldShowAdsInMoreInfoForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInMoreInfoForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            // New User
+            return shouldShowAdsInMoreInfoForNewUsers
+        } else {
+            // Old user
+            return shouldShowAdsInMoreInfoForOldUsers
+        }
+    }
+}
+
+extension RemoveCategoryWhenClosingPosting {
     var isActive: Bool { get { return self == .active } }
 }
+
+extension RealEstateNewCopy {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension DummyUsersInfoProfile {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension ShowBumpUpBannerOnNotValidatedListings {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension IncreaseMinPriceBumps {
+    var isActive: Bool { get { return self == .active } }
+}
+extension TurkeyBumpPriceVATAdaptation {
+    var isActive: Bool { get { return self == .active } }
+}
+
 
 class FeatureFlags: FeatureFlaggeable {
 
@@ -166,7 +262,7 @@ class FeatureFlags: FeatureFlaggeable {
 
     // MARK: - A/B Tests features
 
-    var trackingData: Observable<[String]?> {
+    var trackingData: Observable<[(String, ABGroupType)]?> {
         return abTests.trackingData.asObservable()
     }
 
@@ -214,20 +310,6 @@ class FeatureFlags: FeatureFlaggeable {
         return abTests.pricedBumpUpEnabled.value
     }
 
-    var newCarsMultiRequesterEnabled: Bool {
-        if Bumper.enabled {
-            return Bumper.newCarsMultiRequesterEnabled
-        }
-        return abTests.newCarsMultiRequesterEnabled.value
-    }
-
-    var inAppRatingIOS10: Bool {
-        if Bumper.enabled {
-            return Bumper.inAppRatingIOS10
-        }
-        return abTests.inAppRatingIOS10.value
-    }
-
     var userReviewsReportEnabled: Bool {
         if Bumper.enabled {
             return Bumper.userReviewsReportEnabled
@@ -240,27 +322,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.dynamicQuickAnswers
         }
         return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
-    }
-
-    var appRatingDialogInactive: Bool {
-        if Bumper.enabled {
-            return Bumper.appRatingDialogInactive
-        }
-        return abTests.appRatingDialogInactive.value
-    }
-
-    var locationDataSourceEndpoint: LocationDataSourceEndpoint {
-        if Bumper.enabled {
-            return Bumper.locationDataSourceEndpoint
-        }
-        return LocationDataSourceEndpoint.fromPosition(abTests.locationDataSourceType.value)
-    }
-
-    var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {
-        if Bumper.enabled {
-            return Bumper.defaultRadiusDistanceFeed
-        }
-        return DefaultRadiusDistanceFeed.fromPosition(abTests.defaultRadiusDistanceFeed.value)
     }
     
     var searchAutocomplete: SearchAutocomplete {
@@ -285,25 +346,11 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
     }
     
-    var newBumpUpExplanation: NewBumpUpExplanation {
-        if Bumper.enabled {
-            return Bumper.newBumpUpExplanation
-        }
-        return NewBumpUpExplanation.fromPosition(abTests.newBumpUpExplanation.value)
-    }
-
     var homeRelatedEnabled: HomeRelatedEnabled {
         if Bumper.enabled {
             return Bumper.homeRelatedEnabled
         }
         return HomeRelatedEnabled.fromPosition(abTests.homeRelatedEnabled.value)
-    }
-
-    var hideChatButtonOnFeaturedCells: HideChatButtonOnFeaturedCells {
-        if Bumper.enabled {
-            return Bumper.hideChatButtonOnFeaturedCells
-        }
-        return HideChatButtonOnFeaturedCells.fromPosition(abTests.hideChatButtonOnFeaturedCells.value)
     }
 
     var newItemPage: NewItemPage {
@@ -324,7 +371,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.showPriceStepRealEstatePosting
         }
-        return .control
+        return ShowPriceStepRealEstatePosting.fromPosition(abTests.showPriceStepRealEstatePosting.value)
     }
     
     var showClockInDirectAnswer: ShowClockInDirectAnswer {
@@ -332,20 +379,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.showClockInDirectAnswer
         }
         return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
-    }
-
-    var bumpUpPriceDifferentiation: BumpUpPriceDifferentiation {
-        if Bumper.enabled {
-            return Bumper.bumpUpPriceDifferentiation
-        }
-        return BumpUpPriceDifferentiation.fromPosition(abTests.bumpUpPriceDifferentiation.value)
-    }
-
-    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
-        if Bumper.enabled {
-            return Bumper.promoteBumpUpAfterSell
-        }
-        return PromoteBumpUpAfterSell.fromPosition(abTests.promoteBumpUpAfterSell.value)
     }
 
     var allowCallsForProfessionals: AllowCallsForProfessionals {
@@ -362,12 +395,13 @@ class FeatureFlags: FeatureFlaggeable {
         return MoreInfoAFShOrDFP.fromPosition(abTests.moreInfoAFShOrDFP.value)
     }
     
-    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
+    var mostSearchedDemandedItems: MostSearchedDemandedItems {
         if Bumper.enabled {
-            return Bumper.showSecurityMeetingChatMessage
+            return Bumper.mostSearchedDemandedItems
         }
-        return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
+        return MostSearchedDemandedItems.fromPosition(abTests.mostSearchedDemandedItems.value)
     }
+    
     
     var realEstateImprovements: RealEstateImprovements {
         if Bumper.enabled {
@@ -383,21 +417,125 @@ class FeatureFlags: FeatureFlaggeable {
         return RealEstatePromos.fromPosition(abTests.realEstatePromos.value)
     }
     
-    var allowEmojisOnChat: AllowEmojisOnChat {
+    var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
         if Bumper.enabled {
-            return Bumper.allowEmojisOnChat
+            return Bumper.showAdsInFeedWithRatio
         }
-        return AllowEmojisOnChat.fromPosition(abTests.allowEmojisOnChat.value)
+        return ShowAdsInFeedWithRatio.fromPosition(abTests.showAdsInFeedWithRatio.value)
+    }
+    
+    var mainFeedAspectRatio: MainFeedAspectRatio {
+        if Bumper.enabled {
+            return Bumper.mainFeedAspectRatio
+        }
+        return MainFeedAspectRatio.fromPosition(abTests.mainFeedAspectRatio.value)
+    }
+    
+    var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting {
+        if Bumper.enabled {
+            return Bumper.removeCategoryWhenClosingPosting
+        }
+        return RemoveCategoryWhenClosingPosting.fromPosition(abTests.removeCategoryWhenClosingPosting.value)
+    }
+    
+    var realEstateNewCopy: RealEstateNewCopy {
+        if Bumper.enabled {
+            return Bumper.realEstateNewCopy
+        }
+        return RealEstateNewCopy.fromPosition(abTests.realEstateNewCopy.value)
+    }
+    
+    var dummyUsersInfoProfile: DummyUsersInfoProfile {
+        if Bumper.enabled {
+            return Bumper.dummyUsersInfoProfile
+        }
+        return DummyUsersInfoProfile.fromPosition(abTests.dummyUsersInfoProfile.value)
+    }
+    
+    var showInactiveConversations: Bool {
+        if Bumper.enabled {
+            return Bumper.showInactiveConversations
+        }
+        return abTests.showInactiveConversations.value
+    }
+
+    var increaseMinPriceBumps: IncreaseMinPriceBumps {
+        if Bumper.enabled {
+            return Bumper.increaseMinPriceBumps
+        }
+        return IncreaseMinPriceBumps.fromPosition(abTests.increaseMinPriceBumps.value)
+    }
+    
+    var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage {
+        if Bumper.enabled {
+            return Bumper.showSecurityMeetingChatMessage
+        }
+        return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
+    }
+
+    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
+        if Bumper.enabled {
+            return Bumper.noAdsInFeedForNewUsers
+        }
+        return NoAdsInFeedForNewUsers.fromPosition(abTests.noAdsInFeedForNewUsers.value)
+    }
+    
+    var emojiSizeIncrement: EmojiSizeIncrement {
+        if Bumper.enabled {
+            return Bumper.emojiSizeIncrement
+        }
+        return EmojiSizeIncrement.fromPosition(abTests.emojiSizeIncrement.value)
+    }
+
+    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
+        if Bumper.enabled {
+            return Bumper.showBumpUpBannerOnNotValidatedListings
+        }
+        return ShowBumpUpBannerOnNotValidatedListings.fromPosition(abTests.showBumpUpBannerOnNotValidatedListings.value)
+    }
+
+    var searchMultiwordExpressions: SearchMultiwordExpressions {
+        if Bumper.enabled {
+            return Bumper.searchMultiwordExpressions
+        }
+        return SearchMultiwordExpressions.fromPosition(abTests.searchMultiwordExpressions.value)
+    }
+    
+
+    var newUserProfileView: NewUserProfileView {
+        if Bumper.enabled {
+            return Bumper.newUserProfileView
+        }
+        return NewUserProfileView.fromPosition(abTests.newUserProfileView.value)
+    }
+
+    var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation {
+        if Bumper.enabled {
+            return Bumper.turkeyBumpPriceVATAdaptation
+        }
+        return TurkeyBumpPriceVATAdaptation.fromPosition(abTests.turkeyBumpPriceVATAdaptation.value)
     }
 
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
-        switch (locationCountryCode, localeCountryCode) {
-        case (.turkey?, _), (_, .turkey?):
+        switch locationCountryCode {
+        case .turkey?:
             return false
         default:
             return true
+        }
+    }
+    
+    var postingFlowType: PostingFlowType {
+        if Bumper.enabled {
+            return Bumper.realEstateFlowType == .standard ? .standard : .turkish
+        }
+        switch locationCountryCode {
+        case .turkey?:
+            return .turkish
+        default:
+            return .standard
         }
     }
 
@@ -457,6 +595,70 @@ class FeatureFlags: FeatureFlaggeable {
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFPUSA
         default:
             return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdDFP
+        }
+    }
+
+    var feedDFPAdUnitId: String? {
+        if Bumper.enabled {
+            // Bumper overrides country restriction
+            switch showAdsInFeedWithRatio {
+            case .baseline, .control:
+                return noAdsInFeedForNewUsers.shouldShowAdsInFeed ? EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio : nil
+            case .ten:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
+            case .fifteen:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA15Ratio
+            case .twenty:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio
+            }
+        }
+        switch sensorLocationCountryCode {
+        case .usa?:
+            switch showAdsInFeedWithRatio {
+            case .baseline, .control:
+                return noAdsInFeedForNewUsers.shouldShowAdsInFeed ? EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio : nil
+            case .ten:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
+            case .fifteen:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA15Ratio
+            case .twenty:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio
+            }
+        default:
+            return nil
+        }
+    }
+
+    /**
+     This var is used to inform money BE of the ABtests realated to variations in bump prices
+     */
+    var bumpPriceVariationBucket: BumpPriceVariationBucket {
+        if Bumper.enabled {
+            if increaseMinPriceBumps.isActive {
+                return .minPriceIncreaseUSA
+            } else if turkeyBumpPriceVATAdaptation.isActive {
+                return .vatDecreaseTR
+            } else {
+                return .defaultValue
+            }
+        }
+        switch sensorLocationCountryCode {
+        case .usa?:
+            switch increaseMinPriceBumps {
+            case .control, .baseline:
+                return .defaultValue
+            case .active:
+                return .minPriceIncreaseUSA
+            }
+        case .turkey?:
+            switch turkeyBumpPriceVATAdaptation {
+            case .control, .baseline:
+                return .defaultValue
+            case .active:
+                return .vatDecreaseTR
+            }
+        default:
+            return .defaultValue
         }
     }
 

@@ -40,18 +40,7 @@ class RatingManagerSpec: QuickSpec {
                     sut = LGRatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                                           versionChange: versionChange, featureFlags: featureFlags)
                 }
-                context("with feature flag AppRatingDialogInactive false") {
-                    beforeEach {
-                        featureFlags.appRatingDialogInactive = false
-                    }
-                    it("should not show rating") {
-                        expect(sut.shouldShowRating) == false
-                    }
-                }
-                context("with feature flag AppRatingDialogInactive true") {
-                    beforeEach {
-                        featureFlags.appRatingDialogInactive = true
-                    }
+                context("in any case") {
                     it("should not show rating") {
                         expect(sut.shouldShowRating) == false
                     }
@@ -77,20 +66,9 @@ class RatingManagerSpec: QuickSpec {
                     it("key storage has not remind me later date") {
                         expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
                     }
-                    context("with feature flag AppRatingDialogInactive false") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = false
-                        }
+                    context("in any case") {
                         it("should show rating") {
                             expect(sut.shouldShowRating) == true
-                        }
-                    }
-                    context("with feature flag AppRatingDialogInactive true") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = true
-                        }
-                        it("should not show rating") {
-                            expect(sut.shouldShowRating) == false
                         }
                     }
                 }
@@ -107,20 +85,9 @@ class RatingManagerSpec: QuickSpec {
                     it("key storage has not remind me later date") {
                         expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
                     }
-                    context("with feature flag AppRatingDialogInactive false") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = false
-                        }
+                    context("in any case") {
                         it("should show rating") {
                             expect(sut.shouldShowRating) == true
-                        }
-                    }
-                    context("with feature flag AppRatingDialogInactive true") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = true
-                        }
-                        it("should not show rating") {
-                            expect(sut.shouldShowRating) == false
                         }
                     }
                 }
@@ -137,20 +104,9 @@ class RatingManagerSpec: QuickSpec {
                     it("key storage has not remind me later date") {
                         expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
                     }
-                    context("with feature flag AppRatingDialogInactive false") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = false
-                        }
+                    context("in any case") {
                         it("should show rating") {
                             expect(sut.shouldShowRating) == true
-                        }
-                    }
-                    context("with feature flag AppRatingDialogInactive true") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = true
-                        }
-                        it("should not show rating") {
-                            expect(sut.shouldShowRating) == false
                         }
                     }
                 }
@@ -167,20 +123,9 @@ class RatingManagerSpec: QuickSpec {
                     it("key storage has not remind me later date") {
                         expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
                     }
-                    context("with feature flag AppRatingDialogInactive false") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = false
-                        }
+                    context("in any case") {
                         it("should show rating") {
                             expect(sut.shouldShowRating) == true
-                        }
-                    }
-                    context("with feature flag AppRatingDialogInactive true") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = true
-                        }
-                        it("should not show rating") {
-                            expect(sut.shouldShowRating) == false
                         }
                     }
                 }
@@ -197,20 +142,9 @@ class RatingManagerSpec: QuickSpec {
                     it("key storage has not remind me later date") {
                         expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
                     }
-                    context("with feature flag AppRatingDialogInactive false") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = false
-                        }
+                    context("in any case") {
                         it("should show rating") {
                             expect(sut.shouldShowRating) == true
-                        }
-                    }
-                    context("with feature flag AppRatingDialogInactive true") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = true
-                        }
-                        it("should not show rating") {
-                            expect(sut.shouldShowRating) == false
                         }
                     }
                 }
@@ -235,20 +169,9 @@ class RatingManagerSpec: QuickSpec {
                     it("key storage has not remind me later date") {
                         expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
                     }
-                    context("with feature flag AppRatingDialogInactive false") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = false
-                        }
+                    context("in any case") {
                         it("should show rating") {
                             expect(sut.shouldShowRating) == true
-                        }
-                    }
-                    context("with feature flag AppRatingDialogInactive true") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = true
-                        }
-                        it("should not show rating") {
-                            expect(sut.shouldShowRating) == false
                         }
                     }
                 }
@@ -265,20 +188,9 @@ class RatingManagerSpec: QuickSpec {
                     it("key storage has a remind me later date") {
                         expect(keyValueStorage.userRatingRemindMeLaterDate).notTo(beNil())
                     }
-                    context("with feature flag AppRatingDialogInactive false") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = false
-                        }
+                    context("in any case") {
                         it("should show rating") {
                             expect(sut.shouldShowRating) == true
-                        }
-                    }
-                    context("with feature flag AppRatingDialogInactive true") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = true
-                        }
-                        it("should not show rating") {
-                            expect(sut.shouldShowRating) == false
                         }
                     }
                 }
@@ -295,20 +207,9 @@ class RatingManagerSpec: QuickSpec {
                     it("key storage has not remind me later date") {
                         expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
                     }
-                    context("with feature flag AppRatingDialogInactive false") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = false
-                        }
+                    context("in any case") {
                         it("should show rating") {
                             expect(sut.shouldShowRating) == true
-                        }
-                    }
-                    context("with feature flag AppRatingDialogInactive true") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = true
-                        }
-                        it("should not show rating") {
-                            expect(sut.shouldShowRating) == false
                         }
                     }
                 }
@@ -325,20 +226,9 @@ class RatingManagerSpec: QuickSpec {
                     it("key storage has not remind me later date") {
                         expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
                     }
-                    context("with feature flag AppRatingDialogInactive false") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = false
-                        }
+                    context("in any case") {
                         it("should show rating") {
                             expect(sut.shouldShowRating) == true
-                        }
-                    }
-                    context("with feature flag AppRatingDialogInactive true") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = true
-                        }
-                        it("should not show rating") {
-                            expect(sut.shouldShowRating) == false
                         }
                     }
                 }
@@ -355,20 +245,9 @@ class RatingManagerSpec: QuickSpec {
                     it("key storage has not remind me later date") {
                         expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
                     }
-                    context("with feature flag AppRatingDialogInactive false") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = false
-                        }
+                    context("in any case") {
                         it("should show rating") {
                             expect(sut.shouldShowRating) == true
-                        }
-                    }
-                    context("with feature flag AppRatingDialogInactive true") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = true
-                        }
-                        it("should not show rating") {
-                            expect(sut.shouldShowRating) == false
                         }
                     }
                 }
@@ -393,20 +272,9 @@ class RatingManagerSpec: QuickSpec {
                     it("key storage has not remind me later date") {
                         expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
                     }
-                    context("with feature flag AppRatingDialogInactive false") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = false
-                        }
+                    context("in any case") {
                         it("should show rating") {
                             expect(sut.shouldShowRating) == true
-                        }
-                    }
-                    context("with feature flag AppRatingDialogInactive true") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = true
-                        }
-                        it("should not show rating") {
-                            expect(sut.shouldShowRating) == false
                         }
                     }
                 }
@@ -423,18 +291,7 @@ class RatingManagerSpec: QuickSpec {
                     it("key storage has not a remind me later date") {
                         expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
                     }
-                    context("with feature flag AppRatingDialogInactive false") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = false
-                        }
-                        it("should not show rating") {
-                            expect(sut.shouldShowRating) == false
-                        }
-                    }
-                    context("with feature flag AppRatingDialogInactive true") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = true
-                        }
+                    context("in any case") {
                         it("should not show rating") {
                             expect(sut.shouldShowRating) == false
                         }
@@ -453,20 +310,9 @@ class RatingManagerSpec: QuickSpec {
                     it("key storage has not remind me later date") {
                         expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
                     }
-                    context("with feature flag AppRatingDialogInactive false") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = false
-                        }
+                    context("in any case") {
                         it("should show rating") {
                             expect(sut.shouldShowRating) == true
-                        }
-                    }
-                    context("with feature flag AppRatingDialogInactive true") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = true
-                        }
-                        it("should not show rating") {
-                            expect(sut.shouldShowRating) == false
                         }
                     }
                 }
@@ -483,20 +329,9 @@ class RatingManagerSpec: QuickSpec {
                     it("key storage has not remind me later date") {
                         expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
                     }
-                    context("with feature flag AppRatingDialogInactive false") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = false
-                        }
+                    context("in any case") {
                         it("should show rating") {
                             expect(sut.shouldShowRating) == true
-                        }
-                    }
-                    context("with feature flag AppRatingDialogInactive true") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = true
-                        }
-                        it("should not show rating") {
-                            expect(sut.shouldShowRating) == false
                         }
                     }
                 }
@@ -513,18 +348,7 @@ class RatingManagerSpec: QuickSpec {
                     it("key storage has not remind me later date") {
                         expect(keyValueStorage.userRatingRemindMeLaterDate).to(beNil())
                     }
-                    context("with feature flag AppRatingDialogInactive false") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = false
-                        }
-                        it("should not show rating") {
-                            expect(sut.shouldShowRating) == false
-                        }
-                    }
-                    context("with feature flag AppRatingDialogInactive true") {
-                        beforeEach {
-                            featureFlags.appRatingDialogInactive = true
-                        }
+                    context("in any case") {
                         it("should not show rating") {
                             expect(sut.shouldShowRating) == false
                         }

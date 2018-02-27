@@ -1,6 +1,6 @@
 {
   "currentVersionInfo": {
-    "buildNumber": 338,
+    "buildNumber": 359,
     "forceUpdateVersions": [
       1,
       2,
@@ -178,6 +178,6 @@
       174
     ]
   },
-  "configURL": "http://cdn.letgo.com/config/ios.json",
+  "configURL": "https://static.letgo.com/mobile-config/ios.json",
   "quadKeyZoomLevel": 13
 }

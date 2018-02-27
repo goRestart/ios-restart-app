@@ -237,7 +237,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
         searchField.insetX = 40
         searchField.placeholder = LGLocalizedString.changeLocationSearchFieldHint
-        searchField.layer.cornerRadius = LGUIKitConstants.textfieldCornerRadius
+        searchField.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
         searchField.layer.borderColor = UIColor.lineGray.cgColor
         searchField.layer.borderWidth = LGUIKitConstants.onePixelSize
 
@@ -246,7 +246,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         searchField.layer.shadowOffset = CGSize(width: 0, height: 2)
         searchField.layer.shadowRadius = 6
 
-        suggestionsTableView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        suggestionsTableView.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
         suggestionsTableView.layer.borderColor = UIColor.lineGray.cgColor
         suggestionsTableView.layer.borderWidth = LGUIKitConstants.onePixelSize
         setLocationButton.setStyle(.primary(fontSize: .medium))

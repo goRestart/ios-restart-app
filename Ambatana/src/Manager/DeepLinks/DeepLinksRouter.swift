@@ -103,8 +103,6 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
     func onConversionDataRequestFailure(_ error: Error!) {
         logMessage(.error, type: [.deepLink], message: "App install conversion failed")
     }
-    
-    func onAppOpenAttributionFailure(_ error: Error!) {
 
     }
     

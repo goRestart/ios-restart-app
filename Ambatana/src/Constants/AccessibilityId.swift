@@ -68,6 +68,10 @@ enum AccessibilityId: String {
     case bannerCellImageView
     case bannerCellTitle
 
+    // Advertisement Cell
+    case advertisementCell
+    case advertisementCellBanner
+    
     // Filter Tags VC
     case filterTagsCollectionView
     case filterTagCell
@@ -123,13 +127,13 @@ enum AccessibilityId: String {
     case filterDisclosureCellTitleLabel
     case filterDisclosureCellSubtitleLabel
 
-    case filterPriceCell
-    case filterPriceCellTitleLabel
-    case filterPriceCellTextField
-    case filterPriceCellTitleLabelFrom
-    case filterPriceCellTitleLabelTo
-    case filterPriceCellTextFieldFrom
-    case filterPriceCellTextFieldTo
+    case filterTextFieldIntCell
+    case filterTextFieldIntCellTitleLabel
+    case filterTextFieldIntCellTextField
+    case filterTextFieldIntCellTitleLabelFrom
+    case filterTextFieldIntCellTitleLabelTo
+    case filterTextFieldIntCellTextFieldFrom
+    case filterTextFieldIntCellTextFieldTo
     
     case filterFreeCell
     case filterFreeCellTitleLabel
@@ -404,6 +408,11 @@ enum AccessibilityId: String {
     case chatViewQuickAnswersButton
     case chatViewSendButton
     case chatViewTextInputBar
+    
+    // Inactive Chat
+    case inactiveChatViewTableView
+    case inactiveChatViewMoreOptionsButton
+    case inactiveChatViewBackButton
 
     // DirectAnswers
     case directAnswersPresenterCollectionView
@@ -593,6 +602,15 @@ enum AccessibilityId: String {
     case promoteBumpUpTitle
     case promoteBumpUpSellFasterButton
     case promoteBumpUpLaterButton
+
+    // Professional Dealers Ask for phone number
+    case askPhoneNumberView
+    case askPhoneNumberCloseButton
+    case askPhoneNumberNotNowButton
+    case askPhoneNumberIntroText
+    case askPhoneNumberLetstalkText
+    case askPhoneNumberTextfield
+    case askPhoneNumberSendPhoneButton
 }
 
 extension UIAccessibilityIdentification {

@@ -63,7 +63,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         
         searchField.insetX = 40
         searchField.placeholder = LGLocalizedString.changeLocationSearchFieldHint
-        searchField.layer.cornerRadius = LGUIKitConstants.textfieldCornerRadius
+        searchField.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
         searchField.layer.borderColor = UIColor.lineGray.cgColor
         searchField.layer.borderWidth = LGUIKitConstants.onePixelSize
         searchField.delegate = self
@@ -79,7 +79,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         
         searchIcon.image = #imageLiteral(resourceName: "list_search")
         
-        suggestionsTableView.layer.cornerRadius = LGUIKitConstants.defaultCornerRadius
+        suggestionsTableView.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
         suggestionsTableView.layer.borderColor = UIColor.lineGray.cgColor
         suggestionsTableView.layer.borderWidth = LGUIKitConstants.onePixelSize
         suggestionsTableView.delegate = self

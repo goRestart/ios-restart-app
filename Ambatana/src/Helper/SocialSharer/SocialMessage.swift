@@ -7,14 +7,12 @@
 //
 
 import FBSDKShareKit
-import TwitterKit
 import LGCoreKit
 import AppsFlyerLib
 
 typealias MessageWithURLCompletion = (String) -> ()
 typealias NativeShareItemsCompletion = ([Any]) -> ()
 typealias FBSDKShareLinkContentCompletion = (FBSDKShareLinkContent) -> ()
-typealias TwitterComposerCompletion = (TWTRComposer) -> ()
 typealias AppsFlyerGenerateInviteURLCompletion = (URL?) -> ()
 
 
@@ -60,8 +58,7 @@ protocol SocialMessage {
     func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion)
     func retrieveFBShareContent(completion: @escaping FBSDKShareLinkContentCompletion)
     func retrieveFBMessengerShareContent(completion: @escaping FBSDKShareLinkContentCompletion)
-    func retrieveTwitterComposer(completion: @escaping TwitterComposerCompletion)
-    func retrieveTwitterComposer(text: String, completion: @escaping TwitterComposerCompletion)
+    func retrieveTwitterShareText(completion: @escaping MessageWithURLCompletion)
     func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion)
 }
 
@@ -127,13 +124,8 @@ extension SocialMessage {
         }
     }
     
-    func retrieveTwitterComposer(text: String, completion: @escaping TwitterComposerCompletion) {
-        let twitterComposer = TWTRComposer()
-        twitterComposer.setText(text)
-        retrieveShareURL(source: .twitter) { url in
-            twitterComposer.setURL(url)
-            completion(twitterComposer)
-        }
+    func retrieveTwitterShareText(completion: @escaping MessageWithURLCompletion) {
+        retrieveFullMessageWithURL(source: .twitter, completion: completion)
     }
     
     
@@ -312,10 +304,6 @@ struct ListingSocialMessage: SocialMessage {
         }
     }
     
-    func retrieveTwitterComposer(completion: @escaping TwitterComposerCompletion) {
-        retrieveTwitterComposer(text: fullMessage, completion: completion)
-    }
-    
     func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
         let deepLinkString = addUtmParamsToURLString("product/"+listingId,
                                                        source: source,
@@ -377,10 +365,6 @@ struct AppShareSocialMessage: SocialMessage {
                 completion(shareBody)
             }
         }
-    }
-
-    func retrieveTwitterComposer(completion: @escaping TwitterComposerCompletion) {
-        retrieveTwitterComposer(text: LGLocalizedString.appShareMessageText, completion: completion)
     }
 
     func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion) {
@@ -489,10 +473,6 @@ struct UserSocialMessage: SocialMessage {
                 completion(self.messageText)
             }
         }
-    }
-    
-    func retrieveTwitterComposer(completion: @escaping TwitterComposerCompletion) {
-        retrieveTwitterComposer(text: LGLocalizedString.appShareMessageText, completion: completion)
     }
 
     func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion) {

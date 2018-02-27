@@ -109,4 +109,5 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func openAppInvite(myUserId: String?, myUserName: String?) {}
     func canOpenAppInvite() -> Bool { return false }
     func openRatingList(_ userId: String) {}
+    func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {}
 }

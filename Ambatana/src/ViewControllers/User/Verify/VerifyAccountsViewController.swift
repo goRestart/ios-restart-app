@@ -6,6 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import GoogleSignIn
 import UIKit
 import RxSwift
 import RxCocoa
@@ -76,7 +77,7 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
 
     private func setupUI() {
         view.backgroundColor = UIColor.blackBackgroundAlpha
-        contentContainer.layer.cornerRadius = LGUIKitConstants.alertCornerRadius
+        contentContainer.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
         fbButton.setStyle(.facebook)
         googleButton.setStyle(.google)
         emailButton.rounded = true

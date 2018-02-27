@@ -36,7 +36,7 @@ class ListingCarouselMoreInfoView: UIView {
     fileprivate static let shareViewToMapMargin: CGFloat = 30
     fileprivate static let navBarDefaultHeight: CGFloat = 64
     fileprivate static let shareViewToBannerMargin = Metrics.margin
-    fileprivate static let dragViewVerticalExtraMargin: CGFloat = 7 // Center purposes to the custom navigation bar in carousel view
+    fileprivate static let dragViewVerticalExtraMargin: CGFloat = 2 // Center purposes to the custom navigation bar in carousel view
 
     @IBOutlet weak var titleText: UITextView!
     @IBOutlet weak var priceLabel: UILabel!
@@ -54,6 +54,7 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var statsContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var statsContainerViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var dragView: UIView!
+    @IBOutlet weak var dragButton: UIView!
     @IBOutlet weak var dragViewTitle: UILabel!
     @IBOutlet weak var dragViewImage: UIImageView!
 
@@ -151,6 +152,8 @@ class ListingCarouselMoreInfoView: UIView {
         // We need to call invalidateLayout in the CollectionView to fix what appears to be an iOS 10 UIKit bug:
         // https://stackoverflow.com/a/44467194
         tagCollectionView.collectionViewLayout.invalidateLayout()
+        mapView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
+        dragButton.layer.cornerRadius = dragButton.height / 2.0
     }
 
     func dismissed() {
@@ -355,9 +358,9 @@ extension ListingCarouselMoreInfoView: UIScrollViewDelegate {
 
 fileprivate extension ListingCarouselMoreInfoView {
     func setupUI() {
-        
         setupMapView(inside: mapViewContainer)
-        mapView.cornerRadius = LGUIKitConstants.mapCornerRadius
+
+        mapView.cornerRadius = LGUIKitConstants.bigCornerRadius
         mapView.clipsToBounds = true
 
         titleText.textColor = UIColor.white
@@ -366,21 +369,21 @@ fileprivate extension ListingCarouselMoreInfoView {
         titleText.textContainerInset = UIEdgeInsets.zero
         titleText.textContainer.lineFragmentPadding = 0
         titleText.delegate = self
-        
+
         priceLabel.textColor = UIColor.white
         priceLabel.font = UIFont.productPriceFont
-        
+
         autoTitleLabel.textColor = UIColor.white
         autoTitleLabel.font = UIFont.productTitleDisclaimersFont
         autoTitleLabel.alpha = 0.5
-        
+
         transTitleLabel.textColor = UIColor.white
         transTitleLabel.font = UIFont.productTitleDisclaimersFont
         transTitleLabel.alpha = 0.5
-        
+
         addressLabel.textColor = UIColor.white
         addressLabel.font = UIFont.productAddresFont
-        
+
         distanceLabel.textColor = UIColor.white
         distanceLabel.font = UIFont.productDistanceFont
 
@@ -388,6 +391,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         descriptionLabel.delegate = self
         descriptionLabel.linkTextAttributes = [:]
         descriptionLabel.textColor = UIColor.grayLight
+
         descriptionLabel.addGestureRecognizer(tapGesture)
         descriptionLabel.expandText = LGLocalizedString.commonExpand.localizedUppercase
         descriptionLabel.collapseText = LGLocalizedString.commonCollapse.localizedUppercase
@@ -396,23 +400,24 @@ fileprivate extension ListingCarouselMoreInfoView {
 
         setupSocialShareView()
 
-        dragView.rounded = true
-        dragView.layer.borderColor = UIColor.white.cgColor
-        dragView.layer.borderWidth = 1
         dragView.backgroundColor = .clear
+        dragButton.clipsToBounds = true
+        dragButton.layer.borderColor = UIColor.white.cgColor
+        dragButton.layer.borderWidth = 1
+        dragButton.backgroundColor = .clear
         
         dragViewTitle.text = LGLocalizedString.productMoreInfoOpenButton
         dragViewTitle.textColor = UIColor.white
         dragViewTitle.font = UIFont.systemSemiBoldFont(size: 13)
-        
-        [dragView, dragViewTitle, dragViewImage].forEach { view in
+
+        [dragButton, dragViewTitle, dragViewImage].forEach { view in
             view?.layer.shadowColor = UIColor.black.cgColor
             view?.layer.shadowOpacity = 0.5
             view?.layer.shadowRadius = 1
             view?.layer.shadowOffset = CGSize.zero
             view?.layer.masksToBounds = false
         }
-        
+
         if #available(iOS 11, *) {
             scrollViewToSuperviewTopConstraint.constant = safeAreaInsets.top
         } else {
@@ -423,7 +428,7 @@ fileprivate extension ListingCarouselMoreInfoView {
     }
     
     func setupTagCollectionView() {
-        tagCollectionViewModel = TagCollectionViewModel(tags: [], delegate: tagCollectionView)
+        tagCollectionViewModel = TagCollectionViewModel(tags: [], cellStyle: .blackBackground, delegate: tagCollectionView)
         tagCollectionView.register(TagCollectionViewCell.self, forCellWithReuseIdentifier: TagCollectionViewCell.reusableID)
         tagCollectionView.dataSource = tagCollectionViewModel
         tagCollectionView.defaultSetup()
@@ -576,17 +581,21 @@ fileprivate extension ListingCarouselMoreInfoView {
 
 extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate {
     func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
-        let newFrame = CGRect(x: bannerView.frame.origin.x, y: bannerView.frame.origin.y, width: size.size.width, height: size.size.height)
+        let sizeFromAdSize = CGSizeFromGADAdSize(size)
+        let newFrame = CGRect(x: bannerView.frame.origin.x,
+                              y: bannerView.frame.origin.y,
+                              width: sizeFromAdSize.width,
+                              height: sizeFromAdSize.height)
         bannerView.frame = newFrame
-        bannerContainerViewHeightConstraint.constant = size.size.height
+        bannerContainerViewHeightConstraint.constant = sizeFromAdSize.height
         if let sideMargin = viewModel?.sideMargin {
             bannerContainerViewLeftConstraint.constant = sideMargin
             bannerContainerViewRightConstraint.constant = sideMargin
         }
-        if size.size.height > 0 {
+        if sizeFromAdSize.height > 0 {
             let absolutePosition = scrollView.convert(bannerContainerView.frame.origin, to: nil)
             let bannerTop = absolutePosition.y
-            let bannerBottom = bannerTop + size.size.height
+            let bannerBottom = bannerTop + sizeFromAdSize.height
             viewModel?.didReceiveAd(bannerTopPosition: bannerTop,
                                     bannerBottomPosition: bannerBottom,
                                     screenHeight: UIScreen.main.bounds.height)
@@ -610,7 +619,7 @@ extension ListingCarouselMoreInfoView: GADAdSizeDelegate, GADBannerViewDelegate 
     }
 
     func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
-        logMessage(.info, type: .monetization, message: "Banner failed with error: \(error.localizedDescription)")
+        logMessage(.info, type: .monetization, message: "MoreInfo banner failed with error: \(error.localizedDescription)")
         bannerContainerViewHeightConstraint.constant = 0
         bannerContainerViewLeftConstraint.constant = 0
         bannerContainerViewRightConstraint.constant = 0

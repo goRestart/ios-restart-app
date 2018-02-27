@@ -17,7 +17,7 @@ class UserViewController: BaseViewController {
     fileprivate var userBgViewDefaultHeight: CGFloat {
         return headerExpandedHeight
     }
-
+    
     fileprivate var listingListViewTopMargin: CGFloat {
         return navigationBarHeight + statusBarHeight
     }
@@ -38,6 +38,10 @@ class UserViewController: BaseViewController {
         }
     }
     fileprivate let headerCollapsedHeight: CGFloat = 44
+    
+    fileprivate var dummyUserViewHeight: CGFloat {
+        return headerContainer.header.dummyUserDisclaimerContainerView?.height ?? 0
+    }
 
     fileprivate static let navbarHeaderMaxThresold: CGFloat = 0.5
     fileprivate static let userLabelsMinThreshold: CGFloat = 0.5
@@ -75,7 +79,7 @@ class UserViewController: BaseViewController {
     
     @IBOutlet weak var listingListViewBackgroundView: UIView!
     @IBOutlet weak var listingListView: ListingListView!
-
+    
     @IBOutlet weak var userLabelsContainer: UIView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var averageRatingContainerViewHeight: NSLayoutConstraint!
@@ -96,7 +100,7 @@ class UserViewController: BaseViewController {
     fileprivate let disposeBag: DisposeBag
     fileprivate var notificationsManager: NotificationsManager
     fileprivate var featureFlags: FeatureFlaggeable
-
+    
 
     // MARK: - Lifecycle
 
@@ -214,7 +218,7 @@ extension UserViewController: ListingListViewScrollDelegate {
     }
 
     func listingListView(_ listingListView: ListingListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
-        scrollDidChange(contentOffsetY)
+        updateLayoutConstraints(contentOffsetY)
     }
 }
 
@@ -342,26 +346,26 @@ extension UserViewController {
         }
     }
 
-    fileprivate func scrollDidChange(_ contentOffsetInsetY: CGFloat) {
+    fileprivate func updateLayoutConstraints(_ contentOffsetInsetY: CGFloat) {
         let minBottom = headerExpandedBottom
         let maxBottom = headerCollapsedBottom
 
         let bottom = min(maxBottom, contentOffsetInsetY - listingListViewTopMargin)
-        headerContainerBottom.constant = bottom
+        headerContainerBottom.constant = bottom - dummyUserViewHeight
 
         let percentage = min(1, abs(bottom - maxBottom) / abs(maxBottom - minBottom))
 
         let height = headerCollapsedHeight + percentage * (headerExpandedHeight - headerCollapsedHeight)
-        headerContainerHeight.constant = height
+        headerContainerHeight.constant = height + dummyUserViewHeight
 
         // header expands more than 100% to hide the avatar when pulling
         let headerPercentage = abs(bottom - maxBottom) / abs(maxBottom - minBottom)
         headerExpandedPercentage.value = headerPercentage
-
+        
         // update top on error/first load views
         let maxTop = abs(headerExpandedBottom + listingListViewTopMargin)
         let minTop = abs(headerCollapsedBottom)
-        let top = minTop + percentage * (maxTop - minTop)
+        let top = minTop + dummyUserViewHeight + percentage * (maxTop - minTop)
         let firstLoadPadding = UIEdgeInsets(top: top,
                                             left: listingListView.firstLoadPadding.left,
                                             bottom: listingListView.firstLoadPadding.bottom,
@@ -571,6 +575,21 @@ extension UserViewController {
 
         // Tab switch
         headerContainer.header.tab.asObservable().bind(to: viewModel.tab).disposed(by: disposeBag)
+        
+        // Dummy users
+        if viewModel.areDummyUsersEnabled {
+            Observable.combineLatest(
+                viewModel.userName.asObservable(),
+                viewModel.userIsDummy.asObservable()) { ($0, $1) }
+                .subscribeNext { [weak self] (userName, userIsDummy) in
+                    guard let userName = userName else { return }
+                    let infoText = LGLocalizedString.profileDummyUserInfo(userName)
+                    self?.headerContainer.header.setupDummyView(isDummy: userIsDummy, infoText: infoText)
+                    if let contentOffsetY = self?.listingListView.collectionView.contentOffset.y {
+                        self?.updateLayoutConstraints(contentOffsetY)
+                    }
+            }.disposed(by: disposeBag)
+        }
     }
     
     private func setupUserLabelsContainerRx() {
@@ -601,9 +620,9 @@ extension UserViewController: ScrollableToTop {
 }
 
 
-// MARK: - ListingListViewHeaderDelegate
+// MARK: - ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate, MostSearchedItemsUserHeaderDelegate
 
-extension UserViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate {
+extension UserViewController: ListingListViewHeaderDelegate, PushPermissionsHeaderDelegate, MostSearchedItemsUserHeaderDelegate {
 
     func setupPermissionsRx() {
         viewModel.pushPermissionsDisabledWarning.asObservable().filter {$0 != nil} .bind { [weak self] _ in
@@ -612,25 +631,44 @@ extension UserViewController: ListingListViewHeaderDelegate, PushPermissionsHead
     }
 
     func totalHeaderHeight() -> CGFloat {
-        guard showHeader else { return 0 }
-        return PushPermissionsHeader.viewHeight
+        var totalHeight: CGFloat = 0
+        if showPushPermissionsHeader {
+            totalHeight += PushPermissionsHeader.viewHeight
+        }
+        if showMostSearchedItemsHeader {
+            totalHeight += MostSearchedItemsUserHeader.viewHeight
+        }
+        return totalHeight
     }
 
     func setupViewsIn(header: ListHeaderContainer) {
-        if showHeader {
+        header.clear()
+        if showPushPermissionsHeader {
             let pushHeader = PushPermissionsHeader()
+            pushHeader.tag = 0
             pushHeader.delegate = self
             header.addHeader(pushHeader, height: PushPermissionsHeader.viewHeight)
-        } else {
-            header.clear()
+        }
+        if showMostSearchedItemsHeader {
+            let mostSearchedItemsHeader = MostSearchedItemsUserHeader()
+            mostSearchedItemsHeader.tag = 1
+            mostSearchedItemsHeader.delegate = self
+            header.addHeader(mostSearchedItemsHeader, height: MostSearchedItemsUserHeader.viewHeight)
         }
     }
 
     func pushPermissionHeaderPressed() {
         viewModel.pushPermissionsWarningPressed()
     }
+    
+    func didTapMostSearchedItemsHeader() {
+        viewModel.openMostSearchedItems()
+    }
 
-    private var showHeader: Bool {
+    private var showPushPermissionsHeader: Bool {
         return viewModel.pushPermissionsDisabledWarning.value ?? false
+    }
+    private var showMostSearchedItemsHeader: Bool {
+        return viewModel.isMostSearchedItemsEnabled && viewModel.tab.value == .selling
     }
 }

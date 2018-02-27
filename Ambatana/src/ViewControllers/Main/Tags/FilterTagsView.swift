@@ -197,7 +197,9 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                     switch tag {
                     case .make, .model, .yearsRange:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
+                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild,
+                         .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms,
+                         .realEstatePropertyType, .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
                         continue
                     }
                 }
@@ -207,9 +209,11 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
             case .realEstate:
                 for (i, tag) in tags.enumerated() {
                     switch tag {
-                    case .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
+                    case .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
+                         .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
                         relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .make, .model, .yearsRange:
+                    case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category,
+                         .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .make, .model, .yearsRange:
                         continue
                     }
                 }
@@ -219,7 +223,10 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                 switch tag {
                 case .model:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
-                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .make, .yearsRange, .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
+                case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .category, .make, .yearsRange,
+                     .taxonomyChild, .taxonomy, .secondaryTaxonomyChild, .realEstateNumberOfBedrooms,
+                     .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType,
+                     .sizeSquareMetersRange, .realEstateNumberOfRooms:
                     continue
                 }
             }
@@ -229,12 +236,14 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                 case .secondaryTaxonomyChild, .taxonomyChild:
                     relatedIndexesToDelete.append(IndexPath(item: i, section: 0))
                 case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .category, .make,
-                     .yearsRange, .taxonomy, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
+                     .yearsRange, .taxonomy, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
+                     .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
                     continue
                 }
             }
         case .location, .orderBy, .within, .priceRange, .freeStuff, .distance, .model, .yearsRange, .taxonomyChild,
-             .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType, .realEstateOfferType:
+             .secondaryTaxonomyChild, .realEstateNumberOfBedrooms, .realEstateNumberOfBathrooms, .realEstatePropertyType,
+             .realEstateOfferType, .sizeSquareMetersRange, .realEstateNumberOfRooms:
             break
         }
         return relatedIndexesToDelete

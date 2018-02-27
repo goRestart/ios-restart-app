@@ -142,6 +142,9 @@
 // Categories real Estate
 "categories_real_estate" = "Housing";
 
+// Categories real Estate
+"categories_real_estate_title" = "Real Estate";
+
 // Categories sports leisure and games. Check image @ "categories_cars_and_motors" segment
 "categories_sports_leisure_and_games" = "Sports, Leisure and Games";
 
@@ -184,8 +187,11 @@
 // Category "Cars"
 "categories_inFeed_cars" = "Cars";
 
-// Category "Real Estate"
+// Category "Housing"
 "categories_inFeed_real_estate" = "Housing";
+
+// Category "Real Estate"
+"categories_inFeed_real_estate_title" = "Real Estate";
 
 // Show more header element
 "categories_super_keywords_inFeed_show_more" = "Show more";
@@ -294,6 +300,9 @@
 
 // Chat inactive conversations cell
 "chat_inactive_conversations_button" = "View archived chats";
+
+// Chat message shown on top of all inactive conversations
+"chat_inactive_conversation_relation_explanation" = "Archived by letgo because there hasn't been any activity in the last 3 months.";
 
 // When a user asked to delete his account (short info message)
 "chat_account_deleted_w_name" = "%@'s account has been deleted";
@@ -469,11 +478,14 @@
 // Chat list Unblock
 "chat_list_unblock" = "Unblock";
 
+// Inactive chats screen title
+"chat_inactive_list_title" = "Inactive Chats";
+
 // Login info when trying to chat logged-out
 "chat_login_popup_text" = "To start chatting, you have to log in";
 
 // Disclaimer message shown on the first message receive from the interlocutor
-"chat_message_disclaimer_meeting_security" = "Remember, busy public places like coffee shops and bank lobbies are safe, convenient meeting spots. Consider bringing a friend.";
+"chat_message_disclaimer_meeting_security" = "Try meeting at busier public places like coffee shops and bank lobbies. They are convenient and safe.";
 
 // Disclaimer shown for each suspicious message received in chat with no blocked user
 "chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
@@ -609,6 +621,9 @@
 
 // Common collapse
 "common_collapse" = "Show Less";
+
+// Common Confirm
+"common_confirm" = "Confirm";
 
 // Common error
 "common_error" = "Error";
@@ -944,6 +959,9 @@
 
 // Alert text when min price is higher than max price
 "filters_price_wrong_range_error" = "The minimum price can’t be higher than the maximum price.";
+
+// Alert text when min size is higher than max size
+"filters_size_wrong_range_error" = "The minimum size can’t be higher than the maximum size.";
 
 // Filters sort option closest
 "filters_sort_closest" = "Closest first";
@@ -1543,6 +1561,9 @@
 // Incentivate post after delete fullscreen text subtitle
 "product_delete_post_subtitle" = "Try posting something else and start making money.";
 
+// OnBoarding for explaining new item page functionality
+"product_detail_swipe_to_see_related" = "Swipe to see related listings";
+
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_distance_X_from_you" = "%@ from you";
 
@@ -1909,6 +1930,9 @@
 // Product post category selection real Estate button
 "product_post_select_category_housing" = "Housing for Rent / Sale";
 
+// Product post category selection real Estate button
+"product_post_select_category_real_estate" = "Real Estate";
+
 // Product report confirm message. Message displayal is like the other dialog messages
 "product_report_confirm_message" = "Are you sure you want to report this listing?";
 
@@ -2014,6 +2038,42 @@
 // Login message when asking for login after clicking on report
 "product_report_login_popup_text" = "To report a listing, you have to log in";
 
+// Ask phone number dealer intro text
+"professional_dealer_ask_phone_intro_text" = "I'm a professional car dealer so I'd love to help you in person. Please share your phone number so I can give you the best deal!";
+
+// Ask phone number not now button title
+"professional_dealer_ask_phone_not_now_button" = "Not now";
+
+// Ask phone number let's talk label text
+"professional_dealer_ask_phone_lets_talk_text" = "Let's Talk";
+
+// Ask phone number text field placeholder
+"professional_dealer_ask_phone_textfield_placeholder" = "Enter phone number";
+
+// Ask phone number send phone button title
+"professional_dealer_ask_phone_send_phone_button" = "Send phone number";
+
+// Ask phone number automatic message
+"professional_dealer_ask_phone_chat_message" = "My phone number is %@";
+
+// Request phone cell text message text
+"professional_dealer_ask_phone_add_phone_cell_message" = "Call now or add your phone number so we can give you a call";
+
+// Request phone cell text button text
+"professional_dealer_ask_phone_add_phone_cell_button" = "Add your number";
+
+// Automatic message thanks for leaving phone text
+"professional_dealer_ask_phone_thanks_phone_cell_message" = "Thanks for adding your phone number! It's always better to give us a call using the call button above.";
+
+// Automatic message thanks for contacting text
+"professional_dealer_ask_phone_thanks_other_cell_message" = "Thanks for getting in touch! Please give us a call or add your number so we can call you.";
+
+// Ask phone alert title
+"professional_dealer_ask_phone_alert_enter_phone" = "Add your phone number";
+
+// Not valid phone number error alert text
+"professional_dealer_ask_phone_alert_not_valid_phone" = "Please enter a valid  phone number";
+
 // Profile, you blocked this user label (wo username)
 "profile_blocked_by_me_label" = "You've blocked this user";
 
@@ -2100,6 +2160,9 @@
 
 // Text to verify accounts
 "profile_connect_accounts_message" = "You still haven't verified your account with:";
+
+// Text for dummy user info
+"profile_dummy_user_info" = "Hi! I'm %@ from letgo. I’m here to help you improve your listing and start selling.";
 
 // Promote bump up title text
 "promote_bump_title" = "Attract more buyers";
@@ -2270,8 +2333,20 @@
 // Real Estate property type commercial
 "real_estate_type_property_commercial" = "Commercial";
 
+// Real Estate property type business
+"real_estate_type_property_business" = "Business";
+
 // Real Estate property type others
 "real_estate_type_property_others" = "Other";
+
+// Real Estate property type flat
+"real_estate_type_property_flat" = "Flat";
+
+// Real Estate property type land
+"real_estate_type_property_land" = "Land";
+
+// Real Estate property type villa
+"real_estate_type_property_villa" = "Detached House / Villa";
 
 // Real Estate number of bathrooms title
 "real_estate_bathrooms_title" = "No. of bathrooms";
@@ -2324,11 +2399,38 @@
 // Real Estate number of bedrooms 4
 "real_estate_bedrooms_4" = "4+";
 
+"real_estate_rooms_title" = "No. of rooms";
+
+"real_estate_rooms_studio" = "Studio (1+0)";
+
+"real_estate_rooms_over_ten" = "Over 10";
+
+// Real estate number of rooms depend on bedrooms and living rooms
+"real_estate_rooms_value" = "%d + %d";
+
+// Size square meters title
+"real_estate_size_square_meters_title" = "Size";
+
+// Size square meters placeHolder
+"real_estate_size_square_meters_placeholder" = "Add here";
+
 // bedroom
 "real_estate_summary_bedroom_title" = "bedroom";
 
 // bedrooms
 "real_estate_summary_bedrooms_title" = "bedrooms";
+
+// rooms
+"real_estate_summary_rooms_title" = "rooms";
+
+// Rooms empty
+"real_estate_summary_rooms_empty" = "Add rooms";
+
+// Size
+"real_estate_summary_size_title" = "Size";
+
+// size empty
+"real_estate_summary_size_empty" = "Add size";
 
 // Real Estate summary price empty value
 "real_estate_summary_price_empty" = "Add price";
@@ -2422,6 +2524,9 @@
 
 // Tooltip text included on sell button
 "real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
+
+// Tooltip text included on sell button with real estate
+"real_estate_tooltip_sell_button_title" = "Post property for sale or rent in our new Real Estate category";
 
 // Message inside expandable sell your stuff menu to announce RE
 "real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
@@ -2827,3 +2932,90 @@
 
 // Title when you rate a user
 "user_rating_title" = "Review your experience with";
+
+// Trending description on header bubble
+"trending_items_header_bubble" = "Trending";
+
+// Title for Most searched items list view
+"trending_items_view_title" = "Most popular items in %@";
+
+// Title for Most searched items list view without location available
+"trending_items_view_title_no_location" = "Most popular items";
+
+// Subtitle for Most searched items list view
+"trending_items_view_subtitle" = "Post one of these, and make money in under a week";
+
+// Title for the list of Most searched items list view
+"trending_items_view_number_of_searches_title" = "This week's top searches";
+
+// Number of searches for item info
+"trending_items_view_number_of_searches_item" = "%@ searches";
+
+// Post button for each item in the list
+"trending_items_view_post_button" = "Post";
+
+// Search button for each item in the list
+"trending_items_view_search_button" = "Search";
+
+// Title for Most searched items card in feed
+"trending_items_card_title" = "This week's popular items";
+
+// Action text for the Most searched items card fake button
+"trending_items_card_action" = "See items";
+
+// Title for Most searched items header in user profile
+"trending_items_profile_title" = "Not sure what to sell?";
+
+// Subtitle for Most searched items header in user profile
+"trending_items_profile_subtitle" = "See what people in your area are looking for";
+
+// Button title for trending category in Expandable menu
+"trending_items_expandable_menu_button" = "Trending";
+
+// iPhone title
+"trending_item_iPhone" = "iPhone";
+
+// ATV title
+"trending_item_atv" = "atv";
+
+// Smartphone title
+"trending_item_smartphone" = "smartphone";
+
+// Sedan title
+"trending_item_sedan" = "sedan";
+
+// Scooter title
+"trending_item_scooter" = "scooter";
+
+// Computer title
+"trending_item_computer" = "computer";
+
+// Coupe title
+"trending_item_coupe" = "coupe";
+
+// Tablet title
+"trending_item_tablet" = "tablet";
+
+// Motorcycle title
+"trending_item_motorcycle" = "motorcycle";
+
+// Truck title
+"trending_item_truck" = "truck";
+
+// Gadget title
+"trending_item_gadget" = "gadget";
+
+// Trailer title
+"trending_item_trailer" = "trailer";
+
+// Controller title
+"trending_item_controller" = "controller";
+
+// Dresser title
+"trending_item_dresser" = "dresser";
+
+// Subwoofer title
+"trending_item_subwoofer" = "subwoofer";
+
+// Title for subset of most trending items in expandable menu
+"trending_items_expandable_menu_subset_title" = "MOST POPULAR ITEMS";
