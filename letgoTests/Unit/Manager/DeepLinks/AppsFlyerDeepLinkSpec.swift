@@ -13,7 +13,7 @@ import Nimble
 class AppsFlyerDeepLinkSpec: QuickSpec {
     
     override func spec() {
-        fdescribe("AppsFlyerDeepLink") {
+        describe("AppsFlyerDeepLink") {
             describe("deeplink callback interpretation") {
                 
                 var deepLink: DeepLink!
