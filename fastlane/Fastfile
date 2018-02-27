@@ -103,6 +103,7 @@ platform :ios do
       scheme: "LetGoPROD",
       silent: false,
       clean: true,
+      export_xcargs: "-allowProvisioningUpdates",
       export_method: "ad-hoc"
     )
 
