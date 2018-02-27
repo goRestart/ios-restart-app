@@ -27,7 +27,6 @@ class ABTests {
     let dynamicQuickAnswers = IntABDynamicVar(key: "20170816DynamicQuickAnswers", defaultValue: 0, abGroupType: .legacyABTests)
     let appRatingDialogInactive = BoolABDynamicVar(key: "20170831AppRatingDialogInactive", defaultValue: false, abGroupType: .legacyABTests)
     let locationDataSourceType = IntABDynamicVar(key: "20170830LocationDataSourceType", defaultValue: 0, abGroupType: .legacyABTests)
-    let defaultRadiusDistanceFeed = IntABDynamicVar(key: "20170922DefaultRadiusDistanceFeed", defaultValue: 0, abGroupType: .legacyABTests)
     let searchAutocomplete = IntABDynamicVar(key: "20170914SearchAutocomplete", defaultValue: 0, abGroupType: .legacyABTests)
     let realEstateEnabled = IntABDynamicVar(key: "20171228realEstateEnabled", defaultValue: 0, abGroupType: .legacyABTests)
     let showPriceAfterSearchOrFilter = IntABDynamicVar(key: "20170928ShowPriceAfterSearchOrFilter", defaultValue: 0, abGroupType: .legacyABTests)
@@ -53,7 +52,11 @@ class ABTests {
     let noAdsInFeedForNewUsers = IntABDynamicVar(key: "20180212NoAdsInFeedForNewUsers", defaultValue: 0, abGroupType: .money)
     let emojiSizeIncrement = IntABDynamicVar(key: "20180212EmojiSizeIncrement", defaultValue: 0, abGroupType: .chat)
     let showBumpUpBannerOnNotValidatedListings = IntABDynamicVar(key: "20180214showBumpUpBannerOnNotValidatedListings", defaultValue: 0, abGroupType: .money)
-
+    let newUserProfileView = IntABDynamicVar(key: "20180221NewUserProfileView", defaultValue: 0, abGroupType: .core)
+    let turkeyBumpPriceVATAdaptation = IntABDynamicVar(key: "20180221TurkeyBumpPriceVATAdaptation", defaultValue: 0, abGroupType: .money)
+    let searchMultiwordExpressions = IntABDynamicVar(key: "20180220SearchMultiwordExpressions", defaultValue: 0, abGroupType: .core)
+    let showChatSafetyTips = BoolABDynamicVar(key: "20180226ShowChatSafetyTips", defaultValue: false, abGroupType: .chat)
+    
     init() {
     }
     
@@ -72,7 +75,6 @@ class ABTests {
         result.append(dynamicQuickAnswers)
         result.append(appRatingDialogInactive)
         result.append(locationDataSourceType)
-        result.append(defaultRadiusDistanceFeed)
         result.append(searchAutocomplete)
         result.append(realEstateEnabled)
         result.append(showPriceAfterSearchOrFilter)
@@ -98,6 +100,10 @@ class ABTests {
         result.append(noAdsInFeedForNewUsers)
         result.append(emojiSizeIncrement)
         result.append(showBumpUpBannerOnNotValidatedListings)
+        result.append(newUserProfileView)
+        result.append(turkeyBumpPriceVATAdaptation)
+        result.append(searchMultiwordExpressions)
+        result.append(showChatSafetyTips)
         
         return result
     }

@@ -19,7 +19,6 @@ extension Bumper  {
         flags.append(PricedBumpUpEnabled.self)
         flags.append(UserReviewsReportEnabled.self)
         flags.append(DynamicQuickAnswers.self)
-        flags.append(DefaultRadiusDistanceFeed.self)
         flags.append(RealEstateEnabled.self)
         flags.append(SearchAutocomplete.self)
         flags.append(ShowPriceAfterSearchOrFilter.self)
@@ -46,6 +45,10 @@ extension Bumper  {
         flags.append(NoAdsInFeedForNewUsers.self)
         flags.append(EmojiSizeIncrement.self)
         flags.append(ShowBumpUpBannerOnNotValidatedListings.self)
+        flags.append(NewUserProfileView.self)
+        flags.append(TurkeyBumpPriceVATAdaptation.self)
+        flags.append(SearchMultiwordExpressions.self)
+        flags.append(ShowChatSafetyTips.self)
         Bumper.initialize(flags)
     } 
 
@@ -77,11 +80,6 @@ extension Bumper  {
     static var dynamicQuickAnswers: DynamicQuickAnswers {
         guard let value = Bumper.value(for: DynamicQuickAnswers.key) else { return .control }
         return DynamicQuickAnswers(rawValue: value) ?? .control 
-    }
-
-    static var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {
-        guard let value = Bumper.value(for: DefaultRadiusDistanceFeed.key) else { return .control }
-        return DefaultRadiusDistanceFeed(rawValue: value) ?? .control 
     }
 
     static var realEstateEnabled: RealEstateEnabled {
@@ -212,6 +210,26 @@ extension Bumper  {
     static var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
         guard let value = Bumper.value(for: ShowBumpUpBannerOnNotValidatedListings.key) else { return .control }
         return ShowBumpUpBannerOnNotValidatedListings(rawValue: value) ?? .control 
+    }
+
+    static var newUserProfileView: NewUserProfileView {
+        guard let value = Bumper.value(for: NewUserProfileView.key) else { return .control }
+        return NewUserProfileView(rawValue: value) ?? .control 
+    }
+
+    static var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation {
+        guard let value = Bumper.value(for: TurkeyBumpPriceVATAdaptation.key) else { return .control }
+        return TurkeyBumpPriceVATAdaptation(rawValue: value) ?? .control 
+    }
+
+    static var searchMultiwordExpressions: SearchMultiwordExpressions {
+        guard let value = Bumper.value(for: SearchMultiwordExpressions.key) else { return .control }
+        return SearchMultiwordExpressions(rawValue: value) ?? .control 
+    }
+
+    static var showChatSafetyTips: Bool {
+        guard let value = Bumper.value(for: ShowChatSafetyTips.key) else { return false }
+        return ShowChatSafetyTips(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -273,25 +291,6 @@ enum DynamicQuickAnswers: String, BumperFeature  {
             case 1: return .baseline
             case 2: return .dynamicNoKeyboard
             case 3: return .dynamicWithKeyboard
-            default: return .control
-        }
-    }
-}
-
-enum DefaultRadiusDistanceFeed: String, BumperFeature  {
-    case control, baseline, two, five, ten, thirty
-    static var defaultValue: String { return DefaultRadiusDistanceFeed.control.rawValue }
-    static var enumValues: [DefaultRadiusDistanceFeed] { return [.control, .baseline, .two, .five, .ten, .thirty]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Default distance radius main feed." } 
-    static func fromPosition(_ position: Int) -> DefaultRadiusDistanceFeed {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .two
-            case 3: return .five
-            case 4: return .ten
-            case 5: return .thirty
             default: return .control
         }
     }
@@ -714,5 +713,65 @@ enum ShowBumpUpBannerOnNotValidatedListings: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum NewUserProfileView: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return NewUserProfileView.control.rawValue }
+    static var enumValues: [NewUserProfileView] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Refactor of the User Profile view controller" } 
+    static func fromPosition(_ position: Int) -> NewUserProfileView {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum TurkeyBumpPriceVATAdaptation: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return TurkeyBumpPriceVATAdaptation.control.rawValue }
+    static var enumValues: [TurkeyBumpPriceVATAdaptation] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Change bump price scaling for listings in TR" } 
+    static func fromPosition(_ position: Int) -> TurkeyBumpPriceVATAdaptation {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum SearchMultiwordExpressions: String, BumperFeature  {
+    case control, baseline, mWE, mWERelaxedSynonyms, mWERelaxedSynonymsMM100, mWERelaxedSynonymsMM75
+    static var defaultValue: String { return SearchMultiwordExpressions.control.rawValue }
+    static var enumValues: [SearchMultiwordExpressions] { return [.control, .baseline, .mWE, .mWERelaxedSynonyms, .mWERelaxedSynonymsMM100, .mWERelaxedSynonymsMM75]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Multiword expressions when searching" } 
+    static func fromPosition(_ position: Int) -> SearchMultiwordExpressions {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .mWE
+            case 3: return .mWERelaxedSynonyms
+            case 4: return .mWERelaxedSynonymsMM100
+            case 5: return .mWERelaxedSynonymsMM75
+            default: return .control
+        }
+    }
+}
+
+enum ShowChatSafetyTips: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return ShowChatSafetyTips.no.rawValue }
+    static var enumValues: [ShowChatSafetyTips] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show chat safety tips to new users" } 
+    var asBool: Bool { return self == .yes }
 }
 

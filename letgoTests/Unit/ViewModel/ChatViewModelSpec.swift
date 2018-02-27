@@ -291,6 +291,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                                product: productResult,
                                                chatConversation: chatConversation,
                                                user: user)
+                            featureFlags.showChatSafetyTips = true
                             sut.active = true
                         }
                         it("safety tips show up") {
