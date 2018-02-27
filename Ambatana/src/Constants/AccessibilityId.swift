@@ -74,7 +74,7 @@ enum AccessibilityId {
     
     // Filter Tags VC
     case filterTagsCollectionView
-    case filterTagCell
+    case filterTagCell(tag: FilterTag)
     case filterTagCellTagIcon
     case filterTagCellTagLabel
     case selectableFilterTagCellTagLabel
@@ -718,8 +718,84 @@ enum AccessibilityId {
         // Filter Tags VC
         case .filterTagsCollectionView:
             return "filterTagsCollectionView"
-        case .filterTagCell:
-            return "filterTagCell"
+        case .filterTagCell(let tag):
+            let prefix = "filterTagCell"
+            let id: String
+            switch tag {
+            case let .location(place):
+                id = prefix + "Location-\(place.title)"
+            case let .within(timeCriteria):
+                id = prefix + "WithinTime-\(timeCriteria.rawValue)"
+            case let .orderBy(sortCriteria):
+                id = prefix + "OrderBy-\(sortCriteria.rawValue)"
+            case let .category(category):
+                id = prefix + "Category-\(category.rawValue)"
+            case let .taxonomyChild(taxonomyChild):
+                id = prefix + "TaxonomyChild-\(taxonomyChild.id)"
+            case let .taxonomy(taxonomy):
+                id = prefix + "Taxonomy-\(taxonomy.name)"
+            case let .secondaryTaxonomyChild(taxonomyChild):
+                id = prefix + "SecondaryTaxonomyChild-\(String(taxonomyChild.id))"
+            case let .priceRange(from, to, currency):
+                var params = [String]()
+                if let from = from {
+                    params.append(String(from))
+                }
+                if let to = to {
+                    params.append(String(to))
+                }
+                if let currency = currency {
+                    params.append(currency.code)
+                }
+                id = prefix + "PriceRange-\(params.joined(separator: "_"))"
+            case .freeStuff:
+                id = prefix + "Free"
+            case let .distance(distance):
+                id = prefix + "Distance-\(String(distance))"
+            case let .make(carId, carName):
+                id = prefix + "CarMake-\(carId)_\(carName)"
+            case let .model(carId, carName):
+                id = prefix + "CarModel-\(carId)_\(carName)"
+            case let .yearsRange(from, to):
+                let fromString: String
+                if let from = from {
+                    fromString = String(from)
+                } else {
+                    fromString = ""
+                }
+                let toString: String
+                if let to = to {
+                    toString = String(to)
+                } else {
+                    toString = ""
+                }
+                id = prefix + "CarYears-\(fromString)_\(toString)"
+            case let .realEstateNumberOfBedrooms(number):
+                id = prefix + "RealEstateNumBedRooms-\(number)"
+            case let .realEstateNumberOfBathrooms(number):
+                id = prefix + "RealEstateNumBathRooms-\(String(number.rawValue))"
+            case let .realEstatePropertyType(type):
+                id = prefix + "RealEstatePropertyType-\(type.rawValue)"
+            case let .realEstateOfferType(type):
+                id = prefix + "RealEstateOfferType-\(type.rawValue)"
+            case let .realEstateNumberOfRooms(number):
+                id = prefix + "RealEstateNumRooms-\(number)"
+            case let .sizeSquareMetersRange(from, to):
+                let fromString: String
+                if let from = from {
+                    fromString = String(from)
+                } else {
+                    fromString = ""
+                }
+                let toString: String
+                if let to = to {
+                    toString = String(to)
+                } else {
+                    toString = ""
+                }
+                id = prefix + "RealEstateSizeSquareMetersRange-\(fromString)_\(toString)"
+            }
+            return id
         case .filterTagCellTagIcon:
             return "filterTagCellTagIcon"
         case .filterTagCellTagLabel:
