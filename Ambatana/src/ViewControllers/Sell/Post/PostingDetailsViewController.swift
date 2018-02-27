@@ -14,7 +14,7 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     
     fileprivate static let titleHeight: CGFloat = 60
     fileprivate static let skipButtonMinimumWidth: CGFloat = 100
-    fileprivate static let skipButtonHeight: CGFloat = 44
+    static let skipButtonHeight: CGFloat = 44
     
     private let titleLabel: UILabel = UILabel()
     private let contentView: UIView = UIView()

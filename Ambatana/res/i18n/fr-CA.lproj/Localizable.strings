@@ -294,6 +294,14 @@
 "direct_answer_willing_to_negotiate" = "Seriez-vous ouvert à négocier le prix ?";
 "direct_answers_hide" = "Masquer Réponses Rapides";
 "direct_answers_show" = "Afficher Réponses Rapides";
+"discarded" = "Rejeté";
+"discarded_products_reason_duplicated" = "Dupliquer l'annonce";
+"discarded_products_reason_good_manners" = "N'est pas conforme aux meilleures pratiques";
+"discarded_products_reason_non_realistic_price" = "Prix surréaliste";
+"discarded_products_reason_photo_not_clear" = "Photo floue ou imprécise";
+"discarded_products_reason_poor_ad_quality" = "N'est pas conforme aux meilleures pratiques";
+"discarded_products_reason_reference_to_competitors" = "Références à d'autres applis ou sites internet";
+"discarded_products_reason_stock_photo_only" = "Ne contient que des photos provenant de banques d'images";
 "edit_product_location_alert_text" = "Pour changer le lieu de publication de votre annonce, autorisez l'accès à votre localisation.";
 "edit_product_location_alert_title" = "CHANGER LA LOCALISATION";
 "edit_product_send_button" = "Sauvegarder les changements";
@@ -316,7 +324,9 @@
 "filters_distance_not_set" = "non configuré";
 "filters_navbar_reset" = "Réinitialiser";
 "filters_price_from" = "De";
+"filters_price_from_feed_filter_cell" = "De";
 "filters_price_to" = "À";
+"filters_price_to_feed_filter_cell" = "À";
 "filters_price_wrong_range_error" = "Le prix minimum ne peut pas être supérieur au prix maximum.";
 "filters_real_estate_bathrooms_not_set" = "Non configuré";
 "filters_real_estate_bedrooms_not_set" = "Non configuré";
@@ -787,6 +797,7 @@
 "real_estate_rooms_studio" = "Studio (1+0)";
 "real_estate_rooms_title" = "Nombre de pièces";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "Grandeur";
 "real_estate_summary_bathroom_title" = "salle de bains";
 "real_estate_summary_bathrooms_empty" = "Ajouter nombre de salles de bains";
