@@ -14,6 +14,7 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
         cell.delegate = model.delegate
 
         if let id = model.listingId {
+            cell.set(accessibilityId: .listingCell(listingId: id))
             cell.setupBackgroundColor(id: id)
         }
         if let thumbURL = model.thumbUrl {

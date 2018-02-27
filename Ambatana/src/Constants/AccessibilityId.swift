@@ -49,7 +49,7 @@ enum AccessibilityId {
     case listingListErrorButton
 
     // Listing Cell
-    case listingCell
+    case listingCell(listingId: String?)
     case listingCellThumbnailImageView
     case listingCellStripeImageView
     case listingCellStripeLabel
@@ -675,8 +675,8 @@ enum AccessibilityId {
             return "listingListErrorButton"
             
         // Listing Cell
-        case .listingCell:
-            return "listingCell"
+        case let .listingCell(listingId):
+            return "listingCell-\(listingId ?? "")"
         case .listingCellThumbnailImageView:
             return "listingCellThumbnailImageView"
         case .listingCellStripeImageView:
@@ -722,8 +722,8 @@ enum AccessibilityId {
             let prefix = "filterTagCell"
             let id: String
             switch tag {
-            case let .location(place):
-                id = prefix + "Location-\(place.title)"
+            case .location:
+                id = prefix + "Location"
             case let .within(timeCriteria):
                 id = prefix + "WithinTime-\(timeCriteria.rawValue)"
             case let .orderBy(sortCriteria):
