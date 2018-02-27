@@ -109,8 +109,8 @@ class CategoryHeaderCell: UICollectionViewCell {
     }
     
     private func setAccessibilityIds() {
-        self.accessibilityId = .filterTagCell
-        categoryIcon.accessibilityId = .categoryHeaderCellCategoryIcon
-        categoryTitle.accessibilityId = .categoryHeaderCellCategoryTitle
+        set(accessibilityId: .filterTagCell)
+        categoryIcon.set(accessibilityId: .categoryHeaderCellCategoryIcon)
+        categoryTitle.set(accessibilityId: .categoryHeaderCellCategoryTitle)
     }
 }

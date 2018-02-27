@@ -69,7 +69,7 @@ final class TaxonomiesTableView: UIView, UITableViewDelegate, UITableViewDataSou
     }
     
     private func setupAccessibilityIds() {
-        tableView.accessibilityId = .taxonomiesTableView
+        tableView.set(accessibilityId: .taxonomiesTableView)
     }
     
     func setupTableView(values: [Taxonomy], selectedTaxonomy: Taxonomy?, selectedTaxonomyChild: TaxonomyChild?) {

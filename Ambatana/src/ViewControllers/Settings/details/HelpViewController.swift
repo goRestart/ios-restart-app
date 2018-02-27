@@ -46,6 +46,6 @@ class HelpViewController: BaseViewController {
     // MARK: - Private methods
 
     private func setupAccessibilityIds() {
-        webView.accessibilityId = .helpWebView
+        webView.set(accessibilityId: .helpWebView)
     }
 }

@@ -222,8 +222,8 @@ ChatInactiveConversationsViewModelDelegate {
     // MARK: - Accesibility
     
     func setupAccessibilityIds() {
-        tableView.accessibilityId = .inactiveChatViewTableView
-        navigationItem.rightBarButtonItem?.accessibilityId = .inactiveChatViewMoreOptionsButton
-        navigationItem.backBarButtonItem?.accessibilityId = .inactiveChatViewBackButton
+        tableView.set(accessibilityId: .inactiveChatViewTableView)
+        navigationItem.rightBarButtonItem?.set(accessibilityId: .inactiveChatViewMoreOptionsButton)
+        navigationItem.backBarButtonItem?.set(accessibilityId: .inactiveChatViewBackButton)
     }
 }

@@ -23,7 +23,8 @@ class ChatStickerCell: UITableViewCell, ReusableCell {
 
 extension ChatStickerCell {
     func setAccessibilityIds() {
-        leftImage.accessibilityId = .chatStickerCellLeftImage
-        rightImage.accessibilityId = .chatStickerCellRightImage
+        leftImage.set(accessibilityId: .chatStickerCellLeftImage)
+        rightImage.set(accessibilityId: .chatStickerCellRightImage)
     }
 }
+

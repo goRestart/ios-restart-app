@@ -270,22 +270,22 @@ extension UserViewController {
     }
 
     fileprivate func setupAccessibilityIds() {
-        navBarUserView.titleLabel.accessibilityId = .userHeaderCollapsedNameLabel
-        navBarUserView.subtitleLabel.accessibilityId = .userHeaderCollapsedLocationLabel
-        userNameLabel.accessibilityId = .userHeaderExpandedNameLabel
-        userLocationLabel.accessibilityId = .userHeaderExpandedLocationLabel
+        navBarUserView.titleLabel.set(accessibilityId: .userHeaderCollapsedNameLabel)
+        navBarUserView.subtitleLabel.set(accessibilityId: .userHeaderCollapsedLocationLabel)
+        userNameLabel.set(accessibilityId: .userHeaderExpandedNameLabel)
+        userLocationLabel.set(accessibilityId: .userHeaderExpandedLocationLabel)
 
-        headerContainer?.header.avatarButton.accessibilityId = .userHeaderExpandedAvatarButton
-        headerContainer?.header.ratingsButton.accessibilityId = .userHeaderExpandedRatingsButton
-        headerContainer?.header.userRelationLabel.accessibilityId = .userHeaderExpandedRelationLabel
-        headerContainer?.header.buildTrustButton.accessibilityId = .userHeaderExpandedBuildTrustButton
-        headerContainer?.header.sellingButton.accessibilityId = .userSellingTab
-        headerContainer?.header.soldButton.accessibilityId = .userSoldTab
-        headerContainer?.header.favoritesButton.accessibilityId = .userFavoritesTab
+        headerContainer?.header.avatarButton.set(accessibilityId: .userHeaderExpandedAvatarButton)
+        headerContainer?.header.ratingsButton.set(accessibilityId: .userHeaderExpandedRatingsButton)
+        headerContainer?.header.userRelationLabel.set(accessibilityId: .userHeaderExpandedRelationLabel)
+        headerContainer?.header.buildTrustButton.set(accessibilityId: .userHeaderExpandedBuildTrustButton)
+        headerContainer?.header.sellingButton.set(accessibilityId: .userSellingTab)
+        headerContainer?.header.soldButton.set(accessibilityId: .userSoldTab)
+        headerContainer?.header.favoritesButton.set(accessibilityId: .userFavoritesTab)
 
-        listingListView.firstLoadView.accessibilityId = .userListingsFirstLoad
-        listingListView.collectionView.accessibilityId = .userListingsList
-        listingListView.errorView.accessibilityId = .userListingsError
+        listingListView.firstLoadView.set(accessibilityId: .userListingsFirstLoad)
+        listingListView.collectionView.set(accessibilityId: .userListingsList)
+        listingListView.errorView.set(accessibilityId: .userListingsError)
     }
 
     private func setupMainView() {

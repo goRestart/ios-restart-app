@@ -206,8 +206,8 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     }
 
     private func setupAccessibilityIds() {
-        passwordTextfield.accessibilityId = .changePasswordPwdTextfield
-        confirmPasswordTextfield.accessibilityId = .changePasswordPwdConfirmTextfield
-        sendButton.accessibilityId = .changePasswordSendButton
+        passwordTextfield.set(accessibilityId: .changePasswordPwdTextfield)
+        confirmPasswordTextfield.set(accessibilityId: .changePasswordPwdConfirmTextfield)
+        sendButton.set(accessibilityId: .changePasswordSendButton)
     }
 }

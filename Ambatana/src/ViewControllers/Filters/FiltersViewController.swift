@@ -566,10 +566,10 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     }
 
     private func setAccessibilityIds() {
-        collectionView.accessibilityId = .filtersCollectionView
-        saveFiltersBtn.accessibilityId = .filtersSaveFiltersButton
-        self.navigationItem.rightBarButtonItem?.accessibilityId = .filtersResetButton
-        self.navigationItem.leftBarButtonItem?.accessibilityId = .filtersCancelButton
+        collectionView.set(accessibilityId: .filtersCollectionView)
+        saveFiltersBtn.set(accessibilityId: .filtersSaveFiltersButton)
+        navigationItem.rightBarButtonItem?.set(accessibilityId: .filtersResetButton)
+        navigationItem.leftBarButtonItem?.set(accessibilityId: .filtersCancelButton)
     }
 }
 

@@ -134,13 +134,13 @@ class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UITextFi
     }
 
     func setAccessibilityIds() {
-        view.accessibilityId = .askPhoneNumberView
-        closeButton.accessibilityId = .askPhoneNumberCloseButton
-        notNowButton.accessibilityId = .askPhoneNumberNotNowButton
-        introTextLabel.accessibilityId = .askPhoneNumberIntroText
-        letsTalkLabel.accessibilityId = .askPhoneNumberLetstalkText
-        phoneTextField.accessibilityId = .askPhoneNumberTextfield
-        sendPhoneButton.accessibilityId = .askPhoneNumberSendPhoneButton
+        view.set(accessibilityId: .askPhoneNumberView)
+        closeButton.set(accessibilityId: .askPhoneNumberCloseButton)
+        notNowButton.set(accessibilityId: .askPhoneNumberNotNowButton)
+        introTextLabel.set(accessibilityId: .askPhoneNumberIntroText)
+        letsTalkLabel.set(accessibilityId: .askPhoneNumberLetstalkText)
+        phoneTextField.set(accessibilityId: .askPhoneNumberTextfield)
+        sendPhoneButton.set(accessibilityId: .askPhoneNumberSendPhoneButton)
     }
 
     // MARK: Public Methods

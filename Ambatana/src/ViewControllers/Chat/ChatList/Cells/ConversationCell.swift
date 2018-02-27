@@ -211,13 +211,13 @@ class ConversationCell: UITableViewCell, ReusableCell {
 
 extension ConversationCell {
     func setAccessibilityIds() {
-        contentView.accessibilityId = AccessibilityId.conversationCellContainer
-        userLabel.accessibilityId = AccessibilityId.conversationCellUserLabel
-        timeLabel.accessibilityId = AccessibilityId.conversationCellTimeLabel
-        listingLabel.accessibilityId = AccessibilityId.conversationCellListingLabel
-        badgeLabel.accessibilityId = AccessibilityId.conversationCellBadgeLabel
-        thumbnailImageView.accessibilityId = AccessibilityId.conversationCellThumbnailImageView
-        avatarImageView.accessibilityId = AccessibilityId.conversationCellAvatarImageView
-        statusImageView.accessibilityId = AccessibilityId.conversationCellStatusImageView
+        contentView.set(accessibilityId: .conversationCellContainer)
+        userLabel.set(accessibilityId: .conversationCellUserLabel)
+        timeLabel.set(accessibilityId: .conversationCellTimeLabel)
+        listingLabel.set(accessibilityId: .conversationCellListingLabel)
+        badgeLabel.set(accessibilityId: .conversationCellBadgeLabel)
+        thumbnailImageView.set(accessibilityId: .conversationCellThumbnailImageView)
+        avatarImageView.set(accessibilityId: .conversationCellAvatarImageView)
+        statusImageView.set(accessibilityId: .conversationCellStatusImageView)
     }
 }

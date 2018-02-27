@@ -108,10 +108,10 @@ class BumpUpPayViewController: BaseViewController {
     }
 
     private func setAccessibilityIds() {
-        closeButton.accessibilityId = .paymentBumpUpCloseButton
-        listingImageView.accessibilityId = .paymentBumpUpImage
-        titleLabel.accessibilityId = .paymentBumpUpTitleLabel
-        subtitleLabel.accessibilityId = .paymentBumpUpSubtitleLabel
-        bumpUpButton.accessibilityId = .paymentBumpUpButton
+        closeButton.set(accessibilityId: .paymentBumpUpCloseButton)
+        listingImageView.set(accessibilityId: .paymentBumpUpImage)
+        titleLabel.set(accessibilityId: .paymentBumpUpTitleLabel)
+        subtitleLabel.set(accessibilityId: .paymentBumpUpSubtitleLabel)
+        bumpUpButton.set(accessibilityId: .paymentBumpUpButton)
     }
 }

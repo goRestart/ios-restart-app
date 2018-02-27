@@ -164,7 +164,7 @@ class BubbleNotification: UIView {
             actionButton.titleLabel?.minimumScaleFactor = 0.8
             actionButton.setTitle(action.text, for: .normal)
             actionButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-            actionButton.accessibilityId =  action.accessibilityId
+            actionButton.set(accessibilityId:  action.accessibilityId)
         }
 
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
