@@ -15,6 +15,7 @@ class DevelopmentEnvironment: AppEnvironment {
     
     // AppsFlyer
     let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
+    let oneLinkHost = "https://letgo.onelink.me/"
     let oneLinkID = "O2PG"
     
     // Google login

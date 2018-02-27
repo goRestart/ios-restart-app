@@ -25,8 +25,7 @@ class SocialSharer: NSObject {
 // MARK: > Share
 
 extension SocialSharer {
-    func share(_ socialMessage: SocialMessage, shareType: ShareType,
-               viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
+    func share(_ socialMessage: SocialMessage, shareType: ShareType, viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
         guard SocialSharer.canShareIn(shareType) else {
             delegate?.shareStartedIn(shareType)
             delegate?.shareFinishedIn(shareType, withState: .failed)

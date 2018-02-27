@@ -164,7 +164,5 @@ class DeepLinksRouterSpec: QuickSpec {
                 }
             }
         }
-        
     }
-    
 }
