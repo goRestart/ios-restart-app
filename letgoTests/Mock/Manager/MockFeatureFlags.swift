@@ -57,6 +57,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newUserProfileView: NewUserProfileView = .control
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
     var searchMultiwordExpressions: SearchMultiwordExpressions = .control
+    var showChatSafetyTips: Bool = false
 
     // Country dependant features
     var freePostingModeAllowed = false
