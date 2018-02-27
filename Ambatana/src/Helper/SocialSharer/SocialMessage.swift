@@ -169,15 +169,12 @@ extension SocialMessage {
         if var letgoURLString = letgoURLString {
             let iosURL = fallbackToStore ?
                 addUtmParamsToURLString(Constants.appStoreURL,
-                                        source: source,
-                                        needsPercentEncoding: false) : letgoURLString
+                                        source: source) : letgoURLString
             let androidURL = fallbackToStore ?
                 addUtmParamsToURLString(Constants.playStoreURL,
-                                        source: source,
-                                        needsPercentEncoding: false) : letgoURLString
+                                        source: source) : letgoURLString
             letgoURLString = addUtmParamsToURLString(letgoURLString,
-                                                     source: source,
-                                                     needsPercentEncoding: false)
+                                                     source: source)
             generator.addParameterValue(letgoURLString, forKey: Self.fallbackURLKey)
             generator.addParameterValue(letgoURLString, forKey: Self.desktopURLKey)
             generator.addParameterValue(iosURL, forKey: Self.iosURLKey)
@@ -197,7 +194,7 @@ extension SocialMessage {
     // MARK: - Helpers
     
     // Adds campaign, medium and source info to the url or path
-    func addUtmParamsToURLString(_ string: String, source: ShareSource?, needsPercentEncoding: Bool) -> String {
+    func addUtmParamsToURLString(_ string: String, source: ShareSource?) -> String {
         guard !string.isEmpty else { return "" }
         let mediumValue = source?.rawValue ?? ""
         let completeURLString = Constants.deepLinkScheme + string + "?" + Self.utmCampaignKey + "=" + Self.utmCampaignValue + "&" +
@@ -306,8 +303,7 @@ struct ListingSocialMessage: SocialMessage {
     
     func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
         let deepLinkString = addUtmParamsToURLString("product/"+listingId,
-                                                       source: source,
-                                                       needsPercentEncoding: true)
+                                                       source: source)
         retrieveShareURL(source: source,
                          campaign: ListingSocialMessage.utmCampaignValue,
                          deepLinkString: deepLinkString,
@@ -378,8 +374,7 @@ struct AppShareSocialMessage: SocialMessage {
     
     func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
         let deepLinkString = addUtmParamsToURLString(controlParameter,
-                                                     source: source,
-                                                     needsPercentEncoding: true)
+                                                     source: source)
         retrieveShareURL(source: source,
                          campaign: AppShareSocialMessage.utmCampaignValue,
                          deepLinkString: deepLinkString,
@@ -487,8 +482,7 @@ struct UserSocialMessage: SocialMessage {
     
     func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
         let deepLinkString = addUtmParamsToURLString(controlParameter,
-                                                     source: source,
-                                                     needsPercentEncoding: true)
+                                                     source: source)
         retrieveShareURL(source: source,
                          campaign: UserSocialMessage.utmCampaignValue,
                          deepLinkString: deepLinkString,
