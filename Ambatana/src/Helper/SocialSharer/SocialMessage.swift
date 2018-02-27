@@ -331,13 +331,10 @@ struct AppShareSocialMessage: SocialMessage {
     let controlParameter = "home"
     var myUserId: String?
     var myUserName: String?
-
-    private let imageURL: URL?
     
     init(myUserId: String?, myUserName: String?) {
         self.myUserId = myUserId
         self.myUserName = myUserName
-        imageURL = URL(string: Constants.facebookAppInvitePreviewImageURL)
     }
     
     func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) {
