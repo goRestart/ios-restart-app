@@ -20,20 +20,20 @@ class AppsFlyerDeepLinkSpec: QuickSpec {
                 
                 context("with path") {
                     beforeEach {
-                        let attributionData = ["af_dp" : "product/5abbd748-9ded-4922-8f7f-4c88aa9528ee"]
+                        let attributionData = [AppsFlyerDeepLink.afdpParam : "product/5abbd748-9ded-4922-8f7f-4c88aa9528ee"]
                         deepLink = AppsFlyerDeepLink.buildFromAttributionData(attributionData)
                     }
-                    it("path is parsed correctly") {
+                    it("action is parsed correctly") {
                         expect(deepLink.action).to(equal(DeepLinkAction.listing(listingId: "5abbd748-9ded-4922-8f7f-4c88aa9528ee")))
                     }
                 }
                 
                 context("with path and query parameters") {
                     beforeEach {
-                        let attributionData = ["af_dp" : "product/5abbd748-9ded-4922-8f7f-4c88aa9528ee?utm_campaign=product-detail-share&utm_medium=whatsapp&utm_source=ios_app"]
+                        let attributionData = [AppsFlyerDeepLink.afdpParam : "product/5abbd748-9ded-4922-8f7f-4c88aa9528ee?utm_campaign=product-detail-share&utm_medium=whatsapp&utm_source=ios_app"]
                         deepLink = AppsFlyerDeepLink.buildFromAttributionData(attributionData)
                     }
-                    it("is parsed correctly") {
+                    it("action is parsed correctly") {
                         expect(deepLink.action).to(equal(DeepLinkAction.listing(listingId: "5abbd748-9ded-4922-8f7f-4c88aa9528ee")))
                     }
                     it("parses utm_medium correctly") {
