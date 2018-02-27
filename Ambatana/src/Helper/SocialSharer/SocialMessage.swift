@@ -197,10 +197,11 @@ extension SocialMessage {
     func addUtmParamsToURLString(_ string: String, source: ShareSource?) -> String {
         guard !string.isEmpty else { return "" }
         let mediumValue = source?.rawValue ?? ""
-        let completeURLString = Constants.deepLinkScheme + string + "?" + Self.utmCampaignKey + "=" + Self.utmCampaignValue + "&" +
+        let completeURLString = Constants.deepLinkScheme + string + "?" +
+            Self.utmCampaignKey + "=" + Self.utmCampaignValue + "&" +
             Self.utmMediumKey + "=" + mediumValue + "&" +
             Self.utmSourceKey + "=" + Self.utmSourceValue
-        if let percentEncodedURLString = AppsFlyerDeepLink.percentEncodeForAmpersands(urlString: completeURLString), needsPercentEncoding {
+        if let percentEncodedURLString = AppsFlyerDeepLink.percentEncodeForAmpersands(urlString: completeURLString) {
             return percentEncodedURLString
         }
         return completeURLString
