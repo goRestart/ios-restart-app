@@ -17,15 +17,15 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fp4-l8-YJ2">
-                    <rect key="frame" x="0.0" y="-500" width="360" height="1296"/>
+                    <rect key="frame" x="0.0" y="-500" width="360" height="1278"/>
                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="28M-zo-rtJ">
-                        <rect key="frame" x="0.0" y="0.0" width="360" height="1296"/>
+                        <rect key="frame" x="0.0" y="0.0" width="360" height="1278"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </view>
                     <blurEffect style="dark"/>
                 </visualEffectView>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="Sdr-8s-uVp">
-                    <rect key="frame" x="0.0" y="84" width="360" height="712"/>
+                    <rect key="frame" x="0.0" y="84" width="360" height="694"/>
                     <subviews>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mi7-4s-ycC" userLabel="Scroll View Content View">
                             <rect key="frame" x="0.0" y="0.0" width="360" height="564.5"/>
@@ -186,7 +186,7 @@
                     </constraints>
                 </scrollView>
                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="lq7-uR-qpI">
-                    <rect key="frame" x="130" y="796" width="100" height="75"/>
+                    <rect key="frame" x="130" y="824" width="100" height="42"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8No-nu-eMI" userLabel="Drag Button">
                             <rect key="frame" x="5" y="5" width="90" height="30"/>
@@ -221,17 +221,17 @@
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="8No-nu-eMI" secondAttribute="trailing" constant="5" id="Gvv-XO-qjv"/>
                         <constraint firstItem="8No-nu-eMI" firstAttribute="leading" secondItem="lq7-uR-qpI" secondAttribute="leading" constant="5" id="H56-c4-1fb"/>
-                        <constraint firstAttribute="bottom" secondItem="8No-nu-eMI" secondAttribute="bottom" constant="40" id="Oho-j2-X1h"/>
+                        <constraint firstAttribute="bottom" secondItem="8No-nu-eMI" secondAttribute="bottom" constant="7" id="Oho-j2-X1h"/>
                         <constraint firstItem="8No-nu-eMI" firstAttribute="top" secondItem="lq7-uR-qpI" secondAttribute="top" constant="5" id="eBX-zF-bmR"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="Sdr-8s-uVp" secondAttribute="bottom" constant="70" id="5hP-hh-TT0"/>
-                <constraint firstItem="lq7-uR-qpI" firstAttribute="top" secondItem="fp4-l8-YJ2" secondAttribute="bottom" id="85R-SK-QFq"/>
+                <constraint firstAttribute="bottom" secondItem="Sdr-8s-uVp" secondAttribute="bottom" constant="88" id="5hP-hh-TT0"/>
                 <constraint firstItem="fp4-l8-YJ2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ghu-50-2r3"/>
                 <constraint firstAttribute="trailing" secondItem="fp4-l8-YJ2" secondAttribute="trailing" id="Mf5-jj-Aho"/>
+                <constraint firstAttribute="bottom" secondItem="lq7-uR-qpI" secondAttribute="bottom" id="Nmf-1c-4OS"/>
                 <constraint firstItem="Sdr-8s-uVp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="topMargin" constant="64" id="UOL-x8-r43"/>
                 <constraint firstItem="fp4-l8-YJ2" firstAttribute="bottom" secondItem="Sdr-8s-uVp" secondAttribute="bottom" id="cWL-uV-D6J"/>
                 <constraint firstAttribute="trailing" secondItem="Sdr-8s-uVp" secondAttribute="trailing" id="gO2-sc-hNL"/>
@@ -254,10 +254,10 @@
                 <outlet property="dragView" destination="lq7-uR-qpI" id="84m-7C-8UB"/>
                 <outlet property="dragViewImage" destination="c2c-7V-Amf" id="3eF-ez-dsu"/>
                 <outlet property="dragViewTitle" destination="izu-M0-9D7" id="0Bf-ZS-spW"/>
-                <outlet property="dragViewToVisualEffectConstraint" destination="85R-SK-QFq" id="hbh-v6-Yjz"/>
                 <outlet property="mapViewContainer" destination="1f9-4W-3qg" id="xyi-v9-DZe"/>
                 <outlet property="priceLabel" destination="FJ3-IZ-f8e" id="CyT-QN-x2P"/>
                 <outlet property="scrollView" destination="Sdr-8s-uVp" id="VYC-sX-HPk"/>
+                <outlet property="scrollViewBottomConstraint" destination="5hP-hh-TT0" id="kB2-80-juc"/>
                 <outlet property="scrollViewContent" destination="Mi7-4s-ycC" id="765-Ju-4IZ"/>
                 <outlet property="scrollViewToSuperviewTopConstraint" destination="UOL-x8-r43" id="xkp-bf-IcT"/>
                 <outlet property="shareViewToBannerTopConstraint" destination="oer-9C-vln" id="L0J-wo-fdT"/>

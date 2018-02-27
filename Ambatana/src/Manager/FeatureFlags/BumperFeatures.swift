@@ -46,7 +46,9 @@ extension Bumper  {
         flags.append(EmojiSizeIncrement.self)
         flags.append(ShowBumpUpBannerOnNotValidatedListings.self)
         flags.append(NewUserProfileView.self)
+        flags.append(TurkeyBumpPriceVATAdaptation.self)
         flags.append(SearchMultiwordExpressions.self)
+        flags.append(ShowChatSafetyTips.self)
         Bumper.initialize(flags)
     } 
 
@@ -215,9 +217,19 @@ extension Bumper  {
         return NewUserProfileView(rawValue: value) ?? .control 
     }
 
+    static var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation {
+        guard let value = Bumper.value(for: TurkeyBumpPriceVATAdaptation.key) else { return .control }
+        return TurkeyBumpPriceVATAdaptation(rawValue: value) ?? .control 
+    }
+
     static var searchMultiwordExpressions: SearchMultiwordExpressions {
         guard let value = Bumper.value(for: SearchMultiwordExpressions.key) else { return .control }
         return SearchMultiwordExpressions(rawValue: value) ?? .control 
+    }
+
+    static var showChatSafetyTips: Bool {
+        guard let value = Bumper.value(for: ShowChatSafetyTips.key) else { return false }
+        return ShowChatSafetyTips(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -720,6 +732,22 @@ enum NewUserProfileView: String, BumperFeature  {
     }
 }
 
+enum TurkeyBumpPriceVATAdaptation: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return TurkeyBumpPriceVATAdaptation.control.rawValue }
+    static var enumValues: [TurkeyBumpPriceVATAdaptation] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Change bump price scaling for listings in TR" } 
+    static func fromPosition(_ position: Int) -> TurkeyBumpPriceVATAdaptation {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
 enum SearchMultiwordExpressions: String, BumperFeature  {
     case control, baseline, mWE, mWERelaxedSynonyms, mWERelaxedSynonymsMM100, mWERelaxedSynonymsMM75
     static var defaultValue: String { return SearchMultiwordExpressions.control.rawValue }
@@ -737,5 +765,14 @@ enum SearchMultiwordExpressions: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum ShowChatSafetyTips: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return ShowChatSafetyTips.no.rawValue }
+    static var enumValues: [ShowChatSafetyTips] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show chat safety tips to new users" } 
+    var asBool: Bool { return self == .yes }
 }
 

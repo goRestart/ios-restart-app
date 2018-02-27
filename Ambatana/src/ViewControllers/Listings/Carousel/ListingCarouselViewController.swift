@@ -239,6 +239,15 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         }
     }
 
+    /*
+     After the initial layout setup the safeAreaInsets might change so we need to update
+     the more info view constraints. I.e. the first time this Carousel is launched
+     */
+    override func viewSafeAreaInsetsDidChange() {
+        guard moreInfoState.value == .hidden, didSetupAfterLayout else { return }
+        resetMoreInfoState()
+    }
+
     private func setupAfterLayout(backgroundImage: UIImage?, activeAnimator: Bool) {
         didSetupAfterLayout = true
         if !activeAnimator {
@@ -345,8 +354,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         mainResponder = chatTextView
         setupDirectMessages()
         setupBumpUpBanner()
-        
-        moreInfoView.updateDragViewVerticalConstraint(statusBarHeight: statusBarHeight)
     }
 
     private func setupCallButton() {
@@ -804,7 +811,13 @@ extension ListingCarouselViewController {
 
     fileprivate func resetMoreInfoState() {
         moreInfoView.frame = view.bounds
-        moreInfoView.height = view.height + CarouselUI.moreInfoExtraHeight
+        if #available(iOS 11.0, *) {
+            moreInfoView.height = view.height + view.safeAreaInsets.top
+            moreInfoView.updateBottomAreaMargin(with: view.safeAreaInsets.top)
+        } else {
+            moreInfoView.height = view.height + CarouselUI.moreInfoExtraHeight
+            moreInfoView.updateBottomAreaMargin(with: CarouselUI.moreInfoExtraHeight)
+        }
         moreInfoView.frame.origin.y = -view.bounds.height
         moreInfoState.value = .hidden
     }

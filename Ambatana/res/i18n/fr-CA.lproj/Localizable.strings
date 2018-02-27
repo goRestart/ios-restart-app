@@ -797,7 +797,7 @@
 "real_estate_rooms_studio" = "Studio (1+0)";
 "real_estate_rooms_title" = "Nombre de pièces";
 "real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_placeholder" = "Ajouter";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "Grandeur";
 "real_estate_summary_bathroom_title" = "salle de bains";
 "real_estate_summary_bathrooms_empty" = "Ajouter nombre de salles de bains";
@@ -992,7 +992,7 @@
 "trending_items_view_post_button" = "Publier";
 "trending_items_view_search_button" = "Recherche";
 "trending_items_view_subtitle" = "Publiez l'un d'entre eux et gagnez de l'argent en moins d'une semaine";
-"trending_items_view_title" = "Les plus populaires en %@";
+"trending_items_view_title" = "Produits les plus populaires en %@";
 "trending_items_view_title_no_location" = "Articles les plus populaires";
 "trending_searches_Title" = "Recherches Populaires";
 "unblock_user_error_generic" = "Une erreur est survenue lors du déblocage de cet utilisateur.";

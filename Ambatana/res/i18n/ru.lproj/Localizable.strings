@@ -797,7 +797,7 @@
 "real_estate_rooms_studio" = "Студия (1+0)";
 "real_estate_rooms_title" = "Количество комнат";
 "real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_placeholder" = "Добавить";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "Размер";
 "real_estate_summary_bathroom_title" = "ванная";
 "real_estate_summary_bathrooms_empty" = "Добавьте количество ванных";

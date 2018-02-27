@@ -797,7 +797,7 @@
 "real_estate_rooms_studio" = "Studio (1+0)";
 "real_estate_rooms_title" = "N. di stanze";
 "real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_placeholder" = "Aggiungi";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "Dimensioni";
 "real_estate_summary_bathroom_title" = "bagno";
 "real_estate_summary_bathrooms_empty" = "Aggiungi n° di bagni";

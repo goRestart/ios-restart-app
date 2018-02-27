@@ -797,7 +797,7 @@
 "real_estate_rooms_studio" = "스튜디오 (1+0)";
 "real_estate_rooms_title" = "방 개수";
 "real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_placeholder" = "추가";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "사이즈";
 "real_estate_summary_bathroom_title" = "욕실";
 "real_estate_summary_bathrooms_empty" = "욕실 숫자 추가하기";

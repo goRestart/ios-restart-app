@@ -97,9 +97,9 @@ class FilterTagCell: UICollectionViewCell {
         if !minText.isEmpty && !maxText.isEmpty {
             return minText + " " + "-" + " " + maxText
         } else if !minText.isEmpty {
-            return LGLocalizedString.filtersPriceFrom + " " + minText
+            return LGLocalizedString.filtersPriceFromFeedFilterCell + " " + minText
         } else if !maxText.isEmpty {
-            return LGLocalizedString.filtersPriceTo + " " + maxText
+            return LGLocalizedString.filtersPriceToFeedFilterCell + " " + maxText
         } else {
             // should never ever happen
             return "🤑"

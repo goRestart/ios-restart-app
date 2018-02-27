@@ -47,6 +47,7 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollViewContent: UIView!
+    @IBOutlet weak var scrollViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var visualEffectViewBottom: NSLayoutConstraint!
     @IBOutlet weak var descriptionLabel: LGCollapsibleLabel!
@@ -72,7 +73,6 @@ class ListingCarouselMoreInfoView: UIView {
 
     @IBOutlet var shareViewToMapTopConstraint: NSLayoutConstraint!
     @IBOutlet var shareViewToBannerTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var dragViewToVisualEffectConstraint: NSLayoutConstraint!
     @IBOutlet weak var scrollViewToSuperviewTopConstraint: NSLayoutConstraint!
     
     var bannerView: GADSearchBannerView?
@@ -161,17 +161,16 @@ class ListingCarouselMoreInfoView: UIView {
         scrollView.contentOffset = CGPoint.zero
         descriptionLabel.collapsed = true
     }
-    
+
     deinit {
         // MapView is a shared instance and all references must be removed
         cleanMapView()
     }
-    
-    
+
     // MARK: - UI
-    
-    func updateDragViewVerticalConstraint(statusBarHeight: CGFloat) {
-        dragViewToVisualEffectConstraint.constant = statusBarHeight + ListingCarouselMoreInfoView.dragViewVerticalExtraMargin
+
+    func updateBottomAreaMargin(with value: CGFloat) {
+        self.scrollViewBottomConstraint.constant = value
     }
 }
 

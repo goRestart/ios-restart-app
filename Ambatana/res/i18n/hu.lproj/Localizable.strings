@@ -797,7 +797,7 @@
 "real_estate_rooms_studio" = "Stúdió (1+0)";
 "real_estate_rooms_title" = "Szobák száma";
 "real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_placeholder" = "Hozzáadás";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "Méret";
 "real_estate_summary_bathroom_title" = "fürdőszoba";
 "real_estate_summary_bathrooms_empty" = "Fürdőszobaszám hozzáadása";
