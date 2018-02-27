@@ -105,10 +105,6 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
     }
     
     func onAppOpenAttribution(_ attributionData: [AnyHashable : Any]!) {
-//        logMessage(.verbose, type: .deepLink, message: "received branch Object \(String(describing: object))")
-//        guard let branchDeepLink = object?.deepLinkWithProperties(properties) else { return }
-//        logMessage(.verbose, type: .deepLink, message: "Resolved branch Object \(branchDeepLink.action)")
-//        deepLinksSignal.onNext(branchDeepLink)
         guard let deeplink = buildFromAttributionData(attributionData) else { return }
         deepLinksSignal.onNext(deeplink)
     }
