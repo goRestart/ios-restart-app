@@ -170,9 +170,9 @@ final class TourNotificationsViewController: BaseViewController {
     }
 
     func setupAccessibilityIds() {
-        closeButton.accessibilityId = .tourNotificationsCloseButton
-        notifyButton.accessibilityId = .tourNotificationsOKButton
-        alertContainer.accessibilityId = .tourNotificationsAlert
+        closeButton.set(accessibilityId: .tourNotificationsCloseButton)
+        notifyButton.set(accessibilityId: .tourNotificationsOKButton)
+        alertContainer.set(accessibilityId: .tourNotificationsAlert)
     }
 }
 

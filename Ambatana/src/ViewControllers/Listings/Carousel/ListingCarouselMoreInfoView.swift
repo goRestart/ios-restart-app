@@ -676,15 +676,15 @@ extension ListingCarouselMoreInfoView: SocialShareViewDelegate {
 
 extension ListingCarouselMoreInfoView {
     fileprivate func setAccessibilityIds() {
-        scrollView.accessibilityId = .listingCarouselMoreInfoScrollView
-        titleText.accessibilityId = .listingCarouselMoreInfoTitleLabel
-        transTitleLabel.accessibilityId = .listingCarouselMoreInfoTransTitleLabel
-        addressLabel.accessibilityId = .listingCarouselMoreInfoAddressLabel
-        distanceLabel.accessibilityId = .listingCarouselMoreInfoDistanceLabel
-        mapView.accessibilityId = .listingCarouselMoreInfoMapView
-        socialShareTitleLabel.accessibilityId = .listingCarouselMoreInfoSocialShareTitleLabel
-        socialShareView.accessibilityId = .listingCarouselMoreInfoSocialShareView
-        descriptionLabel.accessibilityId = .listingCarouselMoreInfoDescriptionLabel
+        scrollView.set(accessibilityId: .listingCarouselMoreInfoScrollView)
+        titleText.set(accessibilityId: .listingCarouselMoreInfoTitleLabel)
+        transTitleLabel.set(accessibilityId: .listingCarouselMoreInfoTransTitleLabel)
+        addressLabel.set(accessibilityId: .listingCarouselMoreInfoAddressLabel)
+        distanceLabel.set(accessibilityId: .listingCarouselMoreInfoDistanceLabel)
+        mapView.set(accessibilityId: .listingCarouselMoreInfoMapView)
+        socialShareTitleLabel.set(accessibilityId: .listingCarouselMoreInfoSocialShareTitleLabel)
+        socialShareView.set(accessibilityId: .listingCarouselMoreInfoSocialShareView)
+        descriptionLabel.set(accessibilityId: .listingCarouselMoreInfoDescriptionLabel)
     }
 }
 

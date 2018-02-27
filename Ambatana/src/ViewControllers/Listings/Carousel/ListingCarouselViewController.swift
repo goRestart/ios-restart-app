@@ -1319,17 +1319,17 @@ extension ListingCarouselViewController {
 
 fileprivate extension ListingCarouselViewController {
     func setAccessibilityIds() {
-        collectionView.accessibilityId = .listingCarouselCollectionView
-        buttonBottom.accessibilityId = .listingCarouselButtonBottom
-        buttonTop.accessibilityId = .listingCarouselButtonTop
-        favoriteButton.accessibilityId = .listingCarouselFavoriteButton
-        moreInfoView.accessibilityId = .listingCarouselMoreInfoView
-        productStatusLabel.accessibilityId = .listingCarouselListingStatusLabel
-        directChatTable.accessibilityId = .listingCarouselDirectChatTable
-        fullScreenAvatarView.accessibilityId = .listingCarouselFullScreenAvatarView
-        pageControl.accessibilityId = .listingCarouselPageControl
-        userView.accessibilityId = .listingCarouselUserView
-        chatTextView.accessibilityId = .listingCarouselChatTextView
-        productStatusView.accessibilityId = .listingCarouselStatusView
+        collectionView.set(accessibilityId: .listingCarouselCollectionView)
+        buttonBottom.set(accessibilityId: .listingCarouselButtonBottom)
+        buttonTop.set(accessibilityId: .listingCarouselButtonTop)
+        favoriteButton.set(accessibilityId: .listingCarouselFavoriteButton)
+        moreInfoView.set(accessibilityId: .listingCarouselMoreInfoView)
+        productStatusLabel.set(accessibilityId: .listingCarouselListingStatusLabel)
+        directChatTable.set(accessibilityId: .listingCarouselDirectChatTable)
+        fullScreenAvatarView.set(accessibilityId: .listingCarouselFullScreenAvatarView)
+        pageControl.set(accessibilityId: .listingCarouselPageControl)
+        userView.set(accessibilityId: .listingCarouselUserView)
+        chatTextView.set(accessibilityId: .listingCarouselChatTextView)
+        productStatusView.set(accessibilityId: .listingCarouselStatusView)
     }
 }

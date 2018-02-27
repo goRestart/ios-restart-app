@@ -75,7 +75,7 @@ class SelectableFilterTagCell: UICollectionViewCell {
     }
     
     private func setAccessibilityIds() {
-        tagLabel.accessibilityId = .selectableFilterTagCellTagLabel
+        tagLabel.set(accessibilityId: .selectableFilterTagCellTagLabel)
     }
     
     

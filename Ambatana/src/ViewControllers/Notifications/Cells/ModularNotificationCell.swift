@@ -460,25 +460,25 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     // MARK: - Accesibility Ids.
     
     func setAccesibilityIds() {
-        heroImageView.accessibilityId = .notificationsModularHeroImageView
-        textBodyLabel.accessibilityId = .notificationsModularTextBodyLabel
-        callsToAction.first?.accessibilityId = .notificationsModularCTA1
+        heroImageView.set(accessibilityId: .notificationsModularHeroImageView)
+        textBodyLabel.set(accessibilityId: .notificationsModularTextBodyLabel)
+        callsToAction.first?.set(accessibilityId: .notificationsModularCTA1)
         if callsToAction.count > 1 {
-            callsToAction[1].accessibilityId = .notificationsModularCTA2
+            callsToAction[1].set(accessibilityId: .notificationsModularCTA2)
         }
         if callsToAction.count > 2 {
-            callsToAction[2].accessibilityId = .notificationsModularCTA3
+            callsToAction[2].set(accessibilityId: .notificationsModularCTA3)
         }
-        basicImage.accessibilityId = .notificationsModularBasicImageView
-        callsToAction.first?.accessibilityId = .notificationsModularThumbnailView1
+        basicImage.set(accessibilityId: .notificationsModularBasicImageView)
+        callsToAction.first?.set(accessibilityId: .notificationsModularThumbnailView1)
         if callsToAction.count > 1 {
-            thumbnails[1].accessibilityId = .notificationsModularThumbnailView2
+            thumbnails[1].set(accessibilityId: .notificationsModularThumbnailView2)
         }
         if callsToAction.count > 2 {
-            thumbnails[2].accessibilityId = .notificationsModularThumbnailView3
+            thumbnails[2].set(accessibilityId: .notificationsModularThumbnailView3)
         }
         if callsToAction.count > 3 {
-            thumbnails[3].accessibilityId = .notificationsModularThumbnailView4
+            thumbnails[3].set(accessibilityId: .notificationsModularThumbnailView4)
         }
     }
 

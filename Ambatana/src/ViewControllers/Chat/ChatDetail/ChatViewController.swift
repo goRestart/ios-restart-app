@@ -765,13 +765,13 @@ extension ChatViewController: ChatListingViewDelegate {
 
 extension ChatViewController {
     func setAccessibilityIds() {
-        tableView.accessibilityId = .chatViewTableView
-        navigationItem.rightBarButtonItem?.accessibilityId = .chatViewMoreOptionsButton
-        navigationItem.backBarButtonItem?.accessibilityId = .chatViewBackButton
-        sendButton.accessibilityId = .chatViewSendButton
-        textViewBar.accessibilityId = .chatViewTextInputBar
-        expressChatBanner.accessibilityId = .expressChatBanner
-        professionalSellerBanner.accessibilityId = .professionalSellerChatBanner
+        tableView.set(accessibilityId: .chatViewTableView)
+        navigationItem.rightBarButtonItem?.set(accessibilityId: .chatViewMoreOptionsButton)
+        navigationItem.backBarButtonItem?.set(accessibilityId: .chatViewBackButton)
+        sendButton.set(accessibilityId: .chatViewSendButton)
+        textViewBar.set(accessibilityId: .chatViewTextInputBar)
+        expressChatBanner.set(accessibilityId: .expressChatBanner)
+        professionalSellerBanner.set(accessibilityId: .professionalSellerChatBanner)
     }
 }
 

@@ -431,7 +431,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
             let tab = buildTabMenuItem(selectedTitle, unselectedTitle: unselectedTitle)
             tab.showInfoBadge = dataSource.viewPager(self, showInfoBadgeAtIndex: index)
-            tab.accessibilityId = dataSource.viewPager(self, accessibilityIdentifierAtIndex: index)
+            tab.set(accessibilityId: dataSource.viewPager(self, accessibilityIdentifierAtIndex: index))
             tabMenuItems.append(tab)
             if index == 0 {
                 tab.isSelected = true

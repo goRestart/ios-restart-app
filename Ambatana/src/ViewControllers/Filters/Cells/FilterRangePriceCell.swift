@@ -106,11 +106,11 @@ class FilterRangePriceCell: UICollectionViewCell, ReusableCell, FilterCell {
     }
     
     private func setAccessibilityIds() {
-        accessibilityId =  .filterTextFieldIntCell
-        titleLabelFrom.accessibilityId =  .filterTextFieldIntCellTitleLabelFrom
-        titleLabelTo.accessibilityId =  .filterTextFieldIntCellTitleLabelTo
-        textFieldFrom.accessibilityId =  .filterTextFieldIntCellTextFieldFrom
-        textFieldTo.accessibilityId =  .filterTextFieldIntCellTextFieldTo
+        set(accessibilityId: .filterTextFieldIntCell)
+        titleLabelFrom.set(accessibilityId:  .filterTextFieldIntCellTitleLabelFrom)
+        titleLabelTo.set(accessibilityId:  .filterTextFieldIntCellTitleLabelTo)
+        textFieldFrom.set(accessibilityId:  .filterTextFieldIntCellTextFieldFrom)
+        textFieldTo.set(accessibilityId:  .filterTextFieldIntCellTextFieldTo)
     }
 }
 

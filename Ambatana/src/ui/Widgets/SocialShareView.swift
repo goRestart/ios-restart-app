@@ -126,7 +126,7 @@ class SocialShareView: UIView {
 
     private func createButton(_ shareType: ShareType) -> UIButton {
         let image = useBigButtons ? shareType.bigImage : shareType.smallImage
-        return createButton(image, accesibilityId: shareType.accesibilityId) { [weak self] in
+        return createButton(image, accesibilityId: shareType.accessibilityId) { [weak self] in
             guard let strongSelf = self else { return }
             guard let socialMessage = strongSelf.socialMessage else { return }
             guard let viewController = strongSelf.delegate?.viewController() else { return }
@@ -135,11 +135,13 @@ class SocialShareView: UIView {
         }
     }
 
-    private func createButton(_ image: UIImage?, accesibilityId: AccessibilityId, action: @escaping () -> Void) -> UIButton {
+    private func createButton(_ image: UIImage?,
+                              accessibilityId: AccessibilityId,
+                              action: @escaping () -> Void) -> UIButton {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(image, for: .normal)
-        button.accessibilityId = accessibilityId
+        button.set(accessibilityId: accessibilityId)
         button.rx.tap.subscribeNext { _ in action() }.disposed(by: disposeBag)
         let width = NSLayoutConstraint(item: button, attribute: .width, relatedBy: .equal, toItem: nil,
                                     attribute: .notAnAttribute, multiplier: 1.0, constant: buttonsSide)

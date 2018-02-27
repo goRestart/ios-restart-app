@@ -265,15 +265,15 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
     }
 
     private func setAccessibilityIds() {
-        accessibilityId = .listingCell
-        thumbnailImageView.accessibilityId = .listingCellThumbnailImageView
-        stripeImageView.accessibilityId = .listingCellStripeImageView
-        stripeLabel.accessibilityId = .listingCellStripeLabel
-        stripeIcon.accessibilityId = .listingCellStripeIcon
+        set(accessibilityId: .listingCell)
+        thumbnailImageView.set(accessibilityId: .listingCellThumbnailImageView)
+        stripeImageView.set(accessibilityId: .listingCellStripeImageView)
+        stripeLabel.set(accessibilityId: .listingCellStripeLabel)
+        stripeIcon.set(accessibilityId: .listingCellStripeIcon)
 
-        featuredListingPriceLabel?.accessibilityId = .listingCellFeaturedPrice
-        featuredListingTitleLabel?.accessibilityId = .listingCellFeaturedTitle
-        featuredListingChatButton?.accessibilityId = .listingCellFeaturedChatButton
+        featuredListingPriceLabel?.set(accessibilityId: .listingCellFeaturedPrice)
+        featuredListingTitleLabel?.set(accessibilityId: .listingCellFeaturedTitle)
+        featuredListingChatButton?.set(accessibilityId: .listingCellFeaturedChatButton)
     }
     
     // MARK: RoundButtonDelegate
