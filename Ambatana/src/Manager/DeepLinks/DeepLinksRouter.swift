@@ -108,6 +108,10 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
         guard let deeplink = AppsFlyerDeepLink.buildFromAttributionData(attributionData) else { return }
         deepLinksSignal.onNext(deeplink)
     }
+    
+    func onAppOpenAttributionFailure(_ error: Error!) {
+        logMessage(.error, type: [.deepLink], message: "App opening from AppsFlyer link failed")
+    }
 
     // MARK: > Shortcut actions (force touch)
 
