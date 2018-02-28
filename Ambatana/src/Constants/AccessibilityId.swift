@@ -377,9 +377,9 @@ enum AccessibilityId {
     case chatListViewTabBlockedUsersTableView
 
     // ConversationCell
-    case conversationCellContainer
-    case conversationCellUserLabel
-    case conversationCellListingLabel
+    case conversationCellContainer(conversationId: String?)
+    case conversationCellUserLabel(interlocutorId: String?)
+    case conversationCellListingLabel(listingId: String?)
     case conversationCellTimeLabel
     case conversationCellBadgeLabel
     case conversationCellThumbnailImageView
@@ -1334,12 +1334,12 @@ enum AccessibilityId {
             return "chatListViewTabBlockedUsersTableView"
             
         // ConversationCell
-        case .conversationCellContainer:
-            return "conversationCellContainer"
-        case .conversationCellUserLabel:
-            return "conversationCellUserLabel"
-        case .conversationCellListingLabel:
-            return "conversationCellListingLabel"
+        case let .conversationCellContainer(conversationId):
+            return "conversationCellContainer-\(conversationId ?? "")"
+        case let .conversationCellUserLabel(interlocutorId):
+            return "conversationCellUserLabel-\(interlocutorId ?? "")"
+        case let .conversationCellListingLabel(listingId):
+            return "conversationCellListingLabel-\(listingId ?? "")"
         case .conversationCellTimeLabel:
             return "conversationCellTimeLabel"
         case .conversationCellBadgeLabel:

@@ -22,9 +22,12 @@ enum ConversationCellStatus {
 
 struct ConversationCellData {
     let status: ConversationCellStatus
+    let conversationId: String?
+    let userId: String?
     let userName: String
     let userImageUrl: URL?
     let userImagePlaceholder: UIImage?
+    let listingId: String?
     let listingName: String
     let listingImageUrl: URL?
     let unreadCount: Int
@@ -164,6 +167,10 @@ class ConversationCell: UITableViewCell, ReusableCell {
         let badge: String? = data.unreadCount > 0 ? String(data.unreadCount) : nil
         badgeLabel.text = badge
         badgeView.isHidden = (badge == nil)
+        
+        set(accessibilityId: .conversationCellContainer(conversationId: data.conversationId))
+        userLabel.set(accessibilityId: .conversationCellUserLabel(interlocutorId: data.userId))
+        listingLabel.set(accessibilityId: .conversationCellListingLabel(listingId: data.listingId))
     }
 
 
@@ -211,10 +218,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
 
 extension ConversationCell {
     func setAccessibilityIds() {
-        contentView.set(accessibilityId: .conversationCellContainer)
-        userLabel.set(accessibilityId: .conversationCellUserLabel)
         timeLabel.set(accessibilityId: .conversationCellTimeLabel)
-        listingLabel.set(accessibilityId: .conversationCellListingLabel)
         badgeLabel.set(accessibilityId: .conversationCellBadgeLabel)
         thumbnailImageView.set(accessibilityId: .conversationCellThumbnailImageView)
         avatarImageView.set(accessibilityId: .conversationCellAvatarImageView)
