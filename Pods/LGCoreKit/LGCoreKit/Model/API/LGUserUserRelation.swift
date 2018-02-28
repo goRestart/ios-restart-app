@@ -34,6 +34,9 @@ struct LGUserUserRelation: UserUserRelation {
             let json = decodedJson,
             let relation = LGUserUserRelation(from: json) {
             return relation
+        } else {
+            logAndReportParseError(object: jsonData, entity: .userRelation,
+                                   comment: "could not parse LGUserUserRelation")
         }
         return relation
     }

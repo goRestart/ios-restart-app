@@ -240,6 +240,10 @@ extension UserViewController: UserViewModelDelegate {
                            shareType: .native(restricted: false),
                            viewController: self)
     }
+    
+    func vmDiscardedProductShowOptions(actions: [UIAction]) {
+        showActionSheet(LGLocalizedString.commonCancel, actions: actions)
+    }
 }
 
 

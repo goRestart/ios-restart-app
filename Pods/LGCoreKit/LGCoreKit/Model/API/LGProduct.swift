@@ -28,6 +28,7 @@ struct LGProduct: Product, Decodable {
     let images: [File]
     var user: UserListing
     let featured: Bool?
+    
 
     init(product: Product) {
         self.init(objectId: product.objectId,
@@ -113,7 +114,8 @@ struct LGProduct: Product, Decodable {
                   thumbnailSize: nil,
                   images: images,
                   user: user,
-                  featured: nil)
+                  featured: nil
+                  )
     }
     
     static func productWithId(_ objectId: String?,
@@ -129,7 +131,7 @@ struct LGProduct: Product, Decodable {
                               postalAddress: PostalAddress,
                               languageCode: String?,
                               category: Int,
-                              status: Int,
+                              status: ListingStatus,
                               thumbnail: String?,
                               thumbnailSize: LGSize?,
                               images: [LGFile],
@@ -138,7 +140,6 @@ struct LGProduct: Product, Decodable {
         
         let actualCurrency = Currency.currencyWithCode(currency)
         let actualCategory = ListingCategory(rawValue: category) ?? .other
-        let actualStatus = ListingStatus(rawValue: status) ?? .pending
         let actualThumbnail = LGFile(id: nil, urlString: thumbnail)
         let actualImages = images.flatMap { $0 as File }
         let listingPrice = ListingPrice.fromPrice(price, andFlag: priceFlag)
@@ -155,11 +156,13 @@ struct LGProduct: Product, Decodable {
                          postalAddress: postalAddress,
                          languageCode: languageCode,
                          category: actualCategory,
-                         status: actualStatus,
+                         status: status,
                          thumbnail: actualThumbnail,
                          thumbnailSize: thumbnailSize,
                          images: actualImages,
-                         user: user, featured: featured)
+                         user: user,
+                         featured: featured
+        )
     }
     
     // MARK: Updates
@@ -182,7 +185,8 @@ struct LGProduct: Product, Decodable {
                          thumbnailSize: thumbnailSize,
                          images: images,
                          user: user,
-                         featured: featured)
+                         featured: featured
+        )
     }
     
     func updating(status: ListingStatus) -> LGProduct {
@@ -203,7 +207,8 @@ struct LGProduct: Product, Decodable {
                          thumbnailSize: thumbnailSize,
                          images: images,
                          user: user,
-                         featured: featured)
+                         featured: featured
+        )
     }
     
     // MARK: - Decodable
@@ -249,7 +254,8 @@ struct LGProduct: Product, Decodable {
      "created_at": "2016-04-11T12:49:52+00:00",
      "updated_at": "2016-04-11T13:13:23+00:00",
      "image_information": "black fitbit wireless activity wristband",
-     "featured": false
+     "featured": false,
+     "rejected_reason": null
      }
      */
     

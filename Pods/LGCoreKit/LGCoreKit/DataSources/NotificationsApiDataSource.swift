@@ -20,8 +20,9 @@ class NotificationsApiDataSource: NotificationsDataSource {
     
     // MARK: - Actions
 
-    func index(_ completion: NotificationsDataSourceCompletion?) {
-        let request = NotificationsRouter.index
+    func index(allowEditDiscarded: Bool, completion: NotificationsDataSourceCompletion?) {
+        let params: [String: Any] = allowEditDiscarded ? ["allow_edit_discarded": "1"] : [:]
+        let request = NotificationsRouter.index(params: params)
         apiClient.request(request, decoder: NotificationsApiDataSource.decoderArray, completion: completion)
     }
 
@@ -41,7 +42,8 @@ class NotificationsApiDataSource: NotificationsDataSource {
             let ratings = try JSONDecoder().decode(FailableDecodableArray<LGNotification>.self, from: data)
             return ratings.validElements
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse [LGNotification] \(object)")
+            logAndReportParseError(object: object, entity: .notifications,
+                                   comment: "could not parse [LGNotification]")
         }
         return nil
     }

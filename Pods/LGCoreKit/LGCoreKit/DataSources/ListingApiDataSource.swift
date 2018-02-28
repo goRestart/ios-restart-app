@@ -113,13 +113,13 @@ final class ListingApiDataSource: ListingDataSource {
 
     func markAsSold(_ listingId: String, completion: ListingDataSourceEmptyCompletion?) {
         var params = [String: Any]()
-        params["status"] = ListingStatus.sold.rawValue
+        params["status"] = ListingStatus.sold.apiCode
         let request = ListingRouter.patch(listingId: listingId, params: params)
         apiClient.request(request, completion: completion)
     }
 
     func markAsUnSold(_ listingId: String, completion: ListingDataSourceEmptyCompletion?) {
-        let params: [String: Any] = ["status": ListingStatus.approved.rawValue]
+        let params: [String: Any] = ["status": ListingStatus.approved.apiCode]
         let request = ListingRouter.patch(listingId: listingId, params: params)
         apiClient.request(request, completion: completion)
     }
@@ -218,7 +218,8 @@ final class ListingApiDataSource: ListingDataSource {
             let listings = try JSONDecoder().decode(FailableDecodableArray<Listing>.self, from: data)
             return listings.validElements
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse Listing \(object)")
+            logAndReportParseError(object: object, entity: .listings,
+                                   comment: "could not parse [Listing]")
         }
         return nil
     }
@@ -229,7 +230,8 @@ final class ListingApiDataSource: ListingDataSource {
             let listing = try Listing.decode(jsonData: data)
             return listing
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse Listing \(object)")
+            logAndReportParseError(object: object, entity: .listing,
+                                   comment: "could not parse Listing")
         }
         return nil
     }
@@ -240,7 +242,8 @@ final class ListingApiDataSource: ListingDataSource {
             let product = try LGProduct.decode(jsonData: data)
             return .product(product)
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGProduct \(object)")
+            logAndReportParseError(object: object, entity: .product,
+                                   comment: "could not parse LGProduct")
         }
         return nil
     }
@@ -251,7 +254,8 @@ final class ListingApiDataSource: ListingDataSource {
             let car = try LGCar.decode(jsonData: data)
             return .car(car)
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGCar \(object)")
+            logAndReportParseError(object: object, entity: .car,
+                                   comment: "could not parse LGCar")
         }
         return nil
     }
@@ -262,7 +266,8 @@ final class ListingApiDataSource: ListingDataSource {
             let realEstate = try LGRealEstate.decode(jsonData: data)
             return .realEstate(realEstate)
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGRealEstate \(object)")
+            logAndReportParseError(object: object, entity: .realEstate,
+                                   comment: "could not parse LGRealEstate")
         }
         return nil
     }
@@ -273,7 +278,8 @@ final class ListingApiDataSource: ListingDataSource {
             let relation = try LGUserListingRelation.decode(jsonData: data)
             return relation
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGUserListingRelation \(object)")
+            logAndReportParseError(object: object, entity: .userListingRelation,
+                                   comment: "could not parse LGUserListingRelation")
         }
         return nil
     }
@@ -284,7 +290,8 @@ final class ListingApiDataSource: ListingDataSource {
             let stats = try LGListingStats.decode(jsonData: data)
             return stats
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGListingStats \(object)")
+            logAndReportParseError(object: object, entity: .listingStats,
+                                   comment: "could not parse LGListingStats")
         }
         return nil
     }
@@ -296,7 +303,8 @@ final class ListingApiDataSource: ListingDataSource {
             let userListings = try JSONDecoder().decode(FailableDecodableArray<LGUserListing>.self, from: data)
             return userListings.validElements
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGUserListing \(object)")
+            logAndReportParseError(object: object, entity: .listingStats,
+                                   comment: "could not parse [LGUserListing]")
         }
         return nil
     }
@@ -308,7 +316,8 @@ final class ListingApiDataSource: ListingDataSource {
             let transactions = try JSONDecoder().decode(FailableDecodableArray<LGTransaction>.self, from: data)
             return transactions.validElements
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGTransaction \(object)")
+            logAndReportParseError(object: object, entity: .transactions,
+                                   comment: "could not parse [LGTransaction]")
         }
         return nil
     }
@@ -319,7 +328,8 @@ final class ListingApiDataSource: ListingDataSource {
             let transaction = try LGTransaction.decode(jsonData: data)
             return transaction
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGTransaction \(object)")
+            logAndReportParseError(object: object, entity: .transaction,
+                                   comment: "could not parse LGTransaction")
         }
         return nil
     }

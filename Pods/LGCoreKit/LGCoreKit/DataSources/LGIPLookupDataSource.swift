@@ -39,8 +39,11 @@ class LGIPLookupDataSource: IPLookupDataSource {
     static func decoder(_ object: Any) -> LGLocationCoordinates2D? {
         guard let dict = object as? [String: Any],
             let latitude = dict["latitude"] as? Double,
-            let longitude = dict["longitude"] as? Double
-            else { return nil }
+            let longitude = dict["longitude"] as? Double else {
+                logAndReportParseError(object: object, entity: .ipLookup,
+                                       comment: "latitude and/or longitude key missing or value is/are not Double")
+                return nil
+        }
         return LGLocationCoordinates2D(latitude: latitude, longitude: longitude)
     }
     

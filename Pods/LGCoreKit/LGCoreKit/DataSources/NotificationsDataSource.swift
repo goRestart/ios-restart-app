@@ -16,6 +16,6 @@ typealias NotificationsDataSourceUnreadCountCompletion = (NotificationsDataSourc
 
 
 protocol NotificationsDataSource {
-    func index(_ completion: NotificationsDataSourceCompletion?)
+    func index(allowEditDiscarded: Bool, completion: NotificationsDataSourceCompletion?)
     func unreadCount(_ completion: NotificationsDataSourceUnreadCountCompletion?)
 }

@@ -47,6 +47,11 @@ extension ProfileTabCoordinator: ProfileTabNavigator {
         let vc = SettingsViewController(viewModel: vm)
         navigationController.pushViewController(vc, animated: true)
     }
+    
+    func editListing(_ listing: Listing, pageType: EventParameterTypePage?) {
+        let navigator = EditListingCoordinator(listing: listing, pageType: pageType)
+        openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+    }
 }
 
 extension ProfileTabCoordinator: SettingsNavigator {

@@ -133,7 +133,8 @@ class UserViewModel: BaseViewModel {
         self.source = source
         self.featureFlags = featureFlags
         self.notificationsManager = notificationsManager
-        self.sellingListingListRequester = UserStatusesListingListRequester(statuses: [.pending, .approved],
+        let statuses: [ListingStatusCode] = featureFlags.discardedProducts.isActive ? [.pending, .approved, .discarded] : [.pending, .approved]
+        self.sellingListingListRequester = UserStatusesListingListRequester(statuses: statuses,
                                                                             itemsPerPage: Constants.numListingsPerPageDefault)
         self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester)
         self.soldListingListRequester = UserStatusesListingListRequester(statuses: [.sold, .soldOld],
@@ -147,6 +148,7 @@ class UserViewModel: BaseViewModel {
         super.init()
         
         self.sellingListingListViewModel.dataDelegate = self
+        self.sellingListingListViewModel.listingCellDelegate = self
         self.soldListingListViewModel.dataDelegate = self
         self.favoritesListingListViewModel.dataDelegate = self
         
@@ -436,6 +438,14 @@ fileprivate extension UserViewModel {
             self?.delegate?.vmHideLoading(nil, afterMessageCompletion: afterMessageCompletion)
         }
     }
+    
+    func deleteListing(withId listingId: String) {
+        delegate?.vmShowLoading(LGLocalizedString.commonLoading)
+        listingRepository.delete(listingId: listingId) { [weak self] result in
+            let message: String? = result.error != nil ? LGLocalizedString.productDeleteSendErrorGeneric : nil
+            self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+        }
+    }
 }
 
 
@@ -651,7 +661,7 @@ extension UserViewModel: ListingListViewModelDataDelegate {
     func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
         guard viewModel === listingListViewModel.value else { return } //guarding view model is the selected one
-        guard let listing = viewModel.listingAtIndex(index), let requester = viewModel.listingListRequester else { return }
+        guard let listing = viewModel.listingAtIndex(index), !listing.status.isDiscarded, let requester = viewModel.listingListRequester else { return }
         let cellModels = viewModel.objects
         
         let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels, requester: requester,
@@ -779,5 +789,31 @@ extension UserViewModel {
         let profileType: EventParameterProfileType = isMyUser ? .privateParameter : .publicParameter
         let trackerEvent = TrackerEvent.profileShareComplete(profileType, shareNetwork: shareNetwork)
         tracker.trackEvent(trackerEvent)
+    }
+}
+
+extension UserViewModel: ListingCellDelegate {
+    
+    func relatedButtonPressedFor(listing: Listing) {}
+    
+    func chatButtonPressedFor(listing: Listing) {}
+    
+    func editPressedForDiscarded(listing: Listing) {
+        profileNavigator?.editListing(listing, pageType: .profile)
+    }
+    
+    func moreOptionsPressedForDiscarded(listing: Listing) {
+        guard let listingId = listing.objectId else { return }
+        let deleteTitle = LGLocalizedString.discardedProductsDelete
+        let delete = UIAction(interface: .text(deleteTitle), action: { [weak self] in
+            let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.commonYes), action: {
+                self?.deleteListing(withId: listingId)
+            })
+            let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.commonNo), action: {})
+            self?.delegate?.vmShowAlert(nil,
+                                        message: LGLocalizedString.discardedProductsDeleteConfirmation,
+                                        actions: [actionCancel, actionOk])
+        })
+        delegate?.vmShowUserActionSheet(LGLocalizedString.commonCancel, actions: [delete])
     }
 }

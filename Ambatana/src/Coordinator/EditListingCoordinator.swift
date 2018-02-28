@@ -28,14 +28,14 @@ final class EditListingCoordinator: Coordinator, EditListingNavigator {
     
     weak var delegate: EditListingCoordinatorDelegate?
 
-    convenience init(listing: Listing) {
+    convenience init(listing: Listing, pageType: EventParameterTypePage?) {
         self.init(listing: listing,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
-                  sessionManager: Core.sessionManager)
+                  sessionManager: Core.sessionManager, pageType: pageType)
     }
 
-    init(listing: Listing, bubbleNotificationManager: BubbleNotificationManager, sessionManager: SessionManager) {
-        let editVM = EditListingViewModel(listing: listing)
+    init(listing: Listing, bubbleNotificationManager: BubbleNotificationManager, sessionManager: SessionManager, pageType: EventParameterTypePage?) {
+        let editVM = EditListingViewModel(listing: listing, pageType: pageType)
         let editVC = EditListingViewController(viewModel: editVM)
         let navCtl = UINavigationController(rootViewController: editVC)
         self.navigationController = navCtl

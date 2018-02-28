@@ -40,7 +40,8 @@ class CarsInfoApiDataSource: CarsInfoDataSource {
             let apiCarsMake = try JSONDecoder().decode(FailableDecodableArray<ApiCarsMake>.self, from: data)
             return apiCarsMake.validElements
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse [ApiCarsMake] \(object)")
+            logAndReportParseError(object: object, entity: .carMakes,
+                                   comment: "\(error.localizedDescription)")
         }
         return nil
     }

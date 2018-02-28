@@ -41,7 +41,8 @@ final class TaxonomiesApiDataSource: TaxonomiesDataSource {
             let taxonomies = try JSONDecoder().decode(FailableDecodableArray<LGTaxonomy>.self, from: data)
             return taxonomies.validElements
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGTaxonomy \(object)")
+            logAndReportParseError(object: object, entity: .taxonomies,
+                                   comment: "could not parse [LGTaxonomy]")
         }
         return nil
     }

@@ -91,7 +91,8 @@ class UserRatingApiDataSource: UserRatingDataSource {
             let ratings = try JSONDecoder().decode(FailableDecodableArray<LGUserRating>.self, from: data)
             return ratings.validElements
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse [LGUserRating] \(object)")
+            logAndReportParseError(object: object, entity: .userRatings,
+                                   comment: "could not parse [LGUserRating]")
         }
         return nil
     }
@@ -102,7 +103,8 @@ class UserRatingApiDataSource: UserRatingDataSource {
             let rating = try LGUserRating.decode(jsonData: data)
             return rating
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGUserRating \(object)")
+            logAndReportParseError(object: object, entity: .userRating,
+                                   comment: "could not parse LGUserRating")
         }
         return nil
     }
