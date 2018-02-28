@@ -25,7 +25,7 @@ class SocialSharer: NSObject {
 // MARK: > Share
 
 extension SocialSharer {
-    func share(_ socialMessage: SocialMessage, shareType: ShareType, viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil) {
+    func share(_ socialMessage: SocialMessage, shareType: ShareType, viewController: UIViewController) {
         guard SocialSharer.canShareIn(shareType) else {
             delegate?.shareStartedIn(shareType)
             delegate?.shareFinishedIn(shareType, withState: .failed)
@@ -50,7 +50,7 @@ extension SocialSharer {
         case .sms:
             shareInSMS(socialMessage, viewController: viewController, messageComposeDelegate: self)
         case let .native(restricted):
-            shareInNative(socialMessage, viewController: viewController, barButtonItem: barButtonItem, restricted: restricted)
+            shareInNative(socialMessage, viewController: viewController, restricted: restricted)
         }
     }
 }
@@ -260,8 +260,7 @@ fileprivate extension SocialSharer {
         }
     }
 
-    func shareInNative(_ socialMessage: SocialMessage, viewController: UIViewController, barButtonItem: UIBarButtonItem? = nil,
-                       restricted: Bool) {
+    func shareInNative(_ socialMessage: SocialMessage, viewController: UIViewController, restricted: Bool) {
         socialMessage.retrieveNativeShareItems { activityItems in
             let shareVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
             
@@ -273,15 +272,6 @@ fileprivate extension SocialSharer {
                 excludedActivities.append(.saveToCameraRoll)
                 excludedActivities.append(.addToReadingList)
                 shareVC.excludedActivityTypes = excludedActivities
-            }
-            
-            // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
-            // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
-            let presentationController = shareVC.popoverPresentationController
-            if let item = barButtonItem {
-                presentationController?.barButtonItem = item
-            } else {
-                presentationController?.sourceView = viewController.view
             }
             
             shareVC.completionWithItemsHandler = { [weak self] (activity, success, items, error) in

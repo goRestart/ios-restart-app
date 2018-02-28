@@ -582,9 +582,7 @@ extension ListingViewModel {
     func shareProduct() {
         guard let socialMessage = socialMessage.value else { return }
         guard let viewController = delegate?.vmShareViewControllerAndItem().0 else { return }
-        let barButtonItem = delegate?.vmShareViewControllerAndItem().1
-        socialSharer.share(socialMessage, shareType: .native(restricted: false),
-                           viewController: viewController, barButtonItem: barButtonItem)
+        socialSharer.share(socialMessage, shareType: .native(restricted: false), viewController: viewController)
     }
 
     func chatWithSeller() {
