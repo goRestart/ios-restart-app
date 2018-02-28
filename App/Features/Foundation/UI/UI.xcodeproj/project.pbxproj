@@ -24,6 +24,10 @@
 		1CACDA781FF7B58900538B78 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CACDA771FF7B58900538B78 /* ViewController.swift */; };
 		1CCA37872006A37F00D86072 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCA37862006A37F00D86072 /* TabBarController.swift */; };
 		1CCA37892006A84A00D86072 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCA37882006A84A00D86072 /* TabBarItem.swift */; };
+		1CD52B0920473E9500F13E5F /* AddPhotoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD52B0820473E9500F13E5F /* AddPhotoButton.swift */; };
+		1CD52B0C204740CB00F13E5F /* AddPhotoButtonSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD52B0B204740CB00F13E5F /* AddPhotoButtonSpec.swift */; };
+		1CD52B0F2047428100F13E5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1CD52B0E2047428100F13E5F /* Assets.xcassets */; };
+		1CD52B142047430F00F13E5F /* Bundle+Framework.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD52B132047430F00F13E5F /* Bundle+Framework.swift */; };
 		1CD7A9661FF51D0800CB895D /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9651FF51D0800CB895D /* Palette.swift */; };
 		1CD7A9681FF5238600CB895D /* UIColor+Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A9671FF5238600CB895D /* UIColor+Palette.swift */; };
 		1CD7A96C1FF5257200CB895D /* PaletteSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD7A96B1FF5257200CB895D /* PaletteSpec.swift */; };
@@ -70,6 +74,10 @@
 		1CACDA771FF7B58900538B78 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1CCA37862006A37F00D86072 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		1CCA37882006A84A00D86072 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
+		1CD52B0820473E9500F13E5F /* AddPhotoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoButton.swift; sourceTree = "<group>"; };
+		1CD52B0B204740CB00F13E5F /* AddPhotoButtonSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotoButtonSpec.swift; sourceTree = "<group>"; };
+		1CD52B0E2047428100F13E5F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1CD52B132047430F00F13E5F /* Bundle+Framework.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Framework.swift"; sourceTree = "<group>"; };
 		1CD7A9651FF51D0800CB895D /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		1CD7A9671FF5238600CB895D /* UIColor+Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Palette.swift"; sourceTree = "<group>"; };
 		1CD7A96B1FF5257200CB895D /* PaletteSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteSpec.swift; sourceTree = "<group>"; };
@@ -115,6 +123,7 @@
 		1C0263571FF59AD20040346B /* Button */ = {
 			isa = PBXGroup;
 			children = (
+				1CD52B0A204740BB00F13E5F /* Add Photo */,
 				1C0263581FF59AE70040346B /* Full Width */,
 				1C7F4C5B1FFC3224001BEB62 /* Large */,
 			);
@@ -141,6 +150,7 @@
 		1C15A1E21FF4281600FA0E47 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1CD52B0E2047428100F13E5F /* Assets.xcassets */,
 				1C89D7B61FF427B600B3FA98 /* UI.h */,
 				1C89D7B71FF427B600B3FA98 /* Info.plist */,
 			);
@@ -197,6 +207,7 @@
 				1CD7A95D1FF51BDE00CB895D /* Components */,
 				1CACDA451FF691C600538B78 /* Utils */,
 				1CD7A9AF1FF56A5400CB895D /* Playground */,
+				1CD52B10204742F300F13E5F /* Infrastructure */,
 				1C15A1E21FF4281600FA0E47 /* Resources */,
 			);
 			path = UI;
@@ -253,6 +264,46 @@
 				1CCA37882006A84A00D86072 /* TabBarItem.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		1CD52B0720473D6700F13E5F /* Add Photo */ = {
+			isa = PBXGroup;
+			children = (
+				1CD52B0820473E9500F13E5F /* AddPhotoButton.swift */,
+			);
+			path = "Add Photo";
+			sourceTree = "<group>";
+		};
+		1CD52B0A204740BB00F13E5F /* Add Photo */ = {
+			isa = PBXGroup;
+			children = (
+				1CD52B0B204740CB00F13E5F /* AddPhotoButtonSpec.swift */,
+			);
+			path = "Add Photo";
+			sourceTree = "<group>";
+		};
+		1CD52B10204742F300F13E5F /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				1CD52B11204742F300F13E5F /* Extension */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		1CD52B11204742F300F13E5F /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				1CD52B12204742F300F13E5F /* Bundle */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		1CD52B12204742F300F13E5F /* Bundle */ = {
+			isa = PBXGroup;
+			children = (
+				1CD52B132047430F00F13E5F /* Bundle+Framework.swift */,
+			);
+			path = Bundle;
 			sourceTree = "<group>";
 		};
 		1CD7A95D1FF51BDE00CB895D /* Components */ = {
@@ -336,6 +387,7 @@
 		1CD7A9A51FF5654700CB895D /* Button */ = {
 			isa = PBXGroup;
 			children = (
+				1CD52B0720473D6700F13E5F /* Add Photo */,
 				1CD7A9A61FF5654700CB895D /* Full Width */,
 				1C7F4C581FFC2E82001BEB62 /* Large */,
 			);
@@ -464,6 +516,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CD52B0F2047428100F13E5F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,6 +570,7 @@
 			files = (
 				1C0263631FF5B9570040346B /* Input.swift in Sources */,
 				1CD7A9931FF55AD000CB895D /* Fontable.swift in Sources */,
+				1CD52B142047430F00F13E5F /* Bundle+Framework.swift in Sources */,
 				1CD7A9A21FF562E800CB895D /* CAGradientLayer+Gradient.swift in Sources */,
 				1CCA37872006A37F00D86072 /* TabBarController.swift in Sources */,
 				1C7F4C5A1FFC2EC0001BEB62 /* LargeButton.swift in Sources */,
@@ -525,6 +579,7 @@
 				1CACDA781FF7B58900538B78 /* ViewController.swift in Sources */,
 				1CD7A9661FF51D0800CB895D /* Palette.swift in Sources */,
 				1CACDA481FF691D900538B78 /* Localize.swift in Sources */,
+				1CD52B0920473E9500F13E5F /* AddPhotoButton.swift in Sources */,
 				1C0500AB200B6C0100E60633 /* CollectionViewCell.swift in Sources */,
 				1C0263561FF57B630040346B /* Radius.swift in Sources */,
 				1CD7A9681FF5238600CB895D /* UIColor+Palette.swift in Sources */,
@@ -543,6 +598,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CD7A96C1FF5257200CB895D /* PaletteSpec.swift in Sources */,
+				1CD52B0C204740CB00F13E5F /* AddPhotoButtonSpec.swift in Sources */,
 				1CD7A9981FF55D7000CB895D /* FontableSpec.swift in Sources */,
 				1C02635A1FF59AF90040346B /* FullWidthButtonSpec.swift in Sources */,
 				1CDF7DCA1FF5CAF70033770D /* InputTextFieldSpec.swift in Sources */,
