@@ -995,6 +995,12 @@ extension EditListingViewModel {
                 editedFields.append(.year)
             }
         }
+
+        let freePostingAllowed = featureFlags.freePostingModeAllowed
+        if initialListing.isNegotiable(freeModeAllowed: freePostingAllowed)
+            != listing.isNegotiable(freeModeAllowed: freePostingAllowed) {
+            editedFields.append(.firmPrice)
+        }
         return editedFields
     }
 

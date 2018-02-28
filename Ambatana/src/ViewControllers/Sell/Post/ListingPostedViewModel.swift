@@ -270,6 +270,7 @@ class ListingPostedViewModel: BaseViewModel {
     }
 
     private func trackPostSellComplete(postedListing: Listing) {
+        let isFirmPrice = !postedListing.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
         let buttonName = trackingInfo.buttonName
         let negotiable = trackingInfo.negotiablePrice
         let pictureSource = trackingInfo.imageSource
@@ -281,7 +282,8 @@ class ListingPostedViewModel: BaseViewModel {
                                                      negotiable: negotiable, pictureSource: pictureSource,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: typePage,
-                                                     mostSearchedButton: mostSearchedButton)
+                                                     mostSearchedButton: mostSearchedButton,
+                                                     firmPrice: isFirmPrice)
         tracker.trackEvent(event)
 
         // Track product was sold in the first 24h (and not tracked before)
