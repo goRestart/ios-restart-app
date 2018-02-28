@@ -21,7 +21,7 @@ class UriSchemeSpec: QuickSpec {
         describe("build from letgo scheme URL") {
             context("with a notification center URL") {
                 beforeEach {
-                    url = URL(string: "\(Constants.deepLinkScheme)notification_center")
+                    url = URL(string: "letgo://notification_center")
                     sut = UriScheme.buildFromUrl(url)
                 }
                 it("is not nil") {
@@ -35,7 +35,7 @@ class UriSchemeSpec: QuickSpec {
             context("with a product share URL") {
                 beforeEach {
                     listingId = String.makeRandom()
-                    url = URL(string: "\(Constants.deepLinkScheme)products_share/" + listingId)
+                    url = URL(string: "letgo://products_share/" + listingId)
                     sut = UriScheme.buildFromUrl(url)
                 }
                 it("is not nil") {
@@ -49,7 +49,7 @@ class UriSchemeSpec: QuickSpec {
             context("with a product mark as sold URL") {
                 beforeEach {
                     listingId = String.makeRandom()
-                    url = URL(string: "\(Constants.deepLinkScheme)products_mark_as_sold/" + listingId)
+                    url = URL(string: "letgo://products_mark_as_sold/" + listingId)
                     sut = UriScheme.buildFromUrl(url)
                 }
                 it("is not nil") {
@@ -63,7 +63,7 @@ class UriSchemeSpec: QuickSpec {
             context("with a product bump up URL") {
                 beforeEach {
                     listingId = String.makeRandom()
-                    url = URL(string: "\(Constants.deepLinkScheme)products_bump_up/" + listingId)
+                    url = URL(string: "letgo://products_bump_up/" + listingId)
                     sut = UriScheme.buildFromUrl(url)
                 }
                 it("is not nil") {
@@ -76,7 +76,7 @@ class UriSchemeSpec: QuickSpec {
             
             context("with a chat predefined message URL") {
                 beforeEach {
-                    url = URL(string: "\(Constants.deepLinkScheme)chat/")
+                    url = URL(string: "letgo://chat/")
                     conversationId = String.makeRandom()
                     message = String.makeRandomPhrase(words: Int.makeRandom(), wordLengthMin: Int.makeRandom(min: 1, max: 5), wordLengthMax: Int.makeRandom(min: 5, max: 20))
                     let conversationQueryItem = URLQueryItem(name: "c", value: conversationId)
@@ -95,7 +95,7 @@ class UriSchemeSpec: QuickSpec {
             
             context("with an App Store URL") {
                 beforeEach {
-                    url = URL(string: "\(Constants.deepLinkScheme)update_app")
+                    url = URL(string: "letgo://update_app")
                     sut = UriScheme.buildFromUrl(url)
                 }
                 it("is not nil") {
@@ -110,7 +110,7 @@ class UriSchemeSpec: QuickSpec {
                 context("decode percent encoded URL") {
                     var decodedMessage: String!
                     beforeEach {
-                        let url = URL(string:"\(Constants.deepLinkScheme)chat/?c=conversation_id&m=hey%20bro%21%20%F0%9F%91%8B%F0%9F%8F%BC%20%20i%27m%20fine%2C%20and%20you%3F")!
+                        let url = URL(string:"letgo://chat/?c=conversation_id&m=hey%20bro%21%20%F0%9F%91%8B%F0%9F%8F%BC%20%20i%27m%20fine%2C%20and%20you%3F")!
                         let queryParameters = url.queryParameters
                         decodedMessage = queryParameters["m"]
                     }
