@@ -1,10 +1,10 @@
 import UIKit
 
 open class View: UIView {
-  
-  @available(*, unavailable)
-  override init(frame: CGRect) {
-    fatalError("init(frame:) has not been implemented")
+
+  public override init(frame: CGRect) {
+    super.init(frame: frame)
+    setup()
   }
   
   @available(*, unavailable)
