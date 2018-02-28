@@ -123,7 +123,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                     viewControllerType.contentOffset.value = CGPoint(x: offset, y: 0)
                 }
                 it("the viewmodel moves to the current item") {
-                    expect(viewModelType.moveToProductIsCalled).toEventually(be(1))
+                    expect(viewModelType.moveToListingAtIndexIsCalled).toEventually(be(1))
                 }
                 it("the viewmodel detects that the user has scrolled") {
                     expect(viewModelType.userHasScrollCalled).toEventually(be(1))
@@ -266,9 +266,9 @@ final class MockListingDeckViewModelType: ListingDeckViewModelType {
     var rxObjectChanges: Observable<CollectionChange<ListingCellModel>> { return objects.changesObservable }
     let objects: CollectionVariable<ListingCellModel> = CollectionVariable<ListingCellModel>([])
 
-    var moveToProductIsCalled: Int = 0
-    func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
-        moveToProductIsCalled += 1
+    var moveToListingAtIndexIsCalled: Int = 0
+    func moveToListingAtIndex(_ index: Int, movement: DeckMovement) {
+        moveToListingAtIndexIsCalled += 1
     }
 
     var userHasScrollCalled: Int = 0
@@ -278,7 +278,7 @@ final class MockListingDeckViewModelType: ListingDeckViewModelType {
 
     func resetVariables() {
         userHasScrollCalled = 0
-        moveToProductIsCalled = 0
+        moveToListingAtIndexIsCalled = 0
         currentIndex = 0
         replaceIndexIsCalled = 0
     }
@@ -314,7 +314,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
                                                                                isLocal: true))
 
     let collectionView: UICollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 500, height: 100),
-                                                           collectionViewLayout: UICollectionViewFlowLayout())
+                                                            collectionViewLayout: UICollectionViewFlowLayout())
     let rxCollectionView: Reactive<UICollectionView>
 
     var isBlockSideInteractionsCalled: Int = 0

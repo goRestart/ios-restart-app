@@ -12,6 +12,8 @@ import LGCoreKit
 import RxCocoa
 import RxSwift
 
+typealias DeckMovement = CarouselMovement
+
 final class ListingDeckViewController: KeyboardViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
 
@@ -197,6 +199,10 @@ extension ListingDeckViewController {
 extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func closeBumpUpBanner() {
         closeBumpUpBanner(animated: true)
+    }
+
+    func didShowMoreInfo() {
+        viewModel.didShowMoreInfo()
     }
 
     func didTapOnUserIcon() {

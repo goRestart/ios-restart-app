@@ -62,6 +62,7 @@ final class ListingDeckViewModel: BaseViewModel {
     fileprivate let userRepository: MyUserRepository
     fileprivate var productsViewModels: [String: ListingViewModel] = [:]
     fileprivate let listingViewModelMaker: ListingViewModelMaker
+    fileprivate let tracker: Tracker
 
     let objects = CollectionVariable<ListingCellModel>([])
 
@@ -75,7 +76,7 @@ final class ListingDeckViewModel: BaseViewModel {
     var rxIsMine: Observable<Bool> { return isMine.asObservable() }
     private let isMine: Variable<Bool> = Variable(false)
 
-    let imageDownloader: ImageDownloaderType // TODO: Fornow
+    let imageDownloader: ImageDownloaderType
 
     weak var delegate: ListingDeckViewModelDelegate?
 
@@ -103,7 +104,8 @@ final class ListingDeckViewModel: BaseViewModel {
                   pagination: pagination,
                   prefetching: prefetching,
                   shouldSyncFirstListing: false,
-                  binder: ListingDeckViewModelBinder())
+                  binder: ListingDeckViewModelBinder(),
+                  tracker: TrackerProxy.sharedInstance)
     }
 
     convenience init(listModels: [ListingCellModel]?,
@@ -124,7 +126,8 @@ final class ListingDeckViewModel: BaseViewModel {
                   pagination: pagination,
                   prefetching: prefetching,
                   shouldSyncFirstListing: false,
-                  binder: ListingDeckViewModelBinder())
+                  binder: ListingDeckViewModelBinder(),
+                  tracker: TrackerProxy.sharedInstance)
     }
 
     convenience init(listModels: [ListingCellModel]?,
@@ -149,7 +152,8 @@ final class ListingDeckViewModel: BaseViewModel {
                   pagination: pagination,
                   prefetching: prefetching,
                   shouldSyncFirstListing: shouldSyncFirstListing,
-                  binder: binder)
+                  binder: binder,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
     init(listModels: [ListingCellModel]?,
@@ -163,7 +167,8 @@ final class ListingDeckViewModel: BaseViewModel {
          pagination: Pagination,
          prefetching: Prefetching,
          shouldSyncFirstListing: Bool,
-         binder: ListingDeckViewModelBinder) {
+         binder: ListingDeckViewModelBinder,
+         tracker: Tracker) {
         self.imageDownloader = imageDownloader
         self.pagination = pagination
         self.prefetching = prefetching
@@ -173,6 +178,7 @@ final class ListingDeckViewModel: BaseViewModel {
         self.binder = binder
         self.userRepository = myUserRepository
         self.navigator = detailNavigator
+        self.tracker = tracker
 
         if let listModels = listModels {
             self.objects.appendContentsOf(listModels)
@@ -194,7 +200,7 @@ final class ListingDeckViewModel: BaseViewModel {
         self.shouldSyncFirstListing = shouldSyncFirstListing
         binder.viewModel = self
 
-        moveToProductAtIndex(startIndex, movement: .initial)
+        moveToListingAtIndex(startIndex, movement: .initial)
         if shouldSyncFirstListing {
             syncFirstListing()
         }
@@ -204,7 +210,7 @@ final class ListingDeckViewModel: BaseViewModel {
         currentListingViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)
     }
 
-    func moveToProductAtIndex(_ index: Int, movement: CarouselMovement) {
+    func moveToListingAtIndex(_ index: Int, movement: DeckMovement) {
         guard let viewModel = viewModelAt(index: index) else { return }
         currentListingViewModel?.active = false
         currentListingViewModel?.delegate = nil
@@ -352,8 +358,11 @@ final class ListingDeckViewModel: BaseViewModel {
 
 
     func openPhotoViewer() {
-        guard let urls = currentListingViewModel?.productImageURLs.value else { return }
-        deckNavigator?.openPhotoViewer(withURLs: urls, quickChatViewModel: quickChatViewModel)
+        guard let urls = currentListingViewModel?.productImageURLs.value,
+            let listingViewModel = currentListingViewModel else { return }
+        deckNavigator?.openPhotoViewer(listingViewModel: listingViewModel,
+                                       source: source,
+                                       quickChatViewModel: quickChatViewModel)
     }
 
     func showUser() {
@@ -365,6 +374,17 @@ final class ListingDeckViewModel: BaseViewModel {
         guard index >= 0 && index < urls.count else { return nil }
 
         return urls[index]
+    }
+
+    func didShowMoreInfo() {
+        let isMine = EventParameterBoolean(bool: currentListingViewModel?.isMine)
+        currentListingViewModel?.trackVisitMoreInfo(isMine: isMine,
+                                                          adShown: .notAvailable,
+                                                          adType: nil,
+                                                          queryType: nil,
+                                                          query: nil,
+                                                          visibility: nil,
+                                                          errorReason: nil)
     }
 }
 

@@ -17,40 +17,91 @@ final class PhotoViewerViewModelSpec: QuickSpec {
 
     override func spec() {
         var sut: PhotoViewerViewModel!
-        var imageDownloader: ImageDownloaderType!
         var urls: [URL] = []
+        var listing: Listing!
+        var listingViewModelMaker: MockListingViewModelMaker!
+        var tracker: MockTracker!
 
         describe("A listing") {
+            beforeEach {
+                var productMock = MockProduct.makeMock()
+                productMock.status = .approved
+                listing = .product(productMock)
+                tracker = MockTracker()
+
+                listingViewModelMaker = MockListingViewModelMaker(myUserRepository: MockMyUserRepository(),
+                                                                  userRepository: MockUserRepository(),
+                                                                  listingRepository: MockListingRepository(),
+                                                                  chatWrapper: MockChatWrapper(),
+                                                                  locationManager: MockLocationManager(),
+                                                                  countryHelper: CountryHelper.mock(),
+                                                                  featureFlags: MockFeatureFlags(),
+                                                                  purchasesShopper: MockPurchasesShopper(),
+                                                                  monetizationRepository: MockMonetizationRepository(),
+                                                                  tracker: MockTracker(),
+                                                                  keyValueStorage: MockKeyValueStorage())
+            }
             afterEach {
                 urls.removeAll()
             }
 
-            context("that has no images") {
+            context("the viewmodel is set up") {
                 beforeEach {
-                    imageDownloader = MockImageDownloader()
-                    urls.removeAll()
-                    sut = PhotoViewerViewModel(imageDownloader: imageDownloader, urls: urls)
-                }
-
-                it("the photoviewer has no image") {
-                    expect(sut.urlsAtIndex(0)).to(beNil())
+                    let source: EventParameterListingVisitSource = .listingList
+                    let viewModel = listingViewModelMaker.make(listing: listing, visitSource: source)
+                    sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
+                                               listingViewModel: viewModel,
+                                               tracker: tracker,
+                                               source: source)
                 }
                 it("the photoviewer has no random image") {
-                    expect(sut.urlsAtIndex(Int.makeRandom())).to(beNil())
+                    expect(tracker.trackedEvents.count) == 0
                 }
             }
 
-            context("that has images") {
+            context("the viewmodel is set up and activated") {
                 beforeEach {
-                    imageDownloader = MockImageDownloader()
-                    urls = Array.makeRandom()
-                    sut = PhotoViewerViewModel(imageDownloader: imageDownloader, urls: urls)
+                    let source: EventParameterListingVisitSource = .listingList
+                    let viewModel = listingViewModelMaker.make(listing: listing, visitSource: source)
+                    sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
+                                               listingViewModel: viewModel,
+                                               tracker: tracker,
+                                               source: source)
+                    sut.active = true
                 }
+                it("the photoviewer has no random image") {
+                    expect(tracker.trackedEvents.count) == 1
+                }
+            }
 
-                it("the photoviewer shows the proper image for a given index") {
-                    for (index, url) in urls.enumerated() {
-                        expect(sut.urlsAtIndex(index)).to(be(url))
-                    }
+            context("the viewmodel is set up and activated and the chat opens") {
+                beforeEach {
+                    let source: EventParameterListingVisitSource = .listingList
+                    let viewModel = listingViewModelMaker.make(listing: listing, visitSource: source)
+                    sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
+                                               listingViewModel: viewModel,
+                                               tracker: tracker,
+                                               source: source)
+                    sut.active = true
+                    sut.didOpenChat()
+                }
+                it("the photoviewer has no random image") {
+                    expect(tracker.trackedEvents.count) == 2
+                }
+            }
+
+            context("the viewmodel is set up and the chat opens") {
+                beforeEach {
+                    let source: EventParameterListingVisitSource = .listingList
+                    let viewModel = listingViewModelMaker.make(listing: listing, visitSource: source)
+                    sut = PhotoViewerViewModel(imageDownloader: MockImageDownloader(),
+                                               listingViewModel: viewModel,
+                                               tracker: tracker,
+                                               source: source)
+                    sut.didOpenChat()
+                }
+                it("the photoviewer has no random image") {
+                    expect(tracker.trackedEvents.count) == 0
                 }
             }
         }

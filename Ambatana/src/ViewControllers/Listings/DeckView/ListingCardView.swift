@@ -15,6 +15,7 @@ import MapKit
 protocol ListingCardViewDelegate {
     func didTapOnStatusView()
     func didTapOnPreview()
+    func didShowMoreInfo()
 }
 
 final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestureRecognizerDelegate, ReusableCell {
@@ -56,6 +57,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     private var scrollViewContentInset = UIEdgeInsets(top: 200, left: 0, bottom: 0, right: 0)
 
+    private var detailsViewFullyVisible: Bool { return abs(scrollView.contentOffset.y + Layout.Height.userView) < CGFloat.ulpOfOne }
     private let detailsView = ListingCardDetailsView()
     private var detailsThreshold: CGFloat { return 0.5 * previewImageView.height }
     var isImageVisibleEnough: Bool { return abs(scrollView.contentOffset.y) > detailsThreshold }
@@ -328,6 +330,10 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
                 let ratio = abs(scrollView.contentOffset.y / scrollViewContentInset.top) / 0.7
                 updateCount(alpha: ratio)
                 updateBlur(alpha: 1 - ratio)
+
+                if detailsViewFullyVisible {
+                    delegate?.didShowMoreInfo()
+                }
             } else {
                 updateCount(alpha: 1.0)
                 updateBlur(alpha: 0)

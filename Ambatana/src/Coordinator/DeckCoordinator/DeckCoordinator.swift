@@ -10,7 +10,9 @@ import Foundation
 import LGCoreKit
 
 protocol DeckNavigator: class {
-    func openPhotoViewer(withURLs urls: [URL], quickChatViewModel: QuickChatViewModel)
+    func openPhotoViewer(listingViewModel: ListingViewModel,
+                         source: EventParameterListingVisitSource,
+                         quickChatViewModel: QuickChatViewModel)
     func closePhotoViewer()
     func closeDeck()
     func showOnBoarding()
@@ -100,10 +102,12 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
         navController.delegate = previousNavigationDelegate
     }
 
-    func openPhotoViewer(withURLs urls: [URL], quickChatViewModel: QuickChatViewModel) {
+    func openPhotoViewer(listingViewModel: ListingViewModel,
+                         source: EventParameterListingVisitSource,
+                         quickChatViewModel: QuickChatViewModel) {
         guard let navCtl = viewController.navigationController else { return }
 
-        let photoVM = PhotoViewerViewModel(imageDownloader: ImageDownloader.sharedInstance, urls: urls)
+        let photoVM = PhotoViewerViewModel(with: listingViewModel, source: source)
         photoVM.navigator = self
         let photoViewer = PhotoViewerViewController(viewModel: photoVM, quickChatViewModel: quickChatViewModel)
         navCtl.pushViewController(photoViewer, animated: true)

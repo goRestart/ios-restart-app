@@ -38,7 +38,10 @@ protocol ListingDeckViewType: class {
 
 protocol ListingDeckViewModelType: class {
     var quickChatViewModel: QuickChatViewModel { get }
+
     var currentIndex: Int { get }
+    var userHasScrolled: Bool { get set }
+
     var actionButtons: Variable<[UIAction]> { get }
     var rxActionButtons: Observable<[UIAction]> { get }
 
@@ -49,10 +52,8 @@ protocol ListingDeckViewModelType: class {
     var rxIsChatEnabled: Observable<Bool> { get }
     var rxIsMine: Observable<Bool> { get }
 
-    var userHasScrolled: Bool { get set }
-
-    func moveToProductAtIndex(_ index: Int, movement: CarouselMovement)
     func replaceListingCellModelAtIndex(_ index: Int, withListing listing: Listing)
+    func moveToListingAtIndex(_ index: Int, movement: DeckMovement)
 }
 
 protocol ListingDeckViewControllerBinderCellType {
@@ -160,7 +161,11 @@ final class ListingDeckViewControllerBinder {
         let pageSignal: Observable<Int> = viewController.rxContentOffset.map { _ in return listingDeckView.currentPage }
         pageSignal.skip(1).distinctUntilChanged().bind { [weak viewModel] page in
             // TODO: Tracking 3109
-            viewModel?.moveToProductAtIndex(page, movement: .swipeRight)
+            if let currentIndex = viewModel?.currentIndex, currentIndex < page {
+                viewModel?.moveToListingAtIndex(page, movement: .swipeRight)
+            } else if let currentIndex = viewModel?.currentIndex, currentIndex > page {
+                viewModel?.moveToListingAtIndex(page, movement: .swipeLeft)
+            }
         }.disposed(by: disposeBag)
     }
 

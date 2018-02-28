@@ -143,6 +143,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     }
 
     @objc func showChat() {
+        viewModel.didOpenChat()
         hideLeftButton()
 
         chatView.frame = photoViewer.frame

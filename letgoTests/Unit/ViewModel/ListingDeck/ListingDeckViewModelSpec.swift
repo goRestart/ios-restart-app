@@ -362,7 +362,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         describe("switch to item after threshold") {
                             beforeEach {
-                                sut.moveToProductAtIndex(18, movement: .swipeRight)
+                                sut.moveToListingAtIndex(18, movement: .swipeRight)
                             }
                             it("gets one extra page") {
                                 expect(sut.objectCount).toEventually(equal(40))
@@ -398,7 +398,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                     }
                     describe("move to item before threshold") {
                         beforeEach {
-                            sut.moveToProductAtIndex(172, movement: .swipeRight)
+                            sut.moveToListingAtIndex(172, movement: .swipeRight)
                         }
                         it("doesn't paginate") {
                             expect(sut.objectCount).toNot(beGreaterThan(180))
@@ -406,7 +406,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                     }
                     describe("move to item after threshold") {
                         beforeEach {
-                            sut.moveToProductAtIndex(178, movement: .swipeRight)
+                            sut.moveToListingAtIndex(178, movement: .swipeRight)
                         }
                         it("paginates") {
                             expect(sut.objectCount).toEventually(equal(200))
@@ -441,7 +441,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         describe("swipe right") {
                             beforeEach {
-                                sut.moveToProductAtIndex(1, movement: .swipeRight)
+                                sut.moveToListingAtIndex(1, movement: .swipeRight)
                             }
                             it("just requests one more image on the right") {
                                 let images = [products[4].images.first?.fileURL].flatMap { $0 }
@@ -463,7 +463,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         describe("swipe right") {
                             beforeEach {
-                                sut.moveToProductAtIndex(11, movement: .swipeRight)
+                                sut.moveToListingAtIndex(11, movement: .swipeRight)
                             }
                             it("just requests one more image on the right") {
                                 let images = [products[14].images.first?.fileURL].flatMap { $0 }
@@ -472,7 +472,7 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         }
                         describe("swipe left") {
                             beforeEach {
-                                sut.moveToProductAtIndex(9, movement: .swipeLeft)
+                                sut.moveToListingAtIndex(9, movement: .swipeLeft)
                             }
                             it("just requests one more image on the left") {
                                 let images = [products[8].images.first?.fileURL].flatMap { $0 }
@@ -492,8 +492,8 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                     context("viewmodel inactive") {
                         beforeEach {
                             sut.active = false
-                            sut.moveToProductAtIndex(1, movement: .tap)
-                            sut.moveToProductAtIndex(2, movement: .tap)
+                            sut.moveToListingAtIndex(1, movement: .tap)
+                            sut.moveToListingAtIndex(2, movement: .tap)
                         }
                         it("doesn't track any product visit") {
                             expect(tracker.trackedEvents.count) == 0
@@ -526,8 +526,8 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                     context("viewmodel active") {
                         beforeEach {
                             sut.active = true
-                            sut.moveToProductAtIndex(1, movement: .tap)
-                            sut.moveToProductAtIndex(2, movement: .tap)
+                            sut.moveToListingAtIndex(1, movement: .tap)
+                            sut.moveToListingAtIndex(2, movement: .tap)
                         }
                         it("tracks 3 product visits") {
                             expect(tracker.trackedEvents.map { $0.actualName }) == ["product-detail-visit",
