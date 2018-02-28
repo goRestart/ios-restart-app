@@ -294,6 +294,14 @@
 "direct_answer_willing_to_negotiate" = "Olisitko valmis neuvottelemaan?";
 "direct_answers_hide" = "Piilota pikavastaukset";
 "direct_answers_show" = "Näytä pikavastaukset";
+"discarded" = "Hylätty";
+"discarded_products_reason_duplicated" = "Kaksoisilmoitus";
+"discarded_products_reason_good_manners" = "Ei noudata hyviä toimintatapoja";
+"discarded_products_reason_non_realistic_price" = "Epärealistinen hinnoittelu";
+"discarded_products_reason_photo_not_clear" = "Sumea tai epäselvä kuva";
+"discarded_products_reason_poor_ad_quality" = "Ei noudata hyviä toimintatapoja";
+"discarded_products_reason_reference_to_competitors" = "Viittaukset muihin sovelluksiin tai sivustolle";
+"discarded_products_reason_stock_photo_only" = "Sisältää vain mallikuvia";
 "edit_product_location_alert_text" = "Vaihtaaksesi sijainnin, josta ilmoituksesi julkaistaan, anna lupa käyttää sijaintiasi";
 "edit_product_location_alert_title" = "VAIHDA SIJAINTI";
 "edit_product_send_button" = "Tallenna muutokset";
@@ -316,7 +324,9 @@
 "filters_distance_not_set" = "ei rajattu";
 "filters_navbar_reset" = "Nollaa";
 "filters_price_from" = "Alkaen";
+"filters_price_from_feed_filter_cell" = "Alkaen";
 "filters_price_to" = "Päättyen";
+"filters_price_to_feed_filter_cell" = "Päättyen";
 "filters_price_wrong_range_error" = "Minimihinta ei voi olla suurempi kuin maksimihinta.";
 "filters_real_estate_bathrooms_not_set" = "Ei määritetty";
 "filters_real_estate_bedrooms_not_set" = "Ei määritetty";
@@ -787,6 +797,7 @@
 "real_estate_rooms_studio" = "Yksiö (1+0)";
 "real_estate_rooms_title" = "Huoneiden määrä";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "Koko";
 "real_estate_summary_bathroom_title" = "kylpyhuone";
 "real_estate_summary_bathrooms_empty" = "Lisää kylpyhuoneiden määrä";
@@ -981,7 +992,7 @@
 "trending_items_view_post_button" = "Julkaise";
 "trending_items_view_search_button" = "Hae";
 "trending_items_view_subtitle" = "Julkaise joku näistä ja tienaa rahaa alle viikossa";
-"trending_items_view_title" = "Suosituimmat kohteet: %@";
+"trending_items_view_title" = "Suosituimmat: %@";
 "trending_items_view_title_no_location" = "Suosituimmat kohteet";
 "trending_searches_Title" = "Nousussa olevat haut";
 "unblock_user_error_generic" = "Tämän käyttäjän estoa poistettaessa tapahtui virhe.";

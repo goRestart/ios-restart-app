@@ -16,6 +16,12 @@ enum PostingFlowType: String {
     case turkish
 }
 
+enum BumpPriceVariationBucket: Int {
+    case defaultValue = 0
+    case minPriceIncreaseUSA = 2
+    case vatDecreaseTR = 4
+}
+
 protocol FeatureFlaggeable: class {
 
     var trackingData: Observable<[(String, ABGroupType)]?> { get }
@@ -30,7 +36,6 @@ protocol FeatureFlaggeable: class {
     var pricedBumpUpEnabled: Bool { get }
     var userReviewsReportEnabled: Bool { get }
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
-    var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
@@ -40,7 +45,6 @@ protocol FeatureFlaggeable: class {
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
-    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
@@ -54,7 +58,13 @@ protocol FeatureFlaggeable: class {
     var mainFeedAspectRatio: MainFeedAspectRatio { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
+    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
     var emojiSizeIncrement: EmojiSizeIncrement { get }
+    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
+    var newUserProfileView: NewUserProfileView { get }
+    var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
+    var searchMultiwordExpressions: SearchMultiwordExpressions { get }
+    var showChatSafetyTips: Bool { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
 
     // Country dependant features
@@ -66,6 +76,7 @@ protocol FeatureFlaggeable: class {
     var moreInfoShoppingAdUnitId: String { get }
     var moreInfoDFPAdUnitId: String { get }
     var feedDFPAdUnitId: String? { get }
+    var bumpPriceVariationBucket: BumpPriceVariationBucket { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -88,10 +99,6 @@ extension TaxonomiesAndTaxonomyChildrenInFeed {
 }
 
 extension ShowPriceStepRealEstatePosting {
-    var isActive: Bool { get { return self == .active } }
-}
-
-extension PromoteBumpUpAfterSell {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -125,6 +132,62 @@ extension ShowAdsInFeedWithRatio {
     var isActive: Bool { get { return self != .control && self != .baseline } }
 }
 
+extension NoAdsInFeedForNewUsers {
+    private var shouldShowAdsInFeedForNewUsers: Bool {
+        get {
+            return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed
+        }
+    }
+    private var shouldShowAdsInFeedForOldUsers: Bool {
+        get {
+            return self == .adsEverywhere || self == .adsForNewUsersOnlyInFeed || self == .noAdsForNewUsers
+        }
+    }
+    var shouldShowAdsInFeed: Bool {
+        get {
+            return shouldShowAdsInFeedForNewUsers || shouldShowAdsInFeedForOldUsers
+        }
+    }
+    private var shouldShowAdsInMoreInfoForNewUsers: Bool {
+        get {
+            return self == .control || self == .baseline || self == .adsEverywhere
+        }
+    }
+    private var shouldShowAdsInMoreInfoForOldUsers: Bool {
+        get {
+            return true
+        }
+    }
+    var shouldShowAdsInMoreInfo: Bool {
+        get {
+            return shouldShowAdsInMoreInfoForNewUsers || shouldShowAdsInMoreInfoForOldUsers
+        }
+    }
+
+
+    func shouldShowAdsInFeedForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInFeedForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            // New User
+            return shouldShowAdsInFeedForNewUsers
+        } else {
+            // Old user
+            return shouldShowAdsInFeedForOldUsers
+        }
+    }
+
+    func shouldShowAdsInMoreInfoForUser(createdIn: Date?) -> Bool {
+        guard let creationDate = createdIn else { return shouldShowAdsInMoreInfoForOldUsers }
+        if creationDate.isNewerThan(Constants.newUserTimeThresholdForAds) {
+            // New User
+            return shouldShowAdsInMoreInfoForNewUsers
+        } else {
+            // Old user
+            return shouldShowAdsInMoreInfoForOldUsers
+        }
+    }
+}
+
 extension RemoveCategoryWhenClosingPosting {
     var isActive: Bool { get { return self == .active } }
 }
@@ -137,16 +200,17 @@ extension DummyUsersInfoProfile {
     var isActive: Bool { get { return self == .active } }
 }
 
-extension IncreaseMinPriceBumps {
-    var bucketValue: Int {
-        switch self {
-        case .control, .baseline:
-            return 0
-        case .active:
-            return 2
-        }
-    }
+extension ShowBumpUpBannerOnNotValidatedListings {
+    var isActive: Bool { get { return self == .active } }
 }
+
+extension IncreaseMinPriceBumps {
+    var isActive: Bool { get { return self == .active } }
+}
+extension TurkeyBumpPriceVATAdaptation {
+    var isActive: Bool { get { return self == .active } }
+}
+
 
 extension OnboardingIncentivizePosting {
     var isActive: Bool { get { return self == .blockingPosting } }
@@ -265,13 +329,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return DynamicQuickAnswers.fromPosition(abTests.dynamicQuickAnswers.value)
     }
-
-    var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed {
-        if Bumper.enabled {
-            return Bumper.defaultRadiusDistanceFeed
-        }
-        return DefaultRadiusDistanceFeed.fromPosition(abTests.defaultRadiusDistanceFeed.value)
-    }
     
     var searchAutocomplete: SearchAutocomplete {
         if Bumper.enabled {
@@ -328,13 +385,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.showClockInDirectAnswer
         }
         return ShowClockInDirectAnswer.fromPosition(abTests.showClockInDirectAnswer.value)
-    }
-
-    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell {
-        if Bumper.enabled {
-            return Bumper.promoteBumpUpAfterSell
-        }
-        return PromoteBumpUpAfterSell.fromPosition(abTests.promoteBumpUpAfterSell.value)
     }
 
     var allowCallsForProfessionals: AllowCallsForProfessionals {
@@ -428,12 +478,33 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return ShowSecurityMeetingChatMessage.fromPosition(abTests.showSecurityMeetingChatMessage.value)
     }
+
+    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers {
+        if Bumper.enabled {
+            return Bumper.noAdsInFeedForNewUsers
+        }
+        return NoAdsInFeedForNewUsers.fromPosition(abTests.noAdsInFeedForNewUsers.value)
+    }
     
     var emojiSizeIncrement: EmojiSizeIncrement {
         if Bumper.enabled {
             return Bumper.emojiSizeIncrement
         }
         return EmojiSizeIncrement.fromPosition(abTests.emojiSizeIncrement.value)
+    }
+
+    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings {
+        if Bumper.enabled {
+            return Bumper.showBumpUpBannerOnNotValidatedListings
+        }
+        return ShowBumpUpBannerOnNotValidatedListings.fromPosition(abTests.showBumpUpBannerOnNotValidatedListings.value)
+    }
+
+    var searchMultiwordExpressions: SearchMultiwordExpressions {
+        if Bumper.enabled {
+            return Bumper.searchMultiwordExpressions
+        }
+        return SearchMultiwordExpressions.fromPosition(abTests.searchMultiwordExpressions.value)
     }
     
     var onboardingIncentivizePosting: OnboardingIncentivizePosting {
@@ -443,6 +514,27 @@ class FeatureFlags: FeatureFlaggeable {
         return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
     }
     
+
+    var newUserProfileView: NewUserProfileView {
+        if Bumper.enabled {
+            return Bumper.newUserProfileView
+        }
+        return NewUserProfileView.fromPosition(abTests.newUserProfileView.value)
+    }
+    
+    var showChatSafetyTips: Bool {
+        if Bumper.enabled {
+            return Bumper.showChatSafetyTips
+        }
+        return abTests.showChatSafetyTips.value
+    }
+
+    var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation {
+        if Bumper.enabled {
+            return Bumper.turkeyBumpPriceVATAdaptation
+        }
+        return TurkeyBumpPriceVATAdaptation.fromPosition(abTests.turkeyBumpPriceVATAdaptation.value)
+    }
 
     // MARK: - Country features
 
@@ -527,11 +619,24 @@ class FeatureFlags: FeatureFlaggeable {
     }
 
     var feedDFPAdUnitId: String? {
+        if Bumper.enabled {
+            // Bumper overrides country restriction
+            switch showAdsInFeedWithRatio {
+            case .baseline, .control:
+                return noAdsInFeedForNewUsers.shouldShowAdsInFeed ? EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio : nil
+            case .ten:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
+            case .fifteen:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA15Ratio
+            case .twenty:
+                return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio
+            }
+        }
         switch sensorLocationCountryCode {
         case .usa?:
             switch showAdsInFeedWithRatio {
             case .baseline, .control:
-                return nil
+                return noAdsInFeedForNewUsers.shouldShowAdsInFeed ? EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA20Ratio : nil
             case .ten:
                 return EnvironmentProxy.sharedInstance.feedAdUnitIdDFPUSA10Ratio
             case .fifteen:
@@ -541,6 +646,39 @@ class FeatureFlags: FeatureFlaggeable {
             }
         default:
             return nil
+        }
+    }
+
+    /**
+     This var is used to inform money BE of the ABtests realated to variations in bump prices
+     */
+    var bumpPriceVariationBucket: BumpPriceVariationBucket {
+        if Bumper.enabled {
+            if increaseMinPriceBumps.isActive {
+                return .minPriceIncreaseUSA
+            } else if turkeyBumpPriceVATAdaptation.isActive {
+                return .vatDecreaseTR
+            } else {
+                return .defaultValue
+            }
+        }
+        switch sensorLocationCountryCode {
+        case .usa?:
+            switch increaseMinPriceBumps {
+            case .control, .baseline:
+                return .defaultValue
+            case .active:
+                return .minPriceIncreaseUSA
+            }
+        case .turkey?:
+            switch turkeyBumpPriceVATAdaptation {
+            case .control, .baseline:
+                return .defaultValue
+            case .active:
+                return .vatDecreaseTR
+            }
+        default:
+            return .defaultValue
         }
     }
 

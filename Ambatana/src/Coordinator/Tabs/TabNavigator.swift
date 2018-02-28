@@ -48,7 +48,7 @@ protocol TabNavigator: class {
     func openListing(_ data: ListingDetailData, source: EventParameterListingVisitSource, actionOnFirstAppear: ProductCarouselActionOnFirstAppear)
     func openChat(_ data: ChatDetailData, source: EventParameterTypePage, predefinedMessage: String?)
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
-    func openAppInvite()
+    func openAppInvite(myUserId: String?, myUserName: String?)
     func canOpenAppInvite() -> Bool
     func openRatingList(_ userId: String)
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
@@ -57,7 +57,7 @@ protocol TabNavigator: class {
 protocol ListingDetailNavigator: TabNavigator {
     func closeProductDetail()
     func editListing(_ listing: Listing)
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage)
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool)
     func closeListingAfterDelete(_ listing: Listing)
     func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String)
     func openPayBumpUp(forListing listing: Listing,

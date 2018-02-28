@@ -13,16 +13,18 @@ class ProductionEnvironment: AppEnvironment {
     let appleAppId = "986339882"
     let facebookAppId = "699538486794082"
     
-    // Tracking
+    // AppsFlyer
     let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
-    
+    let oneLinkHost = "https://letgo.onelink.me/"
+    let oneLinkID = "O2PG"
+
     // Google login
     let googleServerClientID = "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com"
     let googleClientID = "914431496661-h1lf5kd3g9g743sec3emns7qj9ei0hcp.apps.googleusercontent.com"
 
     // Config
     let configFileName = "ios-prod"
-    let configURL = "https://cdn.letgo.com/config/ios.json"
+    let configURL = "https://static.letgo.com/mobile-config/ios.json"
     
     // Leanplum
     let leanplumAppId = "app_gYgnjLc98J3vIVHbmdD9W0Qwvy0A3KHMdo4PKd0zJD4"

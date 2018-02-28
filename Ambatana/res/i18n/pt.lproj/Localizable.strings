@@ -159,7 +159,7 @@
 "chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
 "chat_list_unblock" = "Unblock";
 "chat_login_popup_text" = "To start chatting, you have to log in";
-"chat_message_disclaimer_meeting_security" = "Try meeting at busier public places like coffee shops and bank lobbies. They are convenient and safe.";
+"chat_message_disclaimer_meeting_security" = "Try meeting at busier public places like coffee shops and bank lobbies. They're convenient and safe.";
 "chat_message_disclaimer_scammer_append_blocked" = "Tap here to block this user.";
 "chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
 "chat_message_field_hint" = "Type your message here";
@@ -294,6 +294,14 @@
 "direct_answer_willing_to_negotiate" = "Would you be willing to negotiate?";
 "direct_answers_hide" = "Hide Quick Answers";
 "direct_answers_show" = "Show Quick Answers";
+"discarded" = "Discarded";
+"discarded_products_reason_duplicated" = "Duplicate listing";
+"discarded_products_reason_good_manners" = "Doesn’t comply with best practices";
+"discarded_products_reason_non_realistic_price" = "Unrealistic pricing";
+"discarded_products_reason_photo_not_clear" = "Blurry or unclear photo";
+"discarded_products_reason_poor_ad_quality" = "Doesn’t comply with best practices";
+"discarded_products_reason_reference_to_competitors" = "References to other apps or websites";
+"discarded_products_reason_stock_photo_only" = "Only contains stock photos";
 "edit_product_location_alert_text" = "To change where your listing is posted, allow access to your location";
 "edit_product_location_alert_title" = "CHANGE LOCATION";
 "edit_product_send_button" = "Save changes";
@@ -316,7 +324,9 @@
 "filters_distance_not_set" = "not set";
 "filters_navbar_reset" = "Reset";
 "filters_price_from" = "From";
+"filters_price_from_feed_filter_cell" = "From";
 "filters_price_to" = "To";
+"filters_price_to_feed_filter_cell" = "To";
 "filters_price_wrong_range_error" = "The minimum price can’t be higher than the maximum price.";
 "filters_real_estate_bathrooms_not_set" = "Not set";
 "filters_real_estate_bedrooms_not_set" = "Not set";
@@ -787,6 +797,7 @@
 "real_estate_rooms_studio" = "Studio (1+0)";
 "real_estate_rooms_title" = "No. of rooms";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "Size";
 "real_estate_summary_bathroom_title" = "bathroom";
 "real_estate_summary_bathrooms_empty" = "Add no. of bathrooms";
@@ -981,7 +992,7 @@
 "trending_items_view_post_button" = "Post";
 "trending_items_view_search_button" = "Search";
 "trending_items_view_subtitle" = "Post one of these, and make money in under a week";
-"trending_items_view_title" = "Most popular items in %@";
+"trending_items_view_title" = "Most popular in %@";
 "trending_items_view_title_no_location" = "Most popular items";
 "trending_searches_Title" = "Trending Searches";
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";

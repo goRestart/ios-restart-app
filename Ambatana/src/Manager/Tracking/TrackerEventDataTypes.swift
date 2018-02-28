@@ -220,6 +220,7 @@ enum EventParameterName: String {
     case listingPrice         = "product-price"
     case listingCurrency      = "product-currency"
     case listingDescription   = "product-description"
+    case listingStatus        = "product-status"
     case listingType          = "item-type"             // real (1) / dummy (0).
     case userId               = "user-id"
     case userToId             = "user-to-id"
@@ -256,6 +257,7 @@ enum EventParameterName: String {
     case alertType            = "alert-type"
     case permissionGoToSettings = "permission-go-to-settings"
     case negotiablePrice      = "negotiable-price"
+    case firmPrice            = "firm-price"
     case pictureSource        = "picture-source"
     case editedFields         = "edited-fields"
     case newsletter           = "newsletter"
@@ -764,6 +766,7 @@ enum EventParameterEditedFields: String {
     case make = "make"
     case model = "model"
     case year = "year"
+    case firmPrice = "firm-price"
 }
 
 enum EventParameterTypePage: String {
@@ -1222,6 +1225,7 @@ struct EventParameters {
         params[.listingType] = listing.user.isDummy ?
             EventParameterProductItemType.dummy.rawValue : EventParameterProductItemType.real.rawValue
         params[.userToId] = listing.user.objectId
+        params[.listingStatus] = listing.status.string
     }
 
     internal mutating func addChatListingParams(_ listing: ChatListing) {

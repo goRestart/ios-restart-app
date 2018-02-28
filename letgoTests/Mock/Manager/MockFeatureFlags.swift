@@ -11,6 +11,7 @@ import Foundation
 import RxSwift
 
 class MockFeatureFlags: FeatureFlaggeable {
+
     var trackingData: Observable<[(String, ABGroupType)]?> {
         return trackingDataVar.asObservable()
     }
@@ -27,7 +28,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var inAppRatingIOS10: Bool = false
     var userReviewsReportEnabled: Bool = true
     var dynamicQuickAnswers: DynamicQuickAnswers = .control
-    var defaultRadiusDistanceFeed: DefaultRadiusDistanceFeed = .control
     var newItemPage: NewItemPage = .control
     var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: RealEstateEnabled = .control
@@ -37,11 +37,11 @@ class MockFeatureFlags: FeatureFlaggeable {
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
-    var promoteBumpUpAfterSell: PromoteBumpUpAfterSell = .control
     var allowCallsForProfessionals: AllowCallsForProfessionals = .control
     var moreInfoAFShOrDFP: MoreInfoAFShOrDFP = .control
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
     var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
+    var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
 
     var realEstateImprovements: RealEstateImprovements = .control
     var realEstatePromos: RealEstatePromos = .control
@@ -53,6 +53,12 @@ class MockFeatureFlags: FeatureFlaggeable {
     var mainFeedAspectRatio: MainFeedAspectRatio = .control
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
     var emojiSizeIncrement: EmojiSizeIncrement = .control
+    var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
+    var newUserProfileView: NewUserProfileView = .control
+    var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
+    var searchMultiwordExpressions: SearchMultiwordExpressions = .control
+    var showChatSafetyTips: Bool = false
+
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     
     // Country dependant features
@@ -64,7 +70,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var moreInfoShoppingAdUnitId = ""
     var moreInfoDFPAdUnitId = ""
     var feedDFPAdUnitId: String? = ""
-
+    var bumpPriceVariationBucket: BumpPriceVariationBucket = .defaultValue
+    
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
     }

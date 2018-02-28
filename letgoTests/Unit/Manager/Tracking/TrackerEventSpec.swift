@@ -2372,7 +2372,8 @@ class TrackerEventSpec: QuickSpec {
                                                            pictureSource: .gallery,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: .notApply)
+                                                           mostSearchedButton: .notApply,
+                                                           firmPrice: true)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
@@ -2461,6 +2462,10 @@ class TrackerEventSpec: QuickSpec {
                     let data = sut.params!.stringKeyParams["size"] as? String
                     expect(data).to(equal("N/A"))
                 }
+                it("firm price") {
+                    let data = sut.params!.stringKeyParams["firm-price"] as? String
+                    expect(data).to(equal("true"))
+                }
             }
             
             describe("listingSellComplete mostSearchedButton") {
@@ -2482,7 +2487,8 @@ class TrackerEventSpec: QuickSpec {
                                                            pictureSource: .gallery,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: eventParameterMostSearched)
+                                                           mostSearchedButton: eventParameterMostSearched,
+                                                           firmPrice: true)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
@@ -2563,6 +2569,10 @@ class TrackerEventSpec: QuickSpec {
                     let data = sut.params!.stringKeyParams["bathroom-number"] as? String
                     expect(data).to(equal("N/A"))
                 }
+                it("firm price") {
+                    let data = sut.params!.stringKeyParams["firm-price"] as? String
+                    expect(data).to(equal("true"))
+                }
             }
             
             describe("listingSellComplete car") {
@@ -2583,7 +2593,8 @@ class TrackerEventSpec: QuickSpec {
                                                            pictureSource: .gallery,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: .notApply)
+                                                           mostSearchedButton: .notApply,
+                                                           firmPrice: false)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
@@ -2684,6 +2695,10 @@ class TrackerEventSpec: QuickSpec {
                     let data = sut.params!.stringKeyParams["size"] as? String
                     expect(data).to(equal("N/A"))
                 }
+                it("firm price") {
+                    let data = sut.params!.stringKeyParams["firm-price"] as? String
+                    expect(data).to(equal("false"))
+                }
             }
             
             describe("listingSellComplete real estate") {
@@ -2710,7 +2725,8 @@ class TrackerEventSpec: QuickSpec {
                                                            pictureSource: .gallery,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: .notApply)
+                                                           mostSearchedButton: .notApply,
+                                                           firmPrice: false)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
@@ -2798,6 +2814,10 @@ class TrackerEventSpec: QuickSpec {
                 it("contains size") {
                     let data = sut.params!.stringKeyParams["size"] as? String
                     expect(data).to(equal("100"))
+                }
+                it("firm price") {
+                    let data = sut.params!.stringKeyParams["firm-price"] as? String
+                    expect(data).to(equal("false"))
                 }
             }
 
@@ -4201,6 +4221,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
+                    product.status = .pending
                     sut = TrackerEvent.listingBumpUpStart(.product(product), price: .free, type: .free,
                                                           storeProductId: nil, isPromotedBump: .falseParameter)
                 }
@@ -4222,11 +4243,15 @@ class TrackerEventSpec: QuickSpec {
                 it("promotedBump param is false") {
                     expect(sut.params?.stringKeyParams["promoted-bump"] as? String) == "false"
                 }
+                it("has listing status") {
+                    expect(sut.params?.stringKeyParams["product-status"] as? String) == "Pending"
+                }
             }
             describe("bump up complete") {
                 beforeEach {
                     var product = MockProduct.makeMock()
                     product.objectId = "12345"
+                    product.status = .pending
                     sut = TrackerEvent.listingBumpUpComplete(.product(product), price: .free, type: .free, restoreRetriesCount: 8,
                                                              network: .facebook, transactionStatus: .purchasingPurchased,
                                                              storeProductId: nil, isPromotedBump: .falseParameter)
@@ -4254,6 +4279,9 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("promotedBump param is false") {
                     expect(sut.params?.stringKeyParams["promoted-bump"] as? String) == "false"
+                }
+                it("has listing status") {
+                    expect(sut.params?.stringKeyParams["product-status"] as? String) == "Pending"
                 }
             }
             describe("bump up fail") {

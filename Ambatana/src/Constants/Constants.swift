@@ -29,7 +29,9 @@ struct Constants {
     static let appStoreURL = "itms-apps://itunes.apple.com/app/id986339882?mt=8"
     static let appStoreWriteReviewURL = "itms-apps://itunes.apple.com/app/id986339882?action=write-review&mt=8"
     static let playStoreURL = "https://play.google.com/store/apps/details?id=com.abtnprojects.ambatana"
-
+    
+    // DeepLinks
+    static let deepLinkScheme = "letgo://"
     // Branch
     static let branchWebsiteURL = "https://app.letgo.com"
     static let branchLinksHost = "app.letgo.com"
@@ -150,7 +152,10 @@ struct Constants {
     // Ads
     static let adInFeedInitialPosition = 3
     static let adInFeedCustomTargetingKey = "pos_var"
+    static let newUserTimeThresholdForAds = TimeInterval.make(days: 15)
 
     // Professional Dealers
     static let usaPhoneNumberDigitsCount = 10
+    static let usaFirstDashPosition = 3
+    static let usaSecondDashPosition = 7
 }

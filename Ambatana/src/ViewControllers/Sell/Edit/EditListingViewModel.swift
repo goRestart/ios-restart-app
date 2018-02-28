@@ -167,6 +167,12 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     fileprivate let initialListing: Listing
     fileprivate var savedListing: Listing?
     fileprivate var shouldTrack: Bool = true
+    fileprivate var myUserId: String? {
+        return myUserRepository.myUser?.objectId
+    }
+    fileprivate var myUserName: String? {
+        return myUserRepository.myUser?.name
+    }
     
     // Repositories
     let myUserRepository: MyUserRepository
@@ -484,13 +490,6 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         realEstateSizeSquareMeters.value = Int(value)
     }
 
-    var fbShareContent: FBSDKShareLinkContent? {
-        if let listing = savedListing {
-            return ListingSocialMessage(listing: listing, fallbackToStore: false).fbShareContent
-        }
-        return nil
-    }
-
     func openMap() {
         var shouldAskForPermission = true
         var permissionsActionBlock: ()->() = {}
@@ -724,11 +723,14 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func finishedSaving() {
-        if let fbShareContent = fbShareContent, shouldShareInFB {
-            shouldTrack = false
-            delegate?.vmShareOnFbWith(content: fbShareContent)
-        } else {
-            showSuccessMessageAndClose()
+        guard let listing = savedListing, shouldShareInFB else { return showSuccessMessageAndClose() }
+        let listingSocialMessage = ListingSocialMessage(listing: listing,
+                                                        fallbackToStore: false,
+                                                        myUserId: myUserId,
+                                                        myUserName: myUserName)
+        listingSocialMessage.retrieveFBShareContent { [weak self] fbShareContent in
+            self?.shouldTrack = false
+            self?.delegate?.vmShareOnFbWith(content: fbShareContent)
         }
     }
 
@@ -994,6 +996,12 @@ extension EditListingViewModel {
             if carAttributes.year != newCarAttributes.year {
                 editedFields.append(.year)
             }
+        }
+
+        let freePostingAllowed = featureFlags.freePostingModeAllowed
+        if initialListing.isNegotiable(freeModeAllowed: freePostingAllowed)
+            != listing.isNegotiable(freeModeAllowed: freePostingAllowed) {
+            editedFields.append(.firmPrice)
         }
         return editedFields
     }

@@ -294,6 +294,14 @@
 "direct_answer_willing_to_negotiate" = "Está na disposição de negociar?";
 "direct_answers_hide" = "Esconder Respostas Rápidas";
 "direct_answers_show" = "Mostrar Respostas Rápidas";
+"discarded" = "Descartado";
+"discarded_products_reason_duplicated" = "Anúncio duplicado";
+"discarded_products_reason_good_manners" = "Não cumpre as melhores práticas";
+"discarded_products_reason_non_realistic_price" = "Preço irrealista";
+"discarded_products_reason_photo_not_clear" = "Foto desfocada ou pouco nítida";
+"discarded_products_reason_poor_ad_quality" = "Não cumpre as melhores práticas";
+"discarded_products_reason_reference_to_competitors" = "Referências a outras apps ou sites";
+"discarded_products_reason_stock_photo_only" = "Contém apenas fotos de stocks";
 "edit_product_location_alert_text" = "Para alterar onde o seu anúncio é publicado, autorize o acesso à sua localização";
 "edit_product_location_alert_title" = "ALTERAR LOCALIZAÇÃO";
 "edit_product_send_button" = "Guardar alterações";
@@ -316,7 +324,9 @@
 "filters_distance_not_set" = "não definido";
 "filters_navbar_reset" = "Redefinir";
 "filters_price_from" = "De";
+"filters_price_from_feed_filter_cell" = "De";
 "filters_price_to" = "A";
+"filters_price_to_feed_filter_cell" = "E";
 "filters_price_wrong_range_error" = "O preço mínimo não pode ser superior ao preço máximo.";
 "filters_real_estate_bathrooms_not_set" = "Não definido";
 "filters_real_estate_bedrooms_not_set" = "Não definido";
@@ -787,6 +797,7 @@
 "real_estate_rooms_studio" = "Estúdio (1+0)";
 "real_estate_rooms_title" = "Nº de quartos";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "Tamanho";
 "real_estate_summary_bathroom_title" = "casa de banho";
 "real_estate_summary_bathrooms_empty" = "Adicionar nº de casas de banho";
@@ -981,7 +992,7 @@
 "trending_items_view_post_button" = "Publicar";
 "trending_items_view_search_button" = "Pesquisar";
 "trending_items_view_subtitle" = "Publique um destes a faça dinheiro numa semana";
-"trending_items_view_title" = "Os itens mais populares em %@";
+"trending_items_view_title" = "Os mais populares em %@";
 "trending_items_view_title_no_location" = "Os itens mais populares";
 "trending_searches_Title" = "Pesquisa por Tendências";
 "unblock_user_error_generic" = "Ocorreu um erro ao desbloquear este utilizador.";

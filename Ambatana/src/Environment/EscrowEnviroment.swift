@@ -12,8 +12,12 @@ class EscrowEnvironment: AppEnvironment {
     let facebookAppId = "699538486794082"
     
     // Tracking
-    let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
     let amplitudeAPIKey = ""
+    
+    // AppsFlyer
+    let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
+    let oneLinkHost = "https://letgo.onelink.me/"
+    let oneLinkID = "O2PG"
     
     // Google login
     let googleServerClientID = "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com"
@@ -21,7 +25,7 @@ class EscrowEnvironment: AppEnvironment {
     
     // Config
     let configFileName = "ios-prod"
-    let configURL = "https://escrow-images.s3.amazonaws.com/config/ios.json"
+    let configURL = "https://escrow-images.s3.amazonaws.com/mobile-config/ios.json"
     
     // Leanplum
     let leanplumAppId = ""

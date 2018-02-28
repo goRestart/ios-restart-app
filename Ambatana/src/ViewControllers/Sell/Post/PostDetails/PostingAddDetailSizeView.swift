@@ -13,9 +13,7 @@ import RxSwift
 
 class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDelegate {
     
-    static private let sizeLabelWidth: CGFloat = 60
-    static private let sizeViewMargin: CGFloat = 20
-    static private let sizeTextFieldWidth: CGFloat = 150
+    static private let sizeLabelTextMargin: CGFloat = 40
     static private let maxLengthSize: Int = 8
     
     private let sizeLabel = UILabel()
@@ -30,6 +28,12 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
         return sizeListing.asObservable()
     }
     
+    var placeholder: NSAttributedString {
+        return NSAttributedString(string: LGLocalizedString.realEstateSizeSquareMetersPlaceholder,
+                           attributes: [NSAttributedStringKey.foregroundColor: UIColor.grayLight,
+                                        NSAttributedStringKey.font: UIFont.systemBoldFont(size: 26)])
+    }
+    
     private let disposeBag = DisposeBag()
     
     
@@ -40,7 +44,6 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
         setupUI()
         setupConstraints()
         setupRx()
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -53,23 +56,22 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
     private func setupUI() {
         sizeLabel.numberOfLines = 1
         sizeLabel.adjustsFontSizeToFitWidth = false
-        sizeLabel.textAlignment = .center
+        sizeLabel.textAlignment = .left
         sizeLabel.textColor = UIColor.white
         sizeLabel.font = UIFont.systemBoldFont(size: 26)
-        sizeTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.realEstateSizeSquareMetersPlaceholder,
-                                                                  attributes: [NSAttributedStringKey.foregroundColor: UIColor.grayLight,
-                                                                               NSAttributedStringKey.font: UIFont.systemBoldFont(size: 26)])
+        sizeTextField.attributedPlaceholder = placeholder
         sizeTextField.keyboardType = .numberPad
         sizeTextField.font = UIFont.systemBoldFont(size: 26)
         sizeTextField.textColor = UIColor.white
         sizeTextField.autocorrectionType = .no
         sizeTextField.autocapitalizationType = .none
+        sizeTextField.becomeFirstResponder()
         sizeTextField.delegate = self
         
         let tapBackground = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
         addGestureRecognizer(tapBackground)
         
-        sizeLabel.text = Constants.sizeSquareMetersUnit
+        sizeLabel.text = Constants.sizeSquareMetersUnit + ":"
     }
     
     private func setupConstraints() {
@@ -84,12 +86,12 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
         
         contentTextFieldView.layout(with: self).fillHorizontal(by: 20).top(by: 20)
         contentTextFieldView.layout().height(50)
-        
-        sizeTextField.layout(with: contentTextFieldView).left().fillVertical()
-        sizeTextField.layout().width(PostingAddDetailSizeView.sizeTextFieldWidth)
-        
-        sizeLabel.layout(with: sizeTextField).right(by: 50)
+
+        sizeLabel.layout(with: contentTextFieldView).left()
         sizeLabel.layout(with: contentTextFieldView).fillVertical()
+
+        sizeTextField.layout(with: sizeLabel).leading(by: PostingAddDetailSizeView.sizeLabelTextMargin)
+        sizeTextField.layout(with: contentTextFieldView).centerY()
     }
     
     private func setupRx() {
@@ -97,7 +99,18 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
             guard let text = text else { return nil }
             return Int(text)
         }.bind(to: sizeListing).disposed(by: disposeBag)
+        
+        sizeTextField.rx.text.asObservable().subscribeNext { [weak self] (text) in
+            guard let strongSelf = self else { return }
+            strongSelf.sizeTextField.sizeToFit()
+            if let text = text, !text.isEmpty {
+                strongSelf.sizeTextField.attributedPlaceholder = nil
+            } else {
+                strongSelf.sizeTextField.attributedPlaceholder = strongSelf.placeholder
+            }
+        }.disposed(by: disposeBag)
     }
+
     
     // MARK: - UITextFieldDelegate
     
@@ -105,8 +118,8 @@ class PostingAddDetailSizeView: UIView, PostingViewConfigurable, UITextFieldDele
                    replacementString string: String) -> Bool {
         guard textField == sizeTextField else { return true }
         guard let text = textField.text else { return true }
-        let newLength = text.count + string.count - range.length
-        return newLength <= PostingAddDetailSizeView.maxLengthSize
+        guard text.count + string.count - range.length <= PostingAddDetailSizeView.maxLengthSize else { return false }
+        return true
     }
     
     

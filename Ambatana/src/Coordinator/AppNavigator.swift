@@ -22,7 +22,7 @@ protocol AppNavigator: class {
     func openUserRating(_ source: RateUserSource, data: RateUserData)
     func openVerifyAccounts(_ types: [VerificationType], source: VerifyAccountsSource, completionBlock: (() -> Void)?)
     func openSurveyIfNeeded()
-    func openAppInvite()
+    func openAppInvite(myUserId: String?, myUserName: String?)
     func canOpenAppInvite() -> Bool
     func openDeepLink(deepLink: DeepLink)
     func openAppStore()

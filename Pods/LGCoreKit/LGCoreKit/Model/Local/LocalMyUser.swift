@@ -27,10 +27,11 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
     var email: String?
     var location: LGLocation?
     var localeIdentifier: String?
+    var creationDate: Date?
     
     init(objectId: String?, name: String?, avatar: File?, accounts: [LocalAccount],
          ratingAverage: Float?, ratingCount: Int, status: UserStatus, phone: String?, type: UserType?,
-         email: String?, location: LGLocation?, localeIdentifier: String?) {
+         email: String?, location: LGLocation?, localeIdentifier: String?, creationDate: Date?) {
         self.objectId = objectId
         
         self.name = name
@@ -46,6 +47,7 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
         self.email = email
         self.location = location
         self.localeIdentifier = localeIdentifier
+        self.creationDate = creationDate
     }
     
     init(myUser: MyUser) {
@@ -53,7 +55,7 @@ struct LocalMyUser: MyUser, UserDefaultsDecodable {
         self.init(objectId: myUser.objectId, name: myUser.name, avatar: myUser.avatar, accounts: localAccounts,
                   ratingAverage: myUser.ratingAverage, ratingCount: myUser.ratingCount, status: myUser.status,
                   phone: myUser.phone, type: myUser.type, email: myUser.email, location: myUser.location,
-                  localeIdentifier: myUser.localeIdentifier)
+                  localeIdentifier: myUser.localeIdentifier, creationDate: myUser.creationDate)
     }
 }
 
@@ -106,10 +108,14 @@ extension LocalMyUser {
             type = userType
         }
 
+        let creationDateString = dictionary[keys.creationDate] as? String
+        let creationDate = Date.userCreationDateFrom(string: creationDateString)
+
         let localeIdentifier = dictionary[keys.localeIdentifier] as? String
         return self.init(objectId: objectId, name: name, avatar: avatar,
                          accounts: accounts, ratingAverage: ratingAverage, ratingCount: ratingCount, status: status,
-                         phone: phone, type: type, email: email, location: location, localeIdentifier: localeIdentifier)
+                         phone: phone, type: type, email: email, location: location, localeIdentifier: localeIdentifier,
+                         creationDate: creationDate)
     }
 
     func encode() -> [String: Any] {
@@ -136,7 +142,7 @@ extension LocalMyUser {
         dictionary[keys.localeIdentifier] = localeIdentifier
         dictionary[keys.phone] = phone
         dictionary[keys.type] = type.rawValue
-        
+        dictionary[keys.creationDate] = Date.userCreationStringFrom(date: creationDate)
         return dictionary
     }
     
@@ -161,5 +167,6 @@ extension LocalMyUser {
         let localeIdentifier = "localeIdentifier"
         let phone = "phone"
         let type = "type"
+        let creationDate = "creationDate"
     }
 }
