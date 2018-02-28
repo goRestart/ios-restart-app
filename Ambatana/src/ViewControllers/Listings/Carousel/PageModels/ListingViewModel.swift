@@ -43,22 +43,15 @@ class ListingViewModel: BaseViewModel {
         func makeListingDeckSnapshot(listingViewModel: ListingViewModel) -> ListingDeckSnapshotType {
             return makeListingDeckSnapshot(listing: listingViewModel.listing.value,
                                            isFavorite: listingViewModel.isFavorite.value,
-                                           isFeatured: listingViewModel.isShowingFeaturedStripe.value)
+                                           isFeatured: listingViewModel.isShowingFeaturedStripe.value,
+                                           socialMessage: listingViewModel.socialMessage.value)
         }
 
         func makeListingDeckSnapshot(listing: Listing) -> ListingDeckSnapshotType {
             return makeListingDeckSnapshot(listing: listing,
                                            isFavorite: false,
                                            isFeatured: false,
-                                           myUserRepository: Core.myUserRepository,
-                                           featureFlags: FeatureFlags.sharedInstance,
-                                           countryHelper: Core.countryHelper)
-        }
-
-        private func makeListingDeckSnapshot(listing: Listing, isFavorite: Bool, isFeatured: Bool) -> ListingDeckSnapshotType {
-            return makeListingDeckSnapshot(listing: listing,
-                                           isFavorite: isFavorite,
-                                           isFeatured: isFeatured,
+                                           socialMessage: nil,
                                            myUserRepository: Core.myUserRepository,
                                            featureFlags: FeatureFlags.sharedInstance,
                                            countryHelper: Core.countryHelper)
@@ -67,6 +60,20 @@ class ListingViewModel: BaseViewModel {
         private func makeListingDeckSnapshot(listing: Listing,
                                              isFavorite: Bool,
                                              isFeatured: Bool,
+                                             socialMessage: SocialMessage?) -> ListingDeckSnapshotType {
+            return makeListingDeckSnapshot(listing: listing,
+                                           isFavorite: isFavorite,
+                                           isFeatured: isFeatured,
+                                           socialMessage: socialMessage,
+                                           myUserRepository: Core.myUserRepository,
+                                           featureFlags: FeatureFlags.sharedInstance,
+                                           countryHelper: Core.countryHelper)
+        }
+
+        private func makeListingDeckSnapshot(listing: Listing,
+                                             isFavorite: Bool,
+                                             isFeatured: Bool,
+                                             socialMessage: SocialMessage?,
                                  myUserRepository: MyUserRepository,
                                  featureFlags: FeatureFlags,
                                  countryHelper: CountryHelper) -> ListingDeckSnapshotType {
@@ -91,7 +98,7 @@ class ListingViewModel: BaseViewModel {
                                        stats: nil,
                                        postedDate: nil,
                                        socialSharer: SocialSharer(),
-                                       socialMessage: ListingSocialMessage(listing: listing, fallbackToStore: false))
+                                       socialMessage: socialMessage)
         }
 
         func make(listing: Listing, visitSource source: EventParameterListingVisitSource) -> ListingViewModel {
@@ -130,10 +137,17 @@ class ListingViewModel: BaseViewModel {
     var isMine: Bool {
         return listing.value.isMine(myUserRepository: myUserRepository)
     }
-    lazy var isProfessional = Variable<Bool>(false)
-    lazy var phoneNumber = Variable<String?>(nil)
-    lazy var isFavorite = Variable<Bool>(false)
-    lazy var listingStats = Variable<ListingStats?>(nil)
+
+    let isProfessional = Variable<Bool>(false)
+    let phoneNumber = Variable<String?>(nil)
+    let isFavorite = Variable<Bool>(false)
+    let listingStats = Variable<ListingStats?>(nil)
+    private var myUserId: String? {
+        return myUserRepository.myUser?.objectId
+    }
+    private var myUserName: String? {
+        return myUserRepository.myUser?.name
+    }
 
     lazy var socialMessage = Variable<SocialMessage?>(nil)
     let socialSharer: SocialSharer
@@ -423,8 +437,14 @@ class ListingViewModel: BaseViewModel {
             strongSelf.isShowingFeaturedStripe.value = strongSelf.showFeaturedStripeHelper.shouldShowFeaturedStripeFor(listing: listing) && !strongSelf.status.value.shouldShowStatus
 
             strongSelf.productIsFavoriteable.value = !isMine
-            strongSelf.socialMessage.value = ListingSocialMessage(listing: listing, fallbackToStore: false)
-            strongSelf.freeBumpUpShareMessage = ListingSocialMessage(listing: listing, fallbackToStore: true)
+            strongSelf.socialMessage.value = ListingSocialMessage(listing: listing,
+                                                                  fallbackToStore: false,
+                                                                  myUserId: strongSelf.myUserId,
+                                                                  myUserName: strongSelf.myUserName)
+            strongSelf.freeBumpUpShareMessage = ListingSocialMessage(listing: listing,
+                                                                     fallbackToStore: true,
+                                                                     myUserId: strongSelf.myUserId,
+                                                                     myUserName: strongSelf.myUserName)
             strongSelf.productImageURLs.value = listing.images.flatMap { return $0.fileURL }
 
             let productInfo = ListingVMProductInfo(listing: listing,
@@ -663,9 +683,7 @@ extension ListingViewModel {
     func shareProduct() {
         guard let socialMessage = socialMessage.value else { return }
         guard let viewController = delegate?.vmShareViewControllerAndItem().0 else { return }
-        let barButtonItem = delegate?.vmShareViewControllerAndItem().1
-        socialSharer.share(socialMessage, shareType: .native(restricted: false),
-                           viewController: viewController, barButtonItem: barButtonItem)
+        socialSharer.share(socialMessage, shareType: .native(restricted: false), viewController: viewController)
     }
 
     func chatWithSeller() {
@@ -899,7 +917,10 @@ extension ListingViewModel {
     }
 
     private var socialShareMessage: SocialMessage {
-        return ListingSocialMessage(listing: listing.value, fallbackToStore: false)
+        return ListingSocialMessage(listing: listing.value,
+                                    fallbackToStore: false,
+                                    myUserId: myUserId,
+                                    myUserName: myUserName)
     }
 
     private var suggestMarkSoldWhenDeleting: Bool {

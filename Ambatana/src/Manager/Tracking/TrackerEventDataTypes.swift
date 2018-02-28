@@ -259,6 +259,7 @@ enum EventParameterName: String {
     case alertType            = "alert-type"
     case permissionGoToSettings = "permission-go-to-settings"
     case negotiablePrice      = "negotiable-price"
+    case firmPrice            = "firm-price"
     case pictureSource        = "picture-source"
     case editedFields         = "edited-fields"
     case newsletter           = "newsletter"
@@ -768,6 +769,7 @@ enum EventParameterEditedFields: String {
     case make = "make"
     case model = "model"
     case year = "year"
+    case firmPrice = "firm-price"
 }
 
 enum EventParameterTypePage: String {

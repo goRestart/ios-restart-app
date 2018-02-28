@@ -237,6 +237,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         } else {
             setupAfterLayout(backgroundImage: nil, activeAnimator: false)
         }
+        productStatusView.setRoundedCorners()
     }
 
     /*
@@ -341,7 +342,6 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         view.addConstraints([fullAvatarTop, fullAvatarLeft])
         userView.showShadow(false)
 
-        productStatusView.rounded = true
         productStatusLabel.textColor = UIColor.soldColor
         productStatusLabel.font = UIFont.productStatusSoldFont
 

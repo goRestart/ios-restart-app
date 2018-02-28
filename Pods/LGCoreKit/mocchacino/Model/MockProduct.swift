@@ -38,6 +38,7 @@ extension MockProduct {
                   user: product.user,
                   updatedAt: product.updatedAt,
                   createdAt: product.createdAt,
-                  featured: product.featured)
+                  featured: product.featured
+                  )
     }
 }

@@ -50,7 +50,7 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
     private func setupUI() {
         multipleSelectionCountLabel.text = nil
         multipleSelectionCountLabel.layer.borderWidth = 2
-        multipleSelectionCountLabel.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        multipleSelectionCountLabel.cornerRadius = LGUIKitConstants.mediumCornerRadius
         multipleSelectionCountLabel.layer.borderColor = UIColor.white.cgColor
     }
 
@@ -63,6 +63,6 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
         disabled = false
 
         contentView.clipsToBounds = true
-        contentView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        contentView.cornerRadius = LGUIKitConstants.mediumCornerRadius
     }
 }

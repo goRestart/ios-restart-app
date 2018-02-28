@@ -103,6 +103,15 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
     func onConversionDataRequestFailure(_ error: Error!) {
         logMessage(.error, type: [.deepLink], message: "App install conversion failed")
     }
+    
+    func onAppOpenAttribution(_ attributionData: [AnyHashable : Any]!) {
+        guard let deeplink = AppsFlyerDeepLink.buildFromAttributionData(attributionData) else { return }
+        deepLinksSignal.onNext(deeplink)
+    }
+    
+    func onAppOpenAttributionFailure(_ error: Error!) {
+        logMessage(.error, type: [.deepLink], message: "App opening from AppsFlyer link failed")
+    }
 
     // MARK: > Shortcut actions (force touch)
 
@@ -229,5 +238,4 @@ class LGDeepLinksRouter: NSObject, DeepLinksRouter {
         }
         return nil
     }
-
 }

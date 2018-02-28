@@ -18,7 +18,7 @@ class UIRoundedLabelWithPadding: UILabel {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-        layer.cornerRadius = rect.height/2
+        cornerRadius = rect.height/2
     }
     
     override func drawText(in rect: CGRect) {

@@ -37,6 +37,12 @@ class UserRatingTagCell: UICollectionViewCell {
         super.prepareForReuse()
         self.resetUI()
     }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        guard UserRatingTagCell.style.applyCornerRadius else { return }
+        contentView.setRoundedCorners()
+    }
 }
 
 
@@ -68,7 +74,6 @@ fileprivate extension UserRatingTagCell {
             contentView.layer.borderColor = UIColor.primaryColor.cgColor
             contentView.layer.borderWidth = 1
         }
-        contentView.rounded = UserRatingTagCell.style.applyCornerRadius
         contentView.layer.backgroundColor = UserRatingTagCell.style.backgroundColor.cgColor
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false

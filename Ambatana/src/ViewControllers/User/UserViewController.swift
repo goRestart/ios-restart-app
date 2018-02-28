@@ -177,7 +177,7 @@ class UserViewController: BaseViewController {
         super.viewDidLayoutSubviews()
         listingListView.minimumContentHeight = listingListView.collectionView.frame.height - headerCollapsedHeight
         
-        averageRatingView.rounded = true
+        averageRatingView.setRoundedCorners()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -236,7 +236,13 @@ extension UserViewController: UserViewModelDelegate {
     }
 
     func vmShowNativeShare(_ socialMessage: SocialMessage) {
-        socialSharer.share(socialMessage, shareType: .native(restricted: false), viewController: self, barButtonItem: navigationItem.rightBarButtonItems?.first)
+        socialSharer.share(socialMessage,
+                           shareType: .native(restricted: false),
+                           viewController: self)
+    }
+    
+    func vmDiscardedProductShowOptions(actions: [UIAction]) {
+        showActionSheet(LGLocalizedString.commonCancel, actions: actions)
     }
 }
 
@@ -337,7 +343,7 @@ extension UserViewController {
             averageRatingContainerViewHeight.constant = UserViewController.ratingAverageContainerHeightVisible
             averageRatingView.setupRatingContainer(rating: rating)
             averageRatingView.superview?.layoutIfNeeded()
-            averageRatingView.rounded = true
+            averageRatingView.setRoundedCorners()
         } else {
             averageRatingContainerViewHeight.constant = 0
         }

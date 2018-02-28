@@ -51,16 +51,20 @@ class BumpUpPayViewController: BaseViewController {
         }
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        infoContainer.cornerRadius = LGUIKitConstants.bigCornerRadius
+        imageContainer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+    }
+
     // MARK: - Private methods
 
     func setupUI() {
 
         viewTitleLabel.text = LGLocalizedString.bumpUpBannerPayTextImprovement
-        infoContainer.cornerRadius = LGUIKitConstants.bigCornerRadius
         infoContainer.layer.masksToBounds = false
         infoContainer.applyShadow(withOpacity: 0.05, radius: 5)
 
-        imageContainer.cornerRadius = LGUIKitConstants.mediumCornerRadius
         imageContainer.clipsToBounds = true
         imageContainer.layer.masksToBounds = false
         imageContainer.applyShadow(withOpacity: 0.25, radius: 5)
@@ -78,9 +82,9 @@ class BumpUpPayViewController: BaseViewController {
             imageContainer.isHidden = true
         }
 
-        listingImageView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        listingImageView.cornerRadius = LGUIKitConstants.mediumCornerRadius
         cellBottomContainer.clipsToBounds = true
-        cellBottomContainer.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        cellBottomContainer.cornerRadius = LGUIKitConstants.mediumCornerRadius
         titleLabel.text = LGLocalizedString.bumpUpViewPayTitle
         subtitleLabel.text = LGLocalizedString.bumpUpViewPaySubtitle
 

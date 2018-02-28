@@ -694,8 +694,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Telefon numarasını gir";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "İletişime geçtiğin için teşekkürler. Lütfen bizi ara veya numaranı ekle biz seni arayalım.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Telefon numaranı eklediğin için teşekkürler! Yukarıdaki arama düğmesini kullanarak bizi her zaman arayabilirsin.";
-"profile_bio_add_button" = "Add your bio";
-"profile_bio_show_more_button" = "MORE ABOUT ME";
+"profile_bio_add_button" = "Biyografini ekle";
+"profile_bio_show_more_button" = "HAKKIMDA DAHA FAZLA BİLGİ";
 "profile_blocked_by_me_label" = "Bu kullanıcıyı engelledin";
 "profile_blocked_by_me_label_w_name" = "%@ isimli kullanıcıyı engelledin";
 "profile_blocked_by_other_label" = "Bu kullanıcı tarafından engellendin";

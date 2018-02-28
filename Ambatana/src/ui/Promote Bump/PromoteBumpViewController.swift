@@ -47,7 +47,7 @@ class PromoteBumpViewController: BaseViewController {
     private func setupUI() {
 
         view.backgroundColor = UIColor.clear
-        alertView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
+        alertView.cornerRadius = LGUIKitConstants.bigCornerRadius
         alertView.backgroundColor = UIColor.white
 
         titleLabel.text = viewModel?.titleText

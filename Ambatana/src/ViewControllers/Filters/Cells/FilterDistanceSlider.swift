@@ -108,7 +108,7 @@ class FilterDistanceSlider: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layout(with: self).fill()
         
-        tipTopBackground.layer.cornerRadius = floor(tipTopBackground.frame.size.height / 2)
+        tipTopBackground.setRoundedCorners()
         slider.maximumValue = Float(positions.count-1)
         slider.minimumValue = 0.0
         

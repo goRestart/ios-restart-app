@@ -53,6 +53,14 @@ class EnvironmentProxy: AppEnvironment {
     var appsFlyerAPIKey: String {
         return environment.appsFlyerAPIKey
     }
+    
+    var oneLinkHost: String {
+        return environment.oneLinkHost
+    }
+    
+    var oneLinkID: String {
+        return environment.oneLinkID
+    }
 
     var amplitudeAPIKey: String {
         return environment.amplitudeAPIKey
