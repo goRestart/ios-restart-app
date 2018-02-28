@@ -109,6 +109,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
             guard let model = viewModel.snapshotModelAt(index: indexPath.row) else { return cell }
             cell.isUserInteractionEnabled = indexPath.row == listingDeckView.currentPage
             cell.populateWith(model, imageDownloader: viewModel.imageDownloader)
+            cell.delegate = self
             return cell
         }
         return UICollectionViewCell()
@@ -118,7 +119,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         guard let cell = listingDeckView.currentPageCell else { return }
         let currentPage = listingDeckView.currentPage
         binder.bind(cell: cell)
-        cell.delegate = self
         cell.isUserInteractionEnabled = true
 
         guard let listing = viewModel.listingCellModelAt(index: currentPage) else { return }
