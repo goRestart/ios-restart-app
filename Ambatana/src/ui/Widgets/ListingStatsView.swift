@@ -13,6 +13,27 @@ class ListingStatsView: UIView {
     enum Style {
         case light, dark
 
+        var favIcon: UIImage {
+            switch self {
+            case .light: return #imageLiteral(resourceName: "ic_stats_favorite").withRenderingMode(.alwaysTemplate)
+            case .dark: return #imageLiteral(resourceName: "ic_stats_favorite")
+            }
+        }
+        var statsIcon: UIImage {
+            switch self {
+            case .light: return  #imageLiteral(resourceName: "ic_stats_views").withRenderingMode(.alwaysTemplate)
+            case .dark: return  #imageLiteral(resourceName: "ic_stats_views")
+            }
+        }
+        var timeIcon: UIImage {
+            switch self {
+            case .light: return  #imageLiteral(resourceName: "ic_stats_time").withRenderingMode(.alwaysTemplate)
+            case .dark: return   #imageLiteral(resourceName: "ic_stats_time")
+            }
+        }
+        var timePostedBorderWidth: CGFloat { return self == .light ? 0 : 1 }
+
+
         var iconTint: UIColor {
             switch self {
             case .light:
@@ -23,7 +44,7 @@ class ListingStatsView: UIView {
         var statBackground: UIColor {
             switch self {
             case .light:
-                return UIColor.grayBackground
+                return UIColor.black.withAlphaComponent(0.05)
             case .dark: return UIColor.black.withAlphaComponent(0.5)
             }
         }
@@ -87,27 +108,26 @@ class ListingStatsView: UIView {
         viewsStatsWidthConstraint.constant = 0
         
         timePostedWidthConstraint.constant = 0
-
-        favouriteIcon.image = #imageLiteral(resourceName: "ic_stats_favorite").withRenderingMode(.alwaysTemplate)
-        statsIcon.image = #imageLiteral(resourceName: "ic_stats_views").withRenderingMode(.alwaysTemplate)
+        updateStyle()
     }
 
     private func updateStyle() {
         favouriteIcon.tintColor = style.iconTint
+        favouriteStatsLabel.textColor = style.iconTint
         favouriteStatsView.backgroundColor = style.statBackground
+        favouriteIcon.image = style.favIcon
 
         statsIcon.tintColor = style.iconTint
+        viewsStatsLabel.textColor = style.iconTint
         viewsStatsView.backgroundColor = style.statBackground
+        statsIcon.image = style.statsIcon
 
         timePostedIcon.tintColor = style.iconTint
         timePostedView.backgroundColor = style.statBackground
-
-        favouriteStatsLabel.textColor = style.iconTint
-        viewsStatsLabel.textColor = style.iconTint
+        timePostedView.layer.borderWidth = style.timePostedBorderWidth
     }
 
     func updateStatsWithInfo(_ viewsCount: Int, favouritesCount: Int, postedDate: Date?) {
-
         favouriteStatsWidthConstraint.constant = favouritesCount < Constants.minimumStatsCountToShow ? 0 : statsViewMaxWidth
         statsSeparationConstraint.constant = favouritesCount < Constants.minimumStatsCountToShow ? 0 : statsSeparationWidth
         viewsStatsWidthConstraint.constant = viewsCount < Constants.minimumStatsCountToShow ? 0 : statsViewMaxWidth
@@ -131,15 +151,15 @@ class ListingStatsView: UIView {
         timePostedWidthConstraint.constant = timeViewMinWidth
         timePostedLabel.text = postedDate.relativeTimeString(true)
 
+        timePostedView.layer.borderWidth = style.timePostedBorderWidth
+        timePostedView.backgroundColor = style.statBackground
+
         if postedDate.isFromLast24h() {
             timePostedIcon.image = UIImage(named: "ic_new_stripe")
-            timePostedView.backgroundColor = UIColor.white
             timePostedLabel.textColor = UIColor.primaryColor
         } else {
-            timePostedIcon.image = #imageLiteral(resourceName: "ic_stats_time").withRenderingMode(.alwaysTemplate)
+            timePostedIcon.image = style.timeIcon
             timePostedIcon.tintColor = style.iconTint
-            timePostedView.backgroundColor = style.statBackground
-
             timePostedLabel.textColor = style.iconTint
         }
         timePostedView.layer.add(CATransition(), forKey: kCATransition)

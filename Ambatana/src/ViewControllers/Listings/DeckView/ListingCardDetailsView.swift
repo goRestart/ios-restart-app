@@ -91,16 +91,20 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     }
 
     func populateWith(listingStats: ListingStats?, postedDate: Date?) {
-        guard let stats = listingStats else { return }
+        guard let stats = listingStats else {
+            statsView.alpha = 0
+            return
+        }
         guard  stats.viewsCount >= Constants.minimumStatsCountToShow
             || stats.favouritesCount >= Constants.minimumStatsCountToShow
             || postedDate != nil else {
-                disableStatsView()
+                statsView.alpha = 0
                 return
         }
         statsView.updateStatsWithInfo(stats.viewsCount,
                                       favouritesCount: stats.viewsCount,
                                       postedDate: postedDate)
+        UIView.animate(withDuration: 0.3) { self.statsView.alpha = 1 }
         setNeedsLayout()
     }
 
@@ -114,9 +118,9 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         setNeedsLayout()
     }
 
-    func disableStatsView() {
-        locationToStats?.isActive = false
-        locationToDetail?.isActive = true
+    func setStatsViewActive(_ active: Bool) {
+        locationToStats?.isActive = active
+        locationToDetail?.isActive = !active
         setNeedsLayout()
     }
 
