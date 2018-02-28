@@ -13,10 +13,17 @@ import RxSwift
 
 final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewType {
     struct Layout {
-        struct Height { static let previewFactor: CGFloat = 0.7 }
+        struct Height {
+            static let previewFactor: CGFloat = 0.7
+            static let maximumCard: CGFloat = 560
+        }
     }
 
+    private var collectionViewTop: NSLayoutConstraint? = nil
+    private let topInsetView = UIView()
     let collectionView: UICollectionView
+    private let bottomInsetView = UIView()
+
     var currentPageCell: ListingCardView? { return collectionView.cellForItem(at: IndexPath(item: collectionLayout.page,
                                                                                             section: 0)) as? ListingCardView }
     let rxCollectionView: Reactive<UICollectionView>
@@ -29,7 +36,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     private var quickChatTopToCollectionBotton: NSLayoutConstraint?
     private var dismissTap: UITapGestureRecognizer?
     
-    private var collectionViewTop: NSLayoutConstraint? = nil
     let itemActionsView = ListingDeckActionView()
     private let collectionLayout = ListingDeckCollectionViewLayout()
 
@@ -93,11 +99,29 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     }
 
     private func setupCollectionView() {
-        addSubview(collectionView)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.layout(with: self).leading().trailing()
-        collectionViewTop = collectionView.topAnchor.constraint(equalTo: topAnchor)
-        collectionViewTop?.isActive = true
+        addSubviewsForAutoLayout([topInsetView, bottomInsetView, collectionView])
+        let topInsetConstraint = topInsetView.topAnchor.constraint(equalTo: topAnchor)
+        NSLayoutConstraint.activate([
+            topInsetConstraint,
+            topInsetView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            topInsetView.trailingAnchor.constraint(equalTo: trailingAnchor),
+
+            collectionView.topAnchor.constraint(equalTo: topInsetView.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionView.heightAnchor.constraint(lessThanOrEqualToConstant: Layout.Height.maximumCard),
+
+            bottomInsetView.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
+            bottomInsetView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bottomInsetView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bottomInsetView.heightAnchor.constraint(equalTo: topInsetView.heightAnchor)
+        ])
+        collectionViewTop = topInsetConstraint
+
+        topInsetView.isUserInteractionEnabled = false
+        topInsetView.alpha = 0
+        bottomInsetView.isUserInteractionEnabled = false
+        bottomInsetView.alpha = 0
 
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.decelerationRate = 0
@@ -111,7 +135,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         addSubview(itemActionsView)
         itemActionsView.translatesAutoresizingMaskIntoConstraints = false
 
-        let collectionBottom = itemActionsView.topAnchor.constraint(equalTo: collectionView.bottomAnchor)
+        let collectionBottom = itemActionsView.topAnchor.constraint(equalTo: bottomInsetView.bottomAnchor)
         collectionBottom.priority = .required - 1
         collectionBottom.isActive = true
         itemActionsView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
@@ -132,8 +156,8 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         quickChatView.layout(with: self).fill()
 
         let directTop = quickChatView.directAnswersViewTopAnchor
-        quickChatTopToCollectionBotton = collectionView.bottomAnchor.constraint(equalTo: directTop,
-                                                                                constant: -Metrics.margin)
+        quickChatTopToCollectionBotton = bottomInsetView.bottomAnchor.constraint(equalTo: directTop,
+                                                                                 constant: -Metrics.margin)
 
         focusOnCollectionView()
     }
