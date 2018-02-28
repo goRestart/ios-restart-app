@@ -77,7 +77,7 @@ class LGNavBarSearchField: UIView {
     
     private func setupContentView() {
         containerView.backgroundColor = UIColor.black.withAlphaComponent(0.07)
-        containerView.layer.cornerRadius = searchTextField.frame.height/2
+        containerView.setRoundedCorners()
     }
 
     private func setupTextField() {

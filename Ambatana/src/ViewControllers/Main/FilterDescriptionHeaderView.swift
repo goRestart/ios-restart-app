@@ -46,13 +46,17 @@ class FilterDescriptionHeaderView: UIView {
     private func setupUI() {
         backgroundColor = UIColor.grayBackground.withAlphaComponent(0.95)
         backgroundView.backgroundColor = UIColor.grayLighter
-        backgroundView.cornerRadius = 10
-        
+
         label.font = UIFont.mediumBodyFont
         label.textColor = UIColor.darkGrayText
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        backgroundView.cornerRadius = 10
     }
     
     private func setupLayout() {

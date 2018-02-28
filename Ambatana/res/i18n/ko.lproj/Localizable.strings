@@ -182,7 +182,7 @@
 "chat_stickers_tooltip_new" = "새로운!";
 "chat_unblock_user" = "사용자 차단 해제하기";
 "chat_user_info_name" = "안녕하세요 저는 %@ 입니다";
-"chat_user_info_verified_with" = "다음 항목으로 확인: ";
+"chat_user_info_verified_with" = "다음 항목으로 확인하기: ";
 "chat_user_rating_button_tooltip" = "이 유저에게 리뷰 남기기";
 "chat_verify_alert_ok_button" = "예";
 "chat_verify_alert_title" = "채팅을 위해 이메일 확인";
@@ -295,6 +295,9 @@
 "direct_answers_hide" = "자주 대답하는 목록 숨기기";
 "direct_answers_show" = "자주 대답하는 목록 보이기";
 "discarded" = "삭제됨";
+"discarded_products_delete" = "삭제";
+"discarded_products_delete_confirmation" = "이 상품 목록을 삭제할까요?";
+"discarded_products_edit" = "수정";
 "discarded_products_reason_duplicated" = "중복 게시글";
 "discarded_products_reason_good_manners" = "가장 적절한 예를 따르고 있지 않습니다";
 "discarded_products_reason_non_realistic_price" = "비현실적인 가격";
@@ -691,6 +694,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "전화 번호 입력";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "연락 방법을 검색해주셔서 대단히 감사합니다! 저희에게 전화를 하거나 전화번호를 남겨주시면 연락드리도록 하겠습니다";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "전화번호를 추가해주셔서 감사합니다! 상단의 전화 버튼을 이용하여 저희에게 전화주시는 것이 낫습니다.";
+"profile_bio_add_button" = "Add your bio";
+"profile_bio_show_more_button" = "MORE ABOUT ME";
 "profile_blocked_by_me_label" = "회원님께서는 이 사용자를 차단하셨습니다";
 "profile_blocked_by_me_label_w_name" = "회원님은 %@를 차단하셨습니다";
 "profile_blocked_by_other_label" = "이 사용자에 의해 차단되셨습니다";
@@ -706,6 +711,7 @@
 "profile_permissions_alert_title" = "대답하는 것을 잊지 마세요!";
 "profile_permissions_header_message" = "메세지 알림 활성화";
 "profile_reviews_count" = "리뷰";
+"profile_reviews_tab" = "리뷰";
 "profile_selling_no_products_label" = "상품 목록이 없습니다 (아직이에요!)";
 "profile_selling_other_user_no_products_button" = "계속 검색하기";
 "profile_selling_products_tab" = "판매중";
@@ -713,6 +719,7 @@
 "profile_sold_other_no_products_button" = "계속 검색하기";
 "profile_sold_products_tab" = "품절";
 "profile_verified_accounts_other_user" = "다음 항목으로 확인하기:";
+"profile_verified_accounts_title" = "다음 항목으로 확인하기:";
 "profile_verify_email_button" = "이메일 발송";
 "profile_verify_email_message_present" = "\"이메일 보내기\"를 클릭하면 새 본인인증 링크가%@로 발송됩니다";
 "profile_verify_email_success" = "계정을 인증하기 위해 수신함을 확인해주세요. 이 링크는 48시간 이내에 만료됩니다.";
@@ -797,7 +804,7 @@
 "real_estate_rooms_studio" = "스튜디오 (1+0)";
 "real_estate_rooms_title" = "방 개수";
 "real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_placeholder" = "Add";
+"real_estate_size_square_meters_placeholder" = "추가";
 "real_estate_size_square_meters_title" = "사이즈";
 "real_estate_summary_bathroom_title" = "욕실";
 "real_estate_summary_bathrooms_empty" = "욕실 숫자 추가하기";

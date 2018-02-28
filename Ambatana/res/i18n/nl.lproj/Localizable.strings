@@ -295,6 +295,9 @@
 "direct_answers_hide" = "Verberg Snelle Antwoorden";
 "direct_answers_show" = "Toon Snelle Antwoorden";
 "discarded" = "Verwijderd";
+"discarded_products_delete" = "Verwijderen";
+"discarded_products_delete_confirmation" = "Weet je zeker dat je deze advertentie wilt verwijderen?";
+"discarded_products_edit" = "Bewerken";
 "discarded_products_reason_duplicated" = "Duplicaat advertentie";
 "discarded_products_reason_good_manners" = "Voldoet niet aan Best Practices";
 "discarded_products_reason_non_realistic_price" = "Onrealistische prijs";
@@ -691,6 +694,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Voer telefoonnummer in";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Bedankt voor het contact opnemen! Je kunt ons bellen of laat je nummer achter zodat wij jou kunnen bellen.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Bedankt voor het toevoegen van je telefoonnummer! Het is altijd beter om ons te bellen via de bovenstaande belknop.";
+"profile_bio_add_button" = "Add your bio";
+"profile_bio_show_more_button" = "MORE ABOUT ME";
 "profile_blocked_by_me_label" = "Je hebt deze gebruiker geblokkeerd";
 "profile_blocked_by_me_label_w_name" = "Je hebt %@ geblokkeerd";
 "profile_blocked_by_other_label" = "Je bent geblokkeerd door deze gebruiker";
@@ -706,6 +711,7 @@
 "profile_permissions_alert_title" = "MIS GEEN ENKELE REACTIE!";
 "profile_permissions_header_message" = "Bericht meldingen inschakelen";
 "profile_reviews_count" = "Beoordelingen";
+"profile_reviews_tab" = "Beoordelingen";
 "profile_selling_no_products_label" = "(NOG!) GEEN ADVERTENTIES";
 "profile_selling_other_user_no_products_button" = "Blijf browsen";
 "profile_selling_products_tab" = "Verkopen";
@@ -713,6 +719,7 @@
 "profile_sold_other_no_products_button" = "Blijf browsen";
 "profile_sold_products_tab" = "Verkocht";
 "profile_verified_accounts_other_user" = "GEVERIFIEERD MET:";
+"profile_verified_accounts_title" = "GEVERIFIEERD MET";
 "profile_verify_email_button" = "E-mail Verzenden";
 "profile_verify_email_message_present" = "Tik op \"E-mail Verzenden\" om een nieuwe verificatie-link te verzenden naar %@";
 "profile_verify_email_success" = "Controleer je e-mail inbox om je account te verifiëren. De link zal over 48 uur verlopen.";
@@ -797,7 +804,7 @@
 "real_estate_rooms_studio" = "Studio (1+0)";
 "real_estate_rooms_title" = "Aantal kamers";
 "real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_placeholder" = "Add";
+"real_estate_size_square_meters_placeholder" = "Toevoegen";
 "real_estate_size_square_meters_title" = "Grootte";
 "real_estate_summary_bathroom_title" = "badkamer";
 "real_estate_summary_bathrooms_empty" = "Aantal badkamers toevoegen";

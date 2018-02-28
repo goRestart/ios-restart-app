@@ -71,6 +71,13 @@ class AppShareViewController: UIViewController {
         trackShown()
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        inviteFBMessengerBtn.setRoundedCorners()
+        inviteWhatsappBtn.setRoundedCorners()
+        inviteEmailBtn.setRoundedCorners()
+    }
+
 
     // MARK: - Actions
 
@@ -104,15 +111,11 @@ class AppShareViewController: UIViewController {
     // MARK: - Private methods
 
     private func setupUI() {
-        contentContainer.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
+        contentContainer.cornerRadius = LGUIKitConstants.bigCornerRadius
 
         inviteFBMessengerBtn.setTitle(LGLocalizedString.appShareFbmessengerButton, for: .normal)
         inviteWhatsappBtn.setTitle(LGLocalizedString.appShareWhatsappButton, for: .normal)
         inviteEmailBtn.setTitle(LGLocalizedString.appShareEmailButton, for: .normal)
-
-        inviteFBMessengerBtn.rounded = true
-        inviteWhatsappBtn.rounded = true
-        inviteEmailBtn.rounded = true
         
         if !SocialSharer.canShareIn(.fbMessenger) {
             inviteFBMessengerHeight.constant = 0

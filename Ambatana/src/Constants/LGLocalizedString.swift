@@ -1223,6 +1223,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("discarded_products_reason_stock_photo_only", comment: "")
 	}
 
+	static var discardedProductsEdit: String {
+		return NSLocalizedString("discarded_products_edit", comment: "")
+	}
+
+	static var discardedProductsDelete: String {
+		return NSLocalizedString("discarded_products_delete", comment: "")
+	}
+
+	static var discardedProductsDeleteConfirmation: String {
+		return NSLocalizedString("discarded_products_delete_confirmation", comment: "")
+	}
+
 	static var editProductLocationAlertText: String {
 		return NSLocalizedString("edit_product_location_alert_text", comment: "")
 	}
@@ -2827,6 +2839,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("professional_dealer_ask_phone_alert_not_valid_phone", comment: "")
 	}
 
+	static var profileBioAddButton: String {
+		return NSLocalizedString("profile_bio_add_button", comment: "")
+	}
+
+	static var profileBioShowMoreButton: String {
+		return NSLocalizedString("profile_bio_show_more_button", comment: "")
+	}
+
 	static var profileBlockedByMeLabel: String {
 		return NSLocalizedString("profile_blocked_by_me_label", comment: "")
 	}
@@ -2871,6 +2891,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_permissions_header_message", comment: "")
 	}
 
+	static var profileReviewsTab: String {
+		return NSLocalizedString("profile_reviews_tab", comment: "")
+	}
+
 	static var profileReviewsCount: String {
 		return NSLocalizedString("profile_reviews_count", comment: "")
 	}
@@ -2901,6 +2925,10 @@ struct LGLocalizedString {
 
 	static var profileVerifiedAccountsOtherUser: String {
 		return NSLocalizedString("profile_verified_accounts_other_user", comment: "")
+	}
+
+	static var profileVerifiedAccountsTitle: String {
+		return NSLocalizedString("profile_verified_accounts_title", comment: "")
 	}
 
 	static var profileVerifyEmailButton: String {

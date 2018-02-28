@@ -80,6 +80,10 @@ class LGViewPagerTabItem: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        infoBadge.setRoundedCorners()
+    }
 
     // MARK: - Private methods
 
@@ -90,7 +94,6 @@ class LGViewPagerTabItem: UIButton {
 
         indicator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(indicator)
-        infoBadge.layer.cornerRadius = LGViewPagerTabItem.infoBadgeDiameter / 2
         infoBadge.translatesAutoresizingMaskIntoConstraints = false
         infoBadge.backgroundColor = LGViewPagerTabItem.defaultInfoBadgeColor
         addSubview(infoBadge)

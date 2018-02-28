@@ -60,6 +60,11 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         super.prepareForReuse()
         resetUI()
     }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        background.cornerRadius = LGUIKitConstants.mediumCornerRadius
+    }
     
     func setupUI() {
         selectionStyle = .none
@@ -91,7 +96,6 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
     private func setupBackground() {
         background.backgroundColor = UIColor.white
         contentView.addSubview(background)
-        background.cornerRadius = LGUIKitConstants.mediumCornerRadius
         background.layout(with: contentView)
             .top(to: .topMargin).left(to: .leftMargin).right(to: .rightMargin).bottom(to: .bottomMargin)
 
@@ -284,10 +288,10 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         switch shape {
             case .square:
                 placeholderImage = UIImage(named: "notificationBasicImageSquarePlaceholder")
-                basicImage.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+                basicImage.cornerRadius = LGUIKitConstants.mediumCornerRadius
             case .circle:
                 placeholderImage = UIImage(named: "notificationBasicImageRoundPlaceholder")
-                basicImage.layer.cornerRadius = Metrics.modularNotificationBasicImageSize/2
+                basicImage.cornerRadius = Metrics.modularNotificationBasicImageSize/2
         }
         basicImage.lg_setImageWithURL(url, placeholderImage: placeholderImage) {
             [weak self] (result, urlResult) in
@@ -332,10 +336,10 @@ class ModularNotificationCell: UITableViewCell, ReusableCell {
         var placeholderImage: UIImage?
         switch shape {
             case .square:
-                thumbnailImageView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+                thumbnailImageView.cornerRadius = LGUIKitConstants.mediumCornerRadius
                 placeholderImage = UIImage(named: "notificationThumbnailSquarePlaceholder")
             case .circle:
-                thumbnailImageView.layer.cornerRadius = Metrics.modularNotificationThumbnailSize/2
+                thumbnailImageView.cornerRadius = Metrics.modularNotificationThumbnailSize/2
                 placeholderImage = UIImage(named: "notificationThumbnailCirclePlaceholder")
             }
         thumbnailImageView.isHidden = false

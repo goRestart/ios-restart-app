@@ -116,7 +116,7 @@ class LGEmptyView: UIView {
 
         contentView.layer.borderColor = UIColor.lineGray.cgColor
         contentView.layer.borderWidth = LGEmptyView.contentBorderWith
-        contentView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
+        contentView.cornerRadius = LGUIKitConstants.bigCornerRadius
         contentView.backgroundColor = UIColor.white
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)

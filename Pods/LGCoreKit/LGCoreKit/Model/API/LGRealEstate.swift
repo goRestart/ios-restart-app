@@ -143,7 +143,7 @@ struct LGRealEstate: RealEstate, Decodable {
                      postalAddress: PostalAddress,
                      languageCode: String?,
                      category: Int,
-                     status: Int,
+                     status: ListingStatus,
                      thumbnail: String?,
                      thumbnailSize: LGSize?,
                      images: [LGFile],
@@ -153,7 +153,6 @@ struct LGRealEstate: RealEstate, Decodable {
         
         let actualCurrency = Currency.currencyWithCode(currency)
         let actualCategory = ListingCategory(rawValue: category) ?? .other
-        let actualStatus = ListingStatus(rawValue: status) ?? .pending
         let actualThumbnail = LGFile(id: nil, urlString: thumbnail)
         let actualImages = images.flatMap { $0 as File }
         let listingPrice = ListingPrice.fromPrice(price, andFlag: priceFlag)
@@ -170,7 +169,7 @@ struct LGRealEstate: RealEstate, Decodable {
                          postalAddress: postalAddress,
                          languageCode: languageCode,
                          category: actualCategory,
-                         status: actualStatus,
+                         status: status,
                          thumbnail: actualThumbnail,
                          thumbnailSize: thumbnailSize,
                          images: actualImages,
@@ -355,8 +354,10 @@ struct LGRealEstate: RealEstate, Decodable {
         let categoryRawValue = try keyedContainer.decode(Int.self, forKey: .categoryId)
         category = ListingCategory(rawValue: categoryRawValue) ?? .realEstate
         
-        let statusRawValue = try keyedContainer.decode(Int.self, forKey: .status)
-        status = ListingStatus(rawValue: statusRawValue) ?? .pending
+        let code = try keyedContainer.decode(Int.self, forKey: .status)
+        let statusCode = ListingStatusCode(rawValue: code) ?? .approved
+        let discardedReason = try keyedContainer.decodeIfPresent(DiscardedReason.self, forKey: .discardedReason)
+        status = ListingStatus(statusCode: statusCode, discardedReason: discardedReason) ?? .pending
         
         let thumbnailKeyedContainer = try keyedContainer.nestedContainer(keyedBy: ThumbnailCodingKeys.self, forKey: .thumbnail)
         let thumbnailUrl = try thumbnailKeyedContainer.decodeIfPresent(String.self, forKey: .url)
@@ -387,7 +388,7 @@ struct LGRealEstate: RealEstate, Decodable {
                              banned: nil,
                              status: nil)
         featured = try keyedContainer.decodeIfPresent(Bool.self, forKey: .featured)
-        
+
         realEstateAttributes = (try keyedContainer.decodeIfPresent(RealEstateAttributes.self, forKey: .realEstateAttributes))
             ?? RealEstateAttributes.emptyRealEstateAttributes()
     }
@@ -409,6 +410,7 @@ struct LGRealEstate: RealEstate, Decodable {
         case images = "images"
         case user = "owner"
         case featured = "featured"
+        case discardedReason = "rejectedReason"
         case realEstateAttributes = "realEstateAttributes"
     }
     

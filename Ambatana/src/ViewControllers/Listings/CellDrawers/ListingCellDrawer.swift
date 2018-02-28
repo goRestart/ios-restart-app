@@ -29,6 +29,11 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
         } else if model.isFree {
             cell.setupFreeStripe()
         }
+        if FeatureFlags.sharedInstance.discardedProducts.isActive {
+            let isDiscarded = model.listing?.status.isDiscarded ?? false
+            let isAllowedToBeEdited = model.listing?.status.discardedReason?.isAllowedToBeEdited ?? false
+            cell.show(isDiscarded: isDiscarded && isAllowedToBeEdited, reason: model.listing?.status.discardedReason?.message)
+        }
     }
 
     func willDisplay(_ model: ListingData, inCell cell: ListingCell) {

@@ -182,7 +182,7 @@
 "chat_stickers_tooltip_new" = "NY!";
 "chat_unblock_user" = "Avblockera användare";
 "chat_user_info_name" = "Hej, jag heter %@";
-"chat_user_info_verified_with" = "Bekräftad med: ";
+"chat_user_info_verified_with" = "Verifierad med: ";
 "chat_user_rating_button_tooltip" = "Bedöm denna användare";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_title" = "Bekräfta din e-postadress för att chatta";
@@ -295,6 +295,9 @@
 "direct_answers_hide" = "Göm Snabba Svar";
 "direct_answers_show" = "Visa Snabba Svar";
 "discarded" = "Avvisad";
+"discarded_products_delete" = "Radera";
+"discarded_products_delete_confirmation" = "Är du säker på att du vill radera denna annons?";
+"discarded_products_edit" = "Redigera";
 "discarded_products_reason_duplicated" = "Dubblett";
 "discarded_products_reason_good_manners" = "Bryter mot våra riktlinjer";
 "discarded_products_reason_non_realistic_price" = "Orimligt pris";
@@ -691,6 +694,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Ange telefonnummer";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Tack för att du kontaktat oss! Vänligen ring oss eller lägg till ditt nummer så vi kan ringa upp dig.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Tack för att du lämnat ditt telefonnummer! Det är alltid bättre att slå oss en signal med hjälp av ringknappen ovan.";
+"profile_bio_add_button" = "Add your bio";
+"profile_bio_show_more_button" = "MORE ABOUT ME";
 "profile_blocked_by_me_label" = "Den här användaren har blockerats av dig";
 "profile_blocked_by_me_label_w_name" = "%@ har blockerats av dig";
 "profile_blocked_by_other_label" = "Denna användare har blockerat dig";
@@ -706,6 +711,7 @@
 "profile_permissions_alert_title" = "MISSA INGA SVAR!";
 "profile_permissions_header_message" = "Tillåt meddelandenotifieringar";
 "profile_reviews_count" = "Omdömen";
+"profile_reviews_tab" = "Omdömen";
 "profile_selling_no_products_label" = "INGA ANNONSER (ÄN!)";
 "profile_selling_other_user_no_products_button" = "Surfa vidare";
 "profile_selling_products_tab" = "Säljer";
@@ -713,6 +719,7 @@
 "profile_sold_other_no_products_button" = "Surfa vidare";
 "profile_sold_products_tab" = "Såld";
 "profile_verified_accounts_other_user" = "VERIFIERAD MED:";
+"profile_verified_accounts_title" = "VERIFIERAD MED";
 "profile_verify_email_button" = "Skicka mejl";
 "profile_verify_email_message_present" = "Klicka \"Skicka mejl\" för att skicka en ny verifieringslänk till %@";
 "profile_verify_email_success" = "Kolla vårt mejl i din inkorg för att verifiera ditt konto. Länken är giltig i 48h.";
@@ -797,7 +804,7 @@
 "real_estate_rooms_studio" = "Studio (1+0)";
 "real_estate_rooms_title" = "Antal rum";
 "real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_placeholder" = "Add";
+"real_estate_size_square_meters_placeholder" = "Lägg till";
 "real_estate_size_square_meters_title" = "Yta";
 "real_estate_summary_bathroom_title" = "badrum";
 "real_estate_summary_bathrooms_empty" = "Lägg till antal badrum";

@@ -14,7 +14,7 @@ open class MockNotificationsRepository: NotificationsRepository {
 
     // MARK: - NotificationsRepository
 
-    public func index(_ completion: NotificationsCompletion?) {
+    public func index(allowEditDiscarded: Bool, completion: NotificationsCompletion?) {
         delay(result: indexResult, completion: completion)
     }
 

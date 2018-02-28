@@ -266,7 +266,7 @@ extension TextViewController: UITextViewDelegate {
         textView.delegate = self
         textView.layer.borderWidth = LGUIKitConstants.onePixelSize
         textView.layer.borderColor = UIColor.lineGray.cgColor
-        textView.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
+        textView.cornerRadius = LGUIKitConstants.smallCornerRadius
 
         sendButton.setTitleColor(UIColor.red, for: .normal)
         sendButton.setTitle("Send", for: .normal)

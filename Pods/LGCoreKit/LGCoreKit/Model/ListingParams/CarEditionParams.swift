@@ -42,7 +42,8 @@ public class CarEditionParams: CarCreationParams {
                         nameAuto: listing.nameAuto, descr: listing.descr, price: listing.price, currency: listing.currency,
                         location: listing.location, postalAddress: listing.postalAddress, languageCode: listing.languageCode,
                         category: .cars, status: listing.status, thumbnail: listing.thumbnail, thumbnailSize: listing.thumbnailSize,
-                        images: listing.images, user: listing.user, featured: listing.featured, carAttributes: listing.car?.carAttributes)
+                        images: listing.images, user: listing.user, featured: listing.featured,
+                        carAttributes: listing.car?.carAttributes)
         return car
     }
 }

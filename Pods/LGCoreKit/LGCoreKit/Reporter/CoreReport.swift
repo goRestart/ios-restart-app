@@ -121,3 +121,113 @@ enum CoreReportRepository: Int, ReportType {
         return rawValue
     }
 }
+
+// 500000..<600000
+enum CoreReportDataSource: ReportType {
+    case parsing(entity: Entity)
+    
+    enum Entity: Int {
+        case place = 1
+        case places
+        case placeDetails
+        case carMakes
+        case chatUnreadMessages
+        case installation
+        case ipLookup
+        case listing
+        case listings
+        case product
+        case car
+        case realEstate
+        case userListingRelation
+        case listingStats
+        case userListings
+        case transaction
+        case transactions
+        case bumpeableListing
+        case myUser
+        case notifications
+        case searchSuggestion
+        case suggestiveSearch
+        case stickers
+        case taxonomies
+        case user
+        case users
+        case userRelation
+        case userRating
+        case userRatings
+
+        
+        var type: Any.Type {
+            switch self {
+            case .place, .placeDetails:
+                return Place.self
+            case .places:
+                return [Place].self
+            case .carMakes:
+                return [ApiCarsMake].self
+            case .chatUnreadMessages:
+                return ChatUnreadMessages.self
+            case .installation:
+                return LGInstallationAPI.self
+            case .ipLookup:
+                return LGLocationCoordinates2D.self
+            case .listing:
+                return Listing.self
+            case .listings:
+                return [Listing].self
+            case .product:
+                return LGProduct.self
+            case .car:
+                return LGCar.self
+            case .realEstate:
+                return LGRealEstate.self
+            case .userListingRelation:
+                return LGUserListingRelation.self
+            case .listingStats:
+                return LGListingStats.self
+            case .userListings:
+                return [LGUserListing].self
+            case .transaction:
+                return LGTransaction.self
+            case .transactions:
+                return [LGTransaction].self
+            case .bumpeableListing:
+                return [LGBumpeableListing].self
+            case .myUser:
+                return LGMyUser.self
+            case .notifications:
+                return [LGNotification].self
+            case .searchSuggestion:
+                return [String].self
+            case .suggestiveSearch:
+                return [SuggestiveSearch].self
+            case .stickers:
+                return [LGSticker].self
+            case .taxonomies:
+                return [LGTaxonomy].self
+            case .user:
+                return LGUser.self
+            case .users:
+                return [LGUser].self
+            case .userRelation:
+                return LGUserUserRelation.self
+            case .userRating:
+                return LGUserRating.self
+            case .userRatings:
+                return [LGUserRating].self
+            }
+        }
+    }
+    
+    var domain: String {
+        return coreDomain
+    }
+    var code: Int {
+        let baseCode = 500000
+        switch self {
+        case .parsing(let entity):
+            return baseCode + entity.rawValue
+        }
+    }
+}

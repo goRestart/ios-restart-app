@@ -354,7 +354,7 @@ extension UserViewHeader {
 
     private func updateAvatarRatingsContainerView() {
         let height = avatarRatingsContainerView.bounds.height
-        avatarRatingsContainerView.layer.cornerRadius = height / 2
+        avatarRatingsContainerView.setRoundedCorners()
     }
 
     private func updateUserAvatarView() {
@@ -418,7 +418,7 @@ extension UserViewHeader {
                                                           right: inset+UserViewHeader.buildTrustButtonTitleInset)
         buildTrustButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: UserViewHeader.buildTrustButtonTitleInset,
                                                         bottom: 0, right: -UserViewHeader.buildTrustButtonTitleInset)
-        buildTrustButton.layer.cornerRadius = buildTrustButtonHeight.constant / 2
+        buildTrustButton.cornerRadius = buildTrustButtonHeight.constant / 2
         buildTrustButton.setImage(UIImage(named: big ? "ic_build_trust" : "ic_build_trust_small"), for: .normal)
     }
 }

@@ -58,12 +58,9 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     // MARK: - Setup UI
     
     private func setupUI() {
-        
-        cornerRadius = LGSearchMapConstants.cornerRadius
-        
         searchField.insetX = 40
         searchField.placeholder = LGLocalizedString.changeLocationSearchFieldHint
-        searchField.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        searchField.cornerRadius = LGUIKitConstants.mediumCornerRadius
         searchField.layer.borderColor = UIColor.lineGray.cgColor
         searchField.layer.borderWidth = LGUIKitConstants.onePixelSize
         searchField.delegate = self
@@ -79,7 +76,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         
         searchIcon.image = #imageLiteral(resourceName: "list_search")
         
-        suggestionsTableView.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
+        suggestionsTableView.cornerRadius = LGUIKitConstants.smallCornerRadius
         suggestionsTableView.layer.borderColor = UIColor.lineGray.cgColor
         suggestionsTableView.layer.borderWidth = LGUIKitConstants.onePixelSize
         suggestionsTableView.delegate = self
@@ -87,7 +84,7 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
         suggestionsTableView.register(UITableViewCell.self,
                                       forCellReuseIdentifier: LGSearchMapConstants.suggestionCellId)
         
-        gpsLocationButton.layer.cornerRadius = 10
+        gpsLocationButton.cornerRadius = 10
         gpsLocationButton.setImage(UIImage(named:"map_user_location_button"), for: .normal)
         gpsLocationButton.addTarget(self, action: #selector(LGSearchMap.gpsButtonPressed), for: .touchUpInside)
         
@@ -123,7 +120,8 @@ class LGSearchMap: UIView, MKMapViewDelegate, LGSearchMapViewModelDelegate, UITa
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        aproxLocationArea.layer.cornerRadius = aproxLocationArea.frame.width/2
+        aproxLocationArea.setRoundedCorners()
+        cornerRadius = LGSearchMapConstants.cornerRadius
     }
     
     private func setupRx() {

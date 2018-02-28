@@ -34,7 +34,7 @@ class ReportUserCell: UICollectionViewCell, ReusableCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        reportSelected.layer.cornerRadius = reportSelected.width/2
+        reportSelected.setRoundedCorners()
     }
 
     private func resetUI() {

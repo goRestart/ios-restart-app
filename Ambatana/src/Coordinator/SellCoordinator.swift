@@ -272,7 +272,7 @@ extension SellCoordinator: ListingPostedNavigator {
         dismissViewController(animated: true) { [weak self] in
             guard let parentVC = self?.parentViewController else { return }
 
-            let navigator = EditListingCoordinator(listing: listing)
+            let navigator = EditListingCoordinator(listing: listing, pageType: nil)
             navigator.delegate = self
             self?.openChild(coordinator: navigator, parent: parentVC, animated: true,
                             forceCloseChild: false, completion: nil)

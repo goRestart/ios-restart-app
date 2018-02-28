@@ -56,7 +56,7 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
         backgroundColor = UIColor.clear
         corneredView.backgroundColor = UIColor.lgBlack
     
-        corneredView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        corneredView.cornerRadius = LGUIKitConstants.mediumCornerRadius
 
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.textColor = UIColor.white
@@ -66,7 +66,7 @@ class MostSearchedItemsListingListCell: UICollectionViewCell, ReusableCell {
         titleLabel.minimumScaleFactor = 0.2
         
         actionBackgroundView.backgroundColor = UIColor.grayDark
-        actionBackgroundView.layer.cornerRadius = 15
+        actionBackgroundView.cornerRadius = 15
 
         actionLabel.font = UIFont.systemMediumFont(size: 14)
         actionLabel.textColor = UIColor.white

@@ -170,8 +170,12 @@ class FilterTagCell: UICollectionViewCell {
     private func setupUI() {
         contentView.layer.borderColor = UIColor.lineGray.cgColor
         contentView.layer.borderWidth = LGUIKitConstants.onePixelSize
-        contentView.rounded = true
         contentView.layer.backgroundColor = UIColor.white.cgColor
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.setRoundedCorners()
     }
     
     private func resetUI() {
