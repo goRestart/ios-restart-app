@@ -51,49 +51,57 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
 
     private var detailNumberOfLines = DetailNumberOfLines(current: 3, next: 0)
 
-    private let binder = ListingCardDetailsViewBinder()
+    private lazy var binder = ListingCardDetailsViewBinder()
 
     convenience init() {
         self.init(frame: .zero)
         setupUI()
-        binder.detailsView = self
     }
 
     // MARK: PopulateView
 
-    func populateWithViewModel(_ viewModel: ListingCardDetailsViewModel) {
-        binder.bind(to:viewModel)
+    func populateWith(productInfo: ListingVMProductInfo?, listingStats: ListingStats?,
+                      postedDate: Date?, socialSharer: SocialSharer, socialMessage: SocialMessage?) {
+        populateWith(productInfo: productInfo)
+        populateWith(socialSharer: socialSharer)
+        populateWith(socialMessage: socialMessage)
+        populateWith(listingStats: listingStats, postedDate: postedDate)
     }
 
-    func populateWith(productInfo: ListingVMProductInfo) {
-        if let location = productInfo.location {
+    func populateWithViewModel(_ viewModel: ListingCardDetailsViewModel) {
+        binder.detailsView = self
+        binder.bind(to:viewModel)
+        setNeedsLayout()
+    }
+
+    func populateWith(productInfo: ListingVMProductInfo?) {
+        guard let info = productInfo else { return }
+        if let location = info.location {
             let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             let center = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
 
             let region = MKCoordinateRegion(center: center, span: span)
             detailMapView.setRegion(region, size: CGSize(width: 300, height: 500))
         }
-        titleLabel.text = productInfo.title
-        priceLabel.text = productInfo.price
-        detailLabel.attributedText = productInfo.description
-        detailMapView.setLocationName(productInfo.address)
-        invalidateIntrinsicContentSize()
-        layoutIfNeeded()
+        titleLabel.text = info.title
+        priceLabel.text = info.price
+        detailLabel.attributedText = info.description
+        detailMapView.setLocationName(info.address)
+        setNeedsLayout()
     }
 
-    func populateWith(listingStats: ListingStats, postedDate: Date?) {
-        guard  listingStats.viewsCount >= Constants.minimumStatsCountToShow
-            || listingStats.favouritesCount >= Constants.minimumStatsCountToShow
+    func populateWith(listingStats: ListingStats?, postedDate: Date?) {
+        guard let stats = listingStats else { return }
+        guard  stats.viewsCount >= Constants.minimumStatsCountToShow
+            || stats.favouritesCount >= Constants.minimumStatsCountToShow
             || postedDate != nil else {
-
                 disableStatsView()
                 return
         }
-        statsView.updateStatsWithInfo(listingStats.viewsCount,
-                                      favouritesCount: listingStats.viewsCount,
+        statsView.updateStatsWithInfo(stats.viewsCount,
+                                      favouritesCount: stats.viewsCount,
                                       postedDate: postedDate)
-        invalidateIntrinsicContentSize()
-        layoutIfNeeded()
+        setNeedsLayout()
     }
 
     func populateWith(socialSharer: SocialSharer) {
@@ -103,15 +111,13 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     func populateWith(socialMessage: SocialMessage?) {
         socialShareView.socialMessage = socialMessage
         enableSocialView(socialMessage != nil)
-        invalidateIntrinsicContentSize()
-        layoutIfNeeded()
+        setNeedsLayout()
     }
 
     func disableStatsView() {
         locationToStats?.isActive = false
         locationToDetail?.isActive = true
-        invalidateIntrinsicContentSize()
-        layoutIfNeeded()
+        setNeedsLayout()
     }
 
     private func enableSocialView(_ enabled: Bool) {
@@ -119,8 +125,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         socialMediaHeader.isHidden = !enabled
         mapSnapShotToBottom?.isActive = !enabled
         mapSnapShotToSocialView?.isActive = enabled
-        invalidateIntrinsicContentSize()
-        layoutIfNeeded()
+        setNeedsLayout()
     }
 
     // MARK: SetupView
@@ -262,6 +267,8 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
                                                     constant: -2*Metrics.margin).isActive = true
             socialShareView.setupBackgroundColor(.white)
             socialShareView.delegate = self
+            socialShareView.style = .grid
+            socialShareView.gridColumns = 4
         }
 
         setupSocialMediaHeader()
@@ -273,8 +280,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         detailNumberOfLines = detailNumberOfLines.toggle()
         detailLabel.numberOfLines = detailNumberOfLines.current
 
-        invalidateIntrinsicContentSize()
-        layoutIfNeeded()
+        setNeedsLayout()
     }
 
     // MARK: - SocialShareViewDelegate

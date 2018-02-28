@@ -73,42 +73,52 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     override func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()
-
-        deactivateFullMap()
         previewImageView.image = nil
     }
 
-    func populateWith(listingViewModel: ListingCardViewCellModel, imageDownloader: ImageDownloaderType) {
+    func populateWith(cellModel listingViewModel: ListingCardViewCellModel, imageDownloader: ImageDownloaderType) {
         self.imageDownloader = imageDownloader
-        detailsView.populateWithViewModel(listingViewModel)
         binder.bind(withViewModel: listingViewModel)
+        populateWith(details: listingViewModel)
     }
 
-    func populateWith(userInfo: ListingVMUserInfo) {
-        userView.populate(withUserName: userInfo.name, icon: userInfo.avatar,
-                          imageDownloader: ImageDownloader.sharedInstance)
+    func populateWith(_ listingSnapshot: ListingDeckSnapshotType, imageDownloader: ImageDownloaderType) {
+        self.imageDownloader = imageDownloader
+        populateWith(preview: listingSnapshot.preview, imageCount: listingSnapshot.imageCount)
+        populateWith(status: listingSnapshot.status, featured: listingSnapshot.isFeatured)
+        populateWith(userInfo: listingSnapshot.userInfo)
+        detailsView.populateWith(productInfo: listingSnapshot.productInfo, listingStats: listingSnapshot.stats,
+                                 postedDate: listingSnapshot.postedDate, socialSharer: listingSnapshot.socialSharer,
+                                 socialMessage: listingSnapshot.socialMessage)
     }
 
-    func populateWith(imagesURLs: [URL]) {
-        update(pageCount: imagesURLs.count)
-        guard let url = imagesURLs.first else { return }
-        let cache = imageDownloader?.cachedImageForUrl(url)
-        guard cache == nil else {
-            previewImageView.image = cache
-            return
-        }
-        _ = imageDownloader?.downloadImageWithURL(url) { [weak self] (result, url) in
+    func populateWith(details listingViewModel: ListingCardViewCellModel) {
+        detailsView.populateWithViewModel(listingViewModel)
+    }
+
+    func populateWith(userInfo: ListingVMUserInfo?) {
+        guard let info = userInfo else { return }
+        userView.populate(withUserName: info.name, icon: info.avatar, imageDownloader: ImageDownloader.sharedInstance)
+    }
+
+    func populateWith(preview: URL?, imageCount: Int) {
+        update(pageCount: imageCount)
+        guard let previewURL = preview else { return }
+        _ = imageDownloader?.downloadImageWithURL(previewURL) { [weak self] (result, url) in
             if let value = result.value {
-                self?.previewImageView.image = value.image
+                DispatchQueue.main.async {
+                    self?.previewImageView.image = value.image
+                    self?.previewImageView.setNeedsDisplay()
+                }
             }
         }
-        update(pageCount: imagesURLs.count)
     }
 
-    func populateWith(status: ListingViewModelStatus, featured: Bool) {
+    func populateWith(status: ListingViewModelStatus?, featured: Bool) {
+        guard let listingStatus = status else { return }
         statusTapGesture?.isEnabled = featured
-        statusView.isHidden = status.string == nil
-        statusView.setFeaturedStatus(status, featured: featured)
+        statusView.isHidden = listingStatus.string == nil
+        statusView.setFeaturedStatus(listingStatus, featured: featured)
     }
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -166,9 +176,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         setupWhiteGradient()
 
         backgroundColor = .clear
+        contentView.clipsToBounds = true
         contentView.backgroundColor = .white
-
-
     }
 
     private func setupWhiteGradient() {
@@ -298,7 +307,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
-        contentView.setRoundedCorners([.allCorners], cornerRadius: Metrics.margin)
+        contentView.layer.cornerRadius = Metrics.margin
         applyShadow(withOpacity: 0.3, radius: Metrics.margin, color: #colorLiteral(red: 0.7803921569, green: 0.8078431373, blue: 0.7803921569, alpha: 1).cgColor)
         layer.shadowOffset = CGSize(width: 0, height: 0.5)
     }

@@ -11,10 +11,10 @@ import RxSwift
 import LGCoreKit
 
 final class ListingDeckViewModelBinder {
-    weak var viewModel: ListingDeckViewModel? = nil
+    weak var viewModel: ListingDeckViewModelType? = nil
     var disposeBag: DisposeBag = DisposeBag()
 
-    func bind(to currentVM: ListingCardViewCellModel, quickChatViewModel: QuickChatViewModel) {
+    func bind(to currentVM: ListingCardViewCellModel, quickChatViewModel: QuickChatViewModelRx) {
         guard let theOneViewModel = viewModel else { return }
         self.disposeBag = DisposeBag()
 
@@ -28,7 +28,7 @@ final class ListingDeckViewModelBinder {
         currentVM.cardBumpUpBannerInfo.bind(to: theOneViewModel.bumpUpBannerInfo).disposed(by: disposeBag)
     }
 
-    private func bind(listingViewModel currentVM: ListingCardViewCellModel, quickChatViewModel: QuickChatViewModel) {
+    private func bind(listingViewModel currentVM: ListingCardViewCellModel, quickChatViewModel: QuickChatViewModelRx) {
         quickChatViewModel.quickAnswers.value = currentVM.cardQuickAnswers
         currentVM.cardDirectChatEnabled.bind(to: quickChatViewModel.chatEnabled).disposed(by: disposeBag)
 

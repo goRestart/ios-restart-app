@@ -22,12 +22,20 @@ protocol QuickChatViewType: class {
 
 protocol QuickChatViewModelRx: class {
     var areAnswersDynamic: Bool { get }
+    var directChatPlaceholder: Variable<String> { get }
     var rxDirectChatPlaceholder: Observable<String> { get }
+
+    var quickAnswers: Variable<[[QuickAnswer]]> { get }
     var rxQuickAnswers: Observable<[[QuickAnswer]]> { get }
+
+    var chatEnabled: Variable<Bool> { get }
     var rxIsChatEnabled: Observable<Bool> { get }
+
+    var directChatMessages: CollectionVariable<ChatViewMessage> { get }
     var rxDirectMessages: Observable<CollectionChange<ChatViewMessage>> { get }
 
     func send(directMessage: String, isDefaultText: Bool)
+    func performCollectionChange(change: CollectionChange<ChatViewMessage>)
 }
 
 final class QuickChatViewBinder {

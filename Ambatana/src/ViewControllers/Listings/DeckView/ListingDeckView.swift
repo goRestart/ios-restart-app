@@ -17,6 +17,8 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     }
 
     let collectionView: UICollectionView
+    var currentPageCell: ListingCardView? { return collectionView.cellForItem(at: IndexPath(item: collectionLayout.page,
+                                                                                            section: 0)) as? ListingCardView }
     let rxCollectionView: Reactive<UICollectionView>
     var chatEnabled: Bool = false {
         didSet {
@@ -87,6 +89,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         setupCollectionView()
         setupPrivateActionsView()
         focusOnCollectionView()
+        if #available(iOS 10.0, *) { collectionView.isPrefetchingEnabled = true }
     }
 
     private func setupCollectionView() {

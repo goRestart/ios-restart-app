@@ -13,29 +13,37 @@ struct ListingVMUserInfo {
     let userId: String?
     let name: String
     let avatar: URL?
-    let avatarPlaceholder: UIImage?
-    
+
+    private let ownerIsMyUser: Bool
+    private let ownerUsername: String?
+    private let ownerId: String?
+
+    func avatarPlaceholder() -> UIImage? {
+        if ownerIsMyUser {
+            return LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor, name: ownerUsername)
+        } else {
+            return LetgoAvatar.avatarWithID(ownerId, name: ownerUsername)
+        }
+    }
+
+
     init(userListing: UserListing, myUser: MyUser?) {
-        let ownerId = userListing.objectId
+        self.ownerId = userListing.objectId
         self.userId = ownerId
-        let ownerIsMyUser: Bool
+
         if let productUserId = userListing.objectId, let myUser = myUser, let myUserId = myUser.objectId {
             ownerIsMyUser = (productUserId == myUserId )
         } else {
             ownerIsMyUser = false
         }
+
         let myUsername = myUser?.shortName
         let ownerUsername = userListing.shortName
-        self.name = ownerIsMyUser ? (myUsername ?? ownerUsername ?? "") : (ownerUsername ?? "")
         let myAvatarURL = myUser?.avatar?.fileURL
         let ownerAvatarURL = userListing.avatar?.fileURL
         self.avatar = ownerIsMyUser ? (myAvatarURL ?? ownerAvatarURL) : ownerAvatarURL
-
-        if ownerIsMyUser {
-            self.avatarPlaceholder = LetgoAvatar.avatarWithColor(UIColor.defaultAvatarColor,
-                                                                      name: ownerUsername)
-        } else {
-            self.avatarPlaceholder = LetgoAvatar.avatarWithID(ownerId, name: ownerUsername)
-        }
+        self.name = ownerIsMyUser ? (myUsername ?? ownerUsername ?? "") : (ownerUsername ?? "")
+        self.ownerUsername = ownerUsername
     }
+
 }

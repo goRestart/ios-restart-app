@@ -18,23 +18,19 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
 
     override func spec() {
         var sut: ListingDeckViewModelBinder!
+        var listingDeckViewModel: ListingDeckViewModelType!
         var listing: Listing!
 
         var listingViewModelMaker: MockListingViewModelMaker!
-        var listingListRequester: MockListingListRequester!
-        var imageDownloader: MockImageDownloader!
-        var listingDeckViewModel: ListingDeckViewModel!
 
         var scheduler: TestScheduler!
         var disposeBag: DisposeBag!
 
         var actionButtonsObserver: TestableObserver<[UIAction]>!
-
         var quickAnswersObserver: TestableObserver<[[QuickAnswer]]>!
         var chatEnabled: TestableObserver<Bool>!
         var directChatPlaceholderObserver: TestableObserver<String>!
         var bumpUpBannerInfoObserver: TestableObserver<BumpUpInfo?>!
-
 
         describe("ListingDeckViewModelBinderSpec") {
             beforeEach {
@@ -54,45 +50,34 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                                                                   monetizationRepository: MockMonetizationRepository(),
                                                                   tracker: MockTracker(),
                                                                   keyValueStorage: MockKeyValueStorage())
-                listingListRequester = MockListingListRequester(canRetrieve: true, offset: 0, pageSize: 20)
-                imageDownloader = MockImageDownloader()
 
-                let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
-                let prefetching = Prefetching(previousCount: 1, nextCount: 3)
-                let myUserRepo = MockMyUserRepository.makeMock()
-
-                listingDeckViewModel = ListingDeckViewModel(listModels: nil,
-                                                            initialListing: listing,
-                                                            listingListRequester: listingListRequester,
-                                                            detailNavigator: self,
-                                                            source: .listingList,
-                                                            imageDownloader: imageDownloader,
-                                                            listingViewModelMaker: listingViewModelMaker,
-                                                            myUserRepository: myUserRepo,
-                                                            pagination: pagination,
-                                                            prefetching: prefetching,
-                                                            shouldSyncFirstListing: false,
-                                                            binder: sut)
-
+                listingDeckViewModel = MockListingDeckViewModelType()
 
                 scheduler = TestScheduler(initialClock: 0)
                 scheduler.start()
 
-                actionButtonsObserver = scheduler.createObserver(Array<UIAction>.self)
-
-                quickAnswersObserver = scheduler.createObserver(Array<Array<QuickAnswer>>.self)
-                chatEnabled = scheduler.createObserver(Bool.self)
+                actionButtonsObserver = scheduler.createObserver([UIAction].self)
+                quickAnswersObserver = scheduler.createObserver([[QuickAnswer]].self)
                 directChatPlaceholderObserver = scheduler.createObserver(String.self)
-                bumpUpBannerInfoObserver = scheduler.createObserver(Optional<BumpUpInfo>.self)
+                chatEnabled = scheduler.createObserver(Bool.self)
+                bumpUpBannerInfoObserver = scheduler.createObserver(BumpUpInfo?.self)
 
                 disposeBag = DisposeBag()
-                listingDeckViewModel.actionButtons.asObservable().skip(1).bind(to:actionButtonsObserver).disposed(by:disposeBag)
-                listingDeckViewModel.quickChatViewModel.quickAnswers.asObservable().skip(1).bind(to:quickAnswersObserver).disposed(by:disposeBag)
-                listingDeckViewModel.quickChatViewModel.chatEnabled.asObservable().skip(1).bind(to:chatEnabled).disposed(by:disposeBag)
-                listingDeckViewModel.quickChatViewModel.directChatPlaceholder.asObservable().skip(1).bind(to:directChatPlaceholderObserver).disposed(by:disposeBag)
-                listingDeckViewModel.bumpUpBannerInfo.asObservable().skip(1).bind(to:bumpUpBannerInfoObserver).disposed(by:disposeBag)
+                listingDeckViewModel.actionButtons.asObservable()
+                    .observeOn(MainScheduler.instance)
+                    .bind(to:actionButtonsObserver).disposed(by:disposeBag)
+                listingDeckViewModel.quickChatViewModel.quickAnswers.asObservable()
+                    .bind(to:quickAnswersObserver).disposed(by:disposeBag)
+                listingDeckViewModel.quickChatViewModel.chatEnabled.asObservable()
+                    .bind(to:chatEnabled).disposed(by:disposeBag)
+                listingDeckViewModel.quickChatViewModel.directChatPlaceholder.asObservable()
+                    .bind(to:directChatPlaceholderObserver).disposed(by:disposeBag)
+                listingDeckViewModel.bumpUpBannerInfo.asObservable()
+                    .bind(to:bumpUpBannerInfoObserver).disposed(by:disposeBag)
 
-                listingDeckViewModel.moveToProductAtIndex(0, movement: .initial)
+                sut.viewModel = listingDeckViewModel
+                sut.bind(to: listingViewModelMaker.make(listing: listing, visitSource: .listingList),
+                         quickChatViewModel: MockQuickChatViewModelRx())
             }
 
             afterEach {
@@ -102,23 +87,23 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
 
             context("after moving to the current viewmodel") {
                 it("actionButtonsObserver changed") {
-                    expect(actionButtonsObserver.eventValues.count) > 0
+                    expect(actionButtonsObserver.eventValues.count).toEventually(beGreaterThan(0))
                 }
 
                 it("quickAnswersObserver changed") {
-                    expect(quickAnswersObserver.eventValues.count) > 0
+                    expect(quickAnswersObserver.eventValues.count).toEventually(beGreaterThan(0))
                 }
 
                 it("chatEnabled changed") {
-                    expect(chatEnabled.eventValues.count) > 0
+                    expect(chatEnabled.eventValues.count).toEventually(beGreaterThan(0))
                 }
 
                 it("directChatPlaceholderObserver changed") {
-                    expect(directChatPlaceholderObserver.eventValues.count) > 0
+                    expect(directChatPlaceholderObserver.eventValues.count).toEventually(beGreaterThan(0))
                 }
                 
                 it("bumpUpBannerInfoObserver changed") {
-                    expect(bumpUpBannerInfoObserver.eventValues.count) > 0
+                    expect(bumpUpBannerInfoObserver.eventValues.count).toEventually(beGreaterThan(0))
                 }
             }
         }

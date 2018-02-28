@@ -199,10 +199,6 @@ private class MockListingCardDetailsView: ListingCardDetailsViewType {
         isPopulateWithListingStatsCalled = 0
     }
 
-    func populateWith(productInfo: ListingVMProductInfo) {
-        isPopulateWithProductInfoCalled += 1
-    }
-
     func populateWith(socialSharer: SocialSharer) {
         isPopulateWithSocialSharerCalled += 1
     }
@@ -210,10 +206,13 @@ private class MockListingCardDetailsView: ListingCardDetailsViewType {
     func populateWith(socialMessage: SocialMessage?) {
         isPopulateWithSocialMessageCalled += 1
     }
-
-    func populateWith(listingStats: ListingStats, postedDate: Date?) {
-        isPopulateWithListingStatsCalled += 1
+    
+    func populateWith(productInfo: ListingVMProductInfo?) {
+        isPopulateWithProductInfoCalled += 1
     }
 
+    func populateWith(listingStats: ListingStats?, postedDate: Date?) {
+        isPopulateWithListingStatsCalled += 1
+    }
 }
 

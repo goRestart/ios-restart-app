@@ -141,7 +141,10 @@ fileprivate extension QuickChatViewModelRx {
     func resetVariables() {}
 }
 
-private class MockQuickChatViewModelRx: QuickChatViewModelRx {
+final class MockQuickChatViewModelRx: QuickChatViewModelRx {
+    func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
+        performCollectionChangeCalled += 1
+    }
 
     func send(directMessage: String, isDefaultText: Bool) {
         sendCalled += 1
@@ -149,9 +152,11 @@ private class MockQuickChatViewModelRx: QuickChatViewModelRx {
 
     func resetVariables() {
         sendCalled = 0
+        performCollectionChangeCalled = 0
     }
 
     var sendCalled: Int = 0
+    var performCollectionChangeCalled: Int = 0
 
     var areAnswersDynamic: Bool = true
     var rxDirectChatPlaceholder: Observable<String> { return directChatPlaceholder.asObservable() }

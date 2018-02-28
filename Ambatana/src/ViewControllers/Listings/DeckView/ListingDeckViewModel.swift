@@ -216,6 +216,7 @@ final class ListingDeckViewModel: BaseViewModel {
         quickChatViewModel.listingViewModel = currentListingViewModel
         
         currentIndex = index
+        prefetchViewModels(index, movement: movement)
         prefetchNeighborsImages(index, movement: movement)
 
         // Tracking
@@ -242,6 +243,14 @@ final class ListingDeckViewModel: BaseViewModel {
     func listingCellModelAt(index: Int) -> ListingCardViewCellModel? {
         guard 0..<objectCount ~= index, let listing = objects.value[index].listing else { return nil }
         return viewModelFor(listing: listing)
+    }
+
+    func snapshotModelAt(index: Int) -> ListingDeckSnapshotType? {
+        guard 0..<objectCount ~= index, let listing = objects.value[index].listing else { return nil }
+        if let listingId = listing.objectId, let viewModel = productsViewModels[listingId] {
+            return listingViewModelMaker.makeListingDeckSnapshot(listingViewModel: viewModel)
+        }
+        return listingViewModelMaker.makeListingDeckSnapshot(listing: listing)
     }
 
     fileprivate func listingAt(index: Int) -> Listing? {
@@ -308,16 +317,15 @@ final class ListingDeckViewModel: BaseViewModel {
         let isFirstPage = (page == firstPage)
         isLoading = true
 
+        let nextPage = pagination.moveToNextPage()
         let completion: ListingsRequesterCompletion = { [weak self] result in
-            guard let strongSelf = self else { return }
             self?.isLoading = false
             if let newListings = result.listingsResult.value {
-                strongSelf.pagination = strongSelf.pagination.moveToNextPage()
-                strongSelf.objects.appendContentsOf(newListings.flatMap { ListingCellModel.listingCell(listing: $0) })
-                strongSelf.pagination.isLast = strongSelf.listingListRequester.isLastPage(newListings.count)
-
-                if newListings.isEmpty && strongSelf.isNextPageAvailable {
-                    strongSelf.retrieveNextPage()
+                self?.pagination = nextPage
+                self?.objects.appendContentsOf(newListings.flatMap { ListingCellModel.listingCell(listing: $0) })
+                self?.pagination.isLast = self?.listingListRequester.isLastPage(newListings.count) ?? false
+                if let isNextPageAvailable = self?.isNextPageAvailable, newListings.isEmpty && isNextPageAvailable{
+                    self?.retrieveNextPage()
                 }
             }
         }
@@ -453,6 +461,32 @@ extension ListingDeckViewModel: Paginable {
 // MARK: Prefetching images
 
 extension ListingDeckViewModel {
+
+    func prefetchAtIndexPaths(_ indexPaths: [IndexPath]) {
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            indexPaths.forEach { self?.viewModelAt(index: $0.row)?.active = true }
+        }
+    }
+
+    private func prefetchingRange(atIndex index: Int, movement: CarouselMovement) -> CountableClosedRange<Int> {
+        let range: CountableClosedRange<Int>
+        switch movement {
+        case .initial:
+            range = (index - prefetching.previousCount)...(index + prefetching.nextCount)
+        case .swipeRight:
+            range = (index + 1)...(index + prefetching.nextCount)
+        case .swipeLeft:
+            range = (index - prefetching.previousCount)...(index - 1)
+        default:
+            range = (index - prefetching.previousCount)...(index + prefetching.nextCount)
+        }
+        return range
+    }
+
+    func prefetchViewModels(_ index: Int, movement: CarouselMovement) {
+        prefetchAtIndexPaths(prefetchingRange(atIndex: index, movement: movement)
+            .map { IndexPath(row: $0, section: 0) })
+    }
 
     func prefetchNeighborsImages(_ index: Int, movement: CarouselMovement) {
         let range: CountableClosedRange<Int>

@@ -25,6 +25,8 @@ protocol ListingDeckViewControllerBinderType: class {
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool)
     func blockSideInteractions()
     func updateViewWithActions(_ actions: [UIAction])
+
+    func setupPageCurrentCell()
 }
 
 protocol ListingDeckViewType: class {
@@ -35,15 +37,22 @@ protocol ListingDeckViewType: class {
 }
 
 protocol ListingDeckViewModelType: class {
+    var quickChatViewModel: QuickChatViewModel { get }
+    var currentIndex: Int { get }
+    var actionButtons: Variable<[UIAction]> { get }
     var rxActionButtons: Observable<[UIAction]> { get }
+
+    var bumpUpBannerInfo: Variable<BumpUpInfo?> { get }
     var rxBumpUpBannerInfo: Observable<BumpUpInfo?> { get }
+
     var rxObjectChanges: Observable<CollectionChange<ListingCellModel>> { get }
     var rxIsChatEnabled: Observable<Bool> { get }
     var rxIsMine: Observable<Bool> { get }
 
-    func moveToProductAtIndex(_ index: Int, movement: CarouselMovement)
-
     var userHasScrolled: Bool { get set }
+
+    func moveToProductAtIndex(_ index: Int, movement: CarouselMovement)
+    func replaceListingCellModelAtIndex(_ index: Int, withListing listing: Listing)
 }
 
 protocol ListingDeckViewControllerBinderCellType {
@@ -137,9 +146,10 @@ final class ListingDeckViewControllerBinder {
 
         listingDeckView.collectionView.rx.didEndDecelerating.bind { [weak viewController] in
             viewController?.blockSideInteractions()
+            viewController?.setupPageCurrentCell()
         }.disposed(by: disposeBag)
 
-        listingDeckView.collectionView.rx.willDisplayCell.bind { [weak viewController] cell in
+        listingDeckView.collectionView.rx.willDisplayCell.bind { [weak viewController] (cell, indexPath) in
             viewController?.updateSideCells()
         }.disposed(by: disposeBag)
     }
@@ -177,6 +187,7 @@ final class ListingDeckViewControllerBinder {
                                  chatEnabled,
                                  viewModel.rxIsMine.distinctUntilChanged(),
                                  areActionsEnabled.distinctUntilChanged()) { ($0, $1, $2, $3) }
+            .observeOn(MainScheduler.asyncInstance)
             .bind { [weak viewController] (offsetAlpha, isChatEnabled, isMine, actionsEnabled) in
                 viewController?.updateViewWith(alpha: offsetAlpha, chatEnabled: isChatEnabled,
                                                isMine: isMine, actionsEnabled: actionsEnabled)

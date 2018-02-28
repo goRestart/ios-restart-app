@@ -599,7 +599,7 @@ extension ListingCarouselViewController {
 
         viewModel.userInfo.asObservable().bind { [weak self] userInfo in
             self?.fullScreenAvatarView.alpha = 0
-            self?.fullScreenAvatarView.image = userInfo?.avatarPlaceholder
+            self?.fullScreenAvatarView.image = userInfo?.avatarPlaceholder()
             if let avatar = userInfo?.avatar {
                 let _ = self?.imageDownloader.downloadImageWithURL(avatar) { [weak self] result, url in
                     guard let imageWithSource = result.value, url == self?.viewModel.userInfo.value?.avatar else { return }

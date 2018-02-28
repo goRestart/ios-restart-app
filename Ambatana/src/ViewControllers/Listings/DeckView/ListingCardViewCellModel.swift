@@ -18,11 +18,9 @@ protocol ListingCardDetailsViewModel: class {
 }
 
 protocol ListingCardViewCellModel: ListingCardDetailsViewModel {
-    var cardListing: Listing { get }
     var cardListingObs: Observable<Listing> { get }
 
     var cardStatus: Observable<ListingViewModelStatus> { get }
-    var cardIsShowingFeaturedStripe: Observable<Bool> { get }
     var cardActionButtons: Observable<[UIAction]> { get }
 
     var cardIsFavoritable: Bool { get }
@@ -30,8 +28,8 @@ protocol ListingCardViewCellModel: ListingCardDetailsViewModel {
 
     var productIsFavorite: Observable<Bool> { get }
     var cardUserInfo: Observable<ListingVMUserInfo> { get }
-    var cardProductImageURLs: Observable<[URL]> { get }
-
+    var cardProductPreview: Observable<(URL?, Int)> { get }
+    
     var cardQuickAnswers: [[QuickAnswer]] { get }
     var cardDirectChatEnabled: Observable<Bool> { get }
     var cardDirectChatMessages: Observable<CollectionChange<ChatViewMessage>> { get }
@@ -48,17 +46,15 @@ extension ListingViewModel: ListingCardViewCellModel {
     var cardSocialMessage: Observable<SocialMessage?> { return socialMessage.asObservable() }
 
     // MARK: ListingCardViewCellModel
-    var cardListing: Listing { return listing.value }
     var cardListingObs: Observable<Listing> { return listing.asObservable() }
     var cardStatus: Observable<ListingViewModelStatus>  { return status.asObservable() }
-    var cardIsShowingFeaturedStripe: Observable<Bool> { return isShowingFeaturedStripe.asObservable() }
     var cardActionButtons: Observable<[UIAction]> { return actionButtons.asObservable() }
 
     var cardIsFavoritable: Bool { return !isMine }
     var cardIsFeatured: Observable<Bool> { return isShowingFeaturedStripe.asObservable() }
     var productIsFavorite: Observable<Bool> { return isFavorite.asObservable() }
     var cardUserInfo: Observable<ListingVMUserInfo> { return userInfo.asObservable() }
-    var cardProductImageURLs: Observable<[URL]> { return productImageURLs.asObservable() }
+    var cardProductPreview: Observable<(URL?, Int)> { return previewURL.asObservable()}
 
     var cardQuickAnswers: [[QuickAnswer]] { return quickAnswers }
     var cardDirectChatEnabled: Observable<Bool> { return directChatEnabled.asObservable() }

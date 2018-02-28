@@ -11,10 +11,10 @@ import LGCoreKit
 import RxSwift
 
 protocol ListingCardDetailsViewType: class {
-    func populateWith(productInfo: ListingVMProductInfo)
+    func populateWith(productInfo: ListingVMProductInfo?)
     func populateWith(socialSharer: SocialSharer)
     func populateWith(socialMessage: SocialMessage?)
-    func populateWith(listingStats: ListingStats, postedDate: Date?)
+    func populateWith(listingStats: ListingStats?, postedDate: Date?)
 }
 
 final class ListingCardDetailsViewBinder {
@@ -32,7 +32,7 @@ final class ListingCardDetailsViewBinder {
     }
 
     private func bindProducInfoTo(_ viewModel: ListingCardDetailsViewModel, disposeBag: DisposeBag) {
-        viewModel.cardProductInfo.unwrap().bind { [weak self] info in
+        viewModel.cardProductInfo.unwrap().observeOn(MainScheduler.asyncInstance).bind { [weak self] info in
             self?.detailsView?.populateWith(productInfo: info)
         }.disposed(by: disposeBag)
     }
@@ -43,14 +43,14 @@ final class ListingCardDetailsViewBinder {
             return lhs.favouritesCount != rhs.favouritesCount || lhs.viewsCount != rhs.viewsCount
         })
         let statsAndCreation = Observable.combineLatest(stats, productCreation) { ($0, $1) }
-        statsAndCreation.bind { [weak self] (stats, creation) in
+        statsAndCreation.observeOn(MainScheduler.asyncInstance).bind { [weak self] (stats, creation) in
             self?.detailsView?.populateWith(listingStats: stats, postedDate: creation)
         }.disposed(by:disposeBag)
     }
 
     func bindSocialTo(_ viewModel: ListingCardDetailsViewModel, disposeBag: DisposeBag) {
         detailsView?.populateWith(socialSharer: viewModel.cardSocialSharer)
-        viewModel.cardSocialMessage.bind { [weak self] socialMessage in
+        viewModel.cardSocialMessage.observeOn(MainScheduler.asyncInstance).bind { [weak self] socialMessage in
             self?.detailsView?.populateWith(socialMessage: socialMessage)
         }.disposed(by:disposeBag)
     }

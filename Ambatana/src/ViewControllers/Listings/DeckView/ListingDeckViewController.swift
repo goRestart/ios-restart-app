@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import LGCoreKit
 import RxCocoa
 import RxSwift
 
@@ -82,6 +83,10 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     private func setupCollectionView() {
         automaticallyAdjustsScrollViewInsets = false
         listingDeckView.collectionView.dataSource = self
+        if #available(iOS 10.0, *) {
+            listingDeckView.collectionView.prefetchDataSource = self
+        }
+
         listingDeckView.collectionView.register(ListingCardView.self, forCellWithReuseIdentifier: ListingCardView.reusableID)
 
         listingDeckView.collectionView.reloadData()
@@ -99,16 +104,23 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingCardView.reusableID, for: indexPath) as? ListingCardView {
-            guard let listing = viewModel.listingCellModelAt(index: indexPath.row) else {
-                return cell
-            }
-            binder.bind(cell: cell)
-            cell.populateWith(listingViewModel: listing, imageDownloader: viewModel.imageDownloader)
-            cell.delegate = self
-            cell.isUserInteractionEnabled = (indexPath.row == listingDeckView.currentPage)
+            guard let model = viewModel.snapshotModelAt(index: indexPath.row) else { return cell }
+            cell.isUserInteractionEnabled = indexPath.row == listingDeckView.currentPage
+            cell.populateWith(model, imageDownloader: viewModel.imageDownloader)
             return cell
         }
         return UICollectionViewCell()
+    }
+
+    func setupPageCurrentCell() {
+        guard let cell = listingDeckView.currentPageCell else { return }
+        let currentPage = listingDeckView.currentPage
+        binder.bind(cell: cell)
+        cell.delegate = self
+        cell.isUserInteractionEnabled = true
+
+        guard let listing = viewModel.listingCellModelAt(index: currentPage) else { return }
+        cell.populateWith(cellModel: listing, imageDownloader: viewModel.imageDownloader)
     }
 
     private func updateCellContentInset(_ cell: ListingCardView) {
@@ -312,6 +324,13 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
 
     func didTapOnStatusView() {
         viewModel.didTapStatusView()
+    }
+}
+
+@available(iOS 10.0, *)
+extension ListingDeckViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        viewModel.prefetchAtIndexPaths(indexPaths)
     }
 }
 

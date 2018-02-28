@@ -47,7 +47,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                     cellType.userIcon.sendActions(for: .touchUpInside)
                 }
                 it("didTapCardAction method is called one time") {
-                    expect(viewControllerType.isDidTapUserIconCalled) == 1
+                    expect(viewControllerType.isDidTapUserIconCalled).toEventually(be(1))
                 }
             }
 
@@ -58,7 +58,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                     cellType.userIcon.sendActions(for: .touchUpInside)
                 }
                 it("didTapCardAction method is not called") {
-                    expect(viewControllerType.isDidTapUserIconCalled) == 0
+                    expect(viewControllerType.isDidTapUserIconCalled).toEventually(be(0))
                 }
             }
 
@@ -68,7 +68,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                     cellType.actionButton.sendActions(for: .touchUpInside)
                 }
                 it("didTapCardAction method is called one time") {
-                    expect(viewControllerType.isDidTapCardActionCalled) == 1
+                    expect(viewControllerType.isDidTapCardActionCalled).toEventually(be(1))
                 }
             }
 
@@ -79,7 +79,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                     cellType.actionButton.sendActions(for: .touchUpInside)
                 }
                 it("didTapCardAction method is not called") {
-                    expect(viewControllerType.isDidTapCardActionCalled) == 0
+                    expect(viewControllerType.isDidTapCardActionCalled).toEventually(be(0))
                 }
             }
 
@@ -90,7 +90,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                     cellType.shareButton.sendActions(for: .touchUpInside)
                 }
                 it("didTapShare method is not called one time") {
-                    expect(viewControllerType.isDidTapShareCalled) == 0
+                    expect(viewControllerType.isDidTapShareCalled).toEventually(be(0))
                 }
             }
 
@@ -100,7 +100,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                     cellType.shareButton.sendActions(for: .touchUpInside)
                 }
                 it("didTapShare method is called one time") {
-                    expect(viewControllerType.isDidTapShareCalled) == 1
+                    expect(viewControllerType.isDidTapShareCalled).toEventually(be(1))
                 }
             }
 
@@ -108,10 +108,10 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                 beforeEach {
                     sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
                     let offset = Int.makeRandom(min: 0, max: 1000)
-                    viewControllerType.collectionView.contentOffset = CGPoint(x: offset, y: 0)
+                    viewControllerType.contentOffset.value = CGPoint(x: offset, y: 0)
                 }
                 it("updateViewWithAlpha method is called once") {
-                    expect(viewControllerType.isUpdateViewWithAlphaCalled) == 1
+                    expect(viewControllerType.isUpdateViewWithAlphaCalled).toEventually(be(1))
                 }
             }
 
@@ -120,13 +120,13 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                     sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
                     viewType.currentPage = 1
                     let offset = Int.makeRandom(min: 0, max: 1000)
-                    viewControllerType.collectionView.contentOffset = CGPoint(x: offset, y: 0)
+                    viewControllerType.contentOffset.value = CGPoint(x: offset, y: 0)
                 }
                 it("the viewmodel moves to the current item") {
-                    expect(viewModelType.moveToProductIsCalled) == 1
+                    expect(viewModelType.moveToProductIsCalled).toEventually(be(1))
                 }
                 it("the viewmodel detects that the user has scrolled") {
-                    expect(viewModelType.userHasScrollCalled) == 1
+                    expect(viewModelType.userHasScrollCalled).toEventually(be(1))
                 }
             }
 
@@ -135,7 +135,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                     sut.bind(withViewModel: viewModelType, listingDeckView: viewType)
                 }
                 it("the viewmodel does not register any scroll") {
-                    expect(viewModelType.userHasScrollCalled) == 0
+                    expect(viewModelType.userHasScrollCalled).toEventually(be(0))
                 }
             }
 
@@ -150,7 +150,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                                                                                  isLocal: true)
                 }
                 it("updateWithKeyboardChange method is called twice") {
-                    expect(viewControllerType.isUpdateWithKeyboardChangeCalled) == 2
+                    expect(viewControllerType.isUpdateWithKeyboardChangeCalled).toEventually(be(2))
                 }
             }
 
@@ -164,7 +164,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                                                                       bannerInteractionBlock: {}, buttonBlock: {})
                 }
                 it("showBumpUpBannerBumpInfo method is called") {
-                    expect(viewControllerType.isShowBumpUpBannerBumpInfoCalled) == 1
+                    expect(viewControllerType.isShowBumpUpBannerBumpInfoCalled).toEventually(be(1))
                 }
             }
 
@@ -176,7 +176,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                                                                   accessibilityId: nil)]
                 }
                 it("updateViewWithActions method is called twice") {
-                    expect(viewControllerType.isUpdateViewWithActionsCalled) == 2
+                    expect(viewControllerType.isUpdateViewWithActionsCalled).toEventually(be(2))
                 }
             }
 
@@ -238,7 +238,13 @@ private class MockListingDeckViewType: ListingDeckViewType {
     }
 }
 
-private class MockListingDeckViewModelType: ListingDeckViewModelType {
+final class MockListingDeckViewModelType: ListingDeckViewModelType {
+    var quickChatViewModel: QuickChatViewModel = QuickChatViewModel()
+
+    func replaceListingCellModelAtIndex(_ index: Int, withListing listing: Listing) {
+        replaceIndexIsCalled += 1
+    }
+
     var rxIsMine: Observable<Bool>  { return isMine.asObservable() }
     var isMine: Variable<Bool> = Variable<Bool>(false)
 
@@ -267,14 +273,20 @@ private class MockListingDeckViewModelType: ListingDeckViewModelType {
 
     var userHasScrollCalled: Int = 0
     var userHasScrolled: Bool = false { didSet { userHasScrollCalled += 1 } }
+    var currentIndex: Int = 0
+    var replaceIndexIsCalled: Int = 0
 
     func resetVariables() {
         userHasScrollCalled = 0
         moveToProductIsCalled = 0
+        currentIndex = 0
+        replaceIndexIsCalled = 0
     }
 }
 
 private class MockListingDeckViewControllerBinderType: ListingDeckViewControllerBinderType {
+    func setupPageCurrentCell() { }
+
     func closeBumpUpBanner() { }
 
     func updateSideCells() {
@@ -289,7 +301,8 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
         isBlockSideInteractionsCalled += 1
     }
 
-    var rxContentOffset: Observable<CGPoint> { return rxCollectionView.contentOffset.share() }
+    var rxContentOffset: Observable<CGPoint> { return contentOffset.asObservable() }
+    var contentOffset: Variable<CGPoint> = Variable<CGPoint>(CGPoint(x: 0, y: 0))
 
     var keyboardChanges: Observable<KeyboardChange> { return rx_keyboardChanges.asObservable() }
 

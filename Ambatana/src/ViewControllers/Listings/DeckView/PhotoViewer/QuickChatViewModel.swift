@@ -11,7 +11,6 @@ import RxSwift
 import LGCoreKit
 
 final class QuickChatViewModel: QuickChatViewModelRx, DirectAnswersHorizontalViewDelegate {
-
     var listingViewModel: ListingViewModel?
 
     var areAnswersDynamic: Bool { return listingViewModel?.areQuickAnswersDynamic ?? false }
