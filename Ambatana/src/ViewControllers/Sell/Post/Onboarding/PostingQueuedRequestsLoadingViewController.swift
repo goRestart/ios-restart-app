@@ -37,16 +37,13 @@ class PostingQueuedRequestsLoadingViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationController?.setNavigationBarHidden(true, animated: false)
         setupConstraints()
         setupUI()
         setupRx()
-        //viewModel.createListingAfterUploadingImages()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //setStatusBarHidden(true)
     }
     
     

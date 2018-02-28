@@ -36,8 +36,6 @@
 		0187407B1FD59391009C1363 /* PostingQueuedRequestsLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018740791FD59391009C1363 /* PostingQueuedRequestsLoadingViewController.swift */; };
 		0187407D1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0187407C1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift */; };
 		0187407E1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0187407C1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift */; };
-		018B6BF71FD6AB4000740030 /* PostingQueuedRequestsLoadingViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B6BF61FD6AB4000740030 /* PostingQueuedRequestsLoadingViewModelSpec.swift */; };
-		018B6BF91FD6B50F00740030 /* MockListingCreationParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B6BF81FD6B50F00740030 /* MockListingCreationParams.swift */; };
 		018B6BFB1FD70C2F00740030 /* PostOnboardingListingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B6BFA1FD70C2F00740030 /* PostOnboardingListingState.swift */; };
 		018B6BFC1FD70C2F00740030 /* PostOnboardingListingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B6BFA1FD70C2F00740030 /* PostOnboardingListingState.swift */; };
 		018B82F21FFE3B2D00687233 /* MostSearchedItemsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B82F01FFE3B2C00687233 /* MostSearchedItemsListViewModel.swift */; };
@@ -1605,8 +1603,6 @@
 		0183BB20203C8BEE00204383 /* PostingGetStartedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostingGetStartedViewController.swift; path = Onboarding/PostingGetStartedViewController.swift; sourceTree = "<group>"; };
 		018740791FD59391009C1363 /* PostingQueuedRequestsLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingQueuedRequestsLoadingViewController.swift; path = Onboarding/PostingQueuedRequestsLoadingViewController.swift; sourceTree = "<group>"; };
 		0187407C1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingQueuedRequestsLoadingViewModel.swift; path = Onboarding/PostingQueuedRequestsLoadingViewModel.swift; sourceTree = "<group>"; };
-		018B6BF61FD6AB4000740030 /* PostingQueuedRequestsLoadingViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostingQueuedRequestsLoadingViewModelSpec.swift; sourceTree = "<group>"; };
-		018B6BF81FD6B50F00740030 /* MockListingCreationParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockListingCreationParams.swift; sourceTree = "<group>"; };
 		018B6BFA1FD70C2F00740030 /* PostOnboardingListingState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostOnboardingListingState.swift; path = Onboarding/PostOnboardingListingState.swift; sourceTree = "<group>"; };
 		018B82F01FFE3B2C00687233 /* MostSearchedItemsListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListViewModel.swift; sourceTree = "<group>"; };
 		018B82F11FFE3B2D00687233 /* MostSearchedItemsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListViewController.swift; sourceTree = "<group>"; };
@@ -3462,7 +3458,6 @@
 				C765EE481E7FEA4500063750 /* DeepLink+MockFactory.swift */,
 				C765EE4A1E7FEEE200063750 /* MockChatEvent.swift */,
 				0A8275091F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift */,
-				018B6BF81FD6B50F00740030 /* MockListingCreationParams.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3588,7 +3583,6 @@
 				50D08DA21E69AF14009CC260 /* SignUpViewModelSpec.swift */,
 				C7AFFB0F1E7176BC0052A9CA /* WebSurveyViewModelSpec.swift */,
 				8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */,
-				018B6BF61FD6AB4000740030 /* PostingQueuedRequestsLoadingViewModelSpec.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -5756,7 +5750,6 @@
 				50D08DCB1E69AF14009CC260 /* CrashManagerSpec.swift in Sources */,
 				0A82750A1F7D090C00A6A0C5 /* MockDeferredDeepLinkMaker.swift in Sources */,
 				724D77A91FC3467700DB43C0 /* CarAttributes+LGSpec.swift in Sources */,
-				018B6BF91FD6B50F00740030 /* MockListingCreationParams.swift in Sources */,
 				50D08DCD1E69AF14009CC260 /* NotificationsManagerSpec.swift in Sources */,
 				50D08DDB1E69AF14009CC260 /* BaseViewModelSpec.swift in Sources */,
 				50D08DD21E69AF14009CC260 /* ConfigSpec.swift in Sources */,
@@ -5773,7 +5766,6 @@
 				0A6D88BF1F7CED6900819E89 /* DeepLinksRouterSpec.swift in Sources */,
 				C750AA8B1E6D76DC005F87C5 /* MockListingViewModelMaker.swift in Sources */,
 				50D08DE11E69AF14009CC260 /* ListingCarouselViewModelSpec.swift in Sources */,
-				018B6BF71FD6AB4000740030 /* PostingQueuedRequestsLoadingViewModelSpec.swift in Sources */,
 				2EF0BB131E784468006808B5 /* MockPaymentQueue.swift in Sources */,
 				C765EE4B1E7FEEE200063750 /* MockChatEvent.swift in Sources */,
 				72C7A1BF1FA0ECF60089F175 /* PostingDetailsViewModelSpec.swift in Sources */,
