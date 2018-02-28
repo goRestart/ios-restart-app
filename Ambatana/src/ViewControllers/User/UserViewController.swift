@@ -177,7 +177,7 @@ class UserViewController: BaseViewController {
         super.viewDidLayoutSubviews()
         listingListView.minimumContentHeight = listingListView.collectionView.frame.height - headerCollapsedHeight
         
-        averageRatingView.rounded = true
+        averageRatingView.setRoundedCorners()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -343,7 +343,7 @@ extension UserViewController {
             averageRatingContainerViewHeight.constant = UserViewController.ratingAverageContainerHeightVisible
             averageRatingView.setupRatingContainer(rating: rating)
             averageRatingView.superview?.layoutIfNeeded()
-            averageRatingView.rounded = true
+            averageRatingView.setRoundedCorners()
         } else {
             averageRatingContainerViewHeight.constant = 0
         }

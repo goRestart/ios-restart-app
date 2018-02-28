@@ -156,7 +156,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     private func setupUI() {
         // Appearance
-        emailButton.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        emailButton.cornerRadius = LGUIKitConstants.mediumCornerRadius
         resetPasswordButton.setStyle(.primary(fontSize: .medium))
         
         // i18n

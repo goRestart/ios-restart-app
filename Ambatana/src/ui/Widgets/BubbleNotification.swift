@@ -125,17 +125,24 @@ class BubbleNotification: UIView {
         }) 
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if data.hasIcon {
+            leftIcon.setRoundedCorners()
+        }
+    }
+
 
     // MARK : - Private methods
 
     private func setupUI() {
         backgroundColor = UIColor.white
-        layer.cornerRadius = LGUIKitConstants.bigCornerRadius
+        cornerRadius = LGUIKitConstants.bigCornerRadius
         applyDefaultShadow()
 
         if data.hasIcon {
             leftIcon.clipsToBounds = true
-            leftIcon.layer.cornerRadius = BubbleNotification.iconDiameter/2
+            leftIcon.cornerRadius = BubbleNotification.iconDiameter/2
         }
         if let iconImage = data.iconImage {
             leftIcon.image = iconImage

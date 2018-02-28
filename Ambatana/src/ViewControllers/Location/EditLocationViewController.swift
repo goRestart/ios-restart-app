@@ -86,7 +86,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        aproxLocationArea.layer.cornerRadius = aproxLocationArea.width / 2
+        aproxLocationArea.setRoundedCorners()
     }
 
     @available(iOS 11.0, *)
@@ -237,7 +237,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
         searchField.insetX = 40
         searchField.placeholder = LGLocalizedString.changeLocationSearchFieldHint
-        searchField.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        searchField.cornerRadius = LGUIKitConstants.mediumCornerRadius
         searchField.layer.borderColor = UIColor.lineGray.cgColor
         searchField.layer.borderWidth = LGUIKitConstants.onePixelSize
 
@@ -246,12 +246,12 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         searchField.layer.shadowOffset = CGSize(width: 0, height: 2)
         searchField.layer.shadowRadius = 6
 
-        suggestionsTableView.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
+        suggestionsTableView.cornerRadius = LGUIKitConstants.smallCornerRadius
         suggestionsTableView.layer.borderColor = UIColor.lineGray.cgColor
         suggestionsTableView.layer.borderWidth = LGUIKitConstants.onePixelSize
         setLocationButton.setStyle(.primary(fontSize: .medium))
         setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton, for: .normal)
-        gpsLocationButton.layer.cornerRadius = 10
+        gpsLocationButton.cornerRadius = 10
         poiImage.isHidden = true
         aproxLocationArea.isHidden = true
 

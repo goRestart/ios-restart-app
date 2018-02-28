@@ -63,6 +63,7 @@ class ChatTextView: UIView {
     private static let textViewMaxHeight: CGFloat = 120
 
     fileprivate let tapEvents = PublishSubject<Void>()
+    fileprivate let rightBackground = UIView()
 
     private let disposeBag = DisposeBag()
 
@@ -174,18 +175,21 @@ class ChatTextView: UIView {
         sendButton.rx.tap.bind(to: tapEvents).disposed(by: disposeBag)
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        rightBackground.setRoundedCorners()
+    }
+
     private func setupBackgroundsWCorners() {
         let leftBackground = UIView()
         leftBackground.translatesAutoresizingMaskIntoConstraints = false
         leftBackground.backgroundColor = UIColor.white
         leftBackground.clipsToBounds = true
-        leftBackground.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        leftBackground.cornerRadius = LGUIKitConstants.mediumCornerRadius
         addSubview(leftBackground)
-        let rightBackground = UIView()
         rightBackground.translatesAutoresizingMaskIntoConstraints = false
         rightBackground.backgroundColor = UIColor.white
         rightBackground.clipsToBounds = true
-        rightBackground.layer.cornerRadius = ChatTextView.minimumHeight/2
         addSubview(rightBackground)
         var views = [String: Any]()
         views["leftBckg"] = leftBackground
