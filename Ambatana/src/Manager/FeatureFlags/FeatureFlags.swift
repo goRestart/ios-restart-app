@@ -64,6 +64,7 @@ protocol FeatureFlaggeable: class {
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
     var searchMultiwordExpressions: SearchMultiwordExpressions { get }
+    var showChatSafetyTips: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -507,6 +508,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.newUserProfileView
         }
         return NewUserProfileView.fromPosition(abTests.newUserProfileView.value)
+    }
+    
+    var showChatSafetyTips: Bool {
+        if Bumper.enabled {
+            return Bumper.showChatSafetyTips
+        }
+        return abTests.showChatSafetyTips.value
     }
 
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation {

@@ -294,6 +294,14 @@
 "direct_answer_willing_to_negotiate" = "흥정하고 싶으신가요?";
 "direct_answers_hide" = "자주 대답하는 목록 숨기기";
 "direct_answers_show" = "자주 대답하는 목록 보이기";
+"discarded" = "삭제됨";
+"discarded_products_reason_duplicated" = "중복 게시글";
+"discarded_products_reason_good_manners" = "가장 적절한 예를 따르고 있지 않습니다";
+"discarded_products_reason_non_realistic_price" = "비현실적인 가격";
+"discarded_products_reason_photo_not_clear" = "흐릿하거나 명확하지 않은 사진";
+"discarded_products_reason_poor_ad_quality" = "가장 적절한 예를 따르고 있지 않습니다";
+"discarded_products_reason_reference_to_competitors" = "다른 앱이나 웹사이트로 이끄는 행위";
+"discarded_products_reason_stock_photo_only" = "상품 사진들만 포함하세요";
 "edit_product_location_alert_text" = "당신의 상품 게시글이 등록된 지역을 변경하기 위해서, 위치 탐색을 허가해주세요";
 "edit_product_location_alert_title" = "위치 변경하기";
 "edit_product_send_button" = "변경사항 저장하기";
@@ -316,7 +324,9 @@
 "filters_distance_not_set" = "설정하지 않기";
 "filters_navbar_reset" = "리셋";
 "filters_price_from" = "부터";
+"filters_price_from_feed_filter_cell" = "부터";
 "filters_price_to" = "에게";
+"filters_price_to_feed_filter_cell" = "까지";
 "filters_price_wrong_range_error" = "최저 가격은 최고 가격보다 높을 수 없습니다";
 "filters_real_estate_bathrooms_not_set" = "설정되지 않음";
 "filters_real_estate_bedrooms_not_set" = "설정되지 않음";
@@ -787,6 +797,7 @@
 "real_estate_rooms_studio" = "스튜디오 (1+0)";
 "real_estate_rooms_title" = "방 개수";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "사이즈";
 "real_estate_summary_bathroom_title" = "욕실";
 "real_estate_summary_bathrooms_empty" = "욕실 숫자 추가하기";
@@ -981,7 +992,7 @@
 "trending_items_view_post_button" = "게시";
 "trending_items_view_search_button" = "검색";
 "trending_items_view_subtitle" = "이 중 한개를 게시하고 일주일 내에 수익을 얻어보세요";
-"trending_items_view_title" = "%@에서 가장 인기있는 상품";
+"trending_items_view_title" = "%@에서 가장 인기있음";
 "trending_items_view_title_no_location" = "가장 인기 있는 상품";
 "trending_searches_Title" = "트렌드 검색";
 "unblock_user_error_generic" = "이 사용자의 차단을 해제하는데 오류가 발생했습니다.";

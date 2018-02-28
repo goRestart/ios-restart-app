@@ -48,6 +48,7 @@ extension Bumper  {
         flags.append(NewUserProfileView.self)
         flags.append(TurkeyBumpPriceVATAdaptation.self)
         flags.append(SearchMultiwordExpressions.self)
+        flags.append(ShowChatSafetyTips.self)
         Bumper.initialize(flags)
     } 
 
@@ -224,6 +225,11 @@ extension Bumper  {
     static var searchMultiwordExpressions: SearchMultiwordExpressions {
         guard let value = Bumper.value(for: SearchMultiwordExpressions.key) else { return .control }
         return SearchMultiwordExpressions(rawValue: value) ?? .control 
+    }
+
+    static var showChatSafetyTips: Bool {
+        guard let value = Bumper.value(for: ShowChatSafetyTips.key) else { return false }
+        return ShowChatSafetyTips(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -758,5 +764,14 @@ enum SearchMultiwordExpressions: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum ShowChatSafetyTips: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return ShowChatSafetyTips.no.rawValue }
+    static var enumValues: [ShowChatSafetyTips] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show chat safety tips to new users" } 
+    var asBool: Bool { return self == .yes }
 }
 

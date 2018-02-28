@@ -294,6 +294,14 @@
 "direct_answer_willing_to_negotiate" = "Возможен ли торг?";
 "direct_answers_hide" = "Спрятать популярные ответы";
 "direct_answers_show" = "Показать популярные ответы";
+"discarded" = "Удалено";
+"discarded_products_reason_duplicated" = "Повторяющиеся объявления";
+"discarded_products_reason_good_manners" = "Не соответствует правилам";
+"discarded_products_reason_non_realistic_price" = "Нереальная цена";
+"discarded_products_reason_photo_not_clear" = "Размытое или нечеткое фото";
+"discarded_products_reason_poor_ad_quality" = "Не соответствует правилам";
+"discarded_products_reason_reference_to_competitors" = "Ссылки на другие приложения и сайты";
+"discarded_products_reason_stock_photo_only" = "Содержит только фото из сети";
 "edit_product_location_alert_text" = "Для изменение местоположения объявления разрешите доступ к геолокации";
 "edit_product_location_alert_title" = "СМЕНИТЬ МЕСТОПОЛОЖЕНИЕ";
 "edit_product_send_button" = "Сохранить изменения";
@@ -316,7 +324,9 @@
 "filters_distance_not_set" = "не установлен";
 "filters_navbar_reset" = "Сброс";
 "filters_price_from" = "От";
+"filters_price_from_feed_filter_cell" = "От";
 "filters_price_to" = "До";
+"filters_price_to_feed_filter_cell" = "До";
 "filters_price_wrong_range_error" = "Минимальная цена не может быть выше максимальной.";
 "filters_real_estate_bathrooms_not_set" = "Не установлен";
 "filters_real_estate_bedrooms_not_set" = "Не установлен";
@@ -787,6 +797,7 @@
 "real_estate_rooms_studio" = "Студия (1+0)";
 "real_estate_rooms_title" = "Количество комнат";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "Размер";
 "real_estate_summary_bathroom_title" = "ванная";
 "real_estate_summary_bathrooms_empty" = "Добавьте количество ванных";
@@ -981,7 +992,7 @@
 "trending_items_view_post_button" = "Разместить";
 "trending_items_view_search_button" = "Поиск";
 "trending_items_view_subtitle" = "Разместите один из них и получите деньги меньше чем за неделю";
-"trending_items_view_title" = "Самые популярные товары в %@";
+"trending_items_view_title" = "Популярное в %@";
 "trending_items_view_title_no_location" = "Самые популярные товары";
 "trending_searches_Title" = "Популярные запросы";
 "unblock_user_error_generic" = "При разблокировке произошла ошибка.";

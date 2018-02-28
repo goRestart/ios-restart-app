@@ -294,6 +294,14 @@
 "direct_answer_willing_to_negotiate" = "Bạn có sẵn sàng thương lượng không?";
 "direct_answers_hide" = "Ẩn Trả Lời Nhanh";
 "direct_answers_show" = "Hiện Trả Lời Nhanh";
+"discarded" = "Đã hủy";
+"discarded_products_reason_duplicated" = "Bài đăng trùng";
+"discarded_products_reason_good_manners" = "Không tuân theo thực hành tốt nhất";
+"discarded_products_reason_non_realistic_price" = "Giá không thực tế";
+"discarded_products_reason_photo_not_clear" = "Ảnh mờ hoặc không rõ ràng";
+"discarded_products_reason_poor_ad_quality" = "Không tuân theo thực hành tốt nhất";
+"discarded_products_reason_reference_to_competitors" = "Gợi ý tới ứng dụng hoặc trang web khác";
+"discarded_products_reason_stock_photo_only" = "Chỉ có ảnh trên mạng";
 "edit_product_location_alert_text" = "Để thay đổi địa điểm đăng sản phẩm, hãy cho phép truy cập địa điểm của bạn";
 "edit_product_location_alert_title" = "THAY ĐỔI ĐỊA ĐIỂM";
 "edit_product_send_button" = "Lưu thay đổi";
@@ -316,7 +324,9 @@
 "filters_distance_not_set" = "chưa được cài đặt";
 "filters_navbar_reset" = "Xóa";
 "filters_price_from" = "Từ";
+"filters_price_from_feed_filter_cell" = "Từ";
 "filters_price_to" = "Tới";
+"filters_price_to_feed_filter_cell" = "Tới";
 "filters_price_wrong_range_error" = "Giá tối thiểu không thể cao hơn giá tối đa.";
 "filters_real_estate_bathrooms_not_set" = "Chưa được cài đặt";
 "filters_real_estate_bedrooms_not_set" = "Chưa được cài đặt";
@@ -787,6 +797,7 @@
 "real_estate_rooms_studio" = "Studio (1+0)";
 "real_estate_rooms_title" = "Số phòng";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "Diện tích";
 "real_estate_summary_bathroom_title" = "phòng tắm";
 "real_estate_summary_bathrooms_empty" = "Thêm số phòng tắm";

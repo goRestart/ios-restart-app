@@ -54,7 +54,7 @@ final class PostingAddDetailLocation: UIView, PostingViewConfigurable {
         
         searchMapView.layout(with: self).top().fillHorizontal(by: Metrics.bigMargin)
         bottomMessage.layout(with: searchMapView).below(by: Metrics.margin).fillHorizontal()
-        bottomMessage.layout(with: self).bottom()
+        bottomMessage.layout(with: self).bottom(by: -(PostingDetailsViewController.skipButtonHeight+2*Metrics.bigMargin))
     }
     
     private func setupRx() {

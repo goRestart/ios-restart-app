@@ -294,6 +294,14 @@
 "direct_answer_willing_to_negotiate" = "Θα είστε πρόθυμοι να διαπραγματευτείτε;";
 "direct_answers_hide" = "Απόκρυψη Γρήγορων Απαντήσεων";
 "direct_answers_show" = "Προβολή Γρήγορων Απαντήσεων";
+"discarded" = "Απορρίφθηκε";
+"discarded_products_reason_duplicated" = "Διπλή καταχώρηση";
+"discarded_products_reason_good_manners" = "Δε συμβαδίζει με τα κόλπα για προχωρημένους";
+"discarded_products_reason_non_realistic_price" = "Μη ρεαλιστική τιμή";
+"discarded_products_reason_photo_not_clear" = "Θολή ή θαμπή φωτογραφία";
+"discarded_products_reason_poor_ad_quality" = "Δε συμβαδίζει με τα κόλπα για προχωρημένους";
+"discarded_products_reason_reference_to_competitors" = "Αναφορές σε άλλες εφαρμογές ή ιστοσελίδες";
+"discarded_products_reason_stock_photo_only" = "Περιέχει μόνο πρότυπα φωτογραφιών";
 "edit_product_location_alert_text" = "Για να αλλάξετε το που δημοσιεύτηκε η καταχώρησή σας, επιτρέψτε την πρόσβαση στην τοποθεσία σας";
 "edit_product_location_alert_title" = "ΑΛΛΑΓΗ ΤΟΠΟΘΕΣΙΑΣ";
 "edit_product_send_button" = "Αποθήκευση αλλαγών";
@@ -316,7 +324,9 @@
 "filters_distance_not_set" = "Δεν έχει καθοριστεί";
 "filters_navbar_reset" = "Επαναφορα";
 "filters_price_from" = "Από";
+"filters_price_from_feed_filter_cell" = "Από";
 "filters_price_to" = "Μέχρι";
+"filters_price_to_feed_filter_cell" = "Mέχρι";
 "filters_price_wrong_range_error" = "Η μικρότερη τιμή δεν μπορεί να είναι περισσότερη από τη μεγαλύτερη τιμή.";
 "filters_real_estate_bathrooms_not_set" = "Καμία ρύθμιση";
 "filters_real_estate_bedrooms_not_set" = "Καμία ρύθμιση";
@@ -787,6 +797,7 @@
 "real_estate_rooms_studio" = "Στούντιο (1+0)";
 "real_estate_rooms_title" = "Αριθμός δωματίων";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "Μέγεθος";
 "real_estate_summary_bathroom_title" = "μπάνιο";
 "real_estate_summary_bathrooms_empty" = "Προσθήκη αριθμού μπάνιων";
@@ -981,7 +992,7 @@
 "trending_items_view_post_button" = "Δημοσίευση";
 "trending_items_view_search_button" = "Αναζήτηση";
 "trending_items_view_subtitle" = "Δημοσιεύστε ένα από αυτά και κερδίστε χρήματα σε λιγότερο από μια εβδομάδα";
-"trending_items_view_title" = "Τα πιο δημοφιλή αντικείμενα σε %@";
+"trending_items_view_title" = "Τα πιο δημοφιλή σε %@";
 "trending_items_view_title_no_location" = "Δημοφιλέστερα αντικείμενα";
 "trending_searches_Title" = "Δημοφιλείς Αναζητήσεις";
 "unblock_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το ξεμπλοκάρισμα του χρήστη.";
