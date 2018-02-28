@@ -29,7 +29,9 @@ struct Constants {
     static let appStoreURL = "itms-apps://itunes.apple.com/app/id986339882?mt=8"
     static let appStoreWriteReviewURL = "itms-apps://itunes.apple.com/app/id986339882?action=write-review&mt=8"
     static let playStoreURL = "https://play.google.com/store/apps/details?id=com.abtnprojects.ambatana"
-
+    
+    // DeepLinks
+    static let deepLinkScheme = "letgo://"
     // Branch
     static let branchWebsiteURL = "https://app.letgo.com"
     static let branchLinksHost = "app.letgo.com"

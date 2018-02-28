@@ -33,6 +33,7 @@ class ListingPostedViewModel: BaseViewModel {
     private let tracker: Tracker
     private let listingRepository: ListingRepository
     private let fileRepository: FileRepository
+    private let myUserRepository: MyUserRepository
 
     var wasFreePosting: Bool {
         switch self.status {
@@ -44,7 +45,15 @@ class ListingPostedViewModel: BaseViewModel {
             return false
         }
     }
+    
+    private var myUserId: String? {
+        return myUserRepository.myUser?.objectId
+    }
 
+    private var myUserName: String? {
+        return myUserRepository.myUser?.name
+    }
+    
     
     // MARK: - Lifecycle
 
@@ -63,6 +72,7 @@ class ListingPostedViewModel: BaseViewModel {
                   trackingInfo: trackingInfo,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
+                  myUserRepository: Core.myUserRepository,
                   featureFlags: FeatureFlags.sharedInstance,
                   keyValueStorage: KeyValueStorage.sharedInstance,
                   tracker: TrackerProxy.sharedInstance)
@@ -72,6 +82,7 @@ class ListingPostedViewModel: BaseViewModel {
          trackingInfo: PostListingTrackingInfo,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
+         myUserRepository: MyUserRepository,
          featureFlags: FeatureFlaggeable,
          keyValueStorage: KeyValueStorage,
          tracker: Tracker) {
@@ -82,6 +93,7 @@ class ListingPostedViewModel: BaseViewModel {
         self.tracker = tracker
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
+        self.myUserRepository = myUserRepository
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -163,7 +175,10 @@ class ListingPostedViewModel: BaseViewModel {
         case .posting, .error:
             return nil
         case let .success(listing):
-            return ListingSocialMessage(listing: listing, fallbackToStore: false)
+            return ListingSocialMessage(listing: listing,
+                                        fallbackToStore: false,
+                                        myUserId: myUserId,
+                                        myUserName: myUserName)
         }
     }
     
