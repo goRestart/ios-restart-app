@@ -485,7 +485,7 @@
 "chat_login_popup_text" = "To start chatting, you have to log in";
 
 // Disclaimer message shown on the first message receive from the interlocutor
-"chat_message_disclaimer_meeting_security" = "Try meeting at busier public places like coffee shops and bank lobbies. They are convenient and safe.";
+"chat_message_disclaimer_meeting_security" = "Try meeting at busier public places like coffee shops and bank lobbies. They're convenient and safe.";
 
 // Disclaimer shown for each suspicious message received in chat with no blocked user
 "chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
@@ -879,6 +879,30 @@
 // Chat direct not negotiable title
 "direct_answer_not_negotiable_title" = "Not negotiable...";
 
+// Show user a product is discarded
+"discarded" = "Discarded";
+
+// Rejected reason: breach of bad manners
+"discarded_products_reason_good_manners" = "Doesn’t comply with best practices";
+
+// Rejected reason: duplicated
+"discarded_products_reason_duplicated" = "Duplicate listing";
+
+// Rejected reason: No realistic price
+"discarded_products_reason_non_realistic_price" = "Unrealistic pricing";
+
+// Rejected reason: Poor Ad Quality
+"discarded_products_reason_poor_ad_quality" = "Doesn’t comply with best practices";
+
+// Rejected reason: Photo not clear
+"discarded_products_reason_photo_not_clear" = "Blurry or unclear photo";
+
+// Rejected reason: Reference to competitors
+"discarded_products_reason_reference_to_competitors" = "References to other apps or websites";
+
+// Rejected reason: Stock photo only
+"discarded_products_reason_stock_photo_only" = "Only contains stock photos";
+
 // Text for Edit Product Location Alert
 "edit_product_location_alert_text" = "To change where your listing is posted, allow access to your location";
 
@@ -956,6 +980,12 @@
 
 // Filters Section To price
 "filters_price_to" = "To";
+
+// From price in the selected filter cell shown in feed
+"filters_price_from_feed_filter_cell" = "From";
+
+// To price in the selected filter cell shown in feed
+"filters_price_to_feed_filter_cell" = "To";
 
 // Alert text when min price is higher than max price
 "filters_price_wrong_range_error" = "The minimum price can’t be higher than the maximum price.";
@@ -2412,7 +2442,7 @@
 "real_estate_size_square_meters_title" = "Size";
 
 // Size square meters placeHolder
-"real_estate_size_square_meters_placeholder" = "Add here";
+"real_estate_size_square_meters_placeholder" = "Add";
 
 // bedroom
 "real_estate_summary_bedroom_title" = "bedroom";
@@ -2937,7 +2967,7 @@
 "trending_items_header_bubble" = "Trending";
 
 // Title for Most searched items list view
-"trending_items_view_title" = "Most popular items in %@";
+"trending_items_view_title" = "Most popular in %@";
 
 // Title for Most searched items list view without location available
 "trending_items_view_title_no_location" = "Most popular items";

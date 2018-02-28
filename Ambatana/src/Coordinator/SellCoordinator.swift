@@ -336,6 +336,7 @@ extension SellCoordinator: EditListingCoordinatorDelegate {
 
 fileprivate extension SellCoordinator {
     func trackPost(withListing listing: Listing, trackingInfo: PostListingTrackingInfo) {
+        let isFirmPrice = !listing.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
         let event = TrackerEvent.listingSellComplete(listing,
                                                      buttonName: trackingInfo.buttonName,
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
@@ -343,7 +344,8 @@ fileprivate extension SellCoordinator {
                                                      pictureSource: trackingInfo.imageSource,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
-                                                     mostSearchedButton: trackingInfo.mostSearchedButton)
+                                                     mostSearchedButton: trackingInfo.mostSearchedButton,
+                                                     firmPrice: isFirmPrice)
 
         tracker.trackEvent(event)
 

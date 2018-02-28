@@ -12,7 +12,6 @@ protocol AppEnvironment {
     var facebookAppId: String { get }
 
     // Tracking
-    var appsFlyerAPIKey: String { get }
     var amplitudeAPIKey: String { get }
     
     // Google login
@@ -40,6 +39,11 @@ protocol AppEnvironment {
     var feedAdUnitIdDFPUSA10Ratio: String { get }
     var feedAdUnitIdDFPUSA15Ratio: String { get }
     var feedAdUnitIdDFPUSA20Ratio: String { get }
+    
+    // AppsFlyer
+    var appsFlyerAPIKey: String { get }
+    var oneLinkHost: String { get }
+    var oneLinkID: String { get }
 }
 
 extension AppEnvironment {

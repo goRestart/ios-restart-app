@@ -147,8 +147,8 @@ extension TabCoordinator: TabNavigator {
         appNavigator?.openVerifyAccounts(types, source: source, completionBlock: completionBlock)
     }
     
-    func openAppInvite() {
-        appNavigator?.openAppInvite()
+    func openAppInvite(myUserId: String?, myUserName: String?) {
+        appNavigator?.openAppInvite(myUserId: myUserId, myUserName: myUserName)
     }
 
     func canOpenAppInvite() -> Bool {

@@ -524,7 +524,7 @@ extension PostListingGalleryView: UIGestureRecognizerDelegate {
 
     private func finishAnimating() {
         if collapsed {
-            let shouldExpand = abs(imageContainerTop.constant) < imageContainerMaxHeight - imageContainerStateThreshold
+            let shouldExpand = abs(imageContainerTop.constant) < (imageContainerMaxHeight - imageContainerStateThreshold)
             animateToState(collapsed: !shouldExpand, completion: nil)
         } else {
             let shouldCollapse = abs(imageContainerTop.constant) > imageContainerStateThreshold
@@ -538,8 +538,8 @@ extension PostListingGalleryView: UIGestureRecognizerDelegate {
             return
         }
 
+        collapsed = newState
         imageContainerTop.constant = collapsed ? imageContainerMaxHeight : 0
-        self.collapsed = newState
 
         UIView.animate(withDuration: 0.2,
                        animations: { [weak self] in

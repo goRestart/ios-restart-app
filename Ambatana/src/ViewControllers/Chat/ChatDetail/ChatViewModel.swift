@@ -191,7 +191,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     fileprivate var shouldShowSafetyTips: Bool {
-        return !keyValueStorage.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
+        return featureFlags.showChatSafetyTips && !keyValueStorage.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
 
     fileprivate var didReceiveMessageFromOtherUser: Bool {
@@ -651,7 +651,7 @@ extension ChatViewModel {
 
     func sendPhoneFrom(alert: UIAlertController) {
         guard let textField = alert.textFields?.first,
-            let textFieldText = textField.text,
+            let textFieldText = textField.text?.replacingOccurrences(of: "-", with: ""),
             textFieldText.isPhoneNumber else {
                 delegate?.vmShowAutoFadingMessage(LGLocalizedString.professionalDealerAskPhoneAlertNotValidPhone, completion: nil)
                 return

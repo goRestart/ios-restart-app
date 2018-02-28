@@ -294,6 +294,14 @@
 "direct_answer_willing_to_negotiate" = "Kan du tänka dig att förhandla?";
 "direct_answers_hide" = "Göm Snabba Svar";
 "direct_answers_show" = "Visa Snabba Svar";
+"discarded" = "Avvisad";
+"discarded_products_reason_duplicated" = "Dubblett";
+"discarded_products_reason_good_manners" = "Bryter mot våra riktlinjer";
+"discarded_products_reason_non_realistic_price" = "Orimligt pris";
+"discarded_products_reason_photo_not_clear" = "Suddigt eller otydligt foto";
+"discarded_products_reason_poor_ad_quality" = "Bryter mot våra riktlinjer";
+"discarded_products_reason_reference_to_competitors" = "Hänvisar till andra appar eller webbplatser";
+"discarded_products_reason_stock_photo_only" = "Innehåller endast stockfoton";
 "edit_product_location_alert_text" = "För att ändra plats på din annons, tillåt tillgång till din platsinfo";
 "edit_product_location_alert_title" = "BYT PLATS";
 "edit_product_send_button" = "Spara ändringar";
@@ -316,7 +324,9 @@
 "filters_distance_not_set" = "inte vald";
 "filters_navbar_reset" = "Återställ";
 "filters_price_from" = "Från";
+"filters_price_from_feed_filter_cell" = "Från";
 "filters_price_to" = "Till";
+"filters_price_to_feed_filter_cell" = "Till";
 "filters_price_wrong_range_error" = "Lägsta pris kan inte vara högre än högsta pris.";
 "filters_real_estate_bathrooms_not_set" = "inte vald";
 "filters_real_estate_bedrooms_not_set" = "inte vald";
@@ -332,7 +342,7 @@
 "filters_section_real_estate_info" = "Fastighetsinformation";
 "filters_section_sortby" = "Sortera efter";
 "filters_section_within" = "Annonserade under";
-"filters_size_wrong_range_error" = "Värdet för den minsta ytan kan inte vara högre än den största ytan.";
+"filters_size_wrong_range_error" = "Den minsta ytan får inte vara högre än den största ytan.";
 "filters_sort_closest" = "Närmast först";
 "filters_sort_newest" = "Senast upplagda först";
 "filters_sort_price_asc" = "Pris lågt till högt";
@@ -787,6 +797,7 @@
 "real_estate_rooms_studio" = "Studio (1+0)";
 "real_estate_rooms_title" = "Antal rum";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "Add";
 "real_estate_size_square_meters_title" = "Yta";
 "real_estate_summary_bathroom_title" = "badrum";
 "real_estate_summary_bathrooms_empty" = "Lägg till antal badrum";
@@ -981,7 +992,7 @@
 "trending_items_view_post_button" = "Publicera";
 "trending_items_view_search_button" = "Sök";
 "trending_items_view_subtitle" = "Lägg upp en av dessa och tjäna pengar inom en vecka";
-"trending_items_view_title" = "Populäraste prylar i %@";
+"trending_items_view_title" = "Populärast i %@";
 "trending_items_view_title_no_location" = "Populäraste prylar";
 "trending_searches_Title" = "Sökningar som trendar";
 "unblock_user_error_generic" = "Ett fel uppstod när blockeringen av användaren skulle tas bort.";

@@ -128,7 +128,7 @@ enum DeepLinkOrigin {
     }
 }
 
-enum DeepLinkSource {
+enum DeepLinkSource: Equatable {
     case external(source: String)
     case push
     case none
@@ -139,6 +139,19 @@ enum DeepLinkSource {
             return
         }
         self = .external(source: string)
+    }
+    
+    static public func ==(lhs: DeepLinkSource, rhs: DeepLinkSource) -> Bool {
+        switch (lhs, rhs) {
+        case (.push, .push):
+            return true
+        case (.none, .none):
+            return true
+        case (.external(let lhsSource), .external(let rhsSource)):
+            return lhsSource == rhsSource
+        default:
+            return false
+        }
     }
 }
 

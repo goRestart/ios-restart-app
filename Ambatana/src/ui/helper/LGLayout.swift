@@ -356,7 +356,18 @@ extension UIView {
             return LGLayout(owner: UIView(), item1: UIView(), item2: UIView())
         }
     }
-    
+
+    func addSubviewForAutoLayout(_ subview: UIView) {
+        subview.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(subview)
+    }
+
+    func addSubviewsForAutoLayout(_ subviews: [UIView]) {
+        subviews.forEach { subview in
+            addSubviewForAutoLayout(subview)
+        }
+    }
+
     func addSubviews(_ subviews: [UIView]) {
         subviews.forEach { subview in
             addSubview(subview)
@@ -374,5 +385,25 @@ extension UIView {
         layout(with: inView).left().right()
         layout(with: viewController.topLayoutGuide).top(to: .bottom)
         layout(with: viewController.bottomLayoutGuide).bottom(to: .top)
+    }
+}
+
+extension UIViewController {
+    var safeTopAnchor: NSLayoutYAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return view.safeAreaLayoutGuide.topAnchor
+        }
+        else {
+            return topLayoutGuide.bottomAnchor
+        }
+    }
+
+    var safeBottomAnchor: NSLayoutYAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return view.safeAreaLayoutGuide.bottomAnchor
+        }
+        else {
+            return bottomLayoutGuide.topAnchor
+        }
     }
 }
