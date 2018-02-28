@@ -82,7 +82,8 @@ final class SellCoordinator: Coordinator {
         } else {
             let postListingVM = PostListingViewModel(source: source,
                                                      postCategory: postCategory,
-                                                     listingTitle: listingTitle)
+                                                     listingTitle: listingTitle,
+                                                     isBlockingPosting: false)
             let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                       forcedInitialTab: forcedInitialTab)
             navigationController = SellNavigationController(rootViewController: postListingVC)
@@ -235,8 +236,12 @@ extension SellCoordinator: PostListingNavigator {
         let _ = navigationController.popViewController(animated: true)
     }
     
-    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams, postState: PostListingState) {
-        let viewModel = PostingQueuedRequestsLoadingViewModel(images: images, listingCreationParams: listingCreationParams, postState: postState)
+    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
+                                   postState: PostListingState, source: EventParameterPictureSource) {
+        let viewModel = PostingQueuedRequestsLoadingViewModel(images: images,
+                                                              listingCreationParams: listingCreationParams,
+                                                              postState: postState,
+                                                              source: source)
         viewModel.navigator = self
         let vc = PostingQueuedRequestsLoadingViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)
@@ -277,7 +282,10 @@ extension SellCoordinator: ListingPostedNavigator {
     func closeProductPostedAndOpenPost() {
         dismissViewController(animated: true) { [weak self] in
             guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
-            let postListingVM = PostListingViewModel(source: strongSelf.postingSource, postCategory: nil, listingTitle: nil)
+            let postListingVM = PostListingViewModel(source: strongSelf.postingSource,
+                                                     postCategory: nil,
+                                                     listingTitle: nil,
+                                                     isBlockingPosting: false)
             let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                           forcedInitialTab: nil)
             strongSelf.viewController = postListingVC
@@ -296,7 +304,8 @@ extension SellCoordinator: PostingAdvancedCreateProductNavigator  {
     func openCamera() {
         let postListingVM = PostListingViewModel(source: .sellButton,
                                                  postCategory: nil,
-                                                 listingTitle: nil)
+                                                 listingTitle: nil,
+                                                 isBlockingPosting: true)
         postListingVM.navigator = self
         let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                       forcedInitialTab: nil)

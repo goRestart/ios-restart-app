@@ -48,6 +48,7 @@ class PostListingGalleryViewModel: BaseViewModel {
     var mediaPermissions: MediaPermissions
     
     let postCategory: PostCategory?
+    let isBlockingPosting: Bool
 
     weak var delegate: PostListingGalleryViewModelDelegate?
     weak var galleryDelegate: PostListingGalleryViewDelegate?
@@ -106,24 +107,27 @@ class PostListingGalleryViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    convenience init(postCategory: PostCategory?) {
+    convenience init(postCategory: PostCategory?, isBlockingPosting: Bool) {
         self.init(keyValueStorage: KeyValueStorage.sharedInstance,
                   featureFlags: FeatureFlags.sharedInstance,
                   mediaPermissions: LGMediaPermissions(),
                   maxImageSelected: Constants.maxImageCount,
-                  postCategory: postCategory)
+                  postCategory: postCategory,
+                  isBlockingPosting: isBlockingPosting)
     }
 
     required init(keyValueStorage: KeyValueStorage,
                   featureFlags: FeatureFlags,
                   mediaPermissions: MediaPermissions,
                   maxImageSelected: Int = Constants.maxImageCount,
-                  postCategory: PostCategory?) {
+                  postCategory: PostCategory?,
+                  isBlockingPosting: Bool) {
         self.maxImagesSelected = maxImageSelected
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         self.mediaPermissions = mediaPermissions
         self.postCategory = postCategory
+        self.isBlockingPosting = isBlockingPosting
         super.init()
         setupRX()
     }

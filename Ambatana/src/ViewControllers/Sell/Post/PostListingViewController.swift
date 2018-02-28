@@ -93,7 +93,8 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forcedInitialTab = forcedInitialTab
-        let postListingGalleryViewModel = PostListingGalleryViewModel(postCategory: viewModel.postCategory)
+        let postListingGalleryViewModel = PostListingGalleryViewModel(postCategory: viewModel.postCategory,
+                                                                      isBlockingPosting: viewModel.isBlockingPosting)
         self.galleryView = PostListingGalleryView(viewModel: postListingGalleryViewModel)
         
         self.priceView = PostListingDetailPriceView(viewModel: viewModel.postDetailViewModel)
@@ -242,6 +243,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     }
     
     private func setupCloseButton() {
+        guard !viewModel.isBlockingPosting else { return }
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(closeButton)
         if #available(iOS 11.0, *) {

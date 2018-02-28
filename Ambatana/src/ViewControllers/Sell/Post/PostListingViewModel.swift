@@ -63,6 +63,7 @@ class PostListingViewModel: BaseViewModel {
     let postListingCameraViewModel: PostListingCameraViewModel
     let postingSource: PostingSource
     let postCategory: PostCategory?
+    let isBlockingPosting: Bool
     
     fileprivate let listingRepository: ListingRepository
     fileprivate let fileRepository: FileRepository
@@ -91,10 +92,12 @@ class PostListingViewModel: BaseViewModel {
 
     convenience init(source: PostingSource,
                      postCategory: PostCategory?,
-                     listingTitle: String?) {
+                     listingTitle: String?,
+                     isBlockingPosting: Bool) {
         self.init(source: source,
                   postCategory: postCategory,
                   listingTitle: listingTitle,
+                  isBlockingPosting: isBlockingPosting,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
                   carsInfoRepository: Core.carsInfoRepository,
@@ -108,6 +111,7 @@ class PostListingViewModel: BaseViewModel {
     init(source: PostingSource,
          postCategory: PostCategory?,
          listingTitle: String?,
+         isBlockingPosting: Bool,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
          carsInfoRepository: CarsInfoRepository,
@@ -121,11 +125,14 @@ class PostListingViewModel: BaseViewModel {
         
         self.postingSource = source
         self.postCategory = postCategory
+        self.isBlockingPosting = isBlockingPosting
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.carsInfoRepository = carsInfoRepository
         self.postDetailViewModel = PostListingBasicDetailViewModel()
-        self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source, postCategory: postCategory)
+        self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source,
+                                                                     postCategory: postCategory,
+                                                                     isBlockingPosting: isBlockingPosting)
         self.tracker = tracker
         self.sessionManager = sessionManager
         self.featureFlags = featureFlags
@@ -157,27 +164,41 @@ class PostListingViewModel: BaseViewModel {
     }
 
     func imagesSelected(_ images: [UIImage], source: EventParameterPictureSource) {
-//        uploadedImageSource = source
-//        imagesSelected = images
-//
-//        guard sessionManager.loggedIn else {
-//            state.value = state.value.updating(pendingToUploadImages: images)
-//            return
-//        }
-//
-//        state.value = state.value.updatingStepToUploadingImages()
-//
-//        fileRepository.upload(images, progress: nil) { [weak self] result in
-//            guard let strongSelf = self else { return }
-//
-//            if let images = result.value {
-//                strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedImages: images)
-//            } else if let error = result.error {
-//                strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
-//            }
-//        }
+        if isBlockingPosting {
+            openQueuedRequestsLoading(images: images, source: source)
+        } else {
+            uploadImages(images, source: source)
+        }
+    }
+    
+    fileprivate func uploadImages(_ images: [UIImage], source: EventParameterPictureSource) {
+        uploadedImageSource = source
+        imagesSelected = images
+
+        guard sessionManager.loggedIn else {
+            state.value = state.value.updating(pendingToUploadImages: images)
+            return
+        }
+
+        state.value = state.value.updatingStepToUploadingImages()
+
+        fileRepository.upload(images, progress: nil) { [weak self] result in
+            guard let strongSelf = self else { return }
+
+            if let images = result.value {
+                strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedImages: images)
+            } else if let error = result.error {
+                strongSelf.state.value = strongSelf.state.value.updating(uploadError: error)
+            }
+        }
+    }
+    
+    fileprivate func openQueuedRequestsLoading(images: [UIImage], source: EventParameterPictureSource) {
         guard let listingParams = makeListingParams() else { return }
-        navigator?.openQueuedRequestsLoading(images: images, listingCreationParams: listingParams, postState: state.value)
+        navigator?.openQueuedRequestsLoading(images: images,
+                                             listingCreationParams: listingParams,
+                                             postState: state.value,
+                                             source: source)
     }
     
     func closeButtonPressed() {

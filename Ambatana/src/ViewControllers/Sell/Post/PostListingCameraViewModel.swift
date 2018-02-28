@@ -38,6 +38,7 @@ class PostListingCameraViewModel: BaseViewModel {
     private let disposeBag = DisposeBag()
     private let keyValueStorage: KeyValueStorage   //cameraAlreadyShown
     let sourcePosting: PostingSource
+    let isBlockingPosting: Bool
 
     private let featureFlags: FeatureFlaggeable
     private let mediaPermissions: MediaPermissions
@@ -54,9 +55,11 @@ class PostListingCameraViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    init(postingSource: PostingSource, postCategory: PostCategory?, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions) {
+    init(postingSource: PostingSource, postCategory: PostCategory?, isBlockingPosting: Bool,
+         keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions) {
         self.keyValueStorage = keyValueStorage
         self.sourcePosting = postingSource
+        self.isBlockingPosting = isBlockingPosting
         self.featureFlags = featureFlags
         self.mediaPermissions = mediaPermissions
         self.postCategory = postCategory
@@ -66,12 +69,13 @@ class PostListingCameraViewModel: BaseViewModel {
         setupRX()
     }
 
-    convenience init(postingSource: PostingSource, postCategory: PostCategory?) {
+    convenience init(postingSource: PostingSource, postCategory: PostCategory?, isBlockingPosting: Bool) {
         let mediaPermissions: MediaPermissions = LGMediaPermissions()
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         self.init(postingSource: postingSource,
                   postCategory: postCategory,
+                  isBlockingPosting: isBlockingPosting,
                   keyValueStorage: keyValueStorage,
                   featureFlags: featureFlags,
                   mediaPermissions: mediaPermissions)

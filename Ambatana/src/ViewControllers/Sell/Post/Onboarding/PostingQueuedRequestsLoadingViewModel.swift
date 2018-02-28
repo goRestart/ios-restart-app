@@ -15,6 +15,7 @@ class PostingQueuedRequestsLoadingViewModel: BaseViewModel {
     private let fileRepository: FileRepository
     private let images: [UIImage]
     private let listingCreationParams: ListingCreationParams
+    private let source: EventParameterPictureSource
     let postOnboardingState: Variable<PostOnboardingListingState>
     let isLoading = Variable<Bool>(false)
     let gotListingCreateResponse = Variable<Bool>(false)
@@ -29,33 +30,38 @@ class PostingQueuedRequestsLoadingViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    convenience init(images: [UIImage], listingCreationParams: ListingCreationParams, postState: PostListingState) {
+    convenience init(images: [UIImage], listingCreationParams: ListingCreationParams,
+                     postState: PostListingState, source: EventParameterPictureSource) {
         self.init(listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
                   images: images,
                   listingCreationParams: listingCreationParams,
-                  postState: postState)
+                  postState: postState,
+                  source: source)
     }
     
     convenience init(images: [UIImage], listingCreationParams: ListingCreationParams, postState: PostListingState,
-                     listingRepository: ListingRepository, fileRepository: FileRepository) {
+                     source: EventParameterPictureSource, listingRepository: ListingRepository,
+                     fileRepository: FileRepository) {
         self.init(listingRepository: listingRepository,
                   fileRepository: fileRepository,
                   images: images,
                   listingCreationParams: listingCreationParams,
-                  postState: postState)
+                  postState: postState,
+                  source: source)
     }
     
     init(listingRepository: ListingRepository,
          fileRepository: FileRepository,
          images: [UIImage],
          listingCreationParams: ListingCreationParams,
-         postState: PostListingState) {
+         postState: PostListingState,
+         source: EventParameterPictureSource) {
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.images = images
         self.listingCreationParams = listingCreationParams
-
+        self.source = source
         self.postOnboardingState = Variable<PostOnboardingListingState>(PostOnboardingListingState(postListingState: postState))
         super.init()
     }
