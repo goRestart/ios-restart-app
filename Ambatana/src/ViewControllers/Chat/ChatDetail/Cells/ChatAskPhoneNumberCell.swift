@@ -16,4 +16,9 @@ class ChatAskPhoneNumberCell: ChatBubbleCell, ReusableCell {
     @IBAction func leavePhoneNumberPressed() {
         buttonAction?()
     }
+    
+    override func setAccessibilityIds() {
+        super.setAccessibilityIds()
+        set(accessibilityId: .chatCellContainer(type: .askPhoneNumber))
+    }
 }

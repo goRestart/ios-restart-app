@@ -122,6 +122,7 @@ fileprivate extension ChatDisclaimerCell {
 
 extension ChatDisclaimerCell {
     func setAccessibilityIds() {
+        set(accessibilityId: .chatDisclaimerCellContainer)
         messageLabel.set(accessibilityId: .chatDisclaimerCellMessageLabel)
         button.set(accessibilityId: .chatDisclaimerCellButton)
     }

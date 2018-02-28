@@ -418,20 +418,23 @@ enum AccessibilityId {
     case directAnswersPresenterCollectionView
 
     // ChatCell
+    case chatCellContainer(type: ChatBubbleCellType)
     case chatCellMessageLabel
     case chatCellDateLabel
 
     // ChatStickerCell
+    case chatStickerCellContainer
     case chatStickerCellLeftImage
     case chatStickerCellRightImage
 
     // ChatDisclaimerCell
+    case chatDisclaimerCellContainer
     case chatDisclaimerCellMessageLabel
     case chatDisclaimerCellButton
 
     // ChatOtherInfoCell
+    case chatOtherInfoCellContainer
     case chatOtherInfoCellNameLabel
-    case chatOtherInfoCell
 
     // TourLogin
     case tourLoginCloseButton
@@ -1404,28 +1407,43 @@ enum AccessibilityId {
             return "directAnswersPresenterCollectionView"
             
         // ChatCell
+        case let .chatCellContainer(type):
+            let suffix: String
+            switch type {
+            case .myMessage:
+                suffix = "MyMessage"
+            case .othersMessage:
+                suffix = "OthersMessage"
+            case .askPhoneNumber:
+                suffix = "AskPhoneNumber"
+            }
+            return "chatCellContainer\(suffix)"
         case .chatCellMessageLabel:
             return "chatCellMessageLabel"
         case .chatCellDateLabel:
             return "chatCellDateLabel"
             
         // ChatStickerCell
+        case .chatStickerCellContainer:
+            return "chatStickerCellContainer"
         case .chatStickerCellLeftImage:
             return "chatStickerCellLeftImage"
         case .chatStickerCellRightImage:
             return "chatStickerCellRightImage"
             
         // ChatDisclaimerCell
+        case .chatDisclaimerCellContainer:
+            return "chatDisclaimerCellContainer"
         case .chatDisclaimerCellMessageLabel:
             return "chatDisclaimerCellMessageLabel"
         case .chatDisclaimerCellButton:
             return "chatDisclaimerCellButton"
             
         // ChatOtherInfoCell
+        case .chatOtherInfoCellContainer:
+            return "chatOtherInfoCellContainer"
         case .chatOtherInfoCellNameLabel:
             return "chatOtherInfoCellNameLabel"
-        case .chatOtherInfoCell:
-            return "chatOtherInfoCell"
             
         // TourLogin
         case .tourLoginCloseButton:
