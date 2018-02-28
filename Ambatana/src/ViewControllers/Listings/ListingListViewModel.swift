@@ -427,6 +427,14 @@ class ListingListViewModel: BaseViewModel {
         return priceViewHeight
     }
     
+    private func discardedProductAdditionalHeight(for listing: Listing,
+                                                  toHeight height: CGFloat,
+                                                  variant: DiscardedProducts) -> CGFloat {
+        let minCellHeight: CGFloat = 168
+        guard listing.status.isDiscarded, variant.isActive, height < minCellHeight else { return 0 }
+        return minCellHeight - height
+    }
+    
     private func thumbImageViewSize(for listing: Listing, widthConstraint: CGFloat, variant: MainFeedAspectRatio) -> CGSize? {
         let maxPortraitAspectRatio = AspectRatio.w1h2
         let minCellHeight: CGFloat = 80.0
@@ -476,6 +484,7 @@ class ListingListViewModel: BaseViewModel {
                                                        width: widthConstraint,
                                                        isVariantEnabled: featureFlags.pricedBumpUpEnabled)
         cellHeight += priceViewAdditionalCellHeight(variant: featureFlags.showPriceAfterSearchOrFilter)
+        cellHeight += discardedProductAdditionalHeight(for: listing, toHeight: cellHeight, variant: featureFlags.discardedProducts)
         let cellSize = CGSize(width: widthConstraint, height: cellHeight)
         return cellSize
     }

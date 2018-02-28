@@ -295,6 +295,9 @@
 "direct_answers_hide" = "Nascondi Risposte Rapide";
 "direct_answers_show" = "Visualizza Risposte Rapide";
 "discarded" = "Scartato";
+"discarded_products_delete" = "Elimina";
+"discarded_products_delete_confirmation" = "Sei sicuro di voler eliminare questo annuncio?";
+"discarded_products_edit" = "Modifica";
 "discarded_products_reason_duplicated" = "Annuncio duplicato";
 "discarded_products_reason_good_manners" = "Non rispetta le procedure consigliate";
 "discarded_products_reason_non_realistic_price" = "Prezzo non realistico";
@@ -691,6 +694,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Inserisci numero di telefono";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Grazie per averci contattato! Chiamaci o lascia il tuo numero e ti richiameremo noi.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Grazie per aver aggiunto il tuo numero di telefono! È sempre meglio utilizzare il pulsante qui sopra per chiamarci.";
+"profile_bio_add_button" = "Add your bio";
+"profile_bio_show_more_button" = "MORE ABOUT ME";
 "profile_blocked_by_me_label" = "Hai bloccato questo utente";
 "profile_blocked_by_me_label_w_name" = "Hai bloccato %@";
 "profile_blocked_by_other_label" = "Sei stato bloccato da questo utente";
@@ -706,6 +711,7 @@
 "profile_permissions_alert_title" = "NON PERDERE NEANCHE UNA RISPOSTA!";
 "profile_permissions_header_message" = "Attiva notifiche messaggi";
 "profile_reviews_count" = "Recensioni";
+"profile_reviews_tab" = "Recensioni";
 "profile_selling_no_products_label" = "ANCORA NESSUN ANNUNCIO!";
 "profile_selling_other_user_no_products_button" = "Continua la consultazione";
 "profile_selling_products_tab" = "In vendita";
@@ -713,6 +719,7 @@
 "profile_sold_other_no_products_button" = "Continua la consultazione";
 "profile_sold_products_tab" = "Venduto";
 "profile_verified_accounts_other_user" = "VERIFICATO CON:";
+"profile_verified_accounts_title" = "VERIFICATO CON";
 "profile_verify_email_button" = "Invia email";
 "profile_verify_email_message_present" = "Tocca \"Invia email\" per inviare un nuovo link di verifica a %@";
 "profile_verify_email_success" = "Controlla la posta in arrivo per verificare il tuo account. Il link scadrà tra 48 ore.";
@@ -797,7 +804,7 @@
 "real_estate_rooms_studio" = "Studio (1+0)";
 "real_estate_rooms_title" = "N. di stanze";
 "real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_placeholder" = "Add";
+"real_estate_size_square_meters_placeholder" = "Aggiungi";
 "real_estate_size_square_meters_title" = "Dimensioni";
 "real_estate_summary_bathroom_title" = "bagno";
 "real_estate_summary_bathrooms_empty" = "Aggiungi n° di bagni";

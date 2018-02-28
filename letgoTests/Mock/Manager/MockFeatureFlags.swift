@@ -58,6 +58,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
     var searchMultiwordExpressions: SearchMultiwordExpressions = .control
     var showChatSafetyTips: Bool = false
+    var discardedProducts: DiscardedProducts = .control
 
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     

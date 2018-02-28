@@ -295,6 +295,9 @@
 "direct_answers_hide" = "Skjul Hurtige Svar";
 "direct_answers_show" = "Vis Hurtige Svar";
 "discarded" = "Forkastet";
+"discarded_products_delete" = "Slett";
+"discarded_products_delete_confirmation" = "Er du sikker på at du vil slette denne annonsen?";
+"discarded_products_edit" = "Endre";
 "discarded_products_reason_duplicated" = "Duplikate annonser";
 "discarded_products_reason_good_manners" = "Dette overholder ikke optimal praksis";
 "discarded_products_reason_non_realistic_price" = "Urealistisk prising";
@@ -691,6 +694,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Legg inn telefonnummer";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Takk for at du at du tar kontakt! Vennligst ring oss eller legg igjen ditt nummer slik at vi kan ringe deg.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Takk for at du legger til ditt telefonnummer! Det er alltid bedre å ringe oss ved å bruke ringeknappen over.";
+"profile_bio_add_button" = "Add your bio";
+"profile_bio_show_more_button" = "MORE ABOUT ME";
 "profile_blocked_by_me_label" = "Du har blokkert denne brukeren";
 "profile_blocked_by_me_label_w_name" = "Du har blokkert %@";
 "profile_blocked_by_other_label" = "Du har blitt blokkert av denne brukeren";
@@ -706,6 +711,7 @@
 "profile_permissions_alert_title" = "IKKE GÅ GLIPP AV ET SVAR!";
 "profile_permissions_header_message" = "Aktiver meldingsvarslinger";
 "profile_reviews_count" = "Vurderinger";
+"profile_reviews_tab" = "Vurderinger";
 "profile_selling_no_products_label" = "INGEN ANNONSER (ENDA!)";
 "profile_selling_other_user_no_products_button" = "Fortsett å bla i produktene";
 "profile_selling_products_tab" = "Til salgs";
@@ -713,6 +719,7 @@
 "profile_sold_other_no_products_button" = "Fortsett å bla i produktene";
 "profile_sold_products_tab" = "Solgt";
 "profile_verified_accounts_other_user" = "VERIFISERT MED:";
+"profile_verified_accounts_title" = "VERIFISERT MED";
 "profile_verify_email_button" = "Send e-post";
 "profile_verify_email_message_present" = "Trykk \"Send e-post\" for å sende en ny verifiseringslenke til %@";
 "profile_verify_email_success" = "Sjekk din e-post innboks for å verifisere din konto. Lenken vil utløpe om 48 timer.";
@@ -797,7 +804,7 @@
 "real_estate_rooms_studio" = "Hybelleilighet (1+0)";
 "real_estate_rooms_title" = "Antall rom";
 "real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_placeholder" = "Add";
+"real_estate_size_square_meters_placeholder" = "Legg til";
 "real_estate_size_square_meters_title" = "Areal";
 "real_estate_summary_bathroom_title" = "bad";
 "real_estate_summary_bathrooms_empty" = "Legg til antall bad";

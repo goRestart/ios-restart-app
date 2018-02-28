@@ -72,29 +72,64 @@ class LGNiordLocationDataSource: LocationDataSource {
     // MARK: - Helpers
     
     static func locationSuggestionDecoder(_ object: Any) -> [Place]? {
-        guard let dict = object as? [String : Any] else { return nil }
-        guard let predictionsDicts = dict["predictions"] as? [[String: Any]] else { return nil }
+        guard let dict = object as? [String : Any] else {
+            logAndReportParseError(object: object, entity: .places,
+                                   comment: "root not a [String: Any]")
+            return nil
+        }
+        
+        guard let predictionsDicts = dict["predictions"] as? [[String: Any]] else {
+            logAndReportParseError(object: object, entity: .places,
+                                   comment: "missing predictions key or value not a [[String: Any]]")
+            return nil
+        }
+        
         var places: [Place] = []
         predictionsDicts.forEach { prediction in
             if let description = prediction["description"] as? String,
                 let placeId = prediction["place_id"] as? String {
                 places.append(Place(placeId: placeId, placeResumedData: description))
+            } else {
+                logAndReportParseError(object: object, entity: .place,
+                                       comment: "missing description or place_id key")
             }
         }
         return places
     }
     
     static func postalAddressDecoder(_ object: Any) -> Place? {
-        guard let dict = object as? [String: Any] else { return nil }
-        guard let results = dict["results"] as? [[String: Any]] else { return nil }
-        guard let firstResult = results.first else { return nil }
+        guard let dict = object as? [String: Any] else {
+            logAndReportParseError(object: object, entity: .place,
+                                   comment: "root not a [String: Any]")
+            return nil
+        }
+        guard let results = dict["results"] as? [[String: Any]] else {
+            logAndReportParseError(object: object, entity: .place,
+                                   comment: "missing results key or value not a [[String: Any]]")
+            return nil
+            
+        }
+        guard let firstResult = results.first else {
+            logAndReportParseError(object: object, entity: .place,
+                                   comment: "empty results array")
+            return nil
+            
+        }
         let place = LGNiordLocationDataSource.decodeNiordPlace(niordDictionary: firstResult)
         return place
     }
     
-    static func postalAddressDetailsDecoder(_ object: Any) -> Place? {
-        guard let dict = object as? [String: Any] else { return nil }
-        guard let result = dict["result"] as? [String: Any] else { return nil }
+    private static func postalAddressDetailsDecoder(_ object: Any) -> Place? {
+        guard let dict = object as? [String: Any] else {
+            logAndReportParseError(object: object, entity: .placeDetails,
+                                   comment: "root not a [String: Any]")
+            return nil
+        }
+        guard let result = dict["result"] as? [String: Any] else {
+            logAndReportParseError(object: object, entity: .placeDetails,
+                                   comment: "missing result key or value not a [String: Any]")
+            return nil
+        }
         let place = LGNiordLocationDataSource.decodeNiordPlace(niordDictionary: result)
         return place
     }

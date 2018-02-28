@@ -57,7 +57,8 @@ class ABTests {
     let searchMultiwordExpressions = IntABDynamicVar(key: "20180220SearchMultiwordExpressions", defaultValue: 0, abGroupType: .core)
     let showChatSafetyTips = BoolABDynamicVar(key: "20180226ShowChatSafetyTips", defaultValue: false, abGroupType: .chat)
     let onboardingIncentivizePosting = IntABDynamicVar(key: "20180215OnboardingIncentivizePosting", defaultValue: 0, abGroupType: .retention)
-    
+    let discardedProducts = IntABDynamicVar(key: "20180219DiscardedProducts", defaultValue: 0, abGroupType: .core)
+
     init() {
     }
     
@@ -105,7 +106,7 @@ class ABTests {
         result.append(turkeyBumpPriceVATAdaptation)
         result.append(searchMultiwordExpressions)
         result.append(showChatSafetyTips)
-        result.append(onboardingIncentivizePosting)
+        result.append(discardedProducts)
         
         return result
     }

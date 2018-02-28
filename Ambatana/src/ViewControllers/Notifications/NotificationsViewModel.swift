@@ -94,7 +94,7 @@ class NotificationsViewModel: BaseViewModel {
     }
 
     private func reloadNotifications() {
-        notificationsRepository.index { [weak self] result in
+        notificationsRepository.index(allowEditDiscarded: featureFlags.discardedProducts.isActive) { [weak self] result in
             guard let strongSelf = self else { return }
             if let notifications = result.value {
                 let remoteNotifications = notifications.flatMap{ strongSelf.buildNotification($0) }

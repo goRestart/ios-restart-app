@@ -1474,6 +1474,12 @@ extension MainListingsViewModel: ListingCellDelegate {
                             source: .listingListFeatured,
                             predefinedMessage: nil)
     }
+    
+    // Discarded listings are never shown in the main feed
+    func editPressedForDiscarded(listing: Listing) {}
+    
+    // Discarded listings are never shown in the main feed
+    func moreOptionsPressedForDiscarded(listing: Listing) {}
 }
 
 extension NoAdsInFeedForNewUsers {
