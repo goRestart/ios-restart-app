@@ -28,7 +28,6 @@ class ListingPostedDescriptiveViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupConstraints()
-        setupRx()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,9 +48,6 @@ class ListingPostedDescriptiveViewController: BaseViewController {
         tempNextButton.translatesAutoresizingMaskIntoConstraints = false
         
         tempNextButton.layout(with: view).fill()
-    }
-    
-    private func setupRx() {
     }
     
     @objc private func closePosting() {

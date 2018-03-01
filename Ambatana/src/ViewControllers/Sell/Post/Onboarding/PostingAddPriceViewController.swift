@@ -26,16 +26,12 @@ class PostingAddPriceViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        navigationController?.setNavigationBarHidden(true, animated: false)
         setupUI()
         setupConstraints()
-        setupRx()
-        //viewModel.createListingAfterUploadingImages()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //setStatusBarHidden(true)
     }
     
     
@@ -54,9 +50,6 @@ class PostingAddPriceViewController: BaseViewController {
         tempNextButton.translatesAutoresizingMaskIntoConstraints = false
         
         tempNextButton.layout(with: view).fill()
-    }
-    
-    private func setupRx() {
     }
     
     @objc private func openListingPosted() {
