@@ -269,9 +269,6 @@
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G2f-92-HRP">
                             <rect key="frame" x="0.0" y="0.0" width="200" height="44"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="200" id="hqW-Xs-K8e"/>
-                            </constraints>
                             <state key="normal" title="_SELLING">
                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
@@ -363,7 +360,6 @@
                 <outlet property="ratingsButton" destination="4Ch-CZ-5Ya" id="j4O-Pu-ZdH"/>
                 <outlet property="ratingsLabel" destination="aqu-Rs-NBg" id="BDz-g0-Mqw"/>
                 <outlet property="sellingButton" destination="G2f-92-HRP" id="IFD-Vf-g42"/>
-                <outlet property="sellingButtonWidthConstraint" destination="hqW-Xs-K8e" id="43L-Z5-9ev"/>
                 <outlet property="simpleEmailButtonWidth" destination="3Al-wE-KeT" id="mkq-K6-W9t"/>
                 <outlet property="simpleFacebookButtonWidth" destination="yby-bx-5v3" id="Oar-P9-baf"/>
                 <outlet property="simpleGoogleButtonWidth" destination="Mhr-Tp-r6f" id="cL0-Ro-eTI"/>
