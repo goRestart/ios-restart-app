@@ -34,7 +34,7 @@ final class PostCategoryDetailProgressView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        progressView.rounded = true
+        progressView.setRoundedCorners()
     }
     
     override var intrinsicContentSize: CGSize {

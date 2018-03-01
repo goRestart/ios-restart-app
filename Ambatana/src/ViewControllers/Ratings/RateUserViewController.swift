@@ -121,7 +121,7 @@ class RateUserViewController: KeyboardViewController {
         
         setNavBarTitle(LGLocalizedString.userRatingTitle)
 
-        userImage.layer.cornerRadius = userImage.width / 2
+        userImage.setRoundedCorners()
         if let avatar = viewModel.userAvatar {
             userImage.lg_setImageWithURL(avatar)
         }

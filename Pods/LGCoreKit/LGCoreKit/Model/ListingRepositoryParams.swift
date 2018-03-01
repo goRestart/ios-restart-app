@@ -28,7 +28,7 @@ public struct RetrieveListingParams {
     public var timeCriteria: ListingTimeCriteria?
     public var offset: Int?                 // skip results
     public var numListings: Int?            // number listings to return
-    public var statuses: [ListingStatus]?   // Default 1,3
+    public var statuses: [ListingStatusCode]?   // Default 1,3
     public var maxPrice: Int?
     public var minPrice: Int?
     public var freePrice: Bool?
@@ -65,12 +65,18 @@ public struct RetrieveListingParams {
         params["country_code"] = countryCode
 
         if let statuses = statuses {
+            var statusValue = ""
             if statuses.contains(.sold) || statuses.contains(.soldOld) {
-                params["status"] = UserListingStatus.sold.rawValue
+                statusValue = UserListingStatus.sold.rawValue
             } else {
-                params["status"] = UserListingStatus.selling.rawValue
+                statusValue = UserListingStatus.selling.rawValue
             }
+            if statuses.contains(.discarded) {
+                statusValue.append(",\(UserListingStatus.discarded)")
+            }
+            params["status"] = statusValue
         }
+        
         return params
     }
     
@@ -283,4 +289,5 @@ public enum ListingTimeCriteria: Int, Equatable {
 public enum UserListingStatus: String {
     case selling = "selling"
     case sold = "sold"
+    case discarded = "discarded"
 }

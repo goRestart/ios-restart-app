@@ -167,6 +167,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     fileprivate let initialListing: Listing
     fileprivate var savedListing: Listing?
     fileprivate var shouldTrack: Bool = true
+    fileprivate var pageType: EventParameterTypePage?
     fileprivate var myUserId: String? {
         return myUserRepository.myUser?.objectId
     }
@@ -194,7 +195,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     
     // MARK: - Lifecycle
     
-    convenience init(listing: Listing) {
+    convenience init(listing: Listing, pageType: EventParameterTypePage?) {
         self.init(listing: listing,
                   myUserRepository: Core.myUserRepository,
                   listingRepository: Core.listingRepository,
@@ -203,6 +204,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                   carsInfoRepository: Core.carsInfoRepository,
                   locationManager: Core.locationManager,
                   tracker: TrackerProxy.sharedInstance,
+                  pageType: pageType,
                   featureFlags: FeatureFlags.sharedInstance)
     }
     
@@ -214,6 +216,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
          carsInfoRepository: CarsInfoRepository,
          locationManager: LocationManager,
          tracker: Tracker,
+         pageType: EventParameterTypePage?,
          featureFlags: FeatureFlaggeable) {
         self.myUserRepository = myUserRepository
         self.listingRepository = listingRepository
@@ -279,6 +282,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
         self.shouldShareInFB = false
         self.isFreePosting.value = featureFlags.freePostingModeAllowed && listing.price.isFree
+        self.pageType = pageType
         super.init()
 
         setupCategories()
@@ -910,7 +914,7 @@ extension EditListingViewModel {
 
     fileprivate func trackStart() {
         let myUser = myUserRepository.myUser
-        let event = TrackerEvent.listingEditStart(myUser, listing: initialListing)
+        let event = TrackerEvent.listingEditStart(myUser, listing: initialListing, pageType: pageType)
         trackEvent(event)
     }
 
@@ -934,7 +938,7 @@ extension EditListingViewModel {
 
         let myUser = myUserRepository.myUser
         let event = TrackerEvent.listingEditComplete(myUser, listing: listing, category: category.value,
-                                                     editedFields: editedFields)
+                                                     editedFields: editedFields, pageType: pageType)
         trackEvent(event)
     }
 

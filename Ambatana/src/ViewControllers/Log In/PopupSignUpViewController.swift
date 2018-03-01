@@ -79,18 +79,18 @@ class PopupSignUpViewController: BaseViewController, UITextViewDelegate, GIDSign
 
     private func setupUI() {
 
-        contentContainer.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
+        contentContainer.cornerRadius = LGUIKitConstants.smallCornerRadius
         
         connectFBButton.setStyle(.facebook)
         connectGoogleButton.setStyle(.google)
 
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             for: .normal)
-        signUpButton.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
+        signUpButton.cornerRadius = LGUIKitConstants.smallCornerRadius
 
         logInButton.setBackgroundImage(logInButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             for: .normal)
-        logInButton.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
+        logInButton.cornerRadius = LGUIKitConstants.smallCornerRadius
 
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, for: .normal)
         connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, for: .normal)

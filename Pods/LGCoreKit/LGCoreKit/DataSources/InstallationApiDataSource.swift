@@ -57,6 +57,10 @@ class InstallationApiDataSource: InstallationDataSource {
     private func decodeJson(_ jsonData: Any) -> Installation? {
         guard let dictionary = jsonData as? [String: Any] else { return nil }
         let installation: LGInstallationAPI? = LGInstallationAPI(dictionary: dictionary)
+        if installation == nil {
+            logAndReportParseError(object: jsonData, entity: .installation,
+                                   comment: "could not parse Installation")
+        }
         return installation
     }
 }

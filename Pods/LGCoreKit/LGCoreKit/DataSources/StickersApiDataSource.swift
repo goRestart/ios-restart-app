@@ -38,7 +38,8 @@ class StickersApiDataSource: StickersDataSource {
             let stickers = try JSONDecoder().decode(FailableDecodableArray<LGSticker>.self, from: data)
             return stickers.validElements
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGSticker \(object)")
+            logAndReportParseError(object: object, entity: .stickers,
+                                   comment: "could not parse [LGSticker]")
         }
         return nil
     }

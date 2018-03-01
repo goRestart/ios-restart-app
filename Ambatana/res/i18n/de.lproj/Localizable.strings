@@ -295,6 +295,9 @@
 "direct_answers_hide" = "Schnelle Antworten verbergen";
 "direct_answers_show" = "Schnelle Antworten anzeigen";
 "discarded" = "Verworfen";
+"discarded_products_delete" = "Löschen";
+"discarded_products_delete_confirmation" = "Bist du sicher, dass du dieses Angebot löschen möchtest?";
+"discarded_products_edit" = "Bearbeiten";
 "discarded_products_reason_duplicated" = "Doppeltes Angebot";
 "discarded_products_reason_good_manners" = "Verstoß gegen unsere Angebotsregeln";
 "discarded_products_reason_non_realistic_price" = "Unrealistischer Preis";
@@ -691,6 +694,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Telefonnummer eingeben";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Danke, dass du dich mit uns in Verbindung gesetzt hast! Bitte rufe uns an oder gib deine Telefonnummer an, damit wir dich anrufen können.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Danke, dass du deine Telefonnummer angegeben hast! Ruf uns einfach an, indem du auf die Anrufen-Schaltfläche oben drückst.";
+"profile_bio_add_button" = "Add your bio";
+"profile_bio_show_more_button" = "MORE ABOUT ME";
 "profile_blocked_by_me_label" = "Du hast diesen Nutzer blockiert";
 "profile_blocked_by_me_label_w_name" = "Du hast %@ blockiert";
 "profile_blocked_by_other_label" = "Du wurdest von diesem Nutzer blockiert";
@@ -706,6 +711,7 @@
 "profile_permissions_alert_title" = "VERPASSE KEINE ANTWORT!";
 "profile_permissions_header_message" = "Aktiviere Mitteilungen";
 "profile_reviews_count" = "Bewertungen";
+"profile_reviews_tab" = "Bewertungen";
 "profile_selling_no_products_label" = "(NOCH) KEINE ANGEBOTE";
 "profile_selling_other_user_no_products_button" = "Mehr entdecken";
 "profile_selling_products_tab" = "Verkaufen";
@@ -713,6 +719,7 @@
 "profile_sold_other_no_products_button" = "Mehr entdecken";
 "profile_sold_products_tab" = "Verkauft";
 "profile_verified_accounts_other_user" = "VERIFIZIERT MIT:";
+"profile_verified_accounts_title" = "VERIFIZIERT MIT";
 "profile_verify_email_button" = "E-Mail schicken";
 "profile_verify_email_message_present" = "Drücke \"E-Mail schicken\", um einen neuen Verifizierungslink an %@ zu schicken";
 "profile_verify_email_success" = "Schaue in dein E-Mail-Postfach, um dein Benutzerkonto zu verifizieren. Der Link ist 48 Stunden gültig.";
@@ -797,7 +804,7 @@
 "real_estate_rooms_studio" = "Studio (1+0)";
 "real_estate_rooms_title" = "Zahl der Zimmer";
 "real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_placeholder" = "Add";
+"real_estate_size_square_meters_placeholder" = "Hinzufügen";
 "real_estate_size_square_meters_title" = "Größe";
 "real_estate_summary_bathroom_title" = "Badezimmer";
 "real_estate_summary_bathrooms_empty" = "Zahl der Badezimmer hinzufügen";

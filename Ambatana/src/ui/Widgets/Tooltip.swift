@@ -135,7 +135,7 @@ class Tooltip: UIView {
         translatesAutoresizingMaskIntoConstraints = false
 
         coloredView.translatesAutoresizingMaskIntoConstraints = false
-        coloredView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        coloredView.cornerRadius = LGUIKitConstants.mediumCornerRadius
         coloredView.backgroundColor = style.bgColor
         addSubview(coloredView)
 

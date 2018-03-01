@@ -119,7 +119,8 @@ struct LGCar: Car, Decodable {
                   images: images,
                   user: user,
                   featured: nil,
-                  carAttributes: CarAttributes.emptyCarAttributes())
+                  carAttributes: CarAttributes.emptyCarAttributes()
+                  )
     }
     
     static func carWithId(_ objectId: String?,
@@ -135,7 +136,7 @@ struct LGCar: Car, Decodable {
                           postalAddress: PostalAddress,
                           languageCode: String?,
                           category: Int,
-                          status: Int,
+                          status: ListingStatus,
                           thumbnail: String?,
                           thumbnailSize: LGSize?,
                           images: [LGFile],
@@ -144,7 +145,6 @@ struct LGCar: Car, Decodable {
                           carAttributes: CarAttributes?) -> LGCar {
         let actualCurrency = Currency.currencyWithCode(currency)
         let actualCategory = ListingCategory(rawValue: category) ?? .other
-        let actualStatus = ListingStatus(rawValue: status) ?? .pending
         let actualThumbnail = LGFile(id: nil, urlString: thumbnail)
         let actualImages = images.flatMap { $0 as File }
         let listingPrice = ListingPrice.fromPrice(price, andFlag: priceFlag)
@@ -161,7 +161,7 @@ struct LGCar: Car, Decodable {
                          postalAddress: postalAddress,
                          languageCode: languageCode,
                          category: actualCategory,
-                         status: actualStatus,
+                         status: status,
                          thumbnail: actualThumbnail,
                          thumbnailSize: thumbnailSize,
                          images: actualImages,

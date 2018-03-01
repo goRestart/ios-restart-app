@@ -2946,18 +2946,24 @@ class TrackerEventSpec: QuickSpec {
                 it("has its event name") {
                     let user = MockUser.makeMock()
                     let product = MockProduct.makeMock()
-                    sut = TrackerEvent.listingEditStart(user, listing: .product(product))
+                    sut = TrackerEvent.listingEditStart(user, listing: .product(product), pageType: nil)
                     expect(sut.name.rawValue).to(equal("product-edit-start"))
                 }
                 it("contains the product id") {
                     var product = MockProduct.makeMock()
                     product.objectId = "q1w2e3"
-                    sut = TrackerEvent.listingEditStart(nil, listing: .product(product))
+                    sut = TrackerEvent.listingEditStart(nil, listing: .product(product), pageType: nil)
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId).to(equal(product.objectId))
+                }
+                it("has the page type") {
+                    let user = MockUser.makeMock()
+                    let product = MockProduct.makeMock()
+                    sut = TrackerEvent.listingEditStart(user, listing: .product(product), pageType: .profile)
+                    expect(sut.params!.stringKeyParams["type-page"] as? String).to(equal("profile"))
                 }
             }
             
@@ -3019,7 +3025,7 @@ class TrackerEventSpec: QuickSpec {
                         product.price = .normal(20)
                         product.images = MockFile.makeMocks(count: 2)
                         product.descr = String.makeRandom()
-                        sut = TrackerEvent.listingEditComplete(nil, listing: .product(product), category: .homeAndGarden, editedFields: [.title, .category])
+                        sut = TrackerEvent.listingEditComplete(nil, listing: .product(product), category: .homeAndGarden, editedFields: [.title, .category], pageType: .profile)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("product-edit-complete"))
@@ -3058,6 +3064,10 @@ class TrackerEventSpec: QuickSpec {
                         let data = sut.params!.stringKeyParams["bathroom-number"] as? String
                         expect(data).to(equal("N/A"))
                     }
+                    it("contains page type") {
+                        let data = sut.params!.stringKeyParams["type-page"] as? String
+                        expect(data).to(equal("profile"))
+                    }
                 }
             }
             
@@ -3078,7 +3088,7 @@ class TrackerEventSpec: QuickSpec {
                                                                         livingRooms: nil,
                                                                         sizeSquareMeters: nil)
                         realEstate.realEstateAttributes = realEstateAttributes
-                        sut = TrackerEvent.listingEditComplete(nil, listing: .realEstate(realEstate), category: nil, editedFields: [.title, .category])
+                        sut = TrackerEvent.listingEditComplete(nil, listing: .realEstate(realEstate), category: nil, editedFields: [.title, .category], pageType: .profile)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("product-edit-complete"))
@@ -3116,6 +3126,10 @@ class TrackerEventSpec: QuickSpec {
                     it("contains bathrooms") {
                         let data = sut.params!.stringKeyParams["bathroom-number"] as? String
                         expect(data).to(equal("1.0"))
+                    }
+                    it("contains page type") {
+                        let data = sut.params!.stringKeyParams["type-page"] as? String
+                        expect(data).to(equal("profile"))
                     }
                 }
             }

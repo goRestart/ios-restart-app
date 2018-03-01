@@ -109,7 +109,8 @@ struct LGBaseListing: BaseListingModel, Decodable {
      "created_at": "2016-04-11T12:49:52+00:00",
      "updated_at": "2016-04-11T13:13:23+00:00",
      "image_information": "black fitbit wireless activity wristband",
-     "featured": false
+     "featured": false,
+     "rejected_reason": null
      }
      */
 
@@ -158,8 +159,10 @@ struct LGBaseListing: BaseListingModel, Decodable {
         let categoryRawValue = try keyedContainer.decode(Int.self, forKey: .categoryId)
         category = ListingCategory(rawValue: categoryRawValue) ?? .unassigned
 
-        let statusRawValue = try keyedContainer.decode(Int.self, forKey: .status)
-        status = ListingStatus(rawValue: statusRawValue) ?? .pending
+        let code = try keyedContainer.decode(Int.self, forKey: .status)
+        let statusCode = ListingStatusCode(rawValue: code) ?? .approved
+        let discardedReason = try keyedContainer.decodeIfPresent(DiscardedReason.self, forKey: .discardedReason)
+        status = ListingStatus(statusCode: statusCode, discardedReason: discardedReason) ?? .pending
 
         let thumbnailKeyedContainer = try keyedContainer.nestedContainer(keyedBy: ThumbnailCodingKeys.self, forKey: .thumbnail)
         let thumbnailUrl = try thumbnailKeyedContainer.decodeIfPresent(String.self, forKey: .url)
@@ -196,6 +199,7 @@ struct LGBaseListing: BaseListingModel, Decodable {
         case images = "images"
         case user = "owner"
         case featured = "featured"
+        case discardedReason = "rejected_reason"
     }
 
     enum LocationCodingKeys: String, CodingKey {

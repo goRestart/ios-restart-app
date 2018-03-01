@@ -26,3 +26,11 @@ public protocol ReportType {
 public func report(_ reportType: ReportType, message: String) {
     InternalCore.reporter.report(reportType.domain, code: reportType.code, message: message)
 }
+
+func logAndReportParseError(object: Any,
+                            entity: CoreReportDataSource.Entity,
+                            comment: String) {
+    let message = "could not parse \(entity.type) cos' \"\(comment)\" with object:\n\(object)"
+    logMessage(.debug, type: .parsing, message: message)
+    report(CoreReportDataSource.parsing(entity: entity), message: message)
+}

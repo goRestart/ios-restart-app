@@ -903,6 +903,15 @@
 // Rejected reason: Stock photo only
 "discarded_products_reason_stock_photo_only" = "Only contains stock photos";
 
+// Allow user to edit a discarded product
+"discarded_products_edit" = "Edit";
+
+// Allow users to delete a discarded product
+"discarded_products_delete" = "Delete";
+
+// Confirm discarded product deletion
+"discarded_products_delete_confirmation" = "Are you sure you want to delete this listing?";
+
 // Text for Edit Product Location Alert
 "edit_product_location_alert_text" = "To change where your listing is posted, allow access to your location";
 
@@ -2104,6 +2113,12 @@
 // Not valid phone number error alert text
 "professional_dealer_ask_phone_alert_not_valid_phone" = "Please enter a valid  phone number";
 
+// Button asking the user to add a Bio
+"profile_bio_add_button" = "Add your bio";
+
+// Button to show/hide the user Bio
+"profile_bio_show_more_button" = "MORE ABOUT ME";
+
 // Profile, you blocked this user label (wo username)
 "profile_blocked_by_me_label" = "You've blocked this user";
 
@@ -2137,6 +2152,9 @@
 // Message on profile when user has push disabled
 "profile_permissions_header_message" = "Enable message notifications";
 
+// Profile Reviews Tab title
+"profile_reviews_tab" = "Reviews";
+
 // Profile reviews count (appears below review count number)
 "profile_reviews_count" = "Reviews";
 
@@ -2160,6 +2178,9 @@
 
 // Profile verified accounts (other user), at least 1 account verified
 "profile_verified_accounts_other_user" = "VERIFIED WITH:";
+
+// Profile verified accounts, at least 1 account verified
+"profile_verified_accounts_title" = "VERIFIED WITH";
 
 // Verify popup to link with email
 "profile_verify_email_button" = "Send Email";

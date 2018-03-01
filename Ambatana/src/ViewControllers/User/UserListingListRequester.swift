@@ -93,17 +93,17 @@ class UserStatusesListingListRequester: UserListingListRequester {
     
     let itemsPerPage: Int
     var userObjectId: String? = nil
-    private let statuses: [ListingStatus]
+    private let statuses: [ListingStatusCode]
     private let listingRepository: ListingRepository
     private let locationManager: LocationManager
     private var offset: Int = 0
 
-    convenience init(statuses: [ListingStatus], itemsPerPage: Int) {
+    convenience init(statuses: [ListingStatusCode], itemsPerPage: Int) {
         self.init(listingRepository: Core.listingRepository, locationManager: Core.locationManager, statuses: statuses,
                   itemsPerPage: itemsPerPage)
     }
 
-    init(listingRepository: ListingRepository, locationManager: LocationManager, statuses: [ListingStatus],
+    init(listingRepository: ListingRepository, locationManager: LocationManager, statuses: [ListingStatusCode],
          itemsPerPage: Int) {
         self.listingRepository = listingRepository
         self.locationManager = locationManager

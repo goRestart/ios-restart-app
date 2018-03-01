@@ -182,7 +182,7 @@
 "chat_stickers_tooltip_new" = "ÚJ!";
 "chat_unblock_user" = "Blokkolás feloldása";
 "chat_user_info_name" = "Szia, %@ vagyok";
-"chat_user_info_verified_with" = "Jóváhagyva ezzel: ";
+"chat_user_info_verified_with" = "Visszaigazolva ezzel: ";
 "chat_user_rating_button_tooltip" = "Felhasználó értékelése";
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_title" = "A csevegéshez igazold vissza e-mail címedet";
@@ -295,6 +295,9 @@
 "direct_answers_hide" = "Gyorsválaszok elrejtése";
 "direct_answers_show" = "Gyorsválaszok megjelenítése";
 "discarded" = "Elvetve";
+"discarded_products_delete" = "Törlés";
+"discarded_products_delete_confirmation" = "Biztosan törölni szeretnéd ezt a hirdetést?";
+"discarded_products_edit" = "Szerkesztés";
 "discarded_products_reason_duplicated" = "Duplikált hirdetés";
 "discarded_products_reason_good_manners" = "Nem felel meg pro tippjeinknek";
 "discarded_products_reason_non_realistic_price" = "Ésszerűtlen ár";
@@ -691,6 +694,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Telefonszám megadása";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Köszönjük, hogy érdeklődsz! Hívj fel, vagy add meg a telefonszámodat, hogy mi hívhassunk.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Köszönjük, hogy megadtad a számodat! Egyszerűbben elérhetsz minket, ha felhívsz a fenti gombbal.";
+"profile_bio_add_button" = "Add your bio";
+"profile_bio_show_more_button" = "MORE ABOUT ME";
 "profile_blocked_by_me_label" = "Ezt a felhasználót blokkoltad";
 "profile_blocked_by_me_label_w_name" = "%@ felhasználót blokkoltad";
 "profile_blocked_by_other_label" = "Ez a felhasználó blokkolt téged";
@@ -706,6 +711,7 @@
 "profile_permissions_alert_title" = "NE MARADJ LE A VÁLASZOKRÓL!";
 "profile_permissions_header_message" = "Üzenetértesítések engedélyezése";
 "profile_reviews_count" = "Értékelések";
+"profile_reviews_tab" = "Értékelések";
 "profile_selling_no_products_label" = "NINCSENEK HIRDETÉSEK (EGYELŐRE!)";
 "profile_selling_other_user_no_products_button" = "Tovább böngészek";
 "profile_selling_products_tab" = "Árult";
@@ -713,6 +719,7 @@
 "profile_sold_other_no_products_button" = "Tovább böngészek";
 "profile_sold_products_tab" = "Eladott";
 "profile_verified_accounts_other_user" = "VISSZAIGAZOLVA EZZEL:";
+"profile_verified_accounts_title" = "VISSZAIGAZOLVA EZZEL";
 "profile_verify_email_button" = "E-mail küldése";
 "profile_verify_email_message_present" = "Koppints az „E-mail küldése” gombra, hogy megerősítő e-mailt küldess a következő címre: %@";
 "profile_verify_email_success" = "Fiókod visszaigazolásához e-mailt küldtünk. A hivatkozás 48 óra múlva lejár.";
@@ -797,7 +804,7 @@
 "real_estate_rooms_studio" = "Stúdió (1+0)";
 "real_estate_rooms_title" = "Szobák száma";
 "real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_placeholder" = "Add";
+"real_estate_size_square_meters_placeholder" = "Hozzáadás";
 "real_estate_size_square_meters_title" = "Méret";
 "real_estate_summary_bathroom_title" = "fürdőszoba";
 "real_estate_summary_bathrooms_empty" = "Fürdőszobaszám hozzáadása";

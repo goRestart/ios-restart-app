@@ -295,6 +295,9 @@
 "direct_answers_hide" = "Απόκρυψη Γρήγορων Απαντήσεων";
 "direct_answers_show" = "Προβολή Γρήγορων Απαντήσεων";
 "discarded" = "Απορρίφθηκε";
+"discarded_products_delete" = "Διαγραφή";
+"discarded_products_delete_confirmation" = "Είστε σίγουροι πως θέλετε να διαγράψετε αυτήν την καταχώρηση;";
+"discarded_products_edit" = "Επεξεργασία";
 "discarded_products_reason_duplicated" = "Διπλή καταχώρηση";
 "discarded_products_reason_good_manners" = "Δε συμβαδίζει με τα κόλπα για προχωρημένους";
 "discarded_products_reason_non_realistic_price" = "Μη ρεαλιστική τιμή";
@@ -691,6 +694,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Εισάγετε αριθμό τηλεφώνου";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Ευχαριστούμε που επικοινωνήσατε μαζί μας! Παρακαλούμε καλέστε μας ή αφήστε τον αριθμό σας, ώστε να σας καλέσουμε εμείς.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Ευχαριστούμε για την προσθήκη του τηλεφώνου σας! Είναι πάντα καλύτερο να μας καλέσετε εσείς, χρησιμοποιώντας το παραπάνω κουμπί κλήσης.";
+"profile_bio_add_button" = "Add your bio";
+"profile_bio_show_more_button" = "MORE ABOUT ME";
 "profile_blocked_by_me_label" = "Έχετε μπλοκάρει αυτό το χρήστη";
 "profile_blocked_by_me_label_w_name" = "Έχετε μπλοκάρει τον %@";
 "profile_blocked_by_other_label" = "Ο χρήστης αυτός σας έχει μπλοκάρει";
@@ -706,6 +711,7 @@
 "profile_permissions_alert_title" = "ΜΗ ΧΆΝΕΤΕ ΑΠΑΝΤΉΣΕΙΣ!";
 "profile_permissions_header_message" = "Ενεργοποιήστε τις γνωστοποιησεις μηνυμάτων";
 "profile_reviews_count" = "Κριτικές";
+"profile_reviews_tab" = "Κριτικές";
 "profile_selling_no_products_label" = "ΚΑΜΙΑ ΚΑΤΑΧΩΡΗΣΗ (ΑΚΟΜΗ!)";
 "profile_selling_other_user_no_products_button" = "Συνεχίστε την πλοήγηση";
 "profile_selling_products_tab" = "Πώληση";
@@ -713,6 +719,7 @@
 "profile_sold_other_no_products_button" = "Συνεχίστε την πλοήγηση";
 "profile_sold_products_tab" = "Πωλήθηκαν";
 "profile_verified_accounts_other_user" = "ΕΠΙΒΕΒΑΊΩΣΗ ΜΕ:";
+"profile_verified_accounts_title" = "ΕΠΙΒΕΒΑΊΩΣΗ ΜΕ";
 "profile_verify_email_button" = "Αποστολή Email";
 "profile_verify_email_message_present" = "Πατήστε \"Αποστολή Email\" για να στείλετε ένα νέο σύνδεσμο επιβεβαίωσης στο %@";
 "profile_verify_email_success" = "Ελέγξτε τα εισερχόμενα του email σας για να επιβεβαιώσετε το λογαριασμό σας. Ο σύνδεσμος θα λήξει σε 48 ώρες.";
@@ -797,7 +804,7 @@
 "real_estate_rooms_studio" = "Στούντιο (1+0)";
 "real_estate_rooms_title" = "Αριθμός δωματίων";
 "real_estate_rooms_value" = "%d + %d";
-"real_estate_size_square_meters_placeholder" = "Add";
+"real_estate_size_square_meters_placeholder" = "Προσθήκη";
 "real_estate_size_square_meters_title" = "Μέγεθος";
 "real_estate_summary_bathroom_title" = "μπάνιο";
 "real_estate_summary_bathrooms_empty" = "Προσθήκη αριθμού μπάνιων";

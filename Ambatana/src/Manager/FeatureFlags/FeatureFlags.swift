@@ -65,6 +65,7 @@ protocol FeatureFlaggeable: class {
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
     var searchMultiwordExpressions: SearchMultiwordExpressions { get }
     var showChatSafetyTips: Bool { get }
+    var discardedProducts: DiscardedProducts { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -207,6 +208,10 @@ extension IncreaseMinPriceBumps {
     var isActive: Bool { get { return self == .active } }
 }
 extension TurkeyBumpPriceVATAdaptation {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension DiscardedProducts {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -500,6 +505,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.searchMultiwordExpressions
         }
         return SearchMultiwordExpressions.fromPosition(abTests.searchMultiwordExpressions.value)
+    }
+    
+    var discardedProducts: DiscardedProducts {
+        if Bumper.enabled {
+            return Bumper.discardedProducts
+        }
+        return DiscardedProducts.fromPosition(abTests.discardedProducts.value)
     }
     
 

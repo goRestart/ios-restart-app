@@ -210,7 +210,8 @@ class ChatWebSocketDataSource: ChatDataSource {
             let unreadCount = try LGChatUnreadMessages.decode(jsonData: data)
             return unreadCount
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGChatUnreadMessages \(object)")
+            logAndReportParseError(object: object, entity: .chatUnreadMessages,
+                                   comment: "\(error.localizedDescription)")
         }
         return nil
     }
