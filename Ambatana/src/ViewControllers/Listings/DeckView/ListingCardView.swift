@@ -310,8 +310,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
         contentView.layer.cornerRadius = Metrics.margin
-        applyShadow(withOpacity: 0.3, radius: Metrics.margin, color: #colorLiteral(red: 0.7803921569, green: 0.8078431373, blue: 0.7803921569, alpha: 1).cgColor)
-        layer.shadowOffset = CGSize(width: 0, height: 0.5)
+        applyShadow(withOpacity: 0.3, radius: Metrics.margin)
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: Metrics.margin).cgPath
     }
 
     // MARK: UIScrollViewDelegate
