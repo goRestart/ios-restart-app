@@ -16,6 +16,7 @@
 		012C56F42017AD6700C087D0 /* MostSearchedItemsCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C56F22017AD6700C087D0 /* MostSearchedItemsCellDrawer.swift */; };
 		012DA4A9201F3A9300C33542 /* DummyUserDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012DA4A8201F3A9300C33542 /* DummyUserDisclaimerView.swift */; };
 		012DA4AA201F3A9300C33542 /* DummyUserDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012DA4A8201F3A9300C33542 /* DummyUserDisclaimerView.swift */; };
+		01444A2620480975007C2ED6 /* PostingAdvancedCreateProductPriceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01444A2520480974007C2ED6 /* PostingAdvancedCreateProductPriceViewModel.swift */; };
 		0155D99B200FBA2900E2E583 /* MostSearchedItemsListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0155D99A200FBA2900E2E583 /* MostSearchedItemsListHeader.swift */; };
 		0155D99C200FBA2900E2E583 /* MostSearchedItemsListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0155D99A200FBA2900E2E583 /* MostSearchedItemsListHeader.swift */; };
 		01602CB81F506DE500DDA296 /* Listing+NegotiableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01602CB71F506DE500DDA296 /* Listing+NegotiableSpec.swift */; };
@@ -36,8 +37,6 @@
 		0187407B1FD59391009C1363 /* PostingQueuedRequestsLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018740791FD59391009C1363 /* PostingQueuedRequestsLoadingViewController.swift */; };
 		0187407D1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0187407C1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift */; };
 		0187407E1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0187407C1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift */; };
-		018B6BFB1FD70C2F00740030 /* PostOnboardingListingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B6BFA1FD70C2F00740030 /* PostOnboardingListingState.swift */; };
-		018B6BFC1FD70C2F00740030 /* PostOnboardingListingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B6BFA1FD70C2F00740030 /* PostOnboardingListingState.swift */; };
 		018B82F21FFE3B2D00687233 /* MostSearchedItemsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B82F01FFE3B2C00687233 /* MostSearchedItemsListViewModel.swift */; };
 		018B82F31FFE3B2D00687233 /* MostSearchedItemsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B82F11FFE3B2D00687233 /* MostSearchedItemsListViewController.swift */; };
 		018B82F41FFE3B6A00687233 /* MostSearchedItemsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018B82F01FFE3B2C00687233 /* MostSearchedItemsListViewModel.swift */; };
@@ -1592,6 +1591,7 @@
 		012C56EF2017A09400C087D0 /* MostSearchedItemsListingListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListingListCell.swift; sourceTree = "<group>"; };
 		012C56F22017AD6700C087D0 /* MostSearchedItemsCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsCellDrawer.swift; sourceTree = "<group>"; };
 		012DA4A8201F3A9300C33542 /* DummyUserDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyUserDisclaimerView.swift; sourceTree = "<group>"; };
+		01444A2520480974007C2ED6 /* PostingAdvancedCreateProductPriceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingAdvancedCreateProductPriceViewModel.swift; path = Onboarding/PostingAdvancedCreateProductPriceViewModel.swift; sourceTree = "<group>"; };
 		0155D99A200FBA2900E2E583 /* MostSearchedItemsListHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListHeader.swift; sourceTree = "<group>"; };
 		01602CB71F506DE500DDA296 /* Listing+NegotiableSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Listing+NegotiableSpec.swift"; sourceTree = "<group>"; };
 		01616CC51F975C2E00F412D7 /* Taxonomy+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Taxonomy+LG.swift"; sourceTree = "<group>"; };
@@ -1603,7 +1603,6 @@
 		0183BB20203C8BEE00204383 /* PostingGetStartedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostingGetStartedViewController.swift; path = Onboarding/PostingGetStartedViewController.swift; sourceTree = "<group>"; };
 		018740791FD59391009C1363 /* PostingQueuedRequestsLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingQueuedRequestsLoadingViewController.swift; path = Onboarding/PostingQueuedRequestsLoadingViewController.swift; sourceTree = "<group>"; };
 		0187407C1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingQueuedRequestsLoadingViewModel.swift; path = Onboarding/PostingQueuedRequestsLoadingViewModel.swift; sourceTree = "<group>"; };
-		018B6BFA1FD70C2F00740030 /* PostOnboardingListingState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostOnboardingListingState.swift; path = Onboarding/PostOnboardingListingState.swift; sourceTree = "<group>"; };
 		018B82F01FFE3B2C00687233 /* MostSearchedItemsListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListViewModel.swift; sourceTree = "<group>"; };
 		018B82F11FFE3B2D00687233 /* MostSearchedItemsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListViewController.swift; sourceTree = "<group>"; };
 		01920C852010E27400B73875 /* MostSearchedItemsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsCoordinator.swift; sourceTree = "<group>"; };
@@ -2562,9 +2561,9 @@
 		018740781FD5764A009C1363 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				01444A2520480974007C2ED6 /* PostingAdvancedCreateProductPriceViewModel.swift */,
 				018740791FD59391009C1363 /* PostingQueuedRequestsLoadingViewController.swift */,
 				0187407C1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift */,
-				018B6BFA1FD70C2F00740030 /* PostOnboardingListingState.swift */,
 				01A824A9203B328D00DF5007 /* PostingAddPriceViewModel.swift */,
 				01A824AC203B32C500DF5007 /* PostingAddPriceViewController.swift */,
 				0183BB17203C71D400204383 /* ListingPostedDescriptiveViewModel.swift */,
@@ -5923,7 +5922,6 @@
 				2E4EBFC31EADF63A005FE040 /* CarAttributeSelectionViewController.swift in Sources */,
 				72AAA5A21DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */,
 				C7732F751D8842B800EAD5B7 /* OnboardingNavigator.swift in Sources */,
-				018B6BFB1FD70C2F00740030 /* PostOnboardingListingState.swift in Sources */,
 				7226F0FB1E962CA200B54D01 /* ChatRelatedItemsState.swift in Sources */,
 				D4BFE5B61B640C36006A8CB6 /* MainListingsViewModel.swift in Sources */,
 				C727FBBE1CCFC4ED002BC643 /* NotificationsViewController.swift in Sources */,
@@ -6183,6 +6181,7 @@
 				C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */,
 				721383FE1F20B224006DB039 /* TaxonomiesViewModel.swift in Sources */,
 				72769A672008CA5B00A7E627 /* RealEstateBanner.swift in Sources */,
+				01444A2620480975007C2ED6 /* PostingAdvancedCreateProductPriceViewModel.swift in Sources */,
 				C7E590321E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
 				6A5E19DC1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,
 				2EB32D631DF184FF00E01E93 /* BumpUpBanner.swift in Sources */,
@@ -6512,7 +6511,6 @@
 				2E4EBFC41EADF63A005FE040 /* CarAttributeSelectionViewController.swift in Sources */,
 				C7DB41A91C5138B500400945 /* ListingTimeCriteria+LG.swift in Sources */,
 				6A879DA91C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */,
-				018B6BFC1FD70C2F00740030 /* PostOnboardingListingState.swift in Sources */,
 				72AAA5A31DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */,
 				7226F0FC1E962CA200B54D01 /* ChatRelatedItemsState.swift in Sources */,
 				C7732F761D8842B800EAD5B7 /* OnboardingNavigator.swift in Sources */,

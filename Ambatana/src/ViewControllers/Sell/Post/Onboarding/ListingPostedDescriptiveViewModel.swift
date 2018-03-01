@@ -12,8 +12,6 @@ class ListingPostedDescriptiveViewModel: BaseViewModel {
     
     weak var navigator: PostingAdvancedCreateProductNavigator?
     
-    //private var status: ListingPostedStatus
-    //private let trackingInfo: PostListingTrackingInfo
     private let tracker: Tracker
     
     

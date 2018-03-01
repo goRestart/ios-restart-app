@@ -14,13 +14,7 @@ class PostingAddPriceViewModel: BaseViewModel {
     private let locationManager: LocationManager
     private let currencyHelper: CurrencyHelper
     let featureFlags: FeatureFlaggeable
-    //    private let images: [UIImage]
     private let listingCreationParams: ListingCreationParams
-    //    let postOnboardingState: Variable<PostOnboardingListingState>
-    //    let isLoading = Variable<Bool>(false)
-    //    let gotListingCreateResponse = Variable<Bool>(false)
-    //    //private let trackingInfo: PostListingTrackingInfo
-    //    private var listingResult: ListingResult?
     
     weak var navigator: PostingAdvancedCreateProductNavigator?
     //private let disposeBag = DisposeBag()

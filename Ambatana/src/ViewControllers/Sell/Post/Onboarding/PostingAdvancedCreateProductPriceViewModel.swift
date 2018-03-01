@@ -11,16 +11,9 @@ import LGCoreKit
 class PostingAdvancedCreateProductPriceViewModel: BaseViewModel {
     
     private let listingRepository: ListingRepository
-//    private let images: [UIImage]
     private let listingCreationParams: ListingCreationParams
-//    let postOnboardingState: Variable<PostOnboardingListingState>
-//    let isLoading = Variable<Bool>(false)
-//    let gotListingCreateResponse = Variable<Bool>(false)
-//    //private let trackingInfo: PostListingTrackingInfo
-//    private var listingResult: ListingResult?
     
     weak var navigator: PostingAdvancedCreateProductNavigator?
-    //private let disposeBag = DisposeBag()
 
     
     // MARK: - Lifecycle

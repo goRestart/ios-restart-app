@@ -26,11 +26,9 @@ class ListingPostedDescriptiveViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        navigationController?.setNavigationBarHidden(true, animated: false)
         setupUI()
         setupConstraints()
         setupRx()
-        //viewModel.createListingAfterUploadingImages()
     }
     
     override func viewWillAppear(_ animated: Bool) {
