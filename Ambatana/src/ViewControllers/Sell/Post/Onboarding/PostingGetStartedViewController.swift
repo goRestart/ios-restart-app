@@ -28,7 +28,6 @@ class PostingGetStartedViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupConstraints()
-        setupRx()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,9 +48,6 @@ class PostingGetStartedViewController: BaseViewController {
         view.addSubview(tempNextButton)
         tempNextButton.translatesAutoresizingMaskIntoConstraints = false
         tempNextButton.layout(with: view).fill()
-    }
-    
-    private func setupRx() {
     }
     
     @objc private func nextAction() {

@@ -39,7 +39,6 @@ class PostingQueuedRequestsLoadingViewController: BaseViewController {
         super.viewDidLoad()
         setupConstraints()
         setupUI()
-        setupRx()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,9 +59,6 @@ class PostingQueuedRequestsLoadingViewController: BaseViewController {
         tempNextButton.translatesAutoresizingMaskIntoConstraints = false
 
         tempNextButton.layout(with: view).fill()
-    }
-    
-    private func setupRx() {
     }
     
     @objc private func openPrice() {
