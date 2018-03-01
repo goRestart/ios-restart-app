@@ -13,7 +13,7 @@ class PostingAddPriceViewModel: BaseViewModel {
     private let listingRepository: ListingRepository
     private let locationManager: LocationManager
     private let currencyHelper: CurrencyHelper
-    let featureFlags: FeatureFlaggeable
+    private let featureFlags: FeatureFlaggeable
     private let listingCreationParams: ListingCreationParams
     
     weak var navigator: PostingHastenedCreateProductNavigator?

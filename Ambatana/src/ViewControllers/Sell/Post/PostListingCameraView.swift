@@ -184,9 +184,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
             view.transform = CGAffineTransform(rotationAngle: CGFloat(Double(index) * Double.pi/2))
         }
         
-        if viewModel.isBlockingPosting {
-            closeButton.isHidden = true
-        }
+        closeButton.isHidden = viewModel.isBlockingPosting
 
         //i18n
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, for: .normal)

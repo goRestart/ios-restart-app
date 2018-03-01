@@ -195,9 +195,7 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
         contentView.layout(with: self).fill()
         contentView.backgroundColor = background
 
-        if viewModel.isBlockingPosting {
-            closeButton.isHidden = true
-        }
+        closeButton.isHidden = viewModel.isBlockingPosting
         topRightButton.setStyle(.primary(fontSize: .small))
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
         collectionView.register(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
