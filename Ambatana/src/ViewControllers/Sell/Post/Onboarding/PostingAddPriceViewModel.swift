@@ -16,7 +16,7 @@ class PostingAddPriceViewModel: BaseViewModel {
     let featureFlags: FeatureFlaggeable
     private let listingCreationParams: ListingCreationParams
     
-    weak var navigator: PostingAdvancedCreateProductNavigator?
+    weak var navigator: PostingHastenedCreateProductNavigator?
     //private let disposeBag = DisposeBag()
     
     private var currencySymbol: String? {

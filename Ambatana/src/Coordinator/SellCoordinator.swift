@@ -300,9 +300,9 @@ extension SellCoordinator: ListingPostedNavigator {
     }
 }
 
-// MARK: - PostingAdvancedCreateProduct
+// MARK: - PostingHastenedCreateProduct
 
-extension SellCoordinator: PostingAdvancedCreateProductNavigator  {
+extension SellCoordinator: PostingHastenedCreateProductNavigator  {
     func openCamera() {
         let postListingVM = PostListingViewModel(source: .sellButton,
                                                  postCategory: nil,

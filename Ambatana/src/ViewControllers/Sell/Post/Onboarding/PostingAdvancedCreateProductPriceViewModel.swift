@@ -1,5 +1,5 @@
 //
-//  PostingAdvancedCreateProductPriceViewModel.swift
+//  PostingHastenedCreateProductPriceViewModel.swift
 //  LetGo
 //
 //  Created by Raúl de Oñate Blanco on 19/02/2018.
@@ -8,12 +8,12 @@
 
 import LGCoreKit
 
-class PostingAdvancedCreateProductPriceViewModel: BaseViewModel {
+class PostingHastenedCreateProductPriceViewModel: BaseViewModel {
     
     private let listingRepository: ListingRepository
     private let listingCreationParams: ListingCreationParams
     
-    weak var navigator: PostingAdvancedCreateProductNavigator?
+    weak var navigator: PostingHastenedCreateProductNavigator?
 
     
     // MARK: - Lifecycle

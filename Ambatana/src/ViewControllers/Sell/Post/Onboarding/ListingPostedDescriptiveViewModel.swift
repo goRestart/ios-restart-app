@@ -10,7 +10,7 @@ import LGCoreKit
 
 class ListingPostedDescriptiveViewModel: BaseViewModel {
     
-    weak var navigator: PostingAdvancedCreateProductNavigator?
+    weak var navigator: PostingHastenedCreateProductNavigator?
     
     private let tracker: Tracker
     

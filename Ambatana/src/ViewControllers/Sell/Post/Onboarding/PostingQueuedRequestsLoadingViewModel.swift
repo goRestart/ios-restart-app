@@ -22,7 +22,7 @@ class PostingQueuedRequestsLoadingViewModel: BaseViewModel {
     private let trackingInfo: PostListingTrackingInfo
     private var listingResult: ListingResult?
     
-    weak var navigator: PostingAdvancedCreateProductNavigator?
+    weak var navigator: PostingHastenedCreateProductNavigator?
     private let disposeBag = DisposeBag()
     
     var finishRequest = Variable<Bool?>(false)
