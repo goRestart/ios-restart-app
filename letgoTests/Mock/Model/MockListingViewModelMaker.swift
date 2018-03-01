@@ -97,6 +97,6 @@ class MockListingViewModelMaker: ListingViewModelMaker {
                                    stats: nil,
                                    postedDate: nil,
                                    socialSharer: SocialSharer(),
-                                   socialMessage: ListingSocialMessage(listing: listing, fallbackToStore: false))
+                                   socialMessage: nil)
     }
 }

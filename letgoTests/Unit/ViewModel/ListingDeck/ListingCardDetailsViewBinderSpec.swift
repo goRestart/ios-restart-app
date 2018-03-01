@@ -141,8 +141,7 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
             context("cardSocialMessage updates") {
                 beforeEach {
                     let listing = Listing.makeMock()
-                    mockListingDetailsVM.rxCardSocialMessage.value = ListingSocialMessage(listing: listing,
-                                                                                           fallbackToStore: true)
+                    mockListingDetailsVM.rxCardSocialMessage.value = MockListingSocialMessage()
                 }
                 it("the proper populate method is called first empty and then with value") {
                     expect(mockListingDetailsView.isPopulateWithSocialMessageCalled).toEventually(equal(2))
@@ -183,6 +182,22 @@ private class MockListingCardDetailsViewModel:  ListingCardDetailsViewModel {
     let rxCardProductInfo: Variable<ListingVMProductInfo?> = Variable<ListingVMProductInfo?>(nil)
     let rxCardProductStats: Variable<ListingStats?> =  Variable<ListingStats?>(nil)
     let rxCardSocialMessage: Variable<SocialMessage?> = Variable<SocialMessage?>(nil)
+}
+
+private struct MockListingSocialMessage: SocialMessage {
+    func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) { }
+
+    static var utmCampaignValue: String = ""
+    var myUserId: String?
+    var myUserName: String?
+    var emailShareSubject: String = ""
+    var emailShareIsHtml: Bool = false
+    var fallbackToStore: Bool = false
+    var controlParameter: String = ""
+
+    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) { }
+    func retrieveEmailShareBody(completion: @escaping MessageWithURLCompletion) { }
+    func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion) { }
 }
 
 private class MockListingCardDetailsView: ListingCardDetailsViewType {

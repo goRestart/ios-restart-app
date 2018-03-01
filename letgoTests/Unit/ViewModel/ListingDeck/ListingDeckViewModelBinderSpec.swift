@@ -112,6 +112,8 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
 }
 
 extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
+    func openAppInvite(myUserId: String?, myUserName: String?) { }
+
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) { }
     func openAskPhoneFor(listing: Listing) {}
     func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) {}

@@ -21,7 +21,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
                                              bottom: Metrics.margin, right: Metrics.margin)
             
         }
-        struct CornerRadius { static let map: CGFloat = 6.0 }
+        struct CornerRadius { static let map: CGFloat = LGUIKitConstants.bigCornerRadius }
     }
 
     private var region: MKCoordinateRegion?
@@ -209,5 +209,10 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         mapView.alpha = 0
         mapSnapShotView.alpha = 1
         bringSubview(toFront: verticalStackView)
+    }
+
+    override func layoutIfNeeded() {
+        super.layoutSubviews()
+        mapView.cornerRadius = Layout.CornerRadius.map
     }
 }
