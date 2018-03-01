@@ -46,7 +46,7 @@ final class ListingCardUserView: UIView {
     private let userIcon = UIButton(type: .custom)
     private let userNameLabel = UILabel()
 
-    private let effect = UIBlurEffect(style: .dark)
+    private let effect: UIBlurEffect
     let effectView: UIVisualEffectView
 
     private let actionLayoutGuide = UILayoutGuide()
@@ -56,6 +56,7 @@ final class ListingCardUserView: UIView {
     convenience init() { self.init(frame: .zero) }
 
     override init(frame: CGRect) {
+        effect = ListingCardView.buildBlurrEffect()
         effectView = UIVisualEffectView(effect: effect)
         rxShareButton = shareButton.rx
         rxActionButton = actionButton.rx
@@ -189,6 +190,16 @@ final class ListingCardUserView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         userIcon.layer.cornerRadius = min(userIcon.width, userIcon.height) / 2.0
+    }
+}
+
+extension ListingCardView {
+    static func buildBlurrEffect() -> UIBlurEffect {
+        if #available(iOS 10.0, *) {
+            return UIBlurEffect(style: .prominent)
+        } else {
+            return UIBlurEffect(style: .light)
+        }
     }
 }
 

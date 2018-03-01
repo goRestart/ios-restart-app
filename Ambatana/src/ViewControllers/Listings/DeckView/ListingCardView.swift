@@ -318,34 +318,39 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y > -Layout.Height.userView {
-            NSLayoutConstraint.deactivate(userViewScrollingConstraints)
-            NSLayoutConstraint.activate(userViewTopConstraints)
+           setStickyHeaderOn()
         } else {
-            NSLayoutConstraint.deactivate(userViewTopConstraints)
-            NSLayoutConstraint.activate(userViewScrollingConstraints)
+            setStickyHeaderOff()
             if scrollView.contentOffset.y < -scrollViewContentInset.top {
                 previewImageViewHeight?.constant = abs(scrollViewContentInset.top + scrollView.contentOffset.y)
-            } else if scrollViewContentInset.top != 0
-                && abs(scrollView.contentOffset.y / scrollViewContentInset.top) < 0.7 {
-                let ratio = abs(scrollView.contentOffset.y / scrollViewContentInset.top) / 0.7
-                updateCount(alpha: ratio)
-                updateBlur(alpha: 1 - ratio)
-
-                if detailsViewFullyVisible {
-                    delegate?.didShowMoreInfo()
+            } else if scrollViewContentInset.top != 0 {
+                if abs(scrollView.contentOffset.y / scrollViewContentInset.top) < 0.8 {
+                    let ratio = abs(scrollView.contentOffset.y / scrollViewContentInset.top) / 0.8
+                    updateCount(alpha: ratio)
                 }
-            } else {
-                updateCount(alpha: 1.0)
-                updateBlur(alpha: 0)
+                whiteGradient.alpha = abs(scrollView.contentOffset.y / scrollViewContentInset.top)
             }
         }
         detailsView.isUserInteractionEnabled = abs(scrollView.contentOffset.y) < detailsThreshold
     }
 
-    private func updateBlur(alpha: CGFloat) {
-        userView.effectView.alpha = alpha
-        whiteGradient.alpha = min(0.9, 1 - alpha)
+    private func setStickyHeaderOn() {
+        NSLayoutConstraint.deactivate(userViewScrollingConstraints)
+        NSLayoutConstraint.activate(userViewTopConstraints)
+        UIView.animate(withDuration: 0.3) {
+            self.userView.effectView.alpha = 1
+        }
     }
+
+    private func setStickyHeaderOff() {
+        NSLayoutConstraint.deactivate(userViewTopConstraints)
+        NSLayoutConstraint.activate(userViewScrollingConstraints)
+        UIView.animate(withDuration: 0.3) {
+            self.userView.effectView.alpha = 0
+        }
+    }
+    
+
 
     private func updateCount(alpha: CGFloat) {
         countImageView.alpha = alpha
