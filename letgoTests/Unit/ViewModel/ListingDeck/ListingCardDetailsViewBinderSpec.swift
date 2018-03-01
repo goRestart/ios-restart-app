@@ -140,9 +140,7 @@ class ListingCardDetailsViewBinderSpec: QuickSpec {
 
             context("cardSocialMessage updates") {
                 beforeEach {
-                    let listing = Listing.makeMock()
-                    mockListingDetailsVM.rxCardSocialMessage.value = ListingSocialMessage(listing: listing,
-                                                                                           fallbackToStore: true)
+                    mockListingDetailsVM.rxCardSocialMessage.value = MockListingSocialMessage()
                 }
                 it("the proper populate method is called first empty and then with value") {
                     expect(mockListingDetailsView.isPopulateWithSocialMessageCalled).toEventually(equal(2))

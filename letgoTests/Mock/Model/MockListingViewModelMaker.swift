@@ -97,6 +97,22 @@ class MockListingViewModelMaker: ListingViewModelMaker {
                                    stats: nil,
                                    postedDate: nil,
                                    socialSharer: SocialSharer(),
-                                   socialMessage: ListingSocialMessage(listing: listing, fallbackToStore: false))
+                                   socialMessage: MockListingSocialMessage())
     }
+}
+
+struct MockListingSocialMessage: SocialMessage {
+    func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) { }
+
+    static var utmCampaignValue: String = ""
+    var myUserId: String?
+    var myUserName: String?
+    var emailShareSubject: String = ""
+    var emailShareIsHtml: Bool = false
+    var fallbackToStore: Bool = false
+    var controlParameter: String = ""
+
+    func retrieveNativeShareItems(completion: @escaping NativeShareItemsCompletion) { }
+    func retrieveEmailShareBody(completion: @escaping MessageWithURLCompletion) { }
+    func retrieveFullMessageWithURL(source: ShareSource, completion: @escaping MessageWithURLCompletion) { }
 }
