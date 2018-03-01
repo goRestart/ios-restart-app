@@ -387,7 +387,8 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         let backIconImage = UIImage(named: "ic_close_carousel")
         let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.plain,
                                          target: self, action: #selector(backButtonClose))
-        self.navigationItem.leftBarButtonItem = backButton
+        backButton.set(accessibilityId: .listingCarouselNavBarCloseButton)
+        navigationItem.leftBarButtonItem = backButton
     }
 
     @objc private func backButtonClose() {

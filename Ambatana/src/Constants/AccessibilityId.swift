@@ -155,6 +155,7 @@ enum AccessibilityId {
     case listingCarouselChatTextView
     case listingCarouselStatusView
 
+    case listingCarouselNavBarCloseButton
     case listingCarouselNavBarEditButton
     case listingCarouselNavBarShareButton
     case listingCarouselNavBarActionsButton
@@ -162,7 +163,9 @@ enum AccessibilityId {
 
     case listingCarouselMoreInfoScrollView
     case listingCarouselMoreInfoTitleLabel
+    case listingCarouselMoreInfoPriceLabel
     case listingCarouselMoreInfoTransTitleLabel
+    case listingCarouselMoreInfoStatsView
     case listingCarouselMoreInfoAddressLabel
     case listingCarouselMoreInfoDistanceLabel
     case listingCarouselMoreInfoMapView
@@ -170,7 +173,14 @@ enum AccessibilityId {
     case listingCarouselMoreInfoSocialShareView
     case listingCarouselMoreInfoDescriptionLabel
 
-
+    // listing stats view
+    case listingStatsViewFavouriteStatsView
+    case listingStatsViewFavouriteStatsLabel
+    case listingStatsViewFavouriteViewCountView
+    case listingStatsViewFavouriteViewCountLabel
+    case listingStatsViewFavouriteTimePostedView
+    case listingStatsViewFavouriteTimePostedLabel
+    
     // listing Carousel Cell
     case listingCarouselCell
     case listingCarouselCellCollectionView
@@ -937,6 +947,8 @@ enum AccessibilityId {
         case .listingCarouselStatusView:
             return "listingCarouselStatusView"
             
+        case .listingCarouselNavBarCloseButton:
+            return "listingCarouselNavBarCloseButton"
         case .listingCarouselNavBarEditButton:
             return "listingCarouselNavBarEditButton"
         case .listingCarouselNavBarShareButton:
@@ -950,8 +962,12 @@ enum AccessibilityId {
             return "listingCarouselMoreInfoScrollView"
         case .listingCarouselMoreInfoTitleLabel:
             return "listingCarouselMoreInfoTitleLabel"
+        case .listingCarouselMoreInfoPriceLabel:
+            return "listingCarouselMoreInfoPriceLabel"
         case .listingCarouselMoreInfoTransTitleLabel:
             return "listingCarouselMoreInfoTransTitleLabel"
+        case .listingCarouselMoreInfoStatsView:
+            return "listingCarouselMoreInfoStatsView"
         case .listingCarouselMoreInfoAddressLabel:
             return "listingCarouselMoreInfoAddressLabel"
         case .listingCarouselMoreInfoDistanceLabel:
@@ -964,7 +980,20 @@ enum AccessibilityId {
             return "listingCarouselMoreInfoSocialShareView"
         case .listingCarouselMoreInfoDescriptionLabel:
             return "listingCarouselMoreInfoDescriptionLabel"
-            
+        
+        // listing Stats View
+        case .listingStatsViewFavouriteStatsView:
+            return "listingStatsViewFavouriteStatsView"
+        case .listingStatsViewFavouriteStatsLabel:
+            return "listingStatsViewFavouriteStatsLabel"
+        case .listingStatsViewFavouriteViewCountView:
+            return "listingStatsViewFavouriteViewCountView"
+        case .listingStatsViewFavouriteViewCountLabel:
+            return "listingStatsViewFavouriteViewCountLabel"
+        case .listingStatsViewFavouriteTimePostedView:
+            return "listingStatsViewFavouriteTimePostedView"
+        case .listingStatsViewFavouriteTimePostedLabel:
+            return "listingStatsViewFavouriteTimePostedLabel"
             
         // listing Carousel Cell
         case .listingCarouselCell:

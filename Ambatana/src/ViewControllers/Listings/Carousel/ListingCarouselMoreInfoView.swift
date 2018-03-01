@@ -678,6 +678,7 @@ extension ListingCarouselMoreInfoView {
     fileprivate func setAccessibilityIds() {
         scrollView.set(accessibilityId: .listingCarouselMoreInfoScrollView)
         titleText.set(accessibilityId: .listingCarouselMoreInfoTitleLabel)
+        priceLabel.set(accessibilityId: .listingCarouselMoreInfoPriceLabel)
         transTitleLabel.set(accessibilityId: .listingCarouselMoreInfoTransTitleLabel)
         addressLabel.set(accessibilityId: .listingCarouselMoreInfoAddressLabel)
         distanceLabel.set(accessibilityId: .listingCarouselMoreInfoDistanceLabel)
@@ -685,6 +686,7 @@ extension ListingCarouselMoreInfoView {
         socialShareTitleLabel.set(accessibilityId: .listingCarouselMoreInfoSocialShareTitleLabel)
         socialShareView.set(accessibilityId: .listingCarouselMoreInfoSocialShareView)
         descriptionLabel.set(accessibilityId: .listingCarouselMoreInfoDescriptionLabel)
+        statsView?.set(accessibilityId: .listingCarouselMoreInfoStatsView)
     }
 }
 
