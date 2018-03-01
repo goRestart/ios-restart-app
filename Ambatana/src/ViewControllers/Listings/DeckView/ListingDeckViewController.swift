@@ -64,6 +64,11 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         setupNavigationBar()
     }
 
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        setupNavigationBar()
+    }
+
     func updateStartIndex() {
         let startIndexPath = IndexPath(item: viewModel.startIndex, section: 0)
         listingDeckView.scrollToIndex(startIndexPath)
