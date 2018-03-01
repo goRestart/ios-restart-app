@@ -9,7 +9,7 @@
 import Foundation
 
 final class PhotoViewerTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-    struct Duration { static let transition: TimeInterval = 0.3 }
+    struct Duration { static let transition: TimeInterval = 0.25 }
     private var image: UIImage
     private let initialFrame: CGRect
 

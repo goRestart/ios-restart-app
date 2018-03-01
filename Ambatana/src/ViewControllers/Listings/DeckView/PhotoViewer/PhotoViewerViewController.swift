@@ -49,6 +49,10 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         setupViewExtendedEdges()
         setupPhotoViewer()
         setupOpenChatGesture()
+
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(closeView))
+        swipeDown.direction = .down
+        photoViewer.addGestureRecognizer(swipeDown)
     }
 
     private func setupViewExtendedEdges() {
