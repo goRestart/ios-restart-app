@@ -17,6 +17,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         struct Height {
             static let previewFactor: CGFloat = 0.7
             static let maximumCard: CGFloat = 560
+            static let minimumCard: CGFloat = 280
         }
     }
 
@@ -111,11 +112,13 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.heightAnchor.constraint(lessThanOrEqualToConstant: Layout.Height.maximumCard),
+            collectionView.heightAnchor.constraint(greaterThanOrEqualToConstant: Layout.Height.minimumCard),
 
             bottomInsetView.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
             bottomInsetView.leadingAnchor.constraint(equalTo: leadingAnchor),
             bottomInsetView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            bottomInsetView.heightAnchor.constraint(equalTo: topInsetView.heightAnchor)
+            bottomInsetView.heightAnchor.constraint(equalTo: topInsetView.heightAnchor),
+            bottomInsetView.heightAnchor.constraint(lessThanOrEqualToConstant: 50)
         ])
         collectionViewTop = topInsetConstraint
 
@@ -140,9 +143,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         collectionBottom.priority = .required - 1
         collectionBottom.isActive = true
         itemActionsView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-
-        itemActionsView.layout(with: self).fillHorizontal().bottom(relatedBy: .lessThanOrEqual)
-        itemActionsView.layout(with: collectionView).below(relatedBy: .equal)
+        itemActionsView.layout(with: self).fillHorizontal().bottom(relatedBy: .equal)
 
         itemActionsView.setContentCompressionResistancePriority(.required, for: .vertical)
         itemActionsView.setContentHuggingPriority(.required, for: .vertical)
