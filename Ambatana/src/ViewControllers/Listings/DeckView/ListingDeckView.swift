@@ -23,6 +23,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     private var collectionViewTop: NSLayoutConstraint? = nil
     private let topInsetView = UIView()
     let collectionView: UICollectionView
+    private let collectionLayout = ListingDeckCollectionViewLayout()
     let rxCollectionView: Reactive<UICollectionView>
 
     private let bottomInsetView = UIView()
@@ -39,7 +40,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     private var dismissTap: UITapGestureRecognizer?
     
     let itemActionsView = ListingDeckActionView()
-    private let collectionLayout = ListingDeckCollectionViewLayout()
 
     var rxActionButton: Reactive<UIButton> { return itemActionsView.actionButton.rx }
     var rxDidBeginEditing: ControlEvent<()>? { return quickChatView?.rxDidBeginEditing }
@@ -67,7 +67,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     }
 
     func scrollToIndex(_ index: IndexPath) {
-        collectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
+        collectionView.contentOffset = collectionLayout.offsetForPage(index.row)
     }
 
     @discardableResult

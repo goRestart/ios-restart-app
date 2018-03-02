@@ -207,7 +207,6 @@ extension DeckCoordinator: UINavigationControllerDelegate {
             interactiveTransitioner = UIPercentDrivenInteractiveTransition()
         }
 
-
         guard let view = navigationController?.view else { return }
         let translation = gesture.translation(in: view)
 
@@ -224,7 +223,9 @@ extension DeckCoordinator: UINavigationControllerDelegate {
         case .began:
             navigationController?.popViewController(animated: true)
         case .changed:
-            interactiveTransitioner?.update(progress)
+            if progress < 0.7 {
+                interactiveTransitioner?.update(progress)
+            }
         case .cancelled:
             fallthrough
         case .ended:

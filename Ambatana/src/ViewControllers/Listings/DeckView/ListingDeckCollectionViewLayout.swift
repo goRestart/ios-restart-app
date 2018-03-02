@@ -119,6 +119,13 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         return CGFloat(finalOffset / pageWidth)
     }
 
+    func offsetForPage(_ page: Int) -> CGPoint {
+        let target = CGFloat(page) * (collectionViewContentSize.width / CGFloat(itemsCount))
+
+        let pageWidth: CGFloat = cellWidth + interitemSpacing
+        return CGPoint(x: target, y: 0)
+    }
+
     private func yInsetForItem(withInitialX initialX: CGFloat) -> CGFloat {
         let factor = offsetFactorForItem(withInitialX: initialX)
 

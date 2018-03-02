@@ -18,7 +18,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
 
     var cardInsets: UIEdgeInsets { return listingDeckView.cardsInsets }
-    
+
     fileprivate let listingDeckView = ListingDeckView()
     fileprivate let viewModel: ListingDeckViewModel
     fileprivate let binder = ListingDeckViewControllerBinder()
@@ -49,6 +49,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
         onboardingFlashDetails()
+        setupPageCurrentCell()
     }
 
     override func viewDidLoad() {
@@ -121,18 +122,15 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
             cell.isUserInteractionEnabled = indexPath.row == listingDeckView.currentPage
             cell.populateWith(model, imageDownloader: viewModel.imageDownloader)
             cell.delegate = self
+
             return cell
         }
         return UICollectionViewCell()
     }
 
-    private func updateCellContentInset(_ cell: ListingCardView) {
-        let collectionView = listingDeckView.collectionView
-        let cellCenter = collectionView.convert(cell.center, to: listingDeckView)
-        let ratio: CGFloat = cellCenter.x / listingDeckView.width
-        if ratio < 0.2 || ratio > 0.8 {
-            cell.layoutVerticalContentInset(animated: true)
-        }
+    private func updateCellContentInset(_ cell: ListingCardView, animated: Bool) {
+        let inset = listingDeckView.collectionView.bounds.height * 0.8
+        cell.setVerticalContentInset(inset, animated: animated)
     }
 
     // MARK: NavBar
@@ -191,7 +189,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
 extension ListingDeckViewController {
     private func onboardingFlashDetails() {
-        guard let current = listingDeckView.collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) else { return }
+        guard let current = listingDeckView.collectionView.cellForItem(at: IndexPath(row: viewModel.startIndex,
+                                                                                     section: 0)) else { return }
         guard let cell = current as? ListingCardView else { return }
         cell.onboardingFlashDetails()
     }
@@ -213,11 +212,14 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
 
     func willDisplayCell(_ cell: UICollectionViewCell) {
         guard let card = cell as? ListingCardView else { return }
-        updateCellContentInset(card)
+        updateCellContentInset(card, animated: false)
     }
     
     func didEndDecelerating() {
         listingDeckView.blockSideInteractions()
+        listingDeckView.collectionView.visibleCells.flatMap { $0 as? ListingCardView }.forEach { cell in
+            updateCellContentInset(cell, animated: true)
+        }
         setupPageCurrentCell()
     }
 

@@ -62,8 +62,7 @@ private class DeckViewTransitionPresenter: DeckViewTransitionMode {
                            withDuration duration: TimeInterval,
                            initialFrame: CGRect,
                            image: UIImage) {
-        guard let fromVC = transitionContext.viewController(forKey: .from),
-            let fromView = transitionContext.view(forKey: .from),
+        guard let fromView = transitionContext.view(forKey: .from),
             let toVC = transitionContext.viewController(forKey: .to) as? ListingDeckViewController,
             let toView = transitionContext.view(forKey: .to) else {
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
@@ -74,6 +73,8 @@ private class DeckViewTransitionPresenter: DeckViewTransitionMode {
 
         containerView.addSubview(toView)
         toView.frame = fromView.frame
+        toView.layoutIfNeeded()
+
         containerView.bringSubview(toFront: fromView)
         containerView.backgroundColor = toView.backgroundColor
         toView.alpha = 0

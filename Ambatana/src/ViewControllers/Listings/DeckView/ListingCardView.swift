@@ -21,15 +21,18 @@ protocol ListingCardViewDelegate {
 final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestureRecognizerDelegate, ReusableCell {
     private struct Layout {
         struct Height {
-            static let previewFactor: CGFloat = 0.7
             static let userView: CGFloat = 52.0
             static let whiteGradient: CGFloat = 40.0
+            static let topInset: CGFloat = 350 // completly random
         }
+        static let stickyHeaderThreadshold = Layout.Height.userView
     }
 
     var delegate: (ListingCardDetailsViewDelegate & ListingCardViewDelegate & ListingCardDetailMapViewDelegate)? {
         didSet { detailsView.delegate = delegate }
     }
+    var defaultContentInset: UIEdgeInsets = UIEdgeInsets(top: Layout.Height.topInset, left: 0, bottom: 0, right: 0)
+    private var verticalInset: CGFloat = 0
 
     let userView = ListingCardUserView()
     private var userViewTopConstraints: [NSLayoutConstraint] = []
@@ -55,12 +58,10 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     private let scrollView = UIScrollView()
     private var scrollViewTapGesture: UITapGestureRecognizer?
 
-    private var scrollViewContentInset = UIEdgeInsets(top: 200, left: 0, bottom: 0, right: 0)
-
     private var detailsViewFullyVisible: Bool { return abs(scrollView.contentOffset.y + Layout.Height.userView) < CGFloat.ulpOfOne }
     private let detailsView = ListingCardDetailsView()
     private var detailsThreshold: CGFloat { return 0.5 * previewImageView.height }
-    var isImageVisibleEnough: Bool { return abs(scrollView.contentOffset.y) > detailsThreshold }
+    private var isImageVisibleEnough: Bool { return abs(scrollView.contentOffset.y) > detailsThreshold }
     private var fullMapConstraints: [NSLayoutConstraint] = []
 
     private var imageDownloader: ImageDownloaderType?
@@ -76,6 +77,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         super.prepareForReuse()
         disposeBag = DisposeBag()
         previewImageView.image = nil
+
+        layoutVerticalContentInset(animated: false)
     }
 
     func populateWith(cellModel listingViewModel: ListingCardViewCellModel, imageDownloader: ImageDownloaderType) {
@@ -218,9 +221,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         previewImageView.contentMode = .scaleAspectFill
         contentView.addSubview(previewImageView)
         previewImageView.layout(with: contentView).fillHorizontal().top()
-        previewImageViewHeight = previewImageView.heightAnchor.constraint(equalTo: previewImageView.widthAnchor,
-                                                                          multiplier: 1.1,
-                                                                          constant: 0)
+        previewImageViewHeight = previewImageView.heightAnchor.constraint(equalToConstant: defaultContentInset.top)
         previewImageViewHeight?.isActive = true
     }
 
@@ -260,10 +261,10 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         scrollView.showsVerticalScrollIndicator = false
         scrollView.delegate = self
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.contentInset = UIEdgeInsets(top: 256, left: 0, bottom: 0, right: 0)
         contentView.addSubview(scrollView)
         scrollView.layout(with: contentView).leading().trailing().bottom().top()
         scrollView.backgroundColor = .clear
+        scrollView.contentInset = defaultContentInset
 
         userView.translatesAutoresizingMaskIntoConstraints = false
         userView.clipsToBounds = true
@@ -298,13 +299,28 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         NSLayoutConstraint.activate(userViewScrollingConstraints)
     }
 
-    func layoutVerticalContentInset(animated: Bool) {
-        let target = (contentView.bounds.height * Layout.Height.previewFactor) - Layout.Height.userView
+    func setVerticalContentInset(_ inset: CGFloat, animated: Bool) {
+        let insetWithUser = inset - Layout.Height.userView
 
-        guard scrollViewContentInset.top != target else { return }
-        scrollViewContentInset = UIEdgeInsets(top: target, left: 0, bottom: 0, right: 0)
-        scrollView.contentInset = scrollViewContentInset
-        scrollView.setContentOffset(CGPoint(x: 0, y: -scrollViewContentInset.top), animated: animated)
+        if animated {
+            layoutVerticalContentInset(animated: animated)
+        } else if verticalInset != insetWithUser {
+            verticalInset = insetWithUser
+            layoutVerticalContentInset(animated: false)
+        }
+
+    }
+
+    func layoutVerticalContentInset(animated: Bool) {
+        let inset = UIEdgeInsets(top: verticalInset, left: 0, bottom: 0, right: 0)
+        scrollView.contentInset = inset
+        if animated {
+            UIView.animate(withDuration: 0.3) {
+                self.scrollView.setContentOffset(CGPoint(x: 0, y: -inset.top), animated: animated)
+            }
+        } else {
+            scrollView.contentOffset = CGPoint(x: 0, y: -inset.top)
+        }
     }
 
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
@@ -314,21 +330,32 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: Metrics.margin).cgPath
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let target =  defaultContentInset.top * 1.2
+        guard let constant = previewImageViewHeight?.constant, constant != target else { return }
+        previewImageViewHeight?.constant = target
+        previewImageView.setNeedsDisplay()
+    }
+
     // MARK: UIScrollViewDelegate
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y > -Layout.Height.userView {
+        if scrollView.contentOffset.y >= -Layout.stickyHeaderThreadshold  {
            setStickyHeaderOn()
         } else {
             setStickyHeaderOff()
-            if scrollView.contentOffset.y < -scrollViewContentInset.top {
-                previewImageViewHeight?.constant = abs(scrollViewContentInset.top + scrollView.contentOffset.y)
-            } else if scrollViewContentInset.top != 0 {
-                if abs(scrollView.contentOffset.y / scrollViewContentInset.top) < 0.8 {
-                    let ratio = abs(scrollView.contentOffset.y / scrollViewContentInset.top) / 0.8
-                    updateCount(alpha: ratio)
+            if scrollView.contentOffset.y <= -scrollView.contentInset.top {
+                let scaleRatio = (-scrollView.contentOffset.y / scrollView.contentInset.top)
+                previewImageView.transform = CGAffineTransform.identity.scaledBy(x: scaleRatio, y: scaleRatio)
+            } else if scrollView.contentInset.top != 0
+                && -scrollView.contentOffset.y / scrollView.contentInset.top < 0.7 {
+                let ratio = -scrollView.contentOffset.y / scrollView.contentInset.top / 0.7
+                updateCount(alpha: ratio)
+                if detailsViewFullyVisible {
+                    delegate?.didShowMoreInfo()
                 }
-                whiteGradient.alpha = abs(scrollView.contentOffset.y / scrollViewContentInset.top)
+                whiteGradient.alpha = abs(scrollView.contentOffset.y / scrollView.contentInset.top)
             }
         }
         detailsView.isUserInteractionEnabled = abs(scrollView.contentOffset.y) < detailsThreshold
@@ -349,8 +376,6 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
             self.userView.effectView.alpha = 0
         }
     }
-    
-
 
     private func updateCount(alpha: CGFloat) {
         countImageView.alpha = alpha
@@ -360,7 +385,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     private func showFullImagePreview() {
         detailsView.isUserInteractionEnabled = false
-        let offsetY = -scrollViewContentInset.top
+        let offsetY = -scrollView.contentInset.top
         UIView.animate(withDuration: 0.3,
                        delay: 0,
                        options: .curveEaseIn, animations: { [weak self] in
@@ -397,11 +422,13 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     private func scrollToDetail() {
         detailsView.isUserInteractionEnabled = true
-        let offsetY = max(contentView.height - detailsView.bounds.height - userView.bounds.height, 0)
+        let bias: CGFloat = 1
+        let offsetY = min(-Layout.Height.userView + bias,
+                          -(contentView.bounds.height - detailsView.bounds.height))
         UIView.animate(withDuration: 0.3,
                        delay: 0,
                        options: .curveEaseIn, animations: { [weak self] in
-                        self?.scrollView.setContentOffset(CGPoint(x: 0, y: -offsetY), animated: true)
+                        self?.scrollView.setContentOffset(CGPoint(x: 0, y: offsetY), animated: true)
             }, completion: nil)
     }
 
