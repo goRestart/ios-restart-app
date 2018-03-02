@@ -90,6 +90,7 @@ class SelectableFilterTagCell: UICollectionViewCell {
         default:
             break
         }
+        set(accessibilityId: .filterTagCell(tag: tag))
     }
 }
 

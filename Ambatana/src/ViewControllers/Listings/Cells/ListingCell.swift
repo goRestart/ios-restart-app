@@ -265,7 +265,6 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
     }
 
     private func setAccessibilityIds() {
-        set(accessibilityId: .listingCell)
         thumbnailImageView.set(accessibilityId: .listingCellThumbnailImageView)
         stripeImageView.set(accessibilityId: .listingCellStripeImageView)
         stripeLabel.set(accessibilityId: .listingCellStripeLabel)

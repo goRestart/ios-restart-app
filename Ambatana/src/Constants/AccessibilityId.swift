@@ -49,7 +49,7 @@ enum AccessibilityId {
     case listingListErrorButton
 
     // Listing Cell
-    case listingCell
+    case listingCell(listingId: String?)
     case listingCellThumbnailImageView
     case listingCellStripeImageView
     case listingCellStripeLabel
@@ -74,7 +74,7 @@ enum AccessibilityId {
     
     // Filter Tags VC
     case filterTagsCollectionView
-    case filterTagCell
+    case filterTagCell(tag: FilterTag)
     case filterTagCellTagIcon
     case filterTagCellTagLabel
     case selectableFilterTagCellTagLabel
@@ -155,6 +155,7 @@ enum AccessibilityId {
     case listingCarouselChatTextView
     case listingCarouselStatusView
 
+    case listingCarouselNavBarCloseButton
     case listingCarouselNavBarEditButton
     case listingCarouselNavBarShareButton
     case listingCarouselNavBarActionsButton
@@ -162,7 +163,9 @@ enum AccessibilityId {
 
     case listingCarouselMoreInfoScrollView
     case listingCarouselMoreInfoTitleLabel
+    case listingCarouselMoreInfoPriceLabel
     case listingCarouselMoreInfoTransTitleLabel
+    case listingCarouselMoreInfoStatsView
     case listingCarouselMoreInfoAddressLabel
     case listingCarouselMoreInfoDistanceLabel
     case listingCarouselMoreInfoMapView
@@ -170,7 +173,14 @@ enum AccessibilityId {
     case listingCarouselMoreInfoSocialShareView
     case listingCarouselMoreInfoDescriptionLabel
 
-
+    // listing stats view
+    case listingStatsViewFavouriteStatsView
+    case listingStatsViewFavouriteStatsLabel
+    case listingStatsViewFavouriteViewCountView
+    case listingStatsViewFavouriteViewCountLabel
+    case listingStatsViewFavouriteTimePostedView
+    case listingStatsViewFavouriteTimePostedLabel
+    
     // listing Carousel Cell
     case listingCarouselCell
     case listingCarouselCellCollectionView
@@ -377,9 +387,9 @@ enum AccessibilityId {
     case chatListViewTabBlockedUsersTableView
 
     // ConversationCell
-    case conversationCellContainer
-    case conversationCellUserLabel
-    case conversationCellListingLabel
+    case conversationCellContainer(conversationId: String?)
+    case conversationCellUserLabel(interlocutorId: String?)
+    case conversationCellListingLabel(listingId: String?)
     case conversationCellTimeLabel
     case conversationCellBadgeLabel
     case conversationCellThumbnailImageView
@@ -418,20 +428,23 @@ enum AccessibilityId {
     case directAnswersPresenterCollectionView
 
     // ChatCell
+    case chatCellContainer(type: ChatBubbleCellType)
     case chatCellMessageLabel
     case chatCellDateLabel
 
     // ChatStickerCell
+    case chatStickerCellContainer
     case chatStickerCellLeftImage
     case chatStickerCellRightImage
 
     // ChatDisclaimerCell
+    case chatDisclaimerCellContainer
     case chatDisclaimerCellMessageLabel
     case chatDisclaimerCellButton
 
     // ChatOtherInfoCell
+    case chatOtherInfoCellContainer
     case chatOtherInfoCellNameLabel
-    case chatOtherInfoCell
 
     // TourLogin
     case tourLoginCloseButton
@@ -675,8 +688,8 @@ enum AccessibilityId {
             return "listingListErrorButton"
             
         // Listing Cell
-        case .listingCell:
-            return "listingCell"
+        case let .listingCell(listingId):
+            return "listingCell-\(listingId ?? "")"
         case .listingCellThumbnailImageView:
             return "listingCellThumbnailImageView"
         case .listingCellStripeImageView:
@@ -718,8 +731,84 @@ enum AccessibilityId {
         // Filter Tags VC
         case .filterTagsCollectionView:
             return "filterTagsCollectionView"
-        case .filterTagCell:
-            return "filterTagCell"
+        case .filterTagCell(let tag):
+            let idPrefix = "filterTagCell"
+            let idSuffix: String
+            switch tag {
+            case .location:
+                idSuffix = "Location"
+            case let .within(timeCriteria):
+                idSuffix = "WithinTime-\(timeCriteria.rawValue)"
+            case let .orderBy(sortCriteria):
+                idSuffix = "OrderBy-\(sortCriteria.rawValue)"
+            case let .category(category):
+                idSuffix = "Category-\(category.rawValue)"
+            case let .taxonomyChild(taxonomyChild):
+                idSuffix = "TaxonomyChild-\(taxonomyChild.id)"
+            case let .taxonomy(taxonomy):
+                idSuffix = "Taxonomy-\(taxonomy.name)"
+            case let .secondaryTaxonomyChild(taxonomyChild):
+                idSuffix = "SecondaryTaxonomyChild-\(String(taxonomyChild.id))"
+            case let .priceRange(from, to, currency):
+                var params = [String]()
+                if let from = from {
+                    params.append(String(from))
+                }
+                if let to = to {
+                    params.append(String(to))
+                }
+                if let currency = currency {
+                    params.append(currency.code)
+                }
+                idSuffix = "PriceRange-\(params.joined(separator: "_"))"
+            case .freeStuff:
+                idSuffix = "Free"
+            case let .distance(distance):
+                idSuffix = "Distance-\(String(distance))"
+            case let .make(carId, carName):
+                idSuffix = "CarMake-\(carId)_\(carName)"
+            case let .model(carId, carName):
+                idSuffix = "CarModel-\(carId)_\(carName)"
+            case let .yearsRange(from, to):
+                let fromString: String
+                if let from = from {
+                    fromString = String(from)
+                } else {
+                    fromString = ""
+                }
+                let toString: String
+                if let to = to {
+                    toString = String(to)
+                } else {
+                    toString = ""
+                }
+                idSuffix = "CarYears-\(fromString)_\(toString)"
+            case let .realEstateNumberOfBedrooms(number):
+                idSuffix = "RealEstateNumBedRooms-\(number)"
+            case let .realEstateNumberOfBathrooms(number):
+                idSuffix = "RealEstateNumBathRooms-\(String(number.rawValue))"
+            case let .realEstatePropertyType(type):
+                idSuffix = "RealEstatePropertyType-\(type.rawValue)"
+            case let .realEstateOfferType(type):
+                idSuffix = "RealEstateOfferType-\(type.rawValue)"
+            case let .realEstateNumberOfRooms(number):
+                idSuffix = "RealEstateNumRooms-\(number)"
+            case let .sizeSquareMetersRange(from, to):
+                let fromString: String
+                if let from = from {
+                    fromString = String(from)
+                } else {
+                    fromString = ""
+                }
+                let toString: String
+                if let to = to {
+                    toString = String(to)
+                } else {
+                    toString = ""
+                }
+                idSuffix = "RealEstateSizeSquareMetersRange-\(fromString)_\(toString)"
+            }
+            return idPrefix + idSuffix
         case .filterTagCellTagIcon:
             return "filterTagCellTagIcon"
         case .filterTagCellTagLabel:
@@ -858,6 +947,8 @@ enum AccessibilityId {
         case .listingCarouselStatusView:
             return "listingCarouselStatusView"
             
+        case .listingCarouselNavBarCloseButton:
+            return "listingCarouselNavBarCloseButton"
         case .listingCarouselNavBarEditButton:
             return "listingCarouselNavBarEditButton"
         case .listingCarouselNavBarShareButton:
@@ -871,8 +962,12 @@ enum AccessibilityId {
             return "listingCarouselMoreInfoScrollView"
         case .listingCarouselMoreInfoTitleLabel:
             return "listingCarouselMoreInfoTitleLabel"
+        case .listingCarouselMoreInfoPriceLabel:
+            return "listingCarouselMoreInfoPriceLabel"
         case .listingCarouselMoreInfoTransTitleLabel:
             return "listingCarouselMoreInfoTransTitleLabel"
+        case .listingCarouselMoreInfoStatsView:
+            return "listingCarouselMoreInfoStatsView"
         case .listingCarouselMoreInfoAddressLabel:
             return "listingCarouselMoreInfoAddressLabel"
         case .listingCarouselMoreInfoDistanceLabel:
@@ -885,7 +980,20 @@ enum AccessibilityId {
             return "listingCarouselMoreInfoSocialShareView"
         case .listingCarouselMoreInfoDescriptionLabel:
             return "listingCarouselMoreInfoDescriptionLabel"
-            
+        
+        // listing Stats View
+        case .listingStatsViewFavouriteStatsView:
+            return "listingStatsViewFavouriteStatsView"
+        case .listingStatsViewFavouriteStatsLabel:
+            return "listingStatsViewFavouriteStatsLabel"
+        case .listingStatsViewFavouriteViewCountView:
+            return "listingStatsViewFavouriteViewCountView"
+        case .listingStatsViewFavouriteViewCountLabel:
+            return "listingStatsViewFavouriteViewCountLabel"
+        case .listingStatsViewFavouriteTimePostedView:
+            return "listingStatsViewFavouriteTimePostedView"
+        case .listingStatsViewFavouriteTimePostedLabel:
+            return "listingStatsViewFavouriteTimePostedLabel"
             
         // listing Carousel Cell
         case .listingCarouselCell:
@@ -1258,12 +1366,12 @@ enum AccessibilityId {
             return "chatListViewTabBlockedUsersTableView"
             
         // ConversationCell
-        case .conversationCellContainer:
-            return "conversationCellContainer"
-        case .conversationCellUserLabel:
-            return "conversationCellUserLabel"
-        case .conversationCellListingLabel:
-            return "conversationCellListingLabel"
+        case let .conversationCellContainer(conversationId):
+            return "conversationCellContainer-\(conversationId ?? "")"
+        case let .conversationCellUserLabel(interlocutorId):
+            return "conversationCellUserLabel-\(interlocutorId ?? "")"
+        case let .conversationCellListingLabel(listingId):
+            return "conversationCellListingLabel-\(listingId ?? "")"
         case .conversationCellTimeLabel:
             return "conversationCellTimeLabel"
         case .conversationCellBadgeLabel:
@@ -1328,28 +1436,43 @@ enum AccessibilityId {
             return "directAnswersPresenterCollectionView"
             
         // ChatCell
+        case let .chatCellContainer(type):
+            let suffix: String
+            switch type {
+            case .myMessage:
+                suffix = "MyMessage"
+            case .othersMessage:
+                suffix = "OthersMessage"
+            case .askPhoneNumber:
+                suffix = "AskPhoneNumber"
+            }
+            return "chatCellContainer\(suffix)"
         case .chatCellMessageLabel:
             return "chatCellMessageLabel"
         case .chatCellDateLabel:
             return "chatCellDateLabel"
             
         // ChatStickerCell
+        case .chatStickerCellContainer:
+            return "chatStickerCellContainer"
         case .chatStickerCellLeftImage:
             return "chatStickerCellLeftImage"
         case .chatStickerCellRightImage:
             return "chatStickerCellRightImage"
             
         // ChatDisclaimerCell
+        case .chatDisclaimerCellContainer:
+            return "chatDisclaimerCellContainer"
         case .chatDisclaimerCellMessageLabel:
             return "chatDisclaimerCellMessageLabel"
         case .chatDisclaimerCellButton:
             return "chatDisclaimerCellButton"
             
         // ChatOtherInfoCell
+        case .chatOtherInfoCellContainer:
+            return "chatOtherInfoCellContainer"
         case .chatOtherInfoCellNameLabel:
             return "chatOtherInfoCellNameLabel"
-        case .chatOtherInfoCell:
-            return "chatOtherInfoCell"
             
         // TourLogin
         case .tourLoginCloseButton:
@@ -1657,5 +1780,12 @@ enum AccessibilityId {
 extension UIAccessibilityIdentification {
     func set(accessibilityId: AccessibilityId?) {
         accessibilityIdentifier = accessibilityId?.identifier
+    }
+}
+
+extension NSObject {
+    var accessibilityInspectionEnabled: Bool {
+        get { return !accessibilityElementsHidden }
+        set { accessibilityElementsHidden = !accessibilityInspectionEnabled }
     }
 }

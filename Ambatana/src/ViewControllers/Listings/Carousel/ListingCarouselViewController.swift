@@ -387,7 +387,8 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         let backIconImage = UIImage(named: "ic_close_carousel")
         let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.plain,
                                          target: self, action: #selector(backButtonClose))
-        self.navigationItem.leftBarButtonItem = backButton
+        backButton.set(accessibilityId: .listingCarouselNavBarCloseButton)
+        navigationItem.leftBarButtonItem = backButton
     }
 
     @objc private func backButtonClose() {
@@ -614,6 +615,7 @@ extension ListingCarouselViewController {
                 case .textImage:
                     let shareButton = CarouselUIHelper.buildShareButton(action.text, icon: action.image)
                     let rightItem = UIBarButtonItem(customView: shareButton)
+                    rightItem.set(accessibilityId: action.accessibilityId)
                     rightItem.style = .plain
                     shareButton.rx.tap.takeUntil(takeUntilAction).bind{
                         action.action()
@@ -641,6 +643,7 @@ extension ListingCarouselViewController {
                         }.disposed(by: strongSelf.disposeBag)
                     buttons.append(button)
                     button.alpha = alpha
+                    button.set(accessibilityId: navBarButton.accessibilityId)
                 }
                 strongSelf.setNavigationBarRightButtons(buttons)
             }
@@ -1331,5 +1334,6 @@ fileprivate extension ListingCarouselViewController {
         userView.set(accessibilityId: .listingCarouselUserView)
         chatTextView.set(accessibilityId: .listingCarouselChatTextView)
         productStatusView.set(accessibilityId: .listingCarouselStatusView)
+        directChatTable.accessibilityInspectionEnabled = false
     }
 }
