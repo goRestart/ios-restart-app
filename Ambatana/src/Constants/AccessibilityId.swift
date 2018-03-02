@@ -732,23 +732,23 @@ enum AccessibilityId {
         case .filterTagsCollectionView:
             return "filterTagsCollectionView"
         case .filterTagCell(let tag):
-            let prefix = "filterTagCell"
-            let id: String
+            let idPrefix = "filterTagCell"
+            let idSuffix: String
             switch tag {
             case .location:
-                id = prefix + "Location"
+                idSuffix = "Location"
             case let .within(timeCriteria):
-                id = prefix + "WithinTime-\(timeCriteria.rawValue)"
+                idSuffix = "WithinTime-\(timeCriteria.rawValue)"
             case let .orderBy(sortCriteria):
-                id = prefix + "OrderBy-\(sortCriteria.rawValue)"
+                idSuffix = "OrderBy-\(sortCriteria.rawValue)"
             case let .category(category):
-                id = prefix + "Category-\(category.rawValue)"
+                idSuffix = "Category-\(category.rawValue)"
             case let .taxonomyChild(taxonomyChild):
-                id = prefix + "TaxonomyChild-\(taxonomyChild.id)"
+                idSuffix = "TaxonomyChild-\(taxonomyChild.id)"
             case let .taxonomy(taxonomy):
-                id = prefix + "Taxonomy-\(taxonomy.name)"
+                idSuffix = "Taxonomy-\(taxonomy.name)"
             case let .secondaryTaxonomyChild(taxonomyChild):
-                id = prefix + "SecondaryTaxonomyChild-\(String(taxonomyChild.id))"
+                idSuffix = "SecondaryTaxonomyChild-\(String(taxonomyChild.id))"
             case let .priceRange(from, to, currency):
                 var params = [String]()
                 if let from = from {
@@ -760,15 +760,15 @@ enum AccessibilityId {
                 if let currency = currency {
                     params.append(currency.code)
                 }
-                id = prefix + "PriceRange-\(params.joined(separator: "_"))"
+                idSuffix = "PriceRange-\(params.joined(separator: "_"))"
             case .freeStuff:
-                id = prefix + "Free"
+                idSuffix = "Free"
             case let .distance(distance):
-                id = prefix + "Distance-\(String(distance))"
+                idSuffix = "Distance-\(String(distance))"
             case let .make(carId, carName):
-                id = prefix + "CarMake-\(carId)_\(carName)"
+                idSuffix = "CarMake-\(carId)_\(carName)"
             case let .model(carId, carName):
-                id = prefix + "CarModel-\(carId)_\(carName)"
+                idSuffix = "CarModel-\(carId)_\(carName)"
             case let .yearsRange(from, to):
                 let fromString: String
                 if let from = from {
@@ -782,17 +782,17 @@ enum AccessibilityId {
                 } else {
                     toString = ""
                 }
-                id = prefix + "CarYears-\(fromString)_\(toString)"
+                idSuffix = "CarYears-\(fromString)_\(toString)"
             case let .realEstateNumberOfBedrooms(number):
-                id = prefix + "RealEstateNumBedRooms-\(number)"
+                idSuffix = "RealEstateNumBedRooms-\(number)"
             case let .realEstateNumberOfBathrooms(number):
-                id = prefix + "RealEstateNumBathRooms-\(String(number.rawValue))"
+                idSuffix = "RealEstateNumBathRooms-\(String(number.rawValue))"
             case let .realEstatePropertyType(type):
-                id = prefix + "RealEstatePropertyType-\(type.rawValue)"
+                idSuffix = "RealEstatePropertyType-\(type.rawValue)"
             case let .realEstateOfferType(type):
-                id = prefix + "RealEstateOfferType-\(type.rawValue)"
+                idSuffix = "RealEstateOfferType-\(type.rawValue)"
             case let .realEstateNumberOfRooms(number):
-                id = prefix + "RealEstateNumRooms-\(number)"
+                idSuffix = "RealEstateNumRooms-\(number)"
             case let .sizeSquareMetersRange(from, to):
                 let fromString: String
                 if let from = from {
@@ -806,9 +806,9 @@ enum AccessibilityId {
                 } else {
                     toString = ""
                 }
-                id = prefix + "RealEstateSizeSquareMetersRange-\(fromString)_\(toString)"
+                idSuffix = "RealEstateSizeSquareMetersRange-\(fromString)_\(toString)"
             }
-            return id
+            return idPrefix + idSuffix
         case .filterTagCellTagIcon:
             return "filterTagCellTagIcon"
         case .filterTagCellTagLabel:
