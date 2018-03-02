@@ -126,16 +126,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         return UICollectionViewCell()
     }
 
-    func setupPageCurrentCell() {
-        guard let cell = listingDeckView.currentPageCell else { return }
-        let currentPage = listingDeckView.currentPage
-        binder.bind(cell: cell)
-        cell.isUserInteractionEnabled = true
-
-        guard let listing = viewModel.listingCellModelAt(index: currentPage) else { return }
-        cell.populateWith(cellModel: listing, imageDownloader: viewModel.imageDownloader)
-    }
-
     private func updateCellContentInset(_ cell: ListingCardView) {
         let collectionView = listingDeckView.collectionView
         let cellCenter = collectionView.convert(cell.center, to: listingDeckView)
@@ -208,8 +198,37 @@ extension ListingDeckViewController {
 }
 
 extension ListingDeckViewController: ListingDeckViewControllerBinderType {
-    func closeBumpUpBanner() {
-        closeBumpUpBanner(animated: true)
+    var rxContentOffset: Observable<CGPoint> { return listingDeckView.rxCollectionView.contentOffset.share() }
+
+    func turnNavigationBar(_ on: Bool) {
+        if on {
+            navigationItem.hidesBackButton = false
+            setupNavigationBar()
+        } else {
+            navigationItem.hidesBackButton = true
+            navigationItem.leftBarButtonItem = UIBarButtonItem()
+            navigationItem.rightBarButtonItem = UIBarButtonItem()
+        }
+    }
+
+    func willDisplayCell(_ cell: UICollectionViewCell) {
+        guard let card = cell as? ListingCardView else { return }
+        updateCellContentInset(card)
+    }
+    
+    func didEndDecelerating() {
+        listingDeckView.blockSideInteractions()
+        setupPageCurrentCell()
+    }
+
+    private func setupPageCurrentCell() {
+        guard let cell = listingDeckView.currentPageCell else { return }
+        let currentPage = listingDeckView.currentPage
+        binder.bind(cell: cell)
+        cell.isUserInteractionEnabled = true
+
+        guard let listing = viewModel.listingCellModelAt(index: currentPage) else { return }
+        cell.populateWith(cellModel: listing, imageDownloader: viewModel.imageDownloader)
     }
 
     func didShowMoreInfo() {
@@ -219,17 +238,6 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func didTapOnUserIcon() {
         viewModel.showUser()
     }
-
-    func blockSideInteractions() {
-        listingDeckView.blockSideInteractions()
-    }
-
-    func updateSideCells() {
-        guard let visibles = listingDeckView.collectionView.visibleCells as? [ListingCardView] else { return }
-        visibles.forEach(updateCellContentInset)
-    }
-
-    var rxContentOffset: Observable<CGPoint> { return listingDeckView.rxCollectionView.contentOffset.share() }
 
     func updateViewWithActions(_ actionButtons: [UIAction]) {
         guard let actionButton = actionButtons.first else {
@@ -297,6 +305,10 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
                 self?.listingDeckView.itemActionsView.layoutIfNeeded()
             }, completion: nil)
         }
+    }
+
+    func closeBumpUpBanner() {
+        closeBumpUpBanner(animated: true)
     }
 }
 

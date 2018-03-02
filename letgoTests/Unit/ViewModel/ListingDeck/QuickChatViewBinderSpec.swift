@@ -9,6 +9,7 @@
 @testable import LetGoGodMode
 import RxTest
 import RxSwift
+import RxCocoa
 import LGCoreKit
 import Quick
 import Nimble
@@ -92,6 +93,14 @@ final class QuickChatViewBinderSpec: QuickSpec {
 }
 
 private class MockQuickChatView: QuickChatViewType {
+    var rxDidBeginEditing: ControlEvent<()> { return textField.rx.controlEvent(.editingDidBegin) }
+    var rxDidEndEditing: ControlEvent<()> { return textField.rx.controlEvent(.editingDidEnd) }
+    var rxPlaceholder: Binder<String?> { return chatTextView.rx.placeholder }
+
+    var chatTextView = ChatTextView()
+    var textField = UITextField()
+    var hasInitialText: Bool = false
+
     var rxToSendMessage: Observable<String> { return textView.rx.send }
     var rxChatTextView: Reactive<ChatTextView> { return textView.rx }
 

@@ -16,6 +16,10 @@ extension Reactive where Base: ChatTextView {
         return self.base.textView.rx.text
     }
 
+    var didBeginEditing: ControlEvent<()> { return self.base.textView.rx.controlEvent([.editingDidBegin]) }
+    
+    var didEndEditing: ControlEvent<()> { return self.base.textView.rx.controlEvent([.editingDidEnd]) }
+
     var placeholder: Binder<String?> {
         return Binder<String?>(self.base) { (textView, placeholder) in
             textView.placeholder = placeholder

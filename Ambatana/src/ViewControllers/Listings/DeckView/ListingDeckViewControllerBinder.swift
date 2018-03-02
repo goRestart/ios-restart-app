@@ -18,22 +18,31 @@ protocol ListingDeckViewControllerBinderType: class {
     func updateWith(keyboardChange: KeyboardChange)
     func showBumpUpBanner(bumpInfo: BumpUpInfo)
     func closeBumpUpBanner()
+
     func didTapShare()
     func didTapCardAction()
     func didTapOnUserIcon()
-    func updateSideCells()
+
+    func willDisplayCell(_ cell: UICollectionViewCell)
+    func didEndDecelerating()
+
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool)
-    func blockSideInteractions()
     func updateViewWithActions(_ actions: [UIAction])
 
-    func setupPageCurrentCell()
+    func turnNavigationBar(_ on: Bool)
 }
 
 protocol ListingDeckViewType: class {
-    var collectionView: UICollectionView { get }
+    var rxCollectionView: Reactive<UICollectionView> { get }
     var rxActionButton: Reactive<UIButton> { get }
+
+    var rxDidBeginEditing: ControlEvent<()>? { get }
+    var rxDidEndEditing: ControlEvent<()>? { get }
+
     var currentPage: Int { get }
     func pageOffset(givenOffset: CGFloat) -> CGFloat
+
+    func handleCollectionChange<T>(_ change: CollectionChange<T>, completion: ((Bool) -> Void)?)
 }
 
 protocol ListingDeckViewModelType: class {
@@ -72,19 +81,38 @@ final class ListingDeckViewControllerBinder {
         guard let viewController = listingDeckViewController else { return }
         let currentDB = DisposeBag()
 
-        bindKeyboardChanges(withViewController: viewController, viewModel: viewModel,
-                            listingDeckView: listingDeckView, disposeBag: currentDB)
+        bindKeyboardChanges(withViewController: viewController, disposeBag: currentDB)
         bindCollectionView(withViewController: viewController, viewModel: viewModel,
                            listingDeckView: listingDeckView, disposeBag: currentDB)
-        bindContentOffset(withViewController: viewController, viewModel: viewModel,
+        bindDeckMovement(withViewController: viewController, viewModel: viewModel,
                           listingDeckView: listingDeckView, disposeBag: currentDB)
         bindChat(withViewController: viewController, viewModel: viewModel,
                  listingDeckView: listingDeckView, disposeBag: currentDB)
         bindActions(withViewModel: viewModel, listingDeckView: listingDeckView, disposeBag: currentDB)
-        bindBumpUp(withViewController: viewController, viewModel: viewModel,
-                   listingDeckView: listingDeckView, disposeBag: currentDB)
+        bindBumpUp(withViewController: viewController, viewModel: viewModel, disposeBag: currentDB)
+        bindNavigationBar(withViewController: viewController, listingDeckView: listingDeckView, disposeBag: currentDB)
 
         disposeBag = currentDB
+    }
+
+    func bindNavigationBar(withViewController
+        viewController: ListingDeckViewControllerBinderType,
+                           listingDeckView: ListingDeckViewType,
+                           disposeBag: DisposeBag) {
+        if let didEndEditing = listingDeckView.rxDidEndEditing {
+            didEndEditing
+                .asDriver()
+                .drive(onNext: { [weak viewController] _ in
+                    viewController?.turnNavigationBar(true)
+                }).disposed(by: disposeBag)
+        }
+        if let didBeginEditing = listingDeckView.rxDidBeginEditing {
+            didBeginEditing
+                .asDriver()
+                .drive(onNext: { [weak viewController] _ in
+                    viewController?.turnNavigationBar(true)
+                }).disposed(by: disposeBag)
+        }
     }
 
     func bind(cell: ListingDeckViewControllerBinderCellType) {
@@ -122,7 +150,7 @@ final class ListingDeckViewControllerBinder {
     }
 
     private func bindBumpUp(withViewController viewController: ListingDeckViewControllerBinderType,
-                            viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
+                            viewModel: ListingDeckViewModelType,
                             disposeBag: DisposeBag) {
         viewModel.rxBumpUpBannerInfo.bind { [weak viewController] bumpInfo in
             guard let bumpUp = bumpInfo else { return }
@@ -131,7 +159,6 @@ final class ListingDeckViewControllerBinder {
     }
 
     private func bindKeyboardChanges(withViewController viewController: ListingDeckViewControllerBinderType,
-                                     viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
                                      disposeBag: DisposeBag) {
         viewController.keyboardChanges.bind { [weak viewController] change in
             viewController?.updateWith(keyboardChange: change)
@@ -142,20 +169,19 @@ final class ListingDeckViewControllerBinder {
                                     viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
                                     disposeBag: DisposeBag) {
         viewModel.rxObjectChanges.observeOn(MainScheduler.instance).bind { [weak listingDeckView] change in
-            listingDeckView?.collectionView.handleCollectionChange(change)
+            listingDeckView?.handleCollectionChange(change, completion: nil)
         }.disposed(by: disposeBag)
 
-        listingDeckView.collectionView.rx.didEndDecelerating.bind { [weak viewController] in
-            viewController?.blockSideInteractions()
-            viewController?.setupPageCurrentCell()
+        listingDeckView.rxCollectionView.didEndDecelerating.bind { [weak viewController] in
+            viewController?.didEndDecelerating()
         }.disposed(by: disposeBag)
 
-        listingDeckView.collectionView.rx.willDisplayCell.bind { [weak viewController] (cell, indexPath) in
-            viewController?.updateSideCells()
+        listingDeckView.rxCollectionView.willDisplayCell.bind { [weak viewController] (cell, indexPath) in
+            viewController?.willDisplayCell(cell)
         }.disposed(by: disposeBag)
     }
 
-    private func bindContentOffset(withViewController viewController: ListingDeckViewControllerBinderType,
+    private func bindDeckMovement(withViewController viewController: ListingDeckViewControllerBinderType,
                                    viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
                                    disposeBag: DisposeBag) {
         let pageSignal: Observable<Int> = viewController.rxContentOffset.map { _ in return listingDeckView.currentPage }

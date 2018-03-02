@@ -218,20 +218,26 @@ private class MockListingDeckViewControllerBinderCellType: ListingDeckViewContro
 }
 
 private class MockListingDeckViewType: ListingDeckViewType {
+    var rxCollectionView: Reactive<UICollectionView> { return collectionView.rx }
+
+    var rxDidBeginEditing: ControlEvent<()>? // ☢️ do not know how to test this
+    var rxDidEndEditing: ControlEvent<()>? // ☢️ do not know how to test this
 
     var collectionView: UICollectionView = UICollectionView(frame: .zero,
                                                             collectionViewLayout: UICollectionViewFlowLayout())
+
     var rxActionButton: Reactive<UIButton> { return actionButton.rx }
     let actionButton = UIButton(frame: .zero)
+
     var currentPage: Int = 0
+
+    func handleCollectionChange<T>(_ change: CollectionChange<T>, completion: ((Bool) -> Void)?) { }
 
     var isPageOffsetCalled: Int = 0
     func pageOffset(givenOffset: CGFloat) -> CGFloat {
         isPageOffsetCalled += 1
         return 0
     }
-
-    func hideChat() { }
 
     func resetVariables() {
         isPageOffsetCalled = 0
@@ -240,7 +246,6 @@ private class MockListingDeckViewType: ListingDeckViewType {
 
 final class MockListingDeckViewModelType: ListingDeckViewModelType {
     var quickChatViewModel: QuickChatViewModel = QuickChatViewModel()
-
     func replaceListingCellModelAtIndex(_ index: Int, withListing listing: Listing) {
         replaceIndexIsCalled += 1
     }
@@ -259,9 +264,6 @@ final class MockListingDeckViewModelType: ListingDeckViewModelType {
 
     var rxNavBarButtons: Observable<[UIAction]> { return navBarButtons.asObservable() }
     let navBarButtons: Variable<[UIAction]> = Variable<[UIAction]>([])
-
-    var rxAltActions: Observable<[UIAction]> { return altActions.asObservable() }
-    let altActions: Variable<[UIAction]> = Variable<[UIAction]>([])
 
     var rxObjectChanges: Observable<CollectionChange<ListingCellModel>> { return objects.changesObservable }
     let objects: CollectionVariable<ListingCellModel> = CollectionVariable<ListingCellModel>([])
@@ -285,27 +287,26 @@ final class MockListingDeckViewModelType: ListingDeckViewModelType {
 }
 
 private class MockListingDeckViewControllerBinderType: ListingDeckViewControllerBinderType {
-    func setupPageCurrentCell() { }
-
-    func closeBumpUpBanner() { }
-
-    func updateSideCells() {
-        isUpdateSideCellsCalled += 1
+    func willDisplayCell(_ cell: UICollectionViewCell) {
+        // ☢️ do not know how to test this
+    }
+    func didEndDecelerating() {
+        // ☢️ do not know how to test this
+    }
+    func turnNavigationBar(_ on: Bool) {
+        // ☢️ do not know how to test this
+    }
+    func closeBumpUpBanner() {
+        // ☢️ do not know how to test this
     }
 
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool) {
         isUpdateViewWithAlphaCalled += 1
     }
 
-    func blockSideInteractions() {
-        isBlockSideInteractionsCalled += 1
-    }
-
     var rxContentOffset: Observable<CGPoint> { return contentOffset.asObservable() }
     var contentOffset: Variable<CGPoint> = Variable<CGPoint>(CGPoint(x: 0, y: 0))
-
     var keyboardChanges: Observable<KeyboardChange> { return rx_keyboardChanges.asObservable() }
-
     let rx_keyboardChanges: Variable<KeyboardChange> = Variable(KeyboardChange(height: 0,
                                                                                origin: 0,
                                                                                animationTime: 0,
@@ -313,37 +314,21 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
                                                                                visible: true,
                                                                                isLocal: true))
 
-    let collectionView: UICollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 500, height: 100),
-                                                            collectionViewLayout: UICollectionViewFlowLayout())
-    let rxCollectionView: Reactive<UICollectionView>
-
-    var isBlockSideInteractionsCalled: Int = 0
-    var isUpdateSideCellsCalled: Int = 0
     var isUpdateViewWithActionsCalled: Int = 0
     var isUpdateWithKeyboardChangeCalled: Int = 0
-    var isVmShowOptionsCancelLabelCalled: Int = 0
     var isShowBumpUpBannerBumpInfoCalled: Int = 0
     var isDidTapShareCalled: Int = 0
     var isDidTapUserIconCalled = 0
     var isDidTapCardActionCalled: Int = 0
     var isUpdateViewWithAlphaCalled: Int = 0
-    var isSetNavigationBarRightButtonsCalled: Int = 0
-    var isSetLetGoRightButtonWithCalled: Int = 0
-
-    init() {
-        rxCollectionView = collectionView.rx
-    }
 
     func resetVariables() {
         isUpdateViewWithActionsCalled = 0
         isUpdateWithKeyboardChangeCalled = 0
-        isVmShowOptionsCancelLabelCalled = 0
         isShowBumpUpBannerBumpInfoCalled = 0
         isDidTapShareCalled = 0
         isDidTapCardActionCalled = 0
         isUpdateViewWithAlphaCalled = 0
-        isSetNavigationBarRightButtonsCalled = 0
-        isSetLetGoRightButtonWithCalled = 0
         isDidTapUserIconCalled = 0
     }
 
@@ -352,9 +337,6 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     }
     func updateWith(keyboardChange: KeyboardChange) {
         isUpdateWithKeyboardChangeCalled += 1
-    }
-    func vmShowOptions(_ cancelLabel: String, actions: [UIAction]) {
-        isVmShowOptionsCancelLabelCalled += 1
     }
     func showBumpUpBanner(bumpInfo: BumpUpInfo) {
         isShowBumpUpBannerBumpInfoCalled += 1
@@ -367,11 +349,5 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     }
     func didTapCardAction() {
         isDidTapCardActionCalled += 1
-    }
-    func setNavigationBarRightButtons(_ actions: [UIButton]) {
-        isSetNavigationBarRightButtonsCalled += 1
-    }
-    func setLetGoRightButtonWith(_ action: UIAction, buttonTintColor: UIColor?, tapBlock: (ControlEvent<Void>) -> Void ) {
-        isSetLetGoRightButtonWithCalled += 1
     }
 }

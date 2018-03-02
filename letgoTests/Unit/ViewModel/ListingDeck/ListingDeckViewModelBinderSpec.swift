@@ -31,7 +31,6 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
         var chatEnabled: TestableObserver<Bool>!
         var directChatPlaceholderObserver: TestableObserver<String>!
         var bumpUpBannerInfoObserver: TestableObserver<BumpUpInfo?>!
-        var tracker: MockTracker!
 
         describe("ListingDeckViewModelBinderSpec") {
             beforeEach {

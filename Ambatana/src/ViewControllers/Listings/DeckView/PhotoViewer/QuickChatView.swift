@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 import LGCoreKit
 
 typealias DirectAnswersSupportType = UITableViewDataSource & UITableViewDelegate
@@ -22,8 +23,12 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     var isRemovedWhenResigningFirstResponder = true
     var isTableInteractionEnabled = true
 
-    var rxChatTextView: Reactive<ChatTextView> { return textView.rx }
+    var rxDidBeginEditing: ControlEvent<()> { return textView.rx.didBeginEditing }
+    var rxDidEndEditing: ControlEvent<()> { return textView.rx.didEndEditing }
+    var rxPlaceholder: Binder<String?> { return textView.rx.placeholder }
     var rxToSendMessage: Observable<String> { return textView.rx.send }
+
+    var hasInitialText: Bool { return textView.isInitialText }
 
     let quickChatViewModel: QuickChatViewModel
 

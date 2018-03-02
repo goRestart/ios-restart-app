@@ -9,9 +9,15 @@
 import Foundation
 import LGCoreKit
 import RxSwift
+import RxCocoa
 
 protocol QuickChatViewType: class {
-    var rxChatTextView: Reactive<ChatTextView> { get }
+    var rxDidBeginEditing: ControlEvent<()> { get }
+    var rxDidEndEditing: ControlEvent<()> { get }
+    var rxPlaceholder: Binder<String?> { get }
+
+    var hasInitialText: Bool { get }
+
     var rxToSendMessage: Observable<String> { get }
     func setInitialText(_ text: String)
     func clearChatTextView()
@@ -48,16 +54,14 @@ final class QuickChatViewBinder {
         guard let bag = disposeBag else { return }
         guard let chatView = quickChatView else { return }
 
-        viewModel.rxDirectChatPlaceholder
-            .bind(to: chatView.rxChatTextView.placeholder)
-        .disposed(by:bag)
+        viewModel.rxDirectChatPlaceholder.bind(to: chatView.rxPlaceholder).disposed(by:bag)
 
         if viewModel.areAnswersDynamic {
             chatView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
         }
         chatView.rxToSendMessage.bind { [weak chatView] message in
             guard let quickChatView = chatView else { return }
-            viewModel.send(directMessage: message, isDefaultText: quickChatView.rxChatTextView.base.isInitialText)
+            viewModel.send(directMessage: message, isDefaultText: quickChatView.hasInitialText)
             quickChatView.clearChatTextView()
         }.disposed(by: bag)
 

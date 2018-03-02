@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import LGCoreKit
 import RxSwift
+import RxCocoa
 
 final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewType {
     struct Layout {
@@ -22,11 +23,12 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     private var collectionViewTop: NSLayoutConstraint? = nil
     private let topInsetView = UIView()
     let collectionView: UICollectionView
+    let rxCollectionView: Reactive<UICollectionView>
+
     private let bottomInsetView = UIView()
 
     var currentPageCell: ListingCardView? { return collectionView.cellForItem(at: IndexPath(item: collectionLayout.page,
                                                                                             section: 0)) as? ListingCardView }
-    let rxCollectionView: Reactive<UICollectionView>
     var chatEnabled: Bool = false {
         didSet {
             quickChatTopToCollectionBotton?.isActive = chatEnabled
@@ -40,7 +42,9 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     private let collectionLayout = ListingDeckCollectionViewLayout()
 
     var rxActionButton: Reactive<UIButton> { return itemActionsView.actionButton.rx }
-    var rxChatTextView: Reactive<ChatTextView>? { return quickChatView?.rxChatTextView }
+    var rxDidBeginEditing: ControlEvent<()>? { return quickChatView?.rxDidBeginEditing }
+    var rxDidEndEditing: ControlEvent<()>? { return quickChatView?.rxDidEndEditing }
+
     var currentPage: Int { return collectionLayout.page }
     var bumpUpBanner: BumpUpBanner { return itemActionsView.bumpUpBanner }
     var isBumpUpVisible: Bool { return itemActionsView.isBumpUpVisisble }
@@ -55,10 +59,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     }
 
     required init?(coder aDecoder: NSCoder) {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
-        rxCollectionView = collectionView.rx
-        super.init(coder: aDecoder)
-        setupUI()
+        fatalError("init(coder:) has not been implemented")
     }
 
     func cardSystemLayoutSizeFittingSize(_ target: CGSize) -> CGSize {
@@ -170,10 +171,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         itemActionsView.alpha = alpha
     }
 
-    func updateBumpUp(withInfo info: BumpUpInfo) {
-        itemActionsView.updateBumpUp(withInfo: info)
-    }
-
     func updateTop(wintInset inset: CGFloat) {
         collectionViewTop?.constant = inset
     }
@@ -234,6 +231,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 
     // MARK: BumpUp
 
+    func updateBumpUp(withInfo info: BumpUpInfo) {
+        itemActionsView.updateBumpUp(withInfo: info)
+    }
+
     func showBumpUp() {
         itemActionsView.showBumpUp()
     }
@@ -246,4 +247,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         bumpUpBanner.resetCountdown()
     }
 
+    func handleCollectionChange<T>(_ change: CollectionChange<T>, completion: ((Bool) -> Void)? = nil) {
+        collectionView.handleCollectionChange(change, completion: completion)
+    }
 }
