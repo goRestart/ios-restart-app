@@ -38,8 +38,7 @@ extension Reactive where Base: ChatTextView {
 
 
 class ChatTextView: UIView {
-
-    static let minimumHeight: CGFloat = 50
+    static let minimumHeight: CGFloat = 44
     static let minimumWidth: CGFloat = 100
     static let minimumButtonWidth: CGFloat = 70
     static let buttonMargin: CGFloat = 3
@@ -63,7 +62,8 @@ class ChatTextView: UIView {
         return textView.text == currentDefaultText
     }
     
-    
+
+    fileprivate let background = UIView()
     fileprivate let textView = UITextField()
     fileprivate let sendButton = UIButton(type: .custom)
     fileprivate let focus = Variable<Bool>(false)
@@ -73,12 +73,13 @@ class ChatTextView: UIView {
     private static let textViewMaxHeight: CGFloat = 120
 
     fileprivate let tapEvents = PublishSubject<Void>()
-    fileprivate let rightBackground = UIView()
 
     private let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
-
+    override var intrinsicContentSize: CGSize { return CGSize(width: UIViewNoIntrinsicMetric,
+                                                              height: ChatTextView.minimumHeight) }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -133,42 +134,22 @@ class ChatTextView: UIView {
     }
 
     private func setupConstraints() {
-        if height < ChatTextView.minimumHeight {
-            height = ChatTextView.minimumHeight
-        }
-        if width < ChatTextView.minimumWidth {
-            width = ChatTextView.minimumWidth
-        }
-        addConstraint(NSLayoutConstraint(item: self, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil,
-            attribute: .notAnAttribute, multiplier: 1, constant: ChatTextView.minimumHeight))
-        addConstraint(NSLayoutConstraint(item: self, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil,
-            attribute: .notAnAttribute, multiplier: 1, constant: ChatTextView.minimumWidth))
-
         setupBackgroundsWCorners()
 
-        textView.translatesAutoresizingMaskIntoConstraints = false
+        addSubviewsForAutoLayout([textView, sendButton])
         textView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
-        addSubview(textView)
-        sendButton.translatesAutoresizingMaskIntoConstraints = false
         sendButton.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
-        addSubview(sendButton)
-
-        var views = [String: Any]()
-        views["textView"] = textView
-        views["sendButton"] = sendButton
-
-        var metrics = [String: Any]()
-        metrics["margin"] = ChatTextView.elementsMargin
-        metrics["maxHeight"] = ChatTextView.textViewMaxHeight
-        metrics["minButtonWidth"] = ChatTextView.minimumButtonWidth
-        metrics["buttonMargin"] = ChatTextView.buttonMargin
-
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-margin-[textView]-margin-[sendButton(>=minButtonWidth)]-buttonMargin-|",
-            options: [.alignAllCenterY], metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-margin-[textView(<=maxHeight)]-margin-|",
-            options: [], metrics: metrics, views: views))
-        sendButton.addConstraint(NSLayoutConstraint(item: sendButton, attribute: .height, relatedBy: .equal, toItem: nil,
-            attribute: .notAnAttribute, multiplier: 1, constant: ChatTextView.minimumHeight-(ChatTextView.buttonMargin*2)))
+        NSLayoutConstraint.activate([
+            textView.heightAnchor.constraint(lessThanOrEqualToConstant: ChatTextView.textViewMaxHeight),
+            textView.topAnchor.constraint(equalTo: topAnchor, constant: ChatTextView.elementsMargin),
+            textView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -ChatTextView.elementsMargin),
+            textView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.margin),
+            sendButton.leadingAnchor.constraint(equalTo: textView.trailingAnchor, constant: ChatTextView.elementsMargin),
+            sendButton.widthAnchor.constraint(greaterThanOrEqualToConstant: ChatTextView.minimumButtonWidth),
+            sendButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -ChatTextView.buttonMargin),
+            sendButton.centerYAnchor.constraint(equalTo: textView.centerYAnchor),
+            sendButton.heightAnchor.constraint(equalToConstant: ChatTextView.minimumHeight-(ChatTextView.buttonMargin*2))
+        ])
     }
 
     private func setupUI() {
@@ -185,37 +166,10 @@ class ChatTextView: UIView {
         sendButton.rx.tap.bind(to: tapEvents).disposed(by: disposeBag)
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        rightBackground.setRoundedCorners()
-    }
-
     private func setupBackgroundsWCorners() {
-        let leftBackground = UIView()
-        leftBackground.translatesAutoresizingMaskIntoConstraints = false
-        leftBackground.backgroundColor = UIColor.white
-        leftBackground.clipsToBounds = true
-        leftBackground.cornerRadius = LGUIKitConstants.mediumCornerRadius
-        addSubview(leftBackground)
-        rightBackground.translatesAutoresizingMaskIntoConstraints = false
-        rightBackground.backgroundColor = UIColor.white
-        rightBackground.clipsToBounds = true
-        addSubview(rightBackground)
-        var views = [String: Any]()
-        views["leftBckg"] = leftBackground
-        views["rightBckg"] = rightBackground
-        var metrics = [String: Any]()
-        metrics["margin"] = ChatTextView.minimumWidth/2
-
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[leftBckg]-margin-|",
-            options: [], metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-margin-[rightBckg]-0-|",
-            options: [], metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[leftBckg]-0-|",
-            options: [], metrics: nil, views: views))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[rightBckg]-0-|",
-            options: [], metrics: nil, views: views))
-
+        addSubviewForAutoLayout(background)
+        background.backgroundColor = UIColor.white
+        background.layout(with: self).fill()
     }
 }
 
@@ -243,6 +197,16 @@ extension ChatTextView: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard !string.containsEmoji else { return false }
         return true
+    }
+
+    func setTextViewBackgroundColor(_ color: UIColor) {
+        background.backgroundColor = color
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        background.setRoundedCorners()
+        sendButton.setRoundedCorners()
     }
 }
 

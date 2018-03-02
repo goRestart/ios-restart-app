@@ -86,7 +86,9 @@ extension UIColor {
     static var grayLighter: UIColor { return UIColor(rgb: 0xede9e9) } // (237,233,233)
     static var grayBackground: UIColor { return UIColor(rgb: 0xF7F3F3) } // (247,143,243)
 
+
     // Alpha grays
+
     fileprivate static let blackAlpha80 = black.withAlphaComponent(0.8)
     fileprivate static let blackAlpha50 = black.withAlphaComponent(0.5)
     fileprivate static let blackAlpha30 = black.withAlphaComponent(0.3)

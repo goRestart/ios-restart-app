@@ -23,6 +23,9 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     var isRemovedWhenResigningFirstResponder = true
     var isTableInteractionEnabled = true
 
+    var textViewFocusColor: UIColor = .white
+    var textViewStandardColor: UIColor = UIColor.black.withAlphaComponent(0.05)
+
     var rxDidBeginEditing: ControlEvent<()> { return textView.rx.didBeginEditing }
     var rxDidEndEditing: ControlEvent<()> { return textView.rx.didEndEditing }
     var rxPlaceholder: Binder<String?> { return textView.rx.placeholder }
@@ -73,6 +76,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
                     animationOptions: UIViewAnimationOptions, completion: ((Bool) -> Void)? = nil) {
         let color = (bottomInset <= 0) ? UIColor.clear : UIColor.black.withAlphaComponent(0.5)
         let animationFunc = (bottomInset <= 0) ? dissappearAnimation : revealAnimation
+        let textViewColor = (bottomInset <= 0) ? textViewStandardColor : textViewFocusColor
 
         if bottomInset <= 0 {
             textViewBottom?.constant = isRemovedWhenResigningFirstResponder ? Layout.outsideKeyboard : -Metrics.margin
@@ -84,6 +88,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
                        options: animationOptions,
                        animations: {
                         animationFunc()
+                        self.textView.setTextViewBackgroundColor(textViewColor)
                         self.backgroundColor = color
                         self.layoutIfNeeded()
         }, completion: completion)
@@ -194,10 +199,11 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     private func setupTextView() {
         textView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(textView)
+        textView.setTextViewBackgroundColor(textViewStandardColor)
         textView.layout(with: self).fillHorizontal(by: Metrics.margin)
         textViewBottom = textView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: Layout.outsideKeyboard)
         textViewBottom?.isActive = true
-
+        textView.setContentCompressionResistancePriority(.required, for: .vertical)
         textView.backgroundColor = .clear
     }
 

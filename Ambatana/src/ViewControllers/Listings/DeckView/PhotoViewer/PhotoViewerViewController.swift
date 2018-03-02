@@ -50,6 +50,8 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         setupPhotoViewer()
         setupOpenChatGesture()
 
+        chatView.textViewStandardColor = .white
+
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(closeView))
         swipeDown.direction = .down
         photoViewer.addGestureRecognizer(swipeDown)

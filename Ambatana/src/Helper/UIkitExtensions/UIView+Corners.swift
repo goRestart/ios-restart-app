@@ -9,7 +9,6 @@
 import Foundation
 
 extension UIView {
-
     /*
      Helper to make the view rounded
      */
