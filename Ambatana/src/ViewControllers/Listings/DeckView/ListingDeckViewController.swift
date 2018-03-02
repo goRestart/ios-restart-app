@@ -48,8 +48,10 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
-        onboardingFlashDetails()
         setupPageCurrentCell()
+        delay(0.5) {
+            self.onboardingFlashDetails()
+        }
     }
 
     override func viewDidLoad() {
@@ -64,6 +66,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         super.viewWillAppear(animated)
         setupNavigationBar()
         listingDeckView.collectionView.clipsToBounds = false
+
+        updateStartIndex()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
