@@ -1334,6 +1334,6 @@ fileprivate extension ListingCarouselViewController {
         userView.set(accessibilityId: .listingCarouselUserView)
         chatTextView.set(accessibilityId: .listingCarouselChatTextView)
         productStatusView.set(accessibilityId: .listingCarouselStatusView)
-        directChatTable.accessibilityElementsHidden = true  // makes the tableView to be ignored by accessibility inspector
+        directChatTable.accessibilityInspectionEnabled = false
     }
 }

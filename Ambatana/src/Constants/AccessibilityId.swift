@@ -1782,3 +1782,10 @@ extension UIAccessibilityIdentification {
         accessibilityIdentifier = accessibilityId?.identifier
     }
 }
+
+extension NSObject {
+    var accessibilityInspectionEnabled: Bool {
+        get { return !accessibilityElementsHidden }
+        set { accessibilityElementsHidden = !accessibilityInspectionEnabled }
+    }
+}
