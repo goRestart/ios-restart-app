@@ -222,6 +222,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func didEndDecelerating() {
         listingDeckView.blockSideInteractions()
         listingDeckView.collectionView.visibleCells.flatMap { $0 as? ListingCardView }.forEach { cell in
+            guard cell != listingDeckView.currentPageCell else { return }
             updateCellContentInset(cell, animated: true)
         }
         setupPageCurrentCell()
