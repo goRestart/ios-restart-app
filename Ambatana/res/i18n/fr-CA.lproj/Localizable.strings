@@ -294,6 +294,17 @@
 "direct_answer_willing_to_negotiate" = "Seriez-vous ouvert à négocier le prix ?";
 "direct_answers_hide" = "Masquer Réponses Rapides";
 "direct_answers_show" = "Afficher Réponses Rapides";
+"discarded" = "Rejeté";
+"discarded_products_delete" = "Supprimer";
+"discarded_products_delete_confirmation" = "Etes-vous certain de vouloir supprimer cette annonce ?";
+"discarded_products_edit" = "Modifier";
+"discarded_products_reason_duplicated" = "Dupliquer l'annonce";
+"discarded_products_reason_good_manners" = "N'est pas conforme aux meilleures pratiques";
+"discarded_products_reason_non_realistic_price" = "Prix surréaliste";
+"discarded_products_reason_photo_not_clear" = "Photo floue ou imprécise";
+"discarded_products_reason_poor_ad_quality" = "N'est pas conforme aux meilleures pratiques";
+"discarded_products_reason_reference_to_competitors" = "Références à d'autres applis ou sites internet";
+"discarded_products_reason_stock_photo_only" = "Ne contient que des photos provenant de banques d'images";
 "edit_product_location_alert_text" = "Pour changer le lieu de publication de votre annonce, autorisez l'accès à votre localisation.";
 "edit_product_location_alert_title" = "CHANGER LA LOCALISATION";
 "edit_product_send_button" = "Sauvegarder les changements";
@@ -316,7 +327,9 @@
 "filters_distance_not_set" = "non configuré";
 "filters_navbar_reset" = "Réinitialiser";
 "filters_price_from" = "De";
+"filters_price_from_feed_filter_cell" = "De";
 "filters_price_to" = "À";
+"filters_price_to_feed_filter_cell" = "À";
 "filters_price_wrong_range_error" = "Le prix minimum ne peut pas être supérieur au prix maximum.";
 "filters_real_estate_bathrooms_not_set" = "Non configuré";
 "filters_real_estate_bedrooms_not_set" = "Non configuré";
@@ -681,6 +694,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Entrer numéro de téléphone";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Merci de prendre contact avec nous ! Veuillez s'il vous plaît nous téléphoner ou ajouter votre numéro pour que nous puissions vous appeler.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Merci d'avoir ajouté votre numéro de téléphone ! Il est toujours mieux de nous appeler en utilisant le bouton d'appel ci-dessus.";
+"profile_bio_add_button" = "Add your bio";
+"profile_bio_show_more_button" = "MORE ABOUT ME";
 "profile_blocked_by_me_label" = "Vous avez bloqué cet utilisateur";
 "profile_blocked_by_me_label_w_name" = "Vous avez bloqué %@";
 "profile_blocked_by_other_label" = "Vous avez été bloqué par cet utilisateur";
@@ -696,6 +711,7 @@
 "profile_permissions_alert_title" = "NE MANQUEZ PAS UNE RÉPONSE !";
 "profile_permissions_header_message" = "Activer les notifications de message";
 "profile_reviews_count" = "Avis";
+"profile_reviews_tab" = "Notes";
 "profile_selling_no_products_label" = "AUCUNE ANNONCE (POUR LE MOMENT !)";
 "profile_selling_other_user_no_products_button" = "Continuer à Naviguer";
 "profile_selling_products_tab" = "En Vente";
@@ -703,6 +719,7 @@
 "profile_sold_other_no_products_button" = "Continuer à Naviguer";
 "profile_sold_products_tab" = "Vendu";
 "profile_verified_accounts_other_user" = "VÉRIFIÉ AVEC :";
+"profile_verified_accounts_title" = "VÉRIFIÉ AVEC";
 "profile_verify_email_button" = "Envoyer Courriel";
 "profile_verify_email_message_present" = "Sélectionnez \"Envoyer Courriel\" pour envoyer un nouveau lien de vérification à %@";
 "profile_verify_email_success" = "Veuillez vérifier vos courriels afin de vérifier votre compte. Le lien expirera sous 48 heures.";
@@ -787,6 +804,7 @@
 "real_estate_rooms_studio" = "Studio (1+0)";
 "real_estate_rooms_title" = "Nombre de pièces";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "Ajouter";
 "real_estate_size_square_meters_title" = "Grandeur";
 "real_estate_summary_bathroom_title" = "salle de bains";
 "real_estate_summary_bathrooms_empty" = "Ajouter nombre de salles de bains";
@@ -981,7 +999,7 @@
 "trending_items_view_post_button" = "Publier";
 "trending_items_view_search_button" = "Recherche";
 "trending_items_view_subtitle" = "Publiez l'un d'entre eux et gagnez de l'argent en moins d'une semaine";
-"trending_items_view_title" = "Produits les plus populaires en %@";
+"trending_items_view_title" = "Les plus populaires en %@";
 "trending_items_view_title_no_location" = "Articles les plus populaires";
 "trending_searches_Title" = "Recherches Populaires";
 "unblock_user_error_generic" = "Une erreur est survenue lors du déblocage de cet utilisateur.";

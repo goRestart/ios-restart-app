@@ -51,14 +51,14 @@ struct LGChatListing: ChatListing, Decodable {
     
     init(objectId: String?,
          name: String?,
-         status: Int,
+         status: ListingStatus,
          image: File?,
          price: Double?,
          priceFlag: ListingPriceFlag?,
          currency: Currency) {
         self.objectId = objectId
         self.name = name
-        self.status = ListingStatus(rawValue: status) ?? .pending
+        self.status = status
         self.image = image
         self.price = ListingPrice.fromPrice(price, andFlag: priceFlag)
         self.currency = currency
@@ -80,7 +80,7 @@ struct LGChatListing: ChatListing, Decodable {
     
     fileprivate static func make(objectId: String?,
                                  name: String?,
-                                 status: Int,
+                                 status: ListingStatus,
                                  image: LGFile?,
                                  price: Double?,
                                  priceFlag: ListingPriceFlag?,
@@ -114,7 +114,9 @@ struct LGChatListing: ChatListing, Decodable {
         let keyedContainer = try decoder.container(keyedBy: CodingKeys.self)
         objectId = try keyedContainer.decode(String.self, forKey: .objectId)
         name = try keyedContainer.decodeIfPresent(String.self, forKey: .name)
-        status = try keyedContainer.decode(ListingStatus.self, forKey: .status)
+        let code = try keyedContainer.decode(Int.self, forKey: .status)
+        let statusCode = ListingStatusCode(rawValue: code) ?? .approved
+        status = ListingStatus(statusCode: statusCode) ?? .pending
         if let avatarStringURL = try? keyedContainer.decode(String.self, forKey: .image) {
             image = LGFile(id: nil, urlString: avatarStringURL)
         } else {

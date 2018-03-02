@@ -97,7 +97,7 @@ class UserRatingCell: UITableViewCell {
         lines = []
         lines.append(contentView.addBottomBorderWithWidth(1, color: UIColor.lineGray))
         
-        userAvatar.rounded = true
+        userAvatar.setRoundedCorners()
     }
 
 

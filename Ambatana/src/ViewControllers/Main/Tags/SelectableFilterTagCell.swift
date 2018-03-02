@@ -58,7 +58,6 @@ class SelectableFilterTagCell: UICollectionViewCell {
     private func setupUI() {
         contentView.layer.borderColor = UIColor.lineGray.cgColor
         contentView.layer.borderWidth = LGUIKitConstants.onePixelSize
-        contentView.rounded = true
         contentView.layer.backgroundColor = UIColor.white.cgColor
         
         tagLabel = UILabel()
@@ -68,6 +67,11 @@ class SelectableFilterTagCell: UICollectionViewCell {
         tagLabel.textAlignment = .center
         contentView.addSubview(tagLabel)
         tagLabel.layout(with: contentView).fillVertical().trailing().leading()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.setRoundedCorners()
     }
     
     private func resetUI() {

@@ -130,8 +130,8 @@ class UserView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        layer.cornerRadius = frame.height / 2
-        userAvatarImageView.layer.cornerRadius = userAvatarImageView.frame.height / 2
+        setRoundedCorners()
+        userAvatarImageView.setRoundedCorners()
     }
 
     

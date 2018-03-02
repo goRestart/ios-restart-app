@@ -26,8 +26,8 @@ final class LGNotificationsRepository: NotificationsRepository {
 
      - parameter completion: The completion closure
      */
-    func index(_ completion: NotificationsCompletion?) {
-        dataSource.index { result in
+    func index(allowEditDiscarded: Bool, completion: NotificationsCompletion?) {
+        dataSource.index(allowEditDiscarded: allowEditDiscarded) { result in
             handleApiResult(result, completion: completion)
         }
     }

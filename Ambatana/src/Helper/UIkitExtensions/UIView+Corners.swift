@@ -13,16 +13,9 @@ extension UIView {
     /*
      Helper to make the view rounded
      */
-    var rounded: Bool {
-        set {
-            // XCode8 bug ->  http://stackoverflow.com/questions/39380128/ios-10-gm-with-xcode-8-gm-causes-views-to-disappear-due-to-roundedcorners-clip/39380129#39380129
-            layoutIfNeeded()
-            clipsToBounds = true
-            layer.cornerRadius = newValue ? frame.size.height / 2 : 0
-        }
-        get {
-            return layer.cornerRadius == frame.size.height / 2
-        }
+    func setRoundedCorners() {
+        clipsToBounds = true
+        layer.cornerRadius =  min(bounds.size.height, bounds.size.width) / 2.0
     }
 
     /*
@@ -30,8 +23,6 @@ extension UIView {
      */
     var cornerRadius: CGFloat {
         set {
-            // XCode8 bug ->  http://stackoverflow.com/questions/39380128/ios-10-gm-with-xcode-8-gm-causes-views-to-disappear-due-to-roundedcorners-clip/39380129#39380129
-            layoutIfNeeded()
             clipsToBounds = true
             layer.cornerRadius = newValue
         }

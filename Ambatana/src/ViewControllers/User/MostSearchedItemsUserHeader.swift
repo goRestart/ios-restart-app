@@ -44,7 +44,7 @@ class MostSearchedItemsUserHeader: UIView {
     
     private func setupUI() {
         corneredBackgroundView.backgroundColor = .white
-        corneredBackgroundView.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
+        corneredBackgroundView.cornerRadius = LGUIKitConstants.smallCornerRadius
         
         trendingImageView.image = UIImage(named: "trending_icon")
         trendingImageView.contentMode = .scaleAspectFit

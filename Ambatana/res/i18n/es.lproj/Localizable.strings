@@ -120,7 +120,7 @@
 "chat_express_contact_sellers_label" = "¡Contacta a estos vendedores antes que lo hagan otros compradores!";
 "chat_express_contact_various_button_text" = "Contactar con %@ vendedores";
 "chat_express_dont_ask_again_button" = "No preguntar de nuevo";
-"chat_express_dont_miss_label" = "No te pierdas estos chollos";
+"chat_express_dont_miss_label" = "No te pierdas estas ofertas";
 "chat_express_one_message_sent_success_alert" = "¡Tu mensaje ha sido enviado!";
 "chat_express_several_messages_sent_success_alert" = "¡Tus mensajes han sido enviados!";
 "chat_express_text_field_text" = "¿Está disponible?";
@@ -294,6 +294,17 @@
 "direct_answer_willing_to_negotiate" = "¿Se puede negociar?";
 "direct_answers_hide" = "Esconder respuestas rápidas";
 "direct_answers_show" = "Mostrar respuestas rápidas";
+"discarded" = "Descartado";
+"discarded_products_delete" = "Borrar";
+"discarded_products_delete_confirmation" = "¿Seguro que quieres eliminar este anuncio?";
+"discarded_products_edit" = "Editar";
+"discarded_products_reason_duplicated" = "Anuncio duplicado";
+"discarded_products_reason_good_manners" = "No respeta las prácticas recomendadas";
+"discarded_products_reason_non_realistic_price" = "Precio no realista";
+"discarded_products_reason_photo_not_clear" = "Foto borrosa o poco clara";
+"discarded_products_reason_poor_ad_quality" = "No respeta las prácticas recomendadas";
+"discarded_products_reason_reference_to_competitors" = "Referencias a otras apps o páginas web";
+"discarded_products_reason_stock_photo_only" = "Solo contiene imágenes de archivo";
 "edit_product_location_alert_text" = "Para cambiar dónde se publica tu anuncio, permite acceso a tu ubicación";
 "edit_product_location_alert_title" = "CAMBIAR UBICACIÓN";
 "edit_product_send_button" = "Guardar cambios";
@@ -316,7 +327,9 @@
 "filters_distance_not_set" = "no definida";
 "filters_navbar_reset" = "Borrar";
 "filters_price_from" = "De";
+"filters_price_from_feed_filter_cell" = "De";
 "filters_price_to" = "A";
+"filters_price_to_feed_filter_cell" = "A";
 "filters_price_wrong_range_error" = "El precio mínimo no puede ser más alto que el precio máximo.";
 "filters_real_estate_bathrooms_not_set" = "No definido";
 "filters_real_estate_bedrooms_not_set" = "No definido";
@@ -681,6 +694,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Introducir número de teléfono";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "¡Gracias por contactarnos! Por favor, llámanos o añade tu número para que podamos llamarte.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "¡Gracias por añadir tu número! Siempre es mejor llamarnos usando el botón de llamada que hay más arriba.";
+"profile_bio_add_button" = "Añadir una bio";
+"profile_bio_show_more_button" = "MÁS SOBRE MI";
 "profile_blocked_by_me_label" = "Has bloqueado a este usuario";
 "profile_blocked_by_me_label_w_name" = "Has bloqueado a %@";
 "profile_blocked_by_other_label" = "Has sido bloqueado por este usuario";
@@ -696,6 +711,7 @@
 "profile_permissions_alert_title" = "¡NO TE PIERDAS UNA RESPUESTA!";
 "profile_permissions_header_message" = "Activa las notificaciones de mensaje";
 "profile_reviews_count" = "Valoraciones";
+"profile_reviews_tab" = "Valoraciones";
 "profile_selling_no_products_label" = "NO HAY ANUNCIOS (¡TODAVÍA!)";
 "profile_selling_other_user_no_products_button" = "Sigue navegando";
 "profile_selling_products_tab" = "En venta";
@@ -703,6 +719,7 @@
 "profile_sold_other_no_products_button" = "Sigue navegando";
 "profile_sold_products_tab" = "Vendidos";
 "profile_verified_accounts_other_user" = "VERIFICADO CON:";
+"profile_verified_accounts_title" = "VERIFICADO CON";
 "profile_verify_email_button" = "Enviar Email";
 "profile_verify_email_message_present" = "Pulsa \"Enviar Email\" para enviar un nuevo enlace de verificación a %@";
 "profile_verify_email_success" = "Revisa la bandeja de entrada de tu email para verificar tu cuenta. El enlace caducará en 48h.";
@@ -787,6 +804,7 @@
 "real_estate_rooms_studio" = "Estudio (1+0)";
 "real_estate_rooms_title" = "Nº de habitaciones";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "Añadir";
 "real_estate_size_square_meters_title" = "Tamaño";
 "real_estate_summary_bathroom_title" = "baño";
 "real_estate_summary_bathrooms_empty" = "Añadir nº de baños";
@@ -829,7 +847,7 @@
 "real_estate_tooltip_sell_button_title" = "Publica propiedades en venta o alquiler en nuestra nueva categoría de Inmobiliaria";
 "real_estate_type_property_apartment" = "Piso";
 "real_estate_type_property_commercial" = "Comercial";
-"real_estate_type_property_flat" = "Piso / Residencia";
+"real_estate_type_property_flat" = "Piso";
 "real_estate_type_property_house" = "Casa";
 "real_estate_type_property_land" = "Terreno";
 "real_estate_type_property_others" = "Otro";
@@ -981,7 +999,7 @@
 "trending_items_view_post_button" = "Publicar";
 "trending_items_view_search_button" = "Buscar";
 "trending_items_view_subtitle" = "Publica uno de estos y gana dinero en menos de una semana";
-"trending_items_view_title" = "Los artículos más populares en %@";
+"trending_items_view_title" = "Los más populares en %@";
 "trending_items_view_title_no_location" = "Artículos más populares";
 "trending_searches_Title" = "Tendencias de búsqueda";
 "unblock_user_error_generic" = "Se ha producido un error al desbloquear a este usuario.";

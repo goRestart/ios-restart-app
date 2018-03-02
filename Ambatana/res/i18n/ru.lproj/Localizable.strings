@@ -294,6 +294,17 @@
 "direct_answer_willing_to_negotiate" = "Возможен ли торг?";
 "direct_answers_hide" = "Спрятать популярные ответы";
 "direct_answers_show" = "Показать популярные ответы";
+"discarded" = "Удалено";
+"discarded_products_delete" = "Удалить";
+"discarded_products_delete_confirmation" = "Вы точно хотите удалить это объявление?";
+"discarded_products_edit" = "Редактировать";
+"discarded_products_reason_duplicated" = "Повторяющиеся объявления";
+"discarded_products_reason_good_manners" = "Не соответствует правилам";
+"discarded_products_reason_non_realistic_price" = "Нереальная цена";
+"discarded_products_reason_photo_not_clear" = "Размытое или нечеткое фото";
+"discarded_products_reason_poor_ad_quality" = "Не соответствует правилам";
+"discarded_products_reason_reference_to_competitors" = "Ссылки на другие приложения и сайты";
+"discarded_products_reason_stock_photo_only" = "Содержит только фото из сети";
 "edit_product_location_alert_text" = "Для изменение местоположения объявления разрешите доступ к геолокации";
 "edit_product_location_alert_title" = "СМЕНИТЬ МЕСТОПОЛОЖЕНИЕ";
 "edit_product_send_button" = "Сохранить изменения";
@@ -316,7 +327,9 @@
 "filters_distance_not_set" = "не установлен";
 "filters_navbar_reset" = "Сброс";
 "filters_price_from" = "От";
+"filters_price_from_feed_filter_cell" = "От";
 "filters_price_to" = "До";
+"filters_price_to_feed_filter_cell" = "До";
 "filters_price_wrong_range_error" = "Минимальная цена не может быть выше максимальной.";
 "filters_real_estate_bathrooms_not_set" = "Не установлен";
 "filters_real_estate_bedrooms_not_set" = "Не установлен";
@@ -681,6 +694,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Введите номер телефона";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Спасибо за обращение! Пожалуйста, позвоните нам или оставьте свой номер, чтобы мы перезвонили.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Спасибо за номер телефона! Вы всегда можете позвонить нам, нажав на кнопку выше.";
+"profile_bio_add_button" = "Add your bio";
+"profile_bio_show_more_button" = "MORE ABOUT ME";
 "profile_blocked_by_me_label" = "Вы заблокировали этого пользователя";
 "profile_blocked_by_me_label_w_name" = "Вы заблокировали %@";
 "profile_blocked_by_other_label" = "Вы заблокировали этого пользователя";
@@ -696,6 +711,7 @@
 "profile_permissions_alert_title" = "НЕ ПРОПУСТИТЕ ОТВЕТ!";
 "profile_permissions_header_message" = "Включить уведомления о сообщениях";
 "profile_reviews_count" = "Отзывов";
+"profile_reviews_tab" = "Отзывов";
 "profile_selling_no_products_label" = "НЕТ ОБЪЯВЛЕНИЙ (ПОКА ЧТО!)";
 "profile_selling_other_user_no_products_button" = "Продолжить поиск";
 "profile_selling_products_tab" = "Продажа";
@@ -703,6 +719,7 @@
 "profile_sold_other_no_products_button" = "Продолжить поиск";
 "profile_sold_products_tab" = "Продано";
 "profile_verified_accounts_other_user" = "ПРОВЕРЕН:";
+"profile_verified_accounts_title" = "ПРОВЕРЕН";
 "profile_verify_email_button" = "Отправить е-мейл";
 "profile_verify_email_message_present" = "Нажмите \"Отправить е-мейл\" для отправка новой ссылки для подтверждения %@";
 "profile_verify_email_success" = "Проверьте почту для подтверждения аккаунта. Ссылка действует в течение 48 часов.";
@@ -787,6 +804,7 @@
 "real_estate_rooms_studio" = "Студия (1+0)";
 "real_estate_rooms_title" = "Количество комнат";
 "real_estate_rooms_value" = "%d + %d";
+"real_estate_size_square_meters_placeholder" = "Добавить";
 "real_estate_size_square_meters_title" = "Размер";
 "real_estate_summary_bathroom_title" = "ванная";
 "real_estate_summary_bathrooms_empty" = "Добавьте количество ванных";
@@ -981,7 +999,7 @@
 "trending_items_view_post_button" = "Разместить";
 "trending_items_view_search_button" = "Поиск";
 "trending_items_view_subtitle" = "Разместите один из них и получите деньги меньше чем за неделю";
-"trending_items_view_title" = "Самые популярные товары в %@";
+"trending_items_view_title" = "Популярное в %@";
 "trending_items_view_title_no_location" = "Самые популярные товары";
 "trending_searches_Title" = "Популярные запросы";
 "unblock_user_error_generic" = "При разблокировке произошла ошибка.";

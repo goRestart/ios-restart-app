@@ -45,7 +45,8 @@ class SearchApiDataSource: SearchDataSource {
             let strings = try [String].decode(jsonData: data)
             return strings
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse Strings \(object)")
+            logAndReportParseError(object: object, entity: .searchSuggestion,
+                                   comment: "could not parse [String]")
         }
         return nil
     }
@@ -60,7 +61,8 @@ class SearchApiDataSource: SearchDataSource {
             let suggestiveSearches = try JSONDecoder().decode(FailableDecodableArray<SuggestiveSearch>.self, from: data)
             return suggestiveSearches.validElements
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse SuggestiveResult \(object)")
+            logAndReportParseError(object: object, entity: .suggestiveSearch,
+                                   comment: "could not parse [SuggestiveSearch]")
         }
         return nil
     }

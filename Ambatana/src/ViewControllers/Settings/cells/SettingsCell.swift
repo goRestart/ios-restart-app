@@ -16,6 +16,7 @@ class SettingsCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var disclosureImg: UIImageView!
 
     var showBottomBorder = true
+    private var imageRounded: Bool = false
 
     var lines: [CALayer] = []
 
@@ -32,6 +33,9 @@ class SettingsCell: UITableViewCell, ReusableCell {
         if showBottomBorder {
             lines.append(contentView.addBottomBorderWithWidth(LGUIKitConstants.onePixelSize, xPosition: 50, color: UIColor.lineGray))
         }
+        if imageRounded {
+            iconImageView.setRoundedCorners()
+        }
     }
 
     func setupWithSetting(_ setting: LetGoSetting) {
@@ -43,10 +47,12 @@ class SettingsCell: UITableViewCell, ReusableCell {
             iconImageView.lg_setImageWithURL(imageUrl)
         }
         iconImageView.contentMode = setting.imageRounded ? .scaleAspectFill : .center
-        iconImageView.rounded = setting.imageRounded
         disclosureImg.isHidden = !setting.showsDisclosure
-
-
+        imageRounded = setting.imageRounded
+        if imageRounded {
+            iconImageView.setRoundedCorners()
+        }
+        setNeedsLayout()
     }
 
     private func setupUI() {

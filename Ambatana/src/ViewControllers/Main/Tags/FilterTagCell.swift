@@ -97,9 +97,9 @@ class FilterTagCell: UICollectionViewCell {
         if !minText.isEmpty && !maxText.isEmpty {
             return minText + " " + "-" + " " + maxText
         } else if !minText.isEmpty {
-            return LGLocalizedString.filtersPriceFrom + " " + minText
+            return LGLocalizedString.filtersPriceFromFeedFilterCell + " " + minText
         } else if !maxText.isEmpty {
-            return LGLocalizedString.filtersPriceTo + " " + maxText
+            return LGLocalizedString.filtersPriceToFeedFilterCell + " " + maxText
         } else {
             // should never ever happen
             return "🤑"
@@ -170,8 +170,12 @@ class FilterTagCell: UICollectionViewCell {
     private func setupUI() {
         contentView.layer.borderColor = UIColor.lineGray.cgColor
         contentView.layer.borderWidth = LGUIKitConstants.onePixelSize
-        contentView.rounded = true
         contentView.layer.backgroundColor = UIColor.white.cgColor
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.setRoundedCorners()
     }
     
     private func resetUI() {

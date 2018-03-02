@@ -52,8 +52,8 @@ class CategoryHeaderCell: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        categoryNewContainter.rounded = true
         super.layoutSubviews()
+        categoryNewContainter.setRoundedCorners()
     }
     
     

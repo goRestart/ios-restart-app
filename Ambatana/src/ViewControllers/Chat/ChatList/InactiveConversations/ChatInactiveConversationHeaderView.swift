@@ -59,7 +59,7 @@ class ChatInactiveConversationHeaderView: UIView {
     }
     
     private func roundButton() {
-        button.layer.cornerRadius = button.frame.size.height / 2
+        button.setRoundedCorners()
     }
     
     private func setupLayout() {

@@ -77,7 +77,9 @@ class UserViewHeader: UIView {
     @IBOutlet weak var buildTrustContainerButtonWidth: NSLayoutConstraint!
 
     @IBOutlet weak var sellingButton: UIButton!
-    @IBOutlet weak var sellingButtonWidthConstraint: NSLayoutConstraint!
+    private var sellingButtonWidthConstraint: NSLayoutConstraint?
+    private var sellingButtonHalfWidthConstraint: NSLayoutConstraint?
+
     @IBOutlet weak var soldButton: UIButton!
     @IBOutlet weak var favoritesButton: UIButton!
 
@@ -155,14 +157,19 @@ class UserViewHeader: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        if mode.showSelling {
-            let currentWidth = sellingButtonWidthConstraint.multiplier * frame.width
-            let halfWidth = 0.5 * frame.width
-            sellingButtonWidthConstraint.constant = halfWidth - currentWidth
-        } else {
-            sellingButtonWidthConstraint.constant = 0
-        }
         updateUI()
+    }
+
+    private func updateSellingButtonWidthConstraint() {
+        if mode.shouldShowFavorites {
+            sellingButtonHalfWidthConstraint?.isActive = true
+            favoritesButton.isHidden = true
+            sellingButtonWidthConstraint?.isActive = false
+        } else {
+            favoritesButton.isHidden = false
+            sellingButtonHalfWidthConstraint?.isActive = false
+            sellingButtonWidthConstraint?.isActive = true
+        }
     }
 }
 
@@ -214,13 +221,7 @@ extension UserViewHeader {
 
     fileprivate func modeUpdated() {
         verifiedSimpleContainer.isHidden = false
-        if mode.showSelling {
-            let currentWidth = sellingButtonWidthConstraint.multiplier * frame.width
-            let halfWidth = 0.5 * frame.width
-            sellingButtonWidthConstraint.constant = halfWidth - currentWidth
-        } else {
-            sellingButtonWidthConstraint.constant = 0
-        }
+        updateSellingButtonWidthConstraint()
         updateInfoAndAccountsVisibility()
     }
 
@@ -340,6 +341,8 @@ extension UserViewHeader {
             attributes: attributes)
         sellingButton.setAttributedTitle(sellingTitle, for: .normal)
 
+        sellingButtonHalfWidthConstraint = sellingButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5)
+        sellingButtonWidthConstraint = sellingButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.33)
 
         let soldTitle = NSAttributedString(string: LGLocalizedString.profileSoldProductsTab.localizedUppercase,
             attributes: attributes)
@@ -354,7 +357,7 @@ extension UserViewHeader {
 
     private func updateAvatarRatingsContainerView() {
         let height = avatarRatingsContainerView.bounds.height
-        avatarRatingsContainerView.layer.cornerRadius = height / 2
+        avatarRatingsContainerView.setRoundedCorners()
     }
 
     private func updateUserAvatarView() {
@@ -418,7 +421,7 @@ extension UserViewHeader {
                                                           right: inset+UserViewHeader.buildTrustButtonTitleInset)
         buildTrustButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: UserViewHeader.buildTrustButtonTitleInset,
                                                         bottom: 0, right: -UserViewHeader.buildTrustButtonTitleInset)
-        buildTrustButton.layer.cornerRadius = buildTrustButtonHeight.constant / 2
+        buildTrustButton.cornerRadius = buildTrustButtonHeight.constant / 2
         buildTrustButton.setImage(UIImage(named: big ? "ic_build_trust" : "ic_build_trust_small"), for: .normal)
     }
 }
@@ -472,22 +475,6 @@ extension UserViewHeader {
 
 
 fileprivate extension UserViewHeaderMode {
-    
-    var showSelling: Bool {
-        switch self {
-        case .myUser:
-            return false
-        case .otherUser:
-            return true
-        }
-    }
-
-    var buildTrustMode: Bool {
-        switch self {
-        case .myUser:
-            return true
-        case .otherUser:
-            return false
-        }
-    }
+    var shouldShowFavorites: Bool { return self == .otherUser }
+    var buildTrustMode: Bool { return self == .myUser }
 }

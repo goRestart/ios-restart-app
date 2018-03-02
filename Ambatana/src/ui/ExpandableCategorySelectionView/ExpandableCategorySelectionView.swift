@@ -73,10 +73,8 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        closeButton.rounded = true
-        buttons.forEach { (button) in
-            button.rounded = true
-        }
+        closeButton.setRoundedCorners()
+        buttons.forEach { (button) in button.setRoundedCorners() }
     }
     
 

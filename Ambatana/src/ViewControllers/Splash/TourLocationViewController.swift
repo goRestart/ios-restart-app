@@ -56,6 +56,11 @@ final class TourLocationViewController: BaseViewController {
         viewModel.viewDidLoad()
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        labelContainer.setRoundedCorners()
+    }
+
     func close() {
         viewModel.userDidTapNoButton()
     }
@@ -88,7 +93,6 @@ final class TourLocationViewController: BaseViewController {
         yesButton.setTitle(LGLocalizedString.locationPermissionsButton, for: .normal)
         yesButton.setStyle(.primary(fontSize: .medium))
 
-        labelContainer.rounded = true
         distanceLabel.font = UIFont.tourLocationDistanceLabelFont
         distanceLabel.textColor = UIColor.lgBlack
         alertOkLabel.text = LGLocalizedString.locationPermissionsAllowButton

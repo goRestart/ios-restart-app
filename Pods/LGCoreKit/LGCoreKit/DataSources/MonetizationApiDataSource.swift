@@ -89,7 +89,8 @@ class MonetizationApiDataSource : MonetizationDataSource {
             let bumpeableListing = try LGBumpeableListing.decode(jsonData: data)
             return bumpeableListing
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGBumpeableListing \(object)")
+            logAndReportParseError(object: object, entity: .bumpeableListing,
+                                   comment: "could not parse LGBumpeableListing")
         }
         return nil
     }

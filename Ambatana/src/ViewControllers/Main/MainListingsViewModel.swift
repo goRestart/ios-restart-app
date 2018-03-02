@@ -269,6 +269,15 @@ class MainListingsViewModel: BaseViewModel {
         return suggestiveSearchInfo.value.count
     }
     
+    // App share
+    fileprivate var myUserId: String? {
+        return myUserRepository.myUser?.objectId
+    }
+    fileprivate var myUserName: String? {
+        return myUserRepository.myUser?.name
+    }
+    
+    
     fileprivate let disposeBag = DisposeBag()
     
     
@@ -874,7 +883,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     }
 
     func vmUserDidTapInvite() {
-        navigator?.openAppInvite()
+        navigator?.openAppInvite(myUserId: myUserId, myUserName: myUserName)
     }
     
     func vmDidSelectSellBanner(_ type: String) {}
@@ -1465,6 +1474,12 @@ extension MainListingsViewModel: ListingCellDelegate {
                             source: .listingListFeatured,
                             predefinedMessage: nil)
     }
+    
+    // Discarded listings are never shown in the main feed
+    func editPressedForDiscarded(listing: Listing) {}
+    
+    // Discarded listings are never shown in the main feed
+    func moreOptionsPressedForDiscarded(listing: Listing) {}
 }
 
 extension NoAdsInFeedForNewUsers {

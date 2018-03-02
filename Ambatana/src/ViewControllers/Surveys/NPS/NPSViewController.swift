@@ -46,10 +46,15 @@ class NPSViewController: BaseViewController {
         super.viewWillDisappear(animated)
         setStatusBarHidden(false)
     }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        npsButtons.forEach { $0.setRoundedCorners() }
+    }
     
     func setupUI() {
         npsButtons.forEach {
-            $0.rounded = true
+            $0.setRoundedCorners()
             $0.layer.borderColor = UIColor.primaryColor.cgColor
             $0.layer.borderWidth = 1.0
             $0.clipsToBounds = true

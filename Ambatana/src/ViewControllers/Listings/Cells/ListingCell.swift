@@ -12,6 +12,8 @@ import LGCoreKit
 protocol ListingCellDelegate: class {
     func chatButtonPressedFor(listing: Listing)
     func relatedButtonPressedFor(listing: Listing)
+    func editPressedForDiscarded(listing: Listing)
+    func moreOptionsPressedForDiscarded(listing: Listing)
 }
 
 class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
@@ -42,6 +44,12 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
     fileprivate var featuredListingChatButton: UIButton?
     
     fileprivate var priceLabel: UILabel?
+    private let discardedView: DiscardedView = {
+        let view = DiscardedView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.isHidden = true
+        return view
+    }()
 
     var isRelatedEnabled: Bool = true {
         didSet {
@@ -149,8 +157,6 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
 
         // layouts
         
-        //featuredInfoViewTopToImageViewBottomConstraint.isActive = true
-
         let priceTopMargin = Metrics.shortMargin
         featuredListingPriceLabel.layout(with: featuredListingInfoView)
             .top(by: priceTopMargin)
@@ -201,19 +207,23 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         priceLabel.font = UIFont.systemBoldFont(size: 18)
         priceLabel.adjustsFontSizeToFitWidth = true
         
-        let priceTopMargin = Metrics.shortMargin
         priceLabel.layout(with: featuredListingInfoView)
             .centerY()
             .left(by: Metrics.shortMargin)
             .right(by: -Metrics.shortMargin)
         priceLabel.layout().height(ListingCell.featuredListingPriceLabelHeight)
     }
+    
+    func show(isDiscarded: Bool, reason: String?) {
+        discardedView.isHidden = !isDiscarded
+        discardedView.set(reason: reason ?? "")
+    }
 
     // MARK: - Private methods
 
     // Sets up the UI
     private func setupUI() {
-        cellContent.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        cellContent.cornerRadius = LGUIKitConstants.mediumCornerRadius
         let rotation = CGFloat(Double.pi/4)
         stripeInfoView.transform = CGAffineTransform(rotationAngle: rotation)
         stripeLabel.textColor = UIColor.redText
@@ -222,6 +232,17 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         stripeImageView.isHidden = true
 
         setupRelatedListingButton()
+        
+        discardedView.editListingCallback = { [weak self] in
+            guard let listing = self?.listing else { return }
+            self?.delegate?.editPressedForDiscarded(listing: listing)
+        }
+        discardedView.moreOptionsCallback = { [weak self] in
+            guard let listing = self?.listing else { return }
+            self?.delegate?.moreOptionsPressedForDiscarded(listing: listing)
+        }
+        addSubview(discardedView)
+        discardedView.layout(with: contentView).fill()
     }
 
     private func setupRelatedListingButton() {
@@ -263,7 +284,7 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         guard let listing = listing else { return }
         delegate?.chatButtonPressedFor(listing: listing)
     }
-
+    
     private func setAccessibilityIds() {
         thumbnailImageView.set(accessibilityId: .listingCellThumbnailImageView)
         stripeImageView.set(accessibilityId: .listingCellStripeImageView)
@@ -281,4 +302,97 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         guard let listing = self.listing else { return }
         self.delegate?.relatedButtonPressedFor(listing: listing)
     }
+}
+
+class DiscardedView: UIView {
+    let moreOptionsButton: UIButton = {
+        let button = UIButton(frame: .zero)
+        let image = #imageLiteral(resourceName: "ic_more_options").withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        button.setImage(image, for: UIControlState.normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.tintColor = .white
+        return button
+    }()
+    let title: UILabel = {
+        let label = UILabel()
+        label.text = LGLocalizedString.discarded
+        label.font = UIFont.systemFont(size: 25)
+        label.textAlignment = .center
+        label.textColor = .white
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    let reason: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(size: 14)
+        label.textAlignment = .center
+        label.textColor = .white
+        label.numberOfLines = 2
+        return label
+    }()
+    let editButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle(LGLocalizedString.discardedProductsEdit, for: .normal)
+        return button
+    }()
+    
+    let blurEffectView: UIView = {
+        let blurEffect = UIBlurEffect(style: .dark)
+        let view = UIVisualEffectView(effect: blurEffect)
+        return view
+    }()
+    var editListingCallback: (() -> Void)?
+    var moreOptionsCallback: (() -> Void)?
+    
+    init() {
+        super.init(frame: .zero)
+        setupUI()
+        setupConstraints()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        editButton.setStyle(.primary(fontSize: .small))
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupUI() {
+        clipsToBounds = true
+        backgroundColor = .clear
+        layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        moreOptionsButton.addTarget(self, action: #selector(moreOptions(sender:)), for: .touchUpInside)
+        editButton.addTarget(self, action: #selector(editListing(sender:)), for: .touchUpInside)
+        addSubviews([blurEffectView, moreOptionsButton, title, reason, editButton])
+    }
+    
+    private func setupConstraints() {
+        let moreOptionsSide: CGFloat = 24.0
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
+        blurEffectView.layout(with: self).fill()
+        moreOptionsButton.layout(with: self).top(by: Metrics.shortMargin).right(by: -Metrics.shortMargin)
+        moreOptionsButton.layout().height(moreOptionsSide).width(moreOptionsSide)
+        reason.layout(with: self).fillHorizontal(by: Metrics.shortMargin)
+        reason.layout(with: self).centerY()
+        title.layout(with: reason).above(by: -Metrics.veryShortMargin)
+        title.layout(with: self).fillHorizontal(by: Metrics.shortMargin)
+        editButton.layout(with: self).fillHorizontal(by: Metrics.shortMargin)
+        editButton.layout(with: reason).below(by: Metrics.margin)
+        editButton.layout().height(LGUIKitConstants.smallButtonHeight)
+    }
+    
+    @objc private func moreOptions(sender: UIButton) {
+        moreOptionsCallback?()
+    }
+    
+    @objc private func editListing(sender: UIButton) {
+        editListingCallback?()
+    }
+
+    func set(reason: String) {
+        self.reason.text = reason
+    }
+    
 }

@@ -147,8 +147,8 @@ extension TabCoordinator: TabNavigator {
         appNavigator?.openVerifyAccounts(types, source: source, completionBlock: completionBlock)
     }
     
-    func openAppInvite() {
-        appNavigator?.openAppInvite()
+    func openAppInvite(myUserId: String?, myUserName: String?) {
+        appNavigator?.openAppInvite(myUserId: myUserId, myUserName: myUserName)
     }
 
     func canOpenAppInvite() -> Bool {
@@ -410,7 +410,6 @@ fileprivate extension TabCoordinator {
     }
 }
 
-
 // MARK: > ListingDetailNavigator
 
 extension TabCoordinator: ListingDetailNavigator {
@@ -419,7 +418,7 @@ extension TabCoordinator: ListingDetailNavigator {
     }
 
     func editListing(_ listing: Listing) {
-        let navigator = EditListingCoordinator(listing: listing)
+        let navigator = EditListingCoordinator(listing: listing, pageType: nil)
         openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 

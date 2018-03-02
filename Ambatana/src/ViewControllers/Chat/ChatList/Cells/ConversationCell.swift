@@ -177,8 +177,8 @@ class ConversationCell: UITableViewCell, ReusableCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        thumbnailImageView.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
-        avatarImageView.layer.cornerRadius = avatarImageView.width/2
+        thumbnailImageView.cornerRadius = LGUIKitConstants.smallCornerRadius
+        avatarImageView.setRoundedCorners()
         avatarImageView.clipsToBounds = true
         listingLabel.font = UIFont.conversationProductFont
         userLabel.font = UIFont.conversationUserNameFont
@@ -188,7 +188,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
         userLabel.textColor = UIColor.blackText
         timeLabel.textColor = UIColor.darkGrayText
         thumbnailImageView.backgroundColor = UIColor.placeholderBackgroundColor()
-        badgeView.layer.cornerRadius = badgeView.height/2
+        badgeView.setRoundedCorners()
     }
 
     private func resetUI() {

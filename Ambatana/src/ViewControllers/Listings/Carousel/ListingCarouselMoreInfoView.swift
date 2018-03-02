@@ -46,6 +46,7 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollViewContent: UIView!
+    @IBOutlet weak var scrollViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var visualEffectViewBottom: NSLayoutConstraint!
     @IBOutlet weak var descriptionLabel: LGCollapsibleLabel!
@@ -71,7 +72,6 @@ class ListingCarouselMoreInfoView: UIView {
 
     @IBOutlet var shareViewToMapTopConstraint: NSLayoutConstraint!
     @IBOutlet var shareViewToBannerTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var dragViewToVisualEffectConstraint: NSLayoutConstraint!
     @IBOutlet weak var scrollViewToSuperviewTopConstraint: NSLayoutConstraint!
     
     var bannerView: GADSearchBannerView?
@@ -152,25 +152,25 @@ class ListingCarouselMoreInfoView: UIView {
         // We need to call invalidateLayout in the CollectionView to fix what appears to be an iOS 10 UIKit bug:
         // https://stackoverflow.com/a/44467194
         tagCollectionView.collectionViewLayout.invalidateLayout()
-        mapView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
-        dragButton.layer.cornerRadius = dragButton.height / 2.0
+        mapView.cornerRadius = LGUIKitConstants.bigCornerRadius
+        dragButton.setRoundedCorners()
+        mapView.cornerRadius = LGUIKitConstants.bigCornerRadius
     }
 
     func dismissed() {
         scrollView.contentOffset = CGPoint.zero
         descriptionLabel.collapsed = true
     }
-    
+
     deinit {
         // MapView is a shared instance and all references must be removed
         cleanMapView()
     }
-    
-    
+
     // MARK: - UI
-    
-    func updateDragViewVerticalConstraint(statusBarHeight: CGFloat) {
-        dragViewToVisualEffectConstraint.constant = statusBarHeight + ListingCarouselMoreInfoView.dragViewVerticalExtraMargin
+
+    func updateBottomAreaMargin(with value: CGFloat) {
+        self.scrollViewBottomConstraint.constant = value
     }
 }
 
@@ -360,7 +360,6 @@ fileprivate extension ListingCarouselMoreInfoView {
     func setupUI() {
         setupMapView(inside: mapViewContainer)
 
-        mapView.cornerRadius = LGUIKitConstants.bigCornerRadius
         mapView.clipsToBounds = true
 
         titleText.textColor = UIColor.white

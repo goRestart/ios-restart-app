@@ -102,7 +102,8 @@ class MyUserApiDataSource: MyUserDataSource {
             let myUser = try LGMyUser.decode(jsonData: data)
             return myUser
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGMyUser \(object)")
+            logAndReportParseError(object: object, entity: .myUser,
+                                   comment: "could not parse LGMyUser")
         }
         return nil
     }

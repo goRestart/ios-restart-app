@@ -85,7 +85,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        doneButton.rounded = true
+        doneButton.setRoundedCorners()
     }
     
     private func setupUI() {

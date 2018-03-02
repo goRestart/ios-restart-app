@@ -32,6 +32,7 @@
 		01920C872010E27400B73875 /* MostSearchedItemsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01920C852010E27400B73875 /* MostSearchedItemsCoordinator.swift */; };
 		01920C892010E27F00B73875 /* MostSearchedItemsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01920C882010E27F00B73875 /* MostSearchedItemsNavigator.swift */; };
 		01920C8A2010E27F00B73875 /* MostSearchedItemsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01920C882010E27F00B73875 /* MostSearchedItemsNavigator.swift */; };
+		01990F61203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01990F60203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift */; };
 		01A04804200CE474008725A1 /* LocalMostSearchedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A04803200CE474008725A1 /* LocalMostSearchedItem.swift */; };
 		01A04805200CE474008725A1 /* LocalMostSearchedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A04803200CE474008725A1 /* LocalMostSearchedItem.swift */; };
 		01A0480A200CEF53008725A1 /* DailyCountIncrementer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */; };
@@ -1466,6 +1467,8 @@
 		F51A08322031B55E0008D744 /* LGSize+CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51A082F2031B5580008D744 /* LGSize+CGSize.swift */; };
 		F52405C92029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52405C82029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift */; };
 		F52405CA2029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52405C82029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift */; };
+		F56651F1203C886C00B43DD7 /* DiscardedReason+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56651F0203C886C00B43DD7 /* DiscardedReason+LG.swift */; };
+		F56651F2203C886C00B43DD7 /* DiscardedReason+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56651F0203C886C00B43DD7 /* DiscardedReason+LG.swift */; };
 		F57D3A251FECFCFC006F2CA4 /* TagCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57D3A241FECFCFC006F2CA4 /* TagCollectionView.swift */; };
 		F57D3A271FECFD2D006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57D3A261FECFD2D006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		F57D3A291FED011C006F2CA4 /* TagCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57D3A281FED011C006F2CA4 /* TagCollectionViewModel.swift */; };
@@ -1582,6 +1585,7 @@
 		018B82F11FFE3B2D00687233 /* MostSearchedItemsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListViewController.swift; sourceTree = "<group>"; };
 		01920C852010E27400B73875 /* MostSearchedItemsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsCoordinator.swift; sourceTree = "<group>"; };
 		01920C882010E27F00B73875 /* MostSearchedItemsNavigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsNavigator.swift; sourceTree = "<group>"; };
+		01990F60203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppsFlyerDeepLinkSpec.swift; path = DeepLinks/AppsFlyerDeepLinkSpec.swift; sourceTree = "<group>"; };
 		01A04803200CE474008725A1 /* LocalMostSearchedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalMostSearchedItem.swift; sourceTree = "<group>"; };
 		01A04809200CEF53008725A1 /* DailyCountIncrementer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCountIncrementer.swift; sourceTree = "<group>"; };
 		01B06D87202B187100083DD1 /* MockEventParameterMostSearched.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEventParameterMostSearched.swift; sourceTree = "<group>"; };
@@ -2134,7 +2138,7 @@
 		C7111EFB1CA43885000C5C5A /* DeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
 		C7111EFE1CA4389C000C5C5A /* PushNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotification.swift; sourceTree = "<group>"; };
 		C7111F011CA438AC000C5C5A /* UniversalLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniversalLink.swift; sourceTree = "<group>"; };
-		C7111F041CA438C2000C5C5A /* UriScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UriScheme.swift; sourceTree = "<group>"; };
+		C7111F041CA438C2000C5C5A /* UriScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 3; lastKnownFileType = sourcecode.swift; path = UriScheme.swift; sourceTree = "<group>"; };
 		C7111F071CA4458F000C5C5A /* ShortcutItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShortcutItem.swift; sourceTree = "<group>"; };
 		C7126BC61E6052E300038CC4 /* CustomTouchesTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTouchesTableView.swift; sourceTree = "<group>"; };
 		C7126BD41E6053AA00038CC4 /* ListingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingViewModel.swift; sourceTree = "<group>"; };
@@ -2416,6 +2420,7 @@
 		F51A082D2031B54A0008D744 /* AspectRatioSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AspectRatioSpec.swift; sourceTree = "<group>"; };
 		F51A082F2031B5580008D744 /* LGSize+CGSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGSize+CGSize.swift"; sourceTree = "<group>"; };
 		F52405C82029A18E00C56515 /* LGEmptyViewModel+RepositoryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LGEmptyViewModel+RepositoryError.swift"; sourceTree = "<group>"; };
+		F56651F0203C886C00B43DD7 /* DiscardedReason+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscardedReason+LG.swift"; sourceTree = "<group>"; };
 		F57D3A241FECFCFC006F2CA4 /* TagCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagCollectionView.swift; sourceTree = "<group>"; };
 		F57D3A261FECFD2D006F2CA4 /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		F57D3A281FED011C006F2CA4 /* TagCollectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagCollectionViewModel.swift; sourceTree = "<group>"; };
@@ -2525,6 +2530,7 @@
 			children = (
 				0178CBD71F0E463D00620BA6 /* UriSchemeSpec.swift */,
 				0A6D88BE1F7CED6900819E89 /* DeepLinksRouterSpec.swift */,
+				01990F60203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift */,
 			);
 			name = DeepLinks;
 			sourceTree = "<group>";
@@ -3086,6 +3092,7 @@
 				C7E73E891CD1F77E000F2591 /* NotificationData.swift */,
 				507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */,
 				2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */,
+				F56651F0203C886C00B43DD7 /* DiscardedReason+LG.swift */,
 				C707D4571E9B8C0B00042C03 /* RepositoryError+LG.swift */,
 				C765EE7E1E84036400063750 /* SessionErrors+LG.swift */,
 				C79895C71DE4349900DD58BF /* SessionEvent+LG.swift */,
@@ -5667,6 +5674,7 @@
 				50D08DD41E69AF14009CC260 /* LocalProductSpec.swift in Sources */,
 				50D08DBB1E69AF14009CC260 /* MockPurchaseableProductsRequest+MockFactory.swift in Sources */,
 				2E8ED6A71EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift in Sources */,
+				01990F61203D90FE0080ADDD /* AppsFlyerDeepLinkSpec.swift in Sources */,
 				50D08DB81E69AF14009CC260 /* MockListingListRequester.swift in Sources */,
 				50D08DB21E69AF14009CC260 /* MockFeatureFlags.swift in Sources */,
 				50D08DBA1E69AF14009CC260 /* MockPurchaseableProduct.swift in Sources */,
@@ -6041,6 +6049,7 @@
 				C7B588831CE1DFA6009B3975 /* ChatMyMessageCellDrawer.swift in Sources */,
 				50F0BAA61B28937800E50A68 /* SignUpViewModel.swift in Sources */,
 				C7732F721D883C7700EAD5B7 /* OnboardingCoordinator.swift in Sources */,
+				F56651F1203C886C00B43DD7 /* DiscardedReason+LG.swift in Sources */,
 				72854D1D1F8E252600E54530 /* RealEstatePropertyType+LG.swift in Sources */,
 				C7BAC9C31E49CEA1005BD0AF /* NotificationsManager.swift in Sources */,
 				C7732F6F1D87FA4600EAD5B7 /* TourPostingViewModel.swift in Sources */,
@@ -6622,6 +6631,7 @@
 				6A4E80621C77620900C6423E /* LetgoAvatar.swift in Sources */,
 				72854D1E1F8E252600E54530 /* RealEstatePropertyType+LG.swift in Sources */,
 				C7BAC9C41E49CEA1005BD0AF /* NotificationsManager.swift in Sources */,
+				F56651F2203C886C00B43DD7 /* DiscardedReason+LG.swift in Sources */,
 				503D4BF21CCE53C30039FE14 /* UserViewHeaderAccounts.swift in Sources */,
 				C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */,
 				C7732F731D883C7700EAD5B7 /* OnboardingCoordinator.swift in Sources */,
@@ -7494,7 +7504,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG -D GOD_MODE";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG -D GOD_MODE -Onone";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -7502,6 +7512,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -7538,6 +7549,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -7567,13 +7579,14 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D GOD_MODE";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D GOD_MODE -Onone";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};

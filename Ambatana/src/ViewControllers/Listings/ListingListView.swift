@@ -252,7 +252,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         errorContentView.backgroundColor = containerColor
         errorContentView.layer.borderColor = borderColor?.cgColor
         errorContentView.layer.borderWidth = borderColor != nil ? 0.5 : 0
-        errorContentView.layer.cornerRadius = 4
+        errorContentView.cornerRadius = 4
     }
 
     

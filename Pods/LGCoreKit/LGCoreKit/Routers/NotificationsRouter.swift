@@ -11,7 +11,7 @@ enum NotificationsRouter: URLRequestAuthenticable {
 
     static let notificationsEndpoint = "/notifications"
 
-    case index
+    case index(params: [String : Any])
     case unreadCount
 
     var endpoint: String {
@@ -34,8 +34,8 @@ enum NotificationsRouter: URLRequestAuthenticable {
 
     func asURLRequest() throws -> URLRequest {
         switch self {
-        case .index:
-            return try Router<NotificationsBaseURL>.index(endpoint: endpoint, params: [:]).asURLRequest()
+        case let .index(params):
+            return try Router<NotificationsBaseURL>.index(endpoint: endpoint, params: params).asURLRequest()
         case .unreadCount:
             return try Router<NotificationsBaseURL>.read(endpoint: endpoint, params: [:]).asURLRequest()
         }

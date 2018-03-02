@@ -69,6 +69,12 @@ class ListingViewModel: BaseViewModel {
     let phoneNumber = Variable<String?>(nil)
     let isFavorite = Variable<Bool>(false)
     let listingStats = Variable<ListingStats?>(nil)
+    private var myUserId: String? {
+        return myUserRepository.myUser?.objectId
+    }
+    private var myUserName: String? {
+        return myUserRepository.myUser?.name
+    }
 
     let socialMessage = Variable<SocialMessage?>(nil)
     let socialSharer: SocialSharer
@@ -331,8 +337,14 @@ class ListingViewModel: BaseViewModel {
             strongSelf.isShowingFeaturedStripe.value = strongSelf.showFeaturedStripeHelper.shouldShowFeaturedStripeFor(listing: listing) && !strongSelf.status.value.shouldShowStatus
 
             strongSelf.productIsFavoriteable.value = !isMine
-            strongSelf.socialMessage.value = ListingSocialMessage(listing: listing, fallbackToStore: false)
-            strongSelf.freeBumpUpShareMessage = ListingSocialMessage(listing: listing, fallbackToStore: true)
+            strongSelf.socialMessage.value = ListingSocialMessage(listing: listing,
+                                                                  fallbackToStore: false,
+                                                                  myUserId: strongSelf.myUserId,
+                                                                  myUserName: strongSelf.myUserName)
+            strongSelf.freeBumpUpShareMessage = ListingSocialMessage(listing: listing,
+                                                                     fallbackToStore: true,
+                                                                     myUserId: strongSelf.myUserId,
+                                                                     myUserName: strongSelf.myUserName)
             strongSelf.productImageURLs.value = listing.images.flatMap { return $0.fileURL }
 
             let productInfo = ListingVMProductInfo(listing: listing,
@@ -399,7 +411,7 @@ class ListingViewModel: BaseViewModel {
             isUpdatingBumpUpBanner = true
             monetizationRepository.retrieveBumpeableListingInfo(
                 listingId: listingId,
-                withHigherMinimumPrice: featureFlags.increaseMinPriceBumps.bucketValue,
+                withHigherMinimumPrice: featureFlags.bumpPriceVariationBucket.rawValue,
                 completion: { [weak self] result in
                     guard let strongSelf = self else { return }
                     strongSelf.isUpdatingBumpUpBanner = false
@@ -570,9 +582,7 @@ extension ListingViewModel {
     func shareProduct() {
         guard let socialMessage = socialMessage.value else { return }
         guard let viewController = delegate?.vmShareViewControllerAndItem().0 else { return }
-        let barButtonItem = delegate?.vmShareViewControllerAndItem().1
-        socialSharer.share(socialMessage, shareType: .native(restricted: false),
-                           viewController: viewController, barButtonItem: barButtonItem)
+        socialSharer.share(socialMessage, shareType: .native(restricted: false), viewController: viewController)
     }
 
     func chatWithSeller() {
@@ -798,7 +808,10 @@ extension ListingViewModel {
     }
 
     private var socialShareMessage: SocialMessage {
-        return ListingSocialMessage(listing: listing.value, fallbackToStore: false)
+        return ListingSocialMessage(listing: listing.value,
+                                    fallbackToStore: false,
+                                    myUserId: myUserId,
+                                    myUserName: myUserName)
     }
 
     private var suggestMarkSoldWhenDeleting: Bool {

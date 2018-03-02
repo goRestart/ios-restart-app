@@ -63,7 +63,8 @@ final class UserApiDataSource: UserDataSource {
             let users = try JSONDecoder().decode(FailableDecodableArray<LGUser>.self, from: data)
             return users.validElements
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGUser \(object)")
+            logAndReportParseError(object: object, entity: .users,
+                                   comment: "could not parse [LGUser]")
         }
         return nil
 
@@ -75,7 +76,8 @@ final class UserApiDataSource: UserDataSource {
             let user = try LGUser.decode(jsonData: data)
             return user
         } catch {
-            logMessage(.debug, type: .parsing, message: "could not parse LGUser \(object)")
+            logAndReportParseError(object: object, entity: .user,
+                                   comment: "could not parse LGUser")
         }
         return nil
     }
@@ -86,10 +88,9 @@ final class UserApiDataSource: UserDataSource {
         } else {
             guard let data = try? JSONSerialization.data(withJSONObject: object,
                                                          options: .prettyPrinted) else {
-                                                            logMessage(.debug,
-                                                                       type: .parsing,
-                                                                       message: "could not parse LGUserUserRelation \(object)")
-                                                            return nil
+                logAndReportParseError(object: object, entity: .userRelation,
+                                       comment: "could not parse LGUserUserRelation")
+                return nil
             }
            return LGUserUserRelation.decodeFrom(jsonData: data)
         }

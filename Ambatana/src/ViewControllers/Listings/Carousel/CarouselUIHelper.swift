@@ -16,7 +16,7 @@ struct CarouselUI {
     static let pageControlWidth: CGFloat = 18
     static let pageControlMargin: CGFloat = 18
     static let moreInfoDragMargin: CGFloat = 45
-    static let moreInfoExtraHeight: CGFloat = 70
+    static let moreInfoExtraHeight: CGFloat = 62
     static let bottomOverscrollDragMargin: CGFloat = 70
 
     static let itemsMargin: CGFloat = 15
@@ -33,7 +33,7 @@ class CarouselUIHelper {
         pageControl.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         pageControl.currentPageIndicatorTintColor = UIColor.white
         pageControl.hidesForSinglePage = true
-        pageControl.layer.cornerRadius = CarouselUI.pageControlWidth/2
+        pageControl.cornerRadius = CarouselUI.pageControlWidth/2
         pageControl.clipsToBounds = true
     }
 
@@ -60,7 +60,7 @@ class CarouselUIHelper {
         }
         shareButton.tintColor = UIColor.white
         shareButton.sizeToFit()
-        shareButton.layer.cornerRadius = shareButton.height/2
+        shareButton.setRoundedCorners()
         shareButton.layer.backgroundColor = UIColor.blackTextLowAlpha.cgColor
     }
 

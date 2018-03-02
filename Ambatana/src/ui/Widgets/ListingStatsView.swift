@@ -41,9 +41,9 @@ class ListingStatsView: UIView {
     }
 
     func setupUI() {
-        favouriteStatsView.layer.cornerRadius = 12
-        viewsStatsView.layer.cornerRadius = 12
-        timePostedView.layer.cornerRadius = 12
+        favouriteStatsView.cornerRadius = 12
+        viewsStatsView.cornerRadius = 12
+        timePostedView.cornerRadius = 12
         
         favouriteStatsWidthConstraint.constant = 0
         statsSeparationConstraint.constant = 0

@@ -361,7 +361,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
         // i18n
         loginSegmentedControl.setTitle(LGLocalizedString.mainSignUpSignUpButton, forSegmentAt: 0)
         loginSegmentedControl.setTitle(LGLocalizedString.mainSignUpLogInLabel, forSegmentAt: 1)
-        loginSegmentedControl.layer.cornerRadius = 15
+        loginSegmentedControl.cornerRadius = 15
         loginSegmentedControl.layer.borderWidth = 1
         loginSegmentedControl.layer.masksToBounds = true
 

@@ -67,7 +67,7 @@ class ChatSafetyTipsView: UIView {
 
     private func setupUI() {
         alpha = 0
-        tipsView.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
+        tipsView.cornerRadius = LGUIKitConstants.smallCornerRadius
         okButton.setStyle(.primary(fontSize: .medium))
 
         titleLabel.text = LGLocalizedString.chatSafetyTipsTitle

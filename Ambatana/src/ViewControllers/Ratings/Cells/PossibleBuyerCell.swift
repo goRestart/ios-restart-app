@@ -96,13 +96,17 @@ class PossibleBuyerCell: UITableViewCell, ReusableCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        userImage.cornerRadius = PossibleBuyerCell.imageHeight / 2
         titleLabel.textColor = UIColor.blackText
         titleLabel.font = UIFont.bigBodyFont
         disclosureImage.image = #imageLiteral(resourceName: "ic_disclosure")
         subtitleLabel.textColor = UIColor.grayDark
         subtitleLabel.font = UIFont.smallBodyFont
         titleLabel.set(accessibilityId: .passiveBuyerCellName)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        userImage.setRoundedCorners()
     }
 
 

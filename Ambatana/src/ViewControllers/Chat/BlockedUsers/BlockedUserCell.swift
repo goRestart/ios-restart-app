@@ -67,7 +67,7 @@ class BlockedUserCell: UITableViewCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        avatarImageView.layer.cornerRadius = avatarImageView.width/2
+        avatarImageView.setRoundedCorners()
         avatarImageView.clipsToBounds = true
         userNameLabel.font = UIFont.bigBodyFontLight
         blockedLabel.font = UIFont.smallBodyFontLight
