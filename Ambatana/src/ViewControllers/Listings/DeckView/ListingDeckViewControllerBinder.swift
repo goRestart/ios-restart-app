@@ -110,7 +110,7 @@ final class ListingDeckViewControllerBinder {
             didBeginEditing
                 .asDriver()
                 .drive(onNext: { [weak viewController] _ in
-                    viewController?.turnNavigationBar(true)
+                    viewController?.turnNavigationBar(false)
                 }).disposed(by: disposeBag)
         }
     }
