@@ -128,7 +128,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         collectionView.contentInset = .zero
         collectionView.bounces = true
         collectionView.alwaysBounceVertical = false
-        collectionView.clipsToBounds = false
         collectionView.backgroundColor = UIColor.viewControllerBackground
     }
 

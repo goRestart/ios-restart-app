@@ -62,6 +62,12 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
+        listingDeckView.collectionView.clipsToBounds = false
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        listingDeckView.collectionView.clipsToBounds = true
     }
 
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
