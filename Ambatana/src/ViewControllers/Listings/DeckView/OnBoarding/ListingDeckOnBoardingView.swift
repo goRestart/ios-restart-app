@@ -72,11 +72,11 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
     }
 
     private func setupBlur() {
-        visualEffect.translatesAutoresizingMaskIntoConstraints = false
+        addSubviewForAutoLayout(visualEffect)
+
         visualEffect.alpha = 0.5
         visualEffect.backgroundColor = UIColor.black
 
-        addSubview(visualEffect)
         let constraints = [
             visualEffect.leadingAnchor.constraint(equalTo: leadingAnchor),
             visualEffect.topAnchor.constraint(equalTo: topAnchor),
@@ -87,17 +87,9 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
     }
 
     private func setupContainerView() {
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(containerView)
-        let containerHeight = containerView.heightAnchor.constraint(equalTo: heightAnchor,
-                                                                    multiplier: Layout.Height.containerView)
-        containerHeight.priority = .required - 1
-        let containerWidth = containerView.widthAnchor.constraint(equalTo: widthAnchor,
-                                                                  multiplier: Layout.Width.containerView)
-        containerWidth.priority = .required - 1
+        addSubviewForAutoLayout(containerView)
+
         let constraints = [
-            containerHeight,
-            containerWidth,
             containerView.centerXAnchor.constraint(equalTo: centerXAnchor),
             containerView.centerYAnchor.constraint(equalTo: centerYAnchor),
             containerView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: Metrics.veryBigMargin),
@@ -107,13 +99,15 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
         ]
         NSLayoutConstraint.activate(constraints)
 
+        containerView.setContentHuggingPriority(.required, for: .vertical)
+        containerView.setContentHuggingPriority(.required, for: .horizontal)
+
         containerView.backgroundColor = UIColor.viewControllerBackground
     }
 
     private func setupImageView() {
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubviewForAutoLayout(imageView)
         imageView.contentMode = .scaleAspectFit
-        containerView.addSubview(imageView)
         let imageHeight = imageView.heightAnchor.constraint(equalTo: containerView.heightAnchor,
                                                             multiplier: Layout.Height.imageView)
         imageHeight.priority = .required - 1
@@ -127,8 +121,7 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
     }
 
     private func setupTitle() {
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(titleLabel)
+        containerView.addSubviewForAutoLayout(titleLabel)
         let constraints = [
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Metrics.veryBigMargin),
             titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Metrics.veryBigMargin),
@@ -144,8 +137,7 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
     }
 
     private func setupUnderline() {
-        underline.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(underline)
+        containerView.addSubviewForAutoLayout(underline)
         let constraints = [
             underline.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             underline.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metrics.veryBigMargin),
@@ -157,8 +149,7 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
     }
 
     private func setupConfirmButton() {
-        confirmButton.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(confirmButton)
+        containerView.addSubviewForAutoLayout(confirmButton)
         let constraints = [
             confirmButton.heightAnchor.constraint(equalToConstant: Layout.Height.confirmButton),
             confirmButton.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
