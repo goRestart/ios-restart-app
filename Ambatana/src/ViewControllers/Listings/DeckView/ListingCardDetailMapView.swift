@@ -182,6 +182,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
                        animations: { [weak self] in
                         self?.mapView.alpha = 1
                         self?.mapSnapShotView.alpha = 0
+                        self?.mapView.cornerRadius = Layout.CornerRadius.map
             }, completion: { [weak self] completion in
                 guard let strongSelf = self, let mapView = self?.mapView else { return }
                 strongSelf.bringSubview(toFront: mapView)
@@ -211,8 +212,4 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         bringSubview(toFront: verticalStackView)
     }
 
-    override func layoutIfNeeded() {
-        super.layoutSubviews()
-        mapView.cornerRadius = Layout.CornerRadius.map
-    }
 }
