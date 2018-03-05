@@ -34,6 +34,8 @@ extension ListingCategory {
             return LGLocalizedString.categoriesCar
         case .realEstate:
             return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.categoriesRealEstateTitle : LGLocalizedString.categoriesRealEstate
+        case .service:
+            return "Service" //TODO: localize text
         }
     }
     
@@ -61,6 +63,8 @@ extension ListingCategory {
             return LGLocalizedString.categoriesInfeedCars
         case .realEstate:
             return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.categoriesInfeedRealEstateTitle : LGLocalizedString.categoriesInfeedRealEstate
+        case .service:
+            return "Service" //TODO: localize text
         }
     }
     
@@ -88,6 +92,8 @@ extension ListingCategory {
             return UIImage(named: "cars_feed")
         case .realEstate:
             return UIImage(named: "housing_feed")
+        case .service:
+            return UIImage(named: "others_feed") //TODO: set new image
         }
     }
     
@@ -115,6 +121,8 @@ extension ListingCategory {
             return UIImage(named: "categories_cars_inactive")
         case .realEstate:
             return UIImage(named: "categories_realestate_inactive")
+        case .service:
+            return UIImage(named: "categories_others_inactive") //TODO: set new image
         }
     }
     
@@ -142,6 +150,8 @@ extension ListingCategory {
             return UIImage(named: "categories_cars_tag")
         case .realEstate:
             return UIImage(named: "categories_housing_tag")
+        case .service:
+            return UIImage(named: "categories_others_tag") //TODO: set new image
         }
     }
 
@@ -160,7 +170,7 @@ extension ListingCategory {
             return .car
         case .motorsAndAccessories:
             return .motorsAndAccessories
-        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
+        case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned, .service:
             return .otherItems(listingCategory: nil)
         }
     }

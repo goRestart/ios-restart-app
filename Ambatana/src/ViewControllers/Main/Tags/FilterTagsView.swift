@@ -204,7 +204,7 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
                     }
                 }
             case .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                 .fashionAndAccesories, .babyAndChild, .other, .unassigned:
+                 .fashionAndAccesories, .babyAndChild, .other, .unassigned, .service:
                 break
             case .realEstate:
                 for (i, tag) in tags.enumerated() {

@@ -668,7 +668,7 @@ class MainListingsViewModel: BaseViewModel {
         if isTaxonomiesAndTaxonomyChildrenInFeedEnabled {
             categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
         } else {
-            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(realEstateIncluded: featureFlags.realEstateEnabled.isActive,
+            categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(serviceIncluded: featureFlags.serviceCategoryEnabled.isActive, realEstateIncluded: featureFlags.realEstateEnabled.isActive,
                                                                                           highlightRealEstate: featureFlags.realEstatePromos.isActive)
                 .map { CategoryHeaderElement.listingCategory($0) })
         }

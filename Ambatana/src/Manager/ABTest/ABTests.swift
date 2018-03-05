@@ -57,6 +57,7 @@ class ABTests {
     let searchMultiwordExpressions = IntABDynamicVar(key: "20180220SearchMultiwordExpressions", defaultValue: 0, abGroupType: .core)
     let showChatSafetyTips = BoolABDynamicVar(key: "20180226ShowChatSafetyTips", defaultValue: false, abGroupType: .chat)
     let discardedProducts = IntABDynamicVar(key: "20180219DiscardedProducts", defaultValue: 0, abGroupType: .core)
+    let serviceCategoryEnabled = IntABDynamicVar(key: "20180305ServiceCategoryEnabled", defaultValue: 0, abGroupType: .legacyABTests)
 
     init() {
     }
@@ -106,6 +107,7 @@ class ABTests {
         result.append(searchMultiwordExpressions)
         result.append(showChatSafetyTips)
         result.append(discardedProducts)
+        result.append(serviceCategoryEnabled)
         
         return result
     }

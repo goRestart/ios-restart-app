@@ -276,7 +276,7 @@ fileprivate extension ExpandableCategory {
             switch listingCategory {
             case .unassigned:
                 return LGLocalizedString.categoriesUnassignedItems
-            case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+            case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .service:
                 return listingCategory.name
             case .realEstate:
                 return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.productPostSelectCategoryRealEstate : LGLocalizedString.productPostSelectCategoryHousing
@@ -297,7 +297,7 @@ fileprivate extension ExpandableCategory {
                 return #imageLiteral(resourceName: "motorsAndAccesories")
             case .realEstate:
                 return #imageLiteral(resourceName: "housingIcon")
-            case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+            case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .service:
                 return listingCategory.image
             }
         case .mostSearchedItems:

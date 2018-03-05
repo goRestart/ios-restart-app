@@ -817,7 +817,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             carInfoContainer.isHidden = true
             showRealEstateAttributesView()
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
-             .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
+             .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned, .service:
             hideVerticalFields()
         }
         

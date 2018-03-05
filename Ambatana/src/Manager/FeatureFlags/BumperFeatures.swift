@@ -50,6 +50,7 @@ extension Bumper  {
         flags.append(SearchMultiwordExpressions.self)
         flags.append(ShowChatSafetyTips.self)
         flags.append(DiscardedProducts.self)
+        flags.append(ServiceCategoryEnabled.self)
         Bumper.initialize(flags)
     } 
 
@@ -236,6 +237,11 @@ extension Bumper  {
     static var discardedProducts: DiscardedProducts {
         guard let value = Bumper.value(for: DiscardedProducts.key) else { return .control }
         return DiscardedProducts(rawValue: value) ?? .control 
+    }
+
+    static var serviceCategoryEnabled: ServiceCategoryEnabled {
+        guard let value = Bumper.value(for: ServiceCategoryEnabled.key) else { return .control }
+        return ServiceCategoryEnabled(rawValue: value) ?? .control 
     } 
 }
 
@@ -788,6 +794,22 @@ enum DiscardedProducts: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show users listings that have been discarded so they can be edited and reposted" } 
     static func fromPosition(_ position: Int) -> DiscardedProducts {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ServiceCategoryEnabled: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ServiceCategoryEnabled.control.rawValue }
+    static var enumValues: [ServiceCategoryEnabled] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Allow to see Service category" } 
+    static func fromPosition(_ position: Int) -> ServiceCategoryEnabled {
         switch position { 
             case 0: return .control
             case 1: return .baseline
