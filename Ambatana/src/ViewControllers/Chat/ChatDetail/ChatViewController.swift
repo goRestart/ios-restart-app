@@ -129,11 +129,6 @@ class ChatViewController: TextViewController {
         }
     }
     
-    override func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        return super.textView(textView, shouldChangeTextIn: range, replacementText: text)
-    }
-
-    
     // MARK: - TextViewController methods
     
     override func sendButtonPressed() {
@@ -540,6 +535,12 @@ fileprivate extension ChatViewController {
             strongSelf.setupProfessionalSellerBannerWithPhone(phoneNumber: phoneNum)
             strongSelf.showProfessionalSellerBanner()
         }.disposed(by: disposeBag)
+        
+        textView.rx.text
+            .orEmpty
+            .skip(1)
+            .bind(to: viewModel.chatBoxText)
+            .disposed(by: disposeBag)
     }
 }
 

@@ -58,6 +58,7 @@ class ABTests {
     let showChatSafetyTips = BoolABDynamicVar(key: "20180226ShowChatSafetyTips", defaultValue: false, abGroupType: .chat)
     let onboardingIncentivizePosting = IntABDynamicVar(key: "20180215OnboardingIncentivizePosting", defaultValue: 0, abGroupType: .retention)
     let discardedProducts = IntABDynamicVar(key: "20180219DiscardedProducts", defaultValue: 0, abGroupType: .core)
+    let userIsTyping = IntABDynamicVar(key: "20180305UserIsTyping", defaultValue: 0, abGroupType: .chat)
 
     init() {
     }
@@ -107,6 +108,7 @@ class ABTests {
         result.append(searchMultiwordExpressions)
         result.append(showChatSafetyTips)
         result.append(discardedProducts)
+        result.append(userIsTyping)
         
         return result
     }

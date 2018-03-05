@@ -1,3 +1,4 @@
+import RxSwift
 public struct MockChatConversation: ChatConversation {
     public var objectId: String?
     public var unreadMessageCount: Int
@@ -5,6 +6,7 @@ public struct MockChatConversation: ChatConversation {
     public var listing: ChatListing?
     public var interlocutor: ChatInterlocutor?
     public var amISelling: Bool
+    public let interlocutorIsTyping = Variable<Bool>(false)
     
     public init(objectId: String?,
                 unreadMessageCount: Int,

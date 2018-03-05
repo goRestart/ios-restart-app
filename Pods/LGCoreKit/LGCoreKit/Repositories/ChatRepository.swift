@@ -107,6 +107,7 @@ protocol InternalChatRepository: ChatRepository {
     func updateLocalConversationByFetching(conversationId: String, moveToTop: Bool)
     func updateLocalConversations(listing: Listing)
     func updateLocalConversations(listingId: String, status: ListingStatus)
+    func updateLocalConversations(conversationId: String, interlocutorIsTyping: Bool)
     func insertLocalConversationByFetching(conversationId: String)
     func removeLocalConversation(id: String)
     func removeLocalConversations(ids: [String])
@@ -170,6 +171,16 @@ extension InternalChatRepository {
     public func updateLocalConversations(listingId: String, status: ListingStatus) {
         updateLocalConversations(listingId: listingId) { conversation in
             return conversation.updating(listingStatus: status)
+        }
+    }
+    
+    public func updateLocalConversations(conversationId: String, interlocutorIsTyping: Bool) {
+        let filterByConversationId: ((index: Int, conversation: ChatConversation)) -> Bool = {
+            $0.conversation.objectId == conversationId
+        }
+        updateLocalConversations(filterQuery: filterByConversationId) { conversation -> ChatConversation? in
+            conversation.interlocutorIsTyping.value = interlocutorIsTyping
+            return conversation
         }
     }
     
