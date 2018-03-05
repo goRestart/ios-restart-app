@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
-public enum ChatMessageType: String, Decodable {
+public enum ChatMessageType: String, Decodable, Equatable {
     case text = "text"
     case offer = "offer"
     case sticker = "sticker"
@@ -14,6 +14,7 @@ public enum ChatMessageType: String, Decodable {
     case expressChat = "express_chat"
     case favoritedListing  = "favorited_product"
     case phone = "phone"
+    case interlocutorIsTyping
 }
 
 public enum ChatMessageWarning: String, Decodable {

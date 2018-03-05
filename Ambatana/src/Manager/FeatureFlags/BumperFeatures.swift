@@ -50,6 +50,7 @@ extension Bumper  {
         flags.append(SearchMultiwordExpressions.self)
         flags.append(ShowChatSafetyTips.self)
         flags.append(DiscardedProducts.self)
+        flags.append(UserIsTyping.self)
         Bumper.initialize(flags)
     } 
 
@@ -236,6 +237,11 @@ extension Bumper  {
     static var discardedProducts: DiscardedProducts {
         guard let value = Bumper.value(for: DiscardedProducts.key) else { return .control }
         return DiscardedProducts(rawValue: value) ?? .control 
+    }
+
+    static var userIsTyping: UserIsTyping {
+        guard let value = Bumper.value(for: UserIsTyping.key) else { return .control }
+        return UserIsTyping(rawValue: value) ?? .control 
     } 
 }
 
@@ -659,7 +665,7 @@ enum ShowSecurityMeetingChatMessage: String, BumperFeature  {
     static var defaultValue: String { return ShowSecurityMeetingChatMessage.control.rawValue }
     static var enumValues: [ShowSecurityMeetingChatMessage] { return [.control, .baseline, .variant1, .variant2]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show a disclaimer message on chat after the first conversation from the interlocutor" } 
+    static var description: String { return "show a disclaimer message on chat after a message from the interlocutor" } 
     static func fromPosition(_ position: Int) -> ShowSecurityMeetingChatMessage {
         switch position { 
             case 0: return .control
@@ -788,6 +794,22 @@ enum DiscardedProducts: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show users listings that have been discarded so they can be edited and reposted" } 
     static func fromPosition(_ position: Int) -> DiscardedProducts {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum UserIsTyping: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return UserIsTyping.control.rawValue }
+    static var enumValues: [UserIsTyping] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show user is typing status on chat" } 
+    static func fromPosition(_ position: Int) -> UserIsTyping {
         switch position { 
             case 0: return .control
             case 1: return .baseline

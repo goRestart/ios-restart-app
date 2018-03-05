@@ -143,7 +143,7 @@
     {
         "name": "ShowSecurityMeetingChatMessage",
         "values": ["control", "baseline", "variant1", "variant2"],
-        "description": "show a disclaimer message on chat after the first conversation from the interlocutor"
+        "description": "show a disclaimer message on chat after a message from the interlocutor"
     },
     {
         "name": "NoAdsInFeedForNewUsers",
@@ -184,5 +184,10 @@
         "name": "DiscardedProducts",
         "values": ["control", "baseline", "active"],
         "description": "Show users listings that have been discarded so they can be edited and reposted"
+    },
+    {
+        "name": "UserIsTyping",
+        "values": ["control", "baseline", "active"],
+        "description": "Show user is typing status on chat"
     }
 ]
