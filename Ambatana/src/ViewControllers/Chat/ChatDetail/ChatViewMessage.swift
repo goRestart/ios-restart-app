@@ -15,13 +15,62 @@ enum ChatViewMessageType {
     case disclaimer(showAvatar: Bool, text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
     case userInfo(name: String, address: String?, facebook: Bool, google: Bool, email: Bool)
     case askPhoneNumber(text: String, action: (() -> Void)?)
+    case interlocutorIsTyping
 
     var isAskPhoneNumber: Bool {
         switch self {
         case .askPhoneNumber:
             return true
-        case .text, .offer, .sticker, .disclaimer, .userInfo:
+        default:
             return false
+        }
+    }
+    
+    public static func ==(lhs: ChatViewMessageType, rhs: ChatViewMessageType) -> Bool {
+        switch lhs {
+        case let .text(lhsText):
+            switch rhs {
+            case let .text(rhsText):
+                return lhsText == rhsText
+            default: return false
+            }
+        case let .offer(lhsText):
+            switch rhs {
+            case let .offer(rhsText):
+                return lhsText == rhsText
+            default: return false
+            }
+        case let .sticker(lhsURL):
+            switch rhs {
+            case let .sticker(rhsURL):
+                return lhsURL == rhsURL
+            default: return false
+            }
+        case let .disclaimer(lhsShowAvatar, lhsText, lhsActionTitle, _):
+            switch rhs {
+            case let .disclaimer(rhsShowAvatar, rhsText, rhsActionTitle, _):
+                return lhsShowAvatar == rhsShowAvatar && lhsText == rhsText && lhsActionTitle == rhsActionTitle
+            default: return false
+            }
+        case let .userInfo(lhsName, lhsAddress, lhsFacebook, lhsGoogle, lhsEmail):
+            switch rhs {
+            case let .userInfo(rhsName, rhsAddress, rhsFacebook, rhsGoogle, rhsEmail):
+                return lhsName == rhsName && lhsAddress == rhsAddress && lhsFacebook == rhsFacebook
+                    && lhsGoogle == rhsGoogle && lhsEmail == rhsEmail
+            default: return false
+            }
+        case let .askPhoneNumber(lhsText, _):
+            switch rhs {
+            case let .askPhoneNumber(rhsText, _):
+                return lhsText == rhsText
+            default: return false
+            }
+        case .interlocutorIsTyping:
+            switch rhs {
+            case .interlocutorIsTyping:
+                return true
+            default: return false
+            }
         }
     }
 }
@@ -62,7 +111,7 @@ struct ChatViewMessage: BaseModel {
         switch type {
         case .text, .offer:
             return true
-        case .sticker, .disclaimer, .userInfo, .askPhoneNumber:
+        case .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
             return false
         }
     }
@@ -81,6 +130,8 @@ struct ChatViewMessage: BaseModel {
             return name
         case .askPhoneNumber(let text, _):
             return text
+        case .interlocutorIsTyping:
+            return "..."
         }
     }
     
@@ -92,6 +143,7 @@ struct ChatViewMessage: BaseModel {
         && lhs.sentAt == rhs.sentAt
         && lhs.status == rhs.status
         && lhs.talkerId == rhs.talkerId
+        && lhs.type == lhs.type
     }
 }
 

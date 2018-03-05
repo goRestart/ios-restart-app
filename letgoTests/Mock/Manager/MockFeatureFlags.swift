@@ -59,6 +59,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var searchMultiwordExpressions: SearchMultiwordExpressions = .control
     var showChatSafetyTips: Bool = false
     var discardedProducts: DiscardedProducts = .control
+    var userIsTyping: UserIsTyping = .control
 
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     
