@@ -24,7 +24,10 @@ protocol ListingCardDetailsViewDelegate: class {
 }
 
 final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCardDetailsViewType {
-    private struct Layout { struct Height { static let mapView: CGFloat = 128.0  } }
+    private struct Layout {
+        struct Height { static let mapView: CGFloat = 128.0  }
+        struct Margin { static let statsToDetail: CGFloat = 30 }
+    }
 
     var delegate: (ListingCardDetailsViewDelegate & ListingCardDetailMapViewDelegate)? {
         didSet { detailMapView.delegate = delegate }
@@ -202,7 +205,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
     private func setupStatsView() {
         addSubview(statsView)
         statsView.translatesAutoresizingMaskIntoConstraints = false
-        statsView.layout(with: detailLabel).below(by: Metrics.bigMargin)
+        statsView.layout(with: detailLabel).below(by: Layout.Margin.statsToDetail)
         statsView.layout(with: self).leading(by: Metrics.margin).trailing(by: -Metrics.margin)
         statsView.timePostedView.layer.borderColor = UIColor.grayLight.cgColor
         statsView.timePostedView.layer.borderWidth = 1.0
