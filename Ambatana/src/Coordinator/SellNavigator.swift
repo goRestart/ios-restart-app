@@ -25,10 +25,13 @@ protocol PostListingNavigator: class {
                                              trackingInfo: PostListingTrackingInfo)
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
                                       trackingInfo: PostListingTrackingInfo)
-    func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue, loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
+    func openLoginIfNeededFromListingPosted(from: EventParameterLoginSourceValue,
+                                            loggedInAction: @escaping (() -> Void), cancelAction: (() -> Void)?)
     func showConfirmation(listingResult: ListingResult, trackingInfo: PostListingTrackingInfo, modalStyle: Bool)
     func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo)
     func backToSummary()
+    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
+                                   postState: PostListingState, source: EventParameterPictureSource)
 }
 
 protocol ListingPostedNavigator: class {
@@ -37,3 +40,11 @@ protocol ListingPostedNavigator: class {
     func closeListingPostedAndOpenEdit(_ listing: Listing)
     func closeProductPostedAndOpenPost()
 }
+
+protocol PostingHastenedCreateProductNavigator: class {
+    func openCamera()
+    func openPrice(listingCreationParams: ListingCreationParams, postState: PostListingState)
+    func openListingPosted(listingResult: ListingResult?, trackingInfo: PostListingTrackingInfo?)
+    func closePosting()
+}
+

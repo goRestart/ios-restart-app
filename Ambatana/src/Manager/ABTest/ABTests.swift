@@ -107,6 +107,7 @@ class ABTests {
         result.append(turkeyBumpPriceVATAdaptation)
         result.append(searchMultiwordExpressions)
         result.append(showChatSafetyTips)
+        result.append(onboardingIncentivizePosting)
         result.append(discardedProducts)
         result.append(userIsTyping)
         

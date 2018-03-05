@@ -72,16 +72,27 @@ final class SellCoordinator: Coordinator {
         self.postCategory = postCategory
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
-
-        let postListingVM = PostListingViewModel(source: source,
-                                                 postCategory: postCategory,
-                                                 listingTitle: listingTitle)
-        let postListingVC = PostListingViewController(viewModel: postListingVM,
-                                                  forcedInitialTab: forcedInitialTab)
-        navigationController = SellNavigationController(rootViewController: postListingVC)
-        navigationController.setupInitialCategory(postCategory: postCategory)
-        self.viewController = navigationController
-        postListingVM.navigator = self
+        
+        // TODO: Temporary navigation to the blocking posting until task to trigger it only for the first time is done.
+        // This is never going to be merged to master
+        if featureFlags.onboardingIncentivizePosting.isActive {
+            let getStartedVM = PostingGetStartedViewModel()
+            let getStartedVC = PostingGetStartedViewController(viewModel: getStartedVM)
+            navigationController = SellNavigationController(rootViewController: getStartedVC)
+            self.viewController = navigationController
+            getStartedVM.navigator = self
+        } else {
+            let postListingVM = PostListingViewModel(source: source,
+                                                     postCategory: postCategory,
+                                                     listingTitle: listingTitle,
+                                                     isBlockingPosting: false)
+            let postListingVC = PostListingViewController(viewModel: postListingVM,
+                                                      forcedInitialTab: forcedInitialTab)
+            navigationController = SellNavigationController(rootViewController: postListingVC)
+            navigationController.setupInitialCategory(postCategory: postCategory)
+            self.viewController = navigationController
+            postListingVM.navigator = self
+        }
     }
 
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
@@ -226,6 +237,17 @@ extension SellCoordinator: PostListingNavigator {
     func backToSummary() {
         let _ = navigationController.popViewController(animated: true)
     }
+    
+    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
+                                   postState: PostListingState, source: EventParameterPictureSource) {
+        let viewModel = PostingQueuedRequestsLoadingViewModel(images: images,
+                                                              listingCreationParams: listingCreationParams,
+                                                              postState: postState,
+                                                              source: source)
+        viewModel.navigator = self
+        let vc = PostingQueuedRequestsLoadingViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: false)
+    }
 }
 
 
@@ -262,7 +284,10 @@ extension SellCoordinator: ListingPostedNavigator {
     func closeProductPostedAndOpenPost() {
         dismissViewController(animated: true) { [weak self] in
             guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
-            let postListingVM = PostListingViewModel(source: strongSelf.postingSource, postCategory: nil, listingTitle: nil)
+            let postListingVM = PostListingViewModel(source: strongSelf.postingSource,
+                                                     postCategory: nil,
+                                                     listingTitle: nil,
+                                                     isBlockingPosting: false)
             let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                           forcedInitialTab: nil)
             strongSelf.viewController = postListingVC
@@ -272,6 +297,39 @@ extension SellCoordinator: ListingPostedNavigator {
             strongSelf.viewController = strongSelf.navigationController
             strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)
         }
+    }
+}
+
+// MARK: - PostingHastenedCreateProduct
+
+extension SellCoordinator: PostingHastenedCreateProductNavigator  {
+    func openCamera() {
+        let postListingVM = PostListingViewModel(source: .sellButton,
+                                                 postCategory: nil,
+                                                 listingTitle: nil,
+                                                 isBlockingPosting: true)
+        postListingVM.navigator = self
+        let postListingVC = PostListingViewController(viewModel: postListingVM,
+                                                      forcedInitialTab: nil)
+        navigationController.pushViewController(postListingVC, animated: true)
+    }
+    
+    func openPrice(listingCreationParams: ListingCreationParams, postState: PostListingState) {
+        let viewModel = PostingAddPriceViewModel(listingCreationParams: listingCreationParams, postState: postState)
+        viewModel.navigator = self
+        let vc = PostingAddPriceViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openListingPosted(listingResult: ListingResult?, trackingInfo: PostListingTrackingInfo?) {
+        let viewModel = ListingPostedDescriptiveViewModel()
+        viewModel.navigator = self
+        let vc = ListingPostedDescriptiveViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func closePosting() {
+        cancelPostListing()
     }
 }
 
