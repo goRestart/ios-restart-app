@@ -17,7 +17,6 @@ class PostingAddPriceViewModel: BaseViewModel {
     private let listingCreationParams: ListingCreationParams
     
     weak var navigator: PostingHastenedCreateProductNavigator?
-    //private let disposeBag = DisposeBag()
     
     private var currencySymbol: String? {
         guard let countryCode = locationManager.currentLocation?.countryCode else { return nil }
