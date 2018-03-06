@@ -629,19 +629,23 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
+        let directChatMessagesCount = directChatMessages.value.count
         switch change {
         case let .insert(index, value):
             directChatMessages.insert(value, atIndex: index)
         case let .remove(index, _):
+            guard 0..<directChatMessagesCount ~= index else { break }
             directChatMessages.removeAtIndex(index)
         case let .swap(fromIndex, toIndex, replacingWith):
+            guard 0..<directChatMessagesCount ~= fromIndex, 0..<directChatMessagesCount ~= toIndex else { break }
             directChatMessages.swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
         case let .move(fromIndex, toIndex, replacingWith):
+            guard 0..<directChatMessagesCount ~= fromIndex, 0..<directChatMessagesCount ~= toIndex else { break }
             directChatMessages.move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
         case let .composite(changes):
             for change in changes {
                 performCollectionChange(change: change)
-            }            
+            }
         }
     }
 
