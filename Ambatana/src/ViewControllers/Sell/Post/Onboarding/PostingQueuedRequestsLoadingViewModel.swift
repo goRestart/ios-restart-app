@@ -16,10 +16,9 @@ class PostingQueuedRequestsLoadingViewModel: BaseViewModel {
     private let images: [UIImage]
     private let listingCreationParams: ListingCreationParams
     private let source: EventParameterPictureSource
-    let postOnboardingState: Variable<PostOnboardingListingState>
+    let postListingState: Variable<PostListingState>
     let isLoading = Variable<Bool>(false)
     let gotListingCreateResponse = Variable<Bool>(false)
-    private let trackingInfo: PostListingTrackingInfo
     private var listingResult: ListingResult?
     
     weak var navigator: PostingHastenedCreateProductNavigator?
@@ -62,7 +61,7 @@ class PostingQueuedRequestsLoadingViewModel: BaseViewModel {
         self.images = images
         self.listingCreationParams = listingCreationParams
         self.source = source
-        self.postOnboardingState = Variable<PostOnboardingListingState>(PostOnboardingListingState(postListingState: postState))
+        self.postListingState = Variable<PostListingState>(postState)
         super.init()
     }
     
@@ -70,6 +69,6 @@ class PostingQueuedRequestsLoadingViewModel: BaseViewModel {
     // MARK: - Navigation
     
     func openPrice() {
-        navigator?.openPrice(listingCreationParams: listingCreationParams, postState: postOnboardingState.value)
+        navigator?.openPrice(listingCreationParams: listingCreationParams, postState: postListingState.value)
     }
 }
