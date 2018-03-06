@@ -219,7 +219,6 @@ class ListingCarouselViewModel: BaseViewModel {
     var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
     let sideMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6) ? Metrics.margin : 0
 
-
     // MARK: - Init
 
     convenience init(listing: Listing,
@@ -294,10 +293,17 @@ class ListingCarouselViewModel: BaseViewModel {
          locationManager: LocationManager,
          myUserRepository: MyUserRepository) {
         if let productListModels = productListModels {
-            self.objects.appendContentsOf(productListModels.flatMap(ListingCarouselCellModel.adapter))
+            let listingCarouselCellModels = productListModels
+                .flatMap(ListingCarouselCellModel.adapter)
+                .filter(featureFlags.discardedProducts.notDiscarded)
+            self.objects.appendContentsOf(listingCarouselCellModels)
             self.isLastPage = listingListRequester.isLastPage(productListModels.count)
         } else {
-            self.objects.appendContentsOf([initialListing].flatMap{$0}.map(ListingCarouselCellModel.init))
+            let listingCarouselCellModels = [initialListing]
+                .flatMap{$0}
+                .map(ListingCarouselCellModel.init)
+                .filter(featureFlags.discardedProducts.notDiscarded)
+            self.objects.appendContentsOf(listingCarouselCellModels)
             self.isLastPage = false
         }
         self.initialThumbnail = thumbnailImage
@@ -667,8 +673,10 @@ extension ListingCarouselViewModel: Paginable {
             self?.isLoading = false
             if let newListings = result.listingsResult.value {
                 strongSelf.nextPage = strongSelf.nextPage + 1
-                strongSelf.objects.appendContentsOf(newListings.map(ListingCarouselCellModel.init))
-                
+                let listingCarouselCellModels = newListings
+                    .map(ListingCarouselCellModel.init)
+                    .filter(strongSelf.featureFlags.discardedProducts.notDiscarded)
+                strongSelf.objects.appendContentsOf(listingCarouselCellModels)
                 strongSelf.isLastPage = strongSelf.listingListRequester.isLastPage(newListings.count)
                 if newListings.isEmpty && !strongSelf.isLastPage {
                     strongSelf.retrieveNextPage()
@@ -846,5 +854,13 @@ extension CarouselMovement {
         case .initial:
             return .position(index: index)
         }
+    }
+}
+
+extension DiscardedProducts {
+    
+    func notDiscarded(model: ListingCarouselCellModel) -> Bool {
+        guard isActive else { return true }
+        return !model.listing.status.isDiscarded
     }
 }
