@@ -913,6 +913,10 @@
 		72FE68B31ED6BDF8003F5E71 /* RateBuyersViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FE68B21ED6BDF8003F5E71 /* RateBuyersViewModelSpec.swift */; };
 		7EA1474D1E12769500C3F462 /* LGLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1474C1E12769500C3F462 /* LGLayout.swift */; };
 		7EA1474E1E12769500C3F462 /* LGLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1474C1E12769500C3F462 /* LGLayout.swift */; };
+		8E031CAC20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */; };
+		8E031CAD20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */; };
+		8E031CB22033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E031CB12033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift */; };
+		8E031CB32033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E031CB12033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift */; };
 		8E0C9DF41E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */; };
 		8E0C9DF51E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */; };
 		8E0C9DF71E96935300768D27 /* PostCarDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF61E96935300768D27 /* PostCarDetailsView.swift */; };
@@ -955,10 +959,16 @@
 		8E85EA261FD0539700A24ADE /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E85EA251FD0539700A24ADE /* Data+Extensions.swift */; };
 		8EA489481FF4FFDD00F47B8F /* ChatInactiveConversationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA489471FF4FFDD00F47B8F /* ChatInactiveConversationHeaderView.swift */; };
 		8EA489491FF53F3C00F47B8F /* ChatInactiveConversationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA489471FF4FFDD00F47B8F /* ChatInactiveConversationHeaderView.swift */; };
+		8EADA729203453CC00DE8126 /* ChatInterlocutorIsTypingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EADA728203453CB00DE8126 /* ChatInterlocutorIsTypingCell.xib */; };
+		8EADA72A203453CC00DE8126 /* ChatInterlocutorIsTypingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EADA728203453CB00DE8126 /* ChatInterlocutorIsTypingCell.xib */; };
+		8EADA72D20347EC600DE8126 /* lottie_chat_typing_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 8EADA72C20347EC600DE8126 /* lottie_chat_typing_animation.json */; };
+		8EADA72E20347EC600DE8126 /* lottie_chat_typing_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 8EADA72C20347EC600DE8126 /* lottie_chat_typing_animation.json */; };
 		8EBE07861FD59F3F009EBC1A /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E85EA251FD0539700A24ADE /* Data+Extensions.swift */; };
 		8EBEF9791F3CA50500473822 /* LGSliderViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */; };
 		8EC2051E1EAE52F000E4E5EC /* UIView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2051D1EAE52F000E4E5EC /* UIView+LG.swift */; };
 		8EC2051F1EAE52F000E4E5EC /* UIView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2051D1EAE52F000E4E5EC /* UIView+LG.swift */; };
+		8ED3C523204811E90078BE39 /* LGAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED3C522204811E90078BE39 /* LGAnimation.swift */; };
+		8ED3C524204811E90078BE39 /* LGAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED3C522204811E90078BE39 /* LGAnimation.swift */; };
 		8EF026141EDD73F70097A3A9 /* FiltersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF026131EDD73F70097A3A9 /* FiltersCoordinator.swift */; };
 		8EF026161EDD74020097A3A9 /* FiltersNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF026151EDD74020097A3A9 /* FiltersNavigator.swift */; };
 		8EF026171EDD7E880097A3A9 /* FiltersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF026131EDD73F70097A3A9 /* FiltersCoordinator.swift */; };
@@ -2224,6 +2234,8 @@
 		7EA1474C1E12769500C3F462 /* LGLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGLayout.swift; sourceTree = "<group>"; };
 		7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
 		7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInterlocutorIsTypingCell.swift; sourceTree = "<group>"; };
+		8E031CB12033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInterlocutorIsTypingCellDrawer.swift; sourceTree = "<group>"; };
 		8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCategoryDetailProgressView.swift; sourceTree = "<group>"; };
 		8E0C9DF61E96935300768D27 /* PostCarDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCarDetailsView.swift; sourceTree = "<group>"; };
 		8E1139E11EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDescriptionHeaderView.swift; sourceTree = "<group>"; };
@@ -2246,8 +2258,11 @@
 		8E8236F2202CA68000A70A33 /* LGEmojiSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGEmojiSpec.swift; sourceTree = "<group>"; };
 		8E85EA251FD0539700A24ADE /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 		8EA489471FF4FFDD00F47B8F /* ChatInactiveConversationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationHeaderView.swift; sourceTree = "<group>"; };
+		8EADA728203453CB00DE8126 /* ChatInterlocutorIsTypingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatInterlocutorIsTypingCell.xib; sourceTree = "<group>"; };
+		8EADA72C20347EC600DE8126 /* lottie_chat_typing_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottie_chat_typing_animation.json; sourceTree = "<group>"; };
 		8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSliderViewModelSpec.swift; sourceTree = "<group>"; };
 		8EC2051D1EAE52F000E4E5EC /* UIView+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+LG.swift"; sourceTree = "<group>"; };
+		8ED3C522204811E90078BE39 /* LGAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGAnimation.swift; sourceTree = "<group>"; };
 		8EF026131EDD73F70097A3A9 /* FiltersCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersCoordinator.swift; sourceTree = "<group>"; };
 		8EF026151EDD74020097A3A9 /* FiltersNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersNavigator.swift; sourceTree = "<group>"; };
 		8EF1CDAE2010F11F00D324F6 /* ChatInactiveConversationDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationDetailsViewModel.swift; sourceTree = "<group>"; };
@@ -4132,6 +4147,14 @@
 			name = LGSlider;
 			sourceTree = "<group>";
 		};
+		8EADA72B20347EA600DE8126 /* lottie */ = {
+			isa = PBXGroup;
+			children = (
+				8EADA72C20347EC600DE8126 /* lottie_chat_typing_animation.json */,
+			);
+			path = lottie;
+			sourceTree = "<group>";
+		};
 		8EF1CDAD2010F0F900D324F6 /* Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -4550,6 +4573,7 @@
 				6AA26CFC1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift */,
 				C739C1D71D11A2FB0014AD6A /* ChatOtherInfoCellDrawer.swift */,
 				2EE47D2D2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift */,
+				8E031CB12033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift */,
 			);
 			path = CellDrawers;
 			sourceTree = "<group>";
@@ -4570,6 +4594,8 @@
 				C75018471D10681B007D4CE4 /* ChatOtherInfoCell.xib */,
 				2EE47D2720177653004B04EE /* ChatAskPhoneNumberCell.swift */,
 				2EE47D2820177653004B04EE /* ChatAskPhoneNumberCell.xib */,
+				8E031CAB20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift */,
+				8EADA728203453CB00DE8126 /* ChatInterlocutorIsTypingCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -4696,6 +4722,7 @@
 		D40DA2841AEE274600B64CE1 /* res */ = {
 			isa = PBXGroup;
 			children = (
+				8EADA72B20347EA600DE8126 /* lottie */,
 				C7DB417E1C5120AC00400945 /* development */,
 				500DC1281BDA1C4C00B494FA /* config */,
 				D40DA2851AEE274600B64CE1 /* data */,
@@ -4732,6 +4759,7 @@
 				507532E11FEA47D400FCF9D5 /* UILabel+Rx.swift */,
 				2EE47D3020178835004B04EE /* PhoneCallsHelper.swift */,
 				8E8236EF202CA50200A70A33 /* LGEmoji.swift */,
+				8ED3C522204811E90078BE39 /* LGAnimation.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -5164,6 +5192,7 @@
 				5015881E1C7396B7006AEFC8 /* UserView.xib in Resources */,
 				C783D97E1C64BB90000EE5CA /* ReportUsersViewController.xib in Resources */,
 				502374591B3D3EAB00E02656 /* Localizable.strings in Resources */,
+				8EADA72D20347EC600DE8126 /* lottie_chat_typing_animation.json in Resources */,
 				2EB636161E8A941B0063E8EA /* CarsInfo.json in Resources */,
 				6A12E04B1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */,
 				6A879DA51C8DAED300E0C868 /* PushPrePermissionsSettingsViewControllerMini.xib in Resources */,
@@ -5228,6 +5257,7 @@
 				50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */,
 				2E132A501F220D7B00C20127 /* Taxonomies.json in Resources */,
 				C7B588511CE1DE1C009B3975 /* DirectAnswerCell.xib in Resources */,
+				8EADA729203453CC00DE8126 /* ChatInterlocutorIsTypingCell.xib in Resources */,
 				2E36656C1DE4882E00000F68 /* PostIncentivatorView.xib in Resources */,
 				C7B5889C1CE1E025009B3975 /* ConversationCell.xib in Resources */,
 				508011231D474ED80073F362 /* ProductCellBanners.xcassets in Resources */,
@@ -5345,9 +5375,11 @@
 				2E373FAF1D3E6F4E00AC811C /* UserRatingListViewController.xib in Resources */,
 				C77B7DB41DBE3C3E0043C624 /* ListHeaderContainer.xib in Resources */,
 				C7DB427B1C5138B500400945 /* GoogleService-Info.plist in Resources */,
+				8EADA72E20347EC600DE8126 /* lottie_chat_typing_animation.json in Resources */,
 				C7DB427C1C5138B500400945 /* RememberPasswordViewController.xib in Resources */,
 				C7B588481CE1DE1C009B3975 /* ChatListingView.xib in Resources */,
 				C7415ED91DE880BD0003D6C1 /* SimpleListingsViewController.xib in Resources */,
+				8EADA72A203453CC00DE8126 /* ChatInterlocutorIsTypingCell.xib in Resources */,
 				C74016DD1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				508011201D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
 				5080111C1D474ED80073F362 /* Errors.xcassets in Resources */,
@@ -5582,7 +5614,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		5026B0A61B05E2F3006858BB /* Fabric Script */ = {
@@ -5642,7 +5674,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		8508DCECFDE8BE27012F5FFC /* [CP] Embed Pods Frameworks */ = {
@@ -5752,7 +5784,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		BBFA7F7BD5812BEA4BE1060E /* [CP] Copy Pods Resources */ = {
@@ -6255,6 +6287,8 @@
 				50146BCD1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */,
 				C7111F051CA438C2000C5C5A /* UriScheme.swift in Sources */,
 				50C2E1A71E701BE8006639BB /* PostListingFooter.swift in Sources */,
+				8E031CB22033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift in Sources */,
+				8ED3C523204811E90078BE39 /* LGAnimation.swift in Sources */,
 				506846471CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
 				C79842011CC8E8C900C300FF /* User+LG.swift in Sources */,
 				C7415EEB1DEF1E300003D6C1 /* TextViewController.swift in Sources */,
@@ -6342,6 +6376,7 @@
 				F51A08322031B55E0008D744 /* LGSize+CGSize.swift in Sources */,
 				72A83F641DD222100043EB3B /* Leanplum+LG.swift in Sources */,
 				C743FEB01E449F2E00B4E912 /* RateBuyersHeader.swift in Sources */,
+				8E031CAC20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift in Sources */,
 				8E1139E51EC9AD7100A9D772 /* FilterTitleHeaderView.swift in Sources */,
 				2EBC92051E0A77A5007F0F82 /* AppstoreProductsRequest.swift in Sources */,
 				50C63B711DC3A79100836D85 /* SocialMessage.swift in Sources */,
@@ -6879,6 +6914,8 @@
 				50C2E1A81E701BE8006639BB /* PostListingFooter.swift in Sources */,
 				C7DB41D81C5138B500400945 /* TrackerEvent.swift in Sources */,
 				50146BCE1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */,
+				8E031CB32033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift in Sources */,
+				8ED3C524204811E90078BE39 /* LGAnimation.swift in Sources */,
 				C7DB41DA1C5138B500400945 /* Constants.swift in Sources */,
 				5095988A1C8733B70026AE2D /* Logger.swift in Sources */,
 				C7DB41DC1C5138B500400945 /* CAGradientLayer+Color.swift in Sources */,
@@ -6965,6 +7002,7 @@
 				F51A08312031B55D0008D744 /* LGSize+CGSize.swift in Sources */,
 				8E1139E61EC9AD7100A9D772 /* FilterTitleHeaderView.swift in Sources */,
 				C743FEB11E449F2E00B4E912 /* RateBuyersHeader.swift in Sources */,
+				8E031CAD20331D2D00CA0ED9 /* ChatInterlocutorIsTypingCell.swift in Sources */,
 				C79895C91DE43D5100DD58BF /* SessionEvent+LG.swift in Sources */,
 				C7E73E8B1CD1F77E000F2591 /* NotificationData.swift in Sources */,
 				2ECB417320065FB200482EF7 /* FeaturedInfoViewModel.swift in Sources */,
@@ -7826,7 +7864,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG -D GOD_MODE";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG -D GOD_MODE -Onone";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -7834,6 +7872,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -7870,6 +7909,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -7899,13 +7939,14 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D GOD_MODE";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D GOD_MODE -Onone";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
