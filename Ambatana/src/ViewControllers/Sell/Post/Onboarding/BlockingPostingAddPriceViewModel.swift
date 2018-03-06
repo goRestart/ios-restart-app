@@ -10,6 +10,9 @@ import LGCoreKit
 
 class BlockingPostingAddPriceViewModel: BaseViewModel {
     
+    static let postingStepNumber = "3"
+    let headerTitle: String
+    
     private let listingRepository: ListingRepository
     private let locationManager: LocationManager
     private let currencyHelper: CurrencyHelper
@@ -47,7 +50,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
         self.currencyHelper = currencyHelper
         self.featureFlags = featureFlags
         self.listing = listing
-        
+        self.headerTitle = LGLocalizedString.postAddPriceTitle
         super.init()
     }
     
@@ -75,11 +78,9 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
         //navigator?.openListingPosted(listing: nil, trackingInfo: nil)
     }
     
-    func makePriceView(view: UIView) -> PostingViewConfigurable? {
+    func makePriceView(view: UIView) {
         let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol,
                                                   freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
         priceView.setupContainerView(view: view)
-        
-        return priceView
     }
 }

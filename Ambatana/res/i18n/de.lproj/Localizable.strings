@@ -64,6 +64,9 @@
 "categories_title" = "Kategorien";
 "categories_unassigned" = "Nichts ausgewählt";
 "categories_unassigned_items" = "Etwas anderes";
+"change_bio_placeholder" = "Add a bio that describes who you are. Share what you’re interested in or a fun fact about yourself";
+"change_bio_save_button" = "Save";
+"change_bio_title" = "About me";
 "change_email_current_email_label" = "AKTUELLE E-MAIL-ADRESSE:";
 "change_email_error_already_registered" = "Diese E-Mail-Adresse ist bereits registriert. Bitte gib eine andere ein.";
 "change_email_error_invalid_email" = "Bitte gib eine gültige E-Mail-Adresse ein.";
@@ -305,6 +308,8 @@
 "discarded_products_reason_poor_ad_quality" = "Verstoß gegen unsere Angebotsregeln";
 "discarded_products_reason_reference_to_competitors" = "Verweis auf andere Apps oder Webseiten";
 "discarded_products_reason_stock_photo_only" = "Enthält nur Herstellerfotos";
+"edit_product_feature_label_long_text" = "Empfehle dein Angebot, um schneller zu verkaufen";
+"edit_product_feature_label_short_text" = "Jetzt schneller verkaufen";
 "edit_product_location_alert_text" = "Erlaube den Zugriff auf deinen Standort, um zu ändern, wo dein Angebot eingestellt wird";
 "edit_product_location_alert_title" = "STANDORT ÄNDERN";
 "edit_product_send_button" = "Änderungen speichern";
@@ -694,8 +699,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Telefonnummer eingeben";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Danke, dass du dich mit uns in Verbindung gesetzt hast! Bitte rufe uns an oder gib deine Telefonnummer an, damit wir dich anrufen können.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Danke, dass du deine Telefonnummer angegeben hast! Ruf uns einfach an, indem du auf die Anrufen-Schaltfläche oben drückst.";
-"profile_bio_add_button" = "Add your bio";
-"profile_bio_show_more_button" = "MORE ABOUT ME";
+"profile_bio_add_button" = "Biografie hinzufügen";
+"profile_bio_show_more_button" = "MEHR ÜBER MICH";
 "profile_blocked_by_me_label" = "Du hast diesen Nutzer blockiert";
 "profile_blocked_by_me_label_w_name" = "Du hast %@ blockiert";
 "profile_blocked_by_other_label" = "Du wurdest von diesem Nutzer blockiert";
@@ -914,6 +919,7 @@
 "settings_change_profile_picture_button" = "Profilbild";
 "settings_change_profile_picture_error_generic" = "Beim Ändern des Profilbilds ist eine Fehler aufgetreten.";
 "settings_change_profile_picture_loading" = "Dein Profilbild wird eingerichtet, bitte warten...";
+"settings_change_user_bio_button" = "Bio / About me";
 "settings_change_username_button" = "Name";
 "settings_general_notifications_alert_message" = "Aktiviere Benachrichtigungen für die letgo-App in deinen Geräteeinstellungen.";
 "settings_help_button" = "Hilfe";

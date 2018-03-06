@@ -64,6 +64,9 @@
 "categories_title" = "Catégories";
 "categories_unassigned" = "Non sélectionnée";
 "categories_unassigned_items" = "Autres biens";
+"change_bio_placeholder" = "Add a bio that describes who you are. Share what you’re interested in or a fun fact about yourself";
+"change_bio_save_button" = "Save";
+"change_bio_title" = "About me";
 "change_email_current_email_label" = "COURRIEL ACTUEL :";
 "change_email_error_already_registered" = "Cette adresse courriel est déjà enregistrée. Veuillez en indiquer une autre.";
 "change_email_error_invalid_email" = "Veuillez entrer une adresse courriel valide.";
@@ -305,6 +308,8 @@
 "discarded_products_reason_poor_ad_quality" = "N'est pas conforme aux meilleures pratiques";
 "discarded_products_reason_reference_to_competitors" = "Références à d'autres applis ou sites internet";
 "discarded_products_reason_stock_photo_only" = "Ne contient que des photos provenant de banques d'images";
+"edit_product_feature_label_long_text" = "Mettez votre annonce en vedette pour vendre plus vite";
+"edit_product_feature_label_short_text" = "Vendez au plus vite !";
 "edit_product_location_alert_text" = "Pour changer le lieu de publication de votre annonce, autorisez l'accès à votre localisation.";
 "edit_product_location_alert_title" = "CHANGER LA LOCALISATION";
 "edit_product_send_button" = "Sauvegarder les changements";
@@ -694,8 +699,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Entrer numéro de téléphone";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Merci de prendre contact avec nous ! Veuillez s'il vous plaît nous téléphoner ou ajouter votre numéro pour que nous puissions vous appeler.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Merci d'avoir ajouté votre numéro de téléphone ! Il est toujours mieux de nous appeler en utilisant le bouton d'appel ci-dessus.";
-"profile_bio_add_button" = "Add your bio";
-"profile_bio_show_more_button" = "MORE ABOUT ME";
+"profile_bio_add_button" = "Ajoutez votre bio";
+"profile_bio_show_more_button" = "PLUS À PROPOS DE MOI";
 "profile_blocked_by_me_label" = "Vous avez bloqué cet utilisateur";
 "profile_blocked_by_me_label_w_name" = "Vous avez bloqué %@";
 "profile_blocked_by_other_label" = "Vous avez été bloqué par cet utilisateur";
@@ -914,6 +919,7 @@
 "settings_change_profile_picture_button" = "Photo";
 "settings_change_profile_picture_error_generic" = "Une erreur est survenue lors du changement de l'image de profil.";
 "settings_change_profile_picture_loading" = "Paramétrage de l'image de profil. Veuillez patienter...";
+"settings_change_user_bio_button" = "Bio / About me";
 "settings_change_username_button" = "Nom";
 "settings_general_notifications_alert_message" = "Activez les notifications pour l'appli letgo dans les paramètres de votre appareil.";
 "settings_help_button" = "Aide";

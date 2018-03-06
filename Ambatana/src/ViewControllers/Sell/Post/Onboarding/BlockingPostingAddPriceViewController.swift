@@ -11,6 +11,8 @@ class BlockingPostingAddPriceViewController: KeyboardViewController {
     fileprivate let doneButton = UIButton()
     fileprivate let addDetailPriceView = UIView()
     
+    fileprivate let headerView = BlockingPostingStepHeaderView()
+    
     fileprivate let viewModel: BlockingPostingAddPriceViewModel
     
     
@@ -41,32 +43,35 @@ class BlockingPostingAddPriceViewController: KeyboardViewController {
     private func setupUI() {
         view.backgroundColor = .clear
         
+        headerView.updateWith(stepNumber: BlockingPostingAddPriceViewModel.postingStepNumber, title: viewModel.headerTitle)
+        
         doneButton.setTitle(LGLocalizedString.productPostDone, for: .normal)
         doneButton.setStyle(.primary(fontSize: .medium))
         doneButton.addTarget(self, action: #selector(doneButtonAction), for: .touchUpInside)
         
         viewModel.makePriceView(view: addDetailPriceView)
-        
-        setupNavigationBar()
-    }
-    
-    private func setupNavigationBar() {
     }
     
     private func setupConstraints() {
-        doneButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(doneButton)
+        let subviews = [headerView, doneButton, addDetailPriceView]
+        view.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
+        view.addSubviews(subviews)
+        
+        headerView.layout(with: view)
+            .fillHorizontal()
+            .top()
+        headerView.layout().height(headerView.height)
+        
         doneButton.layout(with: view).bottom(by: -Metrics.margin)
         doneButton.layout().height(44)
         doneButton.layout().width(100, relatedBy: .greaterThanOrEqual)
         doneButton.layout(with: keyboardView).bottom(to: .top, by: -Metrics.bigMargin)
         doneButton.layout(with: view).right(by: -Metrics.bigMargin)
         
-        addDetailPriceView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(addDetailPriceView)
+        let addDetailPriceViewTopMargin: CGFloat = 30
         addDetailPriceView.layout(with: view)
             .fillHorizontal()
-            .top(by: 100)
+            .top(by: BlockingPostingStepHeaderView.height + addDetailPriceViewTopMargin)
             .bottom(by: -(44+Metrics.bigMargin*2))
     }
     
