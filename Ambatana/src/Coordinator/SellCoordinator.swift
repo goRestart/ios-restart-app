@@ -315,9 +315,9 @@ extension SellCoordinator: PostingHastenedCreateProductNavigator  {
     }
     
     func openPrice(listing: Listing, postState: PostListingState) {
-        let viewModel = PostingAddPriceViewModel(listing: listing, postState: postState)
+        let viewModel = BlockingPostingAddPriceViewModel(listing: listing, postState: postState)
         viewModel.navigator = self
-        let vc = PostingAddPriceViewController(viewModel: viewModel)
+        let vc = BlockingPostingAddPriceViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
     

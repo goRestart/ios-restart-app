@@ -1,5 +1,5 @@
 //
-//  PostingAddPriceViewModel.swift
+//  BlockingPostingAddPriceViewModel.swift
 //  LetGo
 //
 //  Created by Raúl de Oñate Blanco on 19/02/2018.
@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-class PostingAddPriceViewModel: BaseViewModel {
+class BlockingPostingAddPriceViewModel: BaseViewModel {
     
     private let listingRepository: ListingRepository
     private let locationManager: LocationManager
