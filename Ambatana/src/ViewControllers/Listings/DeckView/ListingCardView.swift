@@ -77,6 +77,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         super.prepareForReuse()
         disposeBag = DisposeBag()
         previewImageView.image = nil
+        userView.alpha = 0
 
         layoutVerticalContentInset(animated: false)
     }
@@ -104,6 +105,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     func populateWith(userInfo: ListingVMUserInfo?) {
         guard let info = userInfo else { return }
         userView.populate(withUserName: info.name, icon: info.avatar, imageDownloader: ImageDownloader.sharedInstance)
+        UIView.animate(withDuration: 0.2) { self.userView.alpha = 1 }
     }
 
     func populateWith(preview: URL?, imageCount: Int) {
