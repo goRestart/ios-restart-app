@@ -32,6 +32,7 @@ class BlockingPostingAddPriceViewController: KeyboardViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setStatusBarHidden(true)
         setupConstraints()
         setupUI()
     }
@@ -43,7 +44,7 @@ class BlockingPostingAddPriceViewController: KeyboardViewController {
     
     // MARK: - UI
     
-    private func setupUI() {
+    private func setupUI() {     
         view.backgroundColor = .clear
         
         headerView.updateWith(stepNumber: BlockingPostingAddPriceViewModel.postingStepNumber, title: viewModel.headerTitle)
