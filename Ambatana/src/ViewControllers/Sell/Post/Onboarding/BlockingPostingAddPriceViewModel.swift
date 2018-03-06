@@ -7,19 +7,23 @@
 //
 
 import LGCoreKit
+import RxSwift
 
 class BlockingPostingAddPriceViewModel: BaseViewModel {
     
     static let postingStepNumber = "3"
     let headerTitle: String
     
-    private let listingRepository: ListingRepository
-    private let locationManager: LocationManager
-    private let currencyHelper: CurrencyHelper
-    private let featureFlags: FeatureFlaggeable
-    private let listing: Listing
+    fileprivate let listingRepository: ListingRepository
+    fileprivate let locationManager: LocationManager
+    fileprivate let currencyHelper: CurrencyHelper
+    fileprivate let featureFlags: FeatureFlaggeable
+    fileprivate let listing: Listing
+    fileprivate let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
     
     weak var navigator: PostingHastenedCreateProductNavigator?
+    
+    fileprivate let disposeBag = DisposeBag()
     
     private var currencySymbol: String? {
         guard let countryCode = locationManager.currentLocation?.countryCode else { return nil }
@@ -53,34 +57,26 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
         self.headerTitle = LGLocalizedString.postAddPriceTitle
         super.init()
     }
+
     
-    
-    func nextButtonAction() {
-        editListing()
-    }
-    
-    func editListing() {
-        guard let productParams = ProductEditionParams(listing: listing) else { return }
-        let editParams = ListingEditionParams.product(productParams)
-        self.listingRepository.update(listingParams: editParams) { result in
-            if let responseListing = result.value {
-                self.navigator?.openListingEditionLoading(listingParams: editParams)
-            } else if let error = result.error {
-                print("ko")
-            }
-        }
-    }
-    
-    
-    // MARK: - Navigation
-    
-    func openListingPosted() {
-        //navigator?.openListingPosted(listing: nil, trackingInfo: nil)
-    }
+    // MARK: - PostingAddDetailPriceView
     
     func makePriceView(view: UIView) {
         let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol,
                                                   freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
         priceView.setupContainerView(view: view)
+        priceView.priceListing.asObservable().bind(to: priceListing).disposed(by: disposeBag)
+    }
+    
+    
+    // MARK: - UI Actions
+    
+    func doneButtonAction() {
+        guard let productParams = ProductEditionParams(listing: listing) else { return }
+        var editParams = ListingEditionParams.product(productParams)
+        if editParams.price != priceListing.value {
+            editParams = editParams.updating(price: priceListing.value)
+        }
+        navigator?.openListingEditionLoading(listingParams: editParams)
     }
 }
