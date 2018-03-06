@@ -10,8 +10,8 @@ class BlockingPostingStepHeaderView: UIView {
     
     static let height: CGFloat = 100
     
-    fileprivate let circleHeight: CGFloat = 30
-    fileprivate let titleHeight: CGFloat = 41
+    fileprivate static let circleHeight: CGFloat = 30
+    fileprivate static let titleHeight: CGFloat = 41
     
     fileprivate let titleLabel = UILabel()
     fileprivate let circleView = UIView()
@@ -43,7 +43,7 @@ class BlockingPostingStepHeaderView: UIView {
         backgroundColor = .clear
         
         circleView.backgroundColor = UIColor.primaryColor
-        circleView.layer.cornerRadius = circleHeight/2
+        circleView.layer.cornerRadius = BlockingPostingStepHeaderView.circleHeight/2
         
         stepNumberLabel.textColor = .white
         stepNumberLabel.textAlignment = .center
@@ -63,11 +63,11 @@ class BlockingPostingStepHeaderView: UIView {
             .top(by: Metrics.bigMargin)
             .leading(by: Metrics.bigMargin)
         circleView.layout()
-            .height(circleHeight)
+            .height(BlockingPostingStepHeaderView.circleHeight)
             .widthProportionalToHeight()
         
         titleLabel.layout(with: self).fillHorizontal(by: Metrics.bigMargin)
-        titleLabel.layout().height(titleHeight)
+        titleLabel.layout().height(BlockingPostingStepHeaderView.titleHeight)
         titleLabel.layout(with: circleView).top(to: .bottomMargin, by: Metrics.shortMargin)
         
         stepNumberLabel.translatesAutoresizingMaskIntoConstraints = false

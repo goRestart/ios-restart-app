@@ -8,11 +8,14 @@
 
 class BlockingPostingAddPriceViewController: KeyboardViewController {
     
+    fileprivate static let doneButtonHeight: CGFloat = 44
+    fileprivate static let doneButtonWidth: CGFloat = 100
+    fileprivate static let addDetailPriceViewTopMargin: CGFloat = 30
+    
     fileprivate let doneButton = UIButton()
     fileprivate let addDetailPriceView = UIView()
     
     fileprivate let headerView = BlockingPostingStepHeaderView()
-    
     fileprivate let viewModel: BlockingPostingAddPriceViewModel
     
     
@@ -63,27 +66,22 @@ class BlockingPostingAddPriceViewController: KeyboardViewController {
         headerView.layout().height(headerView.height)
         
         doneButton.layout(with: view).bottom(by: -Metrics.margin)
-        doneButton.layout().height(44)
-        doneButton.layout().width(100, relatedBy: .greaterThanOrEqual)
+        doneButton.layout().height(BlockingPostingAddPriceViewController.doneButtonHeight)
+        doneButton.layout().width(BlockingPostingAddPriceViewController.doneButtonWidth)
         doneButton.layout(with: keyboardView).bottom(to: .top, by: -Metrics.bigMargin)
         doneButton.layout(with: view).right(by: -Metrics.bigMargin)
         
-        let addDetailPriceViewTopMargin: CGFloat = 30
         addDetailPriceView.layout(with: view)
             .fillHorizontal()
-            .top(by: BlockingPostingStepHeaderView.height + addDetailPriceViewTopMargin)
-            .bottom(by: -(44+Metrics.bigMargin*2))
-    }
-    
-    @objc private func openListingPosted() {
-        viewModel.openListingPosted()
+            .top(by: BlockingPostingStepHeaderView.height + BlockingPostingAddPriceViewController.addDetailPriceViewTopMargin)
+            .bottom(by: -(BlockingPostingAddPriceViewController.doneButtonHeight+Metrics.bigMargin*2))
     }
     
     
     // MARK: - UI Actions
     
     @objc func doneButtonAction() {
-        viewModel.nextButtonAction()
+        viewModel.doneButtonAction()
     }
     
 }
