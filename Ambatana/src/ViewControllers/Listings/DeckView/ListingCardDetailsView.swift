@@ -167,7 +167,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         func setupTitleLabel() {
             titleLabel.font = UIFont.deckTitleFont
             titleLabel.textAlignment = .left
-            titleLabel.numberOfLines = 1
+            titleLabel.numberOfLines = 0
             titleLabel.setContentHuggingPriority(.required, for: .vertical)
             titleLabel.backgroundColor = UIColor.white
         }
@@ -280,6 +280,13 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
 
         setupSocialMediaHeader()
         setupSocialView()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        titleLabel.preferredMaxLayoutWidth = headerStackView.bounds.width
+        priceLabel.preferredMaxLayoutWidth = headerStackView.bounds.width
+        detailLabel.preferredMaxLayoutWidth = headerStackView.bounds.width
     }
 
     // MARK: Actions
