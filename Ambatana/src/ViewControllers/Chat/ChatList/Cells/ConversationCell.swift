@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Lottie
 
 enum ConversationCellStatus {
     case available
@@ -32,6 +33,7 @@ struct ConversationCellData {
     let listingImageUrl: URL?
     let unreadCount: Int
     let messageDate: Date?
+    let isTyping: Bool
 }
 
 class ConversationCell: UITableViewCell, ReusableCell {
@@ -47,6 +49,13 @@ class ConversationCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var statusImageView: UIImageView!
     @IBOutlet weak var separationStatusImageToTimeLabel: NSLayoutConstraint!
     @IBOutlet weak var avatarImageView: UIImageView!
+    private let userIsTypingAnimationView: LOTAnimationView = {
+        let view = LOTAnimationView(name: "lottie_chat_typing_animation")
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.loopAnimation = true
+        return view
+    }()
+    private let userIsTypingAnimationViewContainer = UIView()
 
     static let defaultHeight: CGFloat = 76
     private static let statusImageDefaultMargin: CGFloat = 4
@@ -171,6 +180,8 @@ class ConversationCell: UITableViewCell, ReusableCell {
         set(accessibilityId: .conversationCellContainer(conversationId: data.conversationId))
         userLabel.set(accessibilityId: .conversationCellUserLabel(interlocutorId: data.userId))
         listingLabel.set(accessibilityId: .conversationCellListingLabel(listingId: data.listingId))
+        
+        setUserIsTyping(enabled: data.isTyping)
     }
 
 
@@ -189,6 +200,22 @@ class ConversationCell: UITableViewCell, ReusableCell {
         timeLabel.textColor = UIColor.darkGrayText
         thumbnailImageView.backgroundColor = UIColor.placeholderBackgroundColor()
         badgeView.setRoundedCorners()
+        
+        userIsTypingAnimationViewContainer.translatesAutoresizingMaskIntoConstraints = false
+        userIsTypingAnimationViewContainer.backgroundColor = UIColor.grayBackground
+        userIsTypingAnimationViewContainer.addSubview(userIsTypingAnimationView)
+        contentView.addSubview(userIsTypingAnimationViewContainer)
+        userIsTypingAnimationViewContainer.layout(with: thumbnailImageView).bottom()
+        userIsTypingAnimationViewContainer.layout(with: userLabel).leading()
+        userIsTypingAnimationViewContainer.layout()
+            .width(40)
+            .height(24)
+        userIsTypingAnimationViewContainer.layoutIfNeeded()
+        userIsTypingAnimationViewContainer.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        userIsTypingAnimationViewContainer.clipsToBounds = true
+        
+        userIsTypingAnimationView.layout(with: userIsTypingAnimationViewContainer)
+            .fill()
     }
 
     private func resetUI() {
@@ -201,6 +228,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
         badgeView.backgroundColor = UIColor.primaryColor
         badgeLabel.text = ""
         badgeLabel.font = UIFont.conversationBadgeFont
+        userIsTypingAnimationView.stop()
     }
 
     private func setInfo(text: String?, icon: UIImage?) {
@@ -212,6 +240,22 @@ class ConversationCell: UITableViewCell, ReusableCell {
         } else {
             statusImageView.isHidden = true
             separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
+        }
+    }
+    
+    private func setUserIsTyping(enabled: Bool) {
+        if enabled {
+            listingLabel.alphaAnimated(0)
+            timeLabel.alphaAnimated(0)
+            statusImageView.alphaAnimated(0)
+            userIsTypingAnimationView.play()
+            userIsTypingAnimationViewContainer.alphaAnimated(1)
+        } else {
+            userIsTypingAnimationViewContainer.alphaAnimated(0)
+            userIsTypingAnimationView.stop()
+            listingLabel.alphaAnimated(1)
+            timeLabel.alphaAnimated(1)
+            statusImageView.alphaAnimated(1)
         }
     }
 }

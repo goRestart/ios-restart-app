@@ -663,8 +663,8 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
                    completion: ((Result<[AnyHashable: Any], WebSocketError>) -> Void)?) {
         guard isEnabled else { return }
         addPendingQueryCompletion(forRequest: request, completion: completion)
-        enqueueOperation(withRequestType: request.type) {
-            self.privateSend(request)
+        enqueueOperation(withRequestType: request.type) { [weak self] in
+            self?.privateSend(request)
         }
     }
     
@@ -676,17 +676,15 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
             privateSendAuth(request, completion: completion)
         } else {
             addPendingCommandCompletion(forRequest: request, completion: completion)
-            enqueueOperation(withRequestType: request.type) {
-                self.privateSend(request)
+            enqueueOperation(withRequestType: request.type) { [weak self] in
+                self?.privateSend(request)
             }
         }
     }
     
     func sendEvent(_ request: WebSocketEventRequestConvertible) {
         guard isEnabled else { return }
-        enqueueOperation(withRequestType: request.type) {
-            self.privateSend(request)
-        }
+        privateSend(request)
     }
     
     private func privateSendAuth(_ request: WebSocketCommandRequestConvertible,
@@ -704,22 +702,27 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
     private func privateSend(_ request: WebSocketRequestConvertible) {
         switch socketStatus.value {
         case .open(authenticated: .authenticated):
-            addActiveRequest(request)
+            switch request.type.superType {
+            case .command, .query:
+                addActiveRequest(request)
+            case .event:
+                break
+            }
             send(request)
         case .open(authenticated: .notAuthenticated), .open(authenticated: .notVerified):
             logMessage(LogLevel.debug, type: .webSockets,
                        message: "[Send] Could not send: socket is \(socketStatus.value.description)")
             // enqueue de request again
-            enqueueOperation(withRequestType: request.type) {
-                self.privateSend(request)
+            enqueueOperation(withRequestType: request.type) { [weak self] in
+                self?.privateSend(request)
             }
             authenticateWebSocket()
         default:
             logMessage(LogLevel.debug, type: .webSockets,
                        message: "[Send] Could not send: socket is \(socketStatus.value.description)")
             // enqueue de request again
-            enqueueOperation(withRequestType: request.type) {
-                self.privateSend(request)
+            enqueueOperation(withRequestType: request.type) { [weak self] in
+                self?.privateSend(request)
             }
         }
     }
@@ -807,16 +810,16 @@ class LGWebSocketClient: WebSocketClient, WebSocketLibraryDelegate {
             authenticateWebSocket()
             if let request = activeRequests[key] {
                 removeActiveRequest(forKey: key)
-                enqueueOperation(withRequestType: request.type) {
-                    self.privateSend(request)
+                enqueueOperation(withRequestType: request.type) { [weak self] in
+                    self?.privateSend(request)
                 }
             }
         case .tokenExpired:
             renewUserToken()
             if let request = activeRequests[key] {
                 removeActiveRequest(forKey: key)
-                enqueueOperation(withRequestType: request.type) {
-                    self.privateSend(request)
+                enqueueOperation(withRequestType: request.type) { [weak self] in
+                    self?.privateSend(request)
                 }
             }
         case .isScammer:

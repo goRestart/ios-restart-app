@@ -130,7 +130,8 @@ class ChatListViewModel: BaseChatGroupedListViewModel<ChatConversation> {
                                     listingName: conversation.listing?.name ?? "",
                                     listingImageUrl: conversation.listing?.image?.fileURL,
                                     unreadCount: conversation.unreadMessageCount,
-                                    messageDate: conversation.lastMessageSentAt)
+                                    messageDate: conversation.lastMessageSentAt,
+                                    isTyping: conversation.interlocutorIsTyping.value)
     }
 
 
