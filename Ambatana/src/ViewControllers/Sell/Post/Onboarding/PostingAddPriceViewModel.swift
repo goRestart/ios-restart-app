@@ -14,7 +14,7 @@ class PostingAddPriceViewModel: BaseViewModel {
     private let locationManager: LocationManager
     private let currencyHelper: CurrencyHelper
     private let featureFlags: FeatureFlaggeable
-    private let listingCreationParams: ListingCreationParams
+    private let listing: Listing
     
     weak var navigator: PostingHastenedCreateProductNavigator?
     
@@ -26,13 +26,13 @@ class PostingAddPriceViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    convenience init(listingCreationParams: ListingCreationParams,
+    convenience init(listing: Listing,
                      postState: PostListingState) {
         self.init(listingRepository: Core.listingRepository,
                   locationManager: Core.locationManager,
                   currencyHelper: Core.currencyHelper,
                   featureFlags: FeatureFlags.sharedInstance,
-                  listingCreationParams: listingCreationParams,
+                  listing: listing,
                   postState: postState)
     }
     
@@ -40,22 +40,39 @@ class PostingAddPriceViewModel: BaseViewModel {
          locationManager: LocationManager,
          currencyHelper: CurrencyHelper,
          featureFlags: FeatureFlaggeable,
-         listingCreationParams: ListingCreationParams,
+         listing: Listing,
          postState: PostListingState) {
         self.listingRepository = listingRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.featureFlags = featureFlags
-        self.listingCreationParams = listingCreationParams
+        self.listing = listing
         
         super.init()
+    }
+    
+    
+    func nextButtonAction() {
+        editListing()
+    }
+    
+    func editListing() {
+        guard let productParams = ProductEditionParams(listing: listing) else { return }
+        let editParams = ListingEditionParams.product(productParams)
+        self.listingRepository.update(listingParams: editParams) { result in
+            if let responseListing = result.value {
+                self.navigator?.openListingEditionLoading(listingParams: editParams)
+            } else if let error = result.error {
+                print("ko")
+            }
+        }
     }
     
     
     // MARK: - Navigation
     
     func openListingPosted() {
-        navigator?.openListingPosted(listingResult: nil, trackingInfo: nil)
+        //navigator?.openListingPosted(listing: nil, trackingInfo: nil)
     }
     
     func makePriceView(view: UIView) -> PostingViewConfigurable? {

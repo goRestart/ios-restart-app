@@ -19,7 +19,7 @@ class PostingQueuedRequestsLoadingViewModel: BaseViewModel {
     let postListingState: Variable<PostListingState>
     let isLoading = Variable<Bool>(false)
     let gotListingCreateResponse = Variable<Bool>(false)
-    private var listingResult: ListingResult?
+    fileprivate var listingResult: ListingResult?
     
     weak var navigator: PostingHastenedCreateProductNavigator?
     private let disposeBag = DisposeBag()
@@ -65,10 +65,39 @@ class PostingQueuedRequestsLoadingViewModel: BaseViewModel {
         super.init()
     }
     
+    func createListingAfterUploadingImages() {
+        //postOnboardingState.value =  postOnboardingState.value.updatingStepToUploadingImages()
+        isLoading.value = true
+        
+        // TODO: Handle UI
+        // TODO: Add tracking
+        fileRepository.upload(images, progress: nil) { [weak self] result in
+            if let images = result.value {
+                guard let strongSelf = self else { return }
+                //strongSelf.postOnboardingState.value = strongSelf.postOnboardingState.value.updatingStepToImageUploadSuccess()
+                   let updatedParams = strongSelf.listingCreationParams.updating(images: images)
+                    strongSelf.listingRepository.create(listingParams: updatedParams) { [weak self] result in
+                        if let postedListing = result.value {
+                            //strongSelf.postOnboardingState.value = strongSelf.postOnboardingState.value.updatingStepToListingCreationSuccess()
+                            strongSelf.openPrice(listing: postedListing)
+                        } else if let error = result.error {
+                         //strongSelf.postOnboardingState.value = strongSelf.postOnboardingState.value.updatingStepToListingCreationError(error)
+                       }
+                        strongSelf.gotListingCreateResponse.value = true
+                       strongSelf.isLoading.value = false
+                    }
+                } else if let error = result.error {
+                    guard let strongSelf = self else { return }
+                    strongSelf.isLoading.value = false
+                    //strongSelf.postOnboardingState.value = strongSelf.postOnboardingState.value.updatingStepToImageUploadError(error)
+                }
+            }
+    }
+    
     
     // MARK: - Navigation
     
-    func openPrice() {
-        navigator?.openPrice(listingCreationParams: listingCreationParams, postState: postListingState.value)
+    func openPrice(listing: Listing) {
+        navigator?.openPrice(listing: listing, postState: postListingState.value)
     }
 }

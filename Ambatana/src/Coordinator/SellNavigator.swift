@@ -43,8 +43,9 @@ protocol ListingPostedNavigator: class {
 
 protocol PostingHastenedCreateProductNavigator: class {
     func openCamera()
-    func openPrice(listingCreationParams: ListingCreationParams, postState: PostListingState)
-    func openListingPosted(listingResult: ListingResult?, trackingInfo: PostListingTrackingInfo?)
+    func openPrice(listing: Listing, postState: PostListingState)
+    func openListingPosted(listing: Listing?, trackingInfo: PostListingTrackingInfo?)
     func closePosting()
+    func openListingEditionLoading(listingParams: ListingEditionParams)
 }
 

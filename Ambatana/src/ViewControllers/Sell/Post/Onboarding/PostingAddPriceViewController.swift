@@ -6,11 +6,12 @@
 //  Copyright © 2018 Ambatana. All rights reserved.
 //
 
-class PostingAddPriceViewController: BaseViewController {
+class PostingAddPriceViewController: KeyboardViewController {
     
-    private let tempNextButton = UIButton()
+    fileprivate let doneButton = UIButton()
+    fileprivate let addDetailPriceView = UIView()
     
-    private let viewModel: PostingAddPriceViewModel
+    fileprivate let viewModel: PostingAddPriceViewModel
     
     
     // MARK: - Lifecycle
@@ -26,8 +27,8 @@ class PostingAddPriceViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
         setupConstraints()
+        setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,22 +39,46 @@ class PostingAddPriceViewController: BaseViewController {
     // MARK: - UI
     
     private func setupUI() {
-        tempNextButton.setTitleColor(.black, for: .normal)
-        tempNextButton.setTitle("Next", for: .normal)
-        tempNextButton.addTarget(self, action: #selector(openListingPosted), for: .touchUpInside)
+        view.backgroundColor = .clear
         
-        viewModel.makePriceView(view: view)
+        doneButton.setTitle(LGLocalizedString.productPostDone, for: .normal)
+        doneButton.setStyle(.primary(fontSize: .medium))
+        doneButton.addTarget(self, action: #selector(doneButtonAction), for: .touchUpInside)
+        
+        viewModel.makePriceView(view: addDetailPriceView)
+        
+        setupNavigationBar()
+    }
+    
+    private func setupNavigationBar() {
     }
     
     private func setupConstraints() {
-        view.addSubview(tempNextButton)
-        tempNextButton.translatesAutoresizingMaskIntoConstraints = false
+        doneButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(doneButton)
+        doneButton.layout(with: view).bottom(by: -Metrics.margin)
+        doneButton.layout().height(44)
+        doneButton.layout().width(100, relatedBy: .greaterThanOrEqual)
+        doneButton.layout(with: keyboardView).bottom(to: .top, by: -Metrics.bigMargin)
+        doneButton.layout(with: view).right(by: -Metrics.bigMargin)
         
-        tempNextButton.layout(with: view).fill()
+        addDetailPriceView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(addDetailPriceView)
+        addDetailPriceView.layout(with: view)
+            .fillHorizontal()
+            .top(by: 100)
+            .bottom(by: -(44+Metrics.bigMargin*2))
     }
     
     @objc private func openListingPosted() {
         viewModel.openListingPosted()
+    }
+    
+    
+    // MARK: - UI Actions
+    
+    @objc func doneButtonAction() {
+        viewModel.nextButtonAction()
     }
     
 }
