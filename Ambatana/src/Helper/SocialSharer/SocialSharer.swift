@@ -275,9 +275,9 @@ fileprivate extension SocialSharer {
             }
             
             if shareVC.responds(to: #selector(getter: UIViewController.popoverPresentationController)),
-                let item = barButtonItem {
-                let presentationController = shareVC.popoverPresentationController
-                presentationController?.barButtonItem = item
+                let item = barButtonItem,
+                let presentationController = shareVC.popoverPresentationController {
+                presentationController.barButtonItem = item
             }
             
             shareVC.completionWithItemsHandler = { [weak self] (activity, success, items, error) in
