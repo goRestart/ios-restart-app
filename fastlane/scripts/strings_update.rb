@@ -151,11 +151,8 @@ keep_keys = options[:keep_keys]
 # Get the spreadsheet from Google Drive
 puts 'Logging in to Google Drive. After accepting permissions in the given url paste code below'
 
-CREDENTIALS_PATH = Dir.home + '/.locgen/lg_strings_update_v2.json'
-FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
-
 begin 
-  session = GoogleDrive.saved_session(CREDENTIALS_PATH, nil, "992995045432-2u7mrinee9u8o4fo3nuaivhjlq7ogpt6.apps.googleusercontent.com", "GhEnWQ2ucBbQHdr-mSUmgltF")
+  session = GoogleDrive.saved_session(ENV["STRINGS_CREDENTIALS_PATH"], nil, ENV["STRINGS_CLIENT_ID"], ENV["STRINGS_CLIENT_SECRET"])
 rescue
   show_error 'Couldn\'t access Google Drive. Check your credentials!'
   exit -1
