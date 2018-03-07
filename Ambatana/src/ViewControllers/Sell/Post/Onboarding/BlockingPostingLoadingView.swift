@@ -12,14 +12,17 @@ protocol BlockingPostingLoadingViewDelegate: class {
 
 class BlockingPostingLoadingView: UIView {
     
-    private static let loadingIndicatorHeight: CGFloat = 50
+    private static let loadingIndicatorHeight: CGFloat = 100
     private static let loadingIndicatorWidth: CGFloat = 100
     private static let loadingIndicatorCenterYMargin: CGFloat = -100
     private static let retryButtonHeight: CGFloat = 50
     private static let retryButtonWidth: CGFloat = 100
     private static let messageLabelHeight: CGFloat = 50
     
-    private let loadingIndicator: LoadingIndicator = LoadingIndicator(frame: CGRect(x: 100, y:100, width:100, height: 100))
+    private let loadingIndicator: LoadingIndicator = LoadingIndicator(frame: CGRect(x: 0,
+                                                                                    y: 0,
+                                                                                    width: BlockingPostingLoadingView.loadingIndicatorWidth,
+                                                                                    height: BlockingPostingLoadingView.loadingIndicatorHeight))
     private let messageLabel: UILabel = UILabel()
     private let retryButton: UIButton = UIButton(type: .custom)
     

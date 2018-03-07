@@ -77,21 +77,22 @@ class BlockingPostingListingEditionViewController: BaseViewController, BlockingP
     }
     
     private func setupRx() {
-        viewModel.state.asObservable()
-            .bind { [weak self] state in
-                guard let strongSelf = self else { return }
-                guard let state = state else { return }
-                strongSelf.closeButton.isHidden = !(state == .error)
+        viewModel.state.asObservable().distinctUntilChanged { (s1, s2) -> Bool in
+            s1 == s2
+        }.bind { [weak self] state in
+            guard let strongSelf = self else { return }
+            guard let state = state else { return }
+            strongSelf.closeButton.isHidden = !(state == .error)
                 
-                switch state {
-                case .updatingListing:
-                    strongSelf.loadingView.updateToLoading(message: state.message)
-                case .success:
-                    strongSelf.loadingView.updateToSuccess(message: state.message)
-                    strongSelf.viewModel.openListingPosted()
-                case .error:
-                    strongSelf.loadingView.updateToError(message: state.message)
-                }
+            switch state {
+            case .updatingListing:
+                strongSelf.loadingView.updateToLoading(message: state.message)
+            case .success:
+                strongSelf.loadingView.updateToSuccess(message: state.message)
+                strongSelf.viewModel.openListingPosted()
+            case .error:
+                strongSelf.loadingView.updateToError(message: state.message)
+            }
         }.disposed(by: disposeBag)
     }
     
