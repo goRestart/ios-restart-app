@@ -38,10 +38,31 @@ class BlockingPostingQueuedRequestsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.uploadImages()
+        setupRx()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    private func setupRx() {
+        viewModel.queueState.asObservable()
+            .bind { [weak self] state in
+                guard let strongSelf = self else { return }
+                guard let state = state else { return }
+                switch state {
+                case .uploadingImages:
+                    break
+                case .createListing:
+                    break
+                case .createListingFake:
+                    break
+                case .listingPosted:
+                    break
+                case .error:
+                    break
+            }
+        }
     }
 }
 

@@ -13,8 +13,8 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     
     enum QueueState {
         case uploadingImages            // UI: "Automatically generating title..."
-        case postingListing             // UI: "Automatically categorizing listing..."
-        case postingListingExtraTime    // UI: "Posting listing..."
+        case createListing             // UI: "Automatically categorizing listing..."
+        case createListingFake    // UI: "Posting listing..."
         case listingPosted
         case error
         
@@ -22,9 +22,9 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
             switch self {
             case .uploadingImages:
                 return "Automatically generating title"
-            case .postingListing:
+            case .createListing:
                 return "Automatically categorizing listing"
-            case .postingListingExtraTime:
+            case .createListingFake:
                 return "Posting listing"
             case .listingPosted:
                 return "Listing posted!"
@@ -45,7 +45,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     var queueState = Variable<QueueState?>(nil)
     var uploadImagesResult = Variable<FilesResult?>(nil)
     var createListingResult = Variable<ListingResult?>(nil)
-    var createListingExtraTimeTriggered = Variable<Bool>(false)
+    var createListingFakeTriggered = Variable<Bool>(false)
     var listingPostedTriggered = Variable<Bool>(false)
     
     private var listingCreated: Listing?
@@ -105,10 +105,10 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
             switch state {
             case .uploadingImages:
                 strongSelf.uploadImages()
-            case .postingListing:
+            case .createListing:
                 strongSelf.createListing()
-            case .postingListingExtraTime:
-                strongSelf.createListingExtraTimeTriggered.value = true
+            case .createListingFake:
+                strongSelf.createListingFakeTriggered.value = true
             case .listingPosted:
                 strongSelf.listingPostedTriggered.value = true
             case .error:
@@ -124,7 +124,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
                 guard let result = result else { return }
                 if let images = result.value {
                     strongSelf.listingCreationParams = strongSelf.listingCreationParams.updating(images: images)
-                    strongSelf.queueState.value = .postingListing
+                    strongSelf.queueState.value = .createListing
                 } else {
                     strongSelf.queueState.value = .error
                 }
@@ -138,13 +138,13 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
                 guard let result = result else { return }
                 if let listing = result.value {
                     strongSelf.listingCreated = listing
-                    strongSelf.queueState.value = .postingListingExtraTime
+                    strongSelf.queueState.value = .createListingFake
                 } else {
                     strongSelf.queueState.value = .error
                 }
             }.disposed(by: disposeBag)
         
-        createListingExtraTimeTriggered.asObservable()
+        createListingFakeTriggered.asObservable()
             .filter{ $0 }
             .delay(BlockingPostingQueuedRequestsViewModel.stateDelay, scheduler: MainScheduler.asyncInstance)
             .bind { [weak self] result in
