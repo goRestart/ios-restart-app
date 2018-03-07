@@ -40,10 +40,6 @@ class BlockingPostingListingEditionViewController: BaseViewController, BlockingP
         viewModel.updateListing()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         if let state = viewModel.state.value,

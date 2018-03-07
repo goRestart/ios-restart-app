@@ -12,8 +12,12 @@ protocol BlockingPostingLoadingViewDelegate: class {
 
 class BlockingPostingLoadingView: UIView {
     
+    private static let loadingIndicatorHeight: CGFloat = 50
+    private static let loadingIndicatorWidth: CGFloat = 100
+    private static let loadingIndicatorCenterYMargin: CGFloat = -100
     private static let retryButtonHeight: CGFloat = 50
     private static let retryButtonWidth: CGFloat = 100
+    private static let messageLabelHeight: CGFloat = 50
     
     private let loadingIndicator: LoadingIndicator = LoadingIndicator(frame: CGRect(x: 100, y:100, width:100, height: 100))
     private let messageLabel: UILabel = UILabel()
@@ -28,7 +32,6 @@ class BlockingPostingLoadingView: UIView {
         super.init(frame: CGRect.zero)
         setupUI()
         setupConstraints()
-        //setupRx()
     }
     
     required init(coder: NSCoder) {
@@ -61,13 +64,13 @@ class BlockingPostingLoadingView: UIView {
         addSubviews(subviews)
         
         loadingIndicator.layout()
-            .height(100)
-            .width(100)
+            .height(BlockingPostingLoadingView.loadingIndicatorHeight)
+            .width(BlockingPostingLoadingView.loadingIndicatorWidth)
         loadingIndicator.layout(with: self)
-            .leading(by: 30)
-            .centerY(by: -100)
+            .leading(by: Metrics.veryBigMargin)
+            .centerY(by: BlockingPostingLoadingView.loadingIndicatorCenterYMargin)
         
-        messageLabel.layout().height(50)
+        messageLabel.layout().height(BlockingPostingLoadingView.messageLabelHeight)
         messageLabel.layout(with: self)
             .centerY()
             .fillHorizontal(by: Metrics.margin)
@@ -75,7 +78,7 @@ class BlockingPostingLoadingView: UIView {
         retryButton.layout()
             .height(BlockingPostingLoadingView.retryButtonHeight)
             .width(BlockingPostingLoadingView.retryButtonWidth)
-        retryButton.layout(with: self).leading(by: 30)
+        retryButton.layout(with: self).leading(by: Metrics.veryBigMargin)
         retryButton.layout(with: messageLabel).top(to: .bottom, by: Metrics.margin)
     }
     
