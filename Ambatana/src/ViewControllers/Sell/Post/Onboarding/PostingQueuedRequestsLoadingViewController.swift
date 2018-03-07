@@ -37,34 +37,10 @@ class PostingQueuedRequestsLoadingViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupConstraints()
-        setupUI()
-        viewModel.createListingAfterUploadingImages()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-    
-    
-    // MARK: - UI
-    
-    private func setupUI() {
-        tempNextButton.setTitleColor(.black, for: .normal)
-        tempNextButton.setTitle("Next", for: .normal)
-        //tempNextButton.addTarget(self, action: #selector(openPrice), for: .touchUpInside)
-    }
-    
-    private func setupConstraints() {
-        view.addSubview(tempNextButton)
-        tempNextButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        tempNextButton.layout(with: view).fill()
-    }
-    
-    //    @objc private func openPrice() {
-    //        viewModel.openPrice()
-    //    }
-
 }
 
