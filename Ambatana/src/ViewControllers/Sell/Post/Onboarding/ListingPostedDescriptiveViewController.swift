@@ -7,9 +7,18 @@
 //
 
 class ListingPostedDescriptiveViewController: BaseViewController {
-    
-    private let tempNextButton = UIButton()
-    
+
+    private let noTitleContainerView = UIView()
+    private let listingImage = UIImageView()
+    private let noTitleDoneLabel = UILabel()
+
+    private let titleContainerView = UIView()
+    private let titleDoneLabel = UILabel()
+
+
+    private let saveButton = UIButton(type: .custom)
+    private let discardButton = UIButton()
+
     private let viewModel: ListingPostedDescriptiveViewModel
     
     
@@ -29,21 +38,47 @@ class ListingPostedDescriptiveViewController: BaseViewController {
         setupUI()
         setupConstraints()
     }
-    
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        saveButton.setStyle(.primary(fontSize: .big))
+    }
+
     
     // MARK: - UI
     
     private func setupUI() {
-        tempNextButton.setTitleColor(.black, for: .normal)
-        tempNextButton.setTitle("Next", for: .normal)
-        tempNextButton.addTarget(self, action: #selector(closePosting), for: .touchUpInside)
+
+        view.backgroundColor = UIColor.white
+
+        saveButton.setTitle(viewModel.saveButtonText, for: .normal)
+        saveButton.addTarget(self, action: #selector(closePosting), for: .touchUpInside)
+
+        discardButton.setTitle(viewModel.discardButtonText, for: .normal)
+        discardButton.titleLabel?.font = UIFont.bigButtonFont
+        discardButton.setTitleColor(UIColor.grayText, for: .normal)
     }
     
     private func setupConstraints() {
-        view.addSubview(tempNextButton)
-        tempNextButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        tempNextButton.layout(with: view).fill()
+        view.addSubview(saveButton)
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(discardButton)
+        discardButton.translatesAutoresizingMaskIntoConstraints = false
+
+        saveButton.layout().height(60)
+        saveButton.layout(with: view)
+            .centerX()
+            .left(by: 30)
+            .right(by: -30)
+        saveButton.layout(with: discardButton).above(by: -30)
+
+        discardButton.layout(with: view)
+            .centerX()
+            .left(by: 30)
+            .right(by: -30)
+            .bottom(by: -30)
     }
     
     @objc private func closePosting() {
