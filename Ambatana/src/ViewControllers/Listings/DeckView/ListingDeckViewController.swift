@@ -232,6 +232,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
 
         guard let listing = viewModel.listingCellModelAt(index: currentPage) else { return }
         cell.populateWith(cellModel: listing, imageDownloader: viewModel.imageDownloader)
+        viewModel.didMoveToListing()
     }
 
     func didShowMoreInfo() {

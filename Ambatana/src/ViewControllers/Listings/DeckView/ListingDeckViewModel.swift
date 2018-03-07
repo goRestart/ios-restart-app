@@ -218,7 +218,6 @@ final class ListingDeckViewModel: BaseViewModel {
         currentListingViewModel?.delegate = self
 
         binder.bind(to:viewModel, quickChatViewModel: quickChatViewModel)
-        currentListingViewModel?.active = active
         quickChatViewModel.listingViewModel = currentListingViewModel
         
         currentIndex = index
@@ -238,6 +237,11 @@ final class ListingDeckViewModel: BaseViewModel {
                                                     feedPosition: feedPosition)
             }
         }
+    }
+
+    func didMoveToListing() {
+        // embrace a smooth scroll experience with delayed activation
+        delay(0.1) { [weak self] in self?.currentListingViewModel?.active = true }
     }
 
     func didTapCardAction() {
