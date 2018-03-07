@@ -17,7 +17,7 @@ class LoadingIndicator: UIView {
             wrongIcon.tintColor = color
         }
     }
-
+    
     fileprivate var loadingShape = CAShapeLayer()
     private var okIcon = UIImageView()
     private var wrongIcon = UIImageView()
@@ -46,7 +46,7 @@ class LoadingIndicator: UIView {
         startLoadingAnimation()
     }
 
-    func stopAnimating(_ correctState: Bool, completion: (()->())? = nil) {
+    func stopAnimating(correctState: Bool, completion: (()->())? = nil) {
         pendingFinalState = correctState
         endAnimationsCompletion = completion
         finishLoadingAnimation()
@@ -90,7 +90,6 @@ class LoadingIndicator: UIView {
     }
 
     private func startLoadingAnimation() {
-
         okIcon.alpha = 0
         wrongIcon.alpha = 0
         loadingShape.strokeEnd = 0.1
@@ -105,7 +104,6 @@ class LoadingIndicator: UIView {
     }
 
     private func finishLoadingAnimation() {
-
         loadingShape.strokeEnd = 1.0
         let stroke = CABasicAnimation(keyPath: "strokeEnd")
         stroke.delegate = self
