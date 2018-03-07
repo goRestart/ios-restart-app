@@ -36,7 +36,7 @@ class PostingGetStartedViewModel: BaseViewModel {
     }
 
     var buttonIcon: UIImage? {
-        return #imageLiteral(resourceName: "ic_camera_tour")
+        return #imageLiteral(resourceName: "ic_camera_blocking_tour")
     }
 
     var discardText: String {

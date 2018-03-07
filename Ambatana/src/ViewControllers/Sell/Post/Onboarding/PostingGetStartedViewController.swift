@@ -10,9 +10,16 @@ import RxSwift
 
 class PostingGetStartedViewController: BaseViewController {
 
+    private struct PostingGetStartedMetrics {
+        static let margin: CGFloat = 30
+        static let avatarSize: CGFloat = 100
+        static let buttonHeight: CGFloat = 60
+    }
+
     private let viewModel: PostingGetStartedViewModel
 
     private let avatarView: UIImageView = UIImageView()
+    private let shadowView: UIView = UIView()
     private let textContainerView: UIView = UIView()
     private let welcomeLabel: UILabel = UILabel()
     private let infoLabel: UILabel = UILabel()
@@ -45,7 +52,16 @@ class PostingGetStartedViewController: BaseViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+
         avatarView.setRoundedCorners()
+
+        shadowView.setRoundedCorners()
+        shadowView.layer.shadowColor = UIColor.black.cgColor
+        shadowView.layer.shadowOpacity = 0.5
+        shadowView.layer.shadowRadius = 5
+        shadowView.layer.shadowOffset = CGSize.zero
+        shadowView.layer.masksToBounds = false
+
         getStartedButton.setStyle(.primary(fontSize: .big))
     }
 
@@ -54,11 +70,16 @@ class PostingGetStartedViewController: BaseViewController {
     
     private func setupUI() {
 
+        view.backgroundColor = UIColor.white
+
         avatarView.layer.borderWidth = 5
         avatarView.layer.borderColor = UIColor.white.cgColor
 
+        shadowView.layer.borderWidth = 1
+        shadowView.backgroundColor = UIColor.white
+
         welcomeLabel.font = UIFont.postingFlowSelectableItem
-        welcomeLabel.textColor = UIColor.grayText
+        welcomeLabel.textColor = UIColor.darkGrayText
         welcomeLabel.text = viewModel.welcomeText
         welcomeLabel.numberOfLines = 0
 
@@ -68,10 +89,15 @@ class PostingGetStartedViewController: BaseViewController {
         infoLabel.numberOfLines = 0
 
         getStartedButton.setTitle(viewModel.buttonText, for: .normal)
+        getStartedButton.setImage(viewModel.buttonIcon, for: .normal)
+        getStartedButton.imageView?.contentMode = .scaleAspectFit
+        getStartedButton.imageView?.tintColor = UIColor.primaryColor.withAlphaComponent(0.5)
+        getStartedButton.imageEdgeInsets = UIEdgeInsets(top: Metrics.bigMargin, left: -Metrics.shortMargin, bottom: Metrics.bigMargin, right: 0)
+        getStartedButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.shortMargin, bottom: 0, right: 0)
         getStartedButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
 
         discardLabel.font = UIFont.smallBodyFont
-        discardLabel.textColor = UIColor.grayLight
+        discardLabel.textColor = UIColor.grayText
         discardLabel.text = viewModel.discardText
         discardLabel.numberOfLines = 0
     }
@@ -86,39 +112,45 @@ class PostingGetStartedViewController: BaseViewController {
             .left()
             .right()
             .top()
-        welcomeLabel.layout(with: infoLabel).above(by: -20)
+        welcomeLabel.layout(with: infoLabel).above(by: -Metrics.bigMargin)
 
         infoLabel.layout(with: textContainerView)
             .left()
             .right()
             .bottom()
 
-        let subviews = [avatarView, textContainerView, getStartedButton, discardLabel]
+        let subviews = [shadowView, avatarView, textContainerView, getStartedButton, discardLabel]
         view.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
         view.addSubviews(subviews)
 
-        avatarView.layout().width(100).height(100)
-        avatarView.layout(with: view).left(by: 30)
-        avatarView.layout(with: textContainerView).above(by: -30)
+        avatarView.layout()
+            .width(PostingGetStartedMetrics.avatarSize)
+            .height(PostingGetStartedMetrics.avatarSize)
+        avatarView.layout(with: view).left(by: PostingGetStartedMetrics.margin)
+        avatarView.layout(with: textContainerView).above(by: -PostingGetStartedMetrics.margin)
+
+        shadowView.layout()
+            .width(PostingGetStartedMetrics.avatarSize)
+            .height(PostingGetStartedMetrics.avatarSize)
+        shadowView.layout(with: avatarView).center()
 
         textContainerView.layout(with: view)
-            .centerX()
-            .centerY()
-            .left(by: 30)
-            .right(by: -30)
+            .center()
+            .left(by: PostingGetStartedMetrics.margin)
+            .right(by: -PostingGetStartedMetrics.margin)
 
-        getStartedButton.layout().height(50)
+        getStartedButton.layout().height(PostingGetStartedMetrics.buttonHeight)
         getStartedButton.layout(with: view)
             .centerX()
-            .left(by: 30)
-            .right(by: -30)
-        getStartedButton.layout(with: discardLabel).above(by: -30)
+            .left(by: PostingGetStartedMetrics.margin)
+            .right(by: -PostingGetStartedMetrics.margin)
+        getStartedButton.layout(with: discardLabel).above(by: -PostingGetStartedMetrics.margin)
 
         discardLabel.layout(with: view)
             .centerX()
-            .left(by: 30)
-            .right(by: -30)
-            .bottom(by: -30)
+            .left(by: PostingGetStartedMetrics.margin)
+            .right(by: -PostingGetStartedMetrics.margin)
+            .bottom(by: -PostingGetStartedMetrics.margin)
     }
 
     private func setupRx() {
