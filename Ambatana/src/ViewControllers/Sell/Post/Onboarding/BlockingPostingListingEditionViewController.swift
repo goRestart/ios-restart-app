@@ -42,9 +42,8 @@ class BlockingPostingListingEditionViewController: BaseViewController, BlockingP
     
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
-        if let state = viewModel.state.value,
-            state == .updatingListing {
-            loadingView.updateToLoading(message: state.message)
+        if let state = viewModel.state.value, state.isAnimated {
+            loadingView.updateWith(message: state.message, isError: state.isError, isAnimated: state.isAnimated)
         }
     }
     
@@ -82,16 +81,10 @@ class BlockingPostingListingEditionViewController: BaseViewController, BlockingP
         }.bind { [weak self] state in
             guard let strongSelf = self else { return }
             guard let state = state else { return }
-            strongSelf.closeButton.isHidden = !(state == .error)
-                
-            switch state {
-            case .updatingListing:
-                strongSelf.loadingView.updateToLoading(message: state.message)
-            case .success:
-                strongSelf.loadingView.updateToSuccess(message: state.message)
+            strongSelf.closeButton.isHidden = !state.isError
+            strongSelf.loadingView.updateWith(message: state.message, isError: state.isError, isAnimated: state.isAnimated)
+            if state == .success {
                 strongSelf.viewModel.openListingPosted()
-            case .error:
-                strongSelf.loadingView.updateToError(message: state.message)
             }
         }.disposed(by: disposeBag)
     }

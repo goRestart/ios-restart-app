@@ -93,24 +93,16 @@ class BlockingPostingLoadingView: UIView {
     }
     
     
-    // MARK: - State updating
+    // MARK: - UI Updates
     
-    func updateToLoading(message: String) {
+    func updateWith(message: String, isError: Bool, isAnimated: Bool) {
         messageLabel.text = message
-        retryButton.isHidden = true
-        loadingIndicator.startAnimating()
-    }
-    
-    func updateToSuccess(message: String) {
-        messageLabel.text = message
-        retryButton.isHidden = true
-        loadingIndicator.stopAnimating(correctState: true)
-    }
-    
-    func updateToError(message: String) {
-        messageLabel.text = message
-        retryButton.isHidden = false
-        loadingIndicator.stopAnimating(correctState: false)
+        retryButton.isHidden = !isError
+        if isAnimated && !loadingIndicator.isAnimating {
+            loadingIndicator.startAnimating()
+        } else if !isAnimated && loadingIndicator.isAnimating {
+            loadingIndicator.stopAnimating(correctState: !isError)
+        }
     }
     
     func updateMessage(_ message: String) {
