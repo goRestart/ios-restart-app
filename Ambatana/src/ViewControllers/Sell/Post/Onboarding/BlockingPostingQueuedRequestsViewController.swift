@@ -9,16 +9,13 @@
 import Foundation
 import RxSwift
 
-class BlockingPostingQueuedRequestsViewController: BaseViewController {
+class BlockingPostingQueuedRequestsViewController: BaseViewController, BlockingPostingLoadingViewDelegate {
     
-    struct LoadingMetrics {
-        static var heightLoadingView: CGFloat = 60
-        static var widthLoadingView: CGFloat = 60
-    }
+    private static let closeButtonHeight: CGFloat = 52
     
-    private let tempNextButton = UIButton()
-    
-    private var loadingView = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: LoadingMetrics.widthLoadingView, height: LoadingMetrics.widthLoadingView))
+    private let loadingView = BlockingPostingLoadingView()
+    private let closeButton = UIButton()
+
     private let viewModel: BlockingPostingQueuedRequestsViewModel
     
     private let disposeBag = DisposeBag()
@@ -37,12 +34,21 @@ class BlockingPostingQueuedRequestsViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.uploadImages()
+        setupUI()
+        setupConstraints()
         setupRx()
+        viewModel.updateStateToUploadingImages()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        if let state = viewModel.queueState.value, state.isLoadingAnimated {
+            loadingView.updateToLoading(message: state.message)
+        }
     }
     
     private func setupRx() {
@@ -52,17 +58,59 @@ class BlockingPostingQueuedRequestsViewController: BaseViewController {
                 guard let state = state else { return }
                 switch state {
                 case .uploadingImages:
-                    break
+                    strongSelf.loadingView.updateToLoading(message: state.message)
                 case .createListing:
-                    break
+                    strongSelf.loadingView.updateMessage(state.message)
                 case .createListingFake:
-                    break
+                    strongSelf.loadingView.updateMessage(state.message)
                 case .listingPosted:
-                    break
+                    strongSelf.loadingView.updateToSuccess(message: state.message)
                 case .error:
-                    break
+                    strongSelf.loadingView.updateToError(message: state.message)
             }
-        }
+        }.disposed(by: disposeBag)
+    }
+    
+    
+    // MARK: - UI
+    
+    private func setupUI() {
+        view.backgroundColor = .clear
+        
+        closeButton.addTarget(self, action: #selector(BlockingPostingListingEditionViewController.closeButtonAction), for: .touchUpInside)
+        closeButton.setImage(UIImage(named: "ic_post_close"), for: .normal)
+        
+        loadingView.delegate = self
+    }
+    
+    private func setupConstraints() {
+        view.addSubviewsForAutoLayout([closeButton, loadingView])
+        
+        closeButton.layout(with: view)
+            .top()
+            .left()
+        closeButton.layout()
+            .height(BlockingPostingQueuedRequestsViewController.closeButtonHeight)
+            .widthProportionalToHeight()
+        
+        loadingView.layout(with: view)
+            .fillHorizontal()
+            .bottom()
+        loadingView.layout(with: closeButton).top(to: .bottom)
+    }
+    
+    
+    // MARK: - UI Actions
+    
+    @objc func closeButtonAction() {
+        viewModel.closeButtonAction()
+    }
+    
+    
+    // MARK: - BlockingPostingLoadingViewDelegate
+    
+    func didPressRetryButton() {
+        viewModel.updateStateToUploadingImages()
     }
 }
 

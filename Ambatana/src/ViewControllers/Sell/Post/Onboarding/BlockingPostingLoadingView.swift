@@ -112,5 +112,9 @@ class BlockingPostingLoadingView: UIView {
         retryButton.isHidden = false
         loadingIndicator.stopAnimating(correctState: false)
     }
+    
+    func updateMessage(_ message: String) {
+        messageLabel.text = message
+    }
 }
 

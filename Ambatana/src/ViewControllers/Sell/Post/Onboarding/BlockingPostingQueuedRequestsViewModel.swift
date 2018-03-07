@@ -32,9 +32,18 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
                 return "Error"
             }
         }
+        
+        var isLoadingAnimated: Bool {
+            switch self {
+            case .uploadingImages, .createListing, .createListingFake:
+                return true
+            case .listingPosted, .error:
+                return false
+            }
+        }
     }
 
-    private static let stateDelay: TimeInterval = 1.5
+    private static let stateDelay: TimeInterval = 3
     
     private let listingRepository: ListingRepository
     private let fileRepository: FileRepository
@@ -166,14 +175,17 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     }
     
 
-    // MARK: - Requests
+    // MARK: - States
+    
+    func updateStateToUploadingImages() {
+        queueState.value = .uploadingImages
+    }
     
     func uploadImages() {
         fileRepository.upload(images, progress: nil) { [weak self] result in
             guard let strongSelf = self else { return }
             strongSelf.uploadImagesResult.value = result
         }
-
     }
     
     private func createListing() {
@@ -188,5 +200,9 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     
     func openPrice(listing: Listing) {
         navigator?.openPrice(listing: listing, postState: postListingState.value)
+    }
+    
+    func closeButtonAction() {
+        navigator?.closePosting()
     }
 }
