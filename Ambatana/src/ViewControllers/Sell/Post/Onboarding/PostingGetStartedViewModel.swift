@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import RxSwift
 
 class PostingGetStartedViewModel: BaseViewModel {
     
@@ -16,6 +17,7 @@ class PostingGetStartedViewModel: BaseViewModel {
     var userAvatarURL: URL? {
         return myUserRepository.myUser?.avatar?.fileURL
     }
+    let userAvatarImage = Variable<UIImage?>(nil)
     var userName: String? {
         return myUserRepository.myUser?.shortName
     }
@@ -32,6 +34,15 @@ class PostingGetStartedViewModel: BaseViewModel {
     var buttonText: String {
         return "_ Get Started"
     }
+
+    var buttonIcon: UIImage? {
+        return #imageLiteral(resourceName: "ic_camera_tour")
+    }
+
+    var discardText: String {
+        return "_ You can discard it later if you don't want to sell it"
+    }
+
     
     // MARK: - Lifecycle
     
@@ -42,8 +53,19 @@ class PostingGetStartedViewModel: BaseViewModel {
     init(myUserRepository: MyUserRepository) {
         self.myUserRepository = myUserRepository
         super.init()
+        retrieveImageForAvatar()
     }
-    
+
+    func retrieveImageForAvatar() {
+        userAvatarImage.value = LetgoAvatar.avatarWithID(myUserRepository.myUser?.objectId, name: userName)
+
+        guard let avatarUrl = userAvatarURL else { return }
+        ImageDownloader.sharedInstance.downloadImageWithURL(avatarUrl) { [weak self] result, url in
+            guard let imageWithSource = result.value, url == self?.userAvatarURL else { return }
+            self?.userAvatarImage.value = imageWithSource.image
+        }
+    }
+
     
     // MARK: - Navigation
     
