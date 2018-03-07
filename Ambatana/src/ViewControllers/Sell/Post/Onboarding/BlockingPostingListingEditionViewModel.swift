@@ -7,18 +7,32 @@
 //
 
 import LGCoreKit
+import RxSwift
 
 class BlockingPostingListingEditionViewModel: BaseViewModel {
-
+    
+    enum ListingEditionState: Equatable {
+        case updatingListing
+        case success
+        case error
+        
+        var message: String {
+            switch self {
+            case .updatingListing, .success:
+                return ""
+            case .error:
+                return LGLocalizedString.productPostGenericError
+            }
+        }
+    }
+    
     private let listingRepository: ListingRepository
     private let listingParams: ListingEditionParams
     
-    //private var listingResult: ListingResult?
+    var state = Variable<ListingEditionState?>(nil)
+    private var updatedListing: Listing?
     
     weak var navigator: BlockingPostingNavigator?
-    //private let disposeBag = DisposeBag()
-    
-    //var finishRequest = Variable<Bool?>(false)
     
     
     // MARK: - Lifecycle
@@ -34,22 +48,31 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
         self.listingParams = listingParams
     }
 
+    
+    // MARK: - Requests
+    
     func updateListing() {
-        listingRepository.update(listingParams: listingParams) { result in
+        state.value = .updatingListing
+        listingRepository.update(listingParams: listingParams) { [weak self] result in
+            guard let strongSelf = self else { return }
             if let responseListing = result.value {
-                self.navigator?.openListingPosted(listing: responseListing)
-            } else if let error = result.error {
-                print("ko")
+                strongSelf.updatedListing = responseListing
+                strongSelf.state.value = .success
+            } else if let _ = result.error {
+                strongSelf.state.value = .error
             }
         }
-//        listingRepository.create(listingParams: listingParams) { [weak self] result in
-//            if let listing = result.value, let trackingInfo = self?.trackingInfo {
-//                self?.trackPost(withListing: listing, trackingInfo: trackingInfo)
-//            } else if let error = result.error {
-//                self?.trackPostSellError(error: error)
-//            }
-//            self?.listingResult = result
-//            self?.finishRequest.value = true
-//        }
+    }
+    
+    
+    // MARK: - Navigation
+    
+    func openListingPosted() {
+        guard let listing = self.updatedListing else { return }
+        navigator?.openListingPosted(listing: listing)
+    }
+    
+    func closeButtonAction() {
+        navigator?.closePosting()
     }
 }

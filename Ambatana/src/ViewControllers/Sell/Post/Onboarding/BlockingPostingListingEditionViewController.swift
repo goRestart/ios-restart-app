@@ -9,14 +9,13 @@
 import LGCoreKit
 import RxSwift
 
-class BlockingPostingListingEditionViewController: BaseViewController {
+class BlockingPostingListingEditionViewController: BaseViewController, BlockingPostingLoadingViewDelegate {
     
-    struct LoadingMetrics {
-        static var heightLoadingView: CGFloat = 100
-        static var widthLoadingView: CGFloat = 100
-    }
+    private static let closeButtonHeight: CGFloat = 52
     
-    private var loadingView = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: LoadingMetrics.widthLoadingView, height: LoadingMetrics.widthLoadingView))
+    private let loadingView = BlockingPostingLoadingView()
+    private let closeButton = UIButton()
+    
     private let viewModel: BlockingPostingListingEditionViewModel
     
     private let disposeBag = DisposeBag()
@@ -35,45 +34,82 @@ class BlockingPostingListingEditionViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //navigationController?.setNavigationBarHidden(true, animated: false)
-        //setupConstraints()
-        //setupUI()
-        //setupRx()
+        setupConstraints()
+        setupUI()
+        setupRx()
         viewModel.updateListing()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //setStatusBarHidden(true)
     }
     
-//    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
-//        super.viewWillAppearFromBackground(fromBackground)
-//        guard let requestFinished = viewModel.finishRequest.value, !requestFinished else { return }
-//        loadingView.startAnimating()
-//    }
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        if let state = viewModel.state.value,
+            state == .updatingListing {
+            loadingView.updateToLoading(message: state.message)
+        }
+    }
+    
     
     // MARK: - UI
     
-//    private func setupUI() {
-//        view.clipsToBounds = true
-//        view.backgroundColor = .clear
-//        loadingView.color = .white
-//        loadingView.startAnimating()
-//    }
-//    
-//    private func setupRx() {
-//        viewModel.finishRequest.asObservable().filter{ $0 == true }.bind { [weak self] finished in
-//            self?.viewModel.nextStep()
-//            }.disposed(by: disposeBag)
-//    }
-//    
-//    private func setupConstraints() {
-//        loadingView.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        view.addSubview(loadingView)
-//        
-//        loadingView.layout().height(LoadingMetrics.heightLoadingView).width(LoadingMetrics.widthLoadingView)
-//        loadingView.layout(with: view).centerY().centerX()
-//    }
+    private func setupUI() {
+        view.backgroundColor = .clear
+        
+        closeButton.addTarget(self, action: #selector(BlockingPostingListingEditionViewController.closeButtonAction), for: .touchUpInside)
+        closeButton.setImage(UIImage(named: "ic_post_close"), for: .normal)
+        
+        loadingView.delegate = self
+    }
+    
+    private func setupConstraints() {
+        view.addSubviewsForAutoLayout([closeButton, loadingView])
+        
+        closeButton.layout(with: view)
+            .top()
+            .left()
+        closeButton.layout()
+            .height(BlockingPostingListingEditionViewController.closeButtonHeight)
+            .widthProportionalToHeight()
+        
+        loadingView.layout(with: view)
+            .fillHorizontal()
+            .bottom()
+        loadingView.layout(with: closeButton).top(to: .bottom)
+    }
+    
+    private func setupRx() {
+        viewModel.state.asObservable()
+            .bind { [weak self] state in
+                guard let strongSelf = self else { return }
+                guard let state = state else { return }
+                strongSelf.closeButton.isHidden = !(state == .error)
+                
+                switch state {
+                case .updatingListing:
+                    strongSelf.loadingView.updateToLoading(message: state.message)
+                case .success:
+                    strongSelf.loadingView.updateToSuccess(message: state.message)
+                    strongSelf.viewModel.openListingPosted()
+                case .error:
+                    strongSelf.loadingView.updateToError(message: state.message)
+                }
+        }.disposed(by: disposeBag)
+    }
+    
+    
+    // MARK: - UI Actions
+    
+    @objc func closeButtonAction() {
+        viewModel.closeButtonAction()
+    }
+    
+    
+    // MARK: - BlockingPostingLoadingViewDelegate
+    
+    func didPressRetryButton() {
+        viewModel.updateListing()
+    }
 }
