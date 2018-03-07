@@ -184,9 +184,10 @@ final class ListingDeckViewControllerBinder {
     private func bindDeckMovement(withViewController viewController: ListingDeckViewControllerBinderType,
                                    viewModel: ListingDeckViewModelType, listingDeckView: ListingDeckViewType,
                                    disposeBag: DisposeBag) {
-        let pageSignal: Observable<Int> = viewController.rxContentOffset.map { _ in return listingDeckView.currentPage }
+        let pageSignal: Observable<Int> = viewController.rxContentOffset.map { [weak listingDeckView] _ in
+            return listingDeckView?.currentPage ?? 0
+        }
         pageSignal.skip(1).distinctUntilChanged().bind { [weak viewModel] page in
-            // TODO: Tracking 3109
             if let currentIndex = viewModel?.currentIndex, currentIndex < page {
                 viewModel?.moveToListingAtIndex(page, movement: .swipeRight)
             } else if let currentIndex = viewModel?.currentIndex, currentIndex > page {

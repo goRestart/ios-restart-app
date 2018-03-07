@@ -33,7 +33,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
 
     var hasInitialText: Bool { return textView.isInitialText }
 
-    let quickChatViewModel: QuickChatViewModel
+    weak var quickChatViewModel: QuickChatViewModel?
 
     private let textView = ChatTextView()
     private var textViewBottom: NSLayoutConstraint?
@@ -86,11 +86,11 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         UIView.animate(withDuration: animationTime,
                        delay: 0,
                        options: animationOptions,
-                       animations: {
+                       animations: { [weak self] in
                         animationFunc()
-                        self.textView.setTextViewBackgroundColor(textViewColor)
-                        self.backgroundColor = color
-                        self.layoutIfNeeded()
+                        self?.textView.setTextViewBackgroundColor(textViewColor)
+                        self?.backgroundColor = color
+                        self?.layoutIfNeeded()
         }, completion: completion)
     }
 
@@ -126,7 +126,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         switch change {
         case .insert(_, let message):
             // if the message is already in the table we don't perform animations
-            if let objectID = message.objectId, quickChatViewModel.messageExists(objectID) {
+            if let objectID = message.objectId, let viewModel = quickChatViewModel, viewModel.messageExists(objectID) {
                 tableView.handleCollectionChange(change, animation: .none)
             } else {
                 tableView.handleCollectionChange(change, animation:.top)
@@ -146,8 +146,8 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
             UIView.animate(withDuration: Duration.flashInTable,
                            animations: { [weak self] in
                             self?.tableView.alpha = 1
-            }) { (completion) in
-                self.alphaAnimationHideTimer?.fire()
+            }) { [weak self] (completion) in
+                self?.alphaAnimationHideTimer?.fire()
             }
         }
         alphaAnimationHideTimer?.invalidate()
@@ -231,15 +231,15 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return quickChatViewModel.directChatMessages.value.count
+        return quickChatViewModel?.directChatMessages.value.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        quickChatViewModel.directMessagesItemPressed()
+        quickChatViewModel?.directMessagesItemPressed()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let messages = quickChatViewModel.directChatMessages.value
+        let messages = quickChatViewModel?.directChatMessages.value ?? []
         guard 0..<messages.count ~= indexPath.row else { return UITableViewCell() }
         let message = messages[indexPath.row]
         let drawer = ChatCellDrawerFactory.drawerForMessage(message, autoHide: true, disclosure: true)
@@ -256,7 +256,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     func setupDirectMessages() {
         tableView.isCellHiddenBlock = { return $0.contentView.isHidden }
         tableView.didSelectRowAtIndexPath = {  [weak self] _ in
-            self?.quickChatViewModel.directMessagesItemPressed()
+            self?.quickChatViewModel?.directMessagesItemPressed()
             self?.textView.resignFirstResponder()
         }
 

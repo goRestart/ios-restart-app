@@ -48,7 +48,8 @@ final class QuickChatViewBinder {
     weak var quickChatView: QuickChatViewType?
     private var disposeBag: DisposeBag?
 
-    func bind(to viewModel: QuickChatViewModelRx) {
+    func bind(to quickChatViewModel: QuickChatViewModelRx?) {
+        guard let viewModel = quickChatViewModel else { return }
         disposeBag = DisposeBag()
 
         guard let bag = disposeBag else { return }
@@ -59,14 +60,15 @@ final class QuickChatViewBinder {
         if viewModel.areAnswersDynamic {
             chatView.setInitialText(LGLocalizedString.chatExpressTextFieldText)
         }
-        chatView.rxToSendMessage.bind { [weak chatView] message in
+        chatView.rxToSendMessage.bind { [weak chatView, weak viewModel] message in
             guard let quickChatView = chatView else { return }
-            viewModel.send(directMessage: message, isDefaultText: quickChatView.hasInitialText)
+            viewModel?.send(directMessage: message, isDefaultText: quickChatView.hasInitialText)
             quickChatView.clearChatTextView()
         }.disposed(by: bag)
 
-        viewModel.rxQuickAnswers.bind {  [weak chatView] quickAnswers in
-            chatView?.updateDirectChatWith(answers: quickAnswers, isDynamic: viewModel.areAnswersDynamic)
+        viewModel.rxQuickAnswers.bind {  [weak chatView, weak viewModel] quickAnswers in
+            guard let chatViewModel = viewModel else { return }
+            chatView?.updateDirectChatWith(answers: quickAnswers, isDynamic: chatViewModel.areAnswersDynamic)
         }.disposed(by: bag)
 
         viewModel.rxDirectMessages.bind { [weak chatView] change in

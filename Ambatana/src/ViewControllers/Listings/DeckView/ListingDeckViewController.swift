@@ -101,10 +101,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     private func setupCollectionView() {
         automaticallyAdjustsScrollViewInsets = false
         listingDeckView.collectionView.dataSource = self
-        if #available(iOS 10.0, *) {
-            listingDeckView.collectionView.prefetchDataSource = self
-        }
-
         listingDeckView.collectionView.register(ListingCardView.self, forCellWithReuseIdentifier: ListingCardView.reusableID)
 
         listingDeckView.collectionView.reloadData()
@@ -360,13 +356,6 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
 
     func didTapOnStatusView() {
         viewModel.didTapStatusView()
-    }
-}
-
-@available(iOS 10.0, *)
-extension ListingDeckViewController: UICollectionViewDataSourcePrefetching {
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        viewModel.prefetchAtIndexPaths(indexPaths)
     }
 }
 

@@ -80,7 +80,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
     weak var delegate: ListingDeckViewModelDelegate?
 
-    var currentListingViewModel: ListingViewModel? {
+    weak var currentListingViewModel: ListingViewModel? {
         didSet { isMine.value = currentListingViewModel?.isMine ?? false }
     }
     weak var navigator: ListingDetailNavigator? { didSet { currentListingViewModel?.navigator = navigator } }
@@ -198,7 +198,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
         super.init()
         self.shouldSyncFirstListing = shouldSyncFirstListing
-        binder.viewModel = self
+        binder.deckViewModel = self
 
         moveToListingAtIndex(startIndex, movement: .initial)
         if shouldSyncFirstListing {
@@ -233,7 +233,9 @@ final class ListingDeckViewModel: BaseViewModel {
                                                     source: movement.visitSource(source),
                                                     feedPosition: feedPosition)
             } else {
-                currentListingViewModel?.trackVisit(movement.visitUserAction, source: source, feedPosition: feedPosition)
+                currentListingViewModel?.trackVisit(movement.visitUserAction,
+                                                    source: source,
+                                                    feedPosition: feedPosition)
             }
         }
     }
@@ -358,8 +360,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
 
     func openPhotoViewer() {
-        guard let urls = currentListingViewModel?.productImageURLs.value,
-            let listingViewModel = currentListingViewModel else { return }
+        guard let listingViewModel = currentListingViewModel else { return }
         deckNavigator?.openPhotoViewer(listingViewModel: listingViewModel,
                                        source: source,
                                        quickChatViewModel: quickChatViewModel)
@@ -482,9 +483,9 @@ extension ListingDeckViewModel: Paginable {
 
 extension ListingDeckViewModel {
 
-    func prefetchAtIndexPaths(_ indexPaths: [IndexPath]) {
+    func prefetchAtIndexes(_ indexes: CountableClosedRange<Int>) {
         DispatchQueue.global(qos: .background).async { [weak self] in
-            indexPaths.forEach { self?.viewModelAt(index: $0.row)?.active = true }
+            indexes.forEach { self?.viewModelAt(index: $0)?.active = true }
         }
     }
 
@@ -504,8 +505,7 @@ extension ListingDeckViewModel {
     }
 
     func prefetchViewModels(_ index: Int, movement: CarouselMovement) {
-        prefetchAtIndexPaths(prefetchingRange(atIndex: index, movement: movement)
-            .map { IndexPath(row: $0, section: 0) })
+        prefetchAtIndexes(prefetchingRange(atIndex: index, movement: movement))
     }
 
     func prefetchNeighborsImages(_ index: Int, movement: CarouselMovement) {

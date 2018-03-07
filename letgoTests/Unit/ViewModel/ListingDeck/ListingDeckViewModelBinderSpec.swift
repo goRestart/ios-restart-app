@@ -75,7 +75,7 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
                 listingDeckViewModel.bumpUpBannerInfo.asObservable()
                     .bind(to:bumpUpBannerInfoObserver).disposed(by:disposeBag)
 
-                sut.viewModel = listingDeckViewModel
+                sut.deckViewModel = listingDeckViewModel
                 sut.bind(to: listingViewModelMaker.make(listing: listing, visitSource: .listingList),
                          quickChatViewModel: MockQuickChatViewModelRx())
             }
