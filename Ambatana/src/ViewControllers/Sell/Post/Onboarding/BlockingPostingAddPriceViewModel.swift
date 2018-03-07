@@ -12,18 +12,18 @@ import RxSwift
 class BlockingPostingAddPriceViewModel: BaseViewModel {
     
     static let postingStepNumber = "3"
-    let headerTitle: String
+    let headerTitle: String = LGLocalizedString.postAddPriceTitle
     
-    fileprivate let listingRepository: ListingRepository
-    fileprivate let locationManager: LocationManager
-    fileprivate let currencyHelper: CurrencyHelper
-    fileprivate let featureFlags: FeatureFlaggeable
-    fileprivate let listing: Listing
-    fileprivate let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
+    private let listingRepository: ListingRepository
+    private let locationManager: LocationManager
+    private let currencyHelper: CurrencyHelper
+    private let featureFlags: FeatureFlaggeable
+    private let listing: Listing
+    private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
     
     weak var navigator: BlockingPostingNavigator?
     
-    fileprivate let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
     private var currencySymbol: String? {
         guard let countryCode = locationManager.currentLocation?.countryCode else { return nil }
@@ -54,7 +54,6 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
         self.currencyHelper = currencyHelper
         self.featureFlags = featureFlags
         self.listing = listing
-        self.headerTitle = LGLocalizedString.postAddPriceTitle
         super.init()
     }
 

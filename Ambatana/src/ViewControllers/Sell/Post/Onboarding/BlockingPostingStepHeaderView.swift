@@ -10,12 +10,12 @@ class BlockingPostingStepHeaderView: UIView {
     
     static let height: CGFloat = 100
     
-    fileprivate static let circleHeight: CGFloat = 30
-    fileprivate static let titleHeight: CGFloat = 41
+    private static let circleHeight: CGFloat = 30
+    private static let titleHeight: CGFloat = 41
     
-    fileprivate let titleLabel = UILabel()
-    fileprivate let circleView = UIView()
-    fileprivate let stepNumberLabel = UILabel()
+    private let titleLabel = UILabel()
+    private let circleView = UIView()
+    private let stepNumberLabel = UILabel()
     
     
     // MARK: - Lifecycle
@@ -39,7 +39,7 @@ class BlockingPostingStepHeaderView: UIView {
         stepNumberLabel.text = stepNumber
     }
     
-    fileprivate func setupUI() {
+    private func setupUI() {
         backgroundColor = .clear
         
         circleView.backgroundColor = UIColor.primaryColor
@@ -54,10 +54,8 @@ class BlockingPostingStepHeaderView: UIView {
         titleLabel.font = UIFont.systemBoldFont(size: 35)
     }
     
-    fileprivate func setupConstraints() {
-        let subviews = [titleLabel, circleView]
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
-        addSubviews(subviews)
+    private func setupConstraints() {
+        addSubviewsForAutoLayout([titleLabel, circleView])
         
         circleView.layout(with: self)
             .top(by: Metrics.bigMargin)

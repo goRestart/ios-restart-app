@@ -32,13 +32,17 @@ class BlockingPostingAddPriceViewController: KeyboardViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setStatusBarHidden(true)
         setupConstraints()
         setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setStatusBarHidden(true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        setStatusBarHidden(false)
     }
     
     
@@ -57,9 +61,7 @@ class BlockingPostingAddPriceViewController: KeyboardViewController {
     }
     
     private func setupConstraints() {
-        let subviews = [headerView, doneButton, addDetailPriceView]
-        view.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
-        view.addSubviews(subviews)
+        view.addSubviewsForAutoLayout([headerView, doneButton, addDetailPriceView])
         
         headerView.layout(with: view)
             .fillHorizontal()
