@@ -21,7 +21,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
     fileprivate let listing: Listing
     fileprivate let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
     
-    weak var navigator: PostingHastenedCreateProductNavigator?
+    weak var navigator: BlockingPostingNavigator?
     
     fileprivate let disposeBag = DisposeBag()
     

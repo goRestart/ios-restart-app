@@ -21,7 +21,7 @@ class PostingQueuedRequestsLoadingViewModel: BaseViewModel {
     let gotListingCreateResponse = Variable<Bool>(false)
     fileprivate var listingResult: ListingResult?
     
-    weak var navigator: PostingHastenedCreateProductNavigator?
+    weak var navigator: BlockingPostingNavigator?
     private let disposeBag = DisposeBag()
     
     var finishRequest = Variable<Bool?>(false)

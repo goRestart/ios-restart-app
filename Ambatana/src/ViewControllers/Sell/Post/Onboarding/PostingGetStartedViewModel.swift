@@ -8,7 +8,7 @@
 
 class PostingGetStartedViewModel: BaseViewModel {
     
-    weak var navigator: PostingHastenedCreateProductNavigator?
+    weak var navigator: BlockingPostingNavigator?
 
     
     // MARK: - Lifecycle

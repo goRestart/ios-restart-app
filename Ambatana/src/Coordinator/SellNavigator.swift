@@ -41,7 +41,7 @@ protocol ListingPostedNavigator: class {
     func closeProductPostedAndOpenPost()
 }
 
-protocol PostingHastenedCreateProductNavigator: class {
+protocol BlockingPostingNavigator: class {
     func openCamera()
     func openPrice(listing: Listing, postState: PostListingState)
     func openListingPosted(listing: Listing?, trackingInfo: PostListingTrackingInfo?)

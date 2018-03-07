@@ -302,7 +302,7 @@ extension SellCoordinator: ListingPostedNavigator {
 
 // MARK: - PostingHastenedCreateProduct
 
-extension SellCoordinator: PostingHastenedCreateProductNavigator  {
+extension SellCoordinator: BlockingPostingNavigator  {
     func openCamera() {
         let postListingVM = PostListingViewModel(source: .sellButton,
                                                  postCategory: nil,

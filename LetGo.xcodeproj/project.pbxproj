@@ -16,7 +16,6 @@
 		012C56F42017AD6700C087D0 /* MostSearchedItemsCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012C56F22017AD6700C087D0 /* MostSearchedItemsCellDrawer.swift */; };
 		012DA4A9201F3A9300C33542 /* DummyUserDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012DA4A8201F3A9300C33542 /* DummyUserDisclaimerView.swift */; };
 		012DA4AA201F3A9300C33542 /* DummyUserDisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012DA4A8201F3A9300C33542 /* DummyUserDisclaimerView.swift */; };
-		01444A2620480975007C2ED6 /* PostingAdvancedCreateProductPriceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01444A2520480974007C2ED6 /* PostingAdvancedCreateProductPriceViewModel.swift */; };
 		0155D99B200FBA2900E2E583 /* MostSearchedItemsListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0155D99A200FBA2900E2E583 /* MostSearchedItemsListHeader.swift */; };
 		0155D99C200FBA2900E2E583 /* MostSearchedItemsListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0155D99A200FBA2900E2E583 /* MostSearchedItemsListHeader.swift */; };
 		01602CB81F506DE500DDA296 /* Listing+NegotiableSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01602CB71F506DE500DDA296 /* Listing+NegotiableSpec.swift */; };
@@ -1605,7 +1604,6 @@
 		012C56EF2017A09400C087D0 /* MostSearchedItemsListingListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListingListCell.swift; sourceTree = "<group>"; };
 		012C56F22017AD6700C087D0 /* MostSearchedItemsCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsCellDrawer.swift; sourceTree = "<group>"; };
 		012DA4A8201F3A9300C33542 /* DummyUserDisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyUserDisclaimerView.swift; sourceTree = "<group>"; };
-		01444A2520480974007C2ED6 /* PostingAdvancedCreateProductPriceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostingAdvancedCreateProductPriceViewModel.swift; path = Onboarding/PostingAdvancedCreateProductPriceViewModel.swift; sourceTree = "<group>"; };
 		0155D99A200FBA2900E2E583 /* MostSearchedItemsListHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostSearchedItemsListHeader.swift; sourceTree = "<group>"; };
 		01602CB71F506DE500DDA296 /* Listing+NegotiableSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Listing+NegotiableSpec.swift"; sourceTree = "<group>"; };
 		01616CC51F975C2E00F412D7 /* Taxonomy+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Taxonomy+LG.swift"; sourceTree = "<group>"; };
@@ -2582,7 +2580,6 @@
 		018740781FD5764A009C1363 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				01444A2520480974007C2ED6 /* PostingAdvancedCreateProductPriceViewModel.swift */,
 				018740791FD59391009C1363 /* PostingQueuedRequestsLoadingViewController.swift */,
 				0187407C1FD594B6009C1363 /* PostingQueuedRequestsLoadingViewModel.swift */,
 				01A824A9203B328D00DF5007 /* BlockingPostingAddPriceViewModel.swift */,
@@ -6224,7 +6221,6 @@
 				C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */,
 				721383FE1F20B224006DB039 /* TaxonomiesViewModel.swift in Sources */,
 				72769A672008CA5B00A7E627 /* RealEstateBanner.swift in Sources */,
-				01444A2620480975007C2ED6 /* PostingAdvancedCreateProductPriceViewModel.swift in Sources */,
 				C7E590321E5EC9F1002921B2 /* MultiPageRequester.swift in Sources */,
 				6A5E19DC1D548F5400F92692 /* ExternalServiceAuthResult.swift in Sources */,
 				2EB32D631DF184FF00E01E93 /* BumpUpBanner.swift in Sources */,
