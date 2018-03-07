@@ -46,8 +46,8 @@ class BlockingPostingQueuedRequestsViewController: BaseViewController, BlockingP
     
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
-        if let state = viewModel.queueState.value, state.isLoadingAnimated {
-            loadingView.updateToLoading(message: state.message)
+        if let state = viewModel.queueState.value, state.isAnimated {
+            loadingView.updateWith(message: state.message, isError: state.isError, isAnimated: state.isAnimated)
         }
     }
     
@@ -56,19 +56,8 @@ class BlockingPostingQueuedRequestsViewController: BaseViewController, BlockingP
             .bind { [weak self] state in
                 guard let strongSelf = self else { return }
                 guard let state = state else { return }
-                switch state {
-                case .uploadingImages:
-                    strongSelf.loadingView.updateToLoading(message: state.message)
-                case .createListing:
-                    strongSelf.loadingView.updateMessage(state.message)
-                case .createListingFake:
-                    strongSelf.loadingView.updateMessage(state.message)
-                case .listingPosted:
-                    strongSelf.loadingView.updateToSuccess(message: state.message)
-                case .error:
-                    strongSelf.loadingView.updateToError(message: state.message)
-            }
-        }.disposed(by: disposeBag)
+                strongSelf.loadingView.updateWith(message: state.message, isError: state.isError, isAnimated: state.isAnimated)
+            }.disposed(by: disposeBag)
     }
     
     

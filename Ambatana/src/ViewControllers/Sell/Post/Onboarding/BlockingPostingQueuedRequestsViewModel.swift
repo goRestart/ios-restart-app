@@ -33,11 +33,20 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
             }
         }
         
-        var isLoadingAnimated: Bool {
+        var isAnimated: Bool {
             switch self {
             case .uploadingImages, .createListing, .createListingFake:
                 return true
             case .listingPosted, .error:
+                return false
+            }
+        }
+        
+        var isError: Bool {
+            switch self {
+            case .error:
+                return true
+            case .uploadingImages, .createListing, .createListingFake, .listingPosted:
                 return false
             }
         }
