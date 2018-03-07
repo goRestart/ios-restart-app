@@ -33,7 +33,7 @@ protocol Camera {
     var isAttached: Bool { get }
     var shouldForwardPixelBuffersToDelegate: Bool { get set }
     var pixelsBuffersToForwardPerSecond: CMTime { get set }
-    weak var videoOutputDelegate: CameraVideoCaptureDelegate? { get set }
+    weak var videoOutputDelegate: VideoOutputDelegate? { get set }
 
     func addPreviewLayerTo(view: UIView) -> Bool
     func capturePhoto(completion: @escaping CameraPhotoCompletion)
@@ -43,7 +43,7 @@ protocol Camera {
     func resume()
 }
 
-protocol CameraVideoCaptureDelegate: class {
+protocol VideoOutputDelegate: class {
 
     func didCaptureVideoFrame(pixelBuffer: CVPixelBuffer?, timestamp: CMTime)
 }
