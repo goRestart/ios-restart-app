@@ -1,5 +1,5 @@
 //
-//  PostingQueuedRequestsLoadingViewController.swift
+//  BlockingPostingQueuedRequestsViewController.swift
 //  LetGo
 //
 //  Created by Raúl de Oñate Blanco on 04/12/2017.
@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-class PostingQueuedRequestsLoadingViewController: BaseViewController {
+class BlockingPostingQueuedRequestsViewController: BaseViewController {
     
     struct LoadingMetrics {
         static var heightLoadingView: CGFloat = 60
@@ -19,14 +19,14 @@ class PostingQueuedRequestsLoadingViewController: BaseViewController {
     private let tempNextButton = UIButton()
     
     private var loadingView = LoadingIndicator(frame: CGRect(x: 0, y: 0, width: LoadingMetrics.widthLoadingView, height: LoadingMetrics.widthLoadingView))
-    private let viewModel: PostingQueuedRequestsLoadingViewModel
+    private let viewModel: BlockingPostingQueuedRequestsViewModel
     
     private let disposeBag = DisposeBag()
     
     
     // MARK: - Lifecycle
     
-    init(viewModel: PostingQueuedRequestsLoadingViewModel) {
+    init(viewModel: BlockingPostingQueuedRequestsViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
     }
@@ -37,6 +37,7 @@ class PostingQueuedRequestsLoadingViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.uploadImages()
     }
     
     override func viewWillAppear(_ animated: Bool) {
