@@ -24,6 +24,24 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
                 return LGLocalizedString.productPostGenericError
             }
         }
+        
+        var isAnimated: Bool {
+            switch self {
+            case .updatingListing:
+                return true
+            case .success, .error:
+                return false
+            }
+        }
+        
+        var isError: Bool {
+            switch self {
+            case .error:
+                return true
+            case .updatingListing, .success:
+                return false
+            }
+        }
     }
     
     private let listingRepository: ListingRepository

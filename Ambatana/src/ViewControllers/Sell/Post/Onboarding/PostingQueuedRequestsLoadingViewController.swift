@@ -37,6 +37,8 @@ class PostingQueuedRequestsLoadingViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.createListingAfterUploadingImages()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {

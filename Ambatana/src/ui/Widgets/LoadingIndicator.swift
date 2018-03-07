@@ -21,6 +21,7 @@ class LoadingIndicator: UIView {
     fileprivate var loadingShape = CAShapeLayer()
     private var okIcon = UIImageView()
     private var wrongIcon = UIImageView()
+    private(set) var isAnimating = false
 
     fileprivate var pendingFinalState: Bool?
     fileprivate var endAnimationsCompletion: (()->())?
@@ -43,6 +44,7 @@ class LoadingIndicator: UIView {
     // MARK: - Public methods
 
     func startAnimating() {
+        isAnimating = true
         startLoadingAnimation()
     }
 
@@ -50,6 +52,7 @@ class LoadingIndicator: UIView {
         pendingFinalState = correctState
         endAnimationsCompletion = completion
         finishLoadingAnimation()
+        isAnimating = false
     }
 
 
