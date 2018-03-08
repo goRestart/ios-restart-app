@@ -12,7 +12,7 @@ import RxSwift
 class BlockingPostingAddPriceViewModel: BaseViewModel {
     
     static let postingStepNumber = "3"
-    let headerTitle: String = LGLocalizedString.postAddPriceTitle
+    let headerTitle: String = LGLocalizedString.postHeaderStepAddPrice
     
     private let listingRepository: ListingRepository
     private let locationManager: LocationManager

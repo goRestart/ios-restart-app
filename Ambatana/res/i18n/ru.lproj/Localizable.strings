@@ -64,9 +64,9 @@
 "categories_title" = "Категории";
 "categories_unassigned" = "Не выбрана";
 "categories_unassigned_items" = "Другие товары";
-"change_bio_placeholder" = "Add a bio that describes who you are. Share what you’re interested in or a fun fact about yourself";
-"change_bio_save_button" = "Save";
-"change_bio_title" = "About me";
+"change_bio_placeholder" = "Добавьте информацию о вас. Поделитесь, чем вы интересуетесь, или расскажите забавный факт о себе";
+"change_bio_save_button" = "Сохранить";
+"change_bio_title" = "Обо мне";
 "change_email_current_email_label" = "ТЕКУЩИЙ Е-МЕЙЛ:";
 "change_email_error_already_registered" = "Этот адрес уже зарегистрирован. Пожалуйста, введите другой.";
 "change_email_error_invalid_email" = "Пожалуйста, укажите действующий е-мейл.";
@@ -919,7 +919,7 @@
 "settings_change_profile_picture_button" = "Изменить фото";
 "settings_change_profile_picture_error_generic" = "При изменении фотографии профиля произошла ошибка.";
 "settings_change_profile_picture_loading" = "Установка фотографии профиля, пожалуйста, подождите...";
-"settings_change_user_bio_button" = "Bio / About me";
+"settings_change_user_bio_button" = "Биография / Обо мне";
 "settings_change_username_button" = "Изменить имя";
 "settings_general_notifications_alert_message" = "Включите уведомления для letgo в настройках вашего устройства.";
 "settings_help_button" = "Помощь";

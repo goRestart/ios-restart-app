@@ -21,15 +21,15 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
         var message: String {
             switch self {
             case .uploadingImages:
-                return "Automatically generating title"
+                return LGLocalizedString.postQueuedRequestsStateGeneratingTitle
             case .createListing:
-                return "Automatically categorizing listing"
+                return LGLocalizedString.postQueuedRequestsStateCategorizingListing
             case .createListingFake:
-                return "Posting listing"
+                return LGLocalizedString.postQueuedRequestsStatePostingListing
             case .listingPosted:
-                return "Listing posted!"
+                return LGLocalizedString.postQueuedRequestsStateListingPosted
             case .error:
-                return "Error"
+                return LGLocalizedString.productPostGenericError
             }
         }
         

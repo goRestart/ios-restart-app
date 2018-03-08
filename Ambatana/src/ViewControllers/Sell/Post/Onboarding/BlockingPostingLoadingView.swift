@@ -17,7 +17,7 @@ class BlockingPostingLoadingView: UIView {
     private static let loadingIndicatorCenterYMargin: CGFloat = -100
     private static let retryButtonHeight: CGFloat = 50
     private static let retryButtonWidth: CGFloat = 100
-    private static let messageLabelHeight: CGFloat = 50
+    private static let messageLabelHeight: CGFloat = 66
     
     private let loadingIndicator: LoadingIndicator = LoadingIndicator(frame: CGRect(x: 0,
                                                                                     y: 0,
