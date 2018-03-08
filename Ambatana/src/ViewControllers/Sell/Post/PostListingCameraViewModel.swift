@@ -276,6 +276,17 @@ extension CameraState {
             return true
         }
     }
+    
+    var headerStep: BlockingPostingHeaderStep? {
+        switch self {
+        case .capture:
+            return .takePicture
+        case .preview:
+            return .confirmPicture
+        case .pendingAskPermissions, .missingPermissions, .takingPhoto:
+            return nil
+        }
+    }
 
     fileprivate var cameraLock: Bool {
         switch self {
