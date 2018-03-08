@@ -41,6 +41,11 @@ class BlockingPostingLoadingView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        retryButton.setRoundedCorners()
+    }
+    
 
     // MARK: - UI
     
@@ -56,7 +61,6 @@ class BlockingPostingLoadingView: UIView {
         retryButton.setStyle(.primary(fontSize: .medium))
         retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
         retryButton.addTarget(self, action: #selector(BlockingPostingLoadingView.retryButtonAction), for: .touchUpInside)
-        retryButton.layer.cornerRadius = BlockingPostingLoadingView.retryButtonHeight/2
 
         retryButton.isHidden = true
     }

@@ -26,21 +26,11 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
         }
         
         var isAnimated: Bool {
-            switch self {
-            case .updatingListing:
-                return true
-            case .success, .error:
-                return false
-            }
+            return self == .updatingListing
         }
         
         var isError: Bool {
-            switch self {
-            case .error:
-                return true
-            case .updatingListing, .success:
-                return false
-            }
+            return self == .error
         }
     }
     
@@ -72,12 +62,11 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     func updateListing() {
         state.value = .updatingListing
         listingRepository.update(listingParams: listingParams) { [weak self] result in
-            guard let strongSelf = self else { return }
             if let responseListing = result.value {
-                strongSelf.updatedListing = responseListing
-                strongSelf.state.value = .success
+                self?.updatedListing = responseListing
+                self?.state.value = .success
             } else if let _ = result.error {
-                strongSelf.state.value = .error
+                self?.state.value = .error
             }
         }
     }
