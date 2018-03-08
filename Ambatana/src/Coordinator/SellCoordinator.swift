@@ -312,15 +312,15 @@ extension SellCoordinator: BlockingPostingNavigator  {
         navigationController.pushViewController(postListingVC, animated: true)
     }
     
-    func openPrice(listing: Listing) {
-        let viewModel = BlockingPostingAddPriceViewModel(listing: listing)
+    func openPrice(listing: Listing, images: [UIImage]) {
+        let viewModel = BlockingPostingAddPriceViewModel(listing: listing, images: images)
         viewModel.navigator = self
         let vc = BlockingPostingAddPriceViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openListingPosted(listing: Listing) {
-        let viewModel = ListingPostedDescriptiveViewModel()
+    func openListingPosted(listing: Listing, images: [UIImage]) {
+        let viewModel = ListingPostedDescriptiveViewModel(listing: listing, images: images)
         viewModel.navigator = self
         let vc = ListingPostedDescriptiveViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
@@ -330,8 +330,8 @@ extension SellCoordinator: BlockingPostingNavigator  {
         cancelPostListing()
     }
     
-    func openListingEditionLoading(listingParams: ListingEditionParams) {
-        let viewModel = BlockingPostingListingEditionViewModel(listingParams: listingParams)
+    func openListingEditionLoading(listingParams: ListingEditionParams, images: [UIImage]) {
+        let viewModel = BlockingPostingListingEditionViewModel(listingParams: listingParams, images: images)
         viewModel.navigator = self
         let vc = BlockingPostingListingEditionViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)

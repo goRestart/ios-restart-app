@@ -43,9 +43,9 @@ protocol ListingPostedNavigator: class {
 
 protocol BlockingPostingNavigator: class {
     func openCamera()
-    func openPrice(listing: Listing)
-    func openListingPosted(listing: Listing)
+    func openPrice(listing: Listing, images: [UIImage])
+    func openListingEditionLoading(listingParams: ListingEditionParams, images: [UIImage])
+    func openListingPosted(listing: Listing, images: [UIImage])
     func closePosting()
-    func openListingEditionLoading(listingParams: ListingEditionParams)
 }
 

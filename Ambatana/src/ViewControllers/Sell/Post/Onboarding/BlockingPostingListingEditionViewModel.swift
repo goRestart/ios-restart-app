@@ -36,6 +36,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     
     private let listingRepository: ListingRepository
     private let listingParams: ListingEditionParams
+    private let images: [UIImage]
     
     var state = Variable<ListingEditionState?>(nil)
     private var updatedListing: Listing?
@@ -45,15 +46,18 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    convenience init(listingParams: ListingEditionParams) {
+    convenience init(listingParams: ListingEditionParams, images: [UIImage]) {
         self.init(listingRepository: Core.listingRepository,
-                  listingParams: listingParams)
+                  listingParams: listingParams,
+                  images: images)
     }
 
     init(listingRepository: ListingRepository,
-         listingParams: ListingEditionParams) {
+         listingParams: ListingEditionParams,
+         images: [UIImage]) {
         self.listingRepository = listingRepository
         self.listingParams = listingParams
+        self.images = images
     }
 
     
@@ -76,7 +80,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     
     func openListingPosted() {
         guard let listing = self.updatedListing else { return }
-        navigator?.openListingPosted(listing: listing)
+        navigator?.openListingPosted(listing: listing, images: images)
     }
     
     func closeButtonAction() {
