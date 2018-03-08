@@ -12,9 +12,9 @@ import RxSwift
 class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     
     enum QueueState {
-        case uploadingImages            // UI: "Automatically generating title..."
-        case createListing             // UI: "Automatically categorizing listing..."
-        case createListingFake    // UI: "Posting listing..."
+        case uploadingImages
+        case createListing
+        case createListingFake
         case listingPosted
         case error
         
@@ -52,7 +52,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
         }
     }
 
-    private static let stateDelay: TimeInterval = 3
+    private static let stateDelay: TimeInterval = 1.5
     
     private let listingRepository: ListingRepository
     private let fileRepository: FileRepository
@@ -61,6 +61,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     private let source: EventParameterPictureSource
     
     var queueState = Variable<QueueState?>(nil)
+    var uploadImagesTriggered = Variable<Bool>(false)
     var uploadImagesResult = Variable<FilesResult?>(nil)
     var createListingResult = Variable<ListingResult?>(nil)
     var createListingFakeTriggered = Variable<Bool>(false)
@@ -134,8 +135,14 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
             }
             }.disposed(by: disposeBag)
         
+        uploadImagesTriggered.asObservable()
+            .filter{ $0 }
+            .bind { [weak self] result in
+                guard let strongSelf = self else { return }
+                strongSelf.queueState.value = .uploadingImages
+            }.disposed(by: disposeBag)
+        
         uploadImagesResult.asObservable()
-            .filter{ r -> Bool in r != nil }
             .delay(BlockingPostingQueuedRequestsViewModel.stateDelay, scheduler: MainScheduler.asyncInstance)
             .bind { [weak self] result in
                 guard let strongSelf = self else { return }
@@ -149,7 +156,6 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
         }.disposed(by: disposeBag)
 
         createListingResult.asObservable()
-            .filter{r -> Bool in r != nil}
             .delay(BlockingPostingQueuedRequestsViewModel.stateDelay, scheduler: MainScheduler.asyncInstance)
             .bind { [weak self] result in
                 guard let strongSelf = self else { return }
@@ -186,11 +192,11 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
 
     // MARK: - States
     
-    func updateStateToUploadingImages() {
-        queueState.value = .uploadingImages
+    func startQueuedRequests() {
+        uploadImagesTriggered.value = true
     }
     
-    func uploadImages() {
+    private func uploadImages() {
         fileRepository.upload(images, progress: nil) { [weak self] result in
             guard let strongSelf = self else { return }
             strongSelf.uploadImagesResult.value = result

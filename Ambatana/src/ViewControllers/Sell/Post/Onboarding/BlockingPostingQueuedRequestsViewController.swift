@@ -37,7 +37,7 @@ class BlockingPostingQueuedRequestsViewController: BaseViewController, BlockingP
         setupUI()
         setupConstraints()
         setupRx()
-        viewModel.updateStateToUploadingImages()
+        viewModel.startQueuedRequests()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,7 +106,7 @@ class BlockingPostingQueuedRequestsViewController: BaseViewController, BlockingP
     // MARK: - BlockingPostingLoadingViewDelegate
     
     func didPressRetryButton() {
-        viewModel.updateStateToUploadingImages()
+        viewModel.startQueuedRequests()
     }
 }
 
