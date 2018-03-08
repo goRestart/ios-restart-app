@@ -69,14 +69,15 @@ class PostingGetStartedViewController: BaseViewController {
     // MARK: - UI
     
     private func setupUI() {
-
         view.backgroundColor = UIColor.white
 
         avatarView.layer.borderWidth = 5
         avatarView.layer.borderColor = UIColor.white.cgColor
+        avatarView.isHidden = true
 
         shadowView.layer.borderWidth = 1
         shadowView.backgroundColor = UIColor.white
+        shadowView.isHidden = true
 
         welcomeLabel.font = UIFont.postingFlowSelectableItem
         welcomeLabel.textColor = UIColor.darkGrayText
@@ -94,7 +95,6 @@ class PostingGetStartedViewController: BaseViewController {
         getStartedButton.imageView?.tintColor = UIColor.primaryColor.withAlphaComponent(0.5)
         getStartedButton.imageEdgeInsets = UIEdgeInsets(top: Metrics.bigMargin, left: -Metrics.shortMargin, bottom: Metrics.bigMargin, right: 0)
         getStartedButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: Metrics.shortMargin, bottom: 0, right: 0)
-        getStartedButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
 
         discardLabel.font = UIFont.smallBodyFont
         discardLabel.textColor = UIColor.grayText
@@ -155,13 +155,18 @@ class PostingGetStartedViewController: BaseViewController {
 
     private func setupRx() {
         viewModel.userAvatarImage.asObservable().bind { [weak self] image in
+            guard let image = image else { return }
                 self?.avatarView.image = image
+                self?.avatarView.isHidden = false
+                self?.shadowView.isHidden = false
             }.disposed(by: disposeBag)
+
+        getStartedButton.rx.tap.bind { [weak self] in
+            self?.nextAction()
+        }.disposed(by: disposeBag)
     }
 
-
-    @objc private func nextAction() {
+    private func nextAction() {
         viewModel.nextAction()
     }
-    
 }

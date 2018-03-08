@@ -23,16 +23,16 @@ class PostingGetStartedViewModel: BaseViewModel {
     }
 
     var welcomeText: String {
-        guard let name = userName else { return "_Welcome" }
-        return "Welcome \(name)"
+        guard let name = userName else { return LGLocalizedString.postGetStartedWelcomeLetgoText }
+        return LGLocalizedString.postGetStartedWelcomeUserText(name)
     }
 
     var infoText: String {
-        return "_ See how easy it is to sell on letgo, post something you got around you"
+        return LGLocalizedString.postGetStartedIntroText
     }
 
     var buttonText: String {
-        return "_ Get Started"
+        return LGLocalizedString.postGetStartedButtonText
     }
 
     var buttonIcon: UIImage? {
@@ -40,7 +40,7 @@ class PostingGetStartedViewModel: BaseViewModel {
     }
 
     var discardText: String {
-        return "_ You can discard it later if you don't want to sell it"
+        return LGLocalizedString.postGetStartedDiscardText
     }
 
     
@@ -57,8 +57,6 @@ class PostingGetStartedViewModel: BaseViewModel {
     }
 
     func retrieveImageForAvatar() {
-        userAvatarImage.value = LetgoAvatar.avatarWithID(myUserRepository.myUser?.objectId, name: userName)
-
         guard let avatarUrl = userAvatarURL else { return }
         ImageDownloader.sharedInstance.downloadImageWithURL(avatarUrl) { [weak self] result, url in
             guard let imageWithSource = result.value, url == self?.userAvatarURL else { return }
