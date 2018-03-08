@@ -197,7 +197,6 @@ class PostListingViewModel: BaseViewModel {
         guard let listingParams = makeListingParams() else { return }
         navigator?.openQueuedRequestsLoading(images: images,
                                              listingCreationParams: listingParams,
-                                             postState: state.value,
                                              source: source)
     }
     

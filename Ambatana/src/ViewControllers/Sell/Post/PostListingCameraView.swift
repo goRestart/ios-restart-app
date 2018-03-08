@@ -44,7 +44,7 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     @IBOutlet weak var firstTimeAlertTitle: UILabel!
     @IBOutlet weak var firstTimeAlertSubtitle: UILabel!
 
-    fileprivate let headerStepView = BlockingPostingStepHeaderView()
+    private let headerStepView = BlockingPostingStepHeaderView()
     
     var visible: Bool {
         set {
@@ -231,20 +231,20 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
                 strongSelf.headerStepView.isHidden = shouldShowClose
             }.disposed(by: disposeBag)
             
-            let captureModeTriggered = state.filter { s in
+            let isCaptureMode = state.filter { s in
                 s.captureMode }
-            captureModeTriggered.bind { [weak self] state in
+            isCaptureMode.bind { [weak self] state in
                 guard let strongSelf = self else { return }
                 guard let headerStep = state.headerStep else { return }
-                strongSelf.headerStepView.updateWith(stepNumber: headerStep.number, title: headerStep.title)
+                strongSelf.headerStepView.updateWith(stepNumber: headerStep.rawValue, title: headerStep.title)
             }.disposed(by: disposeBag)
             
-            let previewModeTriggered = state.filter { s in
+            let isPreviewMode = state.filter { s in
                 s.previewMode }
-            previewModeTriggered.bind { [weak self] state in
+            isPreviewMode.bind { [weak self] state in
                 guard let strongSelf = self else { return }
                 guard let headerStep = state.headerStep else { return }
-                strongSelf.headerStepView.updateWith(stepNumber: headerStep.number, title: headerStep.title)
+                strongSelf.headerStepView.updateWith(stepNumber: headerStep.rawValue, title: headerStep.title)
             }.disposed(by: disposeBag)
         }
     

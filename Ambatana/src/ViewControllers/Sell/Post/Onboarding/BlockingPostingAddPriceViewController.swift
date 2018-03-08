@@ -42,6 +42,7 @@ class BlockingPostingAddPriceViewController: KeyboardViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         setStatusBarHidden(false)
     }
     
@@ -51,7 +52,7 @@ class BlockingPostingAddPriceViewController: KeyboardViewController {
     private func setupUI() {     
         view.backgroundColor = .clear
         
-        headerView.updateWith(stepNumber: BlockingPostingAddPriceViewModel.headerStep.number, title: BlockingPostingAddPriceViewModel.headerStep.title)
+        headerView.updateWith(stepNumber: BlockingPostingAddPriceViewModel.headerStep.rawValue, title: BlockingPostingAddPriceViewModel.headerStep.title)
         
         doneButton.setTitle(LGLocalizedString.productPostDone, for: .normal)
         doneButton.setStyle(.primary(fontSize: .medium))
