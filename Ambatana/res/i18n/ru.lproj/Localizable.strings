@@ -64,6 +64,9 @@
 "categories_title" = "Категории";
 "categories_unassigned" = "Не выбрана";
 "categories_unassigned_items" = "Другие товары";
+"change_bio_placeholder" = "Add a bio that describes who you are. Share what you’re interested in or a fun fact about yourself";
+"change_bio_save_button" = "Save";
+"change_bio_title" = "About me";
 "change_email_current_email_label" = "ТЕКУЩИЙ Е-МЕЙЛ:";
 "change_email_error_already_registered" = "Этот адрес уже зарегистрирован. Пожалуйста, введите другой.";
 "change_email_error_invalid_email" = "Пожалуйста, укажите действующий е-мейл.";
@@ -299,12 +302,14 @@
 "discarded_products_delete_confirmation" = "Вы точно хотите удалить это объявление?";
 "discarded_products_edit" = "Редактировать";
 "discarded_products_reason_duplicated" = "Повторяющиеся объявления";
-"discarded_products_reason_good_manners" = "Не соответствует правилам";
+"discarded_products_reason_good_manners" = "Не соответствует лучшей практике";
 "discarded_products_reason_non_realistic_price" = "Нереальная цена";
 "discarded_products_reason_photo_not_clear" = "Размытое или нечеткое фото";
-"discarded_products_reason_poor_ad_quality" = "Не соответствует правилам";
+"discarded_products_reason_poor_ad_quality" = "Не соответствует лучшей практике";
 "discarded_products_reason_reference_to_competitors" = "Ссылки на другие приложения и сайты";
 "discarded_products_reason_stock_photo_only" = "Содержит только фото из сети";
+"edit_product_feature_label_long_text" = "Выделите свое объявление, чтобы продать быстрее";
+"edit_product_feature_label_short_text" = "Продайте быстрее";
 "edit_product_location_alert_text" = "Для изменение местоположения объявления разрешите доступ к геолокации";
 "edit_product_location_alert_title" = "СМЕНИТЬ МЕСТОПОЛОЖЕНИЕ";
 "edit_product_send_button" = "Сохранить изменения";
@@ -694,8 +699,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Введите номер телефона";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Спасибо за обращение! Пожалуйста, позвоните нам или оставьте свой номер, чтобы мы перезвонили.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Спасибо за номер телефона! Вы всегда можете позвонить нам, нажав на кнопку выше.";
-"profile_bio_add_button" = "Add your bio";
-"profile_bio_show_more_button" = "MORE ABOUT ME";
+"profile_bio_add_button" = "Добавить информацию о себе";
+"profile_bio_show_more_button" = "ЕЩЕ ОБО МНЕ";
 "profile_blocked_by_me_label" = "Вы заблокировали этого пользователя";
 "profile_blocked_by_me_label_w_name" = "Вы заблокировали %@";
 "profile_blocked_by_other_label" = "Вы заблокировали этого пользователя";
@@ -914,6 +919,7 @@
 "settings_change_profile_picture_button" = "Изменить фото";
 "settings_change_profile_picture_error_generic" = "При изменении фотографии профиля произошла ошибка.";
 "settings_change_profile_picture_loading" = "Установка фотографии профиля, пожалуйста, подождите...";
+"settings_change_user_bio_button" = "Bio / About me";
 "settings_change_username_button" = "Изменить имя";
 "settings_general_notifications_alert_message" = "Включите уведомления для letgo в настройках вашего устройства.";
 "settings_help_button" = "Помощь";

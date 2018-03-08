@@ -64,6 +64,9 @@
 "categories_title" = "Categories";
 "categories_unassigned" = "Not selected";
 "categories_unassigned_items" = "Other items";
+"change_bio_placeholder" = "Add a bio that describes who you are. Share what you’re interested in or a fun fact about yourself";
+"change_bio_save_button" = "Save";
+"change_bio_title" = "About me";
 "change_email_current_email_label" = "CURRENT EMAIL:";
 "change_email_error_already_registered" = "This email address is already registered. Please enter a different one.";
 "change_email_error_invalid_email" = "Please enter a valid email address.";
@@ -305,6 +308,8 @@
 "discarded_products_reason_poor_ad_quality" = "Doesn’t comply with best practices";
 "discarded_products_reason_reference_to_competitors" = "References to other apps or websites";
 "discarded_products_reason_stock_photo_only" = "Only contains stock photos";
+"edit_product_feature_label_long_text" = "Feature your listing to sell faster";
+"edit_product_feature_label_short_text" = "Sell faster now";
 "edit_product_location_alert_text" = "To change where your listing is posted, allow access to your location";
 "edit_product_location_alert_title" = "CHANGE LOCATION";
 "edit_product_send_button" = "Save changes";
@@ -914,6 +919,7 @@
 "settings_change_profile_picture_button" = "Photo";
 "settings_change_profile_picture_error_generic" = "An error occurred while changing the profile picture.";
 "settings_change_profile_picture_loading" = "Setting profile image. Please wait...";
+"settings_change_user_bio_button" = "Bio / About me";
 "settings_change_username_button" = "Name";
 "settings_general_notifications_alert_message" = "Activate notifications for the letgo app in your device's settings.";
 "settings_help_button" = "Help";

@@ -19,9 +19,9 @@ class PostingQueuedRequestsLoadingViewModel: BaseViewModel {
     let postListingState: Variable<PostListingState>
     let isLoading = Variable<Bool>(false)
     let gotListingCreateResponse = Variable<Bool>(false)
-    private var listingResult: ListingResult?
+    fileprivate var listingResult: ListingResult?
     
-    weak var navigator: PostingHastenedCreateProductNavigator?
+    weak var navigator: BlockingPostingNavigator?
     private let disposeBag = DisposeBag()
     
     var finishRequest = Variable<Bool?>(false)
@@ -68,7 +68,7 @@ class PostingQueuedRequestsLoadingViewModel: BaseViewModel {
     
     // MARK: - Navigation
     
-    func openPrice() {
-        navigator?.openPrice(listingCreationParams: listingCreationParams, postState: postListingState.value)
+    func openPrice(listing: Listing) {
+        navigator?.openPrice(listing: listing, postState: postListingState.value)
     }
 }
