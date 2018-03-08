@@ -65,6 +65,12 @@ class LGChatRepository: InternalChatRepository {
                 self?.confirmReception(conversationId, messageIds: [messageId]) { _ in
                     self?.updateLocalConversationByFetching(conversationId: conversationId, moveToTop: true)
                 }
+            case .interlocutorTypingStarted:
+                self?.updateLocalConversations(conversationId: conversationId, interlocutorIsTyping: true)
+                self?.scheduleInterlocutorIsTypingTimeoutTimer(conversationId: conversationId)
+            case .interlocutorTypingStopped:
+                self?.cancelInterlocutorIsTypingTimeoutTimer(conversationId: conversationId)
+                self?.updateLocalConversations(conversationId: conversationId, interlocutorIsTyping: false)
             default:
                 return
             }
@@ -95,6 +101,30 @@ class LGChatRepository: InternalChatRepository {
             }.disposed(by: disposeBag)
     }
     
+    // MARK: - Interlocutor is typing local timeout
+
+    private let interlocutorIsTypingTimeoutTime: TimeInterval = 20
+    private var interlocutorIsTypingTimeouts: [String:Timer] = [:]
+    
+    @objc func fireInterlocutorIsTypingTimeout(timer: Timer) {
+        guard let conversationId = timer.userInfo as? String else { return }
+        updateLocalConversations(conversationId: conversationId, interlocutorIsTyping: false)
+    }
+    
+    private func scheduleInterlocutorIsTypingTimeoutTimer(conversationId: String) {
+        cancelInterlocutorIsTypingTimeoutTimer(conversationId: conversationId)
+        let newTimer = Timer.scheduledTimer(timeInterval: interlocutorIsTypingTimeoutTime,
+                                            target: self,
+                                            selector: #selector(fireInterlocutorIsTypingTimeout(timer:)),
+                                            userInfo: conversationId,
+                                            repeats: false)
+        interlocutorIsTypingTimeouts[conversationId] = newTimer
+    }
+    
+    private func cancelInterlocutorIsTypingTimeoutTimer(conversationId: String) {
+        interlocutorIsTypingTimeouts[conversationId]?.invalidate()
+        interlocutorIsTypingTimeouts.removeValue(forKey: conversationId)
+    }
     
     // MARK: > Public Methods
     // MARK: - Messages

@@ -66,6 +66,7 @@ protocol FeatureFlaggeable: class {
     var searchMultiwordExpressions: SearchMultiwordExpressions { get }
     var showChatSafetyTips: Bool { get }
     var discardedProducts: DiscardedProducts { get }
+    var userIsTyping: UserIsTyping { get }
     var serviceCategoryEnabled: ServiceCategoryEnabled { get }
 
     // Country dependant features
@@ -216,6 +217,9 @@ extension DiscardedProducts {
     var isActive: Bool { get { return self == .active } }
 }
 
+extension UserIsTyping {
+    var isActive: Bool { get { return self == .active } }
+}
 extension ServiceCategoryEnabled {
     var isActive: Bool { get { return self == .active } }
 }
@@ -517,6 +521,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.discardedProducts
         }
         return DiscardedProducts.fromPosition(abTests.discardedProducts.value)
+    }
+    
+    var userIsTyping: UserIsTyping {
+        if Bumper.enabled {
+            return Bumper.userIsTyping
+        }
+        return UserIsTyping.fromPosition(abTests.userIsTyping.value)
     }
     
 

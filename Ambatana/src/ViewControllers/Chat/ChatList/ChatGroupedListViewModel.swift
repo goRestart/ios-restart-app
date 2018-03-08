@@ -46,6 +46,7 @@ class BaseChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
     let notificationsManager: NotificationsManager
     fileprivate let tracker: Tracker
     let featureFlags: FeatureFlaggeable
+    private let localChatCounter = Variable<Int>(0)
     
     private let chatRepository: ChatRepository
     let inactiveConversationsCount = Variable<Int?>(nil)
@@ -355,13 +356,32 @@ fileprivate extension BaseChatGroupedListViewModel {
         }.disposed(by: disposeBag)
         
         if shouldWriteInCollectionVariable {
-            objects.changesObservable.subscribeNext { [weak self] _ in
-                self?.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
-                self?.notificationsManager.updateChatCounters()
-            }.disposed(by: disposeBag)
+            // request unread message only when we see a difference locally
+            objects.changesObservable
+                .filter { [weak self] change in
+                    guard let strongSelf = self else { return false }
+                    return strongSelf.getLocalChatCounter() != strongSelf.localChatCounter.value
+                }
+                .subscribeNext { [weak self] _ in
+                    guard let strongSelf = self else { return }
+                    strongSelf.localChatCounter.value = strongSelf.getLocalChatCounter()
+                    strongSelf.notificationsManager.updateChatCounters()
+                    self?.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
+                }
+                .disposed(by: disposeBag)
         }
         
         chatRepository.inactiveConversationsCount.asObservable().bind(to: inactiveConversationsCount).disposed(by: disposeBag)
+    }
+    
+    private func getLocalChatCounter() -> Int {
+        var counter = 0
+        objects.value.forEach { object in
+            if let conversation = object as? ChatConversation {
+                counter += conversation.unreadMessageCount
+            }
+        }
+        return counter
     }
     
     func setupInactiveRx() {

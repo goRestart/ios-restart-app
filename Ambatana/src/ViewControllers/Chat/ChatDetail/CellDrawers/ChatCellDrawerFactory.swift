@@ -33,6 +33,8 @@ class ChatCellDrawerFactory {
             return ChatOtherInfoCellDrawer(autoHide: autoHide)
         case .askPhoneNumber:
             return ChatAskPhoneNumberCellDrawer(autoHide: autoHide)
+        case .interlocutorIsTyping:
+            return ChatInterlocutorIsTypingCellDrawer(autoHide: autoHide)
         }
     }
     
@@ -43,5 +45,6 @@ class ChatCellDrawerFactory {
         ChatDisclaimerCellDrawer.registerCell(tableView)
         ChatOtherInfoCellDrawer.registerCell(tableView)
         ChatAskPhoneNumberCellDrawer.registerCell(tableView)
+        ChatInterlocutorIsTypingCellDrawer.registerCell(tableView)
     }
 }

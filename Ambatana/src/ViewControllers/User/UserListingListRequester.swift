@@ -93,17 +93,19 @@ class UserStatusesListingListRequester: UserListingListRequester {
     
     let itemsPerPage: Int
     var userObjectId: String? = nil
-    private let statuses: [ListingStatusCode]
+    // Related to DiscardedProducts ABTest, `statuses` has been changed to a closure to be able to
+    // dynamically ask for the required listing codes.
+    private let statuses: () -> [ListingStatusCode]
     private let listingRepository: ListingRepository
     private let locationManager: LocationManager
     private var offset: Int = 0
 
-    convenience init(statuses: [ListingStatusCode], itemsPerPage: Int) {
+    convenience init(statuses:@escaping () -> [ListingStatusCode], itemsPerPage: Int) {
         self.init(listingRepository: Core.listingRepository, locationManager: Core.locationManager, statuses: statuses,
                   itemsPerPage: itemsPerPage)
     }
 
-    init(listingRepository: ListingRepository, locationManager: LocationManager, statuses: [ListingStatusCode],
+    init(listingRepository: ListingRepository, locationManager: LocationManager, statuses: @escaping () -> [ListingStatusCode],
          itemsPerPage: Int) {
         self.listingRepository = listingRepository
         self.locationManager = locationManager
@@ -163,7 +165,7 @@ class UserStatusesListingListRequester: UserListingListRequester {
         }
         params.countryCode = locationManager.currentLocation?.countryCode
         params.sortCriteria = .creation
-        params.statuses = statuses
+        params.statuses = statuses()
         return params
     }
 }
