@@ -190,7 +190,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     }
     
 
-    // MARK: - States
+    // MARK: - Repository requests
     
     func startQueuedRequests() {
         uploadImagesTriggered.value = true
