@@ -205,6 +205,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     
     func openPrice(listing: Listing) {
         navigator?.openPrice(listing: listing,
+                             images: images,
                              imageSource: imageSource,
                              postingSource: postingSource)
     }

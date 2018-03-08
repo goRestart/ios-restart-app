@@ -18,6 +18,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
     private let currencyHelper: CurrencyHelper
     private let featureFlags: FeatureFlaggeable
     private let listing: Listing
+    private let images: [UIImage]
     private let imageSource: EventParameterPictureSource
     private let postingSource: PostingSource
     private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
@@ -35,6 +36,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     convenience init(listing: Listing,
+                     images: [UIImage],
                      imageSource: EventParameterPictureSource,
                      postingSource: PostingSource) {
         self.init(listingRepository: Core.listingRepository,
@@ -42,6 +44,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
                   currencyHelper: Core.currencyHelper,
                   featureFlags: FeatureFlags.sharedInstance,
                   listing: listing,
+                  images: images,
                   imageSource: imageSource,
                   postingSource: postingSource)
     }
@@ -51,6 +54,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
          currencyHelper: CurrencyHelper,
          featureFlags: FeatureFlaggeable,
          listing: Listing,
+         images: [UIImage],
          imageSource: EventParameterPictureSource,
          postingSource: PostingSource) {
         self.listingRepository = listingRepository
@@ -58,6 +62,7 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
         self.currencyHelper = currencyHelper
         self.featureFlags = featureFlags
         self.listing = listing
+        self.images = images
         self.imageSource = imageSource
         self.postingSource = postingSource
         super.init()
@@ -82,9 +87,6 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
         if editParams.price != priceListing.value {
             editParams = editParams.updating(price: priceListing.value)
         }
-        navigator?.openListingEditionLoading(listingParams: editParams,
-                                             listing: listing,
-                                             imageSource: imageSource,
-                                             postingSource: postingSource)
+        navigator?.openListingEditionLoading(listingParams: editParams, listing: listing, images: images, imageSource: imageSource, postingSource: postingSource)
     }
 }

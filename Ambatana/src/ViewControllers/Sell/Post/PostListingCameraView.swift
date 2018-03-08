@@ -187,8 +187,6 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         }
         
         if viewModel.isBlockingPosting {
-            headerContainer.isHidden = true
-            
             addSubviewForAutoLayout(headerStepView)
             headerStepView.layout(with: self)
                 .fillHorizontal()
@@ -225,7 +223,14 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         captureModeHidden.bind(to: switchCamButton.rx.isHidden).disposed(by: disposeBag)
         captureModeHidden.bind(to: flashButton.rx.isHidden).disposed(by: disposeBag)
         
+        
         if viewModel.isBlockingPosting {
+            state.map { $0.shouldShowCloseButtonBlockingPosting }.bind { [weak self] shouldShowClose in
+                guard let strongSelf = self else { return }
+                strongSelf.headerContainer.isHidden = !shouldShowClose
+                strongSelf.headerStepView.isHidden = shouldShowClose
+            }.disposed(by: disposeBag)
+            
             let isCaptureMode = state.filter { s in
                 s.captureMode }
             isCaptureMode.bind { [weak self] state in

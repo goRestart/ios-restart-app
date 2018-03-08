@@ -34,11 +34,12 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
         }
     }
     
-    private let featureFlags: FeatureFlaggeable
     private let listingRepository: ListingRepository
     private let tracker: Tracker
+    private let featureFlags: FeatureFlaggeable
     private let listingParams: ListingEditionParams
     private var listing: Listing
+    private let images: [UIImage]
     private let imageSource: EventParameterPictureSource
     private let postingSource: PostingSource
     
@@ -49,33 +50,35 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    convenience init(listingParams: ListingEditionParams,
-                     listing: Listing,
-                     imageSource: EventParameterPictureSource,
-                     postingSource: PostingSource) {
-        self.init(featureFlags: FeatureFlags.sharedInstance,
-                  listingRepository: Core.listingRepository,
+    convenience init(listingParams: ListingEditionParams, listing: Listing, images: [UIImage],
+                     imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+        self.init(listingRepository: Core.listingRepository,
                   tracker: TrackerProxy.sharedInstance,
+                  featureFlags: FeatureFlags.sharedInstance,
                   listingParams: listingParams,
                   listing: listing,
+                  images: images,
                   imageSource: imageSource,
                   postingSource: postingSource)
     }
 
-    init(featureFlags: FeatureFlaggeable,
-         listingRepository: ListingRepository,
+    init(listingRepository: ListingRepository,
          tracker: Tracker,
+         featureFlags: FeatureFlaggeable,
          listingParams: ListingEditionParams,
          listing: Listing,
+         images: [UIImage],
          imageSource: EventParameterPictureSource,
          postingSource: PostingSource) {
-        self.featureFlags = featureFlags
         self.listingRepository = listingRepository
         self.tracker = tracker
+        self.featureFlags = featureFlags
         self.listingParams = listingParams
         self.listing = listing
+        self.images = images
         self.imageSource = imageSource
         self.postingSource = postingSource
+        super.init()
     }
 
     
@@ -97,7 +100,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     // MARK: - Navigation
     
     func openListingPosted() {
-        navigator?.openListingPosted(listing: listing)
+        navigator?.openListingPosted(listing: listing, images: images)
     }
     
     func closeButtonAction() {

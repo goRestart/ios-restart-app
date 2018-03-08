@@ -298,7 +298,7 @@ extension SellCoordinator: ListingPostedNavigator {
     }
 }
 
-// MARK: - PostingHastenedCreateProduct
+// MARK: - BlockingPostingNavigator
 
 extension SellCoordinator: BlockingPostingNavigator  {
     func openCamera() {
@@ -312,8 +312,9 @@ extension SellCoordinator: BlockingPostingNavigator  {
         navigationController.pushViewController(postListingVC, animated: true)
     }
     
-    func openPrice(listing: Listing, imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource) {
         let viewModel = BlockingPostingAddPriceViewModel(listing: listing,
+                                                         images: images,
                                                          imageSource: imageSource,
                                                          postingSource: postingSource)
         viewModel.navigator = self
@@ -321,8 +322,8 @@ extension SellCoordinator: BlockingPostingNavigator  {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openListingPosted(listing: Listing) {
-        let viewModel = ListingPostedDescriptiveViewModel()
+    func openListingPosted(listing: Listing, images: [UIImage]) {
+        let viewModel = ListingPostedDescriptiveViewModel(listing: listing, images: images)
         viewModel.navigator = self
         let vc = ListingPostedDescriptiveViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
@@ -334,10 +335,12 @@ extension SellCoordinator: BlockingPostingNavigator  {
     
     func openListingEditionLoading(listingParams: ListingEditionParams,
                                    listing: Listing,
+                                   images: [UIImage],
                                    imageSource: EventParameterPictureSource,
                                    postingSource: PostingSource) {
         let viewModel = BlockingPostingListingEditionViewModel(listingParams: listingParams,
                                                                listing: listing,
+                                                               images: images,
                                                                imageSource: imageSource,
                                                                postingSource: postingSource)
         viewModel.navigator = self
