@@ -64,9 +64,9 @@
 "categories_title" = "Κατηγορίες";
 "categories_unassigned" = "Δεν έχει επιλεχθεί";
 "categories_unassigned_items" = "Άλλα αντικείμενα";
-"change_bio_placeholder" = "Add a bio that describes who you are. Share what you’re interested in or a fun fact about yourself";
-"change_bio_save_button" = "Save";
-"change_bio_title" = "About me";
+"change_bio_placeholder" = "Προσθέστε ένα βιογραφικό που να περιγράφει ποιοι είστε. Μοιραστείτε ό,τι σας ενδιαφέρει ή κάποιο διασκεδαστικό στοιχείο του χαρακτήρα σας";
+"change_bio_save_button" = "Αποθήκευση";
+"change_bio_title" = "Σχετικά με εμένα";
 "change_email_current_email_label" = "ΤΡΕΧΟΝ EMAIL:";
 "change_email_error_already_registered" = "Αυτή η διεύθυνση email είναι ήδη εγγεγραμμένη. Παρακαλώ εισάγετε μία άλλη.";
 "change_email_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email.";
@@ -919,7 +919,7 @@
 "settings_change_profile_picture_button" = "Αλλαγή Φωτογραφίας";
 "settings_change_profile_picture_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αλλαγή της φωτογραφίας προφίλ.";
 "settings_change_profile_picture_loading" = "Ορισμός φωτογραφίας προφίλ, παρακαλώ περιμένετε...";
-"settings_change_user_bio_button" = "Bio / About me";
+"settings_change_user_bio_button" = "Βιογραφικό / Σχετικά με εμένα";
 "settings_change_username_button" = "Αλλαγή Ονόματος";
 "settings_general_notifications_alert_message" = "Ενεργοποιήστε ειδοποιήσεις για τη letgo εφαρμογή στις ρυθμίσεις της συσκευής σας.";
 "settings_help_button" = "Βοήθεια";

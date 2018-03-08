@@ -44,6 +44,8 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     @IBOutlet weak var firstTimeAlertTitle: UILabel!
     @IBOutlet weak var firstTimeAlertSubtitle: UILabel!
 
+    private let headerStepView = BlockingPostingStepHeaderView()
+    
     var visible: Bool {
         set {
             viewModel.visible.value = newValue
@@ -184,7 +186,15 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
             view.transform = CGAffineTransform(rotationAngle: CGFloat(Double(index) * Double.pi/2))
         }
         
-        closeButton.isHidden = viewModel.isBlockingPosting
+        if viewModel.isBlockingPosting {
+            headerContainer.isHidden = true
+            
+            addSubviewForAutoLayout(headerStepView)
+            headerStepView.layout(with: self)
+                .fillHorizontal()
+                .top()
+            headerStepView.layout().height(BlockingPostingStepHeaderView.height)
+        }
 
         //i18n
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, for: .normal)
@@ -215,6 +225,24 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         captureModeHidden.bind(to: switchCamButton.rx.isHidden).disposed(by: disposeBag)
         captureModeHidden.bind(to: flashButton.rx.isHidden).disposed(by: disposeBag)
         
+        if viewModel.isBlockingPosting {
+            let isCaptureMode = state.filter { s in
+                s.captureMode }
+            isCaptureMode.bind { [weak self] state in
+                guard let strongSelf = self else { return }
+                guard let headerStep = state.headerStep else { return }
+                strongSelf.headerStepView.updateWith(stepNumber: headerStep.rawValue, title: headerStep.title)
+            }.disposed(by: disposeBag)
+            
+            let isPreviewMode = state.filter { s in
+                s.previewMode }
+            isPreviewMode.bind { [weak self] state in
+                guard let strongSelf = self else { return }
+                guard let headerStep = state.headerStep else { return }
+                strongSelf.headerStepView.updateWith(stepNumber: headerStep.rawValue, title: headerStep.title)
+            }.disposed(by: disposeBag)
+        }
+    
         viewModel.imageSelected.asObservable().bind(to: imagePreview.rx.image).disposed(by: disposeBag)
 
         let flashMode = viewModel.cameraFlashState.asObservable()
