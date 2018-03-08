@@ -228,8 +228,8 @@ class ListingPostedDescriptiveViewController: BaseViewController, UITextViewDele
         }.disposed(by: disposeBag)
 
         viewModel.listingCategory.asObservable().bind { [weak self] category in
-            if let categoryName = category?.name {
-                self?.categoryButton.setTitle(categoryName, for: .normal)
+            if let category = category, category != .unassigned {
+                self?.categoryButton.setTitle(category.name, for: .normal)
                 self?.categoryButton.setTitleColor(UIColor.blackText, for: .normal)
             } else {
                 self?.categoryButton.setTitle(self?.viewModel.categoryButtonPlaceholder, for: .normal)
