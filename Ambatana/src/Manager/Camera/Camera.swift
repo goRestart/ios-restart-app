@@ -25,8 +25,8 @@ enum CameraSource {
 
 protocol Camera {
 
-    var flashMode: CameraFlashState { get set }
-    var cameraSource: CameraSource { get set }
+    var flashMode: AVCaptureDevice.FlashMode { get set }
+    var cameraPosition: CameraSource { get set }
     var isReady: Bool { get }
     var hasFlash: Bool { get }
     var hasFrontCamera: Bool { get }
