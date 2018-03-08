@@ -6,21 +6,10 @@
 //  Copyright © 2018 Ambatana. All rights reserved.
 //
 
-enum BlockingPostingHeaderStep {
-    case takePicture
-    case confirmPicture
-    case addPrice
-    
-    var number: Int {
-        switch self {
-        case .takePicture:
-            return 1
-        case .confirmPicture:
-            return 2
-        case .addPrice:
-            return 3
-        }
-    }
+enum BlockingPostingHeaderStep: Int {
+    case takePicture = 1
+    case confirmPicture = 2
+    case addPrice = 3
     
     var title: String {
         switch self {
