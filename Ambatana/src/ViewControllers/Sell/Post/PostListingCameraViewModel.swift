@@ -287,6 +287,15 @@ extension CameraState {
             return nil
         }
     }
+    
+    var shouldShowCloseButtonBlockingPosting: Bool {
+        switch self {
+        case .capture, .takingPhoto, .preview:
+            return false
+        case .pendingAskPermissions, .missingPermissions:
+            return true
+        }
+    }
 
     fileprivate var cameraLock: Bool {
         switch self {
