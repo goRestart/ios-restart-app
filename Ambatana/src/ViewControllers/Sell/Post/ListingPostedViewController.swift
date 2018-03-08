@@ -156,7 +156,7 @@ class ListingPostedViewController: BaseViewController, ListingPostedViewModelDel
     private func finishedLoading(_ correct: Bool) {
         mainButton.setTitle(viewModel.mainButtonText, for: .normal)
         loadingIndicator.isHidden = true
-        loadingIndicator.stopAnimating(correct) { [weak self] in
+        loadingIndicator.stopAnimating(correctState: correct) { [weak self] in
             if correct {
                 self?.editContainerHeight.constant = ListingPostedViewController.contentContainerShownHeight
                 self?.incentiveContainer.isHidden = false
