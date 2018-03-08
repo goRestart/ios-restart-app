@@ -215,7 +215,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             uploadImageStackView.addArrangedSubview(loadingView)
         }
         messageLabelUploadingImage.textColor = UIColor.white
-        messageLabelUploadingImage.font = UIFont.body
+        messageLabelUploadingImage.font = UIFont.postingFlowBody
         messageLabelUploadingImage.numberOfLines = 0
         retryButtonUploadingImageRealEstate.layout()
             .height(PostListingViewController.retryButtonHeight)

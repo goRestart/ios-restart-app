@@ -53,7 +53,7 @@ class BlockingPostingLoadingView: UIView {
         backgroundColor = .clear
         
         messageLabel.textColor = UIColor.white
-        messageLabel.font = UIFont.body
+        messageLabel.font = UIFont.postingFlowBody
         messageLabel.numberOfLines = 2
         messageLabel.adjustsFontSizeToFitWidth = true
         messageLabel.minimumScaleFactor = 0.6
