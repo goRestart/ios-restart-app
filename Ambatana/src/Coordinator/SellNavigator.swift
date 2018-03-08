@@ -31,7 +31,7 @@ protocol PostListingNavigator: class {
     func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo)
     func backToSummary()
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
-                                   postState: PostListingState, source: EventParameterPictureSource)
+                                   source: EventParameterPictureSource)
 }
 
 protocol ListingPostedNavigator: class {
@@ -43,7 +43,7 @@ protocol ListingPostedNavigator: class {
 
 protocol BlockingPostingNavigator: class {
     func openCamera()
-    func openPrice(listing: Listing, postState: PostListingState)
+    func openPrice(listing: Listing)
     func openListingPosted(listing: Listing)
     func closePosting()
     func openListingEditionLoading(listingParams: ListingEditionParams)

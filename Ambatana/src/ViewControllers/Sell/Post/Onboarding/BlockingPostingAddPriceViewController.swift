@@ -42,6 +42,7 @@ class BlockingPostingAddPriceViewController: KeyboardViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         setStatusBarHidden(false)
     }
     
