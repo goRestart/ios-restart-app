@@ -42,6 +42,12 @@ class BlockingPostingQueuedRequestsViewController: BaseViewController, BlockingP
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setStatusBarHidden(true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        setStatusBarHidden(false)
     }
     
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
@@ -56,6 +62,7 @@ class BlockingPostingQueuedRequestsViewController: BaseViewController, BlockingP
             .bind { [weak self] state in
                 guard let strongSelf = self else { return }
                 guard let state = state else { return }
+                strongSelf.closeButton.isHidden = !state.isError
                 strongSelf.loadingView.updateWith(message: state.message, isError: state.isError, isAnimated: state.isAnimated)
             }.disposed(by: disposeBag)
     }
