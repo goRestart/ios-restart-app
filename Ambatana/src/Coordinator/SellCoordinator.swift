@@ -239,14 +239,12 @@ extension SellCoordinator: PostListingNavigator {
         let _ = navigationController.popViewController(animated: true)
     }
     
-    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
-                                   postState: PostListingState, source: EventParameterPictureSource) {
-        let viewModel = PostingQueuedRequestsLoadingViewModel(images: images,
+    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams, source: EventParameterPictureSource) {
+        let viewModel = BlockingPostingQueuedRequestsViewModel(images: images,
                                                               listingCreationParams: listingCreationParams,
-                                                              postState: postState,
                                                               source: source)
         viewModel.navigator = self
-        let vc = PostingQueuedRequestsLoadingViewController(viewModel: viewModel)
+        let vc = BlockingPostingQueuedRequestsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)
     }
 }
@@ -301,9 +299,9 @@ extension SellCoordinator: ListingPostedNavigator {
     }
 }
 
-// MARK: - PostingHastenedCreateProduct
+// MARK: - BlockingPostingNavigator
 
-extension SellCoordinator: PostingHastenedCreateProductNavigator  {
+extension SellCoordinator: BlockingPostingNavigator  {
     func openCamera() {
         let postListingVM = PostListingViewModel(source: .sellButton,
                                                  postCategory: nil,
@@ -315,15 +313,15 @@ extension SellCoordinator: PostingHastenedCreateProductNavigator  {
         navigationController.pushViewController(postListingVC, animated: true)
     }
     
-    func openPrice(listingCreationParams: ListingCreationParams, postState: PostListingState) {
-        let viewModel = PostingAddPriceViewModel(listingCreationParams: listingCreationParams, postState: postState)
+    func openPrice(listing: Listing, images: [UIImage]) {
+        let viewModel = BlockingPostingAddPriceViewModel(listing: listing, images: images)
         viewModel.navigator = self
-        let vc = PostingAddPriceViewController(viewModel: viewModel)
+        let vc = BlockingPostingAddPriceViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openListingPosted(listingResult: ListingResult?, trackingInfo: PostListingTrackingInfo?) {
-        let viewModel = ListingPostedDescriptiveViewModel()
+    func openListingPosted(listing: Listing, images: [UIImage]) {
+        let viewModel = ListingPostedDescriptiveViewModel(listing: listing, listingImages: images)
         viewModel.navigator = self
         let vc = ListingPostedDescriptiveViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
@@ -343,6 +341,13 @@ extension SellCoordinator: PostingHastenedCreateProductNavigator  {
 
     func closePosting() {
         cancelPostListing()
+    }
+    
+    func openListingEditionLoading(listingParams: ListingEditionParams, images: [UIImage]) {
+        let viewModel = BlockingPostingListingEditionViewModel(listingParams: listingParams, images: images)
+        viewModel.navigator = self
+        let vc = BlockingPostingListingEditionViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: false)
     }
 }
 

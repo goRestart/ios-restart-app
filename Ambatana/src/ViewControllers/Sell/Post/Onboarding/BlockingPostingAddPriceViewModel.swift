@@ -1,5 +1,5 @@
 //
-//  PostingAddPriceViewModel.swift
+//  BlockingPostingAddPriceViewModel.swift
 //  LetGo
 //
 //  Created by Raúl de Oñate Blanco on 19/02/2018.
@@ -7,16 +7,23 @@
 //
 
 import LGCoreKit
+import RxSwift
 
-class PostingAddPriceViewModel: BaseViewModel {
+class BlockingPostingAddPriceViewModel: BaseViewModel {
+    
+    static let headerStep: BlockingPostingHeaderStep = .addPrice
     
     private let listingRepository: ListingRepository
     private let locationManager: LocationManager
     private let currencyHelper: CurrencyHelper
     private let featureFlags: FeatureFlaggeable
-    private let listingCreationParams: ListingCreationParams
+    private let listing: Listing
+    private let images: [UIImage]
+    private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
     
-    weak var navigator: PostingHastenedCreateProductNavigator?
+    weak var navigator: BlockingPostingNavigator?
+    
+    private let disposeBag = DisposeBag()
     
     private var currencySymbol: String? {
         guard let countryCode = locationManager.currentLocation?.countryCode else { return nil }
@@ -26,43 +33,49 @@ class PostingAddPriceViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    convenience init(listingCreationParams: ListingCreationParams,
-                     postState: PostListingState) {
+    convenience init(listing: Listing, images: [UIImage]) {
         self.init(listingRepository: Core.listingRepository,
                   locationManager: Core.locationManager,
                   currencyHelper: Core.currencyHelper,
                   featureFlags: FeatureFlags.sharedInstance,
-                  listingCreationParams: listingCreationParams,
-                  postState: postState)
+                  listing: listing,
+                  images: images)
     }
     
     init(listingRepository: ListingRepository,
          locationManager: LocationManager,
          currencyHelper: CurrencyHelper,
          featureFlags: FeatureFlaggeable,
-         listingCreationParams: ListingCreationParams,
-         postState: PostListingState) {
+         listing: Listing,
+         images: [UIImage]) {
         self.listingRepository = listingRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.featureFlags = featureFlags
-        self.listingCreationParams = listingCreationParams
-        
+        self.listing = listing
+        self.images = images
         super.init()
     }
+
     
+    // MARK: - PostingAddDetailPriceView
     
-    // MARK: - Navigation
-    
-    func openListingPosted() {
-        navigator?.openListingPosted(listingResult: nil, trackingInfo: nil)
-    }
-    
-    func makePriceView(view: UIView) -> PostingViewConfigurable? {
+    func makePriceView(view: UIView) {
         let priceView = PostingAddDetailPriceView(currencySymbol: currencySymbol,
                                                   freeEnabled: featureFlags.freePostingModeAllowed, frame: CGRect.zero)
         priceView.setupContainerView(view: view)
-        
-        return priceView
+        priceView.priceListing.asObservable().bind(to: priceListing).disposed(by: disposeBag)
+    }
+    
+    
+    // MARK: - UI Actions
+    
+    func doneButtonAction() {
+        guard let productParams = ProductEditionParams(listing: listing) else { return }
+        var editParams = ListingEditionParams.product(productParams)
+        if editParams.price != priceListing.value {
+            editParams = editParams.updating(price: priceListing.value)
+        }
+        navigator?.openListingEditionLoading(listingParams: editParams, images: images)
     }
 }

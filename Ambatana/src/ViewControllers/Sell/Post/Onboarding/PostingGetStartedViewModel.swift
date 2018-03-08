@@ -11,7 +11,7 @@ import RxSwift
 
 class PostingGetStartedViewModel: BaseViewModel {
     
-    weak var navigator: PostingHastenedCreateProductNavigator?
+    weak var navigator: BlockingPostingNavigator?
 
     var myUserRepository: MyUserRepository
     var userAvatarURL: URL? {

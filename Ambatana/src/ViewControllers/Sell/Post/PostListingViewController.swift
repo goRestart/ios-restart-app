@@ -654,10 +654,10 @@ extension PostListingViewController {
     
     private func stopAnimationLoaders(text: String?, isError: Bool, action: @escaping ()->()) {
         if viewModel.isRealEstate {
-            loadingViewRealEstate?.stopAnimating(!isError, completion: action)
+            loadingViewRealEstate?.stopAnimating(correctState: !isError, completion: action)
             addMessageToStackView(textMessage:text , success: !isError)
         } else {
-            customLoadingView.stopAnimating(!isError, completion: action)
+            customLoadingView.stopAnimating(correctState: !isError, completion: action)
         }
     }
     

@@ -31,7 +31,7 @@ class PostingCategoriesPickViewModel: BaseViewModel {
                                                                             highlightRealEstate: false)
 
     weak var delegate: PostingCategoriesPickDelegate?
-    weak var navigator: PostingHastenedCreateProductNavigator?
+    weak var navigator: BlockingPostingNavigator?
 
     override init() {
         super.init()

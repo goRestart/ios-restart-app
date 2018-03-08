@@ -59,7 +59,7 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
         return listingDescription.value != originalDescription && listingDescription.value != ""
     }
 
-    let listingImage: UIImage
+    let listingImage: UIImage?
     let listingName = Variable<String>("")
     let listingCategory = Variable<ListingCategory?>(nil)
     let listingDescription = Variable<String?>(nil)
@@ -68,7 +68,7 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
     var originalCategory: ListingCategory?
     var originalDescription: String?
 
-    weak var navigator: PostingHastenedCreateProductNavigator?
+    weak var navigator: BlockingPostingNavigator?
 
     private let tracker: Tracker
     private var listing: Listing
@@ -77,27 +77,22 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
 
     // MARK: - Lifecycle
     
-    override convenience init() {
-        var product = MockProduct.makeMock()
-        product.name = "Patata" //nil
-        product.price = ListingPrice.normal(23.0)
-        product.category = .electronics
-        let listing: Listing = Listing.product(product)
+    convenience init(listing: Listing, listingImages: [UIImage]) {
         self.init(listing: listing,
-                  listingImage: #imageLiteral(resourceName: "ic_star"),
+                  listingImages: listingImages,
                   tracker: TrackerProxy.sharedInstance,
                   listingRepository: Core.listingRepository)
     }
 
-    init(listing: Listing, listingImage: UIImage, tracker: Tracker,listingRepository: ListingRepository) {
+    init(listing: Listing, listingImages: [UIImage], tracker: Tracker,listingRepository: ListingRepository) {
         self.listing = listing
-        self.listingImage = listingImage
+        self.listingImage = listingImages.first
         self.tracker = tracker
         self.listingRepository = listingRepository
 
-        self.descriptionType = listing.name != nil ? .withTitle : .noTitle
-        self.listingName.value = listing.name ?? ""
-        self.originalName.value = listing.name ?? ""
+        self.descriptionType = listing.nameAuto != nil ? .withTitle : .noTitle
+        self.listingName.value = listing.nameAuto ?? ""
+        self.originalName.value = listing.nameAuto ?? ""
         self.listingCategory.value = listing.category
         self.originalCategory = listing.category
         super.init()
