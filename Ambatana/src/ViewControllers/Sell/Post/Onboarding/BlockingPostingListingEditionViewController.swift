@@ -79,12 +79,11 @@ class BlockingPostingListingEditionViewController: BaseViewController, BlockingP
         viewModel.state.asObservable().distinctUntilChanged { (s1, s2) -> Bool in
             s1 == s2
         }.bind { [weak self] state in
-            guard let strongSelf = self else { return }
             guard let state = state else { return }
-            strongSelf.closeButton.isHidden = !state.isError
-            strongSelf.loadingView.updateWith(message: state.message, isError: state.isError, isAnimated: state.isAnimated)
+            self?.closeButton.isHidden = !state.isError
+            self?.loadingView.updateWith(message: state.message, isError: state.isError, isAnimated: state.isAnimated)
             if state == .success {
-                strongSelf.viewModel.openListingPosted()
+                self?.viewModel.openListingPosted()
             }
         }.disposed(by: disposeBag)
     }
