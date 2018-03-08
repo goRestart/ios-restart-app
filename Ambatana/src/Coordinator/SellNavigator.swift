@@ -45,6 +45,7 @@ protocol BlockingPostingNavigator: class {
     func openPrice(listing: Listing, imageSource: EventParameterPictureSource, postingSource: PostingSource)
     func openListingPosted(listing: Listing)
     func closePosting()
-    func openListingEditionLoading(listingParams: ListingEditionParams)
+    func openListingEditionLoading(listingParams: ListingEditionParams, listing: Listing,
+                                   imageSource: EventParameterPictureSource, postingSource: PostingSource)
 }
 

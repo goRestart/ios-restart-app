@@ -82,6 +82,9 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
         if editParams.price != priceListing.value {
             editParams = editParams.updating(price: priceListing.value)
         }
-        navigator?.openListingEditionLoading(listingParams: editParams)
+        navigator?.openListingEditionLoading(listingParams: editParams,
+                                             listing: listing,
+                                             imageSource: imageSource,
+                                             postingSource: postingSource)
     }
 }

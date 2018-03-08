@@ -332,8 +332,14 @@ extension SellCoordinator: BlockingPostingNavigator  {
         cancelPostListing()
     }
     
-    func openListingEditionLoading(listingParams: ListingEditionParams) {
-        let viewModel = BlockingPostingListingEditionViewModel(listingParams: listingParams)
+    func openListingEditionLoading(listingParams: ListingEditionParams,
+                                   listing: Listing,
+                                   imageSource: EventParameterPictureSource,
+                                   postingSource: PostingSource) {
+        let viewModel = BlockingPostingListingEditionViewModel(listingParams: listingParams,
+                                                               listing: listing,
+                                                               imageSource: imageSource,
+                                                               postingSource: postingSource)
         viewModel.navigator = self
         let vc = BlockingPostingListingEditionViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)

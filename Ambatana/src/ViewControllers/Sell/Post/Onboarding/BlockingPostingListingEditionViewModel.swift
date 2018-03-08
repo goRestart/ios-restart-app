@@ -34,26 +34,48 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
         }
     }
     
+    private let featureFlags: FeatureFlaggeable
     private let listingRepository: ListingRepository
+    private let tracker: Tracker
     private let listingParams: ListingEditionParams
+    private var listing: Listing
+    private let imageSource: EventParameterPictureSource
+    private let postingSource: PostingSource
     
     var state = Variable<ListingEditionState?>(nil)
-    private var updatedListing: Listing?
     
     weak var navigator: BlockingPostingNavigator?
     
     
     // MARK: - Lifecycle
 
-    convenience init(listingParams: ListingEditionParams) {
-        self.init(listingRepository: Core.listingRepository,
-                  listingParams: listingParams)
+    convenience init(listingParams: ListingEditionParams,
+                     listing: Listing,
+                     imageSource: EventParameterPictureSource,
+                     postingSource: PostingSource) {
+        self.init(featureFlags: FeatureFlags.sharedInstance,
+                  listingRepository: Core.listingRepository,
+                  tracker: TrackerProxy.sharedInstance,
+                  listingParams: listingParams,
+                  listing: listing,
+                  imageSource: imageSource,
+                  postingSource: postingSource)
     }
 
-    init(listingRepository: ListingRepository,
-         listingParams: ListingEditionParams) {
+    init(featureFlags: FeatureFlaggeable,
+         listingRepository: ListingRepository,
+         tracker: Tracker,
+         listingParams: ListingEditionParams,
+         listing: Listing,
+         imageSource: EventParameterPictureSource,
+         postingSource: PostingSource) {
+        self.featureFlags = featureFlags
         self.listingRepository = listingRepository
+        self.tracker = tracker
         self.listingParams = listingParams
+        self.listing = listing
+        self.imageSource = imageSource
+        self.postingSource = postingSource
     }
 
     
@@ -63,7 +85,7 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
         state.value = .updatingListing
         listingRepository.update(listingParams: listingParams) { [weak self] result in
             if let responseListing = result.value {
-                self?.updatedListing = responseListing
+                self?.listing = responseListing
                 self?.state.value = .success
             } else if let _ = result.error {
                 self?.state.value = .error
@@ -75,11 +97,35 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     // MARK: - Navigation
     
     func openListingPosted() {
-        guard let listing = self.updatedListing else { return }
         navigator?.openListingPosted(listing: listing)
     }
     
     func closeButtonAction() {
+        trackPostSellComplete()
         navigator?.closePosting()
+    }
+    
+    
+    // MARK: - Tracking
+    
+    fileprivate func trackPostSellComplete() {
+        let trackingInfo = PostListingTrackingInfo(buttonName: .close,
+                                                   sellButtonPosition: postingSource.sellButtonPosition,
+                                                   imageSource: imageSource,
+                                                   price: String.fromPriceDouble(listing.price.value),
+                                                   typePage: postingSource.typePage,
+                                                   mostSearchedButton: postingSource.mostSearchedButton)
+        
+        let isFirmPrice = !listing.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
+        let event = TrackerEvent.listingSellComplete(listing,
+                                                     buttonName: trackingInfo.buttonName,
+                                                     sellButtonPosition: trackingInfo.sellButtonPosition,
+                                                     negotiable: trackingInfo.negotiablePrice,
+                                                     pictureSource: trackingInfo.imageSource,
+                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                     typePage: trackingInfo.typePage,
+                                                     mostSearchedButton: trackingInfo.mostSearchedButton,
+                                                     firmPrice: isFirmPrice)
+        tracker.trackEvent(event)
     }
 }
