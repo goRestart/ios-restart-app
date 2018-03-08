@@ -236,10 +236,12 @@ extension SellCoordinator: PostListingNavigator {
         let _ = navigationController.popViewController(animated: true)
     }
     
-    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams, source: EventParameterPictureSource) {
+    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
+                                   imageSource: EventParameterPictureSource, postingSource: PostingSource) {
         let viewModel = BlockingPostingQueuedRequestsViewModel(images: images,
-                                                              listingCreationParams: listingCreationParams,
-                                                              source: source)
+                                                               listingCreationParams: listingCreationParams,
+                                                               imageSource: imageSource,
+                                                               postingSource: postingSource)
         viewModel.navigator = self
         let vc = BlockingPostingQueuedRequestsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)
@@ -310,8 +312,10 @@ extension SellCoordinator: BlockingPostingNavigator  {
         navigationController.pushViewController(postListingVC, animated: true)
     }
     
-    func openPrice(listing: Listing) {
-        let viewModel = BlockingPostingAddPriceViewModel(listing: listing)
+    func openPrice(listing: Listing, imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+        let viewModel = BlockingPostingAddPriceViewModel(listing: listing,
+                                                         imageSource: imageSource,
+                                                         postingSource: postingSource)
         viewModel.navigator = self
         let vc = BlockingPostingAddPriceViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)

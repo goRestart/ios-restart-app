@@ -18,6 +18,8 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
     private let currencyHelper: CurrencyHelper
     private let featureFlags: FeatureFlaggeable
     private let listing: Listing
+    private let imageSource: EventParameterPictureSource
+    private let postingSource: PostingSource
     private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
     
     weak var navigator: BlockingPostingNavigator?
@@ -32,24 +34,32 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    convenience init(listing: Listing) {
+    convenience init(listing: Listing,
+                     imageSource: EventParameterPictureSource,
+                     postingSource: PostingSource) {
         self.init(listingRepository: Core.listingRepository,
                   locationManager: Core.locationManager,
                   currencyHelper: Core.currencyHelper,
                   featureFlags: FeatureFlags.sharedInstance,
-                  listing: listing)
+                  listing: listing,
+                  imageSource: imageSource,
+                  postingSource: postingSource)
     }
     
     init(listingRepository: ListingRepository,
          locationManager: LocationManager,
          currencyHelper: CurrencyHelper,
          featureFlags: FeatureFlaggeable,
-         listing: Listing) {
+         listing: Listing,
+         imageSource: EventParameterPictureSource,
+         postingSource: PostingSource) {
         self.listingRepository = listingRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.featureFlags = featureFlags
         self.listing = listing
+        self.imageSource = imageSource
+        self.postingSource = postingSource
         super.init()
     }
 

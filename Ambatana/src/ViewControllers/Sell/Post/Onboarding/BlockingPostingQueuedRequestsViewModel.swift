@@ -53,7 +53,8 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     private let fileRepository: FileRepository
     private let images: [UIImage]
     private var listingCreationParams: ListingCreationParams
-    private let source: EventParameterPictureSource
+    private let imageSource: EventParameterPictureSource
+    private let postingSource: PostingSource
     
     private var listingCreated: Listing?
     let queueState = Variable<QueueState?>(nil)
@@ -68,36 +69,40 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     
     
     // MARK: - Lifecycle
-    
+
     convenience init(images: [UIImage], listingCreationParams: ListingCreationParams,
-                     source: EventParameterPictureSource) {
+                     imageSource: EventParameterPictureSource, postingSource: PostingSource) {
         self.init(listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
                   images: images,
                   listingCreationParams: listingCreationParams,
-                  source: source)
+                  imageSource: imageSource,
+                  postingSource: postingSource)
     }
     
     convenience init(images: [UIImage], listingCreationParams: ListingCreationParams,
-                     source: EventParameterPictureSource, listingRepository: ListingRepository,
-                     fileRepository: FileRepository) {
+                     imageSource: EventParameterPictureSource, postingSource: PostingSource,
+                     listingRepository: ListingRepository, fileRepository: FileRepository) {
         self.init(listingRepository: listingRepository,
                   fileRepository: fileRepository,
                   images: images,
                   listingCreationParams: listingCreationParams,
-                  source: source)
+                  imageSource: imageSource,
+                  postingSource: postingSource)
     }
     
     init(listingRepository: ListingRepository,
          fileRepository: FileRepository,
          images: [UIImage],
          listingCreationParams: ListingCreationParams,
-         source: EventParameterPictureSource) {
+         imageSource: EventParameterPictureSource,
+         postingSource: PostingSource) {
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.images = images
         self.listingCreationParams = listingCreationParams
-        self.source = source
+        self.imageSource = imageSource
+        self.postingSource = postingSource
         super.init()
         setupRx()
     }
@@ -199,7 +204,9 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     // MARK: - Navigation
     
     func openPrice(listing: Listing) {
-        navigator?.openPrice(listing: listing)
+        navigator?.openPrice(listing: listing,
+                             imageSource: imageSource,
+                             postingSource: postingSource)
     }
     
     func closeButtonAction() {

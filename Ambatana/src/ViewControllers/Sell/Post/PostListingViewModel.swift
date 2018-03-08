@@ -149,7 +149,7 @@ class PostListingViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        guard firstTime else { return }
+        guard firstTime, !isBlockingPosting else { return }
         trackVisit()
     }
 
@@ -166,7 +166,7 @@ class PostListingViewModel: BaseViewModel {
 
     func imagesSelected(_ images: [UIImage], source: EventParameterPictureSource) {
         if isBlockingPosting {
-            openQueuedRequestsLoading(images: images, source: source)
+            openQueuedRequestsLoading(images: images, imageSource: source)
         } else {
             uploadImages(images, source: source)
         }
@@ -194,11 +194,12 @@ class PostListingViewModel: BaseViewModel {
         }
     }
     
-    fileprivate func openQueuedRequestsLoading(images: [UIImage], source: EventParameterPictureSource) {
+    fileprivate func openQueuedRequestsLoading(images: [UIImage], imageSource: EventParameterPictureSource) {
         guard let listingParams = makeListingParams() else { return }
         navigator?.openQueuedRequestsLoading(images: images,
                                              listingCreationParams: listingParams,
-                                             source: source)
+                                             imageSource: imageSource,
+                                             postingSource: postingSource)
     }
     
     func closeButtonPressed() {
