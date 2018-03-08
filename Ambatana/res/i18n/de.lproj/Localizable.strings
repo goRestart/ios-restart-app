@@ -64,9 +64,9 @@
 "categories_title" = "Kategorien";
 "categories_unassigned" = "Nichts ausgewählt";
 "categories_unassigned_items" = "Etwas anderes";
-"change_bio_placeholder" = "Add a bio that describes who you are. Share what you’re interested in or a fun fact about yourself";
-"change_bio_save_button" = "Save";
-"change_bio_title" = "About me";
+"change_bio_placeholder" = "Füge eine Biografie hinzu, die beschreibt, wer du bist. Teile anderen mit, an was du interessiert bist, oder erwähne ein lustiges Hobby von dir";
+"change_bio_save_button" = "Speichern";
+"change_bio_title" = "Über mich";
 "change_email_current_email_label" = "AKTUELLE E-MAIL-ADRESSE:";
 "change_email_error_already_registered" = "Diese E-Mail-Adresse ist bereits registriert. Bitte gib eine andere ein.";
 "change_email_error_invalid_email" = "Bitte gib eine gültige E-Mail-Adresse ein.";
@@ -919,7 +919,7 @@
 "settings_change_profile_picture_button" = "Profilbild";
 "settings_change_profile_picture_error_generic" = "Beim Ändern des Profilbilds ist eine Fehler aufgetreten.";
 "settings_change_profile_picture_loading" = "Dein Profilbild wird eingerichtet, bitte warten...";
-"settings_change_user_bio_button" = "Bio / About me";
+"settings_change_user_bio_button" = "Biografie / Über mich";
 "settings_change_username_button" = "Name";
 "settings_general_notifications_alert_message" = "Aktiviere Benachrichtigungen für die letgo-App in deinen Geräteeinstellungen.";
 "settings_help_button" = "Hilfe";

@@ -34,9 +34,9 @@ class BlockingPostingStepHeaderView: UIView {
     
     // MARK: - UI
     
-    func updateWith(stepNumber: String, title: String) {
+    func updateWith(stepNumber: Int, title: String) {
         titleLabel.text = title
-        stepNumberLabel.text = stepNumber
+        stepNumberLabel.text = String(stepNumber)
     }
     
     private func setupUI() {

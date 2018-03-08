@@ -64,9 +64,9 @@
 "categories_title" = "Kategorier";
 "categories_unassigned" = "Ikke valgt";
 "categories_unassigned_items" = "Andre produkter";
-"change_bio_placeholder" = "Add a bio that describes who you are. Share what you’re interested in or a fun fact about yourself";
-"change_bio_save_button" = "Save";
-"change_bio_title" = "About me";
+"change_bio_placeholder" = "Legg til biografi som forklarer hvem du er. Del hva du er interessert i eller noe morsomt om deg selv";
+"change_bio_save_button" = "Lagre";
+"change_bio_title" = "Om meg";
 "change_email_current_email_label" = "NÅVÆRENDE E-POSTADRESSE:";
 "change_email_error_already_registered" = "Denne er e-postadressen er allerede registrert. Vennligst velg en annen.";
 "change_email_error_invalid_email" = "Vennligst legg inn en gyldig e-postadresse.";
@@ -919,7 +919,7 @@
 "settings_change_profile_picture_button" = "Bilde";
 "settings_change_profile_picture_error_generic" = "Det oppstod en feil ved endring av profilbildet.";
 "settings_change_profile_picture_loading" = "Legger til profilbildet ditt, vennligst vent…";
-"settings_change_user_bio_button" = "Bio / About me";
+"settings_change_user_bio_button" = "Biografi / Om meg";
 "settings_change_username_button" = "Navn";
 "settings_general_notifications_alert_message" = "Aktiver varslinger for letgo's app i innstillinger for din enhet.";
 "settings_help_button" = "Hjelp";

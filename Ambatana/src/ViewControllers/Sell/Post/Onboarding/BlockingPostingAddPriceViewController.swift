@@ -51,7 +51,7 @@ class BlockingPostingAddPriceViewController: KeyboardViewController {
     private func setupUI() {     
         view.backgroundColor = .clear
         
-        headerView.updateWith(stepNumber: BlockingPostingAddPriceViewModel.postingStepNumber, title: viewModel.headerTitle)
+        headerView.updateWith(stepNumber: BlockingPostingAddPriceViewModel.headerStep.number, title: BlockingPostingAddPriceViewModel.headerStep.title)
         
         doneButton.setTitle(LGLocalizedString.productPostDone, for: .normal)
         doneButton.setStyle(.primary(fontSize: .medium))
@@ -66,7 +66,7 @@ class BlockingPostingAddPriceViewController: KeyboardViewController {
         headerView.layout(with: view)
             .fillHorizontal()
             .top()
-        headerView.layout().height(headerView.height)
+        headerView.layout().height(BlockingPostingStepHeaderView.height)
         
         doneButton.layout(with: view).bottom(by: -Metrics.margin)
         doneButton.layout().height(BlockingPostingAddPriceViewController.doneButtonHeight)
