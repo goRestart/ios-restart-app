@@ -14,67 +14,151 @@ enum PostingDescriptionType {
     case noTitle
 }
 
-class ListingPostedDescriptiveViewModel: BaseViewModel {
+class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDelegate {
 
     var descriptionType: PostingDescriptionType
 
-    var listingImageURL: URL? {
-        return listing.images.first?.fileURL
-    }
-
     var doneText: String {
-        return "_Done! That was easy, right?"
+        return LGLocalizedString.postDescriptionDoneText
     }
 
     var saveButtonText: String {
-        return "_ Save this listing!"
+        return LGLocalizedString.postDescriptionSaveButtonText
     }
 
     var discardButtonText: String {
-        return "_ Discard"
+        return LGLocalizedString.postDescriptionDiscardButtonText
     }
 
-    let listingImage = Variable<UIImage?>(nil)
+    var listingInfoTitleText: String {
+        return LGLocalizedString.postDescriptionInfoTitle.uppercased()
+    }
+
+    var namePlaceholder: String {
+        return LGLocalizedString.postDescriptionNamePlaceholder
+    }
+    var categoryButtonPlaceholder: String {
+        return LGLocalizedString.postDescriptionCategoryTitle
+    }
+    var descriptionPlaceholder: String {
+        return LGLocalizedString.postDescriptionDescriptionPlaceholder
+    }
+    var categoryButtonImage: UIImage? {
+        return #imageLiteral(resourceName: "ic_arrow_right_white").withRenderingMode(.alwaysTemplate)
+    }
+
+    private var nameChanged: Bool {
+        return listingName.value != originalName.value
+    }
+
+    private var categoryChanged: Bool {
+        return listingCategory.value != originalCategory
+    }
+
+    private var descriptionChanged: Bool {
+        return listingDescription.value != originalDescription && listingDescription.value != ""
+    }
+
+    let listingImage: UIImage
+    let listingName = Variable<String>("")
+    let listingCategory = Variable<ListingCategory?>(nil)
+    let listingDescription = Variable<String?>(nil)
+
+    let originalName = Variable<String>("")
+    var originalCategory: ListingCategory?
+    var originalDescription: String?
 
     weak var navigator: PostingHastenedCreateProductNavigator?
 
     private let tracker: Tracker
-    private let listing: Listing
-    
+    private var listing: Listing
+    private let listingRepository: ListingRepository
+
+
     // MARK: - Lifecycle
     
     override convenience init() {
         var product = MockProduct.makeMock()
-        product.name = Int.makeRandom(min: 0, max: 1) < 1 ? "Supa cool zing" : nil
+        product.name = "Patata" //nil
         product.price = ListingPrice.normal(23.0)
         product.category = .electronics
         let listing: Listing = Listing.product(product)
-        self.init(listing: listing, tracker: TrackerProxy.sharedInstance)
+        self.init(listing: listing,
+                  listingImage: #imageLiteral(resourceName: "ic_star"),
+                  tracker: TrackerProxy.sharedInstance,
+                  listingRepository: Core.listingRepository)
     }
 
-    init(listing: Listing, tracker: Tracker) {
-        self.tracker = tracker
+    init(listing: Listing, listingImage: UIImage, tracker: Tracker,listingRepository: ListingRepository) {
         self.listing = listing
+        self.listingImage = listingImage
+        self.tracker = tracker
+        self.listingRepository = listingRepository
 
         self.descriptionType = listing.name != nil ? .withTitle : .noTitle
+        self.listingName.value = listing.name ?? ""
+        self.originalName.value = listing.name ?? ""
+        self.listingCategory.value = listing.category
+        self.originalCategory = listing.category
+        super.init()
+        self.originalDescription = self.descriptionPlaceholder
     }
 
+
+    // MARK: Public methods
+
+    func updateListingNameWith(text: String?) {
+        guard let name = text else { return }
+        listingName.value = name
+    }
+
+    func updateListingDescriptionWith(text: String?) {
+        listingDescription.value = text ?? descriptionPlaceholder
+    }
 
     // MARK: - Private Methods
 
-    func retrieveImageForAvatar() {
-
-        guard let imageUrl = listingImageURL else { return }
-        ImageDownloader.sharedInstance.downloadImageWithURL(imageUrl) { [weak self] result, url in
-            guard let imageWithSource = result.value, url == self?.listingImageURL else { return }
-            self?.listingImage.value = imageWithSource.image
-        }
+    private func infoHasChanged() -> Bool {
+        return nameChanged || categoryChanged || descriptionChanged
     }
 
 
     // MARK: - Navigation
-    
-    func closePosting() {
-        navigator?.closePosting()
+
+    func openCategoriesPicker() {
+        navigator?.openCategoriesPickerWith(delegate: self)
+    }
+
+    func closePosting(discardingListing: Bool) {
+        defer {
+            navigator?.closePosting()
+        }
+        if discardingListing {
+            guard let listingId = listing.objectId else { return }
+            listingRepository.delete(listingId: listingId, completion: nil)
+        } else if infoHasChanged() {
+            let updatedParams: ListingEditionParams
+            if let category = listingCategory.value, category.isCar {
+                guard let carParams = CarEditionParams(listing: listing) else { return }
+                carParams.name = listingName.value
+                carParams.category = .cars
+                carParams.descr = descriptionChanged ? listingDescription.value : nil
+                updatedParams = .car(carParams)
+            } else {
+                guard let productParams = ProductEditionParams(listing: listing) else { return }
+                productParams.name = listingName.value
+                productParams.category = listingCategory.value ?? .other
+                productParams.descr = descriptionChanged ? listingDescription.value : nil
+                updatedParams = .product(productParams)
+            }
+            listingRepository.update(listingParams: updatedParams, completion: nil)
+        }
+    }
+
+
+    // MARK: PostingCategoriesPickDelegate
+
+    func didSelectCategory(category: ListingCategory) {
+        listingCategory.value = category
     }
 }

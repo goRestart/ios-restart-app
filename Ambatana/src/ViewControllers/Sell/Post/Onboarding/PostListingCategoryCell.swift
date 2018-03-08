@@ -53,7 +53,6 @@ class PostListingCategoryCell: UITableViewCell {
     private func setupLayout() {
         contentView.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
-
         label.layout(with: contentView).left(by: Metrics.bigMargin).top().bottom().right()
     }
     
