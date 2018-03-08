@@ -75,6 +75,7 @@ final class SellCoordinator: Coordinator {
         
         // TODO: Temporary navigation to the blocking posting until task to trigger it only for the first time is done.
         // This is never going to be merged to master
+
         if featureFlags.onboardingIncentivizePosting.isActive {
             let getStartedVM = PostingGetStartedViewModel()
             let getStartedVC = PostingGetStartedViewController(viewModel: getStartedVM)
@@ -327,7 +328,19 @@ extension SellCoordinator: PostingHastenedCreateProductNavigator  {
         let vc = ListingPostedDescriptiveViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
-    
+
+    func openCategoriesPickerWith(delegate: PostingCategoriesPickDelegate) {
+        let viewModel = PostingCategoriesPickViewModel()
+        viewModel.delegate = delegate
+        viewModel.navigator = self
+        let viewController = PostingCategoriesPickViewController(viewModel: viewModel)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    func closeCategoriesPicker() {
+        let _ = navigationController.popViewController(animated: true)
+    }
+
     func closePosting() {
         cancelPostListing()
     }

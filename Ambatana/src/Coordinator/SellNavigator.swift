@@ -45,6 +45,8 @@ protocol PostingHastenedCreateProductNavigator: class {
     func openCamera()
     func openPrice(listingCreationParams: ListingCreationParams, postState: PostListingState)
     func openListingPosted(listingResult: ListingResult?, trackingInfo: PostListingTrackingInfo?)
+    func openCategoriesPickerWith(delegate: PostingCategoriesPickDelegate)
+    func closeCategoriesPicker()
     func closePosting()
 }
 
