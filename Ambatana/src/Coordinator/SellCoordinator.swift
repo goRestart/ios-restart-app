@@ -238,11 +238,9 @@ extension SellCoordinator: PostListingNavigator {
         let _ = navigationController.popViewController(animated: true)
     }
     
-    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
-                                   postState: PostListingState, source: EventParameterPictureSource) {
+    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams, source: EventParameterPictureSource) {
         let viewModel = BlockingPostingQueuedRequestsViewModel(images: images,
                                                               listingCreationParams: listingCreationParams,
-                                                              postState: postState,
                                                               source: source)
         viewModel.navigator = self
         let vc = BlockingPostingQueuedRequestsViewController(viewModel: viewModel)
@@ -314,8 +312,8 @@ extension SellCoordinator: BlockingPostingNavigator  {
         navigationController.pushViewController(postListingVC, animated: true)
     }
     
-    func openPrice(listing: Listing, postState: PostListingState) {
-        let viewModel = BlockingPostingAddPriceViewModel(listing: listing, postState: postState)
+    func openPrice(listing: Listing) {
+        let viewModel = BlockingPostingAddPriceViewModel(listing: listing)
         viewModel.navigator = self
         let vc = BlockingPostingAddPriceViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)

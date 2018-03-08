@@ -14,7 +14,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     enum QueueState {
         case uploadingImages
         case createListing
-        case createListingFake
+        case createListingUI
         case listingPosted
         case error
         
@@ -24,7 +24,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
                 return LGLocalizedString.postQueuedRequestsStateGeneratingTitle
             case .createListing:
                 return LGLocalizedString.postQueuedRequestsStateCategorizingListing
-            case .createListingFake:
+            case .createListingUI:
                 return LGLocalizedString.postQueuedRequestsStatePostingListing
             case .listingPosted:
                 return LGLocalizedString.postQueuedRequestsStateListingPosted
@@ -35,7 +35,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
         
         var isAnimated: Bool {
             switch self {
-            case .uploadingImages, .createListing, .createListingFake:
+            case .uploadingImages, .createListing, .createListingUI:
                 return true
             case .listingPosted, .error:
                 return false
@@ -43,12 +43,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
         }
         
         var isError: Bool {
-            switch self {
-            case .error:
-                return true
-            case .uploadingImages, .createListing, .createListingFake, .listingPosted:
-                return false
-            }
+            return self == .error
         }
     }
 
@@ -60,19 +55,13 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     private var listingCreationParams: ListingCreationParams
     private let source: EventParameterPictureSource
     
-    var queueState = Variable<QueueState?>(nil)
-    var uploadImagesTriggered = Variable<Bool>(false)
-    var uploadImagesResult = Variable<FilesResult?>(nil)
-    var createListingResult = Variable<ListingResult?>(nil)
-    var createListingFakeTriggered = Variable<Bool>(false)
-    var listingPostedTriggered = Variable<Bool>(false)
-    
     private var listingCreated: Listing?
-    
-    let postListingState: Variable<PostListingState>
-    let isLoading = Variable<Bool>(false)
-    let gotListingCreateResponse = Variable<Bool>(false)
-    fileprivate var listingResult: ListingResult?
+    let queueState = Variable<QueueState?>(nil)
+    let uploadImagesTriggered = Variable<Bool>(false)
+    let uploadImagesResult = Variable<FilesResult?>(nil)
+    let createListingResult = Variable<ListingResult?>(nil)
+    let createListingUITriggered = Variable<Bool>(false)
+    let listingPostedTriggered = Variable<Bool>(false)
     
     weak var navigator: BlockingPostingNavigator?
     private let disposeBag = DisposeBag()
@@ -81,23 +70,21 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     convenience init(images: [UIImage], listingCreationParams: ListingCreationParams,
-                     postState: PostListingState, source: EventParameterPictureSource) {
+                     source: EventParameterPictureSource) {
         self.init(listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
                   images: images,
                   listingCreationParams: listingCreationParams,
-                  postState: postState,
                   source: source)
     }
     
-    convenience init(images: [UIImage], listingCreationParams: ListingCreationParams, postState: PostListingState,
+    convenience init(images: [UIImage], listingCreationParams: ListingCreationParams,
                      source: EventParameterPictureSource, listingRepository: ListingRepository,
                      fileRepository: FileRepository) {
         self.init(listingRepository: listingRepository,
                   fileRepository: fileRepository,
                   images: images,
                   listingCreationParams: listingCreationParams,
-                  postState: postState,
                   source: source)
     }
     
@@ -105,14 +92,12 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
          fileRepository: FileRepository,
          images: [UIImage],
          listingCreationParams: ListingCreationParams,
-         postState: PostListingState,
          source: EventParameterPictureSource) {
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.images = images
         self.listingCreationParams = listingCreationParams
         self.source = source
-        self.postListingState = Variable<PostListingState>(postState)
         super.init()
         setupRx()
     }
@@ -126,8 +111,8 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
                 strongSelf.uploadImages()
             case .createListing:
                 strongSelf.createListing()
-            case .createListingFake:
-                strongSelf.createListingFakeTriggered.value = true
+            case .createListingUI:
+                strongSelf.createListingUITriggered.value = true
             case .listingPosted:
                 strongSelf.listingPostedTriggered.value = true
             case .error:
@@ -143,10 +128,10 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
             }.disposed(by: disposeBag)
         
         uploadImagesResult.asObservable()
+            .unwrap()
             .delay(BlockingPostingQueuedRequestsViewModel.stateDelay, scheduler: MainScheduler.asyncInstance)
             .bind { [weak self] result in
                 guard let strongSelf = self else { return }
-                guard let result = result else { return }
                 if let images = result.value {
                     strongSelf.listingCreationParams = strongSelf.listingCreationParams.updating(images: images)
                     strongSelf.queueState.value = .createListing
@@ -156,19 +141,19 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
         }.disposed(by: disposeBag)
 
         createListingResult.asObservable()
+            .unwrap()
             .delay(BlockingPostingQueuedRequestsViewModel.stateDelay, scheduler: MainScheduler.asyncInstance)
             .bind { [weak self] result in
                 guard let strongSelf = self else { return }
-                guard let result = result else { return }
                 if let listing = result.value {
                     strongSelf.listingCreated = listing
-                    strongSelf.queueState.value = .createListingFake
+                    strongSelf.queueState.value = .createListingUI
                 } else {
                     strongSelf.queueState.value = .error
                 }
             }.disposed(by: disposeBag)
         
-        createListingFakeTriggered.asObservable()
+        createListingUITriggered.asObservable()
             .filter{ $0 }
             .delay(BlockingPostingQueuedRequestsViewModel.stateDelay, scheduler: MainScheduler.asyncInstance)
             .bind { [weak self] result in
@@ -214,7 +199,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     // MARK: - Navigation
     
     func openPrice(listing: Listing) {
-        navigator?.openPrice(listing: listing, postState: postListingState.value)
+        navigator?.openPrice(listing: listing)
     }
     
     func closeButtonAction() {

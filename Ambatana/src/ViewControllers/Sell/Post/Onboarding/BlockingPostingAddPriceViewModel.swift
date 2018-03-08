@@ -33,22 +33,19 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    convenience init(listing: Listing,
-                     postState: PostListingState) {
+    convenience init(listing: Listing) {
         self.init(listingRepository: Core.listingRepository,
                   locationManager: Core.locationManager,
                   currencyHelper: Core.currencyHelper,
                   featureFlags: FeatureFlags.sharedInstance,
-                  listing: listing,
-                  postState: postState)
+                  listing: listing)
     }
     
     init(listingRepository: ListingRepository,
          locationManager: LocationManager,
          currencyHelper: CurrencyHelper,
          featureFlags: FeatureFlaggeable,
-         listing: Listing,
-         postState: PostListingState) {
+         listing: Listing) {
         self.listingRepository = listingRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper

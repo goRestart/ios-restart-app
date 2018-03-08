@@ -73,7 +73,7 @@ class BlockingPostingQueuedRequestsViewController: BaseViewController, BlockingP
     private func setupUI() {
         view.backgroundColor = .clear
         
-        closeButton.addTarget(self, action: #selector(BlockingPostingListingEditionViewController.closeButtonAction), for: .touchUpInside)
+        closeButton.addTarget(self, action: #selector(closeButtonAction), for: .touchUpInside)
         closeButton.setImage(UIImage(named: "ic_post_close"), for: .normal)
         
         loadingView.delegate = self
