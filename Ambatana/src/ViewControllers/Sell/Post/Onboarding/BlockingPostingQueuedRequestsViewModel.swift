@@ -199,7 +199,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     // MARK: - Navigation
     
     func openPrice(listing: Listing) {
-        navigator?.openPrice(listing: listing)
+        navigator?.openPrice(listing: listing, images: images)
     }
     
     func closeButtonAction() {

@@ -13,12 +13,17 @@ class ListingPostedDescriptiveViewModel: BaseViewModel {
     weak var navigator: BlockingPostingNavigator?
     
     private let tracker: Tracker
-    
+    private let listing: Listing
+    private let images: [UIImage]
+
     
     // MARK: - Lifecycle
     
-    override init() {
+    init(listing: Listing, images: [UIImage]) {
         self.tracker = TrackerProxy.sharedInstance
+        self.listing = listing
+        self.images = images
+        super.init()
     }
     
     
