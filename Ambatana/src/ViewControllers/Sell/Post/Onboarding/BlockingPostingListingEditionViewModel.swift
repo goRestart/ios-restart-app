@@ -26,21 +26,11 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
         }
         
         var isAnimated: Bool {
-            switch self {
-            case .updatingListing:
-                return true
-            case .success, .error:
-                return false
-            }
+            return self == .updatingListing
         }
         
         var isError: Bool {
-            switch self {
-            case .error:
-                return true
-            case .updatingListing, .success:
-                return false
-            }
+            return self == .error
         }
     }
     
