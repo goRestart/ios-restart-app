@@ -60,10 +60,9 @@ class BlockingPostingQueuedRequestsViewController: BaseViewController, BlockingP
     private func setupRx() {
         viewModel.queueState.asObservable()
             .bind { [weak self] state in
-                guard let strongSelf = self else { return }
                 guard let state = state else { return }
-                strongSelf.closeButton.isHidden = !state.isError
-                strongSelf.loadingView.updateWith(message: state.message, isError: state.isError, isAnimated: state.isAnimated)
+                self?.closeButton.isHidden = !state.isError
+                self?.loadingView.updateWith(message: state.message, isError: state.isError, isAnimated: state.isAnimated)
             }.disposed(by: disposeBag)
     }
     
