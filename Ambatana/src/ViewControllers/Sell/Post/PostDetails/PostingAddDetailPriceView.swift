@@ -157,6 +157,10 @@ class PostingAddDetailPriceView: UIView, PostingViewConfigurable, UITextFieldDel
         })
     }
     
+    func updatePriceTextFieldToFirstResponder() {
+        priceTextField.becomeFirstResponder()
+    }
+
     
     
     // MARK: - UITextFieldDelegate

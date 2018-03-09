@@ -6,6 +6,10 @@
 //  Copyright © 2018 Ambatana. All rights reserved.
 //
 
+protocol BlockingPostingStepHeaderViewDelegate: class {
+    func didTapStepHeaderView()
+}
+
 class BlockingPostingStepHeaderView: UIView {
     
     static let height: CGFloat = 100
@@ -16,6 +20,8 @@ class BlockingPostingStepHeaderView: UIView {
     private let titleLabel = UILabel()
     private let circleView = UIView()
     private let stepNumberLabel = UILabel()
+    
+    weak var delegate: BlockingPostingStepHeaderViewDelegate?
     
     
     // MARK: - Lifecycle
@@ -52,6 +58,9 @@ class BlockingPostingStepHeaderView: UIView {
         titleLabel.textColor = .white
         titleLabel.textAlignment = .left
         titleLabel.font = UIFont.systemBoldFont(size: 35)
+        
+        let tapBackground = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
+        addGestureRecognizer(tapBackground)
     }
     
     private func setupConstraints() {
@@ -71,5 +80,12 @@ class BlockingPostingStepHeaderView: UIView {
         stepNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         circleView.addSubview(stepNumberLabel)
         stepNumberLabel.layout(with: circleView).fill()
+    }
+    
+    
+    // MARK: - UI Actions
+    
+    @objc private func closeKeyboard() {
+        delegate?.didTapStepHeaderView()
     }
 }

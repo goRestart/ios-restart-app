@@ -9,7 +9,7 @@
 import LGCoreKit
 import RxSwift
 
-class BlockingPostingListingEditionViewController: BaseViewController, BlockingPostingLoadingViewDelegate {
+final class BlockingPostingListingEditionViewController: BaseViewController, BlockingPostingLoadingViewDelegate {
     
     private static let closeButtonHeight: CGFloat = 52
     
@@ -40,11 +40,21 @@ class BlockingPostingListingEditionViewController: BaseViewController, BlockingP
         viewModel.updateListing()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setStatusBarHidden(true)
+    }
+    
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         if let state = viewModel.state.value, state.isAnimated {
             loadingView.updateWith(message: state.message, isError: state.isError, isAnimated: state.isAnimated)
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        setStatusBarHidden(false)
     }
     
     
@@ -63,7 +73,7 @@ class BlockingPostingListingEditionViewController: BaseViewController, BlockingP
         view.addSubviewsForAutoLayout([closeButton, loadingView])
         
         closeButton.layout(with: view)
-            .top()
+            .top(by: toastView?.height ?? 0)
             .left()
         closeButton.layout()
             .height(BlockingPostingListingEditionViewController.closeButtonHeight)

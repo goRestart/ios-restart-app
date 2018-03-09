@@ -6,17 +6,18 @@
 //  Copyright © 2018 Ambatana. All rights reserved.
 //
 
-class BlockingPostingAddPriceViewController: KeyboardViewController {
+final class BlockingPostingAddPriceViewController: KeyboardViewController, BlockingPostingStepHeaderViewDelegate {
     
-    fileprivate static let doneButtonHeight: CGFloat = 44
-    fileprivate static let doneButtonWidth: CGFloat = 100
-    fileprivate static let addDetailPriceViewTopMargin: CGFloat = 30
+    private static let doneButtonHeight: CGFloat = 44
+    private static let doneButtonWidth: CGFloat = 100
+    private static let addDetailPriceViewTopMargin: CGFloat = 30
     
-    fileprivate let doneButton = UIButton()
-    fileprivate let addDetailPriceView = UIView()
+    private let doneButton = UIButton()
+    private var addDetailPriceView: PostingViewConfigurable?
+    private let contentView = UIView()
     
-    fileprivate let headerView = BlockingPostingStepHeaderView()
-    fileprivate let viewModel: BlockingPostingAddPriceViewModel
+    private let headerView = BlockingPostingStepHeaderView()
+    private let viewModel: BlockingPostingAddPriceViewModel
     
     
     // MARK: - Lifecycle
@@ -52,33 +53,35 @@ class BlockingPostingAddPriceViewController: KeyboardViewController {
     private func setupUI() {     
         view.backgroundColor = .clear
         
-        headerView.updateWith(stepNumber: BlockingPostingAddPriceViewModel.headerStep.rawValue, title: BlockingPostingAddPriceViewModel.headerStep.title)
-        
         doneButton.setTitle(LGLocalizedString.productPostDone, for: .normal)
         doneButton.setStyle(.primary(fontSize: .medium))
         doneButton.addTarget(self, action: #selector(doneButtonAction), for: .touchUpInside)
         
-        viewModel.makePriceView(view: addDetailPriceView)
+        headerView.delegate = self
+
+        let addDetailPriceView = viewModel.makePriceView()
+        addDetailPriceView.setupContainerView(view: contentView)
+        addDetailPriceView.updatePriceTextFieldToFirstResponder()
     }
     
     private func setupConstraints() {
-        view.addSubviewsForAutoLayout([headerView, doneButton, addDetailPriceView])
+        view.addSubviewsForAutoLayout([headerView, doneButton, contentView])
         
         headerView.layout(with: view)
             .fillHorizontal()
             .top()
         headerView.layout().height(BlockingPostingStepHeaderView.height)
+         headerView.updateWith(stepNumber: BlockingPostingAddPriceViewModel.headerStep.rawValue, title: BlockingPostingAddPriceViewModel.headerStep.title)
+        
+        contentView.layout(with: headerView).top(to: .bottom)
+        contentView.layout(with: view).fillHorizontal(by: Metrics.veryShortMargin)
+        contentView.layout(with: view).bottom(by: -(BlockingPostingAddPriceViewController.doneButtonHeight+Metrics.bigMargin*2))
         
         doneButton.layout(with: view).bottom(by: -Metrics.margin)
         doneButton.layout().height(BlockingPostingAddPriceViewController.doneButtonHeight)
         doneButton.layout().width(BlockingPostingAddPriceViewController.doneButtonWidth)
         doneButton.layout(with: keyboardView).bottom(to: .top, by: -Metrics.bigMargin)
         doneButton.layout(with: view).right(by: -Metrics.bigMargin)
-        
-        addDetailPriceView.layout(with: view)
-            .fillHorizontal()
-            .top(by: BlockingPostingStepHeaderView.height + BlockingPostingAddPriceViewController.addDetailPriceViewTopMargin)
-            .bottom(by: -(BlockingPostingAddPriceViewController.doneButtonHeight+Metrics.bigMargin*2))
     }
     
     
@@ -88,4 +91,10 @@ class BlockingPostingAddPriceViewController: KeyboardViewController {
         viewModel.doneButtonAction()
     }
     
+    
+    // MARK: - BlockingPostingStepHeaderViewDelegate
+    
+    func didTapStepHeaderView() {
+        view.endEditing(true)
+    }
 }
