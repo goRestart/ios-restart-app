@@ -17,6 +17,7 @@ enum PostingSource {
     case deepLink
     case onboardingButton
     case onboardingCamera
+    case onboardingBlockingPosting
     case notifications
     case deleteListing
     case realEstatePromo
@@ -459,7 +460,7 @@ extension PostingSource {
             return .sell
         case .deepLink:
             return .external
-        case .onboardingButton, .onboardingCamera:
+        case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
             return .onboarding
         case .notifications:
             return .notifications
@@ -477,7 +478,7 @@ extension PostingSource {
         switch self {
         case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
              .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
-             .mostSearchedCard, .mostSearchedUserProfile:
+             .mostSearchedCard, .mostSearchedUserProfile, .onboardingBlockingPosting:
             return nil
         case .onboardingButton:
             return .sellYourStuff
@@ -494,7 +495,7 @@ extension PostingSource {
             return .tabBar
         case .sellButton:
             return .floatingButton
-        case .onboardingButton, .onboardingCamera, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
+        case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
              .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
              .mostSearchedCard, .mostSearchedUserProfile:
             return .none
@@ -505,7 +506,7 @@ extension PostingSource {
     
     var mostSearchedButton: EventParameterMostSearched {
         switch self {
-        case .tabBar, .sellButton, .deepLink, .onboardingButton, .onboardingCamera,
+        case .tabBar, .sellButton, .deepLink, .onboardingButton, .onboardingCamera, .onboardingBlockingPosting,
              .notifications, .deleteListing, .realEstatePromo:
             return .notApply
         case .mostSearchedTabBarCamera:
