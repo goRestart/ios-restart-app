@@ -73,9 +73,7 @@ final class SellCoordinator: Coordinator {
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
         
-        // TODO: Temporary navigation to the blocking posting until task to trigger it only for the first time is done.
-        // This is never going to be merged to master
-        if featureFlags.onboardingIncentivizePosting.isActive {
+        if source == .onboardingBlockingPosting {
             let getStartedVM = PostingGetStartedViewModel()
             let getStartedVC = PostingGetStartedViewController(viewModel: getStartedVM)
             navigationController = SellNavigationController(rootViewController: getStartedVC)
