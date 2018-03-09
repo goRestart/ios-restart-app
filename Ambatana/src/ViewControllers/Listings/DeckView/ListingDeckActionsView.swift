@@ -24,7 +24,7 @@ final class ListingDeckActionView: UIView {
     private var fullViewContraints: [NSLayoutConstraint] = []
     private var actionButtonCenterY: NSLayoutConstraint?
 
-    let separator = UIView()
+    private let separator = UIView()
 
     let bumpUpBanner = BumpUpBanner()
     var isBumpUpVisible: Bool { return !bumpUpBanner.isHidden }
@@ -86,6 +86,8 @@ final class ListingDeckActionView: UIView {
         separator.layout(with: actionButton).below(by: Metrics.shortMargin)
         separator.layout().height(1)
         separator.layout(with: self).fillHorizontal()
+        separator.applyDefaultShadow()
+        separator.layer.shadowOffset = CGSize(width: 0, height: -1)
     }
 
     private func setupBumpUpBanner() {

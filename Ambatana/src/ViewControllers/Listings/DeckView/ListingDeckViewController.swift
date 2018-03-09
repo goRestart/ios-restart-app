@@ -33,12 +33,9 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func loadView() {
-        self.view = listingDeckView
-    }
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        listingDeckView.updateTop(wintInset: topBarHeight)
+        super.loadView()
+        view.addSubviewForAutoLayout(listingDeckView)
+        constraintViewToSafeRootView(listingDeckView)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -54,6 +51,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = listingDeckView.backgroundColor
+ 
         listingDeckView.setQuickChatViewModel(viewModel.quickChatViewModel)
         setupCollectionView()
         setupRx()
@@ -300,7 +299,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
                            delay: 0,
                            options: .curveEaseIn,
                            animations: { [weak self] in
-                self?.listingDeckView.itemActionsView.layoutIfNeeded()
+                self?.listingDeckView.layoutIfNeeded()
             }, completion: nil)
         }
     }

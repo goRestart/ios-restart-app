@@ -21,7 +21,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     var cardSize: CGSize { return collectionLayout.cardSize }
     var cellHeight: CGFloat { return collectionLayout.cellHeight }
 
-    private var collectionViewTop: NSLayoutConstraint? = nil
     private let topInsetView = UIView()
     let collectionView: UICollectionView
     private let collectionLayout = ListingDeckCollectionViewLayout()
@@ -110,7 +109,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
             bottomInsetView.trailingAnchor.constraint(equalTo: trailingAnchor),
             bottomInsetView.heightAnchor.constraint(equalTo: topInsetView.heightAnchor),
         ])
-        collectionViewTop = topInsetConstraint
 
         topInsetView.isUserInteractionEnabled = false
         topInsetView.alpha = 0
@@ -133,7 +131,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         collectionBottom.priority = .required - 1
         collectionBottom.isActive = true
         itemActionsView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        itemActionsView.layout(with: self).fillHorizontal().bottom(relatedBy: .equal)
+        itemActionsView.layout(with: self).fillHorizontal()
 
         itemActionsView.setContentCompressionResistancePriority(.required, for: .vertical)
         itemActionsView.setContentHuggingPriority(.required, for: .vertical)
@@ -160,10 +158,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 
     func updatePrivateActionsWith(alpha: CGFloat) {
         itemActionsView.alpha = alpha
-    }
-
-    func updateTop(wintInset inset: CGFloat) {
-        collectionViewTop?.constant = inset
     }
 
     func updateWith(bottomInset: CGFloat, animationTime: TimeInterval,

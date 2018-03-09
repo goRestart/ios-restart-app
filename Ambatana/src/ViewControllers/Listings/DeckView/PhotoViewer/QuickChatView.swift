@@ -201,7 +201,8 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         addSubview(textView)
         textView.setTextViewBackgroundColor(textViewStandardColor)
         textView.layout(with: self).fillHorizontal(by: Metrics.margin)
-        textViewBottom = textView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: Layout.outsideKeyboard)
+        textViewBottom = textView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        textViewBottom?.constant = Layout.outsideKeyboard
         textViewBottom?.isActive = true
         textView.setContentCompressionResistancePriority(.required, for: .vertical)
         textView.backgroundColor = .clear
