@@ -76,7 +76,6 @@ class GridDrawerManager {
                                    isFeatured: isFeatured,
                                    isMine: isMine,
                                    price: listing.priceString(freeModeAllowed: freePostingAllowed),
-                                   shouldShowPrice: false,
                                    imageSize: imageSize)
             listingDrawer.willDisplay(data, inCell: cell)
         case .advertisement(let adData):
@@ -90,7 +89,6 @@ class GridDrawerManager {
     func draw(_ model: ListingCellModel,
               inCell cell: UICollectionViewCell,
               delegate: ListingCellDelegate?,
-              shouldShowPrice: Bool,
               imageSize: CGSize)
     {
         switch model {
@@ -109,7 +107,6 @@ class GridDrawerManager {
                                    isFeatured: isFeatured,
                                    isMine: isMine,
                                    price: listing.priceString(freeModeAllowed: freePostingAllowed),
-                                   shouldShowPrice: shouldShowPrice,
                                    imageSize: imageSize)
             return listingDrawer.draw(data, style: cellStyle, inCell: cell)
         case .collectionCell(let style) where cell is CollectionCell:
