@@ -61,6 +61,7 @@ class BlockingPostingAddPriceViewController: KeyboardViewController, BlockingPos
 
         let addDetailPriceView = viewModel.makePriceView()
         addDetailPriceView.setupContainerView(view: contentView)
+        addDetailPriceView.updatePriceTextFieldToFirstResponder()
     }
     
     private func setupConstraints() {
