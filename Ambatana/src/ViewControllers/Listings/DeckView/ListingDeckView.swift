@@ -68,7 +68,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     }
 
     func scrollToIndex(_ index: IndexPath) {
-        collectionView.contentOffset = collectionLayout.offsetForPage(index.row)
+        collectionView.contentOffset = collectionLayout.anchorOffsetForPage(index.row)
     }
 
     @discardableResult
@@ -164,8 +164,8 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         focusOnCollectionView()
     }
 
-    func pageOffset(givenOffset: CGFloat) -> CGFloat {
-        return collectionLayout.pageOffset(givenOffset: givenOffset)
+    func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat {
+        return collectionLayout.normalizedPageOffset(givenOffset: givenOffset)
     }
 
     func updatePrivateActionsWith(alpha: CGFloat) {
@@ -250,5 +250,9 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 
     func handleCollectionChange<T>(_ change: CollectionChange<T>, completion: ((Bool) -> Void)? = nil) {
         collectionView.handleCollectionChange(change, completion: completion)
+    }
+
+    func setCollectionLayoutDelegate(_ delegate: ListingDeckCollectionViewLayoutDelegate) {
+        collectionLayout.delegate = delegate
     }
 }

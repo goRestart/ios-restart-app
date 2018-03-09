@@ -16,10 +16,28 @@ struct ListingDeckCellLayout {
     let verticalInsetDelta: CGFloat
 }
 
-final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
-    private struct Constants {
-        static let minAlpha: CGFloat = 0.7
+enum ScrollingDirection {
+    case right, none, left
+    var delta: Int {
+        switch self {
+        case .right: return 1
+        case .left: return -1
+        case .none: return 0
+        }
     }
+
+    static func make(velocity: CGFloat) -> ScrollingDirection {
+        guard velocity != 0 else { return .none }
+        return (velocity < 0) ? .left : .right
+    }
+}
+
+protocol ListingDeckCollectionViewLayoutDelegate: NSObjectProtocol {
+    func targetPage(forProposedPage proposedPage: Int, withScrollingDirection direction: ScrollingDirection) -> Int
+}
+
+final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
+    private struct Constants { static let minAlpha: CGFloat = 0.7 }
     private struct Defaults {
         static let itemsCount = 0
         static let offset: CGFloat = 0
@@ -36,7 +54,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     private let centerRatio: CGFloat = 0.5
     private var itemsCount: Int { get { return collectionView?.numberOfItems(inSection: 0) ?? Defaults.itemsCount } }
 
-    var page: Int { return Int(pageOffset(givenOffset: collectionView?.contentOffset.x ?? Defaults.offset)) }
+    var page: Int { return Int(normalizedPageOffset(givenOffset: collectionView?.contentOffset.x ?? Defaults.offset)) }
     var interitemSpacing: CGFloat { get { return cellLayout.insets.left / 2.0 } }
     var visibleWidth: CGFloat {
         get {
@@ -54,6 +72,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     var cellWidth: CGFloat { get { return visibleWidth - 2*cellLayout.insets.left } }
     var cellHeight: CGFloat { get { return visibleHeight } }
     var cardInsets: UIEdgeInsets { return cellLayout.insets }
+    weak var delegate: ListingDeckCollectionViewLayoutDelegate?
 
     override var collectionViewContentSize : CGSize {
         let count = CGFloat(itemsCount)
@@ -81,17 +100,9 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     func cardSystemLayoutSizeFittingSize(_ target: CGSize) -> CGSize {
-        let width = cardSystemLayoutWidthFittingSize(target)
-        let height = cardSystemLayoutHeightFittingSize(target)
+        let width = target.width - 2*cellLayout.insets.left
+        let height = target.width - cellLayout.insets.left
         return CGSize(width: width, height: height)
-    }
-
-    private func cardSystemLayoutWidthFittingSize(_ target: CGSize) -> CGFloat {
-        return target.width - 2*cellLayout.insets.left
-    }
-
-    private func cardSystemLayoutHeightFittingSize(_ target: CGSize) -> CGFloat {
-        return target.width - cellLayout.insets.left
     }
 
     override func prepare() {
@@ -111,18 +122,18 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         }
     }
 
-    func pageOffset(givenOffset x: CGFloat) -> CGFloat {
-        let offset: CGFloat =  x
+    // Method that indicates how far a page is from the anchor of the collectionView
+    func normalizedPageOffset(givenOffset x: CGFloat) -> CGFloat {
+        let offset: CGFloat = x
         let pageWidth: CGFloat = cellWidth + interitemSpacing
         let finalOffset = offset + pageWidth/2.0 // because of the first page initial position
 
         return CGFloat(finalOffset / pageWidth)
     }
 
-    func offsetForPage(_ page: Int) -> CGPoint {
+    // Method that returns the anchor offset for a given page
+    func anchorOffsetForPage(_ page: Int) -> CGPoint {
         let target = CGFloat(page) * (collectionViewContentSize.width / CGFloat(itemsCount))
-
-        let pageWidth: CGFloat = cellWidth + interitemSpacing
         return CGPoint(x: target, y: 0)
     }
 
@@ -169,8 +180,16 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint,
                                       withScrollingVelocity velocity: CGPoint) -> CGPoint {
-        let anchor: CGFloat = cellWidth + interitemSpacing
-        return CGPoint(x: round(proposedContentOffset.x / anchor) * anchor, y: 0)
+        let scrollingDirection = ScrollingDirection.make(velocity: velocity.x)
+        let proposedPage = Int(normalizedPageOffset(givenOffset: proposedContentOffset.x))
+
+        if let target = delegate?.targetPage(forProposedPage: proposedPage,
+                                             withScrollingDirection: scrollingDirection) {
+            return anchorOffsetForPage(target)
+        } else {
+            let anchor: CGFloat = cellWidth + interitemSpacing
+            return CGPoint(x: round(proposedContentOffset.x / anchor) * anchor, y: 0)
+        }
     }
 
     /* Return all attributes in the cache whose frame intersects with the rect passed to the method */

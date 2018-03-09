@@ -24,6 +24,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     fileprivate let binder = ListingDeckViewControllerBinder()
 
     fileprivate var transitioner: PhotoViewerTransitionAnimator?
+    private var lastPageBeforeDragging: Int = 0
 
     init(viewModel: ListingDeckViewModel) {
         self.viewModel = viewModel
@@ -101,6 +102,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     private func setupCollectionView() {
         automaticallyAdjustsScrollViewInsets = false
         listingDeckView.collectionView.dataSource = self
+        listingDeckView.setCollectionLayoutDelegate(self)
         listingDeckView.collectionView.register(ListingCardView.self, forCellWithReuseIdentifier: ListingCardView.reusableID)
 
         listingDeckView.collectionView.reloadData()
@@ -213,6 +215,10 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func willDisplayCell(_ cell: UICollectionViewCell) {
         guard let card = cell as? ListingCardView else { return }
         updateCellContentInset(card, animated: false)
+    }
+
+    func willBeginDragging() {
+        lastPageBeforeDragging = listingDeckView.currentPage
     }
     
     func didEndDecelerating() {
@@ -327,7 +333,7 @@ extension ListingDeckViewController: ListingDeckViewModelDelegate {
     }
 }
 
-extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCardViewDelegate, ListingCardDetailMapViewDelegate {
+extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCardViewDelegate, ListingCardDetailMapViewDelegate, ListingDeckCollectionViewLayoutDelegate {
     func viewControllerToShowShareOptions() -> UIViewController { return self }
 
     func didTapOnMapSnapshot(_ snapshot: UIView) {
@@ -345,6 +351,13 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
 
     func displayPhotoViewer() {
         viewModel.openPhotoViewer()
+    }
+    
+    func targetPage(forProposedPage proposedPage: Int, withScrollingDirection direction: ScrollingDirection) -> Int {
+        guard direction != .none else {
+            return proposedPage
+        }
+        return min(max(0, lastPageBeforeDragging + direction.delta), viewModel.objectCount - 1)
     }
 
     func didTapMapView() {

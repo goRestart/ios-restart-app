@@ -25,6 +25,7 @@ protocol ListingDeckViewControllerBinderType: class {
 
     func willDisplayCell(_ cell: UICollectionViewCell)
     func didEndDecelerating()
+    func willBeginDragging()
 
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool)
     func updateViewWithActions(_ actions: [UIAction])
@@ -40,7 +41,7 @@ protocol ListingDeckViewType: class {
     var rxDidEndEditing: ControlEvent<()>? { get }
 
     var currentPage: Int { get }
-    func pageOffset(givenOffset: CGFloat) -> CGFloat
+    func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat
 
     func handleCollectionChange<T>(_ change: CollectionChange<T>, completion: ((Bool) -> Void)?)
 }
@@ -172,6 +173,12 @@ final class ListingDeckViewControllerBinder {
             listingDeckView?.handleCollectionChange(change, completion: nil)
         }.disposed(by: disposeBag)
 
+        listingDeckView.rxCollectionView
+            .willBeginDragging
+            .asDriver().drive(onNext: { [weak viewController] _ in
+                viewController?.willBeginDragging()
+        }).disposed(by: disposeBag)
+
         listingDeckView.rxCollectionView.didEndDecelerating.bind { [weak viewController] in
             viewController?.didEndDecelerating()
         }.disposed(by: disposeBag)
@@ -206,7 +213,8 @@ final class ListingDeckViewControllerBinder {
 
         let contentOffsetAlphaSignal: Observable<CGFloat> = viewController.rxContentOffset
             .map { [weak listingDeckView] point in
-                let pageOffset = listingDeckView?.pageOffset(givenOffset: point.x).truncatingRemainder(dividingBy: 1.0) ?? 0.5
+                let pageOffset = listingDeckView?.normalizedPageOffset(givenOffset: point.x)
+                                                .truncatingRemainder(dividingBy: 1.0) ?? 0.5
                 guard pageOffset >= 0.5 else {
                     return 2*pageOffset
                 }

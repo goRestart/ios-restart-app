@@ -234,7 +234,7 @@ private class MockListingDeckViewType: ListingDeckViewType {
     func handleCollectionChange<T>(_ change: CollectionChange<T>, completion: ((Bool) -> Void)?) { }
 
     var isPageOffsetCalled: Int = 0
-    func pageOffset(givenOffset: CGFloat) -> CGFloat {
+    func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat {
         isPageOffsetCalled += 1
         return 0
     }
@@ -287,6 +287,9 @@ final class MockListingDeckViewModelType: ListingDeckViewModelType {
 }
 
 private class MockListingDeckViewControllerBinderType: ListingDeckViewControllerBinderType {
+    func willBeginDragging() {
+        // ☢️ do not know how to test this
+    }
     func willDisplayCell(_ cell: UICollectionViewCell) {
         // ☢️ do not know how to test this
     }
