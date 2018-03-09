@@ -9,7 +9,7 @@
 import LGCoreKit
 import RxSwift
 
-class BlockingPostingListingEditionViewController: BaseViewController, BlockingPostingLoadingViewDelegate {
+final class BlockingPostingListingEditionViewController: BaseViewController, BlockingPostingLoadingViewDelegate {
     
     private static let closeButtonHeight: CGFloat = 52
     

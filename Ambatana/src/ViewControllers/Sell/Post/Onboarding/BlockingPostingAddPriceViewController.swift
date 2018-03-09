@@ -6,18 +6,18 @@
 //  Copyright © 2018 Ambatana. All rights reserved.
 //
 
-class BlockingPostingAddPriceViewController: KeyboardViewController, BlockingPostingStepHeaderViewDelegate {
+final class BlockingPostingAddPriceViewController: KeyboardViewController, BlockingPostingStepHeaderViewDelegate {
     
-    fileprivate static let doneButtonHeight: CGFloat = 44
-    fileprivate static let doneButtonWidth: CGFloat = 100
-    fileprivate static let addDetailPriceViewTopMargin: CGFloat = 30
+    private static let doneButtonHeight: CGFloat = 44
+    private static let doneButtonWidth: CGFloat = 100
+    private static let addDetailPriceViewTopMargin: CGFloat = 30
     
-    fileprivate let doneButton = UIButton()
-    fileprivate var addDetailPriceView: PostingViewConfigurable?
-    fileprivate let contentView = UIView()
+    private let doneButton = UIButton()
+    private var addDetailPriceView: PostingViewConfigurable?
+    private let contentView = UIView()
     
-    fileprivate let headerView = BlockingPostingStepHeaderView()
-    fileprivate let viewModel: BlockingPostingAddPriceViewModel
+    private let headerView = BlockingPostingStepHeaderView()
+    private let viewModel: BlockingPostingAddPriceViewModel
     
     
     // MARK: - Lifecycle
