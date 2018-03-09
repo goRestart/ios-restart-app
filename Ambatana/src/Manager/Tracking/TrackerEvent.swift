@@ -703,6 +703,12 @@ struct TrackerEvent {
             params[.shareNetwork] = network.rawValue
             return TrackerEvent(name: .listingSellConfirmationShareComplete, params: params)
     }
+    
+    static func listingSellAbandon(abandonStep: EventParameterPostingAbandonStep) -> TrackerEvent {
+        var params = EventParameters()
+        params[.abandonStep] = abandonStep.rawValue
+        return TrackerEvent(name: .listingSellAbandon, params: params)
+    }
 
     static func listingEditStart(_ user: User?, listing: Listing, pageType: EventParameterTypePage?) -> TrackerEvent {
         var params = EventParameters()

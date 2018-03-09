@@ -73,22 +73,33 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
     private let tracker: Tracker
     private var listing: Listing
     private let listingRepository: ListingRepository
+    private let featureFlags: FeatureFlaggeable
+    private let imageSource: EventParameterPictureSource
+    private let postingSource: PostingSource
 
 
     // MARK: - Lifecycle
     
-    convenience init(listing: Listing, listingImages: [UIImage]) {
+    convenience init(listing: Listing, listingImages: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource) {
         self.init(listing: listing,
                   listingImages: listingImages,
+                  imageSource: imageSource,
+                  postingSource: postingSource,
                   tracker: TrackerProxy.sharedInstance,
-                  listingRepository: Core.listingRepository)
+                  listingRepository: Core.listingRepository,
+                  featureFlags: FeatureFlags.sharedInstance)
     }
 
-    init(listing: Listing, listingImages: [UIImage], tracker: Tracker,listingRepository: ListingRepository) {
+    init(listing: Listing, listingImages: [UIImage], imageSource: EventParameterPictureSource,
+         postingSource: PostingSource, tracker: Tracker, listingRepository: ListingRepository,
+         featureFlags: FeatureFlaggeable) {
         self.listing = listing
         self.listingImage = listingImages.first
+        self.imageSource = imageSource
+        self.postingSource = postingSource
         self.tracker = tracker
         self.listingRepository = listingRepository
+        self.featureFlags = featureFlags
 
         self.descriptionType = listing.nameAuto != nil ? .withTitle : .noTitle
         self.listingName.value = listing.nameAuto ?? ""
@@ -150,6 +161,35 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
         }
     }
 
+    
+    // MARK: - Tracker
+    
+    fileprivate func trackPostSellComplete() {
+        let trackingInfo = PostListingTrackingInfo(buttonName: .done,
+                                                   sellButtonPosition: postingSource.sellButtonPosition,
+                                                   imageSource: imageSource,
+                                                   price: String.fromPriceDouble(listing.price.value),
+                                                   typePage: postingSource.typePage,
+                                                   mostSearchedButton: postingSource.mostSearchedButton)
+        
+        let isFirmPrice = !listing.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
+        let event = TrackerEvent.listingSellComplete(listing,
+                                                     buttonName: trackingInfo.buttonName,
+                                                     sellButtonPosition: trackingInfo.sellButtonPosition,
+                                                     negotiable: trackingInfo.negotiablePrice,
+                                                     pictureSource: trackingInfo.imageSource,
+                                                     freePostingModeAllowed: featureFlags.freePostingModeAllowed,
+                                                     typePage: trackingInfo.typePage,
+                                                     mostSearchedButton: trackingInfo.mostSearchedButton,
+                                                     firmPrice: isFirmPrice)
+        tracker.trackEvent(event)
+    }
+    
+    fileprivate func trackPostSellAbandon() {
+        let event = TrackerEvent.listingSellAbandon(abandonStep: .summaryOnboarding)
+        tracker.trackEvent(event)
+    }
+    
 
     // MARK: PostingCategoriesPickDelegate
 

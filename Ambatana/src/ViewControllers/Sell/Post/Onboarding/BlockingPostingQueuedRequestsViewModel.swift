@@ -51,9 +51,11 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     
     private let listingRepository: ListingRepository
     private let fileRepository: FileRepository
+    private let tracker: Tracker
     private let images: [UIImage]
     private var listingCreationParams: ListingCreationParams
-    private let source: EventParameterPictureSource
+    private let imageSource: EventParameterPictureSource
+    private let postingSource: PostingSource
     
     private var listingCreated: Listing?
     let queueState = Variable<QueueState?>(nil)
@@ -68,36 +70,32 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     
     
     // MARK: - Lifecycle
-    
+
     convenience init(images: [UIImage], listingCreationParams: ListingCreationParams,
-                     source: EventParameterPictureSource) {
+                     imageSource: EventParameterPictureSource, postingSource: PostingSource) {
         self.init(listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
+                  tracker: TrackerProxy.sharedInstance,
                   images: images,
                   listingCreationParams: listingCreationParams,
-                  source: source)
-    }
-    
-    convenience init(images: [UIImage], listingCreationParams: ListingCreationParams,
-                     source: EventParameterPictureSource, listingRepository: ListingRepository,
-                     fileRepository: FileRepository) {
-        self.init(listingRepository: listingRepository,
-                  fileRepository: fileRepository,
-                  images: images,
-                  listingCreationParams: listingCreationParams,
-                  source: source)
+                  imageSource: imageSource,
+                  postingSource: postingSource)
     }
     
     init(listingRepository: ListingRepository,
          fileRepository: FileRepository,
+         tracker: Tracker,
          images: [UIImage],
          listingCreationParams: ListingCreationParams,
-         source: EventParameterPictureSource) {
+         imageSource: EventParameterPictureSource,
+         postingSource: PostingSource) {
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
+        self.tracker = tracker
         self.images = images
         self.listingCreationParams = listingCreationParams
-        self.source = source
+        self.imageSource = imageSource
+        self.postingSource = postingSource
         super.init()
         setupRx()
     }
@@ -199,10 +197,22 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     // MARK: - Navigation
     
     func openPrice(listing: Listing) {
-        navigator?.openPrice(listing: listing, images: images)
+        navigator?.openPrice(listing: listing,
+                             images: images,
+                             imageSource: imageSource,
+                             postingSource: postingSource)
     }
     
     func closeButtonAction() {
+        trackPostSellAbandon()
         navigator?.closePosting()
+    }
+    
+    
+    // MARK: - Tracker
+    
+    fileprivate func trackPostSellAbandon() {
+        let event = TrackerEvent.listingSellAbandon(abandonStep: .retry)
+        tracker.trackEvent(event)
     }
 }
