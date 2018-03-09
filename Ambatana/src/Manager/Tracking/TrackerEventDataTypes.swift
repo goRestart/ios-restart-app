@@ -484,6 +484,10 @@ enum EventParameterPostingAbandonStep: String {
     case cameraPermissions = "camera-permissions"
     case retry = "retry"
     case summaryOnboarding = "summary-onboarding"
+    
+    static var allValues: [EventParameterPostingAbandonStep] {
+        return [.cameraPermissions, .retry, .summaryOnboarding]
+    }
 }
 
 enum EventParameterMake {

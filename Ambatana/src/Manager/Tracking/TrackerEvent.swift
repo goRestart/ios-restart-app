@@ -706,7 +706,7 @@ struct TrackerEvent {
     
     static func listingSellAbandon(abandonStep: EventParameterPostingAbandonStep) -> TrackerEvent {
         var params = EventParameters()
-        params[.abandonStep] = abandonStep
+        params[.abandonStep] = abandonStep.rawValue
         return TrackerEvent(name: .listingSellAbandon, params: params)
     }
 
