@@ -27,13 +27,15 @@ class PostingCategoriesPickViewModel: BaseViewModel {
         return categories.count
     }
 
+    var selectedCategory: ListingCategory?
     let categories: [ListingCategory] = ListingCategory.visibleValuesInFeed(realEstateIncluded: false,
                                                                             highlightRealEstate: false)
 
     weak var delegate: PostingCategoriesPickDelegate?
     weak var navigator: BlockingPostingNavigator?
 
-    override init() {
+    init(selectedCategory: ListingCategory?) {
+        self.selectedCategory = selectedCategory
         super.init()
     }
 
@@ -48,6 +50,12 @@ class PostingCategoriesPickViewModel: BaseViewModel {
         guard categoriesCount > position, position >= 0 else { return }
         delegate?.didSelectCategory(category: categories[position])
         navigator?.closeCategoriesPicker()
+    }
+
+    func categorySelectedForIndexPath(indexPath: IndexPath) -> Bool {
+        let position: Int = indexPath.row
+        guard let category = selectedCategory, categoriesCount > position, position >= 0 else { return false }
+        return categories[position] == category
     }
 
     func closeCategoriesPicker() {

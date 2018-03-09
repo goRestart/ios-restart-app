@@ -8,12 +8,13 @@
 
 import RxSwift
 
-class ListingPostedDescriptiveViewController: BaseViewController, UITextViewDelegate {
+class ListingPostedDescriptiveViewController: KeyboardViewController, UITextViewDelegate {
 
     private struct PostingDescriptionMetrics {
-        static let sideMargin: CGFloat = 30
+        static let genericMargin: CGFloat = 30
         static let bigMargin: CGFloat = 50
-        static let buttonHeight: CGFloat = 60
+        static let saveButtonHeight: CGFloat = 60
+        static let discardButtonHeight: CGFloat = 50
         static let imageHeight: CGFloat = 250
         static let imageWidth: CGFloat = 175
         static let nameTextFieldHeight: CGFloat = 65
@@ -28,12 +29,19 @@ class ListingPostedDescriptiveViewController: BaseViewController, UITextViewDele
     private lazy var listingInfoTitleLabel = UILabel()
     private lazy var nameTextField = UITextField()
     private lazy var categoryButton = UIButton()
+    private lazy var categoryLabel = UILabel()
     private lazy var rightChevronImageView = UIImageView()
     private lazy var descriptionTextView = UITextView()
 
     private lazy var doneLabel = UILabel()
     private lazy var saveButton = UIButton(type: .custom)
     private lazy var discardButton = UIButton()
+
+    private var containerToKeyboardConstraint = NSLayoutConstraint()
+    private var discardButtonToBottomConstraint = NSLayoutConstraint()
+    private var containerToTopConstraint = NSLayoutConstraint()
+
+    private var keyboardHelper: KeyboardHelper
 
     private let viewModel: ListingPostedDescriptiveViewModel
 
@@ -43,6 +51,7 @@ class ListingPostedDescriptiveViewController: BaseViewController, UITextViewDele
     
     init(viewModel: ListingPostedDescriptiveViewModel) {
         self.viewModel = viewModel
+        self.keyboardHelper = KeyboardHelper()
         super.init(viewModel: viewModel, nibName: nil)
     }
     
@@ -55,6 +64,18 @@ class ListingPostedDescriptiveViewController: BaseViewController, UITextViewDele
         setupUI()
         setupConstraints()
         setupRx()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setStatusBarHidden(true)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        setStatusBarHidden(false)
+        nameTextField.resignFirstResponder()
+        descriptionTextView.resignFirstResponder()
     }
 
     override func viewDidLayoutSubviews() {
@@ -75,6 +96,7 @@ class ListingPostedDescriptiveViewController: BaseViewController, UITextViewDele
         doneLabel.textColor = UIColor.blackText
         doneLabel.text = viewModel.doneText
         doneLabel.numberOfLines = 0
+        doneLabel.minimumScaleFactor = 0.3
 
         switch viewModel.descriptionType {
         case .noTitle:
@@ -99,6 +121,9 @@ class ListingPostedDescriptiveViewController: BaseViewController, UITextViewDele
 
     private func setupTitleUI() {
 
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(containerTapped))
+        titleContainerView.addGestureRecognizer(tapRecognizer)
+
         doneLabel.textAlignment = .left
 
         listingInfoTitleLabel.text = viewModel.listingInfoTitleText
@@ -109,7 +134,8 @@ class ListingPostedDescriptiveViewController: BaseViewController, UITextViewDele
         nameTextField.font = UIFont.systemBoldFont(size: 21)
         nameTextField.tintColor = UIColor.primaryColor
 
-        categoryButton.titleLabel?.font = UIFont.veryBigButtonFont
+        categoryLabel.font = UIFont.veryBigButtonFont
+        categoryLabel.textAlignment = .left
         rightChevronImageView.contentMode = .scaleAspectFit
         rightChevronImageView.image = viewModel.categoryButtonImage
         rightChevronImageView.tintColor = UIColor.grayText
@@ -143,17 +169,19 @@ class ListingPostedDescriptiveViewController: BaseViewController, UITextViewDele
         listingImageView.layout(with: doneLabel).above(by: -Metrics.bigMargin)
 
         doneLabel.layout(with: noTitleContainerView)
-            .left(by: PostingDescriptionMetrics.sideMargin)
-            .right(by: -PostingDescriptionMetrics.sideMargin)
+            .left(by: PostingDescriptionMetrics.genericMargin)
+            .right(by: -PostingDescriptionMetrics.genericMargin)
             .bottom()
 
-        setupCommonConstraintsTo(container: noTitleContainerView)
+        view.addSubview(noTitleContainerView)
+        noTitleContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+        setupCommonConstraintsWith(container: noTitleContainerView)
     }
 
     private func setupTitleConstraints() {
-
-        let titleSubviews: [UIView] = [doneLabel, listingInfoTitleLabel, nameTextField, categoryButton,
-                                       rightChevronImageView, descriptionTextView]
+        let titleSubviews: [UIView] = [doneLabel, listingInfoTitleLabel, nameTextField, categoryLabel,
+                                       rightChevronImageView, categoryButton, descriptionTextView]
         view.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: titleSubviews)
         titleContainerView.addSubviews(titleSubviews)
 
@@ -180,9 +208,14 @@ class ListingPostedDescriptiveViewController: BaseViewController, UITextViewDele
         categoryButton.layout().height(PostingDescriptionMetrics.categoryButtonHeight)
         categoryButton.layout(with: titleContainerView)
             .left(by: Metrics.bigMargin)
-        rightChevronImageView.layout(with: titleContainerView)
             .right(by: -Metrics.bigMargin)
-        categoryButton.layout(with: rightChevronImageView)
+        categoryLabel.layout(with: categoryButton)
+            .top()
+            .bottom()
+            .left()
+        rightChevronImageView.layout(with: categoryButton)
+            .right()
+        categoryLabel.layout(with: rightChevronImageView)
             .centerY()
             .trailing(by: -Metrics.bigMargin, relatedBy: .lessThanOrEqual)
         categoryButton.layout(with: descriptionTextView).above(by: -Metrics.margin)
@@ -195,30 +228,61 @@ class ListingPostedDescriptiveViewController: BaseViewController, UITextViewDele
             .right(by: -Metrics.bigMargin)
             .bottom()
 
-        setupCommonConstraintsTo(container: titleContainerView)
+        view.addSubview(titleContainerView)
+        titleContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+        titleContainerView.layout(with: keyboardView).above { [weak self] constraint in
+            self?.containerToKeyboardConstraint = constraint
+        }
+
+        containerToKeyboardConstraint.isActive = false
+
+        setupCommonConstraintsWith(container: titleContainerView)
     }
 
-    private func setupCommonConstraintsTo(container: UIView) {
-        let subviews = [container, saveButton, discardButton]
+    private func setupCommonConstraintsWith(container: UIView) {
+        let subviews = [saveButton, discardButton]
         view.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
         view.addSubviews(subviews)
 
-        container.layout(with: view).left().right().top(by: PostingDescriptionMetrics.bigMargin)
+        container.layout(with: view).top(by: PostingDescriptionMetrics.bigMargin, relatedBy: .lessThanOrEqual) { [weak self] constraint in
+            self?.containerToTopConstraint = constraint
+        }
+        container.layout(with: view).left().right()
 
-        container.layout(with: saveButton).above(by: -PostingDescriptionMetrics.sideMargin, relatedBy: .lessThanOrEqual)
+        container.layout(with: saveButton)
+            .above(by: -PostingDescriptionMetrics.genericMargin,
+                   relatedBy: .lessThanOrEqual)
 
-        saveButton.layout().height(PostingDescriptionMetrics.buttonHeight)
+        saveButton.layout().height(PostingDescriptionMetrics.saveButtonHeight)
         saveButton.layout(with: view)
             .centerX()
-            .left(by: PostingDescriptionMetrics.sideMargin)
-            .right(by: -PostingDescriptionMetrics.sideMargin)
-        saveButton.layout(with: discardButton).above(by: -PostingDescriptionMetrics.sideMargin)
+            .left(by: PostingDescriptionMetrics.genericMargin)
+            .right(by: -PostingDescriptionMetrics.genericMargin)
+        saveButton.layout(with: discardButton).above(by: -PostingDescriptionMetrics.genericMargin, relatedBy: .greaterThanOrEqual)
+        saveButton.layout(with: discardButton).above(by: 0, relatedBy: .lessThanOrEqual)
 
+        discardButton.layout().height(PostingDescriptionMetrics.discardButtonHeight)
         discardButton.layout(with: view)
             .centerX()
-            .left(by: PostingDescriptionMetrics.sideMargin)
-            .right(by: -PostingDescriptionMetrics.sideMargin)
-            .bottom(by: -PostingDescriptionMetrics.sideMargin)
+            .left(by: PostingDescriptionMetrics.genericMargin)
+            .right(by: -PostingDescriptionMetrics.genericMargin)
+        discardButton.layout(with: view)
+            .bottom(by: -PostingDescriptionMetrics.genericMargin) { [weak self] constraint in
+                self?.discardButtonToBottomConstraint = constraint
+        }
+    }
+
+    private func enableKeyboardConstraint() {
+        containerToKeyboardConstraint.isActive = true
+        discardButtonToBottomConstraint.isActive = false
+        containerToTopConstraint.isActive = false
+    }
+
+    private func disableKeyboardConstraint() {
+        containerToKeyboardConstraint.isActive = false
+        discardButtonToBottomConstraint.isActive = true
+        containerToTopConstraint.isActive = true
     }
 
     private func setupRx() {
@@ -229,11 +293,11 @@ class ListingPostedDescriptiveViewController: BaseViewController, UITextViewDele
 
         viewModel.listingCategory.asObservable().bind { [weak self] category in
             if let category = category, category != .unassigned {
-                self?.categoryButton.setTitle(category.name, for: .normal)
-                self?.categoryButton.setTitleColor(UIColor.blackText, for: .normal)
+                self?.categoryLabel.text = category.name
+                self?.categoryLabel.textColor = UIColor.blackText
             } else {
-                self?.categoryButton.setTitle(self?.viewModel.categoryButtonPlaceholder, for: .normal)
-                self?.categoryButton.setTitleColor(UIColor.grayText, for: .normal)
+                self?.categoryLabel.text = self?.viewModel.categoryButtonPlaceholder
+                self?.categoryLabel.textColor = UIColor.grayText
             }
         }.disposed(by: disposeBag)
 
@@ -275,16 +339,22 @@ class ListingPostedDescriptiveViewController: BaseViewController, UITextViewDele
         viewModel.closePosting(discardingListing: true)
     }
 
+    @objc private func containerTapped() {
+        nameTextField.resignFirstResponder()
+        descriptionTextView.resignFirstResponder()
+    }
     
     // MARK: UITextViewDelegate
 
     func textViewDidBeginEditing(_ textView: UITextView) {
+        enableKeyboardConstraint()
         if textView.text == viewModel.descriptionPlaceholder {
             textView.text = ""
         }
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
+        disableKeyboardConstraint()
         if textView.text == "" {
             textView.text = viewModel.descriptionPlaceholder
         }
