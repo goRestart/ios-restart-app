@@ -64,6 +64,9 @@
 "categories_title" = "Kategoriler";
 "categories_unassigned" = "Seçilmedi";
 "categories_unassigned_items" = "Diğer eşyalar";
+"change_bio_placeholder" = "Kim olduğunu belirten bir biyografi ekle. Nelerle ilgilendiğini veya kendin hakkında ilginç bir bilgiyi paylaş.";
+"change_bio_save_button" = "Kaydet";
+"change_bio_title" = "Hakkımda";
 "change_email_current_email_label" = "ŞU ANKİ E-POSTAN:";
 "change_email_error_already_registered" = "Bu e-posta adresi zaten kayıtlıdır. Lütfen farklı bir adres seç.";
 "change_email_error_invalid_email" = "Lütfen geçerli bir e-posta adresi gir.";
@@ -299,12 +302,14 @@
 "discarded_products_delete_confirmation" = "Bu ilanı silmek istediğine emin misin?";
 "discarded_products_edit" = "Düzelt";
 "discarded_products_reason_duplicated" = "Tekrarlanmış ilan";
-"discarded_products_reason_good_manners" = "Kullanım kurallarına aykırı";
+"discarded_products_reason_good_manners" = "Uygulama kullanım kurallarına aykırı";
 "discarded_products_reason_non_realistic_price" = "Gerçekçi olmayan fiyat";
 "discarded_products_reason_photo_not_clear" = "Net olmayan veya bulanık fotoğraf";
-"discarded_products_reason_poor_ad_quality" = "Kullanım kurallarına aykırı";
+"discarded_products_reason_poor_ad_quality" = "Uygulama kullanım kurallarına aykırı";
 "discarded_products_reason_reference_to_competitors" = "Diğer web sitesi ya da uygulamalara referans";
 "discarded_products_reason_stock_photo_only" = "Sadece stok fotoğraf kullanılması";
+"edit_product_feature_label_long_text" = "Daha hızlı satmak için ilanını öne çıkar";
+"edit_product_feature_label_short_text" = "Hemen sat";
 "edit_product_location_alert_text" = "İlanının yayınlanmış olduğu yeri değiştirmek için, konum bilgine ulaşılmasına izin ver";
 "edit_product_location_alert_title" = "KONUM DEĞİŞTİR";
 "edit_product_send_button" = "Değişiklikleri kaydet";
@@ -914,6 +919,7 @@
 "settings_change_profile_picture_button" = "Fotoğraf";
 "settings_change_profile_picture_error_generic" = "Profil resmini değiştirirken bir hata oluştu.";
 "settings_change_profile_picture_loading" = "Profil resmin oluşturuluyor, lütfen bekle...";
+"settings_change_user_bio_button" = "Biyografi / Hakkımda";
 "settings_change_username_button" = "İsim";
 "settings_general_notifications_alert_message" = "Cihazının ayarlarından letgo uygulamasının bildirimlerini etkinleştir.";
 "settings_help_button" = "Yardım";

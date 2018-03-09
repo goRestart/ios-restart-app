@@ -64,6 +64,9 @@
 "categories_title" = "Kategorier";
 "categories_unassigned" = "Ikke valgt";
 "categories_unassigned_items" = "Andre produkter";
+"change_bio_placeholder" = "Legg til biografi som forklarer hvem du er. Del hva du er interessert i eller noe morsomt om deg selv";
+"change_bio_save_button" = "Lagre";
+"change_bio_title" = "Om meg";
 "change_email_current_email_label" = "NÅVÆRENDE E-POSTADRESSE:";
 "change_email_error_already_registered" = "Denne er e-postadressen er allerede registrert. Vennligst velg en annen.";
 "change_email_error_invalid_email" = "Vennligst legg inn en gyldig e-postadresse.";
@@ -305,6 +308,8 @@
 "discarded_products_reason_poor_ad_quality" = "Dette overholder ikke optimal praksis";
 "discarded_products_reason_reference_to_competitors" = "Referanser til andre apper eller nettsider";
 "discarded_products_reason_stock_photo_only" = "Inneholder kun bilder som er tatt av andre (stockphoto)";
+"edit_product_feature_label_long_text" = "Promoter din annonse for å selge raskere";
+"edit_product_feature_label_short_text" = "Selg raskere nå";
 "edit_product_location_alert_text" = "Gi tilgang til din plassering for å kunne endre hvor din annonse publiseres fra";
 "edit_product_location_alert_title" = "ENDRE PLASSERING";
 "edit_product_send_button" = "Lagre endringer";
@@ -694,8 +699,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Legg inn telefonnummer";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Takk for at du at du tar kontakt! Vennligst ring oss eller legg igjen ditt nummer slik at vi kan ringe deg.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Takk for at du legger til ditt telefonnummer! Det er alltid bedre å ringe oss ved å bruke ringeknappen over.";
-"profile_bio_add_button" = "Add your bio";
-"profile_bio_show_more_button" = "MORE ABOUT ME";
+"profile_bio_add_button" = "Legg til din info";
+"profile_bio_show_more_button" = "MER OM MEG";
 "profile_blocked_by_me_label" = "Du har blokkert denne brukeren";
 "profile_blocked_by_me_label_w_name" = "Du har blokkert %@";
 "profile_blocked_by_other_label" = "Du har blitt blokkert av denne brukeren";
@@ -914,6 +919,7 @@
 "settings_change_profile_picture_button" = "Bilde";
 "settings_change_profile_picture_error_generic" = "Det oppstod en feil ved endring av profilbildet.";
 "settings_change_profile_picture_loading" = "Legger til profilbildet ditt, vennligst vent…";
+"settings_change_user_bio_button" = "Biografi / Om meg";
 "settings_change_username_button" = "Navn";
 "settings_general_notifications_alert_message" = "Aktiver varslinger for letgo's app i innstillinger for din enhet.";
 "settings_help_button" = "Hjelp";

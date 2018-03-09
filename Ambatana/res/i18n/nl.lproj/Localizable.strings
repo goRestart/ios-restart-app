@@ -64,6 +64,9 @@
 "categories_title" = "Categorieën";
 "categories_unassigned" = "Niet geselecteerd ";
 "categories_unassigned_items" = "Overige items";
+"change_bio_placeholder" = "Voeg een biografie toe die beschrijft wie je bent. Deel waar je geïnteresseerd in bent of een leuk weetje over jezelf";
+"change_bio_save_button" = "Opslaan";
+"change_bio_title" = "Over mij";
 "change_email_current_email_label" = "HUIDIGE E-MAIL:";
 "change_email_error_already_registered" = "Dit e-mailadres is al geregistreerd. Gelieve een ander in te voeren.";
 "change_email_error_invalid_email" = "Gelieve een geldig e-mailadres in te vullen.";
@@ -305,6 +308,8 @@
 "discarded_products_reason_poor_ad_quality" = "Voldoet niet aan Best Practices";
 "discarded_products_reason_reference_to_competitors" = "Verwijzingen naar andere apps of websites";
 "discarded_products_reason_stock_photo_only" = "Bevat enkel voorraadfoto's";
+"edit_product_feature_label_long_text" = "Plaats je advertentie als uitgelicht om sneller te verkopen";
+"edit_product_feature_label_short_text" = "Verkoop nu sneller";
 "edit_product_location_alert_text" = "Om te wijzigen waar je advertentie is geplaatst, geef toegang tot jouw locatie";
 "edit_product_location_alert_title" = "WIJZIG LOCATIE";
 "edit_product_send_button" = "Wijzigingen opslaan";
@@ -694,8 +699,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Voer telefoonnummer in";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Bedankt voor het contact opnemen! Je kunt ons bellen of laat je nummer achter zodat wij jou kunnen bellen.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Bedankt voor het toevoegen van je telefoonnummer! Het is altijd beter om ons te bellen via de bovenstaande belknop.";
-"profile_bio_add_button" = "Add your bio";
-"profile_bio_show_more_button" = "MORE ABOUT ME";
+"profile_bio_add_button" = "Voeg jouw biografie toe";
+"profile_bio_show_more_button" = "MEER OVER MIJ";
 "profile_blocked_by_me_label" = "Je hebt deze gebruiker geblokkeerd";
 "profile_blocked_by_me_label_w_name" = "Je hebt %@ geblokkeerd";
 "profile_blocked_by_other_label" = "Je bent geblokkeerd door deze gebruiker";
@@ -914,6 +919,7 @@
 "settings_change_profile_picture_button" = "Foto";
 "settings_change_profile_picture_error_generic" = "Er is een fout opgetreden tijdens het wijzigen van de profielfoto.";
 "settings_change_profile_picture_loading" = "Instellen van jouw profielfoto, even geduld a.u.b.";
+"settings_change_user_bio_button" = "Biografie / Over me";
 "settings_change_username_button" = "Naam";
 "settings_general_notifications_alert_message" = "Activeer meldingen voor de letgo app in de instellingen van je apparaat.";
 "settings_help_button" = "Hulp";
