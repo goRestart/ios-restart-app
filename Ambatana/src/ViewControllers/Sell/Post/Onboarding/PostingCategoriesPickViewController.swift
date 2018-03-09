@@ -21,6 +21,8 @@ class PostingCategoriesPickViewController: BaseViewController, UITableViewDelega
     private let titleLabel: UILabel = UILabel()
     private let tableView: UITableView = UITableView()
 
+    private var selectionEnabled: Bool = true
+
     var viewModel: PostingCategoriesPickViewModel
 
     let disposeBag = DisposeBag()
@@ -106,10 +108,14 @@ class PostingCategoriesPickViewController: BaseViewController, UITableViewDelega
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard selectionEnabled else { return }
+        selectionEnabled = false
+
         guard let selectedCell = tableView.cellForRow(at: indexPath) else { return }
         selectedCell.isSelected = true
         delay(0.3) { [weak self] in
             self?.viewModel.selectCategoryAtIndexPath(indexPath: indexPath)
+            self?.selectionEnabled = true
         }
     }
 
