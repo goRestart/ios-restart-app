@@ -64,6 +64,9 @@
 "categories_title" = "Danh mục";
 "categories_unassigned" = "Chưa được chọn";
 "categories_unassigned_items" = "Sản phẩm khác";
+"change_bio_placeholder" = "Thêm một tiểu sử miêu tả về bạn. Chia sẻ điều gì bạn quan tâm hoặc điều gì đó thú vị về bạn";
+"change_bio_save_button" = "Lưu";
+"change_bio_title" = "Về tôi";
 "change_email_current_email_label" = "EMAIL HIỆN TẠI:";
 "change_email_error_already_registered" = "Địa chỉ email này đã được đăng ký, Vui lòng nhập một địa chỉ email khác.";
 "change_email_error_invalid_email" = "Vui lòng nhập một địa chỉ email hợp lệ.";
@@ -305,6 +308,8 @@
 "discarded_products_reason_poor_ad_quality" = "Không tuân theo thực hành tốt nhất";
 "discarded_products_reason_reference_to_competitors" = "Gợi ý tới ứng dụng hoặc trang web khác";
 "discarded_products_reason_stock_photo_only" = "Chỉ có ảnh trên mạng";
+"edit_product_feature_label_long_text" = "Làm nổi bật bài đăng của bạn để bán nhanh hơn";
+"edit_product_feature_label_short_text" = "Bán nhanh hơn";
 "edit_product_location_alert_text" = "Để thay đổi địa điểm đăng sản phẩm, hãy cho phép truy cập địa điểm của bạn";
 "edit_product_location_alert_title" = "THAY ĐỔI ĐỊA ĐIỂM";
 "edit_product_send_button" = "Lưu thay đổi";
@@ -694,8 +699,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Nhập số điện thoại";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Cảm ơn bạn đã liên hệ! Vui lòng gọi cho chúng tôi hoặc để lại số điện thoại để chúng tôi gọi cho bạn.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Cảm ơn bạn đã thêm số điện thoại! Sẽ luôn tốt hơn nếu bạn gọi chúng tôi bằng nút gọi bên trên.";
-"profile_bio_add_button" = "Add your bio";
-"profile_bio_show_more_button" = "MORE ABOUT ME";
+"profile_bio_add_button" = "Thêm tiểu sử";
+"profile_bio_show_more_button" = "THÊM VỀ TÔI";
 "profile_blocked_by_me_label" = "Bạn đã chặn người dùng này";
 "profile_blocked_by_me_label_w_name" = "Bạn đã chặn %@";
 "profile_blocked_by_other_label" = "Bạn đã bị người dùng này chặn";
@@ -914,6 +919,7 @@
 "settings_change_profile_picture_button" = "Hình ảnh";
 "settings_change_profile_picture_error_generic" = "Có lỗi xảy ra trong khi cài đặt ảnh hồ sơ.";
 "settings_change_profile_picture_loading" = "Đang cài đặt hình ảnh hồ sơ của bạn. Vui lòng chờ...";
+"settings_change_user_bio_button" = "Tiểu sử/Về tôi";
 "settings_change_username_button" = "Tên";
 "settings_general_notifications_alert_message" = "Kích hoạt thông báo cho ứng dụng letgo trong cài đặt thiết bị của bạn.";
 "settings_help_button" = "Trợ giúp";

@@ -314,7 +314,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         drawerManager.draw(item,
                            inCell: cell,
                            delegate: viewModel.listingCellDelegate,
-                           shouldShowPrice: viewModel.shouldShowPrices,
                            imageSize: viewModel.imageViewSizeForItem(at: indexPath.row))
         (cell as? ListingCell)?.isRelatedEnabled = cellsDelegate?.shouldShowRelatedListingsButton() ?? false
         return cell

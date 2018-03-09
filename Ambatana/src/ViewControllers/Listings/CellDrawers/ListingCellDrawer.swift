@@ -25,8 +25,6 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
             if style == .mainList {
                 cell.setupFeaturedListingInfoWith(price: model.price, title: model.title, isMine: model.isMine)
             }
-        } else if model.shouldShowPrice {
-            cell.setupPriceView(price: model.price)
         } else if model.isFree {
             cell.setupFreeStripe()
         }

@@ -196,8 +196,10 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
     }
     
     func setupMapView(inside container: UIView) {
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupMapView-start")
         layoutMapView(inside: container)
         addMapGestures()
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupMapView-end")
     }
 
     fileprivate func setupMapRx(viewModel: ListingCarouselViewModel) {
@@ -211,6 +213,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
     }
 
     private func layoutMapView(inside container: UIView) {
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-LayoutMapView-start")
         if mapView.superview != nil {
             mapView.removeFromSuperview()
         }
@@ -224,6 +227,7 @@ extension ListingCarouselMoreInfoView: MKMapViewDelegate {
             toItem: container, attribute: .top, multiplier: 1, constant: 0))
         container.addConstraint(NSLayoutConstraint(item: mapView, attribute: .bottom, relatedBy: .equal,
             toItem: container, attribute: .bottom, multiplier: 1, constant: 8))
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-LayoutMapView-end")
     }
     
     private func addMapGestures() {
@@ -358,6 +362,7 @@ extension ListingCarouselMoreInfoView: UIScrollViewDelegate {
 
 fileprivate extension ListingCarouselMoreInfoView {
     func setupUI() {
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupUI-start")
         setupMapView(inside: mapViewContainer)
 
         mapView.clipsToBounds = true
@@ -424,6 +429,7 @@ fileprivate extension ListingCarouselMoreInfoView {
         }
 
         scrollView.delegate = self
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-SetupUI-end")
     }
     
     func setupTagCollectionView() {
@@ -454,6 +460,7 @@ fileprivate extension ListingCarouselMoreInfoView {
     }
 
     func setupSocialShareView() {
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-setupSocialShareView-start")
         socialShareTitleLabel.textColor = UIColor.white
         socialShareTitleLabel.font = UIFont.productSocialShareTitleFont
         socialShareTitleLabel.text = LGLocalizedString.productShareTitleLabel
@@ -466,6 +473,7 @@ fileprivate extension ListingCarouselMoreInfoView {
             socialShareView.buttonsSide = 50
         default: break
         }
+        report(AppReport.uikit(error: .breadcrumb), message: "MoreInfoView-setupSocialShareView-end")
     }
 
     fileprivate func hideAdsBanner() {

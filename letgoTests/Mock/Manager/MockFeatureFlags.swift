@@ -31,7 +31,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newItemPage: NewItemPage = .control
     var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: RealEstateEnabled = .control
-    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
     var homeRelatedEnabled: HomeRelatedEnabled = .control
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
