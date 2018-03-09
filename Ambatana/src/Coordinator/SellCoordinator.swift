@@ -325,8 +325,11 @@ extension SellCoordinator: BlockingPostingNavigator  {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openListingPosted(listing: Listing, images: [UIImage]) {
-        let viewModel = ListingPostedDescriptiveViewModel(listing: listing, listingImages: images)
+    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+        let viewModel = ListingPostedDescriptiveViewModel(listing: listing,
+                                                          listingImages: images,
+                                                          imageSource: imageSource,
+                                                          postingSource: postingSource)
         viewModel.navigator = self
         let vc = ListingPostedDescriptiveViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)

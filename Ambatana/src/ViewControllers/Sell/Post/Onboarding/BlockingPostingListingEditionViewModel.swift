@@ -100,7 +100,10 @@ class BlockingPostingListingEditionViewModel: BaseViewModel {
     // MARK: - Navigation
     
     func openListingPosted() {
-        navigator?.openListingPosted(listing: listing, images: images)
+        navigator?.openListingPosted(listing: listing,
+                                     images: images,
+                                     imageSource: imageSource,
+                                     postingSource: postingSource)
     }
     
     func closeButtonAction() {

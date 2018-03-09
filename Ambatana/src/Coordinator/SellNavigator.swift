@@ -44,7 +44,7 @@ protocol BlockingPostingNavigator: class {
     func openCamera()
     func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource)
     func openListingEditionLoading(listingParams: ListingEditionParams, listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource)
-    func openListingPosted(listing: Listing, images: [UIImage])
+    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource)
     func openCategoriesPickerWith(delegate: PostingCategoriesPickDelegate)
     func closeCategoriesPicker()
     func closePosting()

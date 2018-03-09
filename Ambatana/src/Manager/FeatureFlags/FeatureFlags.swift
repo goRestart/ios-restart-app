@@ -520,7 +520,7 @@ class FeatureFlags: FeatureFlaggeable {
         if Bumper.enabled {
             return Bumper.onboardingIncentivizePosting
         }
-        return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
+        return OnboardingIncentivizePosting.blockingPosting
     }
     
     var discardedProducts: DiscardedProducts {

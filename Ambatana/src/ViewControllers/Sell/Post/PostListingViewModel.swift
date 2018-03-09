@@ -206,12 +206,12 @@ class PostListingViewModel: BaseViewModel {
         if state.value.pendingToUploadImages != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let _ = state.value.lastImagesUploadResult?.value else {
+            if state.value.lastImagesUploadResult?.value == nil {
+                if isBlockingPosting {
+                    trackPostSellAbandon()
+                }
                 navigator?.cancelPostListing()
-                return
-            }
-            
-            if let listingParams = makeListingParams() {
+            } else if let listingParams = makeListingParams() {
                 let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                            sellButtonPosition: postingSource.sellButtonPosition,
                                                            imageSource: uploadedImageSource,
@@ -450,6 +450,11 @@ fileprivate extension PostListingViewModel {
                                                   sellButtonPosition: postingSource.sellButtonPosition,
                                                   category: postCategory?.listingCategory,
                                                   mostSearchedButton: postingSource.mostSearchedButton)
+        tracker.trackEvent(event)
+    }
+    
+    fileprivate func trackPostSellAbandon() {
+        let event = TrackerEvent.listingSellAbandon(abandonStep: .cameraPermissions)
         tracker.trackEvent(event)
     }
 }

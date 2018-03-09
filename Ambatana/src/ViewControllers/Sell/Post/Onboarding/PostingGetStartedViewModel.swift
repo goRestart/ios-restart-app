@@ -13,6 +13,7 @@ class PostingGetStartedViewModel: BaseViewModel {
     
     weak var navigator: BlockingPostingNavigator?
 
+    let tracker: Tracker
     var myUserRepository: MyUserRepository
     var userAvatarURL: URL? {
         return myUserRepository.myUser?.avatar?.fileURL
@@ -47,11 +48,13 @@ class PostingGetStartedViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     override convenience init() {
-        self.init(myUserRepository: Core.myUserRepository)
+        self.init(myUserRepository: Core.myUserRepository,
+                  tracker: TrackerProxy.sharedInstance)
     }
 
-    init(myUserRepository: MyUserRepository) {
+    init(myUserRepository: MyUserRepository, tracker: Tracker) {
         self.myUserRepository = myUserRepository
+        self.tracker = tracker
         super.init()
         retrieveImageForAvatar()
     }
@@ -69,6 +72,18 @@ class PostingGetStartedViewModel: BaseViewModel {
     
     func nextAction() {
         navigator?.openCamera()
+    }
+    
+    
+    // MARK: - Tracker
+    
+    func trackVisit() {
+        let event = TrackerEvent.listingSellStart(.onboarding,
+                                                  buttonName: PostingSource.onboardingBlockingPosting.buttonName,
+                                                  sellButtonPosition: PostingSource.onboardingBlockingPosting.sellButtonPosition,
+                                                  category: nil,
+                                                  mostSearchedButton: PostingSource.onboardingBlockingPosting.mostSearchedButton)
+        tracker.trackEvent(event)
     }
 }
 

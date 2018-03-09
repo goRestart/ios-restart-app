@@ -51,6 +51,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     
     private let listingRepository: ListingRepository
     private let fileRepository: FileRepository
+    private let tracker: Tracker
     private let images: [UIImage]
     private var listingCreationParams: ListingCreationParams
     private let imageSource: EventParameterPictureSource
@@ -74,17 +75,7 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
                      imageSource: EventParameterPictureSource, postingSource: PostingSource) {
         self.init(listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
-                  images: images,
-                  listingCreationParams: listingCreationParams,
-                  imageSource: imageSource,
-                  postingSource: postingSource)
-    }
-    
-    convenience init(images: [UIImage], listingCreationParams: ListingCreationParams,
-                     imageSource: EventParameterPictureSource, postingSource: PostingSource,
-                     listingRepository: ListingRepository, fileRepository: FileRepository) {
-        self.init(listingRepository: listingRepository,
-                  fileRepository: fileRepository,
+                  tracker: TrackerProxy.sharedInstance,
                   images: images,
                   listingCreationParams: listingCreationParams,
                   imageSource: imageSource,
@@ -93,12 +84,14 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     
     init(listingRepository: ListingRepository,
          fileRepository: FileRepository,
+         tracker: Tracker,
          images: [UIImage],
          listingCreationParams: ListingCreationParams,
          imageSource: EventParameterPictureSource,
          postingSource: PostingSource) {
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
+        self.tracker = tracker
         self.images = images
         self.listingCreationParams = listingCreationParams
         self.imageSource = imageSource
@@ -211,6 +204,15 @@ class BlockingPostingQueuedRequestsViewModel: BaseViewModel {
     }
     
     func closeButtonAction() {
+        trackPostSellAbandon()
         navigator?.closePosting()
+    }
+    
+    
+    // MARK: - Tracker
+    
+    fileprivate func trackPostSellAbandon() {
+        let event = TrackerEvent.listingSellAbandon(abandonStep: .retry)
+        tracker.trackEvent(event)
     }
 }
