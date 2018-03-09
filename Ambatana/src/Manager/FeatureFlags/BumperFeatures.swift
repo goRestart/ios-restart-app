@@ -21,7 +21,6 @@ extension Bumper  {
         flags.append(DynamicQuickAnswers.self)
         flags.append(RealEstateEnabled.self)
         flags.append(SearchAutocomplete.self)
-        flags.append(ShowPriceAfterSearchOrFilter.self)
         flags.append(RequestsTimeOut.self)
         flags.append(HomeRelatedEnabled.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
@@ -93,11 +92,6 @@ extension Bumper  {
     static var searchAutocomplete: SearchAutocomplete {
         guard let value = Bumper.value(for: SearchAutocomplete.key) else { return .control }
         return SearchAutocomplete(rawValue: value) ?? .control 
-    }
-
-    static var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
-        guard let value = Bumper.value(for: ShowPriceAfterSearchOrFilter.key) else { return .control }
-        return ShowPriceAfterSearchOrFilter(rawValue: value) ?? .control 
     }
 
     static var requestsTimeOut: RequestsTimeOut {
@@ -341,22 +335,6 @@ enum SearchAutocomplete: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .withCategories
-            default: return .control
-        }
-    }
-}
-
-enum ShowPriceAfterSearchOrFilter: String, BumperFeature  {
-    case control, baseline, priceOnSearchOrFilter
-    static var defaultValue: String { return ShowPriceAfterSearchOrFilter.control.rawValue }
-    static var enumValues: [ShowPriceAfterSearchOrFilter] { return [.control, .baseline, .priceOnSearchOrFilter]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Show price in feed products when user applies any search or filter" } 
-    static func fromPosition(_ position: Int) -> ShowPriceAfterSearchOrFilter {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .priceOnSearchOrFilter
             default: return .control
         }
     }
