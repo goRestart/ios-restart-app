@@ -40,11 +40,21 @@ class BlockingPostingListingEditionViewController: BaseViewController, BlockingP
         viewModel.updateListing()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setStatusBarHidden(true)
+    }
+    
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         if let state = viewModel.state.value, state.isAnimated {
             loadingView.updateWith(message: state.message, isError: state.isError, isAnimated: state.isAnimated)
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        setStatusBarHidden(false)
     }
     
     
