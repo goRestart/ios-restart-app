@@ -16,15 +16,12 @@ protocol ListingCellDelegate: class {
     func moreOptionsPressedForDiscarded(listing: Listing)
 }
 
-class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
+final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
     
-    static let reusableID = "ListingCell"
     static let buttonsContainerShownHeight: CGFloat = 34
     static let stripeIconWidth: CGFloat = 14
     static let featuredListingPriceLabelHeight: CGFloat = 28
 
-    static let priceLabelHeight: CGFloat = 22
-    
     @IBOutlet weak var cellContent: UIView!
     @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
@@ -43,7 +40,6 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
     fileprivate var featuredListingTitleLabel: UILabel?
     fileprivate var featuredListingChatButton: UIButton?
     
-    fileprivate var priceLabel: UILabel?
     private let discardedView: DiscardedView = {
         let view = DiscardedView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -189,29 +185,6 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
             .right(by: -Metrics.shortMargin)
             .bottom(by: -buttonBottomMargin)
         featuredListingChatButton.layout(with: featuredListingTitleLabel).below(by: buttonTopMargin)
-    }
-
-    func setupPriceView(price: String) {
-        priceLabel = UILabel()
-        
-        featuredListingInfoView.translatesAutoresizingMaskIntoConstraints = false
-        priceLabel?.translatesAutoresizingMaskIntoConstraints = false
-        
-        guard let priceLabel = priceLabel else {
-            return
-        }
-        
-        featuredListingInfoView.addSubview(priceLabel)
-        
-        priceLabel.text = price
-        priceLabel.font = UIFont.systemBoldFont(size: 18)
-        priceLabel.adjustsFontSizeToFitWidth = true
-        
-        priceLabel.layout(with: featuredListingInfoView)
-            .centerY()
-            .left(by: Metrics.shortMargin)
-            .right(by: -Metrics.shortMargin)
-        priceLabel.layout().height(ListingCell.featuredListingPriceLabelHeight)
     }
     
     func show(isDiscarded: Bool, reason: String? = nil) {

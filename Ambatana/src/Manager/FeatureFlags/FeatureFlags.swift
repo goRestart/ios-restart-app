@@ -38,7 +38,6 @@ protocol FeatureFlaggeable: class {
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
-    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
@@ -83,10 +82,6 @@ extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
     }
-}
-
-extension ShowPriceAfterSearchOrFilter {
-    var isActive: Bool { get { return self == .priceOnSearchOrFilter } }
 }
 
 extension HomeRelatedEnabled {
@@ -346,13 +341,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.realEstateEnabled
         }
         return RealEstateEnabled.fromPosition(abTests.realEstateEnabled.value)
-    }
-    
-    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
-        if Bumper.enabled {
-            return Bumper.showPriceAfterSearchOrFilter
-        }
-        return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
     }
     
     var homeRelatedEnabled: HomeRelatedEnabled {

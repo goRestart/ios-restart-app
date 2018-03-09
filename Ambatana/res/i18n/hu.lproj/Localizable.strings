@@ -64,6 +64,9 @@
 "categories_title" = "Kategóriák";
 "categories_unassigned" = "Nincs megadva";
 "categories_unassigned_items" = "Valami más";
+"change_bio_placeholder" = "Egy bemutatkozás hozzáadásával jellemezheted magadat. Írd le, hogy mi érdekel, vagy ossz meg egy vicces tudnivalót magadról!";
+"change_bio_save_button" = "Mentés";
+"change_bio_title" = "Rólam";
 "change_email_current_email_label" = "JELENLEGI E-MAIL:";
 "change_email_error_already_registered" = "Ez az e-mail cím már használatban van, adj meg egy másikat.";
 "change_email_error_invalid_email" = "Érvényes e-mail címet adj meg.";
@@ -299,12 +302,14 @@
 "discarded_products_delete_confirmation" = "Biztosan törölni szeretnéd ezt a hirdetést?";
 "discarded_products_edit" = "Szerkesztés";
 "discarded_products_reason_duplicated" = "Duplikált hirdetés";
-"discarded_products_reason_good_manners" = "Nem felel meg pro tippjeinknek";
+"discarded_products_reason_good_manners" = "Nem felel meg a bevált módszereknek";
 "discarded_products_reason_non_realistic_price" = "Ésszerűtlen ár";
 "discarded_products_reason_photo_not_clear" = "Elmosott vagy nem egyértelmű fotó";
-"discarded_products_reason_poor_ad_quality" = "Nem felel meg pro tippjeinknek";
+"discarded_products_reason_poor_ad_quality" = "Nem felel meg a bevált módszereknek";
 "discarded_products_reason_reference_to_competitors" = "Más alkalmazásokra vagy weboldalakra hivatkozik";
 "discarded_products_reason_stock_photo_only" = "Csak hivatalos képeket tartalmaz";
+"edit_product_feature_label_long_text" = "Emeld ki hirdetésedet, hogy gyorsabban elkeljen";
+"edit_product_feature_label_short_text" = "Add el gyorsabban";
 "edit_product_location_alert_text" = "A meghirdetés helyének módosításához hozzáférést kell adnod a tartózkodási helyedhez";
 "edit_product_location_alert_title" = "TARTÓZKODÁSI HELY MÓDOSÍTÁSA";
 "edit_product_send_button" = "Módosítások mentése";
@@ -694,8 +699,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Telefonszám megadása";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Köszönjük, hogy érdeklődsz! Hívj fel, vagy add meg a telefonszámodat, hogy mi hívhassunk.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Köszönjük, hogy megadtad a számodat! Egyszerűbben elérhetsz minket, ha felhívsz a fenti gombbal.";
-"profile_bio_add_button" = "Add your bio";
-"profile_bio_show_more_button" = "MORE ABOUT ME";
+"profile_bio_add_button" = "Bemutatkozás hozzáadása";
+"profile_bio_show_more_button" = "INFORMÁCIÓK RÓLAM";
 "profile_blocked_by_me_label" = "Ezt a felhasználót blokkoltad";
 "profile_blocked_by_me_label_w_name" = "%@ felhasználót blokkoltad";
 "profile_blocked_by_other_label" = "Ez a felhasználó blokkolt téged";
@@ -914,6 +919,7 @@
 "settings_change_profile_picture_button" = "Fotó";
 "settings_change_profile_picture_error_generic" = "Hiba történt a profilkép módosítása során.";
 "settings_change_profile_picture_loading" = "Profilkép beállítása. Türelmedet kérjük…";
+"settings_change_user_bio_button" = "Bemutatkozás / Rólam";
 "settings_change_username_button" = "Név";
 "settings_general_notifications_alert_message" = "Engedélyezd a letgo alkalmazás értesítéseit készüléked beállításai között.";
 "settings_help_button" = "Segítség";

@@ -41,11 +41,6 @@
         "description": "Search suggestions with/without categories filtering."
     },
     {
-        "name": "ShowPriceAfterSearchOrFilter",
-        "values": ["control", "baseline", "priceOnSearchOrFilter"],
-        "description": "Show price in feed products when user applies any search or filter"
-    },
-    {
         "name": "RequestsTimeOut",
          "values": ["baseline", "thirty", "forty_five", "sixty", "hundred_and_twenty"],
          "description": "API requests timeout"

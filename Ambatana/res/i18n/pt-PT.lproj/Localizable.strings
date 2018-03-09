@@ -64,6 +64,9 @@
 "categories_title" = "Categorias";
 "categories_unassigned" = "Não selecionada";
 "categories_unassigned_items" = "Outros itens";
+"change_bio_placeholder" = "Adicione uma biografia que descreva quem é. Partilhe aquilo que lhe interessa ou um facto divertido sobre si";
+"change_bio_save_button" = "Guardar";
+"change_bio_title" = "Sobre mim";
 "change_email_current_email_label" = "EMAIL ATUAL";
 "change_email_error_already_registered" = "Este endereço de email já se encontra registado. Por favor insira um diferente.";
 "change_email_error_invalid_email" = "Insira um email válido.";
@@ -305,6 +308,8 @@
 "discarded_products_reason_poor_ad_quality" = "Não cumpre as melhores práticas";
 "discarded_products_reason_reference_to_competitors" = "Referências a outras apps ou sites";
 "discarded_products_reason_stock_photo_only" = "Contém apenas fotos de stocks";
+"edit_product_feature_label_long_text" = "Destaque o seu anúncio para vender mais rápido";
+"edit_product_feature_label_short_text" = "Venda mais rápido";
 "edit_product_location_alert_text" = "Para alterar onde o seu anúncio é publicado, autorize o acesso à sua localização";
 "edit_product_location_alert_title" = "ALTERAR LOCALIZAÇÃO";
 "edit_product_send_button" = "Guardar alterações";
@@ -694,8 +699,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Inserir número de telefone";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Obrigado por nos contactar! Ligue-nos ou deixe o seu número de telefone para podermos nós entrar em contacto.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Obrigado por adicionar o seu número de telefone! É sempre preferível ligar-nos através do botão de chamada acima indicado.";
-"profile_bio_add_button" = "Add your bio";
-"profile_bio_show_more_button" = "MORE ABOUT ME";
+"profile_bio_add_button" = "Adicione a sua biografia";
+"profile_bio_show_more_button" = "MAIS SOBRE MIM";
 "profile_blocked_by_me_label" = "Bloqueou este utilizador";
 "profile_blocked_by_me_label_w_name" = "Bloqueou %@";
 "profile_blocked_by_other_label" = "Foi bloqueado por este utilizador";
@@ -914,6 +919,7 @@
 "settings_change_profile_picture_button" = "Foto";
 "settings_change_profile_picture_error_generic" = "Ocorreu um erro ao alterar a foto do perfil.";
 "settings_change_profile_picture_loading" = "A definir a foto do seu perfil, por favor aguarde...";
+"settings_change_user_bio_button" = "Biografia / Sobre mim";
 "settings_change_username_button" = "Nome";
 "settings_general_notifications_alert_message" = "Ative as notificações da app letgo nas configurações do seu dispositivo.";
 "settings_help_button" = "Ajuda";
