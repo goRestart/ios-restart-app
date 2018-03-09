@@ -238,7 +238,8 @@ extension UserViewController: UserViewModelDelegate {
     func vmShowNativeShare(_ socialMessage: SocialMessage) {
         socialSharer.share(socialMessage,
                            shareType: .native(restricted: false),
-                           viewController: self)
+                           viewController: self,
+                           barButtonItem: navigationItem.rightBarButtonItems?.first)
     }
     
     func vmDiscardedProductShowOptions(actions: [UIAction]) {

@@ -88,6 +88,16 @@ class UserViewModel: BaseViewModel {
         }
     }
     
+    private var sellingListingStatusCode: () -> [ListingStatusCode] = {
+        return FeatureFlags.sharedInstance.discardedProducts.isActive ?
+            [.pending, .approved, .discarded] : [.pending, .approved]
+    }
+    
+    private var soldListingStatusCode: () -> [ListingStatusCode] = {
+        return [.sold, .soldOld]
+    }
+
+    
     // Rx
     let disposeBag: DisposeBag
     
@@ -133,11 +143,10 @@ class UserViewModel: BaseViewModel {
         self.source = source
         self.featureFlags = featureFlags
         self.notificationsManager = notificationsManager
-        let statuses: [ListingStatusCode] = featureFlags.discardedProducts.isActive ? [.pending, .approved, .discarded] : [.pending, .approved]
-        self.sellingListingListRequester = UserStatusesListingListRequester(statuses: statuses,
+        self.sellingListingListRequester = UserStatusesListingListRequester(statuses: sellingListingStatusCode,
                                                                             itemsPerPage: Constants.numListingsPerPageDefault)
         self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester)
-        self.soldListingListRequester = UserStatusesListingListRequester(statuses: [.sold, .soldOld],
+        self.soldListingListRequester = UserStatusesListingListRequester(statuses: soldListingStatusCode,
                                                                          itemsPerPage: Constants.numListingsPerPageDefault)
         self.soldListingListViewModel = ListingListViewModel(requester: self.soldListingListRequester)
         self.favoritesListingListRequester = UserFavoritesListingListRequester()

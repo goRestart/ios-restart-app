@@ -568,8 +568,7 @@ struct TrackerEvent {
                                     pictureSource: EventParameterPictureSource?,
                                     freePostingModeAllowed: Bool,
                                     typePage: EventParameterTypePage,
-                                    mostSearchedButton: EventParameterMostSearched,
-                                    firmPrice: Bool) -> TrackerEvent {
+                                    mostSearchedButton: EventParameterMostSearched) -> TrackerEvent {
         var params = EventParameters()
         params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: listing.price).rawValue
         params[.listingId] = listing.objectId ?? ""
@@ -579,7 +578,6 @@ struct TrackerEvent {
         params[.sellButtonPosition] = sellButtonPosition?.rawValue
         params[.listingDescription] = !(listing.descr?.isEmpty ?? true)
         params[.typePage] = typePage.rawValue
-        params[.firmPrice] = EventParameterBoolean(bool: firmPrice).rawValue
         params[.mostSearchedButton] = mostSearchedButton.rawValue
         if let buttonName = buttonName {
             params[.buttonName] = buttonName.rawValue

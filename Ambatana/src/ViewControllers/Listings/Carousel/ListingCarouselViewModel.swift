@@ -219,7 +219,6 @@ class ListingCarouselViewModel: BaseViewModel {
     var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
     let sideMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6) ? Metrics.margin : 0
 
-
     // MARK: - Init
 
     convenience init(listing: Listing,
@@ -294,10 +293,17 @@ class ListingCarouselViewModel: BaseViewModel {
          locationManager: LocationManager,
          myUserRepository: MyUserRepository) {
         if let productListModels = productListModels {
-            self.objects.appendContentsOf(productListModels.flatMap(ListingCarouselCellModel.adapter))
+            let listingCarouselCellModels = productListModels
+                .flatMap(ListingCarouselCellModel.adapter)
+                .filter(featureFlags.discardedProducts.notDiscarded)
+            self.objects.appendContentsOf(listingCarouselCellModels)
             self.isLastPage = listingListRequester.isLastPage(productListModels.count)
         } else {
-            self.objects.appendContentsOf([initialListing].flatMap{$0}.map(ListingCarouselCellModel.init))
+            let listingCarouselCellModels = [initialListing]
+                .flatMap{$0}
+                .map(ListingCarouselCellModel.init)
+                .filter(featureFlags.discardedProducts.notDiscarded)
+            self.objects.appendContentsOf(listingCarouselCellModels)
             self.isLastPage = false
         }
         self.initialThumbnail = thumbnailImage
@@ -623,19 +629,23 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     private func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
+        let directChatMessagesCount = directChatMessages.value.count
         switch change {
         case let .insert(index, value):
             directChatMessages.insert(value, atIndex: index)
         case let .remove(index, _):
+            guard 0..<directChatMessagesCount ~= index else { break }
             directChatMessages.removeAtIndex(index)
         case let .swap(fromIndex, toIndex, replacingWith):
+            guard 0..<directChatMessagesCount ~= fromIndex, 0..<directChatMessagesCount ~= toIndex else { break }
             directChatMessages.swap(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
         case let .move(fromIndex, toIndex, replacingWith):
+            guard 0..<directChatMessagesCount ~= fromIndex, 0..<directChatMessagesCount ~= toIndex else { break }
             directChatMessages.move(fromIndex: fromIndex, toIndex: toIndex, replacingWith: replacingWith)
         case let .composite(changes):
             for change in changes {
                 performCollectionChange(change: change)
-            }            
+            }
         }
     }
 
@@ -667,8 +677,10 @@ extension ListingCarouselViewModel: Paginable {
             self?.isLoading = false
             if let newListings = result.listingsResult.value {
                 strongSelf.nextPage = strongSelf.nextPage + 1
-                strongSelf.objects.appendContentsOf(newListings.map(ListingCarouselCellModel.init))
-                
+                let listingCarouselCellModels = newListings
+                    .map(ListingCarouselCellModel.init)
+                    .filter(strongSelf.featureFlags.discardedProducts.notDiscarded)
+                strongSelf.objects.appendContentsOf(listingCarouselCellModels)
                 strongSelf.isLastPage = strongSelf.listingListRequester.isLastPage(newListings.count)
                 if newListings.isEmpty && !strongSelf.isLastPage {
                     strongSelf.retrieveNextPage()
@@ -846,5 +858,13 @@ extension CarouselMovement {
         case .initial:
             return .position(index: index)
         }
+    }
+}
+
+extension DiscardedProducts {
+    
+    func notDiscarded(model: ListingCarouselCellModel) -> Bool {
+        guard isActive else { return true }
+        return !model.listing.status.isDiscarded
     }
 }

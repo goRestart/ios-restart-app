@@ -214,7 +214,7 @@ class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
         priceLabel.layout().height(ListingCell.featuredListingPriceLabelHeight)
     }
     
-    func show(isDiscarded: Bool, reason: String?) {
+    func show(isDiscarded: Bool, reason: String? = nil) {
         discardedView.isHidden = !isDiscarded
         discardedView.set(reason: reason ?? "")
     }

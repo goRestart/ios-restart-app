@@ -34,6 +34,8 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
             let isDiscarded = model.listing?.status.isDiscarded ?? false
             let isAllowedToBeEdited = model.listing?.status.discardedReason?.isAllowedToBeEdited ?? false
             cell.show(isDiscarded: isDiscarded && isAllowedToBeEdited, reason: model.listing?.status.discardedReason?.message)
+        } else {
+            cell.show(isDiscarded: false)
         }
     }
 
