@@ -136,11 +136,7 @@ class ListingCarouselMoreInfoView: UIView {
             } else {
                 shareViewToMapTopConstraint.isActive = true
                 shareViewToBannerTopConstraint.isActive = true
-                if let useAFSh = viewModel?.afshAdActive, useAFSh {
-                    loadAFShoppingRequest()
-                } else {
-                    loadDFPRequest()
-                }
+                loadDFPRequest()
             }
         } else {
             hideAdsBanner()
@@ -527,19 +523,6 @@ fileprivate extension ListingCarouselMoreInfoView {
     }
 
     func setupAdBannerWith(viewModel: ListingCarouselViewModel) {
-
-        if viewModel.afshAdActive {
-            bannerView = GADSearchBannerView.init(adSize: kGADAdSizeFluid)
-            guard let bannerView = bannerView else { return }
-            bannerView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 0)
-            bannerView.autoresizingMask = .flexibleWidth
-            bannerView.adSizeDelegate = self
-            bannerView.delegate = self
-
-            bannerContainerView.addSubview(bannerView)
-            bannerView.translatesAutoresizingMaskIntoConstraints = false
-            bannerView.layout(with: bannerContainerView).fill()
-        } else {
             dfpBannerView = DFPBannerView(adSize: kGADAdSizeLargeBanner)
 
             guard let dfpBanner = dfpBannerView else { return }
@@ -551,16 +534,6 @@ fileprivate extension ListingCarouselMoreInfoView {
             dfpBanner.layout(with: bannerContainerView).top().bottom().centerX()
 
             dfpBanner.delegate = self
-        }
-    }
-
-    func loadAFShoppingRequest() {
-        bannerContainerViewHeightConstraint.constant = 0
-        shareViewToMapTopConstraint.isActive = false
-        shareViewToBannerTopConstraint.isActive = true
-
-        bannerView?.adUnitID = viewModel?.shoppingAdUnitId
-        bannerView?.load(viewModel?.makeAFShoppingRequestWithWidth(width: frame.width))
     }
 
     func loadDFPRequest() {

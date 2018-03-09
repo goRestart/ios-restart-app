@@ -46,7 +46,6 @@ protocol FeatureFlaggeable: class {
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
-    var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var realEstateImprovements: RealEstateImprovements { get }
     var realEstatePromos: RealEstatePromos { get }
@@ -74,7 +73,6 @@ protocol FeatureFlaggeable: class {
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
-    var moreInfoShoppingAdUnitId: String { get }
     var moreInfoDFPAdUnitId: String { get }
     var feedDFPAdUnitId: String? { get }
     var bumpPriceVariationBucket: BumpPriceVariationBucket { get }
@@ -398,13 +396,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return AllowCallsForProfessionals.fromPosition(abTests.allowCallsForProfessionals.value)
     }
-
-    var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
-        if Bumper.enabled {
-            return Bumper.moreInfoAFShOrDFP
-        }
-        return MoreInfoAFShOrDFP.fromPosition(abTests.moreInfoAFShOrDFP.value)
-    }
     
     var mostSearchedDemandedItems: MostSearchedDemandedItems {
         if Bumper.enabled {
@@ -609,15 +600,6 @@ class FeatureFlags: FeatureFlaggeable {
             return true
         default:
             return false
-        }
-    }
-
-    var moreInfoShoppingAdUnitId: String {
-        switch sensorLocationCountryCode {
-        case .usa?:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShoppingUSA
-        default:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShopping
         }
     }
 

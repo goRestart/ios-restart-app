@@ -60,9 +60,6 @@ enum AdRequestQueryType {
 
 class ListingCarouselViewModel: BaseViewModel {
 
-    // Static vars
-    static var adRequestChannel: String = "ios_moreinfo_var_a"
-
     // Paginable
     let firstPage: Int = 0
     var nextPage: Int = 1
@@ -176,21 +173,13 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate let adsRequester: AdsRequester
 
     // Ads
-    var shoppingAdUnitId: String {
-        return featureFlags.moreInfoShoppingAdUnitId
-    }
     var dfpAdUnitId: String {
         return featureFlags.moreInfoDFPAdUnitId
     }
     var adActive: Bool {
-        return !isMyListing && (afshAdActive || dfpAdActive) && userShouldSeeAds
+        return !isMyListing && userShouldSeeAds
     }
-    var afshAdActive: Bool {
-        return featureFlags.moreInfoAFShOrDFP == .afsh
-    }
-    var dfpAdActive: Bool {
-        return featureFlags.moreInfoAFShOrDFP == .dfp
-    }
+
     var userShouldSeeAds: Bool {
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
         return featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInMoreInfoForUser(createdIn: myUserCreationDate)
@@ -207,12 +196,9 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     var currentAdRequestType: AdRequestType? {
-        if afshAdActive {
+ 
             return .shopping
-        } else if dfpAdActive {
-            return .dfp
-        }
-        return nil
+
     }
     var currentAdRequestQueryType: AdRequestQueryType? = nil
     var adRequestQuery: String? = nil
@@ -443,15 +429,6 @@ class ListingCarouselViewModel: BaseViewModel {
     func moveQuickAnswerToTheEnd(_ index: Int) {
         guard index >= 0 else { return }
         quickAnswers.value.move(fromIndex: index, toIndex: quickAnswers.value.count-1)
-    }
-
-    func makeAFShoppingRequestWithWidth(width: CGFloat) -> GADDynamicHeightSearchRequest {
-        adRequestQuery = makeAFShRequestQuery()
-        let adWidth = width-(2*sideMargin)
-        let adsRequest = adsRequester.makeAFShoppingRequestWithQuery(query: adRequestQuery,
-                                                                     width: adWidth,
-                                                                     channel: ListingCarouselViewModel.adRequestChannel)
-        return adsRequest
     }
 
     func didReceiveAd(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat, screenHeight: CGFloat) {

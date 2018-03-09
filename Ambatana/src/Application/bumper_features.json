@@ -76,11 +76,6 @@
         "description": "Show a clock until the message is delivered correctly"
     },
     {
-        "name": "MoreInfoAFShOrDFP",
-        "values": ["control", "baseline", "afsh", "dfp"],
-        "description": "show ad in more info, could be Adsense for shopping or DFP"
-    },
-    {
         "name": "MostSearchedDemandedItems",
         "values": ["control", "baseline", "cameraBadge", "trendingButtonExpandableMenu", "subsetAboveExpandableMenu"],
         "description": "Display a list of top seller items that inspire users to post new items"
