@@ -172,7 +172,6 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
                                                    typePage: postingSource.typePage,
                                                    mostSearchedButton: postingSource.mostSearchedButton)
         
-        let isFirmPrice = !listing.isNegotiable(freeModeAllowed: featureFlags.freePostingModeAllowed)
         let event = TrackerEvent.listingSellComplete(listing,
                                                      buttonName: trackingInfo.buttonName,
                                                      sellButtonPosition: trackingInfo.sellButtonPosition,
@@ -180,8 +179,7 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
                                                      pictureSource: trackingInfo.imageSource,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
-                                                     mostSearchedButton: trackingInfo.mostSearchedButton,
-                                                     firmPrice: isFirmPrice)
+                                                     mostSearchedButton: trackingInfo.mostSearchedButton)
         tracker.trackEvent(event)
     }
     
