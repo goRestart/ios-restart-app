@@ -70,7 +70,7 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         view.backgroundColor = .clear
         contentView.backgroundColor = .clear
         
-        titleLabel.font = UIFont.headline
+        titleLabel.font = UIFont.postingFlowHeadline
         titleLabel.textColor = UIColor.white
         
         buttonNext.setStyle(viewModel.doneButtonStyle)

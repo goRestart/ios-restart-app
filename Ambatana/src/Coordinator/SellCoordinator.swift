@@ -236,10 +236,12 @@ extension SellCoordinator: PostListingNavigator {
         let _ = navigationController.popViewController(animated: true)
     }
     
-    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams, source: EventParameterPictureSource) {
+    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
+                                   imageSource: EventParameterPictureSource, postingSource: PostingSource) {
         let viewModel = BlockingPostingQueuedRequestsViewModel(images: images,
-                                                              listingCreationParams: listingCreationParams,
-                                                              source: source)
+                                                               listingCreationParams: listingCreationParams,
+                                                               imageSource: imageSource,
+                                                               postingSource: postingSource)
         viewModel.navigator = self
         let vc = BlockingPostingQueuedRequestsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)
@@ -296,7 +298,7 @@ extension SellCoordinator: ListingPostedNavigator {
     }
 }
 
-// MARK: - PostingHastenedCreateProduct
+// MARK: - BlockingPostingNavigator
 
 extension SellCoordinator: BlockingPostingNavigator  {
     func openCamera() {
@@ -310,26 +312,52 @@ extension SellCoordinator: BlockingPostingNavigator  {
         navigationController.pushViewController(postListingVC, animated: true)
     }
     
-    func openPrice(listing: Listing, images: [UIImage]) {
-        let viewModel = BlockingPostingAddPriceViewModel(listing: listing, images: images)
+    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+        let viewModel = BlockingPostingAddPriceViewModel(listing: listing,
+                                                         images: images,
+                                                         imageSource: imageSource,
+                                                         postingSource: postingSource)
         viewModel.navigator = self
         let vc = BlockingPostingAddPriceViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func openListingPosted(listing: Listing, images: [UIImage]) {
-        let viewModel = ListingPostedDescriptiveViewModel(listing: listing, images: images)
+    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+        let viewModel = ListingPostedDescriptiveViewModel(listing: listing,
+                                                          listingImages: images,
+                                                          imageSource: imageSource,
+                                                          postingSource: postingSource)
         viewModel.navigator = self
         let vc = ListingPostedDescriptiveViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
-    
+
+    func openCategoriesPickerWith(selectedCategory: ListingCategory?, delegate: PostingCategoriesPickDelegate) {
+        let viewModel = PostingCategoriesPickViewModel(selectedCategory: selectedCategory)
+        viewModel.delegate = delegate
+        viewModel.navigator = self
+        let viewController = PostingCategoriesPickViewController(viewModel: viewModel)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    func closeCategoriesPicker() {
+        let _ = navigationController.popViewController(animated: true)
+    }
+
     func closePosting() {
         cancelPostListing()
     }
     
-    func openListingEditionLoading(listingParams: ListingEditionParams, images: [UIImage]) {
-        let viewModel = BlockingPostingListingEditionViewModel(listingParams: listingParams, images: images)
+    func openListingEditionLoading(listingParams: ListingEditionParams,
+                                   listing: Listing,
+                                   images: [UIImage],
+                                   imageSource: EventParameterPictureSource,
+                                   postingSource: PostingSource) {
+        let viewModel = BlockingPostingListingEditionViewModel(listingParams: listingParams,
+                                                               listing: listing,
+                                                               images: images,
+                                                               imageSource: imageSource,
+                                                               postingSource: postingSource)
         viewModel.navigator = self
         let vc = BlockingPostingListingEditionViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)

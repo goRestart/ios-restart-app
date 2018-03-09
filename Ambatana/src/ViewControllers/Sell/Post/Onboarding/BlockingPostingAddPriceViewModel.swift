@@ -19,6 +19,8 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
     private let featureFlags: FeatureFlaggeable
     private let listing: Listing
     private let images: [UIImage]
+    private let imageSource: EventParameterPictureSource
+    private let postingSource: PostingSource
     private let priceListing = Variable<ListingPrice>(Constants.defaultPrice)
     
     weak var navigator: BlockingPostingNavigator?
@@ -33,13 +35,18 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    convenience init(listing: Listing, images: [UIImage]) {
+    convenience init(listing: Listing,
+                     images: [UIImage],
+                     imageSource: EventParameterPictureSource,
+                     postingSource: PostingSource) {
         self.init(listingRepository: Core.listingRepository,
                   locationManager: Core.locationManager,
                   currencyHelper: Core.currencyHelper,
                   featureFlags: FeatureFlags.sharedInstance,
                   listing: listing,
-                  images: images)
+                  images: images,
+                  imageSource: imageSource,
+                  postingSource: postingSource)
     }
     
     init(listingRepository: ListingRepository,
@@ -47,13 +54,17 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
          currencyHelper: CurrencyHelper,
          featureFlags: FeatureFlaggeable,
          listing: Listing,
-         images: [UIImage]) {
+         images: [UIImage],
+         imageSource: EventParameterPictureSource,
+         postingSource: PostingSource) {
         self.listingRepository = listingRepository
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
         self.featureFlags = featureFlags
         self.listing = listing
         self.images = images
+        self.imageSource = imageSource
+        self.postingSource = postingSource
         super.init()
     }
 
@@ -76,6 +87,6 @@ class BlockingPostingAddPriceViewModel: BaseViewModel {
         if editParams.price != priceListing.value {
             editParams = editParams.updating(price: priceListing.value)
         }
-        navigator?.openListingEditionLoading(listingParams: editParams, images: images)
+        navigator?.openListingEditionLoading(listingParams: editParams, listing: listing, images: images, imageSource: imageSource, postingSource: postingSource)
     }
 }

@@ -64,9 +64,9 @@
 "categories_title" = "Danh mục";
 "categories_unassigned" = "Chưa được chọn";
 "categories_unassigned_items" = "Sản phẩm khác";
-"change_bio_placeholder" = "Add a bio that describes who you are. Share what you’re interested in or a fun fact about yourself";
-"change_bio_save_button" = "Save";
-"change_bio_title" = "About me";
+"change_bio_placeholder" = "Thêm một tiểu sử miêu tả về bạn. Chia sẻ điều gì bạn quan tâm hoặc điều gì đó thú vị về bạn";
+"change_bio_save_button" = "Lưu";
+"change_bio_title" = "Về tôi";
 "change_email_current_email_label" = "EMAIL HIỆN TẠI:";
 "change_email_error_already_registered" = "Địa chỉ email này đã được đăng ký, Vui lòng nhập một địa chỉ email khác.";
 "change_email_error_invalid_email" = "Vui lòng nhập một địa chỉ email hợp lệ.";
@@ -919,7 +919,7 @@
 "settings_change_profile_picture_button" = "Hình ảnh";
 "settings_change_profile_picture_error_generic" = "Có lỗi xảy ra trong khi cài đặt ảnh hồ sơ.";
 "settings_change_profile_picture_loading" = "Đang cài đặt hình ảnh hồ sơ của bạn. Vui lòng chờ...";
-"settings_change_user_bio_button" = "Bio / About me";
+"settings_change_user_bio_button" = "Tiểu sử/Về tôi";
 "settings_change_username_button" = "Tên";
 "settings_general_notifications_alert_message" = "Kích hoạt thông báo cho ứng dụng letgo trong cài đặt thiết bị của bạn.";
 "settings_help_button" = "Trợ giúp";

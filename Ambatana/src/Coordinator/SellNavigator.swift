@@ -31,9 +31,8 @@ protocol PostListingNavigator: class {
     func openListingCreation(listingParams: ListingCreationParams, trackingInfo: PostListingTrackingInfo)
     func backToSummary()
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
-                                   source: EventParameterPictureSource)
+                                   imageSource: EventParameterPictureSource, postingSource: PostingSource)
 }
-
 protocol ListingPostedNavigator: class {
     func cancelListingPosted()
     func closeListingPosted(_ listing: Listing)
@@ -43,9 +42,11 @@ protocol ListingPostedNavigator: class {
 
 protocol BlockingPostingNavigator: class {
     func openCamera()
-    func openPrice(listing: Listing, images: [UIImage])
-    func openListingEditionLoading(listingParams: ListingEditionParams, images: [UIImage])
-    func openListingPosted(listing: Listing, images: [UIImage])
+    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource)
+    func openListingEditionLoading(listingParams: ListingEditionParams, listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource)
+    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource)
+    func openCategoriesPickerWith(selectedCategory: ListingCategory?, delegate: PostingCategoriesPickDelegate)
+    func closeCategoriesPicker()
     func closePosting()
 }
 
