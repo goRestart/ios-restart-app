@@ -58,7 +58,7 @@ class ABTests {
     let showChatSafetyTips = BoolABDynamicVar(key: "20180226ShowChatSafetyTips", defaultValue: false, abGroupType: .chat)
     let discardedProducts = IntABDynamicVar(key: "20180219DiscardedProducts", defaultValue: 0, abGroupType: .core)
     let userIsTyping = IntABDynamicVar(key: "20180305UserIsTyping", defaultValue: 0, abGroupType: .chat)
-    let serviceCategoryEnabled = IntABDynamicVar(key: "20180305ServiceCategoryEnabled", defaultValue: 0, abGroupType: .legacyABTests)
+    let servicesCategoryEnabled = IntABDynamicVar(key: "20180305ServicesCategoryEnabled", defaultValue: 0, abGroupType: .legacyABTests)
 
     init() {
     }
@@ -109,7 +109,7 @@ class ABTests {
         result.append(showChatSafetyTips)
         result.append(discardedProducts)
         result.append(userIsTyping)
-        result.append(serviceCategoryEnabled)
+        result.append(servicesCategoryEnabled)
         
         return result
     }

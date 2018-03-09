@@ -203,6 +203,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("categories_real_estate_title", comment: "")
 	}
 
+	static var categoriesServices: String {
+		return NSLocalizedString("categories_services", comment: "")
+	}
+
 	static var categoriesSportsLeisureAndGames: String {
 		return NSLocalizedString("categories_sports_leisure_and_games", comment: "")
 	}
@@ -233,6 +237,10 @@ struct LGLocalizedString {
 
 	static var categoriesInfeedSportsLeisureGames: String {
 		return NSLocalizedString("categories_inFeed_sports_leisure_games", comment: "")
+	}
+
+	static var categoriesInfeedServices: String {
+		return NSLocalizedString("categories_inFeed_services", comment: "")
 	}
 
 	static var categoriesInfeedHome: String {

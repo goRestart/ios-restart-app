@@ -67,7 +67,7 @@ protocol FeatureFlaggeable: class {
     var showChatSafetyTips: Bool { get }
     var discardedProducts: DiscardedProducts { get }
     var userIsTyping: UserIsTyping { get }
-    var serviceCategoryEnabled: ServiceCategoryEnabled { get }
+    var servicesCategoryEnabled: ServicesCategoryEnabled { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -220,7 +220,7 @@ extension DiscardedProducts {
 extension UserIsTyping {
     var isActive: Bool { get { return self == .active } }
 }
-extension ServiceCategoryEnabled {
+extension ServicesCategoryEnabled {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -552,11 +552,11 @@ class FeatureFlags: FeatureFlaggeable {
         return TurkeyBumpPriceVATAdaptation.fromPosition(abTests.turkeyBumpPriceVATAdaptation.value)
     }
 
-    var serviceCategoryEnabled: ServiceCategoryEnabled {
+    var servicesCategoryEnabled: ServicesCategoryEnabled {
         if Bumper.enabled {
-            return Bumper.serviceCategoryEnabled
+            return Bumper.servicesCategoryEnabled
         }
-        return ServiceCategoryEnabled.fromPosition(abTests.serviceCategoryEnabled.value)
+        return ServicesCategoryEnabled.fromPosition(abTests.servicesCategoryEnabled.value)
     }
 
     // MARK: - Country features

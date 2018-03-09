@@ -648,7 +648,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         let editParams: ListingEditionParams
         switch category {
         case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden,
-             .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .other, .service:
+             .moviesBooksAndMusic, .fashionAndAccesories, .babyAndChild, .other, .services:
             guard let productEditParams = ProductEditionParams(listing: listing) else { return }
             productEditParams.category = category
             productEditParams.name = title ?? ""
@@ -805,7 +805,7 @@ extension EditListingViewModel {
     }
 
     fileprivate func setupCategories() {
-        categoryRepository.index(serviceIncluded: featureFlags.serviceCategoryEnabled.isActive, carsIncluded: true, realEstateIncluded: featureFlags.realEstateEnabled.isActive, highlightRealEstate: featureFlags.realEstatePromos.isActive) { [weak self] result in
+        categoryRepository.index(servicesIncluded: featureFlags.servicesCategoryEnabled.isActive, carsIncluded: true, realEstateIncluded: featureFlags.realEstateEnabled.isActive, highlightRealEstate: featureFlags.realEstatePromos.isActive) { [weak self] result in
             guard let categories = result.value else { return }
             self?.categories = categories
         }

@@ -145,6 +145,9 @@
 // Categories real Estate
 "categories_real_estate_title" = "Real Estate";
 
+// Categories services
+"categories_services" = "Services";
+
 // Categories sports leisure and games. Check image @ "categories_cars_and_motors" segment
 "categories_sports_leisure_and_games" = "Sports, Leisure and Games";
 
@@ -168,6 +171,9 @@
 
 // Category "Leisure"
 "categories_inFeed_sports_leisure_games" = "Leisure";
+
+// Category "Services"
+"categories_inFeed_services" = "Services";
 
 // Category "Home"
 "categories_inFeed_home" = "Home";
