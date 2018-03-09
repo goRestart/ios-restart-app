@@ -13,7 +13,7 @@
  i.e:
     case SignUpLoginEmailButton
  */
-enum AccessibilityId {
+enum AccessibilityId: Equatable {
     // Tab Bar
     case tabBarFirstTab
     case tabBarSecondTab
@@ -624,6 +624,10 @@ enum AccessibilityId {
     case askPhoneNumberLetstalkText
     case askPhoneNumberTextfield
     case askPhoneNumberSendPhoneButton
+    
+    static func ==(lhs: AccessibilityId, rhs: AccessibilityId) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
     
     var identifier: String {
         switch self {
