@@ -74,7 +74,6 @@ class ListingCarouselMoreInfoView: UIView {
     @IBOutlet var shareViewToBannerTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var scrollViewToSuperviewTopConstraint: NSLayoutConstraint!
     
-    var bannerView: GADSearchBannerView?
     var dfpBannerView: DFPBannerView?
 
     @IBOutlet weak var socialShareContainer: UIView!
