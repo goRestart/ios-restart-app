@@ -63,7 +63,7 @@ class BlockingPostingListingEditionViewController: BaseViewController, BlockingP
         view.addSubviewsForAutoLayout([closeButton, loadingView])
         
         closeButton.layout(with: view)
-            .top()
+            .top(by: toastView?.height ?? 0)
             .left()
         closeButton.layout()
             .height(BlockingPostingListingEditionViewController.closeButtonHeight)
