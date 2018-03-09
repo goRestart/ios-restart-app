@@ -121,7 +121,7 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
     // MARK: - Navigation
 
     func openCategoriesPicker() {
-        navigator?.openCategoriesPickerWith(delegate: self)
+        navigator?.openCategoriesPickerWith(selectedCategory: listingCategory.value, delegate: self)
     }
 
     func closePosting(discardingListing: Bool) {

@@ -45,11 +45,17 @@ class PostingGetStartedViewController: BaseViewController {
         setupConstraints()
         setupRx()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setStatusBarHidden(true)
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        setStatusBarHidden(false)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -100,6 +106,7 @@ class PostingGetStartedViewController: BaseViewController {
         discardLabel.textColor = UIColor.grayText
         discardLabel.text = viewModel.discardText
         discardLabel.numberOfLines = 0
+        discardLabel.textAlignment = .center
     }
     
     private func setupConstraints() {

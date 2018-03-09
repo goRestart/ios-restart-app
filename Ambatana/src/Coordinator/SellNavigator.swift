@@ -46,7 +46,7 @@ protocol BlockingPostingNavigator: class {
     func openPrice(listing: Listing, images: [UIImage])
     func openListingEditionLoading(listingParams: ListingEditionParams, images: [UIImage])
     func openListingPosted(listing: Listing, images: [UIImage])
-    func openCategoriesPickerWith(delegate: PostingCategoriesPickDelegate)
+    func openCategoriesPickerWith(selectedCategory: ListingCategory?, delegate: PostingCategoriesPickDelegate)
     func closeCategoriesPicker()
     func closePosting()
 }

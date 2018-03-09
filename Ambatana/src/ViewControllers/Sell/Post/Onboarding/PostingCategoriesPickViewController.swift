@@ -62,7 +62,7 @@ class PostingCategoriesPickViewController: BaseViewController, UITableViewDelega
         view.addSubviews(subviews)
         view.setTranslatesAutoresizingMaskIntoConstraintsToFalse(for: subviews)
 
-        backButton.layout().height(Metrics.closeButtonHeight).height(Metrics.closeButtonWidth)
+        backButton.layout().height(Metrics.buttonHeight).height(Metrics.buttonHeight)
         backButton.layout(with: view).left(by: Metrics.bigMargin).top(by: Metrics.bigMargin)
         backButton.layout(with: tableView).above(by: -Metrics.bigMargin)
 
@@ -101,6 +101,7 @@ class PostingCategoriesPickViewController: BaseViewController, UITableViewDelega
             return UITableViewCell()
         }
         cell.updateWith(text: viewModel.categoryNameForCellAtIndexPath(indexPath: indexPath))
+        cell.isSelected = viewModel.categorySelectedForIndexPath(indexPath: indexPath)
         return cell
     }
 
@@ -110,5 +111,10 @@ class PostingCategoriesPickViewController: BaseViewController, UITableViewDelega
         delay(0.3) { [weak self] in
             self?.viewModel.selectCategoryAtIndexPath(indexPath: indexPath)
         }
+    }
+
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let selectedCell = tableView.cellForRow(at: indexPath) else { return }
+        selectedCell.isSelected = false
     }
 }

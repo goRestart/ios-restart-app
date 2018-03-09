@@ -327,8 +327,8 @@ extension SellCoordinator: BlockingPostingNavigator  {
         navigationController.pushViewController(vc, animated: true)
     }
 
-    func openCategoriesPickerWith(delegate: PostingCategoriesPickDelegate) {
-        let viewModel = PostingCategoriesPickViewModel()
+    func openCategoriesPickerWith(selectedCategory: ListingCategory?, delegate: PostingCategoriesPickDelegate) {
+        let viewModel = PostingCategoriesPickViewModel(selectedCategory: selectedCategory)
         viewModel.delegate = delegate
         viewModel.navigator = self
         let viewController = PostingCategoriesPickViewController(viewModel: viewModel)
