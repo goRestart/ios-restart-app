@@ -290,7 +290,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     func willBeginDragging() {
         // ☢️ do not know how to test this
     }
-    func willDisplayCell(_ cell: UICollectionViewCell) {
+    func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath) {
         // ☢️ do not know how to test this
     }
     func didEndDecelerating() {

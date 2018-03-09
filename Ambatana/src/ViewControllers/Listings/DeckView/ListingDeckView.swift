@@ -16,21 +16,19 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     struct Layout {
         struct Height {
             static let previewFactor: CGFloat = 0.7
-            static let maximumCard: CGFloat = 560
-            static let minimumCard: CGFloat = 280
         }
     }
+    var cardSize: CGSize { return collectionLayout.cardSize }
+    var cellHeight: CGFloat { return collectionLayout.cellHeight }
 
     private var collectionViewTop: NSLayoutConstraint? = nil
     private let topInsetView = UIView()
     let collectionView: UICollectionView
     private let collectionLayout = ListingDeckCollectionViewLayout()
     let rxCollectionView: Reactive<UICollectionView>
-
+    
     private let bottomInsetView = UIView()
 
-    var currentPageCell: ListingCardView? { return collectionView.cellForItem(at: IndexPath(item: collectionLayout.page,
-                                                                                            section: 0)) as? ListingCardView }
     var chatEnabled: Bool = false {
         didSet {
             quickChatTopToCollectionBotton?.isActive = chatEnabled
@@ -48,8 +46,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 
     var currentPage: Int { return collectionLayout.page }
     var bumpUpBanner: BumpUpBanner { return itemActionsView.bumpUpBanner }
-    var isBumpUpVisible: Bool { return itemActionsView.isBumpUpVisisble }
-    var cardsInsets: UIEdgeInsets { return collectionLayout.cardInsets }
+    var isBumpUpVisible: Bool { return itemActionsView.isBumpUpVisible }
 
     override init(frame: CGRect) {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
@@ -63,12 +60,8 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         fatalError("init(coder:) has not been implemented")
     }
 
-    func cardSystemLayoutSizeFittingSize(_ target: CGSize) -> CGSize {
-        return collectionLayout.cardSystemLayoutSizeFittingSize(target)
-    }
-
     func scrollToIndex(_ index: IndexPath) {
-        collectionView.contentOffset = collectionLayout.anchorOffsetForPage(index.row)
+        collectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
     }
 
     @discardableResult
@@ -78,9 +71,8 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 
     func blockSideInteractions() {
         let current = collectionLayout.page
-
         collectionView.cellForItem(at: IndexPath(row: current - 1, section: 0))?.isUserInteractionEnabled = false
-        collectionView.cellForItem(at: IndexPath(row: current, section: 0))?.isUserInteractionEnabled = true
+        currentPageCell()?.isUserInteractionEnabled = true
         collectionView.cellForItem(at: IndexPath(row: current + 1, section: 0))?.isUserInteractionEnabled = false
     }
     
@@ -107,18 +99,16 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
             topInsetConstraint,
             topInsetView.leadingAnchor.constraint(equalTo: leadingAnchor),
             topInsetView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            topInsetView.heightAnchor.constraint(equalToConstant: 18),
 
             collectionView.topAnchor.constraint(equalTo: topInsetView.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            collectionView.heightAnchor.constraint(lessThanOrEqualToConstant: Layout.Height.maximumCard),
-            collectionView.heightAnchor.constraint(greaterThanOrEqualToConstant: Layout.Height.minimumCard),
 
             bottomInsetView.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
             bottomInsetView.leadingAnchor.constraint(equalTo: leadingAnchor),
             bottomInsetView.trailingAnchor.constraint(equalTo: trailingAnchor),
             bottomInsetView.heightAnchor.constraint(equalTo: topInsetView.heightAnchor),
-            bottomInsetView.heightAnchor.constraint(lessThanOrEqualToConstant: 50)
         ])
         collectionViewTop = topInsetConstraint
 
@@ -160,7 +150,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         let directTop = quickChatView.directAnswersViewTopAnchor
         quickChatTopToCollectionBotton = bottomInsetView.bottomAnchor.constraint(equalTo: directTop,
                                                                                  constant: -Metrics.margin)
-
+        quickChatTopToCollectionBotton?.isActive = true
         focusOnCollectionView()
     }
 
@@ -254,5 +244,20 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 
     func setCollectionLayoutDelegate(_ delegate: ListingDeckCollectionViewLayoutDelegate) {
         collectionLayout.delegate = delegate
+    }
+}
+
+extension ListingDeckView {
+    func currentPageCell() -> ListingCardView? {
+        return cardAtIndex(collectionLayout.page)
+    }
+
+    func cardAtIndex(_ index: Int) -> ListingCardView? {
+        return collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? ListingCardView
+    }
+
+    func endTransitionAnimation(current: Int) {
+        cardAtIndex(current - 1)?.alpha = 1
+        cardAtIndex(current + 1)?.alpha = 1
     }
 }

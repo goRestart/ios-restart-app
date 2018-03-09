@@ -17,8 +17,7 @@ typealias DeckMovement = CarouselMovement
 final class ListingDeckViewController: KeyboardViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     override var preferredStatusBarStyle: UIStatusBarStyle { return .default }
 
-    var cardInsets: UIEdgeInsets { return listingDeckView.cardsInsets }
-
+    private var finishedTransition: Bool = false
     fileprivate let listingDeckView = ListingDeckView()
     fileprivate let viewModel: ListingDeckViewModel
     fileprivate let binder = ListingDeckViewControllerBinder()
@@ -37,8 +36,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         self.view = listingDeckView
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         listingDeckView.updateTop(wintInset: topBarHeight)
     }
 
@@ -50,16 +49,13 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     override func viewDidFirstAppear(_ animated: Bool) {
         super.viewDidFirstAppear(animated)
         setupPageCurrentCell()
-        delay(0.5) {
-            self.onboardingFlashDetails()
-        }
+        listingDeckView.currentPageCell()?.delayedOnboardingFlashDetails(withDelay: 0.6, duration: 0.6)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         listingDeckView.setQuickChatViewModel(viewModel.quickChatViewModel)
         setupCollectionView()
-
         setupRx()
     }
 
@@ -67,8 +63,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         super.viewWillAppear(animated)
         setupNavigationBar()
         listingDeckView.collectionView.clipsToBounds = false
-
-        updateStartIndex()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -86,10 +80,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         listingDeckView.scrollToIndex(startIndexPath)
     }
 
-    func cardSystemLayoutSizeFittingSize(_ target: CGSize) -> CGSize {
-        return listingDeckView.cardSystemLayoutSizeFittingSize(target)
-    }
-
     // MARK: Rx
 
     private func setupRx() {
@@ -103,8 +93,11 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         automaticallyAdjustsScrollViewInsets = false
         listingDeckView.collectionView.dataSource = self
         listingDeckView.setCollectionLayoutDelegate(self)
-        listingDeckView.collectionView.register(ListingCardView.self, forCellWithReuseIdentifier: ListingCardView.reusableID)
+        listingDeckView.collectionView.register(ListingCardView.self,
+                                                forCellWithReuseIdentifier: ListingCardView.reusableID)
+    }
 
+    func reloadData() {
         listingDeckView.collectionView.reloadData()
     }
 
@@ -119,11 +112,14 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingCardView.reusableID, for: indexPath) as? ListingCardView {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingCardView.reusableID,
+                                                         for: indexPath) as? ListingCardView {
+            guard finishedTransition || isTransitionIndexPath(indexPath) else { return cell }
             guard let model = viewModel.snapshotModelAt(index: indexPath.row) else { return cell }
             cell.isUserInteractionEnabled = indexPath.row == listingDeckView.currentPage
             cell.populateWith(model, imageDownloader: viewModel.imageDownloader)
             cell.delegate = self
+            cell.alpha = finishedTransition || indexPath.row == viewModel.currentIndex ? 1 : 0
 
             return cell
         }
@@ -131,7 +127,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
 
     private func updateCellContentInset(_ cell: ListingCardView, animated: Bool) {
-        let inset = listingDeckView.collectionView.bounds.height * 0.8
+        let inset = listingDeckView.cellHeight * 0.8
         cell.setVerticalContentInset(inset, animated: animated)
     }
 
@@ -189,15 +185,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
 }
 
-extension ListingDeckViewController {
-    private func onboardingFlashDetails() {
-        guard let current = listingDeckView.collectionView.cellForItem(at: IndexPath(row: viewModel.startIndex,
-                                                                                     section: 0)) else { return }
-        guard let cell = current as? ListingCardView else { return }
-        cell.onboardingFlashDetails()
-    }
-}
-
 extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     var rxContentOffset: Observable<CGPoint> { return listingDeckView.rxCollectionView.contentOffset.share() }
 
@@ -212,7 +199,8 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         }
     }
 
-    func willDisplayCell(_ cell: UICollectionViewCell) {
+    func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath) {
+        guard finishedTransition || isTransitionIndexPath(indexPath) else { return }
         guard let card = cell as? ListingCardView else { return }
         updateCellContentInset(card, animated: false)
     }
@@ -224,18 +212,18 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func didEndDecelerating() {
         listingDeckView.blockSideInteractions()
         listingDeckView.collectionView.visibleCells.flatMap { $0 as? ListingCardView }.forEach { cell in
-            guard cell != listingDeckView.currentPageCell else { return }
+            guard cell != listingDeckView.currentPageCell() else { return }
             updateCellContentInset(cell, animated: true)
         }
         setupPageCurrentCell()
     }
 
     private func setupPageCurrentCell() {
-        guard let cell = listingDeckView.currentPageCell else { return }
-        let currentPage = listingDeckView.currentPage
+        guard let cell = listingDeckView.currentPageCell() else { return }
         binder.bind(cell: cell)
         cell.isUserInteractionEnabled = true
 
+        let currentPage = listingDeckView.currentPage
         guard let listing = viewModel.listingCellModelAt(index: currentPage) else { return }
         cell.populateWith(cellModel: listing, imageDownloader: viewModel.imageDownloader)
         viewModel.didMoveToListing()
@@ -337,10 +325,7 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
     func viewControllerToShowShareOptions() -> UIViewController { return self }
 
     func didTapOnMapSnapshot(_ snapshot: UIView) {
-        let page = listingDeckView.currentPage
-        guard let cell = listingDeckView.collectionView.cellForItem(at: IndexPath(row: page, section: 0))
-            as? ListingCardView else { return }
-
+        guard let cell = listingDeckView.currentPageCell() else { return }
         listingDeckView.collectionView.isScrollEnabled = false
         cell.showFullMap(fromRect: snapshot.frame)
     }
@@ -361,9 +346,7 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
     }
 
     func didTapMapView() {
-        let page = listingDeckView.currentPage
-        guard let cell = listingDeckView.collectionView.cellForItem(at: IndexPath(row: page, section: 0))
-            as? ListingCardView else { return }
+        guard let cell = listingDeckView.currentPageCell()  else { return }
         listingDeckView.collectionView.isScrollEnabled = true
         cell.hideFullMap()
     }
@@ -374,20 +357,45 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
 }
 
 extension ListingDeckViewController {
-
+    func transitionCell() -> ListingCardView? {
+        let indexPath = IndexPath(row: viewModel.startIndex, section: 0)
+        guard let card = collectionView(listingDeckView.collectionView, cellForItemAt: indexPath) as? ListingCardView else { return nil }
+        updateCellContentInset(card, animated: false)
+        return card
+    }
+    var windowTargetFrame: CGRect {
+        let size = listingDeckView.cardSize
+        let frame = CGRect(x: 20, y: 0, width: size.width, height: size.height)
+        return listingDeckView.collectionView.convertToWindow(frame)
+    }
+    func isTransitionIndexPath(_ indexPath: IndexPath) -> Bool {
+        return indexPath.row >= viewModel.startIndex - 1 && indexPath.row <= viewModel.startIndex + 1
+    }
     var animationController: UIViewControllerAnimatedTransitioning? {
-            if transitioner == nil {
-                let current = listingDeckView.currentPage
-                let cell = listingDeckView.collectionView.cellForItem(at: IndexPath(row: current, section: 0)) as! ListingCardView
-                let frame = cell.convert(cell.previewImageViewFrame, to: listingDeckView)
-
-                guard let url = viewModel.urlAtIndex(0),
-                    let cached = viewModel.imageDownloader.cachedImageForUrl(url) else { return nil }
-                transitioner = PhotoViewerTransitionAnimator(image: cached, initialFrame: frame)
-            }
+        if transitioner == nil {
+            guard let cell = listingDeckView.currentPageCell()  else { return nil }
+            let frame = cell.convert(cell.previewImageViewFrame, to: listingDeckView)
+            
+            guard let url = viewModel.urlAtIndex(0),
+                let cached = viewModel.imageDownloader.cachedImageForUrl(url) else { return nil }
+            transitioner = PhotoViewerTransitionAnimator(image: cached, initialFrame: frame)
+        }
         guard let url = viewModel.urlAtIndex(0),
             let cached = viewModel.imageDownloader.cachedImageForUrl(url) else { return nil }
         transitioner?.setImage(cached)
         return transitioner
+    }
+
+    func endTransitionAnimation() {
+        finishedTransition = true
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.updateSideCellsWithAlpha(1)
+        }
+    }
+
+    func updateSideCellsWithAlpha(_ alpha: CGFloat) {
+        let current = viewModel.startIndex
+        listingDeckView.cardAtIndex(current - 1)?.alpha = alpha
+        listingDeckView.cardAtIndex(current + 1)?.alpha = alpha
     }
 }

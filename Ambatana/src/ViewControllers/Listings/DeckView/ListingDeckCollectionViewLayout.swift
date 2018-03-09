@@ -37,7 +37,12 @@ protocol ListingDeckCollectionViewLayoutDelegate: NSObjectProtocol {
 }
 
 final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
-    private struct Constants { static let minAlpha: CGFloat = 0.7 }
+     private struct Constants {
+        static let minAlpha: CGFloat = 0.7
+        struct Height {
+            static let maximumCard: CGFloat = 560
+        }
+     }
     private struct Defaults {
         static let itemsCount = 0
         static let offset: CGFloat = 0
@@ -69,8 +74,9 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         }
     }
 
-    var cellWidth: CGFloat { get { return visibleWidth - 2*cellLayout.insets.left } }
-    var cellHeight: CGFloat { get { return visibleHeight } }
+    var cardSize: CGSize { return CGSize(width: cellWidth, height: cellHeight) }
+    var cellWidth: CGFloat { return visibleWidth - 2*cellLayout.insets.left }
+    var cellHeight: CGFloat { return min(visibleHeight, Constants.Height.maximumCard) }
     var cardInsets: UIEdgeInsets { return cellLayout.insets }
     weak var delegate: ListingDeckCollectionViewLayoutDelegate?
 
@@ -98,12 +104,6 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     }
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
-
-    func cardSystemLayoutSizeFittingSize(_ target: CGSize) -> CGSize {
-        let width = target.width - 2*cellLayout.insets.left
-        let height = target.width - cellLayout.insets.left
-        return CGSize(width: width, height: height)
-    }
 
     override func prepare() {
         super.prepare()

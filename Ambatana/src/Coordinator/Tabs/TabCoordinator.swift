@@ -322,7 +322,8 @@ fileprivate extension TabCoordinator {
                                           cellModels: cellModels,
                                           listingListRequester: requester,
                                           source: source, listingNavigator: self)
-        deckAnimatedTransitioning = ListingDeckViewControllerTransitionAnimator(image: thumbnailImage, frame: originFrame)
+        deckAnimatedTransitioning = ListingDeckViewControllerTransitionAnimator(image: thumbnailImage,
+                                                                                frame: originFrame)
         coordinator.coordinatorDelegate = self
         openChild(coordinator: coordinator, parent: navigationController, animated: true, forceCloseChild: true, completion: nil)
     }

@@ -27,7 +27,7 @@ final class ListingDeckActionView: UIView {
     let separator = UIView()
 
     let bumpUpBanner = BumpUpBanner()
-    var isBumpUpVisisble: Bool { return !bumpUpBanner.isHidden }
+    var isBumpUpVisible: Bool { return !bumpUpBanner.isHidden }
 
     convenience init() {
         self.init(frame: .zero)
@@ -42,7 +42,7 @@ final class ListingDeckActionView: UIView {
 
     override var intrinsicContentSize: CGSize {
         let height: CGFloat
-        if !isBumpUpVisisble {
+        if !isBumpUpVisible {
             height = 2*Layout.Height.blank + Layout.Height.actionButton
         } else {
             height = 2*Layout.Height.blank + Layout.Height.bumpUp + Layout.Height.actionButton
@@ -131,6 +131,11 @@ final class ListingDeckActionView: UIView {
         bringSubview(toFront: actionButton)
 
         fullModeAlignment(false)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        actionButton.setRoundedCorners()
     }
 
     private func fullModeAlignment(_ isEnabled: Bool) {

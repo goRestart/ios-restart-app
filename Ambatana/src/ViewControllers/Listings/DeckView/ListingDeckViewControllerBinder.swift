@@ -23,7 +23,7 @@ protocol ListingDeckViewControllerBinderType: class {
     func didTapCardAction()
     func didTapOnUserIcon()
 
-    func willDisplayCell(_ cell: UICollectionViewCell)
+    func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath)
     func didEndDecelerating()
     func willBeginDragging()
 
@@ -184,7 +184,7 @@ final class ListingDeckViewControllerBinder {
         }.disposed(by: disposeBag)
 
         listingDeckView.rxCollectionView.willDisplayCell.bind { [weak viewController] (cell, indexPath) in
-            viewController?.willDisplayCell(cell)
+            viewController?.willDisplayCell(cell, atIndexPath: indexPath)
         }.disposed(by: disposeBag)
     }
 

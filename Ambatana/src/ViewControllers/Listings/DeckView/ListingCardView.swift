@@ -91,11 +91,9 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     func populateWith(_ listingSnapshot: ListingDeckSnapshotType, imageDownloader: ImageDownloaderType) {
         self.imageDownloader = imageDownloader
         populateWith(preview: listingSnapshot.preview, imageCount: listingSnapshot.imageCount)
-        populateWith(status: listingSnapshot.status, featured: listingSnapshot.isFeatured)
-        populateWith(userInfo: listingSnapshot.userInfo)
-        detailsView.populateWith(productInfo: listingSnapshot.productInfo, listingStats: listingSnapshot.stats,
-                                 postedDate: listingSnapshot.postedDate, socialSharer: listingSnapshot.socialSharer,
-                                 socialMessage: listingSnapshot.socialMessage)
+        detailsView.populateWith(productInfo: listingSnapshot.productInfo, listingStats: nil,
+                                 postedDate: nil, socialSharer: listingSnapshot.socialSharer,
+                                 socialMessage: nil)
     }
 
     func populateWith(details listingViewModel: ListingCardViewCellModel) {
@@ -209,6 +207,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         let statusTap = UITapGestureRecognizer(target: self, action: #selector(touchUpStatusView))
         statusView.addGestureRecognizer(statusTap)
         statusTapGesture = statusTap
+        statusView.isHidden = true
     }
 
     @objc private func touchUpStatusView() {
@@ -434,14 +433,19 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
             }, completion: nil)
     }
 
-    func onboardingFlashDetails() {
+    func delayedOnboardingFlashDetails(withDelay delayed: Double, duration: TimeInterval) {
         let currentOffset = scrollView.contentOffset
-        let flashOffset = CGPoint(x: 0, y: currentOffset.y + 10)
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
-            self.scrollView.setContentOffset(flashOffset, animated: true)
-        })
-        delay(0.2) {
-            self.scrollView.setContentOffset(currentOffset, animated: true)
+        let flashOffset = CGPoint(x: 0, y: currentOffset.y + 20)
+        let duration: TimeInterval = 0.2
+        delay(delayed) {
+            UIView.animate(withDuration: duration / 2, animations: { [weak self] in
+                self?.scrollView.setContentOffset(flashOffset, animated: true)
+            })
+            delay(duration / 2) { [weak self] in // otherwise this won't work as expected
+                UIView.animate(withDuration: duration / 2, animations: { [weak self] in
+                    self?.scrollView.setContentOffset(currentOffset, animated: true)
+                })
+            }
         }
     }
 }
