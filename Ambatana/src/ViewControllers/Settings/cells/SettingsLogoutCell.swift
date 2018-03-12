@@ -10,7 +10,7 @@ import UIKit
 
 class SettingsLogoutCell: UITableViewCell, ReusableCell {
 
-    @IBOutlet weak var logoutButton: UIButton!
+    @IBOutlet weak var logoutButton: LetgoButton!
 
     override func awakeFromNib() {
         super.awakeFromNib()

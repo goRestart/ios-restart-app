@@ -64,6 +64,7 @@ protocol FeatureFlaggeable: class {
     var searchMultiwordExpressions: SearchMultiwordExpressions { get }
     var showChatSafetyTips: Bool { get }
     var discardedProducts: DiscardedProducts { get }
+    var promoteBumpInEdit: PromoteBumpInEdit { get }
     var userIsTyping: UserIsTyping { get }
 
     // Country dependant features
@@ -207,6 +208,10 @@ extension TurkeyBumpPriceVATAdaptation {
 
 extension DiscardedProducts {
     var isActive: Bool { get { return self == .active } }
+}
+
+extension PromoteBumpInEdit {
+    var isActive: Bool { get { return self != .control && self != .baseline } }
 }
 
 extension UserIsTyping {
@@ -490,14 +495,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return SearchMultiwordExpressions.fromPosition(abTests.searchMultiwordExpressions.value)
     }
-    
+
     var discardedProducts: DiscardedProducts {
         if Bumper.enabled {
             return Bumper.discardedProducts
         }
         return DiscardedProducts.fromPosition(abTests.discardedProducts.value)
     }
-    
+
     var userIsTyping: UserIsTyping {
         if Bumper.enabled {
             return Bumper.userIsTyping
@@ -505,7 +510,6 @@ class FeatureFlags: FeatureFlaggeable {
         return UserIsTyping.fromPosition(abTests.userIsTyping.value)
     }
     
-
     var newUserProfileView: NewUserProfileView {
         if Bumper.enabled {
             return Bumper.newUserProfileView
@@ -525,6 +529,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.turkeyBumpPriceVATAdaptation
         }
         return TurkeyBumpPriceVATAdaptation.fromPosition(abTests.turkeyBumpPriceVATAdaptation.value)
+    }
+
+    var promoteBumpInEdit: PromoteBumpInEdit {
+        if Bumper.enabled {
+            return Bumper.promoteBumpInEdit
+        }
+        return PromoteBumpInEdit.fromPosition(abTests.promoteBumpInEdit.value)
     }
 
     // MARK: - Country features

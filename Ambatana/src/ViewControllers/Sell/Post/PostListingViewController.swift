@@ -27,11 +27,11 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     @IBOutlet weak var customLoadingView: LoadingIndicator!
     @IBOutlet weak var postedInfoLabel: UILabel!
     @IBOutlet weak var postErrorLabel: UILabel!
-    @IBOutlet weak var retryButton: UIButton!
+    @IBOutlet weak var retryButton: LetgoButton!
     @IBOutlet weak var uploadImageStackView: UIStackView!
     var loadingViewRealEstate: LoadingIndicator?
     var messageLabelUploadingImage: UILabel = UILabel()
-    var retryButtonUploadingImageRealEstate: UIButton = UIButton(type: .custom)
+    var retryButtonUploadingImageRealEstate = LetgoButton(withStyle: .primary(fontSize: .medium))
     
     fileprivate let closeButton = UIButton()
 
@@ -219,7 +219,6 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         retryButtonUploadingImageRealEstate.layout()
             .height(PostListingViewController.retryButtonHeight)
             .width(PostListingViewController.retryButtonWidth, relatedBy: .greaterThanOrEqual)
-        retryButtonUploadingImageRealEstate.setStyle(.primary(fontSize: .medium))
         retryButtonUploadingImageRealEstate.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
         retryButtonUploadingImageRealEstate.addTarget(self, action: #selector(PostListingViewController.onRetryButton), for: .touchUpInside)
         uploadImageStackView.addArrangedSubview(messageLabelUploadingImage)
@@ -234,7 +233,6 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         messageLabelUploadingImage.isHidden = false
         if !success {
             retryButtonUploadingImageRealEstate.isHidden = false
-            retryButtonUploadingImageRealEstate.setStyle(.primary(fontSize: .medium))
         }
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.uploadImageStackView.layoutIfNeeded()

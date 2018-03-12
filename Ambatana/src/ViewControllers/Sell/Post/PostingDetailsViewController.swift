@@ -19,7 +19,7 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
     private let titleLabel: UILabel = UILabel()
     private let contentView: UIView = UIView()
     private var infoView: PostingViewConfigurable?
-    private let buttonNext: UIButton = UIButton()
+    private let buttonNext = LetgoButton()
     private var buttonNextBottomMargin = NSLayoutConstraint()
     
     private let viewModel: PostingDetailsViewModel

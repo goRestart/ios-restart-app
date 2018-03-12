@@ -122,8 +122,8 @@
                                 <constraint firstAttribute="trailing" secondItem="5ss-Zu-H7a" secondAttribute="trailing" id="vKZ-Wh-c5A"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YEx-lm-lxS">
-                            <rect key="frame" x="20" y="520.5" width="315" height="50"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YEx-lm-lxS" customClass="LetgoButton" customModule="LetGo" customModuleProvider="target">
+                            <rect key="frame" x="20" y="526.5" width="315" height="50"/>
                             <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="0hr-wy-xhk"/>

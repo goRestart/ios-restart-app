@@ -29,9 +29,9 @@ class LGEmptyView: UIView {
     private let titleLabel: UILabel = UILabel()
     private let bodyLabel: UILabel = UILabel()
     private var bodyButtonVSpacing: NSLayoutConstraint?
-    private let actionButton: UIButton = UIButton(type: .custom)
+    private let actionButton = LetgoButton(withStyle: .primary(fontSize: .medium))
     private var actionButtonHeight: NSLayoutConstraint?
-    private var actionSecondaryButton: UIButton = UIButton(type: .custom)
+    private var actionSecondaryButton = LetgoButton()
     private var actionSecondaryButtonHeight: NSLayoutConstraint?
     private var actionButtonBottomConstraint: NSLayoutConstraint?
     
@@ -139,9 +139,6 @@ class LGEmptyView: UIView {
         bodyLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(bodyLabel)
 
-        // initial frame so it can calculate the button corner radius
-        actionButton.frame = CGRect(x: 0, y: 0, width: 10, height: LGEmptyView.buttonHeight)
-        actionButton.setStyle(.primary(fontSize: .medium))
         actionButton.titleLabel?.font = UIFont.mediumButtonFont
         actionButton.addTarget(self, action: #selector(LGEmptyView.actionButtonPressed), for: .touchUpInside)
         actionButton.translatesAutoresizingMaskIntoConstraints = false

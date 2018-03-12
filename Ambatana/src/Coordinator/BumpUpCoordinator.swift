@@ -9,6 +9,20 @@
 import Foundation
 import LGCoreKit
 
+enum BumpUpPurchaseableData {
+    case socialMessage(message: SocialMessage)
+    case purchaseableProduct(product: PurchaseableProduct)
+}
+
+struct BumpUpProductData {
+    let bumpUpPurchaseableData: BumpUpPurchaseableData
+    let paymentItemId: String?
+    let storeProductId: String?
+
+    var hasPaymentId: Bool {
+        return paymentItemId != nil
+    }
+}
 
 class BumpUpCoordinator: Coordinator {
     var child: Coordinator?
@@ -20,34 +34,43 @@ class BumpUpCoordinator: Coordinator {
 
 
     convenience init(listing: Listing,
-                     socialMessage: SocialMessage,
-                     paymentItemId: String?) {
-        self.init(listing: listing,
-                  socialMessage: socialMessage,
-                  paymentItemId: paymentItemId,
-                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
-                  sessionManager: Core.sessionManager)
-    }
-
-    convenience init(listing: Listing,
-                     purchaseableProduct: PurchaseableProduct,
-                     paymentItemId: String?) {
-        let featureFlags = FeatureFlags.sharedInstance
-        self.init(listing: listing,
-                  purchaseableProduct: purchaseableProduct,
-                  paymentItemId: paymentItemId,
-                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
-                  sessionManager: Core.sessionManager,
-                  featureFlags: featureFlags)
+                     bumpUpProductData: BumpUpProductData,
+                     typePage: EventParameterTypePage?) {
+        switch bumpUpProductData.bumpUpPurchaseableData {
+        case .socialMessage(let socialMessage):
+            self.init(listing: listing,
+                      socialMessage: socialMessage,
+                      paymentItemId: bumpUpProductData.paymentItemId,
+                      storeProductId: bumpUpProductData.storeProductId,
+                      typePage: typePage,
+                      bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
+                      sessionManager: Core.sessionManager)
+        case .purchaseableProduct(let purchaseableProduct):
+            let featureFlags = FeatureFlags.sharedInstance
+            self.init(listing: listing,
+                      purchaseableProduct: purchaseableProduct,
+                      paymentItemId: bumpUpProductData.paymentItemId,
+                      storeProductId: bumpUpProductData.storeProductId,
+                      typePage: typePage,
+                      bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
+                      sessionManager: Core.sessionManager,
+                      featureFlags: featureFlags)
+        }
     }
 
     init(listing: Listing,
          socialMessage: SocialMessage,
          paymentItemId: String?,
+         storeProductId: String?,
+         typePage: EventParameterTypePage?,
          bubbleNotificationManager: BubbleNotificationManager,
          sessionManager: SessionManager) {
 
-        let bumpUpVM = BumpUpFreeViewModel(listing: listing, socialMessage: socialMessage, paymentItemId: paymentItemId)
+        let bumpUpVM = BumpUpFreeViewModel(listing: listing,
+                                           socialMessage: socialMessage,
+                                           paymentItemId: paymentItemId,
+                                           storeProductId: storeProductId,
+                                           typePage: typePage)
         let bumpUpVC = BumpUpFreeViewController(viewModel: bumpUpVM)
         bumpUpVC.modalPresentationStyle = .overCurrentContext
         self.viewController = bumpUpVC
@@ -60,12 +83,17 @@ class BumpUpCoordinator: Coordinator {
     init(listing: Listing,
          purchaseableProduct: PurchaseableProduct,
          paymentItemId: String?,
+         storeProductId: String?,
+         typePage: EventParameterTypePage?,
          bubbleNotificationManager: BubbleNotificationManager,
          sessionManager: SessionManager,
          featureFlags: FeatureFlaggeable) {
 
-        let bumpUpVM = BumpUpPayViewModel(listing: listing, purchaseableProduct: purchaseableProduct,
-                                          paymentItemId: paymentItemId)
+        let bumpUpVM = BumpUpPayViewModel(listing: listing,
+                                          purchaseableProduct: purchaseableProduct,
+                                          paymentItemId: paymentItemId,
+                                          storeProductId: storeProductId,
+                                          typePage: typePage)
         let bumpUpVC = BumpUpPayViewController(viewModel: bumpUpVM)
 
         bumpUpVC.modalPresentationStyle = .overCurrentContext

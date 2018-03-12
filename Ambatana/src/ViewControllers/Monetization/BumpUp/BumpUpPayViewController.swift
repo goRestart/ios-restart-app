@@ -20,7 +20,7 @@ class BumpUpPayViewController: BaseViewController {
     @IBOutlet weak var imageContainer: UIView!
     @IBOutlet weak var listingImageView: UIImageView!
     @IBOutlet weak var cellBottomContainer: UIView!
-    @IBOutlet weak var bumpUpButton: UIButton!
+    @IBOutlet weak var bumpUpButton: LetgoButton!
 
     private let viewModel: BumpUpPayViewModel
 
@@ -43,6 +43,11 @@ class BumpUpPayViewController: BaseViewController {
         setupUI()
         setAccessibilityIds()
         addSwipeDownGestureToView()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.viewDidAppear()
     }
 
     override func viewDidLayoutSubviews() {
