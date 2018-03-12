@@ -435,9 +435,7 @@ extension ListingDeckViewController {
     }
     var animationController: UIViewControllerAnimatedTransitioning? {
         if transitioner == nil {
-            guard let cell = listingDeckView.currentPageCell()  else { return nil }
-            let frame = cell.convert(cell.previewImageViewFrame, to: listingDeckView)
-            
+            let frame = windowTargetFrame
             guard let url = viewModel.urlAtIndex(0),
                 let cached = viewModel.imageDownloader.cachedImageForUrl(url) else { return nil }
             transitioner = PhotoViewerTransitionAnimator(image: cached, initialFrame: frame)

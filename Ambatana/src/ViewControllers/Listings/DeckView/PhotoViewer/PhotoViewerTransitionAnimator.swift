@@ -104,10 +104,13 @@ private class PhotoViewerTransitionPresenter: PhotoViewerTransitionMode {
                            initialFrame: CGRect,
                            image: UIImage) {
         let containerView = transitionContext.containerView
-        let fromView = transitionContext.view(forKey: .from)!
-        let toVC = transitionContext.viewController(forKey: .to)!
+        guard let fromView = transitionContext.view(forKey: .from),
+            let toVC = transitionContext.viewController(forKey: .to),
+            let toView = toVC.view else {
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+                return
+        }
 
-        let toView = toVC.view!
         if let photoVC = toVC as? PhotoViewerViewController {
             photoVC.photoViewer.reloadData()
         }
