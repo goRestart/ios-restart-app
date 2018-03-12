@@ -84,7 +84,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     }
 
     private func setupUI() {
-        backgroundColor = UIColor.viewControllerBackground
+        backgroundColor = UIColor.white
         setupCollectionView()
         setupPrivateActionsView()
         focusOnCollectionView()
@@ -120,7 +120,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         collectionView.contentInset = .zero
         collectionView.bounces = true
         collectionView.alwaysBounceVertical = false
-        collectionView.backgroundColor = UIColor.viewControllerBackground
+        collectionView.backgroundColor = UIColor.white
     }
 
     private func setupPrivateActionsView() {
@@ -136,7 +136,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         itemActionsView.setContentCompressionResistancePriority(.required, for: .vertical)
         itemActionsView.setContentHuggingPriority(.required, for: .vertical)
         itemActionsView.alpha = 0
-        itemActionsView.backgroundColor = UIColor.viewControllerBackground
+        itemActionsView.backgroundColor = UIColor.white
     }
 
     private func setupDirectChatView(quickChatView: QuickChatView) {

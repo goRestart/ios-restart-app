@@ -126,8 +126,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
 
     private func updateCellContentInset(_ cell: ListingCardView, animated: Bool) {
-        let inset = listingDeckView.cellHeight * 0.8
-        cell.setVerticalContentInset(inset, animated: animated)
+        cell.setVerticalContentInset(listingDeckView.cellHeight, animated: animated)
     }
 
     // MARK: NavBar

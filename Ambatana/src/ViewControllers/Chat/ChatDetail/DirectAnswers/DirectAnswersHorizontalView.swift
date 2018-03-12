@@ -35,6 +35,11 @@ class DirectAnswersHorizontalView: UIView {
             }
         }
     }
+    var sideMargin: CGFloat = Layout.standardSideMargin {
+        didSet {
+            collectionView.contentInset = UIEdgeInsets(top: 0, left: sideMargin, bottom: 0, right: sideMargin)
+        }
+    }
     var style: DirectAnswersStyle = .dark
 
     fileprivate var heightConstraint = NSLayoutConstraint()

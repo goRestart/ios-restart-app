@@ -32,12 +32,17 @@ final class ListingCardUserView: UIView {
         static let share = #imageLiteral(resourceName: "nit_share")
     }
 
-    struct Constant {
-        struct Height { static let userIcon: CGFloat = 34.0 }
-        struct Width {  static let shareProportion: CGFloat = 0.15 }
+    struct Layout {
+        struct Height {
+            static let userIcon: CGFloat = 34.0
+            static let intrinsic: CGFloat = 64.0 // totally arbitrary
+        }
+        struct Width { static let shareButton: CGFloat = 28 }
+        struct Spacing { static let betweenButtons: CGFloat = 20 }
     }
 
-    override var intrinsicContentSize: CGSize { return CGSize(width: UIViewNoIntrinsicMetric, height: 68.0) } // totally arbitrary
+    override var intrinsicContentSize: CGSize { return CGSize(width: UIViewNoIntrinsicMetric,
+                                                              height: Layout.Height.intrinsic) }
 
     let rxShareButton: Reactive<UIButton>
     let rxActionButton: Reactive<UIButton>
@@ -138,11 +143,11 @@ final class ListingCardUserView: UIView {
         addSubview(userIcon)
         userIcon.setBackgroundImage(Images.placeholder, for: .normal)
         userIcon.layout(with: self)
-            .top(by: Metrics.shortMargin)
-            .leading(by: Metrics.margin).bottom(by: -Metrics.margin, relatedBy: .greaterThanOrEqual)
-        userIcon.layout().width(Constant.Height.userIcon).widthProportionalToHeight()
+            .top(by: Metrics.margin)
+            .leading(by: Metrics.margin).bottom(by: -Metrics.margin)
+        userIcon.layout().width(Layout.Height.userIcon).widthProportionalToHeight()
 
-        userIcon.contentMode = .scaleAspectFill
+        userIcon.contentMode = .scaleAspectFit
         userIcon.clipsToBounds = true
     }
 
@@ -150,9 +155,11 @@ final class ListingCardUserView: UIView {
         userNameLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(userNameLabel)
         userNameLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        userNameLabel.setContentHuggingPriority(.required, for: .vertical)
 
-        userNameLabel.layout(with: userIcon).leading(to: .trailingMargin, by: Metrics.margin).top()
-        userNameLabel.layout(with: userIcon).bottom(relatedBy: .greaterThanOrEqual)
+        userNameLabel.layout(with: userIcon)
+            .leading(to: .trailingMargin, by: Metrics.margin)
+            .top(by: Metrics.veryShortMargin)
         userNameLabel.font = UIFont.deckUsernameFont
         userNameLabel.textColor = .white
     }
@@ -166,24 +173,30 @@ final class ListingCardUserView: UIView {
         actionButton.setImage(Images.favourite, for: .normal)
         actionButton.imageView?.contentMode = .center
         actionButton.addTarget(self, action: #selector(didTouchUpActionButton), for: .touchUpInside)
+        actionButton.applyDefaultShadow()
 
         shareButton.translatesAutoresizingMaskIntoConstraints = false
         shareButton.setImage(Images.share, for: .normal)
         shareButton.imageView?.contentMode = .center
+        shareButton.applyDefaultShadow()
 
-        shareButton.layout(with: actionButton).proportionalWidth()
-        shareButton.layout(with: self).proportionalWidth(multiplier: Constant.Width.shareProportion)
+        shareButton.layout().width(Layout.Width.shareButton)
+        actionButton.layout(with: shareButton).proportionalWidth()
+        actionButton.layout(with: shareButton).proportionalHeight()
 
         actionButton.layout(with: actionLayoutGuide).leading().top().bottom()
         shareButton.layout(with: actionLayoutGuide).trailing().top().bottom()
-        shareButton.layout(with: actionButton).leading(to: .trailing)
+        shareButton.layout(with: actionButton).leading(to: .trailing, by: Layout.Spacing.betweenButtons)
         shareButton.addTarget(self, action: #selector(didTouchUpShareButton), for: .touchUpInside)
 
         actionLayoutGuide.leadingAnchor.constraint(equalTo: userNameLabel.trailingAnchor,
                                                    constant: Metrics.margin).isActive = true
-        actionLayoutGuide.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.veryShortMargin).isActive = true
-        actionLayoutGuide.topAnchor.constraint(equalTo: userNameLabel.topAnchor).isActive = true
-        actionLayoutGuide.bottomAnchor.constraint(equalTo: userIcon.bottomAnchor).isActive = true
+        actionLayoutGuide.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                                    constant: -Metrics.margin).isActive = true
+        actionLayoutGuide.topAnchor.constraint(equalTo: topAnchor,
+                                               constant: Layout.Spacing.betweenButtons).isActive = true
+        actionLayoutGuide.bottomAnchor.constraint(equalTo: bottomAnchor,
+                                                  constant: -Layout.Spacing.betweenButtons).isActive = true
     }
 
     override func layoutSubviews() {

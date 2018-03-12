@@ -21,7 +21,7 @@ protocol ListingCardViewDelegate {
 final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestureRecognizerDelegate, ReusableCell {
     private struct Layout {
         struct Height {
-            static let userView: CGFloat = 52.0
+            static let userView: CGFloat = 64.0
             static let whiteGradient: CGFloat = 40.0
             static let topInset: CGFloat = 350 // completly random
         }
@@ -301,7 +301,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     func setVerticalContentInset(_ inset: CGFloat, animated: Bool) {
-        let insetWithUser = inset - Layout.Height.userView
+        let insetWithUser = inset - DeviceFamily.insetCorrection
 
         if animated {
             layoutVerticalContentInset(animated: animated)
@@ -327,7 +327,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
         contentView.layer.cornerRadius = Metrics.margin
-        applyShadow(withOpacity: 0.3, radius: Metrics.margin)
+        applyShadow(withOpacity: 0.15, radius: Metrics.margin)
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: Metrics.margin).cgPath
     }
 
@@ -454,5 +454,17 @@ extension ListingCardView: ListingDeckViewControllerBinderCellType {
     var rxShareButton: Reactive<UIButton> { return userView.rxShareButton }
     var rxActionButton: Reactive<UIButton> { return userView.rxActionButton }
     var rxUserIcon: Reactive<UIButton> { return userView.rxUserIcon }
+}
+
+fileprivate extension DeviceFamily {
+    static var insetCorrection: CGFloat {
+        switch DeviceFamily.current {
+        case .iPhone6Plus: return 134
+        case .biggerUnknown: return 134 // iPhoneX
+        case .iPhone4: return 76
+        case .iPhone5: return 100
+        case .iPhone6: return 125
+        }
+    }
 }
 

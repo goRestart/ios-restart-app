@@ -24,7 +24,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     var isTableInteractionEnabled = true
 
     var textViewFocusColor: UIColor = .white
-    var textViewStandardColor: UIColor = UIColor.black.withAlphaComponent(0.05)
+    var textViewStandardColor: UIColor = UIColor.black.withAlphaComponent(0.07)
 
     var rxDidBeginEditing: ControlEvent<()> { return textView.rx.didBeginEditing }
     var rxDidEndEditing: ControlEvent<()> { return textView.rx.didEndEditing }
@@ -217,6 +217,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         directAnswersView.backgroundColor = .clear
         directAnswersView.style = .light
         directAnswersView.delegate = quickChatViewModel
+        directAnswersView.sideMargin = Metrics.margin
     }
 
     private func setupTableView() {

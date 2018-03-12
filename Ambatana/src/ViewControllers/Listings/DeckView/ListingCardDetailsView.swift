@@ -154,8 +154,8 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
             headerStackView.layoutMargins = .zero
 
             headerStackView.spacing = 0
-            headerStackView.addArrangedSubview(titleLabel)
             headerStackView.addArrangedSubview(priceLabel)
+            headerStackView.addArrangedSubview(titleLabel)
 
             addSubview(headerStackView)
             headerStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -168,7 +168,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
             titleLabel.font = UIFont.deckTitleFont
             titleLabel.textAlignment = .left
             titleLabel.numberOfLines = 0
-            titleLabel.setContentHuggingPriority(.required, for: .vertical)
+            titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
             titleLabel.backgroundColor = UIColor.white
         }
 
@@ -176,13 +176,13 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
             priceLabel.font = UIFont.deckPriceFont
             priceLabel.textAlignment = .left
             priceLabel.numberOfLines = 1
-            priceLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+            priceLabel.setContentHuggingPriority(.required, for: .vertical)
             priceLabel.backgroundColor = UIColor.white
         }
 
         setupHeaderStackView()
-        setupTitleLabel()
         setupPriceLabel()
+        setupTitleLabel()
     }
 
     private func setupDetailUI() {
