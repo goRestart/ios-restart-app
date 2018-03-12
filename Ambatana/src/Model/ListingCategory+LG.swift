@@ -93,7 +93,7 @@ extension ListingCategory {
         case .realEstate:
             return UIImage(named: "housing_feed")
         case .services:
-            return UIImage(named: "services_feed") //TODO: set new image
+            return UIImage(named: "services_feed")
         }
     }
     
@@ -122,7 +122,7 @@ extension ListingCategory {
         case .realEstate:
             return UIImage(named: "categories_realestate_inactive")
         case .services:
-            return UIImage(named: "categories_services_inactive") //TODO: set new image
+            return UIImage(named: "categories_services_inactive")
         }
     }
     
@@ -151,7 +151,7 @@ extension ListingCategory {
         case .realEstate:
             return UIImage(named: "categories_housing_tag")
         case .services:
-            return UIImage(named: "categories_services_tag") //TODO: set new image
+            return UIImage(named: "categories_services_tag")
         }
     }
 
