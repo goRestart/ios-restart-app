@@ -1378,7 +1378,7 @@ class TrackerEventSpec: QuickSpec {
             describe("adTapped") {
                 beforeEach {
                     sut = TrackerEvent.adTapped(listingId: "listing123",
-                                                adType: .shopping,
+                                                adType: .dfp,
                                                 isMine: .falseParameter,
                                                 queryType: .title,
                                                 query: "patata",
@@ -1392,7 +1392,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId).to(equal("listing123"))
                 }
                 it("contains ad-type N/A") {
-                    expect(sut.params!.stringKeyParams["ad-type"] as? String) == "shopping"
+                    expect(sut.params!.stringKeyParams["ad-type"] as? String) == "dfp"
                 }
                 it("contains is-mine false") {
                     expect(sut.params!.stringKeyParams["is-mine"] as? String) == "false"
