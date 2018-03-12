@@ -57,8 +57,8 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedListViewDelegate
             
             guard let pageVM = viewModel.chatListViewModelForTabAtIndex(index) else { continue }
             page = ChatListView(viewModel: pageVM)
-            page.tableView.accessibilityId = viewModel.accessibilityIdentifierForTableViewAtIndex(index)
-            page.footerButton.accessibilityId = .chatListViewFooterButton
+            page.tableView.set(accessibilityId: viewModel.accessibilityIdentifierForTableViewAtIndex(index))
+            page.footerButton.set(accessibilityId: .chatListViewFooterButton)
             page.chatGroupedListViewDelegate = self
             page.delegate = self
             pages.append(page)
@@ -315,6 +315,6 @@ extension ChatGroupedViewController {
 
 extension ChatGroupedViewController {
     func setAccessibilityIds() {
-        navigationItem.rightBarButtonItem?.accessibilityId = AccessibilityId.chatGroupedViewRightNavBarButton
+        navigationItem.rightBarButtonItem?.set(accessibilityId: .chatGroupedViewRightNavBarButton)
     }
 }

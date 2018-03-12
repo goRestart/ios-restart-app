@@ -104,9 +104,9 @@ class SuggestionSearchCell: UITableViewCell, ReusableCell {
     }
     
     private func setAccessibilityIds() {
-        accessibilityId = .suggestionSearchCell
-        titleLabel.accessibilityId = .suggestionSearchCellTitle
-        subtitleLabel.accessibilityId = .suggestionSearchCellSubtitle
+        set(accessibilityId: .suggestionSearchCell)
+        titleLabel.set(accessibilityId: .suggestionSearchCellTitle)
+        subtitleLabel.set(accessibilityId: .suggestionSearchCellSubtitle)
     }
     
     private func resetUI() {

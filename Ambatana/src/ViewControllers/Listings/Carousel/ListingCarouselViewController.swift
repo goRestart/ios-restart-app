@@ -394,7 +394,8 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         let backIconImage = UIImage(named: "ic_close_carousel")
         let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.plain,
                                          target: self, action: #selector(backButtonClose))
-        self.navigationItem.leftBarButtonItem = backButton
+        backButton.set(accessibilityId: .listingCarouselNavBarCloseButton)
+        navigationItem.leftBarButtonItem = backButton
     }
 
     @objc private func backButtonClose() {
@@ -621,6 +622,7 @@ extension ListingCarouselViewController {
                 case .textImage:
                     let shareButton = CarouselUIHelper.buildShareButton(action.text, icon: action.image)
                     let rightItem = UIBarButtonItem(customView: shareButton)
+                    rightItem.set(accessibilityId: action.accessibilityId)
                     rightItem.style = .plain
                     shareButton.rx.tap.takeUntil(takeUntilAction).bind{
                         action.action()
@@ -648,6 +650,7 @@ extension ListingCarouselViewController {
                         }.disposed(by: strongSelf.disposeBag)
                     buttons.append(button)
                     button.alpha = alpha
+                    button.set(accessibilityId: navBarButton.accessibilityId)
                 }
                 strongSelf.setNavigationBarRightButtons(buttons)
             }
@@ -1332,17 +1335,18 @@ extension ListingCarouselViewController {
 
 fileprivate extension ListingCarouselViewController {
     func setAccessibilityIds() {
-        collectionView.accessibilityId = .listingCarouselCollectionView
-        buttonBottom.accessibilityId = .listingCarouselButtonBottom
-        buttonTop.accessibilityId = .listingCarouselButtonTop
-        favoriteButton.accessibilityId = .listingCarouselFavoriteButton
-        moreInfoView.accessibilityId = .listingCarouselMoreInfoView
-        productStatusLabel.accessibilityId = .listingCarouselListingStatusLabel
-        directChatTable.accessibilityId = .listingCarouselDirectChatTable
-        fullScreenAvatarView.accessibilityId = .listingCarouselFullScreenAvatarView
-        pageControl.accessibilityId = .listingCarouselPageControl
-        userView.accessibilityId = .listingCarouselUserView
-        chatTextView.accessibilityId = .listingCarouselChatTextView
-        productStatusView.accessibilityId = .listingCarouselStatusView
+        collectionView.set(accessibilityId: .listingCarouselCollectionView)
+        buttonBottom.set(accessibilityId: .listingCarouselButtonBottom)
+        buttonTop.set(accessibilityId: .listingCarouselButtonTop)
+        favoriteButton.set(accessibilityId: .listingCarouselFavoriteButton)
+        moreInfoView.set(accessibilityId: .listingCarouselMoreInfoView)
+        productStatusLabel.set(accessibilityId: .listingCarouselListingStatusLabel)
+        directChatTable.set(accessibilityId: .listingCarouselDirectChatTable)
+        fullScreenAvatarView.set(accessibilityId: .listingCarouselFullScreenAvatarView)
+        pageControl.set(accessibilityId: .listingCarouselPageControl)
+        userView.set(accessibilityId: .listingCarouselUserView)
+        chatTextView.set(accessibilityId: .listingCarouselChatTextView)
+        productStatusView.set(accessibilityId: .listingCarouselStatusView)
+        directChatTable.accessibilityInspectionEnabled = false
     }
 }

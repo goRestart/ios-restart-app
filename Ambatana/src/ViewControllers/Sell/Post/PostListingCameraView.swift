@@ -310,13 +310,13 @@ extension CameraFlashState {
 
 extension PostListingCameraView {
     func setAccesibilityIds() {
-        closeButton.accessibilityId = .postingCameraCloseButton
-        imagePreview.accessibilityId = .postingCameraImagePreview
-        switchCamButton.accessibilityId = .postingCameraSwitchCamButton
-        usePhotoButton.accessibilityId = .postingCameraUsePhotoButton
-        infoButton.accessibilityId = .postingCameraInfoScreenButton
-        flashButton.accessibilityId = .postingCameraFlashButton
-        retryPhotoButton.accessibilityId = .postingCameraRetryPhotoButton
-        firstTimeAlert.accessibilityId = .postingCameraFirstTimeAlert
+        closeButton.set(accessibilityId: .postingCameraCloseButton)
+        imagePreview.set(accessibilityId: .postingCameraImagePreview)
+        switchCamButton.set(accessibilityId: .postingCameraSwitchCamButton)
+        usePhotoButton.set(accessibilityId: .postingCameraUsePhotoButton)
+        infoButton.set(accessibilityId: .postingCameraInfoScreenButton)
+        flashButton.set(accessibilityId: .postingCameraFlashButton)
+        retryPhotoButton.set(accessibilityId: .postingCameraRetryPhotoButton)
+        firstTimeAlert.set(accessibilityId: .postingCameraFirstTimeAlert)
     }
 }

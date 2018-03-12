@@ -198,9 +198,8 @@ class FilterTagCell: UICollectionViewCell {
     }
     
     private func setAccessibilityIds() {
-        accessibilityId = .filterTagCell
-        tagIcon.accessibilityId = .filterTagCellTagIcon
-        tagLabel.accessibilityId = .filterTagCellTagLabel
+        tagIcon.set(accessibilityId: .filterTagCellTagIcon)
+        tagLabel.set(accessibilityId: .filterTagCellTagLabel)
     }
     
     
@@ -258,6 +257,7 @@ class FilterTagCell: UICollectionViewCell {
         case .realEstateNumberOfRooms(let numberOfRooms):
             tagLabel.text = numberOfRooms.localizedString
         }
+        set(accessibilityId: .filterTagCell(tag: tag))
     }
 
 

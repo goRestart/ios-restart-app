@@ -156,9 +156,9 @@ fileprivate extension TourLoginViewController {
     }
 
     func setupAccessibilityIds() {
-        facebookButton.accessibilityId = .tourFacebookButton
-        googleButton.accessibilityId = .tourGoogleButton
-        emailButtonJustText.accessibilityId = .tourEmailButton
+        facebookButton.set(accessibilityId: .tourFacebookButton)
+        googleButton.set(accessibilityId: .tourGoogleButton)
+        emailButtonJustText.set(accessibilityId: .tourEmailButton)
     }
 
     func setupLines() {

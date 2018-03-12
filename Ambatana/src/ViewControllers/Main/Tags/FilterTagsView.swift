@@ -183,7 +183,7 @@ class FilterTagsView: UIView, UICollectionViewDataSource, UICollectionViewDelega
     // MARK: - Private methods
 
     private func setAccessibilityIds() {
-        collectionView?.accessibilityId = .filterTagsCollectionView
+        collectionView?.set(accessibilityId: .filterTagsCollectionView)
     }
 
     // not private for testing reasons

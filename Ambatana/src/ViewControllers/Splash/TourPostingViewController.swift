@@ -86,7 +86,7 @@ extension TourPostingViewController: TourPostingViewModelDelegate { }
 
 fileprivate extension TourPostingViewController {
     func setAccesibilityIds() {
-        okButton.accessibilityId = .tourPostingOkButton
-        closeButton.accessibilityId = .tourPostingCloseButton
+        okButton.set(accessibilityId: .tourPostingOkButton)
+        closeButton.set(accessibilityId: .tourPostingCloseButton)
     }
 }

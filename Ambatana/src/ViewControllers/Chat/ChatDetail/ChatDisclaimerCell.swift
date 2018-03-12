@@ -123,7 +123,8 @@ fileprivate extension ChatDisclaimerCell {
 
 extension ChatDisclaimerCell {
     func setAccessibilityIds() {
-        messageLabel.accessibilityId = .chatDisclaimerCellMessageLabel
-        button.accessibilityId = .chatDisclaimerCellButton
+        set(accessibilityId: .chatDisclaimerCellContainer)
+        messageLabel.set(accessibilityId: .chatDisclaimerCellMessageLabel)
+        button.set(accessibilityId: .chatDisclaimerCellButton)
     }
 }

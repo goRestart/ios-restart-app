@@ -66,11 +66,9 @@ class ChatBubbleCell: UITableViewCell {
     }
     
     func resetUI() {}
-}
-
-extension ChatBubbleCell {
+    
     func setAccessibilityIds() {
-        messageLabel.accessibilityId = .chatCellMessageLabel
-        dateLabel.accessibilityId = .chatCellDateLabel
+        messageLabel.set(accessibilityId: .chatCellMessageLabel)
+        dateLabel.set(accessibilityId: .chatCellDateLabel)
     }
 }
