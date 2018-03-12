@@ -41,7 +41,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     @IBOutlet weak var gpsLocationButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var setLocationButtonContainer: UIView!
-    @IBOutlet weak var setLocationButton: UIButton!
+    @IBOutlet weak var setLocationButton: LetgoButton!
     @IBOutlet weak var setLocationLoading: UIActivityIndicatorView!
 
     @IBOutlet weak var suggestionsTableView : UITableView!

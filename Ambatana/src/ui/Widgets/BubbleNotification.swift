@@ -62,7 +62,7 @@ class BubbleNotification: UIView {
     private var leftIcon = UIImageView()
     private var textlabel = UILabel()
     private var infoTextLabel = UILabel()
-    private var actionButton = UIButton(type: .custom)
+    private var actionButton = LetgoButton()
 
     private var autoDismissTimer: Timer?
 

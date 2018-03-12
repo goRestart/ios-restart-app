@@ -26,7 +26,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     }
     // Outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var saveFiltersBtn: UIButton!
+    @IBOutlet weak var saveFiltersBtn: LetgoButton!
 
     @IBOutlet weak var saveFiltersBtnContainer: UIView!
     @IBOutlet weak var saveFiltersBtnContainerBottomConstraint: NSLayoutConstraint!

@@ -36,9 +36,9 @@ final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate
 
     @IBOutlet weak var featuredListingInfoView: UIView!
     
-    fileprivate var featuredListingPriceLabel: UILabel?
-    fileprivate var featuredListingTitleLabel: UILabel?
-    fileprivate var featuredListingChatButton: UIButton?
+    private var featuredListingPriceLabel: UILabel?
+    private var featuredListingTitleLabel: UILabel?
+    private var featuredListingChatButton: LetgoButton?
     
     private let discardedView: DiscardedView = {
         let view = DiscardedView()
@@ -122,12 +122,9 @@ final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate
     func setupFeaturedListingInfoWith(price: String, title: String?, isMine: Bool) {
         featuredListingPriceLabel = UILabel()
         featuredListingTitleLabel = UILabel()
-        featuredListingChatButton = UIButton(type: .custom)
+        featuredListingChatButton = LetgoButton(withStyle: .primary(fontSize: .medium))
 
         featuredListingInfoView.translatesAutoresizingMaskIntoConstraints = false
-        featuredListingPriceLabel?.translatesAutoresizingMaskIntoConstraints = false
-        featuredListingTitleLabel?.translatesAutoresizingMaskIntoConstraints = false
-        featuredListingChatButton?.translatesAutoresizingMaskIntoConstraints = false
 
         guard let featuredListingPriceLabel = featuredListingPriceLabel,
             let featuredListingTitleLabel = featuredListingTitleLabel,
@@ -135,7 +132,9 @@ final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate
                 return
         }
 
-        featuredListingInfoView.addSubviews([featuredListingPriceLabel, featuredListingTitleLabel, featuredListingChatButton])
+        featuredListingInfoView.addSubviewsForAutoLayout([featuredListingPriceLabel,
+                                                          featuredListingTitleLabel,
+                                                          featuredListingChatButton])
 
         featuredListingPriceLabel.text = price
         featuredListingPriceLabel.font = UIFont.systemBoldFont(size: 23)
@@ -303,8 +302,8 @@ class DiscardedView: UIView {
         label.numberOfLines = 2
         return label
     }()
-    let editButton: UIButton = {
-        let button = UIButton(type: .custom)
+    let editButton: LetgoButton = {
+        let button = LetgoButton(withStyle: .primary(fontSize: .small))
         button.setTitle(LGLocalizedString.discardedProductsEdit, for: .normal)
         return button
     }()
@@ -321,11 +320,6 @@ class DiscardedView: UIView {
         super.init(frame: .zero)
         setupUI()
         setupConstraints()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        editButton.setStyle(.primary(fontSize: .small))
     }
     
     required init?(coder aDecoder: NSCoder) {

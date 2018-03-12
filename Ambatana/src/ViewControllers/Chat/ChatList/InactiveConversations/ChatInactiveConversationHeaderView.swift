@@ -13,7 +13,7 @@ class ChatInactiveConversationHeaderView: UIView {
     private static let headerHeight: CGFloat = 55
     
     private let label = UILabel()
-    private let button = UIButton(type: .custom)
+    private let button = LetgoButton(withStyle: .terciary)
     
     var buttonAction: (() -> ())? = nil
     var inactiveConvesationsCount: Int = 0 {
@@ -34,11 +34,6 @@ class ChatInactiveConversationHeaderView: UIView {
         setupLayout()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        roundButton()
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -52,14 +47,9 @@ class ChatInactiveConversationHeaderView: UIView {
         label.numberOfLines = 3
         label.adjustsFontSizeToFitWidth = true
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        button.setStyle(.terciary)
         button.titleLabel?.font = UIFont.systemMediumFont(size: 12)
         button.titleLabel?.numberOfLines = 2
         button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-    }
-    
-    private func roundButton() {
-        button.setRoundedCorners()
     }
     
     private func setupLayout() {

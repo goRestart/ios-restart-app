@@ -16,7 +16,7 @@ class ChatDisclaimerCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
-    @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var button: LetgoButton!
     
     @IBOutlet weak var backgroundTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!

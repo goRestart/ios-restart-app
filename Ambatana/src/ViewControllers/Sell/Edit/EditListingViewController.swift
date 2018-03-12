@@ -126,7 +126,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var realEstateTurkishSizeTitleLabel: UILabel!
     @IBOutlet weak var realEstateTurkishSizeTextField: LGTextField!
     
-    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var sendButton: LetgoButton!
     @IBOutlet weak var shareFBSwitch: UISwitch!
     @IBOutlet weak var shareFBLabel: UILabel!
 

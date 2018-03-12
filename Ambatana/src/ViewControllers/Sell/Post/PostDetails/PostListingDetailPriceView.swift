@@ -20,7 +20,7 @@ class PostListingDetailPriceView: BaseView {
     @IBOutlet weak var priceViewContainer: UIView!
     @IBOutlet weak var priceFieldContainer: UIView!
     @IBOutlet weak var postFreeViewContainer: UIView!
-    @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var doneButton: LetgoButton!
     
     @IBOutlet weak var freePostSwitch: UISwitch!
     @IBOutlet weak var giveAwayContainerHeightConstraint: NSLayoutConstraint!

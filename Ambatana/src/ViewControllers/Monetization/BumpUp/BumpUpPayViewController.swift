@@ -20,7 +20,7 @@ class BumpUpPayViewController: BaseViewController {
     @IBOutlet weak var imageContainer: UIView!
     @IBOutlet weak var listingImageView: UIImageView!
     @IBOutlet weak var cellBottomContainer: UIView!
-    @IBOutlet weak var bumpUpButton: UIButton!
+    @IBOutlet weak var bumpUpButton: LetgoButton!
 
     private let viewModel: BumpUpPayViewModel
 

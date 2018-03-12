@@ -10,10 +10,9 @@ import UIKit
 
 class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegate {
 
-
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var commentTextView: UITextView!
-    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var sendButton: LetgoButton!
     @IBOutlet weak var textBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 

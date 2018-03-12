@@ -25,8 +25,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
     @IBOutlet weak var textFieldsView: UIView!
 
-    @IBOutlet weak var connectFBButton: UIButton!
-    @IBOutlet weak var connectGoogleButton: UIButton!
+    @IBOutlet weak var connectFBButton: LetgoButton!
+    @IBOutlet weak var connectGoogleButton: LetgoButton!
     
     @IBOutlet var dividerViews: [UIView]!
     @IBOutlet weak var orLabel: UILabel!
@@ -35,15 +35,15 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
     @IBOutlet weak var usernameIconImageView: UIImageView!
     @IBOutlet weak var usernameTextField: LGTextField!
-    @IBOutlet weak var usernameButton: UIButton!
+    @IBOutlet weak var usernameButton: LetgoButton!
     
     @IBOutlet weak var emailIconImageView: UIImageView!
     @IBOutlet weak var emailTextField: AutocompleteField!
-    @IBOutlet weak var emailButton: UIButton!
+    @IBOutlet weak var emailButton: LetgoButton!
     
     @IBOutlet weak var passwordIconImageView: UIImageView!
     @IBOutlet weak var passwordTextField: LGTextField!
-    @IBOutlet weak var passwordButton: UIButton!
+    @IBOutlet weak var passwordButton: LetgoButton!
     @IBOutlet weak var showPasswordButton: UIButton!
 
     @IBOutlet weak var forgotPasswordButton: UIButton!
@@ -55,7 +55,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     @IBOutlet weak var newsletterLabel: UILabel!
     @IBOutlet weak var newsletterSwitch: UISwitch!
 
-    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var sendButton: LetgoButton!
     
     fileprivate var helpButton: UIBarButtonItem!
 

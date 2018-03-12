@@ -57,7 +57,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     @IBOutlet weak var errorTitleLabel: UILabel!
     @IBOutlet weak var errorBodyLabel: UILabel!
-    @IBOutlet weak var errorButton: UIButton!
+    @IBOutlet weak var errorButton: LetgoButton!
     @IBOutlet weak var errorButtonHeightConstraint: NSLayoutConstraint!
     
     // > Insets

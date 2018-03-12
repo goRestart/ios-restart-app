@@ -21,7 +21,7 @@ class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UITextFi
     private let introTextLabel: UILabel = UILabel()
     private let letsTalkLabel: UILabel = UILabel()
     private let phoneTextField: UITextField = UITextField()
-    private let sendPhoneButton: UIButton = UIButton(type: .custom)
+    private let sendPhoneButton = LetgoButton(withStyle: .primary(fontSize: .medium))
 
     private var viewModel: ProfessionalDealerAskPhoneViewModel
     private var keyboardHelper: KeyboardHelper
@@ -91,7 +91,6 @@ class ProfessionalDealerAskPhoneViewController: KeyboardViewController, UITextFi
         phoneTextField.delegate = self
 
         sendPhoneButton.frame = CGRect(x: 0, y: 0, width: 0, height: Metrics.buttonHeight)
-        sendPhoneButton.setStyle(.primary(fontSize: .medium))
         sendPhoneButton.setTitle(LGLocalizedString.professionalDealerAskPhoneSendPhoneButton, for: .normal)
         sendPhoneButton.addTarget(self, action: #selector(sendPhonePressed), for: .touchUpInside)
     }
