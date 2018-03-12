@@ -184,5 +184,10 @@
         "name": "UserIsTyping",
         "values": ["control", "baseline", "active"],
         "description": "Show user is typing status on chat"
+    },
+    {
+        "name": "CopyForChatNowInTurkey",
+        "values": ["control", "variantA", "variantB", "variantC", "variantD"],
+        "description": "Try different copies for Chat now button in Turkey"
     }
 ]
