@@ -27,12 +27,12 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
 
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var switchCamButton: UIButton!
-    @IBOutlet weak var usePhotoButton: UIButton!
+    @IBOutlet weak var usePhotoButton: LetgoButton!
 
     @IBOutlet weak var infoContainer: UIView!
     @IBOutlet weak var infoTitle: UILabel!
     @IBOutlet weak var infoSubtitle: UILabel!
-    @IBOutlet weak var infoButton: UIButton!
+    @IBOutlet weak var infoButton: LetgoButton!
     @IBOutlet weak var verticalPromoLabel: UILabel!
 
     @IBOutlet weak var headerContainer: UIView!

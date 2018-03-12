@@ -11,7 +11,9 @@ import LGCoreKit
 
 protocol EditListingCoordinatorDelegate: class {
     func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator)
-    func editListingCoordinator(_ coordinator: EditListingCoordinator, didFinishWithListing listing: Listing)
+    func editListingCoordinator(_ coordinator: EditListingCoordinator,
+                                didFinishWithListing listing: Listing,
+                                bumpUpProductData: BumpUpProductData?)
 }
 
 final class EditListingCoordinator: Coordinator, EditListingNavigator {
@@ -28,20 +30,29 @@ final class EditListingCoordinator: Coordinator, EditListingNavigator {
     
     weak var delegate: EditListingCoordinatorDelegate?
 
-    convenience init(listing: Listing, pageType: EventParameterTypePage?) {
+    convenience init(listing: Listing,
+                     bumpUpProductData: BumpUpProductData?,
+                     pageType: EventParameterTypePage?) {
         self.init(listing: listing,
+                  bumpUpProductData: bumpUpProductData,
+                  pageType: pageType,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
-                  sessionManager: Core.sessionManager, pageType: pageType)
+                  sessionManager: Core.sessionManager)
     }
 
-    init(listing: Listing, bubbleNotificationManager: BubbleNotificationManager, sessionManager: SessionManager, pageType: EventParameterTypePage?) {
-        let editVM = EditListingViewModel(listing: listing, pageType: pageType)
+    init(listing: Listing,
+         bumpUpProductData: BumpUpProductData?,
+         pageType: EventParameterTypePage?,
+         bubbleNotificationManager: BubbleNotificationManager,
+         sessionManager: SessionManager) {
+        let editVM = EditListingViewModel(listing: listing,
+                                          pageType: pageType,
+                                          bumpUpProductData: bumpUpProductData)
         let editVC = EditListingViewController(viewModel: editVM)
         let navCtl = UINavigationController(rootViewController: editVC)
         self.navigationController = navCtl
         self.bubbleNotificationManager = bubbleNotificationManager
         self.sessionManager = sessionManager
-        
         editVM.navigator = self
     }
 
@@ -64,10 +75,13 @@ final class EditListingCoordinator: Coordinator, EditListingNavigator {
         }
     }
 
-    func editingListingDidFinish(_ editedListing: Listing) {
+    func editingListingDidFinish(_ editedListing: Listing,
+                                 bumpUpProductData: BumpUpProductData?) {
         closeCoordinator(animated: false) { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.delegate?.editListingCoordinator(strongSelf, didFinishWithListing: editedListing)
+            strongSelf.delegate?.editListingCoordinator(strongSelf,
+                                                        didFinishWithListing: editedListing,
+                                                        bumpUpProductData: bumpUpProductData)
         }
     }
     

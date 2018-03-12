@@ -73,7 +73,7 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
     @IBOutlet weak var headerContainer: UIView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var albumButton: UIButton!
-    @IBOutlet weak var topRightButton: UIButton!
+    @IBOutlet weak var topRightButton: LetgoButton!
 
     fileprivate var albumButtonTick = UIImageView()
 
@@ -81,7 +81,7 @@ class PostListingGalleryView: BaseView, LGViewPagerPage {
     @IBOutlet weak var infoContainer: UIView!
     @IBOutlet weak var infoTitle: UILabel!
     @IBOutlet weak var infoSubtitle: UILabel!
-    @IBOutlet weak var infoButton: UIButton!
+    @IBOutlet weak var infoButton: LetgoButton!
 
     weak var delegate: PostListingGalleryViewDelegate? {
         didSet {

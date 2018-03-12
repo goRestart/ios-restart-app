@@ -13,7 +13,8 @@ class PromoteBumpViewModel: BaseViewModel {
 
     var navigator: PromoteBumpNavigator?
     private var listingId: String
-    private var purchaseableProduct: PurchaseableProduct
+    private var bumpUpProductData: BumpUpProductData
+    private var typePage: EventParameterTypePage?
 
     var titleText: String {
         return LGLocalizedString.promoteBumpTitle
@@ -33,16 +34,21 @@ class PromoteBumpViewModel: BaseViewModel {
 
     // MARK: - lifecycle
 
-    init(listingId: String, purchaseableProduct: PurchaseableProduct) {
+    init(listingId: String,
+         bumpUpProductData: BumpUpProductData,
+         typePage: EventParameterTypePage?) {
         self.listingId = listingId
-        self.purchaseableProduct = purchaseableProduct
+        self.bumpUpProductData = bumpUpProductData
+        self.typePage = typePage
     }
 
 
     // MARK: - public methods
 
     func sellFasterButtonPressed() {
-        navigator?.openSellFaster(listingId: listingId, purchaseableProduct: purchaseableProduct)
+        navigator?.openSellFaster(listingId: listingId,
+                                  bumpUpProductData: bumpUpProductData,
+                                  typePage: typePage)
     }
 
     func laterButtonPressed() {

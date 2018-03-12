@@ -10,7 +10,9 @@ import Foundation
 import LGCoreKit
 
 protocol PromoteBumpCoordinatorDelegate: class {
-    func openSellFaster(listingId: String, purchaseableProduct: PurchaseableProduct)
+    func openSellFaster(listingId: String,
+                        bumpUpProductData: BumpUpProductData,
+                        typePage: EventParameterTypePage?)
 }
 
 final class PromoteBumpCoordinator: Coordinator {
@@ -24,19 +26,25 @@ final class PromoteBumpCoordinator: Coordinator {
     weak var delegate: PromoteBumpCoordinatorDelegate?
 
 
-    convenience init(listingId: String, purchaseableProduct: PurchaseableProduct) {
+    convenience init(listingId: String,
+                     bumpUpProductData: BumpUpProductData,
+                     typePage: EventParameterTypePage?) {
         self.init(listingId: listingId,
-                  purchaseableProduct: purchaseableProduct,
+                  bumpUpProductData: bumpUpProductData,
+                  typePage: typePage,
                   bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                   sessionManager: Core.sessionManager)
     }
 
     init(listingId: String,
-         purchaseableProduct: PurchaseableProduct,
+         bumpUpProductData: BumpUpProductData,
+         typePage: EventParameterTypePage?,
          bubbleNotificationManager: BubbleNotificationManager,
          sessionManager: SessionManager) {
 
-        let promoteBumpVM = PromoteBumpViewModel(listingId: listingId, purchaseableProduct: purchaseableProduct)
+        let promoteBumpVM = PromoteBumpViewModel(listingId: listingId,
+                                                 bumpUpProductData: bumpUpProductData,
+                                                 typePage: typePage)
         let promoteBumpVC = PromoteBumpViewController(viewModel: promoteBumpVM)
         promoteBumpVC.modalPresentationStyle = .overCurrentContext
         self.viewController = promoteBumpVC
@@ -60,9 +68,13 @@ extension PromoteBumpCoordinator : PromoteBumpNavigator {
         closeCoordinator(animated: true, completion: nil)
     }
 
-    func openSellFaster(listingId: String, purchaseableProduct: PurchaseableProduct) {
+    func openSellFaster(listingId: String,
+                        bumpUpProductData: BumpUpProductData,
+                        typePage: EventParameterTypePage?) {
         closeCoordinator(animated: true) { [weak self] in
-            self?.delegate?.openSellFaster(listingId: listingId, purchaseableProduct: purchaseableProduct)
+            self?.delegate?.openSellFaster(listingId: listingId,
+                                           bumpUpProductData: bumpUpProductData,
+                                           typePage: typePage)
         }
     }
 }

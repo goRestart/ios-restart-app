@@ -24,7 +24,7 @@ class BlockingPostingLoadingView: UIView {
                                                                                     width: BlockingPostingLoadingView.loadingIndicatorWidth,
                                                                                     height: BlockingPostingLoadingView.loadingIndicatorHeight))
     private let messageLabel: UILabel = UILabel()
-    private let retryButton: UIButton = UIButton(type: .custom)
+    private let retryButton: LetgoButton = LetgoButton(type: .custom)
     
     weak var delegate: BlockingPostingLoadingViewDelegate?
     

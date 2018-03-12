@@ -1,12 +1,12 @@
 //
-//  UIButton+LetgoStyles.swift
+//  LetgoButton.swift
 //  LetGo
 //
-//  Created by Isaac Roldan on 26/4/16.
-//  Copyright © 2016 Ambatana. All rights reserved.
+//  Created by Facundo Menzella on 09/03/2018.
+//  Copyright © 2018 Ambatana. All rights reserved.
 //
 
-import RxSwift
+import Foundation
 
 enum ButtonFontSize {
     case big
@@ -114,7 +114,7 @@ enum ButtonStyle {
             return UIFont.smallButtonFont
         }
     }
-
+    
     private var fontSize: ButtonFontSize {
         var fontSize = ButtonFontSize.big
         switch self {
@@ -171,7 +171,7 @@ enum ButtonStyle {
             return UIColor.lgBlack
         }
     }
-
+    
     var titleColorDisabled: UIColor {
         switch self {
         case .postingFlow:
@@ -184,7 +184,7 @@ enum ButtonStyle {
             return UIColor.lgBlack
         }
     }
-
+    
     var sidePadding: CGFloat {
         switch self {
         case .postingFlow:
@@ -198,7 +198,7 @@ enum ButtonStyle {
             }
         }
     }
-
+    
     var applyCornerRadius: Bool {
         switch self {
         case .primary, .secondary, .terciary, .google, .facebook, .dark, .logout, .postingFlow:
@@ -217,7 +217,6 @@ enum ButtonState {
 }
 
 extension UIButton {
-
     func setState(_ state: ButtonState) {
         switch state {
         case .hidden:
@@ -231,36 +230,41 @@ extension UIButton {
         }
     }
 
+    func centerTextAndImage(spacing: CGFloat) {
+        let insetAmount = spacing / 2
+        imageEdgeInsets = UIEdgeInsets(top: 0, left: -insetAmount, bottom: 0, right: insetAmount)
+        titleEdgeInsets = UIEdgeInsets(top: 0, left: insetAmount, bottom: 0, right: -insetAmount)
+        contentEdgeInsets = UIEdgeInsets(top: 0, left: 4*insetAmount, bottom: 0, right: 4*insetAmount)
+    }
+}
+// If you use it with xibs, you must set the type of the button to CUSTOM
+final class LetgoButton: UIButton {
+    private(set) var style: ButtonStyle = .primary(fontSize: .medium) {
+        didSet {
+            updateButton(withStyle: style)
+            setNeedsLayout()
+        }
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
+    
+    convenience init(withStyle style: ButtonStyle) {
+        self.init(type: .custom)
+        updateStyle(style)
+    }
+
+    convenience init() { self.init(type: .custom) }
+
     func setStyle(_ style: ButtonStyle) {
         guard buttonType == UIButtonType.custom else {
             print("💣 => Styles can only be applied to customStyle Buttons")
             return
         }
-        // https://ambatana.atlassian.net/browse/ABIOS-3628
-        layoutIfNeeded()
-        clipsToBounds = true
-        if style.applyCornerRadius {
-            setRoundedCorners()
-        }
-        layer.borderWidth = style.withBorder ? 1 : 0
-        layer.borderColor = isEnabled ? style.borderColor.cgColor : style.borderColorDisabled.cgColor
-
-        setBackgroundImage(style.backgroundColor.imageWithSize(CGSize(width: 1, height: 1)), for: .normal)
-        setBackgroundImage(style.backgroundColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
-                           for: .highlighted)
-        setBackgroundImage(style.backgroundColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), for: .disabled)
-        adjustsImageWhenHighlighted = false
-        
-        titleLabel?.font = style.titleFont
-        titleLabel?.lineBreakMode = .byTruncatingTail
-        setTitleColor(style.titleColor, for: .normal)
-        setTitleColor(style.titleColorDisabled, for: .disabled)
-
-        let padding = style.sidePadding
-
-        let left = contentEdgeInsets.left < padding ? padding : contentEdgeInsets.left
-        let right = contentEdgeInsets.right < padding ? padding : contentEdgeInsets.right
-        contentEdgeInsets = UIEdgeInsets(top: 0, left: left, bottom: 0, right: right)
+        updateStyle(style)
     }
 
     func configureWith(uiAction action: UIAction) {
@@ -270,11 +274,55 @@ extension UIButton {
             setStyle(style)
         }
     }
-    
-    func centerTextAndImage(spacing: CGFloat) {
-        let insetAmount = spacing / 2
-        imageEdgeInsets = UIEdgeInsets(top: 0, left: -insetAmount, bottom: 0, right: insetAmount)
-        titleEdgeInsets = UIEdgeInsets(top: 0, left: insetAmount, bottom: 0, right: -insetAmount)
-        contentEdgeInsets = UIEdgeInsets(top: 0, left: 4*insetAmount, bottom: 0, right: 4*insetAmount)
+
+    private func updateStyle(_ style: ButtonStyle) {
+        self.style = style
     }
+
+    private func updateButton(withStyle style: ButtonStyle) {
+        updateLayer(withStyle: style)
+        updateBackgroundImage(withStyle: style)
+        updateTitleLabel(withStyle: style)
+        updateContentEdgeInsets(withStyle: style)
+    }
+
+    private func updateLayer(withStyle style: ButtonStyle) {
+        clipsToBounds = true
+        layer.borderWidth = style.withBorder ? 1 : 0
+        layer.borderColor = isEnabled ? style.borderColor.cgColor : style.borderColorDisabled.cgColor
+    }
+
+    private func updateBackgroundImage(withStyle style: ButtonStyle) {
+        setBackgroundImage(style.backgroundColor.imageWithSize(CGSize(width: 1, height: 1)), for: .normal)
+        setBackgroundImage(style.backgroundColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
+                           for: .highlighted)
+        setBackgroundImage(style.backgroundColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), for: .disabled)
+        adjustsImageWhenHighlighted = false
+    }
+
+    private func updateTitleLabel(withStyle style: ButtonStyle) {
+        titleLabel?.font = style.titleFont
+        titleLabel?.lineBreakMode = .byTruncatingTail
+        setTitleColor(style.titleColor, for: .normal)
+        setTitleColor(style.titleColorDisabled, for: .disabled)
+    }
+
+    private func updateContentEdgeInsets(withStyle style: ButtonStyle) {
+        let padding = style.sidePadding
+        let left = contentEdgeInsets.left < padding ? padding : contentEdgeInsets.left
+        let right = contentEdgeInsets.right < padding ? padding : contentEdgeInsets.right
+        contentEdgeInsets = UIEdgeInsets(top: 0, left: left, bottom: 0, right: right)
+    }
+    
+    private func updateCornerRadius() {
+        if style.applyCornerRadius {
+            setRoundedCorners()
+        }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateCornerRadius()
+    }
+    
 }

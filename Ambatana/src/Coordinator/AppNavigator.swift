@@ -26,6 +26,8 @@ protocol AppNavigator: class {
     func canOpenAppInvite() -> Bool
     func openDeepLink(deepLink: DeepLink)
     func openAppStore()
-    func openPromoteBumpForListingId(listingId: String, purchaseableProduct: PurchaseableProduct)
+    func openPromoteBumpForListingId(listingId: String,
+                                     bumpUpProductData: BumpUpProductData,
+                                     typePage: EventParameterTypePage?)
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
 }

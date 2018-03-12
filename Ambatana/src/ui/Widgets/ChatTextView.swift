@@ -55,7 +55,7 @@ class ChatTextView: UIView {
     
     
     fileprivate let textView = UITextField()
-    fileprivate let sendButton = UIButton(type: .custom)
+    fileprivate let sendButton = LetgoButton(withStyle: .primary(fontSize: .medium))
     fileprivate let focus = Variable<Bool>(false)
     fileprivate var initialTextActive = false
 
@@ -166,7 +166,6 @@ class ChatTextView: UIView {
         textView.backgroundColor = .clear
         textView.returnKeyType = .send
         textView.delegate = self
-        sendButton.setStyle(.primary(fontSize: .medium))
         sendButton.setTitle(LGLocalizedString.chatSendButton, for: .normal)
     }
 

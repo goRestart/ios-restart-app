@@ -12,7 +12,7 @@ final class BlockingPostingAddPriceViewController: KeyboardViewController, Block
     private static let doneButtonWidth: CGFloat = 100
     private static let addDetailPriceViewTopMargin: CGFloat = 30
     
-    private let doneButton = UIButton()
+    private let doneButton = LetgoButton()
     private var addDetailPriceView: PostingViewConfigurable?
     private let contentView = UIView()
     

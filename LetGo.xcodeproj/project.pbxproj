@@ -87,6 +87,8 @@
 		0A8275131F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A82750D1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json */; };
 		0A8275141F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A82750F1F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json */; };
 		0A8275151F7D1A1100A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json in Resources */ = {isa = PBXBuildFile; fileRef = 0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */; };
+		0A8823A72052947C004414CA /* LetgoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8823A62052947C004414CA /* LetgoButton.swift */; };
+		0A8823A82052947C004414CA /* LetgoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8823A62052947C004414CA /* LetgoButton.swift */; };
 		0AC264E11F94ACB600666BA6 /* EditListingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC264E01F94ACB600666BA6 /* EditListingCoordinator.swift */; };
 		0AC264E21F94B6A800666BA6 /* EditListingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC264E01F94ACB600666BA6 /* EditListingCoordinator.swift */; };
 		0AC264E41F94B87400666BA6 /* EditListingNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC264E31F94B87400666BA6 /* EditListingNavigator.swift */; };
@@ -695,8 +697,6 @@
 		6A879DA81C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A879DA71C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift */; };
 		6A879DA91C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A879DA71C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift */; };
 		6A9BFE541C08B444000114DF /* FilterSingleCheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E71BF0C0290097D62F /* FilterSingleCheckCell.swift */; };
-		6A9C9EBE1CCF959E009D866C /* UIButton+LetgoStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9C9EBD1CCF959E009D866C /* UIButton+LetgoStyles.swift */; };
-		6A9C9EBF1CCF95A1009D866C /* UIButton+LetgoStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9C9EBD1CCF959E009D866C /* UIButton+LetgoStyles.swift */; };
 		6AA26CFD1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA26CFC1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift */; };
 		6AA26CFE1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA26CFC1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift */; };
 		6AA26D001CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AA26CFF1CFDCA2000546063 /* ChatDisclaimerCell.xib */; };
@@ -1660,6 +1660,7 @@
 		0A82750D1F7D190A00A6A0C5 /* DeferredDeepLinkFacebookTargetSearchQuery.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetSearchQuery.json; sourceTree = "<group>"; };
 		0A82750F1F7D194800A6A0C5 /* DeferredDeepLinkFacebookTargetCategory.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetCategory.json; sourceTree = "<group>"; };
 		0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DeferredDeepLinkFacebookTargetListing.json; sourceTree = "<group>"; };
+		0A8823A62052947C004414CA /* LetgoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetgoButton.swift; sourceTree = "<group>"; };
 		0AC264E01F94ACB600666BA6 /* EditListingCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditListingCoordinator.swift; sourceTree = "<group>"; };
 		0AC264E31F94B87400666BA6 /* EditListingNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditListingNavigator.swift; sourceTree = "<group>"; };
 		0AF7CCBA1F8B51F500128303 /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
@@ -2055,7 +2056,6 @@
 		6A879DA11C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushPrePermissionsSettingsViewController.xib; sourceTree = "<group>"; };
 		6A879DA41C8DAED300E0C868 /* PushPrePermissionsSettingsViewControllerMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushPrePermissionsSettingsViewControllerMini.xib; sourceTree = "<group>"; };
 		6A879DA71C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushPrePermissionsSettingsViewModel.swift; sourceTree = "<group>"; };
-		6A9C9EBD1CCF959E009D866C /* UIButton+LetgoStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+LetgoStyles.swift"; sourceTree = "<group>"; };
 		6AA26CFC1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatDisclaimerCellDrawer.swift; sourceTree = "<group>"; };
 		6AA26CFF1CFDCA2000546063 /* ChatDisclaimerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatDisclaimerCell.xib; sourceTree = "<group>"; };
 		6AA32F391CA29CC4003A1677 /* AdminViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
@@ -2648,6 +2648,14 @@
 				0A8275111F7D196700A6A0C5 /* DeferredDeepLinkFacebookTargetListing.json */,
 			);
 			path = DeepLinks;
+			sourceTree = "<group>";
+		};
+		0A8823A520529466004414CA /* LetgoButton */ = {
+			isa = PBXGroup;
+			children = (
+				0A8823A62052947C004414CA /* LetgoButton.swift */,
+			);
+			path = LetgoButton;
 			sourceTree = "<group>";
 		};
 		2E00C4DE1D00364C00B95010 /* LGAlertViewController */ = {
@@ -4632,6 +4640,7 @@
 		D458383C1AEE6A9100B5F181 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				0A8823A520529466004414CA /* LetgoButton */,
 				2E5C1C361FB60C2E002AFD40 /* Promote Bump */,
 				72A9DA851F5564850066BEBF /* ExpandableCategorySelectionView */,
 				8E814F371F3472AA00C88432 /* LGSlider */,
@@ -4664,7 +4673,6 @@
 				C7DCFEC11BFE3CFD00F7A4FB /* UITabBarController+Animations.swift */,
 				D4912A891B08FFF900DACD5A /* UIView+Border.swift */,
 				C7E73E8C1CD20A49000F2591 /* ViewState.swift */,
-				6A9C9EBD1CCF959E009D866C /* UIButton+LetgoStyles.swift */,
 				6A672C121CCFB22900AB9175 /* UIColor+LG.swift */,
 				6A672C151CCFB76E00AB9175 /* UIFont+LG.swift */,
 				C7798EA11D2EB6AB00C81DD4 /* UICollectionView+Helper.swift */,
@@ -6230,7 +6238,6 @@
 				50EAFB211F7A2A9F003B96D5 /* LocalSuggestiveSearch.swift in Sources */,
 				50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */,
 				72FE02D61F95FCE5005BD672 /* PostingDetailStep.swift in Sources */,
-				6A9C9EBE1CCF959E009D866C /* UIButton+LetgoStyles.swift in Sources */,
 				C75B5DD11D59E0C500112368 /* ListingCarouselCell.swift in Sources */,
 				C7111F081CA4458F000C5C5A /* ShortcutItem.swift in Sources */,
 				509598871C8733B70026AE2D /* CrashlyticsLogger.swift in Sources */,
@@ -6365,6 +6372,7 @@
 				C7B5889A1CE1E025009B3975 /* ConversationCell.swift in Sources */,
 				C7DE8AE01C88A98B005CF37E /* PostListingViewController.swift in Sources */,
 				C73FABB61DD37968008F4519 /* SettingsLogoutCell.swift in Sources */,
+				0A8823A72052947C004414CA /* LetgoButton.swift in Sources */,
 				F51A082B2031B5360008D744 /* AspectRatio.swift in Sources */,
 				721384011F20EB97006DB039 /* TaxonomiesViewController.swift in Sources */,
 				50C9E4C51B723E87001E4E92 /* FacebookTracker.swift in Sources */,
@@ -6839,7 +6847,6 @@
 				2E4EBFC11EADF628005FE040 /* CarAttributeSelectionViewModel.swift in Sources */,
 				C7DB42001C5138B500400945 /* ReusableCell.swift in Sources */,
 				2E28B12C1D99132D001BF8E4 /* Double+Rounding.swift in Sources */,
-				6A9C9EBF1CCF95A1009D866C /* UIButton+LetgoStyles.swift in Sources */,
 				01A0480B200CEF53008725A1 /* DailyCountIncrementer.swift in Sources */,
 				0A6E56AF1F8E241000419DDC /* RelatedListingsViewModel.swift in Sources */,
 				01772B60204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */,
@@ -6969,6 +6976,7 @@
 				2E373FAD1D3E6F4500AC811C /* UserRatingCell.swift in Sources */,
 				C7DB421E1C5138B500400945 /* FacebookTracker.swift in Sources */,
 				721384021F20EB97006DB039 /* TaxonomiesViewController.swift in Sources */,
+				0A8823A82052947C004414CA /* LetgoButton.swift in Sources */,
 				F51A082C2031B5380008D744 /* AspectRatio.swift in Sources */,
 				C7B5889B1CE1E025009B3975 /* ConversationCell.swift in Sources */,
 				C73FABB71DD37968008F4519 /* SettingsLogoutCell.swift in Sources */,

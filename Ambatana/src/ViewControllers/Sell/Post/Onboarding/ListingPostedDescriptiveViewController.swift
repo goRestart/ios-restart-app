@@ -34,7 +34,7 @@ class ListingPostedDescriptiveViewController: KeyboardViewController, UITextView
     private lazy var descriptionTextView = UITextView()
 
     private lazy var doneLabel = UILabel()
-    private lazy var saveButton = UIButton(type: .custom)
+    private lazy var saveButton = LetgoButton(type: .custom)
     private lazy var discardButton = UIButton()
 
     private var containerToKeyboardConstraint = NSLayoutConstraint()

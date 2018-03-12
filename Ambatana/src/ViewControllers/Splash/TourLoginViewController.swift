@@ -19,8 +19,8 @@ final class TourLoginViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var claimLabelTopConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var mainView: UIView!
-    @IBOutlet weak var facebookButton: UIButton!
-    @IBOutlet weak var googleButton: UIButton!
+    @IBOutlet weak var facebookButton: LetgoButton!
+    @IBOutlet weak var googleButton: LetgoButton!
     @IBOutlet var orDividerViews: [UIView]!
     @IBOutlet weak var orUseEmailLabel: UILabel!
     @IBOutlet weak var orUseEmailLabelTopConstraint: NSLayoutConstraint!

@@ -31,7 +31,7 @@ class RateUserViewController: KeyboardViewController {
     @IBOutlet weak var descriptionCharCounter: UILabel!
     
     @IBOutlet weak var footerView: UIView!
-    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var sendButton: LetgoButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var footerLabel: UILabel!
 

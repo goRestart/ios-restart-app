@@ -23,7 +23,7 @@ class ExpressChatViewController: BaseViewController {
     @IBOutlet weak var dontMissLabel: UILabel!
     @IBOutlet weak var contactSellersLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var sendMessageButton: UIButton!
+    @IBOutlet weak var sendMessageButton: LetgoButton!
     @IBOutlet weak var dontAskAgainButton: UIButton!
 
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!

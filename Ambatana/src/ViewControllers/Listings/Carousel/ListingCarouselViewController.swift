@@ -14,17 +14,17 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var buttonBottom: UIButton!
+    @IBOutlet weak var buttonBottom: LetgoButton!
     @IBOutlet weak var buttonBottomHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var buttonBottomRightMarginToSuperviewConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var buttonCall: UIButton!
+    @IBOutlet weak var buttonCall: LetgoButton!
     @IBOutlet weak var buttonCallWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonCallRightMarginToSuperviewConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var buttonTop: UIButton!
+    @IBOutlet weak var buttonTop: LetgoButton!
     @IBOutlet weak var buttonTopHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonTopBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var chatContainer: UIView!
@@ -191,11 +191,14 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             chatTextView.becomeFirstResponder()
         case .showShareSheet:
             viewModel.shareButtonPressed()
-        case let .triggerBumpUp(purchaseableProduct, paymentItemId, paymentProviderItemId, bumpUpType, triggerBumpUpSource):
-            viewModel.showBumpUpView(purchaseableProduct: purchaseableProduct,
-                                     paymentItemId: paymentItemId,
-                                     paymentProviderItemId: paymentProviderItemId,
-                                     bumpUpType: bumpUpType, bumpUpSource: triggerBumpUpSource)
+        case let .triggerBumpUp(bumpUpProductData,
+                                bumpUpType,
+                                triggerBumpUpSource,
+                                typePage):
+            viewModel.showBumpUpView(bumpUpProductData: bumpUpProductData,
+                                     bumpUpType: bumpUpType,
+                                     bumpUpSource: triggerBumpUpSource,
+                                     typePage: typePage)
         case .triggerMarkAsSold:
             viewModel.currentListingViewModel?.markAsSold()
         default:

@@ -25,13 +25,10 @@ enum CarouselMovement {
 }
 
 enum AdRequestType {
-    case shopping
     case dfp
 
     var trackingParamValue: EventParameterAdType {
         switch self {
-        case .shopping:
-            return .shopping
         case .dfp:
             return .dfp
         }
@@ -59,9 +56,6 @@ enum AdRequestQueryType {
 }
 
 class ListingCarouselViewModel: BaseViewModel {
-
-    // Static vars
-    static var adRequestChannel: String = "ios_moreinfo_var_a"
 
     // Paginable
     let firstPage: Int = 0
@@ -176,21 +170,13 @@ class ListingCarouselViewModel: BaseViewModel {
     fileprivate let adsRequester: AdsRequester
 
     // Ads
-    var shoppingAdUnitId: String {
-        return featureFlags.moreInfoShoppingAdUnitId
-    }
     var dfpAdUnitId: String {
         return featureFlags.moreInfoDFPAdUnitId
     }
     var adActive: Bool {
-        return !isMyListing && (afshAdActive || dfpAdActive) && userShouldSeeAds
+        return !isMyListing && userShouldSeeAds
     }
-    var afshAdActive: Bool {
-        return featureFlags.moreInfoAFShOrDFP == .afsh
-    }
-    var dfpAdActive: Bool {
-        return featureFlags.moreInfoAFShOrDFP == .dfp
-    }
+
     var userShouldSeeAds: Bool {
         let myUserCreationDate: Date? = myUserRepository.myUser?.creationDate
         return featureFlags.noAdsInFeedForNewUsers.shouldShowAdsInMoreInfoForUser(createdIn: myUserCreationDate)
@@ -207,12 +193,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     var currentAdRequestType: AdRequestType? {
-        if afshAdActive {
-            return .shopping
-        } else if dfpAdActive {
-            return .dfp
-        }
-        return nil
+        return adActive ? .dfp : nil
     }
     var currentAdRequestQueryType: AdRequestQueryType? = nil
     var adRequestQuery: String? = nil
@@ -425,33 +406,22 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func bumpUpBannerShown(type: BumpUpType) {
-        currentListingViewModel?.trackBumpUpBannerShown(type: type, storeProductId: currentListingViewModel?.paymentProviderItemId)
+        currentListingViewModel?.trackBumpUpBannerShown(type: type, storeProductId: currentListingViewModel?.storeProductId)
     }
 
-    func showBumpUpView(purchaseableProduct: PurchaseableProduct,
-                        paymentItemId: String?,
-                        paymentProviderItemId: String?,
+    func showBumpUpView(bumpUpProductData: BumpUpProductData,
                         bumpUpType: BumpUpType,
-                        bumpUpSource: BumpUpSource?) {
-        currentListingViewModel?.showBumpUpView(purchaseableProduct: purchaseableProduct,
-                                                paymentItemId: paymentItemId,
-                                                paymentProviderItemId: paymentProviderItemId,
+                        bumpUpSource: BumpUpSource?,
+                        typePage: EventParameterTypePage?) {
+        currentListingViewModel?.showBumpUpView(bumpUpProductData: bumpUpProductData,
                                                 bumpUpType: bumpUpType,
-                                                bumpUpSource: bumpUpSource)
+                                                bumpUpSource: bumpUpSource,
+                                                typePage: typePage)
     }
 
     func moveQuickAnswerToTheEnd(_ index: Int) {
         guard index >= 0 else { return }
         quickAnswers.value.move(fromIndex: index, toIndex: quickAnswers.value.count-1)
-    }
-
-    func makeAFShoppingRequestWithWidth(width: CGFloat) -> GADDynamicHeightSearchRequest {
-        adRequestQuery = makeAFShRequestQuery()
-        let adWidth = width-(2*sideMargin)
-        let adsRequest = adsRequester.makeAFShoppingRequestWithQuery(query: adRequestQuery,
-                                                                     width: adWidth,
-                                                                     channel: ListingCarouselViewModel.adRequestChannel)
-        return adsRequest
     }
 
     func didReceiveAd(bannerTopPosition: CGFloat, bannerBottomPosition: CGFloat, screenHeight: CGFloat) {

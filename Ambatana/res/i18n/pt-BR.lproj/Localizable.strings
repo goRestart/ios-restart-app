@@ -512,7 +512,7 @@
 "post_description_name_placeholder" = "Name";
 "post_description_save_button_text" = "Save this listing!";
 "post_get_started_button_text" = "Get Started";
-"post_get_started_discard_text" = "You can discard it later if you don’t want to sell it. ";
+"post_get_started_discard_text" = "You can discard it later if you don’t want to sell it.";
 "post_get_started_intro_text" = "See how easy it is to sell on letgo. Post something you’ve got nearby.";
 "post_get_started_welcome_letgo_text" = "Welcome to letgo";
 "post_get_started_welcome_user_text" = "Welcome, %@!";
@@ -871,6 +871,17 @@
 "real_estate_tooltip_overlay_expandable_menu" = "If you’re posting property for sale or rent, try our new Housing category!";
 "real_estate_tooltip_sell_button" = "Post property for sale or rent in our new Housing category";
 "real_estate_tooltip_sell_button_title" = "Post property for sale or rent in our new Real Estate category";
+"real_estate_tutorial_new" = "New";
+"real_estate_tutorial_one_page_first_section_title" = "Sell property or find a renter for your extra room";
+"real_estate_tutorial_one_page_second_section_title" = "Quickly post a listing with all the details buyers want to know";
+"real_estate_tutorial_three_pages_first_page_description" = "Post property for sale or rent in our new Housing category. 90% of buyers use online resources to find their next pad!";
+"real_estate_tutorial_three_pages_first_page_title" = "New! Buy, sell or rent property";
+"real_estate_tutorial_three_pages_second_page_decription" = "Property decisions are based on location and on the number of bedrooms and bathrooms, so make sure these details are in your listing!";
+"real_estate_tutorial_three_pages_second_page_title" = "Details aren't just details";
+"real_estate_tutorial_three_pages_third_page_description" = "Completed listings attract 20% more views so you'll sell faster. Don't forget to double your visibility by featuring your listing!";
+"real_estate_tutorial_three_pages_third_page_title" = "Sell or rent in a snap";
+"real_estate_tutorial_two_pages_first_section_first_page_title" = "NEW! Sell property or find a renter for your extra room";
+"real_estate_tutorial_two_pages_first_section_second_page_title" = "Quickly post a listing with all the details buyers want to know";
 "real_estate_type_property_apartment" = "Apartment";
 "real_estate_type_property_commercial" = "Commercial";
 "real_estate_type_property_flat" = "Flat";

@@ -15,7 +15,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     // outlets & buttons
     @IBOutlet weak var passwordTextfield: LGTextField!
     @IBOutlet weak var confirmPasswordTextfield: LGTextField!
-    @IBOutlet weak var sendButton : UIButton!
+    @IBOutlet weak var sendButton : LetgoButton!
     
     let viewModel: ChangePasswordViewModel
     

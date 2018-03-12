@@ -210,7 +210,7 @@ class LGAlertViewController: UIViewController {
             .centerX()
         var previous: UIView? = nil
         for action in actions {
-            let button = UIButton(type: .custom)
+            let button = LetgoButton()
             button.imageView?.contentMode = .scaleAspectFit
             button.translatesAutoresizingMaskIntoConstraints = false
             centeredContainer.addSubview(button)
@@ -241,7 +241,7 @@ class LGAlertViewController: UIViewController {
         let widthConstant: CGFloat = buttonActions.count == 1 ? 0 : -(AlertButtonsLayout.horizontal.buttonsMargin/2)
         var previous: UIView? = nil
         for action in buttonActions {
-            let button = UIButton(type: .custom)
+            let button = LetgoButton()
             button.translatesAutoresizingMaskIntoConstraints = false
             buttonsContainer.addSubview(button)
             button.layout(with: buttonsContainer)
@@ -265,7 +265,7 @@ class LGAlertViewController: UIViewController {
     private func buildButtonsVertically(_ buttonActions: [UIAction]) {
         var previous: UIView? = nil
         for action in buttonActions {
-            let button = UIButton(type: .custom)
+            let button = LetgoButton()
             button.translatesAutoresizingMaskIntoConstraints = false
             buttonsContainer.addSubview(button)
             button.layout(with: buttonsContainer).fillHorizontal()
@@ -284,7 +284,7 @@ class LGAlertViewController: UIViewController {
         _ = buttonsContainer.addTopBorderWithWidth(1, color: UIColor.gray)
     }
 
-    private func styleButton(_ button: UIButton, action: UIAction) {
+    private func styleButton(_ button: LetgoButton, action: UIAction) {
         switch action.interface {
         case let .image(image, _):
             button.setImage(image, for: .normal)

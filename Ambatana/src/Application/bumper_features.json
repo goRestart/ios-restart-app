@@ -71,11 +71,6 @@
         "description": "Show a clock until the message is delivered correctly"
     },
     {
-        "name": "MoreInfoAFShOrDFP",
-        "values": ["control", "baseline", "afsh", "dfp"],
-        "description": "show ad in more info, could be Adsense for shopping or DFP"
-    },
-    {
         "name": "MostSearchedDemandedItems",
         "values": ["control", "baseline", "cameraBadge", "trendingButtonExpandableMenu", "subsetAboveExpandableMenu"],
         "description": "Display a list of top seller items that inspire users to post new items"
@@ -184,6 +179,11 @@
         "name": "OnboardingIncentivizePosting",
         "values": ["control", "baseline", "blockingPosting"],
         "description": "Leads the user through the posting feature and onboarding improvements"
+    },
+    {
+        "name": "PromoteBumpInEdit",
+        "values": ["control", "baseline", "implicit", "SellFaster", "LongRedText", "BigIcon"],
+        "description": "Ad a switch to edit listing page to bump the listing"
     },
     {
         "name": "UserIsTyping",

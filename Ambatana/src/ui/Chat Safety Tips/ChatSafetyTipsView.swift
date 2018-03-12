@@ -14,7 +14,7 @@ class ChatSafetyTipsView: UIView {
     @IBOutlet weak var topIcon: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
-    @IBOutlet weak var okButton: UIButton!
+    @IBOutlet weak var okButton: LetgoButton!
     
     // > Data
     var dismissBlock: (() -> Void)?

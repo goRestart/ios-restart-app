@@ -49,7 +49,7 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     let makeRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarMake)
     let modelRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarModel)
     let yearRowView = PostCategoryDetailRowView(withTitle: LGLocalizedString.postCategoryDetailCarYear)
-    let doneButton = UIButton(type: .custom)
+    let doneButton = LetgoButton()
     
     private var progressTopConstraint: NSLayoutConstraint = NSLayoutConstraint()
     private static var progressTopConstraintConstantSelectDetail = Metrics.screenHeight/3.5

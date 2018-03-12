@@ -22,7 +22,7 @@ class ListingPostedViewController: BaseViewController, ListingPostedViewModelDel
     @IBOutlet weak var editOrLabel: UILabel!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var mainButtonHeight: NSLayoutConstraint!
-    @IBOutlet weak var mainButton: UIButton!
+    @IBOutlet weak var mainButton: LetgoButton!
 
     // incentivize items
     @IBOutlet weak var incentiveContainer: UIView!

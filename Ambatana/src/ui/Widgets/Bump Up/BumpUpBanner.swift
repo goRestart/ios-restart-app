@@ -88,7 +88,7 @@ class BumpUpBanner: UIView {
     private let textIconImageView: UIImageView = UIImageView()
     private let timeLabel: UILabel = UILabel()
     private let descriptionLabel: UILabel = UILabel()
-    private let bumpButton: UIButton = UIButton(type: .custom)
+    private let bumpButton = LetgoButton(withStyle: .primary(fontSize: .small))
 
     private var leftIconWidthConstraint: NSLayoutConstraint = NSLayoutConstraint()
     private var leftIconLeftMarginConstraint: NSLayoutConstraint = NSLayoutConstraint()
@@ -276,7 +276,6 @@ class BumpUpBanner: UIView {
         textIconImageView.contentMode = .scaleAspectFit
         
         bumpButton.frame = CGRect(x: 0, y: 0, width: 100, height: 44)
-        bumpButton.setStyle(.primary(fontSize: .small))
         bumpButton.addTarget(self, action: #selector(bumpButtonPressed), for: .touchUpInside)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(bannerTapped))

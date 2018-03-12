@@ -86,7 +86,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         viewModel.categoriesAvailable.forEach({ (category) in
             guard let actionIndex = viewModel.categoriesAvailable.index(of: category) else { return }
             
-            let button = UIButton(type: .custom)
+            let button = LetgoButton()
             switch category.style {
             case .redBackground:
                 button.setStyle(.primary(fontSize: .medium))
@@ -116,8 +116,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         clipsToBounds = true
         backgroundColor = UIColor.black.withAlphaComponent(0.5)
         
-        let button = UIButton(type: .custom)
-        button.setStyle(.secondary(fontSize: .medium, withBorder: false))
+        let button = LetgoButton(withStyle: .secondary(fontSize: .medium, withBorder: false))
         button.setImage(#imageLiteral(resourceName: "ic_close_red"), for: .normal)
         button.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

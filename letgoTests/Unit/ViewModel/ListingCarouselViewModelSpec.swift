@@ -236,17 +236,62 @@ class ListingCarouselViewModelSpec: BaseViewModelSpec {
                 }
             }
             describe("show more info") {
-                beforeEach {
-                    buildSut(initialProduct: product)
-                    sut.active = true
-                    sut.moreInfoState.value = .shown
+                context ("ads for everyone") {
+                    beforeEach {
+                        featureFlags.noAdsInFeedForNewUsers = .control
+                        buildSut(initialProduct: product)
+                        sut.active = true
+                        sut.moreInfoState.value = .shown
+                        sut.didReceiveAd(bannerTopPosition: 0, bannerBottomPosition: 0, screenHeight: UIScreen.main.bounds.height)
+                    }
+                    it("tracks more info visit") {
+                        expect(tracker.trackedEvents.last?.actualName) == "product-detail-visit-more-info"
+                    }
+                    it("tracks more info visit with product Id same as provided") {
+                        let firstEvent = tracker.trackedEvents.last
+                        expect(firstEvent?.params?.stringKeyParams["product-id"] as? String) == product.objectId
+                    }
                 }
-                it("tracks more info visit") {
-                    expect(tracker.trackedEvents.last?.actualName) == "product-detail-visit-more-info"
-                }
-                it("tracks more info visit with product Id same as provided") {
-                    let firstEvent = tracker.trackedEvents.last
-                    expect(firstEvent?.params?.stringKeyParams["product-id"] as? String) == product.objectId
+                context("ads only for new users") {
+                    beforeEach {
+                       featureFlags.noAdsInFeedForNewUsers = .noAdsForNewUsers
+                    }
+                    context("the user is new (less than 2 weeks") {
+                        beforeEach {
+                            var myUser = MockMyUser.makeMock()
+                            myUser.creationDate = Date()
+                            myUserRepository.myUserVar.value = myUser
+                            buildSut(initialProduct: product)
+                            sut.active = true
+                            sut.moreInfoState.value = .shown
+                        }
+                        it("tracks more info visit") {
+                            expect(tracker.trackedEvents.last?.actualName) == "product-detail-visit-more-info"
+                        }
+                        it("tracks more info visit with product Id same as provided") {
+                            let firstEvent = tracker.trackedEvents.last
+                            expect(firstEvent?.params?.stringKeyParams["product-id"] as? String) == product.objectId
+                        }
+
+                    }
+                    context("user is old (more than 2 weeks") {
+                        beforeEach {
+                            var myUser = MockMyUser.makeMock()
+                            myUser.creationDate = Date.init(timeIntervalSince1970: 0)
+                            myUserRepository.myUserVar.value = myUser
+                            buildSut(initialProduct: product)
+                            sut.active = true
+                            sut.moreInfoState.value = .shown
+                            sut.didReceiveAd(bannerTopPosition: 0, bannerBottomPosition: 0, screenHeight: UIScreen.main.bounds.height)
+                        }
+                        it("tracks more info visit") {
+                            expect(tracker.trackedEvents.last?.actualName) == "product-detail-visit-more-info"
+                        }
+                        it("tracks more info visit with product Id same as provided") {
+                            let firstEvent = tracker.trackedEvents.last
+                            expect(firstEvent?.params?.stringKeyParams["product-id"] as? String) == product.objectId
+                        }
+                    }
                 }
             }
             describe("quick answers") {

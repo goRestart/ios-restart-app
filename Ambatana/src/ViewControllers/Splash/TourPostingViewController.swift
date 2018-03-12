@@ -16,7 +16,7 @@ class TourPostingViewController: BaseViewController {
     @IBOutlet var cameraCorners: [UIImageView]!
 
     @IBOutlet var internalMargins: [NSLayoutConstraint]!
-    @IBOutlet weak var okButton: UIButton!
+    @IBOutlet weak var okButton: LetgoButton!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!

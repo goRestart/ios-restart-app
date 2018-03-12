@@ -3591,6 +3591,50 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_empty_state_search_subtitle", comment: "")
 	}
 
+	static var realEstateTutorialNew: String {
+		return NSLocalizedString("real_estate_tutorial_new", comment: "")
+	}
+
+	static var realEstateTutorialOnePageFirstSectionTitle: String {
+		return NSLocalizedString("real_estate_tutorial_one_page_first_section_title", comment: "")
+	}
+
+	static var realEstateTutorialOnePageSecondSectionTitle: String {
+		return NSLocalizedString("real_estate_tutorial_one_page_second_section_title", comment: "")
+	}
+
+	static var realEstateTutorialTwoPagesFirstSectionFirstPageTitle: String {
+		return NSLocalizedString("real_estate_tutorial_two_pages_first_section_first_page_title", comment: "")
+	}
+
+	static var realEstateTutorialTwoPagesFirstSectionSecondPageTitle: String {
+		return NSLocalizedString("real_estate_tutorial_two_pages_first_section_second_page_title", comment: "")
+	}
+
+	static var realEstateTutorialThreePagesFirstPageTitle: String {
+		return NSLocalizedString("real_estate_tutorial_three_pages_first_page_title", comment: "")
+	}
+
+	static var realEstateTutorialThreePagesFirstPageDescription: String {
+		return NSLocalizedString("real_estate_tutorial_three_pages_first_page_description", comment: "")
+	}
+
+	static var realEstateTutorialThreePagesSecondPageTitle: String {
+		return NSLocalizedString("real_estate_tutorial_three_pages_second_page_title", comment: "")
+	}
+
+	static var realEstateTutorialThreePagesSecondPageDecription: String {
+		return NSLocalizedString("real_estate_tutorial_three_pages_second_page_decription", comment: "")
+	}
+
+	static var realEstateTutorialThreePagesThirdPageTitle: String {
+		return NSLocalizedString("real_estate_tutorial_three_pages_third_page_title", comment: "")
+	}
+
+	static var realEstateTutorialThreePagesThirdPageDescription: String {
+		return NSLocalizedString("real_estate_tutorial_three_pages_third_page_description", comment: "")
+	}
+
 	static var relatedItemsTitle: String {
 		return NSLocalizedString("related_items_title", comment: "")
 	}

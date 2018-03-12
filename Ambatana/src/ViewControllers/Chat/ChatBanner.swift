@@ -29,7 +29,7 @@ class ChatBanner: UIView {
 
         // subviews
         let titleLabel = UILabel()
-        let actionButton = UIButton(type: .custom)
+        let actionButton = LetgoButton()
         let closeButton = UIButton()
         addSubview(titleLabel)
         addSubview(actionButton)

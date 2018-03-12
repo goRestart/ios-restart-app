@@ -27,7 +27,6 @@ extension Bumper  {
         flags.append(NewItemPage.self)
         flags.append(ShowPriceStepRealEstatePosting.self)
         flags.append(ShowClockInDirectAnswer.self)
-        flags.append(MoreInfoAFShOrDFP.self)
         flags.append(MostSearchedDemandedItems.self)
         flags.append(AllowCallsForProfessionals.self)
         flags.append(RealEstateImprovements.self)
@@ -50,6 +49,7 @@ extension Bumper  {
         flags.append(ShowChatSafetyTips.self)
         flags.append(OnboardingIncentivizePosting.self)
         flags.append(DiscardedProducts.self)
+        flags.append(PromoteBumpInEdit.self)
         flags.append(UserIsTyping.self)
         Bumper.initialize(flags)
     } 
@@ -122,11 +122,6 @@ extension Bumper  {
     static var showClockInDirectAnswer: ShowClockInDirectAnswer {
         guard let value = Bumper.value(for: ShowClockInDirectAnswer.key) else { return .control }
         return ShowClockInDirectAnswer(rawValue: value) ?? .control 
-    }
-
-    static var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
-        guard let value = Bumper.value(for: MoreInfoAFShOrDFP.key) else { return .control }
-        return MoreInfoAFShOrDFP(rawValue: value) ?? .control 
     }
 
     static var mostSearchedDemandedItems: MostSearchedDemandedItems {
@@ -237,6 +232,11 @@ extension Bumper  {
     static var discardedProducts: DiscardedProducts {
         guard let value = Bumper.value(for: DiscardedProducts.key) else { return .control }
         return DiscardedProducts(rawValue: value) ?? .control 
+    }
+
+    static var promoteBumpInEdit: PromoteBumpInEdit {
+        guard let value = Bumper.value(for: PromoteBumpInEdit.key) else { return .control }
+        return PromoteBumpInEdit(rawValue: value) ?? .control 
     }
 
     static var userIsTyping: UserIsTyping {
@@ -433,23 +433,6 @@ enum ShowClockInDirectAnswer: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum MoreInfoAFShOrDFP: String, BumperFeature  {
-    case control, baseline, afsh, dfp
-    static var defaultValue: String { return MoreInfoAFShOrDFP.control.rawValue }
-    static var enumValues: [MoreInfoAFShOrDFP] { return [.control, .baseline, .afsh, .dfp]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show ad in more info, could be Adsense for shopping or DFP" } 
-    static func fromPosition(_ position: Int) -> MoreInfoAFShOrDFP {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .afsh
-            case 3: return .dfp
             default: return .control
         }
     }
@@ -798,6 +781,25 @@ enum DiscardedProducts: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum PromoteBumpInEdit: String, BumperFeature  {
+    case control, baseline, implicit, sellFaster, longRedText, bigIcon
+    static var defaultValue: String { return PromoteBumpInEdit.control.rawValue }
+    static var enumValues: [PromoteBumpInEdit] { return [.control, .baseline, .implicit, .sellFaster, .longRedText, .bigIcon]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Ad a switch to edit listing page to bump the listing" } 
+    static func fromPosition(_ position: Int) -> PromoteBumpInEdit {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .implicit
+            case 3: return .sellFaster
+            case 4: return .longRedText
+            case 5: return .bigIcon
             default: return .control
         }
     }

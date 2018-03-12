@@ -23,7 +23,7 @@ class PostingGetStartedViewController: BaseViewController {
     private let textContainerView: UIView = UIView()
     private let welcomeLabel: UILabel = UILabel()
     private let infoLabel: UILabel = UILabel()
-    private let getStartedButton: UIButton = UIButton(type: .custom)
+    private let getStartedButton: LetgoButton = LetgoButton(type: .custom)
     private let discardLabel: UILabel = UILabel()
 
     let disposeBag = DisposeBag()
