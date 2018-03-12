@@ -44,7 +44,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
         }
      }
     private struct Defaults {
-        static let itemsCount = 0
+        static let itemsCount = 1
         static let offset: CGFloat = 0
         static let visibleWidth: CGFloat = 375.0
         static let visibleHeight: CGFloat = 750.0
@@ -57,10 +57,10 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
     private let cellLayout: ListingDeckCellLayout
 
     private let centerRatio: CGFloat = 0.5
-    private var itemsCount: Int { get { return collectionView?.numberOfItems(inSection: 0) ?? Defaults.itemsCount } }
+    private var itemsCount: Int { return collectionView?.numberOfItems(inSection: 0) ?? Defaults.itemsCount }
 
     var page: Int { return Int(normalizedPageOffset(givenOffset: collectionView?.contentOffset.x ?? Defaults.offset)) }
-    var interitemSpacing: CGFloat { get { return cellLayout.insets.left / 2.0 } }
+    var interitemSpacing: CGFloat { return cellLayout.insets.left / 2.0 }
     var visibleWidth: CGFloat {
         get {
             guard let view = collectionView, view.bounds.size != .zero else { return Defaults.visibleWidth }
@@ -133,7 +133,7 @@ final class ListingDeckCollectionViewLayout: UICollectionViewFlowLayout {
 
     // Method that returns the anchor offset for a given page
     func anchorOffsetForPage(_ page: Int) -> CGPoint {
-        let target = CGFloat(page) * (collectionViewContentSize.width / CGFloat(itemsCount))
+        let target = CGFloat(page) * (cellWidth + cellLayout.insets.left / 2)
         return CGPoint(x: target, y: 0)
     }
 
