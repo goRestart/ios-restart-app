@@ -226,11 +226,11 @@ class MainSignUpViewController: BaseViewController, UITextViewDelegate, GIDSignI
 
 extension MainSignUpViewController {
     func setAccesibilityIds() {
-        connectFBButton.accessibilityId = .mainSignUpFacebookButton
-        connectGoogleButton.accessibilityId = .mainSignUpGoogleButton
-        signUpButton.accessibilityId = .mainSignUpSignupButton
-        logInButton.accessibilityId = .mainSignupLogInButton
-        closeButton?.accessibilityId = .mainSignupCloseButton
-        helpButton?.accessibilityId = .mainSignupHelpButton
+        connectFBButton.set(accessibilityId: .mainSignUpFacebookButton)
+        connectGoogleButton.set(accessibilityId: .mainSignUpGoogleButton)
+        signUpButton.set(accessibilityId: .mainSignUpSignupButton)
+        logInButton.set(accessibilityId: .mainSignupLogInButton)
+        closeButton?.set(accessibilityId: .mainSignupCloseButton)
+        helpButton?.set(accessibilityId: .mainSignupHelpButton)
     }
 }

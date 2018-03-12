@@ -76,9 +76,9 @@ class FilterTextFieldIntCell: UICollectionViewCell, FilterCell, ReusableCell {
     }
     
     private func setAccessibilityIds() {
-        self.accessibilityId =  .filterTextFieldIntCell
-        titleLabel.accessibilityId =  .filterTextFieldIntCellTitleLabel
-        textField.accessibilityId =  .filterTextFieldIntCellTextField
+        set(accessibilityId:  .filterTextFieldIntCell)
+        titleLabel.set(accessibilityId:  .filterTextFieldIntCellTitleLabel)
+        textField.set(accessibilityId:  .filterTextFieldIntCellTextField)
     }
 }
 

@@ -116,10 +116,10 @@ class PromoteBumpViewController: BaseViewController {
     }
 
     func setupAccessibilityIds() {
-        alertView.accessibilityId = .promoteBumpUpView
-        titleLabel.accessibilityId = .promoteBumpUpTitle
-        sellFasterButton.accessibilityId = .promoteBumpUpSellFasterButton
-        laterButton.accessibilityId = .promoteBumpUpLaterButton
+        alertView.set(accessibilityId: .promoteBumpUpView)
+        titleLabel.set(accessibilityId: .promoteBumpUpTitle)
+        sellFasterButton.set(accessibilityId: .promoteBumpUpSellFasterButton)
+        laterButton.set(accessibilityId: .promoteBumpUpLaterButton)
     }
 
 

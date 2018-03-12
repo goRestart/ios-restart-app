@@ -249,12 +249,12 @@ class PostCarDetailsView: UIView, UIGestureRecognizerDelegate {
     // MARK: - Accessibility
     
     private func setupAccessibilityIds() {
-        navigationBackButton.accessibilityId = .postingCategoryDeatilNavigationBackButton
-        navigationMakeButton.accessibilityId = .postingCategoryDeatilNavigationMakeButton
-        navigationModelButton.accessibilityId = .postingCategoryDeatilNavigationModelButton
-        navigationYearButton.accessibilityId = .postingCategoryDeatilNavigationYearButton
-        navigationOkButton.accessibilityId = .postingCategoryDeatilNavigationOkButton
-        doneButton.accessibilityId = .postingCategoryDeatilDoneButton
+        navigationBackButton.set(accessibilityId: .postingCategoryDeatilNavigationBackButton)
+        navigationMakeButton.set(accessibilityId: .postingCategoryDeatilNavigationMakeButton)
+        navigationModelButton.set(accessibilityId: .postingCategoryDeatilNavigationModelButton)
+        navigationYearButton.set(accessibilityId: .postingCategoryDeatilNavigationYearButton)
+        navigationOkButton.set(accessibilityId: .postingCategoryDeatilNavigationOkButton)
+        doneButton.set(accessibilityId: .postingCategoryDeatilDoneButton)
     }
     
     // MARK: - Helpers

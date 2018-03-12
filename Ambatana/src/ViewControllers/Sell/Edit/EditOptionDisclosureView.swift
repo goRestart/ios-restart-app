@@ -62,8 +62,8 @@ class EditOptionDisclosureView: UIView {
     }
     
     private func setAccessibilityIds() {
-        accessibilityId = .editListingOptionSelector
-        titleLabel.accessibilityId = .editListingOptionSelectorTitleLabel
-        currentValueLabel.accessibilityId = .editListingOptionSelectorCurrentValueLabel
+        set(accessibilityId: .editListingOptionSelector)
+        titleLabel.set(accessibilityId: .editListingOptionSelectorTitleLabel)
+        currentValueLabel.set(accessibilityId: .editListingOptionSelectorCurrentValueLabel)
     }
 }

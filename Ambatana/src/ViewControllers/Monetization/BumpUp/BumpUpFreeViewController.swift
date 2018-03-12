@@ -95,11 +95,11 @@ class BumpUpFreeViewController: BaseViewController {
     }
 
     private func setAccessibilityIds() {
-        closeButton.accessibilityId = .freeBumpUpCloseButton
-        listingImageView.accessibilityId = .freeBumpUpImage
-        titleLabel.accessibilityId = .freeBumpUpTitleLabel
-        subtitleLabel.accessibilityId = .freeBumpUpSubtitleLabel
-        socialShareView.accessibilityId = .freeBumpUpSocialShareView
+        closeButton.set(accessibilityId: .freeBumpUpCloseButton)
+        listingImageView.set(accessibilityId: .freeBumpUpImage)
+        titleLabel.set(accessibilityId: .freeBumpUpTitleLabel)
+        subtitleLabel.set(accessibilityId: .freeBumpUpSubtitleLabel)
+        socialShareView.set(accessibilityId: .freeBumpUpSocialShareView)
     }
 }
 

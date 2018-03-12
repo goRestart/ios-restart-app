@@ -118,9 +118,9 @@ final class TourLocationViewController: BaseViewController {
     }
 
     private func setupAccessibilityIds() {
-        closeButton.accessibilityId = .tourLocationCloseButton
-        yesButton.accessibilityId = .tourLocationOKButton
-        alertContainer.accessibilityId = .tourLocationAlert
+        closeButton.set(accessibilityId: .tourLocationCloseButton)
+        yesButton.set(accessibilityId: .tourLocationOKButton)
+        alertContainer.set(accessibilityId: .tourLocationAlert)
     }
 }
 

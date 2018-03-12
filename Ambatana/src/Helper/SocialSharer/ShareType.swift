@@ -129,7 +129,7 @@ enum ShareType {
         }
     }
 
-    var accesibilityId: AccessibilityId {
+    var accessibilityId: AccessibilityId {
         switch self {
         case .email:
             return .socialShareEmail

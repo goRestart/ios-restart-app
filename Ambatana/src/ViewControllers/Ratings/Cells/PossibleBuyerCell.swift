@@ -101,7 +101,7 @@ class PossibleBuyerCell: UITableViewCell, ReusableCell {
         disclosureImage.image = #imageLiteral(resourceName: "ic_disclosure")
         subtitleLabel.textColor = UIColor.grayDark
         subtitleLabel.font = UIFont.smallBodyFont
-        titleLabel.accessibilityId = .passiveBuyerCellName
+        titleLabel.set(accessibilityId: .passiveBuyerCellName)
     }
 
     override func layoutSubviews() {
