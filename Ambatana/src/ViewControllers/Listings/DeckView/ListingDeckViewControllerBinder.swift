@@ -14,6 +14,8 @@ import RxSwift
 protocol ListingDeckViewControllerBinderType: class {
     var keyboardChanges: Observable<KeyboardChange> { get }
     var rxContentOffset: Observable<CGPoint> { get }
+    var rxDidBeginEditing: ControlEvent<()>? { get }
+    var rxDidEndEditing: ControlEvent<()>? { get }
 
     func updateWith(keyboardChange: KeyboardChange)
     func showBumpUpBanner(bumpInfo: BumpUpInfo)
@@ -36,9 +38,6 @@ protocol ListingDeckViewControllerBinderType: class {
 protocol ListingDeckViewType: class {
     var rxCollectionView: Reactive<UICollectionView> { get }
     var rxActionButton: Reactive<UIButton> { get }
-
-    var rxDidBeginEditing: ControlEvent<()>? { get }
-    var rxDidEndEditing: ControlEvent<()>? { get }
 
     var currentPage: Int { get }
     func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat
@@ -100,14 +99,14 @@ final class ListingDeckViewControllerBinder {
         viewController: ListingDeckViewControllerBinderType,
                            listingDeckView: ListingDeckViewType,
                            disposeBag: DisposeBag) {
-        if let didEndEditing = listingDeckView.rxDidEndEditing {
+        if let didEndEditing = viewController.rxDidEndEditing {
             didEndEditing
                 .asDriver()
                 .drive(onNext: { [weak viewController] _ in
                     viewController?.turnNavigationBar(true)
                 }).disposed(by: disposeBag)
         }
-        if let didBeginEditing = listingDeckView.rxDidBeginEditing {
+        if let didBeginEditing = viewController.rxDidBeginEditing {
             didBeginEditing
                 .asDriver()
                 .drive(onNext: { [weak viewController] _ in

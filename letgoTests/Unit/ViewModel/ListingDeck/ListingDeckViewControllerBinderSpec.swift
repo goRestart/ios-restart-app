@@ -287,6 +287,10 @@ final class MockListingDeckViewModelType: ListingDeckViewModelType {
 }
 
 private class MockListingDeckViewControllerBinderType: ListingDeckViewControllerBinderType {
+    var rxDidBeginEditing: ControlEvent<()>? { return textField.rx.controlEvent(.editingDidBegin) }
+    var rxDidEndEditing: ControlEvent<()>? { return textField.rx.controlEvent(.editingDidEnd) }
+    var textField = UITextField()
+
     func willBeginDragging() {
         // ☢️ do not know how to test this
     }

@@ -28,20 +28,9 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     
     private let bottomInsetView = UIView()
 
-    var chatEnabled: Bool = false {
-        didSet {
-            quickChatTopToCollectionBotton?.isActive = chatEnabled
-        }
-    }
-    private var quickChatView: QuickChatView?
-    private var quickChatTopToCollectionBotton: NSLayoutConstraint?
-    private var dismissTap: UITapGestureRecognizer?
-    
     let itemActionsView = ListingDeckActionView()
 
     var rxActionButton: Reactive<UIButton> { return itemActionsView.actionButton.rx }
-    var rxDidBeginEditing: ControlEvent<()>? { return quickChatView?.rxDidBeginEditing }
-    var rxDidEndEditing: ControlEvent<()>? { return quickChatView?.rxDidEndEditing }
 
     var currentPage: Int { return collectionLayout.page }
     var bumpUpBanner: BumpUpBanner { return itemActionsView.bumpUpBanner }
@@ -63,31 +52,21 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         collectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
     }
 
-    @discardableResult
-    override func resignFirstResponder() -> Bool {
-        return quickChatView?.resignFirstResponder() ?? true
+    func constraintCollectionBottomTo(_ anchor: NSLayoutYAxisAnchor, constant: CGFloat) -> NSLayoutConstraint {
+        return bottomInsetView.bottomAnchor.constraint(equalTo: anchor, constant: constant)
     }
-
+    
     func blockSideInteractions() {
         let current = collectionLayout.page
         collectionView.cellForItem(at: IndexPath(row: current - 1, section: 0))?.isUserInteractionEnabled = false
         currentPageCell()?.isUserInteractionEnabled = true
         collectionView.cellForItem(at: IndexPath(row: current + 1, section: 0))?.isUserInteractionEnabled = false
     }
-    
-    func setQuickChatViewModel(_ viewModel: QuickChatViewModel) {
-        let quickChatView = QuickChatView(chatViewModel: viewModel)
-        quickChatView.isRemovedWhenResigningFirstResponder = false
-        setupDirectChatView(quickChatView: quickChatView)
-        self.quickChatView = quickChatView
-        focusOnCollectionView()
-    }
 
     private func setupUI() {
         backgroundColor = UIColor.white
         setupCollectionView()
         setupPrivateActionsView()
-        focusOnCollectionView()
         if #available(iOS 10.0, *) { collectionView.isPrefetchingEnabled = true }
     }
 
@@ -139,19 +118,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         itemActionsView.backgroundColor = UIColor.white
     }
 
-    private func setupDirectChatView(quickChatView: QuickChatView) {
-        quickChatView.isRemovedWhenResigningFirstResponder = false
-        addSubview(quickChatView)
-        quickChatView.translatesAutoresizingMaskIntoConstraints = false
-        quickChatView.layout(with: self).fill()
-
-        let directTop = quickChatView.directAnswersViewTopAnchor
-        quickChatTopToCollectionBotton = bottomInsetView.bottomAnchor.constraint(equalTo: directTop,
-                                                                                 constant: -Metrics.margin)
-        quickChatTopToCollectionBotton?.isActive = true
-        focusOnCollectionView()
-    }
-
     func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat {
         return collectionLayout.normalizedPageOffset(givenOffset: givenOffset)
     }
@@ -160,58 +126,10 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
         itemActionsView.alpha = alpha
     }
 
-    func updateWith(bottomInset: CGFloat, animationTime: TimeInterval,
-                    animationOptions: UIViewAnimationOptions, completion: ((Bool) -> Void)? = nil) {
-        quickChatView?.updateWith(bottomInset: bottomInset,
-                                  animationTime: animationTime,
-                                  animationOptions: animationOptions,
-                                  completion: completion)
-    }
-
     // MARK: ItemActionsView
 
     func configureActionWith(_ action: UIAction) {
         itemActionsView.actionButton.configureWith(uiAction: action)
-    }
-
-    // MARK: Chat
-
-    func updateChatWith(alpha: CGFloat) {
-        quickChatView?.alpha = alpha
-    }
-    
-    func showFullScreenChat() {
-        guard let chatView = quickChatView else { return }
-        quickChatTopToCollectionBotton?.isActive = false
-
-        focusOnChat()
-        chatView.becomeFirstResponder()
-    }
-
-    @objc func hideFullScreenChat() {
-        quickChatView?.resignFirstResponder()
-        quickChatTopToCollectionBotton?.isActive = chatEnabled
-        focusOnCollectionView()
-    }
-    
-    private func focusOnChat() {
-        quickChatView?.isTableInteractionEnabled = true
-
-        guard let chat = quickChatView else { return }
-        if dismissTap == nil {
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideFullScreenChat))
-            chat.addDismissGestureRecognizer(tapGesture)
-            dismissTap = tapGesture
-        }
-    }
-
-    private func focusOnCollectionView() {
-        quickChatView?.isTableInteractionEnabled = false
-    }
-
-    func hideChat() {
-        quickChatView?.alpha = 0
-        focusOnCollectionView()
     }
 
     // MARK: BumpUp

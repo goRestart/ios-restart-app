@@ -25,6 +25,11 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     fileprivate var transitioner: PhotoViewerTransitionAnimator?
     private var lastPageBeforeDragging: Int = 0
 
+    private let dismissTap = UITapGestureRecognizer()
+    private var quickChatView: QuickChatView?
+    var quickChatTopToCollectionBotton: NSLayoutConstraint?
+    var chatEnabled: Bool = false { didSet { quickChatTopToCollectionBotton?.isActive = chatEnabled } }
+
     init(viewModel: ListingDeckViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
@@ -40,7 +45,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        listingDeckView.resignFirstResponder()
+        quickChatView?.resignFirstResponder()
     }
 
     override func viewDidFirstAppear(_ animated: Bool) {
@@ -51,10 +56,11 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        dismissTap.addTarget(self, action: #selector(hideFullScreenChat))
         view.backgroundColor = listingDeckView.backgroundColor
- 
-        listingDeckView.setQuickChatViewModel(viewModel.quickChatViewModel)
         setupCollectionView()
+        setupQuickChatView(viewModel.quickChatViewModel)
+
         setupRx()
     }
 
@@ -160,10 +166,10 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
     @objc private func didTapClose() {
         closeBumpUpBanner(animated: false)
-        UIView.animate(withDuration: 0.3, animations: {
-            self.listingDeckView.resignFirstResponder()
-        }) { (completion) in
-            self.viewModel.close()
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            self?.quickChatView?.resignFirstResponder()
+        }) { [weak self] (completion) in
+            self?.viewModel.close()
         }
     }
 
@@ -185,6 +191,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
 extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     var rxContentOffset: Observable<CGPoint> { return listingDeckView.rxCollectionView.contentOffset.share() }
+    var rxDidBeginEditing: ControlEvent<()>? { return quickChatView?.rxDidBeginEditing }
+    var rxDidEndEditing: ControlEvent<()>? { return quickChatView?.rxDidEndEditing }
 
     func turnNavigationBar(_ on: Bool) {
         if on {
@@ -243,20 +251,19 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
 
     func updateWith(keyboardChange: KeyboardChange) {
-        let height = listingDeckView.bounds.height - keyboardChange.origin
-        listingDeckView.updateWith(bottomInset: height,
-                                   animationTime: TimeInterval(keyboardChange.animationTime),
-                                   animationOptions: keyboardChange.animationOptions,
-                                   completion: nil)
+        let height = view.bounds.height - keyboardChange.origin
+        quickChatView?.updateWith(bottomInset: height,
+                                  animationTime: TimeInterval(keyboardChange.animationTime),
+                                  animationOptions: keyboardChange.animationOptions)
         if keyboardChange.visible {
-            listingDeckView.showFullScreenChat()
+            showFullScreenChat()
         } else {
-            listingDeckView.hideFullScreenChat()
+            hideFullScreenChat()
         }
     }
     
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool) {
-        listingDeckView.chatEnabled = chatEnabled
+        self.chatEnabled = chatEnabled
         let chatAlpha: CGFloat
         let actionsAlpha: CGFloat
         if isMine && actionsEnabled {
@@ -271,7 +278,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
         }
 
         listingDeckView.updatePrivateActionsWith(alpha: actionsAlpha)
-        listingDeckView.updateChatWith(alpha: chatAlpha)
+        updateChatWith(alpha: chatAlpha)
     }
     
 
@@ -351,6 +358,63 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
 
     func didTapOnStatusView() {
         viewModel.didTapStatusView()
+    }
+
+    // MARK: Chat
+    override func resignFirstResponder() -> Bool {
+        return quickChatView?.resignFirstResponder() ?? true
+    }
+
+    func updateChatWith(alpha: CGFloat) {
+        quickChatView?.alpha = alpha
+    }
+
+    private func setupQuickChatView(_ viewModel: QuickChatViewModel) {
+        let quickChatView = QuickChatView(chatViewModel: viewModel)
+        quickChatView.addDismissGestureRecognizer(dismissTap)
+        quickChatView.isRemovedWhenResigningFirstResponder = false
+        setupDirectChatView(quickChatView: quickChatView)
+        self.quickChatView = quickChatView
+        
+        focusOnCollectionView()
+    }
+
+    private func setupDirectChatView(quickChatView: QuickChatView) {
+        quickChatView.isRemovedWhenResigningFirstResponder = false
+        view.addSubviewForAutoLayout(quickChatView)
+        quickChatView.layout(with: view).fillHorizontal().top().bottom(by: -Metrics.shortMargin)
+        quickChatTopToCollectionBotton = listingDeckView.constraintCollectionBottomTo(quickChatView.directAnswersViewTopAnchor,
+                                                                                      constant: -Metrics.margin)
+
+        quickChatTopToCollectionBotton?.isActive = true
+        focusOnCollectionView()
+    }
+
+    func showFullScreenChat() {
+        guard let chatView = quickChatView else { return }
+        quickChatTopToCollectionBotton?.isActive = false
+
+        focusOnChat()
+        chatView.becomeFirstResponder()
+    }
+
+    @objc func hideFullScreenChat() {
+        quickChatView?.resignFirstResponder()
+        quickChatTopToCollectionBotton?.isActive = chatEnabled
+        focusOnCollectionView()
+    }
+
+    private func focusOnChat() {
+        quickChatView?.isTableInteractionEnabled = true
+    }
+
+    func hideChat() {
+        quickChatView?.alpha = 0
+        focusOnCollectionView()
+    }
+
+    private func focusOnCollectionView() {
+        quickChatView?.isTableInteractionEnabled = false
     }
 }
 
