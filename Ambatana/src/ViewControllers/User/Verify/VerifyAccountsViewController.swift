@@ -72,17 +72,21 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
         setupRx()
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        emailButton.setRoundedCorners()
+        emailContainer.setRoundedCorners()
+        emailTextFieldButton.setRoundedCorners()
+    }
+
 
     // MARK: - Private
 
     private func setupUI() {
         view.backgroundColor = UIColor.blackBackgroundAlpha
-        contentContainer.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
+        contentContainer.cornerRadius = LGUIKitConstants.bigCornerRadius
         fbButton.setStyle(.facebook)
         googleButton.setStyle(.google)
-        emailButton.rounded = true
-        emailContainer.rounded = true
-        emailTextFieldButton.rounded = true
         emailTextField.placeholder = LGLocalizedString.profileVerifyEmailButton
 
         titleLabel.text = viewModel.titleText

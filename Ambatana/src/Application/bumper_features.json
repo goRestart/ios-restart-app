@@ -41,11 +41,6 @@
         "description": "Search suggestions with/without categories filtering."
     },
     {
-        "name": "ShowPriceAfterSearchOrFilter",
-        "values": ["control", "baseline", "priceOnSearchOrFilter"],
-        "description": "Show price in feed products when user applies any search or filter"
-    },
-    {
         "name": "RequestsTimeOut",
          "values": ["baseline", "thirty", "forty_five", "sixty", "hundred_and_twenty"],
          "description": "API requests timeout"
@@ -143,7 +138,7 @@
     {
         "name": "ShowSecurityMeetingChatMessage",
         "values": ["control", "baseline", "variant1", "variant2"],
-        "description": "show a disclaimer message on chat after the first conversation from the interlocutor"
+        "description": "show a disclaimer message on chat after a message from the interlocutor"
     },
     {
         "name": "NoAdsInFeedForNewUsers",
@@ -166,8 +161,28 @@
         "description": "Refactor of the User Profile view controller"
     },
     {
+        "name": "TurkeyBumpPriceVATAdaptation",
+        "values": ["control", "baseline", "active"],
+        "description": "Change bump price scaling for listings in TR"
+    },
+    {
         "name": "SearchMultiwordExpressions",
         "values": ["control", "baseline", "MWE", "MWERelaxedSynonyms", "MWERelaxedSynonymsMM100", "MWERelaxedSynonymsMM75"],
         "description": "Multiword expressions when searching"
+    },
+    {
+        "name": "ShowChatSafetyTips",
+        "values": ["no","yes"],
+        "description": "Show chat safety tips to new users"
+    },
+    {
+        "name": "DiscardedProducts",
+        "values": ["control", "baseline", "active"],
+        "description": "Show users listings that have been discarded so they can be edited and reposted"
+    },
+    {
+        "name": "UserIsTyping",
+        "values": ["control", "baseline", "active"],
+        "description": "Show user is typing status on chat"
     }
 ]

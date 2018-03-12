@@ -31,7 +31,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newItemPage: NewItemPage = .control
     var searchAutocomplete: SearchAutocomplete = .control
     var realEstateEnabled: RealEstateEnabled = .control
-    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter = .control
     var requestTimeOut: RequestsTimeOut = .thirty
     var homeRelatedEnabled: HomeRelatedEnabled = .control
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
@@ -55,7 +54,11 @@ class MockFeatureFlags: FeatureFlaggeable {
     var emojiSizeIncrement: EmojiSizeIncrement = .control
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
     var newUserProfileView: NewUserProfileView = .control
+    var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
     var searchMultiwordExpressions: SearchMultiwordExpressions = .control
+    var showChatSafetyTips: Bool = false
+    var discardedProducts: DiscardedProducts = .control
+    var userIsTyping: UserIsTyping = .control
 
     // Country dependant features
     var freePostingModeAllowed = false
@@ -66,7 +69,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var moreInfoShoppingAdUnitId = ""
     var moreInfoDFPAdUnitId = ""
     var feedDFPAdUnitId: String? = ""
-
+    var bumpPriceVariationBucket: BumpPriceVariationBucket = .defaultValue
+    
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
     }

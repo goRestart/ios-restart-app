@@ -106,7 +106,7 @@ class ListingCarouselPushAnimator: NSObject, PushAnimator {
         containerView.addSubview(toView)
         snapshot.contentMode = .scaleAspectFill
         snapshot.clipsToBounds = true
-        snapshot.layer.cornerRadius = LGUIKitConstants.smallCornerRadius
+        snapshot.cornerRadius = LGUIKitConstants.smallCornerRadius
         
         let margin: CGFloat = 5
         snapshot.frame = CGRect(x: originFrame.origin.x + margin, y: originFrame.origin.y + margin,

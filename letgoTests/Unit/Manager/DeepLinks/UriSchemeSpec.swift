@@ -18,7 +18,7 @@ class UriSchemeSpec: QuickSpec {
         var message: String!
         var conversationId: String!
         
-        describe("build from URL") {
+        describe("build from letgo scheme URL") {
             context("with a notification center URL") {
                 beforeEach {
                     url = URL(string: "letgo://notification_center")
@@ -106,13 +106,17 @@ class UriSchemeSpec: QuickSpec {
                 }
             }
             
-            context("queryParameters getter from URL") {
-                it("correctly decodes any percent encoded URL") {
-                    let url = URL(string:"letgo://chat/?c=conversation_id&m=hey%20bro%21%20%F0%9F%91%8B%F0%9F%8F%BC%20%20i%27m%20fine%2C%20and%20you%3F")!
-                    let queryParameters = url.queryParameters
-                    let decodedMessage = queryParameters["m"]
-                    let expectedDecodedMessage = "hey bro! 👋🏼  i'm fine, and you?"
-                    expect(decodedMessage) == expectedDecodedMessage
+            describe("queryParameters getter from URL") {
+                context("decode percent encoded URL") {
+                    var decodedMessage: String!
+                    beforeEach {
+                        let url = URL(string:"letgo://chat/?c=conversation_id&m=hey%20bro%21%20%F0%9F%91%8B%F0%9F%8F%BC%20%20i%27m%20fine%2C%20and%20you%3F")!
+                        let queryParameters = url.queryParameters
+                        decodedMessage = queryParameters["m"]
+                    }
+                    it("correctly decodes any percent encoded URL") {
+                        expect(decodedMessage) == "hey bro! 👋🏼  i'm fine, and you?"
+                    }
                 }
             }
         }

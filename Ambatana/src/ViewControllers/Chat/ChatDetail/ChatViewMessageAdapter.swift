@@ -72,6 +72,8 @@ class ChatViewMessageAdapter {
             } else {
                 type = ChatViewMessageType.text(text: message.text)
             }
+        case .interlocutorIsTyping:
+            type = ChatViewMessageType.interlocutorIsTyping
         }
         return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt,
                                receivedAt: message.receivedAt, readAt: message.readAt, type: type,
@@ -106,6 +108,8 @@ class ChatViewMessageAdapter {
             } else {
                 type = ChatViewMessageType.text(text: text)
             }
+        case .interlocutorIsTyping:
+            type = ChatViewMessageType.interlocutorIsTyping
         }
         return ChatViewMessage(objectId: message.objectId,
                                talkerId: message.talkerId,
@@ -221,6 +225,11 @@ class ChatViewMessageAdapter {
                                type: .text(text: message), status: nil, warningStatus: .normal)
     }
 
+    func createInterlocutorIsTyping() -> ChatViewMessage {
+        return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
+                               type: .interlocutorIsTyping, status: nil, warningStatus: .normal)
+    }
+    
     private func createDisclaimerMessage(_ disclaimerText: NSAttributedString, showAvatar: Bool, actionTitle: String?,
                                          action: (() -> ())?) -> ChatViewMessage {
         let disclaimer = ChatViewMessageType.disclaimer(showAvatar: showAvatar, text: disclaimerText,

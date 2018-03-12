@@ -133,33 +133,84 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
     public var description: String { return "\(string)" }
 }
 
-// @see: https://ambatana.atlassian.net/wiki/display/BAPI/IDs+reference
-@objc public enum ListingStatus: Int, CustomStringConvertible, Decodable {
+public enum ListingStatusCode: Int, Decodable {
     case pending = 0, approved = 1, discarded = 2, sold = 3, soldOld = 5, deleted = 6
-    public var string: String {
+}
+
+// @see: https://ambatana.atlassian.net/wiki/display/BAPI/IDs+reference
+public enum ListingStatus: CustomStringConvertible {
+    case pending
+    case approved
+    case discarded(reason: DiscardedReason?)
+    case sold
+    case soldOld
+    case deleted
+    
+    var apiCode: Int {
         get {
             switch self {
-            case .pending:
-                return "Pending"
-            case .approved:
-                return "Approved"
-            case .discarded:
-                return "Discarded"
-            case .sold:
-                return "Sold"
-            case .soldOld:
-                return "Sold Old"
-            case .deleted:
-                return "Deleted"
+            case .pending: return ListingStatusCode.pending.rawValue
+            case .approved: return ListingStatusCode.approved.rawValue
+            case .discarded: return ListingStatusCode.discarded.rawValue
+            case .sold: return ListingStatusCode.sold.rawValue
+            case .soldOld: return ListingStatusCode.soldOld.rawValue
+            case .deleted: return ListingStatusCode.deleted.rawValue
             }
         }
     }
-
-    public init(from decoder: Decoder) throws {
-        let rawValue = try decoder.singleValueContainer().decode(Int.self)
-        self = ListingStatus(rawValue: rawValue) ?? .approved
+    
+    public var string: String {
+        get {
+            switch self {
+            case .pending: return "Pending"
+            case .approved: return "Approved"
+            case .discarded: return "Discarded"
+            case .sold: return "Sold"
+            case .soldOld: return "Sold Old"
+            case .deleted: return "Deleted"
+            }
+        }
     }
     
+    public init?(statusCode: ListingStatusCode, discardedReason: DiscardedReason? = nil) {
+        switch statusCode {
+        case .pending: self = .pending
+        case .approved: self = .approved
+        case .discarded: self = .discarded(reason: discardedReason)
+        case .sold: self = .sold
+        case .soldOld: self = .soldOld
+        case .deleted: self = .deleted
+        }
+    }
+
     public var description: String { return "\(string)" }
+    
+    public var discardedReason: DiscardedReason? {
+        switch self {
+        case .discarded(let reason): return reason
+        default: return nil
+        }
+    }
+    
+    public var isDiscarded: Bool {
+        switch self {
+        case .discarded: return true
+        default: return false
+        }
+    }
 }
 
+extension ListingStatus: Equatable {
+    
+    public static func==(lhs: ListingStatus, rhs: ListingStatus) -> Bool {
+        return lhs.apiCode == rhs.apiCode
+    }
+}
+
+extension ListingStatus: Hashable {
+    
+    public var hashValue: Int {
+        return apiCode
+    }
+    
+}

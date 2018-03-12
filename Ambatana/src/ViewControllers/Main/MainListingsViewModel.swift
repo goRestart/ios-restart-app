@@ -70,8 +70,6 @@ class MainListingsViewModel: BaseViewModel {
     var hasFilters: Bool {
         return !filters.isDefault()
     }
-    
-    fileprivate var shouldShowPrices = Variable<Bool>(false)
 
     var isTaxonomiesAndTaxonomyChildrenInFeedEnabled: Bool {
         return featureFlags.taxonomiesAndTaxonomyChildrenInFeed.isActive
@@ -269,6 +267,15 @@ class MainListingsViewModel: BaseViewModel {
         return suggestiveSearchInfo.value.count
     }
     
+    // App share
+    fileprivate var myUserId: String? {
+        return myUserRepository.myUser?.objectId
+    }
+    fileprivate var myUserName: String? {
+        return myUserRepository.myUser?.name
+    }
+    
+    
     fileprivate let disposeBag = DisposeBag()
     
     
@@ -298,12 +305,11 @@ class MainListingsViewModel: BaseViewModel {
         let show3Columns = DeviceFamily.current.isWiderOrEqualThan(.iPhone6Plus)
         let columns = show3Columns ? 3 : 2
         let itemsPerPage = show3Columns ? Constants.numListingsPerPageBig : Constants.numListingsPerPageDefault
-        self.shouldShowPrices.value = (!filters.isDefault() || searchType != nil) && featureFlags.showPriceAfterSearchOrFilter.isActive
         self.listingListRequester = FilterListingListRequesterFactory.generateRequester(withFilters: filters,
                                                                                         queryString: searchType?.query,
                                                                                         itemsPerPage: itemsPerPage)
         self.listViewModel = ListingListViewModel(requester: self.listingListRequester, listings: nil,
-                                                  numberOfColumns: columns, tracker: tracker, shouldShowPrices: shouldShowPrices.value)
+                                                  numberOfColumns: columns, tracker: tracker)
         self.listViewModel.listingListFixedInset = show3Columns ? 6 : 10
 
         if let search = searchType, let query = search.query, !search.isCollection && !query.isEmpty {
@@ -596,9 +602,6 @@ class MainListingsViewModel: BaseViewModel {
             self?.updateCategoriesHeader()
             self?.updateRealEstateBanner()
         }.disposed(by: disposeBag) 
-        shouldShowPrices.asObservable().bind { [weak self] shouldShowPrices in
-            self?.listViewModel.updateShouldShowPrices(shouldShowPrices)
-        }.disposed(by: disposeBag)
     }
     
     /**
@@ -626,13 +629,8 @@ class MainListingsViewModel: BaseViewModel {
 
         infoBubbleVisible.value = false
         errorMessage.value = nil
-        updateShouldShowPrices()
         listViewModel.resetUI()
         listViewModel.refresh()
-    }
-
-    fileprivate func updateShouldShowPrices() {
-        shouldShowPrices.value = (hasFilters || searchType != nil) && featureFlags.showPriceAfterSearchOrFilter.isActive
     }
 
     // MARK: - Taxonomies
@@ -874,7 +872,7 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
     }
 
     func vmUserDidTapInvite() {
-        navigator?.openAppInvite()
+        navigator?.openAppInvite(myUserId: myUserId, myUserName: myUserName)
     }
     
     func vmDidSelectSellBanner(_ type: String) {}
@@ -1465,6 +1463,12 @@ extension MainListingsViewModel: ListingCellDelegate {
                             source: .listingListFeatured,
                             predefinedMessage: nil)
     }
+    
+    // Discarded listings are never shown in the main feed
+    func editPressedForDiscarded(listing: Listing) {}
+    
+    // Discarded listings are never shown in the main feed
+    func moreOptionsPressedForDiscarded(listing: Listing) {}
 }
 
 extension NoAdsInFeedForNewUsers {

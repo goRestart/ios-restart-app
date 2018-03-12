@@ -88,6 +88,16 @@ class UserViewModel: BaseViewModel {
         }
     }
     
+    private var sellingListingStatusCode: () -> [ListingStatusCode] = {
+        return FeatureFlags.sharedInstance.discardedProducts.isActive ?
+            [.pending, .approved, .discarded] : [.pending, .approved]
+    }
+    
+    private var soldListingStatusCode: () -> [ListingStatusCode] = {
+        return [.sold, .soldOld]
+    }
+
+    
     // Rx
     let disposeBag: DisposeBag
     
@@ -133,10 +143,10 @@ class UserViewModel: BaseViewModel {
         self.source = source
         self.featureFlags = featureFlags
         self.notificationsManager = notificationsManager
-        self.sellingListingListRequester = UserStatusesListingListRequester(statuses: [.pending, .approved],
+        self.sellingListingListRequester = UserStatusesListingListRequester(statuses: sellingListingStatusCode,
                                                                             itemsPerPage: Constants.numListingsPerPageDefault)
         self.sellingListingListViewModel = ListingListViewModel(requester: self.sellingListingListRequester)
-        self.soldListingListRequester = UserStatusesListingListRequester(statuses: [.sold, .soldOld],
+        self.soldListingListRequester = UserStatusesListingListRequester(statuses: soldListingStatusCode,
                                                                          itemsPerPage: Constants.numListingsPerPageDefault)
         self.soldListingListViewModel = ListingListViewModel(requester: self.soldListingListRequester)
         self.favoritesListingListRequester = UserFavoritesListingListRequester()
@@ -147,6 +157,7 @@ class UserViewModel: BaseViewModel {
         super.init()
         
         self.sellingListingListViewModel.dataDelegate = self
+        self.sellingListingListViewModel.listingCellDelegate = self
         self.soldListingListViewModel.dataDelegate = self
         self.favoritesListingListViewModel.dataDelegate = self
         
@@ -237,6 +248,14 @@ extension UserViewModel {
     
     var itsMe: Bool {
         return isMyProfile || isMyUser
+    }
+    
+    var myUserId: String? {
+        return myUserRepository.myUser?.objectId
+    }
+    
+    var myUserName: String? {
+        return myUserRepository.myUser?.name
     }
     
     func buildNavBarButtons() -> [UIAction] {
@@ -428,6 +447,14 @@ fileprivate extension UserViewModel {
             self?.delegate?.vmHideLoading(nil, afterMessageCompletion: afterMessageCompletion)
         }
     }
+    
+    func deleteListing(withId listingId: String) {
+        delegate?.vmShowLoading(LGLocalizedString.commonLoading)
+        listingRepository.delete(listingId: listingId) { [weak self] result in
+            let message: String? = result.error != nil ? LGLocalizedString.productDeleteSendErrorGeneric : nil
+            self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+        }
+    }
 }
 
 
@@ -592,7 +619,10 @@ fileprivate extension UserViewModel {
                 self?.socialMessage = nil
                 return
             }
-            self?.socialMessage = UserSocialMessage(user: user, itsMe: itsMe)
+            self?.socialMessage = UserSocialMessage(user: user,
+                                                    itsMe: itsMe,
+                                                    myUserId: self?.myUserId,
+                                                    myUserName: self?.myUserName)
             }.disposed(by: disposeBag)
     }
 }
@@ -640,7 +670,7 @@ extension UserViewModel: ListingListViewModelDataDelegate {
     func listingListVM(_ viewModel: ListingListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {
         guard viewModel === listingListViewModel.value else { return } //guarding view model is the selected one
-        guard let listing = viewModel.listingAtIndex(index), let requester = viewModel.listingListRequester else { return }
+        guard let listing = viewModel.listingAtIndex(index), !listing.status.isDiscarded, let requester = viewModel.listingListRequester else { return }
         let cellModels = viewModel.objects
         
         let data = ListingDetailData.listingList(listing: listing, cellModels: cellModels, requester: requester,
@@ -768,5 +798,31 @@ extension UserViewModel {
         let profileType: EventParameterProfileType = isMyUser ? .privateParameter : .publicParameter
         let trackerEvent = TrackerEvent.profileShareComplete(profileType, shareNetwork: shareNetwork)
         tracker.trackEvent(trackerEvent)
+    }
+}
+
+extension UserViewModel: ListingCellDelegate {
+    
+    func relatedButtonPressedFor(listing: Listing) {}
+    
+    func chatButtonPressedFor(listing: Listing) {}
+    
+    func editPressedForDiscarded(listing: Listing) {
+        profileNavigator?.editListing(listing, pageType: .profile)
+    }
+    
+    func moreOptionsPressedForDiscarded(listing: Listing) {
+        guard let listingId = listing.objectId else { return }
+        let deleteTitle = LGLocalizedString.discardedProductsDelete
+        let delete = UIAction(interface: .text(deleteTitle), action: { [weak self] in
+            let actionOk = UIAction(interface: UIActionInterface.text(LGLocalizedString.commonYes), action: {
+                self?.deleteListing(withId: listingId)
+            })
+            let actionCancel = UIAction(interface: UIActionInterface.text(LGLocalizedString.commonNo), action: {})
+            self?.delegate?.vmShowAlert(nil,
+                                        message: LGLocalizedString.discardedProductsDeleteConfirmation,
+                                        actions: [actionCancel, actionOk])
+        })
+        delegate?.vmShowUserActionSheet(LGLocalizedString.commonCancel, actions: [delete])
     }
 }

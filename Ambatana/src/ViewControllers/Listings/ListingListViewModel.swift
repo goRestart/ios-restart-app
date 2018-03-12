@@ -123,9 +123,7 @@ class ListingListViewModel: BaseViewModel {
     var canRetrieveListingsNextPage: Bool {
         return !isLastPage && canRetrieveListings
     }
-    
-    var shouldShowPrices: Bool
-    
+        
     // Tracking
     
     fileprivate let tracker: Tracker
@@ -153,7 +151,6 @@ class ListingListViewModel: BaseViewModel {
          tracker: Tracker = TrackerProxy.sharedInstance,
          imageDownloader: ImageDownloaderType = ImageDownloader.sharedInstance,
          reporter: CrashlyticsReporter = CrashlyticsReporter(),
-         shouldShowPrices: Bool = false,
          featureFlags: FeatureFlags = FeatureFlags.sharedInstance) {
         self.objects = (listings ?? []).map(ListingCellModel.init)
         self.pageNumber = 0
@@ -165,7 +162,6 @@ class ListingListViewModel: BaseViewModel {
         self.reporter = reporter
         self.imageDownloader = imageDownloader
         self.indexToTitleMapping = [:]
-        self.shouldShowPrices = shouldShowPrices
         self.featureFlags = featureFlags
         super.init()
         let cellHeight = cellWidth * cellAspectRatio
@@ -251,10 +247,6 @@ class ListingListViewModel: BaseViewModel {
         guard let index = indexFor(listingId: listingId) else { return }
         objects.remove(at: index)
         delegate?.vmReloadData(self)
-    }
-    
-    func updateShouldShowPrices(_ shouldShowPrices: Bool) {
-        self.shouldShowPrices = shouldShowPrices
     }
     
     private func retrieveListings(firstPage: Bool) {
@@ -419,12 +411,12 @@ class ListingListViewModel: BaseViewModel {
         return height
     }
     
-    private func priceViewAdditionalCellHeight(variant: ShowPriceAfterSearchOrFilter) -> CGFloat {
-        let priceViewHeight: CGFloat = 45.0
-        guard variant.isActive, shouldShowPrices else {
-            return 0
-        }
-        return priceViewHeight
+    private func discardedProductAdditionalHeight(for listing: Listing,
+                                                  toHeight height: CGFloat,
+                                                  variant: DiscardedProducts) -> CGFloat {
+        let minCellHeight: CGFloat = 168
+        guard listing.status.isDiscarded, variant.isActive, height < minCellHeight else { return 0 }
+        return minCellHeight - height
     }
     
     private func thumbImageViewSize(for listing: Listing, widthConstraint: CGFloat, variant: MainFeedAspectRatio) -> CGSize? {
@@ -475,7 +467,7 @@ class ListingListViewModel: BaseViewModel {
         cellHeight += featuredInfoAdditionalCellHeight(for: listing,
                                                        width: widthConstraint,
                                                        isVariantEnabled: featureFlags.pricedBumpUpEnabled)
-        cellHeight += priceViewAdditionalCellHeight(variant: featureFlags.showPriceAfterSearchOrFilter)
+        cellHeight += discardedProductAdditionalHeight(for: listing, toHeight: cellHeight, variant: featureFlags.discardedProducts)
         let cellSize = CGSize(width: widthConstraint, height: cellHeight)
         return cellSize
     }

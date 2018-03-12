@@ -16,6 +16,12 @@ enum PostingFlowType: String {
     case turkish
 }
 
+enum BumpPriceVariationBucket: Int {
+    case defaultValue = 0
+    case minPriceIncreaseUSA = 2
+    case vatDecreaseTR = 4
+}
+
 protocol FeatureFlaggeable: class {
 
     var trackingData: Observable<[(String, ABGroupType)]?> { get }
@@ -32,7 +38,6 @@ protocol FeatureFlaggeable: class {
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
-    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
@@ -56,7 +61,11 @@ protocol FeatureFlaggeable: class {
     var emojiSizeIncrement: EmojiSizeIncrement { get }
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
     var newUserProfileView: NewUserProfileView { get }
+    var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
     var searchMultiwordExpressions: SearchMultiwordExpressions { get }
+    var showChatSafetyTips: Bool { get }
+    var discardedProducts: DiscardedProducts { get }
+    var userIsTyping: UserIsTyping { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -67,6 +76,7 @@ protocol FeatureFlaggeable: class {
     var moreInfoShoppingAdUnitId: String { get }
     var moreInfoDFPAdUnitId: String { get }
     var feedDFPAdUnitId: String? { get }
+    var bumpPriceVariationBucket: BumpPriceVariationBucket { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
 }
 
@@ -74,10 +84,6 @@ extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
     }
-}
-
-extension ShowPriceAfterSearchOrFilter {
-    var isActive: Bool { get { return self == .priceOnSearchOrFilter } }
 }
 
 extension HomeRelatedEnabled {
@@ -190,18 +196,22 @@ extension DummyUsersInfoProfile {
     var isActive: Bool { get { return self == .active } }
 }
 
-extension IncreaseMinPriceBumps {
-    var bucketValue: Int {
-        switch self {
-        case .control, .baseline:
-            return 0
-        case .active:
-            return 2
-        }
-    }
+extension ShowBumpUpBannerOnNotValidatedListings {
+    var isActive: Bool { get { return self == .active } }
 }
 
-extension ShowBumpUpBannerOnNotValidatedListings {
+extension IncreaseMinPriceBumps {
+    var isActive: Bool { get { return self == .active } }
+}
+extension TurkeyBumpPriceVATAdaptation {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension DiscardedProducts {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension UserIsTyping {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -333,13 +343,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.realEstateEnabled
         }
         return RealEstateEnabled.fromPosition(abTests.realEstateEnabled.value)
-    }
-    
-    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
-        if Bumper.enabled {
-            return Bumper.showPriceAfterSearchOrFilter
-        }
-        return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
     }
     
     var homeRelatedEnabled: HomeRelatedEnabled {
@@ -497,12 +500,40 @@ class FeatureFlags: FeatureFlaggeable {
         return SearchMultiwordExpressions.fromPosition(abTests.searchMultiwordExpressions.value)
     }
     
+    var discardedProducts: DiscardedProducts {
+        if Bumper.enabled {
+            return Bumper.discardedProducts
+        }
+        return DiscardedProducts.fromPosition(abTests.discardedProducts.value)
+    }
+    
+    var userIsTyping: UserIsTyping {
+        if Bumper.enabled {
+            return Bumper.userIsTyping
+        }
+        return UserIsTyping.fromPosition(abTests.userIsTyping.value)
+    }
+    
 
     var newUserProfileView: NewUserProfileView {
         if Bumper.enabled {
             return Bumper.newUserProfileView
         }
         return NewUserProfileView.fromPosition(abTests.newUserProfileView.value)
+    }
+    
+    var showChatSafetyTips: Bool {
+        if Bumper.enabled {
+            return Bumper.showChatSafetyTips
+        }
+        return abTests.showChatSafetyTips.value
+    }
+
+    var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation {
+        if Bumper.enabled {
+            return Bumper.turkeyBumpPriceVATAdaptation
+        }
+        return TurkeyBumpPriceVATAdaptation.fromPosition(abTests.turkeyBumpPriceVATAdaptation.value)
     }
 
     // MARK: - Country features
@@ -615,6 +646,39 @@ class FeatureFlags: FeatureFlaggeable {
             }
         default:
             return nil
+        }
+    }
+
+    /**
+     This var is used to inform money BE of the ABtests realated to variations in bump prices
+     */
+    var bumpPriceVariationBucket: BumpPriceVariationBucket {
+        if Bumper.enabled {
+            if increaseMinPriceBumps.isActive {
+                return .minPriceIncreaseUSA
+            } else if turkeyBumpPriceVATAdaptation.isActive {
+                return .vatDecreaseTR
+            } else {
+                return .defaultValue
+            }
+        }
+        switch sensorLocationCountryCode {
+        case .usa?:
+            switch increaseMinPriceBumps {
+            case .control, .baseline:
+                return .defaultValue
+            case .active:
+                return .minPriceIncreaseUSA
+            }
+        case .turkey?:
+            switch turkeyBumpPriceVATAdaptation {
+            case .control, .baseline:
+                return .defaultValue
+            case .active:
+                return .vatDecreaseTR
+            }
+        default:
+            return .defaultValue
         }
     }
 

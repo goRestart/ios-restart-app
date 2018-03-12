@@ -82,7 +82,7 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        contentView.layer.cornerRadius = DirectAnswerCell.cellHeight/2
+        contentView.setRoundedCorners()
         contentView.layer.backgroundColor = UIColor.primaryColor.cgColor
         cellText.textColor = UIColor.white
     }

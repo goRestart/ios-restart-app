@@ -23,13 +23,17 @@ class ChatBubbleCell: UITableViewCell {
             name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         self.resetUI()
     }
     
     func setupUI() {
-        bubbleView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        bubbleView.cornerRadius = LGUIKitConstants.mediumCornerRadius
         messageLabel.font = UIFont.bigBodyFont
         dateLabel.font = UIFont.smallBodyFontLight
         

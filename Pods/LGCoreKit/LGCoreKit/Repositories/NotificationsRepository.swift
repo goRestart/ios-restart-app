@@ -21,7 +21,7 @@ public protocol NotificationsRepository {
 
      - parameter completion: The completion closure
      */
-    func index(_ completion: NotificationsCompletion?)
+    func index(allowEditDiscarded: Bool, completion: NotificationsCompletion?)
 
     /**
      Retrieves the unread notifications count.

@@ -702,10 +702,13 @@ struct TrackerEvent {
             return TrackerEvent(name: .listingSellConfirmationShareComplete, params: params)
     }
 
-    static func listingEditStart(_ user: User?, listing: Listing) -> TrackerEvent {
+    static func listingEditStart(_ user: User?, listing: Listing, pageType: EventParameterTypePage?) -> TrackerEvent {
         var params = EventParameters()
         // Product
         params[.listingId] = listing.objectId
+        if let pageType = pageType {
+            params[.typePage] = pageType.rawValue
+        }
         return TrackerEvent(name: .listingEditStart, params: params)
     }
 
@@ -728,8 +731,12 @@ struct TrackerEvent {
         return TrackerEvent(name: .listingEditSharedFB, params: params)
     }
 
-    static func listingEditComplete(_ user: User?, listing: Listing, category: ListingCategory?,
-                                    editedFields: [EventParameterEditedFields]) -> TrackerEvent {
+    static func listingEditComplete(_ user: User?,
+                                    listing: Listing,
+                                    category: ListingCategory?,
+                                    editedFields: [EventParameterEditedFields],
+                                    pageType: EventParameterTypePage?
+                                    ) -> TrackerEvent {
         var params = EventParameters()
         // Product
         params[.listingId] = listing.objectId
@@ -754,6 +761,9 @@ struct TrackerEvent {
             params[.bedrooms] = EventParameterBedroomsRealEstate.notApply.name
             params[.rooms] = EventParameterRoomsRealEstate.notApply.name
             params[.sizeSqrMeters] = EventParameterSizeRealEstate.notApply.name
+        }
+        if let pageType = pageType {
+            params[.typePage] = pageType.rawValue
         }
         return TrackerEvent(name: .listingEditComplete, params: params)
     }

@@ -29,7 +29,6 @@ class ABTests {
     let locationDataSourceType = IntABDynamicVar(key: "20170830LocationDataSourceType", defaultValue: 0, abGroupType: .legacyABTests)
     let searchAutocomplete = IntABDynamicVar(key: "20170914SearchAutocomplete", defaultValue: 0, abGroupType: .legacyABTests)
     let realEstateEnabled = IntABDynamicVar(key: "20171228realEstateEnabled", defaultValue: 0, abGroupType: .legacyABTests)
-    let showPriceAfterSearchOrFilter = IntABDynamicVar(key: "20170928ShowPriceAfterSearchOrFilter", defaultValue: 0, abGroupType: .legacyABTests)
     let requestsTimeOut = IntABDynamicVar(key: "20170929RequestTimeOut", defaultValue: 30, abGroupType: .legacyABTests)
     let homeRelatedEnabled = IntABDynamicVar(key: "20171011HomeRelatedEnabled", defaultValue: 0, abGroupType: .legacyABTests)
     let newItemPage = IntABDynamicVar(key: "20171027NewItemPage", defaultValue: 0, abGroupType: .legacyABTests)
@@ -53,7 +52,11 @@ class ABTests {
     let emojiSizeIncrement = IntABDynamicVar(key: "20180212EmojiSizeIncrement", defaultValue: 0, abGroupType: .chat)
     let showBumpUpBannerOnNotValidatedListings = IntABDynamicVar(key: "20180214showBumpUpBannerOnNotValidatedListings", defaultValue: 0, abGroupType: .money)
     let newUserProfileView = IntABDynamicVar(key: "20180221NewUserProfileView", defaultValue: 0, abGroupType: .core)
+    let turkeyBumpPriceVATAdaptation = IntABDynamicVar(key: "20180221TurkeyBumpPriceVATAdaptation", defaultValue: 0, abGroupType: .money)
     let searchMultiwordExpressions = IntABDynamicVar(key: "20180220SearchMultiwordExpressions", defaultValue: 0, abGroupType: .core)
+    let showChatSafetyTips = BoolABDynamicVar(key: "20180226ShowChatSafetyTips", defaultValue: false, abGroupType: .chat)
+    let discardedProducts = IntABDynamicVar(key: "20180219DiscardedProducts", defaultValue: 0, abGroupType: .core)
+    let userIsTyping = IntABDynamicVar(key: "20180305UserIsTyping", defaultValue: 0, abGroupType: .chat)
 
     init() {
     }
@@ -75,7 +78,6 @@ class ABTests {
         result.append(locationDataSourceType)
         result.append(searchAutocomplete)
         result.append(realEstateEnabled)
-        result.append(showPriceAfterSearchOrFilter)
         result.append(requestsTimeOut)
         result.append(homeRelatedEnabled)
         result.append(newItemPage)
@@ -99,7 +101,11 @@ class ABTests {
         result.append(emojiSizeIncrement)
         result.append(showBumpUpBannerOnNotValidatedListings)
         result.append(newUserProfileView)
+        result.append(turkeyBumpPriceVATAdaptation)
         result.append(searchMultiwordExpressions)
+        result.append(showChatSafetyTips)
+        result.append(discardedProducts)
+        result.append(userIsTyping)
         
         return result
     }

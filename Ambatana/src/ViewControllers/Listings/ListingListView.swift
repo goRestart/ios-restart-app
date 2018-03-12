@@ -252,7 +252,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         errorContentView.backgroundColor = containerColor
         errorContentView.layer.borderColor = borderColor?.cgColor
         errorContentView.layer.borderWidth = borderColor != nil ? 0.5 : 0
-        errorContentView.layer.cornerRadius = 4
+        errorContentView.cornerRadius = 4
     }
 
     
@@ -314,7 +314,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         drawerManager.draw(item,
                            inCell: cell,
                            delegate: viewModel.listingCellDelegate,
-                           shouldShowPrice: viewModel.shouldShowPrices,
                            imageSize: viewModel.imageViewSizeForItem(at: indexPath.row))
         (cell as? ListingCell)?.isRelatedEnabled = cellsDelegate?.shouldShowRelatedListingsButton() ?? false
         return cell

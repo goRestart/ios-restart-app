@@ -167,6 +167,13 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     fileprivate let initialListing: Listing
     fileprivate var savedListing: Listing?
     fileprivate var shouldTrack: Bool = true
+    fileprivate var pageType: EventParameterTypePage?
+    fileprivate var myUserId: String? {
+        return myUserRepository.myUser?.objectId
+    }
+    fileprivate var myUserName: String? {
+        return myUserRepository.myUser?.name
+    }
     
     // Repositories
     let myUserRepository: MyUserRepository
@@ -188,7 +195,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     
     // MARK: - Lifecycle
     
-    convenience init(listing: Listing) {
+    convenience init(listing: Listing, pageType: EventParameterTypePage?) {
         self.init(listing: listing,
                   myUserRepository: Core.myUserRepository,
                   listingRepository: Core.listingRepository,
@@ -197,6 +204,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
                   carsInfoRepository: Core.carsInfoRepository,
                   locationManager: Core.locationManager,
                   tracker: TrackerProxy.sharedInstance,
+                  pageType: pageType,
                   featureFlags: FeatureFlags.sharedInstance)
     }
     
@@ -208,6 +216,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
          carsInfoRepository: CarsInfoRepository,
          locationManager: LocationManager,
          tracker: Tracker,
+         pageType: EventParameterTypePage?,
          featureFlags: FeatureFlaggeable) {
         self.myUserRepository = myUserRepository
         self.listingRepository = listingRepository
@@ -273,6 +282,7 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
 
         self.shouldShareInFB = false
         self.isFreePosting.value = featureFlags.freePostingModeAllowed && listing.price.isFree
+        self.pageType = pageType
         super.init()
 
         setupCategories()
@@ -482,13 +492,6 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     
     func realEstateSizeEditionFinished(value: String) {
         realEstateSizeSquareMeters.value = Int(value)
-    }
-
-    var fbShareContent: FBSDKShareLinkContent? {
-        if let listing = savedListing {
-            return ListingSocialMessage(listing: listing, fallbackToStore: false).fbShareContent
-        }
-        return nil
     }
 
     func openMap() {
@@ -724,11 +727,14 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
     }
 
     private func finishedSaving() {
-        if let fbShareContent = fbShareContent, shouldShareInFB {
-            shouldTrack = false
-            delegate?.vmShareOnFbWith(content: fbShareContent)
-        } else {
-            showSuccessMessageAndClose()
+        guard let listing = savedListing, shouldShareInFB else { return showSuccessMessageAndClose() }
+        let listingSocialMessage = ListingSocialMessage(listing: listing,
+                                                        fallbackToStore: false,
+                                                        myUserId: myUserId,
+                                                        myUserName: myUserName)
+        listingSocialMessage.retrieveFBShareContent { [weak self] fbShareContent in
+            self?.shouldTrack = false
+            self?.delegate?.vmShareOnFbWith(content: fbShareContent)
         }
     }
 
@@ -908,7 +914,7 @@ extension EditListingViewModel {
 
     fileprivate func trackStart() {
         let myUser = myUserRepository.myUser
-        let event = TrackerEvent.listingEditStart(myUser, listing: initialListing)
+        let event = TrackerEvent.listingEditStart(myUser, listing: initialListing, pageType: pageType)
         trackEvent(event)
     }
 
@@ -932,7 +938,7 @@ extension EditListingViewModel {
 
         let myUser = myUserRepository.myUser
         let event = TrackerEvent.listingEditComplete(myUser, listing: listing, category: category.value,
-                                                     editedFields: editedFields)
+                                                     editedFields: editedFields, pageType: pageType)
         trackEvent(event)
     }
 

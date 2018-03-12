@@ -283,7 +283,7 @@ extension PostListingCameraView {
 
 extension PostListingCameraView{
     func setupFirstTimeAlertView() {
-        firstTimeAlert.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
+        firstTimeAlert.cornerRadius = LGUIKitConstants.bigCornerRadius
         firstTimeAlertTitle.text = viewModel.firstTimeTitle
         firstTimeAlertSubtitle.text = viewModel.firstTimeSubtitle
     }

@@ -32,20 +32,28 @@ class AppShareViewController: UIViewController {
     @IBOutlet weak var inviteEmailHeight: NSLayoutConstraint!
     @IBOutlet weak var inviteEmailTop: NSLayoutConstraint!
 
-    let socialSharer = SocialSharer()
+    fileprivate let socialSharer = SocialSharer()
+    fileprivate let myUserId: String?
+    fileprivate let myUserName: String?
 
     static func canBeShown() -> Bool {
         return SocialSharer.canShareInAny([.fbMessenger, .whatsapp, .email])
     }
 
-    @discardableResult static func showOnViewControllerIfNeeded(_ viewController: UIViewController) -> Bool {
+    @discardableResult static func showOnViewControllerIfNeeded(_ viewController: UIViewController,
+                                                                myUserId: String?,
+                                                                myUserName: String?) -> Bool {
         guard !KeyValueStorage.sharedInstance.userAppShared else { return false }
         guard canBeShown() else { return false }
-        viewController.present(AppShareViewController(), animated: true, completion: nil)
+        viewController.present(AppShareViewController(myUserId: myUserId, myUserName: myUserName),
+                               animated: true,
+                               completion: nil)
         return true
     }
 
-    init() {
+    init(myUserId: String?, myUserName: String?) {
+        self.myUserId = myUserId
+        self.myUserName = myUserName
         super.init(nibName: "AppShareViewController", bundle: nil)
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
@@ -63,21 +71,28 @@ class AppShareViewController: UIViewController {
         trackShown()
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        inviteFBMessengerBtn.setRoundedCorners()
+        inviteWhatsappBtn.setRoundedCorners()
+        inviteEmailBtn.setRoundedCorners()
+    }
+
 
     // MARK: - Actions
 
     @IBAction func onInviteFBMessenger(_ sender: AnyObject) {
-        let socialMessage = AppShareSocialMessage()
+        let socialMessage = AppShareSocialMessage(myUserId: myUserId, myUserName: myUserName)
         socialSharer.share(socialMessage, shareType: .fbMessenger, viewController: self)
     }
 
     @IBAction func onInviteWhatsapp(_ sender: AnyObject) {
-        let socialMessage = AppShareSocialMessage()
+        let socialMessage = AppShareSocialMessage(myUserId: myUserId, myUserName: myUserName)
         socialSharer.share(socialMessage, shareType: .whatsapp, viewController: self)
     }
 
     @IBAction func onInviteEmail(_ sender: AnyObject) {
-        let socialMessage = AppShareSocialMessage()
+        let socialMessage = AppShareSocialMessage(myUserId: myUserId, myUserName: myUserName)
         socialSharer.share(socialMessage, shareType: .email, viewController: self)
     }
 
@@ -96,15 +111,11 @@ class AppShareViewController: UIViewController {
     // MARK: - Private methods
 
     private func setupUI() {
-        contentContainer.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
+        contentContainer.cornerRadius = LGUIKitConstants.bigCornerRadius
 
         inviteFBMessengerBtn.setTitle(LGLocalizedString.appShareFbmessengerButton, for: .normal)
         inviteWhatsappBtn.setTitle(LGLocalizedString.appShareWhatsappButton, for: .normal)
         inviteEmailBtn.setTitle(LGLocalizedString.appShareEmailButton, for: .normal)
-
-        inviteFBMessengerBtn.rounded = true
-        inviteWhatsappBtn.rounded = true
-        inviteEmailBtn.rounded = true
         
         if !SocialSharer.canShareIn(.fbMessenger) {
             inviteFBMessengerHeight.constant = 0

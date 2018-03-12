@@ -31,12 +31,12 @@ def shared_pods
     pod "Amplitude-iOS",        "4.0.4"     # Obj-c
     pod "AppsFlyerFramework",   "4.8.2"     # Obj-c
     pod "Leanplum-iOS-SDK",     "2.0.5"     # Obj-c
-    pod "NewRelicAgent",        "6.1.0"     # Obj-c
+    pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
     # letgo Core
-#    pod "LGCoreKit",             "4.9.0"
+#    pod "LGCoreKit",             "4.11.0"
 #   pod "LGCoreKit",            :path => "../lgcorekit"
-   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => 'b433eac1497ca7c330a583c673bd25b7583b797f'
+   pod "LGCoreKit",            :git => 'git@github.com:letgoapp/letgo-ios-lgcorekit.git', :commit => '5d20fab028506eb5aa0da2ffab0e8d81b5a908bc'
 
     # letgo Collapsible label
     pod "LGCollapsibleLabel",   "1.2.0"     # :path => "../collapsiblelabel"

@@ -6,12 +6,15 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
+import RxSwift
+
 public protocol ChatConversation: BaseModel {
     var unreadMessageCount: Int { get }
     var lastMessageSentAt: Date? { get }
     var listing: ChatListing? { get }
     var interlocutor: ChatInterlocutor? { get }
     var amISelling: Bool { get }
+    var interlocutorIsTyping: Variable<Bool> { get }
     
     init(objectId: String?,
          unreadMessageCount: Int,
@@ -57,6 +60,7 @@ struct LGChatConversation: ChatConversation, Decodable {
     let amISelling: Bool
     let listing: ChatListing?
     let interlocutor: ChatInterlocutor?
+    let interlocutorIsTyping = Variable<Bool>(false)
     
     init(objectId: String?,
          unreadMessageCount: Int,

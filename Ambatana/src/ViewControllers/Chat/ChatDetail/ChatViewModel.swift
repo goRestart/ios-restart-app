@@ -37,6 +37,7 @@ struct EmptyConversation: ChatConversation {
     var listing: ChatListing? = nil
     var interlocutor: ChatInterlocutor? = nil
     var amISelling: Bool
+    var interlocutorIsTyping = Variable<Bool>(false)
     
     init(objectId: String?,
          unreadMessageCount: Int,
@@ -62,6 +63,8 @@ enum DirectAnswersState {
 
 class ChatViewModel: BaseViewModel {
     
+    static let typingStartedThrottleTime: TimeInterval = 15
+    static let userIsTypingTimeoutTime: TimeInterval = 10
     
     // MARK: - Properties
     
@@ -91,7 +94,7 @@ class ChatViewModel: BaseViewModel {
     let chatStatus = Variable<ChatInfoViewStatus>(.available)
     let chatEnabled = Variable<Bool>(true)
     let directAnswersState = Variable<DirectAnswersState>(.notAvailable)
-    let interlocutorTyping = Variable<Bool>(false)
+    let userIsTyping = Variable<Bool>(false)
     let messages = CollectionVariable<ChatViewMessage>([])
     var relatedListings: [Listing] = []
     var shouldTrackFirstMessage: Bool = false
@@ -102,6 +105,10 @@ class ChatViewModel: BaseViewModel {
     let interlocutorPhoneNumber = Variable<String?>(nil)
     let lastMessageSentType = Variable<ChatWrapperMessageType?>(nil)
     let messagesDidFinishRefreshing = Variable<Bool>(false)
+    let interlocutorTypingChatViewMessage: ChatViewMessage
+    let chatBoxText = Variable<String>("")
+    var userIsTypingTimeout: Timer?
+    var stoppedTypingEventEnabled: Bool = true
 
     var keyForTextCaching: String { return userDefaultsSubKey }
     
@@ -157,6 +164,7 @@ class ChatViewModel: BaseViewModel {
     fileprivate var showingVerifyAccounts = false
 
     fileprivate let disposeBag = DisposeBag()
+    fileprivate var userIsTypingDisposeBag: DisposeBag? = DisposeBag()
     
     fileprivate var userDefaultsSubKey: String {
         return "\(String(describing: conversation.value.listing?.objectId ?? listingId)) + \(buyerId ?? "offline")"
@@ -191,7 +199,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     fileprivate var shouldShowSafetyTips: Bool {
-        return !keyValueStorage.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
+        return featureFlags.showChatSafetyTips && !keyValueStorage.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
 
     fileprivate var didReceiveMessageFromOtherUser: Bool {
@@ -298,6 +306,7 @@ class ChatViewModel: BaseViewModel {
         self.predefinedMessage = predefinedMessage
         self.openChatAutomaticMessage = openChatAutomaticMessage
         self.interlocutorIsProfessional.value = isProfessional
+        interlocutorTypingChatViewMessage = chatViewMessageAdapter.createInterlocutorIsTyping()
         super.init()
         setupRx()
         loadStickers()
@@ -489,7 +498,91 @@ class ChatViewModel: BaseViewModel {
             self?.professionalSellerAfterMessageEventsFor(messageType: messageType)
         }.disposed(by: disposeBag)
 
+        setupUserIsTypingRx()
         setupChatEventsRx()
+    }
+    
+    @objc func fireUserIsTypingTimeout() {
+        userIsTyping.value = false
+    }
+    
+    private func scheduleUserIsTypingTimeoutTimer() {
+        userIsTypingTimeout?.invalidate()
+        userIsTypingTimeout = Timer.scheduledTimer(timeInterval: ChatViewModel.userIsTypingTimeoutTime,
+                                                   target: self,
+                                                   selector: #selector(fireUserIsTypingTimeout),
+                                                   userInfo: nil,
+                                                   repeats: false)
+    }
+    
+    private func setupInterlocutorIsTypingRx() {
+        guard featureFlags.userIsTyping.isActive else { return }
+        
+        // show interlocutor is typing bubble in chat
+        conversation.value.interlocutorIsTyping.asObservable()
+            .distinctUntilChanged()
+            .bind { [weak self] isTyping in
+                isTyping ? self?.insertInterlocutorIsTypingMessage() : self?.removeInterlocutorIsTypingMessage()
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupUserIsTypingRx() {
+        guard featureFlags.userIsTyping.isActive else { return }
+        
+        // send typing events to websocket & stop userIsTypingTimeout if needed
+        userIsTyping.asObservable()
+            .skip(1)
+            .bind { [weak self] isTyping in
+                guard let strongSelf = self else { return }
+                if isTyping {
+                    strongSelf.sendStartedTyping()
+                } else {
+                    strongSelf.userIsTypingTimeout?.invalidate()
+                    strongSelf.addUserIsTypingThrottle()
+                    strongSelf.sendStoppedTyping()
+                }
+            }
+            .disposed(by: disposeBag)
+    
+        // reset userIsTypingTimeout timer on text change
+        chatBoxText.asObservable()
+            .skip(1)
+            .distinctUntilChanged()
+            .filter { !$0.isEmpty }
+            .bind { [weak self] _ in
+                self?.scheduleUserIsTypingTimeoutTimer()
+            }
+            .disposed(by: disposeBag)
+        
+        addUserIsTypingThrottle()
+        
+        // set userIsTyping = false when text is empty (userIsTyping must be true)
+        chatBoxText.asObservable()
+            .skip(1)
+            .distinctUntilChanged()
+            .filter { $0.isEmpty }
+            .bind { [weak self] text in
+                guard self?.userIsTyping.value == true else { return }
+                self?.userIsTyping.value = false
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    private func addUserIsTypingThrottle() {
+        // reset any previous rx added
+        userIsTypingDisposeBag = DisposeBag()
+        guard let userIsTypingDisposeBag = userIsTypingDisposeBag else { return }
+        // set userIsTyping = true on every text change (max once every X seconds)
+        chatBoxText.asObservable()
+            .skip(1)
+            .distinctUntilChanged()
+            .filter { !$0.isEmpty }
+            .throttle(ChatViewModel.typingStartedThrottleTime, latest: true, scheduler: MainScheduler.instance)
+            .bind { [weak self] text in
+                self?.userIsTyping.value = true
+            }
+            .disposed(by: userIsTypingDisposeBag)
     }
 
     func updateMessagesCounts(_ changeInMessages: CollectionChange<ChatViewMessage>) {
@@ -544,9 +637,9 @@ class ChatViewModel: BaseViewModel {
             case let .interlocutorReceptionConfirmed(messagesIds):
                 self?.markMessagesAsReceived(messagesIds)
             case .interlocutorTypingStarted:
-                self?.interlocutorTyping.value = true
+                self?.conversation.value.interlocutorIsTyping.value = true
             case .interlocutorTypingStopped:
-                self?.interlocutorTyping.value = false
+                self?.conversation.value.interlocutorIsTyping.value = false
             case .authenticationTokenExpired, .talkerUnauthenticated:
                 break
             }
@@ -665,6 +758,8 @@ extension ChatViewModel {
     }
 
     fileprivate func sendMessage(type: ChatWrapperMessageType) {
+        userIsTypingDisposeBag = nil
+        stoppedTypingEventEnabled = false
         if let preSendMessageCompletion = preSendMessageCompletion {
             preSendMessageCompletion(type)
             return
@@ -682,7 +777,7 @@ extension ChatViewModel {
         let newMessage = chatRepository.createNewMessage(userId, text: message, type: type.chatType)
         let viewMessage = chatViewMessageAdapter.adapt(newMessage).markAsSent()
         guard let messageId = newMessage.objectId else { return }
-        messages.insert(viewMessage, atIndex: 0)
+        insertFirst(viewMessage: viewMessage)
         chatRepository.sendMessage(convId, messageId: messageId, type: newMessage.type, text: message) {
             [weak self] result in
             guard let strongSelf = self else { return }
@@ -810,6 +905,19 @@ extension ChatViewModel {
             self?.showingSendMessageError = false
         }
     }
+    
+    private func sendStartedTyping() {
+        guard let conversationId = conversation.value.objectId else { return }
+        stoppedTypingEventEnabled = true
+        chatRepository.typingStarted(conversationId)
+    }
+    
+    private func sendStoppedTyping() {
+        guard let conversationId = conversation.value.objectId,
+            stoppedTypingEventEnabled
+            else { return }
+        chatRepository.typingStopped(conversationId)
+    }
 
     private func resendEmailVerification(_ email: String) {
         myUserRepository.linkAccount(email) { [weak self] result in
@@ -856,17 +964,40 @@ extension ChatViewModel {
         guard let index = messages.value.index(where: {$0.objectId == messageId}) else { return }
         messages.removeAtIndex(index)
     }
+    
+    private func insertInterlocutorIsTypingMessage() {
+        messages.insert(interlocutorTypingChatViewMessage, atIndex: 0)
+    }
+    
+    private func removeInterlocutorIsTypingMessage() {
+        if let index = messages.value.index(where: {$0 == interlocutorTypingChatViewMessage}) {
+            messages.removeAtIndex(index)
+        }
+    }
+    
+    private func insertFirst(viewMessage: ChatViewMessage, fromInterlocutor: Bool = false) {
+        if conversation.value.interlocutorIsTyping.value && messages.value.count >= 1 {
+            if fromInterlocutor {
+                messages.replace(0..<1, with: [viewMessage])
+                conversation.value.interlocutorIsTyping.value = false
+            } else {
+                messages.insert(viewMessage, atIndex: 1)
+            }
+        } else {
+            messages.insert(viewMessage, atIndex: 0)
+        }
+    }
 
     fileprivate func handleNewMessageFromInterlocutor(_ messageId: String, sentAt: Date, text: String, type: ChatMessageType) {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
         let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: type)
         let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent(date: sentAt).markAsReceived().markAsRead()
-        messages.insert(viewMessage, atIndex: 0)
+        insertFirst(viewMessage: viewMessage, fromInterlocutor: true)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
         if let securityMeetingIndex = securityMeetingIndex(for: messages.value) {
             messages.insert(chatViewMessageAdapter.createSecurityMeetingDisclaimerMessage(),
-                             atIndex: securityMeetingIndex)
+                            atIndex: securityMeetingIndex)
         }
         guard isBuyer else { return }
         sellerDidntAnswer.value = false
@@ -884,7 +1015,7 @@ extension ChatViewModel {
 
     fileprivate func sendProfessionalAutomaticAnswerWith(message: String, isPhone: Bool) {
         guard let automaticAnswerMessage = chatViewMessageAdapter.createAutomaticAnswerWith(message: message) else { return }
-        messages.insert(automaticAnswerMessage, atIndex: 0)
+        insertFirst(viewMessage: automaticAnswerMessage)
         hasSentAutomaticAnswerForPhoneMessage = isPhone
         hasSentAutomaticAnswerForOtherMessage = true
     }
@@ -1192,6 +1323,7 @@ extension ChatViewModel {
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
             }
+            strongSelf.setupInterlocutorIsTypingRx()
         }
     }
     
@@ -1236,7 +1368,6 @@ extension ChatViewModel {
     }
 
     private func updateMessages(newMessages: [ChatMessage], isFirstPage: Bool) {
-        // Mark as read
         markAsReadMessages(newMessages)
 
         // Add message disclaimer (message flagged)
@@ -1255,15 +1386,14 @@ extension ChatViewModel {
     }
 
     private func mergeMessages(newMessages: [ChatMessage]) {
-
+        markAsReadMessages(newMessages)
         defer {
             // Add user info as 1st message
             if let userInfoMessage = userInfoMessage, shouldShowOtherUserInfo {
                 messages.append(userInfoMessage)
             }
         }
-        markAsReadMessages(newMessages)
-
+        
         let newViewMessages = newMessages.map(chatViewMessageAdapter.adapt)
         guard !newViewMessages.isEmpty else { return }
 
@@ -1313,13 +1443,6 @@ extension ChatViewModel {
         messages.appendContentsOf(chatMessages)
     }
     
-    fileprivate func updateDisclaimers() {
-        let chatMessages = chatViewMessageAdapter.addDisclaimers(messages.value,
-                                                                 disclaimerMessage: defaultDisclaimerMessage)
-        messages.removeAll()
-        messages.appendContentsOf(chatMessages)
-    }
-    
     fileprivate func securityMeetingIndex(for messages: [ChatViewMessage]) -> Int? {
         var isFirstPage: Bool {
             return messages.count < Constants.numMessagesPerPage
@@ -1333,7 +1456,7 @@ extension ChatViewModel {
         var firstInterlocutorMessageIndex: Int? {
             guard let i = messages.reversed().index(where: {
                 switch $0.type {
-                case .disclaimer, .userInfo, .askPhoneNumber:
+                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
                     return false
                 case .offer, .sticker, .text, .chatNorris:
                     return $0.talkerId != myUserRepository.myUser?.objectId
@@ -1346,7 +1469,7 @@ extension ChatViewModel {
             let elementNumber = 5
             let interlocutorMessages = messages.reversed().filter {
                 switch $0.type {
-                case .disclaimer, .userInfo, .askPhoneNumber:
+                case .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
                     return false
                 case .offer, .sticker, .text, .chatNorris:
                     return $0.talkerId != myUserRepository.myUser?.objectId

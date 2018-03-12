@@ -23,6 +23,7 @@ class ChatDisclaimerCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var buttonHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomConstraint: NSLayoutConstraint!
 
+    fileprivate static let backgroundWithOutImageTop: CGFloat = -4
     fileprivate static let backgroundWithImageTop: CGFloat = 25
     fileprivate static let titleVisibleTop: CGFloat = 67
     fileprivate static let titleInvisibleTop: CGFloat = 8
@@ -77,7 +78,7 @@ extension ChatDisclaimerCell {
 
 fileprivate extension ChatDisclaimerCell {
     func setupUI() {
-        backgroundCellView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+        backgroundCellView.cornerRadius = LGUIKitConstants.mediumCornerRadius
         backgroundCellView.backgroundColor = UIColor.disclaimerColor
         backgroundCellView.layer.borderWidth = 1
         backgroundCellView.layer.borderColor = UIColor.white.cgColor
@@ -107,7 +108,7 @@ fileprivate extension ChatDisclaimerCell {
     }
 
     func hideImageAndTitle(_ hide: Bool) {
-        backgroundTopConstraint?.constant = hide ? 0 : ChatDisclaimerCell.backgroundWithImageTop
+        backgroundTopConstraint?.constant = hide ? ChatDisclaimerCell.backgroundWithOutImageTop : ChatDisclaimerCell.backgroundWithImageTop
         titleTopConstraint?.constant = hide ? ChatDisclaimerCell.titleInvisibleTop : ChatDisclaimerCell.titleVisibleTop
         avatarImageView.isHidden = hide
         titleLabel.text = hide ? nil : LGLocalizedString.chatDisclaimerLetgoTeam

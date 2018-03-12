@@ -24,10 +24,15 @@ class ListingCellDrawer: BaseCollectionCellDrawer<ListingCell>, GridCellDrawer {
             if style == .mainList {
                 cell.setupFeaturedListingInfoWith(price: model.price, title: model.title, isMine: model.isMine)
             }
-        } else if model.shouldShowPrice {
-            cell.setupPriceView(price: model.price)
         } else if model.isFree {
             cell.setupFreeStripe()
+        }
+        if FeatureFlags.sharedInstance.discardedProducts.isActive {
+            let isDiscarded = model.listing?.status.isDiscarded ?? false
+            let isAllowedToBeEdited = model.listing?.status.discardedReason?.isAllowedToBeEdited ?? false
+            cell.show(isDiscarded: isDiscarded && isAllowedToBeEdited, reason: model.listing?.status.discardedReason?.message)
+        } else {
+            cell.show(isDiscarded: false)
         }
     }
 

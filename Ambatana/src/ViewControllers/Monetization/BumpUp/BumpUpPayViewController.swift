@@ -10,10 +10,7 @@ import UIKit
 
 class BumpUpPayViewController: BaseViewController {
 
-    private static let titleVerticalOffsetWithImage: CGFloat = 100
-    private static let titleVerticalOffsetWithoutImage: CGFloat = -100
-
-    @IBOutlet weak var closeButtonSafeAreaTopAlignment: NSLayoutConstraint!
+    @IBOutlet weak var titleSafeAreaTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var viewTitleLabel: UILabel!
     @IBOutlet weak var infoContainer: UIView!
@@ -25,12 +22,10 @@ class BumpUpPayViewController: BaseViewController {
     @IBOutlet weak var cellBottomContainer: UIView!
     @IBOutlet weak var bumpUpButton: UIButton!
 
-    private var shadowLayer: CALayer?
+    private let viewModel: BumpUpPayViewModel
 
-    private var viewModel: BumpUpPayViewModel
-
-    // MARK: - Lifecycle
-
+    // MARK: - Init
+    
     init(viewModel: BumpUpPayViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "BumpUpPayViewController")
@@ -41,60 +36,22 @@ class BumpUpPayViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setAccessibilityIds()
-
-        if !isSafeAreaAvailable {
-            closeButtonSafeAreaTopAlignment.constant = Metrics.veryBigMargin
-        }
+        addSwipeDownGestureToView()
     }
 
-    // MARK: - Private methods
-
-    func setupUI() {
-
-        viewTitleLabel.text = LGLocalizedString.bumpUpBannerPayTextImprovement
-        infoContainer.cornerRadius = LGUIKitConstants.bigCornerRadius
-        infoContainer.layer.masksToBounds = false
-        infoContainer.applyShadow(withOpacity: 0.05, radius: 5)
-
-        imageContainer.cornerRadius = LGUIKitConstants.mediumCornerRadius
-        imageContainer.clipsToBounds = true
-        imageContainer.layer.masksToBounds = false
-        imageContainer.applyShadow(withOpacity: 0.25, radius: 5)
-
-        if let imageUrl = viewModel.listing.images.first?.fileURL {
-            listingImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
-                [weak self] (result, url) -> Void in
-                if let _ = result.value {
-                    self?.imageContainer.isHidden = false
-                } else {
-                    self?.imageContainer.isHidden = true
-                }
-            })
-        } else {
-            imageContainer.isHidden = true
-        }
-
-        listingImageView.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
-        cellBottomContainer.clipsToBounds = true
-        cellBottomContainer.layer.cornerRadius = LGUIKitConstants.mediumCornerRadius
-        titleLabel.text = LGLocalizedString.bumpUpViewPayTitle
-        subtitleLabel.text = LGLocalizedString.bumpUpViewPaySubtitle
-
-        bumpUpButton.setStyle(.primary(fontSize: .big))
-        bumpUpButton.setTitle(LGLocalizedString.bumpUpViewPayButtonTitle(viewModel.price), for: .normal)
-        bumpUpButton.titleLabel?.numberOfLines = 2
-        bumpUpButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        bumpUpButton.titleLabel?.minimumScaleFactor = 0.8
-
-        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(gestureClose))
-        swipeDownGesture.direction = .down
-        view.addGestureRecognizer(swipeDownGesture)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        renderContainerCornerRadius()
     }
-
+    
+    // MARK: - Actions
+    
     @objc private dynamic func gestureClose() {
         viewModel.closeActionPressed()
     }
@@ -105,6 +62,76 @@ class BumpUpPayViewController: BaseViewController {
 
     @IBAction func bumpUpButtonPressed(_ sender: AnyObject) {
         viewModel.bumpUpPressed()
+    }
+    
+    // MARK: - Private methods
+    
+    private func setupUI() {
+        setupInfoContainer()
+        setupImageContainer()
+        setupCellBottomContainer()
+        setupImageView()
+        setupLabels()
+        setupBumpUpButton()
+        adjustViewTopSafeArea()
+    }
+    
+    private func renderContainerCornerRadius() {
+        infoContainer.cornerRadius = LGUIKitConstants.bigCornerRadius
+        imageContainer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+    }
+    
+    private func setupLabels() {
+        titleLabel.text = LGLocalizedString.bumpUpViewPayTitle
+        subtitleLabel.text = LGLocalizedString.bumpUpViewPaySubtitle
+        viewTitleLabel.text = LGLocalizedString.bumpUpBannerPayTextImprovement
+    }
+    
+    private func setupCellBottomContainer() {
+        cellBottomContainer.clipsToBounds = true
+        cellBottomContainer.cornerRadius = LGUIKitConstants.mediumCornerRadius
+    }
+    
+    private func setupInfoContainer() {
+        infoContainer.layer.masksToBounds = false
+        infoContainer.applyShadow(withOpacity: 0.05, radius: 5)
+    }
+    
+    private func setupImageContainer() {
+        imageContainer.layer.masksToBounds = false
+        imageContainer.applyShadow(withOpacity: 0.25, radius: 5)
+        
+        if let imageUrl = viewModel.listing.images.first?.fileURL {
+            listingImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: { [weak self] (result, _) -> Void in
+                self?.imageContainer.isHidden = result.value == nil
+            })
+        } else {
+            imageContainer.isHidden = true
+        }
+    }
+
+    private func setupImageView() {
+        listingImageView.cornerRadius = LGUIKitConstants.mediumCornerRadius
+    }
+    
+    private func setupBumpUpButton() {
+        bumpUpButton.setStyle(.primary(fontSize: .big))
+        bumpUpButton.setTitle(LGLocalizedString.bumpUpViewPayButtonTitle(viewModel.price), for: .normal)
+        bumpUpButton.titleLabel?.numberOfLines = 2
+        bumpUpButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        bumpUpButton.titleLabel?.minimumScaleFactor = 0.8
+    }
+    
+    private func adjustViewTopSafeArea() {
+        if !isSafeAreaAvailable {
+            titleSafeAreaTopConstraint.constant = Metrics.veryBigMargin
+        }
+    }
+    
+    private func addSwipeDownGestureToView() {
+        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(gestureClose))
+        swipeDownGesture.direction = .down
+        view.addGestureRecognizer(swipeDownGesture)
     }
 
     private func setAccessibilityIds() {
