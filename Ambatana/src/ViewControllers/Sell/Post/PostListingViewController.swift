@@ -848,9 +848,9 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
 
 extension PostListingViewController {
     func setAccesibilityIds() {
-        closeButton.accessibilityId = .postingCloseButton
-        customLoadingView.accessibilityId = .postingLoading
-        retryButton.accessibilityId = .postingRetryButton
+        closeButton.set(accessibilityId: .postingCloseButton)
+        customLoadingView.set(accessibilityId: .postingLoading)
+        retryButton.set(accessibilityId: .postingRetryButton)
     }
 }
 

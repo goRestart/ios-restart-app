@@ -252,8 +252,8 @@ class UserView: UIView {
     }
 
     private func setAccesibilityIds() {
-        titleLabel.accessibilityId = .userViewNameLabel
-        subtitleLabel.accessibilityId = .userViewSubtitleLabel
-        textInfoContainer.accessibilityId = .userViewTextInfoContainer
+        titleLabel.set(accessibilityId: .userViewNameLabel)
+        subtitleLabel.set(accessibilityId: .userViewSubtitleLabel)
+        textInfoContainer.set(accessibilityId: .userViewTextInfoContainer)
     }
 }

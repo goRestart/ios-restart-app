@@ -556,12 +556,12 @@ extension PostListingGalleryView: UIGestureRecognizerDelegate {
 
 extension PostListingGalleryView {
     func setAccesibilityIds() {
-        closeButton.accessibilityId = .postingGalleryCloseButton
-        imageContainer.accessibilityId = .postingGalleryImageContainer
-        imageLoadActivityIndicator.accessibilityId = .postingGalleryLoading
-        collectionView.accessibilityId = .postingGalleryCollection
-        albumButton.accessibilityId = .postingGalleryAlbumButton
-        topRightButton.accessibilityId = .postingGalleryUsePhotoButton
-        infoButton.accessibilityId = .postingGalleryInfoScreenButton
+        closeButton.set(accessibilityId: .postingGalleryCloseButton)
+        imageContainer.set(accessibilityId: .postingGalleryImageContainer)
+        imageLoadActivityIndicator.set(accessibilityId: .postingGalleryLoading)
+        collectionView.set(accessibilityId: .postingGalleryCollection)
+        albumButton.set(accessibilityId: .postingGalleryAlbumButton)
+        topRightButton.set(accessibilityId: .postingGalleryUsePhotoButton)
+        infoButton.set(accessibilityId: .postingGalleryInfoScreenButton)
     }
 }

@@ -215,8 +215,8 @@ extension ReportUsersViewController {
 
 extension ReportUsersViewController {
     func setAccesibilityIds() {
-        collectionView.accessibilityId = .reportUserCollection
-        commentTextView.accessibilityId = .reportUserCommentField
-        sendButton.accessibilityId = .reportUserSendButton
+        collectionView.set(accessibilityId: .reportUserCollection)
+        commentTextView.set(accessibilityId: .reportUserCommentField)
+        sendButton.set(accessibilityId: .reportUserSendButton)
     }
 }

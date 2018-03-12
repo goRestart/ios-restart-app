@@ -34,6 +34,7 @@ class ChatOtherInfoCell: UITableViewCell, ReusableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
+        setAccessibilityIds()
     }
 }
 
@@ -83,5 +84,10 @@ fileprivate extension ChatOtherInfoCell {
         userInfoContainer.layer.rasterizationScale = UIScreen.main.scale
         backgroundColor = .clear
         verifyLabel.text = LGLocalizedString.chatUserInfoVerifiedWith
+    }
+    
+    func setAccessibilityIds() {
+        set(accessibilityId: .chatOtherInfoCellContainer)
+        nameLabel.set(accessibilityId: .chatOtherInfoCellNameLabel)
     }
 }

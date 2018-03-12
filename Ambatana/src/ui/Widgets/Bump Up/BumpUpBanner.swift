@@ -371,8 +371,8 @@ class BumpUpBanner: UIView {
     }
 
     private func setAccessibilityIds() {
-        accessibilityId = .bumpUpBanner
-        bumpButton.accessibilityId = .bumpUpBannerButton
-        timeLabel.accessibilityId = .bumpUpBannerLabel
+        set(accessibilityId: .bumpUpBanner)
+        bumpButton.set(accessibilityId: .bumpUpBannerButton)
+        timeLabel.set(accessibilityId: .bumpUpBannerLabel)
     }
 }

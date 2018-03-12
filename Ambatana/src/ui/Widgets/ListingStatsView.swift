@@ -36,6 +36,7 @@ class ListingStatsView: UIView {
     static func ListingStatsView() -> ListingStatsView? {
         let view = Bundle.main.loadNibNamed("ListingStatsView", owner: self, options: nil)?.first as? ListingStatsView
         view?.setupUI()
+        view?.setupAccessibilityIds()
         return view
     }
 
@@ -49,6 +50,15 @@ class ListingStatsView: UIView {
         viewsStatsWidthConstraint.constant = 0
         
         timePostedWidthConstraint.constant = 0
+    }
+    
+    private func setupAccessibilityIds() {       
+        favouriteStatsView.set(accessibilityId: .listingStatsViewFavouriteStatsView)
+        favouriteStatsLabel.set(accessibilityId: .listingStatsViewFavouriteStatsLabel)
+        viewsStatsView.set(accessibilityId: .listingStatsViewFavouriteViewCountView)
+        viewsStatsLabel.set(accessibilityId: .listingStatsViewFavouriteViewCountLabel)
+        timePostedView.set(accessibilityId: .listingStatsViewFavouriteTimePostedView)
+        timePostedLabel.set(accessibilityId: .listingStatsViewFavouriteTimePostedLabel)
     }
 
     func updateStatsWithInfo(_ viewsCount: Int, favouritesCount: Int, postedDate: Date?) {

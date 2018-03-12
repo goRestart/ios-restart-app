@@ -678,14 +678,14 @@ extension ListingListView: UICollectionViewDataSourcePrefetching {
 
 extension ListingListView {
     func setAccessibilityIds() {
-        firstLoadView.accessibilityId = .listingListViewFirstLoadView
-        firstLoadActivityIndicator.accessibilityId = .listingListViewFirstLoadActivityIndicator
-        collectionView.accessibilityId = .listingListViewCollection
-        errorView.accessibilityId = .listingListViewErrorView
-        errorImageView.accessibilityId =  .listingListErrorImageView
-        errorTitleLabel.accessibilityId = .listingListErrorTitleLabel
-        errorBodyLabel.accessibilityId = .listingListErrorBodyLabel
-        errorButton.accessibilityId = .listingListErrorButton
+        firstLoadView.set(accessibilityId: .listingListViewFirstLoadView)
+        firstLoadActivityIndicator.set(accessibilityId: .listingListViewFirstLoadActivityIndicator)
+        collectionView.set(accessibilityId: .listingListViewCollection)
+        errorView.set(accessibilityId: .listingListViewErrorView)
+        errorImageView.set(accessibilityId:  .listingListErrorImageView)
+        errorTitleLabel.set(accessibilityId: .listingListErrorTitleLabel)
+        errorBodyLabel.set(accessibilityId: .listingListErrorBodyLabel)
+        errorButton.set(accessibilityId: .listingListErrorButton)
     }
 }
 

@@ -64,9 +64,9 @@ class ChangeEmailViewController: BaseViewController, UITextFieldDelegate {
     // MARK: - Accessibility
     
     private func setupAccessibilityIds() {
-        customView.emailLabel.accessibilityId = .changeEmailCurrentEmailLabel
-        customView.emailTextField.accessibilityId = .changeEmailTextField
-        customView.saveButton.accessibilityId = .changeEmailSendButton
+        customView.emailLabel.set(accessibilityId: .changeEmailCurrentEmailLabel)
+        customView.emailTextField.set(accessibilityId: .changeEmailTextField)
+        customView.saveButton.set(accessibilityId: .changeEmailSendButton)
     }
     
     private func setupRx() {

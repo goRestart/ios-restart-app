@@ -166,10 +166,10 @@ fileprivate extension PostCategorySelectionView {
     }
     
     func setupAccessibilityIds() {
-        carsCategoryButton.accessibilityId = .postingCategorySelectionCarsButton
-        motorsAndAccessoriesButton.accessibilityId = .postingCategorySelectionMotorsAndAccessoriesButton
-        otherCategoryButton.accessibilityId = .postingCategorySelectionOtherButton
-        realEstateCategoryButton.accessibilityId = .postingCategorySelectionRealEstateButton
+        carsCategoryButton.set(accessibilityId: .postingCategorySelectionCarsButton)
+        motorsAndAccessoriesButton.set(accessibilityId: .postingCategorySelectionMotorsAndAccessoriesButton)
+        otherCategoryButton.set(accessibilityId: .postingCategorySelectionOtherButton)
+        realEstateCategoryButton.set(accessibilityId: .postingCategorySelectionRealEstateButton)
         
     }
     

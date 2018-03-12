@@ -17,7 +17,7 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell {
         contentView.addSubview(bannerView)
         bannerView.translatesAutoresizingMaskIntoConstraints = false
         bannerView.layout(with: contentView).fill()
-        bannerView.accessibilityId = .advertisementCellBanner
+        bannerView.set(accessibilityId: .advertisementCellBanner)
     }
 
     override func awakeFromNib() {
@@ -38,6 +38,6 @@ class AdvertisementCell: UICollectionViewCell, ReusableCell {
     }
 
     private func setAccessibilityIds() {
-        accessibilityId = .advertisementCell
+        set(accessibilityId: .advertisementCell)
     }
 }

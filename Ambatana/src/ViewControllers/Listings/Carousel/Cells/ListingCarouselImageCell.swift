@@ -144,7 +144,7 @@ fileprivate extension ListingCarouselImageCell {
 
 fileprivate extension ListingCarouselImageCell {
     func setAccessibilityIds() {
-        accessibilityId = .listingCarouselImageCell
-        imageView.accessibilityId = .listingCarouselImageCellImageView
+        set(accessibilityId: .listingCarouselImageCell)
+        imageView.set(accessibilityId: .listingCarouselImageCellImageView)
     }
 }

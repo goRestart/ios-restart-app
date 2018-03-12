@@ -149,8 +149,8 @@ extension PostListingDetailPriceView: UITextFieldDelegate {
 
 extension PostListingDetailPriceView {
     func setAccesibilityIds() {
-        doneButton.accessibilityId = .postingDoneButton
-        currencyLabel.accessibilityId = .postingCurrencyLabel
-        priceTextField.accessibilityId = .postingPriceField
+        doneButton.set(accessibilityId: .postingDoneButton)
+        currencyLabel.set(accessibilityId: .postingCurrencyLabel)
+        priceTextField.set(accessibilityId: .postingPriceField)
     }
 }

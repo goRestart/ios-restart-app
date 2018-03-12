@@ -175,11 +175,11 @@ extension VerifyAccountsViewController: VerifyAccountsViewModelDelegate {
 
 extension VerifyAccountsViewController {
     func setAccesibilityIds() {
-        backgroundButton.accessibilityId = .verifyAccountsBackgroundButton
-        fbButton.accessibilityId = .verifyAccountsFacebookButton
-        googleButton.accessibilityId = .verifyAccountsGoogleButton
-        emailButton.accessibilityId = .verifyAccountsEmailButton
-        emailTextField.accessibilityId = .verifyAccountsEmailTextField
-        emailTextFieldButton.accessibilityId = .verifyAccountsEmailTextFieldButton
+        backgroundButton.set(accessibilityId: .verifyAccountsBackgroundButton)
+        fbButton.set(accessibilityId: .verifyAccountsFacebookButton)
+        googleButton.set(accessibilityId: .verifyAccountsGoogleButton)
+        emailButton.set(accessibilityId: .verifyAccountsEmailButton)
+        emailTextField.set(accessibilityId: .verifyAccountsEmailTextField)
+        emailTextFieldButton.set(accessibilityId: .verifyAccountsEmailTextFieldButton)
     }
 }

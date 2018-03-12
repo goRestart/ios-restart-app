@@ -97,7 +97,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
             button.setImage(category.icon, for: .normal)
             button.setTitle(category.title, for: .normal)
             button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-            button.accessibilityId = .expandableCategorySelectionButton
+            button.set(accessibilityId: .expandableCategorySelectionButton)
             button.translatesAutoresizingMaskIntoConstraints = false
             button.centerTextAndImage(spacing: 10)
             addSubview(button)
@@ -169,8 +169,8 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
     }
     
     fileprivate func setAccesibilityIds() {
-        accessibilityId = .expandableCategorySelectionView
-        closeButton.accessibilityId = .expandableCategorySelectionCloseButton
+        set(accessibilityId: .expandableCategorySelectionView)
+        closeButton.set(accessibilityId: .expandableCategorySelectionCloseButton)
     }
     
     /// We choose the layout depending on the content size
