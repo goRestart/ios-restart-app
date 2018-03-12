@@ -25,13 +25,10 @@ enum CarouselMovement {
 }
 
 enum AdRequestType {
-    case shopping
     case dfp
 
     var trackingParamValue: EventParameterAdType {
         switch self {
-        case .shopping:
-            return .shopping
         case .dfp:
             return .dfp
         }
@@ -196,9 +193,7 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     var currentAdRequestType: AdRequestType? {
- 
-            return .shopping
-
+        return adActive ? .dfp : nil
     }
     var currentAdRequestQueryType: AdRequestQueryType? = nil
     var adRequestQuery: String? = nil
