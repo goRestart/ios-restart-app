@@ -49,6 +49,7 @@ extension Bumper  {
         flags.append(SearchMultiwordExpressions.self)
         flags.append(ShowChatSafetyTips.self)
         flags.append(DiscardedProducts.self)
+        flags.append(PromoteBumpInEdit.self)
         flags.append(UserIsTyping.self)
         Bumper.initialize(flags)
     } 
@@ -231,6 +232,11 @@ extension Bumper  {
     static var discardedProducts: DiscardedProducts {
         guard let value = Bumper.value(for: DiscardedProducts.key) else { return .control }
         return DiscardedProducts(rawValue: value) ?? .control 
+    }
+
+    static var promoteBumpInEdit: PromoteBumpInEdit {
+        guard let value = Bumper.value(for: PromoteBumpInEdit.key) else { return .control }
+        return PromoteBumpInEdit(rawValue: value) ?? .control 
     }
 
     static var userIsTyping: UserIsTyping {
@@ -776,6 +782,25 @@ enum DiscardedProducts: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum PromoteBumpInEdit: String, BumperFeature  {
+    case control, baseline, implicit, sellFaster, longRedText, bigIcon
+    static var defaultValue: String { return PromoteBumpInEdit.control.rawValue }
+    static var enumValues: [PromoteBumpInEdit] { return [.control, .baseline, .implicit, .sellFaster, .longRedText, .bigIcon]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Ad a switch to edit listing page to bump the listing" } 
+    static func fromPosition(_ position: Int) -> PromoteBumpInEdit {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .implicit
+            case 3: return .sellFaster
+            case 4: return .longRedText
+            case 5: return .bigIcon
             default: return .control
         }
     }

@@ -58,6 +58,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var searchMultiwordExpressions: SearchMultiwordExpressions = .control
     var showChatSafetyTips: Bool = false
     var discardedProducts: DiscardedProducts = .control
+    var promoteBumpInEdit: PromoteBumpInEdit = .control
     var userIsTyping: UserIsTyping = .control
 
     // Country dependant features

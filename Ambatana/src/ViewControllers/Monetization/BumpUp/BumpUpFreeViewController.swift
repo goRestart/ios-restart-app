@@ -46,6 +46,11 @@ class BumpUpFreeViewController: BaseViewController {
         setAccessibilityIds()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.viewDidApear()
+    }
+
     // MARK: private methods
 
     func setupUI() {

@@ -425,19 +425,17 @@ class ListingCarouselViewModel: BaseViewModel {
     }
 
     func bumpUpBannerShown(type: BumpUpType) {
-        currentListingViewModel?.trackBumpUpBannerShown(type: type, storeProductId: currentListingViewModel?.paymentProviderItemId)
+        currentListingViewModel?.trackBumpUpBannerShown(type: type, storeProductId: currentListingViewModel?.storeProductId)
     }
 
-    func showBumpUpView(purchaseableProduct: PurchaseableProduct,
-                        paymentItemId: String?,
-                        paymentProviderItemId: String?,
+    func showBumpUpView(bumpUpProductData: BumpUpProductData,
                         bumpUpType: BumpUpType,
-                        bumpUpSource: BumpUpSource?) {
-        currentListingViewModel?.showBumpUpView(purchaseableProduct: purchaseableProduct,
-                                                paymentItemId: paymentItemId,
-                                                paymentProviderItemId: paymentProviderItemId,
+                        bumpUpSource: BumpUpSource?,
+                        typePage: EventParameterTypePage?) {
+        currentListingViewModel?.showBumpUpView(bumpUpProductData: bumpUpProductData,
                                                 bumpUpType: bumpUpType,
-                                                bumpUpSource: bumpUpSource)
+                                                bumpUpSource: bumpUpSource,
+                                                typePage: typePage)
     }
 
     func moveQuickAnswerToTheEnd(_ index: Int) {

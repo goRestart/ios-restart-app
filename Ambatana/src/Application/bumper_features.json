@@ -181,6 +181,11 @@
         "description": "Show users listings that have been discarded so they can be edited and reposted"
     },
     {
+        "name": "PromoteBumpInEdit",
+        "values": ["control", "baseline", "implicit", "SellFaster", "LongRedText", "BigIcon"],
+        "description": "Ad a switch to edit listing page to bump the listing"
+    },
+    {
         "name": "UserIsTyping",
         "values": ["control", "baseline", "active"],
         "description": "Show user is typing status on chat"

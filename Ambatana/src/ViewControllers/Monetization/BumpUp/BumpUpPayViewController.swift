@@ -45,6 +45,11 @@ class BumpUpPayViewController: BaseViewController {
         addSwipeDownGestureToView()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.viewDidAppear()
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         renderContainerCornerRadius()

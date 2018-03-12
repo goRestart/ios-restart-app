@@ -129,7 +129,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var shareFBSwitch: UISwitch!
     @IBOutlet weak var shareFBLabel: UILabel!
-    
+
+    @IBOutlet weak var featureSwitch: UISwitch!
+    @IBOutlet weak var featureLabel: UILabel!
+    @IBOutlet weak var featureIcon: UIImageView!
+    @IBOutlet weak var featureViewHeightConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var loadingLabel: UILabel!
     @IBOutlet weak var loadingProgressView: UIProgressView!
@@ -524,6 +529,12 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         shareFBSwitch.isOn = viewModel.shouldShareInFB
         shareFBLabel.text = LGLocalizedString.sellShareOnFacebookLabel
 
+        featureLabel.text = viewModel.featureLabelText
+        featureLabel.textColor = viewModel.featureLabelTextColor
+        featureLabel.font = viewModel.featureLabelFont
+        featureIcon.image = viewModel.featureIcon
+        featureSwitch.isOn = viewModel.shouldFeatureItemAfterEdit.value
+
         if featureFlags.freePostingModeAllowed {
             postFreeViewHeightConstraint.constant = EditListingViewController.viewOptionGenericHeight
             freePostViewSeparatorTopConstraint.constant = EditListingViewController.separatorOptionsViewDistance
@@ -531,7 +542,9 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             postFreeViewHeightConstraint.constant = 0
             freePostViewSeparatorTopConstraint.constant = 0
         }
-        
+
+        featureViewHeightConstraint.constant = viewModel.shouldShowFeatureListingCell ? EditListingViewController.viewOptionGenericHeight : 0
+
         // CollectionView
         imageCollectionView.delegate = self
         imageCollectionView.dataSource = self
@@ -734,7 +747,9 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         viewModel.loadingProgress.asObservable().ignoreNil().bind(to: loadingProgressView.rx.progress).disposed(by: disposeBag)
 
         viewModel.saveButtonEnabled.asObservable().bind(to: sendButton.rx.isEnabled).disposed(by: disposeBag)
-        
+
+        featureSwitch.rx.isOn.bind(to: viewModel.shouldFeatureItemAfterEdit).disposed(by: disposeBag)
+
         var previousKbOrigin: CGFloat = CGFloat.greatestFiniteMagnitude
         keyboardHelper.rx_keyboardOrigin.asObservable().skip(1).distinctUntilChanged().bind { [weak self] origin in
             guard let strongSelf = self else { return }
@@ -911,5 +926,8 @@ extension EditListingViewController {
         shareFBSwitch.set(accessibilityId: .editListingShareFBSwitch)
         loadingView.set(accessibilityId: .editListingLoadingView)
         freePostingSwitch.set(accessibilityId: .editListingPostFreeSwitch)
+        featureIcon.set(accessibilityId: .editListingFeatureIcon)
+        featureLabel.set(accessibilityId: .editListingFeatureLabel)
+        featureSwitch.set(accessibilityId: .editListingFeatureSwitch)
     }
 }
