@@ -87,7 +87,9 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
             detailMapView.setRegion(region, size: CGSize(width: 300, height: 500))
         }
         titleLabel.text = info.title
+        titleLabel.isHidden = info.title != nil
         priceLabel.text = info.price
+
         detailLabel.attributedText = info.description
         detailMapView.setLocationName(info.address)
         setNeedsLayout()

@@ -70,6 +70,8 @@ protocol ListingDeckViewControllerBinderCellType {
     var rxActionButton: Reactive<UIButton> { get }
     var rxUserIcon: Reactive<UIButton> { get }
     var disposeBag: DisposeBag { get }
+
+    func recycleDisposeBag()
 }
 
 final class ListingDeckViewControllerBinder {
@@ -117,6 +119,7 @@ final class ListingDeckViewControllerBinder {
 
     func bind(cell: ListingDeckViewControllerBinderCellType) {
         guard let viewController = listingDeckViewController else { return }
+        cell.recycleDisposeBag()
         cell.rxShareButton.tap.asObservable().bind { [weak viewController] in
             viewController?.didTapShare()
         }.disposed(by: cell.disposeBag)

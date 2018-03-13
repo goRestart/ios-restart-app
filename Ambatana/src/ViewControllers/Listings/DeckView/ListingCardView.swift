@@ -22,7 +22,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     private struct Layout {
         struct Height {
             static let userView: CGFloat = 64.0
-            static let whiteGradient: CGFloat = 40.0
+            static let whiteGradient: CGFloat = 0.7 * DeviceFamily.insetCorrection
             static let topInset: CGFloat = 350 // completly random
         }
         static let stickyHeaderThreadshold = Layout.Height.userView
@@ -45,8 +45,6 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     private var statusTapGesture: UITapGestureRecognizer?
 
     private let previewImageView = UIImageView()
-    var previewImageViewFrame: CGRect { return previewImageView.frame }
-    private var previewImageViewHeight: NSLayoutConstraint?
 
     private let gradient = GradientView(colors: [UIColor.black.withAlphaComponent(0.2), UIColor.black.withAlphaComponent(0)])
     private let countImageView = UIImageView(image: #imageLiteral(resourceName: "nit_preview_count"))
@@ -75,7 +73,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        disposeBag = DisposeBag()
+        recycleDisposeBag()
         previewImageView.image = nil
         userView.alpha = 0
 
@@ -188,6 +186,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     private func setupWhiteGradient() {
         whiteGradient.translatesAutoresizingMaskIntoConstraints = false
         whiteGradient.clipsToBounds = true
+        whiteGradient.isUserInteractionEnabled = false
         contentView.addSubview(whiteGradient)
         NSLayoutConstraint.activate([
             whiteGradient.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
@@ -222,8 +221,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         previewImageView.contentMode = .scaleAspectFill
         contentView.addSubview(previewImageView)
         previewImageView.layout(with: contentView).fillHorizontal().top()
-        previewImageViewHeight = previewImageView.heightAnchor.constraint(equalToConstant: defaultContentInset.top)
-        previewImageViewHeight?.isActive = true
+        previewImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                 constant: -(DeviceFamily.insetCorrection - 20)).isActive = true
     }
 
     private func setupImagesCount() {
@@ -331,14 +330,6 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: Metrics.margin).cgPath
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        let target =  defaultContentInset.top * 1.2
-        guard let constant = previewImageViewHeight?.constant, constant != target else { return }
-        previewImageViewHeight?.constant = target
-        previewImageView.setNeedsDisplay()
-    }
-
     // MARK: UIScrollViewDelegate
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -347,7 +338,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         } else {
             setStickyHeaderOff()
             if scrollView.contentOffset.y <= -scrollView.contentInset.top {
-                let scaleRatio = (-scrollView.contentOffset.y / scrollView.contentInset.top)
+                let scaleRatio = (-scrollView.contentOffset.y / scrollView.contentInset.top) * 1.2
                 previewImageView.transform = CGAffineTransform.identity.scaledBy(x: scaleRatio, y: scaleRatio)
             } else if scrollView.contentInset.top != 0
                 && -scrollView.contentOffset.y / scrollView.contentInset.top < 0.7 {
@@ -454,6 +445,10 @@ extension ListingCardView: ListingDeckViewControllerBinderCellType {
     var rxShareButton: Reactive<UIButton> { return userView.rxShareButton }
     var rxActionButton: Reactive<UIButton> { return userView.rxActionButton }
     var rxUserIcon: Reactive<UIButton> { return userView.rxUserIcon }
+
+    func recycleDisposeBag() {
+        disposeBag = DisposeBag()
+    }
 }
 
 fileprivate extension DeviceFamily {

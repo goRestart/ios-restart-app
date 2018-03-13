@@ -205,6 +205,7 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
 }
 
 private class MockListingDeckViewControllerBinderCellType: ListingDeckViewControllerBinderCellType {
+
     var rxShareButton: Reactive<UIButton> { return shareButton.rx }
     let shareButton = UIButton(frame: .zero)
 
@@ -215,6 +216,10 @@ private class MockListingDeckViewControllerBinderCellType: ListingDeckViewContro
     let userIcon = UIButton(frame: .zero)
 
     var disposeBag = DisposeBag()
+
+    func recycleDisposeBag() {
+        disposeBag = DisposeBag()
+    }
 }
 
 private class MockListingDeckViewType: ListingDeckViewType {
