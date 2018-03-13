@@ -894,7 +894,7 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                      bumpUpProductData: BumpUpProductData?) {
 
     }
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) {
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
 
     }
     func closeListingAfterDelete(_ listing: Listing) {
@@ -944,11 +944,12 @@ extension ListingViewModelSpec: ListingDetailNavigator {
 
     }
 
-    func openAskPhoneFor(listing: Listing) {
+    func openAskPhoneFor(listing: Listing, interlocutor: User?) {
 
     }
 
-    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) {
+    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage,
+                          interlocutor: User?) {
 
     }
 }

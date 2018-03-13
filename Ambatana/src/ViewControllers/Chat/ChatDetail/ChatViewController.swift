@@ -411,7 +411,7 @@ extension ChatViewController {
 
 extension ChatViewController: ChatBannerDelegate {
     func chatBannerDidFinish() {
-        guard !viewModel.interlocutorIsProfessional.value else { return }
+        guard !viewModel.interlocutorProfessionalInfo.value.isProfessional else { return }
         hideExpressChatBanner()
     }
 }
@@ -462,8 +462,8 @@ fileprivate extension ChatViewController {
             }
             }.disposed(by: disposeBag)
 
-        viewModel.interlocutorIsProfessional.asObservable()
-            .map { !$0 }
+        viewModel.interlocutorProfessionalInfo.asObservable()
+            .map { !$0.isProfessional }
             .bind(to: listingView.proTag.rx.isHidden)
             .disposed(by: disposeBag)
 
@@ -526,13 +526,10 @@ fileprivate extension ChatViewController {
             }
         }.disposed(by: disposeBag)
 
-        let showProfessionalBanner = Observable.combineLatest(viewModel.interlocutorIsProfessional.asObservable(),
-                                                              viewModel.interlocutorPhoneNumber.asObservable()) { ($0, $1) }
-
-        showProfessionalBanner.asObservable().bind { [weak self] (isPro, phoneNum) in
+        viewModel.interlocutorProfessionalInfo.asObservable().bind { [weak self] professionalInfo in
             guard let strongSelf = self else { return }
-            guard isPro else { return }
-            strongSelf.setupProfessionalSellerBannerWithPhone(phoneNumber: phoneNum)
+            guard professionalInfo.isProfessional else { return }
+            strongSelf.setupProfessionalSellerBannerWithPhone(phoneNumber: professionalInfo.phoneNumber)
             strongSelf.showProfessionalSellerBanner()
         }.disposed(by: disposeBag)
         
