@@ -66,7 +66,7 @@
 "categories_title" = "Catégories";
 "categories_unassigned" = "Non sélectionnée";
 "categories_unassigned_items" = "Autres biens";
-"change_bio_placeholder" = "Ajoutez une bio qui décrit qui vous êtes. Partagez vos centres d'intérêt ou un fait amusant à propos de vous";
+"change_bio_placeholder" = "Ajoutez une bio qui décrit qui vous êtes. Partagez vos centres d'intérêt ou un fait amusant à propos de vous.";
 "change_bio_save_button" = "Sauver";
 "change_bio_title" = "À propos de moi";
 "change_email_current_email_label" = "EMAIL ACTUEL :";
@@ -512,9 +512,9 @@
 "post_description_name_placeholder" = "Nom";
 "post_description_save_button_text" = "Sauvegarder cette annonce !";
 "post_get_started_button_text" = "Commencez";
-"post_get_started_discard_text" = "You can discard it later if you don’t want to sell it.";
+"post_get_started_discard_text" = "Vous pouvez le retirer plus tard si vous ne voulez pas le vendre.";
 "post_get_started_intro_text" = "Découvrez comme il est facile de vendre sur letgo. Publiez quelque chose que vous avez à portée de main.";
-"post_get_started_welcome_letgo_text" = "Welcome to letgo";
+"post_get_started_welcome_letgo_text" = "Bienvenue sur letgo";
 "post_get_started_welcome_user_text" = "Bienvenue, %@!";
 "post_header_step_add_price" = "Ajouter un prix";
 "post_header_step_confirm_picture" = "Validez la photo";

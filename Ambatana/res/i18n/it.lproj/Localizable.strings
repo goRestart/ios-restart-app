@@ -512,9 +512,9 @@
 "post_description_name_placeholder" = "Nome";
 "post_description_save_button_text" = "Salva questo annuncio!";
 "post_get_started_button_text" = "Inizia";
-"post_get_started_discard_text" = "You can discard it later if you don’t want to sell it.";
+"post_get_started_discard_text" = "Puoi sempre eliminarlo in seguito se non desideri venderlo.";
 "post_get_started_intro_text" = "Scopri com'è facile vendere su letgo. Pubblica qualcosa che hai intorno a te.";
-"post_get_started_welcome_letgo_text" = "Welcome to letgo";
+"post_get_started_welcome_letgo_text" = "Benvenuto su letgo";
 "post_get_started_welcome_user_text" = "Benvenuto, %@!";
 "post_header_step_add_price" = "Aggiungi prezzo";
 "post_header_step_confirm_picture" = "Conferma foto";

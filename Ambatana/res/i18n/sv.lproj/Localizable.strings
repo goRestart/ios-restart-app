@@ -66,7 +66,7 @@
 "categories_title" = "Kategorier";
 "categories_unassigned" = "Inte vald";
 "categories_unassigned_items" = "Något annat";
-"change_bio_placeholder" = "Lägg till en kort bio som beskriver vem du är. Berätta om dina intressen eller något skoj om dig själv";
+"change_bio_placeholder" = "Lägg till en kort bio som beskriver vem du är. Berätta om dina intressen eller något skoj om dig själv.";
 "change_bio_save_button" = "Spara";
 "change_bio_title" = "Om mig";
 "change_email_current_email_label" = "BEFINTLIG E-POST:";
