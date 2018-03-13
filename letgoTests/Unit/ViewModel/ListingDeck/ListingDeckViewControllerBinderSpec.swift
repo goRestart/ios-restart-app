@@ -231,8 +231,8 @@ private class MockListingDeckViewType: ListingDeckViewType {
     var collectionView: UICollectionView = UICollectionView(frame: .zero,
                                                             collectionViewLayout: UICollectionViewFlowLayout())
 
-    var rxActionButton: Reactive<UIButton> { return actionButton.rx }
-    let actionButton = UIButton(frame: .zero)
+    var rxActionButton: Reactive<LetgoButton> { return actionButton.rx }
+    let actionButton = LetgoButton(withStyle: .terciary)
 
     var currentPage: Int = 0
 

@@ -111,6 +111,14 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
 }
 
 extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
+    func editListing(_ listing: Listing, bumpUpProductData: BumpUpProductData?) { }
+    func openFreeBumpUp(forListing listing: Listing,
+                        bumpUpProductData: BumpUpProductData,
+                        typePage: EventParameterTypePage?) { }
+
+    func openPayBumpUp(forListing listing: Listing,
+                       bumpUpProductData: BumpUpProductData,
+                       typePage: EventParameterTypePage?) { }
     func openAppInvite(myUserId: String?, myUserName: String?) { }
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) { }
     func openAskPhoneFor(listing: Listing) {}
@@ -128,13 +136,8 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
     func canOpenAppInvite() -> Bool { return true }
     func openRatingList(_ userId: String) {}
     func closeProductDetail() {}
-    func editListing(_ listing: Listing) {}
     func openListingChat(_ listing: Listing, source: EventParameterTypePage) {}
     func closeListingAfterDelete(_ listing: Listing) {}
-    func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String) {}
-    func openPayBumpUp(forListing listing: Listing,
-                       purchaseableProduct: PurchaseableProduct,
-                       paymentItemId: String) {}
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,

@@ -58,8 +58,8 @@ class ListingDeckOnBoardingBinderSpec: QuickSpec {
 }
 
 private class MockListingDeckOnBoardingViewRxType: ListingDeckOnBoardingViewRxType {
-    var rxConfirmButton: Reactive<UIButton> { return confirmButton.rx }
-    var confirmButton: UIButton = UIButton()
+    var rxConfirmButton: Reactive<LetgoButton> { return confirmButton.rx }
+    var confirmButton = LetgoButton(withStyle: .terciary)
 }   
 
 private class MockListingDeckOnBoardingViewControllerType: ListingDeckOnBoardingViewControllerType {

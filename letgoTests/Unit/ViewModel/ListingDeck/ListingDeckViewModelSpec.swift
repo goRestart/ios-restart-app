@@ -853,19 +853,20 @@ extension ListingDeckViewModelSpec: ListingDeckViewModelDelegate {
 }
 
 extension ListingDeckViewModelSpec: ListingDetailNavigator {
+    func editListing(_ listing: Listing, bumpUpProductData: BumpUpProductData?) { }
+    func openFreeBumpUp(forListing listing: Listing,
+                        bumpUpProductData: BumpUpProductData,
+                        typePage: EventParameterTypePage?) {}
+    func openPayBumpUp(forListing listing: Listing,
+                       bumpUpProductData: BumpUpProductData,
+                       typePage: EventParameterTypePage?) {}
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) { }
-
     func openAskPhoneFor(listing: Listing) { }
     func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) { }
 
     func closeProductDetail() {}
-    func editListing(_ listing: Listing) {}
     func openListingChat(_ listing: Listing, source: EventParameterTypePage) {}
     func closeListingAfterDelete(_ listing: Listing) {}
-    func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String) {}
-    func openPayBumpUp(forListing listing: Listing,
-                       purchaseableProduct: PurchaseableProduct,
-                       paymentItemId: String) {}
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,
