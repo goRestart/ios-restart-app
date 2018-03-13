@@ -344,6 +344,13 @@ extension SellCoordinator: BlockingPostingNavigator  {
     func closePosting() {
         cancelPostListing()
     }
+
+    func postingSucceededWith(listing: Listing) {
+        closeCoordinator(animated: true) { [weak self] in
+            guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
+            delegate.sellCoordinator(strongSelf, didFinishWithListing: listing)
+        }
+    }
     
     func openListingEditionLoading(listingParams: ListingEditionParams,
                                    listing: Listing,
