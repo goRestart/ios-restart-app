@@ -21,7 +21,10 @@ public enum ListingCategory: Int {
     case services = 11
 
     
-    static func visibleValues(servicesIncluded: Bool, carsIncluded: Bool, realEstateIncluded: Bool, highlightRealEstate: Bool) -> [ListingCategory] {
+    static func visibleValues(servicesIncluded: Bool,
+                              carsIncluded: Bool,
+                              realEstateIncluded: Bool,
+                              highlightRealEstate: Bool) -> [ListingCategory] {
 
         var categories: [ListingCategory] = [.electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
                                              .fashionAndAccesories, .babyAndChild]
@@ -43,7 +46,9 @@ public enum ListingCategory: Int {
         return categories
     }
     
-    public static func visibleValuesInFeed(servicesIncluded: Bool, realEstateIncluded: Bool, highlightRealEstate: Bool) -> [ListingCategory] {
+    public static func visibleValuesInFeed(servicesIncluded: Bool,
+                                           realEstateIncluded: Bool,
+                                           highlightRealEstate: Bool) -> [ListingCategory] {
 
         var categories: [ListingCategory] = [.electronics, .homeAndGarden, .sportsLeisureAndGames, .motorsAndAccessories,
                                              .fashionAndAccesories, .babyAndChild, .moviesBooksAndMusic]
