@@ -47,6 +47,7 @@ extension Bumper  {
         flags.append(TurkeyBumpPriceVATAdaptation.self)
         flags.append(SearchMultiwordExpressions.self)
         flags.append(ShowChatSafetyTips.self)
+        flags.append(OnboardingIncentivizePosting.self)
         flags.append(DiscardedProducts.self)
         flags.append(PromoteBumpInEdit.self)
         flags.append(UserIsTyping.self)
@@ -221,6 +222,11 @@ extension Bumper  {
     static var showChatSafetyTips: Bool {
         guard let value = Bumper.value(for: ShowChatSafetyTips.key) else { return false }
         return ShowChatSafetyTips(rawValue: value)?.asBool ?? false
+    }
+
+    static var onboardingIncentivizePosting: OnboardingIncentivizePosting {
+        guard let value = Bumper.value(for: OnboardingIncentivizePosting.key) else { return .control }
+        return OnboardingIncentivizePosting(rawValue: value) ?? .control 
     }
 
     static var discardedProducts: DiscardedProducts {
@@ -746,6 +752,22 @@ enum ShowChatSafetyTips: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show chat safety tips to new users" } 
     var asBool: Bool { return self == .yes }
+}
+
+enum OnboardingIncentivizePosting: String, BumperFeature  {
+    case control, baseline, blockingPosting
+    static var defaultValue: String { return OnboardingIncentivizePosting.control.rawValue }
+    static var enumValues: [OnboardingIncentivizePosting] { return [.control, .baseline, .blockingPosting]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Leads the user through the posting feature and onboarding improvements" } 
+    static func fromPosition(_ position: Int) -> OnboardingIncentivizePosting {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .blockingPosting
+            default: return .control
+        }
+    }
 }
 
 enum DiscardedProducts: String, BumperFeature  {

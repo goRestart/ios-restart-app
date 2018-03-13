@@ -12,6 +12,7 @@ import SafariServices
 protocol OnboardingCoordinatorDelegate: class {
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?)
     func shouldSkipPostingTour() -> Bool
+    func shouldShowBlockingPosting() -> Bool
     func onboardingCoordinatorDidFinishTour(_ coordinator: OnboardingCoordinator)
 }
 
@@ -157,6 +158,8 @@ final class OnboardingCoordinator: Coordinator, ChangePasswordPresenter {
         }
         if delegate.shouldSkipPostingTour() {
             delegate.onboardingCoordinatorDidFinishTour(self)
+        } else if delegate.shouldShowBlockingPosting() {
+            finish(withPosting: true, source: .onboardingBlockingPosting)
         } else {
             openTourPosting()
         }

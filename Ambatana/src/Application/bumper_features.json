@@ -176,6 +176,11 @@
         "description": "Show users listings that have been discarded so they can be edited and reposted"
     },
     {
+        "name": "OnboardingIncentivizePosting",
+        "values": ["control", "baseline", "blockingPosting"],
+        "description": "Leads the user through the posting feature and onboarding improvements"
+    },
+    {
         "name": "PromoteBumpInEdit",
         "values": ["control", "baseline", "implicit", "SellFaster", "LongRedText", "BigIcon"],
         "description": "Ad a switch to edit listing page to bump the listing"

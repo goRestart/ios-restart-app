@@ -63,6 +63,7 @@ protocol FeatureFlaggeable: class {
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
     var searchMultiwordExpressions: SearchMultiwordExpressions { get }
     var showChatSafetyTips: Bool { get }
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var discardedProducts: DiscardedProducts { get }
     var promoteBumpInEdit: PromoteBumpInEdit { get }
     var userIsTyping: UserIsTyping { get }
@@ -210,6 +211,9 @@ extension DiscardedProducts {
     var isActive: Bool { get { return self == .active } }
 }
 
+extension OnboardingIncentivizePosting {
+    var isActive: Bool { get { return self == .blockingPosting } }
+}
 extension PromoteBumpInEdit {
     var isActive: Bool { get { return self != .control && self != .baseline } }
 }
@@ -495,7 +499,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return SearchMultiwordExpressions.fromPosition(abTests.searchMultiwordExpressions.value)
     }
-
+    
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting {
+        if Bumper.enabled {
+            return Bumper.onboardingIncentivizePosting
+        }
+        return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
+    }
+    
     var discardedProducts: DiscardedProducts {
         if Bumper.enabled {
             return Bumper.discardedProducts

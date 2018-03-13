@@ -230,7 +230,7 @@ extension AppCoordinator: AppNavigator {
              .mostSearchedTabBarCamera, .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable,
              .mostSearchedCategoryHeader, .mostSearchedCard, .mostSearchedUserProfile:
             forcedInitialTab = nil
-        case .onboardingButton, .onboardingCamera:
+        case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
             forcedInitialTab = .camera
         }
 
@@ -498,6 +498,10 @@ extension AppCoordinator: OnboardingCoordinatorDelegate {
 
     func shouldSkipPostingTour() -> Bool {
         return deepLinksRouter.initialDeeplinkAvailable
+    }
+    
+    func shouldShowBlockingPosting() -> Bool {
+        return featureFlags.onboardingIncentivizePosting.isActive
     }
 
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?) {
