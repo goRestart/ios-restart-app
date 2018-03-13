@@ -64,6 +64,9 @@
 "categories_title" = "Κατηγορίες";
 "categories_unassigned" = "Δεν έχει επιλεχθεί";
 "categories_unassigned_items" = "Άλλα αντικείμενα";
+"change_bio_placeholder" = "Προσθέστε ένα βιογραφικό που να περιγράφει ποιοι είστε. Μοιραστείτε ό,τι σας ενδιαφέρει ή κάποιο διασκεδαστικό στοιχείο του χαρακτήρα σας";
+"change_bio_save_button" = "Αποθήκευση";
+"change_bio_title" = "Σχετικά με εμένα";
 "change_email_current_email_label" = "ΤΡΕΧΟΝ EMAIL:";
 "change_email_error_already_registered" = "Αυτή η διεύθυνση email είναι ήδη εγγεγραμμένη. Παρακαλώ εισάγετε μία άλλη.";
 "change_email_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email.";
@@ -299,12 +302,14 @@
 "discarded_products_delete_confirmation" = "Είστε σίγουροι πως θέλετε να διαγράψετε αυτήν την καταχώρηση;";
 "discarded_products_edit" = "Επεξεργασία";
 "discarded_products_reason_duplicated" = "Διπλή καταχώρηση";
-"discarded_products_reason_good_manners" = "Δε συμβαδίζει με τα κόλπα για προχωρημένους";
+"discarded_products_reason_good_manners" = "Δε συμβαδίζει με τις καλύτερες πρακτικές για προχωρημένους";
 "discarded_products_reason_non_realistic_price" = "Μη ρεαλιστική τιμή";
 "discarded_products_reason_photo_not_clear" = "Θολή ή θαμπή φωτογραφία";
-"discarded_products_reason_poor_ad_quality" = "Δε συμβαδίζει με τα κόλπα για προχωρημένους";
+"discarded_products_reason_poor_ad_quality" = "Δε συμβαδίζει με τις καλύτερες πρακτικές για προχωρημένους";
 "discarded_products_reason_reference_to_competitors" = "Αναφορές σε άλλες εφαρμογές ή ιστοσελίδες";
 "discarded_products_reason_stock_photo_only" = "Περιέχει μόνο πρότυπα φωτογραφιών";
+"edit_product_feature_label_long_text" = "Προωθήστε την καταχώρησή σας για να πουλήσετε γρηγορότερα";
+"edit_product_feature_label_short_text" = "Πουλήστε τώρα γρηγορότερα";
 "edit_product_location_alert_text" = "Για να αλλάξετε το που δημοσιεύτηκε η καταχώρησή σας, επιτρέψτε την πρόσβαση στην τοποθεσία σας";
 "edit_product_location_alert_title" = "ΑΛΛΑΓΗ ΤΟΠΟΘΕΣΙΑΣ";
 "edit_product_send_button" = "Αποθήκευση αλλαγών";
@@ -694,8 +699,8 @@
 "professional_dealer_ask_phone_textfield_placeholder" = "Εισάγετε αριθμό τηλεφώνου";
 "professional_dealer_ask_phone_thanks_other_cell_message" = "Ευχαριστούμε που επικοινωνήσατε μαζί μας! Παρακαλούμε καλέστε μας ή αφήστε τον αριθμό σας, ώστε να σας καλέσουμε εμείς.";
 "professional_dealer_ask_phone_thanks_phone_cell_message" = "Ευχαριστούμε για την προσθήκη του τηλεφώνου σας! Είναι πάντα καλύτερο να μας καλέσετε εσείς, χρησιμοποιώντας το παραπάνω κουμπί κλήσης.";
-"profile_bio_add_button" = "Add your bio";
-"profile_bio_show_more_button" = "MORE ABOUT ME";
+"profile_bio_add_button" = "Προσθήκη βιογραφικού";
+"profile_bio_show_more_button" = "ΠΕΡΙΣΣΟΤΕΡΑ ΣΧΕΤΙΚΑ ΜΕ ΕΜΕΝΑ";
 "profile_blocked_by_me_label" = "Έχετε μπλοκάρει αυτό το χρήστη";
 "profile_blocked_by_me_label_w_name" = "Έχετε μπλοκάρει τον %@";
 "profile_blocked_by_other_label" = "Ο χρήστης αυτός σας έχει μπλοκάρει";
@@ -914,6 +919,7 @@
 "settings_change_profile_picture_button" = "Αλλαγή Φωτογραφίας";
 "settings_change_profile_picture_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αλλαγή της φωτογραφίας προφίλ.";
 "settings_change_profile_picture_loading" = "Ορισμός φωτογραφίας προφίλ, παρακαλώ περιμένετε...";
+"settings_change_user_bio_button" = "Βιογραφικό / Σχετικά με εμένα";
 "settings_change_username_button" = "Αλλαγή Ονόματος";
 "settings_general_notifications_alert_message" = "Ενεργοποιήστε ειδοποιήσεις για τη letgo εφαρμογή στις ρυθμίσεις της συσκευής σας.";
 "settings_help_button" = "Βοήθεια";

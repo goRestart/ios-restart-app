@@ -25,7 +25,10 @@ class SocialSharer: NSObject {
 // MARK: > Share
 
 extension SocialSharer {
-    func share(_ socialMessage: SocialMessage, shareType: ShareType, viewController: UIViewController) {
+    func share(_ socialMessage: SocialMessage,
+               shareType: ShareType,
+               viewController: UIViewController,
+               barButtonItem: UIBarButtonItem? = nil) {
         guard SocialSharer.canShareIn(shareType) else {
             delegate?.shareStartedIn(shareType)
             delegate?.shareFinishedIn(shareType, withState: .failed)
@@ -50,7 +53,7 @@ extension SocialSharer {
         case .sms:
             shareInSMS(socialMessage, viewController: viewController, messageComposeDelegate: self)
         case let .native(restricted):
-            shareInNative(socialMessage, viewController: viewController, restricted: restricted)
+            shareInNative(socialMessage, viewController: viewController, restricted: restricted, barButtonItem: barButtonItem)
         }
     }
 }
@@ -149,7 +152,8 @@ extension SocialSharer: FBSDKSharingDelegate {
 // MARK: - MFMailComposeViewControllerDelegate
 
 extension SocialSharer: MFMailComposeViewControllerDelegate {
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult,
+    func mailComposeController(_ controller: MFMailComposeViewController,
+                               didFinishWith result: MFMailComposeResult,
                                error: Error?) {
         let state: SocialShareState
         switch result {
@@ -260,7 +264,10 @@ fileprivate extension SocialSharer {
         }
     }
 
-    func shareInNative(_ socialMessage: SocialMessage, viewController: UIViewController, restricted: Bool) {
+    func shareInNative(_ socialMessage: SocialMessage,
+                       viewController: UIViewController,
+                       restricted: Bool,
+                       barButtonItem: UIBarButtonItem? = nil) {
         socialMessage.retrieveNativeShareItems { activityItems in
             let shareVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
             
@@ -272,6 +279,22 @@ fileprivate extension SocialSharer {
                 excludedActivities.append(.saveToCameraRoll)
                 excludedActivities.append(.addToReadingList)
                 shareVC.excludedActivityTypes = excludedActivities
+            }
+
+            if shareVC.responds(to: #selector(getter: UIViewController.popoverPresentationController)) {
+                if let item = barButtonItem {
+                    let presentationController = shareVC.popoverPresentationController
+                    presentationController?.barButtonItem = item
+                } else {
+                    // fallback case if someone forgets to add a bar button item
+                    shareVC.popoverPresentationController?.sourceView = viewController.view
+                }
+            }
+            
+            if shareVC.responds(to: #selector(getter: UIViewController.popoverPresentationController)),
+                let item = barButtonItem,
+                let presentationController = shareVC.popoverPresentationController {
+                presentationController.barButtonItem = item
             }
             
             shareVC.completionWithItemsHandler = { [weak self] (activity, success, items, error) in

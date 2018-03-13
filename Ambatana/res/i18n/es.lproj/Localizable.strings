@@ -64,6 +64,9 @@
 "categories_title" = "Categorías";
 "categories_unassigned" = "No seleccionada";
 "categories_unassigned_items" = "Otros artículos";
+"change_bio_placeholder" = "Añade una bio que describa quien eres. ¡Comparte lo que te interesa o algún dato divertido sobre ti!";
+"change_bio_save_button" = "Guardar";
+"change_bio_title" = "Sobre mí";
 "change_email_current_email_label" = "EMAIL ACTUAL:";
 "change_email_error_already_registered" = "Este email ya está registrado. Por favor, introduce uno distinto.";
 "change_email_error_invalid_email" = "Por favor, introduce un email válido.";
@@ -305,6 +308,8 @@
 "discarded_products_reason_poor_ad_quality" = "No respeta las prácticas recomendadas";
 "discarded_products_reason_reference_to_competitors" = "Referencias a otras apps o páginas web";
 "discarded_products_reason_stock_photo_only" = "Solo contiene imágenes de archivo";
+"edit_product_feature_label_long_text" = "Destaca tu anuncio para vender más rápido";
+"edit_product_feature_label_short_text" = "Vender más rápido";
 "edit_product_location_alert_text" = "Para cambiar dónde se publica tu anuncio, permite acceso a tu ubicación";
 "edit_product_location_alert_title" = "CAMBIAR UBICACIÓN";
 "edit_product_send_button" = "Guardar cambios";
@@ -914,6 +919,7 @@
 "settings_change_profile_picture_button" = "Foto";
 "settings_change_profile_picture_error_generic" = "Se ha producido un error al modificar la foto de perfil.";
 "settings_change_profile_picture_loading" = "Actualizando tu foto de perfil...";
+"settings_change_user_bio_button" = "Bio / Sobre mí";
 "settings_change_username_button" = "Nombre";
 "settings_general_notifications_alert_message" = "Activa las notificaciones para la app de letgo en los ajustes de tu dispositivo.";
 "settings_help_button" = "Ayuda";

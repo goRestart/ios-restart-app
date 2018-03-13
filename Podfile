@@ -31,7 +31,7 @@ def shared_pods
     pod "Amplitude-iOS",        "4.0.4"     # Obj-c
     pod "AppsFlyerFramework",   "4.8.2"     # Obj-c
     pod "Leanplum-iOS-SDK",     "2.0.5"     # Obj-c
-    pod "NewRelicAgent",        "6.1.0"     # Obj-c
+    pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
     # letgo Core
         pod "LGCoreKit",             "4.11.0"

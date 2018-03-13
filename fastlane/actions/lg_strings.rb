@@ -1,3 +1,6 @@
+gem 'google_drive', '>=2.0.0'
+require 'google_drive'
+
 module Fastlane
   module Actions
     module SharedValues
@@ -8,7 +11,7 @@ module Fastlane
         path_to_repo = params[:repository_path]
         mark_unused_strings = params[:mark_unused_strings]
         remove_unused_strings = params[:remove_unused_strings]
-        pushChangeCommand = "ruby #{path_to_repo}Scripts/strings_update.rb -i #{path_to_repo}"
+        pushChangeCommand = "ruby #{path_to_repo}fastlane/scripts/strings_update.rb -i #{path_to_repo}"
 
         if mark_unused_strings 
           pushChangeCommand << " -c -m"
@@ -18,8 +21,22 @@ module Fastlane
           pushChangeCommand << " -r"
         end
 
+        ENV["STRINGS_CREDENTIALS_PATH"] = Dir.home + '/.locgen/lg_strings_update_v2.json'
+        ENV["STRINGS_CLIENT_ID"] = "992995045432-2u7mrinee9u8o4fo3nuaivhjlq7ogpt6.apps.googleusercontent.com"
+        ENV["STRINGS_CLIENT_SECRET"] = "GhEnWQ2ucBbQHdr-mSUmgltF"
+
+        FileUtils.mkdir_p(File.dirname(ENV["STRINGS_CREDENTIALS_PATH"]))
+        begin
+          session = GoogleDrive.saved_session(ENV["STRINGS_CREDENTIALS_PATH"], nil, ENV["STRINGS_CLIENT_ID"], ENV["STRINGS_CLIENT_SECRET"])
+        rescue 
+          UI.error 'Couldn\'t access Google Drive. Check your credentials!'
+          exit -1
+        end        
+
         UI.message pushChangeCommand
         Actions.sh pushChangeCommand
+        
+
       end
 
 
