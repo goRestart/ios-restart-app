@@ -138,8 +138,10 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
     func closePosting(discardingListing: Bool) {
         defer {
             if discardingListing {
+                trackPostSellAbandon()
                 navigator?.closePosting()
             } else {
+                trackPostSellComplete()
                 navigator?.postingSucceededWith(listing: listing)
             }
         }

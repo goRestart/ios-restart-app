@@ -75,7 +75,7 @@ final class BlockingPostingAddPriceViewController: KeyboardViewController, Block
         
         contentView.layout(with: headerView).top(to: .bottom)
         contentView.layout(with: view).fillHorizontal(by: Metrics.veryShortMargin)
-        contentView.layout(with: view).bottom(by: -(BlockingPostingAddPriceViewController.doneButtonHeight+Metrics.bigMargin*2))
+        contentView.layout(with: keyboardView).bottom(to: .top, by: -(BlockingPostingAddPriceViewController.doneButtonHeight+Metrics.bigMargin*2))
         
         doneButton.layout(with: view).bottom(by: -Metrics.margin)
         doneButton.layout().height(BlockingPostingAddPriceViewController.doneButtonHeight)

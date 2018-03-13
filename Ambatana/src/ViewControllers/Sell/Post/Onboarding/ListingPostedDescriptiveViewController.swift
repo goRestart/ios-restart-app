@@ -122,7 +122,7 @@ class ListingPostedDescriptiveViewController: KeyboardViewController, UITextView
     private func setupTitleUI() {
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(containerTapped))
-        titleContainerView.addGestureRecognizer(tapRecognizer)
+        view.addGestureRecognizer(tapRecognizer)
 
         doneLabel.textAlignment = .left
 

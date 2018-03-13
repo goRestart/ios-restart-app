@@ -58,6 +58,12 @@ class PostingGetStartedViewModel: BaseViewModel {
         super.init()
         retrieveImageForAvatar()
     }
+    
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        guard firstTime else { return }
+        trackVisit()
+    }
 
     func retrieveImageForAvatar() {
         guard let avatarUrl = userAvatarURL else { return }
@@ -77,7 +83,7 @@ class PostingGetStartedViewModel: BaseViewModel {
     
     // MARK: - Tracker
     
-    func trackVisit() {
+    private func trackVisit() {
         let event = TrackerEvent.listingSellStart(.onboarding,
                                                   buttonName: PostingSource.onboardingBlockingPosting.buttonName,
                                                   sellButtonPosition: PostingSource.onboardingBlockingPosting.sellButtonPosition,
