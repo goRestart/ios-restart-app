@@ -71,13 +71,14 @@ class PostingGetStartedViewModel: BaseViewModel {
     // MARK: - Navigation
     
     func nextAction() {
+        trackVisit()
         navigator?.openCamera()
     }
     
     
     // MARK: - Tracker
     
-    func trackVisit() {
+    private func trackVisit() {
         let event = TrackerEvent.listingSellStart(.onboarding,
                                                   buttonName: PostingSource.onboardingBlockingPosting.buttonName,
                                                   sellButtonPosition: PostingSource.onboardingBlockingPosting.sellButtonPosition,
