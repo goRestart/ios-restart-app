@@ -162,8 +162,9 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
         UIView.animate(withDuration: Duration.flashOutTable,
                        animations: { [weak self] in
                         self?.tableView.alpha = 0
+            }, completion: { [weak self] _ in
+                self?.alphaAnimationHideTimer = nil
         })
-        alphaAnimationHideTimer = nil
     }
 
     func addDismissGestureRecognizer(_ gesture: UITapGestureRecognizer) {
@@ -273,15 +274,14 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     }
 
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        let firstResponder = textView.isFirstResponder
+        guard !textView.isFirstResponder else { return true }
 
         let insideTable = tableView.point(inside: convert(point, to: tableView),  with: event)
-            && alphaAnimationHideTimer != nil
-            && isTableInteractionEnabled
+            && (alphaAnimationHideTimer != nil || isTableInteractionEnabled)
 
         let insideTextView = textView.point(inside: convert(point, to: textView), with: event)
         let insideDirectAnswers = directAnswersView.point(inside: convert(point, to: directAnswersView), with: event)
 
-        return firstResponder || insideTable || insideTextView || insideDirectAnswers
+        return insideTable || insideTextView || insideDirectAnswers
     }
 }

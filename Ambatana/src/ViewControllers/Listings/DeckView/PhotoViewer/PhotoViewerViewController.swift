@@ -90,7 +90,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
 
     private func setupDismissChatGestures() {
         quickChatTap.addTarget(self, action: #selector(dismissChat))
-        chatView.addGestureRecognizer(quickChatTap)
+        chatView.addDismissGestureRecognizer(quickChatTap)
 
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(dismissChat))
         swipeDown.direction = .down
