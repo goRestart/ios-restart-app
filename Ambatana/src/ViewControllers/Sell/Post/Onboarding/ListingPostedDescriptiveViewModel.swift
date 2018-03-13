@@ -138,15 +138,16 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
     func closePosting(discardingListing: Bool) {
         defer {
             if discardingListing {
+                trackPostSellAbandon()
                 navigator?.closePosting()
             } else {
+                trackPostSellComplete()
                 navigator?.postingSucceededWith(listing: listing)
             }
         }
         if discardingListing {
             guard let listingId = listing.objectId else { return }
             listingRepository.delete(listingId: listingId, completion: nil)
-            trackPostSellAbandon()
         } else if infoHasChanged() {
             let updatedParams: ListingEditionParams
             if let category = listingCategory.value, category.isCar {
@@ -163,9 +164,6 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
                 updatedParams = .product(productParams)
             }
             listingRepository.update(listingParams: updatedParams, completion: nil)
-            trackPostSellComplete()
-        } else {
-            trackPostSellComplete()
         }
     }
 
