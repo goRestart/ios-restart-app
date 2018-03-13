@@ -299,7 +299,7 @@ extension SellCoordinator: ListingPostedNavigator {
 
 extension SellCoordinator: BlockingPostingNavigator  {
     func openCamera() {
-        let postListingVM = PostListingViewModel(source: .sellButton,
+        let postListingVM = PostListingViewModel(source: .onboardingBlockingPosting,
                                                  postCategory: nil,
                                                  listingTitle: nil,
                                                  isBlockingPosting: true)
