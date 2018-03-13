@@ -60,6 +60,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var promoteBumpInEdit: PromoteBumpInEdit = .control
     var userIsTyping: UserIsTyping = .control
 
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
+    
     // Country dependant features
     var freePostingModeAllowed = false
     var postingFlowType: PostingFlowType = .standard

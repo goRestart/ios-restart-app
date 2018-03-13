@@ -2355,6 +2355,20 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
+            describe("listingSellAbandon") {
+                let abandonStep = EventParameterPostingAbandonStep.makeMock()
+                beforeEach {
+                    sut = TrackerEvent.listingSellAbandon(abandonStep: abandonStep)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("product-sell-abandon"))
+                }
+                it("matches abandon step") {
+                    let data = sut.params!.stringKeyParams["abandon-step"] as? String
+                    expect(data).to(equal(abandonStep.rawValue))
+                }
+            }
+            
             describe("listingSellComplete product") {
                 beforeEach {
                     var product = MockProduct.makeMock()

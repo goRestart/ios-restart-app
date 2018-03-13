@@ -93,7 +93,8 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forcedInitialTab = forcedInitialTab
-        let postListingGalleryViewModel = PostListingGalleryViewModel(postCategory: viewModel.postCategory)
+        let postListingGalleryViewModel = PostListingGalleryViewModel(postCategory: viewModel.postCategory,
+                                                                      isBlockingPosting: viewModel.isBlockingPosting)
         self.galleryView = PostListingGalleryView(viewModel: postListingGalleryViewModel)
         
         self.priceView = PostListingDetailPriceView(viewModel: viewModel.postDetailViewModel)
@@ -214,7 +215,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             uploadImageStackView.addArrangedSubview(loadingView)
         }
         messageLabelUploadingImage.textColor = UIColor.white
-        messageLabelUploadingImage.font = UIFont.body
+        messageLabelUploadingImage.font = UIFont.postingFlowBody
         messageLabelUploadingImage.numberOfLines = 0
         retryButtonUploadingImageRealEstate.layout()
             .height(PostListingViewController.retryButtonHeight)
@@ -240,6 +241,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     }
     
     private func setupCloseButton() {
+        guard !viewModel.isBlockingPosting else { return }
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(closeButton)
         if #available(iOS 11.0, *) {
@@ -650,10 +652,10 @@ extension PostListingViewController {
     
     private func stopAnimationLoaders(text: String?, isError: Bool, action: @escaping ()->()) {
         if viewModel.isRealEstate {
-            loadingViewRealEstate?.stopAnimating(!isError, completion: action)
+            loadingViewRealEstate?.stopAnimating(correctState: !isError, completion: action)
             addMessageToStackView(textMessage:text , success: !isError)
         } else {
-            customLoadingView.stopAnimating(!isError, completion: action)
+            customLoadingView.stopAnimating(correctState: !isError, completion: action)
         }
     }
     
