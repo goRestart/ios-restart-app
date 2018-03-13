@@ -22,7 +22,7 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
     let numberOfSearchesImageView = UIImageView()
     let numberOfSearchesLabel = UILabel()
     let searchButton = UIButton(type: .custom)
-    let postButton = UIButton(type: .custom)
+    let postButton = LetgoButton(withStyle: .primary(fontSize: .big))
     
     weak var delegate: MostSearchedItemsListCellDelegate?
     var item: LocalMostSearchedItem?
@@ -70,7 +70,6 @@ class MostSearchedItemsListCell: UITableViewCell, ReusableCell {
         searchButton.titleLabel?.minimumScaleFactor = 0.2
         searchButton.addTarget(self, action: #selector(searchAction), for: .touchUpInside)
         
-        postButton.setStyle(.primary(fontSize: .big))
         postButton.setTitle(LGLocalizedString.trendingItemsViewPostButton, for: .normal)
         postButton.titleLabel?.adjustsFontSizeToFitWidth = true
         postButton.titleLabel?.minimumScaleFactor = 0.2

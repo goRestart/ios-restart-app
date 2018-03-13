@@ -69,7 +69,7 @@ class SettingsViewController: BaseViewController {
     }
 
     private func setupAccessibilityIds() {
-        tableView.accessibilityId = .settingsList
+        tableView.set(accessibilityId: .settingsList)
     }
 
     private func setupRx() {

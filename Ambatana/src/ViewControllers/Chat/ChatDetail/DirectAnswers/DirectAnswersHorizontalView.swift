@@ -120,7 +120,7 @@ extension DirectAnswersHorizontalView: UICollectionViewDataSource, UICollectionV
             layout.minimumInteritemSpacing = 4.0
         }
 
-        collectionView.accessibilityId = .directAnswersPresenterCollectionView
+        collectionView.set(accessibilityId: .directAnswersPresenterCollectionView)
     }
 
     

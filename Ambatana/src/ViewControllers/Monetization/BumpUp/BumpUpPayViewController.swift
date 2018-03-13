@@ -20,7 +20,7 @@ class BumpUpPayViewController: BaseViewController {
     @IBOutlet weak var imageContainer: UIView!
     @IBOutlet weak var listingImageView: UIImageView!
     @IBOutlet weak var cellBottomContainer: UIView!
-    @IBOutlet weak var bumpUpButton: UIButton!
+    @IBOutlet weak var bumpUpButton: LetgoButton!
 
     private let viewModel: BumpUpPayViewModel
 
@@ -43,6 +43,11 @@ class BumpUpPayViewController: BaseViewController {
         setupUI()
         setAccessibilityIds()
         addSwipeDownGestureToView()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.viewDidAppear()
     }
 
     override func viewDidLayoutSubviews() {
@@ -135,10 +140,10 @@ class BumpUpPayViewController: BaseViewController {
     }
 
     private func setAccessibilityIds() {
-        closeButton.accessibilityId = .paymentBumpUpCloseButton
-        listingImageView.accessibilityId = .paymentBumpUpImage
-        titleLabel.accessibilityId = .paymentBumpUpTitleLabel
-        subtitleLabel.accessibilityId = .paymentBumpUpSubtitleLabel
-        bumpUpButton.accessibilityId = .paymentBumpUpButton
+        closeButton.set(accessibilityId: .paymentBumpUpCloseButton)
+        listingImageView.set(accessibilityId: .paymentBumpUpImage)
+        titleLabel.set(accessibilityId: .paymentBumpUpTitleLabel)
+        subtitleLabel.set(accessibilityId: .paymentBumpUpSubtitleLabel)
+        bumpUpButton.set(accessibilityId: .paymentBumpUpButton)
     }
 }

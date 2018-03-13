@@ -322,7 +322,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
     func bumpUpBannerShown(type: BumpUpType) {
         currentListingViewModel?.trackBumpUpBannerShown(type: type,
-                                                        storeProductId: currentListingViewModel?.paymentProviderItemId)
+                                                        storeProductId: currentListingViewModel?.storeProductId)
     }
 
     // MARK: Paginable

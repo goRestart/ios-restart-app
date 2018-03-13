@@ -15,7 +15,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
 
     // outlets & buttons
     @IBOutlet weak var usernameTextfield: LGTextField!
-    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var saveButton: LetgoButton!
     
     let viewModel: ChangeUsernameViewModel
     
@@ -168,7 +168,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     }
 
     private func setupAccessibilityIds() {
-        usernameTextfield.accessibilityId = .changeUsernameNameField
-        saveButton.accessibilityId = .changeUsernameSendButton
+        usernameTextfield.set(accessibilityId: .changeUsernameNameField)
+        saveButton.set(accessibilityId: .changeUsernameSendButton)
     }
 }

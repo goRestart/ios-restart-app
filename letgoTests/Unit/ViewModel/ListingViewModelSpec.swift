@@ -886,10 +886,12 @@ extension ListingViewModelSpec: ListingViewModelDelegate {
 }
 
 extension ListingViewModelSpec: ListingDetailNavigator {
+
     func closeProductDetail() {
 
     }
-    func editListing(_ listing: Listing) {
+    func editListing(_ listing: Listing,
+                     bumpUpProductData: BumpUpProductData?) {
 
     }
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) {
@@ -898,10 +900,14 @@ extension ListingViewModelSpec: ListingDetailNavigator {
     func closeListingAfterDelete(_ listing: Listing) {
         
     }
-    func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String) {
+    func openFreeBumpUp(forListing listing: Listing,
+                        bumpUpProductData: BumpUpProductData,
+                        typePage: EventParameterTypePage?) {
         calledOpenFreeBumpUpView = true
     }
-    func openPayBumpUp(forListing listing: Listing, purchaseableProduct: PurchaseableProduct, paymentItemId: String) {
+    func openPayBumpUp(forListing listing: Listing,
+                       bumpUpProductData: BumpUpProductData,
+                       typePage: EventParameterTypePage?) {
         calledOpenPricedBumpUpView = true
     }
     func selectBuyerToRate(source: RateUserSource,

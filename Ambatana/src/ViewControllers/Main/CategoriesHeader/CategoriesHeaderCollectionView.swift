@@ -124,6 +124,6 @@ class CategoriesHeaderCollectionView: UICollectionView, UICollectionViewDelegate
     }
     
     private func setAccessibilityIds() {
-        accessibilityId = .filterTagsCollectionView
+        set(accessibilityId: .filterTagsCollectionView)
     }
 }

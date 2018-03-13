@@ -1216,17 +1216,25 @@ struct TrackerEvent {
         return TrackerEvent(name: .bumpBannerShow, params: params)
     }
 
-    static func bumpBannerInfoShown(type: EventParameterBumpUpType, listingId: String?, storeProductId: String?) -> TrackerEvent {
+    static func bumpBannerInfoShown(type: EventParameterBumpUpType,
+                                    listingId: String?,
+                                    storeProductId: String?,
+                                    typePage: EventParameterTypePage?) -> TrackerEvent {
         var params = EventParameters()
         params[.bumpUpType] = type.rawValue
         params[.listingId] = listingId ?? ""
         params[.storeProductId] = storeProductId ?? TrackerEvent.notApply
+        if let typePage = typePage {
+            params[.typePage] = typePage.rawValue
+        }
         return TrackerEvent(name: .bumpInfoShown, params: params)
     }
 
     static func listingBumpUpStart(_ listing: Listing, price: EventParameterBumpUpPrice,
-                                   type: EventParameterBumpUpType, storeProductId: String?,
-                                   isPromotedBump: EventParameterBoolean) -> TrackerEvent {
+                                   type: EventParameterBumpUpType,
+                                   storeProductId: String?,
+                                   isPromotedBump: EventParameterBoolean,
+                                   typePage: EventParameterTypePage?) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
 
@@ -1234,15 +1242,20 @@ struct TrackerEvent {
         params[.bumpUpType] = type.rawValue
         params[.storeProductId] = storeProductId ?? TrackerEvent.notApply
         params[.promotedBump] = isPromotedBump.rawValue
+        if let typePage = typePage {
+            params[.typePage] = typePage.rawValue
+        }
         return TrackerEvent(name: .bumpUpStart, params: params)
     }
 
     static func listingBumpUpComplete(_ listing: Listing, price: EventParameterBumpUpPrice,
-                                      type: EventParameterBumpUpType, restoreRetriesCount: Int,
+                                      type: EventParameterBumpUpType,
+                                      restoreRetriesCount: Int,
                                       network: EventParameterShareNetwork,
                                       transactionStatus: EventParameterTransactionStatus?,
                                       storeProductId: String?,
-                                      isPromotedBump: EventParameterBoolean) -> TrackerEvent {
+                                      isPromotedBump: EventParameterBoolean,
+                                      typePage: EventParameterTypePage?) -> TrackerEvent {
         var params = EventParameters()
         params.addListingParams(listing)
         params[.bumpUpPrice] = price.description
@@ -1252,17 +1265,25 @@ struct TrackerEvent {
         params[.transactionStatus] = transactionStatus?.rawValue ?? TrackerEvent.notApply
         params[.storeProductId] = storeProductId ?? TrackerEvent.notApply
         params[.promotedBump] = isPromotedBump.rawValue
+        if let typePage = typePage {
+            params[.typePage] = typePage.rawValue
+        }
         return TrackerEvent(name: .bumpUpComplete, params: params)
     }
 
-    static func listingBumpUpFail(type: EventParameterBumpUpType, listingId: String?,
+    static func listingBumpUpFail(type: EventParameterBumpUpType,
+                                  listingId: String?,
                                   transactionStatus: EventParameterTransactionStatus?,
-                                  storeProductId: String?) -> TrackerEvent {
+                                  storeProductId: String?,
+                                  typePage: EventParameterTypePage?) -> TrackerEvent {
         var params = EventParameters()
         params[.bumpUpType] = type.rawValue
         params[.listingId] = listingId ?? ""
         params[.transactionStatus] = transactionStatus?.rawValue ?? TrackerEvent.notApply
         params[.storeProductId] = storeProductId ?? TrackerEvent.notApply
+        if let typePage = typePage {
+            params[.typePage] = typePage.rawValue
+        }
         return TrackerEvent(name: .bumpUpFail, params: params)
     }
 

@@ -41,7 +41,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     @IBOutlet weak var gpsLocationButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var setLocationButtonContainer: UIView!
-    @IBOutlet weak var setLocationButton: UIButton!
+    @IBOutlet weak var setLocationButton: LetgoButton!
     @IBOutlet weak var setLocationLoading: UIActivityIndicatorView!
 
     @IBOutlet weak var suggestionsTableView : UITableView!
@@ -263,15 +263,15 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     }
 
     private func setupAccessibilityIds() {
-        mapView.accessibilityId = .editLocationMap
-        searchButton.accessibilityId = .editLocationSearchButton
-        searchField.accessibilityId = .editLocationSearchTextField
-        suggestionsTableView.accessibilityId = .editLocationSearchSuggestionsTable
-        gpsLocationButton.accessibilityId = .editLocationSensorLocationButton
-        aproxLocationArea.accessibilityId = .editLocationApproxLocationCircleView
-        poiImage.accessibilityId = .editLocationPOIImageView
-        setLocationButton.accessibilityId = .editLocationSetLocationButton
-        approximateLocationSwitch.accessibilityId = .editLocationApproxLocationSwitch
+        mapView.set(accessibilityId: .editLocationMap)
+        searchButton.set(accessibilityId: .editLocationSearchButton)
+        searchField.set(accessibilityId: .editLocationSearchTextField)
+        suggestionsTableView.set(accessibilityId: .editLocationSearchSuggestionsTable)
+        gpsLocationButton.set(accessibilityId: .editLocationSensorLocationButton)
+        aproxLocationArea.set(accessibilityId: .editLocationApproxLocationCircleView)
+        poiImage.set(accessibilityId: .editLocationPOIImageView)
+        setLocationButton.set(accessibilityId: .editLocationSetLocationButton)
+        approximateLocationSwitch.set(accessibilityId: .editLocationApproxLocationSwitch)
     }
 
     private func setRxBindings() {

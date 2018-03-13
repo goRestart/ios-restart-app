@@ -98,9 +98,9 @@ class BlockedUserCell: UITableViewCell {
 
 extension BlockedUserCell {
     func setAccessibilityIds() {
-        avatarImageView.accessibilityId = AccessibilityId.blockedUserCellAvatarImageView
-        userNameLabel.accessibilityId = AccessibilityId.blockedUserCellUserNameLabel
-        blockedLabel.accessibilityId = AccessibilityId.blockedUserCellBlockedLabel
-        blockedIcon.accessibilityId = AccessibilityId.blockedUserCellBlockedIcon
+        avatarImageView.set(accessibilityId: .blockedUserCellAvatarImageView)
+        userNameLabel.set(accessibilityId: .blockedUserCellUserNameLabel)
+        blockedLabel.set(accessibilityId: .blockedUserCellBlockedLabel)
+        blockedIcon.set(accessibilityId: .blockedUserCellBlockedIcon)
     }
 }

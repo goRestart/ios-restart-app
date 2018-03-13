@@ -38,7 +38,6 @@ protocol FeatureFlaggeable: class {
     var dynamicQuickAnswers: DynamicQuickAnswers { get }
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
-    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter { get }
     var requestTimeOut: RequestsTimeOut { get }
     var homeRelatedEnabled: HomeRelatedEnabled { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
@@ -46,7 +45,6 @@ protocol FeatureFlaggeable: class {
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
-    var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var realEstateImprovements: RealEstateImprovements { get }
     var realEstatePromos: RealEstatePromos { get }
@@ -66,6 +64,7 @@ protocol FeatureFlaggeable: class {
     var searchMultiwordExpressions: SearchMultiwordExpressions { get }
     var showChatSafetyTips: Bool { get }
     var discardedProducts: DiscardedProducts { get }
+    var promoteBumpInEdit: PromoteBumpInEdit { get }
     var userIsTyping: UserIsTyping { get }
 
     // Country dependant features
@@ -74,7 +73,6 @@ protocol FeatureFlaggeable: class {
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
-    var moreInfoShoppingAdUnitId: String { get }
     var moreInfoDFPAdUnitId: String { get }
     var feedDFPAdUnitId: String? { get }
     var bumpPriceVariationBucket: BumpPriceVariationBucket { get }
@@ -85,10 +83,6 @@ extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
     }
-}
-
-extension ShowPriceAfterSearchOrFilter {
-    var isActive: Bool { get { return self == .priceOnSearchOrFilter } }
 }
 
 extension HomeRelatedEnabled {
@@ -214,6 +208,10 @@ extension TurkeyBumpPriceVATAdaptation {
 
 extension DiscardedProducts {
     var isActive: Bool { get { return self == .active } }
+}
+
+extension PromoteBumpInEdit {
+    var isActive: Bool { get { return self != .control && self != .baseline } }
 }
 
 extension UserIsTyping {
@@ -350,13 +348,6 @@ class FeatureFlags: FeatureFlaggeable {
         return RealEstateEnabled.fromPosition(abTests.realEstateEnabled.value)
     }
     
-    var showPriceAfterSearchOrFilter: ShowPriceAfterSearchOrFilter {
-        if Bumper.enabled {
-            return Bumper.showPriceAfterSearchOrFilter
-        }
-        return ShowPriceAfterSearchOrFilter.fromPosition(abTests.showPriceAfterSearchOrFilter.value)
-    }
-    
     var homeRelatedEnabled: HomeRelatedEnabled {
         if Bumper.enabled {
             return Bumper.homeRelatedEnabled
@@ -397,13 +388,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.allowCallsForProfessionals
         }
         return AllowCallsForProfessionals.fromPosition(abTests.allowCallsForProfessionals.value)
-    }
-
-    var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
-        if Bumper.enabled {
-            return Bumper.moreInfoAFShOrDFP
-        }
-        return MoreInfoAFShOrDFP.fromPosition(abTests.moreInfoAFShOrDFP.value)
     }
     
     var mostSearchedDemandedItems: MostSearchedDemandedItems {
@@ -511,14 +495,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return SearchMultiwordExpressions.fromPosition(abTests.searchMultiwordExpressions.value)
     }
-    
+
     var discardedProducts: DiscardedProducts {
         if Bumper.enabled {
             return Bumper.discardedProducts
         }
         return DiscardedProducts.fromPosition(abTests.discardedProducts.value)
     }
-    
+
     var userIsTyping: UserIsTyping {
         if Bumper.enabled {
             return Bumper.userIsTyping
@@ -526,7 +510,6 @@ class FeatureFlags: FeatureFlaggeable {
         return UserIsTyping.fromPosition(abTests.userIsTyping.value)
     }
     
-
     var newUserProfileView: NewUserProfileView {
         if Bumper.enabled {
             return Bumper.newUserProfileView
@@ -546,6 +529,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.turkeyBumpPriceVATAdaptation
         }
         return TurkeyBumpPriceVATAdaptation.fromPosition(abTests.turkeyBumpPriceVATAdaptation.value)
+    }
+
+    var promoteBumpInEdit: PromoteBumpInEdit {
+        if Bumper.enabled {
+            return Bumper.promoteBumpInEdit
+        }
+        return PromoteBumpInEdit.fromPosition(abTests.promoteBumpInEdit.value)
     }
 
     // MARK: - Country features
@@ -609,15 +599,6 @@ class FeatureFlags: FeatureFlaggeable {
             return true
         default:
             return false
-        }
-    }
-
-    var moreInfoShoppingAdUnitId: String {
-        switch sensorLocationCountryCode {
-        case .usa?:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShoppingUSA
-        default:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShopping
         }
     }
 

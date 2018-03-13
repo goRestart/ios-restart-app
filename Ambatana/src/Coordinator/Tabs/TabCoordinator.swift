@@ -455,8 +455,12 @@ extension TabCoordinator: ListingDetailNavigator {
         navigationController.popViewController(animated: true)
     }
 
-    func editListing(_ listing: Listing) {
-        let navigator = EditListingCoordinator(listing: listing, pageType: nil)
+    func editListing(_ listing: Listing,
+                     bumpUpProductData: BumpUpProductData?) {
+        let navigator = EditListingCoordinator(listing: listing,
+                                               bumpUpProductData: bumpUpProductData,
+                                               pageType: nil)
+        navigator.delegate = self
         openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
@@ -477,17 +481,21 @@ extension TabCoordinator: ListingDetailNavigator {
         }
     }
 
-    func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String) {
-        let bumpCoordinator = BumpUpCoordinator(listing: listing, socialMessage: socialMessage, paymentItemId: paymentItemId)
+    func openFreeBumpUp(forListing listing: Listing,
+                        bumpUpProductData: BumpUpProductData,
+                        typePage: EventParameterTypePage?) {
+        let bumpCoordinator = BumpUpCoordinator(listing: listing,
+                                                bumpUpProductData: bumpUpProductData,
+                                                typePage: typePage)
         openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
     func openPayBumpUp(forListing listing: Listing,
-                       purchaseableProduct: PurchaseableProduct,
-                       paymentItemId: String) {
+                       bumpUpProductData: BumpUpProductData,
+                       typePage: EventParameterTypePage?) {
         let bumpCoordinator = BumpUpCoordinator(listing: listing,
-                                                purchaseableProduct: purchaseableProduct,
-                                                paymentItemId: paymentItemId)
+                                                bumpUpProductData: bumpUpProductData,
+                                                typePage: typePage)
         openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
@@ -664,6 +672,26 @@ extension TabCoordinator: UserRatingCoordinatorDelegate {
     func userRatingCoordinatorDidCancel() { }
 
     func userRatingCoordinatorDidFinish(withRating rating: Int?, ratedUserId: String?) { }
+}
+
+
+// MARK: - EditListingCoordinatorDelegate
+
+extension TabCoordinator: EditListingCoordinatorDelegate {
+    func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
+
+    }
+
+    func editListingCoordinator(_ coordinator: EditListingCoordinator,
+                                didFinishWithListing listing: Listing,
+                                bumpUpProductData: BumpUpProductData?) {
+        guard let listingIsFeatured = listing.featured, !listingIsFeatured else { return }
+        guard let bumpData = bumpUpProductData,
+            bumpData.hasPaymentId else { return }
+        openPayBumpUp(forListing: listing,
+                      bumpUpProductData: bumpData,
+                      typePage: .edit)
+    }
 }
 
 

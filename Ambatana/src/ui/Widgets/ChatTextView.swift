@@ -65,7 +65,7 @@ class ChatTextView: UIView {
 
     fileprivate let background = UIView()
     fileprivate let textView = UITextField()
-    fileprivate let sendButton = UIButton(type: .custom)
+    fileprivate let sendButton = LetgoButton(withStyle: .primary(fontSize: .medium))
     fileprivate let focus = Variable<Bool>(false)
     fileprivate var initialTextActive = false
 
@@ -157,7 +157,6 @@ class ChatTextView: UIView {
         textView.backgroundColor = .clear
         textView.returnKeyType = .send
         textView.delegate = self
-        sendButton.setStyle(.primary(fontSize: .medium))
         sendButton.setTitle(LGLocalizedString.chatSendButton, for: .normal)
     }
 
@@ -215,7 +214,7 @@ extension ChatTextView: UITextFieldDelegate {
 
 fileprivate extension ChatTextView {
     func setAccesibilityIds() {
-        textView.accessibilityId = .chatTextViewTextField
-        sendButton.accessibilityId = .chatTextViewSendButton
+        textView.set(accessibilityId: .chatTextViewTextField)
+        sendButton.set(accessibilityId: .chatTextViewSendButton)
     }
 }

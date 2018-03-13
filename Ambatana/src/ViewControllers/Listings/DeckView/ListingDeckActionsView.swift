@@ -20,7 +20,7 @@ final class ListingDeckActionView: UIView {
         }
     }
 
-    let actionButton = UIButton(type: .custom)
+    let actionButton = LetgoButton(withStyle: .terciary)
     private var fullViewContraints: [NSLayoutConstraint] = []
     private var actionButtonCenterY: NSLayoutConstraint?
 
@@ -76,7 +76,6 @@ final class ListingDeckActionView: UIView {
         ])
 
         actionButton.setTitle(LGLocalizedString.productMarkAsSoldButton, for: .normal)
-        actionButton.setStyle(.terciary)
     }
 
     private func setupSeparator() {

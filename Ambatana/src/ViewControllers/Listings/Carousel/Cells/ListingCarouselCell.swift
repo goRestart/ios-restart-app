@@ -265,8 +265,8 @@ extension ListingCarouselCell: ListingCarouselImageCellDelegate {
 
 fileprivate extension ListingCarouselCell {
     func setAccessibilityIds() {
-        self.accessibilityId = .listingCarouselCell
-        collectionView.accessibilityId = .listingCarouselCellCollectionView
-        placeholderImage?.accessibilityId = .listingCarouselCellPlaceholderImage
+        self.set(accessibilityId: .listingCarouselCell)
+        collectionView.set(accessibilityId: .listingCarouselCellCollectionView)
+        placeholderImage?.set(accessibilityId: .listingCarouselCellPlaceholderImage)
     }
 }

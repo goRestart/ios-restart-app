@@ -100,7 +100,7 @@
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fPM-JO-Z9G" userLabel="buildTrustContainer">
                                     <rect key="frame" x="300" y="0.0" width="300" height="46"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RSg-ZT-oUt" userLabel="buildTrustButton">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RSg-ZT-oUt" userLabel="buildTrustButton" customClass="LetgoButton" customModule="LetGo" customModuleProvider="target">
                                             <rect key="frame" x="88" y="8" width="124" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" priority="750" constant="30" id="dBU-Ee-TTm"/>

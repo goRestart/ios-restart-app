@@ -22,7 +22,7 @@ class ListingPostedViewController: BaseViewController, ListingPostedViewModelDel
     @IBOutlet weak var editOrLabel: UILabel!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var mainButtonHeight: NSLayoutConstraint!
-    @IBOutlet weak var mainButton: UIButton!
+    @IBOutlet weak var mainButton: LetgoButton!
 
     // incentivize items
     @IBOutlet weak var incentiveContainer: UIView!
@@ -215,11 +215,11 @@ extension ListingPostedViewController: PostIncentivatorViewDelegate {
 
 extension ListingPostedViewController {
     func setAccesibilityIds() {
-        closeButton.accessibilityId = .postingInfoCloseButton
-        shareButton.accessibilityId = .postingInfoShareButton
-        loadingIndicator.accessibilityId = .postingInfoLoading
-        editButton.accessibilityId = .postingInfoEditButton
-        mainButton.accessibilityId = .postingInfoMainButton
-        incentiveContainer.accessibilityId = .postingInfoIncentiveContainer
+        closeButton.set(accessibilityId: .postingInfoCloseButton)
+        shareButton.set(accessibilityId: .postingInfoShareButton)
+        loadingIndicator.set(accessibilityId: .postingInfoLoading)
+        editButton.set(accessibilityId: .postingInfoEditButton)
+        mainButton.set(accessibilityId: .postingInfoMainButton)
+        incentiveContainer.set(accessibilityId: .postingInfoIncentiveContainer)
     }
 }

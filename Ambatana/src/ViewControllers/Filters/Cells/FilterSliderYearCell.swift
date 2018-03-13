@@ -74,9 +74,9 @@ class FilterSliderYearCell: UICollectionViewCell, LGSliderDelegate, ReusableCell
     }
     
     private func setAccessibilityIds() {
-        accessibilityId = .filterCarInfoYearCell
-        slider?.titleLabel.accessibilityId = .filterCarInfoYearCellTitleLabel
-        slider?.selectionLabel.accessibilityId = .filterCarInfoYearCellInfoLabel
+        set(accessibilityId: .filterCarInfoYearCell)
+        slider?.titleLabel.set(accessibilityId: .filterCarInfoYearCellTitleLabel)
+        slider?.selectionLabel.set(accessibilityId: .filterCarInfoYearCellInfoLabel)
     }
     
     

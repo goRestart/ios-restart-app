@@ -10,11 +10,11 @@ import Foundation
 import RxSwift
 
 protocol ListingDeckOnBoardingViewRxType: class {
-    var rxConfirmButton: Reactive<UIButton> { get }
+    var rxConfirmButton: Reactive<LetgoButton> { get }
 }
 
 final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
-    var rxConfirmButton: Reactive<UIButton> { return confirmButton.rx }
+    var rxConfirmButton: Reactive<LetgoButton> { return confirmButton.rx }
     
     private struct Layout {
         struct FontSize {
@@ -38,7 +38,7 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
     private let imageView = UIImageView(image: #imageLiteral(resourceName: "nit_onboarding"))
     private let titleLabel = UILabel()
     private let underline = UIView()
-    private let confirmButton = UIButton()
+    private let confirmButton = LetgoButton(withStyle: .primary(fontSize: .big))
 
     convenience init() { self.init(frame: .zero) }
 
@@ -158,7 +158,6 @@ final class ListingDeckOnBoardingView: UIView, ListingDeckOnBoardingViewRxType {
             confirmButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -Metrics.veryBigMargin)
         ]
         NSLayoutConstraint.activate(constraints)
-        confirmButton.setStyle(.primary(fontSize: .big))
         confirmButton.setTitle(LGLocalizedString.commonOk, for: .normal)
     }
 

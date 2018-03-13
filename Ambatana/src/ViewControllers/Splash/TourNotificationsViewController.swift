@@ -17,7 +17,7 @@ final class TourNotificationsViewController: BaseViewController {
     let viewModel: TourNotificationsViewModel
 
     @IBOutlet weak var closeButton: UIButton!
-    @IBOutlet weak var notifyButton: UIButton!
+    @IBOutlet weak var notifyButton: LetgoButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var iphoneRightHeightConstraint: NSLayoutConstraint!
@@ -170,9 +170,9 @@ final class TourNotificationsViewController: BaseViewController {
     }
 
     func setupAccessibilityIds() {
-        closeButton.accessibilityId = .tourNotificationsCloseButton
-        notifyButton.accessibilityId = .tourNotificationsOKButton
-        alertContainer.accessibilityId = .tourNotificationsAlert
+        closeButton.set(accessibilityId: .tourNotificationsCloseButton)
+        notifyButton.set(accessibilityId: .tourNotificationsOKButton)
+        alertContainer.set(accessibilityId: .tourNotificationsAlert)
     }
 }
 

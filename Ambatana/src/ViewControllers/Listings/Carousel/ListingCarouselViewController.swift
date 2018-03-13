@@ -14,17 +14,17 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     @IBOutlet weak var imageBackground: UIImageView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var buttonBottom: UIButton!
+    @IBOutlet weak var buttonBottom: LetgoButton!
     @IBOutlet weak var buttonBottomHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var buttonBottomRightMarginToSuperviewConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonBottomWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var buttonCall: UIButton!
+    @IBOutlet weak var buttonCall: LetgoButton!
     @IBOutlet weak var buttonCallWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonCallRightMarginToSuperviewConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var buttonTop: UIButton!
+    @IBOutlet weak var buttonTop: LetgoButton!
     @IBOutlet weak var buttonTopHeight: NSLayoutConstraint!
     @IBOutlet weak var buttonTopBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var chatContainer: UIView!
@@ -191,11 +191,14 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             chatTextView.becomeFirstResponder()
         case .showShareSheet:
             viewModel.shareButtonPressed()
-        case let .triggerBumpUp(purchaseableProduct, paymentItemId, paymentProviderItemId, bumpUpType, triggerBumpUpSource):
-            viewModel.showBumpUpView(purchaseableProduct: purchaseableProduct,
-                                     paymentItemId: paymentItemId,
-                                     paymentProviderItemId: paymentProviderItemId,
-                                     bumpUpType: bumpUpType, bumpUpSource: triggerBumpUpSource)
+        case let .triggerBumpUp(bumpUpProductData,
+                                bumpUpType,
+                                triggerBumpUpSource,
+                                typePage):
+            viewModel.showBumpUpView(bumpUpProductData: bumpUpProductData,
+                                     bumpUpType: bumpUpType,
+                                     bumpUpSource: triggerBumpUpSource,
+                                     typePage: typePage)
         case .triggerMarkAsSold:
             viewModel.currentListingViewModel?.markAsSold()
         default:
@@ -394,7 +397,8 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
         let backIconImage = UIImage(named: "ic_close_carousel")
         let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.plain,
                                          target: self, action: #selector(backButtonClose))
-        self.navigationItem.leftBarButtonItem = backButton
+        backButton.set(accessibilityId: .listingCarouselNavBarCloseButton)
+        navigationItem.leftBarButtonItem = backButton
     }
 
     @objc private func backButtonClose() {
@@ -621,6 +625,7 @@ extension ListingCarouselViewController {
                 case .textImage:
                     let shareButton = CarouselUIHelper.buildShareButton(action.text, icon: action.image)
                     let rightItem = UIBarButtonItem(customView: shareButton)
+                    rightItem.set(accessibilityId: action.accessibilityId)
                     rightItem.style = .plain
                     shareButton.rx.tap.takeUntil(takeUntilAction).bind{
                         action.action()
@@ -648,6 +653,7 @@ extension ListingCarouselViewController {
                         }.disposed(by: strongSelf.disposeBag)
                     buttons.append(button)
                     button.alpha = alpha
+                    button.set(accessibilityId: navBarButton.accessibilityId)
                 }
                 strongSelf.setNavigationBarRightButtons(buttons)
             }
@@ -1332,18 +1338,19 @@ extension ListingCarouselViewController {
 
 fileprivate extension ListingCarouselViewController {
     func setAccessibilityIds() {
-        collectionView.accessibilityId = .listingCarouselCollectionView
-        buttonBottom.accessibilityId = .listingCarouselButtonBottom
-        buttonTop.accessibilityId = .listingCarouselButtonTop
-        favoriteButton.accessibilityId = .listingCarouselFavoriteButton
-        moreInfoView.accessibilityId = .listingCarouselMoreInfoView
-        productStatusLabel.accessibilityId = .listingCarouselListingStatusLabel
-        directChatTable.accessibilityId = .listingCarouselDirectChatTable
-        fullScreenAvatarView.accessibilityId = .listingCarouselFullScreenAvatarView
-        pageControl.accessibilityId = .listingCarouselPageControl
-        userView.accessibilityId = .listingCarouselUserView
-        chatTextView.accessibilityId = .listingCarouselChatTextView
-        productStatusView.accessibilityId = .listingCarouselStatusView
+        collectionView.set(accessibilityId: .listingCarouselCollectionView)
+        buttonBottom.set(accessibilityId: .listingCarouselButtonBottom)
+        buttonTop.set(accessibilityId: .listingCarouselButtonTop)
+        favoriteButton.set(accessibilityId: .listingCarouselFavoriteButton)
+        moreInfoView.set(accessibilityId: .listingCarouselMoreInfoView)
+        productStatusLabel.set(accessibilityId: .listingCarouselListingStatusLabel)
+        directChatTable.set(accessibilityId: .listingCarouselDirectChatTable)
+        fullScreenAvatarView.set(accessibilityId: .listingCarouselFullScreenAvatarView)
+        pageControl.set(accessibilityId: .listingCarouselPageControl)
+        userView.set(accessibilityId: .listingCarouselUserView)
+        chatTextView.set(accessibilityId: .listingCarouselChatTextView)
+        productStatusView.set(accessibilityId: .listingCarouselStatusView)
+        directChatTable.accessibilityInspectionEnabled = false
     }
 }
 

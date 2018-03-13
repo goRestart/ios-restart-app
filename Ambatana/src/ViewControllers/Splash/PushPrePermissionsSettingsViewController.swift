@@ -16,7 +16,7 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
     @IBOutlet weak var notificationsLabel: UILabel!
     @IBOutlet weak var secondSectionLabel: UILabel!
     @IBOutlet weak var allowNotificationsLabel: UILabel!
-    @IBOutlet weak var yesButton: UIButton!
+    @IBOutlet weak var yesButton: LetgoButton!
 
     var completion: (() -> ())?
 

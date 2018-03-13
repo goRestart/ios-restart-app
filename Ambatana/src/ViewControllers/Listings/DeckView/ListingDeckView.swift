@@ -30,7 +30,7 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 
     let itemActionsView = ListingDeckActionView()
 
-    var rxActionButton: Reactive<UIButton> { return itemActionsView.actionButton.rx }
+    var rxActionButton: Reactive<LetgoButton> { return itemActionsView.actionButton.rx }
 
     var currentPage: Int { return collectionLayout.page }
     var bumpUpBanner: BumpUpBanner { return itemActionsView.bumpUpBanner }

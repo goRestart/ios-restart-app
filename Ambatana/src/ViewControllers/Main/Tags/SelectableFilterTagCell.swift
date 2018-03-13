@@ -79,7 +79,7 @@ class SelectableFilterTagCell: UICollectionViewCell {
     }
     
     private func setAccessibilityIds() {
-        tagLabel.accessibilityId = .selectableFilterTagCellTagLabel
+        tagLabel.set(accessibilityId: .selectableFilterTagCellTagLabel)
     }
     
     
@@ -94,6 +94,7 @@ class SelectableFilterTagCell: UICollectionViewCell {
         default:
             break
         }
+        set(accessibilityId: .filterTagCell(tag: tag))
     }
 }
 

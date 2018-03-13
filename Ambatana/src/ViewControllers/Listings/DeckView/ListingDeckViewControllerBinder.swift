@@ -37,7 +37,7 @@ protocol ListingDeckViewControllerBinderType: class {
 
 protocol ListingDeckViewType: class {
     var rxCollectionView: Reactive<UICollectionView> { get }
-    var rxActionButton: Reactive<UIButton> { get }
+    var rxActionButton: Reactive<LetgoButton> { get }
 
     var currentPage: Int { get }
     func normalizedPageOffset(givenOffset: CGFloat) -> CGFloat

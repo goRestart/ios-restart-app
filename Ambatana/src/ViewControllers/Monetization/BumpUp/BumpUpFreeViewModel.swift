@@ -14,9 +14,11 @@ class BumpUpFreeViewModel: BaseViewModel {
     let shareTypes: [ShareType]
 
     let listing: Listing
-    let paymentItemId: String?
+    private let paymentItemId: String?
+    private let storeProductId: String?
+    private let typePage: EventParameterTypePage?
     let socialSharer: SocialSharer?
-    fileprivate let tracker: Tracker
+    private let tracker: Tracker
 
     weak var delegate: BaseViewModelDelegate?
     weak var navigator: BumpUpNavigator?
@@ -25,16 +27,29 @@ class BumpUpFreeViewModel: BaseViewModel {
     var title: String
     var subtitle: String
 
-    fileprivate var purchasesShopper: PurchasesShopper?
+    private var purchasesShopper: PurchasesShopper?
 
-    convenience init(listing: Listing, socialMessage: SocialMessage, paymentItemId: String?) {
+    convenience init(listing: Listing,
+                     socialMessage: SocialMessage,
+                     paymentItemId: String?,
+                     storeProductId: String?,
+                     typePage: EventParameterTypePage?) {
         self.init(listing: listing, socialSharer: SocialSharer(), socialMessage: socialMessage,
-                  paymentItemId: paymentItemId, locale: NSLocale.current, locationManager: Core.locationManager,
+                  paymentItemId: paymentItemId, storeProductId: storeProductId, typePage: typePage,
+                  locale: NSLocale.current, locationManager: Core.locationManager,
                   tracker: TrackerProxy.sharedInstance, purchasesShopper: LGPurchasesShopper.sharedInstance)
     }
 
-    init(listing: Listing, socialSharer: SocialSharer, socialMessage: SocialMessage, paymentItemId: String?,
-         locale: Locale, locationManager: LocationManager, tracker: Tracker, purchasesShopper: PurchasesShopper?) {
+    init(listing: Listing,
+         socialSharer: SocialSharer,
+         socialMessage: SocialMessage,
+         paymentItemId: String?,
+         storeProductId: String?,
+         typePage: EventParameterTypePage?,
+         locale: Locale,
+         locationManager: LocationManager,
+         tracker: Tracker,
+         purchasesShopper: PurchasesShopper?) {
         self.listing = listing
         self.socialSharer = socialSharer
         self.tracker = tracker
@@ -43,6 +58,8 @@ class BumpUpFreeViewModel: BaseViewModel {
         let countryCode = Core.locationManager.currentLocation?.countryCode ?? locale.lg_countryCode
         self.shareTypes = ShareType.shareTypesForCountry(countryCode, maxButtons: 4, nativeShare: .restricted)
         self.paymentItemId = paymentItemId
+        self.storeProductId = storeProductId
+        self.typePage = typePage
         self.title = LGLocalizedString.bumpUpViewFreeTitle
         self.subtitle = LGLocalizedString.bumpUpViewFreeSubtitle
 
@@ -50,6 +67,15 @@ class BumpUpFreeViewModel: BaseViewModel {
 
         self.socialSharer?.delegate = self
     }
+
+    func viewDidApear() {
+        let trackerEvent = TrackerEvent.bumpBannerInfoShown(type: EventParameterBumpUpType(bumpType: .free),
+                                                            listingId: listing.objectId,
+                                                            storeProductId: storeProductId,
+                                                            typePage: typePage)
+        tracker.trackEvent(trackerEvent)
+    }
+
 
     // MARK: - Public Methods
 

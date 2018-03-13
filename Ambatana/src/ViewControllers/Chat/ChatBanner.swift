@@ -29,7 +29,7 @@ class ChatBanner: UIView {
 
         // subviews
         let titleLabel = UILabel()
-        let actionButton = UIButton(type: .custom)
+        let actionButton = LetgoButton()
         let closeButton = UIButton()
         addSubview(titleLabel)
         addSubview(actionButton)
@@ -97,11 +97,11 @@ class ChatBanner: UIView {
         }
         actionButton.addTarget(self, action: #selector(bannerActionButtonTapped), for: .touchUpInside)
         actionButton.setContentCompressionResistancePriority(751, for: .horizontal)
-        actionButton.accessibilityId = .chatBannerActionButton
+        actionButton.set(accessibilityId: .chatBannerActionButton)
 
         closeButton.setImage(UIImage(named: "ic_close_dark"), for: .normal)
         closeButton.addTarget(self, action: #selector(bannerCloseButtonTapped), for: .touchUpInside)
-        closeButton.accessibilityId = .chatBannerCloseButton
+        closeButton.set(accessibilityId: .chatBannerCloseButton)
     }
 
     @objc private dynamic func bannerActionButtonTapped() {

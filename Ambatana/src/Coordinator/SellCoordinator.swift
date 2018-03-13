@@ -12,6 +12,7 @@ import RxSwift
 protocol SellCoordinatorDelegate: class {
     func sellCoordinatorDidCancel(_ coordinator: SellCoordinator)
     func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithListing listing: Listing)
+    func sellCoordinator(_ coordinator: SellCoordinator, closePostAndOpenEditForListing listing: Listing)
 }
 
 final class SellCoordinator: Coordinator {
@@ -249,13 +250,9 @@ extension SellCoordinator: ListingPostedNavigator {
     }
 
     func closeListingPostedAndOpenEdit(_ listing: Listing) {
-        dismissViewController(animated: true) { [weak self] in
-            guard let parentVC = self?.parentViewController else { return }
-
-            let navigator = EditListingCoordinator(listing: listing, pageType: nil)
-            navigator.delegate = self
-            self?.openChild(coordinator: navigator, parent: parentVC, animated: true,
-                            forceCloseChild: false, completion: nil)
+        closeCoordinator(animated: true) { [weak self] in
+            guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
+            delegate.sellCoordinator(strongSelf, closePostAndOpenEditForListing: listing)
         }
     }
 
@@ -272,15 +269,6 @@ extension SellCoordinator: ListingPostedNavigator {
             strongSelf.viewController = strongSelf.navigationController
             strongSelf.presentViewController(parent: parentVC, animated: true, completion: nil)
         }
-    }
-}
-
-extension SellCoordinator: EditListingCoordinatorDelegate {
-    func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
-        delegate?.sellCoordinatorDidCancel(self)
-    }
-    func editListingCoordinator(_ coordinator: EditListingCoordinator, didFinishWithListing listing: Listing) {
-        delegate?.sellCoordinator(self, didFinishWithListing: listing)
     }
 }
 

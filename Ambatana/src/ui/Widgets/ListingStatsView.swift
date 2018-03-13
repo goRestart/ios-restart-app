@@ -84,6 +84,7 @@ class ListingStatsView: UIView {
     static func make() -> ListingStatsView? {
         let view = Bundle.main.loadNibNamed("ListingStatsView", owner: self, options: nil)?.first as? ListingStatsView
         view?.setupUI()
+        view?.setupAccessibilityIds()
         return view
     }
 
@@ -109,6 +110,15 @@ class ListingStatsView: UIView {
         
         timePostedWidthConstraint.constant = 0
         updateStyle()
+    }
+    
+    private func setupAccessibilityIds() {       
+        favouriteStatsView.set(accessibilityId: .listingStatsViewFavouriteStatsView)
+        favouriteStatsLabel.set(accessibilityId: .listingStatsViewFavouriteStatsLabel)
+        viewsStatsView.set(accessibilityId: .listingStatsViewFavouriteViewCountView)
+        viewsStatsLabel.set(accessibilityId: .listingStatsViewFavouriteViewCountLabel)
+        timePostedView.set(accessibilityId: .listingStatsViewFavouriteTimePostedView)
+        timePostedLabel.set(accessibilityId: .listingStatsViewFavouriteTimePostedLabel)
     }
 
     private func updateStyle() {
