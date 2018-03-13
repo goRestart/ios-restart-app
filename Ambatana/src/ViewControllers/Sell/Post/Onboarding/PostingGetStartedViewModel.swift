@@ -58,6 +58,12 @@ class PostingGetStartedViewModel: BaseViewModel {
         super.init()
         retrieveImageForAvatar()
     }
+    
+    override func didBecomeActive(_ firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        guard firstTime else { return }
+        trackVisit()
+    }
 
     func retrieveImageForAvatar() {
         guard let avatarUrl = userAvatarURL else { return }
@@ -71,7 +77,6 @@ class PostingGetStartedViewModel: BaseViewModel {
     // MARK: - Navigation
     
     func nextAction() {
-        trackVisit()
         navigator?.openCamera()
     }
     
