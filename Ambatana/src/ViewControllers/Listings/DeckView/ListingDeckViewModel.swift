@@ -57,6 +57,7 @@ final class ListingDeckViewModel: BaseViewModel {
     var shouldSyncFirstListing: Bool = false
     fileprivate var trackingIndex: Int?
 
+    fileprivate var lastMovement: CarouselMovement = .initial
     fileprivate let source: EventParameterListingVisitSource
     fileprivate let listingListRequester: ListingListRequester
     fileprivate let userRepository: MyUserRepository
@@ -214,6 +215,7 @@ final class ListingDeckViewModel: BaseViewModel {
 
     func moveToListingAtIndex(_ index: Int, movement: DeckMovement) {
         guard let viewModel = viewModelAt(index: index) else { return }
+        lastMovement = movement
         currentListingViewModel?.active = false
         currentListingViewModel?.delegate = nil
         currentListingViewModel = viewModel
@@ -404,8 +406,16 @@ final class ListingDeckViewModel: BaseViewModel {
 
 extension ListingDeckViewModel: ListingViewModelDelegate {
     var listingOrigin: ListingOrigin {
-        // TODO: Check this out later for setup tracking
-        return .initial
+        let result: ListingOrigin
+        switch lastMovement {
+        case .initial:
+            result = .initial
+        case .tap, .swipeRight:
+            result = .inResponseToNextRequest
+        case .swipeLeft:
+            result = .inResponseToPreviousRequest
+        }
+        return result
     }
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
