@@ -9,7 +9,6 @@
 import Foundation
 
 final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType, UICollectionViewDataSource, UICollectionViewDelegate {
-
     override var prefersStatusBarHidden: Bool { return true }
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation { return .fade }
 
@@ -22,8 +21,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     private let binder = PhotoViewerViewControllerBinder()
 
     private var edgeGestures: [UIGestureRecognizer] = []
-    private var tapGestureRecognizer: UITapGestureRecognizer?
-    private var swipeGestureRecognizer: UISwipeGestureRecognizer?
+    private let quickChatTap = UITapGestureRecognizer()
 
     init(viewModel: PhotoViewerViewModel, quickChatViewModel: QuickChatViewModel) {
         self.viewModel = viewModel
@@ -48,13 +46,9 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     private func setupUI() {
         setupViewExtendedEdges()
         setupPhotoViewer()
-        setupOpenChatGesture()
+        setupGestures()
 
         chatView.textViewStandardColor = .white
-
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(closeView))
-        swipeDown.direction = .down
-        photoViewer.addGestureRecognizer(swipeDown)
     }
 
     private func setupViewExtendedEdges() {
@@ -69,10 +63,23 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         photoViewer.register(ListingDeckImagePreviewCell.self,
                              forCellWithReuseIdentifier: ListingDeckImagePreviewCell.reusableID)
         photoViewer.dataSource = self
+        photoViewer.delegate = self
         photoViewer.updateNumberOfPages(viewModel.itemsCount)
 
         binder.viewController = self
         binder.bind(toView: photoViewer)
+    }
+
+    private func setupGestures() {
+        setupOpenChatGesture()
+        setupDismissChatGestures()
+        setupSwipeToDismiss()
+    }
+
+    private func setupSwipeToDismiss() {
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(dismissView))
+        swipeDown.direction = .down
+        view.addGestureRecognizer(swipeDown)
     }
 
     private func setupOpenChatGesture() {
@@ -82,13 +89,21 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     }
 
     private func setupDismissChatGestures() {
-        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissChat))
-        swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(dismissChat))
-        swipeGestureRecognizer?.direction = .down
+        quickChatTap.addTarget(self, action: #selector(dismissChat))
+        chatView.addGestureRecognizer(quickChatTap)
+
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(dismissChat))
+        swipeDown.direction = .down
+        chatView.addGestureRecognizer(swipeDown)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupNavigationBar()
+    }
+
+    override func viewWillAppearFromBackground(_ fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
         setupNavigationBar()
     }
 
@@ -127,7 +142,7 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     }
 
     func updateWith(keyboardChange: KeyboardChange) {
-        let height = photoViewer.bounds.height - keyboardChange.origin
+        let height = view.bounds.height - keyboardChange.origin
         chatView.updateWith(bottomInset: height,
                             animationTime: TimeInterval(keyboardChange.animationTime),
                             animationOptions: keyboardChange.animationOptions,
@@ -153,26 +168,13 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         hideLeftButton()
 
         chatView.frame = photoViewer.frame
-        chatView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(chatView)
+        view.addSubviewForAutoLayout(chatView)
         chatView.layout(with: photoViewer).fill()
         
         view.setNeedsLayout()
         view.layoutIfNeeded()
 
         chatView.becomeFirstResponder()
-
-        addDissmisGestureRecognizers()
-    }
-
-    private func addDissmisGestureRecognizers() {
-        if tapGestureRecognizer == nil || swipeGestureRecognizer == nil {
-            setupDismissChatGestures()
-        }
-        guard let gesture = tapGestureRecognizer else { return }
-        chatView.addDismissGestureRecognizer(gesture)
-        guard let swipe = swipeGestureRecognizer else { return }
-        chatView.addGestureRecognizer(swipe)
     }
 
     @objc func closeView() {
@@ -196,28 +198,49 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
         guard let cache = viewModel.imageDownloader.cachedImageForUrl(url) else {
             _ = ImageDownloader.sharedInstance.downloadImageWithURL(url) { (result, url) in
                 if let value = result.value, imageCell.tag == indexPath.row {
-                    imageCell.imageURL = url
-                    imageCell.imageView.image = value.image
+                    imageCell.setImage(value.image)
                 }
             }
             return cell
         }
-        imageCell.imageView.image = cache
+        imageCell.setImage(cache)
         return imageCell
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+        guard let previewCell = cell as? ListingDeckImagePreviewCell else { return }
+        previewCell.resetZoom()
+    }
+
+    func currentPreviewCell() -> ListingDeckImagePreviewCell? {
+        return photoViewer.previewCellAt(photoViewer.currentPage)
     }
 
     // MARK: PhotoViewerVCType
 
-    func dismiss() {
-        closeView()
+    @objc func dismissView() {
+        if chatView.isFirstResponder {
+            dismissChat()
+        } else if let current = currentPreviewCell(), current.isZooming {
+            current.resetZoom()
+        } else {
+            closeView()
+        }
+    }
+
+    func didTapOnView() {
+        guard let current = currentPreviewCell(), current.isZooming else {
+            closeView()
+            return
+        }
+        current.resetZoom(animated: true)
     }
 
     // MARK: Actions
 
     @objc func dismissChat() {
-        if let gesture = tapGestureRecognizer {
-            chatView.removeGestureRecognizer(gesture)
-        }
         chatView.resignFirstResponder()
         setLeftCloseButton()
     }
@@ -227,7 +250,20 @@ final class PhotoViewerViewController: KeyboardViewController, PhotoViewerVCType
     func addEdgeGesture(_ edgeGestures: [UIGestureRecognizer]) {
         edgeGestures.forEach { view.removeGestureRecognizer($0) }
         self.edgeGestures = edgeGestures
-        edgeGestures.forEach { view.addGestureRecognizer($0) }
+
+        edgeGestures.forEach {
+            view.addGestureRecognizer($0)
+            $0.delegate = self
+        }
     }
 
+}
+
+extension PhotoViewerViewController: UIGestureRecognizerDelegate {
+    private func currentCellIsZooming() -> Bool {
+        return currentPreviewCell()?.isZooming ?? false
+    }
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return !currentCellIsZooming()
+    }
 }

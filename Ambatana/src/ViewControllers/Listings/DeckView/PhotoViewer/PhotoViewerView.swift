@@ -21,15 +21,16 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
 
     var rxChatButton: Reactive<UIControl>? { return (chatButton as UIControl).rx }
     var rxCollectionView: Reactive<UICollectionView> { return collectionView.rx }
-    
-    weak var dataSource: UICollectionViewDataSource? {
-        didSet { collectionView.dataSource = dataSource }
-    }
-    fileprivate let collectionLayout = ListingDeckImagePreviewLayout()
-    fileprivate let collectionView: UICollectionView
-    fileprivate let pageControl = UIPageControl()
-    fileprivate let chatButton = ChatButton()
-    fileprivate let closeButton = UIButton(type: .custom)
+
+    var currentPage: Int { return collectionLayout.currentPage }
+    weak var dataSource: UICollectionViewDataSource? { didSet { collectionView.dataSource = dataSource } }
+    weak var delegate: UICollectionViewDelegate? { didSet { collectionView.delegate = delegate } }
+
+    private let collectionLayout = ListingDeckImagePreviewLayout()
+    private let collectionView: UICollectionView
+    private let pageControl = UIPageControl()
+    private let chatButton = ChatButton()
+    private let closeButton = UIButton(type: .custom)
 
     convenience init() { self.init(frame: .zero) }
 
@@ -84,9 +85,14 @@ final class PhotoViewerView: UIView, PhotoViewerViewType, PhotoViewerBinderViewT
         collectionView.isPagingEnabled = true
         collectionView.delaysContentTouches = true
         collectionView.showsHorizontalScrollIndicator = false
-
+        collectionView.bounces = false
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTapCollectionView))
         collectionView.addGestureRecognizer(tap)
+    }
+
+    func previewCellAt(_ index: Int) -> ListingDeckImagePreviewCell? {
+        return collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? ListingDeckImagePreviewCell
     }
 
     @objc private func didTapCollectionView() {
@@ -174,8 +180,8 @@ class ChatButton: UIControl {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        setRoundedCorners()
         let cornerRadius = min(height, width) / 2.0
-        layer.cornerRadius = cornerRadius
         layer.shadowRadius = cornerRadius
     }
 }

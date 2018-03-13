@@ -45,7 +45,10 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     private var statusTapGesture: UITapGestureRecognizer?
 
     private let previewImageView = UIImageView()
-
+    var previewVisibleFrame: CGRect {
+        let size = CGSize(width: contentView.width, height: previewImageView.height)
+        return CGRect(origin: frame.origin, size: size)
+    }
     private let gradient = GradientView(colors: [UIColor.black.withAlphaComponent(0.2), UIColor.black.withAlphaComponent(0)])
     private let countImageView = UIImageView(image: #imageLiteral(resourceName: "nit_preview_count"))
     private let imageCountLabel = UILabel()

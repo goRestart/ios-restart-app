@@ -9,7 +9,10 @@
 import Foundation
 
 final class PhotoViewerTransitionAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-    struct Duration { static let transition: TimeInterval = 0.25 }
+    struct Duration {
+        static let presentation: TimeInterval = 0.7
+        static let dismiss: TimeInterval = 0.7
+    }
     private var image: UIImage
     private let initialFrame: CGRect
 
@@ -26,14 +29,45 @@ final class PhotoViewerTransitionAnimator: NSObject, UIViewControllerAnimatedTra
     }
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return Duration.transition
+        guard !isInteractive else { return Duration.dismiss }
+        return Duration.presentation
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let duration = transitionDuration(using: transitionContext)
         transitioner.animator = self
-        transitioner.animateTransition(using: transitionContext, withDuration: duration,
-                                       initialFrame: initialFrame, image: image)
+        let (visualEffectView, imageView) = buildBlurrableImageView(withImage: image, initialFrame: initialFrame)
+        let smallImageView = buildPreviewImageView(withImage: image)
+
+
+        transitioner.animateTransition(using: transitionContext,
+                                       withDuration: duration,
+                                       initialFrame: initialFrame,
+                                       imageView: imageView,
+                                       shouldBlurImage: shouldAddBlurToImage(image),
+                                       smallImageView: smallImageView,
+                                       blurredView: visualEffectView)
+    }
+
+    private func shouldAddBlurToImage(_ image: UIImage) -> Bool {
+        return image.size.width >= image.size.height
+    }
+
+    private func buildBlurrableImageView(withImage image: UIImage,
+                                         initialFrame: CGRect) -> (UIVisualEffectView, UIImageView) {
+        let imageView = buildPreviewImageView(withImage: image)
+        imageView.frame = initialFrame
+
+        let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        return (visualEffectView, imageView)
+    }
+
+    private func buildPreviewImageView(withImage image: UIImage) -> UIImageView {
+        let imageView = UIImageView(image: image)
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.cornerRadius = 8.0
+        return imageView
     }
 }
 
@@ -44,7 +78,10 @@ private protocol PhotoViewerTransitionMode {
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning,
                            withDuration duration: TimeInterval,
                            initialFrame: CGRect,
-                           image: UIImage)
+                           imageView: UIImageView,
+                           shouldBlurImage: Bool,
+                           smallImageView: UIImageView,
+                           blurredView: UIVisualEffectView)
 }
 
 private class PhotoViewerTransitionDismisser: PhotoViewerTransitionMode {
@@ -56,34 +93,63 @@ private class PhotoViewerTransitionDismisser: PhotoViewerTransitionMode {
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning,
                            withDuration duration: TimeInterval,
                            initialFrame: CGRect,
-                           image: UIImage) {
-        let containerView = transitionContext.containerView
-        let fromView = transitionContext.view(forKey: .from)!
-        let toView = transitionContext.view(forKey: .to)!
+                           imageView: UIImageView,
+                           shouldBlurImage: Bool,
+                           smallImageView: UIImageView,
+                           blurredView: UIVisualEffectView) {
+        guard let fromView = transitionContext.view(forKey: .from),
+            let toView = transitionContext.view(forKey: .to) else {
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+                return
+        }
 
+        let containerView = transitionContext.containerView
         containerView.addSubview(toView)
         toView.frame = fromView.frame
 
-        let imageView = UIImageView(image: image)
+        if shouldBlurImage {
+            imageView.addSubview(blurredView)
+            blurredView.frame = fromView.frame
+            blurredView.alpha = 1
+        }
+
         containerView.addSubview(imageView)
-        imageView.frame = fromView.frame
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
+        imageView.frame = fromView.bounds
 
         toView.alpha = 0
         let transitioner = opposite
-        UIView.animate(withDuration: duration, delay: 0, options: .curveEaseIn, animations: {
-            fromView.alpha = 0
-            toView.alpha = 1
-            imageView.frame = initialFrame
-            imageView.cornerRadius = 8.0
-        }, completion: { [weak self] (completion) in
+
+        let blurDuration: TimeInterval = duration * 0.3
+        UIView.animateKeyframes(withDuration: duration,
+                                delay: 0, options: .calculationModeLinear,
+                                animations: {
+                                    UIView.addKeyframe(withRelativeStartTime: 0,
+                                                       relativeDuration: blurDuration,
+                                                       animations: { [weak blurredView] in
+                                                        blurredView?.alpha = 0
+                                    })
+                                    UIView.addKeyframe(withRelativeStartTime: blurDuration,
+                                                       relativeDuration: duration * 0.9,
+                                                       animations: { [weak toView, weak blurredView, weak imageView] in
+                                                        toView?.alpha = 1
+                                                        blurredView?.alpha = 0
+                                                        imageView?.frame = initialFrame
+                                                        imageView?.cornerRadius = 8.0
+                                    })
+                                    UIView.addKeyframe(withRelativeStartTime: duration * 0.7,
+                                                       relativeDuration: duration * 0.3,
+                                                       animations: { [weak imageView] in
+                                                        imageView?.alpha = 0
+                                    })
+                                    
+        }, completion: { [weak self] _ in
             guard !transitionContext.transitionWasCancelled else {
                 imageView.removeFromSuperview()
                 toView.removeFromSuperview()
                 transitionContext.completeTransition(false)
                 return
             }
+            fromView.alpha = 0
             self?.animator?.transitioner = transitioner
 
             imageView.removeFromSuperview()
@@ -102,46 +168,70 @@ private class PhotoViewerTransitionPresenter: PhotoViewerTransitionMode {
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning,
                            withDuration duration: TimeInterval,
                            initialFrame: CGRect,
-                           image: UIImage) {
-        let containerView = transitionContext.containerView
+                           imageView: UIImageView,
+                           shouldBlurImage: Bool,
+                           smallImageView: UIImageView,
+                           blurredView: UIVisualEffectView) {
         guard let fromView = transitionContext.view(forKey: .from),
-            let toVC = transitionContext.viewController(forKey: .to),
-            let toView = toVC.view else {
+            let photoVC = transitionContext.viewController(forKey: .to) as? PhotoViewerViewController,
+            let toView = photoVC.view else {
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
                 return
         }
 
-        if let photoVC = toVC as? PhotoViewerViewController {
-            photoVC.photoViewer.reloadData()
-        }
+        let containerView = transitionContext.containerView
+        photoVC.photoViewer.reloadData()
 
         containerView.addSubview(toView)
         toView.frame = fromView.bounds
         containerView.bringSubview(toFront: fromView)
         toView.alpha = 0
 
-        let imageView = UIImageView(image: image)
+        blurredView.alpha = 0
+        
         containerView.addSubview(imageView)
-        imageView.frame = initialFrame
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
-        imageView.cornerRadius = 8.0
-
         let transitioner = opposite
-        UIView.animate(withDuration: 0.2, animations: {
-            fromView.alpha = 0
-        }) { (completion) in
-            UIView.animate(withDuration: duration, delay: 0, options: .curveEaseIn, animations: {
-                imageView.frame = fromView.bounds
-            }, completion: { [weak self] (completion) in
-                self?.animator?.transitioner = transitioner
 
-                imageView.removeFromSuperview()
-                toView.alpha = 1
-                containerView.bringSubview(toFront: toView)
-                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
-            })
+        if shouldBlurImage {
+            imageView.addSubviewForAutoLayout(blurredView)
+            blurredView.layout(with: imageView).fill()
+
+            containerView.addSubview(smallImageView)
+            smallImageView.contentMode = .scaleAspectFit
+            smallImageView.frame = fromView.bounds
+            smallImageView.alpha = 0
         }
+
+        UIView.animateKeyframes(withDuration: duration,
+                                delay: 0,
+                                options: .calculationModeLinear,
+            animations: {
+                UIView.addKeyframe(withRelativeStartTime: 0,
+                                   relativeDuration: duration * 0.2,
+                                   animations: {
+                    fromView.alpha = 0
+                })
+                UIView.addKeyframe(withRelativeStartTime: duration * 0,
+                                   relativeDuration: duration * 0.5,
+                                   animations: {
+                                    imageView.frame = fromView.bounds
+                })
+                UIView.addKeyframe(withRelativeStartTime: duration * 0.5,
+                                   relativeDuration: duration * 0.5,
+                                   animations: {
+                    blurredView.alpha = 1
+                    smallImageView.alpha = 1
+                })
+        }, completion: { [weak self] _ in
+            self?.animator?.transitioner = transitioner
+            containerView.bringSubview(toFront: toView)
+
+            toView.alpha = 1
+            imageView.removeFromSuperview()
+            smallImageView.removeFromSuperview()
+            blurredView.removeFromSuperview()
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        })
     }
 }
 

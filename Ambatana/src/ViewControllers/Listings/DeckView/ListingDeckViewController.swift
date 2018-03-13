@@ -30,6 +30,12 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     var quickChatTopToCollectionBotton: NSLayoutConstraint?
     var chatEnabled: Bool = false { didSet { quickChatTopToCollectionBotton?.isActive = chatEnabled } }
 
+    lazy var windowTargetFrame: CGRect = {
+        let size = listingDeckView.cardSize
+        let frame = CGRect(x: 20, y: 0, width: size.width, height: size.height)
+        return listingDeckView.collectionView.convertToWindow(frame)
+    }()
+
     init(viewModel: ListingDeckViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nil)
@@ -421,28 +427,29 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
 extension ListingDeckViewController {
     func transitionCell() -> ListingCardView? {
         let indexPath = IndexPath(row: viewModel.startIndex, section: 0)
-        guard let card = collectionView(listingDeckView.collectionView, cellForItemAt: indexPath) as? ListingCardView else { return nil }
+        guard let card = collectionView(listingDeckView.collectionView,
+                                        cellForItemAt: indexPath) as? ListingCardView else { return nil }
         updateCellContentInset(card, animated: false)
         return card
     }
-    var windowTargetFrame: CGRect {
-        let size = listingDeckView.cardSize
-        let frame = CGRect(x: 20, y: 0, width: size.width, height: size.height)
-        return listingDeckView.collectionView.convertToWindow(frame)
+
+    var photoViewerTransitionFrame: CGRect {
+        guard let current = listingDeckView.currentPageCell() else { return windowTargetFrame }
+        let size = current.previewVisibleFrame.size
+        let corrected = CGRect(x: current.frame.minX, y: current.frame.minY, width: size.width, height: size.height)
+        return listingDeckView.collectionView.convertToWindow(corrected)
     }
+
     func isTransitionIndexPath(_ indexPath: IndexPath) -> Bool {
         return indexPath.row >= viewModel.startIndex - 1 && indexPath.row <= viewModel.startIndex + 1
     }
     var animationController: UIViewControllerAnimatedTransitioning? {
+        guard let cached = viewModel.cachedImageAtIndex(0) else { return nil }
         if transitioner == nil {
-            let frame = windowTargetFrame
-            guard let url = viewModel.urlAtIndex(0),
-                let cached = viewModel.imageDownloader.cachedImageForUrl(url) else { return nil }
-            transitioner = PhotoViewerTransitionAnimator(image: cached, initialFrame: frame)
+            transitioner = PhotoViewerTransitionAnimator(image: cached, initialFrame: photoViewerTransitionFrame)
+        } else {
+            transitioner?.setImage(cached)
         }
-        guard let url = viewModel.urlAtIndex(0),
-            let cached = viewModel.imageDownloader.cachedImageForUrl(url) else { return nil }
-        transitioner?.setImage(cached)
         return transitioner
     }
 

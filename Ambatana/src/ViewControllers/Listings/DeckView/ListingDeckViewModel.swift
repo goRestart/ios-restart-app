@@ -364,6 +364,11 @@ final class ListingDeckViewModel: BaseViewModel {
         deckNavigator?.showOnBoarding()
     }
 
+    func cachedImageAtIndex(_ index: Int) -> UIImage? {
+        guard let url = urlAtIndex(0),
+            let cached = imageDownloader.cachedImageForUrl(url) else { return nil }
+        return cached
+    }
 
     func openPhotoViewer() {
         guard let listingViewModel = currentListingViewModel else { return }

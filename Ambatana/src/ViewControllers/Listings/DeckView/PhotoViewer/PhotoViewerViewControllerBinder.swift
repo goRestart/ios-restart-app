@@ -13,7 +13,7 @@ protocol PhotoViewerVCType: class {
     var keyboardChanges: Observable<KeyboardChange> { get }
     func updateWith(keyboardChange: KeyboardChange)
 
-    func dismiss()
+    func dismissView()
     func showChat()
     func updatePage(fromContentOffset offset: CGFloat)
 }
@@ -66,9 +66,10 @@ final class PhotoViewerViewControllerBinder {
 
     private func bindTapControlEvents(toViewController viewController: PhotoViewerVCType?,
                                       view: PhotoViewerBinderViewType, withDisposeBag disposeBag: DisposeBag) {
-        view.rxTapControlEvents.bind { event in
-            guard event == .touchUpInside else { return }
-            viewController?.dismiss()
+        view.rxTapControlEvents
+            .filter { $0 == .touchUpInside }
+            .bind { event in
+            viewController?.dismissView()
         }.disposed(by: disposeBag)
     }
 }

@@ -117,6 +117,7 @@ private class MockPhotoViewerView: PhotoViewerBinderViewType {
 }
 
 private class MockPhotoViewerViewController: PhotoViewerVCType {
+
     var keyboardChanges: Observable<KeyboardChange> { return keyboardChange.asObservable() }
 
     var showChatCalled: Int = 0
@@ -141,7 +142,7 @@ private class MockPhotoViewerViewController: PhotoViewerVCType {
         keyboardIsCalled += 1
     }
 
-    func dismiss() {
+    func dismissView() {
         dismissIsCalled += 1
     }
 
