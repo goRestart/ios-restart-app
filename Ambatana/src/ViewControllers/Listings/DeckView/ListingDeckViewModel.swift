@@ -180,7 +180,9 @@ final class ListingDeckViewModel: BaseViewModel {
         self.navigator = detailNavigator
         self.tracker = tracker
 
-        if let listModels = listModels {
+        let filteredModels = ListingDeckViewModel.purgeNoListingsElements(listModels)
+
+        if let listModels = filteredModels {
             self.objects.appendContentsOf(listModels)
             self.pagination.isLast = listingListRequester.isLastPage(listModels.count)
         } else {
@@ -533,5 +535,9 @@ extension ListingDeckViewModel {
             }
         }
         imageDownloader.downloadImagesWithURLs(imagesToPrefetch)
+    }
+
+    private static func purgeNoListingsElements(_ array: [ListingCellModel]?) -> [ListingCellModel]? {
+        return array?.filter { return $0.listing != nil }
     }
 }
