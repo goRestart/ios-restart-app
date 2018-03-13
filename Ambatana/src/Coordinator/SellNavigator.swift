@@ -48,5 +48,6 @@ protocol BlockingPostingNavigator: class {
     func openCategoriesPickerWith(selectedCategory: ListingCategory?, delegate: PostingCategoriesPickDelegate)
     func closeCategoriesPicker()
     func closePosting()
+    func postingSucceededWith(listing: Listing)
 }
 

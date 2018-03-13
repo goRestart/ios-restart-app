@@ -137,7 +137,11 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
 
     func closePosting(discardingListing: Bool) {
         defer {
-            navigator?.closePosting()
+            if discardingListing {
+                navigator?.closePosting()
+            } else {
+                navigator?.postingSucceededWith(listing: listing)
+            }
         }
         if discardingListing {
             guard let listingId = listing.objectId else { return }
