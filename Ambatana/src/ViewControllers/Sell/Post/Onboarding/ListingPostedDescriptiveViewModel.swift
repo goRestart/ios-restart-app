@@ -160,6 +160,8 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
             }
             listingRepository.update(listingParams: updatedParams, completion: nil)
             trackPostSellComplete()
+        } else {
+            trackPostSellComplete()
         }
     }
 
