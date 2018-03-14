@@ -54,7 +54,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
     var newUserProfileView: NewUserProfileView = .control
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
-    var searchMultiwordExpressions: SearchMultiwordExpressions = .control
+    var searchImprovements: SearchImprovements = .control
     var showChatSafetyTips: Bool = false
     var discardedProducts: DiscardedProducts = .control
     var promoteBumpInEdit: PromoteBumpInEdit = .control
