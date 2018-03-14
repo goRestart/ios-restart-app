@@ -40,16 +40,6 @@ class BlockingPostingQueuedRequestsViewController: BaseViewController, BlockingP
         viewModel.startQueuedRequests()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setStatusBarHidden(true)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        setStatusBarHidden(false)
-    }
-    
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         if let state = viewModel.queueState.value, state.isAnimated {
@@ -64,6 +54,13 @@ class BlockingPostingQueuedRequestsViewController: BaseViewController, BlockingP
                 self?.closeButton.isHidden = !state.isError
                 self?.loadingView.updateWith(message: state.message, isError: state.isError, isAnimated: state.isAnimated)
             }.disposed(by: disposeBag)
+    }
+    
+    
+    // MARK: - Status Bar
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     
     
