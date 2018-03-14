@@ -70,13 +70,9 @@ extension SocialMessage {
     static var utmCampaignKey: String { return "utm_campaign" }
     static var utmSourceValue: String { return "ios_app" }
     static var siteIDKey: String { return "site_id" }
-    static var deepLinkPathKey: String { return "$deeplink_path" }
-    static var fallbackURLKey: String { return "$fallback_url" }
-    static var desktopURLKey: String { return "$desktop_url" }
-    static var iosURLKey: String { return "$ios_url" }
-    static var androidURLKey: String { return "$android_url" }
     static var sub1: String { return "sub1" }
     static var sub2: String { return "sub2" }
+    static var webDeeplink: String { return "af_web_dp" }
     
     
     // MARK: - Mediums
@@ -179,6 +175,7 @@ extension SocialMessage {
             generator.addParameterValue(letgoURLString, forKey: Self.desktopURLKey)
             generator.addParameterValue(iosURL, forKey: Self.iosURLKey)
             generator.addParameterValue(androidURL, forKey: Self.androidURLKey)
+            generator.addParameterValue(letgoURLString, forKey: Self.webDeeplink)
         }
         if let myUserId = myUserId {
             generator.addParameterValue(myUserId, forKey: Self.sub1)
@@ -197,7 +194,7 @@ extension SocialMessage {
     func addUtmParamsToURLString(_ string: String, source: ShareSource?) -> String {
         guard !string.isEmpty else { return "" }
         let mediumValue = source?.rawValue ?? ""
-        let completeURLString = Constants.deepLinkScheme + string + "?" +
+        let completeURLString = string + "?" +
             Self.utmCampaignKey + "=" + Self.utmCampaignValue + "&" +
             Self.utmMediumKey + "=" + mediumValue + "&" +
             Self.utmSourceKey + "=" + Self.utmSourceValue
@@ -205,6 +202,10 @@ extension SocialMessage {
             return percentEncodedURLString
         }
         return completeURLString
+    }
+    
+    func addCustomSchemeToDeeplink(_ deepLink: String) -> String {
+        return "\(Constants.deepLinkScheme)\(deepLink)"
     }
 }
 
@@ -303,8 +304,9 @@ struct ListingSocialMessage: SocialMessage {
     }
     
     func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
-        let deepLinkString = addUtmParamsToURLString("product/"+listingId,
-                                                       source: source)
+        var deepLinkString = addUtmParamsToURLString("product/"+listingId,
+                                                     source: source)
+        deepLinkString = addCustomSchemeToDeeplink(deepLinkString)
         retrieveShareURL(source: source,
                          campaign: ListingSocialMessage.utmCampaignValue,
                          deepLinkString: deepLinkString,
@@ -371,8 +373,9 @@ struct AppShareSocialMessage: SocialMessage {
     }
     
     func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
-        let deepLinkString = addUtmParamsToURLString(controlParameter,
+        var deepLinkString = addUtmParamsToURLString(controlParameter,
                                                      source: source)
+        deepLinkString = addCustomSchemeToDeeplink(deepLinkString)
         retrieveShareURL(source: source,
                          campaign: AppShareSocialMessage.utmCampaignValue,
                          deepLinkString: deepLinkString,
@@ -479,8 +482,9 @@ struct UserSocialMessage: SocialMessage {
     }
     
     func retrieveShareURL(source: ShareSource?, completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
-        let deepLinkString = addUtmParamsToURLString(controlParameter,
+        var deepLinkString = addUtmParamsToURLString(controlParameter,
                                                      source: source)
+        deepLinkString = addCustomSchemeToDeeplink(deepLinkString)
         retrieveShareURL(source: source,
                          campaign: UserSocialMessage.utmCampaignValue,
                          deepLinkString: deepLinkString,
