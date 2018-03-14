@@ -212,19 +212,16 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
     // MARK: MKMapViewDelegate
 
     func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
-        guard fullyRendered else {
+        if !fullyRendered {
             hideMap()
-            return
         }
     }
 
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        if overlay is MKCircle {
-            let renderer = MKCircleRenderer(overlay: overlay)
-            renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.10)
-            return renderer
-        }
-        return MKCircleRenderer()
+        guard let circle = overlay as? MKCircle else { return MKCircleRenderer() }
+        let renderer = MKCircleRenderer(overlay: circle)
+        renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.10)
+        return renderer
     }
 
     private func purgeLocationArea() {
