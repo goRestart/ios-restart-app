@@ -78,7 +78,7 @@ class ListingAttributePickerTableView: UIView, UITableViewDelegate, UITableViewD
     // MARK: - Accessibility
     
     private func setupAccessibilityIds() {
-        tableView.accessibilityId = .postingAddDetailTableView
+        tableView.set(accessibilityId: .postingAddDetailTableView)
     }
     
     

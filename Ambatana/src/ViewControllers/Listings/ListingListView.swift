@@ -57,7 +57,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     @IBOutlet weak var errorTitleLabel: UILabel!
     @IBOutlet weak var errorBodyLabel: UILabel!
-    @IBOutlet weak var errorButton: UIButton!
+    @IBOutlet weak var errorButton: LetgoButton!
     @IBOutlet weak var errorButtonHeightConstraint: NSLayoutConstraint!
     
     // > Insets
@@ -314,7 +314,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         drawerManager.draw(item,
                            inCell: cell,
                            delegate: viewModel.listingCellDelegate,
-                           shouldShowPrice: viewModel.shouldShowPrices,
                            imageSize: viewModel.imageViewSizeForItem(at: indexPath.row))
         (cell as? ListingCell)?.isRelatedEnabled = cellsDelegate?.shouldShowRelatedListingsButton() ?? false
         return cell
@@ -679,14 +678,14 @@ extension ListingListView: UICollectionViewDataSourcePrefetching {
 
 extension ListingListView {
     func setAccessibilityIds() {
-        firstLoadView.accessibilityId = .listingListViewFirstLoadView
-        firstLoadActivityIndicator.accessibilityId = .listingListViewFirstLoadActivityIndicator
-        collectionView.accessibilityId = .listingListViewCollection
-        errorView.accessibilityId = .listingListViewErrorView
-        errorImageView.accessibilityId =  .listingListErrorImageView
-        errorTitleLabel.accessibilityId = .listingListErrorTitleLabel
-        errorBodyLabel.accessibilityId = .listingListErrorBodyLabel
-        errorButton.accessibilityId = .listingListErrorButton
+        firstLoadView.set(accessibilityId: .listingListViewFirstLoadView)
+        firstLoadActivityIndicator.set(accessibilityId: .listingListViewFirstLoadActivityIndicator)
+        collectionView.set(accessibilityId: .listingListViewCollection)
+        errorView.set(accessibilityId: .listingListViewErrorView)
+        errorImageView.set(accessibilityId:  .listingListErrorImageView)
+        errorTitleLabel.set(accessibilityId: .listingListErrorTitleLabel)
+        errorBodyLabel.set(accessibilityId: .listingListErrorBodyLabel)
+        errorButton.set(accessibilityId: .listingListErrorButton)
     }
 }
 

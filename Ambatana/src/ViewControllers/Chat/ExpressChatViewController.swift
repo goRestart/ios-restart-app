@@ -23,7 +23,7 @@ class ExpressChatViewController: BaseViewController {
     @IBOutlet weak var dontMissLabel: UILabel!
     @IBOutlet weak var contactSellersLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var sendMessageButton: UIButton!
+    @IBOutlet weak var sendMessageButton: LetgoButton!
     @IBOutlet weak var dontAskAgainButton: UIButton!
 
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
@@ -150,9 +150,9 @@ extension ExpressChatViewController: ExpressChatViewModelDelegate {
 
 extension ExpressChatViewController {
     func setupAccessibilityIds() {
-        self.closeButton.accessibilityId = .expressChatCloseButton
-        self.collectionView.accessibilityId = .expressChatCollection
-        self.sendMessageButton.accessibilityId = .expressChatSendButton
-        self.dontAskAgainButton.accessibilityId = .expressChatDontAskButton
+        self.closeButton.set(accessibilityId: .expressChatCloseButton)
+        self.collectionView.set(accessibilityId: .expressChatCollection)
+        self.sendMessageButton.set(accessibilityId: .expressChatSendButton)
+        self.dontAskAgainButton.set(accessibilityId: .expressChatDontAskButton)
    }
 }

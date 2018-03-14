@@ -44,18 +44,27 @@ enum PurchasesShopperState {
 }
 
 protocol BumpInfoRequesterDelegate: class {
-    func shopperFinishedProductsRequestForListingId(_ listingId: String?, withProducts products: [PurchaseableProduct])
+    func shopperFinishedProductsRequestForListingId(_ listingId: String?,
+                                                    withProducts products: [PurchaseableProduct],
+                                                    paymentItemId: String?,
+                                                    storeProductId: String?,
+                                                    typePage: EventParameterTypePage?)
 }
 
 protocol PurchasesShopperDelegate: class {
-    func freeBumpDidStart()
-    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork)
-    func freeBumpDidFail(withNetwork network: EventParameterShareNetwork)
+    func freeBumpDidStart(typePage: EventParameterTypePage?)
+    func freeBumpDidSucceed(withNetwork network: EventParameterShareNetwork, typePage: EventParameterTypePage?)
+    func freeBumpDidFail(withNetwork network: EventParameterShareNetwork, typePage: EventParameterTypePage?)
 
-    func pricedBumpDidStart()
+    func pricedBumpDidStart(typePage: EventParameterTypePage?)
     func paymentDidSucceed(paymentId: String, transactionStatus: EventParameterTransactionStatus)
-    func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int, transactionStatus: EventParameterTransactionStatus)
-    func pricedBumpDidFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus)
+    func pricedBumpDidSucceed(type: BumpUpType,
+                              restoreRetriesCount: Int,
+                              transactionStatus: EventParameterTransactionStatus,
+                              typePage: EventParameterTypePage?)
+    func pricedBumpDidFail(type: BumpUpType,
+                           transactionStatus: EventParameterTransactionStatus,
+                           typePage: EventParameterTypePage?)
     func pricedBumpPaymentDidFail(withReason reason: String?, transactionStatus: EventParameterTransactionStatus)
 
     func restoreBumpDidStart()
@@ -78,7 +87,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
     var purchasesShopperState: PurchasesShopperState = .restoring
 
-    fileprivate(set) var currentRequestListingId: String?
+    private(set) var currentListingId: String?
     private var productsRequest: PurchaseableProductsRequest
 
     private var requestFactory: PurchaseableProductsRequestFactory
@@ -101,6 +110,10 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     var letgoProductsDict: [String : [SKProduct]] = [:]
     var paymentProcessingListingId: String?
     var paymentProcessingPaymentId: String?
+
+    private var currentBumpPaymentItemId: String?
+    private var currentBumpStoreProductId: String?
+    private var currentBumpTypePage: EventParameterTypePage?
 
     override convenience init() {
         let factory = AppstoreProductsRequestFactory()
@@ -188,20 +201,32 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
      - parameter listingId: ID of the listing for wich will request the appstore products
      - parameter ids: array of ids of the appstore products
      */
-    func productsRequestStartForListing(_ listingId: String, withIds ids: [String]) {
-        guard listingId != currentRequestListingId, canMakePayments else { return }
+    func productsRequestStartForListingId(_ listingId: String,
+                                          paymentItemId: String,
+                                          withIds ids: [String],
+                                          typePage: EventParameterTypePage?) {
+        guard listingId != currentListingId else { return }
+        guard canMakePayments else { return }
+
+        currentBumpPaymentItemId = paymentItemId
+        currentBumpStoreProductId = ids.first
+        currentBumpTypePage = typePage
 
         // check cached products
         let alreadyChosenProducts = appstoreProductsCache.filter(keys: ids).map { $0.value }
         guard alreadyChosenProducts.isEmpty else {
             // if product has been previously requested, we don't repeat the request, so the banner loads faster
             letgoProductsDict[listingId] = alreadyChosenProducts
-            bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(listingId, withProducts: alreadyChosenProducts)
+            bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(listingId,
+                                                                                withProducts: alreadyChosenProducts,
+                                                                                paymentItemId: paymentItemId,
+                                                                                storeProductId: ids.first,
+                                                                                typePage: typePage)
             return
         }
 
         productsRequest.cancel()
-        currentRequestListingId = listingId
+        currentListingId = listingId
         productsRequest = requestFactory.generatePurchaseableProductsRequest(ids)
         productsRequest.delegate = self
         productsRequest.start()
@@ -237,7 +262,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
         purchasesShopperState = .purchasing
 
-        delegate?.pricedBumpDidStart()
+        delegate?.pricedBumpDidStart(typePage: currentBumpTypePage)
 
         paymentProcessingListingId = listingId
         paymentProcessingPaymentId = paymentItemId
@@ -254,12 +279,12 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
     }
 
     func requestFreeBumpUp(forListingId listingId: String, paymentItemId: String, shareNetwork: EventParameterShareNetwork) {
-        delegate?.freeBumpDidStart()
+        delegate?.freeBumpDidStart(typePage: currentBumpTypePage)
         monetizationRepository.freeBump(forListingId: listingId, itemId: paymentItemId) { [weak self] result in
             if let _ = result.value {
-                self?.delegate?.freeBumpDidSucceed(withNetwork: shareNetwork)
+                self?.delegate?.freeBumpDidSucceed(withNetwork: shareNetwork, typePage: self?.currentBumpTypePage)
             } else if let _ = result.error {
-                self?.delegate?.freeBumpDidFail(withNetwork: shareNetwork)
+                self?.delegate?.freeBumpDidFail(withNetwork: shareNetwork, typePage: self?.currentBumpTypePage)
             }
         }
     }
@@ -368,7 +393,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         guard currentBump.numRetries < Constants.maxRetriesForBumpUpRestore  else {
             removeFromUserDefaults(transactionId: currentBump.transactionId)
             removeFromUserDefaultsBumpUpWithListingId(listingId: listingId)
-            delegate?.pricedBumpDidFail(type: type, transactionStatus: transactionStatus)
+            delegate?.pricedBumpDidFail(type: type, transactionStatus: transactionStatus, typePage: currentBumpTypePage)
             return
         }
 
@@ -396,7 +421,8 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 
                                                     strongSelf.delegate?.pricedBumpDidSucceed(type: type,
                                                                                          restoreRetriesCount: bump.numRetries,
-                                                                                         transactionStatus: transactionStatus)
+                                                                                         transactionStatus: transactionStatus,
+                                                                                         typePage: strongSelf.currentBumpTypePage)
                                                 } else if let error = result.error {
                                                     switch error {
                                                     case .serverError(code: let code):
@@ -414,7 +440,9 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
                                                          .unauthorized, .userNotVerified, .wsChatError:
                                                         strongSelf.saveToUserDefaults(bumpUp: bump)
                                                     }
-                                                    strongSelf.delegate?.pricedBumpDidFail(type: type, transactionStatus: transactionStatus)
+                                                    strongSelf.delegate?.pricedBumpDidFail(type: type,
+                                                                                           transactionStatus: transactionStatus,
+                                                                                           typePage: strongSelf.currentBumpTypePage)
                                                 }
         }
     }
@@ -510,7 +538,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
 extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
     func productsRequest(_ request: PurchaseableProductsRequest, didReceiveResponse response: PurchaseableProductsResponse) {
 
-        guard let currentRequestListingId = currentRequestListingId else { return }
+        guard let currentRequestListingId = currentListingId else { return }
 
         let invalidIds = response.invalidProductIdentifiers
         if !invalidIds.isEmpty {
@@ -527,13 +555,16 @@ extension LGPurchasesShopper: PurchaseableProductsRequestDelegate {
             appstoreProductsCache[product.productIdentifier] = product
         }
         letgoProductsDict[currentRequestListingId] = appstoreProducts
-        bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(currentRequestListingId, withProducts: response.purchaseableProducts)
-        self.currentRequestListingId = nil
+        bumpInfoRequesterDelegate?.shopperFinishedProductsRequestForListingId(currentListingId,
+                                                                              withProducts: response.purchaseableProducts,
+                                                                              paymentItemId: currentBumpPaymentItemId,
+                                                                              storeProductId: currentBumpStoreProductId,
+                                                                              typePage: currentBumpTypePage)
+        currentListingId = nil
     }
 
     func productsRequest(_ request: PurchaseableProductsRequest, didFailWithError error: Error) {
-        // noo need to update any UI, we just don't show the banner
-        self.currentRequestListingId = nil
+        currentListingId = nil
         logMessage(.info, type: [.monetization], message: "Products request failed with error: \(error)")
     }
 }
@@ -571,7 +602,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                 saveToUserDefaults(transaction: transaction, forListing: paymentProcessingListingId)
 
                 guard let receiptString = receiptString, let paymentProcessingListingId = paymentProcessingListingId else {
-                    delegate?.pricedBumpDidFail(type: .priced, transactionStatus: transactionStatus)
+                    delegate?.pricedBumpDidFail(type: .priced, transactionStatus: transactionStatus, typePage: currentBumpTypePage)
                     continue
                 }
 
@@ -601,7 +632,7 @@ extension LGPurchasesShopper: SKPaymentTransactionObserver {
                 guard let listingId = transactionListingId, let receiptString = receiptString else {
                     removeFromUserDefaults(transactionId: transaction.transactionIdentifier)
                     queue.finishTransaction(transaction)
-                    delegate?.pricedBumpDidFail(type: .priced, transactionStatus: transactionStatus)
+                    delegate?.pricedBumpDidFail(type: .priced, transactionStatus: transactionStatus, typePage: currentBumpTypePage)
                     continue
                 }
                 requestPricedBumpUp(forListingId: listingId, receiptData: receiptString,

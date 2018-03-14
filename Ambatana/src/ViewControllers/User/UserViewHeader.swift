@@ -72,7 +72,7 @@ class UserViewHeader: UIView {
     @IBOutlet weak var simpleEmailButtonWidth: NSLayoutConstraint!
 
     @IBOutlet weak var buildTrustSeparator: UIView!
-    @IBOutlet weak var buildTrustButton: UIButton!
+    @IBOutlet weak var buildTrustButton: LetgoButton!
     @IBOutlet weak var buildTrustButtonHeight: NSLayoutConstraint!
     @IBOutlet weak var buildTrustContainerButtonWidth: NSLayoutConstraint!
 

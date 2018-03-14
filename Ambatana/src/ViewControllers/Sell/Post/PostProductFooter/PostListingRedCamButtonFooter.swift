@@ -71,8 +71,8 @@ fileprivate extension PostListingRedCamButtonFooter {
     }
     
     func setupAccessibilityIds() {
-        galleryButton.accessibilityId = .postingGalleryButton
-        cameraButton.accessibilityId = .postingPhotoButton
+        galleryButton.set(accessibilityId: .postingGalleryButton)
+        cameraButton.set(accessibilityId: .postingPhotoButton)
     }
     
     func setupLayout() {

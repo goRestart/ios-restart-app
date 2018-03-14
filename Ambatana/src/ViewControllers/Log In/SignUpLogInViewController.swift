@@ -25,8 +25,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
     @IBOutlet weak var textFieldsView: UIView!
 
-    @IBOutlet weak var connectFBButton: UIButton!
-    @IBOutlet weak var connectGoogleButton: UIButton!
+    @IBOutlet weak var connectFBButton: LetgoButton!
+    @IBOutlet weak var connectGoogleButton: LetgoButton!
     
     @IBOutlet var dividerViews: [UIView]!
     @IBOutlet weak var orLabel: UILabel!
@@ -35,15 +35,15 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
 
     @IBOutlet weak var usernameIconImageView: UIImageView!
     @IBOutlet weak var usernameTextField: LGTextField!
-    @IBOutlet weak var usernameButton: UIButton!
+    @IBOutlet weak var usernameButton: LetgoButton!
     
     @IBOutlet weak var emailIconImageView: UIImageView!
     @IBOutlet weak var emailTextField: AutocompleteField!
-    @IBOutlet weak var emailButton: UIButton!
+    @IBOutlet weak var emailButton: LetgoButton!
     
     @IBOutlet weak var passwordIconImageView: UIImageView!
     @IBOutlet weak var passwordTextField: LGTextField!
-    @IBOutlet weak var passwordButton: UIButton!
+    @IBOutlet weak var passwordButton: LetgoButton!
     @IBOutlet weak var showPasswordButton: UIButton!
 
     @IBOutlet weak var forgotPasswordButton: UIButton!
@@ -55,7 +55,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIText
     @IBOutlet weak var newsletterLabel: UILabel!
     @IBOutlet weak var newsletterSwitch: UISwitch!
 
-    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var sendButton: LetgoButton!
     
     fileprivate var helpButton: UIBarButtonItem!
 
@@ -653,19 +653,19 @@ extension SignUpLogInViewController: SignUpLogInViewModelDelegate {
 
 extension SignUpLogInViewController {
     func setAccessibilityIds() {
-        connectFBButton.accessibilityId = .signUpLoginFacebookButton
-        connectGoogleButton.accessibilityId = .signUpLoginGoogleButton
-        emailButton.accessibilityId = .signUpLoginEmailButton
-        emailTextField.accessibilityId = .signUpLoginEmailTextField
-        passwordButton.accessibilityId = .signUpLoginPasswordButton
-        passwordTextField.accessibilityId = .signUpLoginEmailTextField
-        usernameButton.accessibilityId = .signUpLoginUserNameButton
-        usernameTextField.accessibilityId = .signUpLoginUserNameTextField
-        showPasswordButton.accessibilityId = .signUpLoginShowPasswordButton
-        forgotPasswordButton.accessibilityId = .signUpLoginForgotPasswordButton
-        loginSegmentedControl.accessibilityId = .signUpLoginSegmentedControl
-        helpButton.accessibilityId = .signUpLoginHelpButton
-        navigationItem.leftBarButtonItem?.accessibilityId = .signUpLoginCloseButton
-        sendButton.accessibilityId = .signUpLoginSendButton
+        connectFBButton.set(accessibilityId: .signUpLoginFacebookButton)
+        connectGoogleButton.set(accessibilityId: .signUpLoginGoogleButton)
+        emailButton.set(accessibilityId: .signUpLoginEmailButton)
+        emailTextField.set(accessibilityId: .signUpLoginEmailTextField)
+        passwordButton.set(accessibilityId: .signUpLoginPasswordButton)
+        passwordTextField.set(accessibilityId: .signUpLoginEmailTextField)
+        usernameButton.set(accessibilityId: .signUpLoginUserNameButton)
+        usernameTextField.set(accessibilityId: .signUpLoginUserNameTextField)
+        showPasswordButton.set(accessibilityId: .signUpLoginShowPasswordButton)
+        forgotPasswordButton.set(accessibilityId: .signUpLoginForgotPasswordButton)
+        loginSegmentedControl.set(accessibilityId: .signUpLoginSegmentedControl)
+        helpButton.set(accessibilityId: .signUpLoginHelpButton)
+        navigationItem.leftBarButtonItem?.set(accessibilityId: .signUpLoginCloseButton)
+        sendButton.set(accessibilityId: .signUpLoginSendButton)
     }
 }

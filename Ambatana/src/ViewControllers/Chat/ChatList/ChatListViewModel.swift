@@ -120,10 +120,13 @@ class ChatListViewModel: BaseChatGroupedListViewModel<ChatConversation> {
     func conversationDataAtIndex(_ index: Int) -> ConversationCellData? {
         guard let conversation = objectAtIndex(index) else { return nil }
         return ConversationCellData(status: conversation.conversationCellStatus,
+                                    conversationId: conversation.objectId,
+                                    userId: conversation.interlocutor?.objectId,
                                     userName: conversation.interlocutor?.name ?? "",
                                     userImageUrl: conversation.interlocutor?.avatar?.fileURL,
                                     userImagePlaceholder: LetgoAvatar.avatarWithID(conversation.interlocutor?.objectId,
-                                    name: conversation.interlocutor?.name),
+                                                                                   name: conversation.interlocutor?.name),
+                                    listingId: conversation.listing?.objectId,
                                     listingName: conversation.listing?.name ?? "",
                                     listingImageUrl: conversation.listing?.image?.fileURL,
                                     unreadCount: conversation.unreadMessageCount,

@@ -49,18 +49,18 @@ PODS:
   - GoogleToolboxForMac/NSString+URLArguments (2.1.3)
   - GTMOAuth2 (1.1.6):
     - GTMSessionFetcher (~> 1.1)
-  - GTMSessionFetcher (1.1.12):
-    - GTMSessionFetcher/Full (= 1.1.12)
-  - GTMSessionFetcher/Core (1.1.12)
-  - GTMSessionFetcher/Full (1.1.12):
-    - GTMSessionFetcher/Core (= 1.1.12)
+  - GTMSessionFetcher (1.1.14):
+    - GTMSessionFetcher/Full (= 1.1.14)
+  - GTMSessionFetcher/Core (1.1.14)
+  - GTMSessionFetcher/Full (1.1.14):
+    - GTMSessionFetcher/Core (= 1.1.14)
   - JBKenBurnsView (1.0)
   - JSONWebToken (2.2.0)
   - KeychainSwift (10.0.0)
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (2.0.5)
   - LGCollapsibleLabel (1.2.0)
-  - LGCoreKit (4.11.0):
+  - LGCoreKit (4.12.0):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -134,7 +134,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
-  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `d7fd64d14c8b769b15411be593a70324f9ad29a2`)
+  - LGCoreKit (= 4.12.0)
   - lottie-ios (= 2.5.0)
   - NewRelicAgent (= 6.1.1)
   - Nimble (= 7.0.2)
@@ -157,9 +157,6 @@ EXTERNAL SOURCES:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  LGCoreKit:
-    :commit: d7fd64d14c8b769b15411be593a70324f9ad29a2
-    :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   SwiftyUserDefaults:
     :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
     :git: https://github.com/Dschee/SwiftyUserDefaults
@@ -174,9 +171,6 @@ CHECKOUT OPTIONS:
   KMPlaceholderTextView:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
-  LGCoreKit:
-    :commit: d7fd64d14c8b769b15411be593a70324f9ad29a2
-    :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   SwiftyUserDefaults:
     :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
     :git: https://github.com/Dschee/SwiftyUserDefaults
@@ -204,14 +198,14 @@ SPEC CHECKSUMS:
   GoogleSignIn: 3fdaa34a2ba04dbd7a25d7db39aecb0da98d5bdc
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
-  GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
+  GTMSessionFetcher: 390ea358e5a0d0133153806f744662dad933d06b
   JBKenBurnsView: e40d10fcd4fbeb652c29fa431d4748780a4672ff
   JSONWebToken: 6fae32489632658d563dd6952a5c34020ea813e4
   KeychainSwift: f9f7910449a0c0fd2cabc889121530dd2c477c33
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGCoreKit: 7beb4b73b293ebbcd77ec744dc588f63bba55175
+  LGCoreKit: f451f484a296bcae31c2de856885f63475526f12
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
   Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
@@ -228,6 +222,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
 
-PODFILE CHECKSUM: d74ae98dd0815560e652acdea2b8e6c8571733a2
+PODFILE CHECKSUM: 491d5dc756edce8b3e0df43d91c568adf71af076
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.4.0

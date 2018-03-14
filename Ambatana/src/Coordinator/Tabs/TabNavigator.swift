@@ -34,8 +34,7 @@ enum ProductCarouselActionOnFirstAppear {
     case nonexistent
     case showKeyboard
     case showShareSheet
-    case triggerBumpUp(purchaseableProduct: PurchaseableProduct, paymentItemId: String?, paymentProviderItemId: String?,
-        bumpUpType: BumpUpType, triggerBumpUpSource: BumpUpSource)
+    case triggerBumpUp(bumpUpProductData: BumpUpProductData, bumpUpType: BumpUpType, triggerBumpUpSource: BumpUpSource, typePage: EventParameterTypePage?)
     case triggerMarkAsSold
 }
 
@@ -56,13 +55,16 @@ protocol TabNavigator: class {
 
 protocol ListingDetailNavigator: TabNavigator {
     func closeProductDetail()
-    func editListing(_ listing: Listing)
+    func editListing(_ listing: Listing,
+                     bumpUpProductData: BumpUpProductData?)
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool)
     func closeListingAfterDelete(_ listing: Listing)
-    func openFreeBumpUp(forListing listing: Listing, socialMessage: SocialMessage, paymentItemId: String)
+    func openFreeBumpUp(forListing listing: Listing,
+                        bumpUpProductData: BumpUpProductData,
+                        typePage: EventParameterTypePage?)
     func openPayBumpUp(forListing listing: Listing,
-                       purchaseableProduct: PurchaseableProduct,
-                       paymentItemId: String)
+                       bumpUpProductData: BumpUpProductData,
+                       typePage: EventParameterTypePage?)
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,

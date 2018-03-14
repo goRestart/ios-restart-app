@@ -26,10 +26,10 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     @IBOutlet weak var kenBurnsView: JBKenBurnsView!
     
     @IBOutlet weak var emailIconImageView: UIImageView!
-    @IBOutlet weak var emailButton: UIButton!
+    @IBOutlet weak var emailButton: LetgoButton!
     @IBOutlet weak var emailTextField: UITextField!
     
-    @IBOutlet weak var resetPasswordButton: UIButton!
+    @IBOutlet weak var resetPasswordButton: LetgoButton!
     
     @IBOutlet weak var instructionsLabel : UILabel!
     

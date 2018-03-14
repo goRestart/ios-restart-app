@@ -20,9 +20,9 @@ class VerifyAccountsViewController: BaseViewController, GIDSignInUIDelegate {
     @IBOutlet weak var descriptionLabel: UILabel!
 
     @IBOutlet weak var fbContainer: UIView!
-    @IBOutlet weak var fbButton: UIButton!
+    @IBOutlet weak var fbButton: LetgoButton!
     @IBOutlet weak var googleContainer: UIView!
-    @IBOutlet weak var googleButton: UIButton!
+    @IBOutlet weak var googleButton: LetgoButton!
     @IBOutlet weak var emailContainer: UIView!
     @IBOutlet weak var emailButton: UIButton!
     @IBOutlet weak var emailButtonLogo: UIImageView!
@@ -175,11 +175,11 @@ extension VerifyAccountsViewController: VerifyAccountsViewModelDelegate {
 
 extension VerifyAccountsViewController {
     func setAccesibilityIds() {
-        backgroundButton.accessibilityId = .verifyAccountsBackgroundButton
-        fbButton.accessibilityId = .verifyAccountsFacebookButton
-        googleButton.accessibilityId = .verifyAccountsGoogleButton
-        emailButton.accessibilityId = .verifyAccountsEmailButton
-        emailTextField.accessibilityId = .verifyAccountsEmailTextField
-        emailTextFieldButton.accessibilityId = .verifyAccountsEmailTextFieldButton
+        backgroundButton.set(accessibilityId: .verifyAccountsBackgroundButton)
+        fbButton.set(accessibilityId: .verifyAccountsFacebookButton)
+        googleButton.set(accessibilityId: .verifyAccountsGoogleButton)
+        emailButton.set(accessibilityId: .verifyAccountsEmailButton)
+        emailTextField.set(accessibilityId: .verifyAccountsEmailTextField)
+        emailTextFieldButton.set(accessibilityId: .verifyAccountsEmailTextFieldButton)
     }
 }

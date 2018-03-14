@@ -164,7 +164,7 @@ final class PostingAddDetailSummaryTableView: UIView, UITableViewDelegate, UITab
     // MARK: - Accessibility
     
     private func setupAccessibilityIds() {
-        tableView.accessibilityId = .postingAddDetailTableView
+        tableView.set(accessibilityId: .postingAddDetailTableView)
     }
     
     

@@ -15,7 +15,7 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     // outlets & buttons
     @IBOutlet weak var passwordTextfield: LGTextField!
     @IBOutlet weak var confirmPasswordTextfield: LGTextField!
-    @IBOutlet weak var sendButton : UIButton!
+    @IBOutlet weak var sendButton : LetgoButton!
     
     let viewModel: ChangePasswordViewModel
     
@@ -206,8 +206,8 @@ class ChangePasswordViewController: BaseViewController, UITextFieldDelegate, Cha
     }
 
     private func setupAccessibilityIds() {
-        passwordTextfield.accessibilityId = .changePasswordPwdTextfield
-        confirmPasswordTextfield.accessibilityId = .changePasswordPwdConfirmTextfield
-        sendButton.accessibilityId = .changePasswordSendButton
+        passwordTextfield.set(accessibilityId: .changePasswordPwdTextfield)
+        confirmPasswordTextfield.set(accessibilityId: .changePasswordPwdConfirmTextfield)
+        sendButton.set(accessibilityId: .changePasswordSendButton)
     }
 }

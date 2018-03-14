@@ -41,11 +41,6 @@
         "description": "Search suggestions with/without categories filtering."
     },
     {
-        "name": "ShowPriceAfterSearchOrFilter",
-        "values": ["control", "baseline", "priceOnSearchOrFilter"],
-        "description": "Show price in feed products when user applies any search or filter"
-    },
-    {
         "name": "RequestsTimeOut",
          "values": ["baseline", "thirty", "forty_five", "sixty", "hundred_and_twenty"],
          "description": "API requests timeout"
@@ -74,11 +69,6 @@
         "name": "ShowClockInDirectAnswer",
         "values": ["control", "baseline", "active"],
         "description": "Show a clock until the message is delivered correctly"
-    },
-    {
-        "name": "MoreInfoAFShOrDFP",
-        "values": ["control", "baseline", "afsh", "dfp"],
-        "description": "show ad in more info, could be Adsense for shopping or DFP"
     },
     {
         "name": "MostSearchedDemandedItems",
@@ -171,9 +161,9 @@
         "description": "Change bump price scaling for listings in TR"
     },
     {
-        "name": "SearchMultiwordExpressions",
-        "values": ["control", "baseline", "MWE", "MWERelaxedSynonyms", "MWERelaxedSynonymsMM100", "MWERelaxedSynonymsMM75"],
-        "description": "Multiword expressions when searching"
+        "name": "SearchImprovements",
+        "values": ["control", "baseline", "MWE", "MWERelaxedSynonyms", "MWERelaxedSynonymsMM100", "MWERelaxedSynonymsMM75", "MWS", "boostingScoreDistance", "boostingDistance", "boostingFreshness", "boostingDistAndFreshness"],
+        "description": "Search improvements related to multi word, boosting distance, score and freshness"
     },
     {
         "name": "ShowChatSafetyTips",
@@ -184,6 +174,16 @@
         "name": "DiscardedProducts",
         "values": ["control", "baseline", "active"],
         "description": "Show users listings that have been discarded so they can be edited and reposted"
+    },
+    {
+        "name": "OnboardingIncentivizePosting",
+        "values": ["control", "baseline", "blockingPosting"],
+        "description": "Leads the user through the posting feature and onboarding improvements"
+    },
+    {
+        "name": "PromoteBumpInEdit",
+        "values": ["control", "baseline", "implicit", "SellFaster", "LongRedText", "BigIcon"],
+        "description": "Ad a switch to edit listing page to bump the listing"
     },
     {
         "name": "UserIsTyping",

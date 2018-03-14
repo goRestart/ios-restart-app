@@ -73,8 +73,8 @@ class FilterCategoryCell: UICollectionViewCell, ReusableCell, FilterCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .filterCategoryCell
-        categoryIcon.accessibilityId = .filtersCollectionView
-        titleLabel.accessibilityId = .filtersSaveFiltersButton
+        set(accessibilityId: .filterCategoryCell)
+        categoryIcon.set(accessibilityId: .filtersCollectionView)
+        titleLabel.set(accessibilityId: .filtersSaveFiltersButton)
     }
 }

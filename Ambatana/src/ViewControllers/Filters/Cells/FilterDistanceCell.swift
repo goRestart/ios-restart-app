@@ -63,6 +63,6 @@ class FilterDistanceCell: UICollectionViewCell, ReusableCell, FilterCell {
     }
     
     private func setAccessibilityIds() {
-        accessibilityId = .filterDistanceCell
+        set(accessibilityId: .filterDistanceCell)
     }
 }

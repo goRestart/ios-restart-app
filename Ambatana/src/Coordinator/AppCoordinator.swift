@@ -15,6 +15,18 @@ import StoreKit
 enum BumpUpSource {
     case deepLink
     case promoted
+    case edit(listing: Listing)
+
+    var typePageParameter: EventParameterTypePage? {
+        switch self {
+        case .deepLink:
+            return .notifications
+        case .promoted:
+            return .sell
+        case .edit:
+            return .edit
+        }
+    }
 }
 
 final class AppCoordinator: NSObject, Coordinator {
@@ -55,8 +67,6 @@ final class AppCoordinator: NSObject, Coordinator {
     fileprivate let monetizationRepository: MonetizationRepository
     fileprivate let purchasesShopper: PurchasesShopper
 
-    fileprivate var paymentItemId: String?
-    fileprivate var paymentProviderItemId: String?
     fileprivate var bumpUpSource: BumpUpSource?
     fileprivate var timeSinceLastBump: TimeInterval?
 
@@ -220,7 +230,7 @@ extension AppCoordinator: AppNavigator {
              .mostSearchedTabBarCamera, .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable,
              .mostSearchedCategoryHeader, .mostSearchedCard, .mostSearchedUserProfile:
             forcedInitialTab = nil
-        case .onboardingButton, .onboardingCamera:
+        case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
             forcedInitialTab = .camera
         }
 
@@ -264,9 +274,13 @@ extension AppCoordinator: AppNavigator {
         }
     }
 
-    func openPromoteBumpForListingId(listingId: String, purchaseableProduct: PurchaseableProduct) {
+    func openPromoteBumpForListingId(listingId: String,
+                                     bumpUpProductData: BumpUpProductData,
+                                     typePage: EventParameterTypePage?) {
 
-        let promoteBumpCoordinator = PromoteBumpCoordinator(listingId: listingId, purchaseableProduct: purchaseableProduct)
+        let promoteBumpCoordinator = PromoteBumpCoordinator(listingId: listingId,
+                                                            bumpUpProductData: bumpUpProductData,
+                                                            typePage: typePage)
         promoteBumpCoordinator.delegate = self
         openChild(coordinator: promoteBumpCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: true, completion: nil)
     }
@@ -427,6 +441,15 @@ extension AppCoordinator: AppNavigator {
             UIApplication.shared.openURL(url)
         }
     }
+
+    func openEditForListing(listing: Listing,
+                            bumpUpProductData: BumpUpProductData) {
+        let editCoordinator = EditListingCoordinator(listing: listing,
+                                                     bumpUpProductData: bumpUpProductData,
+                                                     pageType: nil)
+        editCoordinator.delegate = self
+        openChild(coordinator: editCoordinator, parent: tabBarCtl, animated: true, forceCloseChild: false, completion: nil)
+    }
 }
 
 
@@ -437,10 +460,29 @@ extension AppCoordinator: SellCoordinatorDelegate {
 
     func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithListing listing: Listing) {
         refreshSelectedListingsRefreshable()
-        openAfterSellDialogIfNeeded(forListing: listing)
+        openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .promoted)
+    }
+
+    func sellCoordinator(_ coordinator: SellCoordinator, closePostAndOpenEditForListing listing: Listing) {
+        openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .edit(listing: listing))
     }
 }
 
+extension AppCoordinator: EditListingCoordinatorDelegate {
+    func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {}
+
+    func editListingCoordinator(_ coordinator: EditListingCoordinator,
+                                didFinishWithListing listing: Listing,
+                                bumpUpProductData: BumpUpProductData?) {
+        refreshSelectedListingsRefreshable()
+        guard let listingId = listing.objectId,
+            let bumpData = bumpUpProductData,
+            bumpData.hasPaymentId else { return }
+        openPromoteBumpForListingId(listingId: listingId,
+                                    bumpUpProductData: bumpData,
+                                    typePage: .edit)
+    }
+}
 
 // MARK: - OnboardingCoordinatorDelegate
 
@@ -456,6 +498,10 @@ extension AppCoordinator: OnboardingCoordinatorDelegate {
 
     func shouldSkipPostingTour() -> Bool {
         return deepLinksRouter.initialDeeplinkAvailable
+    }
+    
+    func shouldShowBlockingPosting() -> Bool {
+        return featureFlags.onboardingIncentivizePosting.isActive
     }
 
     func onboardingCoordinator(_ coordinator: OnboardingCoordinator, didFinishPosting posting: Bool, source: PostingSource?) {
@@ -488,21 +534,29 @@ fileprivate extension AppCoordinator {
         refreshable.listingsRefresh()
     }
 
-    func openAfterSellDialogIfNeeded(forListing listing: Listing) {
-        if let listingId = listing.objectId, shouldRetrieveBumpeableInfo() {
-            bumpUpSource = .promoted
-            retrieveBumpeableInfoForListing(listingId: listingId)
+    func openAfterSellDialogIfNeeded(forListing listing: Listing, bumpUpSource: BumpUpSource) {
+        if let listingId = listing.objectId, shouldRetrieveBumpeableInfoFor(source: bumpUpSource) {
+            self.bumpUpSource = bumpUpSource
+            retrieveBumpeableInfoForListing(listingId: listingId, typePage: bumpUpSource.typePageParameter)
         } else {
             showAfterSellPushAndRatingDialogs()
         }
     }
 
-    func shouldRetrieveBumpeableInfo() -> Bool {
-        if let lastShownDate = keyValueStorage[.lastShownPromoteBumpDate],
-            abs(lastShownDate.timeIntervalSinceNow) < Constants.promoteAfterPostWaitTime {
-            return false
-        } else {
+    fileprivate func shouldRetrieveBumpeableInfoFor(source: BumpUpSource) -> Bool {
+        switch source {
+        case .edit, .deepLink:
             return true
+        case .promoted:
+            return !promoteBumpShownInLastDay
+        }
+    }
+
+    fileprivate var promoteBumpShownInLastDay: Bool {
+        if let lastShownDate = keyValueStorage[.lastShownPromoteBumpDate] {
+            return abs(lastShownDate.timeIntervalSinceNow) < Constants.promoteAfterPostWaitTime
+        } else {
+            return false
         }
     }
 
@@ -514,7 +568,7 @@ fileprivate extension AppCoordinator {
         }
     }
 
-    fileprivate func retrieveBumpeableInfoForListing(listingId: String) {
+    fileprivate func retrieveBumpeableInfoForListing(listingId: String, typePage: EventParameterTypePage?) {
         purchasesShopper.bumpInfoRequesterDelegate = self
         monetizationRepository.retrieveBumpeableListingInfo(
             listingId: listingId,
@@ -524,16 +578,16 @@ fileprivate extension AppCoordinator {
                 let paymentItems = value.paymentItems.filter { $0.provider == .apple }
                 guard !paymentItems.isEmpty else { return }
                 // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
-                strongSelf.paymentItemId = paymentItems.first?.itemId
-                strongSelf.paymentProviderItemId = paymentItems.first?.providerItemId
                 strongSelf.timeSinceLastBump = value.timeSinceLastBump
 
-                // if "paymentItemId" is nil, the banner creation will fail, so we check this here to avoid
+                // if "paymentItemId" is nil, we don't know the price of the bump, so we check this here to avoid
                 // a useless request to apple
-                if let _ = strongSelf.paymentItemId {
-                    strongSelf.purchasesShopper.productsRequestStartForListing(listingId, withIds: paymentItems.map { $0.providerItemId })
+                if let paymentItemId = paymentItems.first?.itemId {
+                    strongSelf.purchasesShopper.productsRequestStartForListingId(listingId,
+                                                                                 paymentItemId: paymentItemId,
+                                                                                 withIds: paymentItems.map { $0.providerItemId },
+                                                                                 typePage: typePage)
                 }
-
         }
     }
 }
@@ -819,7 +873,7 @@ fileprivate extension AppCoordinator {
             }
         case let .listingBumpUp(listingId):
             bumpUpSource = .deepLink
-            retrieveBumpeableInfoForListing(listingId: listingId)
+            retrieveBumpeableInfoForListing(listingId: listingId, typePage: .pushNotification)
         case let .listingMarkAsSold(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
@@ -996,19 +1050,24 @@ extension AppCoordinator: ChangePasswordNavigator {
 }
 
 extension AppCoordinator: BumpInfoRequesterDelegate {
-    func shopperFinishedProductsRequestForListingId(_ listingId: String?, withProducts products: [PurchaseableProduct]) {
-
+    func shopperFinishedProductsRequestForListingId(_ listingId: String?,
+                                                    withProducts products: [PurchaseableProduct],
+                                                    paymentItemId: String?,
+                                                    storeProductId: String?,
+                                                    typePage: EventParameterTypePage?) {
         guard let requestListingId = listingId, let purchase = products.first, let bumpUpSource = bumpUpSource else { return }
 
+        let bumpUpProductData = BumpUpProductData(bumpUpPurchaseableData: .purchaseableProduct(product: purchase),
+                                                  paymentItemId: paymentItemId,
+                                                  storeProductId: storeProductId)
         switch bumpUpSource {
         case .deepLink:
             tabBarCtl.clearAllPresented(nil)
             openTab(.profile, force: false) { [weak self] in
-                var actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchaseableProduct: purchase,
-                                                                                           paymentItemId: self?.paymentItemId,
-                                                                                           paymentProviderItemId: self?.paymentProviderItemId,
+                var actionOnFirstAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: bumpUpProductData,
                                                                                            bumpUpType: .priced,
-                                                                                           triggerBumpUpSource: .deepLink)
+                                                                                           triggerBumpUpSource: .deepLink,
+                                                                                           typePage: nil)
                 if let timeSinceLastBump = self?.timeSinceLastBump, timeSinceLastBump > 0 {
                     actionOnFirstAppear = ProductCarouselActionOnFirstAppear.nonexistent
                 }
@@ -1022,20 +1081,27 @@ extension AppCoordinator: BumpInfoRequesterDelegate {
             let promoteBumpEvent = TrackerEvent.bumpUpPromo()
             tracker.trackEvent(promoteBumpEvent)
 
-            openPromoteBumpForListingId(listingId: requestListingId, purchaseableProduct: purchase)
+            openPromoteBumpForListingId(listingId: requestListingId,
+                                        bumpUpProductData: bumpUpProductData,
+                                        typePage: typePage)
+        case .edit(let listing):
+            openEditForListing(listing: listing,
+                               bumpUpProductData: bumpUpProductData)
         }
     }
 }
 
 extension AppCoordinator: PromoteBumpCoordinatorDelegate {
-    func openSellFaster(listingId: String, purchaseableProduct: PurchaseableProduct) {
+    func openSellFaster(listingId: String,
+                        bumpUpProductData: BumpUpProductData,
+                        typePage: EventParameterTypePage?) {
         tabBarCtl.clearAllPresented(nil)
         openTab(.profile, force: false) { [weak self] in
 
-            let triggerBumpOnAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(purchaseableProduct: purchaseableProduct,
-                                                                                       paymentItemId: self?.paymentItemId,
-                                                                                       paymentProviderItemId: self?.paymentProviderItemId,
-                                                                                       bumpUpType: .priced, triggerBumpUpSource: .promoted)
+            let triggerBumpOnAppear = ProductCarouselActionOnFirstAppear.triggerBumpUp(bumpUpProductData: bumpUpProductData,
+                                                                                       bumpUpType: .priced,
+                                                                                       triggerBumpUpSource: .promoted,
+                                                                                       typePage: typePage)
 
             self?.selectedTabCoordinator?.openListing(ListingDetailData.id(listingId: listingId),
                                                       source: .promoteBump,

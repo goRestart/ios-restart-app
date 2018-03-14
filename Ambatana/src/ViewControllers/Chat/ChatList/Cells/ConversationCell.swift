@@ -23,9 +23,12 @@ enum ConversationCellStatus {
 
 struct ConversationCellData {
     let status: ConversationCellStatus
+    let conversationId: String?
+    let userId: String?
     let userName: String
     let userImageUrl: URL?
     let userImagePlaceholder: UIImage?
+    let listingId: String?
     let listingName: String
     let listingImageUrl: URL?
     let unreadCount: Int
@@ -174,6 +177,10 @@ class ConversationCell: UITableViewCell, ReusableCell {
         badgeLabel.text = badge
         badgeView.isHidden = (badge == nil)
         
+        set(accessibilityId: .conversationCellContainer(conversationId: data.conversationId))
+        userLabel.set(accessibilityId: .conversationCellUserLabel(interlocutorId: data.userId))
+        listingLabel.set(accessibilityId: .conversationCellListingLabel(listingId: data.listingId))
+        
         setUserIsTyping(enabled: data.isTyping)
     }
 
@@ -255,13 +262,10 @@ class ConversationCell: UITableViewCell, ReusableCell {
 
 extension ConversationCell {
     func setAccessibilityIds() {
-        contentView.accessibilityId = AccessibilityId.conversationCellContainer
-        userLabel.accessibilityId = AccessibilityId.conversationCellUserLabel
-        timeLabel.accessibilityId = AccessibilityId.conversationCellTimeLabel
-        listingLabel.accessibilityId = AccessibilityId.conversationCellListingLabel
-        badgeLabel.accessibilityId = AccessibilityId.conversationCellBadgeLabel
-        thumbnailImageView.accessibilityId = AccessibilityId.conversationCellThumbnailImageView
-        avatarImageView.accessibilityId = AccessibilityId.conversationCellAvatarImageView
-        statusImageView.accessibilityId = AccessibilityId.conversationCellStatusImageView
+        timeLabel.set(accessibilityId: .conversationCellTimeLabel)
+        badgeLabel.set(accessibilityId: .conversationCellBadgeLabel)
+        thumbnailImageView.set(accessibilityId: .conversationCellThumbnailImageView)
+        avatarImageView.set(accessibilityId: .conversationCellAvatarImageView)
+        statusImageView.set(accessibilityId: .conversationCellStatusImageView)
     }
 }

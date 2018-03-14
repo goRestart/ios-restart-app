@@ -84,8 +84,8 @@ class FilterDisclosureCell: UICollectionViewCell, ReusableCell, FilterCell {
     }
 
     private func setAccessibilityIds() {
-        self.accessibilityId = .filterDisclosureCell
-        titleLabel.accessibilityId = .filterDisclosureCellTitleLabel
-        subtitleLabel.accessibilityId = .filterDisclosureCellSubtitleLabel
+        set(accessibilityId: .filterDisclosureCell)
+        titleLabel.set(accessibilityId: .filterDisclosureCellTitleLabel)
+        subtitleLabel.set(accessibilityId: .filterDisclosureCellSubtitleLabel)
     }
 }

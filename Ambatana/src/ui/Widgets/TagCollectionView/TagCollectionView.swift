@@ -35,14 +35,16 @@ enum TagCollectionViewFlowLayout {
 class TagCollectionView: UICollectionView, TagCollectionViewModelDelegate {
 
     override var intrinsicContentSize: CGSize {
+        report(AppReport.uikit(error: .breadcrumb), message: "TagCollectionView-intrinsicContentSize-start")
         if collectionViewLayout.collectionViewContentSize == .zero {
+            report(AppReport.uikit(error: .breadcrumb), message: "TagCollectionView-intrinsicContentSize-ZeroLayoutSize")
             // we need to return something different than zero or the datasource `cellForItemAt` method won't get called.
             return CGSize(width: 1, height: 1)
         }
         let height = collectionViewLayout.collectionViewContentSize.height
         let width = collectionViewLayout.collectionViewContentSize.width
-
         let msg = "TagCollectionView intrinsicContentSize \(height), \(width)"
+        report(AppReport.uikit(error: .breadcrumb), message: "TagCollectionView-intrinsicContentSize-end-\(msg)")
 
         return collectionViewLayout.collectionViewContentSize
     }

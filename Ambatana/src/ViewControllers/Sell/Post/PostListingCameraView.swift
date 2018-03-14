@@ -27,12 +27,12 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
 
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var switchCamButton: UIButton!
-    @IBOutlet weak var usePhotoButton: UIButton!
+    @IBOutlet weak var usePhotoButton: LetgoButton!
 
     @IBOutlet weak var infoContainer: UIView!
     @IBOutlet weak var infoTitle: UILabel!
     @IBOutlet weak var infoSubtitle: UILabel!
-    @IBOutlet weak var infoButton: UIButton!
+    @IBOutlet weak var infoButton: LetgoButton!
     @IBOutlet weak var verticalPromoLabel: UILabel!
 
     @IBOutlet weak var headerContainer: UIView!
@@ -44,6 +44,8 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
     @IBOutlet weak var firstTimeAlertTitle: UILabel!
     @IBOutlet weak var firstTimeAlertSubtitle: UILabel!
 
+    private let headerStepView = BlockingPostingStepHeaderView()
+    
     var visible: Bool {
         set {
             viewModel.visible.value = newValue
@@ -183,6 +185,14 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
             guard index > 0 else { continue }
             view.transform = CGAffineTransform(rotationAngle: CGFloat(Double(index) * Double.pi/2))
         }
+        
+        if viewModel.isBlockingPosting {
+            addSubviewForAutoLayout(headerStepView)
+            headerStepView.layout(with: self)
+                .fillHorizontal()
+                .top()
+            headerStepView.layout().height(BlockingPostingStepHeaderView.height)
+        }
 
         //i18n
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, for: .normal)
@@ -213,6 +223,31 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         captureModeHidden.bind(to: switchCamButton.rx.isHidden).disposed(by: disposeBag)
         captureModeHidden.bind(to: flashButton.rx.isHidden).disposed(by: disposeBag)
         
+        
+        if viewModel.isBlockingPosting {
+            state.map { $0.shouldShowCloseButtonBlockingPosting }.bind { [weak self] shouldShowClose in
+                guard let strongSelf = self else { return }
+                strongSelf.headerContainer.isHidden = !shouldShowClose
+                strongSelf.headerStepView.isHidden = shouldShowClose
+            }.disposed(by: disposeBag)
+            
+            let isCaptureMode = state.filter { s in
+                s.captureMode }
+            isCaptureMode.bind { [weak self] state in
+                guard let strongSelf = self else { return }
+                guard let headerStep = state.headerStep else { return }
+                strongSelf.headerStepView.updateWith(stepNumber: headerStep.rawValue, title: headerStep.title)
+            }.disposed(by: disposeBag)
+            
+            let isPreviewMode = state.filter { s in
+                s.previewMode }
+            isPreviewMode.bind { [weak self] state in
+                guard let strongSelf = self else { return }
+                guard let headerStep = state.headerStep else { return }
+                strongSelf.headerStepView.updateWith(stepNumber: headerStep.rawValue, title: headerStep.title)
+            }.disposed(by: disposeBag)
+        }
+    
         viewModel.imageSelected.asObservable().bind(to: imagePreview.rx.image).disposed(by: disposeBag)
 
         let flashMode = viewModel.cameraFlashState.asObservable()
@@ -310,13 +345,13 @@ extension CameraFlashState {
 
 extension PostListingCameraView {
     func setAccesibilityIds() {
-        closeButton.accessibilityId = .postingCameraCloseButton
-        imagePreview.accessibilityId = .postingCameraImagePreview
-        switchCamButton.accessibilityId = .postingCameraSwitchCamButton
-        usePhotoButton.accessibilityId = .postingCameraUsePhotoButton
-        infoButton.accessibilityId = .postingCameraInfoScreenButton
-        flashButton.accessibilityId = .postingCameraFlashButton
-        retryPhotoButton.accessibilityId = .postingCameraRetryPhotoButton
-        firstTimeAlert.accessibilityId = .postingCameraFirstTimeAlert
+        closeButton.set(accessibilityId: .postingCameraCloseButton)
+        imagePreview.set(accessibilityId: .postingCameraImagePreview)
+        switchCamButton.set(accessibilityId: .postingCameraSwitchCamButton)
+        usePhotoButton.set(accessibilityId: .postingCameraUsePhotoButton)
+        infoButton.set(accessibilityId: .postingCameraInfoScreenButton)
+        flashButton.set(accessibilityId: .postingCameraFlashButton)
+        retryPhotoButton.set(accessibilityId: .postingCameraRetryPhotoButton)
+        firstTimeAlert.set(accessibilityId: .postingCameraFirstTimeAlert)
     }
 }

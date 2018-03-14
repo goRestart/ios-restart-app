@@ -27,11 +27,11 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     @IBOutlet weak var customLoadingView: LoadingIndicator!
     @IBOutlet weak var postedInfoLabel: UILabel!
     @IBOutlet weak var postErrorLabel: UILabel!
-    @IBOutlet weak var retryButton: UIButton!
+    @IBOutlet weak var retryButton: LetgoButton!
     @IBOutlet weak var uploadImageStackView: UIStackView!
     var loadingViewRealEstate: LoadingIndicator?
     var messageLabelUploadingImage: UILabel = UILabel()
-    var retryButtonUploadingImageRealEstate: UIButton = UIButton(type: .custom)
+    var retryButtonUploadingImageRealEstate = LetgoButton(withStyle: .primary(fontSize: .medium))
     
     fileprivate let closeButton = UIButton()
 
@@ -93,7 +93,8 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         self.keyboardHelper = keyboardHelper
         self.viewModel = viewModel
         self.forcedInitialTab = forcedInitialTab
-        let postListingGalleryViewModel = PostListingGalleryViewModel(postCategory: viewModel.postCategory)
+        let postListingGalleryViewModel = PostListingGalleryViewModel(postCategory: viewModel.postCategory,
+                                                                      isBlockingPosting: viewModel.isBlockingPosting)
         self.galleryView = PostListingGalleryView(viewModel: postListingGalleryViewModel)
         
         self.priceView = PostListingDetailPriceView(viewModel: viewModel.postDetailViewModel)
@@ -214,12 +215,11 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             uploadImageStackView.addArrangedSubview(loadingView)
         }
         messageLabelUploadingImage.textColor = UIColor.white
-        messageLabelUploadingImage.font = UIFont.body
+        messageLabelUploadingImage.font = UIFont.postingFlowBody
         messageLabelUploadingImage.numberOfLines = 0
         retryButtonUploadingImageRealEstate.layout()
             .height(PostListingViewController.retryButtonHeight)
             .width(PostListingViewController.retryButtonWidth, relatedBy: .greaterThanOrEqual)
-        retryButtonUploadingImageRealEstate.setStyle(.primary(fontSize: .medium))
         retryButtonUploadingImageRealEstate.setTitle(LGLocalizedString.commonErrorListRetryButton, for: .normal)
         retryButtonUploadingImageRealEstate.addTarget(self, action: #selector(PostListingViewController.onRetryButton), for: .touchUpInside)
         uploadImageStackView.addArrangedSubview(messageLabelUploadingImage)
@@ -234,7 +234,6 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         messageLabelUploadingImage.isHidden = false
         if !success {
             retryButtonUploadingImageRealEstate.isHidden = false
-            retryButtonUploadingImageRealEstate.setStyle(.primary(fontSize: .medium))
         }
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             self?.uploadImageStackView.layoutIfNeeded()
@@ -242,6 +241,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     }
     
     private func setupCloseButton() {
+        guard !viewModel.isBlockingPosting else { return }
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(closeButton)
         if #available(iOS 11.0, *) {
@@ -652,10 +652,10 @@ extension PostListingViewController {
     
     private func stopAnimationLoaders(text: String?, isError: Bool, action: @escaping ()->()) {
         if viewModel.isRealEstate {
-            loadingViewRealEstate?.stopAnimating(!isError, completion: action)
+            loadingViewRealEstate?.stopAnimating(correctState: !isError, completion: action)
             addMessageToStackView(textMessage:text , success: !isError)
         } else {
-            customLoadingView.stopAnimating(!isError, completion: action)
+            customLoadingView.stopAnimating(correctState: !isError, completion: action)
         }
     }
     
@@ -846,9 +846,9 @@ extension PostListingViewController: LGViewPagerDataSource, LGViewPagerDelegate,
 
 extension PostListingViewController {
     func setAccesibilityIds() {
-        closeButton.accessibilityId = .postingCloseButton
-        customLoadingView.accessibilityId = .postingLoading
-        retryButton.accessibilityId = .postingRetryButton
+        closeButton.set(accessibilityId: .postingCloseButton)
+        customLoadingView.set(accessibilityId: .postingLoading)
+        retryButton.set(accessibilityId: .postingRetryButton)
     }
 }
 
