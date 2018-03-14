@@ -33,7 +33,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
     private let locationLabel = UILabel()
     private let mapPlaceHolder = UIView()
 
-    private lazy var mapView = MKMapView.sharedInstance
+    private var mapView: MKMapView { return MKMapView.sharedInstance }
     private(set) var fullMapConstraints: [NSLayoutConstraint] = []
 
     let mapSnapShotView = UIImageView()
@@ -146,8 +146,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
     private func setupMap() {
         backgroundColor = UIColor.white
         mapView.delegate = self
-        addSubview(mapView)
-        mapView.translatesAutoresizingMaskIntoConstraints = false
+        addSubviewForAutoLayout(mapView)
         fullMapConstraints = [
             mapView.topAnchor.constraint(equalTo: topAnchor, constant: Layout.Defaults.insets.top),
             mapView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.Defaults.insets.right),
@@ -157,13 +156,6 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         isExpanded = true
         NSLayoutConstraint.activate(fullMapConstraints)
         showMap()
-    }
-
-    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
-        guard fullyRendered else {
-            hideMap()
-            return
-        }
     }
 
     @objc private func tapOnView() {
@@ -177,6 +169,11 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
 
 
     private func showMap() {
+        if let center = region?.center {
+            purgeLocationArea()
+            let overlay = MKCircle(center: center, radius: Constants.accurateRegionRadius)
+            mapView.add(overlay)
+        }
         bringSubview(toFront: mapView)
         UIView.animate(withDuration: 0.3,
                        animations: { [weak self] in
@@ -184,13 +181,13 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
                         self?.mapSnapShotView.alpha = 0
                         self?.mapView.cornerRadius = Layout.CornerRadius.map
             }, completion: { [weak self] completion in
-                guard let strongSelf = self, let mapView = self?.mapView else { return }
-                strongSelf.bringSubview(toFront: mapView)
+                guard let strongSelf = self else { return }
                 strongSelf.tapGesture?.isEnabled = true
         })
     }
 
     func hideMap(animated: Bool) {
+        purgeLocationArea()
         tapGesture?.isEnabled = false
         isExpanded = false
         guard animated else {
@@ -210,6 +207,28 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         mapView.alpha = 0
         mapSnapShotView.alpha = 1
         bringSubview(toFront: verticalStackView)
+    }
+
+    // MARK: MKMapViewDelegate
+
+    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
+        guard fullyRendered else {
+            hideMap()
+            return
+        }
+    }
+
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if overlay is MKCircle {
+            let renderer = MKCircleRenderer(overlay: overlay)
+            renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.10)
+            return renderer
+        }
+        return MKCircleRenderer()
+    }
+
+    private func purgeLocationArea() {
+        mapView.removeOverlays(mapView.overlays)
     }
 
 }
