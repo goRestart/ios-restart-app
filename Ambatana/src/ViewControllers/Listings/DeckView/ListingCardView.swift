@@ -92,9 +92,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     func populateWith(_ listingSnapshot: ListingDeckSnapshotType, imageDownloader: ImageDownloaderType) {
         self.imageDownloader = imageDownloader
         populateWith(preview: listingSnapshot.preview, imageCount: listingSnapshot.imageCount)
-        detailsView.populateWith(productInfo: listingSnapshot.productInfo, listingStats: nil,
-                                 postedDate: nil, socialSharer: listingSnapshot.socialSharer,
-                                 socialMessage: nil)
+        populateWith(userInfo: listingSnapshot.userInfo)
+        detailsView.populateWith(productInfo: listingSnapshot.productInfo)
     }
 
     func populateWith(details listingViewModel: ListingCardViewCellModel) {
@@ -104,7 +103,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     func populateWith(userInfo: ListingVMUserInfo?) {
         guard let info = userInfo else { return }
         userView.populate(withUserName: info.name, icon: info.avatar, imageDownloader: ImageDownloader.sharedInstance)
-        UIView.animate(withDuration: 0.2) { self.userView.alpha = 1 }
+        UIView.animate(withDuration: 0.1) { self.userView.alpha = 1 }
     }
 
     func populateWith(preview: URL?, imageCount: Int) {
@@ -460,7 +459,7 @@ fileprivate extension DeviceFamily {
         case .iPhone6Plus: return 134
         case .biggerUnknown: return 134 // iPhoneX
         case .iPhone4: return 76
-        case .iPhone5: return 100
+        case .iPhone5: return 86
         case .iPhone6: return 125
         }
     }

@@ -498,14 +498,14 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                         it("doesn't track any product visit") {
                             expect(tracker.trackedEvents.count) == 0
                         }
-                        it("actionButtons changed twice") {
-                            expect(actionButtonsObserver.eventValues.count) == 3
+                        it("actionButtons changed just for the initial binding") {
+                            expect(actionButtonsObserver.eventValues.count) == 1
                         }
-                        it("quickanswersavailable changed twice") {
-                            expect(quickAnswersAvailableObserver.eventValues.count) == 3
+                        it("quickanswersavailable changed just for the initial binding") {
+                            expect(quickAnswersAvailableObserver.eventValues.count) == 1
                         }
-                        it("directChagEnabled changed twice") {
-                            expect(directChatEnabledObserver.eventValues.count) == 3
+                        it("directChagEnabled changed just for the initial binding") {
+                            expect(directChatEnabledObserver.eventValues.count) == 1
                         }
                         describe("view model gets active") {
                             beforeEach {
@@ -517,9 +517,9 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             it("tracks product visit") {
                                 expect(tracker.trackedEvents.last?.actualName) == "product-detail-visit"
                             }
-                            it("tracks with product Id of product index 2") {
+                            it("tracks with product Id of product index 0") {
                                 let firstEvent = tracker.trackedEvents.last
-                                expect(firstEvent?.params?.stringKeyParams["product-id"] as? String) == products[2].objectId
+                                expect(firstEvent?.params?.stringKeyParams["product-id"] as? String) == products[0].objectId
                             }
                         }
                     }
@@ -538,14 +538,15 @@ class ListingDeckViewModelSpec: BaseViewModelSpec {
                             expect(tracker.trackedEvents.flatMap { $0.params?.stringKeyParams["product-id"] as? String })
                                 == products.prefix(through: 2).flatMap { $0.objectId }
                         }
-                        it("actionButtons changed twice") {
-                            expect(actionButtonsObserver.eventValues.count) == 3
+                        // We have 4 = movements + activation ()
+                        it("actionButtons changed 4 times") {
+                            expect(actionButtonsObserver.eventValues.count) == 4
                         }
-                        it("quickanswersavailable changed twice") {
-                            expect(quickAnswersAvailableObserver.eventValues.count) == 3
+                        it("quickanswersavailable changed 4 times") {
+                            expect(quickAnswersAvailableObserver.eventValues.count) == 4
                         }
-                        it("directChagEnabled changed twice") {
-                            expect(directChatEnabledObserver.eventValues.count) == 3
+                        it("directChagEnabled changed 4 times") {
+                            expect(directChatEnabledObserver.eventValues.count) == 4
                         }
                     }
                 }

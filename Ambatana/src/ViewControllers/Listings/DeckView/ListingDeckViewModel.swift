@@ -69,13 +69,13 @@ final class ListingDeckViewModel: BaseViewModel {
 
     let binder: ListingDeckViewModelBinder
 
-    let actionButtons = Variable<[UIAction]>([])
+    lazy var actionButtons = Variable<[UIAction]>([])
     var navBarButtons: [UIAction] { return currentListingViewModel?.navBarActionsNewItemPage ?? [] }
 
     let quickChatViewModel = QuickChatViewModel()
-    let bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
+    lazy var bumpUpBannerInfo = Variable<BumpUpInfo?>(nil)
     var rxIsMine: Observable<Bool> { return isMine.asObservable() }
-    private let isMine: Variable<Bool> = Variable(false)
+    private lazy var isMine: Variable<Bool> = Variable(false)
 
     let imageDownloader: ImageDownloaderType
 
@@ -93,7 +93,7 @@ final class ListingDeckViewModel: BaseViewModel {
                      source: EventParameterListingVisitSource,
                      detailNavigator: ListingDetailNavigator) {
         let pagination = Pagination.makePagination(first: 0, next: 1, isLast: false)
-        let prefetching = Prefetching(previousCount: 1, nextCount: 3)
+        let prefetching = Prefetching(previousCount: 3, nextCount: 3)
         self.init(listModels: nil,
                   initialListing: listing,
                   listingListRequester: listingListRequester,
@@ -198,38 +198,36 @@ final class ListingDeckViewModel: BaseViewModel {
         } else {
             startIndex = 0
         }
-
+        currentIndex = startIndex
         super.init()
         self.shouldSyncFirstListing = shouldSyncFirstListing
         binder.deckViewModel = self
-
-        moveToListingAtIndex(startIndex, movement: .initial)
-        if shouldSyncFirstListing {
-            syncFirstListing()
-        }
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
-        currentListingViewModel?.trackVisit(.none, source: source, feedPosition: trackingFeedPosition)
+        if shouldSyncFirstListing {
+            syncFirstListing()
+        }
+        moveToListingAtIndex(currentIndex, movement: .initial)
     }
 
     func moveToListingAtIndex(_ index: Int, movement: DeckMovement) {
         guard let viewModel = viewModelAt(index: index) else { return }
         lastMovement = movement
-        currentListingViewModel?.active = false
-        currentListingViewModel?.delegate = nil
-        currentListingViewModel = viewModel
-        currentListingViewModel?.delegate = self
+        if active {
+            currentListingViewModel?.active = false
+            currentListingViewModel?.delegate = nil
+            currentListingViewModel = viewModel
+            currentListingViewModel?.delegate = self
 
-        binder.bind(to:viewModel, quickChatViewModel: quickChatViewModel)
-        quickChatViewModel.listingViewModel = currentListingViewModel
-        
-        currentIndex = index
-        prefetchViewModels(index, movement: movement)
-        prefetchNeighborsImages(index, movement: movement)
+            binder.bind(to:viewModel, quickChatViewModel: quickChatViewModel)
+            quickChatViewModel.listingViewModel = currentListingViewModel
+
+            currentIndex = index
+            prefetchViewModels(index, movement: movement)
+            prefetchNeighborsImages(index, movement: movement)
 
         // Tracking
-        if active {
             let feedPosition = movement.feedPosition(for: trackingIndex)
             if source == .relatedListings {
                 currentListingViewModel?.trackVisit(movement.visitUserAction,

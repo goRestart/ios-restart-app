@@ -95,8 +95,7 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
     }
 
     func dismissViewController(animated: Bool, completion: (() -> Void)?) {
-        guard let navController = navigationController else { return }
-
+        guard let navController = navigationController else { return }        
         navController.popViewController(animated: true)
         completion?()
         navController.delegate = previousNavigationDelegate

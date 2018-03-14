@@ -52,6 +52,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
 
     func setLocationName(_ name: String?) {
         locationLabel.text = name
+        locationLabel.isHidden = name == nil
         mapHeader.isHidden = name == nil
     }
 
@@ -104,7 +105,6 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         locationLabel.backgroundColor = UIColor.white
 
         locationLabel.setContentCompressionResistancePriority(.required, for: .vertical)
-        locationLabel.setContentHuggingPriority(.required, for: .vertical)
     }
     func setupMapHeader() {
         mapHeader.translatesAutoresizingMaskIntoConstraints = false
@@ -116,6 +116,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         let location = UIImageView(image: #imageLiteral(resourceName: "nit_location"))
         location.contentMode = .center
         location.layout().width(16)
+        location.setContentHuggingPriority(.required, for: .horizontal)
         location.backgroundColor = UIColor.white
 
         setupLocationLabel()
@@ -132,7 +133,6 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         mapSnapShotView.layer.cornerRadius = Layout.CornerRadius.map
         mapSnapShotView.translatesAutoresizingMaskIntoConstraints = false
         let height = mapSnapShotView.heightAnchor.constraint(equalToConstant: Layout.Height.snapshot)
-        height.priority = .required - 1
         height.isActive = true
         verticalStackView.addArrangedSubview(mapSnapShotView)
         mapSnapShotView.backgroundColor = .gray
@@ -154,6 +154,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
             mapView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.Defaults.insets.left)
         ]
         isExpanded = true
+
         NSLayoutConstraint.activate(fullMapConstraints)
         showMap()
     }

@@ -63,14 +63,6 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
 
     // MARK: PopulateView
 
-    func populateWith(productInfo: ListingVMProductInfo?, listingStats: ListingStats?,
-                      postedDate: Date?, socialSharer: SocialSharer, socialMessage: SocialMessage?) {
-        populateWith(productInfo: productInfo)
-        populateWith(socialSharer: socialSharer)
-        populateWith(socialMessage: socialMessage)
-        populateWith(listingStats: listingStats, postedDate: postedDate)
-    }
-
     func populateWithViewModel(_ viewModel: ListingCardDetailsViewModel) {
         binder.detailsView = self
         binder.bind(to:viewModel)

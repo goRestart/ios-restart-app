@@ -103,12 +103,13 @@ class ListingStatsView: UIView {
         favouriteStatsView.layer.cornerRadius = 12
         viewsStatsView.layer.cornerRadius = 12
         timePostedView.layer.cornerRadius = 12
-        
-        favouriteStatsWidthConstraint.constant = 0
+
         statsSeparationConstraint.constant = 0
-        viewsStatsWidthConstraint.constant = 0
-        
-        timePostedWidthConstraint.constant = 0
+
+        favouriteStatsView.isHidden = true
+        viewsStatsView.isHidden = true
+        timePostedView.isHidden = true
+
         updateStyle()
     }
     
@@ -138,9 +139,10 @@ class ListingStatsView: UIView {
     }
 
     func updateStatsWithInfo(_ viewsCount: Int, favouritesCount: Int, postedDate: Date?) {
-        favouriteStatsWidthConstraint.constant = favouritesCount < Constants.minimumStatsCountToShow ? 0 : statsViewMaxWidth
         statsSeparationConstraint.constant = favouritesCount < Constants.minimumStatsCountToShow ? 0 : statsSeparationWidth
-        viewsStatsWidthConstraint.constant = viewsCount < Constants.minimumStatsCountToShow ? 0 : statsViewMaxWidth
+
+        favouriteStatsView.isHidden = favouritesCount < Constants.minimumStatsCountToShow
+        viewsStatsView.isHidden = viewsCount < Constants.minimumStatsCountToShow
 
         favouriteStatsLabel.text = favouritesCount > maxStatsDisplayedCount ? "+999" : String(favouritesCount)
         favouriteStatsLabel.layer.add(CATransition(), forKey: kCATransition)
@@ -149,15 +151,14 @@ class ListingStatsView: UIView {
         viewsStatsLabel.layer.add(CATransition(), forKey: kCATransition)
 
         setupPostedTimeViewWithDate(postedDate)
-
-        setNeedsLayout()
     }
 
     func setupPostedTimeViewWithDate(_ postedDate: Date?) {
         guard let postedDate = postedDate else {
-            timePostedWidthConstraint.constant = 0
+            timePostedView.isHidden = true
             return
         }
+        timePostedView.isHidden = false
         timePostedWidthConstraint.constant = timeViewMinWidth
         timePostedLabel.text = postedDate.relativeTimeString(true)
 
