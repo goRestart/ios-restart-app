@@ -189,5 +189,10 @@
         "name": "UserIsTyping",
         "values": ["control", "baseline", "active"],
         "description": "Show user is typing status on chat"
+    },
+    {
+    	"name": "ServicesCategoryEnabled",
+    	"values": ["control", "baseline", "active"],
+    	"description": "Allow to see Services category"
     }
 ]
