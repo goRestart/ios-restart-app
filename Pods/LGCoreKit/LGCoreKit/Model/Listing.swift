@@ -278,7 +278,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
             let category: ListingCategory = ListingCategory(rawValue: categoryIdFeedAndProductsAndCars) ?? .unassigned
             switch category {
             case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                 .fashionAndAccesories, .babyAndChild, .other:
+                 .fashionAndAccesories, .babyAndChild, .other, .services:
                 let product = try LGProduct(from: decoder)
                 self = Listing.product(product)
             case .cars:
@@ -294,7 +294,7 @@ public enum Listing: BaseListingModel, Priceable, Decodable {
             if let category: ListingCategory = ListingCategory(rawValue: categoryIdRealEstate) {
                 switch category {
                 case .unassigned, .electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
-                     .fashionAndAccesories, .babyAndChild, .other, .cars:
+                     .fashionAndAccesories, .babyAndChild, .other, .cars, .services:
                     throw DecodingError.typeMismatch(
                         Listing.self,
                         DecodingError.Context(codingPath: [],

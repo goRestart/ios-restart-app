@@ -51,6 +51,7 @@ extension Bumper  {
         flags.append(OnboardingIncentivizePosting.self)
         flags.append(PromoteBumpInEdit.self)
         flags.append(UserIsTyping.self)
+        flags.append(ServicesCategoryEnabled.self)
         Bumper.initialize(flags)
     } 
 
@@ -242,6 +243,11 @@ extension Bumper  {
     static var userIsTyping: UserIsTyping {
         guard let value = Bumper.value(for: UserIsTyping.key) else { return .control }
         return UserIsTyping(rawValue: value) ?? .control 
+    }
+
+    static var servicesCategoryEnabled: ServicesCategoryEnabled {
+        guard let value = Bumper.value(for: ServicesCategoryEnabled.key) else { return .control }
+        return ServicesCategoryEnabled(rawValue: value) ?? .control 
     } 
 }
 
@@ -817,6 +823,22 @@ enum UserIsTyping: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show user is typing status on chat" } 
     static func fromPosition(_ position: Int) -> UserIsTyping {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum ServicesCategoryEnabled: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return ServicesCategoryEnabled.control.rawValue }
+    static var enumValues: [ServicesCategoryEnabled] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Allow to see Services category" } 
+    static func fromPosition(_ position: Int) -> ServicesCategoryEnabled {
         switch position { 
             case 0: return .control
             case 1: return .baseline
