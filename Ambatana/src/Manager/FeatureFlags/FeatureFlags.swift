@@ -61,7 +61,7 @@ protocol FeatureFlaggeable: class {
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
-    var searchMultiwordExpressions: SearchMultiwordExpressions { get }
+    var searchImprovements: SearchImprovements { get }
     var showChatSafetyTips: Bool { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var discardedProducts: DiscardedProducts { get }
@@ -513,11 +513,11 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowBumpUpBannerOnNotValidatedListings.fromPosition(abTests.showBumpUpBannerOnNotValidatedListings.value)
     }
 
-    var searchMultiwordExpressions: SearchMultiwordExpressions {
+    var searchImprovements: SearchImprovements {
         if Bumper.enabled {
-            return Bumper.searchMultiwordExpressions
+            return Bumper.searchImprovements
         }
-        return SearchMultiwordExpressions.fromPosition(abTests.searchMultiwordExpressions.value)
+        return SearchImprovements.fromPosition(abTests.searchImprovements.value)
     }
     
     var onboardingIncentivizePosting: OnboardingIncentivizePosting {

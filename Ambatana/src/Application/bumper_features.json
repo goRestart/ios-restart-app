@@ -161,9 +161,9 @@
         "description": "Change bump price scaling for listings in TR"
     },
     {
-        "name": "SearchMultiwordExpressions",
-        "values": ["control", "baseline", "MWE", "MWERelaxedSynonyms", "MWERelaxedSynonymsMM100", "MWERelaxedSynonymsMM75"],
-        "description": "Multiword expressions when searching"
+        "name": "SearchImprovements",
+        "values": ["control", "baseline", "MWE", "MWERelaxedSynonyms", "MWERelaxedSynonymsMM100", "MWERelaxedSynonymsMM75", "MWS", "boostingScoreDistance", "boostingDistance", "boostingFreshness", "boostingDistAndFreshness"],
+        "description": "Search improvements related to multi word, boosting distance, score and freshness"
     },
     {
         "name": "ShowChatSafetyTips",
