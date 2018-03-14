@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "Procesando...";
 "bump_up_processing_priced_text" = "Procesando el pago...";
 "bump_up_product_cell_chat_now_button" = "Chatear";
+"bump_up_product_cell_chat_now_button_a" = "Chatear";
+"bump_up_product_cell_chat_now_button_b" = "Chatear";
+"bump_up_product_cell_chat_now_button_c" = "Chatear";
+"bump_up_product_cell_chat_now_button_d" = "Chatear";
 "bump_up_product_cell_featured_stripe" = "Destacado";
 "bump_up_product_detail_featured_label" = "DESTACADO";
 "bump_up_view_free_subtitle" = "Cuanto más compartes, más visibilidad tiene tu anuncio.";

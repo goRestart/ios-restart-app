@@ -228,14 +228,16 @@ extension UserIsTyping {
 extension CopyForChatNowInTurkey {
     var variantString: String { get {
         switch self {
-        case .control, .variantA:
-            return "Sohbet Et"
+        case .control:
+            return LGLocalizedString.bumpUpProductCellChatNowButton
+        case .variantA:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonA
         case .variantB:
-            return  "Mesaj Gönder"
+            return LGLocalizedString.bumpUpProductCellChatNowButtonB
         case .variantC:
-            return "Mesajlaş"
+            return LGLocalizedString.bumpUpProductCellChatNowButtonC
         case .variantD:
-            return "İletişime Geç"
+            return LGLocalizedString.bumpUpProductCellChatNowButtonD
         }
     } }
 }
