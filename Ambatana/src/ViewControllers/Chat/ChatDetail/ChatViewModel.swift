@@ -485,6 +485,8 @@ class ChatViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
                 guard let user = result.value else { return }
                 strongSelf.interlocutor = user
+                let proInfo = InterlocutorProfessionalInfo(isProfessional: user.isProfessional, phoneNumber: user.phone)
+                strongSelf.interlocutorProfessionalInfo.value = proInfo
                 if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
                     strongSelf.messages.append(userInfoMessage)
                 }

@@ -307,10 +307,10 @@ class ListingViewModel: BaseViewModel {
 
         listingActions.asObservable().bind { [weak self] (status, seller) in
             guard let strongSelf = self else { return }
-            guard let seller = seller else { return }
-            strongSelf.refreshActionButtons(status, isProfessional: seller.isProfessional)
+            let sellerIsProfessional = seller?.isProfessional ?? false
+            strongSelf.refreshActionButtons(status, isProfessional: sellerIsProfessional)
             strongSelf.refreshNavBarButtons()
-            strongSelf.directChatEnabled.value = status.directChatsAvailable && !seller.isProfessional
+            strongSelf.directChatEnabled.value = status.directChatsAvailable && !sellerIsProfessional
         }.disposed(by: disposeBag)
         
         isListingDetailsCompleted.asObservable().filter {$0}.bind { [weak self] _ in
@@ -867,7 +867,7 @@ extension ListingViewModel {
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainButton, .secondary(fontSize: .big, withBorder: false)),
                                           action: { [weak self] in self?.confirmToMarkAsUnSold(free: false) }))
         case .otherAvailable, .otherAvailableFree:
-            if isProfessional {
+            if isProfessional && featureFlags.allowCallsForProfessionals.isActive {
                 actionButtons.append(UIAction(interface: .button(LGLocalizedString.productProfessionalChatButton, .secondary(fontSize: .big, withBorder: false)),
                                               action: { [weak self] in self?.openAskPhone() }))
             }
