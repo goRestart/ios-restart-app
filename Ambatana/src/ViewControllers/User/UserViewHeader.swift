@@ -91,6 +91,8 @@ class UserViewHeader: UIView {
     
     @IBOutlet weak var dummyUserDisclaimerContainerViewHeight: NSLayoutConstraint!
     weak var delegate: UserViewHeaderDelegate?
+    
+    @IBOutlet weak var proTagImageView: UIImageView!
 
     let tab = Variable<UserViewHeaderTab>(.selling)
 
@@ -136,6 +138,7 @@ class UserViewHeader: UIView {
             avatarRatingsContainerView.alpha = itemsAlpha
             userRelationView.alpha = itemsAlpha
             verifiedSimpleContainer.alpha = itemsAlpha
+            proTagImageView.alpha = itemsAlpha
 
             avatarButton.isEnabled = itemsAlpha != 0
             ratingsButton.isEnabled = itemsAlpha != 0
