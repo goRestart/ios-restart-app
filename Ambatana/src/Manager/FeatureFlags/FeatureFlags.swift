@@ -67,6 +67,7 @@ protocol FeatureFlaggeable: class {
     var discardedProducts: DiscardedProducts { get }
     var promoteBumpInEdit: PromoteBumpInEdit { get }
     var userIsTyping: UserIsTyping { get }
+    var bumpUpBoost: BumpUpBoost { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -214,12 +215,17 @@ extension DiscardedProducts {
 extension OnboardingIncentivizePosting {
     var isActive: Bool { get { return self == .blockingPosting } }
 }
+
 extension PromoteBumpInEdit {
     var isActive: Bool { get { return self != .control && self != .baseline } }
 }
 
 extension UserIsTyping {
     var isActive: Bool { get { return self == .active } }
+}
+
+extension BumpUpBoost {
+    var isActive: Bool { get { return self != .control && self != .baseline } }
 }
 
 
@@ -547,6 +553,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.promoteBumpInEdit
         }
         return PromoteBumpInEdit.fromPosition(abTests.promoteBumpInEdit.value)
+    }
+
+    var bumpUpBoost: BumpUpBoost {
+        if Bumper.enabled {
+            return Bumper.bumpUpBoost
+        }
+        return BumpUpBoost.fromPosition(abTests.bumpUpBoost.value)
     }
 
     // MARK: - Country features
