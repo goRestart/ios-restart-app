@@ -130,7 +130,6 @@ class UserView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        setRoundedCorners()
         userAvatarImageView.setRoundedCorners()
     }
 
