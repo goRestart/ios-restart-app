@@ -13,3 +13,14 @@ extension UINavigationController {
         return viewControllers.count <= 1
     }
 }
+
+extension UINavigationController {
+    /// Use status bar style of its navigation controller's child
+    override open var childViewControllerForStatusBarStyle: UIViewController? {
+        return topViewController
+    }
+    
+    override open var childViewControllerForStatusBarHidden: UIViewController? {
+        return topViewController
+    }
+}

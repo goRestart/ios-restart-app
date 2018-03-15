@@ -359,7 +359,6 @@ extension UserViewHeader {
     }
 
     private func updateAvatarRatingsContainerView() {
-        let height = avatarRatingsContainerView.bounds.height
         avatarRatingsContainerView.setRoundedCorners()
     }
 

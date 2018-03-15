@@ -188,6 +188,11 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         descriptionTextView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: false)
     }
     
+    // MARK: - Status Bar
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     // MARK: - Public methods
     
     // MARK: > Actions
@@ -832,7 +837,7 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
             carInfoContainer.isHidden = true
             showRealEstateAttributesView()
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden, .motorsAndAccessories,
-             .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
+             .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned, .services:
             hideVerticalFields()
         }
         

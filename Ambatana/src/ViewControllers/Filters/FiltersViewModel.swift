@@ -461,7 +461,11 @@ class FiltersViewModel: BaseViewModel {
     Retrieves the list of categories
     */
     func retrieveCategories() {
-        categoryRepository.index(carsIncluded: false, realEstateIncluded: featureFlags.realEstateEnabled.isActive, highlightRealEstate: featureFlags.realEstatePromos.isActive) { [weak self] result in
+        categoryRepository.index(servicesIncluded: featureFlags.servicesCategoryEnabled.isActive,
+                                 carsIncluded: false,
+                                 realEstateIncluded: featureFlags.realEstateEnabled.isActive,
+                                 highlightRealEstate: featureFlags.realEstatePromos.isActive) { [weak self] result in
+                                    
             guard let strongSelf = self else { return }
             guard let categories = result.value else { return }
             strongSelf.categories = strongSelf.buildFilterCategoryItemsWithCategories(categories)
@@ -663,7 +667,7 @@ class FiltersViewModel: BaseViewModel {
         case .cars:
             productFilter = productFilter.resetingRealEstateAttributes()
         case .babyAndChild, .electronics, .fashionAndAccesories, .homeAndGarden,
-             .motorsAndAccessories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned:
+             .motorsAndAccessories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .unassigned, .services:
             productFilter = productFilter.resetingCarAttributes()
             productFilter = productFilter.resetingRealEstateAttributes()
         }

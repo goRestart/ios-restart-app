@@ -58,6 +58,9 @@ class ABTests {
     let discardedProducts = IntABDynamicVar(key: "20180219DiscardedProducts", defaultValue: 0, abGroupType: .core)
     let promoteBumpInEdit = IntABDynamicVar(key: "20180227promoteBumpInEdit", defaultValue: 0, abGroupType: .money)
     let userIsTyping = IntABDynamicVar(key: "20180305UserIsTyping", defaultValue: 0, abGroupType: .chat)
+    let servicesCategoryEnabled = IntABDynamicVar(key: "20180305ServicesCategoryEnabled", defaultValue: 0, abGroupType: .products)
+    let copyForChatNowInTurkey = IntABDynamicVar(key: "20180312CopyForChatNowInTurkey", defaultValue: 0, abGroupType: .money)
+    
 
     init() {
     }
@@ -108,6 +111,8 @@ class ABTests {
         result.append(discardedProducts)
         result.append(promoteBumpInEdit)
         result.append(userIsTyping)
+        result.append(servicesCategoryEnabled)
+        result.append(copyForChatNowInTurkey)
         
         return result
     }

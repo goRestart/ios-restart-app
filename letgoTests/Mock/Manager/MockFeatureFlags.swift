@@ -59,6 +59,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var discardedProducts: DiscardedProducts = .control
     var promoteBumpInEdit: PromoteBumpInEdit = .control
     var userIsTyping: UserIsTyping = .control
+    var servicesCategoryEnabled: ServicesCategoryEnabled = .control
 
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     
@@ -71,6 +72,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var moreInfoDFPAdUnitId = ""
     var feedDFPAdUnitId: String? = ""
     var bumpPriceVariationBucket: BumpPriceVariationBucket = .defaultValue
+    var shouldChangeChatNowCopy = false
+    var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
