@@ -66,14 +66,8 @@ class ListingPostedDescriptiveViewController: KeyboardViewController, UITextView
         setupRx()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setStatusBarHidden(true)
-    }
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        setStatusBarHidden(false)
         nameTextField.resignFirstResponder()
         descriptionTextView.resignFirstResponder()
     }
@@ -85,6 +79,12 @@ class ListingPostedDescriptiveViewController: KeyboardViewController, UITextView
         listingImageView.layer.cornerRadius = LGUIKitConstants.bigCornerRadius
     }
 
+    
+    // MARK: - Status Bar
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     
     // MARK: - UI
     

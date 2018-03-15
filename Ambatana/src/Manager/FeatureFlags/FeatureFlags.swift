@@ -67,6 +67,7 @@ protocol FeatureFlaggeable: class {
     var discardedProducts: DiscardedProducts { get }
     var promoteBumpInEdit: PromoteBumpInEdit { get }
     var userIsTyping: UserIsTyping { get }
+    var servicesCategoryEnabled: ServicesCategoryEnabled { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -222,6 +223,9 @@ extension PromoteBumpInEdit {
 }
 
 extension UserIsTyping {
+    var isActive: Bool { get { return self == .active } }
+}
+extension ServicesCategoryEnabled {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -560,6 +564,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.turkeyBumpPriceVATAdaptation
         }
         return TurkeyBumpPriceVATAdaptation.fromPosition(abTests.turkeyBumpPriceVATAdaptation.value)
+    }
+
+    var servicesCategoryEnabled: ServicesCategoryEnabled {
+        if Bumper.enabled {
+            return Bumper.servicesCategoryEnabled
+        }
+        return ServicesCategoryEnabled.fromPosition(abTests.servicesCategoryEnabled.value)
     }
 
     var promoteBumpInEdit: PromoteBumpInEdit {

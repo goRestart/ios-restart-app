@@ -45,16 +45,6 @@ class PostingGetStartedViewController: BaseViewController {
         setupConstraints()
         setupRx()
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setStatusBarHidden(true)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        setStatusBarHidden(false)
-    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -69,6 +59,13 @@ class PostingGetStartedViewController: BaseViewController {
         shadowView.layer.masksToBounds = false
 
         getStartedButton.setStyle(.primary(fontSize: .big))
+    }
+    
+    
+    // MARK: - Status Bar
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
 
     

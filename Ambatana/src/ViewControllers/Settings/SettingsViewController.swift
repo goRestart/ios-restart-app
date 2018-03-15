@@ -46,6 +46,10 @@ class SettingsViewController: BaseViewController {
         tableView.delegate = nil
         tableView.dataSource = nil
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
 
 
     // MARK: - Private
