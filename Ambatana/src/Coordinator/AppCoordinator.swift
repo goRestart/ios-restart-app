@@ -20,7 +20,7 @@ enum BumpUpSource {
     var typePageParameter: EventParameterTypePage? {
         switch self {
         case .deepLink:
-            return .notifications
+            return .pushNotification
         case .promoted:
             return .sell
         case .edit:
@@ -443,7 +443,7 @@ extension AppCoordinator: AppNavigator {
     }
 
     func openEditForListing(listing: Listing,
-                            bumpUpProductData: BumpUpProductData) {
+                            bumpUpProductData: BumpUpProductData?) {
         let editCoordinator = EditListingCoordinator(listing: listing,
                                                      bumpUpProductData: bumpUpProductData,
                                                      pageType: nil)
@@ -464,7 +464,11 @@ extension AppCoordinator: SellCoordinatorDelegate {
     }
 
     func sellCoordinator(_ coordinator: SellCoordinator, closePostAndOpenEditForListing listing: Listing) {
-        openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .edit(listing: listing))
+        if featureFlags.promoteBumpInEdit.isActive {
+            openAfterSellDialogIfNeeded(forListing: listing, bumpUpSource: .edit(listing: listing))
+        } else {
+            openEditForListing(listing: listing, bumpUpProductData: nil)
+        }
     }
 }
 
@@ -537,7 +541,7 @@ fileprivate extension AppCoordinator {
     func openAfterSellDialogIfNeeded(forListing listing: Listing, bumpUpSource: BumpUpSource) {
         if let listingId = listing.objectId, shouldRetrieveBumpeableInfoFor(source: bumpUpSource) {
             self.bumpUpSource = bumpUpSource
-            retrieveBumpeableInfoForListing(listingId: listingId, typePage: bumpUpSource.typePageParameter)
+            retrieveBumpeableInfoForListing(listingId: listingId, bumpUpSource: bumpUpSource)
         } else {
             showAfterSellPushAndRatingDialogs()
         }
@@ -545,7 +549,9 @@ fileprivate extension AppCoordinator {
 
     fileprivate func shouldRetrieveBumpeableInfoFor(source: BumpUpSource) -> Bool {
         switch source {
-        case .edit, .deepLink:
+        case .edit:
+            return featureFlags.promoteBumpInEdit.isActive
+        case .deepLink:
             return true
         case .promoted:
             return !promoteBumpShownInLastDay
@@ -568,26 +574,43 @@ fileprivate extension AppCoordinator {
         }
     }
 
-    fileprivate func retrieveBumpeableInfoForListing(listingId: String, typePage: EventParameterTypePage?) {
+    fileprivate func retrieveBumpeableInfoForListing(listingId: String, bumpUpSource: BumpUpSource) {
         purchasesShopper.bumpInfoRequesterDelegate = self
         monetizationRepository.retrieveBumpeableListingInfo(
             listingId: listingId,
             withHigherMinimumPrice: featureFlags.bumpPriceVariationBucket.rawValue) { [weak self] result in
                 guard let strongSelf = self else { return }
-                guard let value = result.value  else { return }
-                let paymentItems = value.paymentItems.filter { $0.provider == .apple }
-                guard !paymentItems.isEmpty else { return }
-                // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
-                strongSelf.timeSinceLastBump = value.timeSinceLastBump
+                if let value = result.value {
+                    let paymentItems = value.paymentItems.filter { $0.provider == .apple }
+                    guard !paymentItems.isEmpty else {
+                        strongSelf.bumpUpFallbackFor(source: bumpUpSource)
+                        return
+                    }
+                    // will be considered bumpeable ONCE WE GOT THE PRICES of the products, not before.
+                    strongSelf.timeSinceLastBump = value.timeSinceLastBump
 
-                // if "paymentItemId" is nil, we don't know the price of the bump, so we check this here to avoid
-                // a useless request to apple
-                if let paymentItemId = paymentItems.first?.itemId {
-                    strongSelf.purchasesShopper.productsRequestStartForListingId(listingId,
-                                                                                 paymentItemId: paymentItemId,
-                                                                                 withIds: paymentItems.map { $0.providerItemId },
-                                                                                 typePage: typePage)
+                    // if "paymentItemId" is nil, we don't know the price of the bump, so we check this here to avoid
+                    // a useless request to apple
+                    if let paymentItemId = paymentItems.first?.itemId {
+                        strongSelf.purchasesShopper.productsRequestStartForListingId(listingId,
+                                                                                     paymentItemId: paymentItemId,
+                                                                                     withIds: paymentItems.map { $0.providerItemId },
+                                                                                     typePage: bumpUpSource.typePageParameter)
+                    } else {
+                        strongSelf.bumpUpFallbackFor(source: bumpUpSource)
+                    }
+                } else {
+                    strongSelf.bumpUpFallbackFor(source: bumpUpSource)
                 }
+        }
+    }
+
+    private func bumpUpFallbackFor(source: BumpUpSource) {
+        switch source {
+        case .edit(let listing):
+            openEditForListing(listing: listing, bumpUpProductData: nil)
+        case .deepLink, .promoted:
+            break
         }
     }
 }
@@ -873,7 +896,7 @@ fileprivate extension AppCoordinator {
             }
         case let .listingBumpUp(listingId):
             bumpUpSource = .deepLink
-            retrieveBumpeableInfoForListing(listingId: listingId, typePage: .pushNotification)
+            retrieveBumpeableInfoForListing(listingId: listingId, bumpUpSource: .deepLink)
         case let .listingMarkAsSold(listingId):
             tabBarCtl.clearAllPresented(nil)
             afterDelayClosure = { [weak self] in
