@@ -79,6 +79,9 @@ protocol FeatureFlaggeable: class {
     var feedDFPAdUnitId: String? { get }
     var bumpPriceVariationBucket: BumpPriceVariationBucket { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
+    var shouldChangeChatNowCopy: Bool { get }
+    var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
+    
 }
 
 extension FeatureFlaggeable {
@@ -224,6 +227,23 @@ extension UserIsTyping {
 }
 extension ServicesCategoryEnabled {
     var isActive: Bool { get { return self == .active } }
+}
+
+extension CopyForChatNowInTurkey {
+    var variantString: String { get {
+        switch self {
+        case .control:
+            return LGLocalizedString.bumpUpProductCellChatNowButton
+        case .variantA:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonA
+        case .variantB:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonB
+        case .variantC:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonC
+        case .variantD:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonD
+        }
+    } }
 }
 
 
@@ -696,7 +716,25 @@ class FeatureFlags: FeatureFlaggeable {
             return .defaultValue
         }
     }
-
+    
+    var shouldChangeChatNowCopy: Bool {
+        if Bumper.enabled {
+            return true
+        }
+        switch (locationCountryCode, localeCountryCode) {
+        case (.turkey?, _), (_, .turkey?):
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var copyForChatNowInTurkey: CopyForChatNowInTurkey {
+        if Bumper.enabled {
+            return Bumper.copyForChatNowInTurkey
+        }
+        return CopyForChatNowInTurkey.fromPosition(abTests.copyForChatNowInTurkey.value)
+    }
 
     // MARK: - Private
 

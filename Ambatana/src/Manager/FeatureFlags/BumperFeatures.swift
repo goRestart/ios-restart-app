@@ -52,6 +52,7 @@ extension Bumper  {
         flags.append(PromoteBumpInEdit.self)
         flags.append(UserIsTyping.self)
         flags.append(ServicesCategoryEnabled.self)
+        flags.append(CopyForChatNowInTurkey.self)
         Bumper.initialize(flags)
     } 
 
@@ -247,8 +248,13 @@ extension Bumper  {
 
     static var servicesCategoryEnabled: ServicesCategoryEnabled {
         guard let value = Bumper.value(for: ServicesCategoryEnabled.key) else { return .control }
-        return ServicesCategoryEnabled(rawValue: value) ?? .control 
-    } 
+        return ServicesCategoryEnabled(rawValue: value) ?? .control
+    }
+    
+    static var copyForChatNowInTurkey: CopyForChatNowInTurkey {
+        guard let value = Bumper.value(for: CopyForChatNowInTurkey.key) else { return .control }
+        return CopyForChatNowInTurkey(rawValue: value) ?? .control
+    }
 }
 
 
@@ -831,18 +837,36 @@ enum UserIsTyping: String, BumperFeature  {
         }
     }
 }
-
+    
 enum ServicesCategoryEnabled: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return ServicesCategoryEnabled.control.rawValue }
     static var enumValues: [ServicesCategoryEnabled] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Allow to see Services category" } 
+    static var description: String { return "Allow to see Services category" }
     static func fromPosition(_ position: Int) -> ServicesCategoryEnabled {
-        switch position { 
+        switch position {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum CopyForChatNowInTurkey: String, BumperFeature  {
+    case control, variantA, variantB, variantC, variantD
+    static var defaultValue: String { return CopyForChatNowInTurkey.control.rawValue }
+    static var enumValues: [CopyForChatNowInTurkey] { return [.control, .variantA, .variantB, .variantC, .variantD]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Try different copies for Chat now button in Turkey" } 
+    static func fromPosition(_ position: Int) -> CopyForChatNowInTurkey {
+        switch position { 
+            case 0: return .control
+            case 1: return .variantA
+            case 2: return .variantB
+            case 3: return .variantC
+            case 4: return .variantD
             default: return .control
         }
     }

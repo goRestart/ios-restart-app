@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "A processar...";
 "bump_up_processing_priced_text" = "A processar o pagamento...";
 "bump_up_product_cell_chat_now_button" = "Converse já";
+"bump_up_product_cell_chat_now_button_a" = "Converse já";
+"bump_up_product_cell_chat_now_button_b" = "Converse já";
+"bump_up_product_cell_chat_now_button_c" = "Converse já";
+"bump_up_product_cell_chat_now_button_d" = "Converse já";
 "bump_up_product_cell_featured_stripe" = "Destacado";
 "bump_up_product_detail_featured_label" = "DESTACADO";
 "bump_up_view_free_subtitle" = "Quanto mais partilhar mais visibilidade a sua publicação terá.";
@@ -66,7 +70,7 @@
 "categories_title" = "Categorias";
 "categories_unassigned" = "Não selecionada";
 "categories_unassigned_items" = "Outros itens";
-"change_bio_placeholder" = "Adicione uma biografia que descreva quem é. Partilhe aquilo que lhe interessa ou um facto divertido sobre si";
+"change_bio_placeholder" = "Adicione uma biografia que descreva quem é. Partilhe aquilo que lhe interessa ou um facto divertido sobre si.";
 "change_bio_save_button" = "Guardar";
 "change_bio_title" = "Sobre mim";
 "change_email_current_email_label" = "EMAIL ATUAL";

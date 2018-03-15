@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "Verwerken...";
 "bump_up_processing_priced_text" = "Verwerken van betaling...";
 "bump_up_product_cell_chat_now_button" = "Nu Chatten";
+"bump_up_product_cell_chat_now_button_a" = "Nu Chatten";
+"bump_up_product_cell_chat_now_button_b" = "Nu Chatten";
+"bump_up_product_cell_chat_now_button_c" = "Nu Chatten";
+"bump_up_product_cell_chat_now_button_d" = "Nu Chatten";
 "bump_up_product_cell_featured_stripe" = "Aanbevolen";
 "bump_up_product_detail_featured_label" = "AANBEVOLEN";
 "bump_up_view_free_subtitle" = "Hoe vaker gedeeld, hoe meer zichtbaarheid jouw item zal hebben.";
@@ -66,7 +70,7 @@
 "categories_title" = "Categorieën";
 "categories_unassigned" = "Niet geselecteerd ";
 "categories_unassigned_items" = "Overige items";
-"change_bio_placeholder" = "Voeg een biografie toe die beschrijft wie je bent. Deel waar je geïnteresseerd in bent of een leuk weetje over jezelf";
+"change_bio_placeholder" = "Voeg een biografie toe die beschrijft wie je bent. Deel waar je geïnteresseerd in bent of een leuk weetje over jezelf.";
 "change_bio_save_button" = "Opslaan";
 "change_bio_title" = "Over mij";
 "change_email_current_email_label" = "HUIDIGE E-MAIL:";
