@@ -60,6 +60,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var promoteBumpInEdit: PromoteBumpInEdit = .control
     var userIsTyping: UserIsTyping = .control
     var servicesCategoryEnabled: ServicesCategoryEnabled = .control
+    var increaseNumberOfPictures: IncreaseNumberOfPictures = .control
 
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     
