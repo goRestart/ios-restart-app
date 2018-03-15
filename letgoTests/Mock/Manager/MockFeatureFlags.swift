@@ -54,11 +54,12 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
     var newUserProfileView: NewUserProfileView = .control
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
-    var searchMultiwordExpressions: SearchMultiwordExpressions = .control
+    var searchImprovements: SearchImprovements = .control
     var showChatSafetyTips: Bool = false
     var discardedProducts: DiscardedProducts = .control
     var promoteBumpInEdit: PromoteBumpInEdit = .control
     var userIsTyping: UserIsTyping = .control
+    var servicesCategoryEnabled: ServicesCategoryEnabled = .control
 
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     
@@ -71,6 +72,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var moreInfoDFPAdUnitId = ""
     var feedDFPAdUnitId: String? = ""
     var bumpPriceVariationBucket: BumpPriceVariationBucket = .defaultValue
+    var shouldChangeChatNowCopy = false
+    var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

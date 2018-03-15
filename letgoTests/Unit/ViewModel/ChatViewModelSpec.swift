@@ -68,7 +68,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                     user: MockUser,
                                     chatRepoError: ChatRepositoryError? = nil,
                                     openChatAutomaticMessage: ChatWrapperMessageType? = nil,
-                                    isProfessional: Bool = false) {
+                                    interlocutor: User? = nil) {
                 
                 safetyTipsShown = false
                 textFieldCleaned = false
@@ -108,7 +108,7 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                     keyValueStorage: keyValueStorage, navigator: nil, featureFlags: featureFlags,
                                     source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionManager,
                                     predefinedMessage: predefinedMessage, openChatAutomaticMessage: openChatAutomaticMessage,
-                                    isProfessional: isProfessional)
+                                    interlocutor: interlocutor)
                 
                 sut.delegate = self
                 disposeBag = DisposeBag()
@@ -386,7 +386,8 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                                    chatMessages: chatMessages,
                                                    product: productResult,
                                                    chatConversation: chatConversation,
-                                                   user: user)
+                                                   user: user,
+                                                   interlocutor: user)
                                 sut.active = true
                             }
                             context("send phone") {
@@ -435,7 +436,8 @@ class ChatViewModelSpec: BaseViewModelSpec {
                                                    chatMessages: chatMessages,
                                                    product: productResult,
                                                    chatConversation: chatConversation,
-                                                   user: user)
+                                                   user: user,
+                                                   interlocutor: user)
                                 sut.active = true
                             }
                             context("custom text") {

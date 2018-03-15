@@ -44,15 +44,14 @@ class ListingCreationViewController: BaseViewController {
         viewModel.createListing()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setStatusBarHidden(true)
-    }
-    
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         guard let requestFinished = viewModel.finishRequest.value, !requestFinished else { return }
         loadingView.startAnimating()
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     
     // MARK: - UI
