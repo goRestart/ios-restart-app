@@ -129,6 +129,12 @@ class ChatViewController: TextViewController {
         }
     }
     
+    // MARK: - Status Bar style
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
+    }
+    
     // MARK: - TextViewController methods
     
     override func sendButtonPressed() {

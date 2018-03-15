@@ -188,6 +188,11 @@ class EditListingViewController: BaseViewController, UITextFieldDelegate,
         descriptionTextView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: false)
     }
     
+    // MARK: - Status Bar
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     // MARK: - Public methods
     
     // MARK: > Actions
