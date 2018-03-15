@@ -67,6 +67,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     private let disposeBag = DisposeBag()
 
     fileprivate var viewModel: PostListingViewModel
+    private var shouldHideStatusBar = false
 
 
     // MARK: - Lifecycle
@@ -127,12 +128,12 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             footer.update(scroll: CGFloat(initialTab.index))
         }
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setStatusBarHidden(true)
         cameraView.active = true
         galleryView.active = true
+        hideStatusBarWithSoftAnimation()
     }
     
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
@@ -151,11 +152,17 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        setStatusBarHidden(false)
         galleryView.active = false
         cameraView.active = false
     }
-
+    
+    override var prefersStatusBarHidden: Bool {
+        return shouldHideStatusBar
+    }
+    
+    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return .slide
+    }
 
     // MARK: - Actions
     
@@ -391,6 +398,14 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             guard let strongSelf = self else { return }
             strongSelf.customLoadingView.alpha = showingKeyboard ? 0.0 : strongSelf.viewModel.state.value.customLoadingViewAlpha
         })
+    }
+    
+    private func hideStatusBarWithSoftAnimation() {
+        shouldHideStatusBar = true
+        let animationDuration = Double(UINavigationControllerHideShowBarDuration)
+        UIView.animate(withDuration: animationDuration) {
+            self.setNeedsStatusBarAppearanceUpdate()
+        }
     }
 }
 

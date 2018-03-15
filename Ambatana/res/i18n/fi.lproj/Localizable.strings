@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "Käsitellään...";
 "bump_up_processing_priced_text" = "Käsitellään maksua...";
 "bump_up_product_cell_chat_now_button" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_a" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_b" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_c" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_d" = "Lähetä viestiä nyt";
 "bump_up_product_cell_featured_stripe" = "Suositeltu";
 "bump_up_product_detail_featured_label" = "SUOSITELTU";
 "bump_up_view_free_subtitle" = "Mitä enemmän jaat, sitä enemmän näkyvyyttä tuotteesi saa.";
@@ -66,7 +70,7 @@
 "categories_title" = "Kategoriat";
 "categories_unassigned" = "Ei valittu";
 "categories_unassigned_items" = "Muut tuotteet";
-"change_bio_placeholder" = "Lisää biografia, joka kertoo sinusta. Jaa kiinnostuksen kohteesi tai hauskoja faktoja itsestäsi";
+"change_bio_placeholder" = "Lisää biografia, joka kertoo sinusta. Jaa kiinnostuksen kohteesi tai hauskoja faktoja itsestäsi.";
 "change_bio_save_button" = "Tallenna";
 "change_bio_title" = "Minusta";
 "change_email_current_email_label" = "NYKYINEN SÄHKÖPOSTI:";

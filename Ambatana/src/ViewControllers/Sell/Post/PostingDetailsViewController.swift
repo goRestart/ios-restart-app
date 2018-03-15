@@ -48,16 +48,14 @@ class PostingDetailsViewController: KeyboardViewController, LGSearchMapViewContr
         infoView?.setupView(viewModel: viewModel)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setStatusBarHidden(true)
-    }
-    
     override func viewWillAppearFromBackground(_ fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         setupNavigationBar()
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     
     // MARK: - UI
     

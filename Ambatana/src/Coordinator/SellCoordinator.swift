@@ -212,7 +212,6 @@ extension SellCoordinator: PostListingNavigator {
         } else {
             navigationController.pushViewController(listingPostedVC, animated: false)
         }
-        
     }
 
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],

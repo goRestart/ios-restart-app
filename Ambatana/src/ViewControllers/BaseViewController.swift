@@ -328,7 +328,7 @@ class BaseViewController: UIViewController, TabBarShowable {
     var hasTabBar: Bool = false
     
     // UI
-    private let statusBarStyle: UIStatusBarStyle
+    private var statusBarStyle: UIStatusBarStyle
     private let previousStatusBarStyle: UIStatusBarStyle
     private let navBarBackgroundStyle: NavBarBackgroundStyle
     private var swipeBackGestureEnabled: Bool
@@ -377,9 +377,6 @@ class BaseViewController: UIViewController, TabBarShowable {
         
         navigationController?.interactivePopGestureRecognizer?.isEnabled = swipeBackGestureEnabled
         view.backgroundColor = UIColor.viewControllerBackground
-        //Listen to status bar changes
-        NotificationCenter.default.addObserver(self, selector: #selector(BaseViewController.statusBarDidShow(_:)),
-            name: NSNotification.Name(rawValue: StatusBarNotification.StatusBarWillShow.rawValue), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -432,8 +429,7 @@ class BaseViewController: UIViewController, TabBarShowable {
         setNavBarBackgroundStyle(navBarBackgroundStyle)
 
         if !fromBackground {
-            UIApplication.shared.setStatusBarStyle(statusBarStyle, animated: true)
-
+            setNeedsStatusBarAppearanceUpdate()
             NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(applicationWillEnterForeground(_:)), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         }
@@ -444,14 +440,19 @@ class BaseViewController: UIViewController, TabBarShowable {
         
         if !toBackground {
             if !isRootViewController() || isModal {
-                UIApplication.shared.setStatusBarStyle(previousStatusBarStyle, animated: true)
+                statusBarStyle = previousStatusBarStyle
+                setNeedsStatusBarAppearanceUpdate()
             }
-
             NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
             NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         }
-
         active = false
+    }
+    
+    // MARK: StatusBarStyle
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return statusBarStyle
     }
     
     // MARK: Subview handling
@@ -483,13 +484,6 @@ class BaseViewController: UIViewController, TabBarShowable {
     
     @objc private func applicationWillEnterForeground(_ notification: Notification) {
         viewWillAppearFromBackground(true)
-    }
-
-    @objc func statusBarDidShow(_ notification: Notification) {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.01 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { [weak self] in
-                self?.view.setNeedsLayout()
-                self?.view.layoutIfNeeded()
-        }
     }
     
     // MARK: Reachability
