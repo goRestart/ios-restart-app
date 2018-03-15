@@ -61,15 +61,19 @@ struct BumpUpInfo {
     var price: String?
     var bannerInteractionBlock: () -> Void
     var buttonBlock: () -> Void
+    var boostEnabled: Bool
+    var shouldShowProgressBar: Bool
 
     init(type: BumpUpType, timeSinceLastBump: TimeInterval, maxCountdown: TimeInterval, price: String?, bannerInteractionBlock: @escaping () -> Void,
-         buttonBlock: @escaping () -> Void ) {
+         buttonBlock: @escaping () -> Void, boostEnabled: Bool, shouldShowProgressBar: Bool ) {
         self.type = type
         self.timeSinceLastBump = timeSinceLastBump
         self.maxCountdown = maxCountdown
         self.price = price
         self.bannerInteractionBlock = bannerInteractionBlock
         self.buttonBlock = buttonBlock
+        self.boostEnabled = boostEnabled
+        self.shouldShowProgressBar = shouldShowProgressBar
     }
 }
 
@@ -107,6 +111,9 @@ class BumpUpBanner: UIView {
     private var bannerInteractionBlock: () -> Void = {}
     private var buttonBlock: () -> Void = {}
 
+    private var boostEnabled: Bool = false
+    private var shouldShowProgressBar: Bool = false
+
     private let featureFlags: FeatureFlags = FeatureFlags.sharedInstance
 
     // - Rx
@@ -137,6 +144,8 @@ class BumpUpBanner: UIView {
     func updateInfo(info: BumpUpInfo) {
         type = info.type
         maxCountdown = info.maxCountdown
+        boostEnabled = info.boostEnabled
+        shouldShowProgressBar = info.shouldShowProgressBar
 
         var waitingTime: TimeInterval = 0
 

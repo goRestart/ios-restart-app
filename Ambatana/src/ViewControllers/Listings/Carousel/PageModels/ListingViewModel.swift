@@ -540,12 +540,39 @@ class ListingViewModel: BaseViewModel {
             buttonBlock = hiddenBlock
         }
 
+
+        let bannerShouldShowProgressBar = featureFlags.bumpUpBoost.isActive // && timeSinceLastBump > 0 ???? 🦄
         bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType,
                                             timeSinceLastBump: timeSinceLastBump,
                                             maxCountdown: bumpMaxCountdown,
                                             price: withPrice,
                                             bannerInteractionBlock: bannerInteractionBlock,
-                                            buttonBlock: buttonBlock)
+                                            buttonBlock: buttonBlock,
+                                            boostEnabled: boostIsEnabled,
+                                            shouldShowProgressBar: bannerShouldShowProgressBar)
+
+//        🦄
+//        if boostIsEnabledFor(listingId: listingId) {
+//            switch featureFlags.bumpUpBoost {
+//            case .control, .baseline:
+//
+//            case .sendTop5Mins:
+//                break
+//            case .sendTop1hour:
+//                break
+//            case .boostListing1hour:
+//                break
+//            case .cheaperBoost5Mins:
+//                break
+//            }
+//        } else {
+//            bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType,
+//                                                timeSinceLastBump: timeSinceLastBump,
+//                                                maxCountdown: bumpMaxCountdown,
+//                                                price: withPrice,
+//                                                bannerInteractionBlock: bannerInteractionBlock,
+//                                                buttonBlock: buttonBlock)
+//        }
     }
 
     func bumpUpHiddenProductContactUs() {
@@ -574,6 +601,17 @@ class ListingViewModel: BaseViewModel {
         navigator?.openPayBumpUp(forListing: listing.value,
                                  bumpUpProductData: bumpUpProductData,
                                  typePage: typePage)
+    }
+
+    private var boostIsEnabled: Bool {
+        switch featureFlags.bumpUpBoost {
+        case .control, .baseline:
+            return false
+        case .sendTop5Mins, .cheaperBoost5Mins:
+            return timeSinceLastBump > Constants.fiveMinutesTimeLimit
+        case .sendTop1hour, .boostListing1hour:
+            return timeSinceLastBump > Constants.oneHourTimeLimit
+        }
     }
 }
 
