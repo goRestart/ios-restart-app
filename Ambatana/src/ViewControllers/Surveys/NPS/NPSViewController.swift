@@ -36,20 +36,14 @@ class NPSViewController: BaseViewController {
         setupUI()
         setAccessibilityIds()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setStatusBarHidden(true)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        setStatusBarHidden(false)
-    }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         npsButtons.forEach { $0.setRoundedCorners() }
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     
     func setupUI() {

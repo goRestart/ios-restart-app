@@ -61,11 +61,13 @@ protocol FeatureFlaggeable: class {
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
-    var searchMultiwordExpressions: SearchMultiwordExpressions { get }
+    var searchImprovements: SearchImprovements { get }
     var showChatSafetyTips: Bool { get }
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var discardedProducts: DiscardedProducts { get }
     var promoteBumpInEdit: PromoteBumpInEdit { get }
     var userIsTyping: UserIsTyping { get }
+    var servicesCategoryEnabled: ServicesCategoryEnabled { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -77,6 +79,9 @@ protocol FeatureFlaggeable: class {
     var feedDFPAdUnitId: String? { get }
     var bumpPriceVariationBucket: BumpPriceVariationBucket { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
+    var shouldChangeChatNowCopy: Bool { get }
+    var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
+    
 }
 
 extension FeatureFlaggeable {
@@ -210,12 +215,35 @@ extension DiscardedProducts {
     var isActive: Bool { get { return self == .active } }
 }
 
+extension OnboardingIncentivizePosting {
+    var isActive: Bool { get { return self == .blockingPosting } }
+}
 extension PromoteBumpInEdit {
     var isActive: Bool { get { return self != .control && self != .baseline } }
 }
 
 extension UserIsTyping {
     var isActive: Bool { get { return self == .active } }
+}
+extension ServicesCategoryEnabled {
+    var isActive: Bool { get { return self == .active } }
+}
+
+extension CopyForChatNowInTurkey {
+    var variantString: String { get {
+        switch self {
+        case .control:
+            return LGLocalizedString.bumpUpProductCellChatNowButton
+        case .variantA:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonA
+        case .variantB:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonB
+        case .variantC:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonC
+        case .variantD:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonD
+        }
+    } }
 }
 
 
@@ -489,13 +517,20 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowBumpUpBannerOnNotValidatedListings.fromPosition(abTests.showBumpUpBannerOnNotValidatedListings.value)
     }
 
-    var searchMultiwordExpressions: SearchMultiwordExpressions {
+    var searchImprovements: SearchImprovements {
         if Bumper.enabled {
-            return Bumper.searchMultiwordExpressions
+            return Bumper.searchImprovements
         }
-        return SearchMultiwordExpressions.fromPosition(abTests.searchMultiwordExpressions.value)
+        return SearchImprovements.fromPosition(abTests.searchImprovements.value)
     }
-
+    
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting {
+        if Bumper.enabled {
+            return Bumper.onboardingIncentivizePosting
+        }
+        return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
+    }
+    
     var discardedProducts: DiscardedProducts {
         if Bumper.enabled {
             return Bumper.discardedProducts
@@ -529,6 +564,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.turkeyBumpPriceVATAdaptation
         }
         return TurkeyBumpPriceVATAdaptation.fromPosition(abTests.turkeyBumpPriceVATAdaptation.value)
+    }
+
+    var servicesCategoryEnabled: ServicesCategoryEnabled {
+        if Bumper.enabled {
+            return Bumper.servicesCategoryEnabled
+        }
+        return ServicesCategoryEnabled.fromPosition(abTests.servicesCategoryEnabled.value)
     }
 
     var promoteBumpInEdit: PromoteBumpInEdit {
@@ -674,7 +716,25 @@ class FeatureFlags: FeatureFlaggeable {
             return .defaultValue
         }
     }
-
+    
+    var shouldChangeChatNowCopy: Bool {
+        if Bumper.enabled {
+            return true
+        }
+        switch (locationCountryCode, localeCountryCode) {
+        case (.turkey?, _), (_, .turkey?):
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var copyForChatNowInTurkey: CopyForChatNowInTurkey {
+        if Bumper.enabled {
+            return Bumper.copyForChatNowInTurkey
+        }
+        return CopyForChatNowInTurkey.fromPosition(abTests.copyForChatNowInTurkey.value)
+    }
 
     // MARK: - Private
 

@@ -76,6 +76,7 @@ enum EventName: String {
     case listingSellConfirmationShare       = "product-sell-confirmation-share"
     case listingSellConfirmationShareCancel = "product-sell-confirmation-share-cancel"
     case listingSellConfirmationShareComplete = "product-sell-confirmation-share-complete"
+    case listingSellAbandon                 = "product-sell-abandon"
     
     case listingEditStart                   = "product-edit-start"
     case listingEditFormValidationFailed    = "product-edit-form-validation-failed"
@@ -355,6 +356,7 @@ enum EventParameterName: String {
     case inactiveConversations = "inactive-conversations"
     case mostSearchedButton   = "most-searched-button"
     case photoViewerNumberOfPhotos   = "number-photos"
+    case abandonStep          = "abandon-step"
 }
 
 enum EventParameterBoolean: String {
@@ -477,6 +479,16 @@ enum EventParameterPostingType: String {
         case .realEstate:
             self = .realEstate
         }
+    }
+}
+
+enum EventParameterPostingAbandonStep: String {
+    case cameraPermissions = "camera-permissions"
+    case retry = "retry"
+    case summaryOnboarding = "summary-onboarding"
+    
+    static var allValues: [EventParameterPostingAbandonStep] {
+        return [.cameraPermissions, .retry, .summaryOnboarding]
     }
 }
 

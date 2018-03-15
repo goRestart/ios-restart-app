@@ -121,7 +121,8 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     fileprivate var bottomScrollLimit: CGFloat {
         return max(0, collectionView.contentSize.height - collectionView.height + collectionView.contentInset.bottom)
     }
-
+    
+    private var shouldHideStatusBar = true
 
     // MARK: - Lifecycle
 
@@ -177,7 +178,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        showStatusBar()
         if moreInfoState.value == .shown {
             moreInfoView.viewWillShow()
         }
@@ -552,8 +553,28 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             return index.row != viewModel.currentIndex
             }.forEach { $0.returnToFirstImage() }
     }
+    
+    // MARK: - Status Bar style
+    
+    override var prefersStatusBarHidden: Bool {
+        return shouldHideStatusBar
+    }
+    
+    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return .fade
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    private func showStatusBar() {
+        if shouldHideStatusBar {
+            shouldHideStatusBar = false
+            setNeedsStatusBarAppearanceUpdate()
+        }
+    }
 }
-
 
 // MARK: > Configure Carousel With ListingCarouselViewModel
 
@@ -828,8 +849,8 @@ extension ListingCarouselViewController {
         moreInfoState.value = .hidden
     }
 
-    fileprivate func finishedTransition() {
-        UIApplication.shared.setStatusBarHidden(false, with: .fade)
+    private func finishedTransition() {
+        showStatusBar()
     }
 }
 

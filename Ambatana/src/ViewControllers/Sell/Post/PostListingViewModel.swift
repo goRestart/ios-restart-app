@@ -17,6 +17,7 @@ enum PostingSource {
     case deepLink
     case onboardingButton
     case onboardingCamera
+    case onboardingBlockingPosting
     case notifications
     case deleteListing
     case realEstatePromo
@@ -63,6 +64,7 @@ class PostListingViewModel: BaseViewModel {
     let postListingCameraViewModel: PostListingCameraViewModel
     let postingSource: PostingSource
     let postCategory: PostCategory?
+    let isBlockingPosting: Bool
     
     fileprivate let listingRepository: ListingRepository
     fileprivate let fileRepository: FileRepository
@@ -91,10 +93,12 @@ class PostListingViewModel: BaseViewModel {
 
     convenience init(source: PostingSource,
                      postCategory: PostCategory?,
-                     listingTitle: String?) {
+                     listingTitle: String?,
+                     isBlockingPosting: Bool) {
         self.init(source: source,
                   postCategory: postCategory,
                   listingTitle: listingTitle,
+                  isBlockingPosting: isBlockingPosting,
                   listingRepository: Core.listingRepository,
                   fileRepository: Core.fileRepository,
                   carsInfoRepository: Core.carsInfoRepository,
@@ -108,6 +112,7 @@ class PostListingViewModel: BaseViewModel {
     init(source: PostingSource,
          postCategory: PostCategory?,
          listingTitle: String?,
+         isBlockingPosting: Bool,
          listingRepository: ListingRepository,
          fileRepository: FileRepository,
          carsInfoRepository: CarsInfoRepository,
@@ -121,11 +126,14 @@ class PostListingViewModel: BaseViewModel {
         
         self.postingSource = source
         self.postCategory = postCategory
+        self.isBlockingPosting = isBlockingPosting
         self.listingRepository = listingRepository
         self.fileRepository = fileRepository
         self.carsInfoRepository = carsInfoRepository
         self.postDetailViewModel = PostListingBasicDetailViewModel()
-        self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source, postCategory: postCategory)
+        self.postListingCameraViewModel = PostListingCameraViewModel(postingSource: source,
+                                                                     postCategory: postCategory,
+                                                                     isBlockingPosting: isBlockingPosting)
         self.tracker = tracker
         self.sessionManager = sessionManager
         self.featureFlags = featureFlags
@@ -141,7 +149,7 @@ class PostListingViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        guard firstTime else { return }
+        guard firstTime, !isBlockingPosting else { return }
         trackVisit()
     }
 
@@ -157,9 +165,17 @@ class PostListingViewModel: BaseViewModel {
     }
 
     func imagesSelected(_ images: [UIImage], source: EventParameterPictureSource) {
+        if isBlockingPosting {
+            openQueuedRequestsLoading(images: images, imageSource: source)
+        } else {
+            uploadImages(images, source: source)
+        }
+    }
+    
+    fileprivate func uploadImages(_ images: [UIImage], source: EventParameterPictureSource) {
         uploadedImageSource = source
         imagesSelected = images
-        
+
         guard sessionManager.loggedIn else {
             state.value = state.value.updating(pendingToUploadImages: images)
             return
@@ -169,7 +185,7 @@ class PostListingViewModel: BaseViewModel {
 
         fileRepository.upload(images, progress: nil) { [weak self] result in
             guard let strongSelf = self else { return }
-            
+
             if let images = result.value {
                 strongSelf.state.value = strongSelf.state.value.updatingToSuccessUpload(uploadedImages: images)
             } else if let error = result.error {
@@ -178,16 +194,24 @@ class PostListingViewModel: BaseViewModel {
         }
     }
     
+    fileprivate func openQueuedRequestsLoading(images: [UIImage], imageSource: EventParameterPictureSource) {
+        guard let listingParams = makeListingParams() else { return }
+        navigator?.openQueuedRequestsLoading(images: images,
+                                             listingCreationParams: listingParams,
+                                             imageSource: imageSource,
+                                             postingSource: postingSource)
+    }
+    
     func closeButtonPressed() {
         if state.value.pendingToUploadImages != nil {
             openPostAbandonAlertNotLoggedIn()
         } else {
-            guard let images = state.value.lastImagesUploadResult?.value else {
+            if state.value.lastImagesUploadResult?.value == nil {
+                if isBlockingPosting {
+                    trackPostSellAbandon()
+                }
                 navigator?.cancelPostListing()
-                return
-            }
-            
-            if let listingParams = makeListingParams(images: images) {
+            } else if let listingParams = makeListingParams() {
                 let trackingInfo = PostListingTrackingInfo(buttonName: .close,
                                                            sellButtonPosition: postingSource.sellButtonPosition,
                                                            imageSource: uploadedImageSource,
@@ -365,12 +389,12 @@ fileprivate extension PostListingViewModel {
                                                    mostSearchedButton: postingSource.mostSearchedButton)
         if sessionManager.loggedIn {
             guard let images = state.value.lastImagesUploadResult?.value,
-                let listingCreationParams = makeListingParams(images: images) else { return }
+                let listingCreationParams = makeListingParams() else { return }
             navigator?.closePostProductAndPostInBackground(params: listingCreationParams,
                                                            trackingInfo: trackingInfo)
         } else if let images = state.value.pendingToUploadImages {
             let loggedInAction = { [weak self] in
-                guard let listingParams = self?.makeListingParams(images: []) else { return }
+                guard let listingParams = self?.makeListingParams() else { return }
                 self?.navigator?.closePostProductAndPostLater(params: listingParams,
                                                               images: images,
                                                               trackingInfo: trackingInfo)
@@ -392,7 +416,7 @@ fileprivate extension PostListingViewModel {
                                 postListingBasicInfo: postDetailViewModel)
     }
     
-    func makeListingParams(images:[File]) -> ListingCreationParams? {
+    func makeListingParams() -> ListingCreationParams? {
         guard let location = locationManager.currentLocation?.location else { return nil }
         let description = postDetailViewModel.listingDescription ?? ""
         let postalAddress = locationManager.currentLocation?.postalAddress ?? PostalAddress.emptyAddress()
@@ -428,6 +452,11 @@ fileprivate extension PostListingViewModel {
                                                   mostSearchedButton: postingSource.mostSearchedButton)
         tracker.trackEvent(event)
     }
+    
+    fileprivate func trackPostSellAbandon() {
+        let event = TrackerEvent.listingSellAbandon(abandonStep: .cameraPermissions)
+        tracker.trackEvent(event)
+    }
 }
 
 extension PostingSource {
@@ -437,7 +466,7 @@ extension PostingSource {
             return .sell
         case .deepLink:
             return .external
-        case .onboardingButton, .onboardingCamera:
+        case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting:
             return .onboarding
         case .notifications:
             return .notifications
@@ -455,7 +484,7 @@ extension PostingSource {
         switch self {
         case .tabBar, .sellButton, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
              .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
-             .mostSearchedCard, .mostSearchedUserProfile:
+             .mostSearchedCard, .mostSearchedUserProfile, .onboardingBlockingPosting:
             return nil
         case .onboardingButton:
             return .sellYourStuff
@@ -472,7 +501,7 @@ extension PostingSource {
             return .tabBar
         case .sellButton:
             return .floatingButton
-        case .onboardingButton, .onboardingCamera, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
+        case .onboardingButton, .onboardingCamera, .onboardingBlockingPosting, .deepLink, .notifications, .deleteListing, .mostSearchedTabBarCamera,
              .mostSearchedTrendingExpandable, .mostSearchedTagsExpandable, .mostSearchedCategoryHeader,
              .mostSearchedCard, .mostSearchedUserProfile:
             return .none
@@ -483,7 +512,7 @@ extension PostingSource {
     
     var mostSearchedButton: EventParameterMostSearched {
         switch self {
-        case .tabBar, .sellButton, .deepLink, .onboardingButton, .onboardingCamera,
+        case .tabBar, .sellButton, .deepLink, .onboardingButton, .onboardingCamera, .onboardingBlockingPosting,
              .notifications, .deleteListing, .realEstatePromo:
             return .notApply
         case .mostSearchedTabBarCamera:

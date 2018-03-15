@@ -208,7 +208,7 @@ fileprivate extension FilteredListingListRequester {
         params.coordinates = queryCoordinates
         params.queryString = queryString
         params.countryCode = countryCode
-        params.abtest = featureFlags.searchMultiwordExpressions.stringValue
+        params.abtest = featureFlags.searchImprovements.stringValue
 
         params.populate(with: filters)
        
@@ -278,13 +278,11 @@ fileprivate extension FilteredListingListRequester {
     }
 }
 
-extension SearchMultiwordExpressions {
+extension SearchImprovements {
     var stringValue: String? {
         switch self {
-        case .control:
+        case .control, .baseline:
             return nil
-        case .baseline:
-            return "disc566-a"
         case .mWE:
             return "disc566-b"
         case .mWERelaxedSynonyms:
@@ -293,6 +291,16 @@ extension SearchMultiwordExpressions {
             return "disc566-d"
         case .mWERelaxedSynonymsMM75:
             return "disc566-e"
+        case .mWS:
+            return "disc565-a"
+        case .boostingScoreDistance:
+            return "disc554-a"
+        case .boostingDistance:
+            return "disc554-b"
+        case .boostingFreshness:
+            return "disc554-c"
+        case .boostingDistAndFreshness:
+            return "disc554-d"
         }
     }
 }
