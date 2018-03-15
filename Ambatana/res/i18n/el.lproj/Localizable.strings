@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "Επεξεργασία...";
 "bump_up_processing_priced_text" = "Επεξεργασία πληρωμής...";
 "bump_up_product_cell_chat_now_button" = "Συνομιλήστε Τώρα";
+"bump_up_product_cell_chat_now_button_a" = "Συνομιλήστε Τώρα";
+"bump_up_product_cell_chat_now_button_b" = "Συνομιλήστε Τώρα";
+"bump_up_product_cell_chat_now_button_c" = "Συνομιλήστε Τώρα";
+"bump_up_product_cell_chat_now_button_d" = "Συνομιλήστε Τώρα";
 "bump_up_product_cell_featured_stripe" = "Προτεινόμενο";
 "bump_up_product_detail_featured_label" = "ΕΠΙΛΕΓΜΕΝΑ";
 "bump_up_view_free_subtitle" = "Όσο περισσότερο κοινοποιείτε, τόσο περισσότερη προβολή θα έχει η καταχώρησή σας.";
@@ -66,7 +70,7 @@
 "categories_title" = "Κατηγορίες";
 "categories_unassigned" = "Δεν έχει επιλεχθεί";
 "categories_unassigned_items" = "Άλλα αντικείμενα";
-"change_bio_placeholder" = "Προσθέστε ένα βιογραφικό που να περιγράφει ποιοι είστε. Μοιραστείτε ό,τι σας ενδιαφέρει ή κάποιο διασκεδαστικό στοιχείο του χαρακτήρα σας";
+"change_bio_placeholder" = "Προσθέστε ένα βιογραφικό που να περιγράφει ποιοι είστε. Μοιραστείτε ό,τι σας ενδιαφέρει ή κάποιο διασκεδαστικό στοιχείο του χαρακτήρα σας.";
 "change_bio_save_button" = "Αποθήκευση";
 "change_bio_title" = "Σχετικά με εμένα";
 "change_email_current_email_label" = "ΤΡΕΧΟΝ EMAIL:";
