@@ -65,8 +65,7 @@ class ListingViewModel: BaseViewModel {
     var isMine: Bool {
         return listing.value.isMine(myUserRepository: myUserRepository)
     }
-    let isProfessional = Variable<Bool>(false)
-    let phoneNumber = Variable<String?>(nil)
+    let seller = Variable<User?>(nil)
     let isFavorite = Variable<Bool>(false)
     let listingStats = Variable<ListingStats?>(nil)
     private var myUserId: String? {
@@ -231,14 +230,12 @@ class ListingViewModel: BaseViewModel {
 
         if featureFlags.allowCallsForProfessionals.isActive {
             if isMine {
-                isProfessional.value = myUserRepository.myUser?.type == .pro
-                phoneNumber.value = myUserRepository.myUser?.phone
+                seller.value = myUserRepository.myUser
             } else if let userId = userInfo.value.userId {
                 userRepository.show(userId) { [weak self] result in
                     guard let strongSelf = self else { return }
                     if let value = result.value {
-                        strongSelf.isProfessional.value = value.type == .pro
-                        strongSelf.phoneNumber.value = value.phone
+                        strongSelf.seller.value = value
                         strongSelf.sellerAverageUserRating = value.ratingAverage
                     }
                 }
@@ -306,13 +303,14 @@ class ListingViewModel: BaseViewModel {
             }.disposed(by: disposeBag)
         }
 
-        let listingActions = Observable.combineLatest(status.asObservable(), isProfessional.asObservable()) { ($0, $1) }
+        let listingActions = Observable.combineLatest(status.asObservable(), seller.asObservable()) { ($0, $1) }
 
-        listingActions.asObservable().bind { [weak self] (status, isPro) in
+        listingActions.asObservable().bind { [weak self] (status, seller) in
             guard let strongSelf = self else { return }
-            strongSelf.refreshActionButtons(status, isProfessional: isPro)
+            let sellerIsProfessional = seller?.isProfessional ?? false
+            strongSelf.refreshActionButtons(status, isProfessional: sellerIsProfessional)
             strongSelf.refreshNavBarButtons()
-            strongSelf.directChatEnabled.value = status.directChatsAvailable && !isPro
+            strongSelf.directChatEnabled.value = status.directChatsAvailable && !sellerIsProfessional
         }.disposed(by: disposeBag)
         
         isListingDetailsCompleted.asObservable().filter {$0}.bind { [weak self] _ in
@@ -608,9 +606,10 @@ extension ListingViewModel {
     }
 
     func chatWithSeller() {
+        guard let seller = seller.value else { return }
         let source: EventParameterTypePage = (moreInfoState.value == .shown) ? .listingDetailMoreInfo : .listingDetail
         trackHelper.trackChatWithSeller(source)
-        navigator?.openListingChat(listing.value, source: .listingDetail, isProfessional: isProfessional.value)
+        navigator?.openListingChat(listing.value, source: .listingDetail, interlocutor: seller)
     }
 
     func sendDirectMessage(_ text: String, isDefaultText: Bool) {
@@ -674,7 +673,8 @@ extension ListingViewModel {
                 strongSelf.keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId) {
                 strongSelf.chatWithSeller()
             } else {
-                strongSelf.navigator?.openAskPhoneFor(listing: strongSelf.listing.value)
+                strongSelf.navigator?.openAskPhoneFor(listing: strongSelf.listing.value,
+                                                      interlocutor: strongSelf.seller.value)
             }
         }
     }
@@ -867,7 +867,7 @@ extension ListingViewModel {
             actionButtons.append(UIAction(interface: .button(LGLocalizedString.productSellAgainButton, .secondary(fontSize: .big, withBorder: false)),
                                           action: { [weak self] in self?.confirmToMarkAsUnSold(free: false) }))
         case .otherAvailable, .otherAvailableFree:
-            if isProfessional {
+            if isProfessional && featureFlags.allowCallsForProfessionals.isActive {
                 actionButtons.append(UIAction(interface: .button(LGLocalizedString.productProfessionalChatButton, .secondary(fontSize: .big, withBorder: false)),
                                               action: { [weak self] in self?.openAskPhone() }))
             }

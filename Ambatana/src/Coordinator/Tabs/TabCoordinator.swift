@@ -137,7 +137,7 @@ extension TabCoordinator: TabNavigator {
         case let .inactiveConversation(conversation):
             openInactiveConversation(conversation: conversation)
         case let .listingAPI(listing):
-            openListingChat(listing, source: source, isProfessional: false)
+            openListingChat(listing, source: source, interlocutor: nil)
         case let .dataIds(conversationId):
             openChatFromConversationId(conversationId, source: source, predefinedMessage: predefinedMessage)
         }
@@ -354,12 +354,12 @@ fileprivate extension TabCoordinator {
     func openChatFrom(listing: Listing,
                       source: EventParameterTypePage,
                       openChatAutomaticMessage: ChatWrapperMessageType?,
-                      isProfessional: Bool) {
+                      interlocutor: User?) {
         guard let chatVM = ChatViewModel(listing: listing,
                                          navigator: self,
                                          source: source,
                                          openChatAutomaticMessage: openChatAutomaticMessage,
-                                         isProfessional: isProfessional) else { return }
+                                         interlocutor: interlocutor) else { return }
         let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: source == .listingListFeatured)
         navigationController.pushViewController(chatVC, animated: true)
     }
@@ -426,8 +426,8 @@ extension TabCoordinator: ListingDetailNavigator {
         openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) {
-        openChatFrom(listing: listing, source: source, openChatAutomaticMessage: nil, isProfessional: isProfessional)
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
+        openChatFrom(listing: listing, source: source, openChatAutomaticMessage: nil, interlocutor: interlocutor)
     }
 
     func closeListingAfterDelete(_ listing: Listing) {
@@ -517,14 +517,15 @@ extension TabCoordinator: ListingDetailNavigator {
         rootViewController.dismiss(animated: true, completion: nil)
     }
 
-    func openAskPhoneFor(listing: Listing) {
-        let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing)
+    func openAskPhoneFor(listing: Listing, interlocutor: User?) {
+        let askNumVM = ProfessionalDealerAskPhoneViewModel(listing: listing, interlocutor: interlocutor)
         askNumVM.navigator = self
         let askNumVC = ProfessionalDealerAskPhoneViewController(viewModel: askNumVM)
         rootViewController.present(askNumVC, animated: true, completion: nil)
     }
 
-    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) {
+    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage,
+                          interlocutor: User?) {
         var completion: (()->())? = nil
         if openChat {
             completion = { [weak self] in
@@ -535,7 +536,7 @@ extension TabCoordinator: ListingDetailNavigator {
                 self?.openChatFrom(listing: listing,
                                    source: source,
                                    openChatAutomaticMessage: openChatAutomaticMessage,
-                                   isProfessional: true)
+                                   interlocutor: interlocutor)
             }
         }
         rootViewController.dismiss(animated: true, completion: completion)
