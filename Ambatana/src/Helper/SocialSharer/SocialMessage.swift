@@ -165,7 +165,7 @@ extension SocialMessage {
         if var letgoURLString = letgoURLString {
             letgoURLString = addUtmParamsToURLString(letgoURLString,
                                                      source: source)
-            letgoURLString = addCustomSchemeToDeeplink(letgoURLString)
+            letgoURLString = addCustomSchemeToDeeplinkPath(letgoURLString)
             generator.addParameterValue(letgoURLString, forKey: Self.webDeeplink)
         }
         if let myUserId = myUserId {
