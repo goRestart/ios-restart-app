@@ -48,7 +48,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstateNewCopy: RealEstateNewCopy = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var showInactiveConversations: Bool = false
-    var mainFeedAspectRatio: MainFeedAspectRatio = .control
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
     var emojiSizeIncrement: EmojiSizeIncrement = .control
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control

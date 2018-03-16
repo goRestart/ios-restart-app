@@ -53,7 +53,6 @@ protocol FeatureFlaggeable: class {
     var realEstateNewCopy: RealEstateNewCopy { get }
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var showInactiveConversations: Bool { get }
-    var mainFeedAspectRatio: MainFeedAspectRatio { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
@@ -450,13 +449,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.showAdsInFeedWithRatio
         }
         return ShowAdsInFeedWithRatio.fromPosition(abTests.showAdsInFeedWithRatio.value)
-    }
-    
-    var mainFeedAspectRatio: MainFeedAspectRatio {
-        if Bumper.enabled {
-            return Bumper.mainFeedAspectRatio
-        }
-        return MainFeedAspectRatio.fromPosition(abTests.mainFeedAspectRatio.value)
     }
     
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting {
