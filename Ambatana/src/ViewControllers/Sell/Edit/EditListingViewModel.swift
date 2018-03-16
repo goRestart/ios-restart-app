@@ -170,7 +170,9 @@ class EditListingViewModel: BaseViewModel, EditLocationDelegate {
         }
     }
     var shouldShareInFB: Bool
-    let maxImageCount = Constants.maxImageCount
+    var maxImageCount: Int {
+        return max(listingImages.images.count, Constants.maxImageCount)
+    }
     var descr: String? {
         didSet {
             checkChanges()

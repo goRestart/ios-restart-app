@@ -53,7 +53,6 @@ protocol FeatureFlaggeable: class {
     var realEstateNewCopy: RealEstateNewCopy { get }
     var dummyUsersInfoProfile: DummyUsersInfoProfile { get }
     var showInactiveConversations: Bool { get }
-    var mainFeedAspectRatio: MainFeedAspectRatio { get }
     var increaseMinPriceBumps: IncreaseMinPriceBumps { get }
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage { get }
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers { get }
@@ -68,6 +67,8 @@ protocol FeatureFlaggeable: class {
     var promoteBumpInEdit: PromoteBumpInEdit { get }
     var userIsTyping: UserIsTyping { get }
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
+    var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
+    
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -227,6 +228,9 @@ extension UserIsTyping {
 }
 extension ServicesCategoryEnabled {
     var isActive: Bool { get { return self == .active } }
+}
+extension IncreaseNumberOfPictures {
+    var isActive: Bool { return self == .active }
 }
 
 extension CopyForChatNowInTurkey {
@@ -447,13 +451,6 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowAdsInFeedWithRatio.fromPosition(abTests.showAdsInFeedWithRatio.value)
     }
     
-    var mainFeedAspectRatio: MainFeedAspectRatio {
-        if Bumper.enabled {
-            return Bumper.mainFeedAspectRatio
-        }
-        return MainFeedAspectRatio.fromPosition(abTests.mainFeedAspectRatio.value)
-    }
-    
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting {
         if Bumper.enabled {
             return Bumper.removeCategoryWhenClosingPosting
@@ -578,6 +575,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.promoteBumpInEdit
         }
         return PromoteBumpInEdit.fromPosition(abTests.promoteBumpInEdit.value)
+    }
+    
+    var increaseNumberOfPictures: IncreaseNumberOfPictures {
+        if Bumper.enabled {
+            return Bumper.increaseNumberOfPictures
+        }
+        return IncreaseNumberOfPictures.fromPosition(abTests.increaseNumberOfPictures.value)
     }
 
     // MARK: - Country features
