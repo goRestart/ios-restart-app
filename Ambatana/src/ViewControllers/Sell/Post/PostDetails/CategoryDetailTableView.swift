@@ -262,8 +262,8 @@ final class CategoryDetailTableView: UIView, UITableViewDelegate, UITableViewDat
     // MARK: - Accessibility
     
     private func setupAccessibilityIds() {
-        searchBar.accessibilityId = .postingCategoryDeatilSearchBar
-        tableView.accessibilityId = .postingCategoryDeatilTableView
+        searchBar.set(accessibilityId: .postingCategoryDeatilSearchBar)
+        tableView.set(accessibilityId: .postingCategoryDeatilTableView)
     }
     
     // MARK: - UISearchBar delegate

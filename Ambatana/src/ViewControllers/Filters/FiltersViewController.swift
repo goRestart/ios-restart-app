@@ -26,7 +26,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     }
     // Outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var saveFiltersBtn: UIButton!
+    @IBOutlet weak var saveFiltersBtn: LetgoButton!
 
     @IBOutlet weak var saveFiltersBtnContainer: UIView!
     @IBOutlet weak var saveFiltersBtnContainerBottomConstraint: NSLayoutConstraint!
@@ -566,10 +566,10 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     }
 
     private func setAccessibilityIds() {
-        collectionView.accessibilityId = .filtersCollectionView
-        saveFiltersBtn.accessibilityId = .filtersSaveFiltersButton
-        self.navigationItem.rightBarButtonItem?.accessibilityId = .filtersResetButton
-        self.navigationItem.leftBarButtonItem?.accessibilityId = .filtersCancelButton
+        collectionView.set(accessibilityId: .filtersCollectionView)
+        saveFiltersBtn.set(accessibilityId: .filtersSaveFiltersButton)
+        navigationItem.rightBarButtonItem?.set(accessibilityId: .filtersResetButton)
+        navigationItem.leftBarButtonItem?.set(accessibilityId: .filtersCancelButton)
     }
 }
 

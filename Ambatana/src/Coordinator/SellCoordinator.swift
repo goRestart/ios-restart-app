@@ -12,6 +12,7 @@ import RxSwift
 protocol SellCoordinatorDelegate: class {
     func sellCoordinatorDidCancel(_ coordinator: SellCoordinator)
     func sellCoordinator(_ coordinator: SellCoordinator, didFinishWithListing listing: Listing)
+    func sellCoordinator(_ coordinator: SellCoordinator, closePostAndOpenEditForListing listing: Listing)
 }
 
 final class SellCoordinator: Coordinator {
@@ -72,16 +73,25 @@ final class SellCoordinator: Coordinator {
         self.postCategory = postCategory
         self.featureFlags = featureFlags
         self.sessionManager = sessionManager
-
-        let postListingVM = PostListingViewModel(source: source,
-                                                 postCategory: postCategory,
-                                                 listingTitle: listingTitle)
-        let postListingVC = PostListingViewController(viewModel: postListingVM,
-                                                  forcedInitialTab: forcedInitialTab)
-        navigationController = SellNavigationController(rootViewController: postListingVC)
-        navigationController.setupInitialCategory(postCategory: postCategory)
-        self.viewController = navigationController
-        postListingVM.navigator = self
+        
+        if source == .onboardingBlockingPosting {
+            let getStartedVM = PostingGetStartedViewModel()
+            let getStartedVC = PostingGetStartedViewController(viewModel: getStartedVM)
+            navigationController = SellNavigationController(rootViewController: getStartedVC)
+            self.viewController = navigationController
+            getStartedVM.navigator = self
+        } else {
+            let postListingVM = PostListingViewModel(source: source,
+                                                     postCategory: postCategory,
+                                                     listingTitle: listingTitle,
+                                                     isBlockingPosting: false)
+            let postListingVC = PostListingViewController(viewModel: postListingVM,
+                                                      forcedInitialTab: forcedInitialTab)
+            navigationController = SellNavigationController(rootViewController: postListingVC)
+            navigationController.setupInitialCategory(postCategory: postCategory)
+            self.viewController = navigationController
+            postListingVM.navigator = self
+        }
     }
 
     func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
@@ -202,7 +212,6 @@ extension SellCoordinator: PostListingNavigator {
         } else {
             navigationController.pushViewController(listingPostedVC, animated: false)
         }
-        
     }
 
     func closePostProductAndPostLater(params: ListingCreationParams, images: [UIImage],
@@ -225,6 +234,17 @@ extension SellCoordinator: PostListingNavigator {
     
     func backToSummary() {
         let _ = navigationController.popViewController(animated: true)
+    }
+    
+    func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
+                                   imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+        let viewModel = BlockingPostingQueuedRequestsViewModel(images: images,
+                                                               listingCreationParams: listingCreationParams,
+                                                               imageSource: imageSource,
+                                                               postingSource: postingSource)
+        viewModel.navigator = self
+        let vc = BlockingPostingQueuedRequestsViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: false)
     }
 }
 
@@ -249,20 +269,19 @@ extension SellCoordinator: ListingPostedNavigator {
     }
 
     func closeListingPostedAndOpenEdit(_ listing: Listing) {
-        dismissViewController(animated: true) { [weak self] in
-            guard let parentVC = self?.parentViewController else { return }
-
-            let navigator = EditListingCoordinator(listing: listing, pageType: nil)
-            navigator.delegate = self
-            self?.openChild(coordinator: navigator, parent: parentVC, animated: true,
-                            forceCloseChild: false, completion: nil)
+        closeCoordinator(animated: true) { [weak self] in
+            guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
+            delegate.sellCoordinator(strongSelf, closePostAndOpenEditForListing: listing)
         }
     }
 
     func closeProductPostedAndOpenPost() {
         dismissViewController(animated: true) { [weak self] in
             guard let strongSelf = self, let parentVC = strongSelf.parentViewController else { return }
-            let postListingVM = PostListingViewModel(source: strongSelf.postingSource, postCategory: nil, listingTitle: nil)
+            let postListingVM = PostListingViewModel(source: strongSelf.postingSource,
+                                                     postCategory: nil,
+                                                     listingTitle: nil,
+                                                     isBlockingPosting: false)
             let postListingVC = PostListingViewController(viewModel: postListingVM,
                                                           forcedInitialTab: nil)
             strongSelf.viewController = postListingVC
@@ -275,12 +294,76 @@ extension SellCoordinator: ListingPostedNavigator {
     }
 }
 
-extension SellCoordinator: EditListingCoordinatorDelegate {
-    func editListingCoordinatorDidCancel(_ coordinator: EditListingCoordinator) {
-        delegate?.sellCoordinatorDidCancel(self)
+// MARK: - BlockingPostingNavigator
+
+extension SellCoordinator: BlockingPostingNavigator  {
+    func openCamera() {
+        let postListingVM = PostListingViewModel(source: .onboardingBlockingPosting,
+                                                 postCategory: nil,
+                                                 listingTitle: nil,
+                                                 isBlockingPosting: true)
+        postListingVM.navigator = self
+        let postListingVC = PostListingViewController(viewModel: postListingVM,
+                                                      forcedInitialTab: nil)
+        navigationController.pushViewController(postListingVC, animated: true)
     }
-    func editListingCoordinator(_ coordinator: EditListingCoordinator, didFinishWithListing listing: Listing) {
-        delegate?.sellCoordinator(self, didFinishWithListing: listing)
+    
+    func openPrice(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+        let viewModel = BlockingPostingAddPriceViewModel(listing: listing,
+                                                         images: images,
+                                                         imageSource: imageSource,
+                                                         postingSource: postingSource)
+        viewModel.navigator = self
+        let vc = BlockingPostingAddPriceViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func openListingPosted(listing: Listing, images: [UIImage], imageSource: EventParameterPictureSource, postingSource: PostingSource) {
+        let viewModel = ListingPostedDescriptiveViewModel(listing: listing,
+                                                          listingImages: images,
+                                                          imageSource: imageSource,
+                                                          postingSource: postingSource)
+        viewModel.navigator = self
+        let vc = ListingPostedDescriptiveViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
+    func openCategoriesPickerWith(selectedCategory: ListingCategory?, delegate: PostingCategoriesPickDelegate) {
+        let viewModel = PostingCategoriesPickViewModel(selectedCategory: selectedCategory)
+        viewModel.delegate = delegate
+        viewModel.navigator = self
+        let viewController = PostingCategoriesPickViewController(viewModel: viewModel)
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    func closeCategoriesPicker() {
+        let _ = navigationController.popViewController(animated: true)
+    }
+
+    func closePosting() {
+        cancelPostListing()
+    }
+
+    func postingSucceededWith(listing: Listing) {
+        closeCoordinator(animated: true) { [weak self] in
+            guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
+            delegate.sellCoordinator(strongSelf, didFinishWithListing: listing)
+        }
+    }
+    
+    func openListingEditionLoading(listingParams: ListingEditionParams,
+                                   listing: Listing,
+                                   images: [UIImage],
+                                   imageSource: EventParameterPictureSource,
+                                   postingSource: PostingSource) {
+        let viewModel = BlockingPostingListingEditionViewModel(listingParams: listingParams,
+                                                               listing: listing,
+                                                               images: images,
+                                                               imageSource: imageSource,
+                                                               postingSource: postingSource)
+        viewModel.navigator = self
+        let vc = BlockingPostingListingEditionViewController(viewModel: viewModel)
+        navigationController.pushViewController(vc, animated: false)
     }
 }
 

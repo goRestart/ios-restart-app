@@ -103,11 +103,11 @@ class ChatListingView: UIView {
 
 extension ChatListingView {
     func setAccessibilityIds() {
-        userName.accessibilityId = .chatListingViewUserNameLabel
-        userAvatar.accessibilityId = .chatListingViewUserAvatar
-        listingName.accessibilityId = .chatListingViewListingNameLabel
-        listingPrice.accessibilityId = .chatListingViewListingPriceLabel
-        listingButton.accessibilityId = .chatListingViewListingButton
-        userButton.accessibilityId = .chatListingViewUserButton
+        userName.set(accessibilityId: .chatListingViewUserNameLabel)
+        userAvatar.set(accessibilityId: .chatListingViewUserAvatar)
+        listingName.set(accessibilityId: .chatListingViewListingNameLabel)
+        listingPrice.set(accessibilityId: .chatListingViewListingPriceLabel)
+        listingButton.set(accessibilityId: .chatListingViewListingButton)
+        userButton.set(accessibilityId: .chatListingViewUserButton)
     }
 }

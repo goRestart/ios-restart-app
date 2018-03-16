@@ -63,9 +63,9 @@ class ExpressChatCell: UICollectionViewCell {
     }
 
     func setupAccessibilityIds() {
-        self.accessibilityId = .expressChatCell
-        self.titleLabel.accessibilityId = .expressChatCellListingTitle
-        self.priceLabel.accessibilityId = .expressChatCellListingPrice
-        self.selectedImageView.accessibilityId = .expressChatCellTickSelected
+        self.set(accessibilityId: .expressChatCell)
+        self.titleLabel.set(accessibilityId: .expressChatCellListingTitle)
+        self.priceLabel.set(accessibilityId: .expressChatCellListingPrice)
+        self.selectedImageView.set(accessibilityId: .expressChatCellTickSelected)
     }
 }

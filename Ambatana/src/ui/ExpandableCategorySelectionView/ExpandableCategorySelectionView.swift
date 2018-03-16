@@ -86,7 +86,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         viewModel.categoriesAvailable.forEach({ (category) in
             guard let actionIndex = viewModel.categoriesAvailable.index(of: category) else { return }
             
-            let button = UIButton(type: .custom)
+            let button = LetgoButton()
             switch category.style {
             case .redBackground:
                 button.setStyle(.primary(fontSize: .medium))
@@ -97,7 +97,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
             button.setImage(category.icon, for: .normal)
             button.setTitle(category.title, for: .normal)
             button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-            button.accessibilityId = .expandableCategorySelectionButton
+            button.set(accessibilityId: .expandableCategorySelectionButton)
             button.translatesAutoresizingMaskIntoConstraints = false
             button.centerTextAndImage(spacing: 10)
             addSubview(button)
@@ -116,8 +116,7 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
         clipsToBounds = true
         backgroundColor = UIColor.black.withAlphaComponent(0.5)
         
-        let button = UIButton(type: .custom)
-        button.setStyle(.secondary(fontSize: .medium, withBorder: false))
+        let button = LetgoButton(withStyle: .secondary(fontSize: .medium, withBorder: false))
         button.setImage(#imageLiteral(resourceName: "ic_close_red"), for: .normal)
         button.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -169,8 +168,8 @@ class ExpandableCategorySelectionView: UIView, UIGestureRecognizerDelegate , Tag
     }
     
     fileprivate func setAccesibilityIds() {
-        accessibilityId = .expandableCategorySelectionView
-        closeButton.accessibilityId = .expandableCategorySelectionCloseButton
+        set(accessibilityId: .expandableCategorySelectionView)
+        closeButton.set(accessibilityId: .expandableCategorySelectionCloseButton)
     }
     
     /// We choose the layout depending on the content size
@@ -276,7 +275,7 @@ fileprivate extension ExpandableCategory {
             switch listingCategory {
             case .unassigned:
                 return LGLocalizedString.categoriesUnassignedItems
-            case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+            case .motorsAndAccessories, .cars, .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .services:
                 return listingCategory.name
             case .realEstate:
                 return FeatureFlags.sharedInstance.realEstateNewCopy.isActive ? LGLocalizedString.productPostSelectCategoryRealEstate : LGLocalizedString.productPostSelectCategoryHousing
@@ -297,7 +296,7 @@ fileprivate extension ExpandableCategory {
                 return #imageLiteral(resourceName: "motorsAndAccesories")
             case .realEstate:
                 return #imageLiteral(resourceName: "housingIcon")
-            case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames:
+            case .homeAndGarden, .babyAndChild, .electronics, .fashionAndAccesories, .moviesBooksAndMusic, .other, .sportsLeisureAndGames, .services:
                 return listingCategory.image
             }
         case .mostSearchedItems:

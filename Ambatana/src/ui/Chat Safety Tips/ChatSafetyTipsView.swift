@@ -14,7 +14,7 @@ class ChatSafetyTipsView: UIView {
     @IBOutlet weak var topIcon: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
-    @IBOutlet weak var okButton: UIButton!
+    @IBOutlet weak var okButton: LetgoButton!
     
     // > Data
     var dismissBlock: (() -> Void)?
@@ -74,6 +74,6 @@ class ChatSafetyTipsView: UIView {
         messageLabel.text = LGLocalizedString.chatSafetyTipsMessage
         okButton.setTitle(LGLocalizedString.commonOk, for: .normal)
 
-        okButton.accessibilityId = .safetyTipsOkButton
+        okButton.set(accessibilityId: .safetyTipsOkButton)
     }
 }

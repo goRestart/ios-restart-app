@@ -33,12 +33,20 @@ class ChatCellDrawerFactory {
             return ChatOtherInfoCellDrawer(autoHide: autoHide)
         case .askPhoneNumber:
             return ChatAskPhoneNumberCellDrawer(autoHide: autoHide)
-        case .chatNorris:
-            // 🦄
-            if isMine {
-                return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide, showClock: showClock)
-            } else {
-                return ChatOthersMessageCellDrawer(autoHide: autoHide)
+        case let .chatNorris(type,_,_,_,_):
+            switch type {
+            case .accepted, .rejected:
+                if isMine {
+                    return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide, showClock: showClock)
+                } else {
+                    return ChatOthersMessageCellDrawer(autoHide: autoHide)
+                }
+            case .requested:
+                if isMine {
+                    return ChatMyMeetingCellDrawer(autoHide: autoHide)
+                } else {
+                    return ChatOtherMeetingCellDrawer(autoHide: autoHide)
+                }
             }
         case .interlocutorIsTyping:
             return ChatInterlocutorIsTypingCellDrawer(autoHide: autoHide)
@@ -53,5 +61,8 @@ class ChatCellDrawerFactory {
         ChatOtherInfoCellDrawer.registerCell(tableView)
         ChatAskPhoneNumberCellDrawer.registerCell(tableView)
         ChatInterlocutorIsTypingCellDrawer.registerCell(tableView)
+
+        ChatOtherMeetingCellDrawer.registerCell(tableView)
+        ChatMyMeetingCellDrawer.registerCell(tableView)
     }
 }

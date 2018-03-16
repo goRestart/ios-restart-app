@@ -66,6 +66,16 @@ enum ChatViewMessageType {
                 return lhsText == rhsText
             default: return false
             }
+        case let .chatNorris(lhsType, lhsDate, lhsLocationName, lhsCoordinates, lhsStatus):
+            switch rhs {
+            case let .chatNorris(rhsType, rhsDate, rhsLocationName, rhsCoordinates, rhsStatus):
+                return lhsType == rhsType &&
+                    lhsDate == rhsDate &&
+                    lhsLocationName == rhsLocationName &&
+                    lhsCoordinates == rhsCoordinates &&
+                    lhsStatus == rhsStatus
+            default: return false
+            }
         case .interlocutorIsTyping:
             switch rhs {
             case .interlocutorIsTyping:

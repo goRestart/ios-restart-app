@@ -17,21 +17,16 @@ class ChangeEmailView: UIView {
     let buttonHeight: CGFloat = 50
     
     
-    let emailTitleLabel: UILabel
-    let emailLabel: UILabel
-    let emailTextField: LGTextField
-    let saveButton: UIButton
+    let emailTitleLabel = UILabel()
+    let emailLabel = UILabel()
+    let emailTextField = LGTextField()
+    let saveButton = LetgoButton(withStyle: .primary(fontSize: .big))
     
     private var borders: [CALayer] = []
     
     // MARK: - Lifecycle
     
     init() {
-        emailTitleLabel = UILabel()
-        emailLabel = UILabel()
-        emailTextField = LGTextField()
-        saveButton = UIButton(type: .custom)
-        
         super.init(frame: CGRect.zero)
         
         addSubviews([emailTitleLabel, emailLabel, emailTextField, saveButton])
@@ -88,6 +83,5 @@ class ChangeEmailView: UIView {
         if #available(iOS 10, *) {
             emailTextField.textContentType = .emailAddress
         }
-        saveButton.setStyle(.primary(fontSize: .big))
     }
 }

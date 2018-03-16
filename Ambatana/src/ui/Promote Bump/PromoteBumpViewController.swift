@@ -16,7 +16,7 @@ class PromoteBumpViewController: BaseViewController {
     private var alertView: UIView = UIView()
     private var titleLabel: UILabel = UILabel()
     private var iconView: UIImageView = UIImageView()
-    private var sellFasterButton: UIButton = UIButton(type: .custom)
+    private var sellFasterButton = LetgoButton(withStyle: .primary(fontSize: .big))
     private var laterButton: UIButton = UIButton(type: .system)
 
     private weak var viewModel: PromoteBumpViewModel?
@@ -61,7 +61,6 @@ class PromoteBumpViewController: BaseViewController {
 
         sellFasterButton.frame = CGRect(x: 0, y: 0, width: 0, height: LGUIKitConstants.mediumButtonHeight)
         sellFasterButton.setTitle(viewModel?.sellFasterText, for: .normal)
-        sellFasterButton.setStyle(.primary(fontSize: .big))
         sellFasterButton.addTarget(self, action: #selector(sellFaster), for: .touchUpInside)
 
         laterButton.setTitle(viewModel?.laterText, for: .normal)
@@ -116,10 +115,10 @@ class PromoteBumpViewController: BaseViewController {
     }
 
     func setupAccessibilityIds() {
-        alertView.accessibilityId = .promoteBumpUpView
-        titleLabel.accessibilityId = .promoteBumpUpTitle
-        sellFasterButton.accessibilityId = .promoteBumpUpSellFasterButton
-        laterButton.accessibilityId = .promoteBumpUpLaterButton
+        alertView.set(accessibilityId: .promoteBumpUpView)
+        titleLabel.set(accessibilityId: .promoteBumpUpTitle)
+        sellFasterButton.set(accessibilityId: .promoteBumpUpSellFasterButton)
+        laterButton.set(accessibilityId: .promoteBumpUpLaterButton)
     }
 
 

@@ -36,7 +36,6 @@ class ABTests {
     let showPriceStepRealEstatePosting = IntABDynamicVar(key: "20171106RealEstatePostingOrder", defaultValue: 0, abGroupType: .legacyABTests)
     let showClockInDirectAnswer = IntABDynamicVar(key: "20171031ShowClockInDirectAnswer", defaultValue: 0, abGroupType: .legacyABTests)
     let allowCallsForProfessionals = IntABDynamicVar(key: "20171228allowCallsForProfessionals", defaultValue: 0, abGroupType: .legacyABTests)
-    let moreInfoAFShOrDFP = IntABDynamicVar(key: "20171213MoreInfoAFShOrDFP", defaultValue: 0, abGroupType: .legacyABTests)
     let realEstateImprovements = IntABDynamicVar(key: "20180103RealEstateImprovements", defaultValue: 0, abGroupType: .legacyABTests)
     let mostSearchedDemandedItems = IntABDynamicVar(key: "20180104MostSearchedDemandedItems", defaultValue: 0, abGroupType: .retention)
     let realEstatePromos = IntABDynamicVar(key: "20180108RealEstatePromos", defaultValue: 0, abGroupType: .legacyABTests)
@@ -53,10 +52,15 @@ class ABTests {
     let showBumpUpBannerOnNotValidatedListings = IntABDynamicVar(key: "20180214showBumpUpBannerOnNotValidatedListings", defaultValue: 0, abGroupType: .money)
     let newUserProfileView = IntABDynamicVar(key: "20180221NewUserProfileView", defaultValue: 0, abGroupType: .core)
     let turkeyBumpPriceVATAdaptation = IntABDynamicVar(key: "20180221TurkeyBumpPriceVATAdaptation", defaultValue: 0, abGroupType: .money)
-    let searchMultiwordExpressions = IntABDynamicVar(key: "20180220SearchMultiwordExpressions", defaultValue: 0, abGroupType: .core)
+    let searchImprovements = IntABDynamicVar(key: "20180313SearchImprovements", defaultValue: 0, abGroupType: .core)
     let showChatSafetyTips = BoolABDynamicVar(key: "20180226ShowChatSafetyTips", defaultValue: false, abGroupType: .chat)
+    let onboardingIncentivizePosting = IntABDynamicVar(key: "20180215OnboardingIncentivizePosting", defaultValue: 0, abGroupType: .retention)
     let discardedProducts = IntABDynamicVar(key: "20180219DiscardedProducts", defaultValue: 0, abGroupType: .core)
+    let promoteBumpInEdit = IntABDynamicVar(key: "20180227promoteBumpInEdit", defaultValue: 0, abGroupType: .money)
     let userIsTyping = IntABDynamicVar(key: "20180305UserIsTyping", defaultValue: 0, abGroupType: .chat)
+    let servicesCategoryEnabled = IntABDynamicVar(key: "20180305ServicesCategoryEnabled", defaultValue: 0, abGroupType: .products)
+    let copyForChatNowInTurkey = IntABDynamicVar(key: "20180312CopyForChatNowInTurkey", defaultValue: 0, abGroupType: .money)
+    let increaseNumberOfPictures = IntABDynamicVar(key: "20180314IncreaseNumberOfPictures", defaultValue: 0, abGroupType: .realEstate)
 
     init() {
     }
@@ -85,7 +89,6 @@ class ABTests {
         result.append(showPriceStepRealEstatePosting)
         result.append(showClockInDirectAnswer)
         result.append(allowCallsForProfessionals)
-        result.append(moreInfoAFShOrDFP)
         result.append(realEstateImprovements)
         result.append(mostSearchedDemandedItems)
         result.append(realEstatePromos)
@@ -102,10 +105,15 @@ class ABTests {
         result.append(showBumpUpBannerOnNotValidatedListings)
         result.append(newUserProfileView)
         result.append(turkeyBumpPriceVATAdaptation)
-        result.append(searchMultiwordExpressions)
+        result.append(searchImprovements)
         result.append(showChatSafetyTips)
+        result.append(onboardingIncentivizePosting)
         result.append(discardedProducts)
+        result.append(promoteBumpInEdit)
         result.append(userIsTyping)
+        result.append(servicesCategoryEnabled)
+        result.append(copyForChatNowInTurkey)
+        result.append(increaseNumberOfPictures)
         
         return result
     }

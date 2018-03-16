@@ -17,12 +17,12 @@ class FloatingButton: UIView {
     private static let titleIconSpacing: CGFloat = 10
     private static let sideMargin: CGFloat = 25
     private static let iconSize: CGFloat = 28
-    
-    private let containerView: UIView
-    private let icon: UIImageView
+
+    private let containerView = UIView()
+    private let icon = UIImageView(frame: CGRect.zero)
     private let iconPosition: FloatingIconPosition
-    private let label: UILabel
-    private let button: UIButton
+    private let label = UILabel()
+    private let button = LetgoButton(withStyle: .primary(fontSize: .big))
     private var widthConstraint = NSLayoutConstraint()
 
     var buttonTouchBlock: (() -> ())?
@@ -30,14 +30,10 @@ class FloatingButton: UIView {
     // MARK: - Lifecycle
     
     init(with title: String, image: UIImage?, position: FloatingIconPosition) {
-        containerView = UIView()
-        icon = UIImageView(frame: CGRect.zero)
         icon.image = image
         iconPosition = position
-        label = UILabel()
         label.text = title
-        button = UIButton(type: .custom)
-        
+
         super.init(frame: CGRect.zero)
         
         setupConstraints()
@@ -141,7 +137,6 @@ class FloatingButton: UIView {
         icon.contentMode = .scaleAspectFit
         label.font = UIFont.veryBigButtonFont
         label.textColor = UIColor.white
-        button.setStyle(.primary(fontSize: .big)) // just for backgrounds
         button.addTarget(self, action: #selector(didPressButton), for: .touchUpInside)
     }
 

@@ -72,7 +72,7 @@ class UserViewHeader: UIView {
     @IBOutlet weak var simpleEmailButtonWidth: NSLayoutConstraint!
 
     @IBOutlet weak var buildTrustSeparator: UIView!
-    @IBOutlet weak var buildTrustButton: UIButton!
+    @IBOutlet weak var buildTrustButton: LetgoButton!
     @IBOutlet weak var buildTrustButtonHeight: NSLayoutConstraint!
     @IBOutlet weak var buildTrustContainerButtonWidth: NSLayoutConstraint!
 
@@ -91,6 +91,8 @@ class UserViewHeader: UIView {
     
     @IBOutlet weak var dummyUserDisclaimerContainerViewHeight: NSLayoutConstraint!
     weak var delegate: UserViewHeaderDelegate?
+    
+    @IBOutlet weak var proTagImageView: UIImageView!
 
     let tab = Variable<UserViewHeaderTab>(.selling)
 
@@ -136,6 +138,7 @@ class UserViewHeader: UIView {
             avatarRatingsContainerView.alpha = itemsAlpha
             userRelationView.alpha = itemsAlpha
             verifiedSimpleContainer.alpha = itemsAlpha
+            proTagImageView.alpha = itemsAlpha
 
             avatarButton.isEnabled = itemsAlpha != 0
             ratingsButton.isEnabled = itemsAlpha != 0
@@ -356,7 +359,6 @@ extension UserViewHeader {
     }
 
     private func updateAvatarRatingsContainerView() {
-        let height = avatarRatingsContainerView.bounds.height
         avatarRatingsContainerView.setRoundedCorners()
     }
 

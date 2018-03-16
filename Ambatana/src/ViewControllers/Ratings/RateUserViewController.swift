@@ -31,7 +31,7 @@ class RateUserViewController: KeyboardViewController {
     @IBOutlet weak var descriptionCharCounter: UILabel!
     
     @IBOutlet weak var footerView: UIView!
-    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var sendButton: LetgoButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var footerLabel: UILabel!
 
@@ -297,16 +297,16 @@ extension RateUserViewController: UITextViewDelegate {
 
 extension RateUserViewController {
     func setAccesibilityIds() {
-        userNameText.accessibilityId = .rateUserUserNameLabel
+        userNameText.set(accessibilityId: .rateUserUserNameLabel)
         if stars.count == 5 {
-            stars[0].accessibilityId = .rateUserStarButton1
-            stars[1].accessibilityId = .rateUserStarButton2
-            stars[2].accessibilityId = .rateUserStarButton3
-            stars[3].accessibilityId = .rateUserStarButton4
-            stars[4].accessibilityId = .rateUserStarButton5
+            stars[0].set(accessibilityId: .rateUserStarButton1)
+            stars[1].set(accessibilityId: .rateUserStarButton2)
+            stars[2].set(accessibilityId: .rateUserStarButton3)
+            stars[3].set(accessibilityId: .rateUserStarButton4)
+            stars[4].set(accessibilityId: .rateUserStarButton5)
         }
-        descriptionText.accessibilityId = .rateUserDescriptionField
-        activityIndicator.accessibilityId = .rateUserLoading
-        sendButton.accessibilityId = .rateUserSendButton
+        descriptionText.set(accessibilityId: .rateUserDescriptionField)
+        activityIndicator.set(accessibilityId: .rateUserLoading)
+        sendButton.set(accessibilityId: .rateUserSendButton)
     }
 }

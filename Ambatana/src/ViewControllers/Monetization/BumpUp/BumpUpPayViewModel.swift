@@ -12,34 +12,58 @@ import LGCoreKit
 class BumpUpPayViewModel: BaseViewModel {
 
     var listing: Listing
-    let paymentItemId: String?
+    private let paymentItemId: String?
+    private let storeProductId: String?
+    private let typePage: EventParameterTypePage?
 
     var price: String {
         return purchaseableProduct.formattedCurrencyPrice
     }
-    var purchaseableProduct: PurchaseableProduct
-    var purchasesShopper: PurchasesShopper
+    private let purchaseableProduct: PurchaseableProduct
+    private let purchasesShopper: PurchasesShopper
+    private let tracker: Tracker
 
     weak var navigator: BumpUpNavigator?
 
 
     // MARK: - Lifecycle
 
-    convenience init(listing: Listing, purchaseableProduct: PurchaseableProduct, paymentItemId: String?) {
+    convenience init(listing: Listing,
+                     purchaseableProduct: PurchaseableProduct,
+                     paymentItemId: String?,
+                     storeProductId: String?,
+                     typePage: EventParameterTypePage?) {
         let purchasesShopper = LGPurchasesShopper.sharedInstance
         self.init(listing: listing, purchaseableProduct: purchaseableProduct,
-                  purchasesShopper: purchasesShopper, paymentItemId: paymentItemId)
+                  purchasesShopper: purchasesShopper, paymentItemId: paymentItemId,
+                  storeProductId: storeProductId, typePage: typePage, tracker: TrackerProxy.sharedInstance)
     }
 
-    init(listing: Listing, purchaseableProduct: PurchaseableProduct, purchasesShopper: PurchasesShopper,
-         paymentItemId: String?) {
+    init(listing: Listing,
+         purchaseableProduct: PurchaseableProduct,
+         purchasesShopper: PurchasesShopper,
+         paymentItemId: String?,
+         storeProductId: String?,
+         typePage: EventParameterTypePage?,
+         tracker: Tracker) {
         self.listing = listing
         self.purchaseableProduct = purchaseableProduct
         self.purchasesShopper = purchasesShopper
+        self.tracker = tracker
         self.paymentItemId = paymentItemId
+        self.storeProductId = storeProductId
+        self.typePage = typePage
     }
 
+    func viewDidAppear() {
+        let trackerEvent = TrackerEvent.bumpBannerInfoShown(type: EventParameterBumpUpType(bumpType: .priced),
+                                                            listingId: listing.objectId,
+                                                            storeProductId: storeProductId,
+                                                            typePage: typePage)
+        tracker.trackEvent(trackerEvent)
+    }
 
+    
     // MARK: - Public methods
 
     func bumpUpPressed() {

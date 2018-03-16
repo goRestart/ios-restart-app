@@ -16,7 +16,7 @@ class ChatDisclaimerCell: UITableViewCell, ReusableCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
-    @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var button: LetgoButton!
     
     @IBOutlet weak var backgroundTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
@@ -123,7 +123,8 @@ fileprivate extension ChatDisclaimerCell {
 
 extension ChatDisclaimerCell {
     func setAccessibilityIds() {
-        messageLabel.accessibilityId = .chatDisclaimerCellMessageLabel
-        button.accessibilityId = .chatDisclaimerCellButton
+        set(accessibilityId: .chatDisclaimerCellContainer)
+        messageLabel.set(accessibilityId: .chatDisclaimerCellMessageLabel)
+        button.set(accessibilityId: .chatDisclaimerCellButton)
     }
 }

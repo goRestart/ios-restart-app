@@ -26,7 +26,7 @@ UITableViewDelegate  {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var footerViewBottom: NSLayoutConstraint!
-    @IBOutlet weak var footerButton: UIButton!
+    @IBOutlet weak var footerButton: LetgoButton!
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     

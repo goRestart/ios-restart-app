@@ -119,6 +119,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_product_cell_chat_now_button", comment: "")
 	}
 
+	static var bumpUpProductCellChatNowButtonA: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_a", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonB: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_b", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonC: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_c", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonD: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_d", comment: "")
+	}
+
 	static var bumpUpProductDetailFeaturedLabel: String {
 		return NSLocalizedString("bump_up_product_detail_featured_label", comment: "")
 	}

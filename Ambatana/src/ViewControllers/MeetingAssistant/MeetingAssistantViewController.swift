@@ -25,7 +25,7 @@ class MeetingAssistantViewController: BaseViewController {
 
     @IBOutlet weak var selectDayLabel: UILabel!
 
-    @IBOutlet weak var sendMeetingButton: UIButton!
+    @IBOutlet weak var sendMeetingButton: LetgoButton!
 
     @IBOutlet weak var datePickerContainer: UIView!
     @IBOutlet weak var datePicker: UIDatePicker!

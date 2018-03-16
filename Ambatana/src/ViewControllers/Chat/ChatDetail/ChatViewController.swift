@@ -10,8 +10,11 @@
 import UIKit
 import LGCoreKit
 import RxSwift
+import MapKit
 
 class ChatViewController: TextViewController {
+
+    var mapContainer: UIView = UIView() // UIVisualEffectView = UIVisualEffectView()
 
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44
@@ -127,6 +130,12 @@ class ChatViewController: TextViewController {
         if parent == nil {
             viewModel.wentBack()
         }
+    }
+    
+    // MARK: - Status Bar style
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
     }
     
     // MARK: - TextViewController methods
@@ -411,7 +420,7 @@ extension ChatViewController {
 
 extension ChatViewController: ChatBannerDelegate {
     func chatBannerDidFinish() {
-        guard !viewModel.interlocutorIsProfessional.value else { return }
+        guard !viewModel.interlocutorProfessionalInfo.value.isProfessional else { return }
         hideExpressChatBanner()
     }
 }
@@ -462,8 +471,8 @@ fileprivate extension ChatViewController {
             }
             }.disposed(by: disposeBag)
 
-        viewModel.interlocutorIsProfessional.asObservable()
-            .map { !$0 }
+        viewModel.interlocutorProfessionalInfo.asObservable()
+            .map { !$0.isProfessional }
             .bind(to: listingView.proTag.rx.isHidden)
             .disposed(by: disposeBag)
 
@@ -526,13 +535,10 @@ fileprivate extension ChatViewController {
             }
         }.disposed(by: disposeBag)
 
-        let showProfessionalBanner = Observable.combineLatest(viewModel.interlocutorIsProfessional.asObservable(),
-                                                              viewModel.interlocutorPhoneNumber.asObservable()) { ($0, $1) }
-
-        showProfessionalBanner.asObservable().bind { [weak self] (isPro, phoneNum) in
+        viewModel.interlocutorProfessionalInfo.asObservable().bind { [weak self] professionalInfo in
             guard let strongSelf = self else { return }
-            guard isPro else { return }
-            strongSelf.setupProfessionalSellerBannerWithPhone(phoneNumber: phoneNum)
+            guard professionalInfo.isProfessional else { return }
+            strongSelf.setupProfessionalSellerBannerWithPhone(phoneNumber: professionalInfo.phoneNumber)
             strongSelf.showProfessionalSellerBanner()
         }.disposed(by: disposeBag)
         
@@ -564,6 +570,17 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource  {
         drawer.draw(cell, message: message)
         UIView.performWithoutAnimation {
             cell.transform = tableView.transform
+        }
+
+        if cell is ChatOtherMeetingCell {
+            let otherMeetingCell = cell as! ChatOtherMeetingCell
+            otherMeetingCell.delegate = self
+            otherMeetingCell.locationDelegate = self
+            return otherMeetingCell
+        } else if cell is ChatMyMeetingCell {
+            let myMeetingCell = cell as! ChatMyMeetingCell
+            myMeetingCell.locationDelegate = self
+            return myMeetingCell
         }
 
         return cell
@@ -766,13 +783,13 @@ extension ChatViewController: ChatListingViewDelegate {
 
 extension ChatViewController {
     func setAccessibilityIds() {
-        tableView.accessibilityId = .chatViewTableView
-        navigationItem.rightBarButtonItem?.accessibilityId = .chatViewMoreOptionsButton
-        navigationItem.backBarButtonItem?.accessibilityId = .chatViewBackButton
-        sendButton.accessibilityId = .chatViewSendButton
-        textViewBar.accessibilityId = .chatViewTextInputBar
-        expressChatBanner.accessibilityId = .expressChatBanner
-        professionalSellerBanner.accessibilityId = .professionalSellerChatBanner
+        tableView.set(accessibilityId: .chatViewTableView)
+        navigationItem.rightBarButtonItem?.set(accessibilityId: .chatViewMoreOptionsButton)
+        navigationItem.backBarButtonItem?.set(accessibilityId: .chatViewBackButton)
+        sendButton.set(accessibilityId: .chatViewSendButton)
+        textViewBar.set(accessibilityId: .chatViewTextInputBar)
+        expressChatBanner.set(accessibilityId: .expressChatBanner)
+        professionalSellerBanner.set(accessibilityId: .professionalSellerChatBanner)
     }
 }
 
@@ -796,5 +813,99 @@ extension ChatViewController: UITextFieldDelegate {
             }
         }
         return true
+    }
+}
+
+// HACKATON
+
+extension ChatViewController: OtherMeetingCellDelegate {
+    func acceptMeeting() {
+        viewModel.acceptMeeting()
+    }
+
+    func rejectMeeting() {
+        viewModel.rejectMeeting()
+    }
+
+//    func cancelMeeting(meetingId: String) {
+//        viewModel.cancelMeeting(meetingId: meetingId)
+//    }
+}
+
+extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
+    func imagePressed(coords: LGLocationCoordinates2D, originPoint: CGPoint) {
+
+        guard let topView = navigationController?.view else { return }
+
+        let mapView = MKMapView()
+        mapView.delegate = self
+        mapView.setCenter(coords.coordinates2DfromLocation(), animated: true)
+
+        mapView.layer.cornerRadius = 20.0
+
+        let clCoordinate = coords.coordinates2DfromLocation()
+        let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2, Constants.accurateRegionRadius*2)
+        mapView.setRegion(region, animated: true)
+
+        mapView.isZoomEnabled = true
+        mapView.isScrollEnabled = true
+        mapView.isPitchEnabled = true
+
+        let mapOverlay: MKOverlay = MKCircle(center:coords.coordinates2DfromLocation(),
+                                             radius: 300)
+
+        mapView.add(mapOverlay)
+
+        let effect = UIBlurEffect(style: .dark)
+        let mapBgBlurEffect = UIVisualEffectView(effect: effect)
+
+        mapContainer.alpha = 0.0
+
+        let mapTap = UITapGestureRecognizer(target: self, action: #selector(mapTapped))
+        mapView.addGestureRecognizer(mapTap)
+        mapBgBlurEffect.addGestureRecognizer(mapTap)
+
+        mapContainer.translatesAutoresizingMaskIntoConstraints = false
+        mapBgBlurEffect.translatesAutoresizingMaskIntoConstraints = false
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+
+        topView.addSubview(mapContainer)
+
+        mapContainer.layout(with: topView).fill()
+
+        mapContainer.addSubview(mapBgBlurEffect)
+        mapBgBlurEffect.layout(with: mapContainer).fill()
+
+        mapContainer.addSubview(mapView)
+
+        mapView.layout().height(300).width(300)
+        mapView.layout(with: mapContainer).center()
+
+        textView.resignFirstResponder()
+
+        mapContainer.frame = CGRect(x: originPoint.x, y: originPoint.y, width: 0, height: 0)
+
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.mapContainer.alpha = 1.0
+            topView.layoutIfNeeded()
+        }
+    }
+
+    @objc func mapTapped() {
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            self?.mapContainer.alpha = 0.0
+        }) { [weak self] _ in
+            self?.mapContainer.removeFromSuperview()
+            self?.textView.becomeFirstResponder()
+        }
+    }
+
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if overlay is MKCircle {
+            let renderer = MKCircleRenderer(overlay: overlay)
+            renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.10)
+            return renderer
+        }
+        return MKCircleRenderer()
     }
 }

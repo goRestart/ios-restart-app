@@ -763,12 +763,12 @@ extension MainListingsViewController: UITableViewDelegate, UITableViewDataSource
 
 extension MainListingsViewController {
     func setAccessibilityIds() {
-        navigationItem.rightBarButtonItem?.accessibilityId = .mainListingsFilterButton
-        listingListView.accessibilityId = .mainListingsListView
-        tagsContainerView.accessibilityId = .mainListingsTagsCollection
-        infoBubbleLabel.accessibilityId = .mainListingsInfoBubbleLabel
-        navbarSearch.accessibilityId = .mainListingsNavBarSearch
-        suggestionsSearchesTable.accessibilityId = .mainListingsSuggestionSearchesTable
-        navigationItem.leftBarButtonItem?.accessibilityId = .mainListingsInviteButton
+        navigationItem.rightBarButtonItem?.set(accessibilityId: .mainListingsFilterButton)
+        listingListView.set(accessibilityId: .mainListingsListView)
+        tagsContainerView.set(accessibilityId: .mainListingsTagsCollection)
+        infoBubbleLabel.set(accessibilityId: .mainListingsInfoBubbleLabel)
+        navbarSearch.set(accessibilityId: .mainListingsNavBarSearch)
+        suggestionsSearchesTable.set(accessibilityId: .mainListingsSuggestionSearchesTable)
+        navigationItem.leftBarButtonItem?.set(accessibilityId: .mainListingsInviteButton)
     }
 }

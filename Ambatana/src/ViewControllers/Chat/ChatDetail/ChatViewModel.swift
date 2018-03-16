@@ -55,7 +55,10 @@ struct EmptyConversation: ChatConversation {
     }
 }
 
-
+struct InterlocutorProfessionalInfo {
+    var isProfessional: Bool
+    var phoneNumber: String?
+}
 
 enum DirectAnswersState {
     case notAvailable, visible, hidden
@@ -101,8 +104,7 @@ class ChatViewModel: BaseViewModel {
     let shouldShowExpressBanner = Variable<Bool>(false)
     let relatedListingsState = Variable<ChatRelatedItemsState>(.loading)
     var shouldUpdateQuickAnswers = Variable<Bool>(false)
-    let interlocutorIsProfessional = Variable<Bool>(false)
-    let interlocutorPhoneNumber = Variable<String?>(nil)
+    let interlocutorProfessionalInfo = Variable<InterlocutorProfessionalInfo>(InterlocutorProfessionalInfo(isProfessional: false, phoneNumber: nil))
     let lastMessageSentType = Variable<ChatWrapperMessageType?>(nil)
     let messagesDidFinishRefreshing = Variable<Bool>(false)
     let interlocutorTypingChatViewMessage: ChatViewMessage
@@ -245,14 +247,14 @@ class ChatViewModel: BaseViewModel {
                   stickersRepository: stickersRepository, tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager,
-                  predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil, isProfessional: false)
+                  predefinedMessage: predefinedMessage, openChatAutomaticMessage: nil, interlocutor: nil)
     }
     
     convenience init?(listing: Listing,
                       navigator: ChatDetailNavigator?,
                       source: EventParameterTypePage,
                       openChatAutomaticMessage: ChatWrapperMessageType?,
-                      isProfessional: Bool) {
+                      interlocutor: User?) {
         guard let _ = listing.objectId, let sellerId = listing.user.objectId else { return nil }
 
         let myUserRepository = Core.myUserRepository
@@ -276,7 +278,7 @@ class ChatViewModel: BaseViewModel {
                   stickersRepository: stickersRepository ,tracker: tracker, configManager: configManager,
                   sessionManager: sessionManager, keyValueStorage: keyValueStorage, navigator: navigator, featureFlags: featureFlags,
                   source: source, ratingManager: ratingManager, pushPermissionsManager: pushPermissionsManager, predefinedMessage: nil,
-                  openChatAutomaticMessage: openChatAutomaticMessage, isProfessional: isProfessional)
+                  openChatAutomaticMessage: openChatAutomaticMessage, interlocutor: interlocutor)
         self.setupConversationFrom(listing: listing)
     }
     
@@ -285,7 +287,7 @@ class ChatViewModel: BaseViewModel {
           tracker: Tracker, configManager: ConfigManager, sessionManager: SessionManager, keyValueStorage: KeyValueStorageable,
           navigator: ChatDetailNavigator?, featureFlags: FeatureFlaggeable, source: EventParameterTypePage,
           ratingManager: RatingManager, pushPermissionsManager: PushPermissionsManager, predefinedMessage: String?,
-          openChatAutomaticMessage: ChatWrapperMessageType?, isProfessional: Bool) {
+          openChatAutomaticMessage: ChatWrapperMessageType?, interlocutor: User?) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -305,7 +307,10 @@ class ChatViewModel: BaseViewModel {
         self.source = source
         self.predefinedMessage = predefinedMessage
         self.openChatAutomaticMessage = openChatAutomaticMessage
-        self.interlocutorIsProfessional.value = isProfessional
+        self.interlocutor = interlocutor
+        let interlocutorIsProfessional = interlocutor?.isProfessional ?? false
+        self.interlocutorProfessionalInfo.value = InterlocutorProfessionalInfo(isProfessional: interlocutorIsProfessional,
+                                                                               phoneNumber: interlocutor?.phone)
         interlocutorTypingChatViewMessage = chatViewMessageAdapter.createInterlocutorIsTyping()
         super.init()
         setupRx()
@@ -325,7 +330,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func didAppear() {
-        if chatEnabled.value && !interlocutorIsProfessional.value {
+        if chatEnabled.value &&  !interlocutorProfessionalInfo.value.isProfessional {
             delegate?.vmDidBeginEditing()
         }
     }
@@ -458,7 +463,7 @@ class ChatViewModel: BaseViewModel {
         Observable.combineLatest(expressBannerTriggered,
                                  relatedListingsObservable,
                                  expressMessagesAlreadySent.asObservable(),
-                                 interlocutorIsProfessional.asObservable()) { $0 && $1 && !$2 && !$3 }
+                                 interlocutorProfessionalInfo.asObservable()) { $0 && $1 && !$2 && !$3.isProfessional }
             .distinctUntilChanged().bind(to: shouldShowExpressBanner).disposed(by: disposeBag)
 
         let directAnswers: Observable<DirectAnswersState> = Observable.combineLatest(chatEnabled.asObservable(),
@@ -480,8 +485,8 @@ class ChatViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
                 guard let user = result.value else { return }
                 strongSelf.interlocutor = user
-                strongSelf.interlocutorIsProfessional.value = user.type == .pro
-                strongSelf.interlocutorPhoneNumber.value = user.phone
+                let proInfo = InterlocutorProfessionalInfo(isProfessional: user.isProfessional, phoneNumber: user.phone)
+                strongSelf.interlocutorProfessionalInfo.value = proInfo
                 if let userInfoMessage = strongSelf.userInfoMessage, strongSelf.shouldShowOtherUserInfo {
                     strongSelf.messages.append(userInfoMessage)
                 }
@@ -489,12 +494,12 @@ class ChatViewModel: BaseViewModel {
         }.disposed(by: disposeBag)
 
         let automaticMessagesSignal = Observable.combineLatest(messagesDidFinishRefreshing.asObservable(),
-                                                               interlocutorIsProfessional.asObservable(),
+                                                               interlocutorProfessionalInfo.asObservable(),
                                                                lastMessageSentType.asObservable()) { ($0, $1, $2) }
 
-        automaticMessagesSignal.asObservable().bind { [weak self] (messagesFinishedRefresh, isPro, messageType) in
+        automaticMessagesSignal.asObservable().bind { [weak self] (messagesFinishedRefresh, proInfo, messageType) in
             guard messagesFinishedRefresh else { return }
-            guard isPro else { return }
+            guard proInfo.isProfessional else { return }
             self?.professionalSellerAfterMessageEventsFor(messageType: messageType)
         }.disposed(by: disposeBag)
 
@@ -691,7 +696,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func professionalSellerBannerActionButtonTapped() {
-        guard let phoneNumber = interlocutorPhoneNumber.value else { return }
+        guard let phoneNumber = interlocutorProfessionalInfo.value.phoneNumber else { return }
         PhoneCallsHelper.call(phoneNumber: phoneNumber)
 
         trackCallSeller()
@@ -1289,7 +1294,7 @@ extension ChatViewModel {
         }
         guard let lastMessage = lastMessageSentType.value else { return !hasShownAskedPhoneMessage }
         return !hasShownAskedPhoneMessage &&
-            interlocutorIsProfessional.value &&
+            interlocutorProfessionalInfo.value.isProfessional &&
             messagesDidFinishRefreshing.value &&
             !lastMessage.isPhone
     }
@@ -1872,8 +1877,6 @@ extension ChatViewModel {
 
 extension ChatViewModel: MeetingAssistantDataDelegate {
     func sendMeeting(meeting: AssistantMeeting) {
-        print("🤡  THE VIEW MODEL!")
-        // 🦄
         sendMeetingMessage(meeting: meeting)
     }
 }
@@ -1889,18 +1892,52 @@ extension ChatViewModel {
 //        return currentSeller
 //    }
 
-    func acceptMeeting(meetingId: String) {
+    func acceptMeeting() {
+        // 🦄 UPdate last meeting as accepted and all the others as rejected/canceled?
         let acceptedMeeting = AssistantMeeting(meetingType: .accepted, date: nil, locationName: nil, coordinates: nil, status: .accepted)
         sendMeetingMessage(meeting: acceptedMeeting)
+        updateMeetings()
     }
 
-    func rejectMeeting(meetingId: String) {
+    func rejectMeeting() {
         let rejectedMeeting = AssistantMeeting(meetingType: .rejected, date: nil, locationName: nil, coordinates: nil, status: .rejected)
         sendMeetingMessage(meeting: rejectedMeeting)
+        updateMeetings()
     }
 
-//    func cancelMeeting(meetingId: String) {
-//        let canceledMeeting = AssistantMeeting(meetingType: .canceled, date: nil, locationName: nil, locationId: nil, location: nil, status: .canceled, meetingId: meetingId, buyerId: buyerId, sellerId: sellerId)
-//        sendMeetingMessage(meeting: canceledMeeting)
-//    }
+    private func updateMeetings() {
+        markAsAcceptedLastMeeting()
+        markAsRejectedOldMeetings()
+    }
+    private func markAsAcceptedLastMeeting() {
+//        let meets = messages.value.map { chatViewMessage in
+//            <#code#>
+//        }
+
+        let meetings: [ChatViewMessage] = messages.value.flatMap { [weak self] meeting in
+            switch meeting.type {
+            case let .chatNorris(type, _, _, _, _):
+                if type == .requested {
+                    return meeting
+                } else {
+                    return nil
+                }
+            default:
+                return nil
+            }
+        }
+
+        print("🚨🚨🚨🚨🚨🚨")
+        print(meetings.first)
+//        guard let convId = conversation.value.objectId else { return }
+//        guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
+//
+//        let readIds: [String] = chatMessages.filter { return $0.talkerId == interlocutorId && $0.readAt == nil }
+//            .flatMap { $0.objectId }
+
+    }
+
+    private func markAsRejectedOldMeetings() {
+
+    }
 }

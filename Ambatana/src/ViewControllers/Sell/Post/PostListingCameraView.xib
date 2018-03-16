@@ -172,7 +172,7 @@
                                 <action selector="onRetryPhotoButton:" destination="-1" eventType="touchUpInside" id="JFj-7h-uOS"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QjL-HL-daC" userLabel="UsePhotoBtn">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QjL-HL-daC" userLabel="UsePhotoBtn" customClass="LetgoButton" customModule="LetGo" customModuleProvider="target">
                             <rect key="frame" x="249" y="15" width="110" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="110" id="cg7-WM-up2"/>
@@ -215,7 +215,7 @@
                                     <color key="textColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A2s-m0-DUO" userLabel="actionBtn">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A2s-m0-DUO" userLabel="actionBtn" customClass="LetgoButton" customModule="LetGo" customModuleProvider="target">
                                     <rect key="frame" x="35" y="96.5" width="200" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="Mr8-vt-Jaw"/>

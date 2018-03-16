@@ -170,7 +170,7 @@ class MeetingParser {
             if let meetingLocationCoordinates = stringFrom(coordinates: meeting.coordinates) {
                 coordinatesString = " (\(meetingLocationCoordinates))"
             }
-            return meetingIntro + "\n\n" + "📍 " + meetingLocationName + " " + coordinatesString + "\n" + "🗓 \(meetingDateString)"
+            return meetingIntro + "\n\n" + "📍 " + meetingLocationName + " " + coordinatesString + "\n" + "🕐 \(meetingDateString)"
         }
     }
 
@@ -179,7 +179,7 @@ class MeetingParser {
         return "\(coords.latitude)º N \(coords.longitude)º E"
     }
 
-    static private func stringFrom(meetingDate: Date?) -> String? {
+    static func stringFrom(meetingDate: Date?) -> String? {
         guard let date = meetingDate else { return nil }
         MeetingParser.dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a ZZZZ"
         MeetingParser.dateFormatter.timeZone = TimeZone.current

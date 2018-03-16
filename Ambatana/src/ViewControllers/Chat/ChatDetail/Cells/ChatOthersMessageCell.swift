@@ -9,9 +9,15 @@
 import UIKit
 
 class ChatOthersMessageCell: ChatBubbleCell, ReusableCell {
-        
+    let type: ChatBubbleCellType = .othersMessage
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         bubbleView.backgroundColor = selected ? UIColor.chatOthersBubbleBgColorSelected : UIColor.chatOthersBubbleBgColor
+    }
+    
+    override func setAccessibilityIds() {
+        super.setAccessibilityIds()
+        set(accessibilityId: .chatCellContainer(type: .othersMessage))
     }
 }

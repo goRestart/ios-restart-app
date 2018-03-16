@@ -60,9 +60,9 @@ class SettingsCell: UITableViewCell, ReusableCell {
     }
 
     private func setupAccessibilityIds() {
-        iconImageView.accessibilityId = .settingsCellIcon
-        label.accessibilityId = .settingsCellTitle
-        nameLabel.accessibilityId = .settingsCellValue
+        iconImageView.set(accessibilityId: .settingsCellIcon)
+        label.set(accessibilityId: .settingsCellTitle)
+        nameLabel.set(accessibilityId: .settingsCellValue)
     }
 }
 

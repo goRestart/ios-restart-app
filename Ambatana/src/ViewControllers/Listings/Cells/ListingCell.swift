@@ -36,9 +36,9 @@ final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate
 
     @IBOutlet weak var featuredListingInfoView: UIView!
     
-    fileprivate var featuredListingPriceLabel: UILabel?
-    fileprivate var featuredListingTitleLabel: UILabel?
-    fileprivate var featuredListingChatButton: UIButton?
+    private var featuredListingPriceLabel: UILabel?
+    private var featuredListingTitleLabel: UILabel?
+    private var featuredListingChatButton: LetgoButton?
     
     private let discardedView: DiscardedView = {
         let view = DiscardedView()
@@ -122,12 +122,9 @@ final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate
     func setupFeaturedListingInfoWith(price: String, title: String?, isMine: Bool) {
         featuredListingPriceLabel = UILabel()
         featuredListingTitleLabel = UILabel()
-        featuredListingChatButton = UIButton(type: .custom)
+        featuredListingChatButton = LetgoButton(withStyle: .primary(fontSize: .medium))
 
         featuredListingInfoView.translatesAutoresizingMaskIntoConstraints = false
-        featuredListingPriceLabel?.translatesAutoresizingMaskIntoConstraints = false
-        featuredListingTitleLabel?.translatesAutoresizingMaskIntoConstraints = false
-        featuredListingChatButton?.translatesAutoresizingMaskIntoConstraints = false
 
         guard let featuredListingPriceLabel = featuredListingPriceLabel,
             let featuredListingTitleLabel = featuredListingTitleLabel,
@@ -135,7 +132,9 @@ final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate
                 return
         }
 
-        featuredListingInfoView.addSubviews([featuredListingPriceLabel, featuredListingTitleLabel, featuredListingChatButton])
+        featuredListingInfoView.addSubviewsForAutoLayout([featuredListingPriceLabel,
+                                                          featuredListingTitleLabel,
+                                                          featuredListingChatButton])
 
         featuredListingPriceLabel.text = price
         featuredListingPriceLabel.font = UIFont.systemBoldFont(size: 23)
@@ -148,7 +147,14 @@ final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate
 
         featuredListingChatButton.frame = CGRect(x: 0, y: 0, width: 0, height: LGUIKitConstants.mediumButtonHeight)
         featuredListingChatButton.setStyle(.primary(fontSize: .medium))
-        featuredListingChatButton.setTitle(LGLocalizedString.bumpUpProductCellChatNowButton, for: .normal)
+        
+        let featureFlags = FeatureFlags.sharedInstance
+        if featureFlags.shouldChangeChatNowCopy {
+            featuredListingChatButton.setTitle(featureFlags.copyForChatNowInTurkey.variantString, for: .normal)
+        } else {
+            featuredListingChatButton.setTitle(LGLocalizedString.bumpUpProductCellChatNowButton, for: .normal)
+        }
+        
         featuredListingChatButton.addTarget(self, action: #selector(openChat), for: .touchUpInside)
 
         // layouts
@@ -259,15 +265,14 @@ final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate
     }
     
     private func setAccessibilityIds() {
-        accessibilityId = .listingCell
-        thumbnailImageView.accessibilityId = .listingCellThumbnailImageView
-        stripeImageView.accessibilityId = .listingCellStripeImageView
-        stripeLabel.accessibilityId = .listingCellStripeLabel
-        stripeIcon.accessibilityId = .listingCellStripeIcon
+        thumbnailImageView.set(accessibilityId: .listingCellThumbnailImageView)
+        stripeImageView.set(accessibilityId: .listingCellStripeImageView)
+        stripeLabel.set(accessibilityId: .listingCellStripeLabel)
+        stripeIcon.set(accessibilityId: .listingCellStripeIcon)
 
-        featuredListingPriceLabel?.accessibilityId = .listingCellFeaturedPrice
-        featuredListingTitleLabel?.accessibilityId = .listingCellFeaturedTitle
-        featuredListingChatButton?.accessibilityId = .listingCellFeaturedChatButton
+        featuredListingPriceLabel?.set(accessibilityId: .listingCellFeaturedPrice)
+        featuredListingTitleLabel?.set(accessibilityId: .listingCellFeaturedTitle)
+        featuredListingChatButton?.set(accessibilityId: .listingCellFeaturedChatButton)
     }
     
     // MARK: RoundButtonDelegate
@@ -304,8 +309,8 @@ class DiscardedView: UIView {
         label.numberOfLines = 2
         return label
     }()
-    let editButton: UIButton = {
-        let button = UIButton(type: .custom)
+    let editButton: LetgoButton = {
+        let button = LetgoButton(withStyle: .primary(fontSize: .small))
         button.setTitle(LGLocalizedString.discardedProductsEdit, for: .normal)
         return button
     }()
@@ -322,11 +327,6 @@ class DiscardedView: UIView {
         super.init(frame: .zero)
         setupUI()
         setupConstraints()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        editButton.setStyle(.primary(fontSize: .small))
     }
     
     required init?(coder aDecoder: NSCoder) {

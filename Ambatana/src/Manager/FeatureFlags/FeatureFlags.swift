@@ -45,7 +45,6 @@ protocol FeatureFlaggeable: class {
     var newItemPage: NewItemPage { get }
     var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
-    var moreInfoAFShOrDFP: MoreInfoAFShOrDFP { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var realEstateImprovements: RealEstateImprovements { get }
     var realEstatePromos: RealEstatePromos { get }
@@ -62,10 +61,15 @@ protocol FeatureFlaggeable: class {
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings { get }
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
-    var searchMultiwordExpressions: SearchMultiwordExpressions { get }
+    var searchImprovements: SearchImprovements { get }
     var showChatSafetyTips: Bool { get }
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var discardedProducts: DiscardedProducts { get }
+    var promoteBumpInEdit: PromoteBumpInEdit { get }
     var userIsTyping: UserIsTyping { get }
+    var servicesCategoryEnabled: ServicesCategoryEnabled { get }
+    var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
+    
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -73,11 +77,13 @@ protocol FeatureFlaggeable: class {
     var locationRequiresManualChangeSuggestion: Bool { get }
     var signUpEmailNewsletterAcceptRequired: Bool { get }
     var signUpEmailTermsAndConditionsAcceptRequired: Bool { get }
-    var moreInfoShoppingAdUnitId: String { get }
     var moreInfoDFPAdUnitId: String { get }
     var feedDFPAdUnitId: String? { get }
     var bumpPriceVariationBucket: BumpPriceVariationBucket { get }
     func collectionsAllowedFor(countryCode: String?) -> Bool
+    var shouldChangeChatNowCopy: Bool { get }
+    var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
+    
 }
 
 extension FeatureFlaggeable {
@@ -211,8 +217,38 @@ extension DiscardedProducts {
     var isActive: Bool { get { return self == .active } }
 }
 
+extension OnboardingIncentivizePosting {
+    var isActive: Bool { get { return self == .blockingPosting } }
+}
+extension PromoteBumpInEdit {
+    var isActive: Bool { get { return self != .control && self != .baseline } }
+}
+
 extension UserIsTyping {
     var isActive: Bool { get { return self == .active } }
+}
+extension ServicesCategoryEnabled {
+    var isActive: Bool { get { return self == .active } }
+}
+extension IncreaseNumberOfPictures {
+    var isActive: Bool { return self == .active }
+}
+
+extension CopyForChatNowInTurkey {
+    var variantString: String { get {
+        switch self {
+        case .control:
+            return LGLocalizedString.bumpUpProductCellChatNowButton
+        case .variantA:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonA
+        case .variantB:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonB
+        case .variantC:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonC
+        case .variantD:
+            return LGLocalizedString.bumpUpProductCellChatNowButtonD
+        }
+    } }
 }
 
 
@@ -386,13 +422,6 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return AllowCallsForProfessionals.fromPosition(abTests.allowCallsForProfessionals.value)
     }
-
-    var moreInfoAFShOrDFP: MoreInfoAFShOrDFP {
-        if Bumper.enabled {
-            return Bumper.moreInfoAFShOrDFP
-        }
-        return MoreInfoAFShOrDFP.fromPosition(abTests.moreInfoAFShOrDFP.value)
-    }
     
     var mostSearchedDemandedItems: MostSearchedDemandedItems {
         if Bumper.enabled {
@@ -493,11 +522,18 @@ class FeatureFlags: FeatureFlaggeable {
         return ShowBumpUpBannerOnNotValidatedListings.fromPosition(abTests.showBumpUpBannerOnNotValidatedListings.value)
     }
 
-    var searchMultiwordExpressions: SearchMultiwordExpressions {
+    var searchImprovements: SearchImprovements {
         if Bumper.enabled {
-            return Bumper.searchMultiwordExpressions
+            return Bumper.searchImprovements
         }
-        return SearchMultiwordExpressions.fromPosition(abTests.searchMultiwordExpressions.value)
+        return SearchImprovements.fromPosition(abTests.searchImprovements.value)
+    }
+    
+    var onboardingIncentivizePosting: OnboardingIncentivizePosting {
+        if Bumper.enabled {
+            return Bumper.onboardingIncentivizePosting
+        }
+        return OnboardingIncentivizePosting.fromPosition(abTests.onboardingIncentivizePosting.value)
     }
     
     var discardedProducts: DiscardedProducts {
@@ -506,7 +542,7 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return DiscardedProducts.fromPosition(abTests.discardedProducts.value)
     }
-    
+
     var userIsTyping: UserIsTyping {
         if Bumper.enabled {
             return Bumper.userIsTyping
@@ -514,7 +550,6 @@ class FeatureFlags: FeatureFlaggeable {
         return UserIsTyping.fromPosition(abTests.userIsTyping.value)
     }
     
-
     var newUserProfileView: NewUserProfileView {
         if Bumper.enabled {
             return Bumper.newUserProfileView
@@ -534,6 +569,27 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.turkeyBumpPriceVATAdaptation
         }
         return TurkeyBumpPriceVATAdaptation.fromPosition(abTests.turkeyBumpPriceVATAdaptation.value)
+    }
+
+    var servicesCategoryEnabled: ServicesCategoryEnabled {
+        if Bumper.enabled {
+            return Bumper.servicesCategoryEnabled
+        }
+        return ServicesCategoryEnabled.fromPosition(abTests.servicesCategoryEnabled.value)
+    }
+
+    var promoteBumpInEdit: PromoteBumpInEdit {
+        if Bumper.enabled {
+            return Bumper.promoteBumpInEdit
+        }
+        return PromoteBumpInEdit.fromPosition(abTests.promoteBumpInEdit.value)
+    }
+    
+    var increaseNumberOfPictures: IncreaseNumberOfPictures {
+        if Bumper.enabled {
+            return Bumper.increaseNumberOfPictures
+        }
+        return IncreaseNumberOfPictures.fromPosition(abTests.increaseNumberOfPictures.value)
     }
 
     // MARK: - Country features
@@ -597,15 +653,6 @@ class FeatureFlags: FeatureFlaggeable {
             return true
         default:
             return false
-        }
-    }
-
-    var moreInfoShoppingAdUnitId: String {
-        switch sensorLocationCountryCode {
-        case .usa?:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShoppingUSA
-        default:
-            return EnvironmentProxy.sharedInstance.moreInfoAdUnitIdShopping
         }
     }
 
@@ -681,7 +728,25 @@ class FeatureFlags: FeatureFlaggeable {
             return .defaultValue
         }
     }
-
+    
+    var shouldChangeChatNowCopy: Bool {
+        if Bumper.enabled {
+            return true
+        }
+        switch (locationCountryCode, localeCountryCode) {
+        case (.turkey?, _), (_, .turkey?):
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var copyForChatNowInTurkey: CopyForChatNowInTurkey {
+        if Bumper.enabled {
+            return Bumper.copyForChatNowInTurkey
+        }
+        return CopyForChatNowInTurkey.fromPosition(abTests.copyForChatNowInTurkey.value)
+    }
 
     // MARK: - Private
 
