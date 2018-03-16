@@ -55,13 +55,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
     func constraintCollectionBottomTo(_ anchor: NSLayoutYAxisAnchor, constant: CGFloat) -> NSLayoutConstraint {
         return bottomInsetView.bottomAnchor.constraint(equalTo: anchor, constant: constant)
     }
-    
-    func blockSideInteractions() {
-        let current = collectionLayout.page
-        collectionView.cellForItem(at: IndexPath(row: current - 1, section: 0))?.isUserInteractionEnabled = false
-        currentPageCell()?.isUserInteractionEnabled = true
-        collectionView.cellForItem(at: IndexPath(row: current + 1, section: 0))?.isUserInteractionEnabled = false
-    }
 
     private func setupUI() {
         backgroundColor = UIColor.white
@@ -160,9 +153,6 @@ final class ListingDeckView: UIView, UICollectionViewDelegate, ListingDeckViewTy
 }
 
 extension ListingDeckView {
-    func currentPageCell() -> ListingCardView? {
-        return cardAtIndex(collectionLayout.page)
-    }
 
     func cardAtIndex(_ index: Int) -> ListingCardView? {
         return collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? ListingCardView

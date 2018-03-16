@@ -94,6 +94,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         populateWith(preview: listingSnapshot.preview, imageCount: listingSnapshot.imageCount)
         populateWith(userInfo: listingSnapshot.userInfo)
         detailsView.populateWith(productInfo: listingSnapshot.productInfo)
+        detailsView.populateWith(listingStats: nil, postedDate: nil)
     }
 
     func populateWith(details listingViewModel: ListingCardViewCellModel) {

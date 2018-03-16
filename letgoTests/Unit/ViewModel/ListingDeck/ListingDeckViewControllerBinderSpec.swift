@@ -125,6 +125,9 @@ final class ListingDeckViewControllerBinderSpec: QuickSpec {
                 it("the viewmodel moves to the current item") {
                     expect(viewModelType.moveToListingAtIndexIsCalled).toEventually(be(1))
                 }
+                it("the viewcontroller moves to the current item") {
+                    expect(viewControllerType.isDidMoveToItemAtIndex).toEventually(be(1))
+                }
                 it("the viewmodel detects that the user has scrolled") {
                     expect(viewModelType.userHasScrollCalled).toEventually(be(1))
                 }
@@ -292,17 +295,23 @@ final class MockListingDeckViewModelType: ListingDeckViewModelType {
 }
 
 private class MockListingDeckViewControllerBinderType: ListingDeckViewControllerBinderType {
+
     var rxDidBeginEditing: ControlEvent<()>? { return textField.rx.controlEvent(.editingDidBegin) }
     var rxDidEndEditing: ControlEvent<()>? { return textField.rx.controlEvent(.editingDidEnd) }
     var textField = UITextField()
+
+    func didMoveToItemAtIndex(_ index: Int) {
+        isDidMoveToItemAtIndex += 1
+    }
+
+    func didEndDecelerating() {
+        // ☢️ do not know how to test this
+    }
 
     func willBeginDragging() {
         // ☢️ do not know how to test this
     }
     func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath) {
-        // ☢️ do not know how to test this
-    }
-    func didEndDecelerating() {
         // ☢️ do not know how to test this
     }
     func turnNavigationBar(_ on: Bool) {
@@ -333,6 +342,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
     var isDidTapUserIconCalled = 0
     var isDidTapCardActionCalled: Int = 0
     var isUpdateViewWithAlphaCalled: Int = 0
+    var isDidMoveToItemAtIndex: Int = 0
 
     func resetVariables() {
         isUpdateViewWithActionsCalled = 0
@@ -342,6 +352,7 @@ private class MockListingDeckViewControllerBinderType: ListingDeckViewController
         isDidTapCardActionCalled = 0
         isUpdateViewWithAlphaCalled = 0
         isDidTapUserIconCalled = 0
+        isDidMoveToItemAtIndex = 0
     }
 
     func updateViewWithActions(_ actions: [UIAction]) {

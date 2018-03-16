@@ -72,7 +72,9 @@ final class QuickChatViewBinder {
         }.disposed(by: bag)
 
         viewModel.rxDirectMessages.bind { [weak chatView] change in
-            chatView?.showDirectMessages()
+            if change.element() != nil {
+                chatView?.showDirectMessages()
+            }
             chatView?.handleChatChange(change)
         }.disposed(by: bag)
     }

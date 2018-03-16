@@ -28,7 +28,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     private var quickChatView: QuickChatView?
     var quickChatTopToCollectionBotton: NSLayoutConstraint?
     var chatEnabled: Bool = false { didSet { quickChatTopToCollectionBotton?.isActive = chatEnabled } }
-
+    
     lazy var windowTargetFrame: CGRect = {
         let size = listingDeckView.cardSize
         let frame = CGRect(x: 20, y: 0, width: size.width, height: size.height)
@@ -58,14 +58,16 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
         self.updateStartIndex()
         listingDeckView.collectionView.layoutIfNeeded()
+        let current = currentPageCell()
+        let index = viewModel.currentIndex
         UIView.animate(withDuration: 0.5,
                        delay: 0,
                        options: .curveEaseIn,
-                       animations: {
-                        self.listingDeckView.collectionView.alpha = 1
-        }, completion: { _ in
-            self.setupPageCurrentCell()
-            self.listingDeckView.currentPageCell()?.delayedOnboardingFlashDetails(withDelay: 0.6, duration: 0.6)
+                       animations: { [weak self] in
+                        self?.listingDeckView.collectionView.alpha = 1
+        }, completion: { [weak self] _ in
+            self?.didMoveToItemAtIndex(index)
+            current?.delayedOnboardingFlashDetails(withDelay: 0.6, duration: 0.6)
         })
     }
 
@@ -141,7 +143,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListingCardView.reusableID,
                                                          for: indexPath) as? ListingCardView {
             guard let model = viewModel.snapshotModelAt(index: indexPath.row) else { return cell }
-            cell.isUserInteractionEnabled = indexPath.row == listingDeckView.currentPage
             cell.populateWith(model, imageDownloader: viewModel.imageDownloader)
             cell.delegate = self
 
@@ -225,6 +226,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     }
 
     func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath) {
+        cell.isUserInteractionEnabled = false
         guard let card = cell as? ListingCardView else { return }
         updateCellContentInset(card, animated: false)
     }
@@ -232,27 +234,28 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func willBeginDragging() {
         lastPageBeforeDragging = listingDeckView.currentPage
     }
+
+    func didMoveToItemAtIndex(_ index: Int) {
+        viewModel.didMoveToListing()
+        if let left = listingDeckView.cardAtIndex(index - 1) {
+            updateCellContentInset(left, animated: true)
+            left.isUserInteractionEnabled = false
+        }
+        if let right = listingDeckView.cardAtIndex(index + 1) {
+            updateCellContentInset(right, animated: true)
+            right.isUserInteractionEnabled = false
+        }
+    }
     
     func didEndDecelerating() {
-        listingDeckView.blockSideInteractions()
-        listingDeckView.collectionView.visibleCells.flatMap { $0 as? ListingCardView }.forEach { cell in
-            guard cell != listingDeckView.currentPageCell() else { return }
-            updateCellContentInset(cell, animated: true)
-        }
-        setupPageCurrentCell()
-    }
-
-    private func setupPageCurrentCell() {
-        guard let cell = listingDeckView.currentPageCell() else { return }
+        guard let cell = listingDeckView.cardAtIndex(viewModel.currentIndex) else { return }
         binder.bind(cell: cell)
         cell.isUserInteractionEnabled = true
-
-        let currentPage = viewModel.currentIndex
-        guard let listing = viewModel.listingCellModelAt(index: currentPage) else { return }
+        
+        guard let listing = viewModel.listingCellModelAt(index: viewModel.currentIndex) else { return }
         cell.populateWith(cellModel: listing, imageDownloader: viewModel.imageDownloader)
-        viewModel.didMoveToListing()
     }
-
+    
     func didShowMoreInfo() {
         viewModel.didShowMoreInfo()
     }
@@ -348,7 +351,7 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
     func viewControllerToShowShareOptions() -> UIViewController { return self }
 
     func didTapOnMapSnapshot(_ snapshot: UIView) {
-        guard let cell = listingDeckView.currentPageCell() else { return }
+        guard let cell = currentPageCell() else { return }
         listingDeckView.collectionView.isScrollEnabled = false
         cell.showFullMap(fromRect: snapshot.frame)
     }
@@ -369,7 +372,7 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
     }
 
     func didTapMapView() {
-        guard let cell = listingDeckView.currentPageCell()  else { return }
+        guard let cell = currentPageCell()  else { return }
         listingDeckView.collectionView.isScrollEnabled = true
         cell.hideFullMap()
     }
@@ -434,11 +437,15 @@ extension ListingDeckViewController: ListingCardDetailsViewDelegate, ListingCard
     private func focusOnCollectionView() {
         quickChatView?.isTableInteractionEnabled = false
     }
+
+    private func currentPageCell() -> ListingCardView? {
+        return listingDeckView.cardAtIndex(viewModel.currentIndex)
+    }
 }
 
 extension ListingDeckViewController {
     var photoViewerTransitionFrame: CGRect {
-        guard let current = listingDeckView.currentPageCell() else { return windowTargetFrame }
+        guard let current = currentPageCell() else { return windowTargetFrame }
         let size = current.previewVisibleFrame.size
         let corrected = CGRect(x: current.frame.minX, y: current.frame.minY, width: size.width, height: size.height)
         return listingDeckView.collectionView.convertToWindow(corrected)

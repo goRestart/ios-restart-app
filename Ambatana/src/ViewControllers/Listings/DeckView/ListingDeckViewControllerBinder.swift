@@ -26,9 +26,10 @@ protocol ListingDeckViewControllerBinderType: class {
     func didTapOnUserIcon()
 
     func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath)
-    func didEndDecelerating()
     func willBeginDragging()
-
+    func didMoveToItemAtIndex(_ index: Int)
+    func didEndDecelerating()
+    
     func updateViewWith(alpha: CGFloat, chatEnabled: Bool, isMine: Bool, actionsEnabled: Bool)
     func updateViewWithActions(_ actions: [UIAction])
 
@@ -180,10 +181,13 @@ final class ListingDeckViewControllerBinder {
             .asDriver().drive(onNext: { [weak viewController] _ in
                 viewController?.willBeginDragging()
         }).disposed(by: disposeBag)
-
-        listingDeckView.rxCollectionView.didEndDecelerating.bind { [weak viewController] in
+        
+        listingDeckView.rxCollectionView
+            .didEndDecelerating
+            .asDriver()
+            .drive(onNext: { [weak viewController] _ in
             viewController?.didEndDecelerating()
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
 
         listingDeckView.rxCollectionView.willDisplayCell.bind { [weak viewController] (cell, indexPath) in
             viewController?.willDisplayCell(cell, atIndexPath: indexPath)
@@ -196,7 +200,8 @@ final class ListingDeckViewControllerBinder {
         let pageSignal: Observable<Int> = viewController.rxContentOffset.map { [weak listingDeckView] _ in
             return listingDeckView?.currentPage ?? 0
         }
-        pageSignal.skip(1).distinctUntilChanged().bind { [weak viewModel] page in
+        pageSignal.skip(1).distinctUntilChanged().bind { [weak viewModel, weak viewController] page in
+            viewController?.didMoveToItemAtIndex(page)
             if let currentIndex = viewModel?.currentIndex, currentIndex < page {
                 viewModel?.moveToListingAtIndex(page, movement: .swipeRight)
             } else if let currentIndex = viewModel?.currentIndex, currentIndex > page {

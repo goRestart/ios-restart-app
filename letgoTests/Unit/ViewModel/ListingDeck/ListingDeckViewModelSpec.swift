@@ -868,7 +868,6 @@ extension ListingDeckViewModelSpec: ListingDetailNavigator {
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
                        typePage: EventParameterTypePage?) {}
-
     func closeProductDetail() {}
     func openListingChat(_ listing: Listing, source: EventParameterTypePage) {}
     func closeListingAfterDelete(_ listing: Listing) {}
