@@ -142,8 +142,9 @@ final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, Deck
 
     @objc func handlePhotoViewerEdgeGesture(_ gesture: UIScreenEdgePanGestureRecognizer) {
         guard let view = navigationController?.topViewController?.view else { return }
-        interactiveTransitioner = UIPercentDrivenInteractiveTransition()
-
+        if interactiveTransitioner == nil {
+            interactiveTransitioner = UIPercentDrivenInteractiveTransition()
+        }
         let translation = gesture.translation(in: view)
 
         let progress: CGFloat
