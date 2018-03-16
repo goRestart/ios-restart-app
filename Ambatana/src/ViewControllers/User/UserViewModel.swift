@@ -392,7 +392,7 @@ fileprivate extension UserViewModel {
             self?.updateAccounts(user)
             self?.updateRatings(user)
             self?.updateDummyInfo(user)
-            self?.userIsProfessional.value = user.type == .pro
+            self?.userIsProfessional.value = user.isProfessional
         }
     }
     
