@@ -53,6 +53,7 @@ extension Bumper  {
         flags.append(UserIsTyping.self)
         flags.append(ServicesCategoryEnabled.self)
         flags.append(CopyForChatNowInTurkey.self)
+        flags.append(IncreaseNumberOfPictures.self)
         Bumper.initialize(flags)
     } 
 
@@ -248,13 +249,18 @@ extension Bumper  {
 
     static var servicesCategoryEnabled: ServicesCategoryEnabled {
         guard let value = Bumper.value(for: ServicesCategoryEnabled.key) else { return .control }
-        return ServicesCategoryEnabled(rawValue: value) ?? .control
+        return ServicesCategoryEnabled(rawValue: value) ?? .control 
     }
-    
+
     static var copyForChatNowInTurkey: CopyForChatNowInTurkey {
         guard let value = Bumper.value(for: CopyForChatNowInTurkey.key) else { return .control }
-        return CopyForChatNowInTurkey(rawValue: value) ?? .control
+        return CopyForChatNowInTurkey(rawValue: value) ?? .control 
     }
+
+    static var increaseNumberOfPictures: IncreaseNumberOfPictures {
+        guard let value = Bumper.value(for: IncreaseNumberOfPictures.key) else { return .control }
+        return IncreaseNumberOfPictures(rawValue: value) ?? .control 
+    } 
 }
 
 
@@ -837,15 +843,15 @@ enum UserIsTyping: String, BumperFeature  {
         }
     }
 }
-    
+
 enum ServicesCategoryEnabled: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return ServicesCategoryEnabled.control.rawValue }
     static var enumValues: [ServicesCategoryEnabled] { return [.control, .baseline, .active]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Allow to see Services category" }
+    static var description: String { return "Allow to see Services category" } 
     static func fromPosition(_ position: Int) -> ServicesCategoryEnabled {
-        switch position {
+        switch position { 
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
@@ -867,6 +873,22 @@ enum CopyForChatNowInTurkey: String, BumperFeature  {
             case 2: return .variantB
             case 3: return .variantC
             case 4: return .variantD
+            default: return .control
+        }
+    }
+}
+
+enum IncreaseNumberOfPictures: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return IncreaseNumberOfPictures.control.rawValue }
+    static var enumValues: [IncreaseNumberOfPictures] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Allow to include up to 10 pictures on listings" } 
+    static func fromPosition(_ position: Int) -> IncreaseNumberOfPictures {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
             default: return .control
         }
     }

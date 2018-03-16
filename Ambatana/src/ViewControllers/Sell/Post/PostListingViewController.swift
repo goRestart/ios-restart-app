@@ -95,7 +95,8 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         self.viewModel = viewModel
         self.forcedInitialTab = forcedInitialTab
         let postListingGalleryViewModel = PostListingGalleryViewModel(postCategory: viewModel.postCategory,
-                                                                      isBlockingPosting: viewModel.isBlockingPosting)
+                                                                      isBlockingPosting: viewModel.isBlockingPosting,
+                                                                      maxImageSelected: viewModel.maxNumberImages)
         self.galleryView = PostListingGalleryView(viewModel: postListingGalleryViewModel)
         
         self.priceView = PostListingDetailPriceView(viewModel: viewModel.postDetailViewModel)

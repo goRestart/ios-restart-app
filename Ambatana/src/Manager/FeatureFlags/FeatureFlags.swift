@@ -68,6 +68,8 @@ protocol FeatureFlaggeable: class {
     var promoteBumpInEdit: PromoteBumpInEdit { get }
     var userIsTyping: UserIsTyping { get }
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
+    var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
+    
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -227,6 +229,9 @@ extension UserIsTyping {
 }
 extension ServicesCategoryEnabled {
     var isActive: Bool { get { return self == .active } }
+}
+extension IncreaseNumberOfPictures {
+    var isActive: Bool { return self == .active }
 }
 
 extension CopyForChatNowInTurkey {
@@ -578,6 +583,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.promoteBumpInEdit
         }
         return PromoteBumpInEdit.fromPosition(abTests.promoteBumpInEdit.value)
+    }
+    
+    var increaseNumberOfPictures: IncreaseNumberOfPictures {
+        if Bumper.enabled {
+            return Bumper.increaseNumberOfPictures
+        }
+        return IncreaseNumberOfPictures.fromPosition(abTests.increaseNumberOfPictures.value)
     }
 
     // MARK: - Country features

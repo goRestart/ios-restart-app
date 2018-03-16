@@ -86,6 +86,10 @@ class PostListingViewModel: BaseViewModel {
         return featureFlags.realEstateEnabled.isActive
     }
     
+    var maxNumberImages: Int {
+        return Constants.maxImageCount
+    }
+    
     fileprivate let disposeBag: DisposeBag
 
     
