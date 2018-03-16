@@ -87,7 +87,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
+        super.viewWillDisappear(animated)
         listingDeckView.collectionView.clipsToBounds = true
     }
 

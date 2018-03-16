@@ -26,6 +26,8 @@ class TabCoordinator: NSObject, Coordinator {
     let rootViewController: UIViewController
     let navigationController: UINavigationController
 
+    var deckAnimator: DeckAnimator?
+
     let listingRepository: ListingRepository
     let userRepository: UserRepository
     let chatRepository: ChatRepository
@@ -39,6 +41,7 @@ class TabCoordinator: NSObject, Coordinator {
     weak var tabCoordinatorDelegate: TabCoordinatorDelegate?
     weak var appNavigator: AppNavigator?
 
+    fileprivate var interactiveTransitioner: UIPercentDrivenInteractiveTransition?
 
     // MARK: - Lifecycle
 
@@ -317,12 +320,14 @@ fileprivate extension TabCoordinator {
 
     func openListingNewItemPage(_ listing: Listing, thumbnailImage: UIImage?, cellModels: [ListingCellModel]?,
                      originFrame: CGRect?, requester: ListingListRequester, source: EventParameterListingVisitSource) {
-        let coordinator = DeckCoordinator(listing: listing,
+        let coordinator = DeckCoordinator(navigationController: navigationController,
+                                        listing: listing,
                                           cellModels: cellModels,
                                           listingListRequester: requester,
                                           source: source, listingNavigator: self)
-        coordinator.coordinatorDelegate = self
-        openChild(coordinator: coordinator, parent: navigationController, animated: true, forceCloseChild: true, completion: nil)
+
+        coordinator.showDeckViewController()
+        deckAnimator = coordinator
     }
 
     func openUser(userId: String, source: UserSource) {
@@ -449,6 +454,7 @@ fileprivate extension TabCoordinator {
 
 extension TabCoordinator: ListingDetailNavigator {
     func closeProductDetail() {
+        navigationController.tabBarController?.setTabBarHidden(false, animated: true)
         navigationController.popViewController(animated: true)
     }
 
@@ -458,7 +464,11 @@ extension TabCoordinator: ListingDetailNavigator {
                                                bumpUpProductData: bumpUpProductData,
                                                pageType: nil)
         navigator.delegate = self
-        openChild(coordinator: navigator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        openChild(coordinator: navigator,
+                  parent: rootViewController,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
     }
 
     func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) {
@@ -484,7 +494,11 @@ extension TabCoordinator: ListingDetailNavigator {
         let bumpCoordinator = BumpUpCoordinator(listing: listing,
                                                 bumpUpProductData: bumpUpProductData,
                                                 typePage: typePage)
-        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        openChild(coordinator: bumpCoordinator,
+                  parent: rootViewController,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
     }
 
     func openPayBumpUp(forListing listing: Listing,
@@ -493,7 +507,11 @@ extension TabCoordinator: ListingDetailNavigator {
         let bumpCoordinator = BumpUpCoordinator(listing: listing,
                                                 bumpUpProductData: bumpUpProductData,
                                                 typePage: typePage)
-        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
+        openChild(coordinator: bumpCoordinator,
+                  parent: rootViewController,
+                  animated: true,
+                  forceCloseChild: true,
+                  completion: nil)
     }
 
     func selectBuyerToRate(source: RateUserSource,
@@ -514,9 +532,13 @@ extension TabCoordinator: ListingDetailNavigator {
         showBubble(with: data, duration: Constants.bubbleFavoriteDuration)
     }
 
-    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue, infoMessage: String,
+    func openLoginIfNeededFromProductDetail(from: EventParameterLoginSourceValue,
+                                            infoMessage: String,
                                             loggedInAction: @escaping (() -> Void)) {
-        openLoginIfNeeded(from: from, style: .popup(infoMessage), loggedInAction: loggedInAction, cancelAction: nil)
+        openLoginIfNeeded(from: from,
+                          style: .popup(infoMessage),
+                          loggedInAction: loggedInAction,
+                          cancelAction: nil)
     }
 
     func showBumpUpNotAvailableAlertWithTitle(title: String,
@@ -629,6 +651,8 @@ extension TabCoordinator: UINavigationControllerDelegate {
         } else if let animator = (fromVC as? AnimatableTransition)?.animator, operation == .pop {
             animator.pushing = false
             return animator
+        } else if let transitioner = deckAnimator?.animatedTransitionings(for: operation, from: fromVC, to: toVC) {
+            return transitioner
         } else {
             return nil
         }
@@ -643,9 +667,28 @@ extension TabCoordinator: UINavigationControllerDelegate {
 
     func navigationController(_ navigationController: UINavigationController,
                               didShow viewController: UIViewController, animated: Bool) {
+        if let photoViewer = viewController as? PhotoViewerViewController {
+            let leftGesture = UIScreenEdgePanGestureRecognizer(target: self,
+                                                               action: #selector(handlePhotoViewerEdgeGesture))
+            leftGesture.edges = .left
+            photoViewer.addEdgeGesture([leftGesture])
+        }
         tabCoordinatorDelegate?.tabCoordinator(self,
                                                setSellButtonHidden: shouldHideSellButtonAtViewController(viewController),
                                                animated: true)
+    }
+
+    @objc func handlePhotoViewerEdgeGesture(gesture: UIScreenEdgePanGestureRecognizer) {
+        deckAnimator?.handlePhotoViewerEdgeGesture(gesture)
+    }
+
+    func navigationController(_ navigationController: UINavigationController,
+                              interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        if let animator = animationController as? PhotoViewerTransitionAnimator,
+            animator.isInteractive {
+            return deckAnimator?.interactiveTransitioner
+        }
+        return nil
     }
 }
 
@@ -724,3 +767,4 @@ extension TabCoordinator {
         tracker.trackEvent(relatedListings)
     }
 }
+

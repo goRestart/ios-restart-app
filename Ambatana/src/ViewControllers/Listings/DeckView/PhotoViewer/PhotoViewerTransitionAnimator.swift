@@ -142,7 +142,7 @@ private class PhotoViewerTransitionDismisser: PhotoViewerTransitionMode {
                                                         imageView?.alpha = 0
                                     })
                                     
-        }, completion: { [weak self] _ in
+        }, completion: { _ in
             guard !transitionContext.transitionWasCancelled else {
                 imageView.removeFromSuperview()
                 toView.removeFromSuperview()
@@ -150,7 +150,7 @@ private class PhotoViewerTransitionDismisser: PhotoViewerTransitionMode {
                 return
             }
             fromView.alpha = 0
-            self?.animator?.transitioner = transitioner
+            self.animator?.transitioner = transitioner
 
             imageView.removeFromSuperview()
             containerView.bringSubview(toFront: toView)

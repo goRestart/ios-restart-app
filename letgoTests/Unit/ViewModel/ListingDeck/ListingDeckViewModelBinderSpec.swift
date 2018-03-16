@@ -111,6 +111,14 @@ class ListingDeckViewModelBinderSpec: QuickSpec {
 }
 
 extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) { }
+    func openAskPhoneFor(listing: Listing, interlocutor: User?) { }
+    func closeAskPhoneFor(listing: Listing,
+                          openChat: Bool,
+                          withPhoneNum: String?,
+                          source: EventParameterTypePage,
+                          interlocutor: User?) { }
+
     func editListing(_ listing: Listing, bumpUpProductData: BumpUpProductData?) { }
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
@@ -120,9 +128,6 @@ extension ListingDeckViewModelBinderSpec: ListingDetailNavigator {
                        bumpUpProductData: BumpUpProductData,
                        typePage: EventParameterTypePage?) { }
     func openAppInvite(myUserId: String?, myUserName: String?) { }
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) { }
-    func openAskPhoneFor(listing: Listing) {}
-    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) {}
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {}
     func openHome() {}
     func openSell(source: PostingSource, postCategory: PostCategory?) {}

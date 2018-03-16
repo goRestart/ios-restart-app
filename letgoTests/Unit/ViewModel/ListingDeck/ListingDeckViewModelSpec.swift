@@ -854,6 +854,13 @@ extension ListingDeckViewModelSpec: ListingDeckViewModelDelegate {
 }
 
 extension ListingDeckViewModelSpec: ListingDetailNavigator {
+    func openListingChat(_ listing: Listing, source: EventParameterTypePage, interlocutor: User?) { }
+    func openAskPhoneFor(listing: Listing, interlocutor: User?) { }
+    func closeAskPhoneFor(listing: Listing,
+                          openChat: Bool,
+                          withPhoneNum: String?,
+                          source: EventParameterTypePage,
+                          interlocutor: User?) { }
     func editListing(_ listing: Listing, bumpUpProductData: BumpUpProductData?) { }
     func openFreeBumpUp(forListing listing: Listing,
                         bumpUpProductData: BumpUpProductData,
@@ -861,9 +868,6 @@ extension ListingDeckViewModelSpec: ListingDetailNavigator {
     func openPayBumpUp(forListing listing: Listing,
                        bumpUpProductData: BumpUpProductData,
                        typePage: EventParameterTypePage?) {}
-    func openListingChat(_ listing: Listing, source: EventParameterTypePage, isProfessional: Bool) { }
-    func openAskPhoneFor(listing: Listing) { }
-    func closeAskPhoneFor(listing: Listing, openChat: Bool, withPhoneNum: String?, source: EventParameterTypePage) { }
 
     func closeProductDetail() {}
     func openListingChat(_ listing: Listing, source: EventParameterTypePage) {}

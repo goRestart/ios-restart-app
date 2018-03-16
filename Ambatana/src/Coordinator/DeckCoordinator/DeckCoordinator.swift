@@ -18,49 +18,46 @@ protocol DeckNavigator: class {
     func showOnBoarding()
 }
 
-final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOnBoardingNavigator {
+protocol DeckAnimator: class {
+    func animatedTransitionings(for operation: UINavigationControllerOperation,
+                                from fromVC: UIViewController,
+                                to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning?
+    func handlePhotoViewerEdgeGesture(_ gesture: UIScreenEdgePanGestureRecognizer)
+    var interactiveTransitioner: UIPercentDrivenInteractiveTransition? { get }
+}
 
-    var child: Coordinator?
-    let viewController: UIViewController
-    weak var coordinatorDelegate: CoordinatorDelegate?
-    weak var presentedAlertController: UIAlertController?
-    let bubbleNotificationManager: BubbleNotificationManager
-    let sessionManager: SessionManager
+final class DeckCoordinator: DeckNavigator, ListingDeckOnBoardingNavigator, DeckAnimator {
 
-    fileprivate weak var previousNavigationDelegate: UINavigationControllerDelegate?
+    fileprivate weak var navigationController: UINavigationController?
     fileprivate let deckViewController: ListingDeckViewController
     fileprivate let deckViewModel: ListingDeckViewModel
-
-    fileprivate var interactiveTransitioner: UIPercentDrivenInteractiveTransition?
-    fileprivate var navigationController: UINavigationController? { return deckViewController.navigationController }
-
     fileprivate var shouldShowDeckOnBoarding: Bool {
         return !deckViewModel.userHasScrolled && !keyValueStorage[.didShowDeckOnBoarding]
     }
 
     fileprivate let keyValueStorage: KeyValueStorageable
+    var interactiveTransitioner: UIPercentDrivenInteractiveTransition?
 
-    convenience init(listing: Listing,
+    convenience init(navigationController: UINavigationController,
+                     listing: Listing,
                      cellModels: [ListingCellModel]?,
                      listingListRequester: ListingListRequester,
                      source: EventParameterListingVisitSource,
                      listingNavigator: ListingDetailNavigator) {
-        self.init(listing: listing,
+        self.init(navigationController: navigationController,
+                  listing: listing,
                   cellModels: cellModels,
                   listingListRequester: listingListRequester,
                   source: source,
-                  bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
-                  sessionManager: Core.sessionManager,
                   listingNavigator: listingNavigator,
                   keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
-    private init(listing: Listing,
+    private init(navigationController: UINavigationController,
+                 listing: Listing,
                  cellModels: [ListingCellModel]?,
                  listingListRequester: ListingListRequester,
                  source: EventParameterListingVisitSource,
-                 bubbleNotificationManager: BubbleNotificationManager,
-                 sessionManager: SessionManager,
                  listingNavigator: ListingDetailNavigator,
                  keyValueStorage: KeyValueStorageable) {
 
@@ -70,46 +67,28 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
                                              source: source,
                                              detailNavigator: listingNavigator)
         let deckViewController = ListingDeckViewController(viewModel: viewModel)
+        self.deckViewController = deckViewController
+
         viewModel.delegate = deckViewController
         viewModel.navigator = listingNavigator
+        self.navigationController = navigationController
 
-        self.deckViewController = deckViewController
         self.deckViewModel = viewModel
-        self.viewController = deckViewController
-        self.bubbleNotificationManager = bubbleNotificationManager
-        self.sessionManager = sessionManager
         self.keyValueStorage = keyValueStorage
-        super.init()
         viewModel.deckNavigator = self
     }
 
-    func presentViewController(parent: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        guard viewController.parent == nil else { return }
-        guard let navController = parent as? UINavigationController else { return }
-
-        previousNavigationDelegate = navController.delegate
-        navController.pushViewController(viewController, animated: true)
-        navController.delegate = self
-
-        completion?()
-    }
-
-    func dismissViewController(animated: Bool, completion: (() -> Void)?) {
-        guard let navController = navigationController else { return }        
-        navController.popViewController(animated: true)
-        completion?()
-        navController.delegate = previousNavigationDelegate
+    func showDeckViewController() {
+        navigationController?.pushViewController(deckViewController, animated: true)
     }
 
     func openPhotoViewer(listingViewModel: ListingViewModel,
                          source: EventParameterListingVisitSource,
                          quickChatViewModel: QuickChatViewModel) {
-        guard let navCtl = viewController.navigationController else { return }
-
         let photoVM = PhotoViewerViewModel(with: listingViewModel, source: source)
         photoVM.navigator = self
         let photoViewer = PhotoViewerViewController(viewModel: photoVM, quickChatViewModel: quickChatViewModel)
-        navCtl.pushViewController(photoViewer, animated: true)
+        navigationController?.pushViewController(photoViewer, animated: true)
     }
 
     private func openDeckOnBoarding() {
@@ -127,7 +106,7 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
         if shouldShowDeckOnBoarding {
             openDeckOnBoarding()
         } else {
-            closeCoordinator(animated: true, completion: nil)
+           navigationController?.popViewController(animated: true)
         }
     }
 
@@ -140,73 +119,31 @@ final class DeckCoordinator: NSObject, Coordinator, DeckNavigator, ListingDeckOn
     }
 
     func closePhotoViewer() {
-        guard let navCtl = viewController.navigationController else { return }
-        navCtl.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 
     func closeDeckOnboarding() {
         navigationController?.dismiss(animated: true, completion: nil)
     }
-}
 
-extension DeckCoordinator: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController,
-                              animationControllerFor operation: UINavigationControllerOperation,
-                              from fromVC: UIViewController,
-                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        switch operation {
-        case .push:
-            if let _ = toVC as? PhotoViewerViewController {
-                return deckViewController.animationController
-            }
-            return nil
-        case .pop:
-            if let _ = fromVC as? PhotoViewerViewController { 
-                return deckViewController.animationController
-            }
-            return nil
-        case .none:
+    func animatedTransitionings(for operation: UINavigationControllerOperation,
+                                from fromVC: UIViewController,
+                                to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if let _ = toVC as? PhotoViewerViewController,
+            let deckViewController = fromVC as? ListingDeckViewController {
+            return deckViewController.animationController
+        } else if let _ = fromVC as? PhotoViewerViewController,
+            let deckViewController = toVC as? ListingDeckViewController {
+            return deckViewController.animationController
+        } else {
             return nil
         }
     }
 
-    func navigationController(_ navigationController: UINavigationController,
-                              willShow viewController: UIViewController, animated: Bool) {
+    @objc func handlePhotoViewerEdgeGesture(_ gesture: UIScreenEdgePanGestureRecognizer) {
+        guard let view = navigationController?.topViewController?.view else { return }
+        interactiveTransitioner = UIPercentDrivenInteractiveTransition()
 
-        previousNavigationDelegate?.navigationController?(navigationController,
-                                                          willShow: viewController,
-                                                          animated: true)
-    }
-
-    func navigationController(_ navigationController: UINavigationController,
-                              didShow viewController: UIViewController, animated: Bool) {
-        if let photoViewer = viewController as? PhotoViewerViewController {
-            let leftGesture = UIScreenEdgePanGestureRecognizer(target: self,
-                                                               action: #selector(handleEdgeGesture))
-            leftGesture.edges = .left
-            let topGesture = UIScreenEdgePanGestureRecognizer(target: self,
-                                                              action: #selector(handleEdgeGesture))
-            topGesture.edges = .top
-            photoViewer.addEdgeGesture([leftGesture, topGesture])
-        }
-
-        previousNavigationDelegate?.navigationController?(navigationController,
-                                                          didShow: viewController,
-                                                          animated: true)
-    }
-
-    func navigationController(_ navigationController: UINavigationController,
-                              interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        guard let animator = animationController as? PhotoViewerTransitionAnimator, animator.isInteractive else { return nil }
-        return interactiveTransitioner
-    }
-
-    @objc fileprivate func handleEdgeGesture(_ gesture: UIScreenEdgePanGestureRecognizer) {
-        if interactiveTransitioner == nil {
-            interactiveTransitioner = UIPercentDrivenInteractiveTransition()
-        }
-
-        guard let view = navigationController?.view else { return }
         let translation = gesture.translation(in: view)
 
         let progress: CGFloat
@@ -235,5 +172,4 @@ extension DeckCoordinator: UINavigationControllerDelegate {
             // do nothing, know nothing
         }
     }
-
 }
