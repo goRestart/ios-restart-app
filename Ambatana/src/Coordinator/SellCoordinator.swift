@@ -333,6 +333,7 @@ extension SellCoordinator: BlockingPostingNavigator  {
         viewModel.delegate = delegate
         viewModel.navigator = self
         let viewController = PostingCategoriesPickViewController(viewModel: viewModel)
+        navigationController.clearBackground()
         navigationController.pushViewController(viewController, animated: true)
     }
 
