@@ -262,8 +262,8 @@ class PostListingCameraView: BaseView, LGViewPagerPage {
         }.disposed(by: disposeBag)
 
         viewModel.shouldShowFirstTimeAlert.asObservable().map { !$0 }.bind(to: firstTimeAlertContainer.rx.isHidden).disposed(by: disposeBag)
-        viewModel.shouldShowVerticalText.asObservable().bind { visible in
-            UIView.animate(withDuration: 0.3, animations: { [weak self] in
+        viewModel.shouldShowVerticalText.asObservable().bind { [weak self] visible in
+            UIView.animate(withDuration: 0.3, animations: {
                 self?.verticalPromoLabel.alpha = visible ? 1.0 : 0.0
             })
         }.disposed(by: disposeBag)
