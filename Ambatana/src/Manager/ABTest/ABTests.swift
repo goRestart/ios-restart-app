@@ -60,6 +60,7 @@ class ABTests {
     let servicesCategoryEnabled = IntABDynamicVar(key: "20180305ServicesCategoryEnabled", defaultValue: 0, abGroupType: .products)
     let copyForChatNowInTurkey = IntABDynamicVar(key: "20180312CopyForChatNowInTurkey", defaultValue: 0, abGroupType: .money)
     let increaseNumberOfPictures = IntABDynamicVar(key: "20180314IncreaseNumberOfPictures", defaultValue: 0, abGroupType: .realEstate)
+    let machineLearningMVP = IntABDynamicVar(key: "20180312MachineLearningMVP", defaultValue: 0, abGroupType: .core)
 
     init() {
     }

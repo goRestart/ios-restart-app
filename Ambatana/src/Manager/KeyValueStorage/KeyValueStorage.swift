@@ -266,6 +266,17 @@ extension KeyValueStorageable {
         }
     }
     
+    var machineLearningOnboardingShown: Bool {
+        get {
+            return currentUserProperties?.machineLearningOnboardingShown ??
+                UserDefaultsUser.machineLearningOnboardingShownDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.machineLearningOnboardingShown = newValue
+            currentUserProperties = userProperties
+        }
+    }
 }
 
 

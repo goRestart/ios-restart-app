@@ -870,6 +870,36 @@
 		8E0C9DF51E96924F00768D27 /* PostCategoryDetailProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */; };
 		8E0C9DF71E96935300768D27 /* PostCarDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF61E96935300768D27 /* PostCarDetailsView.swift */; };
 		8E0C9DF81E96935300768D27 /* PostCarDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C9DF61E96935300768D27 /* PostCarDetailsView.swift */; };
+		8E0EEF83204EEE78000C07C9 /* LGMachineLearning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEF82204EEE78000C07C9 /* LGMachineLearning.swift */; };
+		8E0EEF84204EEE78000C07C9 /* LGMachineLearning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEF82204EEE78000C07C9 /* LGMachineLearning.swift */; };
+		8E0EEF89204EF827000C07C9 /* LGVision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEF88204EF827000C07C9 /* LGVision.swift */; };
+		8E0EEF8A204EF827000C07C9 /* LGVision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEF88204EF827000C07C9 /* LGVision.swift */; };
+		8E0EEF9B20569E30000C07C9 /* MLPostListingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E0EEF9420569E2F000C07C9 /* MLPostListingViewController.xib */; };
+		8E0EEF9C20569E30000C07C9 /* MLPostListingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E0EEF9420569E2F000C07C9 /* MLPostListingViewController.xib */; };
+		8E0EEF9D20569E30000C07C9 /* MLPostListingCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEF9520569E2F000C07C9 /* MLPostListingCameraView.swift */; };
+		8E0EEF9E20569E30000C07C9 /* MLPostListingCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEF9520569E2F000C07C9 /* MLPostListingCameraView.swift */; };
+		8E0EEF9F20569E30000C07C9 /* MLPostListingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEF9620569E2F000C07C9 /* MLPostListingViewController.swift */; };
+		8E0EEFA020569E30000C07C9 /* MLPostListingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEF9620569E2F000C07C9 /* MLPostListingViewController.swift */; };
+		8E0EEFA120569E30000C07C9 /* MLPostListingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEF9720569E30000C07C9 /* MLPostListingViewModel.swift */; };
+		8E0EEFA220569E30000C07C9 /* MLPostListingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEF9720569E30000C07C9 /* MLPostListingViewModel.swift */; };
+		8E0EEFA320569E30000C07C9 /* MLPostListingCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E0EEF9820569E30000C07C9 /* MLPostListingCameraView.xib */; };
+		8E0EEFA420569E30000C07C9 /* MLPostListingCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E0EEF9820569E30000C07C9 /* MLPostListingCameraView.xib */; };
+		8E0EEFA520569E30000C07C9 /* MLPostListingCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEF9920569E30000C07C9 /* MLPostListingCameraViewModel.swift */; };
+		8E0EEFA620569E30000C07C9 /* MLPostListingCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEF9920569E30000C07C9 /* MLPostListingCameraViewModel.swift */; };
+		8E0EEFA720569E30000C07C9 /* MLPostListingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEF9A20569E30000C07C9 /* MLPostListingState.swift */; };
+		8E0EEFA820569E30000C07C9 /* MLPostListingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEF9A20569E30000C07C9 /* MLPostListingState.swift */; };
+		8E0EEFB02056C24F000C07C9 /* PostListingParams+ML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEFAF2056C24F000C07C9 /* PostListingParams+ML.swift */; };
+		8E0EEFB12056C24F000C07C9 /* PostListingParams+ML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEFAF2056C24F000C07C9 /* PostListingParams+ML.swift */; };
+		8E0EEFB42056C422000C07C9 /* MLPostingDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEFB22056C422000C07C9 /* MLPostingDetailsViewController.swift */; };
+		8E0EEFB52056C422000C07C9 /* MLPostingDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEFB22056C422000C07C9 /* MLPostingDetailsViewController.swift */; };
+		8E0EEFB62056C422000C07C9 /* MLPostingDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEFB32056C422000C07C9 /* MLPostingDetailsViewModel.swift */; };
+		8E0EEFB72056C422000C07C9 /* MLPostingDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEFB32056C422000C07C9 /* MLPostingDetailsViewModel.swift */; };
+		8E0EEFB92056DE2B000C07C9 /* machinelearning.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E0EEFB82056DE2B000C07C9 /* machinelearning.xcassets */; };
+		8E0EEFBA2056DE34000C07C9 /* machinelearning.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E0EEFB82056DE2B000C07C9 /* machinelearning.xcassets */; };
+		8E0EEFBC2056E2AA000C07C9 /* MLPostingOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEFBB2056E2AA000C07C9 /* MLPostingOnboardingView.swift */; };
+		8E0EEFBD2056E2AA000C07C9 /* MLPostingOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEFBB2056E2AA000C07C9 /* MLPostingOnboardingView.swift */; };
+		8E0EEFC22057E785000C07C9 /* MLPredictionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEFC12057E784000C07C9 /* MLPredictionDetailsView.swift */; };
+		8E0EEFC32057E785000C07C9 /* MLPredictionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0EEFC12057E784000C07C9 /* MLPredictionDetailsView.swift */; };
 		8E1139E21EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1139E11EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift */; };
 		8E1139E31EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1139E11EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift */; };
 		8E1139E51EC9AD7100A9D772 /* FilterTitleHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1139E41EC9AD7100A9D772 /* FilterTitleHeaderView.swift */; };
@@ -912,6 +942,14 @@
 		8EADA72A203453CC00DE8126 /* ChatInterlocutorIsTypingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EADA728203453CB00DE8126 /* ChatInterlocutorIsTypingCell.xib */; };
 		8EADA72D20347EC600DE8126 /* lottie_chat_typing_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 8EADA72C20347EC600DE8126 /* lottie_chat_typing_animation.json */; };
 		8EADA72E20347EC600DE8126 /* lottie_chat_typing_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 8EADA72C20347EC600DE8126 /* lottie_chat_typing_animation.json */; };
+		8EB650F22059279400FF50E4 /* MLPredictionDetailsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB650F12059279400FF50E4 /* MLPredictionDetailsViewCell.swift */; };
+		8EB650F32059279400FF50E4 /* MLPredictionDetailsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB650F12059279400FF50E4 /* MLPredictionDetailsViewCell.swift */; };
+		8EB6510A205ACBEF00FF50E4 /* MLTrackingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB65109205ACBEF00FF50E4 /* MLTrackingInfo.swift */; };
+		8EB6510B205ACBEF00FF50E4 /* MLTrackingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EB65109205ACBEF00FF50E4 /* MLTrackingInfo.swift */; };
+		8EB6510E205C1C1500FF50E4 /* MobileNetLetgov7final.json in Resources */ = {isa = PBXBuildFile; fileRef = 8EB6510C205C1C1200FF50E4 /* MobileNetLetgov7final.json */; };
+		8EB6510F205C1C1500FF50E4 /* MobileNetLetgov7final.json in Resources */ = {isa = PBXBuildFile; fileRef = 8EB6510C205C1C1200FF50E4 /* MobileNetLetgov7final.json */; };
+		8EB65110205C1C1500FF50E4 /* MobileNetLetgov7final.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8EB6510D205C1C1400FF50E4 /* MobileNetLetgov7final.mlmodel */; };
+		8EB65111205C1C1500FF50E4 /* MobileNetLetgov7final.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8EB6510D205C1C1400FF50E4 /* MobileNetLetgov7final.mlmodel */; };
 		8EBE07861FD59F3F009EBC1A /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E85EA251FD0539700A24ADE /* Data+Extensions.swift */; };
 		8EBEF9791F3CA50500473822 /* LGSliderViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */; };
 		8EC2051E1EAE52F000E4E5EC /* UIView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC2051D1EAE52F000E4E5EC /* UIView+LG.swift */; };
@@ -2158,6 +2196,21 @@
 		8E031CB12033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInterlocutorIsTypingCellDrawer.swift; sourceTree = "<group>"; };
 		8E0C9DF31E96924F00768D27 /* PostCategoryDetailProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCategoryDetailProgressView.swift; sourceTree = "<group>"; };
 		8E0C9DF61E96935300768D27 /* PostCarDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCarDetailsView.swift; sourceTree = "<group>"; };
+		8E0EEF82204EEE78000C07C9 /* LGMachineLearning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGMachineLearning.swift; sourceTree = "<group>"; };
+		8E0EEF88204EF827000C07C9 /* LGVision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGVision.swift; sourceTree = "<group>"; };
+		8E0EEF9420569E2F000C07C9 /* MLPostListingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MLPostListingViewController.xib; sourceTree = "<group>"; };
+		8E0EEF9520569E2F000C07C9 /* MLPostListingCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLPostListingCameraView.swift; sourceTree = "<group>"; };
+		8E0EEF9620569E2F000C07C9 /* MLPostListingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLPostListingViewController.swift; sourceTree = "<group>"; };
+		8E0EEF9720569E30000C07C9 /* MLPostListingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLPostListingViewModel.swift; sourceTree = "<group>"; };
+		8E0EEF9820569E30000C07C9 /* MLPostListingCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MLPostListingCameraView.xib; sourceTree = "<group>"; };
+		8E0EEF9920569E30000C07C9 /* MLPostListingCameraViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLPostListingCameraViewModel.swift; sourceTree = "<group>"; };
+		8E0EEF9A20569E30000C07C9 /* MLPostListingState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLPostListingState.swift; sourceTree = "<group>"; };
+		8E0EEFAF2056C24F000C07C9 /* PostListingParams+ML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostListingParams+ML.swift"; sourceTree = "<group>"; };
+		8E0EEFB22056C422000C07C9 /* MLPostingDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLPostingDetailsViewController.swift; sourceTree = "<group>"; };
+		8E0EEFB32056C422000C07C9 /* MLPostingDetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLPostingDetailsViewModel.swift; sourceTree = "<group>"; };
+		8E0EEFB82056DE2B000C07C9 /* machinelearning.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = machinelearning.xcassets; sourceTree = "<group>"; };
+		8E0EEFBB2056E2AA000C07C9 /* MLPostingOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLPostingOnboardingView.swift; sourceTree = "<group>"; };
+		8E0EEFC12057E784000C07C9 /* MLPredictionDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MLPredictionDetailsView.swift; sourceTree = "<group>"; };
 		8E1139E11EC9AD5B00A9D772 /* FilterDescriptionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDescriptionHeaderView.swift; sourceTree = "<group>"; };
 		8E1139E41EC9AD7100A9D772 /* FilterTitleHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTitleHeaderView.swift; sourceTree = "<group>"; };
 		8E15D7961E9B97D3000A99C0 /* PostCategoryDetailRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCategoryDetailRowView.swift; sourceTree = "<group>"; };
@@ -2180,6 +2233,10 @@
 		8EA489471FF4FFDD00F47B8F /* ChatInactiveConversationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInactiveConversationHeaderView.swift; sourceTree = "<group>"; };
 		8EADA728203453CB00DE8126 /* ChatInterlocutorIsTypingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatInterlocutorIsTypingCell.xib; sourceTree = "<group>"; };
 		8EADA72C20347EC600DE8126 /* lottie_chat_typing_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottie_chat_typing_animation.json; sourceTree = "<group>"; };
+		8EB650F12059279400FF50E4 /* MLPredictionDetailsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLPredictionDetailsViewCell.swift; sourceTree = "<group>"; };
+		8EB65109205ACBEF00FF50E4 /* MLTrackingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLTrackingInfo.swift; sourceTree = "<group>"; };
+		8EB6510C205C1C1200FF50E4 /* MobileNetLetgov7final.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MobileNetLetgov7final.json; sourceTree = "<group>"; };
+		8EB6510D205C1C1400FF50E4 /* MobileNetLetgov7final.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MobileNetLetgov7final.mlmodel; sourceTree = "<group>"; };
 		8EBEF9781F3CA50500473822 /* LGSliderViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSliderViewModelSpec.swift; sourceTree = "<group>"; };
 		8EC2051D1EAE52F000E4E5EC /* UIView+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+LG.swift"; sourceTree = "<group>"; };
 		8ED3C522204811E90078BE39 /* LGAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGAnimation.swift; sourceTree = "<group>"; };
@@ -3245,6 +3302,7 @@
 				C7BAC9BB1E49BCC0005BD0AF /* LGBubbleNotificationManager.swift */,
 				C7BAC9B91E49BC8A005BD0AF /* BubbleNotificationManager.swift */,
 				C730FD0D1E76F93000175C27 /* CacheManager.swift */,
+				8E0EEF7B204EED84000C07C9 /* MachineLearning */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -3977,6 +4035,39 @@
 			name = DistanceSlider;
 			sourceTree = "<group>";
 		};
+		8E0EEF7B204EED84000C07C9 /* MachineLearning */ = {
+			isa = PBXGroup;
+			children = (
+				8EB6510D205C1C1400FF50E4 /* MobileNetLetgov7final.mlmodel */,
+				8EB6510C205C1C1200FF50E4 /* MobileNetLetgov7final.json */,
+				8E0EEF82204EEE78000C07C9 /* LGMachineLearning.swift */,
+				8E0EEF88204EF827000C07C9 /* LGVision.swift */,
+			);
+			path = MachineLearning;
+			sourceTree = "<group>";
+		};
+		8E0EEF9320569D73000C07C9 /* MachineLeaning */ = {
+			isa = PBXGroup;
+			children = (
+				8E0EEF9520569E2F000C07C9 /* MLPostListingCameraView.swift */,
+				8E0EEF9820569E30000C07C9 /* MLPostListingCameraView.xib */,
+				8E0EEF9920569E30000C07C9 /* MLPostListingCameraViewModel.swift */,
+				8E0EEF9A20569E30000C07C9 /* MLPostListingState.swift */,
+				8E0EEF9620569E2F000C07C9 /* MLPostListingViewController.swift */,
+				8E0EEF9420569E2F000C07C9 /* MLPostListingViewController.xib */,
+				8E0EEF9720569E30000C07C9 /* MLPostListingViewModel.swift */,
+				8E0EEFB22056C422000C07C9 /* MLPostingDetailsViewController.swift */,
+				8E0EEFB32056C422000C07C9 /* MLPostingDetailsViewModel.swift */,
+				8E0EEFAF2056C24F000C07C9 /* PostListingParams+ML.swift */,
+				8E0EEFB82056DE2B000C07C9 /* machinelearning.xcassets */,
+				8E0EEFBB2056E2AA000C07C9 /* MLPostingOnboardingView.swift */,
+				8E0EEFC12057E784000C07C9 /* MLPredictionDetailsView.swift */,
+				8EB650F12059279400FF50E4 /* MLPredictionDetailsViewCell.swift */,
+				8EB65109205ACBEF00FF50E4 /* MLTrackingInfo.swift */,
+			);
+			path = MachineLeaning;
+			sourceTree = "<group>";
+		};
 		8E8017962010B8C8004CE244 /* InactiveConversations */ = {
 			isa = PBXGroup;
 			children = (
@@ -4433,8 +4524,6 @@
 		C7B588771CE1DFA6009B3975 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				2EE47D2720177653004B04EE /* ChatAskPhoneNumberCell.swift */,
-				2EE47D2820177653004B04EE /* ChatAskPhoneNumberCell.xib */,
 				C7B588781CE1DFA6009B3975 /* ChatBubbleCell.swift */,
 				50FEFA1D20469AD6003C51B0 /* ChatBubbleCellType.swift */,
 				500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */,
@@ -4511,6 +4600,7 @@
 		C7DE8AA61C8886FE005CF37E /* Post */ = {
 			isa = PBXGroup;
 			children = (
+				8E0EEF9320569D73000C07C9 /* MachineLeaning */,
 				019148731FFCEB7600DB77E6 /* MostSearchedItems */,
 				018740781FD5764A009C1363 /* Onboarding */,
 				C7F18A9C1C89D5FB00D23319 /* cells */,
@@ -5025,6 +5115,7 @@
 				C7DE8AD31C888761005CF37E /* SellListingCell.xib in Resources */,
 				C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */,
 				2E50E9A91D057E92002DC4C1 /* LGAlertViewController.xib in Resources */,
+				8E0EEFB92056DE2B000C07C9 /* machinelearning.xcassets in Resources */,
 				C74931701D34FD0200E117F1 /* RateUserViewController.xib in Resources */,
 				C77593DF1BF0B8A00097D62F /* FiltersViewController.xib in Resources */,
 				D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */,
@@ -5099,6 +5190,7 @@
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
 				C7B588471CE1DE1C009B3975 /* ChatListingView.xib in Resources */,
 				C7415ED81DE880BD0003D6C1 /* SimpleListingsViewController.xib in Resources */,
+				8E0EEFA320569E30000C07C9 /* MLPostListingCameraView.xib in Resources */,
 				2E97169F1D59E958009B3A32 /* ExpressChatViewController.xib in Resources */,
 				C74016DC1D6467DB004C1E9D /* PostListingDetailPriceView.xib in Resources */,
 				5080111F1D474ED80073F362 /* Icons-Launchers.xcassets in Resources */,
@@ -5108,6 +5200,7 @@
 				C727FBC01CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */,
 				C78BB50D1C5A314700614096 /* AppShareViewController.xib in Resources */,
 				50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */,
+				8EB6510E205C1C1500FF50E4 /* MobileNetLetgov7final.json in Resources */,
 				2E132A501F220D7B00C20127 /* Taxonomies.json in Resources */,
 				C7B588511CE1DE1C009B3975 /* DirectAnswerCell.xib in Resources */,
 				8EADA729203453CC00DE8126 /* ChatInterlocutorIsTypingCell.xib in Resources */,
@@ -5120,6 +5213,7 @@
 				500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */,
 				C7F3F1E71DE5EF6A00652447 /* TourBlurBackgroundViewController.xib in Resources */,
 				2EB32D661DF1CBC900E01E93 /* Monetization.xcassets in Resources */,
+				8E0EEF9B20569E30000C07C9 /* MLPostListingViewController.xib in Resources */,
 				2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */,
 				50CA9FAD1C91695F00350C5F /* UserViewController.xib in Resources */,
 				C7DB41811C51239500400945 /* Settings.bundle in Resources */,
@@ -5196,6 +5290,7 @@
 				C7B588A11CE1E025009B3975 /* ChatGroupedListView.xib in Resources */,
 				6AF75D0E1CF4657B00EACCF0 /* ChatStickerCell.xib in Resources */,
 				C72794391D549342009C25AB /* ChangePasswordViewController.xib in Resources */,
+				8E0EEFA420569E30000C07C9 /* MLPostListingCameraView.xib in Resources */,
 				2E2208EC1DD4C0F300FB2483 /* EmptyCell.xib in Resources */,
 				2E9716AB1D5A284F009B3A32 /* ExpressChatViewController.xib in Resources */,
 				C7DE8AE31C88A98B005CF37E /* PostListingViewController.xib in Resources */,
@@ -5222,6 +5317,7 @@
 				6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
 				C73FABBF1DD3895E008F4519 /* SettingsInfoCell.xib in Resources */,
 				8E26E95A1ED5AF9A0086D3EC /* FilterDistanceSlider.xib in Resources */,
+				8EB6510F205C1C1500FF50E4 /* MobileNetLetgov7final.json in Resources */,
 				C7DB42771C5138B500400945 /* FilterTagCell.xib in Resources */,
 				C7DE8ADA1C8892C9005CF37E /* PostListingCameraView.xib in Resources */,
 				C73FABC51DD46A1D008F4519 /* SettingsSwitchCell.xib in Resources */,
@@ -5239,6 +5335,7 @@
 				C7F18AA21C89D62600D23319 /* GalleryImageCell.xib in Resources */,
 				C7C61DF81D63035400F9505D /* ListingCarouselMoreInfoView.xib in Resources */,
 				C727FBC11CCFC4ED002BC643 /* NotificationsViewController.xib in Resources */,
+				8E0EEF9C20569E30000C07C9 /* MLPostListingViewController.xib in Resources */,
 				C78BB50E1C5A314700614096 /* AppShareViewController.xib in Resources */,
 				2ECB417020065FB200482EF7 /* BumpUpPayViewController.xib in Resources */,
 				C7DB427F1C5138B500400945 /* ChatSafetyTipsView.xib in Resources */,
@@ -5249,6 +5346,7 @@
 				508011241D474ED80073F362 /* ProductCellBanners.xcassets in Resources */,
 				C7DE8ACA1C888761005CF37E /* EditListingViewController.xib in Resources */,
 				6AA26D011CFDCA2000546063 /* ChatDisclaimerCell.xib in Resources */,
+				8E0EEFBA2056DE34000C07C9 /* machinelearning.xcassets in Resources */,
 				C7F18A981C89CB4C00D23319 /* PostListingGalleryView.xib in Resources */,
 				C7DB42851C5138B500400945 /* ios-devel.json in Resources */,
 				C7F3F1E81DE5EF6A00652447 /* TourBlurBackgroundViewController.xib in Resources */,
@@ -5277,7 +5375,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -5467,7 +5565,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		5026B0A61B05E2F3006858BB /* Fabric Script */ = {
@@ -5527,7 +5625,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		8508DCECFDE8BE27012F5FFC /* [CP] Embed Pods Frameworks */ = {
@@ -5637,7 +5735,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		BBFA7F7BD5812BEA4BE1060E /* [CP] Copy Pods Resources */ = {
@@ -5651,7 +5749,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -5669,7 +5767,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -5928,6 +6026,7 @@
 				C7C61E001D631F3200F9505D /* ListingCollectionCellDrawer.swift in Sources */,
 				2E3665691DE4880A00000F68 /* PostIncentivatorView.swift in Sources */,
 				C707D4551E9B7CB200042C03 /* PostListingTrackingInfo.swift in Sources */,
+				8E0EEF9F20569E30000C07C9 /* MLPostListingViewController.swift in Sources */,
 				F57D3A251FECFCFC006F2CA4 /* TagCollectionView.swift in Sources */,
 				C7B588451CE1DE1C009B3975 /* ChatListingView.swift in Sources */,
 				509F79AC1ED6CD1C00AF2F70 /* UserRatingTagCell.swift in Sources */,
@@ -5968,6 +6067,7 @@
 				C7B5886B1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
 				C7AFFAFE1E7053EF0052A9CA /* NPSViewModel.swift in Sources */,
 				724D77A41FC3251E00DB43C0 /* RealEstateAttributes+LG.swift in Sources */,
+				8E0EEFA720569E30000C07C9 /* MLPostListingState.swift in Sources */,
 				6A5691531D255D27000B7365 /* ListingCellModel.swift in Sources */,
 				8E814F3C1F3472E800C88432 /* LGSliderViewModel.swift in Sources */,
 				C75B5DC11D59E09500112368 /* ListingCarouselViewController.swift in Sources */,
@@ -6004,6 +6104,7 @@
 				6A879DA81C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */,
 				2E4EBFC31EADF63A005FE040 /* CarAttributeSelectionViewController.swift in Sources */,
 				72AAA5A21DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */,
+				8E0EEFC22057E785000C07C9 /* MLPredictionDetailsView.swift in Sources */,
 				C7732F751D8842B800EAD5B7 /* OnboardingNavigator.swift in Sources */,
 				7226F0FB1E962CA200B54D01 /* ChatRelatedItemsState.swift in Sources */,
 				D4BFE5B61B640C36006A8CB6 /* MainListingsViewModel.swift in Sources */,
@@ -6042,6 +6143,7 @@
 				C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */,
 				2E52CCD41CBD54F3003B7A96 /* ABTests.swift in Sources */,
 				C72794461D549342009C25AB /* HelpViewModel.swift in Sources */,
+				8E0EEFA520569E30000C07C9 /* MLPostListingCameraViewModel.swift in Sources */,
 				2E2208E51DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */,
 				6A3C730F1CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */,
 				2EADE4DF20514AF60089D9F8 /* PostingCategoriesPickViewController.swift in Sources */,
@@ -6083,6 +6185,7 @@
 				6A5E1A161D548F5400F92692 /* UITextField+LG.swift in Sources */,
 				0127AA86200E3FB00058AAC5 /* MostSearchedItemsUserHeader.swift in Sources */,
 				C7126BD91E6053AA00038CC4 /* ListingViewModelStatus.swift in Sources */,
+				8E0EEF9D20569E30000C07C9 /* MLPostListingCameraView.swift in Sources */,
 				C749316E1D34FD0200E117F1 /* RateUserViewController.swift in Sources */,
 				8E8017982010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift in Sources */,
 				2E75EC531FA89F5B00C5F48F /* AdsRequester.swift in Sources */,
@@ -6095,6 +6198,7 @@
 				C7AFFAFA1E7053EF0052A9CA /* NPSViewController.swift in Sources */,
 				6A5E19F81D548F5400F92692 /* GlobalFunctions.swift in Sources */,
 				C7B76CF51C1089DF00863512 /* ListingCellDrawer.swift in Sources */,
+				8E0EEFB62056C422000C07C9 /* MLPostingDetailsViewModel.swift in Sources */,
 				C78BB50B1C5A314700614096 /* AppShareViewController.swift in Sources */,
 				50D67B971D0AFF24003AC0A5 /* TabBarShowable.swift in Sources */,
 				508C3F791C984BCA00CF431F /* UserViewHeader.swift in Sources */,
@@ -6118,6 +6222,7 @@
 				50C9E4BB1B71FBD7001E4E92 /* TrackerEvent.swift in Sources */,
 				D4443D6B1B1288B700237095 /* Constants.swift in Sources */,
 				5063949A1C8D97050091C831 /* BaseViewModelDelegate.swift in Sources */,
+				8E0EEF89204EF827000C07C9 /* LGVision.swift in Sources */,
 				72FE02D91F97A155005BD672 /* ListingCreationParams+LG.swift in Sources */,
 				2ECB41772007CF3D00482EF7 /* AdvertisementCellDrawer.swift in Sources */,
 				509598891C8733B70026AE2D /* Logger.swift in Sources */,
@@ -6126,6 +6231,7 @@
 				50C2E1A71E701BE8006639BB /* PostListingFooter.swift in Sources */,
 				8E031CB22033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift in Sources */,
 				8ED3C523204811E90078BE39 /* LGAnimation.swift in Sources */,
+				8EB6510A205ACBEF00FF50E4 /* MLTrackingInfo.swift in Sources */,
 				506846471CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
 				C79842011CC8E8C900C300FF /* User+LG.swift in Sources */,
 				C7415EEB1DEF1E300003D6C1 /* TextViewController.swift in Sources */,
@@ -6196,6 +6302,7 @@
 				C7111EFF1CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				C7B5885F1CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
 				C749C78D1C10830600F7118E /* CellDrawer.swift in Sources */,
+				8E0EEFBC2056E2AA000C07C9 /* MLPostingOnboardingView.swift in Sources */,
 				6A879D9F1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,
 				72D928EE1E83F0BD0030F4C3 /* LGPushPermissionsManager.swift in Sources */,
 				C7DCFEC21BFE3CFD00F7A4FB /* UITabBarController+Animations.swift in Sources */,
@@ -6241,9 +6348,11 @@
 				C75B5DD11D59E0C500112368 /* ListingCarouselCell.swift in Sources */,
 				C7111F081CA4458F000C5C5A /* ShortcutItem.swift in Sources */,
 				509598871C8733B70026AE2D /* CrashlyticsLogger.swift in Sources */,
+				8EB65110205C1C1500FF50E4 /* MobileNetLetgov7final.mlmodel in Sources */,
 				6A40A3D01C0D9D7E00C551B3 /* ReusableCell.swift in Sources */,
 				2E4EBFC01EADF628005FE040 /* CarAttributeSelectionViewModel.swift in Sources */,
 				2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */,
+				8EB650F22059279400FF50E4 /* MLPredictionDetailsViewCell.swift in Sources */,
 				50C59BD41CE0DB4400377124 /* KeyValueStorageable.swift in Sources */,
 				50EC640A1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */,
 				01A0480A200CEF53008725A1 /* DailyCountIncrementer.swift in Sources */,
@@ -6302,6 +6411,7 @@
 				C78F9DBC1DCA525F00884064 /* ChatTextView.swift in Sources */,
 				502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */,
 				C75B5DC51D59E09500112368 /* ListingCarouselViewModel.swift in Sources */,
+				8E0EEFB42056C422000C07C9 /* MLPostingDetailsViewController.swift in Sources */,
 				50A61C221DCA1B5A0057436A /* NSLocale+Country.swift in Sources */,
 				C7890A821E55AC0E0079964C /* CameraWrapper.swift in Sources */,
 				507F1BFB1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
@@ -6329,6 +6439,7 @@
 				C731B8781CE22BBE00F31D46 /* ChatListViewModel.swift in Sources */,
 				505F55B31E8A97AF005A616F /* PostCategorySelectionView.swift in Sources */,
 				6A4D1E151C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */,
+				8E0EEFB02056C24F000C07C9 /* PostListingParams+ML.swift in Sources */,
 				C7B5884F1CE1DE1C009B3975 /* DirectAnswerCell.swift in Sources */,
 				2E4BDE6F1EDC52A300CBDC8C /* QuickLocationFiltersCoordinator.swift in Sources */,
 				C7B5888D1CE1DFA6009B3975 /* ChatOthersMessageCell.swift in Sources */,
@@ -6346,6 +6457,7 @@
 				6A12E0551C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */,
 				C7DE8AC71C888761005CF37E /* EditListingViewController.swift in Sources */,
 				6ADACDC71CEDC68A008A5603 /* ChatStickersView.swift in Sources */,
+				8E0EEF83204EEE78000C07C9 /* LGMachineLearning.swift in Sources */,
 				2E4BDE6C1EDC528800CBDC8C /* QuickLocationFiltersNavigator.swift in Sources */,
 				C743FEB31E44CFEC00B4E912 /* RateBuyersViewModel.swift in Sources */,
 				504E61FB1C872E2400EBF38F /* Debug.swift in Sources */,
@@ -6449,6 +6561,7 @@
 				C707D4521E9B7CA100042C03 /* SendMessageTrackingInfo.swift in Sources */,
 				50146BDF1D4F910000B0F635 /* NotificationsTabNavigator.swift in Sources */,
 				0183496A204F573100B14A24 /* ListingEditionParams+LG.swift in Sources */,
+				8E0EEFA120569E30000C07C9 /* MLPostListingViewModel.swift in Sources */,
 				5076228C1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,
 				C7F18A941C89CB3300D23319 /* PostListingGalleryView.swift in Sources */,
 				C7DE8ABA1C888750005CF37E /* ListingPostedViewController.swift in Sources */,
@@ -6530,6 +6643,7 @@
 				50D67B9B1D182EE9003AC0A5 /* SellCoordinator.swift in Sources */,
 				C7C61E011D631F3400F9505D /* ListingCollectionCellDrawer.swift in Sources */,
 				2E36656A1DE4880A00000F68 /* PostIncentivatorView.swift in Sources */,
+				8E0EEFA020569E30000C07C9 /* MLPostListingViewController.swift in Sources */,
 				F57D3A2E1FED01A6006F2CA4 /* TagCollectionView.swift in Sources */,
 				C707D4561E9B7CB200042C03 /* PostListingTrackingInfo.swift in Sources */,
 				C7B588A31CE1E025009B3975 /* ChatGroupedListViewModel.swift in Sources */,
@@ -6570,6 +6684,7 @@
 				C7B5886C1CE1DE1C009B3975 /* ChatGroupedViewModel.swift in Sources */,
 				724D77A51FC3252100DB43C0 /* RealEstateAttributes+LG.swift in Sources */,
 				C7AFFAFF1E7053EF0052A9CA /* NPSViewModel.swift in Sources */,
+				8E0EEFA820569E30000C07C9 /* MLPostListingState.swift in Sources */,
 				8E814F3D1F3472E800C88432 /* LGSliderViewModel.swift in Sources */,
 				6A5691541D255D27000B7365 /* ListingCellModel.swift in Sources */,
 				C75B5DC21D59E09500112368 /* ListingCarouselViewController.swift in Sources */,
@@ -6606,6 +6721,7 @@
 				2E4EBFC41EADF63A005FE040 /* CarAttributeSelectionViewController.swift in Sources */,
 				C7DB41A91C5138B500400945 /* ListingTimeCriteria+LG.swift in Sources */,
 				6A879DA91C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */,
+				8E0EEFC32057E785000C07C9 /* MLPredictionDetailsView.swift in Sources */,
 				72AAA5A31DEEDE19008DD329 /* EscrowEnviroment.swift in Sources */,
 				7226F0FC1E962CA200B54D01 /* ChatRelatedItemsState.swift in Sources */,
 				C7732F761D8842B800EAD5B7 /* OnboardingNavigator.swift in Sources */,
@@ -6644,6 +6760,7 @@
 				C7DB41B41C5138B500400945 /* AppDelegate.swift in Sources */,
 				C783D98F1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
 				C7DB41B51C5138B500400945 /* FilterTagCell.swift in Sources */,
+				8E0EEFA620569E30000C07C9 /* MLPostListingCameraViewModel.swift in Sources */,
 				72854D211F8E261C00E54530 /* NumberOfBathrooms.swift in Sources */,
 				2E2208E61DD4BCD800FB2483 /* EmptyCellDrawer.swift in Sources */,
 				2EADE4E020514AF60089D9F8 /* PostingCategoriesPickViewController.swift in Sources */,
@@ -6685,6 +6802,7 @@
 				6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
 				8E8017992010B8F2004CE244 /* ChatInactiveConversationsListViewModel.swift in Sources */,
 				C7126BDA1E6053AA00038CC4 /* ListingViewModelStatus.swift in Sources */,
+				8E0EEF9E20569E30000C07C9 /* MLPostListingCameraView.swift in Sources */,
 				C727944A1D54944E009C25AB /* SettingsViewModel.swift in Sources */,
 				2E75EC541FA89F5B00C5F48F /* AdsRequester.swift in Sources */,
 				0183496B204F573100B14A24 /* ListingEditionParams+LG.swift in Sources */,
@@ -6698,6 +6816,7 @@
 				2E4ADECC200516A600D07D8A /* ProfessionalDealerAskPhoneViewController.swift in Sources */,
 				C7AFFAFB1E7053EF0052A9CA /* NPSViewController.swift in Sources */,
 				5095988E1C8733B70026AE2D /* CrashlyticsReporter.swift in Sources */,
+				8E0EEFB72056C422000C07C9 /* MLPostingDetailsViewModel.swift in Sources */,
 				2E2A5E161D5C81250047ED45 /* ExpressChatCoordinator.swift in Sources */,
 				6A5E19F91D548F5400F92692 /* GlobalFunctions.swift in Sources */,
 				729912F6200FABD9000541CF /* NumberOfRooms.swift in Sources */,
@@ -6721,6 +6840,7 @@
 				C7C61E081D63505500F9505D /* CollectionType+Shuffle.swift in Sources */,
 				2ECB41782007CF3D00482EF7 /* AdvertisementCellDrawer.swift in Sources */,
 				72FE02DA1F97A155005BD672 /* ListingCreationParams+LG.swift in Sources */,
+				8E0EEF8A204EF827000C07C9 /* LGVision.swift in Sources */,
 				C7DB41D51C5138B500400945 /* ListingListViewModel.swift in Sources */,
 				C7DB41D61C5138B500400945 /* CrashlyticsTracker.swift in Sources */,
 				C7DB41D71C5138B500400945 /* BaseView.swift in Sources */,
@@ -6728,6 +6848,7 @@
 				C7DB41D81C5138B500400945 /* TrackerEvent.swift in Sources */,
 				50146BCE1D4F5F9000B0F635 /* NotificationsTabCoordinator.swift in Sources */,
 				8E031CB32033343300CA0ED9 /* ChatInterlocutorIsTypingCellDrawer.swift in Sources */,
+				8EB6510B205ACBEF00FF50E4 /* MLTrackingInfo.swift in Sources */,
 				8ED3C524204811E90078BE39 /* LGAnimation.swift in Sources */,
 				C7DB41DA1C5138B500400945 /* Constants.swift in Sources */,
 				5095988A1C8733B70026AE2D /* Logger.swift in Sources */,
@@ -6799,6 +6920,7 @@
 				C7111F001CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				2E9716A71D5A2840009B3A32 /* ExpressChatViewModel.swift in Sources */,
 				72D928EF1E83F0BD0030F4C3 /* LGPushPermissionsManager.swift in Sources */,
+				8E0EEFBD2056E2AA000C07C9 /* MLPostingOnboardingView.swift in Sources */,
 				C7DB41F51C5138B500400945 /* CellDrawer.swift in Sources */,
 				727463B61FB0AF1400AD8261 /* LGSearchMapViewModel.swift in Sources */,
 				C7B588601CE1DE1C009B3975 /* RelationInfoView.swift in Sources */,
@@ -6843,11 +6965,13 @@
 				C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */,
 				C7DE8ABF1C888750005CF37E /* ListingPostedViewModel.swift in Sources */,
 				6A12E04D1C635FA600C1BFE3 /* TourLoginViewController.swift in Sources */,
+				8EB65111205C1C1500FF50E4 /* MobileNetLetgov7final.mlmodel in Sources */,
 				C75B5DD21D59E0C500112368 /* ListingCarouselCell.swift in Sources */,
 				2E4EBFC11EADF628005FE040 /* CarAttributeSelectionViewModel.swift in Sources */,
 				C7DB42001C5138B500400945 /* ReusableCell.swift in Sources */,
 				2E28B12C1D99132D001BF8E4 /* Double+Rounding.swift in Sources */,
 				01A0480B200CEF53008725A1 /* DailyCountIncrementer.swift in Sources */,
+				8EB650F32059279400FF50E4 /* MLPredictionDetailsViewCell.swift in Sources */,
 				0A6E56AF1F8E241000419DDC /* RelatedListingsViewModel.swift in Sources */,
 				01772B60204F0F340037FD5F /* BlockingPostingStepHeaderView.swift in Sources */,
 				C7111F091CA4458F000C5C5A /* ShortcutItem.swift in Sources */,
@@ -6906,6 +7030,7 @@
 				C7890A831E55AC0E0079964C /* CameraWrapper.swift in Sources */,
 				C78F9DBD1DCA525F00884064 /* ChatTextView.swift in Sources */,
 				C7B588821CE1DFA6009B3975 /* ChatCellDrawerFactory.swift in Sources */,
+				8E0EEFB52056C422000C07C9 /* MLPostingDetailsViewController.swift in Sources */,
 				6A5E1A111D548F5400F92692 /* UIImage+LG.swift in Sources */,
 				50A61C231DCA1B5A0057436A /* NSLocale+Country.swift in Sources */,
 				C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */,
@@ -6933,6 +7058,7 @@
 				505F55B41E8A97AF005A616F /* PostCategorySelectionView.swift in Sources */,
 				C7DB42151C5138B500400945 /* SignUpLogInViewModel.swift in Sources */,
 				C731B8791CE22BBE00F31D46 /* ChatListViewModel.swift in Sources */,
+				8E0EEFB12056C24F000C07C9 /* PostListingParams+ML.swift in Sources */,
 				2E4BDE701EDC52A300CBDC8C /* QuickLocationFiltersCoordinator.swift in Sources */,
 				6A4D1E161C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */,
 				2E59B4441F67E3980095058C /* FailedBumpInfo.swift in Sources */,
@@ -6950,6 +7076,7 @@
 				C7DE8AC81C888761005CF37E /* EditListingViewController.swift in Sources */,
 				6ADACDC81CEDC68A008A5603 /* ChatStickersView.swift in Sources */,
 				2E4BDE6D1EDC528800CBDC8C /* QuickLocationFiltersNavigator.swift in Sources */,
+				8E0EEF84204EEE78000C07C9 /* LGMachineLearning.swift in Sources */,
 				C743FEB41E44CFEC00B4E912 /* RateBuyersViewModel.swift in Sources */,
 				723A45CA1DDC4D470001D02C /* UILabel+LG.swift in Sources */,
 				C7BAC9C91E49D316005BD0AF /* PurchasesShopper.swift in Sources */,
@@ -7051,6 +7178,7 @@
 				C7F4CBA41C9181A5008E40D6 /* PostListingCameraViewModel.swift in Sources */,
 				C707D4531E9B7CA200042C03 /* SendMessageTrackingInfo.swift in Sources */,
 				50146BE01D4F910000B0F635 /* NotificationsTabNavigator.swift in Sources */,
+				8E0EEFA220569E30000C07C9 /* MLPostListingViewModel.swift in Sources */,
 				5076228D1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,
 				C7F18A951C89CB3300D23319 /* PostListingGalleryView.swift in Sources */,
 				C7DE8ABB1C888750005CF37E /* ListingPostedViewController.swift in Sources */,

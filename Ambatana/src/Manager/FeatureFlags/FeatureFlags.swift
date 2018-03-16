@@ -68,7 +68,7 @@ protocol FeatureFlaggeable: class {
     var userIsTyping: UserIsTyping { get }
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
-    
+    var machineLearningMVP: MachineLearningMVP { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -248,6 +248,10 @@ extension CopyForChatNowInTurkey {
             return LGLocalizedString.bumpUpProductCellChatNowButtonD
         }
     } }
+}
+
+extension MachineLearningMVP {
+    var isActive: Bool { get { return self == .active } }
 }
 
 
@@ -542,6 +546,13 @@ class FeatureFlags: FeatureFlaggeable {
         return UserIsTyping.fromPosition(abTests.userIsTyping.value)
     }
     
+    var machineLearningMVP: MachineLearningMVP {
+        if Bumper.enabled {
+            return Bumper.machineLearningMVP
+        }
+        return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
+    }
+
     var newUserProfileView: NewUserProfileView {
         if Bumper.enabled {
             return Bumper.newUserProfileView

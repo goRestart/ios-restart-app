@@ -422,6 +422,16 @@
 "main_sign_up_terms_conditions" = "로그인함하여 회원님은 저희 사용 약관 및 개인보호 정책에 동의하시게 됩니다";
 "main_sign_up_terms_conditions_privacy_part" = "개인보호 정책";
 "main_sign_up_terms_conditions_terms_part" = "사용 약관";
+"ml_camera_in_about_days_text" = "in about %.f days";
+"ml_camera_in_more_than_days_text" = "in more than %.f days";
+"ml_camera_sells_for_text" = "Typically sells for $%d";
+"ml_category_text" = "Category:";
+"ml_details_price_text" = "Price:";
+"ml_details_suggested_details_text" = "SUGGESTED DETAILS";
+"ml_details_title_text" = "Title:";
+"ml_onboarding_description_text" = "Show me an item and I'll tell you how much you'll make";
+"ml_onboarding_new_text" = "새로운!";
+"ml_onboarding_ok_text" = "예";
 "notifications_empty_subtitle" = "판매할 상품을 게시하고 몇가지 활동을 확인하세요";
 "notifications_empty_title" = "알림 없음 (아직이에요!)";
 "notifications_permissions_1_push" = "이사벨라: 판매하시는 전화기에 관심있는데요. $100 제안해볼게요";

@@ -176,7 +176,8 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
                                                    imageSource: imageSource,
                                                    price: String.fromPriceDouble(listing.price.value),
                                                    typePage: postingSource.typePage,
-                                                   mostSearchedButton: postingSource.mostSearchedButton)
+                                                   mostSearchedButton: postingSource.mostSearchedButton,
+                                                   machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         
         let event = TrackerEvent.listingSellComplete(listing,
                                                      buttonName: trackingInfo.buttonName,
@@ -185,7 +186,8 @@ class ListingPostedDescriptiveViewModel: BaseViewModel, PostingCategoriesPickDel
                                                      pictureSource: trackingInfo.imageSource,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
-                                                     mostSearchedButton: trackingInfo.mostSearchedButton)
+                                                     mostSearchedButton: trackingInfo.mostSearchedButton,
+                                                     machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
         tracker.trackEvent(event)
     }
     

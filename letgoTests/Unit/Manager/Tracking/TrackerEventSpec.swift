@@ -2273,7 +2273,8 @@ class TrackerEventSpec: QuickSpec {
                                                         buttonName: .sellYourStuff,
                                                         sellButtonPosition: .tabBar,
                                                         category: .cars,
-                                                        mostSearchedButton: .notApply)
+                                                        mostSearchedButton: .notApply,
+                                                        predictiveFlow: false)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-start"))
@@ -2306,7 +2307,8 @@ class TrackerEventSpec: QuickSpec {
                                                             buttonName: nil,
                                                             sellButtonPosition: .none,
                                                             category: .cars,
-                                                            mostSearchedButton: eventParameterMostSearched)
+                                                            mostSearchedButton: eventParameterMostSearched,
+                                                            predictiveFlow: false)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("product-sell-start"))
@@ -2386,7 +2388,8 @@ class TrackerEventSpec: QuickSpec {
                                                            pictureSource: .gallery,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: .notApply)
+                                                           mostSearchedButton: .notApply,
+                                                           machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
@@ -2496,7 +2499,8 @@ class TrackerEventSpec: QuickSpec {
                                                            pictureSource: .gallery,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: eventParameterMostSearched)
+                                                           mostSearchedButton: eventParameterMostSearched,
+                                                           machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
@@ -2597,7 +2601,8 @@ class TrackerEventSpec: QuickSpec {
                                                            pictureSource: .gallery,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: .notApply)
+                                                           mostSearchedButton: .notApply,
+                                                           machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
@@ -2724,7 +2729,8 @@ class TrackerEventSpec: QuickSpec {
                                                            pictureSource: .gallery,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: .notApply)
+                                                           mostSearchedButton: .notApply,
+                                                           machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))

@@ -88,7 +88,8 @@ class PostingGetStartedViewModel: BaseViewModel {
                                                   buttonName: PostingSource.onboardingBlockingPosting.buttonName,
                                                   sellButtonPosition: PostingSource.onboardingBlockingPosting.sellButtonPosition,
                                                   category: nil,
-                                                  mostSearchedButton: PostingSource.onboardingBlockingPosting.mostSearchedButton)
+                                                  mostSearchedButton: PostingSource.onboardingBlockingPosting.mostSearchedButton,
+                                                  predictiveFlow: false)
         tracker.trackEvent(event)
     }
 }
