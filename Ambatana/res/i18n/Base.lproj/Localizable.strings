@@ -223,6 +223,9 @@
 // Change Bio save button title
 "change_bio_save_button" = "Save";
 
+// Change Bio error shown when new bio contains invalid info
+"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
+
 // Change location apply button. Check image @ "change_location_title" segment
 "change_location_apply_button" = "Set location";
 

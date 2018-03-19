@@ -70,6 +70,7 @@
 "categories_title" = "Κατηγορίες";
 "categories_unassigned" = "Δεν έχει επιλεχθεί";
 "categories_unassigned_items" = "Άλλα αντικείμενα";
+"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
 "change_bio_placeholder" = "Προσθέστε ένα βιογραφικό που να περιγράφει ποιοι είστε. Μοιραστείτε ό,τι σας ενδιαφέρει ή κάποιο διασκεδαστικό στοιχείο του χαρακτήρα σας.";
 "change_bio_save_button" = "Αποθήκευση";
 "change_bio_title" = "Σχετικά με εμένα";
