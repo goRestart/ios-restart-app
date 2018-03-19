@@ -150,6 +150,7 @@ class MLPostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsVie
         if viewModel.isLiveStatsEnabledBackup,
             let predictionDetailsData = viewModel.predictionDetailsData() {
             predictionDetailsView.set(data: predictionDetailsData)
+            viewModel.trackPredictedData(predictedData: predictionDetailsData)
         }
         
         takePhotoEnabled.value = false
