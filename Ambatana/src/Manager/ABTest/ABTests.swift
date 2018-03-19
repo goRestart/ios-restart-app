@@ -60,6 +60,7 @@ class ABTests {
     let copyForChatNowInTurkey = IntABDynamicVar(key: "20180312CopyForChatNowInTurkey", defaultValue: 0, abGroupType: .money)
     let increaseNumberOfPictures = IntABDynamicVar(key: "20180314IncreaseNumberOfPictures", defaultValue: 0, abGroupType: .realEstate)
     let machineLearningMVP = IntABDynamicVar(key: "20180312MachineLearningMVP", defaultValue: 0, abGroupType: .core)
+    let realEstateTutorial = IntABDynamicVar(key: "20180309RealEstateTutorial", defaultValue: 0, abGroupType: .realEstate)
 
     init() {
     }
@@ -111,6 +112,7 @@ class ABTests {
         result.append(servicesCategoryEnabled)
         result.append(copyForChatNowInTurkey)
         result.append(increaseNumberOfPictures)
+        result.append(realEstateTutorial)
         
         return result
     }

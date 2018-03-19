@@ -263,6 +263,16 @@ extension SellCoordinator: PostListingNavigator {
         let vc = BlockingPostingQueuedRequestsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)
     }
+    
+    func openRealEstateOnboarding(pages: [LGTutorialPage],
+                                  origin: EventParameterTypePage,
+                                  tutorialType: EventParameterTutorialType) {
+        guard pages.count > 0 else { return }
+        let viewModel = LGTutorialViewModel(pages: pages, origin: origin, tutorialType: tutorialType)
+        let viewController = LGTutorialViewController(viewModel: viewModel)
+        viewController.modalPresentationStyle = .overCurrentContext
+        navigationController.present(viewController, animated: true, completion: nil)
+    }
 }
 
 
@@ -272,7 +282,6 @@ extension SellCoordinator: ListingPostedNavigator {
     func cancelListingPosted() {
         closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
-
             delegate.sellCoordinatorDidCancel(strongSelf)
         }
     }

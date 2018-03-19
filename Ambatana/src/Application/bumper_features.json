@@ -196,6 +196,11 @@
         "description": "Allow to include up to 10 pictures on listings"
     },
     {
+        "name": "RealEstateTutorial",
+        "values": ["control", "baseline", "oneScreen", "twoScreens", "threeScreens", "onlyBadge"],
+        "description": "Show real estate tutorial when user see Real estate category for first time"
+    },
+    {
         "name": "MachineLearningMVP",
         "values": ["control", "baseline", "active"],
         "description": "Show machine learning posting flow when pressing Other Items on salchichas menu"

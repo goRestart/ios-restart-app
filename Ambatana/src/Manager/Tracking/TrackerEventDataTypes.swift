@@ -186,6 +186,10 @@ enum EventName: String {
     case phoneNumberRequest                 = "phone-number-request"
     case phoneNumberSent                    = "phone-number-sent"
     case phoneNumberNotNow                  = "phone-number-not-now"
+    
+    case tutorialDialogStart                = "onboarding-dialog-start"
+    case tutorialDialogComplete             = "onboarding-dialog-complete"
+    case tutorialDialogAbandon              = "onboarding-dialog-abandon"
 
     case predictedPosting                   = "predicted-posting"
 
@@ -368,6 +372,8 @@ enum EventParameterName: String {
     case mlPredictedCategory = "predicted-category"
     case mlListingCategory = "product-category"
     
+    case typeTutorialDialog   = "type-onboarding-dialog"
+    case pageNumber           = "page-number"
 }
 
 enum EventParameterBoolean: String {
@@ -822,6 +828,9 @@ enum EventParameterTypePage: String {
     case filter = "filter"
     case realEstatePromo = "real-estate-promo"
     case mostSearched = "most-searched"
+    case filterBubble = "filter-bubble"
+    case postingIconInfo = "posting-icon-information"
+    case sellStart = "product-sell-start"
 }
 
 enum EventParameterPermissionType: String {
@@ -1217,6 +1226,10 @@ enum EventParameterMostSearched: String {
     static var allValues: [EventParameterMostSearched] {
         return [.notApply, .tabBarCamera, .trendingExpandableButton, .postingTags, .feedBubble, .feedCard, .userProfile]
     }
+}
+
+enum EventParameterTutorialType: String {
+    case realEstate = "real-estate"
 }
 
 struct EventParameters {

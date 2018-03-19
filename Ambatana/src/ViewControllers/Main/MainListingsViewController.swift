@@ -533,7 +533,8 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
             categoriesHeader?.delegateCategoryHeader = viewModel
             categoriesHeader?.categorySelected.asObservable().bind { [weak self] categoryHeaderInfo in
                 guard let category = categoryHeaderInfo else { return }
-                self?.viewModel.updateFiltersFromHeaderCategories(category)
+                self?.categoryHeaderDidSelect(category: category)
+                
             }.disposed(by: disposeBag)
             if let categoriesHeader = categoriesHeader {
                 categoriesHeader.tag = 1
@@ -559,6 +560,13 @@ extension MainListingsViewController: ListingListViewHeaderDelegate, PushPermiss
     }
     private var shouldShowRealEstateBanner: Bool {
         return viewModel.mainListingsHeader.value.contains(MainListingsHeader.RealEstateBanner)
+    }
+    
+    private func categoryHeaderDidSelect(category: CategoryHeaderInfo) {
+        viewModel.updateFiltersFromHeaderCategories(category)
+        if category.categoryHeaderElement.isRealEstate {
+            viewModel.showRealEstateTutorial()
+        }
     }
 
     func pushPermissionHeaderPressed() {

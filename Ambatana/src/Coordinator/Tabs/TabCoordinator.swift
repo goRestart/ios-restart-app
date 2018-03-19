@@ -598,6 +598,16 @@ extension TabCoordinator: ListingDetailNavigator {
         }
         rootViewController.dismiss(animated: true, completion: completion)
     }
+    
+    func openRealEstateOnboarding(pages: [LGTutorialPage],
+                                  origin: EventParameterTypePage,
+                                  tutorialType: EventParameterTutorialType) {
+        guard pages.count > 0 else { return }
+        let viewModel = LGTutorialViewModel(pages: pages, origin: origin, tutorialType: tutorialType)
+        let viewController = LGTutorialViewController(viewModel: viewModel)
+        viewController.modalPresentationStyle = .overFullScreen
+        navigationController.present(viewController, animated: true, completion: nil)
+    }
 }
 
 

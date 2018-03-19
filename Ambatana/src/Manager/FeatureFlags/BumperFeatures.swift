@@ -52,6 +52,7 @@ extension Bumper  {
         flags.append(ServicesCategoryEnabled.self)
         flags.append(CopyForChatNowInTurkey.self)
         flags.append(IncreaseNumberOfPictures.self)
+        flags.append(RealEstateTutorial.self)
         flags.append(MachineLearningMVP.self)
         Bumper.initialize(flags)
     } 
@@ -249,6 +250,11 @@ extension Bumper  {
     static var increaseNumberOfPictures: IncreaseNumberOfPictures {
         guard let value = Bumper.value(for: IncreaseNumberOfPictures.key) else { return .control }
         return IncreaseNumberOfPictures(rawValue: value) ?? .control 
+    }
+
+    static var realEstateTutorial: RealEstateTutorial {
+        guard let value = Bumper.value(for: RealEstateTutorial.key) else { return .control }
+        return RealEstateTutorial(rawValue: value) ?? .control 
     }
 
     static var machineLearningMVP: MachineLearningMVP {
@@ -850,6 +856,25 @@ enum IncreaseNumberOfPictures: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum RealEstateTutorial: String, BumperFeature  {
+    case control, baseline, oneScreen, twoScreens, threeScreens, onlyBadge
+    static var defaultValue: String { return RealEstateTutorial.control.rawValue }
+    static var enumValues: [RealEstateTutorial] { return [.control, .baseline, .oneScreen, .twoScreens, .threeScreens, .onlyBadge]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show real estate tutorial when user see Real estate category for first time" } 
+    static func fromPosition(_ position: Int) -> RealEstateTutorial {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .oneScreen
+            case 3: return .twoScreens
+            case 4: return .threeScreens
+            case 5: return .onlyBadge
             default: return .control
         }
     }

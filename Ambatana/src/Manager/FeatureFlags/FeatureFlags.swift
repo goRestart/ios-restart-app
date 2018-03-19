@@ -67,6 +67,7 @@ protocol FeatureFlaggeable: class {
     var userIsTyping: UserIsTyping { get }
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
+    var realEstateTutorial: RealEstateTutorial { get }
     var machineLearningMVP: MachineLearningMVP { get }
 
     // Country dependant features
@@ -221,10 +222,12 @@ extension PromoteBumpInEdit {
 extension UserIsTyping {
     var isActive: Bool { get { return self == .active } }
 }
-extension ServicesCategoryEnabled {
-    var isActive: Bool { get { return self == .active } }
-}
+
 extension NewItemPage {
+    var isActive: Bool {get { return self == .active }}
+}
+
+extension ServicesCategoryEnabled {
     var isActive: Bool { get { return self == .active } }
 }
 extension IncreaseNumberOfPictures {
@@ -246,6 +249,10 @@ extension CopyForChatNowInTurkey {
             return LGLocalizedString.bumpUpProductCellChatNowButtonD
         }
     } }
+}
+
+extension RealEstateTutorial {
+    var isActive: Bool { return self != .baseline && self != .control }
 }
 
 extension MachineLearningMVP {
@@ -535,6 +542,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.userIsTyping
         }
         return UserIsTyping.fromPosition(abTests.userIsTyping.value)
+    }
+    
+    var realEstateTutorial: RealEstateTutorial {
+        if Bumper.enabled {
+            return Bumper.realEstateTutorial
+        }
+        return RealEstateTutorial.fromPosition(abTests.realEstateTutorial.value)
     }
     
     var machineLearningMVP: MachineLearningMVP {
