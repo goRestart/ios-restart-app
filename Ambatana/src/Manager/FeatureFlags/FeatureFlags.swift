@@ -69,6 +69,7 @@ protocol FeatureFlaggeable: class {
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var machineLearningMVP: MachineLearningMVP { get }
+    var showProTagUserProfile: Bool { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -593,6 +594,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.increaseNumberOfPictures
         }
         return IncreaseNumberOfPictures.fromPosition(abTests.increaseNumberOfPictures.value)
+    }
+    
+    var showProTagUserProfile: Bool {
+        if Bumper.enabled {
+            return Bumper.showProTagUserProfile
+        }
+        return abTests.showProTagUserProfile.value
     }
 
     // MARK: - Country features
