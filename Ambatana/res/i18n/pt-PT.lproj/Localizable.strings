@@ -651,6 +651,7 @@
 "product_post_gallery_permissions_subtitle" = "Para selecionar um foto existente deve permitir o acesso às Fotos";
 "product_post_gallery_permissions_title" = "Permitir o acesso às Fotos";
 "product_post_gallery_select_pictures_subtitle" = "Selecione até 5 imagens para carregar";
+"product_post_gallery_select_pictures_subtitle_params" = "Select up to %d images to upload";
 "product_post_gallery_select_pictures_title" = "Escolher fotos";
 "product_post_gallery_tab" = "BIBLIOTECA";
 "product_post_generic_error" = "Surgiu um erro ao publicar o seu anúncio.";

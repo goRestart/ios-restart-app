@@ -70,7 +70,7 @@
 "categories_title" = "Categorías";
 "categories_unassigned" = "No seleccionada";
 "categories_unassigned_items" = "Otros artículos";
-"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
+"change_bio_error_message" = "Se ha producido un error al guardar tu bio. Asegúrate de que no contenga información de contacto.";
 "change_bio_placeholder" = "Añade una bio que describa quien eres. Comparte lo que te interesa o algún dato divertido sobre ti.";
 "change_bio_save_button" = "Guardar";
 "change_bio_title" = "Sobre mí";
@@ -651,6 +651,7 @@
 "product_post_gallery_permissions_subtitle" = "Para elegir una foto existente, debes permitir el acceso a Fotos";
 "product_post_gallery_permissions_title" = "Permitir el acceso a Fotos";
 "product_post_gallery_select_pictures_subtitle" = "Selecciona hasta 5 imágenes para subir";
+"product_post_gallery_select_pictures_subtitle_params" = "Select up to %d images to upload";
 "product_post_gallery_select_pictures_title" = "Elegir fotos";
 "product_post_gallery_tab" = "BIBLIOTECA";
 "product_post_generic_error" = "Se ha producido un error al publicar tu anuncio.";

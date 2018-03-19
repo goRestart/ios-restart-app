@@ -423,14 +423,14 @@
 "main_sign_up_terms_conditions" = "En vous inscrivant ou vous connectant, vous acceptez nos Conditions d'Utilisation et Politique de Confidentialité";
 "main_sign_up_terms_conditions_privacy_part" = "Politique de Confidentialité";
 "main_sign_up_terms_conditions_terms_part" = "Conditions d'Utilisation";
-"ml_camera_in_about_days_text" = "in about %.f days";
-"ml_camera_in_more_than_days_text" = "in more than %.f days";
-"ml_camera_sells_for_text" = "Typically sells for $%d";
+"ml_camera_in_about_days_text" = "en %.f jours environ";
+"ml_camera_in_more_than_days_text" = "en plus de %.f jours";
+"ml_camera_sells_for_text" = "Se vend généralement %d$";
 "ml_category_text" = "Catégorie :";
 "ml_details_price_text" = "Prix :";
-"ml_details_suggested_details_text" = "SUGGESTED DETAILS";
+"ml_details_suggested_details_text" = "DÉTAILS SUGGÉRÉS";
 "ml_details_title_text" = "Titre :";
-"ml_onboarding_description_text" = "Show me an item and I'll tell you how much you'll make";
+"ml_onboarding_description_text" = "Montrez-moi un produit et je vous dirai combien vous allez gagner";
 "ml_onboarding_new_text" = "NOUVEAU !";
 "ml_onboarding_ok_text" = "OK";
 "notifications_empty_subtitle" = "Postez un bien à vendre pour que cette section s'anime un peu plus";
@@ -651,6 +651,7 @@
 "product_post_gallery_permissions_subtitle" = "Pour choisir une photo existante, vous devez allouer l'accès aux Photos";
 "product_post_gallery_permissions_title" = "Permettre l'accès aux Photos";
 "product_post_gallery_select_pictures_subtitle" = "Sélectionnez jusqu'à 5 images à uploader";
+"product_post_gallery_select_pictures_subtitle_params" = "Select up to %d images to upload";
 "product_post_gallery_select_pictures_title" = "Choisir une photo";
 "product_post_gallery_tab" = "BIBLIOTHÈQUE";
 "product_post_generic_error" = "Une erreur est survenue lors de la publication de votre annonce.";
