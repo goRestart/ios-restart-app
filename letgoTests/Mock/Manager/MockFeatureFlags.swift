@@ -42,7 +42,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
 
     var realEstateImprovements: RealEstateImprovements = .control
-    var realEstatePromos: RealEstatePromos = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
     var realEstateNewCopy: RealEstateNewCopy = .control

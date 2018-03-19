@@ -47,7 +47,6 @@ protocol FeatureFlaggeable: class {
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var realEstateImprovements: RealEstateImprovements { get }
-    var realEstatePromos: RealEstatePromos { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
@@ -123,10 +122,6 @@ extension RealEstateEnabled {
 
 extension RealEstateImprovements {
     var isActive: Bool { get { return self == .active } }
-}
-
-extension RealEstatePromos {
-    var isActive: Bool { get { return self == .control || self == .baseline } }
 }
 
 extension ShowAdsInFeedWithRatio {
@@ -229,8 +224,11 @@ extension UserIsTyping {
 extension ServicesCategoryEnabled {
     var isActive: Bool { get { return self == .active } }
 }
+extension NewItemPage {
+    var isActive: Bool { get { return self == .active } }
+}
 extension IncreaseNumberOfPictures {
-    var isActive: Bool { return self == .active }
+    var isActive: Bool { get { return self == .active } }
 }
 
 extension CopyForChatNowInTurkey {
@@ -439,13 +437,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.realEstateImprovements
         }
         return RealEstateImprovements.fromPosition(abTests.realEstateImprovements.value)
-    }
-    
-    var realEstatePromos: RealEstatePromos {
-        if Bumper.enabled {
-            return Bumper.realEstatePromos
-        }
-        return RealEstatePromos.fromPosition(abTests.realEstatePromos.value)
     }
     
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {

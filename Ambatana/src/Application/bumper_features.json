@@ -86,11 +86,6 @@
         "description": "show onboarding improvements on real estate category"
     },
     {
-        "name": "RealEstatePromos",
-        "values": ["control", "baseline", "deactivate"],
-        "description": "show real estate promos"
-    },
-    {
         "name": "ShowAdsInFeedWithRatio",
         "values": ["control", "baseline", "ten", "fifteen", "twenty"],
         "description": "show ads in feed every X cells"

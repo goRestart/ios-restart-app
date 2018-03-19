@@ -658,15 +658,14 @@ class MainListingsViewModel: BaseViewModel {
             categoryHeaderElements.append(contentsOf: taxonomies.map { CategoryHeaderElement.superKeywordGroup($0) })
         } else {
             categoryHeaderElements.append(contentsOf: ListingCategory.visibleValuesInFeed(servicesIncluded: featureFlags.servicesCategoryEnabled.isActive,
-                                                                                          realEstateIncluded: featureFlags.realEstateEnabled.isActive,
-                                                                                          highlightRealEstate: featureFlags.realEstatePromos.isActive)
+                                                                                          realEstateIncluded: featureFlags.realEstateEnabled.isActive)
                 .map { CategoryHeaderElement.listingCategory($0) })
         }
         return categoryHeaderElements
     }
     
     var categoryHeaderHighlighted: CategoryHeaderElement {
-        if featureFlags.realEstatePromos.isActive && featureFlags.realEstateEnabled.isActive {
+        if featureFlags.realEstateEnabled.isActive {
             return CategoryHeaderElement.listingCategory(.realEstate)
         } else {
             return CategoryHeaderElement.listingCategory(.cars)
@@ -1213,7 +1212,7 @@ extension MainListingsViewModel {
     }
     
     var showRealEstateBanner: Bool {
-        return !listViewModel.isListingListEmpty.value && featureFlags.realEstatePromos.isActive && filters.selectedCategories == [.realEstate]
+        return !listViewModel.isListingListEmpty.value && filters.selectedCategories == [.realEstate]
     }
 
     func pushPermissionsHeaderPressed() {

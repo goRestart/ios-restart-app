@@ -30,7 +30,6 @@ extension Bumper  {
         flags.append(MostSearchedDemandedItems.self)
         flags.append(AllowCallsForProfessionals.self)
         flags.append(RealEstateImprovements.self)
-        flags.append(RealEstatePromos.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(RemoveCategoryWhenClosingPosting.self)
@@ -106,7 +105,7 @@ extension Bumper  {
         guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return .control }
         return HomeRelatedEnabled(rawValue: value) ?? .control 
     }
-    
+
     static var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
         guard let value = Bumper.value(for: TaxonomiesAndTaxonomyChildrenInFeed.key) else { return .control }
         return TaxonomiesAndTaxonomyChildrenInFeed(rawValue: value) ?? .control 
@@ -140,11 +139,6 @@ extension Bumper  {
     static var realEstateImprovements: RealEstateImprovements {
         guard let value = Bumper.value(for: RealEstateImprovements.key) else { return .control }
         return RealEstateImprovements(rawValue: value) ?? .control 
-    }
-
-    static var realEstatePromos: RealEstatePromos {
-        guard let value = Bumper.value(for: RealEstatePromos.key) else { return .control }
-        return RealEstatePromos(rawValue: value) ?? .control 
     }
 
     static var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
@@ -422,7 +416,6 @@ enum NewItemPage: String, BumperFeature  {
             default: return .control
         }
     }
-    var isActive: Bool { return self == .active }
 }
 
 enum ShowPriceStepRealEstatePosting: String, BumperFeature  {
@@ -502,22 +495,6 @@ enum RealEstateImprovements: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .active
-            default: return .control
-        }
-    }
-}
-
-enum RealEstatePromos: String, BumperFeature  {
-    case control, baseline, deactivate
-    static var defaultValue: String { return RealEstatePromos.control.rawValue }
-    static var enumValues: [RealEstatePromos] { return [.control, .baseline, .deactivate]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show real estate promos" } 
-    static func fromPosition(_ position: Int) -> RealEstatePromos {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .deactivate
             default: return .control
         }
     }

@@ -130,7 +130,7 @@ class MLPostListingViewModel: BaseViewModel {
     }
     
     private func setupCategories() {
-        Core.categoryRepository.index(servicesIncluded: false, carsIncluded: false, realEstateIncluded: false, highlightRealEstate: false) { [weak self] result in
+        Core.categoryRepository.index(servicesIncluded: false, carsIncluded: false, realEstateIncluded: false) { [weak self] result in
             guard let categories = result.value else { return }
             self?.categories = categories
         }
