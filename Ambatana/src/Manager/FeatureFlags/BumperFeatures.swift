@@ -106,7 +106,7 @@ extension Bumper  {
         guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return .control }
         return HomeRelatedEnabled(rawValue: value) ?? .control 
     }
-
+    
     static var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
         guard let value = Bumper.value(for: TaxonomiesAndTaxonomyChildrenInFeed.key) else { return .control }
         return TaxonomiesAndTaxonomyChildrenInFeed(rawValue: value) ?? .control 
@@ -422,6 +422,7 @@ enum NewItemPage: String, BumperFeature  {
             default: return .control
         }
     }
+    var isActive: Bool { return self == .active }
 }
 
 enum ShowPriceStepRealEstatePosting: String, BumperFeature  {

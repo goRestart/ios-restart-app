@@ -363,6 +363,25 @@ struct TrackerEvent {
         return TrackerEvent(name: .filterComplete, params: params)
     }
 
+    static func listingVisitPhotoViewer(_ listing: Listing,
+                                        source: EventParameterListingVisitSource,
+                                        numberOfPictures: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params.addListingParams(listing)
+        params[.listingVisitSource] = source.rawValue
+        params[.photoViewerNumberOfPhotos] = numberOfPictures
+        return TrackerEvent(name: .listingVisitPhotoViewer, params: params)
+    }
+
+    static func listingVisitPhotoChat(_ listing: Listing,
+                                        source: EventParameterListingVisitSource) -> TrackerEvent {
+        var params = EventParameters()
+        params.addListingParams(listing)
+        params[.listingVisitSource] = source.rawValue
+        return TrackerEvent(name: .listingVisitPhotoChat, params: params)
+    }
+
+
     static func listingDetailVisit(_ listing: Listing, visitUserAction: ListingVisitUserAction, source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition,
                                    isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
@@ -1403,7 +1422,6 @@ struct TrackerEvent {
         params[.postingType] = postingType.rawValue
         return TrackerEvent(name: .openOptionOnSummary, params: params)
     }
-
 
     // MARK: - Private methods
 

@@ -19,7 +19,7 @@ class DirectAnswersPresenter {
     var height: CGFloat {
         if hidden { return 0 }
         if let horizontalView = horizontalView {
-            let margins: CGFloat = DirectAnswersHorizontalView.defaultSideMargin * 2
+            let margins: CGFloat = DirectAnswersHorizontalView.Layout.standardSideMargin * 2
             return horizontalView.intrinsicContentSize.height + margins
         }
         return 0
@@ -49,8 +49,9 @@ class DirectAnswersPresenter {
 
     func setupOnTopOfView(_ sibling: UIView) {
         guard let parentView = sibling.superview else { return }
-        let initialFrame = CGRect(x: 0, y: sibling.top - DirectAnswersHorizontalView.defaultHeight,
-                                  width: DirectAnswersPresenter.defaultWidth, height: DirectAnswersHorizontalView.defaultHeight)
+        let defaultHeight = DirectAnswersHorizontalView.Layout.Height.standard
+        let defaultWidth = DirectAnswersHorizontalView.Layout.Width.standard
+        let initialFrame = CGRect(x: 0, y: sibling.top - defaultHeight, width: defaultWidth, height: defaultHeight)
         let directAnswers = DirectAnswersHorizontalView(frame: initialFrame, answers: answers)
         directAnswers.delegate = self
         directAnswers.answersEnabled = enabled
@@ -58,7 +59,7 @@ class DirectAnswersPresenter {
         directAnswers.translatesAutoresizingMaskIntoConstraints = false
         parentView.insertSubview(directAnswers, belowSubview: sibling)
         directAnswers.layout(with: parentView).leading().trailing()
-        directAnswers.layout(with: sibling).bottom(to: .top, by: -DirectAnswersHorizontalView.defaultSideMargin)
+        directAnswers.layout(with: sibling).bottom(to: .top, by: -DirectAnswersHorizontalView.Layout.standardSideMargin)
         horizontalView = directAnswers
     }
 

@@ -34,6 +34,8 @@ extension DefaultsKeys {
 
     static let didShowOnboarding = DefaultsKey<Bool>("didShowOnboarding")
     static let didShowListingDetailOnboarding = DefaultsKey<Bool>("didShowProductDetailOnboarding")
+    static let didShowDeckOnBoarding = DefaultsKey<Bool>("didShowDeckOnBoarding")
+
     static let listingMoreInfoTooltipDismissed = DefaultsKey<Bool>("showMoreInfoTooltip")
     static let favoriteCategories = DefaultsKey<[Int]>("favoriteCategories")
 
