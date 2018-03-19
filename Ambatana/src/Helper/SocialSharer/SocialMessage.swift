@@ -127,7 +127,7 @@ extension SocialMessage {
     
     // MARK: - AppsFlyer
     
-    func retrieveShareURL(source: ShareSource?, campaign: String, deepLinkString: String, letgoURLString: String?,
+    func retrieveShareURL(source: ShareSource?, campaign: String, deepLinkString: String, webURLString: String?,
                           fallbackToStore: Bool, myUserId: String?, myUserName: String?,
                           completion: @escaping AppsFlyerGenerateInviteURLCompletion) {
         AppsFlyerShareInviteHelper.generateInviteUrl(linkGenerator: { generator in
@@ -135,7 +135,7 @@ extension SocialMessage {
                                                source: source,
                                                campaign: campaign,
                                                deepLinkString: deepLinkString,
-                                               letgoURLString: letgoURLString,
+                                               webURLString: webURLString,
                                                fallbackToStore: fallbackToStore,
                                                myUserId: myUserId,
                                                myUserName: myUserName)}) { url in
@@ -152,7 +152,7 @@ extension SocialMessage {
                                         source: ShareSource?,
                                         campaign: String,
                                         deepLinkString: String,
-                                        letgoURLString: String?,
+                                        webURLString: String?,
                                         fallbackToStore: Bool,
                                         myUserId: String?,
                                         myUserName: String?) -> AppsFlyerLinkGenerator {
@@ -162,11 +162,10 @@ extension SocialMessage {
         }
         generator.setBaseDeeplink(deepLinkString)
         generator.addParameterValue(Self.utmSourceValue, forKey: Self.siteIDKey)
-        if var letgoURLString = letgoURLString {
-            letgoURLString = addUtmParamsToURLString(letgoURLString,
-                                                     source: source)
-            letgoURLString = addCustomSchemeToDeeplinkPath(letgoURLString)
-            generator.addParameterValue(letgoURLString, forKey: Self.webDeeplink)
+        if var webURLString = webURLString {
+            webURLString = addUtmParamsToURLString(webURLString, source: source)
+            webURLString = addCustomSchemeToDeeplinkPath(webURLString)
+            generator.addParameterValue(webURLString, forKey: Self.webDeeplink)
         }
         if let myUserId = myUserId {
             generator.addParameterValue(myUserId, forKey: Self.sub1)
@@ -227,9 +226,9 @@ struct ListingSocialMessage: SocialMessage {
         }
         return body
     }
-    private var letgoUrl: URL? {
-        guard !listingId.isEmpty else { return LetgoURLHelper.buildHomeURL() }
-        return LetgoURLHelper.buildProductURL(listingId: listingId)
+    private var webUrlString: String? {
+        guard !listingId.isEmpty else { return LetgoURLHelper.buildHomeURL()?.absoluteString }
+        return LetgoURLHelper.buildProductURL(listingId: listingId)?.absoluteString
     }
     
     private let title: String
@@ -300,7 +299,7 @@ struct ListingSocialMessage: SocialMessage {
         retrieveShareURL(source: source,
                          campaign: ListingSocialMessage.utmCampaignValue,
                          deepLinkString: deepLinkString,
-                         letgoURLString: letgoUrl?.absoluteString,
+                         webURLString: webUrlString,
                          fallbackToStore: fallbackToStore,
                          myUserId: myUserId,
                          myUserName: myUserName,
@@ -368,7 +367,7 @@ struct AppShareSocialMessage: SocialMessage {
         retrieveShareURL(source: source,
                          campaign: AppShareSocialMessage.utmCampaignValue,
                          deepLinkString: deepLinkString,
-                         letgoURLString: LetgoURLHelper.buildHomeURLString(),
+                         webURLString: LetgoURLHelper.buildHomeURLString(),
                          fallbackToStore: fallbackToStore,
                          myUserId: myUserId,
                          myUserName: myUserName,
@@ -393,8 +392,9 @@ struct UserSocialMessage: SocialMessage {
     var myUserId: String?
     var myUserName: String?
     
-    private var letgoURL: URL? {
-        return !userId.isEmpty ? LetgoURLHelper.buildUserURL(userId: userId) : LetgoURLHelper.buildHomeURL()
+    private var webUrlString: String? {
+        let webUrl = !userId.isEmpty ? LetgoURLHelper.buildUserURL(userId: userId) : LetgoURLHelper.buildHomeURL()
+        return webUrl?.absoluteString
     }
 
     private let userName: String?
@@ -476,7 +476,7 @@ struct UserSocialMessage: SocialMessage {
         retrieveShareURL(source: source,
                          campaign: UserSocialMessage.utmCampaignValue,
                          deepLinkString: deepLinkString,
-                         letgoURLString: letgoURL?.absoluteString,
+                         webURLString: webUrlString,
                          fallbackToStore: fallbackToStore,
                          myUserId: myUserId,
                          myUserName: myUserName,
