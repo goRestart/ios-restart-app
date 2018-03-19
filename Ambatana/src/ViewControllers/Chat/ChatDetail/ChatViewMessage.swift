@@ -26,6 +26,15 @@ enum ChatViewMessageType {
             return false
         }
     }
+
+    var isChatNorris: Bool {
+        switch self {
+        case .chatNorris:
+            return true
+        case .text, .offer, .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
+            return false
+        }
+    }
     
     public static func ==(lhs: ChatViewMessageType, rhs: ChatViewMessageType) -> Bool {
         switch lhs {
@@ -182,4 +191,56 @@ extension ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt, receivedAt: receivedAt,
                                readAt: readAt ?? date, type: type, status: .read, warningStatus: warningStatus)
     }
+}
+
+
+// MARK: Hackaton
+
+extension ChatViewMessage {
+    func markAsAccepted() -> ChatViewMessage {
+        switch type {
+        case let .chatNorris(meetingType, meetingDate, locationName, coordinates, _):
+            if meetingType == .requested {
+                let acceptedMessageType: ChatViewMessageType = .chatNorris(type: meetingType,
+                                                                           date: meetingDate,
+                                                                           locationName: locationName,
+                                                                           coordinates: coordinates,
+                                                                           status: .accepted)
+                return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
+                                       receivedAt: receivedAt,
+                                       readAt: readAt,
+                                       type: acceptedMessageType,
+                                       status: status,
+                                       warningStatus: warningStatus)
+            } else {
+                return self
+            }
+        case .text, .offer, .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
+            return self
+        }
+    }
+
+    func markAsRejected() -> ChatViewMessage {
+        switch type {
+        case let .chatNorris(meetingType, meetingDate, locationName, coordinates, _):
+            if meetingType == .requested {
+                let acceptedMessageType: ChatViewMessageType = .chatNorris(type: meetingType,
+                                                                           date: meetingDate,
+                                                                           locationName: locationName,
+                                                                           coordinates: coordinates,
+                                                                           status: .rejected)
+                return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
+                                       receivedAt: receivedAt,
+                                       readAt: readAt,
+                                       type: acceptedMessageType,
+                                       status: status,
+                                       warningStatus: warningStatus)
+            } else {
+                return self
+            }
+        case .text, .offer, .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
+            return self
+        }
+    }
+
 }

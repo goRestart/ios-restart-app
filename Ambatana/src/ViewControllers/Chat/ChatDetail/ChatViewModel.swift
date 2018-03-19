@@ -780,7 +780,7 @@ extension ChatViewModel {
         }
 
         let newMessage = chatRepository.createNewMessage(userId, text: message, type: type.chatType)
-        let viewMessage = chatViewMessageAdapter.adapt(newMessage).markAsSent()
+        let viewMessage = chatViewMessageAdapter.adapt(newMessage)?.markAsSent()
         guard let messageId = newMessage.objectId else { return }
         insertFirst(viewMessage: viewMessage)
         chatRepository.sendMessage(convId, messageId: messageId, type: newMessage.type, text: message) {
@@ -980,7 +980,8 @@ extension ChatViewModel {
         }
     }
     
-    private func insertFirst(viewMessage: ChatViewMessage, fromInterlocutor: Bool = false) {
+    private func insertFirst(viewMessage: ChatViewMessage?, fromInterlocutor: Bool = false) {
+        guard let viewMessage = viewMessage else { return }
         if conversation.value.interlocutorIsTyping.value && messages.value.count >= 1 {
             if fromInterlocutor {
                 messages.replace(0..<1, with: [viewMessage])
@@ -997,7 +998,10 @@ extension ChatViewModel {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
         let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: type)
-        let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent(date: sentAt).markAsReceived().markAsRead()
+
+        updateMeetingsStatusAfterReceiving(message: message)
+
+        let viewMessage = chatViewMessageAdapter.adapt(message)?.markAsSent(date: sentAt).markAsReceived().markAsRead()
         insertFirst(viewMessage: viewMessage, fromInterlocutor: true)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
         if let securityMeetingIndex = securityMeetingIndex(for: messages.value) {
@@ -1324,6 +1328,9 @@ extension ChatViewModel {
                 strongSelf.mergeMessages(newMessages: value)
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.checkSellerDidntAnswer(value)
+                if let meeting = strongSelf.firstMeetingIn(messages: value) {
+                    strongSelf.updateMeetingsStatusAfterReceiving(message: meeting)
+                }
                 strongSelf.messagesDidFinishRefreshing.value = true
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
@@ -1344,6 +1351,9 @@ extension ChatViewModel {
                     strongSelf.isLastPage = true
                 }
                 strongSelf.updateMessages(newMessages: value, isFirstPage: false)
+                if let meeting = strongSelf.firstMeetingIn(messages: value) {
+                    strongSelf.updateMeetingsStatusAfterReceiving(message: meeting)
+                }
                 strongSelf.messagesDidFinishRefreshing.value = true
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailRetrievingChatMessages()
@@ -1376,7 +1386,7 @@ extension ChatViewModel {
         markAsReadMessages(newMessages)
 
         // Add message disclaimer (message flagged)
-        let mappedChatMessages = newMessages.map(chatViewMessageAdapter.adapt)
+        let mappedChatMessages = newMessages.flatMap(chatViewMessageAdapter.adapt)
         var chatMessages = chatViewMessageAdapter.addDisclaimers(mappedChatMessages,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
         // Add user info as 1st message
@@ -1399,7 +1409,7 @@ extension ChatViewModel {
             }
         }
         
-        let newViewMessages = newMessages.map(chatViewMessageAdapter.adapt)
+        let newViewMessages = newMessages.flatMap(chatViewMessageAdapter.adapt)
         guard !newViewMessages.isEmpty else { return }
 
         // We need to remove extra messages & disclaimers to be able to merge correctly. Will be added back before returning
@@ -1877,6 +1887,7 @@ extension ChatViewModel {
 
 extension ChatViewModel: MeetingAssistantDataDelegate {
     func sendMeeting(meeting: AssistantMeeting) {
+        markAllPreviousRequestedMeetingsAsRejected()
         sendMeetingMessage(meeting: meeting)
     }
 }
@@ -1885,59 +1896,87 @@ extension ChatViewModel: MeetingAssistantDataDelegate {
 
 extension ChatViewModel {
 
-//    var sellerId: String? {
-//        let myUserId = myUserRepository.myUser?.objectId
-//        let interlocutorId = conversation.value.interlocutor?.objectId
-//        let currentSeller = conversation.value.amISelling ? myUserId : interlocutorId
-//        return currentSeller
-//    }
-
     func acceptMeeting() {
         // 🦄 UPdate last meeting as accepted and all the others as rejected/canceled?
         let acceptedMeeting = AssistantMeeting(meetingType: .accepted, date: nil, locationName: nil, coordinates: nil, status: .accepted)
         sendMeetingMessage(meeting: acceptedMeeting)
-        updateMeetings()
+        markAsAcceptedLastMeetingAndRejectOthers()
     }
 
     func rejectMeeting() {
         let rejectedMeeting = AssistantMeeting(meetingType: .rejected, date: nil, locationName: nil, coordinates: nil, status: .rejected)
         sendMeetingMessage(meeting: rejectedMeeting)
-        updateMeetings()
+        markAllPreviousRequestedMeetingsAsRejected()
     }
 
-    private func updateMeetings() {
-        markAsAcceptedLastMeeting()
-        markAsRejectedOldMeetings()
-    }
-    private func markAsAcceptedLastMeeting() {
-//        let meets = messages.value.map { chatViewMessage in
-//            <#code#>
-//        }
-
-        let meetings: [ChatViewMessage] = messages.value.flatMap { [weak self] meeting in
-            switch meeting.type {
+    private func markAsAcceptedLastMeetingAndRejectOthers() {
+        var firstMeetingId: String?
+        var otherMeetingIds: [String] = []
+        for chatViewMessage in messages.value {
+            switch chatViewMessage.type {
             case let .chatNorris(type, _, _, _, _):
-                if type == .requested {
-                    return meeting
-                } else {
-                    return nil
+                if let meetingId = chatViewMessage.objectId, type == .requested {
+                    if firstMeetingId == nil {
+                        firstMeetingId = meetingId
+                    } else {
+                        otherMeetingIds.append(meetingId)
+                    }
                 }
-            default:
-                return nil
+            case .text, .offer, .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
+                continue
             }
         }
-
-        print("🚨🚨🚨🚨🚨🚨")
-        print(meetings.first)
-//        guard let convId = conversation.value.objectId else { return }
-//        guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
-//
-//        let readIds: [String] = chatMessages.filter { return $0.talkerId == interlocutorId && $0.readAt == nil }
-//            .flatMap { $0.objectId }
-
+        markMeetingAsAccepted(firstMeetingId)
+        markMeetingsAsRejected(otherMeetingIds)
     }
 
-    private func markAsRejectedOldMeetings() {
+    private func markAllPreviousRequestedMeetingsAsRejected() {
+        var meetingIds: [String] = []
+        for chatViewMessage in messages.value {
+            switch chatViewMessage.type {
+            case let .chatNorris(type, _, _, _, _):
+                if let meetingId = chatViewMessage.objectId, type == .requested {
+                    meetingIds.append(meetingId)
+                }
+            case .text, .offer, .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
+                continue
+            }
+        }
+        markMeetingsAsRejected(meetingIds)
+    }
 
+    private func markMeetingsAsRejected(_ messagesIds: [String]) {
+        messagesIds.forEach { [weak self] messageId in
+            self?.updateMessageWithAction(messageId) { $0.markAsRejected() }
+        }
+    }
+
+    private func markMeetingAsAccepted(_ messageId: String?) {
+        guard let messageId = messageId else { return }
+        updateMessageWithAction(messageId) { $0.markAsAccepted() }
+    }
+
+    private func updateMeetingsStatusAfterReceiving(message: ChatMessage) {
+        if message.type == .chatNorris {
+            if let meeting = MeetingParser.createMeetingFromMessage(message: message.text) {
+                switch meeting.meetingType {
+                case .rejected:
+                    markAllPreviousRequestedMeetingsAsRejected()
+                case .accepted:
+                    markAsAcceptedLastMeetingAndRejectOthers()
+                case .requested:
+                    markAllPreviousRequestedMeetingsAsRejected()
+                }
+            }
+        }
+    }
+
+    private func firstMeetingIn(messages: [ChatMessage]) -> ChatMessage? {
+        for message in messages {
+            if message.type == .chatNorris {
+                return message
+            }
+        }
+        return nil
     }
 }

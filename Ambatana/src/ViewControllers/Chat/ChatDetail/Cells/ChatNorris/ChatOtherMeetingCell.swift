@@ -131,10 +131,10 @@ private extension ChatOtherMeetingCell {
         meetingContainer.layer.shouldRasterize = true
         meetingContainer.layer.rasterizationScale = UIScreen.main.scale
         backgroundColor = UIColor.clear
-        titleLabel.text = "Let's meet up on:"
+        titleLabel.text = "_ Let's meet up on:"
 
-        actionAccept.setTitle("Accept", for: .normal)
-        actionReject.setTitle("Reject", for: .normal)
+        actionAccept.setTitle("_ Accept", for: .normal)
+        actionReject.setTitle("_ Reschedule", for: .normal)
         locationButton.addTarget(self, action: #selector(locationTapped), for: .touchUpInside)
     }
 

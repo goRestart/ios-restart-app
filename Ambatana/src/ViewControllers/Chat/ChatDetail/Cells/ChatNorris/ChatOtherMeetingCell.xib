@@ -25,10 +25,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R6K-7q-YwH">
-                        <rect key="frame" x="20" y="4" width="259.5" height="185"/>
+                        <rect key="frame" x="20" y="4" width="560" height="185"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="748" text="_Pending Meeting" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="otm-ev-1pf">
-                                <rect key="frame" x="10" y="10" width="129.5" height="21"/>
+                                <rect key="frame" x="10" y="10" width="455" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="4Ml-Qk-iwa"/>
                                 </constraints>
@@ -46,14 +46,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qnV-yd-qoR">
-                                <rect key="frame" x="149.5" y="8" width="100" height="100"/>
+                                <rect key="frame" x="475" y="8" width="75" height="75"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="2Pv-Oz-ckM"/>
-                                    <constraint firstAttribute="width" constant="100" id="43Q-v9-JWy"/>
+                                    <constraint firstAttribute="height" constant="75" id="2Pv-Oz-ckM"/>
+                                    <constraint firstAttribute="width" constant="75" id="43Q-v9-JWy"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="748" text="_Location Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TvM-kR-Yhe">
-                                <rect key="frame" x="10" y="43" width="129.5" height="21"/>
+                                <rect key="frame" x="10" y="43" width="455" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" id="gXw-BQ-7Un"/>
                                 </constraints>
@@ -62,7 +62,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="748" text="_Meeting Date" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bgS-12-Zk7">
-                                <rect key="frame" x="10" y="72" width="129.5" height="21"/>
+                                <rect key="frame" x="10" y="72" width="455" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="zdE-tV-1SG"/>
                                 </constraints>
@@ -71,11 +71,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MK3-Ce-GZ2">
-                                <rect key="frame" x="0.0" y="141" width="259.5" height="44"/>
+                                <rect key="frame" x="0.0" y="141" width="560" height="44"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KZo-LO-qeL">
-                                        <rect key="frame" x="34" y="0.0" width="103" height="44"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <rect key="frame" x="336.5" y="0.0" width="87" height="44"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" title="_Reschedule">
                                             <color key="titleColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -84,8 +84,8 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GaX-vU-ZMH">
-                                        <rect key="frame" x="157" y="0.0" width="102.5" height="44"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <rect key="frame" x="443.5" y="0.0" width="86.5" height="44"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" title="_Accept">
                                             <color key="titleColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -93,13 +93,23 @@
                                             <action selector="acceptMeeting:" destination="rFn-Zk-Q6V" eventType="touchUpInside" id="f69-SQ-ekV"/>
                                         </connections>
                                     </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aBC-5U-MIc">
+                                        <rect key="frame" x="0.0" y="0.0" width="560" height="1"/>
+                                        <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="9jU-Hu-jel"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="GaX-vU-ZMH" firstAttribute="width" secondItem="KZo-LO-qeL" secondAttribute="width" id="1m5-k8-Om5"/>
                                     <constraint firstAttribute="height" constant="44" id="8cR-PI-uht"/>
+                                    <constraint firstAttribute="trailing" secondItem="aBC-5U-MIc" secondAttribute="trailing" id="J2b-Nv-nns"/>
+                                    <constraint firstItem="aBC-5U-MIc" firstAttribute="leading" secondItem="MK3-Ce-GZ2" secondAttribute="leading" id="Jaw-eG-jUA"/>
                                     <constraint firstItem="KZo-LO-qeL" firstAttribute="top" secondItem="MK3-Ce-GZ2" secondAttribute="top" id="Ld3-qL-ckh"/>
+                                    <constraint firstItem="aBC-5U-MIc" firstAttribute="top" secondItem="MK3-Ce-GZ2" secondAttribute="top" id="MWq-t1-c3B"/>
                                     <constraint firstItem="KZo-LO-qeL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="MK3-Ce-GZ2" secondAttribute="leading" id="NDw-iG-60k"/>
-                                    <constraint firstAttribute="trailing" secondItem="GaX-vU-ZMH" secondAttribute="trailing" id="NTX-uf-j6p"/>
+                                    <constraint firstAttribute="trailing" secondItem="GaX-vU-ZMH" secondAttribute="trailing" constant="30" id="NTX-uf-j6p"/>
                                     <constraint firstItem="GaX-vU-ZMH" firstAttribute="top" secondItem="MK3-Ce-GZ2" secondAttribute="top" id="ODC-eT-3oe"/>
                                     <constraint firstAttribute="bottom" secondItem="GaX-vU-ZMH" secondAttribute="bottom" id="Svg-M5-7TW"/>
                                     <constraint firstItem="GaX-vU-ZMH" firstAttribute="leading" secondItem="KZo-LO-qeL" secondAttribute="trailing" constant="20" id="lJj-tc-145"/>
@@ -107,10 +117,10 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZRk-eN-Q9U">
-                                <rect key="frame" x="149" y="8" width="100" height="100"/>
+                                <rect key="frame" x="474.5" y="8" width="75" height="75"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="748" text="_Meeting Time" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mTp-r2-LSI">
-                                <rect key="frame" x="10" y="93" width="129.5" height="21"/>
+                                <rect key="frame" x="10" y="93" width="455" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="4zn-VB-whm"/>
                                 </constraints>
@@ -152,7 +162,7 @@
                 </subviews>
                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="R6K-7q-YwH" secondAttribute="trailing" constant="52" id="Dsa-by-04E"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="R6K-7q-YwH" secondAttribute="trailing" id="Dsa-by-04E"/>
                     <constraint firstItem="R6K-7q-YwH" firstAttribute="top" secondItem="sx7-Y8-Q3d" secondAttribute="topMargin" constant="-7" id="EoZ-fy-Zr9"/>
                     <constraint firstItem="R6K-7q-YwH" firstAttribute="leading" secondItem="sx7-Y8-Q3d" secondAttribute="leadingMargin" id="wh2-OZ-83S"/>
                     <constraint firstAttribute="bottomMargin" secondItem="R6K-7q-YwH" secondAttribute="bottom" id="ye3-5b-dzz"/>

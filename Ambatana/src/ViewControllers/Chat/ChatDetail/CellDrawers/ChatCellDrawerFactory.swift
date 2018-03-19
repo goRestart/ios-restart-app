@@ -34,6 +34,12 @@ class ChatCellDrawerFactory {
         case .askPhoneNumber:
             return ChatAskPhoneNumberCellDrawer(autoHide: autoHide)
         case let .chatNorris(type,_,_,_,_):
+            // 🦄 check if abtest active, if not ->
+//            if isMine {
+//                return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide, showClock: showClock)
+//            } else {
+//                return ChatOthersMessageCellDrawer(autoHide: autoHide)
+//            }
             switch type {
             case .accepted, .rejected:
                 if isMine {

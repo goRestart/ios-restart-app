@@ -45,7 +45,7 @@ class ChatViewMessageAdapter {
                                warningStatus: ChatViewMessageWarningStatus(status: message.warningStatus))
     }
     
-    func adapt(_ message: ChatMessage) -> ChatViewMessage {
+    func adapt(_ message: ChatMessage) -> ChatViewMessage? {
         
         let type: ChatViewMessageType
         switch message.type {
@@ -62,13 +62,18 @@ class ChatViewMessageAdapter {
         case .phone:
             type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(message.text))
         case .chatNorris:
+            // 🦄 check if ABTets enabled, else -> type = ChatViewMessageType.text(text: message.text)
             print("🗓🗓🗓🗓🗓  Meeting received!")
             if let meeting = MeetingParser.createMeetingFromMessage(message: message.text) {
-                type = ChatViewMessageType.chatNorris(type: meeting.meetingType,
-                                                      date: meeting.date,
-                                                      locationName: meeting.locationName,
-                                                      coordinates: meeting.coordinates,
-                                                      status: meeting.status)
+                if meeting.meetingType == .requested {
+                    type = ChatViewMessageType.chatNorris(type: meeting.meetingType,
+                                                          date: meeting.date,
+                                                          locationName: meeting.locationName,
+                                                          coordinates: meeting.coordinates,
+                                                          status: meeting.status)
+                } else {
+                    return nil
+                }
             } else {
                 type = ChatViewMessageType.text(text: message.text)
             }
