@@ -49,8 +49,8 @@ class MLPostListingCameraViewModel: BaseViewModel {
     
     let machineLearning: MachineLearning
     var isLiveStatsEnabledBackup: Bool
-    private let mlMinimumConfidence: Double = 0.4
-    private let mlMinimumConfidenceToRemove: Double = 0.25
+    private let mlMinimumConfidence: Double = 0.3
+    private let mlMinimumConfidenceToRemove: Double = 0.2
     private let mlMaximumDaysToDisplay: Double = 30
     private let mlPricePositionDisplay: Int = 2
     let liveStats = Variable<MachineLearningStats?>(nil)
