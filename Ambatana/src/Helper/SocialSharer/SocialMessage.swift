@@ -69,14 +69,14 @@ extension SocialMessage {
     static var utmMediumValue: String { return "letgo_app" }
     static var utmCampaignKey: String { return "utm_campaign" }
     static var utmSourceValue: String { return "ios_app" }
-    static var siteIDKey: String { return "site_id" }
+    static var siteIDKey: String { return "af_siteid" }
     static var deepLinkPathKey: String { return "$deeplink_path" }
     static var fallbackURLKey: String { return "$fallback_url" }
     static var desktopURLKey: String { return "$desktop_url" }
     static var iosURLKey: String { return "$ios_url" }
     static var androidURLKey: String { return "$android_url" }
-    static var sub1: String { return "sub1" }
-    static var sub2: String { return "sub2" }
+    static var sub1: String { return "af_sub1" }
+    static var sub2: String { return "af_sub2" }
     
     
     // MARK: - Mediums
