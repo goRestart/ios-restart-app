@@ -651,7 +651,7 @@
 "product_post_gallery_permissions_subtitle" = "Mevcut bir fotoğrafı seçmek için, Resimlerine erişime izin vermelisin";
 "product_post_gallery_permissions_title" = "Fotoğraflara erişime izin ver";
 "product_post_gallery_select_pictures_subtitle" = "5 görsele kadar seçip yükle";
-"product_post_gallery_select_pictures_subtitle_params" = "Select up to %d images to upload";
+"product_post_gallery_select_pictures_subtitle_params" = "%d görsele kadar seçip yükle";
 "product_post_gallery_select_pictures_title" = "Fotoğrafları seç";
 "product_post_gallery_tab" = "KÜTÜPHANE";
 "product_post_generic_error" = "İlanın yüklenirken bir hata oluştu.";

@@ -651,7 +651,7 @@
 "product_post_gallery_permissions_subtitle" = "Για να επιλέξετε μια υπάρχουσα φωτογραφία, θα πρέπει να επιτρέψετε την πρόσβαση στις Φωτογραφίες";
 "product_post_gallery_permissions_title" = "Επιτρέψτε πρόσβαση στις Φωτογραφίες";
 "product_post_gallery_select_pictures_subtitle" = "Επιλέξτε έως 5 φωτογραφίες για μεταφόρτωση";
-"product_post_gallery_select_pictures_subtitle_params" = "Select up to %d images to upload";
+"product_post_gallery_select_pictures_subtitle_params" = "Επιλέξτε έως %d φωτογραφίες για μεταφόρτωση";
 "product_post_gallery_select_pictures_title" = "Επιλέξτε φωτογραφίες";
 "product_post_gallery_tab" = "ΓΚΑΛΕΡΙ";
 "product_post_generic_error" = "Παρουσιάστηκε σφάλμα κατά τη δημοσίευση της καταχώρησής σας.";

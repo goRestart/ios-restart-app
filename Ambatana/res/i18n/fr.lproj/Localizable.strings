@@ -651,7 +651,7 @@
 "product_post_gallery_permissions_subtitle" = "Pour choisir une photo existante, vous devez allouer l'accès aux Photos";
 "product_post_gallery_permissions_title" = "Permettre l'accès aux Photos";
 "product_post_gallery_select_pictures_subtitle" = "Sélectionnez jusqu'à 5 images à uploader";
-"product_post_gallery_select_pictures_subtitle_params" = "Select up to %d images to upload";
+"product_post_gallery_select_pictures_subtitle_params" = "Sélectionnez jusqu'à %d images à uploader";
 "product_post_gallery_select_pictures_title" = "Choisir une photo";
 "product_post_gallery_tab" = "BIBLIOTHÈQUE";
 "product_post_generic_error" = "Une erreur est survenue lors de la publication de votre annonce.";

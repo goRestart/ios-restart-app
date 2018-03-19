@@ -651,7 +651,7 @@
 "product_post_gallery_permissions_subtitle" = "Meglévő fotó kiválasztásához hozzáférést kell adnod a Fotókhoz";
 "product_post_gallery_permissions_title" = "Hozzáférés engedélyezése a Fotókhoz";
 "product_post_gallery_select_pictures_subtitle" = "Válassz legfeljebb 5 feltöltendő fotót";
-"product_post_gallery_select_pictures_subtitle_params" = "Select up to %d images to upload";
+"product_post_gallery_select_pictures_subtitle_params" = "Válassz legfeljebb %d feltöltendő fotót";
 "product_post_gallery_select_pictures_title" = "Válassz fotókat";
 "product_post_gallery_tab" = "GALÉRIA";
 "product_post_generic_error" = "Hiba történt a hirdetésed feltöltése során.";
