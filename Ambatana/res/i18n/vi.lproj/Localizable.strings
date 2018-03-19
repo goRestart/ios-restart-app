@@ -422,6 +422,16 @@
 "main_sign_up_terms_conditions" = "Đăng ký hoặc đăng nhập đồng nghĩa với việc bạn đồng ý với Các Điều khoản & Điều kiện và Chính sách Bảo mật của chúng tôi";
 "main_sign_up_terms_conditions_privacy_part" = "Chính sách Bảo mật";
 "main_sign_up_terms_conditions_terms_part" = "Các Điều khoản & Điều kiện";
+"ml_camera_in_about_days_text" = "in about %.f days";
+"ml_camera_in_more_than_days_text" = "in more than %.f days";
+"ml_camera_sells_for_text" = "Typically sells for $%d";
+"ml_category_text" = "Category:";
+"ml_details_price_text" = "Price:";
+"ml_details_suggested_details_text" = "SUGGESTED DETAILS";
+"ml_details_title_text" = "Title:";
+"ml_onboarding_description_text" = "Show me an item and I'll tell you how much you'll make";
+"ml_onboarding_new_text" = "MỚI!";
+"ml_onboarding_ok_text" = "OK";
 "notifications_empty_subtitle" = "Đăng bán sản phẩm nào đó để bắt đầu xem hoạt động tại đây";
 "notifications_empty_title" = "KHÔNG (CHƯA) CÓ THÔNG BÁO NÀO!";
 "notifications_permissions_1_push" = "Phương: Mình thích chiếc điện thoại. 3 triệu đồng có được không?";

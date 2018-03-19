@@ -38,7 +38,6 @@ class ABTests {
     let allowCallsForProfessionals = IntABDynamicVar(key: "20171228allowCallsForProfessionals", defaultValue: 0, abGroupType: .legacyABTests)
     let realEstateImprovements = IntABDynamicVar(key: "20180103RealEstateImprovements", defaultValue: 0, abGroupType: .legacyABTests)
     let mostSearchedDemandedItems = IntABDynamicVar(key: "20180104MostSearchedDemandedItems", defaultValue: 0, abGroupType: .retention)
-    let realEstatePromos = IntABDynamicVar(key: "20180108RealEstatePromos", defaultValue: 0, abGroupType: .legacyABTests)
     let showAdsInFeedWithRatio = IntABDynamicVar(key: "20180111ShowAdsInFeedWithRatio", defaultValue: 0, abGroupType: .legacyABTests)
     let removeCategoryWhenClosingPosting = IntABDynamicVar(key: "20180126RemoveCategoryWhenClosingPosting", defaultValue: 0, abGroupType: .legacyABTests)
     let realEstateNewCopy = IntABDynamicVar(key: "20180126RealEstateNewCopy", defaultValue: 0, abGroupType: .realEstate)
@@ -60,6 +59,7 @@ class ABTests {
     let servicesCategoryEnabled = IntABDynamicVar(key: "20180305ServicesCategoryEnabled", defaultValue: 0, abGroupType: .products)
     let copyForChatNowInTurkey = IntABDynamicVar(key: "20180312CopyForChatNowInTurkey", defaultValue: 0, abGroupType: .money)
     let increaseNumberOfPictures = IntABDynamicVar(key: "20180314IncreaseNumberOfPictures", defaultValue: 0, abGroupType: .realEstate)
+    let machineLearningMVP = IntABDynamicVar(key: "20180312MachineLearningMVP", defaultValue: 0, abGroupType: .core)
 
     init() {
     }
@@ -90,7 +90,6 @@ class ABTests {
         result.append(allowCallsForProfessionals)
         result.append(realEstateImprovements)
         result.append(mostSearchedDemandedItems)
-        result.append(realEstatePromos)
         result.append(showAdsInFeedWithRatio)
         result.append(removeCategoryWhenClosingPosting)
         result.append(realEstateNewCopy)

@@ -47,7 +47,6 @@ protocol FeatureFlaggeable: class {
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
     var realEstateImprovements: RealEstateImprovements { get }
-    var realEstatePromos: RealEstatePromos { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
@@ -68,7 +67,7 @@ protocol FeatureFlaggeable: class {
     var userIsTyping: UserIsTyping { get }
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
-    
+    var machineLearningMVP: MachineLearningMVP { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -123,10 +122,6 @@ extension RealEstateEnabled {
 
 extension RealEstateImprovements {
     var isActive: Bool { get { return self == .active } }
-}
-
-extension RealEstatePromos {
-    var isActive: Bool { get { return self == .control || self == .baseline } }
 }
 
 extension ShowAdsInFeedWithRatio {
@@ -229,8 +224,11 @@ extension UserIsTyping {
 extension ServicesCategoryEnabled {
     var isActive: Bool { get { return self == .active } }
 }
+extension NewItemPage {
+    var isActive: Bool { get { return self == .active } }
+}
 extension IncreaseNumberOfPictures {
-    var isActive: Bool { return self == .active }
+    var isActive: Bool { get { return self == .active } }
 }
 
 extension CopyForChatNowInTurkey {
@@ -248,6 +246,10 @@ extension CopyForChatNowInTurkey {
             return LGLocalizedString.bumpUpProductCellChatNowButtonD
         }
     } }
+}
+
+extension MachineLearningMVP {
+    var isActive: Bool { get { return self == .active } }
 }
 
 
@@ -437,13 +439,6 @@ class FeatureFlags: FeatureFlaggeable {
         return RealEstateImprovements.fromPosition(abTests.realEstateImprovements.value)
     }
     
-    var realEstatePromos: RealEstatePromos {
-        if Bumper.enabled {
-            return Bumper.realEstatePromos
-        }
-        return RealEstatePromos.fromPosition(abTests.realEstatePromos.value)
-    }
-    
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
         if Bumper.enabled {
             return Bumper.showAdsInFeedWithRatio
@@ -542,6 +537,13 @@ class FeatureFlags: FeatureFlaggeable {
         return UserIsTyping.fromPosition(abTests.userIsTyping.value)
     }
     
+    var machineLearningMVP: MachineLearningMVP {
+        if Bumper.enabled {
+            return Bumper.machineLearningMVP
+        }
+        return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
+    }
+
     var newUserProfileView: NewUserProfileView {
         if Bumper.enabled {
             return Bumper.newUserProfileView

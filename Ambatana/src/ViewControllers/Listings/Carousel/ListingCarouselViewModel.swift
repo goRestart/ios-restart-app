@@ -103,6 +103,7 @@ class ListingCarouselViewModel: BaseViewModel {
 
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
+    let altActions = Variable<[UIAction]>([])
 
     let status = Variable<ListingViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)

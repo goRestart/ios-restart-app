@@ -42,7 +42,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
 
     var realEstateImprovements: RealEstateImprovements = .control
-    var realEstatePromos: RealEstatePromos = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
@@ -60,8 +59,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var userIsTyping: UserIsTyping = .control
     var servicesCategoryEnabled: ServicesCategoryEnabled = .control
     var increaseNumberOfPictures: IncreaseNumberOfPictures = .control
-
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
+    var machineLearningMVP: MachineLearningMVP = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

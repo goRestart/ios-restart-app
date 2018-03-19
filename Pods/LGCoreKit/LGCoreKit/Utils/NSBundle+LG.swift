@@ -12,4 +12,8 @@ extension Bundle {
         let lgCoreKitBundleURL = frameworkBundle.url(forResource: "LGCoreKitBundle", withExtension: "bundle")!
         return Bundle(url: lgCoreKitBundleURL)!
     }
+    
+    static func letgoAppBundle() -> Bundle? {
+        return Bundle(identifier: "com.letgo.ios")
+    }
 }

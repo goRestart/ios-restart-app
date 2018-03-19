@@ -23,14 +23,13 @@ public enum ListingCategory: Int {
     
     static func visibleValues(servicesIncluded: Bool,
                               carsIncluded: Bool,
-                              realEstateIncluded: Bool,
-                              highlightRealEstate: Bool) -> [ListingCategory] {
+                              realEstateIncluded: Bool) -> [ListingCategory] {
 
         var categories: [ListingCategory] = [.electronics, .motorsAndAccessories, .sportsLeisureAndGames, .homeAndGarden, .moviesBooksAndMusic,
                                              .fashionAndAccesories, .babyAndChild]
 
         if realEstateIncluded {
-            categories = highlightRealEstate ? [.realEstate] + categories : categories + [.realEstate]
+            categories = [.realEstate] + categories
         }
 
         if carsIncluded {
@@ -47,14 +46,13 @@ public enum ListingCategory: Int {
     }
     
     public static func visibleValuesInFeed(servicesIncluded: Bool,
-                                           realEstateIncluded: Bool,
-                                           highlightRealEstate: Bool) -> [ListingCategory] {
+                                           realEstateIncluded: Bool) -> [ListingCategory] {
 
         var categories: [ListingCategory] = [.electronics, .homeAndGarden, .sportsLeisureAndGames, .motorsAndAccessories,
                                              .fashionAndAccesories, .babyAndChild, .moviesBooksAndMusic]
 
         if realEstateIncluded {
-            categories = highlightRealEstate ? [.realEstate] + categories : categories + [.realEstate]
+            categories = [.realEstate] + categories
         }
 
         categories = [.cars] + categories  + [.other]

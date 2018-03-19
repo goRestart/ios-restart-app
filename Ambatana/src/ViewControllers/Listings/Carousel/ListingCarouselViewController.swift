@@ -624,7 +624,7 @@ extension ListingCarouselViewController {
 
         viewModel.userInfo.asObservable().bind { [weak self] userInfo in
             self?.fullScreenAvatarView.alpha = 0
-            self?.fullScreenAvatarView.image = userInfo?.avatarPlaceholder
+            self?.fullScreenAvatarView.image = userInfo?.avatarPlaceholder()
             if let avatar = userInfo?.avatar {
                 let _ = self?.imageDownloader.downloadImageWithURL(avatar) { [weak self] result, url in
                     guard let imageWithSource = result.value, url == self?.viewModel.userInfo.value?.avatar else { return }
@@ -925,7 +925,7 @@ extension ListingCarouselViewController: ListingCarouselCellDelegate {
             } else {
                 collectionView.showRubberBandEffect(.left,
                                                     offset: ListingCarouselViewController.defaultRubberBandOffset)
-                
+
             }
         case .right:
             let newIndexRow = indexPath.row + 1
@@ -1045,7 +1045,7 @@ extension ListingCarouselViewController {
         guard let button = moreInfoView.dragView else { return }
         self.navigationController?.navigationBar.endIgnoreTouchesFor(button)
     }
-    
+
     fileprivate func dragMoreInfoView(offset: CGFloat, bottomLimit: CGFloat) {
         guard moreInfoState.value != .shown && !cellZooming.value else { return }
         if moreInfoView.frame.origin.y - offset > -view.frame.height {
@@ -1055,11 +1055,11 @@ extension ListingCarouselViewController {
             moreInfoState.value = .hidden
             moreInfoView.frame.origin.y = -view.frame.height
         }
-        
+
         let bottomOverScroll = max(offset-bottomLimit, 0)
         bottomItemsMargin = CarouselUI.itemsMargin + bottomOverScroll
     }
-    
+
     fileprivate func updateMoreInfoFrame() {
         if moreInfoView.frame.bottom > CarouselUI.moreInfoDragMargin*2 {
             showMoreInfo()
@@ -1158,20 +1158,20 @@ extension ListingCarouselViewController: UICollectionViewDataSource, UICollectio
                                            indexPath: indexPath, imageDownloader: carouselImageDownloader,
                                            imageScrollDirection: viewModel.imageScrollDirection)
             carouselCell.delegate = self
-            
+
             return carouselCell
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         hideMoreInfo()
         collectionContentOffset.value = scrollView.contentOffset
-        
+
         if viewModel.imageScrollDirection == .horizontal {
             dragMoreInfoView(offset: scrollView.contentOffset.y, bottomLimit: bottomScrollLimit)
             scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: 0)
         }
     }
-    
+
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         cellAnimating.value = false
     }
@@ -1221,7 +1221,7 @@ extension ListingCarouselViewController: UITableViewDataSource, UITableViewDeleg
         guard 0..<messages.count ~= indexPath.row else { return UITableViewCell() }
         let message = messages[indexPath.row]
         let drawer = ChatCellDrawerFactory.drawerForMessage(message,
-                                                            autoHide: true, 
+                                                            autoHide: true,
                                                             disclosure: true,
                                                             showClock: viewModel.featureFlags.showClockInDirectAnswer == .active)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
@@ -1374,3 +1374,4 @@ fileprivate extension ListingCarouselViewController {
         directChatTable.accessibilityInspectionEnabled = false
     }
 }
+

@@ -2273,7 +2273,8 @@ class TrackerEventSpec: QuickSpec {
                                                         buttonName: .sellYourStuff,
                                                         sellButtonPosition: .tabBar,
                                                         category: .cars,
-                                                        mostSearchedButton: .notApply)
+                                                        mostSearchedButton: .notApply,
+                                                        predictiveFlow: false)
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-start"))
@@ -2306,7 +2307,8 @@ class TrackerEventSpec: QuickSpec {
                                                             buttonName: nil,
                                                             sellButtonPosition: .none,
                                                             category: .cars,
-                                                            mostSearchedButton: eventParameterMostSearched)
+                                                            mostSearchedButton: eventParameterMostSearched,
+                                                            predictiveFlow: false)
                     }
                     it("has its event name") {
                         expect(sut.name.rawValue).to(equal("product-sell-start"))
@@ -2386,7 +2388,8 @@ class TrackerEventSpec: QuickSpec {
                                                            pictureSource: .gallery,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: .notApply)
+                                                           mostSearchedButton: .notApply,
+                                                           machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
@@ -2496,7 +2499,8 @@ class TrackerEventSpec: QuickSpec {
                                                            pictureSource: .gallery,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: eventParameterMostSearched)
+                                                           mostSearchedButton: eventParameterMostSearched,
+                                                           machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
@@ -2597,7 +2601,8 @@ class TrackerEventSpec: QuickSpec {
                                                            pictureSource: .gallery,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: .notApply)
+                                                           mostSearchedButton: .notApply,
+                                                           machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
@@ -2724,7 +2729,8 @@ class TrackerEventSpec: QuickSpec {
                                                            pictureSource: .gallery,
                                                            freePostingModeAllowed: true,
                                                            typePage: .sell,
-                                                           mostSearchedButton: .notApply)
+                                                           mostSearchedButton: .notApply,
+                                                           machineLearningTrackingInfo: MachineLearningTrackingInfo.defaultValues())
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
@@ -3157,6 +3163,53 @@ class TrackerEventSpec: QuickSpec {
                     product.objectId = "q1w2e3"
                     sut = TrackerEvent.listingDeleteComplete(.product(product))
                     
+                    expect(sut.params).notTo(beNil())
+                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal(product.objectId))
+                }
+            }
+
+            describe("listingVisitPhotoViewer") {
+                it("has its event name") {
+                    let product = MockProduct.makeMock()
+                    sut = TrackerEvent.listingVisitPhotoViewer(.product(product),
+                                                               source: .listingList,
+                                                               numberOfPictures: 5)
+                    expect(sut.name.rawValue).to(equal("product-visit-photo-viewer"))
+                }
+                it("has related-source param") {
+                    let source = sut.params?.stringKeyParams["visit-source"] as? String
+                    expect(source) == "product-list"
+                }
+                it("contains the product id") {
+                    let product = MockProduct.makeMock()
+                    sut = TrackerEvent.listingVisitPhotoChat(.product(product),
+                                                             source: .listingList)
+
+                    expect(sut.params).notTo(beNil())
+                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal(product.objectId))
+                }
+            }
+
+            describe("listingVisitPhotoChat") {
+                it("has its event name") {
+                    let product = MockProduct.makeMock()
+                    sut = TrackerEvent.listingVisitPhotoChat(Listing.product(product),
+                                                             source: .listingList)
+                    expect(sut.name.rawValue).to(equal("product-visit-photo-chat"))
+                }
+                it("has related-source param") {
+                    let source = sut.params?.stringKeyParams["visit-source"] as? String
+                    expect(source) == "product-list"
+                }
+                it("contains the product id") {
+                    let product = MockProduct.makeMock()
+                    sut = TrackerEvent.listingVisitPhotoChat(Listing.product(product),
+                                                             source: .listingList)
+
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
                     let productId = sut.params!.stringKeyParams["product-id"] as? String

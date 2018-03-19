@@ -78,7 +78,7 @@ class PostListingGalleryViewModel: BaseViewModel {
     }
     
     var noImageSubtitleText: String {
-        if let category = postCategory, category == .realEstate && featureFlags.realEstatePromos.isActive {
+        if let category = postCategory, category == .realEstate {
             return LGLocalizedString.realEstateGalleryViewSubtitle
         } else {
             return LGLocalizedString.productPostGallerySelectPicturesSubtitle

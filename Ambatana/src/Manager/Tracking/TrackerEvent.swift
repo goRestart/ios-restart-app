@@ -363,6 +363,25 @@ struct TrackerEvent {
         return TrackerEvent(name: .filterComplete, params: params)
     }
 
+    static func listingVisitPhotoViewer(_ listing: Listing,
+                                        source: EventParameterListingVisitSource,
+                                        numberOfPictures: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params.addListingParams(listing)
+        params[.listingVisitSource] = source.rawValue
+        params[.photoViewerNumberOfPhotos] = numberOfPictures
+        return TrackerEvent(name: .listingVisitPhotoViewer, params: params)
+    }
+
+    static func listingVisitPhotoChat(_ listing: Listing,
+                                        source: EventParameterListingVisitSource) -> TrackerEvent {
+        var params = EventParameters()
+        params.addListingParams(listing)
+        params[.listingVisitSource] = source.rawValue
+        return TrackerEvent(name: .listingVisitPhotoChat, params: params)
+    }
+
+
     static func listingDetailVisit(_ listing: Listing, visitUserAction: ListingVisitUserAction, source: EventParameterListingVisitSource, feedPosition: EventParameterFeedPosition,
                                    isBumpedUp: EventParameterBoolean) -> TrackerEvent {
         var params = EventParameters()
@@ -551,13 +570,15 @@ struct TrackerEvent {
                                  buttonName: EventParameterButtonNameType?,
                                  sellButtonPosition: EventParameterSellButtonPosition,
                                  category: ListingCategory?,
-                                 mostSearchedButton: EventParameterMostSearched) -> TrackerEvent {
+                                 mostSearchedButton: EventParameterMostSearched,
+                                 predictiveFlow: Bool) -> TrackerEvent {
         var params = EventParameters()
         params[.typePage] = typePage.rawValue
         params[.buttonName] = buttonName?.rawValue
         params[.sellButtonPosition] = sellButtonPosition.rawValue
         params[.categoryId] = category?.rawValue ?? TrackerEvent.notApply
         params[.mostSearchedButton] = mostSearchedButton.rawValue
+        params[.mlPredictiveFlow] = predictiveFlow
         return TrackerEvent(name: .listingSellStart, params: params)
     }
     
@@ -568,7 +589,8 @@ struct TrackerEvent {
                                     pictureSource: EventParameterPictureSource?,
                                     freePostingModeAllowed: Bool,
                                     typePage: EventParameterTypePage,
-                                    mostSearchedButton: EventParameterMostSearched) -> TrackerEvent {
+                                    mostSearchedButton: EventParameterMostSearched,
+                                    machineLearningTrackingInfo: MachineLearningTrackingInfo) -> TrackerEvent {
         var params = EventParameters()
         params[.freePosting] = eventParameterFreePostingWithPrice(freePostingModeAllowed, price: listing.price).rawValue
         params[.listingId] = listing.objectId ?? ""
@@ -618,8 +640,27 @@ struct TrackerEvent {
             params[.rooms] = EventParameterRoomsRealEstate.notApply.name
             params[.sizeSqrMeters] = EventParameterSizeRealEstate.notApply.name
         }
+    
+        params[.mlPredictiveFlow] = machineLearningTrackingInfo.predictiveFlow
+        params[.mlPredictionActive] = machineLearningTrackingInfo.predictionActive
+        if let machineLearningData = machineLearningTrackingInfo.data {
+            params[.mlPredictedTitle] = machineLearningData.predictedTitle
+            params[.mlPredictedPrice] = machineLearningData.predictedPrice
+            params[.mlPredictedCategory] = machineLearningData.predictedCategory?.rawValue ?? nil
+            params[.listingName] = machineLearningData.title
+            params[.listingPrice] = machineLearningData.price
+            params[.mlListingCategory] = machineLearningData.category?.rawValue ?? nil
+        }
         
         return TrackerEvent(name: .listingSellComplete, params: params)
+    }
+    
+    static func predictedPosting(data: MLPredictionDetailsViewData) -> TrackerEvent {
+        var params = EventParameters()
+        params[.mlPredictedTitle] = data.predictedTitle
+        params[.mlPredictedPrice] = data.predictedPrice
+        params[.mlPredictedCategory] = data.predictedCategory?.rawValue ?? nil
+        return TrackerEvent(name: .predictedPosting, params: params)
     }
     
     static func listingSellComplete24h(_ listing: Listing) -> TrackerEvent {
@@ -1381,7 +1422,6 @@ struct TrackerEvent {
         params[.postingType] = postingType.rawValue
         return TrackerEvent(name: .openOptionOnSummary, params: params)
     }
-
 
     // MARK: - Private methods
 

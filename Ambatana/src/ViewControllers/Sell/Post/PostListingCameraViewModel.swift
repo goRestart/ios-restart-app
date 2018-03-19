@@ -46,7 +46,7 @@ class PostListingCameraViewModel: BaseViewModel {
     let postCategory: PostCategory?
     
     var verticalPromotionMessage: String? {
-        if let category = postCategory, category == .realEstate && featureFlags.realEstatePromos.isActive {
+        if let category = postCategory, category == .realEstate {
             return LGLocalizedString.realEstateCameraViewRealEstateMessage
         }
         return nil

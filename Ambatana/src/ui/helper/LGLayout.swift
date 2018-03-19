@@ -406,4 +406,31 @@ extension UIViewController {
             return bottomLayoutGuide.topAnchor
         }
     }
+
+    var safeTrailingAnchor: NSLayoutXAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return view.safeAreaLayoutGuide.trailingAnchor
+        }
+        else {
+            return view.trailingAnchor
+        }
+    }
+
+    var safeLeadingAnchor: NSLayoutXAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return view.safeAreaLayoutGuide.leadingAnchor
+        }
+        else {
+            return view.leadingAnchor
+        }
+    }
+
+    func constraintViewToSafeRootView(_ view: UIView) {
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: safeTopAnchor),
+            view.trailingAnchor.constraint(equalTo: safeTrailingAnchor),
+            view.bottomAnchor.constraint(equalTo: safeBottomAnchor),
+            view.leadingAnchor.constraint(equalTo: safeLeadingAnchor)
+        ])
+    }
 }

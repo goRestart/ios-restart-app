@@ -45,7 +45,9 @@ enum EventName: String {
     case listingDetailVisit                 = "product-detail-visit"
     case listingDetailVisitMoreInfo         = "product-detail-visit-more-info"
     case listingNotAvailable                = "product-not-available"
-    
+    case listingVisitPhotoViewer            = "product-visit-photo-viewer"
+    case listingVisitPhotoChat              = "product-visit-photo-chat"
+
     case listingFavorite                    = "product-detail-favorite"
     case listingShare                       = "product-detail-share"
     case listingShareCancel                 = "product-detail-share-cancel"
@@ -185,6 +187,7 @@ enum EventName: String {
     case phoneNumberSent                    = "phone-number-sent"
     case phoneNumberNotNow                  = "phone-number-not-now"
 
+    case predictedPosting                   = "predicted-posting"
 
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
@@ -353,7 +356,18 @@ enum EventParameterName: String {
     case chatContainsEmoji    = "contain-emoji"
     case inactiveConversations = "inactive-conversations"
     case mostSearchedButton   = "most-searched-button"
+    case photoViewerNumberOfPhotos   = "number-photos"
     case abandonStep          = "abandon-step"
+    
+    
+    // Machine Learning
+    case mlPredictiveFlow = "predictive-flow"
+    case mlPredictionActive = "prediction-active"
+    case mlPredictedTitle = "predicted-title"
+    case mlPredictedPrice = "predicted-price"
+    case mlPredictedCategory = "predicted-category"
+    case mlListingCategory = "product-category"
+    
 }
 
 enum EventParameterBoolean: String {
