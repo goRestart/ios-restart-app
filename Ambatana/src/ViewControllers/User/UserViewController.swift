@@ -495,10 +495,10 @@ extension UserViewController {
             self?.headerContainer.header.selectedColor = bgColor
         }.disposed(by: disposeBag)
         
-        viewModel.userIsProfessional.asObservable().map{ !$0 }
-            .bind(to: headerContainer.header.proTagImageView.rx.isHidden)
-            .disposed(by: disposeBag)
-
+            viewModel.userIsProfessional.asObservable().map{ !($0 && self.featureFlags.showProTagUserProfile) }
+                .bind(to: headerContainer.header.proTagImageView.rx.isHidden )
+                .disposed(by: disposeBag)
+        
         // Ratings
         viewModel.userRatingAverage.asObservable().subscribeNext { [weak self] userRatingAverage in
             self?.setupRatingAverage(userRatingAverage)

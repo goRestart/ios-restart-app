@@ -204,5 +204,11 @@
         "name": "MachineLearningMVP",
         "values": ["control", "baseline", "active"],
         "description": "Show machine learning posting flow when pressing Other Items on salchichas menu"
+    },
+    {
+        "name": "ShowProTagUserProfile",
+        "values": ["no", "yes"],
+        "description": "Show Professional tag in user profile"
     }
+ 
 ]

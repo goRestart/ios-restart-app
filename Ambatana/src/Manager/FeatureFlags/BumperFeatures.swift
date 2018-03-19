@@ -54,6 +54,7 @@ extension Bumper  {
         flags.append(CopyForChatNowInTurkey.self)
         flags.append(IncreaseNumberOfPictures.self)
         flags.append(MachineLearningMVP.self)
+        flags.append(ShowProTagUserProfile.self)
         Bumper.initialize(flags)
     } 
 
@@ -260,6 +261,11 @@ extension Bumper  {
     static var machineLearningMVP: MachineLearningMVP {
         guard let value = Bumper.value(for: MachineLearningMVP.key) else { return .control }
         return MachineLearningMVP(rawValue: value) ?? .control 
+    }
+
+    static var showProTagUserProfile: Bool {
+        guard let value = Bumper.value(for: ShowProTagUserProfile.key) else { return false }
+        return ShowProTagUserProfile(rawValue: value)?.asBool ?? false
     } 
 }
 
@@ -891,5 +897,14 @@ enum MachineLearningMVP: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum ShowProTagUserProfile: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return ShowProTagUserProfile.no.rawValue }
+    static var enumValues: [ShowProTagUserProfile] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show Professional tag in user profile" } 
+    var asBool: Bool { return self == .yes }
 }
 
