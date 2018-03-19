@@ -651,6 +651,7 @@
 "product_post_gallery_permissions_subtitle" = "Om een bestaande foto te selecteren, moet je de toegang tot Foto's toestaan";
 "product_post_gallery_permissions_title" = "Geef toegang tot Foto's";
 "product_post_gallery_select_pictures_subtitle" = "Selecteer maximaal 5 afbeeldingen om te uploaden";
+"product_post_gallery_select_pictures_subtitle_params" = "Select up to %d images to upload";
 "product_post_gallery_select_pictures_title" = "Kies foto's";
 "product_post_gallery_tab" = "BIBLIOTHEEK";
 "product_post_generic_error" = "Er is een fout opgetreden tijdens het plaatsen van je advertentie.";

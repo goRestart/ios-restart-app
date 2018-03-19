@@ -70,7 +70,7 @@
 "categories_title" = "Kategoriler";
 "categories_unassigned" = "Seçilmedi";
 "categories_unassigned_items" = "Diğer eşyalar";
-"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
+"change_bio_error_message" = "Biyografin kaydedilirken bir hata oluştu. Lütfen iletişim bilginin yer almadığından emin ol.";
 "change_bio_placeholder" = "Kim olduğunu belirten bir biyografi ekle. Nelerle ilgilendiğini veya kendin hakkında ilginç bir bilgiyi paylaş.";
 "change_bio_save_button" = "Kaydet";
 "change_bio_title" = "Hakkımda";
@@ -651,6 +651,7 @@
 "product_post_gallery_permissions_subtitle" = "Mevcut bir fotoğrafı seçmek için, Resimlerine erişime izin vermelisin";
 "product_post_gallery_permissions_title" = "Fotoğraflara erişime izin ver";
 "product_post_gallery_select_pictures_subtitle" = "5 görsele kadar seçip yükle";
+"product_post_gallery_select_pictures_subtitle_params" = "Select up to %d images to upload";
 "product_post_gallery_select_pictures_title" = "Fotoğrafları seç";
 "product_post_gallery_tab" = "KÜTÜPHANE";
 "product_post_generic_error" = "İlanın yüklenirken bir hata oluştu.";

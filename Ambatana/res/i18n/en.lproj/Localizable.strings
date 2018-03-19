@@ -1996,6 +1996,9 @@
 // Subtitle message to ask user to select a picture or more
 "product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
 
+// Subtitle message to ask user to select a picture or more with params
+"product_post_gallery_select_pictures_subtitle_params" = "Select up to %d images to upload";
+
 // Gallery tab on posting
 "product_post_gallery_tab" = "GALLERY";
 
