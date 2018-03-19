@@ -68,6 +68,7 @@ protocol FeatureFlaggeable: class {
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var machineLearningMVP: MachineLearningMVP { get }
+    var chatNorris: ChatNorris { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -250,6 +251,10 @@ extension CopyForChatNowInTurkey {
 
 extension MachineLearningMVP {
     var isActive: Bool { get { return self == .active } }
+}
+
+extension ChatNorris {
+    var isActive: Bool { get { return self == .redButton || self == .whiteButton || self == .greenButton } }
 }
 
 
@@ -741,6 +746,16 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return CopyForChatNowInTurkey.fromPosition(abTests.copyForChatNowInTurkey.value)
     }
+
+    // MARK: Hackaton
+
+    var chatNorris: ChatNorris {
+        if Bumper.enabled {
+            return Bumper.chatNorris
+        }
+        return ChatNorris.fromPosition(abTests.chatNorris.value)
+    }
+
 
     // MARK: - Private
 
