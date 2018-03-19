@@ -59,7 +59,7 @@ class SellNavigationController: UINavigationController {
         view.layoutIfNeeded()
     }
     
-    func clearBackground() {
+    func removeBackground() {
         blurEffectView.removeFromSuperview()
         backgroundImageView.removeFromSuperview()
     }
