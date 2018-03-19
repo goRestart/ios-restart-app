@@ -55,10 +55,14 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     private let whiteGradient = GradientView(colors: [UIColor.white.withAlphaComponent(0),
                                                       UIColor.white.withAlphaComponent(0.9)])
-
+    private let bottomBackground = UIView()
+    private var bottomBackgroundHeight: NSLayoutConstraint?
     private let scrollView = UIScrollView()
     private var scrollViewTapGesture: UITapGestureRecognizer?
 
+    private let bias: CGFloat = 1
+    private var fullDetailsOffset: CGFloat { return min(-Layout.Height.userView + bias,
+                                                        -(contentView.bounds.height - detailsView.bounds.height))}
     private var detailsViewFullyVisible: Bool { return abs(scrollView.contentOffset.y + Layout.Height.userView) < CGFloat.ulpOfOne }
     private let detailsView = ListingCardDetailsView()
     private var detailsThreshold: CGFloat { return 0.5 * previewImageView.height }
@@ -176,6 +180,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     private func setupUI() {
         contentView.clipsToBounds = true
         setupPreviewImageView()
+        setupBottomBackground()
         setupImagesCount()
         setupVerticalScrollView()
         setupStatusView()
@@ -184,6 +189,20 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         backgroundColor = .clear
         contentView.clipsToBounds = true
         contentView.backgroundColor = .white
+    }
+
+    private func setupBottomBackground() {
+        contentView.addSubviewForAutoLayout(bottomBackground)
+        bottomBackground.backgroundColor = .white
+        bottomBackground.isOpaque = true
+        let bottomHeight = bottomBackground.heightAnchor.constraint(equalToConstant: 20)
+        NSLayoutConstraint.activate([
+            bottomBackground.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            bottomBackground.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            bottomBackground.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            bottomHeight
+        ])
+        bottomBackgroundHeight = bottomHeight
     }
 
     private func setupWhiteGradient() {
@@ -263,21 +282,18 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     private func setupVerticalScrollView() {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.delegate = self
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(scrollView)
+        contentView.addSubviewForAutoLayout(scrollView)
         scrollView.layout(with: contentView).leading().trailing().bottom().top()
         scrollView.backgroundColor = .clear
         scrollView.contentInset = defaultContentInset
 
-        userView.translatesAutoresizingMaskIntoConstraints = false
         userView.clipsToBounds = true
-        contentView.addSubview(userView)
+        contentView.addSubviewForAutoLayout(userView)
         userView.heightAnchor.constraint(equalToConstant: Layout.Height.userView).isActive = true
 
         detailsView.backgroundColor = .white
-        detailsView.translatesAutoresizingMaskIntoConstraints = false
         detailsView.isUserInteractionEnabled = false
-        scrollView.addSubview(detailsView)
+        scrollView.addSubviewForAutoLayout(detailsView)
 
         detailsView.layout(with: scrollView).fillHorizontal().centerX()
         detailsView.layout(with: scrollView).bottom().centerX().top()
@@ -343,6 +359,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
             if scrollView.contentOffset.y <= -scrollView.contentInset.top {
                 let scaleRatio = (-scrollView.contentOffset.y / scrollView.contentInset.top) * 1.2
                 previewImageView.transform = CGAffineTransform.identity.scaledBy(x: scaleRatio, y: scaleRatio)
+                bottomBackgroundHeight?.constant = 0
             } else if scrollView.contentInset.top != 0
                 && -scrollView.contentOffset.y / scrollView.contentInset.top < 0.7 {
                 let ratio = -scrollView.contentOffset.y / scrollView.contentInset.top / 0.7
@@ -350,8 +367,10 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
                 if detailsViewFullyVisible {
                     delegate?.didShowMoreInfo()
                 }
+                let diff = scrollView.contentOffset.y - fullDetailsOffset
+                bottomBackgroundHeight?.constant = contentView.bounds.height - previewImageView.bounds.height + max(0, diff)
                 whiteGradient.alpha = abs(scrollView.contentOffset.y / scrollView.contentInset.top)
-            }
+            }   
         }
         detailsView.isUserInteractionEnabled = abs(scrollView.contentOffset.y) < detailsThreshold
     }
@@ -417,9 +436,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     private func scrollToDetail() {
         detailsView.isUserInteractionEnabled = true
-        let bias: CGFloat = 1
-        let offsetY = min(-Layout.Height.userView + bias,
-                          -(contentView.bounds.height - detailsView.bounds.height))
+        let offsetY = fullDetailsOffset
         UIView.animate(withDuration: 0.3,
                        delay: 0,
                        options: .curveEaseIn, animations: { [weak self] in

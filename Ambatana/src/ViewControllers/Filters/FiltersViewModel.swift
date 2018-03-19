@@ -463,8 +463,7 @@ class FiltersViewModel: BaseViewModel {
     func retrieveCategories() {
         categoryRepository.index(servicesIncluded: featureFlags.servicesCategoryEnabled.isActive,
                                  carsIncluded: false,
-                                 realEstateIncluded: featureFlags.realEstateEnabled.isActive,
-                                 highlightRealEstate: featureFlags.realEstatePromos.isActive) { [weak self] result in
+                                 realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
                                     
             guard let strongSelf = self else { return }
             guard let categories = result.value else { return }
