@@ -70,11 +70,23 @@ class CameraWrapper {
         cameraManager.showAccessPermissionPopupAutomatically = false
         cameraManager.writeFilesToPhoneLibrary = false
         cameraManager.shouldKeepViewAtOrientationChanges = true
+        cameraManager.saveLocationOnImages = false
 
         cameraManager.flashMode = flashMode.cameraFlashMode
         cameraManager.cameraDevice = cameraSource.cameraDevice
     }
 
+    func setupVideoOutput() {
+        cameraManager.addVideoOutput()
+    }
+    
+    func enableVideoOutput(withDelegate delegate: MachineLearning) {
+        cameraManager.videoOutputDelegate = delegate
+    }
+    
+    func disableVideoOutput() {
+        cameraManager.videoOutputDelegate = nil
+    }
 
     func capturePhoto(completion: @escaping CameraPhotoCompletion) {
         let motionOrientation = motionDeviceOrientation.orientation

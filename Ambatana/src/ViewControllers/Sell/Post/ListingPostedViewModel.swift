@@ -296,7 +296,8 @@ class ListingPostedViewModel: BaseViewModel {
                                                      negotiable: negotiable, pictureSource: pictureSource,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: typePage,
-                                                     mostSearchedButton: mostSearchedButton)
+                                                     mostSearchedButton: mostSearchedButton,
+                                                     machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
         tracker.trackEvent(event)
 
         // Track product was sold in the first 24h (and not tracked before)

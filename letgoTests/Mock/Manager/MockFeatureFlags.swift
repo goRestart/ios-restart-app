@@ -60,8 +60,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var userIsTyping: UserIsTyping = .control
     var servicesCategoryEnabled: ServicesCategoryEnabled = .control
     var increaseNumberOfPictures: IncreaseNumberOfPictures = .control
-
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
+    var machineLearningMVP: MachineLearningMVP = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

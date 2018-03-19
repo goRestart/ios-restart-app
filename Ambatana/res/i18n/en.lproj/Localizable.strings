@@ -1207,6 +1207,36 @@
 // Login v2. Log in w email forgot password alert remember action
 "log_in_email_forgot_password_alert_remember_action" = "Send email";
 
+// machine learning MVP
+"ml_onboarding_new_text" = "NEW!";
+
+// machine learning MVP
+"ml_onboarding_description_text" = "Show me an item and I'll tell you how much you'll make";
+
+// machine learning MVP
+"ml_onboarding_ok_text" = "OK";
+
+// machine learning MVP
+"ml_camera_sells_for_text" = "Typically sells for $%d";
+
+// machine learning MVP
+"ml_camera_in_about_days_text" = "in about %.f days";
+
+// machine learning MVP
+"ml_camera_in_more_than_days_text" = "in more than %.f days";
+
+// machine learning MVP
+"ml_details_suggested_details_text" = "SUGGESTED DETAILS";
+
+// machine learning MVP
+"ml_details_title_text" = "Title:";
+
+// machine learning MVP
+"ml_details_price_text" = "Price:";
+
+// machine learning MVP
+"ml_category_text" = "Category:";
+
 // Login v2. Sign up w email step 1 title
 "sign_up_email_step1_title" = "Create a new account";
 

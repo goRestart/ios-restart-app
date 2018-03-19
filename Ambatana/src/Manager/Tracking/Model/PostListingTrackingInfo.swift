@@ -13,13 +13,15 @@ struct PostListingTrackingInfo {
     var negotiablePrice: EventParameterNegotiablePrice
     var typePage: EventParameterTypePage
     var mostSearchedButton: EventParameterMostSearched
+    var machineLearningInfo: MachineLearningTrackingInfo
 
     init(buttonName: EventParameterButtonNameType,
          sellButtonPosition: EventParameterSellButtonPosition,
          imageSource: EventParameterPictureSource?,
          price: String?,
          typePage: EventParameterTypePage,
-         mostSearchedButton: EventParameterMostSearched) {
+         mostSearchedButton: EventParameterMostSearched,
+         machineLearningInfo: MachineLearningTrackingInfo) {
         self.buttonName = buttonName
         self.sellButtonPosition = sellButtonPosition
         self.imageSource = imageSource ?? .camera
@@ -30,5 +32,6 @@ struct PostListingTrackingInfo {
         } else {
             negotiablePrice = .yes
         }
+        self.machineLearningInfo = machineLearningInfo
     }
 }
