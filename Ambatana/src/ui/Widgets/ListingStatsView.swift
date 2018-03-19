@@ -31,21 +31,28 @@ class ListingStatsView: UIView {
             case .dark: return   #imageLiteral(resourceName: "ic_stats_time")
             }
         }
-        var timePostedBorderWidth: CGFloat { return self == .light ? 0 : 1 }
+
+        var timePostedBorderWidth: CGFloat { return self == .light ? 1 : 0 }
 
 
         var iconTint: UIColor {
             switch self {
-            case .light:
-                return UIColor.grayDark
-            case .dark: return UIColor.black.withAlphaComponent(0.5)
+            case .light: return .grayDark
+            case .dark: return .white
             }
         }
+        var timePostedBackground: UIColor { return .white }
+
         var statBackground: UIColor {
             switch self {
-            case .light:
-                return UIColor.black.withAlphaComponent(0.05)
-            case .dark: return UIColor.black.withAlphaComponent(0.5)
+            case .light: return UIColor.black.withAlphaComponent(0.05)
+            case .dark: return UIColor.black.withAlphaComponent(0.54)
+            }
+        }
+        var statsBorder: UIColor {
+            switch self {
+            case .light: return UIColor.grayLighter
+            case .dark: return .clear
             }
         }
     }
@@ -55,18 +62,14 @@ class ListingStatsView: UIView {
     @IBOutlet weak var favouriteStatsLabel: UILabel!
     @IBOutlet weak var favouriteIcon: UIImageView!
     @IBOutlet weak var statsIcon: UIImageView!
-    @IBOutlet weak var favouriteStatsWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var viewsStatsView: UIView!
     @IBOutlet weak var viewsStatsLabel: UILabel!
-    @IBOutlet weak var viewsStatsWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var timePostedView: UIView!
     @IBOutlet weak var timePostedLabel: UILabel!
     @IBOutlet weak var timePostedIcon: UIImageView!
     @IBOutlet weak var timePostedWidthConstraint: NSLayoutConstraint!
-
-    @IBOutlet weak var statsSeparationConstraint: NSLayoutConstraint!
 
     private let statsViewMaxWidth: CGFloat = 80
     private let statsSeparationWidth: CGFloat = 17
@@ -104,11 +107,14 @@ class ListingStatsView: UIView {
         viewsStatsView.layer.cornerRadius = 12
         timePostedView.layer.cornerRadius = 12
 
-        statsSeparationConstraint.constant = 0
-
+        // until we have a ghost view
         favouriteStatsView.isHidden = true
         viewsStatsView.isHidden = true
         timePostedView.isHidden = true
+
+        favouriteStatsLabel.layer.add(CATransition(), forKey: kCATransition)
+        timePostedView.layer.add(CATransition(), forKey: kCATransition)
+        viewsStatsLabel.layer.add(CATransition(), forKey: kCATransition)
 
         updateStyle()
     }
@@ -123,32 +129,18 @@ class ListingStatsView: UIView {
     }
 
     private func updateStyle() {
-        favouriteIcon.tintColor = style.iconTint
-        favouriteStatsLabel.textColor = style.iconTint
-        favouriteStatsView.backgroundColor = style.statBackground
-        favouriteIcon.image = style.favIcon
-
-        statsIcon.tintColor = style.iconTint
-        viewsStatsLabel.textColor = style.iconTint
-        viewsStatsView.backgroundColor = style.statBackground
-        statsIcon.image = style.statsIcon
-
-        timePostedIcon.tintColor = style.iconTint
-        timePostedView.backgroundColor = style.statBackground
-        timePostedView.layer.borderWidth = style.timePostedBorderWidth
+        setupFavsView()
+        setupStatsView()
+        setupTimeView()
     }
 
     func updateStatsWithInfo(_ viewsCount: Int, favouritesCount: Int, postedDate: Date?) {
-        statsSeparationConstraint.constant = favouritesCount < Constants.minimumStatsCountToShow ? 0 : statsSeparationWidth
-
         favouriteStatsView.isHidden = favouritesCount < Constants.minimumStatsCountToShow
         viewsStatsView.isHidden = viewsCount < Constants.minimumStatsCountToShow
 
         favouriteStatsLabel.text = favouritesCount > maxStatsDisplayedCount ? "+999" : String(favouritesCount)
-        favouriteStatsLabel.layer.add(CATransition(), forKey: kCATransition)
 
         viewsStatsLabel.text = viewsCount > maxStatsDisplayedCount ? "+999" : String(viewsCount)
-        viewsStatsLabel.layer.add(CATransition(), forKey: kCATransition)
 
         setupPostedTimeViewWithDate(postedDate)
     }
@@ -158,21 +150,52 @@ class ListingStatsView: UIView {
             timePostedView.isHidden = true
             return
         }
+        setupTimeViewWithDate(postedDate)
+    }
+
+    private func setupTimeView() {
+        setupTimeForMoreThan24hs()
+    }
+
+    private func setupStatsView() {
+        statsIcon.tintColor = style.iconTint
+        viewsStatsLabel.textColor = style.iconTint
+        viewsStatsView.backgroundColor = style.statBackground
+        statsIcon.image = style.statsIcon
+    }
+
+    private func setupFavsView() {
+        favouriteIcon.tintColor = style.iconTint
+        favouriteStatsLabel.textColor = style.iconTint
+        favouriteStatsView.backgroundColor = style.statBackground
+        favouriteIcon.image = style.favIcon
+    }
+
+    private func setupTimeViewWithDate(_ postedDate: Date) {
         timePostedView.isHidden = false
         timePostedWidthConstraint.constant = timeViewMinWidth
         timePostedLabel.text = postedDate.relativeTimeString(true)
-
-        timePostedView.layer.borderWidth = style.timePostedBorderWidth
-        timePostedView.backgroundColor = style.statBackground
+        timePostedView.layer.borderColor = style.statsBorder.cgColor
 
         if postedDate.isFromLast24h() {
-            timePostedIcon.image = UIImage(named: "ic_new_stripe")
-            timePostedLabel.textColor = UIColor.primaryColor
+            setupTimeForLessThan24hs()
         } else {
-            timePostedIcon.image = style.timeIcon
-            timePostedIcon.tintColor = style.iconTint
-            timePostedLabel.textColor = style.iconTint
+            setupTimeForMoreThan24hs()
         }
-        timePostedView.layer.add(CATransition(), forKey: kCATransition)
+    }
+
+    private func setupTimeForLessThan24hs() {
+        timePostedIcon.image = UIImage(named: "ic_new_stripe")
+        timePostedLabel.textColor = UIColor.primaryColor
+        timePostedView.backgroundColor = style.timePostedBackground
+        timePostedView.layer.borderWidth = style.timePostedBorderWidth
+    }
+
+    private func setupTimeForMoreThan24hs() {
+        timePostedView.layer.borderWidth = 0
+        timePostedIcon.image = style.timeIcon
+        timePostedView.backgroundColor = style.statBackground
+        timePostedLabel.textColor = style.iconTint
+        timePostedIcon.tintColor = style.iconTint
     }
 }

@@ -58,7 +58,7 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
 
         self.updateStartIndex()
         listingDeckView.collectionView.layoutIfNeeded()
-        let current = currentPageCell()
+        guard let current = currentPageCell() else { return }
         let index = viewModel.currentIndex
         UIView.animate(withDuration: 0.5,
                        delay: 0,
@@ -67,7 +67,8 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
                         self?.listingDeckView.collectionView.alpha = 1
         }, completion: { [weak self] _ in
             self?.didMoveToItemAtIndex(index)
-            current?.delayedOnboardingFlashDetails(withDelay: 0.6, duration: 0.6)
+            current.delayedOnboardingFlashDetails(withDelay: 0.6, duration: 0.6)
+            self?.bindCard(current)
         })
     }
 
@@ -249,11 +250,15 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     
     func didEndDecelerating() {
         guard let cell = listingDeckView.cardAtIndex(viewModel.currentIndex) else { return }
-        binder.bind(cell: cell)
-        cell.isUserInteractionEnabled = true
-        
+        bindCard(cell)
+    }
+
+    private func bindCard(_ card: ListingCardView) {
+        binder.bind(cell: card)
+        card.isUserInteractionEnabled = true
+
         guard let listing = viewModel.listingCellModelAt(index: viewModel.currentIndex) else { return }
-        cell.populateWith(cellModel: listing, imageDownloader: viewModel.imageDownloader)
+        card.populateWith(cellModel: listing, imageDownloader: viewModel.imageDownloader)
     }
     
     func didShowMoreInfo() {
