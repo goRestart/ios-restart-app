@@ -99,7 +99,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
                 return
         }
         statsView.updateStatsWithInfo(stats.viewsCount,
-                                      favouritesCount: stats.viewsCount,
+                                      favouritesCount: stats.favouritesCount,
                                       postedDate: postedDate)
         UIView.animate(withDuration: 0.3) { self.statsView.alpha = 1 }
         setNeedsLayout()
