@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -44,7 +44,7 @@
                     </constraints>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b1K-ig-K2G">
-                    <rect key="frame" x="269" y="0.0" width="79" height="24"/>
+                    <rect key="frame" x="276" y="0.0" width="79" height="24"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+9999" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="txt-ob-Uie">
                             <rect key="frame" x="30" y="4" width="42" height="16"/>
@@ -104,7 +104,7 @@
                 <constraint firstAttribute="bottom" secondItem="b1K-ig-K2G" secondAttribute="bottom" id="5Vk-Vq-m25"/>
                 <constraint firstAttribute="bottom" secondItem="v5h-jP-jgL" secondAttribute="bottom" id="8Ks-tj-9qI"/>
                 <constraint firstItem="b1K-ig-K2G" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="v5h-jP-jgL" secondAttribute="trailing" constant="17" id="Pef-uA-erT"/>
-                <constraint firstItem="Mmj-j9-3P3" firstAttribute="leading" secondItem="b1K-ig-K2G" secondAttribute="trailing" constant="17" id="Qxd-2e-PWm"/>
+                <constraint firstItem="Mmj-j9-3P3" firstAttribute="leading" secondItem="b1K-ig-K2G" secondAttribute="trailing" constant="10" id="Qxd-2e-PWm"/>
                 <constraint firstAttribute="trailing" secondItem="Mmj-j9-3P3" secondAttribute="trailing" id="Yvf-PW-egQ"/>
                 <constraint firstAttribute="bottom" secondItem="Mmj-j9-3P3" secondAttribute="bottom" id="iBc-6p-LGW"/>
                 <constraint firstItem="Mmj-j9-3P3" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="jxt-iG-0X5"/>
@@ -116,12 +116,15 @@
             <nil key="simulatedTopBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="favouriteIcon" destination="hk5-FC-QU9" id="mCJ-sQ-0Eo"/>
                 <outlet property="favouriteStatsLabel" destination="vwJ-1n-CQ1" id="Vqn-qg-7QH"/>
                 <outlet property="favouriteStatsView" destination="Mmj-j9-3P3" id="K1Q-nS-aGD"/>
                 <outlet property="favouriteStatsWidthConstraint" destination="kYf-27-ud4" id="OIZ-CE-7az"/>
+                <outlet property="statsIcon" destination="ppx-Fy-GfE" id="fyg-ZG-IaN"/>
                 <outlet property="statsSeparationConstraint" destination="Qxd-2e-PWm" id="Hdk-5J-c9Z"/>
                 <outlet property="timePostedIcon" destination="oUq-wt-vJc" id="4yZ-GC-qm8"/>
                 <outlet property="timePostedLabel" destination="ciY-4A-Wkg" id="RYh-qN-ddw"/>
+                <outlet property="timePostedLeading" destination="lJK-LQ-51s" id="1hP-tY-2Ar"/>
                 <outlet property="timePostedView" destination="v5h-jP-jgL" id="H8Y-fd-FRu"/>
                 <outlet property="timePostedWidthConstraint" destination="ex8-ar-VGh" id="5TC-9p-fJ9"/>
                 <outlet property="viewsStatsLabel" destination="txt-ob-Uie" id="sEH-zh-5xo"/>

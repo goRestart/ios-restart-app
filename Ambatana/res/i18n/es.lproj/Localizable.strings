@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "Procesando...";
 "bump_up_processing_priced_text" = "Procesando el pago...";
 "bump_up_product_cell_chat_now_button" = "Chatear";
+"bump_up_product_cell_chat_now_button_a" = "Chatear";
+"bump_up_product_cell_chat_now_button_b" = "Chatear";
+"bump_up_product_cell_chat_now_button_c" = "Chatear";
+"bump_up_product_cell_chat_now_button_d" = "Chatear";
 "bump_up_product_cell_featured_stripe" = "Destacado";
 "bump_up_product_detail_featured_label" = "DESTACADO";
 "bump_up_view_free_subtitle" = "Cuanto más compartes, más visibilidad tiene tu anuncio.";
@@ -66,7 +70,7 @@
 "categories_title" = "Categorías";
 "categories_unassigned" = "No seleccionada";
 "categories_unassigned_items" = "Otros artículos";
-"change_bio_placeholder" = "Añade una bio que describa quien eres. ¡Comparte lo que te interesa o algún dato divertido sobre ti!";
+"change_bio_placeholder" = "Añade una bio que describa quien eres. Comparte lo que te interesa o algún dato divertido sobre ti.";
 "change_bio_save_button" = "Guardar";
 "change_bio_title" = "Sobre mí";
 "change_email_current_email_label" = "EMAIL ACTUAL:";
@@ -418,6 +422,16 @@
 "main_sign_up_terms_conditions" = "Al registrarte o iniciar sesión, aceptas nuestros Términos y Condiciones y la Política de Privacidad";
 "main_sign_up_terms_conditions_privacy_part" = "Política de Privacidad";
 "main_sign_up_terms_conditions_terms_part" = "Términos y Condiciones";
+"ml_camera_in_about_days_text" = "en unos %.f días";
+"ml_camera_in_more_than_days_text" = "en más de %.f días";
+"ml_camera_sells_for_text" = "Se suele vender por %d";
+"ml_category_text" = "Category:";
+"ml_details_price_text" = "Precio $:";
+"ml_details_suggested_details_text" = "DETALLES SUGERIDOS";
+"ml_details_title_text" = "Título:";
+"ml_onboarding_description_text" = "Muestráme un artículo y te diré cuánto podrías ganar";
+"ml_onboarding_new_text" = "¡NUEVO!";
+"ml_onboarding_ok_text" = "OK";
 "notifications_empty_subtitle" = "Empieza a vender y verás mucha actividad por aquí";
 "notifications_empty_title" = "NO HAY NOTIFICACIONES (¡TODAVÍA!)";
 "notifications_permissions_1_push" = "Isabel: Me interesa el teléfono. ¿Lo venderías por 100€?";

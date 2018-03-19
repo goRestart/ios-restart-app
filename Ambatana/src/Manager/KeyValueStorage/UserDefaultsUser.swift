@@ -27,6 +27,7 @@ struct UserDefaultsUser {
 
     static let failedBumpsInfoDefaultValue = [String:[String:String?]]()
     static let proSellerAlreadySentPhoneInChatDefaultValue: [String] = []
+    static let machineLearningOnboardingShownDefaultValue = false
 
     var appShared: Bool
     var userLocationApproximate: Bool
@@ -45,6 +46,7 @@ struct UserDefaultsUser {
 
     var failedBumpsInfo: [String:[String:String?]] // [<listingId> : <failedBumpInfo>]
     var proSellerAlreadySentPhoneInChat: [String]
+    var machineLearningOnboardingShown: Bool
 
     init() {
         self.init(appShared: UserDefaultsUser.appSharedDefaultValue,
@@ -62,7 +64,8 @@ struct UserDefaultsUser {
                   marketingNotifications: UserDefaultsUser.marketingNotificationsDefaultValue,
                   pendingTransactionsListingIds: UserDefaultsUser.transactionsListingIdsDefaultValue,
                   failedBumpsInfo: UserDefaultsUser.failedBumpsInfoDefaultValue,
-                  proSellerAlreadySentPhoneInChat: UserDefaultsUser.proSellerAlreadySentPhoneInChatDefaultValue)
+                  proSellerAlreadySentPhoneInChat: UserDefaultsUser.proSellerAlreadySentPhoneInChatDefaultValue,
+                  machineLearningOnboardingShown: UserDefaultsUser.machineLearningOnboardingShownDefaultValue)
     }
 
     init(appShared: Bool,
@@ -80,7 +83,8 @@ struct UserDefaultsUser {
          marketingNotifications: Bool,
          pendingTransactionsListingIds: [String:String],
          failedBumpsInfo: [String:[String:String?]],
-         proSellerAlreadySentPhoneInChat: [String]) {
+         proSellerAlreadySentPhoneInChat: [String],
+         machineLearningOnboardingShown: Bool) {
         self.appShared = appShared
         self.userLocationApproximate = userLocationApproximate
         self.chatSafetyTipsShown = chatSafetyTipsShown
@@ -97,6 +101,7 @@ struct UserDefaultsUser {
         self.pendingTransactionsListingIds = pendingTransactionsListingIds
         self.failedBumpsInfo = failedBumpsInfo
         self.proSellerAlreadySentPhoneInChat = proSellerAlreadySentPhoneInChat
+        self.machineLearningOnboardingShown = machineLearningOnboardingShown
     }
 }
 
@@ -136,6 +141,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         let failedBumpsInfo = dictionary.decode(UserDefaultsUserKey.failedBumpsInfo.rawValue, defaultValue: UserDefaultsUser.failedBumpsInfoDefaultValue)
         let proSellerAlreadySentPhoneInChat = dictionary.decode(UserDefaultsUserKey.proSellerAlreadySentPhoneInChat.rawValue,
                                                                 defaultValue: UserDefaultsUser.proSellerAlreadySentPhoneInChatDefaultValue)
+        let machineLearningOnboardingShown = dictionary.decode(UserDefaultsUserKey.machineLearningOnboardingShown.rawValue,
+                                                                defaultValue: UserDefaultsUser.machineLearningOnboardingShownDefaultValue)
 
         return UserDefaultsUser(appShared: appShared,
                                 userLocationApproximate: userLocationApproximate,
@@ -152,7 +159,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 marketingNotifications: marketingNotifications,
                                 pendingTransactionsListingIds: pendingTransactionsListingIds,
                                 failedBumpsInfo: failedBumpsInfo,
-                                proSellerAlreadySentPhoneInChat: proSellerAlreadySentPhoneInChat)
+                                proSellerAlreadySentPhoneInChat: proSellerAlreadySentPhoneInChat,
+                                machineLearningOnboardingShown: machineLearningOnboardingShown)
     }
 
     func encode() -> [String: Any] {
@@ -178,6 +186,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         dict.encode(UserDefaultsUserKey.pendingTransactionsListingIds.rawValue, value: pendingTransactionsListingIds)
         dict.encode(UserDefaultsUserKey.failedBumpsInfo.rawValue, value: failedBumpsInfo)
         dict.encode(UserDefaultsUserKey.proSellerAlreadySentPhoneInChat.rawValue, value: proSellerAlreadySentPhoneInChat)
+        dict.encode(UserDefaultsUserKey.machineLearningOnboardingShown.rawValue, value: machineLearningOnboardingShown)
         return dict
     }
 }
@@ -212,6 +221,8 @@ private enum UserDefaultsUserKey: String {
     case failedBumpsInfo = "failedBumpsInfo"
 
     case proSellerAlreadySentPhoneInChat = "proSellerAlreadySentPhoneInChat"
+    
+    case machineLearningOnboardingShown = "machineLearningOnboardingShown"
 }
 
 

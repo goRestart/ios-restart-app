@@ -103,6 +103,7 @@ class ListingCarouselViewModel: BaseViewModel {
 
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
+    let altActions = Variable<[UIAction]>([])
 
     let status = Variable<ListingViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)
@@ -571,8 +572,11 @@ class ListingCarouselViewModel: BaseViewModel {
         currentVM.productImageURLs.asObservable().bind(to: productImageURLs).disposed(by: activeDisposeBag)
         currentVM.userInfo.asObservable().bind(to: userInfo).disposed(by: activeDisposeBag)
         currentVM.listingStats.asObservable().bind(to: listingStats).disposed(by: activeDisposeBag)
-        currentVM.isProfessional.asObservable().bind(to: ownerIsProfessional).disposed(by: activeDisposeBag)
-        currentVM.phoneNumber.asObservable().bind(to: ownerPhoneNumber).disposed(by: activeDisposeBag)
+
+        currentVM.seller.asObservable().bind { [weak self] seller in
+            self?.ownerIsProfessional.value = seller?.isProfessional ?? false
+            self?.ownerPhoneNumber.value = seller?.phone
+        }.disposed(by: activeDisposeBag)
 
         currentVM.actionButtons.asObservable().bind(to: actionButtons).disposed(by: activeDisposeBag)
         currentVM.navBarButtons.asObservable().bind(to: navBarButtons).disposed(by: activeDisposeBag)

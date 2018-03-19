@@ -32,6 +32,18 @@ protocol PostListingNavigator: class {
     func backToSummary()
     func openQueuedRequestsLoading(images: [UIImage], listingCreationParams: ListingCreationParams,
                                    imageSource: EventParameterPictureSource, postingSource: PostingSource)
+    
+    // MARK: Machine Learning
+    func startDetails(postListingState: MLPostListingState,
+                      uploadedImageSource: EventParameterPictureSource?,
+                      postingSource: PostingSource,
+                      postListingBasicInfo: PostListingBasicDetailViewModel)
+    func nextPostingDetailStep(step: PostingDetailStep,
+                               postListingState: MLPostListingState,
+                               uploadedImageSource: EventParameterPictureSource?,
+                               postingSource: PostingSource,
+                               postListingBasicInfo: PostListingBasicDetailViewModel,
+                               previousStepIsSummary: Bool)
 }
 protocol ListingPostedNavigator: class {
     func cancelListingPosted()

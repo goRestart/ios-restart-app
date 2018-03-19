@@ -86,6 +86,10 @@ class PostListingViewModel: BaseViewModel {
         return featureFlags.realEstateEnabled.isActive
     }
     
+    var maxNumberImages: Int {
+        return Constants.maxImageCount
+    }
+    
     fileprivate let disposeBag: DisposeBag
 
     
@@ -217,7 +221,8 @@ class PostListingViewModel: BaseViewModel {
                                                            imageSource: uploadedImageSource,
                                                            price: postDetailViewModel.price.value,
                                                            typePage: postingSource.typePage,
-                                                           mostSearchedButton: postingSource.mostSearchedButton)
+                                                           mostSearchedButton: postingSource.mostSearchedButton,
+                                                           machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
                 navigator?.closePostProductAndPostInBackground(params: listingParams,
                                                                trackingInfo: trackingInfo)
             } else {
@@ -386,7 +391,8 @@ fileprivate extension PostListingViewModel {
                                                    imageSource: uploadedImageSource,
                                                    price: postDetailViewModel.price.value,
                                                    typePage: postingSource.typePage,
-                                                   mostSearchedButton: postingSource.mostSearchedButton)
+                                                   mostSearchedButton: postingSource.mostSearchedButton,
+                                                   machineLearningInfo: MachineLearningTrackingInfo.defaultValues())
         if sessionManager.loggedIn {
             guard let images = state.value.lastImagesUploadResult?.value,
                 let listingCreationParams = makeListingParams() else { return }
@@ -449,7 +455,8 @@ fileprivate extension PostListingViewModel {
                                                   buttonName: postingSource.buttonName,
                                                   sellButtonPosition: postingSource.sellButtonPosition,
                                                   category: postCategory?.listingCategory,
-                                                  mostSearchedButton: postingSource.mostSearchedButton)
+                                                  mostSearchedButton: postingSource.mostSearchedButton,
+                                                  predictiveFlow: false)
         tracker.trackEvent(event)
     }
     

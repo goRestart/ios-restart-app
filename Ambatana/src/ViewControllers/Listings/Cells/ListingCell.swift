@@ -147,7 +147,14 @@ final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate
 
         featuredListingChatButton.frame = CGRect(x: 0, y: 0, width: 0, height: LGUIKitConstants.mediumButtonHeight)
         featuredListingChatButton.setStyle(.primary(fontSize: .medium))
-        featuredListingChatButton.setTitle(LGLocalizedString.bumpUpProductCellChatNowButton, for: .normal)
+        
+        let featureFlags = FeatureFlags.sharedInstance
+        if featureFlags.shouldChangeChatNowCopy {
+            featuredListingChatButton.setTitle(featureFlags.copyForChatNowInTurkey.variantString, for: .normal)
+        } else {
+            featuredListingChatButton.setTitle(LGLocalizedString.bumpUpProductCellChatNowButton, for: .normal)
+        }
+        
         featuredListingChatButton.addTarget(self, action: #selector(openChat), for: .touchUpInside)
 
         // layouts

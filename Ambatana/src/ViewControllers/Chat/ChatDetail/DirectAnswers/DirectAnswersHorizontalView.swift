@@ -17,10 +17,14 @@ enum DirectAnswersStyle {
 }
 
 class DirectAnswersHorizontalView: UIView {
-
-    static let defaultWidth: CGFloat = UIScreen.main.bounds.width
-    static let defaultHeight: CGFloat = DirectAnswerCell.cellHeight
-    static let defaultSideMargin: CGFloat = 8
+    struct Layout {
+        struct Width { static let standard: CGFloat = UIScreen.main.bounds.width  }
+        struct Height {
+            static let standard: CGFloat = DirectAnswerCell.cellHeight
+            static let estimatedRow: CGFloat = 140
+        }
+        static let standardSideMargin: CGFloat = 8
+    }
 
     weak var delegate: DirectAnswersHorizontalViewDelegate?
 
@@ -29,6 +33,11 @@ class DirectAnswersHorizontalView: UIView {
             if answersEnabled {
                 collectionView.deselectAll()
             }
+        }
+    }
+    var sideMargin: CGFloat = Layout.standardSideMargin {
+        didSet {
+            collectionView.contentInset = UIEdgeInsets(top: 0, left: sideMargin, bottom: 0, right: sideMargin)
         }
     }
     var style: DirectAnswersStyle = .dark
@@ -40,12 +49,12 @@ class DirectAnswersHorizontalView: UIView {
 
     // MARK: - Lifecycle
 
-    convenience init(answers: [[QuickAnswer]], sideMargin: CGFloat = DirectAnswersHorizontalView.defaultSideMargin) {
-        let frame = CGRect(x: 0, y: 0, width: DirectAnswersHorizontalView.defaultWidth, height: DirectAnswerCell.cellHeight)
+    convenience init(answers: [[QuickAnswer]], sideMargin: CGFloat = Layout.standardSideMargin) {
+        let frame = CGRect(x: 0, y: 0, width: Layout.Width.standard, height: DirectAnswerCell.cellHeight)
         self.init(frame: frame, answers: answers, sideMargin: sideMargin)
     }
 
-    required init(frame: CGRect, answers: [[QuickAnswer]], sideMargin: CGFloat = DirectAnswersHorizontalView.defaultSideMargin) {
+    required init(frame: CGRect, answers: [[QuickAnswer]], sideMargin: CGFloat = Layout.standardSideMargin) {
         self.answers = answers
         let collectionFrame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height)
         self.collectionView = UICollectionView(frame: collectionFrame, collectionViewLayout: UICollectionViewFlowLayout())
@@ -58,7 +67,7 @@ class DirectAnswersHorizontalView: UIView {
     }
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: DirectAnswersHorizontalView.defaultWidth, height: DirectAnswersHorizontalView.defaultHeight)
+        return CGSize(width: Layout.Width.standard, height: Layout.Height.standard)
     }
 
     func update(answers: [[QuickAnswer]], isDynamic: Bool) {
@@ -75,7 +84,7 @@ class DirectAnswersHorizontalView: UIView {
     private func setupUI(sideMargin: CGFloat) {
         backgroundColor = .clear
         clipsToBounds = true
-        let height = DirectAnswersHorizontalView.defaultHeight
+        let height = Layout.Height.standard
         layout().height(height, constraintBlock: { [weak self] in self?.heightConstraint = $0 })
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(collectionView)

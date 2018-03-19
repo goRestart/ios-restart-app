@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "Wird verarbeitet...";
 "bump_up_processing_priced_text" = "Zahlung wird verarbeitet...";
 "bump_up_product_cell_chat_now_button" = "Jetzt ansprechen";
+"bump_up_product_cell_chat_now_button_a" = "Jetzt ansprechen";
+"bump_up_product_cell_chat_now_button_b" = "Jetzt ansprechen";
+"bump_up_product_cell_chat_now_button_c" = "Jetzt ansprechen";
+"bump_up_product_cell_chat_now_button_d" = "Jetzt ansprechen";
 "bump_up_product_cell_featured_stripe" = "Empfohlen";
 "bump_up_product_detail_featured_label" = "EMPFOHLEN";
 "bump_up_view_free_subtitle" = "Je öfter du es teilst, umso sichtbarer wird dein Angebot";
@@ -66,7 +70,7 @@
 "categories_title" = "Kategorien";
 "categories_unassigned" = "Nichts ausgewählt";
 "categories_unassigned_items" = "Etwas anderes";
-"change_bio_placeholder" = "Füge eine Biografie hinzu, die beschreibt, wer du bist. Teile anderen mit, an was du interessiert bist, oder erwähne ein lustiges Hobby von dir";
+"change_bio_placeholder" = "Füge eine Biografie hinzu, die beschreibt, wer du bist. Teile anderen mit, an was du interessiert bist, oder erwähne ein lustiges Hobby von dir.";
 "change_bio_save_button" = "Speichern";
 "change_bio_title" = "Über mich";
 "change_email_current_email_label" = "AKTUELLE E-MAIL-ADRESSE:";
@@ -418,6 +422,16 @@
 "main_sign_up_terms_conditions" = "Durch eine Registrierung oder Anmeldung stimmst du unseren Nutzungsbedingungen und Datenschutz-Richtlinien zu";
 "main_sign_up_terms_conditions_privacy_part" = "Datenschutz-Richtlinien";
 "main_sign_up_terms_conditions_terms_part" = "Nutzungsbedingungen";
+"ml_camera_in_about_days_text" = "in about %.f days";
+"ml_camera_in_more_than_days_text" = "in more than %.f days";
+"ml_camera_sells_for_text" = "Typically sells for $%d";
+"ml_category_text" = "Category:";
+"ml_details_price_text" = "Price:";
+"ml_details_suggested_details_text" = "SUGGESTED DETAILS";
+"ml_details_title_text" = "Title:";
+"ml_onboarding_description_text" = "Show me an item and I'll tell you how much you'll make";
+"ml_onboarding_new_text" = "NEU!";
+"ml_onboarding_ok_text" = "Ok";
 "notifications_empty_subtitle" = "Stelle etwas zum Verkauf ein, damit hier etwas Leben reinkommt";
 "notifications_empty_title" = "(NOCH) KEINE MITTEILUNGEN";
 "notifications_permissions_1_push" = "Claudia: Ich interessiere mich für das Smartphone. Wären 100€ okay?";

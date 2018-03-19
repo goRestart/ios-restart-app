@@ -119,6 +119,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_product_cell_chat_now_button", comment: "")
 	}
 
+	static var bumpUpProductCellChatNowButtonA: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_a", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonB: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_b", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonC: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_c", comment: "")
+	}
+
+	static var bumpUpProductCellChatNowButtonD: String {
+		return NSLocalizedString("bump_up_product_cell_chat_now_button_d", comment: "")
+	}
+
 	static var bumpUpProductDetailFeaturedLabel: String {
 		return NSLocalizedString("bump_up_product_detail_featured_label", comment: "")
 	}
@@ -1613,6 +1629,46 @@ struct LGLocalizedString {
 
 	static var logInEmailForgotPasswordAlertRememberAction: String {
 		return NSLocalizedString("log_in_email_forgot_password_alert_remember_action", comment: "")
+	}
+
+	static var mlOnboardingNewText: String {
+		return NSLocalizedString("ml_onboarding_new_text", comment: "")
+	}
+
+	static var mlOnboardingDescriptionText: String {
+		return NSLocalizedString("ml_onboarding_description_text", comment: "")
+	}
+
+	static var mlOnboardingOkText: String {
+		return NSLocalizedString("ml_onboarding_ok_text", comment: "")
+	}
+
+	static func mlCameraSellsForText(_ var1: Int) -> String {
+		return String(format: NSLocalizedString("ml_camera_sells_for_text", comment: ""), var1)
+	}
+
+	static var mlCameraInAboutDaysText: String {
+		return NSLocalizedString("ml_camera_in_about_days_text", comment: "")
+	}
+
+	static var mlCameraInMoreThanDaysText: String {
+		return NSLocalizedString("ml_camera_in_more_than_days_text", comment: "")
+	}
+
+	static var mlDetailsSuggestedDetailsText: String {
+		return NSLocalizedString("ml_details_suggested_details_text", comment: "")
+	}
+
+	static var mlDetailsTitleText: String {
+		return NSLocalizedString("ml_details_title_text", comment: "")
+	}
+
+	static var mlDetailsPriceText: String {
+		return NSLocalizedString("ml_details_price_text", comment: "")
+	}
+
+	static var mlCategoryText: String {
+		return NSLocalizedString("ml_category_text", comment: "")
 	}
 
 	static var signUpEmailStep1Title: String {

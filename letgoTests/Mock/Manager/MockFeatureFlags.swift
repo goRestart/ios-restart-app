@@ -48,7 +48,6 @@ class MockFeatureFlags: FeatureFlaggeable {
     var realEstateNewCopy: RealEstateNewCopy = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var showInactiveConversations: Bool = false
-    var mainFeedAspectRatio: MainFeedAspectRatio = .control
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
     var emojiSizeIncrement: EmojiSizeIncrement = .control
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
@@ -60,8 +59,9 @@ class MockFeatureFlags: FeatureFlaggeable {
     var promoteBumpInEdit: PromoteBumpInEdit = .control
     var userIsTyping: UserIsTyping = .control
     var servicesCategoryEnabled: ServicesCategoryEnabled = .control
-
+    var increaseNumberOfPictures: IncreaseNumberOfPictures = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
+    var machineLearningMVP: MachineLearningMVP = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
@@ -72,6 +72,8 @@ class MockFeatureFlags: FeatureFlaggeable {
     var moreInfoDFPAdUnitId = ""
     var feedDFPAdUnitId: String? = ""
     var bumpPriceVariationBucket: BumpPriceVariationBucket = .defaultValue
+    var shouldChangeChatNowCopy = false
+    var copyForChatNowInTurkey: CopyForChatNowInTurkey = .control
     
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false

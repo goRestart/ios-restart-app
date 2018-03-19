@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "Verwerken...";
 "bump_up_processing_priced_text" = "Verwerken van betaling...";
 "bump_up_product_cell_chat_now_button" = "Nu Chatten";
+"bump_up_product_cell_chat_now_button_a" = "Nu Chatten";
+"bump_up_product_cell_chat_now_button_b" = "Nu Chatten";
+"bump_up_product_cell_chat_now_button_c" = "Nu Chatten";
+"bump_up_product_cell_chat_now_button_d" = "Nu Chatten";
 "bump_up_product_cell_featured_stripe" = "Aanbevolen";
 "bump_up_product_detail_featured_label" = "AANBEVOLEN";
 "bump_up_view_free_subtitle" = "Hoe vaker gedeeld, hoe meer zichtbaarheid jouw item zal hebben.";
@@ -66,7 +70,7 @@
 "categories_title" = "Categorieën";
 "categories_unassigned" = "Niet geselecteerd ";
 "categories_unassigned_items" = "Overige items";
-"change_bio_placeholder" = "Voeg een biografie toe die beschrijft wie je bent. Deel waar je geïnteresseerd in bent of een leuk weetje over jezelf";
+"change_bio_placeholder" = "Voeg een biografie toe die beschrijft wie je bent. Deel waar je geïnteresseerd in bent of een leuk weetje over jezelf.";
 "change_bio_save_button" = "Opslaan";
 "change_bio_title" = "Over mij";
 "change_email_current_email_label" = "HUIDIGE E-MAIL:";
@@ -418,6 +422,16 @@
 "main_sign_up_terms_conditions" = "Door het aanmelden of inloggen, ga je akkoord met onze Algemene Voorwaarden en Privacy Beleid";
 "main_sign_up_terms_conditions_privacy_part" = "Privacy Beleid";
 "main_sign_up_terms_conditions_terms_part" = "Algemene Voorwaarden";
+"ml_camera_in_about_days_text" = "in about %.f days";
+"ml_camera_in_more_than_days_text" = "in more than %.f days";
+"ml_camera_sells_for_text" = "Typically sells for $%d";
+"ml_category_text" = "Category:";
+"ml_details_price_text" = "Price:";
+"ml_details_suggested_details_text" = "SUGGESTED DETAILS";
+"ml_details_title_text" = "Title:";
+"ml_onboarding_description_text" = "Show me an item and I'll tell you how much you'll make";
+"ml_onboarding_new_text" = "NIEUW!";
+"ml_onboarding_ok_text" = "OK";
 "notifications_empty_subtitle" = "Plaats iets in de verkoop om hier wat activiteit te zien";
 "notifications_empty_title" = "(NOG!) GEEN NOTIFICATIES";
 "notifications_permissions_1_push" = "Fleur: Hoi! Ik wil je telefoon graag kopen voor 100 euro. Deal?";

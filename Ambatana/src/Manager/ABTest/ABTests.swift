@@ -44,7 +44,6 @@ class ABTests {
     let realEstateNewCopy = IntABDynamicVar(key: "20180126RealEstateNewCopy", defaultValue: 0, abGroupType: .realEstate)
     let dummyUsersInfoProfile = IntABDynamicVar(key: "20180130DummyUsersInfoProfile", defaultValue: 0, abGroupType: .retention)
     let showInactiveConversations = BoolABDynamicVar(key: "20180206ShowInactiveConversations", defaultValue: false, abGroupType: .chat)
-    let mainFeedAspectRatio = IntABDynamicVar(key: "20180208MainFeedAspectRatio", defaultValue: 0, abGroupType: .core)
     let increaseMinPriceBumps  = IntABDynamicVar(key: "20180208IncreaseMinPriceBumps", defaultValue: 0, abGroupType: .money)
     let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20180207ShowSecurityMeetingChatMessage", defaultValue: 0, abGroupType: .chat)
     let noAdsInFeedForNewUsers = IntABDynamicVar(key: "20180212NoAdsInFeedForNewUsers", defaultValue: 0, abGroupType: .money)
@@ -59,6 +58,9 @@ class ABTests {
     let promoteBumpInEdit = IntABDynamicVar(key: "20180227promoteBumpInEdit", defaultValue: 0, abGroupType: .money)
     let userIsTyping = IntABDynamicVar(key: "20180305UserIsTyping", defaultValue: 0, abGroupType: .chat)
     let servicesCategoryEnabled = IntABDynamicVar(key: "20180305ServicesCategoryEnabled", defaultValue: 0, abGroupType: .products)
+    let copyForChatNowInTurkey = IntABDynamicVar(key: "20180312CopyForChatNowInTurkey", defaultValue: 0, abGroupType: .money)
+    let increaseNumberOfPictures = IntABDynamicVar(key: "20180314IncreaseNumberOfPictures", defaultValue: 0, abGroupType: .realEstate)
+    let machineLearningMVP = IntABDynamicVar(key: "20180312MachineLearningMVP", defaultValue: 0, abGroupType: .core)
 
     init() {
     }
@@ -95,7 +97,6 @@ class ABTests {
         result.append(realEstateNewCopy)
         result.append(dummyUsersInfoProfile)
         result.append(showInactiveConversations)
-        result.append(mainFeedAspectRatio)
         result.append(increaseMinPriceBumps)
         result.append(showSecurityMeetingChatMessage)
         result.append(noAdsInFeedForNewUsers)
@@ -110,6 +111,8 @@ class ABTests {
         result.append(promoteBumpInEdit)
         result.append(userIsTyping)
         result.append(servicesCategoryEnabled)
+        result.append(copyForChatNowInTurkey)
+        result.append(increaseNumberOfPictures)
         
         return result
     }

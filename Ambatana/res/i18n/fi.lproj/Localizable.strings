@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "Käsitellään...";
 "bump_up_processing_priced_text" = "Käsitellään maksua...";
 "bump_up_product_cell_chat_now_button" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_a" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_b" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_c" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_d" = "Lähetä viestiä nyt";
 "bump_up_product_cell_featured_stripe" = "Suositeltu";
 "bump_up_product_detail_featured_label" = "SUOSITELTU";
 "bump_up_view_free_subtitle" = "Mitä enemmän jaat, sitä enemmän näkyvyyttä tuotteesi saa.";
@@ -66,7 +70,7 @@
 "categories_title" = "Kategoriat";
 "categories_unassigned" = "Ei valittu";
 "categories_unassigned_items" = "Muut tuotteet";
-"change_bio_placeholder" = "Lisää biografia, joka kertoo sinusta. Jaa kiinnostuksen kohteesi tai hauskoja faktoja itsestäsi";
+"change_bio_placeholder" = "Lisää biografia, joka kertoo sinusta. Jaa kiinnostuksen kohteesi tai hauskoja faktoja itsestäsi.";
 "change_bio_save_button" = "Tallenna";
 "change_bio_title" = "Minusta";
 "change_email_current_email_label" = "NYKYINEN SÄHKÖPOSTI:";
@@ -418,6 +422,16 @@
 "main_sign_up_terms_conditions" = "Rekisteröitymällä tai kirjautumalla sisään hyväksyt Käyttöehtomme ja Yksityisyyskäytäntömme";
 "main_sign_up_terms_conditions_privacy_part" = "Yksityisyyskäytäntömme";
 "main_sign_up_terms_conditions_terms_part" = "Käyttöehtomme";
+"ml_camera_in_about_days_text" = "in about %.f days";
+"ml_camera_in_more_than_days_text" = "in more than %.f days";
+"ml_camera_sells_for_text" = "Typically sells for $%d";
+"ml_category_text" = "Category:";
+"ml_details_price_text" = "Price:";
+"ml_details_suggested_details_text" = "SUGGESTED DETAILS";
+"ml_details_title_text" = "Title:";
+"ml_onboarding_description_text" = "Show me an item and I'll tell you how much you'll make";
+"ml_onboarding_new_text" = "UUSI!";
+"ml_onboarding_ok_text" = "OK";
 "notifications_empty_subtitle" = "Julkaise jotakin myytäväksi, jotta täällä alkaa tapahtua";
 "notifications_empty_title" = "EI ILMOITUKSIA (VIELÄ!)";
 "notifications_permissions_1_push" = "Liisa: Olen todella kiinnostunut puhelimestasi. Myytkö sen 100 eurolla?";

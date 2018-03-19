@@ -37,7 +37,6 @@ extension Bumper  {
         flags.append(RealEstateNewCopy.self)
         flags.append(DummyUsersInfoProfile.self)
         flags.append(ShowInactiveConversations.self)
-        flags.append(MainFeedAspectRatio.self)
         flags.append(IncreaseMinPriceBumps.self)
         flags.append(ShowSecurityMeetingChatMessage.self)
         flags.append(NoAdsInFeedForNewUsers.self)
@@ -52,6 +51,9 @@ extension Bumper  {
         flags.append(PromoteBumpInEdit.self)
         flags.append(UserIsTyping.self)
         flags.append(ServicesCategoryEnabled.self)
+        flags.append(CopyForChatNowInTurkey.self)
+        flags.append(IncreaseNumberOfPictures.self)
+        flags.append(MachineLearningMVP.self)
         Bumper.initialize(flags)
     } 
 
@@ -104,7 +106,7 @@ extension Bumper  {
         guard let value = Bumper.value(for: HomeRelatedEnabled.key) else { return .control }
         return HomeRelatedEnabled(rawValue: value) ?? .control 
     }
-
+    
     static var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed {
         guard let value = Bumper.value(for: TaxonomiesAndTaxonomyChildrenInFeed.key) else { return .control }
         return TaxonomiesAndTaxonomyChildrenInFeed(rawValue: value) ?? .control 
@@ -175,11 +177,6 @@ extension Bumper  {
         return ShowInactiveConversations(rawValue: value)?.asBool ?? false
     }
 
-    static var mainFeedAspectRatio: MainFeedAspectRatio {
-        guard let value = Bumper.value(for: MainFeedAspectRatio.key) else { return .control }
-        return MainFeedAspectRatio(rawValue: value) ?? .control 
-    }
-
     static var increaseMinPriceBumps: IncreaseMinPriceBumps {
         guard let value = Bumper.value(for: IncreaseMinPriceBumps.key) else { return .control }
         return IncreaseMinPriceBumps(rawValue: value) ?? .control 
@@ -248,6 +245,21 @@ extension Bumper  {
     static var servicesCategoryEnabled: ServicesCategoryEnabled {
         guard let value = Bumper.value(for: ServicesCategoryEnabled.key) else { return .control }
         return ServicesCategoryEnabled(rawValue: value) ?? .control 
+    }
+
+    static var copyForChatNowInTurkey: CopyForChatNowInTurkey {
+        guard let value = Bumper.value(for: CopyForChatNowInTurkey.key) else { return .control }
+        return CopyForChatNowInTurkey(rawValue: value) ?? .control 
+    }
+
+    static var increaseNumberOfPictures: IncreaseNumberOfPictures {
+        guard let value = Bumper.value(for: IncreaseNumberOfPictures.key) else { return .control }
+        return IncreaseNumberOfPictures(rawValue: value) ?? .control 
+    }
+
+    static var machineLearningMVP: MachineLearningMVP {
+        guard let value = Bumper.value(for: MachineLearningMVP.key) else { return .control }
+        return MachineLearningMVP(rawValue: value) ?? .control 
     } 
 }
 
@@ -410,6 +422,7 @@ enum NewItemPage: String, BumperFeature  {
             default: return .control
         }
     }
+    var isActive: Bool { return self == .active }
 }
 
 enum ShowPriceStepRealEstatePosting: String, BumperFeature  {
@@ -598,23 +611,6 @@ enum ShowInactiveConversations: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Show button to access inactive conversations" } 
     var asBool: Bool { return self == .yes }
-}
-
-enum MainFeedAspectRatio: String, BumperFeature  {
-    case control, baseline, square, squareOrLessThanW9H16
-    static var defaultValue: String { return MainFeedAspectRatio.control.rawValue }
-    static var enumValues: [MainFeedAspectRatio] { return [.control, .baseline, .square, .squareOrLessThanW9H16]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "Limit the aspect ratio of the images in the main feed" } 
-    static func fromPosition(_ position: Int) -> MainFeedAspectRatio {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .square
-            case 3: return .squareOrLessThanW9H16
-            default: return .control
-        }
-    }
 }
 
 enum IncreaseMinPriceBumps: String, BumperFeature  {
@@ -839,6 +835,56 @@ enum ServicesCategoryEnabled: String, BumperFeature  {
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Allow to see Services category" } 
     static func fromPosition(_ position: Int) -> ServicesCategoryEnabled {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum CopyForChatNowInTurkey: String, BumperFeature  {
+    case control, variantA, variantB, variantC, variantD
+    static var defaultValue: String { return CopyForChatNowInTurkey.control.rawValue }
+    static var enumValues: [CopyForChatNowInTurkey] { return [.control, .variantA, .variantB, .variantC, .variantD]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Try different copies for Chat now button in Turkey" } 
+    static func fromPosition(_ position: Int) -> CopyForChatNowInTurkey {
+        switch position { 
+            case 0: return .control
+            case 1: return .variantA
+            case 2: return .variantB
+            case 3: return .variantC
+            case 4: return .variantD
+            default: return .control
+        }
+    }
+}
+
+enum IncreaseNumberOfPictures: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return IncreaseNumberOfPictures.control.rawValue }
+    static var enumValues: [IncreaseNumberOfPictures] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Allow to include up to 10 pictures on listings" } 
+    static func fromPosition(_ position: Int) -> IncreaseNumberOfPictures {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .active
+            default: return .control
+        }
+    }
+}
+
+enum MachineLearningMVP: String, BumperFeature  {
+    case control, baseline, active
+    static var defaultValue: String { return MachineLearningMVP.control.rawValue }
+    static var enumValues: [MachineLearningMVP] { return [.control, .baseline, .active]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show machine learning posting flow when pressing Other Items on salchichas menu" } 
+    static func fromPosition(_ position: Int) -> MachineLearningMVP {
         switch position { 
             case 0: return .control
             case 1: return .baseline
