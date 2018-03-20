@@ -1,0 +1,22 @@
+{
+  "name": "LGResources",
+  "version": "0.1.0",
+  "summary": "A short description of LGResources.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/Xavi Gil/LGResources",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Xavi Gil": "xgil78@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/Xavi Gil/LGResources.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "LGResources/Classes/**/*"
+}

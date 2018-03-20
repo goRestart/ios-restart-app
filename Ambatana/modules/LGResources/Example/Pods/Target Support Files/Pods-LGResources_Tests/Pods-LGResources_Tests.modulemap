@@ -1,0 +1,6 @@
+framework module Pods_LGResources_Tests {
+  umbrella header "Pods-LGResources_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}
