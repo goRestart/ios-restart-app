@@ -61,6 +61,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var increaseNumberOfPictures: IncreaseNumberOfPictures = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var machineLearningMVP: MachineLearningMVP = .control
+    var chatNorris: ChatNorris = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

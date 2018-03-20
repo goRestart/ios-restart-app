@@ -199,5 +199,10 @@
         "name": "MachineLearningMVP",
         "values": ["control", "baseline", "active"],
         "description": "Show machine learning posting flow when pressing Other Items on salchichas menu"
+    },
+    {
+        "name": "ChatNorris",
+        "values": ["control", "baseline", "redButton", "whiteButton", "greenButton"],
+        "description": "Show the create meeting option in chat detail view."
     }
 ]
