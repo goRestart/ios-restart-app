@@ -67,6 +67,7 @@ protocol FeatureFlaggeable: class {
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
     var machineLearningMVP: MachineLearningMVP { get }
+    var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
 
     // Country dependant features
@@ -578,6 +579,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.increaseNumberOfPictures
         }
         return IncreaseNumberOfPictures.fromPosition(abTests.increaseNumberOfPictures.value)
+    }
+    
+    var showProTagUserProfile: Bool {
+        if Bumper.enabled {
+            return Bumper.showProTagUserProfile
+        }
+        return abTests.showProTagUserProfile.value
     }
 
     var summaryAsFirstStep: SummaryAsFirstStep {

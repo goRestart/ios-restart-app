@@ -307,6 +307,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_bio_save_button", comment: "")
 	}
 
+	static var changeBioErrorMessage: String {
+		return NSLocalizedString("change_bio_error_message", comment: "")
+	}
+
 	static var changeLocationApplyButton: String {
 		return NSLocalizedString("change_location_apply_button", comment: "")
 	}
@@ -2677,6 +2681,10 @@ struct LGLocalizedString {
 
 	static var productPostGallerySelectPicturesSubtitle: String {
 		return NSLocalizedString("product_post_gallery_select_pictures_subtitle", comment: "")
+	}
+
+	static func productPostGallerySelectPicturesSubtitleParams(_ var1: Int) -> String {
+		return String(format: NSLocalizedString("product_post_gallery_select_pictures_subtitle_params", comment: ""), var1)
 	}
 
 	static var productPostGalleryTab: String {

@@ -223,6 +223,9 @@
 // Change Bio save button title
 "change_bio_save_button" = "Save";
 
+// Change Bio error shown when new bio contains invalid info
+"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
+
 // Change location apply button. Check image @ "change_location_title" segment
 "change_location_apply_button" = "Set location";
 
@@ -1992,6 +1995,9 @@
 
 // Subtitle message to ask user to select a picture or more
 "product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
+
+// Subtitle message to ask user to select a picture or more with params
+"product_post_gallery_select_pictures_subtitle_params" = "Select up to %d images to upload";
 
 // Gallery tab on posting
 "product_post_gallery_tab" = "GALLERY";

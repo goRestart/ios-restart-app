@@ -196,8 +196,14 @@
         "description": "Show machine learning posting flow when pressing Other Items on salchichas menu"
     },
     {
+        "name": "ShowProTagUserProfile",
+        "values": ["no", "yes"],
+        "description": "Show Professional tag in user profile"
+    },
+    {
         "name": "SummaryAsFirstStep",
         "values": ["control", "baseline", "active"],
         "description": "Show directly summary screen instead of Real estate steps"
     }
+
 ]

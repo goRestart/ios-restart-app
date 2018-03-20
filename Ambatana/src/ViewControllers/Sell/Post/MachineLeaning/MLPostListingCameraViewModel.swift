@@ -36,6 +36,7 @@ class MLPostListingCameraViewModel: BaseViewModel {
 
     private let featureFlags: FeatureFlaggeable
     private let mediaPermissions: MediaPermissions
+    private let tracker: TrackerProxy
     
     let postCategory: PostCategory?
     
@@ -48,8 +49,8 @@ class MLPostListingCameraViewModel: BaseViewModel {
     
     let machineLearning: MachineLearning
     var isLiveStatsEnabledBackup: Bool
-    private let mlMinimumConfidence: Double = 0.4
-    private let mlMinimumConfidenceToRemove: Double = 0.25
+    private let mlMinimumConfidence: Double = 0.3
+    private let mlMinimumConfidenceToRemove: Double = 0.2
     private let mlMaximumDaysToDisplay: Double = 30
     private let mlPricePositionDisplay: Int = 2
     let liveStats = Variable<MachineLearningStats?>(nil)
@@ -57,13 +58,14 @@ class MLPostListingCameraViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    init(postingSource: PostingSource, postCategory: PostCategory?, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions, machineLearning: MachineLearning) {
+    init(postingSource: PostingSource, postCategory: PostCategory?, keyValueStorage: KeyValueStorage, featureFlags: FeatureFlaggeable, mediaPermissions: MediaPermissions, machineLearning: MachineLearning, tracker: TrackerProxy) {
         self.keyValueStorage = keyValueStorage
         self.sourcePosting = postingSource
         self.featureFlags = featureFlags
         self.mediaPermissions = mediaPermissions
         self.postCategory = postCategory
         self.machineLearning = machineLearning
+        self.tracker = tracker
         isLiveStatsEnabledBackup = machineLearning.isLiveStatsEnabled
         super.init()
         setupFirstShownLiterals()
@@ -76,13 +78,15 @@ class MLPostListingCameraViewModel: BaseViewModel {
         let keyValueStorage = KeyValueStorage.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let machineLearning = LGMachineLearning()
+        let tracker = TrackerProxy.sharedInstance
 
         self.init(postingSource: postingSource,
                   postCategory: postCategory,
                   keyValueStorage: keyValueStorage,
                   featureFlags: featureFlags,
                   mediaPermissions: mediaPermissions,
-                  machineLearning: machineLearning)
+                  machineLearning: machineLearning,
+                  tracker: tracker)
     }
 
     override func didBecomeActive(_ firstTime: Bool) {
@@ -96,6 +100,10 @@ class MLPostListingCameraViewModel: BaseViewModel {
 
 
     // MARK: - Public methods
+    
+    func trackPredictedData(predictedData: MLPredictionDetailsViewData) {
+        tracker.trackEvent(TrackerEvent.predictedPosting(data: predictedData))
+    }
 
     func closeButtonPressed() {
         switch cameraState.value {

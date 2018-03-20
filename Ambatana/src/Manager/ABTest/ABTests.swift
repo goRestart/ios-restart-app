@@ -59,6 +59,7 @@ class ABTests {
     let copyForChatNowInTurkey = IntABDynamicVar(key: "20180312CopyForChatNowInTurkey", defaultValue: 0, abGroupType: .money)
     let increaseNumberOfPictures = IntABDynamicVar(key: "20180314IncreaseNumberOfPictures", defaultValue: 0, abGroupType: .realEstate)
     let machineLearningMVP = IntABDynamicVar(key: "20180312MachineLearningMVP", defaultValue: 0, abGroupType: .core)
+    let showProTagUserProfile = BoolABDynamicVar(key: "20180319ShowProTagUserProfile", defaultValue: false, abGroupType: .money)
     let realEstateTutorial = IntABDynamicVar(key: "20180309RealEstateTutorial", defaultValue: 0, abGroupType: .realEstate)
     let summaryAsFirstStep = IntABDynamicVar(key: "20180320SummaryAsFirstStep", defaultValue: 0, abGroupType: .realEstate)
     init() {
@@ -110,9 +111,10 @@ class ABTests {
         result.append(servicesCategoryEnabled)
         result.append(copyForChatNowInTurkey)
         result.append(increaseNumberOfPictures)
+        result.append(showProTagUserProfile)
         result.append(realEstateTutorial)
         result.append(summaryAsFirstStep)
-        
+
         return result
     }
 

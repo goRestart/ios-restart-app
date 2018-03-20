@@ -70,6 +70,7 @@
 "categories_title" = "Categorías";
 "categories_unassigned" = "No seleccionada";
 "categories_unassigned_items" = "Otros artículos";
+"change_bio_error_message" = "Se ha producido un error al guardar tu bio. Asegúrate de que no contenga información de contacto.";
 "change_bio_placeholder" = "Añade una bio que describa quien eres. Comparte lo que te interesa o algún dato divertido sobre ti.";
 "change_bio_save_button" = "Guardar";
 "change_bio_title" = "Sobre mí";
@@ -425,8 +426,8 @@
 "ml_camera_in_about_days_text" = "en unos %.f días";
 "ml_camera_in_more_than_days_text" = "en más de %.f días";
 "ml_camera_sells_for_text" = "Se suele vender por %d";
-"ml_category_text" = "Category:";
-"ml_details_price_text" = "Precio $:";
+"ml_category_text" = "Categoría:";
+"ml_details_price_text" = "Precio:";
 "ml_details_suggested_details_text" = "DETALLES SUGERIDOS";
 "ml_details_title_text" = "Título:";
 "ml_onboarding_description_text" = "Muestráme un artículo y te diré cuánto podrías ganar";
@@ -650,6 +651,7 @@
 "product_post_gallery_permissions_subtitle" = "Para elegir una foto existente, debes permitir el acceso a Fotos";
 "product_post_gallery_permissions_title" = "Permitir el acceso a Fotos";
 "product_post_gallery_select_pictures_subtitle" = "Selecciona hasta 5 imágenes para subir";
+"product_post_gallery_select_pictures_subtitle_params" = "Selecciona hasta %d imágenes para subir";
 "product_post_gallery_select_pictures_title" = "Elegir fotos";
 "product_post_gallery_tab" = "BIBLIOTECA";
 "product_post_generic_error" = "Se ha producido un error al publicar tu anuncio.";
