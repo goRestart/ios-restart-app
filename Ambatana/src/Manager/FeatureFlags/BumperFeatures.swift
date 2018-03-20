@@ -25,11 +25,9 @@ extension Bumper  {
         flags.append(HomeRelatedEnabled.self)
         flags.append(TaxonomiesAndTaxonomyChildrenInFeed.self)
         flags.append(NewItemPage.self)
-        flags.append(ShowPriceStepRealEstatePosting.self)
         flags.append(ShowClockInDirectAnswer.self)
         flags.append(MostSearchedDemandedItems.self)
         flags.append(AllowCallsForProfessionals.self)
-        flags.append(RealEstateImprovements.self)
         flags.append(ShowAdsInFeedWithRatio.self)
         flags.append(RealEstateFlowType.self)
         flags.append(RemoveCategoryWhenClosingPosting.self)
@@ -117,11 +115,6 @@ extension Bumper  {
         return NewItemPage(rawValue: value) ?? .control 
     }
 
-    static var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting {
-        guard let value = Bumper.value(for: ShowPriceStepRealEstatePosting.key) else { return .control }
-        return ShowPriceStepRealEstatePosting(rawValue: value) ?? .control 
-    }
-
     static var showClockInDirectAnswer: ShowClockInDirectAnswer {
         guard let value = Bumper.value(for: ShowClockInDirectAnswer.key) else { return .control }
         return ShowClockInDirectAnswer(rawValue: value) ?? .control 
@@ -135,11 +128,6 @@ extension Bumper  {
     static var allowCallsForProfessionals: AllowCallsForProfessionals {
         guard let value = Bumper.value(for: AllowCallsForProfessionals.key) else { return .control }
         return AllowCallsForProfessionals(rawValue: value) ?? .control 
-    }
-
-    static var realEstateImprovements: RealEstateImprovements {
-        guard let value = Bumper.value(for: RealEstateImprovements.key) else { return .control }
-        return RealEstateImprovements(rawValue: value) ?? .control 
     }
 
     static var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
@@ -424,22 +412,6 @@ enum NewItemPage: String, BumperFeature  {
     }
 }
 
-enum ShowPriceStepRealEstatePosting: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return ShowPriceStepRealEstatePosting.control.rawValue }
-    static var enumValues: [ShowPriceStepRealEstatePosting] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show price on real estate listing" } 
-    static func fromPosition(_ position: Int) -> ShowPriceStepRealEstatePosting {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
-            default: return .control
-        }
-    }
-}
-
 enum ShowClockInDirectAnswer: String, BumperFeature  {
     case control, baseline, active
     static var defaultValue: String { return ShowClockInDirectAnswer.control.rawValue }
@@ -485,22 +457,6 @@ enum AllowCallsForProfessionals: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .inactive
-            default: return .control
-        }
-    }
-}
-
-enum RealEstateImprovements: String, BumperFeature  {
-    case control, baseline, active
-    static var defaultValue: String { return RealEstateImprovements.control.rawValue }
-    static var enumValues: [RealEstateImprovements] { return [.control, .baseline, .active]}
-    static var values: [String] { return enumValues.map{$0.rawValue} }
-    static var description: String { return "show onboarding improvements on real estate category" } 
-    static func fromPosition(_ position: Int) -> RealEstateImprovements {
-        switch position { 
-            case 0: return .control
-            case 1: return .baseline
-            case 2: return .active
             default: return .control
         }
     }

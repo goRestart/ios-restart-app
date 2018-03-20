@@ -43,10 +43,8 @@ protocol FeatureFlaggeable: class {
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var newItemPage: NewItemPage { get }
-    var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
-    var realEstateImprovements: RealEstateImprovements { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
@@ -99,10 +97,6 @@ extension TaxonomiesAndTaxonomyChildrenInFeed {
     var isActive: Bool { get { return self == .active } }
 }
 
-extension ShowPriceStepRealEstatePosting {
-    var isActive: Bool { get { return self == .active } }
-}
-
 extension AllowCallsForProfessionals {
     var isActive: Bool { get { return self == .control || self == .baseline } }
 }
@@ -118,10 +112,6 @@ extension MostSearchedDemandedItems {
 }
 
 extension RealEstateEnabled {
-    var isActive: Bool { get { return self == .active } }
-}
-
-extension RealEstateImprovements {
     var isActive: Bool { get { return self == .active } }
 }
 
@@ -410,13 +400,6 @@ class FeatureFlags: FeatureFlaggeable {
         return TaxonomiesAndTaxonomyChildrenInFeed.fromPosition(abTests.taxonomiesAndTaxonomyChildrenInFeed.value)
     }
     
-    var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting {
-        if Bumper.enabled {
-            return Bumper.showPriceStepRealEstatePosting
-        }
-        return ShowPriceStepRealEstatePosting.fromPosition(abTests.showPriceStepRealEstatePosting.value)
-    }
-    
     var showClockInDirectAnswer: ShowClockInDirectAnswer {
         if Bumper.enabled {
             return Bumper.showClockInDirectAnswer
@@ -436,14 +419,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.mostSearchedDemandedItems
         }
         return MostSearchedDemandedItems.fromPosition(abTests.mostSearchedDemandedItems.value)
-    }
-    
-    
-    var realEstateImprovements: RealEstateImprovements {
-        if Bumper.enabled {
-            return Bumper.realEstateImprovements
-        }
-        return RealEstateImprovements.fromPosition(abTests.realEstateImprovements.value)
     }
     
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {

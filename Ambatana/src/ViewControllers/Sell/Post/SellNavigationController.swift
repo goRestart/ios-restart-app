@@ -106,13 +106,9 @@ class SellNavigationController: UINavigationController {
                 self?.animateStep(isHidden: isHidden)
             }.disposed(by: disposeBag)
         
-        viewModel.categorySelected.asObservable().map { [weak self] category in
-                guard let strongSelf = self else { return nil }
-                return category?.numberOfSteps(shouldShowPrice: strongSelf.viewModel.shouldShowPriceStep,
-                                               postingFlowType: strongSelf.viewModel.postingFlowType)
-            }.bind { [weak self] number in
-                self?.viewModel.numberOfSteps.value = number ?? 0
-            }.disposed(by: disposeBag)
+        viewModel.categorySelected.asObservable().map { category in
+            return category?.numberOfSteps ?? 0
+        }.bind(to: viewModel.numberOfSteps).disposed(by: disposeBag)
         
         Observable.combineLatest(viewModel.currentStep.asObservable(), viewModel.numberOfSteps.asObservable()) { ($0, $1) }
             .bind { [weak self] (currentStep, totalSteps) in
