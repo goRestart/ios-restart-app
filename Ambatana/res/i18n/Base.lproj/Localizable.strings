@@ -1092,6 +1092,12 @@
 // Filters Nº of Bathrooms not set
 "filters_real_estate_bathrooms_not_set" = "Not set";
 
+// From price in the selected filter cell shown in feed
+"filters_real_estate_size_from_feed_filter_cell" = "From";
+
+// To price in the selected filter cell shown in feed
+"filters_real_estate_size_to_feed_filter_cell" = "To";
+
 // Selected location text when there is no postal address. 
 "filters_tag_location_selected" = "Selected location";
 
@@ -1317,6 +1323,9 @@
 
 // Navigation bar button 'Invite'' 
 "main_products_invite_navigation_bar_button" = "Invite";
+
+// MoPub advertising indicator "Ad"
+"mopub_advertising_text" = "Ad";
 
 // Subtitle text for empty notifications center
 "notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
@@ -2710,6 +2719,9 @@
 
 // Message inside gallery view to explain about picture selection on RE
 "real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
+
+// Message inside gallery view to explain about picture selection on RE
+"real_estate_gallery_view_subtitle_params" = "Select up to %d images of the property you want to sell or rent";
 
 // Message inside camera view to explain about picture selection on RE
 "real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";

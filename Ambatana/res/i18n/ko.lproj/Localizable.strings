@@ -347,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "설정되지 않음";
 "filters_real_estate_offer_type_not_set" = "설정되지 않음";
 "filters_real_estate_property_type_not_set" = "설정되지 않음";
+"filters_real_estate_size_from_feed_filter_cell" = "부터";
+"filters_real_estate_size_to_feed_filter_cell" = "까지";
 "filters_save_button" = "필터 저장";
 "filters_section_car_info" = "자동차 정보";
 "filters_section_categories" = "항목";
@@ -433,6 +435,7 @@
 "ml_onboarding_description_text" = "상품을 보여주세요. 가격이 얼마 정도 하는지 알려드릴게요.";
 "ml_onboarding_new_text" = "새로운!";
 "ml_onboarding_ok_text" = "예";
+"mopub_advertising_text" = "광고";
 "notifications_empty_subtitle" = "판매할 상품을 게시하고 몇가지 활동을 확인하세요";
 "notifications_empty_title" = "알림 없음 (아직이에요!)";
 "notifications_permissions_1_push" = "이사벨라: 판매하시는 전화기에 관심있는데요. $100 제안해볼게요";
@@ -835,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "근처에서 매매 / 임대 부동산을 첫번째로 등록하거나 나중에 페이지를 다시 확인해주세요!";
 "real_estate_empty_state_search_title" = "이런! 근처에 게시된 부동산이 없습니다";
 "real_estate_gallery_view_subtitle" = "매매하거나 임대하고자 하는 부동산의 사진을 최대 5장 선택하세요";
+"real_estate_gallery_view_subtitle_params" = "매매하거나 임대하고자 하는 부동산의 사진을 최대 %d장 선택하세요";
 "real_estate_location_notification_message" = "저희는 다른 사용자들에게 회원님의 정확한 위치를 공개하지 않습니다";
 "real_estate_location_title" = "위치";
 "real_estate_offer_type_rent" = "전세";

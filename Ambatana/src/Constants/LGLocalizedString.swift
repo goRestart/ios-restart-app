@@ -1475,6 +1475,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_real_estate_bathrooms_not_set", comment: "")
 	}
 
+	static var filtersRealEstateSizeFromFeedFilterCell: String {
+		return NSLocalizedString("filters_real_estate_size_from_feed_filter_cell", comment: "")
+	}
+
+	static var filtersRealEstateSizeToFeedFilterCell: String {
+		return NSLocalizedString("filters_real_estate_size_to_feed_filter_cell", comment: "")
+	}
+
 	static var filtersTagLocationSelected: String {
 		return NSLocalizedString("filters_tag_location_selected", comment: "")
 	}
@@ -1777,6 +1785,10 @@ struct LGLocalizedString {
 
 	static var mainProductsInviteNavigationBarButton: String {
 		return NSLocalizedString("main_products_invite_navigation_bar_button", comment: "")
+	}
+
+	static var mopubAdvertisingText: String {
+		return NSLocalizedString("mopub_advertising_text", comment: "")
 	}
 
 	static var notificationsEmptySubtitle: String {
@@ -3641,6 +3653,10 @@ struct LGLocalizedString {
 
 	static var realEstateGalleryViewSubtitle: String {
 		return NSLocalizedString("real_estate_gallery_view_subtitle", comment: "")
+	}
+
+	static func realEstateGalleryViewSubtitleParams(_ var1: Int) -> String {
+		return String(format: NSLocalizedString("real_estate_gallery_view_subtitle_params", comment: ""), var1)
 	}
 
 	static var realEstateCameraViewRealEstateMessage: String {

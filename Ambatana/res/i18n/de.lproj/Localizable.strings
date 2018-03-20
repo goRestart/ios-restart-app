@@ -70,7 +70,7 @@
 "categories_title" = "Kategorien";
 "categories_unassigned" = "Nichts ausgewählt";
 "categories_unassigned_items" = "Etwas anderes";
-"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
+"change_bio_error_message" = "Beim Speichern deiner Biografie ist ein Fehler aufgetreten. Bitte stelle sicher, dass sie keine Kontaktinformationen enthält.";
 "change_bio_placeholder" = "Füge eine Biografie hinzu, die beschreibt, wer du bist. Teile anderen mit, an was du interessiert bist, oder erwähne ein lustiges Hobby von dir.";
 "change_bio_save_button" = "Speichern";
 "change_bio_title" = "Über mich";
@@ -347,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Nicht ausgewählt";
 "filters_real_estate_offer_type_not_set" = "Nicht ausgewählt";
 "filters_real_estate_property_type_not_set" = "Nicht ausgewählt";
+"filters_real_estate_size_from_feed_filter_cell" = "Von";
+"filters_real_estate_size_to_feed_filter_cell" = "Bis";
 "filters_save_button" = "Filter speichern";
 "filters_section_car_info" = "Auto-Infos";
 "filters_section_categories" = "Kategorien";
@@ -433,6 +435,7 @@
 "ml_onboarding_description_text" = "Zeige mir einen Artikel und ich sage dir, wieviel du damit verdienst";
 "ml_onboarding_new_text" = "NEU!";
 "ml_onboarding_ok_text" = "Ok";
+"mopub_advertising_text" = "Anzeige";
 "notifications_empty_subtitle" = "Stelle etwas zum Verkauf ein, damit hier etwas Leben reinkommt";
 "notifications_empty_title" = "(NOCH) KEINE MITTEILUNGEN";
 "notifications_permissions_1_push" = "Claudia: Ich interessiere mich für das Smartphone. Wären 100€ okay?";
@@ -835,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Sei der Erste, der in deiner Nähe Kauf-/Mietimmobilen einstellt, oder schaue später noch einmal vorbei!";
 "real_estate_empty_state_search_title" = "HOPPLA! KEINE IMMOBILIEN-ANGEBOTE IN DEINER NÄHE";
 "real_estate_gallery_view_subtitle" = "Wähle bis zu 5 Bilder der Immobilie, die du zum Verkauf oder zur Miete anbieten möchtest";
+"real_estate_gallery_view_subtitle_params" = "Wähle bis zu %d Bilder der Immobilie, die du zum Verkauf oder zur Miete anbieten möchtest";
 "real_estate_location_notification_message" = "Wir werden anderen Nutzern niemals deinen genauen Standort anzeigen";
 "real_estate_location_title" = "Standort";
 "real_estate_offer_type_rent" = "Zur Miete";

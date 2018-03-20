@@ -347,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Ikke valgt";
 "filters_real_estate_offer_type_not_set" = "Ikke valgt";
 "filters_real_estate_property_type_not_set" = "Ikke valgt";
+"filters_real_estate_size_from_feed_filter_cell" = "Fra";
+"filters_real_estate_size_to_feed_filter_cell" = "Til";
 "filters_save_button" = "Lagre filtre";
 "filters_section_car_info" = "Bilinfo";
 "filters_section_categories" = "Kategorier";
@@ -433,6 +435,7 @@
 "ml_onboarding_description_text" = "Vis meg et produkt og jeg vil fortelle deg hvor mye du kan tjene";
 "ml_onboarding_new_text" = "NYHET!";
 "ml_onboarding_ok_text" = "Ok";
+"mopub_advertising_text" = "Annonse";
 "notifications_empty_subtitle" = "Publiser noe for salg for å få i gang aktiviteten her";
 "notifications_empty_title" = "INGEN VARSLINGER (ENDA!)";
 "notifications_permissions_1_push" = "Ida: Jeg er veldig interessert i din mobil. Kan du la den gå for 900,-?";
@@ -834,7 +837,8 @@
 "real_estate_current_step_of_total" = "%d av %d";
 "real_estate_empty_state_search_subtitle" = "Vær den første til å publisere for salg / utleie i ditt område eller sjekk igjen snart!";
 "real_estate_empty_state_search_title" = "OOPS! INGEN EIENDOMMER PUBLISERT I DITT NÆROMRÅDE";
-"real_estate_gallery_view_subtitle" = "Velg opp til fem bilder av boligen du ønsker å selge eller leie ut";
+"real_estate_gallery_view_subtitle" = "Velg opp til 5 bilder av boligen du ønsker å selge eller leie ut";
+"real_estate_gallery_view_subtitle_params" = "Velg opp til %d bilder av boligen du ønsker å selge eller leie ut";
 "real_estate_location_notification_message" = "Vi viser aldri din nøyaktige plassering til andre brukere";
 "real_estate_location_title" = "Sted";
 "real_estate_offer_type_rent" = "Til utleie";

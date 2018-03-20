@@ -70,7 +70,7 @@
 "categories_title" = "Kategoriat";
 "categories_unassigned" = "Ei valittu";
 "categories_unassigned_items" = "Muut tuotteet";
-"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
+"change_bio_error_message" = "Biografiaasi tallennettaessa tapahtui virhe. Varmista, että biografia ei sisällä yhteystietoja.";
 "change_bio_placeholder" = "Lisää biografia, joka kertoo sinusta. Jaa kiinnostuksen kohteesi tai hauskoja faktoja itsestäsi.";
 "change_bio_save_button" = "Tallenna";
 "change_bio_title" = "Minusta";
@@ -347,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Ei määritetty";
 "filters_real_estate_offer_type_not_set" = "Ei määritetty";
 "filters_real_estate_property_type_not_set" = "Ei määritetty";
+"filters_real_estate_size_from_feed_filter_cell" = "Alkaen";
+"filters_real_estate_size_to_feed_filter_cell" = "Päättyen";
 "filters_save_button" = "Tallenna suodattimet";
 "filters_section_car_info" = "Auton tiedot";
 "filters_section_categories" = "Kategoriat";
@@ -433,6 +435,7 @@
 "ml_onboarding_description_text" = "Näytä minulle kohde ja kerron, paljonko tienaat";
 "ml_onboarding_new_text" = "UUSI!";
 "ml_onboarding_ok_text" = "OK";
+"mopub_advertising_text" = "Mainos";
 "notifications_empty_subtitle" = "Julkaise jotakin myytäväksi, jotta täällä alkaa tapahtua";
 "notifications_empty_title" = "EI ILMOITUKSIA (VIELÄ!)";
 "notifications_permissions_1_push" = "Liisa: Olen todella kiinnostunut puhelimestasi. Myytkö sen 100 eurolla?";
@@ -835,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Julkaise ensimmäisenä kiinteistö myytäväksi/vuokrattavaksi alueeltasi tai tule pian takaisin!";
 "real_estate_empty_state_search_title" = "HUPS! KIINTEISTÖJÄ EI OLE JULKAISTU LÄHELTÄSI";
 "real_estate_gallery_view_subtitle" = "Valitse korkeintaan 5 kuvaa kiinteistöstä, jonka haluat myydä tai vuokrata";
+"real_estate_gallery_view_subtitle_params" = "Valitse korkeintaan %d kuvaa kiinteistöstä, jonka haluat myydä tai vuokrata";
 "real_estate_location_notification_message" = "Emme koskaan näytä tarkkaa sijaintiasi muille käyttäjille";
 "real_estate_location_title" = "Sijainti";
 "real_estate_offer_type_rent" = "Vuokrataan";

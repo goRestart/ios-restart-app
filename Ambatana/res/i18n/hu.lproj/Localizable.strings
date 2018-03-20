@@ -347,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Nincs megadva";
 "filters_real_estate_offer_type_not_set" = "Nincs megadva";
 "filters_real_estate_property_type_not_set" = "Nincs megadva";
+"filters_real_estate_size_from_feed_filter_cell" = "Ettől";
+"filters_real_estate_size_to_feed_filter_cell" = "Eddig";
 "filters_save_button" = "Szűrők mentése";
 "filters_section_car_info" = "Autóinfók";
 "filters_section_categories" = "Kategóriák";
@@ -433,6 +435,7 @@
 "ml_onboarding_description_text" = "Mutass egy tárgyat, és megmondom, hogy mennyit kereshetsz vele";
 "ml_onboarding_new_text" = "ÚJ!";
 "ml_onboarding_ok_text" = "OK";
+"mopub_advertising_text" = "Hirdetés";
 "notifications_empty_subtitle" = "Tölts fel hirdetést, hogy történjen itt valami";
 "notifications_empty_title" = "NINCS ÉRTESÍTÉS (MÉG!)";
 "notifications_permissions_1_push" = "Izabella: Érdekelne a telefon. Eladnád 25.000 Ft-ért?";
@@ -835,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Legyél te az első eladó/kiadó ingatlant hirdető a környékeden, vagy nézz vissza később!";
 "real_estate_empty_state_search_title" = "HOPPÁ! NINCS INGATLANHIRDETÉS A KÖRNYÉKEN";
 "real_estate_gallery_view_subtitle" = "Válassz ki legfeljebb 5 képet az eladó vagy kiadó ingatlanodról";
+"real_estate_gallery_view_subtitle_params" = "Válassz ki legfeljebb %d képet az eladó vagy kiadó ingatlanodról";
 "real_estate_location_notification_message" = "Sosem mutatjuk meg más felhasználóknak a pontos tartózkodási helyedet";
 "real_estate_location_title" = "Hely";
 "real_estate_offer_type_rent" = "Kiadó";

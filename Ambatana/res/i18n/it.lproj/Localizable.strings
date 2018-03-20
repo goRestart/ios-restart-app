@@ -347,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Non impostato";
 "filters_real_estate_offer_type_not_set" = "Non impostato";
 "filters_real_estate_property_type_not_set" = "Non Impostato";
+"filters_real_estate_size_from_feed_filter_cell" = "Da";
+"filters_real_estate_size_to_feed_filter_cell" = "A";
 "filters_save_button" = "Salva filtri";
 "filters_section_car_info" = "Informazioni auto";
 "filters_section_categories" = "Categorie";
@@ -433,6 +435,7 @@
 "ml_onboarding_description_text" = "Show me an item and I'll tell you how much you'll make";
 "ml_onboarding_new_text" = "NOVITÀ!";
 "ml_onboarding_ok_text" = "OK";
+"mopub_advertising_text" = "Annuncio";
 "notifications_empty_subtitle" = "Pubblica qualcosa da vendere per iniziare a vedere delle attività";
 "notifications_empty_title" = "ANCORA NESSUNA NOTIFICA!";
 "notifications_permissions_1_push" = "Francesca: il tuo telefono mi interessa molto. Me lo lasci per 100€?";
@@ -835,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Pubblica per primo una proprietà in vendita/affitto nella tua zona o controlla nuovamente dopo!";
 "real_estate_empty_state_search_title" = "OPS! NESSUNA ABITAZIONE PUBBLICATA NELLA TUA ZONA";
 "real_estate_gallery_view_subtitle" = "Seleziona un massimo di 5 immagini della proprietà che desideri vendere o affittare";
+"real_estate_gallery_view_subtitle_params" = "Seleziona un massimo di %d immagini della proprietà che desideri vendere o affittare";
 "real_estate_location_notification_message" = "La tua posizione esatta non verrà mai mostrata agli altri utenti";
 "real_estate_location_title" = "Posizione";
 "real_estate_offer_type_rent" = "In affitto";
