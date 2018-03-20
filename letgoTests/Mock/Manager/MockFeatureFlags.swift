@@ -60,6 +60,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var machineLearningMVP: MachineLearningMVP = .control
     var realEstateTutorial: RealEstateTutorial = .control
+    var summaryAsFirstStep: SummaryAsFirstStep = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

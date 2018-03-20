@@ -155,7 +155,7 @@ extension SellCoordinator: PostListingNavigator {
     
     func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
         
-        let firstStep: PostingDetailStep = .price
+        let firstStep: PostingDetailStep = featureFlags.summaryAsFirstStep.isActive ? .summary : .price
         
         let viewModel = PostingDetailsViewModel(step: firstStep,
                                                 postListingState: postListingState,
@@ -440,7 +440,7 @@ fileprivate extension SellCoordinator {
 extension SellCoordinator {
     func startDetails(postListingState: MLPostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
         
-        let firstStep: PostingDetailStep = .price
+        let firstStep: PostingDetailStep = featureFlags.summaryAsFirstStep.isActive ? .summary : .price
         
         let viewModel = MLPostingDetailsViewModel(step: firstStep,
                                                   postListingState: postListingState,

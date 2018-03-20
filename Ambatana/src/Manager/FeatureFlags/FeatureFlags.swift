@@ -67,6 +67,7 @@ protocol FeatureFlaggeable: class {
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
     var machineLearningMVP: MachineLearningMVP { get }
+    var summaryAsFirstStep: SummaryAsFirstStep { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -247,6 +248,10 @@ extension RealEstateTutorial {
 
 extension MachineLearningMVP {
     var isActive: Bool { get { return self == .active } }
+}
+
+extension SummaryAsFirstStep {
+    var isActive: Bool { return self == .active }
 }
 
 
@@ -575,6 +580,14 @@ class FeatureFlags: FeatureFlaggeable {
         return IncreaseNumberOfPictures.fromPosition(abTests.increaseNumberOfPictures.value)
     }
 
+    var summaryAsFirstStep: SummaryAsFirstStep {
+        if Bumper.enabled {
+            return Bumper.summaryAsFirstStep
+        }
+        return SummaryAsFirstStep.fromPosition(abTests.summaryAsFirstStep.value)
+    }
+    
+    
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {

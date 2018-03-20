@@ -194,5 +194,10 @@
         "name": "MachineLearningMVP",
         "values": ["control", "baseline", "active"],
         "description": "Show machine learning posting flow when pressing Other Items on salchichas menu"
+    },
+    {
+        "name": "SummaryAsFirstStep",
+        "values": ["control", "baseline", "active"],
+        "description": "Show directly summary screen instead of Real estate steps"
     }
 ]
