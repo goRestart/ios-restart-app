@@ -1,12 +1,14 @@
-//
-//  LGLocalized.swift
-//  LetGo
-//
-//  Created by Eli Kohen on 15/10/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
-//
+import Foundation
 
-struct LGLocalizedString {<%
+/// This class only exists to be able to determine the bundle where it belongs to.
+fileprivate class Helper { }
+
+fileprivate let bundle: Bundle = {
+    let path = Bundle(for: Helper.self).path(forResource: "LGResourcesBundle", ofType: "bundle")!
+    return Bundle(path: path)!
+}()
+
+public struct LGLocalizedString {<%
 @terms.each do |term| 
 	if term.restriction == 'i' || term.restriction == nil
     	if term.is_comment?
@@ -15,14 +17,14 @@ struct LGLocalizedString {<%
 <% 		
 		elsif term.has_specifiers?
 %>
-	static func <%= term.keyword_constant_swift %>(<%= term.specifiers_args %>) -> String {
-		return String(format: NSLocalizedString("<%= term.keyword %>", comment: ""), <%= term.specifiers_vars %>)
+	public static func <%= term.keyword_constant_swift %>(<%= term.specifiers_args %>) -> String {
+		return String(format: NSLocalizedString("<%= term.keyword %>", bundle: bundle, comment: ""), <%= term.specifiers_vars %>)
 	}
 <% 
 		else
 %>
-	static var <%= term.keyword_constant_swift %>: String {
-		return NSLocalizedString("<%= term.keyword %>", comment: "")
+	public static var <%= term.keyword_constant_swift %>: String {
+		return NSLocalizedString("<%= term.keyword %>", bundle: bundle, comment: "")
 	}
 <%
 		end
