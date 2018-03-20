@@ -76,4 +76,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
     }
+    var shareTypes: [ShareType] = []
 }

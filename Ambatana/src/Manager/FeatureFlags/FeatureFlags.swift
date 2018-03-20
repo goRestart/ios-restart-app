@@ -80,7 +80,7 @@ protocol FeatureFlaggeable: class {
     func collectionsAllowedFor(countryCode: String?) -> Bool
     var shouldChangeChatNowCopy: Bool { get }
     var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
-    
+    var shareTypes: [ShareType] { get }
 }
 
 extension FeatureFlaggeable {
@@ -619,7 +619,7 @@ class FeatureFlags: FeatureFlaggeable {
             return false
         }
     }
-
+    
     var signUpEmailTermsAndConditionsAcceptRequired: Bool {
         switch (locationCountryCode, localeCountryCode) {
         case (.turkey?, _), (_, .turkey?):
@@ -636,6 +636,15 @@ class FeatureFlags: FeatureFlaggeable {
             return true
         default:
             return false
+        }
+    }
+    
+    var shareTypes: [ShareType] {
+       switch (locationCountryCode, localeCountryCode) {
+        case (.turkey?, _), (_, .turkey?):
+            return [.whatsapp, .facebook, .email ,.fbMessenger, .twitter, .sms, .telegram]
+        default:
+            return [.sms, .email, .facebook, .fbMessenger, .twitter, .whatsapp, .telegram]
         }
     }
 
