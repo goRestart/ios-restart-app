@@ -26,10 +26,6 @@ class SellNavigationViewModel : BaseViewModel {
         return featureFlags.postingFlowType
     }
     
-    var shouldShowPriceStep: Bool {
-        return featureFlags.showPriceStepRealEstatePosting.isActive && hasInitialCategory
-    }
-    
     init(featureFlags: FeatureFlags) {
         self.featureFlags = featureFlags
     }

@@ -56,6 +56,10 @@ class PostListingViewModel: BaseViewModel {
         guard let category = postCategory, category == .realEstate else { return false }
         return true
     }
+    
+    var realEstateTutorialPages: [LGTutorialPage]? {
+        return LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial)
+    }
 
     let state: Variable<PostListingState>
     let category: Variable<PostCategory?>
@@ -74,6 +78,7 @@ class PostListingViewModel: BaseViewModel {
     fileprivate let sessionManager: SessionManager
     fileprivate let featureFlags: FeatureFlaggeable
     fileprivate let locationManager: LocationManager
+    fileprivate let keyValueStorage: KeyValueStorageable
     
     fileprivate var imagesSelected: [UIImage]?
     fileprivate var uploadedImageSource: EventParameterPictureSource?
@@ -88,6 +93,11 @@ class PostListingViewModel: BaseViewModel {
     
     var maxNumberImages: Int {
         return Constants.maxImageCount
+    }
+    
+    var shouldShowInfoButton: Bool {
+        guard let category = postCategory?.listingCategory else { return false }
+        return category.isRealEstate && featureFlags.realEstateTutorial.isActive
     }
     
     fileprivate let disposeBag: DisposeBag
@@ -110,7 +120,8 @@ class PostListingViewModel: BaseViewModel {
                   sessionManager: Core.sessionManager,
                   featureFlags: FeatureFlags.sharedInstance,
                   locationManager: Core.locationManager,
-                  currencyHelper: Core.currencyHelper)
+                  currencyHelper: Core.currencyHelper,
+                  keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
     init(source: PostingSource,
@@ -124,7 +135,8 @@ class PostListingViewModel: BaseViewModel {
          sessionManager: SessionManager,
          featureFlags: FeatureFlaggeable,
          locationManager: LocationManager,
-         currencyHelper: CurrencyHelper) {
+         currencyHelper: CurrencyHelper,
+         keyValueStorage: KeyValueStorageable) {
         self.state = Variable<PostListingState>(PostListingState(postCategory: postCategory, title: listingTitle))
         self.category = Variable<PostCategory?>(postCategory)
         
@@ -143,6 +155,7 @@ class PostListingViewModel: BaseViewModel {
         self.featureFlags = featureFlags
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
+        self.keyValueStorage = keyValueStorage
         self.disposeBag = DisposeBag()
         super.init()
         self.postDetailViewModel.delegate = self
@@ -166,6 +179,11 @@ class PostListingViewModel: BaseViewModel {
     func retryButtonPressed() {
         guard let images = imagesSelected, let source = uploadedImageSource else { return }
         imagesSelected(images, source: source)
+    }
+    
+    func infoButtonPressed() {
+        guard let pages = LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial) else { return }
+        navigator?.openRealEstateOnboarding(pages: pages, origin: .postingIconInfo, tutorialType: .realEstate)
     }
 
     func imagesSelected(_ images: [UIImage], source: EventParameterPictureSource) {
@@ -204,6 +222,13 @@ class PostListingViewModel: BaseViewModel {
                                              listingCreationParams: listingParams,
                                              imageSource: imageSource,
                                              postingSource: postingSource)
+    }
+    
+    func showRealEstateTutorial(origin: EventParameterTypePage) {
+        guard postCategory == .realEstate && !keyValueStorage[.realEstateTutorialShown] else { return }
+        guard let pages = realEstateTutorialPages else { return }
+        keyValueStorage[.realEstateTutorialShown] = true
+        navigator?.openRealEstateOnboarding(pages: pages, origin: origin, tutorialType: .realEstate)
     }
     
     func closeButtonPressed() {

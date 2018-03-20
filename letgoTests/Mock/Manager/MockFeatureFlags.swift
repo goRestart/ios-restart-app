@@ -34,14 +34,12 @@ class MockFeatureFlags: FeatureFlaggeable {
     var requestTimeOut: RequestsTimeOut = .thirty
     var homeRelatedEnabled: HomeRelatedEnabled = .control
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
-    var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var allowCallsForProfessionals: AllowCallsForProfessionals = .control
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
     var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
 
-    var realEstateImprovements: RealEstateImprovements = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
@@ -61,6 +59,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var increaseNumberOfPictures: IncreaseNumberOfPictures = .control
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var machineLearningMVP: MachineLearningMVP = .control
+    var realEstateTutorial: RealEstateTutorial = .control
     
     // Country dependant features
     var freePostingModeAllowed = false
@@ -77,4 +76,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
     }
+    var shareTypes: [ShareType] = []
 }

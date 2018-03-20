@@ -33,7 +33,6 @@ class ABTests {
     let homeRelatedEnabled = IntABDynamicVar(key: "20171011HomeRelatedEnabled", defaultValue: 0, abGroupType: .legacyABTests)
     let newItemPage = IntABDynamicVar(key: "20171027NewItemPage", defaultValue: 0, abGroupType: .legacyABTests)
     let taxonomiesAndTaxonomyChildrenInFeed = IntABDynamicVar(key: "20171031TaxonomiesAndTaxonomyChildrenInFeed", defaultValue: 0, abGroupType: .legacyABTests)
-    let showPriceStepRealEstatePosting = IntABDynamicVar(key: "20171106RealEstatePostingOrder", defaultValue: 0, abGroupType: .legacyABTests)
     let showClockInDirectAnswer = IntABDynamicVar(key: "20171031ShowClockInDirectAnswer", defaultValue: 0, abGroupType: .legacyABTests)
     let allowCallsForProfessionals = IntABDynamicVar(key: "20171228allowCallsForProfessionals", defaultValue: 0, abGroupType: .legacyABTests)
     let realEstateImprovements = IntABDynamicVar(key: "20180103RealEstateImprovements", defaultValue: 0, abGroupType: .legacyABTests)
@@ -60,6 +59,7 @@ class ABTests {
     let copyForChatNowInTurkey = IntABDynamicVar(key: "20180312CopyForChatNowInTurkey", defaultValue: 0, abGroupType: .money)
     let increaseNumberOfPictures = IntABDynamicVar(key: "20180314IncreaseNumberOfPictures", defaultValue: 0, abGroupType: .realEstate)
     let machineLearningMVP = IntABDynamicVar(key: "20180312MachineLearningMVP", defaultValue: 0, abGroupType: .core)
+    let realEstateTutorial = IntABDynamicVar(key: "20180309RealEstateTutorial", defaultValue: 0, abGroupType: .realEstate)
 
     init() {
     }
@@ -85,7 +85,6 @@ class ABTests {
         result.append(homeRelatedEnabled)
         result.append(newItemPage)
         result.append(taxonomiesAndTaxonomyChildrenInFeed)
-        result.append(showPriceStepRealEstatePosting)
         result.append(showClockInDirectAnswer)
         result.append(allowCallsForProfessionals)
         result.append(realEstateImprovements)
@@ -111,6 +110,7 @@ class ABTests {
         result.append(servicesCategoryEnabled)
         result.append(copyForChatNowInTurkey)
         result.append(increaseNumberOfPictures)
+        result.append(realEstateTutorial)
         
         return result
     }

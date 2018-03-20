@@ -152,10 +152,6 @@ final class ListingDeckViewController: KeyboardViewController, UICollectionViewD
         return UICollectionViewCell()
     }
 
-    private func updateCellContentInset(_ cell: ListingCardView, animated: Bool) {
-        cell.setVerticalContentInset(listingDeckView.cellHeight, animated: animated)
-    }
-
     // MARK: NavBar
 
     private func setupNavigationBar() {
@@ -229,7 +225,7 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func willDisplayCell(_ cell: UICollectionViewCell, atIndexPath indexPath: IndexPath) {
         cell.isUserInteractionEnabled = false
         guard let card = cell as? ListingCardView else { return }
-        updateCellContentInset(card, animated: false)
+        card.updateVerticalContentInset(animated: false)
     }
 
     func willBeginDragging() {
@@ -239,11 +235,11 @@ extension ListingDeckViewController: ListingDeckViewControllerBinderType {
     func didMoveToItemAtIndex(_ index: Int) {
         viewModel.didMoveToListing()
         if let left = listingDeckView.cardAtIndex(index - 1) {
-            updateCellContentInset(left, animated: true)
+            left.updateVerticalContentInset(animated: true)
             left.isUserInteractionEnabled = false
         }
         if let right = listingDeckView.cardAtIndex(index + 1) {
-            updateCellContentInset(right, animated: true)
+            right.updateVerticalContentInset(animated: true)
             right.isUserInteractionEnabled = false
         }
     }

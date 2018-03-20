@@ -85,7 +85,7 @@ class MLPostListingViewController: BaseViewController, PostListingViewModelDeleg
                   keyboardHelper: KeyboardHelper) {
         
         let tabPosition: LGViewPagerTabPosition = .hidden
-        let postFooter = PostListingRedCamButtonFooter()
+        let postFooter = PostListingRedCamButtonFooter(infoButtonIncluded: false)
         self.footer = postFooter
         self.footerView = postFooter
 
