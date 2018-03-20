@@ -38,13 +38,11 @@ class ABTests {
     let allowCallsForProfessionals = IntABDynamicVar(key: "20171228allowCallsForProfessionals", defaultValue: 0, abGroupType: .legacyABTests)
     let realEstateImprovements = IntABDynamicVar(key: "20180103RealEstateImprovements", defaultValue: 0, abGroupType: .legacyABTests)
     let mostSearchedDemandedItems = IntABDynamicVar(key: "20180104MostSearchedDemandedItems", defaultValue: 0, abGroupType: .retention)
-    let realEstatePromos = IntABDynamicVar(key: "20180108RealEstatePromos", defaultValue: 0, abGroupType: .legacyABTests)
     let showAdsInFeedWithRatio = IntABDynamicVar(key: "20180111ShowAdsInFeedWithRatio", defaultValue: 0, abGroupType: .legacyABTests)
     let removeCategoryWhenClosingPosting = IntABDynamicVar(key: "20180126RemoveCategoryWhenClosingPosting", defaultValue: 0, abGroupType: .legacyABTests)
     let realEstateNewCopy = IntABDynamicVar(key: "20180126RealEstateNewCopy", defaultValue: 0, abGroupType: .realEstate)
     let dummyUsersInfoProfile = IntABDynamicVar(key: "20180130DummyUsersInfoProfile", defaultValue: 0, abGroupType: .retention)
     let showInactiveConversations = BoolABDynamicVar(key: "20180206ShowInactiveConversations", defaultValue: false, abGroupType: .chat)
-    let mainFeedAspectRatio = IntABDynamicVar(key: "20180208MainFeedAspectRatio", defaultValue: 0, abGroupType: .core)
     let increaseMinPriceBumps  = IntABDynamicVar(key: "20180208IncreaseMinPriceBumps", defaultValue: 0, abGroupType: .money)
     let showSecurityMeetingChatMessage = IntABDynamicVar(key: "20180207ShowSecurityMeetingChatMessage", defaultValue: 0, abGroupType: .chat)
     let noAdsInFeedForNewUsers = IntABDynamicVar(key: "20180212NoAdsInFeedForNewUsers", defaultValue: 0, abGroupType: .money)
@@ -61,6 +59,8 @@ class ABTests {
     let servicesCategoryEnabled = IntABDynamicVar(key: "20180305ServicesCategoryEnabled", defaultValue: 0, abGroupType: .products)
     let copyForChatNowInTurkey = IntABDynamicVar(key: "20180312CopyForChatNowInTurkey", defaultValue: 0, abGroupType: .money)
     let increaseNumberOfPictures = IntABDynamicVar(key: "20180314IncreaseNumberOfPictures", defaultValue: 0, abGroupType: .realEstate)
+    let machineLearningMVP = IntABDynamicVar(key: "20180312MachineLearningMVP", defaultValue: 0, abGroupType: .core)
+    let chatNorris = IntABDynamicVar(key: "20180319ChatNorris", defaultValue: 0, abGroupType: .chat)
 
     init() {
     }
@@ -91,13 +91,11 @@ class ABTests {
         result.append(allowCallsForProfessionals)
         result.append(realEstateImprovements)
         result.append(mostSearchedDemandedItems)
-        result.append(realEstatePromos)
         result.append(showAdsInFeedWithRatio)
         result.append(removeCategoryWhenClosingPosting)
         result.append(realEstateNewCopy)
         result.append(dummyUsersInfoProfile)
         result.append(showInactiveConversations)
-        result.append(mainFeedAspectRatio)
         result.append(increaseMinPriceBumps)
         result.append(showSecurityMeetingChatMessage)
         result.append(noAdsInFeedForNewUsers)
@@ -114,6 +112,7 @@ class ABTests {
         result.append(servicesCategoryEnabled)
         result.append(copyForChatNowInTurkey)
         result.append(increaseNumberOfPictures)
+        result.append(chatNorris)
         
         return result
     }

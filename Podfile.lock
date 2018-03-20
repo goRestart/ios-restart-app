@@ -60,7 +60,7 @@ PODS:
   - KMPlaceholderTextView (1.3.0)
   - Leanplum-iOS-SDK (2.0.5)
   - LGCollapsibleLabel (1.2.0)
-  - LGCoreKit (4.11.0):
+  - LGCoreKit (4.13.0):
     - Alamofire (~> 4.5.1)
     - CocoaLumberjack/Swift (~> 3.3.0)
     - DeviceGuru (~> 3.0.1)
@@ -116,7 +116,7 @@ DEPENDENCIES:
   - AppsFlyerFramework (= 4.8.2)
   - Branch (= 0.22.5)
   - bumper (from `git@github.com:letgoapp/bumper.git`, commit `7ec04a070eca2337f058954d7f53c474d616d7b1`)
-  - CameraManager (= 4.0.1)
+  - CameraManager (from `git@github.com:letgoapp/CameraManager.git`, commit `41a2c7a8847a76045f71cb9b6bf178ddfebc2fea`)
   - CHTCollectionViewWaterfallLayout (= 0.9.7)
   - CocoaLumberjack/Swift (= 3.3.0)
   - Crashlytics (= 3.9.3)
@@ -134,7 +134,7 @@ DEPENDENCIES:
   - KMPlaceholderTextView (from `https://github.com/letgoapp/KMPlaceholderTextView`, commit `426117c98e8da8fc7d64a7d3c2f0f45c48d595e6`)
   - Leanplum-iOS-SDK (= 2.0.5)
   - LGCollapsibleLabel (= 1.2.0)
-  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `05764fc89844bdd1246f81209124e4a0b7dd494d`)
+  - LGCoreKit (from `git@github.com:letgoapp/letgo-ios-lgcorekit.git`, commit `e1bec8c21c01967555cb05204a0c6132fe9e3c17`)
   - lottie-ios (= 2.5.0)
   - NewRelicAgent (= 6.1.1)
   - Nimble (= 7.0.2)
@@ -151,6 +151,9 @@ EXTERNAL SOURCES:
   bumper:
     :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
     :git: git@github.com:letgoapp/bumper.git
+  CameraManager:
+    :commit: 41a2c7a8847a76045f71cb9b6bf178ddfebc2fea
+    :git: git@github.com:letgoapp/CameraManager.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
@@ -158,7 +161,7 @@ EXTERNAL SOURCES:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
   LGCoreKit:
-    :commit: 05764fc89844bdd1246f81209124e4a0b7dd494d
+    :commit: e1bec8c21c01967555cb05204a0c6132fe9e3c17
     :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   SwiftyUserDefaults:
     :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
@@ -168,6 +171,9 @@ CHECKOUT OPTIONS:
   bumper:
     :commit: 7ec04a070eca2337f058954d7f53c474d616d7b1
     :git: git@github.com:letgoapp/bumper.git
+  CameraManager:
+    :commit: 41a2c7a8847a76045f71cb9b6bf178ddfebc2fea
+    :git: git@github.com:letgoapp/CameraManager.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
@@ -175,7 +181,7 @@ CHECKOUT OPTIONS:
     :commit: 426117c98e8da8fc7d64a7d3c2f0f45c48d595e6
     :git: https://github.com/letgoapp/KMPlaceholderTextView
   LGCoreKit:
-    :commit: 05764fc89844bdd1246f81209124e4a0b7dd494d
+    :commit: e1bec8c21c01967555cb05204a0c6132fe9e3c17
     :git: git@github.com:letgoapp/letgo-ios-lgcorekit.git
   SwiftyUserDefaults:
     :commit: dd3d8ddc5bf95db09b66185182b5a555ac59efd5
@@ -189,7 +195,7 @@ SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Branch: 4f0482418d99e77d15b0e6065ef216c10e24797b
   bumper: 8d5499e9774aa148763ab9a1eebcaf5e0ed7beff
-  CameraManager: 56b3516e8e22cfbf56f3f0401291561e1ad9b3d0
+  CameraManager: 3680841b23453730bb4b2dbed0dd493ccb354c7d
   CHTCollectionViewWaterfallLayout: 9d11068fafecac106695bb5a5d6d0f738483b598
   CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
   Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
@@ -211,7 +217,7 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2bbcd19a273648a80a61e1e48f9743a24d8930e3
   Leanplum-iOS-SDK: d7d387b7f3688e697f2893978bfe67092df5b7ca
   LGCollapsibleLabel: 2a5ebb0ff0ff3e1d7ab0c295a17c923db000f557
-  LGCoreKit: 7beb4b73b293ebbcd77ec744dc588f63bba55175
+  LGCoreKit: a5cd8d1d1a35fedc56a193d84e1d216dc14c0467
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   NewRelicAgent: 652434a627201e3745cd5849228feeb10afe1879
   Nimble: bfe1f814edabba69ff145cb1283e04ed636a67f2
@@ -228,6 +234,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyUserDefaults: 38267a30d58b7c8570995cd5defd354e43f056c6
 
-PODFILE CHECKSUM: 14d6ad079b16f8acc766c201afe41a406b0c217f
+PODFILE CHECKSUM: cc4b408e276f42a1b313f8e4c5f6c2e8d23c878b
 
 COCOAPODS: 1.3.1

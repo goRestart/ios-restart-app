@@ -103,6 +103,7 @@ class ListingCarouselViewModel: BaseViewModel {
 
     let navBarButtons = Variable<[UIAction]>([])
     let actionButtons = Variable<[UIAction]>([])
+    let altActions = Variable<[UIAction]>([])
 
     let status = Variable<ListingViewModelStatus>(.pending)
     let isFeatured = Variable<Bool>(false)
@@ -199,6 +200,10 @@ class ListingCarouselViewModel: BaseViewModel {
     var adRequestQuery: String? = nil
     var adBannerTrackingStatus: AdBannerTrackingStatus? = nil
     let sideMargin: CGFloat = DeviceFamily.current.isWiderOrEqualThan(.iPhone6) ? Metrics.margin : 0
+
+    var meetingsEnabled: Bool {
+        return featureFlags.chatNorris.isActive
+    }
 
     // MARK: - Init
 

@@ -42,13 +42,11 @@ class MockFeatureFlags: FeatureFlaggeable {
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
 
     var realEstateImprovements: RealEstateImprovements = .control
-    var realEstatePromos: RealEstatePromos = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
     var dummyUsersInfoProfile: DummyUsersInfoProfile = .control
     var showInactiveConversations: Bool = false
-    var mainFeedAspectRatio: MainFeedAspectRatio = .control
     var increaseMinPriceBumps: IncreaseMinPriceBumps = .control
     var emojiSizeIncrement: EmojiSizeIncrement = .control
     var showBumpUpBannerOnNotValidatedListings: ShowBumpUpBannerOnNotValidatedListings = .control
@@ -61,8 +59,9 @@ class MockFeatureFlags: FeatureFlaggeable {
     var userIsTyping: UserIsTyping = .control
     var servicesCategoryEnabled: ServicesCategoryEnabled = .control
     var increaseNumberOfPictures: IncreaseNumberOfPictures = .control
-
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
+    var machineLearningMVP: MachineLearningMVP = .control
+    var chatNorris: ChatNorris = .control
     
     // Country dependant features
     var freePostingModeAllowed = false

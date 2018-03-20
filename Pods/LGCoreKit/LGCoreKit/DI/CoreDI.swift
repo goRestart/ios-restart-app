@@ -236,6 +236,10 @@ final class CoreDI: InternalDI {
         let dataSource = MonetizationApiDataSource(apiClient: self.apiClient)
         return LGMonetizationRepository(dataSource: dataSource, listingsLimboDAO: self.listingsLimboDAO)
     }()
+    lazy var machineLearningRepository: MachineLearningRepository = {
+        let machineLearningDataSource = LGMachineLearningDataSource()
+        return LGMachineLearningRepository(dataSource: machineLearningDataSource)
+    }()
 
 
     // MARK: > DAO

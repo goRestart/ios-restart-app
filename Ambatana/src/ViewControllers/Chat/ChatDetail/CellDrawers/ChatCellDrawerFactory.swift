@@ -14,7 +14,8 @@ class ChatCellDrawerFactory {
     static func drawerForMessage(_ message: ChatViewMessage,
                                  autoHide: Bool = false,
                                  disclosure: Bool = false,
-                                 showClock: Bool = false) -> ChatCellDrawer {
+                                 showClock: Bool = false,
+                                 meetingsEnabled: Bool) -> ChatCellDrawer {
         let myUserRepository = Core.myUserRepository
         
         let isMine = message.talkerId == myUserRepository.myUser?.objectId
@@ -34,24 +35,17 @@ class ChatCellDrawerFactory {
         case .askPhoneNumber:
             return ChatAskPhoneNumberCellDrawer(autoHide: autoHide)
         case let .chatNorris(type,_,_,_,_):
-            // 🦄 check if abtest active, if not ->
-//            if isMine {
-//                return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide, showClock: showClock)
-//            } else {
-//                return ChatOthersMessageCellDrawer(autoHide: autoHide)
-//            }
-            switch type {
-            case .accepted, .rejected:
-                if isMine {
-                    return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide, showClock: showClock)
-                } else {
-                    return ChatOthersMessageCellDrawer(autoHide: autoHide)
-                }
-            case .requested:
+            if meetingsEnabled, type == .requested {
                 if isMine {
                     return ChatMyMeetingCellDrawer(autoHide: autoHide)
                 } else {
                     return ChatOtherMeetingCellDrawer(autoHide: autoHide)
+                }
+            } else {
+                if isMine {
+                    return ChatMyMessageCellDrawer(showDisclose: disclosure, autoHide: autoHide, showClock: showClock)
+                } else {
+                    return ChatOthersMessageCellDrawer(autoHide: autoHide)
                 }
             }
         case .interlocutorIsTyping:

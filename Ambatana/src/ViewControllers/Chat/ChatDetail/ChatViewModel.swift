@@ -125,6 +125,9 @@ class ChatViewModel: BaseViewModel {
     fileprivate var hasSentAutomaticAnswerForOtherMessage: Bool = false
     fileprivate var hasShownAskedPhoneMessage: Bool = false
 
+    var meetingsEnabled: Bool {
+        return featureFlags.chatNorris.isActive
+    }
 
     // fileprivate
     fileprivate let myUserRepository: MyUserRepository
@@ -1328,7 +1331,7 @@ extension ChatViewModel {
                 strongSelf.mergeMessages(newMessages: value)
                 strongSelf.afterRetrieveChatMessagesEvents()
                 strongSelf.checkSellerDidntAnswer(value)
-                if let meeting = strongSelf.firstMeetingIn(messages: value) {
+                if strongSelf.meetingsEnabled, let meeting = strongSelf.firstMeetingIn(messages: value) {
                     strongSelf.updateMeetingsStatusAfterReceiving(message: meeting)
                 }
                 strongSelf.messagesDidFinishRefreshing.value = true
@@ -1351,7 +1354,7 @@ extension ChatViewModel {
                     strongSelf.isLastPage = true
                 }
                 strongSelf.updateMessages(newMessages: value, isFirstPage: false)
-                if let meeting = strongSelf.firstMeetingIn(messages: value) {
+                if strongSelf.meetingsEnabled, let meeting = strongSelf.firstMeetingIn(messages: value) {
                     strongSelf.updateMeetingsStatusAfterReceiving(message: meeting)
                 }
                 strongSelf.messagesDidFinishRefreshing.value = true
@@ -1887,8 +1890,8 @@ extension ChatViewModel {
 
 extension ChatViewModel: MeetingAssistantDataDelegate {
     func sendMeeting(meeting: AssistantMeeting) {
-        markAllPreviousRequestedMeetingsAsRejected()
         sendMeetingMessage(meeting: meeting)
+        markAllPreviousRequestedMeetingsAsRejected()
     }
 }
 
@@ -1897,14 +1900,21 @@ extension ChatViewModel: MeetingAssistantDataDelegate {
 extension ChatViewModel {
 
     func acceptMeeting() {
-        // 🦄 UPdate last meeting as accepted and all the others as rejected/canceled?
-        let acceptedMeeting = AssistantMeeting(meetingType: .accepted, date: nil, locationName: nil, coordinates: nil, status: .accepted)
+        let acceptedMeeting = AssistantMeeting(meetingType: .accepted,
+                                               date: nil,
+                                               locationName: nil,
+                                               coordinates: nil,
+                                               status: .accepted)
         sendMeetingMessage(meeting: acceptedMeeting)
         markAsAcceptedLastMeetingAndRejectOthers()
     }
 
     func rejectMeeting() {
-        let rejectedMeeting = AssistantMeeting(meetingType: .rejected, date: nil, locationName: nil, coordinates: nil, status: .rejected)
+        let rejectedMeeting = AssistantMeeting(meetingType: .rejected,
+                                               date: nil,
+                                               locationName: nil,
+                                               coordinates: nil,
+                                               status: .rejected)
         sendMeetingMessage(meeting: rejectedMeeting)
         markAllPreviousRequestedMeetingsAsRejected()
     }

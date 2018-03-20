@@ -77,7 +77,8 @@ class ListingCreationViewModel : BaseViewModel {
                                                      pictureSource: trackingInfo.imageSource,
                                                      freePostingModeAllowed: featureFlags.freePostingModeAllowed,
                                                      typePage: trackingInfo.typePage,
-                                                     mostSearchedButton: trackingInfo.mostSearchedButton)
+                                                     mostSearchedButton: trackingInfo.mostSearchedButton,
+                                                     machineLearningTrackingInfo: trackingInfo.machineLearningInfo)
         
         tracker.trackEvent(event)
         

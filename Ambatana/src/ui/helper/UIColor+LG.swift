@@ -79,14 +79,16 @@ extension UIColor {
 
 extension UIColor {
     // Solid Grays
-    static var lgBlack: UIColor { return UIColor(rgb: 0x2c2c2c) }
-    static var grayDark: UIColor { return UIColor(rgb: 0x757575) }
-    static var gray: UIColor { return UIColor(rgb: 0xbdbdbd) }
-    static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) }
-    static var grayLighter: UIColor { return UIColor(rgb: 0xede9e9) }
-    static var grayBackground: UIColor { return UIColor(rgb: 0xF7F3F3) }
+    static var lgBlack: UIColor { return UIColor(rgb: 0x2c2c2c) } // (44,44,44)
+    static var grayDark: UIColor { return UIColor(rgb: 0x757575) } // (117,117,117)
+    static var gray: UIColor { return UIColor(rgb: 0xbdbdbd) } // (189,189,189)
+    static var grayLight: UIColor { return UIColor(rgb: 0xdddddd) } // (221,221,221)
+    static var grayLighter: UIColor { return UIColor(rgb: 0xede9e9) } // (237,233,233)
+    static var grayBackground: UIColor { return UIColor(rgb: 0xF7F3F3) } // (247,143,243)
+
 
     // Alpha grays
+
     fileprivate static let blackAlpha80 = black.withAlphaComponent(0.8)
     fileprivate static let blackAlpha50 = black.withAlphaComponent(0.5)
     fileprivate static let blackAlpha30 = black.withAlphaComponent(0.3)

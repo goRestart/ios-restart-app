@@ -892,8 +892,7 @@ extension EditListingViewModel {
     fileprivate func setupCategories() {
         categoryRepository.index(servicesIncluded: featureFlags.servicesCategoryEnabled.isActive,
                                  carsIncluded: true,
-                                 realEstateIncluded: featureFlags.realEstateEnabled.isActive,
-                                 highlightRealEstate: featureFlags.realEstatePromos.isActive) { [weak self] result in
+                                 realEstateIncluded: featureFlags.realEstateEnabled.isActive) { [weak self] result in
                                     
             guard let categories = result.value else { return }
             self?.categories = categories

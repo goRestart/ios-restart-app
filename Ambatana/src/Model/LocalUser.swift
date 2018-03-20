@@ -26,6 +26,8 @@ struct LocalUser: User, UserListing {
 
     let phone: String?
     let type: UserType
+    var biography: String?
+
 
     init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, status: UserStatus, isDummy: Bool, banned: Bool?, phone: String?, type: UserType?) {
         self.objectId = objectId
