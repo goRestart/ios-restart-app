@@ -209,7 +209,8 @@ fileprivate extension FilteredListingListRequester {
         params.queryString = queryString
         params.countryCode = countryCode
         params.abtest = featureFlags.searchImprovements.stringValue
-
+        params.relaxParam = featureFlags.relaxedSearch.relaxParam
+        
         params.populate(with: filters)
        
         return params
@@ -301,6 +302,21 @@ extension SearchImprovements {
             return "disc554-c"
         case .boostingDistAndFreshness:
             return "disc554-d"
+        }
+    }
+}
+
+private extension RelaxedSearch {
+    var relaxParam: RelaxParam? {
+        switch self {
+        case .control, .baseline:
+            return nil
+        default:
+            let isRelaxQuery = self == .relaxedQuery
+            let includeOriginalQuery = self == .relaxedQueryORFallback
+            return RelaxParam(numberOfRelaxedQueries: 1,
+                              generateRelaxedQuery: isRelaxQuery,
+                              includeOrInOriginalQuery: includeOriginalQuery)
         }
     }
 }

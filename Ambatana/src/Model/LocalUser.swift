@@ -9,7 +9,7 @@
 import LGCoreKit
 
 struct LocalUser: User, UserListing {
-
+    let biography: String? = "" // To be changed after User Biography implementation
 
     let objectId: String?
     let name: String?

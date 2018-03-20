@@ -146,6 +146,11 @@
         "description": "Search improvements related to multi word, boosting distance, score and freshness"
     },
     {
+        "name": "RelaxedSearch",
+        "values": ["control", "baseline", "RelaxedQuery", "RelaxedQueryORFallback"],
+        "description": "Search improvements with relaxed queries"
+    },
+    {
         "name": "ShowChatSafetyTips",
         "values": ["no","yes"],
         "description": "Show chat safety tips to new users"

@@ -58,6 +58,7 @@ protocol FeatureFlaggeable: class {
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
     var searchImprovements: SearchImprovements { get }
+    var relaxedSearch: RelaxedSearch { get }
     var showChatSafetyTips: Bool { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var discardedProducts: DiscardedProducts { get }
@@ -502,6 +503,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.searchImprovements
         }
         return SearchImprovements.fromPosition(abTests.searchImprovements.value)
+    }
+    
+    var relaxedSearch: RelaxedSearch {
+        if Bumper.enabled {
+            return Bumper.relaxedSearch
+        }
+        return RelaxedSearch.fromPosition(abTests.relaxedSearch.value)
     }
     
     var onboardingIncentivizePosting: OnboardingIncentivizePosting {

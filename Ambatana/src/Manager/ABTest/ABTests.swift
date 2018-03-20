@@ -62,6 +62,8 @@ class ABTests {
     let showProTagUserProfile = BoolABDynamicVar(key: "20180319ShowProTagUserProfile", defaultValue: false, abGroupType: .money)
     let realEstateTutorial = IntABDynamicVar(key: "20180309RealEstateTutorial", defaultValue: 0, abGroupType: .realEstate)
     let summaryAsFirstStep = IntABDynamicVar(key: "20180320SummaryAsFirstStep", defaultValue: 0, abGroupType: .realEstate)
+    let relaxedSearch = IntABDynamicVar(key: "20180319RelaxedSearch", defaultValue: 0, abGroupType: .core)
+
     init() {
     }
     
@@ -114,7 +116,8 @@ class ABTests {
         result.append(showProTagUserProfile)
         result.append(realEstateTutorial)
         result.append(summaryAsFirstStep)
-
+        result.append(relaxedSearch)
+        
         return result
     }
 

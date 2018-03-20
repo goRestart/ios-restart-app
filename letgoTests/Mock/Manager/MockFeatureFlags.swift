@@ -51,6 +51,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newUserProfileView: NewUserProfileView = .control
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
     var searchImprovements: SearchImprovements = .control
+    var relaxedSearch: RelaxedSearch = .control
     var showChatSafetyTips: Bool = false
     var discardedProducts: DiscardedProducts = .control
     var promoteBumpInEdit: PromoteBumpInEdit = .control
