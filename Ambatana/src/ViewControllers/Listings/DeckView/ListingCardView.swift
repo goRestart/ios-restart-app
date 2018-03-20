@@ -160,7 +160,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     }
 
     func hideFullMap() {
-        self.detailsView.detailMapView.hideMap(animated: true)
+        detailsView.detailMapView.hideMap(animated: true)
         deactivateFullMap()
         UIView.animate(withDuration: 0.3) {
             self.userView.alpha = 1
@@ -318,28 +318,35 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         NSLayoutConstraint.activate(userViewScrollingConstraints)
     }
 
-    func setVerticalContentInset(_ inset: CGFloat, animated: Bool) {
-        let insetWithUser = inset - DeviceFamily.insetCorrection
-
+    func updateVerticalContentInset(animated: Bool) {
+        let insetWithUser = contentView.height - DeviceFamily.insetCorrection
         if animated {
             layoutVerticalContentInset(animated: animated)
         } else if verticalInset != insetWithUser {
             verticalInset = insetWithUser
-            layoutVerticalContentInset(animated: false)
+            layoutVerticalContentInset(animated: animated)
         }
 
     }
 
     func layoutVerticalContentInset(animated: Bool) {
-        let inset = UIEdgeInsets(top: verticalInset, left: 0, bottom: 0, right: 0)
-        scrollView.contentInset = inset
-        if animated {
-            UIView.animate(withDuration: 0.3) {
-                self.scrollView.setContentOffset(CGPoint(x: 0, y: -inset.top), animated: animated)
-            }
-        } else {
-            scrollView.contentOffset = CGPoint(x: 0, y: -inset.top)
+        updateTopInset(verticalInset)
+        let duration: TimeInterval = animated ? 0.3 : 0
+        let inset = -verticalInset
+        UIView.animate(withDuration: duration) {
+            self.scrollView.setContentOffset(CGPoint(x: 0, y: inset), animated: animated)
         }
+    }
+
+    private func updateTopInset(_ inset: CGFloat) {
+        let inset = UIEdgeInsets(top: inset, left: 0, bottom: 0, right: 0)
+        scrollView.contentInset = inset
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        guard scrollView.contentInset.top != contentView.height - DeviceFamily.insetCorrection else { return }
+        updateTopInset(contentView.height - DeviceFamily.insetCorrection)
     }
 
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
@@ -353,24 +360,26 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y >= -Layout.stickyHeaderThreadshold  {
-           setStickyHeaderOn()
+            setStickyHeaderOn()
         } else {
             setStickyHeaderOff()
-            if scrollView.contentOffset.y <= -scrollView.contentInset.top {
-                let scaleRatio = (-scrollView.contentOffset.y / scrollView.contentInset.top) * 1.2
-                previewImageView.transform = CGAffineTransform.identity.scaledBy(x: scaleRatio, y: scaleRatio)
-                bottomBackgroundHeight?.constant = 0
-            } else if scrollView.contentInset.top != 0
+        }
+        if scrollView.contentOffset.y <= -scrollView.contentInset.top {
+            let scaleRatio = (-scrollView.contentOffset.y / scrollView.contentInset.top) * 1.2
+            previewImageView.transform = CGAffineTransform.identity.scaledBy(x: scaleRatio, y: scaleRatio)
+            bottomBackgroundHeight?.constant = 0
+        } else {
+            if scrollView.contentInset.top != 0
                 && -scrollView.contentOffset.y / scrollView.contentInset.top < 0.7 {
                 let ratio = -scrollView.contentOffset.y / scrollView.contentInset.top / 0.7
                 updateCount(alpha: ratio)
                 if detailsViewFullyVisible {
                     delegate?.didShowMoreInfo()
                 }
-                let diff = scrollView.contentOffset.y - fullDetailsOffset
-                bottomBackgroundHeight?.constant = contentView.bounds.height - previewImageView.bounds.height + max(0, diff)
-                whiteGradient.alpha = abs(scrollView.contentOffset.y / scrollView.contentInset.top)
-            }   
+            }
+            let diff = scrollView.contentOffset.y - fullDetailsOffset
+            bottomBackgroundHeight?.constant = contentView.bounds.height - previewImageView.bounds.height + max(0, diff)
+            whiteGradient.alpha = abs(scrollView.contentOffset.y / scrollView.contentInset.top)
         }
         detailsView.isUserInteractionEnabled = abs(scrollView.contentOffset.y) < detailsThreshold
     }
@@ -459,6 +468,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
             }
         }
     }
+    
 }
 
 extension ListingCardView: ListingDeckViewControllerBinderCellType {
