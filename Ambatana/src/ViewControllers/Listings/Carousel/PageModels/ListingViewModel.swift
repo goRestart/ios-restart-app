@@ -489,7 +489,7 @@ class ListingViewModel: BaseViewModel {
             }
             bannerInteractionBlock = freeBlock
             buttonBlock = freeBlock
-        case .priced:
+        case .priced, .boost:
             guard let paymentItemId = paymentItemId else { return }
             bannerInteractionBlock = { [weak self] in
                 guard let _ = self?.listing.value else { return }
@@ -540,39 +540,12 @@ class ListingViewModel: BaseViewModel {
             buttonBlock = hiddenBlock
         }
 
-
-        let bannerShouldShowProgressBar = featureFlags.bumpUpBoost.isActive // && timeSinceLastBump > 0 ???? 🦄
         bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType,
                                             timeSinceLastBump: timeSinceLastBump,
                                             maxCountdown: bumpMaxCountdown,
                                             price: withPrice,
                                             bannerInteractionBlock: bannerInteractionBlock,
-                                            buttonBlock: buttonBlock,
-                                            boostEnabled: boostIsEnabled,
-                                            shouldShowProgressBar: bannerShouldShowProgressBar)
-
-//        🦄
-//        if boostIsEnabledFor(listingId: listingId) {
-//            switch featureFlags.bumpUpBoost {
-//            case .control, .baseline:
-//
-//            case .sendTop5Mins:
-//                break
-//            case .sendTop1hour:
-//                break
-//            case .boostListing1hour:
-//                break
-//            case .cheaperBoost5Mins:
-//                break
-//            }
-//        } else {
-//            bumpUpBannerInfo.value = BumpUpInfo(type: bumpUpType,
-//                                                timeSinceLastBump: timeSinceLastBump,
-//                                                maxCountdown: bumpMaxCountdown,
-//                                                price: withPrice,
-//                                                bannerInteractionBlock: bannerInteractionBlock,
-//                                                buttonBlock: buttonBlock)
-//        }
+                                            buttonBlock: buttonBlock)
     }
 
     func bumpUpHiddenProductContactUs() {
@@ -587,7 +560,7 @@ class ListingViewModel: BaseViewModel {
                         typePage: EventParameterTypePage?) {
         self.bumpUpSource = bumpUpSource
         switch bumpUpType {
-        case .priced:
+        case .priced, .boost:
             guard bumpUpProductData.hasPaymentId else { return }
             openPricedBumpUpView(bumpUpProductData: bumpUpProductData,
                                  typePage: typePage)
@@ -603,7 +576,7 @@ class ListingViewModel: BaseViewModel {
                                  typePage: typePage)
     }
 
-    private var boostIsEnabled: Bool {
+    private var listingCanBeBoosted: Bool {
         switch featureFlags.bumpUpBoost {
         case .control, .baseline:
             return false
@@ -612,6 +585,10 @@ class ListingViewModel: BaseViewModel {
         case .sendTop1hour, .boostListing1hour:
             return timeSinceLastBump > Constants.oneHourTimeLimit
         }
+    }
+
+    private var listingHasBumpInProgress: Bool {
+        return timeSinceLastBump > 0
     }
 }
 
@@ -1235,7 +1212,16 @@ extension ListingViewModel: BumpInfoRequesterDelegate {
         guard let purchase = products.first else { return }
 
         bumpUpPurchaseableProduct = purchase
-        let bumpUpType: BumpUpType = userIsSoftBlocked ? .hidden : .priced
+
+        let bumpUpType: BumpUpType
+        if userIsSoftBlocked {
+            bumpUpType = .hidden
+        } else if featureFlags.bumpUpBoost.isActive && listingHasBumpInProgress {
+            bumpUpType = .boost(boostBannerVisible: listingCanBeBoosted)
+        } else {
+            bumpUpType = .priced
+        }
+
         createBumpeableBanner(forListingId: requestProdId,
                               withPrice: bumpUpPurchaseableProduct?.formattedCurrencyPrice,
                               paymentItemId: paymentItemId,

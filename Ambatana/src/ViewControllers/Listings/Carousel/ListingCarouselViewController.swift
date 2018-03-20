@@ -50,6 +50,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
 
     @IBOutlet weak var bannerContainer: UIView!
     @IBOutlet weak var bannerContainerBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bannerContainerHeightConstraint: NSLayoutConstraint!
 
     fileprivate let userView: UserView
     fileprivate let fullScreenAvatarEffectView: UIVisualEffectView
@@ -86,6 +87,12 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
             bannerContainerBottomConstraint?.constant = contentBottomMargin + bannerBottom
         }
     }
+    fileprivate var bannerHeight: CGFloat = CarouselUI.bannerHeight {
+        didSet {
+            bannerContainerHeightConstraint?.constant = bannerHeight
+        }
+    }
+
 
     fileprivate let pageControl: UIPageControl
     fileprivate var moreInfoTooltip: Tooltip?
@@ -1243,9 +1250,19 @@ extension ListingCarouselViewController {
         bumpUpBannerIsVisible = true
         bannerContainer.isHidden = false
         bumpUpBanner.updateInfo(info: bumpInfo)
+
+        let bannerTotalHeight: CGFloat
+        switch bumpInfo.type {
+        case .boost(let boostBannerVisible):
+            bannerTotalHeight = boostBannerVisible ? CarouselUI.bannerHeight*2 : CarouselUI.bannerHeight
+        case .free, .hidden, .priced, .restore:
+            bannerTotalHeight = CarouselUI.bannerHeight
+        }
+
         delay(0.1) { [weak self] in
             guard let visible = self?.bumpUpBannerIsVisible, visible else { return }
             self?.bannerBottom = 0
+            self?.bannerHeight = bannerTotalHeight
             UIView.animate(withDuration: 0.3, animations: {
                 self?.view.layoutIfNeeded()
             })
@@ -1255,7 +1272,7 @@ extension ListingCarouselViewController {
     func closeBumpUpBanner() {
         guard bumpUpBannerIsVisible else { return }
         bumpUpBannerIsVisible = false
-        bannerBottom = -CarouselUI.bannerHeight
+        bannerBottom = -bannerHeight
         bumpUpBanner.stopCountdown()
         bannerContainer.isHidden = true
     }

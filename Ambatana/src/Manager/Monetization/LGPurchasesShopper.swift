@@ -400,7 +400,7 @@ class LGPurchasesShopper: NSObject, PurchasesShopper {
         var bump = currentBump
         let retryCount: Int
         switch type {
-        case .priced:
+        case .priced, .boost:
             retryCount = Constants.maxRetriesForFirstTimeBumpUp
         case .restore:
             retryCount = 1
