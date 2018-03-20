@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "Behandler...";
 "bump_up_processing_priced_text" = "Prosesserer betaling...";
 "bump_up_product_cell_chat_now_button" = "Chat nå";
+"bump_up_product_cell_chat_now_button_a" = "Chat nå";
+"bump_up_product_cell_chat_now_button_b" = "Chat nå";
+"bump_up_product_cell_chat_now_button_c" = "Chat nå";
+"bump_up_product_cell_chat_now_button_d" = "Chat nå";
 "bump_up_product_cell_featured_stripe" = "Aktuelle";
 "bump_up_product_detail_featured_label" = "AKTUELLE";
 "bump_up_view_free_subtitle" = "Jo mere du deler, desto mer synlig blir din annonse.";
@@ -66,7 +70,8 @@
 "categories_title" = "Kategorier";
 "categories_unassigned" = "Ikke valgt";
 "categories_unassigned_items" = "Andre produkter";
-"change_bio_placeholder" = "Legg til biografi som forklarer hvem du er. Del hva du er interessert i eller noe morsomt om deg selv";
+"change_bio_error_message" = "En feil oppstod ved lagring av din biografi. Vennligst sørg for å ikke inkludere kontaktinformasjon.";
+"change_bio_placeholder" = "Legg til biografi som forklarer hvem du er. Del hva du er interessert i eller noe morsomt om deg selv.";
 "change_bio_save_button" = "Lagre";
 "change_bio_title" = "Om meg";
 "change_email_current_email_label" = "NÅVÆRENDE E-POSTADRESSE:";
@@ -342,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Ikke valgt";
 "filters_real_estate_offer_type_not_set" = "Ikke valgt";
 "filters_real_estate_property_type_not_set" = "Ikke valgt";
+"filters_real_estate_size_from_feed_filter_cell" = "Fra";
+"filters_real_estate_size_to_feed_filter_cell" = "Til";
 "filters_save_button" = "Lagre filtre";
 "filters_section_car_info" = "Bilinfo";
 "filters_section_categories" = "Kategorier";
@@ -418,6 +425,17 @@
 "main_sign_up_terms_conditions" = "Ved å registrere deg eller logge deg inn, aksepterer du våre Vilkår & betingelser, samt våre Personvern";
 "main_sign_up_terms_conditions_privacy_part" = "Personvern";
 "main_sign_up_terms_conditions_terms_part" = "vilkår & betingelser";
+"ml_camera_in_about_days_text" = "i løpet av %.f dager";
+"ml_camera_in_more_than_days_text" = "i mer enn %.f dager";
+"ml_camera_sells_for_text" = "Selges vanligvis for %d,-";
+"ml_category_text" = "Kategori:";
+"ml_details_price_text" = "Pris:";
+"ml_details_suggested_details_text" = "FORESLÅTTE DETALJER";
+"ml_details_title_text" = "Tittel:";
+"ml_onboarding_description_text" = "Vis meg et produkt og jeg vil fortelle deg hvor mye du kan tjene";
+"ml_onboarding_new_text" = "NYHET!";
+"ml_onboarding_ok_text" = "Ok";
+"mopub_advertising_text" = "Annonse";
 "notifications_empty_subtitle" = "Publiser noe for salg for å få i gang aktiviteten her";
 "notifications_empty_title" = "INGEN VARSLINGER (ENDA!)";
 "notifications_permissions_1_push" = "Ida: Jeg er veldig interessert i din mobil. Kan du la den gå for 900,-?";
@@ -635,7 +653,8 @@
 "product_post_gallery_permissions_button" = "Tillat";
 "product_post_gallery_permissions_subtitle" = "Du må tillate tilgang til bilder for å kunne velge et eksisterende bilde";
 "product_post_gallery_permissions_title" = "Tillat tilgang til bilder";
-"product_post_gallery_select_pictures_subtitle" = "Velg opp til fem bilder å laste opp";
+"product_post_gallery_select_pictures_subtitle" = "Velg opp til 5 bilder å laste opp";
+"product_post_gallery_select_pictures_subtitle_params" = "Velg opp til %d bilder å laste opp";
 "product_post_gallery_select_pictures_title" = "Velg bilder";
 "product_post_gallery_tab" = "BIBLIOTEK";
 "product_post_generic_error" = "En feil oppstod ved publisering av din annonse.";
@@ -818,7 +837,8 @@
 "real_estate_current_step_of_total" = "%d av %d";
 "real_estate_empty_state_search_subtitle" = "Vær den første til å publisere for salg / utleie i ditt område eller sjekk igjen snart!";
 "real_estate_empty_state_search_title" = "OOPS! INGEN EIENDOMMER PUBLISERT I DITT NÆROMRÅDE";
-"real_estate_gallery_view_subtitle" = "Velg opp til fem bilder av boligen du ønsker å selge eller leie ut";
+"real_estate_gallery_view_subtitle" = "Velg opp til 5 bilder av boligen du ønsker å selge eller leie ut";
+"real_estate_gallery_view_subtitle_params" = "Velg opp til %d bilder av boligen du ønsker å selge eller leie ut";
 "real_estate_location_notification_message" = "Vi viser aldri din nøyaktige plassering til andre brukere";
 "real_estate_location_title" = "Sted";
 "real_estate_offer_type_rent" = "Til utleie";

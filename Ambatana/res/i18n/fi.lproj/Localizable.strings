@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "Käsitellään...";
 "bump_up_processing_priced_text" = "Käsitellään maksua...";
 "bump_up_product_cell_chat_now_button" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_a" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_b" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_c" = "Lähetä viestiä nyt";
+"bump_up_product_cell_chat_now_button_d" = "Lähetä viestiä nyt";
 "bump_up_product_cell_featured_stripe" = "Suositeltu";
 "bump_up_product_detail_featured_label" = "SUOSITELTU";
 "bump_up_view_free_subtitle" = "Mitä enemmän jaat, sitä enemmän näkyvyyttä tuotteesi saa.";
@@ -66,7 +70,8 @@
 "categories_title" = "Kategoriat";
 "categories_unassigned" = "Ei valittu";
 "categories_unassigned_items" = "Muut tuotteet";
-"change_bio_placeholder" = "Lisää biografia, joka kertoo sinusta. Jaa kiinnostuksen kohteesi tai hauskoja faktoja itsestäsi";
+"change_bio_error_message" = "Biografiaasi tallennettaessa tapahtui virhe. Varmista, että biografia ei sisällä yhteystietoja.";
+"change_bio_placeholder" = "Lisää biografia, joka kertoo sinusta. Jaa kiinnostuksen kohteesi tai hauskoja faktoja itsestäsi.";
 "change_bio_save_button" = "Tallenna";
 "change_bio_title" = "Minusta";
 "change_email_current_email_label" = "NYKYINEN SÄHKÖPOSTI:";
@@ -342,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Ei määritetty";
 "filters_real_estate_offer_type_not_set" = "Ei määritetty";
 "filters_real_estate_property_type_not_set" = "Ei määritetty";
+"filters_real_estate_size_from_feed_filter_cell" = "Alkaen";
+"filters_real_estate_size_to_feed_filter_cell" = "Päättyen";
 "filters_save_button" = "Tallenna suodattimet";
 "filters_section_car_info" = "Auton tiedot";
 "filters_section_categories" = "Kategoriat";
@@ -418,6 +425,17 @@
 "main_sign_up_terms_conditions" = "Rekisteröitymällä tai kirjautumalla sisään hyväksyt Käyttöehtomme ja Yksityisyyskäytäntömme";
 "main_sign_up_terms_conditions_privacy_part" = "Yksityisyyskäytäntömme";
 "main_sign_up_terms_conditions_terms_part" = "Käyttöehtomme";
+"ml_camera_in_about_days_text" = "noin %.f päivässä";
+"ml_camera_in_more_than_days_text" = "yli %.f päivässä";
+"ml_camera_sells_for_text" = "Myydään yleensä hintaan %d €";
+"ml_category_text" = "Kategoria:";
+"ml_details_price_text" = "Hinta:";
+"ml_details_suggested_details_text" = "EHDOTETUT TIEDOT";
+"ml_details_title_text" = "Otsikko:";
+"ml_onboarding_description_text" = "Näytä minulle kohde ja kerron, paljonko tienaat";
+"ml_onboarding_new_text" = "UUSI!";
+"ml_onboarding_ok_text" = "OK";
+"mopub_advertising_text" = "Mainos";
 "notifications_empty_subtitle" = "Julkaise jotakin myytäväksi, jotta täällä alkaa tapahtua";
 "notifications_empty_title" = "EI ILMOITUKSIA (VIELÄ!)";
 "notifications_permissions_1_push" = "Liisa: Olen todella kiinnostunut puhelimestasi. Myytkö sen 100 eurolla?";
@@ -636,6 +654,7 @@
 "product_post_gallery_permissions_subtitle" = "Valitaksesi olemassa olevan kuvan, sinun on annettava lupa käyttää Kuvia";
 "product_post_gallery_permissions_title" = "Anna lupa Kuvien käyttöön";
 "product_post_gallery_select_pictures_subtitle" = "Valitse enintään 5 kuvaa ladattavaksi";
+"product_post_gallery_select_pictures_subtitle_params" = "Valitse enintään %d kuvaa ladattavaksi";
 "product_post_gallery_select_pictures_title" = "Valitse kuvat";
 "product_post_gallery_tab" = "KIRJASTO";
 "product_post_generic_error" = "Ilmoitustasi julkaistessa tapahtui virhe.";
@@ -819,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Julkaise ensimmäisenä kiinteistö myytäväksi/vuokrattavaksi alueeltasi tai tule pian takaisin!";
 "real_estate_empty_state_search_title" = "HUPS! KIINTEISTÖJÄ EI OLE JULKAISTU LÄHELTÄSI";
 "real_estate_gallery_view_subtitle" = "Valitse korkeintaan 5 kuvaa kiinteistöstä, jonka haluat myydä tai vuokrata";
+"real_estate_gallery_view_subtitle_params" = "Valitse korkeintaan %d kuvaa kiinteistöstä, jonka haluat myydä tai vuokrata";
 "real_estate_location_notification_message" = "Emme koskaan näytä tarkkaa sijaintiasi muille käyttäjille";
 "real_estate_location_title" = "Sijainti";
 "real_estate_offer_type_rent" = "Vuokrataan";

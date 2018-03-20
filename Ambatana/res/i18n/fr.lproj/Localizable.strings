@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "En traitement...";
 "bump_up_processing_priced_text" = "Paiement en cours...";
 "bump_up_product_cell_chat_now_button" = "Chattez";
+"bump_up_product_cell_chat_now_button_a" = "Chattez";
+"bump_up_product_cell_chat_now_button_b" = "Chattez";
+"bump_up_product_cell_chat_now_button_c" = "Chattez";
+"bump_up_product_cell_chat_now_button_d" = "Chattez";
 "bump_up_product_cell_featured_stripe" = "Spécial";
 "bump_up_product_detail_featured_label" = "SPÉCIAL";
 "bump_up_view_free_subtitle" = "Plus vous partagez, plus votre annonce sera visible.";
@@ -66,7 +70,8 @@
 "categories_title" = "Catégories";
 "categories_unassigned" = "Non sélectionnée";
 "categories_unassigned_items" = "Autres biens";
-"change_bio_placeholder" = "Ajoutez une bio qui décrit qui vous êtes. Partagez vos centres d'intérêt ou un fait amusant à propos de vous";
+"change_bio_error_message" = "Une erreur est survenue lors de la sauvegarde de votre bio. Veuillez vous assurer qu'elle ne comporte aucune coordonnée personnelle.";
+"change_bio_placeholder" = "Ajoutez une bio qui décrit qui vous êtes. Partagez vos centres d'intérêt ou un fait amusant à propos de vous.";
 "change_bio_save_button" = "Sauver";
 "change_bio_title" = "À propos de moi";
 "change_email_current_email_label" = "EMAIL ACTUEL :";
@@ -342,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Aucun";
 "filters_real_estate_offer_type_not_set" = "Aucun";
 "filters_real_estate_property_type_not_set" = "Aucun";
+"filters_real_estate_size_from_feed_filter_cell" = "De";
+"filters_real_estate_size_to_feed_filter_cell" = "À";
 "filters_save_button" = "Sauvegarder les filtres";
 "filters_section_car_info" = "Informations sur la voiture";
 "filters_section_categories" = "Catégories";
@@ -418,6 +425,17 @@
 "main_sign_up_terms_conditions" = "En vous inscrivant ou vous connectant, vous acceptez nos Conditions d'Utilisation et Politique de Confidentialité";
 "main_sign_up_terms_conditions_privacy_part" = "Politique de Confidentialité";
 "main_sign_up_terms_conditions_terms_part" = "Conditions d'Utilisation";
+"ml_camera_in_about_days_text" = "en %.f jours environ";
+"ml_camera_in_more_than_days_text" = "en plus de %.f jours";
+"ml_camera_sells_for_text" = "Se vend généralement %d$";
+"ml_category_text" = "Catégorie :";
+"ml_details_price_text" = "Prix :";
+"ml_details_suggested_details_text" = "DÉTAILS SUGGÉRÉS";
+"ml_details_title_text" = "Titre :";
+"ml_onboarding_description_text" = "Montrez-moi un produit et je vous dirai combien vous allez gagner";
+"ml_onboarding_new_text" = "NOUVEAU !";
+"ml_onboarding_ok_text" = "OK";
+"mopub_advertising_text" = "Publicité";
 "notifications_empty_subtitle" = "Postez un bien à vendre pour que cette section s'anime un peu plus";
 "notifications_empty_title" = "PAS (ENCORE) DE NOTIFICATION";
 "notifications_permissions_1_push" = "Lucie : Je suis intéressée! Pouvez-vous me le laisser à 100€ ?";
@@ -512,9 +530,9 @@
 "post_description_name_placeholder" = "Nom";
 "post_description_save_button_text" = "Sauvegarder cette annonce !";
 "post_get_started_button_text" = "Commencez";
-"post_get_started_discard_text" = "You can discard it later if you don’t want to sell it.";
+"post_get_started_discard_text" = "Vous pouvez le retirer plus tard si vous ne voulez pas le vendre.";
 "post_get_started_intro_text" = "Découvrez comme il est facile de vendre sur letgo. Publiez quelque chose que vous avez à portée de main.";
-"post_get_started_welcome_letgo_text" = "Welcome to letgo";
+"post_get_started_welcome_letgo_text" = "Bienvenue sur letgo";
 "post_get_started_welcome_user_text" = "Bienvenue, %@!";
 "post_header_step_add_price" = "Ajouter un prix";
 "post_header_step_confirm_picture" = "Validez la photo";
@@ -636,6 +654,7 @@
 "product_post_gallery_permissions_subtitle" = "Pour choisir une photo existante, vous devez allouer l'accès aux Photos";
 "product_post_gallery_permissions_title" = "Permettre l'accès aux Photos";
 "product_post_gallery_select_pictures_subtitle" = "Sélectionnez jusqu'à 5 images à uploader";
+"product_post_gallery_select_pictures_subtitle_params" = "Sélectionnez jusqu'à %d images à uploader";
 "product_post_gallery_select_pictures_title" = "Choisir une photo";
 "product_post_gallery_tab" = "BIBLIOTHÈQUE";
 "product_post_generic_error" = "Une erreur est survenue lors de la publication de votre annonce.";
@@ -819,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Soyez le premier/la première à publier une propriété à vendre / louer dans votre secteur ou revenez vérifier prochainement !";
 "real_estate_empty_state_search_title" = "OUPS ! AUCUNE MAISON PUBLIÉE PRÈS DE CHEZ VOUS";
 "real_estate_gallery_view_subtitle" = "Sélectionnez jusqu'à 5 images de la propriété que vous voulez vendre ou louer";
+"real_estate_gallery_view_subtitle_params" = "Sélectionnez jusqu'à %d images de la propriété que vous voulez vendre ou louer";
 "real_estate_location_notification_message" = "Nous n'indiquons jamais votre localisation exacte aux autres utilisateurs";
 "real_estate_location_title" = "Lieu";
 "real_estate_offer_type_rent" = "À louer";

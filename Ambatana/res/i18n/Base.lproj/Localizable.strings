@@ -52,6 +52,12 @@
 // Text for bubble while waiting for next bump
 "bump_up_banner_wait_text" = "to feature again";
 
+// Text for bubble when boost is enabled
+"bump_up_banner_boost_text" = "Add an extra boost!";
+
+// Text for the timer progress view, this text is followed by the time left (e.g.: 2h 32m 15s)
+"bump_up_banner_boost_progress_title" = "Featured for the next";
+
 // Title for bubble button
 "bump_up_banner_free_button_title" = "Bump Up";
 
@@ -81,6 +87,18 @@
 
 // Featured product cell chat now button
 "bump_up_product_cell_chat_now_button" = "Chat Now";
+
+// Featured product cell chat now button variant A (only in turkish): Sohbet Et
+"bump_up_product_cell_chat_now_button_a" = "Chat Now";
+
+// Featured product cell chat now button variant B (only in turkish): Mesaj Gönder
+"bump_up_product_cell_chat_now_button_b" = "Chat Now";
+
+// Featured product cell chat now button variant C (only in turkish): Mesajlaş
+"bump_up_product_cell_chat_now_button_c" = "Chat Now";
+
+// Featured product cell chat now button variant D (only in turkish): İletişime Geç
+"bump_up_product_cell_chat_now_button_d" = "Chat Now";
 
 // Text for label in featured products detail
 "bump_up_product_detail_featured_label" = "FEATURED";
@@ -203,13 +221,16 @@
 "categories_super_keywords_inFeed_show_more" = "Show more";
 
 // Change Bio placeholder text
-"change_bio_placeholder" = "Add a bio that describes who you are. Share what you’re interested in or a fun fact about yourself";
+"change_bio_placeholder" = "Add a bio that describes who you are. Share what you’re interested in or a fun fact about yourself.";
 
 // Change Bio view title
 "change_bio_title" = "About me";
 
 // Change Bio save button title
 "change_bio_save_button" = "Save";
+
+// Change Bio error shown when new bio contains invalid info
+"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
 
 // Change location apply button. Check image @ "change_location_title" segment
 "change_location_apply_button" = "Set location";
@@ -1077,6 +1098,12 @@
 // Filters Nº of Bathrooms not set
 "filters_real_estate_bathrooms_not_set" = "Not set";
 
+// From price in the selected filter cell shown in feed
+"filters_real_estate_size_from_feed_filter_cell" = "From";
+
+// To price in the selected filter cell shown in feed
+"filters_real_estate_size_to_feed_filter_cell" = "To";
+
 // Selected location text when there is no postal address. 
 "filters_tag_location_selected" = "Selected location";
 
@@ -1195,6 +1222,36 @@
 // Login v2. Log in w email forgot password alert remember action
 "log_in_email_forgot_password_alert_remember_action" = "Send email";
 
+// machine learning MVP
+"ml_onboarding_new_text" = "NEW!";
+
+// machine learning MVP
+"ml_onboarding_description_text" = "Show me an item and I'll tell you how much you'll make";
+
+// machine learning MVP
+"ml_onboarding_ok_text" = "OK";
+
+// machine learning MVP
+"ml_camera_sells_for_text" = "Typically sells for $%d";
+
+// machine learning MVP
+"ml_camera_in_about_days_text" = "in about %.f days";
+
+// machine learning MVP
+"ml_camera_in_more_than_days_text" = "in more than %.f days";
+
+// machine learning MVP
+"ml_details_suggested_details_text" = "SUGGESTED DETAILS";
+
+// machine learning MVP
+"ml_details_title_text" = "Title:";
+
+// machine learning MVP
+"ml_details_price_text" = "Price:";
+
+// machine learning MVP
+"ml_category_text" = "Category:";
+
 // Login v2. Sign up w email step 1 title
 "sign_up_email_step1_title" = "Create a new account";
 
@@ -1272,6 +1329,9 @@
 
 // Navigation bar button 'Invite'' 
 "main_products_invite_navigation_bar_button" = "Invite";
+
+// MoPub advertising indicator "Ad"
+"mopub_advertising_text" = "Ad";
 
 // Subtitle text for empty notifications center
 "notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
@@ -1950,6 +2010,9 @@
 
 // Subtitle message to ask user to select a picture or more
 "product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
+
+// Subtitle message to ask user to select a picture or more with params
+"product_post_gallery_select_pictures_subtitle_params" = "Select up to %d images to upload";
 
 // Gallery tab on posting
 "product_post_gallery_tab" = "GALLERY";
@@ -2662,6 +2725,9 @@
 
 // Message inside gallery view to explain about picture selection on RE
 "real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
+
+// Message inside gallery view to explain about picture selection on RE
+"real_estate_gallery_view_subtitle_params" = "Select up to %d images of the property you want to sell or rent";
 
 // Message inside camera view to explain about picture selection on RE
 "real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";

@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "İşlem gerçekleştiriliyor...";
 "bump_up_processing_priced_text" = "Ödeme işlemi gerçekleştiriliyor...";
 "bump_up_product_cell_chat_now_button" = "Sohbet Et";
+"bump_up_product_cell_chat_now_button_a" = "Sohbet Et";
+"bump_up_product_cell_chat_now_button_b" = "Mesaj Gönder";
+"bump_up_product_cell_chat_now_button_c" = "Mesajlaş";
+"bump_up_product_cell_chat_now_button_d" = "İletişime Geç";
 "bump_up_product_cell_featured_stripe" = "Öne çıkan";
 "bump_up_product_detail_featured_label" = "ÖNE ÇIKAN";
 "bump_up_view_free_subtitle" = "Ne kadar çok paylaşırsan ürününü o kadar fazla kişi görür.";
@@ -66,6 +70,7 @@
 "categories_title" = "Kategoriler";
 "categories_unassigned" = "Seçilmedi";
 "categories_unassigned_items" = "Diğer eşyalar";
+"change_bio_error_message" = "Biyografin kaydedilirken bir hata oluştu. Lütfen iletişim bilginin yer almadığından emin ol.";
 "change_bio_placeholder" = "Kim olduğunu belirten bir biyografi ekle. Nelerle ilgilendiğini veya kendin hakkında ilginç bir bilgiyi paylaş.";
 "change_bio_save_button" = "Kaydet";
 "change_bio_title" = "Hakkımda";
@@ -342,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Belirlenmedi";
 "filters_real_estate_offer_type_not_set" = "Belirlenmedi";
 "filters_real_estate_property_type_not_set" = "Belirlenmedi";
+"filters_real_estate_size_from_feed_filter_cell" = "Min";
+"filters_real_estate_size_to_feed_filter_cell" = "Max";
 "filters_save_button" = "Filtreleri Kaydet";
 "filters_section_car_info" = "Araç detayları";
 "filters_section_categories" = "KATEGORİLER";
@@ -418,6 +425,17 @@
 "main_sign_up_terms_conditions" = "Kaydolarak veya giriş yaparak Şartlar ve Koşullar & Gizlilik Politikasını kabul etmiş olursun.";
 "main_sign_up_terms_conditions_privacy_part" = "Gizlilik Politikasını";
 "main_sign_up_terms_conditions_terms_part" = "Şartlar ve Koşullar";
+"ml_camera_in_about_days_text" = "Yaklaşık %.f günde";
+"ml_camera_in_more_than_days_text" = "%.f günden fazla";
+"ml_camera_sells_for_text" = "Genellikle %d ₺'den satılıyor";
+"ml_category_text" = "Kategori:";
+"ml_details_price_text" = "Fiyat:";
+"ml_details_suggested_details_text" = "ÖNERİLEN DETAYLAR";
+"ml_details_title_text" = "Başlık:";
+"ml_onboarding_description_text" = "Bana bir ürün göster sana kaç para kazanacağını söyleyeyim";
+"ml_onboarding_new_text" = "YENİ!";
+"ml_onboarding_ok_text" = "OK";
+"mopub_advertising_text" = "Reklam";
 "notifications_empty_subtitle" = "Burada bir hareketlenme görmek için yeni bir ürün satışa çıkar";
 "notifications_empty_title" = "(HENÜZ!) BİLDİRİM YOK";
 "notifications_permissions_1_push" = "Ayşenur: Telefonu beğendim. 150'ye bırakır mısın?";
@@ -636,6 +654,7 @@
 "product_post_gallery_permissions_subtitle" = "Mevcut bir fotoğrafı seçmek için, Resimlerine erişime izin vermelisin";
 "product_post_gallery_permissions_title" = "Fotoğraflara erişime izin ver";
 "product_post_gallery_select_pictures_subtitle" = "5 görsele kadar seçip yükle";
+"product_post_gallery_select_pictures_subtitle_params" = "%d görsele kadar seçip yükle";
 "product_post_gallery_select_pictures_title" = "Fotoğrafları seç";
 "product_post_gallery_tab" = "KÜTÜPHANE";
 "product_post_generic_error" = "İlanın yüklenirken bir hata oluştu.";
@@ -819,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Çevrende satılık / kiralık emlak ilanı yayınlayan ilk sen ol veya sonra tekrar göz at!";
 "real_estate_empty_state_search_title" = "OOPS! ÇEVRENDE YAYINLANMIŞ EMLAK İLANI BULUNMUYOR";
 "real_estate_gallery_view_subtitle" = "Satmak ya da kiralamak istediğin emlak için 5 adete kadar fotoğraf seçebilirsin";
+"real_estate_gallery_view_subtitle_params" = "Satmak ya da kiralamak istediğin emlak için %d adete kadar fotoğraf seçebilirsin";
 "real_estate_location_notification_message" = "Açık adresini diğer kullanıcılara asla göstermeyeceğiz";
 "real_estate_location_title" = "Konum";
 "real_estate_offer_type_rent" = "Kiralık";

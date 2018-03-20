@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "A processar...";
 "bump_up_processing_priced_text" = "A processar o pagamento...";
 "bump_up_product_cell_chat_now_button" = "Converse já";
+"bump_up_product_cell_chat_now_button_a" = "Converse já";
+"bump_up_product_cell_chat_now_button_b" = "Converse já";
+"bump_up_product_cell_chat_now_button_c" = "Converse já";
+"bump_up_product_cell_chat_now_button_d" = "Converse já";
 "bump_up_product_cell_featured_stripe" = "Destacado";
 "bump_up_product_detail_featured_label" = "DESTACADO";
 "bump_up_view_free_subtitle" = "Quanto mais partilhar mais visibilidade a sua publicação terá.";
@@ -66,7 +70,8 @@
 "categories_title" = "Categorias";
 "categories_unassigned" = "Não selecionada";
 "categories_unassigned_items" = "Outros itens";
-"change_bio_placeholder" = "Adicione uma biografia que descreva quem é. Partilhe aquilo que lhe interessa ou um facto divertido sobre si";
+"change_bio_error_message" = "Surgiu um erro ao guardar a sua biografia. Assegure-se de que não inclui dados de contacto.";
+"change_bio_placeholder" = "Adicione uma biografia que descreva quem é. Partilhe aquilo que lhe interessa ou um facto divertido sobre si.";
 "change_bio_save_button" = "Guardar";
 "change_bio_title" = "Sobre mim";
 "change_email_current_email_label" = "EMAIL ATUAL";
@@ -342,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Não definido";
 "filters_real_estate_offer_type_not_set" = "Não definido";
 "filters_real_estate_property_type_not_set" = "Não definido";
+"filters_real_estate_size_from_feed_filter_cell" = "De";
+"filters_real_estate_size_to_feed_filter_cell" = "E";
 "filters_save_button" = "Guardar filtros";
 "filters_section_car_info" = "Dados do carro";
 "filters_section_categories" = "Categorias";
@@ -418,6 +425,17 @@
 "main_sign_up_terms_conditions" = "Ao se inscrever ou efetuar o login concorda com os nossos Termos & Condições e Política de Privacidade";
 "main_sign_up_terms_conditions_privacy_part" = "Política de Privacidade";
 "main_sign_up_terms_conditions_terms_part" = "Termos & Condições";
+"ml_camera_in_about_days_text" = "em cerca de %.f dias";
+"ml_camera_in_more_than_days_text" = "em mais de %.f dias";
+"ml_camera_sells_for_text" = "Por norma vende-se por %d €";
+"ml_category_text" = "Categoria:";
+"ml_details_price_text" = "Preço:";
+"ml_details_suggested_details_text" = "DETALHES SUGERIDOS";
+"ml_details_title_text" = "Título:";
+"ml_onboarding_description_text" = "Mostre-me um item e dir-lhe-ei quanto fará";
+"ml_onboarding_new_text" = "NOVO!";
+"ml_onboarding_ok_text" = "OK";
+"mopub_advertising_text" = "Anúncio";
 "notifications_empty_subtitle" = "Coloque algo à venda para começar a ver alguma atividade por aqui";
 "notifications_empty_title" = "SEM NOTIFICAÇÕES (AINDA)!";
 "notifications_permissions_1_push" = "Isabel: Estou interessado no seu telemóvel. Quer deixá-lo ir por 100€?";
@@ -636,6 +654,7 @@
 "product_post_gallery_permissions_subtitle" = "Para selecionar um foto existente deve permitir o acesso às Fotos";
 "product_post_gallery_permissions_title" = "Permitir o acesso às Fotos";
 "product_post_gallery_select_pictures_subtitle" = "Selecione até 5 imagens para carregar";
+"product_post_gallery_select_pictures_subtitle_params" = "Selecione até %d imagens para carregar";
 "product_post_gallery_select_pictures_title" = "Escolher fotos";
 "product_post_gallery_tab" = "BIBLIOTECA";
 "product_post_generic_error" = "Surgiu um erro ao publicar o seu anúncio.";
@@ -819,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Seja o primeiro a publicar um imóvel para arrendar/vender na sua área ou verifique de novo em breve!";
 "real_estate_empty_state_search_title" = "UPS! NENHUM IMÓVEL PUBLICADO PERTO DE SI";
 "real_estate_gallery_view_subtitle" = "Selecione até 5 imagens do imóvel que quer vender ou arrendar";
+"real_estate_gallery_view_subtitle_params" = "Selecione até %d imagens do imóvel que quer vender ou arrendar";
 "real_estate_location_notification_message" = "Nunca mostraremos a sua localização exata aos outros utilizadores";
 "real_estate_location_title" = "Localização";
 "real_estate_offer_type_rent" = "Para aluguer";

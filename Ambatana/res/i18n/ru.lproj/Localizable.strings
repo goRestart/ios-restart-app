@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "Обработка...";
 "bump_up_processing_priced_text" = "Обрабатываем платеж...";
 "bump_up_product_cell_chat_now_button" = "Пообщаться";
+"bump_up_product_cell_chat_now_button_a" = "Пообщаться";
+"bump_up_product_cell_chat_now_button_b" = "Пообщаться";
+"bump_up_product_cell_chat_now_button_c" = "Пообщаться";
+"bump_up_product_cell_chat_now_button_d" = "Пообщаться";
 "bump_up_product_cell_featured_stripe" = "Популярное";
 "bump_up_product_detail_featured_label" = "ПОПУЛЯРНОЕ";
 "bump_up_view_free_subtitle" = "Чем больше вы делитесь ссылкой на объявление, тем больше людей его видят.";
@@ -66,7 +70,8 @@
 "categories_title" = "Категории";
 "categories_unassigned" = "Не выбрана";
 "categories_unassigned_items" = "Другие товары";
-"change_bio_placeholder" = "Добавьте информацию о вас. Поделитесь, чем вы интересуетесь, или расскажите забавный факт о себе";
+"change_bio_error_message" = "При сохранении информации о вас произошла ошибка. Пожалуйста, убедитесь, что она не содержит контактную информацию.";
+"change_bio_placeholder" = "Добавьте информацию о вас. Поделитесь, чем вы интересуетесь, или расскажите забавный факт о себе.";
 "change_bio_save_button" = "Сохранить";
 "change_bio_title" = "Обо мне";
 "change_email_current_email_label" = "ТЕКУЩИЙ Е-МЕЙЛ:";
@@ -342,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Не установлен";
 "filters_real_estate_offer_type_not_set" = "Не установлен";
 "filters_real_estate_property_type_not_set" = "Не установлен";
+"filters_real_estate_size_from_feed_filter_cell" = "От";
+"filters_real_estate_size_to_feed_filter_cell" = "До";
 "filters_save_button" = "Сохранить фильтры";
 "filters_section_car_info" = "Информация о машине";
 "filters_section_categories" = "Категории";
@@ -418,6 +425,17 @@
 "main_sign_up_terms_conditions" = "Регистрируясь или входя в аккаунт, вы принимаете наши Правила Пользования и Политику Конфиденциальности";
 "main_sign_up_terms_conditions_privacy_part" = "Политику Конфиденциальности";
 "main_sign_up_terms_conditions_terms_part" = "Правила Пользования";
+"ml_camera_in_about_days_text" = "примерно за %.f дней";
+"ml_camera_in_more_than_days_text" = "более чем за %.f дней";
+"ml_camera_sells_for_text" = "Обычно продают за $%d";
+"ml_category_text" = "Категория:";
+"ml_details_price_text" = "Цена:";
+"ml_details_suggested_details_text" = "ПРЕДЛАГАЕМАЯ ИНФОРМАЦИЯ";
+"ml_details_title_text" = "Заголовок:";
+"ml_onboarding_description_text" = "Покажите мне товар, и я скажу, сколько вы можете получить";
+"ml_onboarding_new_text" = "НОВОЕ!";
+"ml_onboarding_ok_text" = "OK";
+"mopub_advertising_text" = "Реклама";
 "notifications_empty_subtitle" = "Разместите что-нибудь на продажу для получения уведомлений";
 "notifications_empty_title" = "НЕТ УВЕДОМЛЕНИЙ (ПОКА!)";
 "notifications_permissions_1_push" = "Ирина: Очень понравился ваш телефон. Отдадите за 5000р?";
@@ -636,6 +654,7 @@
 "product_post_gallery_permissions_subtitle" = "Для выбора имеющихся фотографий, разрешите доступ к Фотографиям";
 "product_post_gallery_permissions_title" = "Разрешите доступ к Фотографиям";
 "product_post_gallery_select_pictures_subtitle" = "Выберите до 5 фотографий для загрузки";
+"product_post_gallery_select_pictures_subtitle_params" = "Выберите до %d фотографий для загрузки";
 "product_post_gallery_select_pictures_title" = "Выберите фотографии";
 "product_post_gallery_tab" = "ГАЛЕРЕЯ";
 "product_post_generic_error" = "При размещении объявления произошла ошибка.";
@@ -819,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Будьте первым и разместите недвижимость на продажу/в аренду в вашем районе, либо проверьте объявления еще раз позже!";
 "real_estate_empty_state_search_title" = "УПС! РЯДОМ С ВАМИ НЕ РАЗМЕЩЕНО ОБЪЯВЛЕНИЙ О НЕДВИЖИМОСТИ";
 "real_estate_gallery_view_subtitle" = "Выберите до 5 изображений недвижимости, которую хотите продать или сдать";
+"real_estate_gallery_view_subtitle_params" = "Выберите до %d изображений недвижимости, которую хотите продать или сдать";
 "real_estate_location_notification_message" = "Мы никогда не показываем ваше точное местоположение другим пользователям";
 "real_estate_location_title" = "Местоположение";
 "real_estate_offer_type_rent" = "Аренда";

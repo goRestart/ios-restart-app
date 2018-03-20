@@ -587,6 +587,11 @@ enum AccessibilityId: Equatable {
     case bumpUpBannerButton
     case bumpUpBannerLabel
 
+    // Boost Timer View
+    case boostTitleLabel
+    case boostTimeLabel
+    case boostProgressBar
+
     // Free bump up screen
     case freeBumpUpCloseButton
     case freeBumpUpImage
@@ -1719,7 +1724,15 @@ enum AccessibilityId: Equatable {
             return "bumpUpBannerButton"
         case .bumpUpBannerLabel:
             return "bumpUpBannerLabel"
-            
+
+        // Boost Timer View
+        case .boostTitleLabel:
+            return "boostTitleLabel"
+        case .boostTimeLabel:
+            return "boostTimeLabel"
+        case .boostProgressBar:
+            return "boostProgressBar"
+
         // Free bump up screen
         case .freeBumpUpCloseButton:
             return "freeBumpUpCloseButton"

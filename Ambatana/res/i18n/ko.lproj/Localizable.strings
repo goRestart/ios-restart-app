@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "진행중...";
 "bump_up_processing_priced_text" = "결제 처리중...";
 "bump_up_product_cell_chat_now_button" = "지금 대화하기";
+"bump_up_product_cell_chat_now_button_a" = "지금 대화하기";
+"bump_up_product_cell_chat_now_button_b" = "지금 대화하기";
+"bump_up_product_cell_chat_now_button_c" = "지금 대화하기";
+"bump_up_product_cell_chat_now_button_d" = "지금 대화하기";
 "bump_up_product_cell_featured_stripe" = "주요";
 "bump_up_product_detail_featured_label" = "주요";
 "bump_up_view_free_subtitle" = "더 많이 공유할 수록, 판매 상품이 더 잘보이게 될 것입니다.";
@@ -66,7 +70,8 @@
 "categories_title" = "항목";
 "categories_unassigned" = "선택되지 않음";
 "categories_unassigned_items" = "기타 제품";
-"change_bio_placeholder" = "당신이 누구인지 설명하는 자기소개란을 입력해주세요. 무엇에 관심이 있는지 혹은 당신에 관해 재미있는 사실을 공유해주세요";
+"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
+"change_bio_placeholder" = "당신이 누구인지 설명하는 자기소개란을 입력해주세요. 무엇에 관심이 있는지 혹은 당신에 관해 재미있는 사실을 공유해주세요.";
 "change_bio_save_button" = "저장";
 "change_bio_title" = "나에 관하여";
 "change_email_current_email_label" = "현재 이메일:";
@@ -342,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "설정되지 않음";
 "filters_real_estate_offer_type_not_set" = "설정되지 않음";
 "filters_real_estate_property_type_not_set" = "설정되지 않음";
+"filters_real_estate_size_from_feed_filter_cell" = "부터";
+"filters_real_estate_size_to_feed_filter_cell" = "까지";
 "filters_save_button" = "필터 저장";
 "filters_section_car_info" = "자동차 정보";
 "filters_section_categories" = "항목";
@@ -418,6 +425,17 @@
 "main_sign_up_terms_conditions" = "로그인함하여 회원님은 저희 사용 약관 및 개인보호 정책에 동의하시게 됩니다";
 "main_sign_up_terms_conditions_privacy_part" = "개인보호 정책";
 "main_sign_up_terms_conditions_terms_part" = "사용 약관";
+"ml_camera_in_about_days_text" = "%.f일 안에";
+"ml_camera_in_more_than_days_text" = "%.f일 이상";
+"ml_camera_sells_for_text" = "$%d에 보통 판매되고 있습니다";
+"ml_category_text" = "항목:";
+"ml_details_price_text" = "가격:";
+"ml_details_suggested_details_text" = "상세내역";
+"ml_details_title_text" = "제목:";
+"ml_onboarding_description_text" = "상품을 보여주세요. 가격이 얼마 정도 하는지 알려드릴게요.";
+"ml_onboarding_new_text" = "새로운!";
+"ml_onboarding_ok_text" = "예";
+"mopub_advertising_text" = "광고";
 "notifications_empty_subtitle" = "판매할 상품을 게시하고 몇가지 활동을 확인하세요";
 "notifications_empty_title" = "알림 없음 (아직이에요!)";
 "notifications_permissions_1_push" = "이사벨라: 판매하시는 전화기에 관심있는데요. $100 제안해볼게요";
@@ -636,6 +654,7 @@
 "product_post_gallery_permissions_subtitle" = "가지고 계신 사진을 선택하기 위해서는, 사진 활용에 대한 접근을 허가해주셔야합니다";
 "product_post_gallery_permissions_title" = "사진 사용 허가";
 "product_post_gallery_select_pictures_subtitle" = "업로드를 위해 최대 5장의 사진을 선택해주세요";
+"product_post_gallery_select_pictures_subtitle_params" = "업로드를 위해 최대 %d장의 사진을 선택해주세요";
 "product_post_gallery_select_pictures_title" = "사진 선택";
 "product_post_gallery_tab" = "사진첩";
 "product_post_generic_error" = "회원님의 상품 목록을 등록하는데 오류가 발생했습니다.";
@@ -819,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "근처에서 매매 / 임대 부동산을 첫번째로 등록하거나 나중에 페이지를 다시 확인해주세요!";
 "real_estate_empty_state_search_title" = "이런! 근처에 게시된 부동산이 없습니다";
 "real_estate_gallery_view_subtitle" = "매매하거나 임대하고자 하는 부동산의 사진을 최대 5장 선택하세요";
+"real_estate_gallery_view_subtitle_params" = "매매하거나 임대하고자 하는 부동산의 사진을 최대 %d장 선택하세요";
 "real_estate_location_notification_message" = "저희는 다른 사용자들에게 회원님의 정확한 위치를 공개하지 않습니다";
 "real_estate_location_title" = "위치";
 "real_estate_offer_type_rent" = "전세";

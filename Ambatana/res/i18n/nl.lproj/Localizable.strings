@@ -30,6 +30,10 @@
 "bump_up_processing_free_text" = "Verwerken...";
 "bump_up_processing_priced_text" = "Verwerken van betaling...";
 "bump_up_product_cell_chat_now_button" = "Nu Chatten";
+"bump_up_product_cell_chat_now_button_a" = "Nu Chatten";
+"bump_up_product_cell_chat_now_button_b" = "Nu Chatten";
+"bump_up_product_cell_chat_now_button_c" = "Nu Chatten";
+"bump_up_product_cell_chat_now_button_d" = "Nu Chatten";
 "bump_up_product_cell_featured_stripe" = "Aanbevolen";
 "bump_up_product_detail_featured_label" = "AANBEVOLEN";
 "bump_up_view_free_subtitle" = "Hoe vaker gedeeld, hoe meer zichtbaarheid jouw item zal hebben.";
@@ -66,7 +70,8 @@
 "categories_title" = "Categorieën";
 "categories_unassigned" = "Niet geselecteerd ";
 "categories_unassigned_items" = "Overige items";
-"change_bio_placeholder" = "Voeg een biografie toe die beschrijft wie je bent. Deel waar je geïnteresseerd in bent of een leuk weetje over jezelf";
+"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
+"change_bio_placeholder" = "Voeg een biografie toe die beschrijft wie je bent. Deel waar je geïnteresseerd in bent of een leuk weetje over jezelf.";
 "change_bio_save_button" = "Opslaan";
 "change_bio_title" = "Over mij";
 "change_email_current_email_label" = "HUIDIGE E-MAIL:";
@@ -342,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Niet ingesteld";
 "filters_real_estate_offer_type_not_set" = "Niet ingesteld";
 "filters_real_estate_property_type_not_set" = "Niet ingesteld";
+"filters_real_estate_size_from_feed_filter_cell" = "Van";
+"filters_real_estate_size_to_feed_filter_cell" = "Tot";
 "filters_save_button" = "Filters opslaan";
 "filters_section_car_info" = "Info Auto";
 "filters_section_categories" = "Categorieen";
@@ -418,6 +425,17 @@
 "main_sign_up_terms_conditions" = "Door het aanmelden of inloggen, ga je akkoord met onze Algemene Voorwaarden en Privacy Beleid";
 "main_sign_up_terms_conditions_privacy_part" = "Privacy Beleid";
 "main_sign_up_terms_conditions_terms_part" = "Algemene Voorwaarden";
+"ml_camera_in_about_days_text" = "over ongeveer %.f dagen";
+"ml_camera_in_more_than_days_text" = "over meer dan %.f dagen";
+"ml_camera_sells_for_text" = "Verkoopt gewoonlijk voor €%d";
+"ml_category_text" = "Categorie:";
+"ml_details_price_text" = "Prijs:";
+"ml_details_suggested_details_text" = "VOORGESTELDE DETAILS";
+"ml_details_title_text" = "Titel:";
+"ml_onboarding_description_text" = "Toon me een item en ik zal je vertellen hoeveel je zult verdienen";
+"ml_onboarding_new_text" = "NIEUW!";
+"ml_onboarding_ok_text" = "OK";
+"mopub_advertising_text" = "Advertentie";
 "notifications_empty_subtitle" = "Plaats iets in de verkoop om hier wat activiteit te zien";
 "notifications_empty_title" = "(NOG!) GEEN NOTIFICATIES";
 "notifications_permissions_1_push" = "Fleur: Hoi! Ik wil je telefoon graag kopen voor 100 euro. Deal?";
@@ -636,6 +654,7 @@
 "product_post_gallery_permissions_subtitle" = "Om een bestaande foto te selecteren, moet je de toegang tot Foto's toestaan";
 "product_post_gallery_permissions_title" = "Geef toegang tot Foto's";
 "product_post_gallery_select_pictures_subtitle" = "Selecteer maximaal 5 afbeeldingen om te uploaden";
+"product_post_gallery_select_pictures_subtitle_params" = "Selecteer maximaal %d afbeeldingen om te uploaden";
 "product_post_gallery_select_pictures_title" = "Kies foto's";
 "product_post_gallery_tab" = "BIBLIOTHEEK";
 "product_post_generic_error" = "Er is een fout opgetreden tijdens het plaatsen van je advertentie.";
@@ -819,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Wees de eerste om onroerend goed te koop/te huur te plaatsen bij jou in de buurt of check binnenkort weer!";
 "real_estate_empty_state_search_title" = "OEPS! GEEN WONINGEN GEPLAATST IN JOUW OMGEVING";
 "real_estate_gallery_view_subtitle" = "Selecteer maximaal 5 afbeeldingen van de woning die je wilt verkopen of huren";
+"real_estate_gallery_view_subtitle_params" = "Selecteer maximaal %d afbeeldingen van de woning die je wilt verkopen of huren";
 "real_estate_location_notification_message" = "We zullen jouw exacte locatie nooit aan andere gebruikers laten zien";
 "real_estate_location_title" = "Plaats";
 "real_estate_offer_type_rent" = "Te Huur";
