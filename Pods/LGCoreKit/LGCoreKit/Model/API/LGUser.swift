@@ -25,7 +25,7 @@ struct LGUser: User, Decodable {
 
     var phone: String?
     var type: UserType
-
+    var biography: String?
 
     // MARK: - Lifecycle
 
@@ -39,7 +39,8 @@ struct LGUser: User, Decodable {
          status: UserStatus?,
          isDummy: Bool,
          phone: String?,
-         type: UserType) {
+         type: UserType,
+         biography: String?) {
         self.objectId = objectId
         self.name = name
         self.avatar = LGFile(id: nil, urlString: avatar)
@@ -51,6 +52,7 @@ struct LGUser: User, Decodable {
         self.isDummy = isDummy
         self.phone = phone
         self.type = type
+        self.biography = biography
     }
     
     init(chatInterlocutor: ChatInterlocutor) {
@@ -65,7 +67,8 @@ struct LGUser: User, Decodable {
                   status: chatInterlocutor.status,
                   isDummy: false,
                   phone: nil,
-                  type: .user)
+                  type: .user,
+                  biography: nil)
     }
     
     
@@ -125,6 +128,7 @@ struct LGUser: User, Decodable {
         self.phone = try keyedContainer.decodeIfPresent(String.self, forKey: .phone)
         let typeValue = try keyedContainer.decodeIfPresent(String.self, forKey: .type) ?? UserType.user.rawValue
         self.type = UserType(rawValue: typeValue) ?? UserType.user
+        self.biography = try keyedContainer.decodeIfPresent(String.self, forKey: .biography)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -139,5 +143,6 @@ struct LGUser: User, Decodable {
         case status         = "status"
         case phone          = "phone"
         case type           = "type"
+        case biography      = "biography"
     }
 }

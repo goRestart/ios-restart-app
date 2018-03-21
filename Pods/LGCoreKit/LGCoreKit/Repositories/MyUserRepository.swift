@@ -61,6 +61,12 @@ public protocol MyUserRepository {
     */
     func updateAvatar(_ avatar: Data, progressBlock: ((Int) -> ())?, completion: MyUserCompletion?)
 
+    /**
+     Updates the biography of my user.
+     - parameter biography: The new biography text
+     - parameter completion: The completion closure
+     */
+    func updateBiography(_ biography: String, completion: MyUserCompletion?)
 
     /**
      Links an email account with the logged in user
