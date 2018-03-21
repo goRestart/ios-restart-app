@@ -99,8 +99,8 @@ struct BumpUpInfo {
     }
 }
 
-protocol BumpUpBannerDelegate: class {
-    func timerReachedZero()
+protocol BumpUpBannerBoostDelegate: class {
+    func bumpUpTimerReachedZero()
 }
 
 class BumpUpBanner: UIView {
@@ -137,6 +137,7 @@ class BumpUpBanner: UIView {
 
     private var maxCountdown: TimeInterval = 0
     private var timer: Timer = Timer()
+    private var readyToBump: Bool = false
 
     private(set) var type: BumpUpType = .free
 
@@ -145,11 +146,12 @@ class BumpUpBanner: UIView {
 
     private let featureFlags: FeatureFlags = FeatureFlags.sharedInstance
 
+    weak var delegate: BumpUpBannerBoostDelegate?
+
     // - Rx
     let timeIntervalLeft = Variable<TimeInterval>(0)
     let timeLabelText = Variable<String?>(nil)
     let descriptionLabelText = Variable<String?>(nil)
-    let readyToBump = Variable<Bool>(false)
     let disposeBag = DisposeBag()
 
 
@@ -196,11 +198,12 @@ class BumpUpBanner: UIView {
             bumpButtonWidthConstraint.isActive = true
             waitingTime = info.maxCountdown
             bumpButton.setTitle(LGLocalizedString.commonErrorRetryButton, for: .normal)
-        case .boost:
+        case .boost(let bannerVisibility):
             bumpButtonWidthConstraint.isActive = false
             bumpButton.isHidden = true
             waitingTime = info.maxCountdown
             progressView.maxTime = info.maxCountdown
+            readyToBump = bannerVisibility
         }
         updateBannerAreasVisibilityFor(type: type)
 
@@ -229,13 +232,17 @@ class BumpUpBanner: UIView {
     }
     
     func executeBannerInteractionBlock() {
-        guard readyToBump.value else { return }
+        guard readyToBump else { return }
         bannerInteractionBlock()
     }
 
     private func startCountdown() {
         timer.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: BumpUpBanner.timerUpdateInterval, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: BumpUpBanner.timerUpdateInterval,
+                                     target: self,
+                                     selector: #selector(updateTimer),
+                                     userInfo: nil,
+                                     repeats: true)
     }
 
     @objc private func bannerTapped() {
@@ -247,7 +254,7 @@ class BumpUpBanner: UIView {
     }
 
     @objc private func bumpButtonPressed() {
-        guard readyToBump.value else { return }
+        guard readyToBump else { return }
         buttonBlock()
     }
 
@@ -255,8 +262,6 @@ class BumpUpBanner: UIView {
     // - Private Methods
 
     private func setupRx() {
-        
-        timeIntervalLeft.asObservable().map { $0 <= 1 }.bind(to: readyToBump).disposed(by: disposeBag)
 
         timeIntervalLeft.asObservable().skip(1).bind { [weak self] secondsLeft in
             guard let strongSelf = self else { return }
@@ -265,6 +270,7 @@ class BumpUpBanner: UIView {
 
             switch strongSelf.type {
             case .boost:
+                strongSelf.readyToBump = false
                 localizedText = strongSelf.type.bannerText
                 descriptionFont = strongSelf.type.bannerFont
                 strongSelf.leftIconImageView.image = strongSelf.type.bannerIcon
@@ -273,8 +279,18 @@ class BumpUpBanner: UIView {
                 strongSelf.timeLabelText.value = nil
                 strongSelf.timeLabelRightMarginConstraint.constant = 0
                 strongSelf.timeLabelWidthConstraint.constant = 0
+                if let updateBannerThreshold = strongSelf.featureFlags.bumpUpBoost.boostBannerUIUpdateThreshold,
+                    secondsLeft < (strongSelf.maxCountdown - updateBannerThreshold) {
+                    strongSelf.readyToBump = true
+                    strongSelf.type = .boost(boostBannerVisible: true)
+                    strongSelf.updateBannerAreasVisibilityFor(type: strongSelf.type)
+                }
+                if secondsLeft <= 0 {
+                    strongSelf.delegate?.bumpUpTimerReachedZero()
+                }
             case .free, .priced, .hidden, .restore:
                 if secondsLeft <= 0 {
+                    strongSelf.readyToBump = true
                     strongSelf.timer.invalidate()
                     localizedText = strongSelf.type.bannerText
                     strongSelf.leftIconImageView.image = strongSelf.type.bannerIcon
@@ -288,6 +304,7 @@ class BumpUpBanner: UIView {
 
                     strongSelf.textContainerCenterConstraint.isActive = strongSelf.type != .restore
                 } else {
+                    strongSelf.readyToBump = false
                     strongSelf.textIconImageView.image = nil
                     strongSelf.leftIconImageView.image = UIImage(named: "clock")
                     localizedText = LGLocalizedString.bumpUpBannerWaitText

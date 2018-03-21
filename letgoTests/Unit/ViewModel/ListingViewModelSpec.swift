@@ -22,6 +22,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
     var calledLogin: Bool?
     var calledOpenFreeBumpUpView: Bool?
     var calledOpenPricedBumpUpView: Bool?
+    var calledOpenBumpUpBoostView: Bool?
     var listingViewModelDelegateListingOriginValue: ListingOrigin = ListingOrigin.initial
 
     override func spec() {
@@ -909,6 +910,13 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                        bumpUpProductData: BumpUpProductData,
                        typePage: EventParameterTypePage?) {
         calledOpenPricedBumpUpView = true
+    }
+    func openBumpUpBoost(forListing listing: Listing,
+                         bumpUpProductData: BumpUpProductData,
+                         typePage: EventParameterTypePage?,
+                         timeSinceLastBump: TimeInterval,
+                         maxCountdoun: TimeInterval) {
+        calledOpenBumpUpBoostView = true
     }
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],

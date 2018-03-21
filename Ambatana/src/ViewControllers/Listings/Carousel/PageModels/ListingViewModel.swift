@@ -489,7 +489,7 @@ class ListingViewModel: BaseViewModel {
             }
             bannerInteractionBlock = freeBlock
             buttonBlock = freeBlock
-        case .priced, .boost:
+        case .priced:
             guard let paymentItemId = paymentItemId else { return }
             bannerInteractionBlock = { [weak self] in
                 guard let _ = self?.listing.value else { return }
@@ -500,6 +500,22 @@ class ListingViewModel: BaseViewModel {
                                                           storeProductId: storeProductId)
 
                 self?.openPricedBumpUpView(bumpUpProductData: bumpUpProductData,
+                                           typePage: .listingDetail)
+            }
+            buttonBlock = { [weak self] in
+                self?.bumpUpProduct(productId: listingId)
+            }
+        case .boost:
+            guard let paymentItemId = paymentItemId else { return }
+            bannerInteractionBlock = { [weak self] in
+                guard let _ = self?.listing.value else { return }
+                guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
+
+                let bumpUpProductData = BumpUpProductData(bumpUpPurchaseableData: .purchaseableProduct(product: purchaseableProduct),
+                                                          paymentItemId: paymentItemId,
+                                                          storeProductId: storeProductId)
+
+                self?.openBoostBumpUpView(bumpUpProductData: bumpUpProductData,
                                            typePage: .listingDetail)
             }
             buttonBlock = { [weak self] in
@@ -574,6 +590,15 @@ class ListingViewModel: BaseViewModel {
         navigator?.openPayBumpUp(forListing: listing.value,
                                  bumpUpProductData: bumpUpProductData,
                                  typePage: typePage)
+    }
+
+    func openBoostBumpUpView(bumpUpProductData: BumpUpProductData,
+                             typePage: EventParameterTypePage?) {
+        navigator?.openBumpUpBoost(forListing: listing.value,
+                                   bumpUpProductData: bumpUpProductData,
+                                   typePage: typePage,
+                                   timeSinceLastBump: timeSinceLastBump,
+                                   maxCountdoun: bumpMaxCountdown)
     }
 
     private var listingCanBeBoosted: Bool {

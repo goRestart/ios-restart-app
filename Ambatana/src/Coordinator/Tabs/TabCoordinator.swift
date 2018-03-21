@@ -461,6 +461,14 @@ extension TabCoordinator: ListingDetailNavigator {
         openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
+    func openBumpUpBoost(forListing listing: Listing,
+                         bumpUpProductData: BumpUpProductData,
+                         typePage: EventParameterTypePage?,
+                         timeSinceLastBump: TimeInterval,
+                         maxCountdoun: TimeInterval) {
+        // TODO: Will be implemented in next PR 🦄
+    }
+
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,

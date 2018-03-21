@@ -227,7 +227,7 @@ extension UserIsTyping {
 extension BumpUpBoost {
     var isActive: Bool { get { return self != .control && self != .baseline } }
 
-    private var boostBannerUIUpdateThreshold: TimeInterval? {
+    var boostBannerUIUpdateThreshold: TimeInterval? {
         switch self {
         case .control, .baseline:
             return nil

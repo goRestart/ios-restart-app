@@ -377,6 +377,7 @@ class ListingCarouselViewController: KeyboardViewController, AnimatableTransitio
     }
 
     func setupBumpUpBanner() {
+        bumpUpBanner.delegate = self
         bannerContainer.addSubview(bumpUpBanner)
         bumpUpBanner.translatesAutoresizingMaskIntoConstraints = false
         bumpUpBanner.layout(with: bannerContainer).fill()
@@ -1275,6 +1276,13 @@ extension ListingCarouselViewController {
         bannerBottom = -bannerHeight
         bumpUpBanner.stopCountdown()
         bannerContainer.isHidden = true
+    }
+}
+
+extension ListingCarouselViewController: BumpUpBannerBoostDelegate {
+    func bumpUpTimerReachedZero() {
+        closeBumpUpBanner()
+        viewModel.bumpUpBannerBoostTimerReachedZero()
     }
 }
 
