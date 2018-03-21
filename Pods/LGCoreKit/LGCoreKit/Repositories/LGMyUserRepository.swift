@@ -104,6 +104,16 @@ class LGMyUserRepository: InternalMyUserRepository {
     func updateAvatar(_ avatar: Data, progressBlock: ((Int) -> ())?, completion: MyUserCompletion?) {
         uploadAvatar(avatar, progressBlock: progressBlock, completion: completion)
     }
+
+    /**
+     Updates the biography of my user.
+     - parameter biography: The new biography text
+     - parameter completion: The completion closure
+     */
+    func updateBiography(_ biography: String, completion: MyUserCompletion?) {
+        let params: [String: Any] = [LGMyUser.CodingKeys.biography.rawValue: biography]
+        update(params, completion: completion)
+    }
     
     
     // MARK: - InternalMyUserRepository methods
