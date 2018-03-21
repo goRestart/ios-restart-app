@@ -114,6 +114,7 @@ class ABTests {
         result.append(servicesCategoryEnabled)
         result.append(copyForChatNowInTurkey)
         result.append(increaseNumberOfPictures)
+        result.append(machineLearningMVP)
         result.append(showProTagUserProfile)
         
         return result
