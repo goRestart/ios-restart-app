@@ -226,6 +226,17 @@ extension UserIsTyping {
 
 extension BumpUpBoost {
     var isActive: Bool { get { return self != .control && self != .baseline } }
+
+    private var boostBannerUIUpdateThreshold: TimeInterval? {
+        switch self {
+        case .control, .baseline:
+            return nil
+        case .boostListing1hour, .sendTop1hour:
+            return Constants.oneHourTimeLimit
+        case .sendTop5Mins, .cheaperBoost5Mins:
+            return Constants.fiveMinutesTimeLimit
+        }
+    }
 }
 
 
@@ -698,7 +709,6 @@ class FeatureFlags: FeatureFlaggeable {
             return .defaultValue
         }
     }
-
 
     // MARK: - Private
 

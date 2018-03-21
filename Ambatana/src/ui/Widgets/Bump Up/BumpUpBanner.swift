@@ -99,6 +99,10 @@ struct BumpUpInfo {
     }
 }
 
+protocol BumpUpBannerDelegate: class {
+    func timerReachedZero()
+}
+
 class BumpUpBanner: UIView {
 
     static let bannerDefaultFont: UIFont = UIFont.systemMediumFont(size: 15)

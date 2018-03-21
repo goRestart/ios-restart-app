@@ -8,10 +8,6 @@
 
 import Foundation
 
-protocol BumpUpTimerBarViewDelegate: class {
-    func timerBarReachedZero()
-}
-
 struct BumpUpTimerBarViewMetrics {
     static let height: CGFloat = 64
     static let horitzontalMargin: CGFloat = 50
@@ -32,10 +28,7 @@ class BumpUpTimerBarView: UIView {
     private let bottomLineView: UIView = UIView()
 
 
-    private var timeIntervalLeft: TimeInterval = 0
 
-    weak var delegate: BumpUpTimerBarViewDelegate?
-    
     // - Lifecycle
 
     override init(frame: CGRect) {
@@ -50,8 +43,6 @@ class BumpUpTimerBarView: UIView {
     }
 
     func updateWith(timeLeft: TimeInterval) {
-        timeIntervalLeft = timeLeft
-
         let progress = Float(timeLeft/maxTime)
 
         let timeColor = colorFor(timeLeft: progress)
