@@ -70,7 +70,7 @@
 "categories_title" = "Danh mục";
 "categories_unassigned" = "Chưa được chọn";
 "categories_unassigned_items" = "Sản phẩm khác";
-"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
+"change_bio_error_message" = "Có lỗi xảy ra trong khi chỉnh sửa tiểu sử của bạn. Vui lòng đảm bảo không có thông tin liên hệ trong đó.";
 "change_bio_placeholder" = "Thêm một tiểu sử miêu tả về bạn. Chia sẻ điều gì bạn quan tâm hoặc điều gì đó thú vị về bạn.";
 "change_bio_save_button" = "Lưu";
 "change_bio_title" = "Về tôi";
