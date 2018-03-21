@@ -108,7 +108,7 @@ class PostingGetStartedViewController: BaseViewController {
         
         if viewModel.shouldShowSkipButton {
             view.addSubviewForAutoLayout(skipButton)
-            skipButton.layout(with: view).top(by: 20).trailing(by: 0)
+            skipButton.layout(with: view).top().trailing()
             skipButton.layout().height(64).width(80)
             skipButton.setTitle(LGLocalizedString.postingButtonSkip, for: .normal)
             skipButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 17)
