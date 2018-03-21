@@ -81,6 +81,12 @@ struct NiordBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
+struct SpellCorrectorBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.spellCorrectorBaseURL
+    static let acceptHeader: String? = "application/json;version=2"
+    static let contentTypeHeader: String? = nil
+}
+
 enum Encoding {
     case json, url
 }

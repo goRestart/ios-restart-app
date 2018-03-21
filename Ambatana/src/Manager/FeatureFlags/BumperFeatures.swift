@@ -42,6 +42,7 @@ extension Bumper  {
         flags.append(NewUserProfileView.self)
         flags.append(TurkeyBumpPriceVATAdaptation.self)
         flags.append(SearchImprovements.self)
+        flags.append(RelaxedSearch.self)
         flags.append(ShowChatSafetyTips.self)
         flags.append(DiscardedProducts.self)
         flags.append(OnboardingIncentivizePosting.self)
@@ -200,6 +201,11 @@ extension Bumper  {
     static var searchImprovements: SearchImprovements {
         guard let value = Bumper.value(for: SearchImprovements.key) else { return .control }
         return SearchImprovements(rawValue: value) ?? .control 
+    }
+
+    static var relaxedSearch: RelaxedSearch {
+        guard let value = Bumper.value(for: RelaxedSearch.key) else { return .control }
+        return RelaxedSearch(rawValue: value) ?? .control 
     }
 
     static var showChatSafetyTips: Bool {
@@ -697,6 +703,23 @@ enum SearchImprovements: String, BumperFeature  {
             case 8: return .boostingDistance
             case 9: return .boostingFreshness
             case 10: return .boostingDistAndFreshness
+            default: return .control
+        }
+    }
+}
+
+enum RelaxedSearch: String, BumperFeature  {
+    case control, baseline, relaxedQuery, relaxedQueryORFallback
+    static var defaultValue: String { return RelaxedSearch.control.rawValue }
+    static var enumValues: [RelaxedSearch] { return [.control, .baseline, .relaxedQuery, .relaxedQueryORFallback]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Search improvements with relaxed queries" } 
+    static func fromPosition(_ position: Int) -> RelaxedSearch {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .relaxedQuery
+            case 3: return .relaxedQueryORFallback
             default: return .control
         }
     }

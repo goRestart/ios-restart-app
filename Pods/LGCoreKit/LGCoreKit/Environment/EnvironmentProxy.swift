@@ -59,4 +59,5 @@ class EnvironmentProxy: Environment {
     var searchProductsBaseURL: String { return environment.searchProductsBaseURL }
     var searchRealEstateBaseURL: String { return environment.searchRealEstateBaseURL }
     var niordBaseURL: String { return environment.niordBaseURL }
+    var spellCorrectorBaseURL: String { return environment.spellCorrectorBaseURL }
 }

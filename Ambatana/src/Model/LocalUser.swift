@@ -10,7 +10,6 @@ import LGCoreKit
 
 struct LocalUser: User, UserListing {
 
-
     let objectId: String?
     let name: String?
     let avatar: File?
