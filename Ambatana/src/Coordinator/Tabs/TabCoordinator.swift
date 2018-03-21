@@ -465,7 +465,7 @@ extension TabCoordinator: ListingDetailNavigator {
                          bumpUpProductData: BumpUpProductData,
                          typePage: EventParameterTypePage?,
                          timeSinceLastBump: TimeInterval,
-                         maxCountdoun: TimeInterval) {
+                         maxCountdown: TimeInterval) {
         // TODO: Will be implemented in next PR 🦄
     }
 
