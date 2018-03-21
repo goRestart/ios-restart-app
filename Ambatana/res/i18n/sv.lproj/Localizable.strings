@@ -70,7 +70,7 @@
 "categories_title" = "Kategorier";
 "categories_unassigned" = "Inte vald";
 "categories_unassigned_items" = "Något annat";
-"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
+"change_bio_error_message" = "Ett fel uppstod när din biografi skulle sparas. Var god kontrollera att den inte innehåller några kontaktuppgifter.";
 "change_bio_placeholder" = "Lägg till en kort bio som beskriver vem du är. Berätta om dina intressen eller något skoj om dig själv.";
 "change_bio_save_button" = "Spara";
 "change_bio_title" = "Om mig";
@@ -347,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "inte vald";
 "filters_real_estate_offer_type_not_set" = "inte vald";
 "filters_real_estate_property_type_not_set" = "inte vald";
+"filters_real_estate_size_from_feed_filter_cell" = "From";
+"filters_real_estate_size_to_feed_filter_cell" = "To";
 "filters_save_button" = "Spara filter";
 "filters_section_car_info" = "Biluppgifter";
 "filters_section_categories" = "Kategorier";
@@ -433,6 +435,7 @@
 "ml_onboarding_description_text" = "Visa mig en produkt så berättar jag hur mycket du kan tjäna";
 "ml_onboarding_new_text" = "NY!";
 "ml_onboarding_ok_text" = "Ok";
+"mopub_advertising_text" = "Reklam";
 "notifications_empty_subtitle" = "Lägg upp något till försäljning för att börja se lite aktivitet här";
 "notifications_empty_title" = "INGA MEDDELANDEN (ÄNNU!)";
 "notifications_permissions_1_push" = "Isabella: Jag är väldigt intresserad av din mobil. let go för 800 kr?";
@@ -835,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Bli först med att annonsera ut en bostad till salu / för uthyrning i ditt område eller kolla in snart igen!";
 "real_estate_empty_state_search_title" = "HOPPSAN! INGEN BOSTADSANNONS NÄRA DIG";
 "real_estate_gallery_view_subtitle" = "Välj upp till 5 bilder av bostaden du vill sälja eller hyra ut";
+"real_estate_gallery_view_subtitle_params" = "Välj upp till %d bilder av bostaden du vill sälja eller hyra ut";
 "real_estate_location_notification_message" = "Vi visar aldrig din exakta plats till andra användare";
 "real_estate_location_title" = "Plats";
 "real_estate_offer_type_rent" = "Uthyres";

@@ -347,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Niet ingesteld";
 "filters_real_estate_offer_type_not_set" = "Niet ingesteld";
 "filters_real_estate_property_type_not_set" = "Niet ingesteld";
+"filters_real_estate_size_from_feed_filter_cell" = "From";
+"filters_real_estate_size_to_feed_filter_cell" = "To";
 "filters_save_button" = "Filters opslaan";
 "filters_section_car_info" = "Info Auto";
 "filters_section_categories" = "Categorieen";
@@ -433,6 +435,7 @@
 "ml_onboarding_description_text" = "Toon me een item en ik zal je vertellen hoeveel je zult verdienen";
 "ml_onboarding_new_text" = "NIEUW!";
 "ml_onboarding_ok_text" = "OK";
+"mopub_advertising_text" = "Advertentie";
 "notifications_empty_subtitle" = "Plaats iets in de verkoop om hier wat activiteit te zien";
 "notifications_empty_title" = "(NOG!) GEEN NOTIFICATIES";
 "notifications_permissions_1_push" = "Fleur: Hoi! Ik wil je telefoon graag kopen voor 100 euro. Deal?";
@@ -835,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Wees de eerste om onroerend goed te koop/te huur te plaatsen bij jou in de buurt of check binnenkort weer!";
 "real_estate_empty_state_search_title" = "OEPS! GEEN WONINGEN GEPLAATST IN JOUW OMGEVING";
 "real_estate_gallery_view_subtitle" = "Selecteer maximaal 5 afbeeldingen van de woning die je wilt verkopen of huren";
+"real_estate_gallery_view_subtitle_params" = "Selecteer maximaal %d afbeeldingen van de woning die je wilt verkopen of huren";
 "real_estate_location_notification_message" = "We zullen jouw exacte locatie nooit aan andere gebruikers laten zien";
 "real_estate_location_title" = "Plaats";
 "real_estate_offer_type_rent" = "Te Huur";
