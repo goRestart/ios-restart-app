@@ -598,7 +598,7 @@ class ListingViewModel: BaseViewModel {
                                    bumpUpProductData: bumpUpProductData,
                                    typePage: typePage,
                                    timeSinceLastBump: timeSinceLastBump,
-                                   maxCountdoun: bumpMaxCountdown)
+                                   maxCountdoWn: bumpMaxCountdown)
     }
 
     private var listingCanBeBoosted: Bool {

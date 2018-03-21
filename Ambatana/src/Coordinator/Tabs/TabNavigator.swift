@@ -69,7 +69,7 @@ protocol ListingDetailNavigator: TabNavigator {
                        bumpUpProductData: BumpUpProductData,
                        typePage: EventParameterTypePage?,
                        timeSinceLastBump: TimeInterval,
-                       maxCountdoun: TimeInterval)
+                       maxCountdoWn: TimeInterval)
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,

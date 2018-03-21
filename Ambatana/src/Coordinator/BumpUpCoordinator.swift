@@ -35,7 +35,9 @@ class BumpUpCoordinator: Coordinator {
 
     convenience init(listing: Listing,
                      bumpUpProductData: BumpUpProductData,
-                     typePage: EventParameterTypePage?) {
+                     typePage: EventParameterTypePage?,
+                     timeSinceLastBump: TimeInterval? = 0,
+                     maxCountdoWn: TimeInterval? = 0) {
         switch bumpUpProductData.bumpUpPurchaseableData {
         case .socialMessage(let socialMessage):
             self.init(listing: listing,
@@ -54,7 +56,9 @@ class BumpUpCoordinator: Coordinator {
                       typePage: typePage,
                       bubbleNotificationManager: LGBubbleNotificationManager.sharedInstance,
                       sessionManager: Core.sessionManager,
-                      featureFlags: featureFlags)
+                      featureFlags: featureFlags,
+                      timeSinceLastBump: timeSinceLastBump,
+                      maxCountdoWn: maxCountdoWn)
         }
     }
 
@@ -87,7 +91,9 @@ class BumpUpCoordinator: Coordinator {
          typePage: EventParameterTypePage?,
          bubbleNotificationManager: BubbleNotificationManager,
          sessionManager: SessionManager,
-         featureFlags: FeatureFlaggeable) {
+         featureFlags: FeatureFlaggeable,
+         timeSinceLastBump: TimeInterval? = 0,
+         maxCountdoWn: TimeInterval? = 0) {
 
         let bumpUpVM = BumpUpPayViewModel(listing: listing,
                                           purchaseableProduct: purchaseableProduct,
