@@ -70,7 +70,7 @@
 "categories_title" = "Категории";
 "categories_unassigned" = "Не выбрана";
 "categories_unassigned_items" = "Другие товары";
-"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
+"change_bio_error_message" = "При сохранении информации о вас произошла ошибка. Пожалуйста, убедитесь, что она не содержит контактную информацию.";
 "change_bio_placeholder" = "Добавьте информацию о вас. Поделитесь, чем вы интересуетесь, или расскажите забавный факт о себе.";
 "change_bio_save_button" = "Сохранить";
 "change_bio_title" = "Обо мне";
@@ -347,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Не установлен";
 "filters_real_estate_offer_type_not_set" = "Не установлен";
 "filters_real_estate_property_type_not_set" = "Не установлен";
+"filters_real_estate_size_from_feed_filter_cell" = "From";
+"filters_real_estate_size_to_feed_filter_cell" = "To";
 "filters_save_button" = "Сохранить фильтры";
 "filters_section_car_info" = "Информация о машине";
 "filters_section_categories" = "Категории";
@@ -433,6 +435,7 @@
 "ml_onboarding_description_text" = "Покажите мне товар, и я скажу, сколько вы можете получить";
 "ml_onboarding_new_text" = "НОВОЕ!";
 "ml_onboarding_ok_text" = "OK";
+"mopub_advertising_text" = "Реклама";
 "notifications_empty_subtitle" = "Разместите что-нибудь на продажу для получения уведомлений";
 "notifications_empty_title" = "НЕТ УВЕДОМЛЕНИЙ (ПОКА!)";
 "notifications_permissions_1_push" = "Ирина: Очень понравился ваш телефон. Отдадите за 5000р?";
@@ -835,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Будьте первым и разместите недвижимость на продажу/в аренду в вашем районе, либо проверьте объявления еще раз позже!";
 "real_estate_empty_state_search_title" = "УПС! РЯДОМ С ВАМИ НЕ РАЗМЕЩЕНО ОБЪЯВЛЕНИЙ О НЕДВИЖИМОСТИ";
 "real_estate_gallery_view_subtitle" = "Выберите до 5 изображений недвижимости, которую хотите продать или сдать";
+"real_estate_gallery_view_subtitle_params" = "Выберите до %d изображений недвижимости, которую хотите продать или сдать";
 "real_estate_location_notification_message" = "Мы никогда не показываем ваше точное местоположение другим пользователям";
 "real_estate_location_title" = "Местоположение";
 "real_estate_offer_type_rent" = "Аренда";

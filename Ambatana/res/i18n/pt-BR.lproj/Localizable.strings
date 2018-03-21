@@ -347,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Not set";
 "filters_real_estate_offer_type_not_set" = "Not set";
 "filters_real_estate_property_type_not_set" = "Not set";
+"filters_real_estate_size_from_feed_filter_cell" = "From";
+"filters_real_estate_size_to_feed_filter_cell" = "To";
 "filters_save_button" = "Save filters";
 "filters_section_car_info" = "Car Info";
 "filters_section_categories" = "Categories";
@@ -433,6 +435,7 @@
 "ml_onboarding_description_text" = "Show me an item and I'll tell you how much you'll make";
 "ml_onboarding_new_text" = "NEW!";
 "ml_onboarding_ok_text" = "OK";
+"mopub_advertising_text" = "Ad";
 "notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
 "notifications_empty_title" = "NO NOTIFICATIONS (YET!)";
 "notifications_permissions_1_push" = "Isabella: I'm very interested in your phone. Can you let go of it for $100?";
@@ -835,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
 "real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
 "real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
+"real_estate_gallery_view_subtitle_params" = "Select up to %d images of the property you want to sell or rent";
 "real_estate_location_notification_message" = "We'll never show your exact location to other users";
 "real_estate_location_title" = "Location";
 "real_estate_offer_type_rent" = "For Rent";

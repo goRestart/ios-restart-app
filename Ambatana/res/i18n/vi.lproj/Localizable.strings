@@ -347,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Chưa được cài đặt";
 "filters_real_estate_offer_type_not_set" = "Chưa được cài đặt";
 "filters_real_estate_property_type_not_set" = "Chưa được cài đặt";
+"filters_real_estate_size_from_feed_filter_cell" = "From";
+"filters_real_estate_size_to_feed_filter_cell" = "To";
 "filters_save_button" = "Lưu bộ lọc";
 "filters_section_car_info" = "Thông tin ô tô";
 "filters_section_categories" = "Danh mục";
@@ -433,6 +435,7 @@
 "ml_onboarding_description_text" = "Cho tôi xem một món đồ và tôi sẽ cho bạn biết bạn sẽ kiếm được bao nhiêu";
 "ml_onboarding_new_text" = "MỚI!";
 "ml_onboarding_ok_text" = "OK";
+"mopub_advertising_text" = "QC";
 "notifications_empty_subtitle" = "Đăng bán sản phẩm nào đó để bắt đầu xem hoạt động tại đây";
 "notifications_empty_title" = "KHÔNG (CHƯA) CÓ THÔNG BÁO NÀO!";
 "notifications_permissions_1_push" = "Phương: Mình thích chiếc điện thoại. 3 triệu đồng có được không?";
@@ -835,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Hãy là người đầu tiên đăng nhà đất để bán/cho thuê tại khu vực của bạn hoặc kiểm tra lại sau!";
 "real_estate_empty_state_search_title" = "Ồ! KHÔNG CÓ NHÀ ĐẤT NÀO ĐƯỢC ĐĂNG GẦN BẠN";
 "real_estate_gallery_view_subtitle" = "Chọn tối đa 5 ảnh nhà đất bạn muốn bán hoặc cho thuê";
+"real_estate_gallery_view_subtitle_params" = "Chọn tối đa %d ảnh nhà đất bạn muốn bán hoặc cho thuê";
 "real_estate_location_notification_message" = "Chúng tôi sẽ không bao giờ hiển thị chính xác địa điểm của bạn cho người dùng khác";
 "real_estate_location_title" = "Địa điểm";
 "real_estate_offer_type_rent" = "Cho Thuê";

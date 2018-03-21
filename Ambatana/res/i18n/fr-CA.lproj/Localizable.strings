@@ -70,7 +70,7 @@
 "categories_title" = "Catégories";
 "categories_unassigned" = "Non sélectionnée";
 "categories_unassigned_items" = "Autres biens";
-"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
+"change_bio_error_message" = "Une erreur est survenue lors de la sauvegarde de votre bio. Veuillez vous assurer qu'elle ne comporte aucune coordonnée personnelle.";
 "change_bio_placeholder" = "Ajoutez une bio qui décrit qui vous êtes. Partagez vos centres d'intérêt ou un fait amusant à propos de vous.";
 "change_bio_save_button" = "Sauvegarder";
 "change_bio_title" = "À propos de moi";
@@ -347,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Non configuré";
 "filters_real_estate_offer_type_not_set" = "Non configuré";
 "filters_real_estate_property_type_not_set" = "Non configuré";
+"filters_real_estate_size_from_feed_filter_cell" = "From";
+"filters_real_estate_size_to_feed_filter_cell" = "To";
 "filters_save_button" = "Sauvegarder les filtres";
 "filters_section_car_info" = "Informations voiture";
 "filters_section_categories" = "Catégories";
@@ -433,6 +435,7 @@
 "ml_onboarding_description_text" = "Montrez-moi un produit et je vous dirai combien vous allez gagner";
 "ml_onboarding_new_text" = "NOUVEAU !";
 "ml_onboarding_ok_text" = "OK";
+"mopub_advertising_text" = "Publicité";
 "notifications_empty_subtitle" = "Publiez quelque chose à vendre pour qu'il y ait un peu d'action par ici";
 "notifications_empty_title" = "AUCUNE NOTIFICATION (POUR LE MOMENT !)";
 "notifications_permissions_1_push" = "Lucie : Je suis très intéressé par votre téléphone ! Pouvez-vous me le laisser pour $100 ?";
@@ -835,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Soyez le premier/la première à publier une propriété à vendre / louer dans votre secteur ou revenez vérifier prochainement !";
 "real_estate_empty_state_search_title" = "OUPS ! AUCUNE MAISON PUBLIÉE PRÈS DE CHEZ VOUS";
 "real_estate_gallery_view_subtitle" = "Sélectionnez jusqu'à 5 images de la propriété que vous voulez vendre ou louer";
+"real_estate_gallery_view_subtitle_params" = "Sélectionnez jusqu'à %d images de la propriété que vous voulez vendre ou louer";
 "real_estate_location_notification_message" = "Nous n'indiquons jamais votre localisation exacte aux autres utilisateurs";
 "real_estate_location_title" = "Lieu";
 "real_estate_offer_type_rent" = "À louer";

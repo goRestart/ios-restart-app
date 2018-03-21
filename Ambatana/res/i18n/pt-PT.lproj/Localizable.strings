@@ -70,7 +70,7 @@
 "categories_title" = "Categorias";
 "categories_unassigned" = "Não selecionada";
 "categories_unassigned_items" = "Outros itens";
-"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
+"change_bio_error_message" = "Surgiu um erro ao guardar a sua biografia. Assegure-se de que não inclui dados de contacto.";
 "change_bio_placeholder" = "Adicione uma biografia que descreva quem é. Partilhe aquilo que lhe interessa ou um facto divertido sobre si.";
 "change_bio_save_button" = "Guardar";
 "change_bio_title" = "Sobre mim";
@@ -347,6 +347,8 @@
 "filters_real_estate_bedrooms_not_set" = "Não definido";
 "filters_real_estate_offer_type_not_set" = "Não definido";
 "filters_real_estate_property_type_not_set" = "Não definido";
+"filters_real_estate_size_from_feed_filter_cell" = "From";
+"filters_real_estate_size_to_feed_filter_cell" = "To";
 "filters_save_button" = "Guardar filtros";
 "filters_section_car_info" = "Dados do carro";
 "filters_section_categories" = "Categorias";
@@ -433,6 +435,7 @@
 "ml_onboarding_description_text" = "Mostre-me um item e dir-lhe-ei quanto fará";
 "ml_onboarding_new_text" = "NOVO!";
 "ml_onboarding_ok_text" = "OK";
+"mopub_advertising_text" = "Anúncio";
 "notifications_empty_subtitle" = "Coloque algo à venda para começar a ver alguma atividade por aqui";
 "notifications_empty_title" = "SEM NOTIFICAÇÕES (AINDA)!";
 "notifications_permissions_1_push" = "Isabel: Estou interessado no seu telemóvel. Quer deixá-lo ir por 100€?";
@@ -835,6 +838,7 @@
 "real_estate_empty_state_search_subtitle" = "Seja o primeiro a publicar um imóvel para arrendar/vender na sua área ou verifique de novo em breve!";
 "real_estate_empty_state_search_title" = "UPS! NENHUM IMÓVEL PUBLICADO PERTO DE SI";
 "real_estate_gallery_view_subtitle" = "Selecione até 5 imagens do imóvel que quer vender ou arrendar";
+"real_estate_gallery_view_subtitle_params" = "Selecione até %d imagens do imóvel que quer vender ou arrendar";
 "real_estate_location_notification_message" = "Nunca mostraremos a sua localização exata aos outros utilizadores";
 "real_estate_location_title" = "Localização";
 "real_estate_offer_type_rent" = "Para aluguer";
