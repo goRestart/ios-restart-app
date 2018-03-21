@@ -157,7 +157,7 @@
     },
     {
         "name": "OnboardingIncentivizePosting",
-        "values": ["control", "baseline", "blockingPosting"],
+        "values": ["control", "baseline", "blockingPosting", "blockingPostingSkipWelcome"],
         "description": "Leads the user through the posting feature and onboarding improvements"
     },
     {

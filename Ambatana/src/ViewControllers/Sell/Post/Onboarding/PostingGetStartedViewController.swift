@@ -18,13 +18,14 @@ class PostingGetStartedViewController: BaseViewController {
 
     private let viewModel: PostingGetStartedViewModel
 
-    private let avatarView: UIImageView = UIImageView()
-    private let shadowView: UIView = UIView()
-    private let textContainerView: UIView = UIView()
-    private let welcomeLabel: UILabel = UILabel()
-    private let infoLabel: UILabel = UILabel()
-    private let getStartedButton: LetgoButton = LetgoButton(type: .custom)
-    private let discardLabel: UILabel = UILabel()
+    private let avatarView = UIImageView()
+    private let shadowView = UIView()
+    private let textContainerView = UIView()
+    private let welcomeLabel = UILabel()
+    private let infoLabel = UILabel()
+    private let getStartedButton = LetgoButton(type: .custom)
+    private let discardLabel = UILabel()
+    private let skipButton = UIButton(type: .custom)
 
     let disposeBag = DisposeBag()
 
@@ -104,6 +105,18 @@ class PostingGetStartedViewController: BaseViewController {
         discardLabel.text = viewModel.discardText
         discardLabel.numberOfLines = 0
         discardLabel.textAlignment = .center
+        
+        if viewModel.shouldShowSkipButton {
+            view.addSubviewForAutoLayout(skipButton)
+            skipButton.layout(with: view).top(by: 20).trailing(by: 0)
+            skipButton.layout().height(64).width(80)
+            skipButton.setTitle(LGLocalizedString.postingButtonSkip, for: .normal)
+            skipButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 17)
+            skipButton.titleLabel?.textAlignment = .center
+            skipButton.titleLabel?.minimumScaleFactor = 0.5
+            skipButton.titleLabel?.adjustsFontSizeToFitWidth = true
+            skipButton.setTitleColor(.gray, for: .normal)
+        }
     }
     
     private func setupConstraints() {
@@ -168,9 +181,17 @@ class PostingGetStartedViewController: BaseViewController {
         getStartedButton.rx.tap.bind { [weak self] in
             self?.nextAction()
         }.disposed(by: disposeBag)
+        
+        skipButton.rx.tap.bind { [weak self] in
+            self?.skipAction()
+        }.disposed(by: disposeBag)
     }
 
     private func nextAction() {
         viewModel.nextAction()
+    }
+    
+    private func skipAction() {
+        viewModel.skipAction()
     }
 }
