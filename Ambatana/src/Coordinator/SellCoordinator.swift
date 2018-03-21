@@ -91,7 +91,7 @@ final class SellCoordinator: Coordinator {
             navigationController.setupInitialCategory(postCategory: postCategory)
             self.viewController = navigationController
             postListingVM.navigator = self
-        } else if featureFlags.onboardingIncentivizePosting.isActive {
+        } else if postingSource == .onboardingBlockingPosting {
             let getStartedVM = PostingGetStartedViewModel()
             let getStartedVC = PostingGetStartedViewController(viewModel: getStartedVM)
             navigationController = SellNavigationController(rootViewController: getStartedVC)

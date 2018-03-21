@@ -14,6 +14,8 @@ class PostingGetStartedViewController: BaseViewController {
         static let margin: CGFloat = 30
         static let avatarSize: CGFloat = 100
         static let buttonHeight: CGFloat = 60
+        static let skipButtonHeight: CGFloat = 64
+        static let skipButtonWidth: CGFloat = 80
     }
 
     private let viewModel: PostingGetStartedViewModel
@@ -107,9 +109,6 @@ class PostingGetStartedViewController: BaseViewController {
         discardLabel.textAlignment = .center
         
         if viewModel.shouldShowSkipButton {
-            view.addSubviewForAutoLayout(skipButton)
-            skipButton.layout(with: view).top().trailing()
-            skipButton.layout().height(64).width(80)
             skipButton.setTitle(LGLocalizedString.postingButtonSkip, for: .normal)
             skipButton.titleLabel?.font = UIFont.systemSemiBoldFont(size: 17)
             skipButton.titleLabel?.textAlignment = .center
@@ -168,6 +167,14 @@ class PostingGetStartedViewController: BaseViewController {
             .left(by: PostingGetStartedMetrics.margin)
             .right(by: -PostingGetStartedMetrics.margin)
             .bottom(by: -PostingGetStartedMetrics.margin)
+        
+        if viewModel.shouldShowSkipButton {
+            view.addSubviewForAutoLayout(skipButton)
+            skipButton.layout(with: view).top().trailing()
+            skipButton.layout()
+                .height(PostingGetStartedMetrics.skipButtonHeight)
+                .width(PostingGetStartedMetrics.skipButtonWidth)
+        }
     }
 
     private func setupRx() {

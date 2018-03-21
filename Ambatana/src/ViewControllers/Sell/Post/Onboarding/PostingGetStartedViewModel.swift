@@ -89,6 +89,7 @@ class PostingGetStartedViewModel: BaseViewModel {
     }
     
     func skipAction() {
+        trackPostSellAbandon()
         navigator?.closePosting()
     }
     
@@ -106,7 +107,7 @@ class PostingGetStartedViewModel: BaseViewModel {
     }
     
     private func trackPostSellAbandon() {
-        let event = TrackerEvent.listingSellAbandon(abandonStep: .summaryOnboarding)
+        let event = TrackerEvent.listingSellAbandon(abandonStep: .welcomeOnboarding)
         tracker.trackEvent(event)
     }
 }
