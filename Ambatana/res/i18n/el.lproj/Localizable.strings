@@ -13,13 +13,13 @@
 "app_share_whatsapp_button" = "Προσκαλέστε μέσω Whatsapp";
 "block_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το μπλοκάρισμα του χρήστη.";
 "bump_up_banner_boost_progress_title" = "Προώθηση για το επόμενο";
-"bump_up_banner_boost_text" = "Add an extra boost!";
+"bump_up_banner_boost_text" = "Προσθέστε μια Επιπλέον Προώθηση!";
 "bump_up_banner_free_button_title" = "Προωθήστε";
 "bump_up_banner_free_text" = "Προωθήστε δωρεάν για να πουλήσετε γρηγορότερα";
 "bump_up_banner_pay_text" = "Προωθήστε για να πουλάτε γρηγορότερα";
 "bump_up_banner_pay_text_improvement" = "Πουλήστε τώρα γρηγορότερα";
 "bump_up_banner_wait_text" = "για να προωθήσετε ξανά";
-"bump_up_boost_success_alert_text" = "Your listing was boosted again!  It will be featured for the next 24 hours.";
+"bump_up_boost_success_alert_text" = "Η καταχώρησή σας προωθήθηκε ξανά! Θα είναι προωθημένη για τις επόμενες 24 ώρες.";
 "bump_up_error_bump_generic" = "Παρουσιάστηκε σφάλμα κατά την προώθηση της καταχώρησής σας. Παρακαλώ δοκιμάστε ξανά.";
 "bump_up_error_bump_token" = "Η πληρωμή σας έχει προχωρήσει, αλλά η καταχώρησή σας δεν έχει προωθηθεί.";
 "bump_up_error_payment_failed" = "Η σύνδεση στο App Store απέτυχε. Η πληρωμή σας δεν έχει προχωρήσει. Παρακαλώ δοκιμάστε ξανά.";
@@ -39,9 +39,9 @@
 "bump_up_product_cell_chat_now_button_d" = "Συνομιλήστε Τώρα";
 "bump_up_product_cell_featured_stripe" = "Προτεινόμενο";
 "bump_up_product_detail_featured_label" = "ΕΠΙΛΕΓΜΕΝΑ";
-"bump_up_view_boost_pay_button_title" = "Feature it again for %@";
+"bump_up_view_boost_pay_button_title" = "Προωθήστε το ξανά για %@";
 "bump_up_view_boost_subtitle_boost_listing" = "Επειδή προωθήσατε ήδη την καταχώρησή σας μέσα στις τελευταίες 24 ώρες, σας δίνουμε τη δυνατότητα να κάνετε επιπλέον προώθηση με λιγότερα χρήματα!";
-"bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
+"bump_up_view_boost_subtitle_cheaper" = "Προωθήστε την καταχώρησή σας άμεσα για να αποκτήσετε έκπτωση στη συνηθισμένη τιμή προώθησης";
 "bump_up_view_boost_subtitle_send_top" = "Η καταχώρησή σας είναι ακόμη προωθημένη, αλλά μπορείτε να δώσετε μια επιπλέον προώθηση. Θα τη μεταφέρει στην κορυφή και θα προωθηθεί για 24 ώρες ξεκινώντας από τώρα.";
 "bump_up_view_boost_title_boost_listing" = "Προωθήστε την καταχώρησή σας";
 "bump_up_view_boost_title_cheaper_boost" = "Αποκτήστε μια φθηνότερη προώθηση τώρα";
@@ -179,6 +179,7 @@
 "chat_list_unarchive_error_multiple" = "Παρουσιάστηκε σφάλμα κατά την αφαίρεση των συνομιλιών από τα αρχειοθετημένα. Παρακαλώ προσπαθήστε ξανά.";
 "chat_list_unblock" = "Ξεμπλοκάρισμα";
 "chat_login_popup_text" = "Για να ξεκινήσετε να συνομιλείτε, θα πρέπει να συνδεθείτε";
+"chat_mark_conversation_as_read_button" = "Μαρκάρισμα όλων ως διαβασμένα";
 "chat_message_disclaimer_meeting_security" = "Προσπαθήστε να κάνετε συναντήσεις σε πολυσύχναστους δημόσιους χώρους, όπως καφετέριες και τράπεζες. Είναι κατάλληλοι και ασφαλείς.";
 "chat_message_disclaimer_scammer_append_blocked" = "Πατήστε εδώ για να μπλοκάρετε αυτόν το χρήστη.";
 "chat_message_disclaimer_scammer_base_blocked" = "Να είστε ιδαίτερα προσεκτικοί όταν ανταλλάζετε πληροφορίες τηλεφώνου/email. Οι χρήστες που θέλουν να σας εξαπατήσουν, συχνά ζητούν να αποχωρήσετε από τη letgo συνομιλία. %@";
@@ -844,6 +845,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Αριθμός υπνοδωματίων";
+"real_estate_camera_view_real_estate_learn_more" = "Learn more";
 "real_estate_camera_view_real_estate_message" = "Τραβήξτε μια φωτογραφία της ιδιοκτησίας που θέλετε να νοικιάσετε ή να πουλήσετε";
 "real_estate_current_step_of_total" = "%d από %d";
 "real_estate_empty_state_search_subtitle" = "Γίνετε οι πρώτοι που θα δημοσιεύσουν ιδιοκτησία για πώληση / ενοικίαση στην περιοχή σας ή ελέγξτε ξανά σύντομα!";

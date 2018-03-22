@@ -843,6 +843,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_with_yourself_alert_msg", comment: "")
 	}
 
+	static var chatMarkConversationAsReadButton: String {
+		return NSLocalizedString("chat_mark_conversation_as_read_button", comment: "")
+	}
+
 	static var collectionTransportTitle: String {
 		return NSLocalizedString("collection_transport_title", comment: "")
 	}
@@ -3701,6 +3705,10 @@ struct LGLocalizedString {
 
 	static var realEstateCameraViewRealEstateMessage: String {
 		return NSLocalizedString("real_estate_camera_view_real_estate_message", comment: "")
+	}
+
+	static var realEstateCameraViewRealEstateLearnMore: String {
+		return NSLocalizedString("real_estate_camera_view_real_estate_learn_more", comment: "")
 	}
 
 	static var realEstateEmptyStateSearchTitle: String {

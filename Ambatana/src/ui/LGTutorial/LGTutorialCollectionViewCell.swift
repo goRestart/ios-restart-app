@@ -30,6 +30,7 @@ final class LGTutorialCollectionViewCell: UICollectionViewCell {
         titlePageLabel.textColor = UIColor.primaryColor
         titlePageLabel.font = UIFont.systemBoldFont(size: 26)
         titlePageLabel.text = page.title
+        titlePageLabel.textAlignment = .center
         stackViewContent.addArrangedSubview(titlePageLabel)
         
         page.sections.forEach { section in
@@ -40,13 +41,12 @@ final class LGTutorialCollectionViewCell: UICollectionViewCell {
             
             let sectionLabelTitle: UILabel = UILabel()
             sectionLabelTitle.numberOfLines = 0
-            sectionLabelTitle.preferredMaxLayoutWidth = contentView.bounds.width - 20
+            sectionLabelTitle.preferredMaxLayoutWidth = contentView.bounds.width
             sectionLabelTitle.textColor = UIColor.blackText
-            sectionLabelTitle.font = UIFont.systemBoldFont(size: 23)
+            sectionLabelTitle.font = UIFont.systemBoldFont(size: 26)
             sectionLabelTitle.text = section.title
-            sectionLabelTitle.textAlignment = .left
+            sectionLabelTitle.textAlignment = page.aligment
             sectionLabelTitle.adjustsFontSizeToFitWidth = true
-            sectionLabelTitle.lineBreakMode = .byClipping
             stackViewContent.addArrangedSubview(sectionLabelTitle)
             
             let sectionLabelDescription: UILabel = UILabel()
@@ -55,9 +55,8 @@ final class LGTutorialCollectionViewCell: UICollectionViewCell {
             sectionLabelDescription.textColor = UIColor.grayDark
             sectionLabelDescription.font = UIFont.systemFont(size: 16)
             sectionLabelDescription.text = section.description
-            sectionLabelDescription.textAlignment = .left
+            sectionLabelDescription.textAlignment = page.aligment
             sectionLabelDescription.adjustsFontSizeToFitWidth = true
-            sectionLabelDescription.lineBreakMode = .byClipping
             stackViewContent.addArrangedSubview(sectionLabelDescription)
         }
         self.setNeedsLayout()
@@ -75,10 +74,10 @@ final class LGTutorialCollectionViewCell: UICollectionViewCell {
         
         stackViewContent.axis = .vertical
         stackViewContent.distribution = .fillProportionally
-        stackViewContent.alignment = .center
+        stackViewContent.alignment = .fill
         stackViewContent.spacing = 10
         
-        stackViewContent.layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        stackViewContent.layoutMargins = UIEdgeInsets(top: 0, left: Metrics.margin, bottom: 0, right: Metrics.margin)
         stackViewContent.isLayoutMarginsRelativeArrangement = true
         
         stackViewContent.translatesAutoresizingMaskIntoConstraints = false
