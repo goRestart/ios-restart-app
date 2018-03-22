@@ -181,6 +181,8 @@
 		0AF7CCBD1F8B525E00128303 /* OvalLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */; };
 		0AF7CCBE1F8B533D00128303 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7CCBA1F8B51F500128303 /* RoundButton.swift */; };
 		0AF7CCBF1F8B533D00128303 /* OvalLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */; };
+		0AFC21542063D35300C09B24 /* NSAttributedString+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC21532063D35300C09B24 /* NSAttributedString+LG.swift */; };
+		0AFC21552063E25100C09B24 /* NSAttributedString+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC21532063D35300C09B24 /* NSAttributedString+LG.swift */; };
 		0AFE311F2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFE311D2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift */; };
 		0AFE31202056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFE311D2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift */; };
 		0AFE31212056DCAB004B6781 /* ListingDeckImagePreviewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFE311E2056DCAB004B6781 /* ListingDeckImagePreviewLayout.swift */; };
@@ -1850,6 +1852,7 @@
 		0AF5EB6E1FD0698B001DFAE2 /* QuickChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickChatViewModel.swift; sourceTree = "<group>"; };
 		0AF7CCBA1F8B51F500128303 /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OvalLayer.swift; sourceTree = "<group>"; };
+		0AFC21532063D35300C09B24 /* NSAttributedString+LG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+LG.swift"; sourceTree = "<group>"; };
 		0AFE311D2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckImagePreviewCell.swift; sourceTree = "<group>"; };
 		0AFE311E2056DCAB004B6781 /* ListingDeckImagePreviewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckImagePreviewLayout.swift; sourceTree = "<group>"; };
 		2E06EAEB1D7051BA00A40704 /* FilterRangePriceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterRangePriceCell.swift; sourceTree = "<group>"; };
@@ -4090,6 +4093,7 @@
 				6A5E19C11D548F5400F92692 /* URL+LG.swift */,
 				C7AFFB111E71AB500052A9CA /* TimeInterval+Time.swift */,
 				8E85EA251FD0539700A24ADE /* Data+Extensions.swift */,
+				0AFC21532063D35300C09B24 /* NSAttributedString+LG.swift */,
 			);
 			path = FoundationExtensions;
 			sourceTree = "<group>";
@@ -6645,6 +6649,7 @@
 				2E50E9A71D057E92002DC4C1 /* LGAlertViewController.swift in Sources */,
 				2E4ADEC6200515FC00D07D8A /* FeaturedInfoViewModel.swift in Sources */,
 				0183496D204F6A8900B14A24 /* BlockingPostingListingEditionViewController.swift in Sources */,
+				0AFC21542063D35300C09B24 /* NSAttributedString+LG.swift in Sources */,
 				8E69F3F21E9E30EE00E14F12 /* CategoryDetailTableView.swift in Sources */,
 				0A48B2511FD9A19400C7F163 /* ListingDeckViewControllerBinder.swift in Sources */,
 				C7DE8AD61C88929A005CF37E /* PostListingCameraView.swift in Sources */,
@@ -7531,6 +7536,7 @@
 				C7B588881CE1DFA6009B3975 /* ChatBubbleCell.swift in Sources */,
 				C7AFFB081E714D5D0052A9CA /* SurveysCoordinator.swift in Sources */,
 				50E557BC1E421CB900327B6A /* LoginCoordinator.swift in Sources */,
+				0AFC21552063E25100C09B24 /* NSAttributedString+LG.swift in Sources */,
 				C7415EDC1DE898580003D6C1 /* SimpleListingsViewModel.swift in Sources */,
 				0A25E8132019C88C00E6A72E /* OnBoardingAnimator.swift in Sources */,
 				C7DB42241C5138B500400945 /* UIImage+Tint.swift in Sources */,
