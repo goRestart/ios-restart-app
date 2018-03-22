@@ -915,7 +915,7 @@ extension ListingViewModelSpec: ListingDetailNavigator {
                          bumpUpProductData: BumpUpProductData,
                          typePage: EventParameterTypePage?,
                          timeSinceLastBump: TimeInterval,
-                         maxCountdoWn: TimeInterval) {
+                         maxCountdown: TimeInterval) {
         calledOpenBumpUpBoostView = true
     }
     func selectBuyerToRate(source: RateUserSource,

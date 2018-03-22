@@ -499,8 +499,12 @@ class ListingViewModel: BaseViewModel {
                                                           paymentItemId: paymentItemId,
                                                           storeProductId: storeProductId)
 
-                self?.openPricedBumpUpView(bumpUpProductData: bumpUpProductData,
-                                           typePage: .listingDetail)
+                // 🦄 for testing!   put back the right one!
+                self?.openBoostBumpUpView(bumpUpProductData: bumpUpProductData,
+                                          typePage: .listingDetail)
+
+//                self?.openPricedBumpUpView(bumpUpProductData: bumpUpProductData,
+//                                           typePage: .listingDetail)
             }
             buttonBlock = { [weak self] in
                 self?.bumpUpProduct(productId: listingId)
@@ -598,7 +602,7 @@ class ListingViewModel: BaseViewModel {
                                    bumpUpProductData: bumpUpProductData,
                                    typePage: typePage,
                                    timeSinceLastBump: timeSinceLastBump,
-                                   maxCountdoWn: bumpMaxCountdown)
+                                   maxCountdown: bumpMaxCountdown)
     }
 
     private var listingCanBeBoosted: Bool {

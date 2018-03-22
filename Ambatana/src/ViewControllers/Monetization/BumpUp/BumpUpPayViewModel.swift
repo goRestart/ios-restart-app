@@ -72,6 +72,15 @@ class BumpUpPayViewModel: BaseViewModel {
         })
     }
 
+    func boostPressed() {
+        navigator?.bumpUpDidFinish(completion: { [weak self] in
+            // TODO: do all the bump stuf but show fancy alert at the end
+//            self?.bumpUpProduct()
+            print("🔝🔝🔝🔝  BOOST! 🔝🔝🔝🔝")
+        })
+
+    }
+
     func closeActionPressed() {
         navigator?.bumpUpDidCancel()
     }

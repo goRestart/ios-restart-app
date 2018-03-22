@@ -36,8 +36,8 @@ class BumpUpCoordinator: Coordinator {
     convenience init(listing: Listing,
                      bumpUpProductData: BumpUpProductData,
                      typePage: EventParameterTypePage?,
-                     timeSinceLastBump: TimeInterval? = 0,
-                     maxCountdoWn: TimeInterval? = 0) {
+                     timeSinceLastBump: TimeInterval? = nil,
+                     maxCountdown: TimeInterval? = nil) {
         switch bumpUpProductData.bumpUpPurchaseableData {
         case .socialMessage(let socialMessage):
             self.init(listing: listing,
@@ -58,7 +58,7 @@ class BumpUpCoordinator: Coordinator {
                       sessionManager: Core.sessionManager,
                       featureFlags: featureFlags,
                       timeSinceLastBump: timeSinceLastBump,
-                      maxCountdoWn: maxCountdoWn)
+                      maxCountdown: maxCountdown)
         }
     }
 
@@ -92,15 +92,24 @@ class BumpUpCoordinator: Coordinator {
          bubbleNotificationManager: BubbleNotificationManager,
          sessionManager: SessionManager,
          featureFlags: FeatureFlaggeable,
-         timeSinceLastBump: TimeInterval? = 0,
-         maxCountdoWn: TimeInterval? = 0) {
+         timeSinceLastBump: TimeInterval? = nil,
+         maxCountdown: TimeInterval? = nil) {
 
         let bumpUpVM = BumpUpPayViewModel(listing: listing,
                                           purchaseableProduct: purchaseableProduct,
                                           paymentItemId: paymentItemId,
                                           storeProductId: storeProductId,
                                           typePage: typePage)
-        let bumpUpVC = BumpUpPayViewController(viewModel: bumpUpVM)
+
+        let bumpUpVC: BaseViewController
+        if let timeSinceLastBump = timeSinceLastBump, let maxCountdown = maxCountdown {
+            bumpUpVC = BumpUpBoostViewController(viewModel: bumpUpVM,
+                                                 featureFlags: featureFlags,
+                                                 timeSinceLastBump: timeSinceLastBump,
+                                                 maxCountdown: maxCountdown)
+        } else {
+            bumpUpVC = BumpUpPayViewController(viewModel: bumpUpVM)
+        }
 
         bumpUpVC.modalPresentationStyle = .overCurrentContext
         self.viewController = bumpUpVC

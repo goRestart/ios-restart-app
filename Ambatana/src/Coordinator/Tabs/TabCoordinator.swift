@@ -465,8 +465,13 @@ extension TabCoordinator: ListingDetailNavigator {
                          bumpUpProductData: BumpUpProductData,
                          typePage: EventParameterTypePage?,
                          timeSinceLastBump: TimeInterval,
-                         maxCountdoWn: TimeInterval) {
-        // TODO: Will be implemented in next PR 🦄
+                         maxCountdown: TimeInterval) {
+        let bumpCoordinator = BumpUpCoordinator(listing: listing,
+                                                bumpUpProductData: bumpUpProductData,
+                                                typePage: typePage,
+                                                timeSinceLastBump: timeSinceLastBump,
+                                                maxCountdown: maxCountdown)
+        openChild(coordinator: bumpCoordinator, parent: rootViewController, animated: true, forceCloseChild: true, completion: nil)
     }
 
     func selectBuyerToRate(source: RateUserSource,

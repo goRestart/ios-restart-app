@@ -66,10 +66,10 @@ protocol ListingDetailNavigator: TabNavigator {
                        bumpUpProductData: BumpUpProductData,
                        typePage: EventParameterTypePage?)
     func openBumpUpBoost(forListing listing: Listing,
-                       bumpUpProductData: BumpUpProductData,
-                       typePage: EventParameterTypePage?,
-                       timeSinceLastBump: TimeInterval,
-                       maxCountdoWn: TimeInterval)
+                         bumpUpProductData: BumpUpProductData,
+                         typePage: EventParameterTypePage?,
+                         timeSinceLastBump: TimeInterval,
+                         maxCountdown: TimeInterval)
     func selectBuyerToRate(source: RateUserSource,
                            buyers: [UserListing],
                            listingId: String,
