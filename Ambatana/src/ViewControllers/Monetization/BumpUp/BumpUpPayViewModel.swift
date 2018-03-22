@@ -74,9 +74,7 @@ class BumpUpPayViewModel: BaseViewModel {
 
     func boostPressed() {
         navigator?.bumpUpDidFinish(completion: { [weak self] in
-            // TODO: do all the bump stuf but show fancy alert at the end
-//            self?.bumpUpProduct()
-            print("🔝🔝🔝🔝  BOOST! 🔝🔝🔝🔝")
+            self?.boostProduct()
         })
 
     }
@@ -85,11 +83,21 @@ class BumpUpPayViewModel: BaseViewModel {
         navigator?.bumpUpDidCancel()
     }
 
+    func timerReachedZero() {
+        navigator?.bumpUpDidCancel()
+    }
+
 
     // MARK: - Private methods
 
-    func bumpUpProduct() {
+    private func bumpUpProduct() {
         logMessage(.info, type: [.monetization], message: "TRY TO Bump with purchase: \(purchaseableProduct)")
+        guard let listingId = listing.objectId, let paymentItemId = paymentItemId else { return }
+        purchasesShopper.requestPayment(forListingId: listingId, appstoreProduct: purchaseableProduct, paymentItemId: paymentItemId)
+    }
+
+    private func boostProduct() {
+        logMessage(.info, type: [.monetization], message: "TRY TO Boost with purchase: \(purchaseableProduct)")
         guard let listingId = listing.objectId, let paymentItemId = paymentItemId else { return }
         purchasesShopper.requestPayment(forListingId: listingId, appstoreProduct: purchaseableProduct, paymentItemId: paymentItemId)
     }

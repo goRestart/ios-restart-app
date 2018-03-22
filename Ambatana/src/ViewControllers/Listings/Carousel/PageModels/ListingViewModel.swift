@@ -499,12 +499,8 @@ class ListingViewModel: BaseViewModel {
                                                           paymentItemId: paymentItemId,
                                                           storeProductId: storeProductId)
 
-                // 🦄 for testing!   put back the right one!
-                self?.openBoostBumpUpView(bumpUpProductData: bumpUpProductData,
-                                          typePage: .listingDetail)
-
-//                self?.openPricedBumpUpView(bumpUpProductData: bumpUpProductData,
-//                                           typePage: .listingDetail)
+                self?.openPricedBumpUpView(bumpUpProductData: bumpUpProductData,
+                                           typePage: .listingDetail)
             }
             buttonBlock = { [weak self] in
                 self?.bumpUpProduct(productId: listingId)
