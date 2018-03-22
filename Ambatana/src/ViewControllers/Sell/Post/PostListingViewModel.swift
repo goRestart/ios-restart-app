@@ -97,7 +97,7 @@ class PostListingViewModel: BaseViewModel {
     
     var shouldShowInfoButton: Bool {
         guard let category = postCategory?.listingCategory else { return false }
-        return category.isRealEstate && featureFlags.realEstateTutorial.isActive
+        return category.isRealEstate && featureFlags.realEstateTutorial.shouldShowInfoButton
     }
     
     fileprivate let disposeBag: DisposeBag
@@ -182,8 +182,11 @@ class PostListingViewModel: BaseViewModel {
     }
     
     func infoButtonPressed() {
-        guard let pages = LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial) else { return }
-        navigator?.openRealEstateOnboarding(pages: pages, origin: .postingIconInfo, tutorialType: .realEstate)
+        openOnboardingRealEstate()
+    }
+    
+    func learnMorePressed() {
+        openOnboardingRealEstate()
     }
 
     func imagesSelected(_ images: [UIImage], source: EventParameterPictureSource) {
@@ -192,6 +195,11 @@ class PostListingViewModel: BaseViewModel {
         } else {
             uploadImages(images, source: source)
         }
+    }
+    
+    private func openOnboardingRealEstate() {
+        guard let pages = LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial) else { return }
+        navigator?.openRealEstateOnboarding(pages: pages, origin: .postingIconInfo, tutorialType: .realEstate)
     }
     
     fileprivate func uploadImages(_ images: [UIImage], source: EventParameterPictureSource) {
@@ -468,6 +476,13 @@ fileprivate extension PostListingViewModel {
                                           location: location,
                                           postalAddress: postalAddress,
                                           postListingState: state.value)
+    }
+}
+
+
+fileprivate extension RealEstateTutorial {
+    var shouldShowInfoButton: Bool {
+        return self == .oneScreen || self == .twoScreens || self == .threeScreens
     }
 }
 
