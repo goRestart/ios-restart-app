@@ -99,10 +99,7 @@ class SellNavigationController: UINavigationController {
     }
     
     func setupRx() {
-        viewModel.currentStep.asObservable().map { [weak self] currentStep -> Bool in
-            guard let totalSteps = self?.viewModel.numberOfSteps.value else { return false }
-            return currentStep == 0 || currentStep > totalSteps
-            }.bind { [weak self] isHidden in
+        viewModel.hideProgressHeader.bind { [weak self] isHidden in
                 self?.animateStep(isHidden: isHidden)
             }.disposed(by: disposeBag)
         
