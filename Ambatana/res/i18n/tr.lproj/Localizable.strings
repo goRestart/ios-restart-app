@@ -845,7 +845,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Oda Sayısı";
-"real_estate_camera_view_real_estate_learn_more" = "Learn more";
+"real_estate_camera_view_real_estate_learn_more" = "Daha fazla bilgi";
 "real_estate_camera_view_real_estate_message" = "Kiralamak ya da satmak istediğin mülkün fotoğrafını çek";
 "real_estate_current_step_of_total" = "%d / %d";
 "real_estate_empty_state_search_subtitle" = "Çevrende satılık / kiralık emlak ilanı yayınlayan ilk sen ol veya sonra tekrar göz at!";
