@@ -553,6 +553,23 @@ class ListingCarouselViewModel: BaseViewModel {
             self?.keyValueStorage[.listingMoreInfoTooltipDismissed] = true
             self?.delegate?.vmRemoveMoreInfoTooltip()
         }.disposed(by: disposeBag)
+
+        altActions.asDriver().drive(onNext: { [weak self] (actions) in
+            self?.processAltActions(actions)
+        }).disposed(by: disposeBag)
+    }
+
+    private func processAltActions(_ altActions: [UIAction]) {
+        guard altActions.count > 0 else { return }
+        
+        let cancel = LGLocalizedString.commonCancel
+        var finalActions: [UIAction] = altActions
+        //Adding show onboarding action
+        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
+        finalActions.append(UIAction(interface: .text(title), action: { [weak self] in
+            self?.delegate?.vmShowOnboarding()
+        }))
+        delegate?.vmShowCarouselOptions(cancel, actions: finalActions)
     }
 
     private func setupCurrentProductVMRxBindings(forIndex index: Int) {
@@ -580,6 +597,7 @@ class ListingCarouselViewModel: BaseViewModel {
 
         currentVM.actionButtons.asObservable().bind(to: actionButtons).disposed(by: activeDisposeBag)
         currentVM.navBarButtons.asObservable().bind(to: navBarButtons).disposed(by: activeDisposeBag)
+        currentVM.altActions.asObservable().bind(to: altActions).disposed(by: activeDisposeBag)
 
         quickAnswers.value = currentVM.quickAnswers
         currentVM.directChatEnabled.asObservable().bind(to: quickAnswersAvailable).disposed(by: activeDisposeBag)
@@ -700,17 +718,6 @@ extension ListingCarouselViewModel {
 // MARK: - ListingViewModelDelegate
 
 extension ListingCarouselViewModel: ListingViewModelDelegate {
-    // ListingViewModelDelegate forwarding methods
-    func vmShowProductDetailOptions(_ cancelLabel: String, actions: [UIAction]) {
-        var finalActions: [UIAction] = actions
-
-        //Adding show onboarding action
-        let title = LGLocalizedString.productOnboardingShowAgainButtonTitle
-        finalActions.append(UIAction(interface: .text(title), action: { [weak self] in
-            self?.delegate?.vmShowOnboarding()
-        }))
-        delegate?.vmShowCarouselOptions(cancelLabel, actions: finalActions)
-    }
 
     func vmShareViewControllerAndItem() -> (UIViewController, UIBarButtonItem?) {
         guard let delegate = delegate else { return (UIViewController(), nil) }

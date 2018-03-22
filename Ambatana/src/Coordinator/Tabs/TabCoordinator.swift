@@ -677,7 +677,9 @@ extension TabCoordinator: UINavigationControllerDelegate {
 
     func navigationController(_ navigationController: UINavigationController,
                               didShow viewController: UIViewController, animated: Bool) {
-        if let photoViewer = viewController as? PhotoViewerViewController {
+        if let main = viewController as? MainListingsViewController {
+            main.tabBarController?.setTabBarHidden(false, animated: true)
+        } else if let photoViewer = viewController as? PhotoViewerViewController {
             let leftGesture = UIScreenEdgePanGestureRecognizer(target: self,
                                                                action: #selector(handlePhotoViewerEdgeGesture))
             leftGesture.edges = .left

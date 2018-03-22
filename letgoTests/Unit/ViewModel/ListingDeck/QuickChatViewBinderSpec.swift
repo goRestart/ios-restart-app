@@ -119,7 +119,7 @@ private class MockQuickChatView: QuickChatViewType {
     func sendRandomMessage() {
         let textfield = UITextField()
         textfield.text = String.makeRandom()
-        textView.textFieldShouldReturn(textfield)
+        _ = textView.textFieldShouldReturn(textfield)
     }
 
     func resetVariables() {
@@ -151,6 +151,9 @@ fileprivate extension QuickChatViewModelRx {
 }
 
 final class MockQuickChatViewModelRx: QuickChatViewModelRx {
+    var areAnswersDynamic: Variable<Bool> = Variable<Bool>(false)
+    var rxAreAnswersDynamic: SharedSequence<DriverSharingStrategy, Bool> { return areAnswersDynamic.asDriver() }
+
     func performCollectionChange(change: CollectionChange<ChatViewMessage>) {
         performCollectionChangeCalled += 1
     }
@@ -167,7 +170,6 @@ final class MockQuickChatViewModelRx: QuickChatViewModelRx {
     var sendCalled: Int = 0
     var performCollectionChangeCalled: Int = 0
 
-    var areAnswersDynamic: Bool = true
     var rxDirectChatPlaceholder: Observable<String> { return directChatPlaceholder.asObservable() }
     var rxQuickAnswers: Observable<[[QuickAnswer]]> { return quickAnswers.asObservable() }
     var rxIsChatEnabled: Observable<Bool> { return chatEnabled.asObservable() }

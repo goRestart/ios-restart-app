@@ -11,7 +11,6 @@ import Foundation
 import RxSwift
 
 class MockFeatureFlags: FeatureFlaggeable {
-
     var trackingData: Observable<[(String, ABGroupType)]?> {
         return trackingDataVar.asObservable()
     }

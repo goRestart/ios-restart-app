@@ -179,6 +179,7 @@
 "chat_list_unarchive_error_multiple" = "Si è verificato un errore durante il tentativo di annullare l'archiviazione di queste conversazioni. Riprova.";
 "chat_list_unblock" = "Sblocca";
 "chat_login_popup_text" = "Devi effettuare l'accesso per iniziare a chattare";
+"chat_mark_conversation_as_read_button" = "Segna tutte come lette";
 "chat_message_disclaimer_meeting_security" = "Cerca di fissare gli incontri in luoghi pubblici come bar o centri commerciali, perché più sicuri e pratici.";
 "chat_message_disclaimer_scammer_append_blocked" = "Tocca qui per bloccare questo utente.";
 "chat_message_disclaimer_scammer_base_blocked" = "Fai particolare attenzione quando scambi dettagli telefonici o email. Utenti disonesti chiedono spesso di lasciare la chat di letgo. %@";
@@ -844,6 +845,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "Più di 4";
 "real_estate_bedrooms_title" = "N° di stanze";
+"real_estate_camera_view_real_estate_learn_more" = "Learn more";
 "real_estate_camera_view_real_estate_message" = "Scatta una foto della proprietà che desideri vendere o affittare";
 "real_estate_current_step_of_total" = "%d di %d";
 "real_estate_empty_state_search_subtitle" = "Pubblica per primo una proprietà in vendita/affitto nella tua zona o controlla nuovamente dopo!";

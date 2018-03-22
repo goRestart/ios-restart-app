@@ -372,6 +372,7 @@ class ListingViewModel: BaseViewModel {
     override func didBecomeInactive() {
         super.didBecomeInactive()
         bumpUpBannerInfo.value = nil
+        altActions.value = []
     }
 
     func syncListing(_ completion: (() -> ())?) {
@@ -787,15 +788,7 @@ extension ListingViewModel {
 extension ListingViewModel {
 
     fileprivate func refreshNavBarButtons() {
-        if featureFlags.newItemPage.isActive {
-            let icon = #imageLiteral(resourceName: "ic_more_options").withRenderingMode(.alwaysOriginal)
-            let action = UIAction(interface: .image(icon, nil), action: { [weak self] in self?.updateAltActions() },
-                            accessibilityId: .listingCarouselNavBarActionsButton)
-
-            navBarButtons.value = [action]
-        } else {
-            navBarButtons.value = buildNavBarButtons()
-        }
+        navBarButtons.value = buildNavBarButtons()
     }
 
     private func buildNavBarButtons() -> [UIAction] {

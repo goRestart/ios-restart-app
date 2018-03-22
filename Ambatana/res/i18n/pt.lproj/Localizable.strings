@@ -19,7 +19,7 @@
 "bump_up_banner_pay_text" = "Sell faster now";
 "bump_up_banner_pay_text_improvement" = "Sell faster now";
 "bump_up_banner_wait_text" = "to feature again";
-"bump_up_boost_success_alert_text" = "Your listing was boosted again!  It will be featured for the next 24 hours.";
+"bump_up_boost_success_alert_text" = "Your listing was boosted again! It will be featured for the next 24 hours.";
 "bump_up_error_bump_generic" = "An error occurred while featuring your listing. Please try again.";
 "bump_up_error_bump_token" = "Your payment has been processed but your listing hasn't been featured.";
 "bump_up_error_payment_failed" = "Couldn't connect to the App Store. Your payment hasn't been processed. Please try again.";
@@ -179,6 +179,7 @@
 "chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
 "chat_list_unblock" = "Unblock";
 "chat_login_popup_text" = "To start chatting, you have to log in";
+"chat_mark_conversation_as_read_button" = "Mark all as read";
 "chat_message_disclaimer_meeting_security" = "Try meeting at busier public places like coffee shops and bank lobbies. They're convenient and safe.";
 "chat_message_disclaimer_scammer_append_blocked" = "Tap here to block this user.";
 "chat_message_disclaimer_scammer_base_blocked" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. %@";
@@ -844,6 +845,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "No. of bedrooms";
+"real_estate_camera_view_real_estate_learn_more" = "Learn more";
 "real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
 "real_estate_current_step_of_total" = "%d of %d";
 "real_estate_empty_state_search_subtitle" = "Be the first to post property for sale / rent in your area or check again soon!";
