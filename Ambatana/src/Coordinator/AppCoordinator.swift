@@ -257,19 +257,21 @@ extension AppCoordinator: AppNavigator {
 
     func openAppRating(_ source: EventParameterRatingSource) {
         guard ratingManager.shouldShowRating else { return }
-        let trackerEvent = TrackerEvent.appRatingStart(source)
-        tracker.trackEvent(trackerEvent)
+        
         if #available(iOS 10.3, *) {
             switch source {
             case .markedSold:
+                trackUserRateStart(source)
                 SKStoreReviewController.requestReview()
                 trackUserDidRate(nil)
                 LGRatingManager.sharedInstance.userDidRate()
             case .chat, .favorite, .listingSellComplete:
                 guard canOpenAppStoreWriteReviewWebsite() else { return }
+                trackUserRateStart(source)
                 askUserIsEnjoyingLetgo()
             }
         } else {
+            trackUserRateStart(source)
             tabBarCtl.showAppRatingView(source)
         }
     }
@@ -346,6 +348,11 @@ extension AppCoordinator: AppNavigator {
         if let url = URL(string: Constants.appStoreWriteReviewURL) {
             UIApplication.shared.openURL(url)
         }
+    }
+    
+    private func trackUserRateStart(_ source: EventParameterRatingSource) {
+        let trackerEvent = TrackerEvent.appRatingStart(source)
+        tracker.trackEvent(trackerEvent)
     }
 
     private func trackUserDidRate(_ reason: EventParameterUserDidRateReason?) {
