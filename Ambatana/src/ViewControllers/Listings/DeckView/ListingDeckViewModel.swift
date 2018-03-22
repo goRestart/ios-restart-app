@@ -220,8 +220,8 @@ final class ListingDeckViewModel: BaseViewModel {
             currentListingViewModel = viewModel
             currentListingViewModel?.delegate = self
 
-            binder.bind(to:viewModel, quickChatViewModel: quickChatViewModel)
             quickChatViewModel.listingViewModel = currentListingViewModel
+            binder.bind(to:viewModel, quickChatViewModel: quickChatViewModel)
 
             currentIndex = index
             prefetchViewModels(index, movement: movement)
