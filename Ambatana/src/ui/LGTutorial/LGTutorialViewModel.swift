@@ -18,6 +18,7 @@ struct SectionTutorialPage {
 struct LGTutorialPage {
     let title: String?
     let sections: [SectionTutorialPage]
+    let aligment: NSTextAlignment
     
     static func makeRealEstateTutorial(typeOfOnboarding: RealEstateTutorial) -> [LGTutorialPage]? {
         switch typeOfOnboarding {
@@ -30,33 +31,40 @@ struct LGTutorialPage {
                                                       title: LGLocalizedString.realEstateTutorialOnePageSecondSectionTitle,
                                                       description: nil)
             let page01 = LGTutorialPage(title: LGLocalizedString.commonNew,
-                                        sections: [section01Page01, section02Page01])
+                                        sections: [section01Page01, section02Page01],
+                                        aligment: .center)
             return [page01]
         case .twoScreens:
             let section01Page01 = SectionTutorialPage(image:#imageLiteral(resourceName: "houseSale") , title: LGLocalizedString.realEstateTutorialTwoPagesFirstSectionFirstPageTitle, description: nil)
-            let page01 = LGTutorialPage(title: LGLocalizedString.commonNew, sections: [section01Page01])
+            let page01 = LGTutorialPage(title: nil,
+                                        sections: [section01Page01],
+                                        aligment: .left)
             let section01Page02 = SectionTutorialPage(image:#imageLiteral(resourceName: "ilustraPhoneLocate"),
                                                       title: LGLocalizedString.realEstateTutorialTwoPagesFirstSectionSecondPageTitle,
                                                       description: nil)
             let page02 = LGTutorialPage(title: nil,
-                                        sections: [section01Page02])
+                                        sections: [section01Page02],
+                                        aligment: .left)
             return [page01, page02]
         case .threeScreens:
             let section01Page01 = SectionTutorialPage(image:#imageLiteral(resourceName: "houseSale") ,
                                                       title: LGLocalizedString.realEstateTutorialThreePagesFirstPageTitle,
                                                       description: LGLocalizedString.realEstateTutorialThreePagesFirstPageDescription)
-            let page01 = LGTutorialPage(title: LGLocalizedString.commonNew,
-                                        sections: [section01Page01])
+            let page01 = LGTutorialPage(title: nil,
+                                        sections: [section01Page01],
+                                        aligment: .left)
             let section01Page02 = SectionTutorialPage(image:#imageLiteral(resourceName: "ilustraPhoneLocate"),
                                                       title: LGLocalizedString.realEstateTutorialThreePagesSecondPageTitle,
                                                       description: LGLocalizedString.realEstateTutorialThreePagesSecondPageDecription)
             let page02 = LGTutorialPage(title: nil,
-                                        sections: [section01Page02])
+                                        sections: [section01Page02],
+                                        aligment: .left)
             let section01Page03 = SectionTutorialPage(image:#imageLiteral(resourceName: "ilustraAroundMe"),
                                                       title: LGLocalizedString.realEstateTutorialThreePagesThirdPageTitle,
                                                       description: LGLocalizedString.realEstateTutorialThreePagesThirdPageDescription)
             let page03 = LGTutorialPage(title: nil,
-                                        sections: [section01Page03])
+                                        sections: [section01Page03],
+                                        aligment: .left)
             return [page01, page02, page03]
         }
     }

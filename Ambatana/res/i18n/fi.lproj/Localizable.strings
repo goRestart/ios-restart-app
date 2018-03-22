@@ -12,11 +12,14 @@
 "app_share_title" = "KUTSU YSTÄVÄSI";
 "app_share_whatsapp_button" = "Kutsu Whatsappilla";
 "block_user_error_generic" = "Tätä käyttäjää estettäessä tapahtui virhe.";
+"bump_up_banner_boost_progress_title" = "Nostettuna esiin seuraavat";
+"bump_up_banner_boost_text" = "Add an extra boost!";
 "bump_up_banner_free_button_title" = "Nosta";
 "bump_up_banner_free_text" = "Nosta ilmaiseksi myydäksesi tuotteesi nopeammin";
 "bump_up_banner_pay_text" = "Myy nopeammin nyt";
 "bump_up_banner_pay_text_improvement" = "Myy nopeammin nyt";
 "bump_up_banner_wait_text" = "seuraavaan nostoon";
+"bump_up_boost_success_alert_text" = "Your listing was boosted again!  It will be featured for the next 24 hours.";
 "bump_up_error_bump_generic" = "Nostettaessa ilmoitustasi esiin tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "bump_up_error_bump_token" = "Maksusi on käsitelty, mutta ilmoitustasi ei ole nostettu esiin.";
 "bump_up_error_payment_failed" = "App Storeen ei saatu yhteyttä. Maksuasi ei ole käsitelty. Ole hyvä ja yritä uudelleen.";
@@ -36,6 +39,13 @@
 "bump_up_product_cell_chat_now_button_d" = "Lähetä viestiä nyt";
 "bump_up_product_cell_featured_stripe" = "Suositeltu";
 "bump_up_product_detail_featured_label" = "SUOSITELTU";
+"bump_up_view_boost_pay_button_title" = "Feature it again for %@";
+"bump_up_view_boost_subtitle_boost_listing" = "Koska nostit ilmoituksesi esiin viimeisen 24 tunnin aikana, annamme sinun ostaa toisen noston halvemmalla!";
+"bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
+"bump_up_view_boost_subtitle_send_top" = "Ilmoituksesi on edelleen nostettu esiin, mutta voit antaa sille lisäboostia. Tällöin ilmoitus siirtyy listan kärkeen ja on nostettuna esiin 24 tuntia tästä eteenpäin.";
+"bump_up_view_boost_title_boost_listing" = "Anna esiin nostetulle ilmoituksellesi boostia";
+"bump_up_view_boost_title_cheaper_boost" = "Nyt saat halvemman boostin";
+"bump_up_view_boost_title_send_top" = "Lähetä se jälleen listan kärkeen";
 "bump_up_view_free_subtitle" = "Mitä enemmän jaat, sitä enemmän näkyvyyttä tuotteesi saa.";
 "bump_up_view_free_title" = "NOSTA TUOTTEESI";
 "bump_up_view_pay_button_title" = "Nosta esiin hintaan %@";
@@ -511,6 +521,7 @@
 "passive_buyers_message" = "Ota yhteyttä näihin ostajiin, jotka ovat kiinnostuneita vastaavista tuotteista";
 "passive_buyers_not_available" = "Hups! Ostajia ei löytynyt.";
 "passive_buyers_title" = "NÄMÄ OSTAJAT SAATTAISIVAT OLLA KIINNOSTUNEITA";
+"photo_viewer_chat_button" = "Keskustelu";
 "post_category_detail_add_make" = "Lisää merkki";
 "post_category_detail_add_model" = "Lisää malli";
 "post_category_detail_car_make" = "Merkki";
