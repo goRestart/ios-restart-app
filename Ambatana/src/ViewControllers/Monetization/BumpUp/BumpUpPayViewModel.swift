@@ -93,12 +93,18 @@ class BumpUpPayViewModel: BaseViewModel {
     private func bumpUpProduct() {
         logMessage(.info, type: [.monetization], message: "TRY TO Bump with purchase: \(purchaseableProduct)")
         guard let listingId = listing.objectId, let paymentItemId = paymentItemId else { return }
-        purchasesShopper.requestPayment(forListingId: listingId, appstoreProduct: purchaseableProduct, paymentItemId: paymentItemId)
+        purchasesShopper.requestPayment(forListingId: listingId,
+                                        appstoreProduct: purchaseableProduct,
+                                        paymentItemId: paymentItemId,
+                                        isBoost: false)
     }
 
     private func boostProduct() {
         logMessage(.info, type: [.monetization], message: "TRY TO Boost with purchase: \(purchaseableProduct)")
         guard let listingId = listing.objectId, let paymentItemId = paymentItemId else { return }
-        purchasesShopper.requestPayment(forListingId: listingId, appstoreProduct: purchaseableProduct, paymentItemId: paymentItemId)
+        purchasesShopper.requestPayment(forListingId: listingId,
+                                        appstoreProduct: purchaseableProduct,
+                                        paymentItemId: paymentItemId,
+                                        isBoost: true)
     }
 }

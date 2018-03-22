@@ -190,6 +190,9 @@
 		2E4C60A61DDF61B300595490 /* ChatBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4C60A41DDF61B300595490 /* ChatBanner.swift */; };
 		2E4DE8D42062A09E0016D5A8 /* BumpUpBoostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4DE8D32062A09E0016D5A8 /* BumpUpBoostViewController.swift */; };
 		2E4DE8D52062A09E0016D5A8 /* BumpUpBoostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4DE8D32062A09E0016D5A8 /* BumpUpBoostViewController.swift */; };
+		2E4DE8D720641A2F0016D5A8 /* lottie_bump_up_boost_success_animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 2E4DE8D620641A2F0016D5A8 /* lottie_bump_up_boost_success_animation.json */; };
+		2E4DE8D9206422970016D5A8 /* BoostSuccessAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4DE8D8206422970016D5A8 /* BoostSuccessAlertView.swift */; };
+		2E4DE8DA206422970016D5A8 /* BoostSuccessAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4DE8D8206422970016D5A8 /* BoostSuccessAlertView.swift */; };
 		2E4EBFC01EADF628005FE040 /* CarAttributeSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4EBFBF1EADF628005FE040 /* CarAttributeSelectionViewModel.swift */; };
 		2E4EBFC11EADF628005FE040 /* CarAttributeSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4EBFBF1EADF628005FE040 /* CarAttributeSelectionViewModel.swift */; };
 		2E4EBFC31EADF63A005FE040 /* CarAttributeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4EBFC21EADF63A005FE040 /* CarAttributeSelectionViewController.swift */; };
@@ -1719,6 +1722,8 @@
 		2E4BDE741EDDA07700CBDC8C /* DistanceBubbleTextGeneratorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceBubbleTextGeneratorSpec.swift; sourceTree = "<group>"; };
 		2E4C60A41DDF61B300595490 /* ChatBanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBanner.swift; sourceTree = "<group>"; };
 		2E4DE8D32062A09E0016D5A8 /* BumpUpBoostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BumpUpBoostViewController.swift; sourceTree = "<group>"; };
+		2E4DE8D620641A2F0016D5A8 /* lottie_bump_up_boost_success_animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottie_bump_up_boost_success_animation.json; sourceTree = "<group>"; };
+		2E4DE8D8206422970016D5A8 /* BoostSuccessAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoostSuccessAlertView.swift; sourceTree = "<group>"; };
 		2E4EBFBF1EADF628005FE040 /* CarAttributeSelectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CarAttributeSelectionViewModel.swift; path = CarsAttributes/CarAttributeSelectionViewModel.swift; sourceTree = "<group>"; };
 		2E4EBFC21EADF63A005FE040 /* CarAttributeSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CarAttributeSelectionViewController.swift; path = CarsAttributes/CarAttributeSelectionViewController.swift; sourceTree = "<group>"; };
 		2E50E9A51D057E92002DC4C1 /* LGAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGAlertViewController.swift; path = LGAlertViewController/LGAlertViewController.swift; sourceTree = "<group>"; };
@@ -2749,6 +2754,7 @@
 				2E4ADEBB200515FB00D07D8A /* FeaturedInfoViewController.swift */,
 				2E4ADEBC200515FC00D07D8A /* FeaturedInfoViewModel.swift */,
 				2E4DE8D32062A09E0016D5A8 /* BumpUpBoostViewController.swift */,
+				2E4DE8D8206422970016D5A8 /* BoostSuccessAlertView.swift */,
 			);
 			name = BumpUp;
 			path = Monetization/BumpUp;
@@ -4010,6 +4016,7 @@
 		8EADA72B20347EA600DE8126 /* lottie */ = {
 			isa = PBXGroup;
 			children = (
+				2E4DE8D620641A2F0016D5A8 /* lottie_bump_up_boost_success_animation.json */,
 				8EADA72C20347EC600DE8126 /* lottie_chat_typing_animation.json */,
 			);
 			path = lottie;
@@ -5045,6 +5052,7 @@
 				2E373FA21D3CDEF500AC811C /* UserRatingCell.xib in Resources */,
 				508011191D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
+				2E4DE8D720641A2F0016D5A8 /* lottie_bump_up_boost_success_animation.json in Resources */,
 				2E5350441CF8A181003B06CC /* ListingStatsView.xib in Resources */,
 				508011251D474ED80073F362 /* ProductOnboarding-Images.xcassets in Resources */,
 				C7C61DF71D63035400F9505D /* ListingCarouselMoreInfoView.xib in Resources */,
@@ -6421,6 +6429,7 @@
 				72854D101F8515BB00E54530 /* PostingDetailsViewController.swift in Sources */,
 				6A5E19F01D548F5400F92692 /* String+LG.swift in Sources */,
 				721A83111E827FD300507E47 /* MediaPermissions.swift in Sources */,
+				2E4DE8D9206422970016D5A8 /* BoostSuccessAlertView.swift in Sources */,
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
 				C7841AF41E07DFFA004A8242 /* UIView+Rating.swift in Sources */,
 				722FEA351F1E36E300838116 /* FilterFreeCell.swift in Sources */,
@@ -7025,6 +7034,7 @@
 				2EE47D2F2017812D004B04EE /* ChatAskPhoneNumberCellDrawer.swift in Sources */,
 				721A83121E827FD300507E47 /* MediaPermissions.swift in Sources */,
 				C7DB42211C5138B500400945 /* LGLocalizedString.swift in Sources */,
+				2E4DE8DA206422970016D5A8 /* BoostSuccessAlertView.swift in Sources */,
 				6A5E19F11D548F5400F92692 /* String+LG.swift in Sources */,
 				722FEA361F1E36E300838116 /* FilterFreeCell.swift in Sources */,
 				C7DB42221C5138B500400945 /* LGNavBarSearchField.swift in Sources */,

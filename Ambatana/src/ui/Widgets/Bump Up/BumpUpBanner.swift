@@ -81,15 +81,15 @@ struct BumpUpInfo {
     var timeSinceLastBump: TimeInterval
     var maxCountdown: TimeInterval
     var price: String?
-    var bannerInteractionBlock: () -> Void
-    var buttonBlock: () -> Void
+    var bannerInteractionBlock: (TimeInterval?) -> Void
+    var buttonBlock: (TimeInterval?) -> Void
 
     init(type: BumpUpType,
          timeSinceLastBump: TimeInterval,
          maxCountdown: TimeInterval,
          price: String?,
-         bannerInteractionBlock: @escaping () -> Void,
-         buttonBlock: @escaping () -> Void) {
+         bannerInteractionBlock: @escaping (TimeInterval?) -> Void,
+         buttonBlock: @escaping (TimeInterval?) -> Void) {
         self.type = type
         self.timeSinceLastBump = timeSinceLastBump
         self.maxCountdown = maxCountdown
@@ -141,8 +141,8 @@ class BumpUpBanner: UIView {
 
     private(set) var type: BumpUpType = .free
 
-    private var bannerInteractionBlock: () -> Void = {}
-    private var buttonBlock: () -> Void = {}
+    private var bannerInteractionBlock: (TimeInterval?) -> Void = { _ in }
+    private var buttonBlock: (TimeInterval?) -> Void = { _ in }
 
     private let featureFlags: FeatureFlags = FeatureFlags.sharedInstance
 
@@ -218,12 +218,7 @@ class BumpUpBanner: UIView {
 
     func resetCountdown() {
         // Update countdown with full waiting time
-        switch type {
-        case .free:
-            timeIntervalLeft.value = maxCountdown
-        case .priced, .restore, .hidden, .boost:
-            timeIntervalLeft.value = maxCountdown
-        }
+        timeIntervalLeft.value = maxCountdown
         startCountdown()
     }
 
@@ -233,7 +228,7 @@ class BumpUpBanner: UIView {
     
     func executeBannerInteractionBlock() {
         guard readyToBump else { return }
-        bannerInteractionBlock()
+        bannerInteractionBlock(maxCountdown-timeIntervalLeft.value)
     }
 
     private func startCountdown() {
@@ -255,7 +250,7 @@ class BumpUpBanner: UIView {
 
     @objc private func bumpButtonPressed() {
         guard readyToBump else { return }
-        buttonBlock()
+        buttonBlock(nil)
     }
 
 

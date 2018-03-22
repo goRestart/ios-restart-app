@@ -472,12 +472,12 @@ class ListingViewModel: BaseViewModel {
                                            paymentItemId: String?,
                                            storeProductId: String?,
                                            bumpUpType: BumpUpType) {
-        var bannerInteractionBlock: () -> Void
-        var buttonBlock: () -> Void
+        var bannerInteractionBlock: (TimeInterval?) -> Void
+        var buttonBlock: (TimeInterval?) -> Void
         switch bumpUpType {
         case .free:
             guard let paymentItemId = paymentItemId else { return }
-            let freeBlock = { [weak self] in
+            let freeBlock: (TimeInterval?) -> Void = { [weak self] _ in
                 guard let listing = self?.listing.value, let socialMessage = self?.freeBumpUpShareMessage else { return }
 
                 let bumpUpProductData = BumpUpProductData(bumpUpPurchaseableData: .socialMessage(message: socialMessage),
@@ -491,7 +491,7 @@ class ListingViewModel: BaseViewModel {
             buttonBlock = freeBlock
         case .priced:
             guard let paymentItemId = paymentItemId else { return }
-            bannerInteractionBlock = { [weak self] in
+            bannerInteractionBlock = { [weak self] _ in
                 guard let _ = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
 
@@ -502,12 +502,12 @@ class ListingViewModel: BaseViewModel {
                 self?.openPricedBumpUpView(bumpUpProductData: bumpUpProductData,
                                            typePage: .listingDetail)
             }
-            buttonBlock = { [weak self] in
-                self?.bumpUpProduct(productId: listingId)
+            buttonBlock = { [weak self] _ in
+                self?.bumpUpProduct(productId: listingId, isBoost: false)
             }
         case .boost:
             guard let paymentItemId = paymentItemId else { return }
-            bannerInteractionBlock = { [weak self] in
+            bannerInteractionBlock = { [weak self] timeSinceLastBump in
                 guard let _ = self?.listing.value else { return }
                 guard let purchaseableProduct = self?.bumpUpPurchaseableProduct else { return }
 
@@ -516,20 +516,21 @@ class ListingViewModel: BaseViewModel {
                                                           storeProductId: storeProductId)
 
                 self?.openBoostBumpUpView(bumpUpProductData: bumpUpProductData,
-                                           typePage: .listingDetail)
+                                          typePage: .listingDetail,
+                                          timeSinceLastBump: timeSinceLastBump)
             }
-            buttonBlock = { [weak self] in
-                self?.bumpUpProduct(productId: listingId)
+            buttonBlock = { [weak self] _ in
+                self?.bumpUpProduct(productId: listingId, isBoost: true)
             }
         case .restore:
-            let restoreBlock = { [weak self] in
+            let restoreBlock: (TimeInterval?) -> Void = { [weak self] _ in
                 logMessage(.info, type: [.monetization], message: "TRY TO Restore Bump for listing: \(listingId)")
                 self?.purchasesShopper.restorePaidBumpUp(forListingId: listingId)
             }
             bannerInteractionBlock = restoreBlock
             buttonBlock = restoreBlock
         case .hidden:
-            let hiddenBlock: () -> Void = { [weak self] in
+            let hiddenBlock: (TimeInterval?) -> Void = { [weak self] _ in
                 self?.trackBumpUpNotAllowed(reason: .notAllowedInternal)
                 let contactUsInterface = UIActionInterface.button(LGLocalizedString.bumpUpNotAllowedAlertContactButton,
                                                                   .primary(fontSize: .medium))
@@ -593,11 +594,12 @@ class ListingViewModel: BaseViewModel {
     }
 
     func openBoostBumpUpView(bumpUpProductData: BumpUpProductData,
-                             typePage: EventParameterTypePage?) {
+                             typePage: EventParameterTypePage?,
+                             timeSinceLastBump: TimeInterval?) {
         navigator?.openBumpUpBoost(forListing: listing.value,
                                    bumpUpProductData: bumpUpProductData,
                                    typePage: typePage,
-                                   timeSinceLastBump: timeSinceLastBump,
+                                   timeSinceLastBump: timeSinceLastBump ?? self.timeSinceLastBump,
                                    maxCountdown: bumpMaxCountdown)
     }
 
@@ -675,12 +677,14 @@ extension ListingViewModel {
         }
     }
 
-    func bumpUpProduct(productId: String) {
+    func bumpUpProduct(productId: String, isBoost: Bool) {
         logMessage(.info, type: [.monetization], message: "TRY TO Bump with purchase: \(String(describing: bumpUpPurchaseableProduct))")
         guard let purchaseableProduct = bumpUpPurchaseableProduct,
             let paymentItemId = paymentItemId else { return }
-        purchasesShopper.requestPayment(forListingId: productId, appstoreProduct: purchaseableProduct,
-                                                  paymentItemId: paymentItemId)
+        purchasesShopper.requestPayment(forListingId: productId,
+                                        appstoreProduct: purchaseableProduct,
+                                        paymentItemId: paymentItemId,
+                                        isBoost: isBoost)
     }
 
     func titleURLPressed(_ url: URL) {
@@ -1281,7 +1285,7 @@ extension ListingViewModel: PurchasesShopperDelegate {
 
     // Paid Bump Up
 
-    func pricedBumpDidStart(typePage: EventParameterTypePage?) {
+    func pricedBumpDidStart(typePage: EventParameterTypePage?, isBoost: Bool) {
         trackBumpUpStarted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""), type: .priced,
                            storeProductId: storeProductId, isPromotedBump: isPromotedBump, typePage: typePage)
         delegate?.vmShowLoading(LGLocalizedString.bumpUpProcessingPricedText)
@@ -1292,12 +1296,32 @@ extension ListingViewModel: PurchasesShopperDelegate {
     }
 
     func pricedBumpPaymentDidFail(withReason reason: String?, transactionStatus: EventParameterTransactionStatus) {
-        trackMobilePaymentFail(withReason: reason, transactionStatus: transactionStatus)
-        delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorPaymentFailed, afterMessageCompletion: nil)
+        // 🦄 TEST THE COOL ALERT!!!! REMOVE AND PUT BACK THE FAIL CODE
+        delegate?.vmHideLoading(nil, afterMessageCompletion: { [weak self] in
+            // 1- animate banner
+            self?.delegate?.vmResetBumpUpBannerCountdown()
+            // 2- show cool alert -> let animationView = LOTAnimationView(name: "lottie_bump_up_boost_success_animation")
+
+            // 3- refresh 👇
+            if let currentBumpUpInfo = self?.bumpUpBannerInfo.value {
+                let newBannerInfo = BumpUpInfo(type: .boost(boostBannerVisible: false),
+                                               timeSinceLastBump: currentBumpUpInfo.timeSinceLastBump,
+                                               maxCountdown: currentBumpUpInfo.maxCountdown,
+                                               price: currentBumpUpInfo.price,
+                                               bannerInteractionBlock: currentBumpUpInfo.bannerInteractionBlock,
+                                               buttonBlock: currentBumpUpInfo.buttonBlock)
+                self?.bumpUpBannerInfo.value = newBannerInfo
+            } else {
+                self?.refreshBumpeableBanner()
+            }
+        })
+
+//        trackMobilePaymentFail(withReason: reason, transactionStatus: transactionStatus)
+//        delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorPaymentFailed, afterMessageCompletion: nil)
     }
 
     func pricedBumpDidSucceed(type: BumpUpType, restoreRetriesCount: Int, transactionStatus: EventParameterTransactionStatus,
-                              typePage: EventParameterTypePage?) {
+                              typePage: EventParameterTypePage?, isBoost: Bool) {
         trackBumpUpCompleted(.pay(price: bumpUpPurchaseableProduct?.formattedCurrencyPrice ?? ""),
                              type: type,
                              restoreRetriesCount: restoreRetriesCount,
@@ -1306,14 +1330,37 @@ extension ListingViewModel: PurchasesShopperDelegate {
                              storeProductId: storeProductId,
                              isPromotedBump: isPromotedBump,
                              typePage: typePage)
-        delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
-            self?.delegate?.vmResetBumpUpBannerCountdown()
-            self?.isShowingFeaturedStripe.value = true
-        })
+
+        if isBoost {
+            delegate?.vmHideLoading(nil, afterMessageCompletion: { [weak self] in
+                // 1- animate banner
+                self?.delegate?.vmResetBumpUpBannerCountdown()
+                // 2- show cool alert 
+
+                // 3- refresh 👇
+
+                if let currentBumpUpInfo = self?.bumpUpBannerInfo.value {
+                    let newBannerInfo = BumpUpInfo(type: .boost(boostBannerVisible: false),
+                                                   timeSinceLastBump: currentBumpUpInfo.timeSinceLastBump,
+                                                   maxCountdown: currentBumpUpInfo.maxCountdown,
+                                                   price: currentBumpUpInfo.price,
+                                                   bannerInteractionBlock: currentBumpUpInfo.bannerInteractionBlock,
+                                                   buttonBlock: currentBumpUpInfo.buttonBlock)
+                    self?.bumpUpBannerInfo.value = newBannerInfo
+                } else {
+                    self?.refreshBumpeableBanner()
+                }
+            })
+        } else {
+            delegate?.vmHideLoading(LGLocalizedString.bumpUpPaySuccess, afterMessageCompletion: { [weak self] in
+                self?.delegate?.vmResetBumpUpBannerCountdown()
+                self?.isShowingFeaturedStripe.value = true
+            })
+        }
     }
 
     func pricedBumpDidFail(type: BumpUpType, transactionStatus: EventParameterTransactionStatus,
-                           typePage: EventParameterTypePage?) {
+                           typePage: EventParameterTypePage?, isBoost: Bool) {
         trackBumpUpFail(type: type, transactionStatus: transactionStatus, storeProductId: storeProductId,
                         typePage: typePage)
         delegate?.vmHideLoading(LGLocalizedString.bumpUpErrorBumpGeneric, afterMessageCompletion: { [weak self] in

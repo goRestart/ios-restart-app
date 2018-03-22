@@ -803,7 +803,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         sut.active = true
 
                         expect(sut.bumpUpPurchaseableProduct).toEventuallyNot(beNil())
-                        sut.bumpUpProduct(productId: product.objectId!)
+                        sut.bumpUpProduct(productId: product.objectId!, isBoost: false)
                     }
                     it ("transaction finishes with payment failed") {
                         expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpErrorPaymentFailed))
@@ -818,7 +818,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         sut.active = true
 
                         expect(sut.bumpUpPurchaseableProduct).toEventuallyNot(beNil())
-                        sut.bumpUpProduct(productId: product.objectId!)
+                        sut.bumpUpProduct(productId: product.objectId!, isBoost: false)
                     }
                     it ("transaction finishes with bump failed") {
                         expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpErrorBumpGeneric))
@@ -833,7 +833,7 @@ class ListingViewModelSpec: BaseViewModelSpec {
                         sut.active = true
 
                         expect(sut.bumpUpPurchaseableProduct).toEventuallyNot(beNil())
-                        sut.bumpUpProduct(productId: product.objectId!)
+                        sut.bumpUpProduct(productId: product.objectId!, isBoost: false)
                     }
                     it ("transaction finishes with bump suceeded") {
                         expect(self.lastLoadingMessageShown).toEventually(equal(LGLocalizedString.bumpUpPaySuccess))

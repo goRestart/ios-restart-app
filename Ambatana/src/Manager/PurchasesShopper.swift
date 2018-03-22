@@ -37,7 +37,10 @@ protocol PurchasesShopper: class {
                                           withIds ids: [String],
                                           typePage: EventParameterTypePage?)
     
-    func requestPayment(forListingId listingId: String, appstoreProduct: PurchaseableProduct, paymentItemId: String)
+    func requestPayment(forListingId listingId: String,
+                        appstoreProduct: PurchaseableProduct,
+                        paymentItemId: String,
+                        isBoost: Bool)
 
     func isBumpUpPending(forListingId: String) -> Bool
     func requestFreeBumpUp(forListingId listingId: String, paymentItemId: String, shareNetwork: EventParameterShareNetwork)
