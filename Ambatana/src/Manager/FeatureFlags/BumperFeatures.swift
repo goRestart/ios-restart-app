@@ -729,9 +729,9 @@ enum DiscardedProducts: String, BumperFeature  {
 }
 
 enum OnboardingIncentivizePosting: String, BumperFeature  {
-    case control, baseline, blockingPosting
+    case control, baseline, blockingPosting, blockingPostingSkipWelcome
     static var defaultValue: String { return OnboardingIncentivizePosting.control.rawValue }
-    static var enumValues: [OnboardingIncentivizePosting] { return [.control, .baseline, .blockingPosting]}
+    static var enumValues: [OnboardingIncentivizePosting] { return [.control, .baseline, .blockingPosting, .blockingPostingSkipWelcome]}
     static var values: [String] { return enumValues.map{$0.rawValue} }
     static var description: String { return "Leads the user through the posting feature and onboarding improvements" } 
     static func fromPosition(_ position: Int) -> OnboardingIncentivizePosting {
@@ -739,6 +739,7 @@ enum OnboardingIncentivizePosting: String, BumperFeature  {
             case 0: return .control
             case 1: return .baseline
             case 2: return .blockingPosting
+            case 3: return .blockingPostingSkipWelcome
             default: return .control
         }
     }
