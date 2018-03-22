@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		7839BFA1A931FDDEB593349A /* Pods_LGResources_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87EBD6EE7ACC450AB9EC0515 /* Pods_LGResources_Tests.framework */; };
 		F51D9A6B206123D4004E9D4B /* LGLocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51D9A67206123D4004E9D4B /* LGLocalizedString.swift */; };
 		F51D9A722061248A004E9D4B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F51D9A742061248A004E9D4B /* Localizable.strings */; };
@@ -15,8 +14,6 @@
 
 /* Begin PBXFileReference section */
 		607FACE51AFB9204008FA782 /* LGResources.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LGResources.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		70A30E66440330DCDF292DEC /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		83EE8D5E60300467767C65AE /* Pods-LGResources_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGResources_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGResources_Tests/Pods-LGResources_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		87EBD6EE7ACC450AB9EC0515 /* Pods_LGResources_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGResources_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,7 +69,6 @@
 			children = (
 				F51D9A64206123D4004E9D4B /* LGResources */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
-				607FACE81AFB9204008FA782 /* Tests */,
 				607FACD11AFB9204008FA782 /* Products */,
 				2DE0B9F3B5DA83733FC82987 /* Pods */,
 				6E7ED3D00CD6834428BF5A8F /* Frameworks */,
@@ -85,23 +81,6 @@
 				607FACE51AFB9204008FA782 /* LGResources.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		607FACE81AFB9204008FA782 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				607FACEB1AFB9204008FA782 /* Tests.swift */,
-				607FACE91AFB9204008FA782 /* Supporting Files */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		607FACE91AFB9204008FA782 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				607FACEA1AFB9204008FA782 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		607FACF51AFB993E008FA782 /* Podspec Metadata */ = {
@@ -305,7 +284,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F51D9A6B206123D4004E9D4B /* LGLocalizedString.swift in Sources */,
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
