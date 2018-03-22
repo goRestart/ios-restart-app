@@ -213,7 +213,9 @@ class PostingDetailsViewModel : BaseViewModel, ListingAttributePickerTableViewDe
         }
         switch step {
         case .price:
+        if priceListing.value != Constants.defaultPrice || previousStepIsSummary {
             set(price: priceListing.value)
+        }
         case .location:
             update(place: placeSelected.value)
         case .sizeSquareMeters:
