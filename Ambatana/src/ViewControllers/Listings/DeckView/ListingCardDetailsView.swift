@@ -190,7 +190,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         detailLabel.numberOfLines = 3
         detailLabel.textAlignment = .left
         detailLabel.font = UIFont.deckDetailFont
-        detailLabel.textColor = #colorLiteral(red: 0.7803921569, green: 0.8078431373, blue: 0.7803921569, alpha: 1)
+        detailLabel.textColor = .grayDark
         detailLabel.backgroundColor = UIColor.white
     }
 

@@ -42,6 +42,7 @@ extension Bumper  {
         flags.append(NewUserProfileView.self)
         flags.append(TurkeyBumpPriceVATAdaptation.self)
         flags.append(SearchImprovements.self)
+        flags.append(RelaxedSearch.self)
         flags.append(ShowChatSafetyTips.self)
         flags.append(DiscardedProducts.self)
         flags.append(OnboardingIncentivizePosting.self)
@@ -52,6 +53,7 @@ extension Bumper  {
         flags.append(IncreaseNumberOfPictures.self)
         flags.append(RealEstateTutorial.self)
         flags.append(MachineLearningMVP.self)
+        flags.append(ShowProTagUserProfile.self)
         flags.append(SummaryAsFirstStep.self)
         Bumper.initialize(flags)
     } 
@@ -201,6 +203,11 @@ extension Bumper  {
         return SearchImprovements(rawValue: value) ?? .control 
     }
 
+    static var relaxedSearch: RelaxedSearch {
+        guard let value = Bumper.value(for: RelaxedSearch.key) else { return .control }
+        return RelaxedSearch(rawValue: value) ?? .control 
+    }
+
     static var showChatSafetyTips: Bool {
         guard let value = Bumper.value(for: ShowChatSafetyTips.key) else { return false }
         return ShowChatSafetyTips(rawValue: value)?.asBool ?? false
@@ -249,6 +256,11 @@ extension Bumper  {
     static var machineLearningMVP: MachineLearningMVP {
         guard let value = Bumper.value(for: MachineLearningMVP.key) else { return .control }
         return MachineLearningMVP(rawValue: value) ?? .control 
+    }
+
+    static var showProTagUserProfile: Bool {
+        guard let value = Bumper.value(for: ShowProTagUserProfile.key) else { return false }
+        return ShowProTagUserProfile(rawValue: value)?.asBool ?? false
     }
 
     static var summaryAsFirstStep: SummaryAsFirstStep {
@@ -697,6 +709,23 @@ enum SearchImprovements: String, BumperFeature  {
     }
 }
 
+enum RelaxedSearch: String, BumperFeature  {
+    case control, baseline, relaxedQuery, relaxedQueryORFallback
+    static var defaultValue: String { return RelaxedSearch.control.rawValue }
+    static var enumValues: [RelaxedSearch] { return [.control, .baseline, .relaxedQuery, .relaxedQueryORFallback]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Search improvements with relaxed queries" } 
+    static func fromPosition(_ position: Int) -> RelaxedSearch {
+        switch position { 
+            case 0: return .control
+            case 1: return .baseline
+            case 2: return .relaxedQuery
+            case 3: return .relaxedQueryORFallback
+            default: return .control
+        }
+    }
+}
+
 enum ShowChatSafetyTips: String, BumperFeature  {
     case no, yes
     static var defaultValue: String { return ShowChatSafetyTips.no.rawValue }
@@ -856,6 +885,15 @@ enum MachineLearningMVP: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum ShowProTagUserProfile: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return ShowProTagUserProfile.no.rawValue }
+    static var enumValues: [ShowProTagUserProfile] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show Professional tag in user profile" } 
+    var asBool: Bool { return self == .yes }
 }
 
 enum SummaryAsFirstStep: String, BumperFeature  {

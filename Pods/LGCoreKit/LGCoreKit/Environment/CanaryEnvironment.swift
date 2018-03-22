@@ -19,4 +19,5 @@ struct CanaryEnvironment: Environment {
     let searchProductsBaseURL = "https://search-products.canary.letgo.com"
     let searchRealEstateBaseURL = "https://searchrealestate.canary.letgo.com"
     let niordBaseURL = "https://niord.letgo.com"
+    let spellCorrectorBaseURL = "https://spellcorrector.canary.letgo.com"
 }

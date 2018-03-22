@@ -58,6 +58,7 @@ protocol FeatureFlaggeable: class {
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
     var searchImprovements: SearchImprovements { get }
+    var relaxedSearch: RelaxedSearch { get }
     var showChatSafetyTips: Bool { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var discardedProducts: DiscardedProducts { get }
@@ -67,6 +68,7 @@ protocol FeatureFlaggeable: class {
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
     var machineLearningMVP: MachineLearningMVP { get }
+    var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
 
     // Country dependant features
@@ -503,6 +505,13 @@ class FeatureFlags: FeatureFlaggeable {
         return SearchImprovements.fromPosition(abTests.searchImprovements.value)
     }
     
+    var relaxedSearch: RelaxedSearch {
+        if Bumper.enabled {
+            return Bumper.relaxedSearch
+        }
+        return RelaxedSearch.fromPosition(abTests.relaxedSearch.value)
+    }
+    
     var onboardingIncentivizePosting: OnboardingIncentivizePosting {
         if Bumper.enabled {
             return Bumper.onboardingIncentivizePosting
@@ -578,6 +587,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.increaseNumberOfPictures
         }
         return IncreaseNumberOfPictures.fromPosition(abTests.increaseNumberOfPictures.value)
+    }
+    
+    var showProTagUserProfile: Bool {
+        if Bumper.enabled {
+            return Bumper.showProTagUserProfile
+        }
+        return abTests.showProTagUserProfile.value
     }
 
     var summaryAsFirstStep: SummaryAsFirstStep {

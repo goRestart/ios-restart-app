@@ -46,39 +46,26 @@ final class LGTutorialView: UIView {
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         
-        let topView = UIView()
-        let bottomView = UIView()
-        
-        let subviews = [effectView, topView, bottomView, collectionView]
-        addSubviewsForAutoLayout(subviews)
-        
-        topView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        topView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        topView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-
-        collectionView.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        
-        bottomView.topAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
-        bottomView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        bottomView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        bottomView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        
-        bottomView.heightAnchor.constraint(equalTo: topView.heightAnchor, multiplier: 1.5).isActive = true
-        bottomView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2).isActive = true
+        addSubviewsForAutoLayout([effectView, collectionView, close, pageControl, acceptButton])
         
         setupEffectView()
+        setupClose()
         setupAcceptButton()
         setupPageControl()
-        setupClose()
+        setupCollectionView()
+        
+    }
+    
+    private func setupCollectionView() {
+        collectionView.topAnchor.constraint(equalTo: close.bottomAnchor, constant: Metrics.margin).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: pageControl.topAnchor).isActive = true
     }
     
     private func setupClose() {
-        close.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(close)
         close.setTitle(LGLocalizedString.tutorialSkipButtonTitle, for: .normal)
-        close.topAnchor.constraint(equalTo: topAnchor, constant: 30).isActive = true
+        close.topAnchor.constraint(equalTo: topAnchor, constant: Metrics.margin).isActive = true
         close.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30).isActive = true
          
         close.titleLabel?.font =  UIFont.systemBoldFont(size: 15)
@@ -96,16 +83,13 @@ final class LGTutorialView: UIView {
     }
     
     private func setupPageControl() {
-        addSubviewForAutoLayout(pageControl)
-        pageControl.topAnchor.constraint(equalTo: collectionView.bottomAnchor).isActive = true
         pageControl.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        pageControl.bottomAnchor.constraint(equalTo: acceptButton.topAnchor).isActive = true
+        pageControl.bottomAnchor.constraint(equalTo: acceptButton.topAnchor, constant: -Metrics.shortMargin).isActive = true
+        pageControl.heightAnchor.constraint(equalToConstant: 30)
     }
     
     private func setupAcceptButton() {
-        acceptButton.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(acceptButton)
-        acceptButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metrics.veryBigMargin).isActive = true
+        acceptButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Metrics.margin).isActive = true
         acceptButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         acceptButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         acceptButton.widthAnchor.constraint(equalTo: collectionView.widthAnchor, multiplier: 0.8).isActive = true
@@ -115,7 +99,10 @@ final class LGTutorialView: UIView {
     }
     
     func updateAcceptButton() {
-        acceptButton.isHidden = pageControl.currentPage != pageControl.numberOfPages - 1
+        let isHidden = pageControl.currentPage != pageControl.numberOfPages - 1
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            self?.acceptButton.alpha = isHidden ? 0.0 : 1.0
+        })
     }
     
     func setNumberOfPages(numberOfPages: Int) {

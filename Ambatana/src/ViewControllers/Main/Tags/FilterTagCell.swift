@@ -63,7 +63,7 @@ class FilterTagCell: UICollectionViewCell {
         case .realEstatePropertyType(let propertyType):
             return FilterTagCell.sizeForText(propertyType.shortLocalizedString)
         case .realEstateOfferType(let offerType):
-            return FilterTagCell.sizeForText(offerType.shortLocalizedString)
+            return FilterTagCell.sizeForText(offerType.shortLocalizedString.localizedCapitalized)
         case .realEstateNumberOfBedrooms(let numberOfBedrooms):
             return FilterTagCell.sizeForText(numberOfBedrooms.shortLocalizedString)
         case .realEstateNumberOfBathrooms(let numberOfBathrooms):
@@ -143,9 +143,9 @@ class FilterTagCell: UICollectionViewCell {
         if !startText.isEmpty && !endText.isEmpty {
             return startText.addingSquareMeterUnit + " " + "-" + " " + endText.addingSquareMeterUnit
         } else if !startText.isEmpty {
-            return startText.addingSquareMeterUnit
+            return LGLocalizedString.filtersRealEstateSizeFromFeedFilterCell + " " + startText.addingSquareMeterUnit
         } else if !endText.isEmpty {
-            return endText.addingSquareMeterUnit
+            return LGLocalizedString.filtersRealEstateSizeToFeedFilterCell + " " + endText.addingSquareMeterUnit
         } else {
             // should never ever happen
             return ""

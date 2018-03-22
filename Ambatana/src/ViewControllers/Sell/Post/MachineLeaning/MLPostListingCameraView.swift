@@ -150,6 +150,7 @@ class MLPostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsVie
         if viewModel.isLiveStatsEnabledBackup,
             let predictionDetailsData = viewModel.predictionDetailsData() {
             predictionDetailsView.set(data: predictionDetailsData)
+            viewModel.trackPredictedData(predictedData: predictionDetailsData)
         }
         
         takePhotoEnabled.value = false
@@ -364,7 +365,7 @@ class MLPostListingCameraView: BaseView, LGViewPagerPage, MLPredictionDetailsVie
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let userInfo = notification.userInfo,
-            let keyboardSize = (userInfo[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue,
+            let keyboardSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
             let animationDuration: TimeInterval = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue {
             bottomControlsContainerBottomConstraint.constant = keyboardSize.height
             predictionDetailsViewBottomConstraint.constant = -keyboardSize.height

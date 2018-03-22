@@ -52,6 +52,12 @@
 // Text for bubble while waiting for next bump
 "bump_up_banner_wait_text" = "to feature again";
 
+// Text for bubble when boost is enabled
+"bump_up_banner_boost_text" = "Add an extra boost!";
+
+// Text for the timer progress view, this text is followed by the time left (e.g.: 2h 32m 15s)
+"bump_up_banner_boost_progress_title" = "Featured for the next";
+
 // Title for bubble button
 "bump_up_banner_free_button_title" = "Bump Up";
 
@@ -111,6 +117,30 @@
 
 // Button title for payment bump up view
 "bump_up_view_pay_button_title" = "Feature it for %@";
+
+// Button title for payment bump up boost view
+"bump_up_view_boost_pay_button_title" = "Feature it again for %@";
+
+// Title for payment bump up view variant 1
+"bump_up_view_boost_title_send_top" = "Send it to the top again";
+
+// Title for payment bump up view variant 2
+"bump_up_view_boost_title_boost_listing" = "Boost your featured listing";
+
+// Title for payment bump up view variant 3
+"bump_up_view_boost_title_cheaper_boost" = "Get a cheaper boost now";
+
+// Subtitle for payment bump up view variant 1
+"bump_up_view_boost_subtitle_send_top" = "Your listing's still featured, but you can add an extra boost. It'll move to the top and be featured for 24 hours starting now.";
+
+// Subtitle for payment bump up view variant 2
+"bump_up_view_boost_subtitle_boost_listing" = "Since you already featured your listing in the last 24 hours, we'll let you purchase another feature for less!";
+
+// Subtitle for payment bump up view variant 3
+"bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
+
+// Text for boost success alert
+"bump_up_boost_success_alert_text" = "Your listing was boosted again! It will be featured for the next 24 hours.";
 
 // Title for payment bump up view
 "bump_up_old_view_pay_title" = "SELL FASTER";
@@ -222,6 +252,9 @@
 
 // Change Bio save button title
 "change_bio_save_button" = "Save";
+
+// Change Bio error shown when new bio contains invalid info
+"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
 
 // Change location apply button. Check image @ "change_location_title" segment
 "change_location_apply_button" = "Set location";
@@ -591,6 +624,9 @@
 
 // Alert to show when user started chat with himself
 "chat_with_yourself_alert_msg" = "You can't start a conversation about your own listing.";
+
+// Button in chat conversation list to mark all conversations as read
+"chat_mark_conversation_as_read_button" = "Mark all as read";
 
 // Title of transport collection
 "collection_transport_title" = "Travel in style";
@@ -1089,6 +1125,12 @@
 // Filters Nº of Bathrooms not set
 "filters_real_estate_bathrooms_not_set" = "Not set";
 
+// From price in the selected filter cell shown in feed
+"filters_real_estate_size_from_feed_filter_cell" = "From";
+
+// To price in the selected filter cell shown in feed
+"filters_real_estate_size_to_feed_filter_cell" = "To";
+
 // Selected location text when there is no postal address. 
 "filters_tag_location_selected" = "Selected location";
 
@@ -1314,6 +1356,9 @@
 
 // Navigation bar button 'Invite'' 
 "main_products_invite_navigation_bar_button" = "Invite";
+
+// MoPub advertising indicator "Ad"
+"mopub_advertising_text" = "Ad";
 
 // Subtitle text for empty notifications center
 "notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
@@ -1992,6 +2037,9 @@
 
 // Subtitle message to ask user to select a picture or more
 "product_post_gallery_select_pictures_subtitle" = "Select up to 5 images to upload";
+
+// Subtitle message to ask user to select a picture or more with params
+"product_post_gallery_select_pictures_subtitle_params" = "Select up to %d images to upload";
 
 // Gallery tab on posting
 "product_post_gallery_tab" = "GALLERY";
@@ -2705,8 +2753,14 @@
 // Message inside gallery view to explain about picture selection on RE
 "real_estate_gallery_view_subtitle" = "Select up to 5 images of the property you want to sell or rent";
 
+// Message inside gallery view to explain about picture selection on RE
+"real_estate_gallery_view_subtitle_params" = "Select up to %d images of the property you want to sell or rent";
+
 // Message inside camera view to explain about picture selection on RE
 "real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
+
+// Message inside camera view to open real estate onboarding
+"real_estate_camera_view_real_estate_learn_more" = "Learn more";
 
 // Title for empty state when search for real estate
 "real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";
@@ -2724,7 +2778,7 @@
 "real_estate_tutorial_one_page_second_section_title" = "Quickly post a listing with all the details buyers want to know";
 
 // Title for first section on first page for real estate onboarding
-"real_estate_tutorial_two_pages_first_section_first_page_title" = "NEW! Sell property or find a renter for your extra room";
+"real_estate_tutorial_two_pages_first_section_first_page_title" = "New! Sell property or find a renter for your extra room";
 
 // Title for first section on second page for real estate onboarding
 "real_estate_tutorial_two_pages_first_section_second_page_title" = "Quickly post a listing with all the details buyers want to know";
