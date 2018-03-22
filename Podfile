@@ -34,7 +34,7 @@ def shared_pods
     pod "NewRelicAgent",        "6.1.1"     # Obj-c
 
     # letgo modules
-    pod "LGResources",            :path => "./Ambatana/modules/LGResources"
+    pod "LGResources",            :path => "./modules/LGResources"
 
     # letgo Core
     pod "LGCoreKit",             "4.13.3"

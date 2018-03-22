@@ -13,8 +13,8 @@ require_relative 'helpers/String'
 require_relative 'helpers/Term'
 
 APP_I18N_PATH = "Ambatana/res/i18n"
-LGRESOURCES_I18N_PATH = "Ambatana/modules/LGResources/LGResources/Assets/i18n"
-LGRESOURCES_LOCALIZED_STRINGS_PATH = "Ambatana/modules/LGResources/LGResources/Classes"
+LGRESOURCES_I18N_PATH = "modules/LGResources/LGResources/Assets/i18n"
+LGRESOURCES_LOCALIZED_STRINGS_PATH = "modules/LGResources/LGResources/Classes"
 
 # Moves a folder
   # Params:
