@@ -205,5 +205,4 @@
         "values": ["control", "baseline", "active"],
         "description": "Show directly summary screen instead of Real estate steps"
     }
-
 ]

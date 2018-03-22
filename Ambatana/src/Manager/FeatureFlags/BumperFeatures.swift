@@ -256,10 +256,11 @@ extension Bumper  {
         guard let value = Bumper.value(for: ShowProTagUserProfile.key) else { return false }
         return ShowProTagUserProfile(rawValue: value)?.asBool ?? false
     }
+
     static var summaryAsFirstStep: SummaryAsFirstStep {
         guard let value = Bumper.value(for: SummaryAsFirstStep.key) else { return .control }
         return SummaryAsFirstStep(rawValue: value) ?? .control 
-    }
+    } 
 }
 
 

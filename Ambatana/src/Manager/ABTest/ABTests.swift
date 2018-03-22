@@ -62,6 +62,7 @@ class ABTests {
     let showProTagUserProfile = BoolABDynamicVar(key: "20180319ShowProTagUserProfile", defaultValue: false, abGroupType: .money)
     let realEstateTutorial = IntABDynamicVar(key: "20180309RealEstateTutorial", defaultValue: 0, abGroupType: .realEstate)
     let summaryAsFirstStep = IntABDynamicVar(key: "20180320SummaryAsFirstStep", defaultValue: 0, abGroupType: .realEstate)
+
     init() {
     }
     
@@ -114,7 +115,8 @@ class ABTests {
         result.append(showProTagUserProfile)
         result.append(realEstateTutorial)
         result.append(summaryAsFirstStep)
-
+        result.append(machineLearningMVP)
+        result.append(showProTagUserProfile)
         return result
     }
 
