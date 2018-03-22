@@ -12,11 +12,14 @@
 "app_share_title" = "MỜI BẠN BÈ";
 "app_share_whatsapp_button" = "Mời qua Whatsapp";
 "block_user_error_generic" = "Có lỗi xảy ra trong khi chặn người dùng này.";
+"bump_up_banner_boost_progress_title" = "Featured for the next";
+"bump_up_banner_boost_text" = "Add an extra boost!";
 "bump_up_banner_free_button_title" = "Đẩy lên";
 "bump_up_banner_free_text" = "Đẩy lên miễn phí để bán nhanh hơn";
 "bump_up_banner_pay_text" = "Bán nhanh hơn";
 "bump_up_banner_pay_text_improvement" = "Bán nhanh hơn bây giờ";
 "bump_up_banner_wait_text" = "để làm nổi bật lại";
+"bump_up_boost_success_alert_text" = "Your listing was boosted again!  It will be featured for the next 24 hours.";
 "bump_up_error_bump_generic" = "Có lỗi trong khi làm nổi bật bài đăng của bạn. Xin vui lòng thử lại.";
 "bump_up_error_bump_token" = "Thanh toán của bạn đã được tiến hành nhưng bài đăng chưa được làm nổi bật.";
 "bump_up_error_payment_failed" = "Không thể kết nối với Cửa hàng của Ứng dụng. Thanh toán của bạn chưa được tiến hành. Xin vui lòng thử lại.";
@@ -36,6 +39,13 @@
 "bump_up_product_cell_chat_now_button_d" = "Trò chuyện Bây giờ";
 "bump_up_product_cell_featured_stripe" = "Tiêu biểu";
 "bump_up_product_detail_featured_label" = "TIÊU BIỂU";
+"bump_up_view_boost_pay_button_title" = "Feature it again for %@";
+"bump_up_view_boost_subtitle_boost_listing" = "Since you already featured your listing in the last 24 hours, we'll let you purchase another feature for less!";
+"bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
+"bump_up_view_boost_subtitle_send_top" = "Your listing's still featured, but you can add an extra boost. It'll move to the top and be featured for 24 hours starting now.";
+"bump_up_view_boost_title_boost_listing" = "Boost your featured listing";
+"bump_up_view_boost_title_cheaper_boost" = "Get a cheaper boost now";
+"bump_up_view_boost_title_send_top" = "Send it to the top again";
 "bump_up_view_free_subtitle" = "Càng được chia sẻ nhiều, bài đăng của bạn càng dễ thấy.";
 "bump_up_view_free_title" = "ĐẨY BÀI ĐĂNG CỦA BẠN LÊN";
 "bump_up_view_pay_button_title" = "Làm nổi bật trong %@";
@@ -70,7 +80,7 @@
 "categories_title" = "Danh mục";
 "categories_unassigned" = "Chưa được chọn";
 "categories_unassigned_items" = "Sản phẩm khác";
-"change_bio_error_message" = "An error occurred while saving your bio. Please make sure it doesn’t include contact information.";
+"change_bio_error_message" = "Có lỗi xảy ra trong khi chỉnh sửa tiểu sử của bạn. Vui lòng đảm bảo không có thông tin liên hệ trong đó.";
 "change_bio_placeholder" = "Thêm một tiểu sử miêu tả về bạn. Chia sẻ điều gì bạn quan tâm hoặc điều gì đó thú vị về bạn.";
 "change_bio_save_button" = "Lưu";
 "change_bio_title" = "Về tôi";
@@ -511,6 +521,7 @@
 "passive_buyers_message" = "Liên hệ với những người mua quan tâm đến sản phẩm tương tự";
 "passive_buyers_not_available" = "Ồ! Không tìm thấy người mua.";
 "passive_buyers_title" = "NHỮNG NGƯỜI MUA NÀY CÓ THỂ QUAN TÂM";
+"photo_viewer_chat_button" = "Chat";
 "post_category_detail_add_make" = "Thêm Nhà sản xuất";
 "post_category_detail_add_model" = "Thêm Dòng";
 "post_category_detail_car_make" = "Nhà sản xuất";

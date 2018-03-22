@@ -118,6 +118,30 @@
 // Button title for payment bump up view
 "bump_up_view_pay_button_title" = "Feature it for %@";
 
+// Button title for payment bump up boost view
+"bump_up_view_boost_pay_button_title" = "Feature it again for %@";
+
+// Title for payment bump up view variant 1
+"bump_up_view_boost_title_send_top" = "Send it to the top again";
+
+// Title for payment bump up view variant 2
+"bump_up_view_boost_title_boost_listing" = "Boost your featured listing";
+
+// Title for payment bump up view variant 3
+"bump_up_view_boost_title_cheaper_boost" = "Get a cheaper boost now";
+
+// Subtitle for payment bump up view variant 1
+"bump_up_view_boost_subtitle_send_top" = "Your listing's still featured, but you can add an extra boost. It'll move to the top and be featured for 24 hours starting now.";
+
+// Subtitle for payment bump up view variant 2
+"bump_up_view_boost_subtitle_boost_listing" = "Since you already featured your listing in the last 24 hours, we'll let you purchase another feature for less!";
+
+// Subtitle for payment bump up view variant 3
+"bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
+
+// Text for boost success alert
+"bump_up_boost_success_alert_text" = "Your listing was boosted again!  It will be featured for the next 24 hours.";
+
 // Title for payment bump up view
 "bump_up_old_view_pay_title" = "SELL FASTER";
 

@@ -12,11 +12,14 @@
 "app_share_title" = "INVITE YOUR FRIENDS";
 "app_share_whatsapp_button" = "Invite via Whatsapp";
 "block_user_error_generic" = "An error occurred while blocking this user.";
+"bump_up_banner_boost_progress_title" = "Featured for the next";
+"bump_up_banner_boost_text" = "Add an extra boost!";
 "bump_up_banner_free_button_title" = "Bump Up";
 "bump_up_banner_free_text" = "Bump Up for free to sell faster";
 "bump_up_banner_pay_text" = "Sell faster now";
 "bump_up_banner_pay_text_improvement" = "Sell faster now";
 "bump_up_banner_wait_text" = "to feature again";
+"bump_up_boost_success_alert_text" = "Your listing was boosted again!  It will be featured for the next 24 hours.";
 "bump_up_error_bump_generic" = "An error occurred while featuring your listing. Please try again.";
 "bump_up_error_bump_token" = "Your payment has been processed but your listing hasn't been featured.";
 "bump_up_error_payment_failed" = "Couldn't connect to the App Store. Your payment hasn't been processed. Please try again.";
@@ -36,6 +39,13 @@
 "bump_up_product_cell_chat_now_button_d" = "Chat Now";
 "bump_up_product_cell_featured_stripe" = "Featured";
 "bump_up_product_detail_featured_label" = "FEATURED";
+"bump_up_view_boost_pay_button_title" = "Feature it again for %@";
+"bump_up_view_boost_subtitle_boost_listing" = "Since you already featured your listing in the last 24 hours, we'll let you purchase another feature for less!";
+"bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
+"bump_up_view_boost_subtitle_send_top" = "Your listing's still featured, but you can add an extra boost. It'll move to the top and be featured for 24 hours starting now.";
+"bump_up_view_boost_title_boost_listing" = "Boost your featured listing";
+"bump_up_view_boost_title_cheaper_boost" = "Get a cheaper boost now";
+"bump_up_view_boost_title_send_top" = "Send it to the top again";
 "bump_up_view_free_subtitle" = "The more you share, the more visibility your listing will have.";
 "bump_up_view_free_title" = "BUMP UP YOUR LISTING";
 "bump_up_view_pay_button_title" = "Feature it for %@";
@@ -511,6 +521,7 @@
 "passive_buyers_message" = "Contact these buyers who are interested in similar products";
 "passive_buyers_not_available" = "Oops! Buyers not found.";
 "passive_buyers_title" = "THESE BUYERS MIGHT BE INTERESTED";
+"photo_viewer_chat_button" = "Chat";
 "post_category_detail_add_make" = "Add Make";
 "post_category_detail_add_model" = "Add Model";
 "post_category_detail_car_make" = "Make";
