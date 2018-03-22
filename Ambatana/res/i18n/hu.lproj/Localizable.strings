@@ -12,11 +12,14 @@
 "app_share_title" = "HÍVD MEG BARÁTAIDAT";
 "app_share_whatsapp_button" = "Meghívás WhatsAppon";
 "block_user_error_generic" = "Hiba történt a felhasználó blokkolása során.";
+"bump_up_banner_boost_progress_title" = "Featured for the next";
+"bump_up_banner_boost_text" = "Add an extra boost!";
 "bump_up_banner_free_button_title" = "Felugrasztás";
 "bump_up_banner_free_text" = "Ingyenesen felugraszthatva gyorsabban eladhatsz";
 "bump_up_banner_pay_text" = "Add el gyorsabban";
 "bump_up_banner_pay_text_improvement" = "Add el gyorsabban";
 "bump_up_banner_wait_text" = "a következő kiemelésig";
+"bump_up_boost_success_alert_text" = "Your listing was boosted again!  It will be featured for the next 24 hours.";
 "bump_up_error_bump_generic" = "Hiba történt a hirdetésed kiemelése során. Próbálkozz újra.";
 "bump_up_error_bump_token" = "A tranzakciót feldolgoztuk, de hirdetésed nincs kiemelve.";
 "bump_up_error_payment_failed" = "Nem sikerült kapcsolódni az App Store-hoz. Feldolgozatlan befizetés. Próbálkozz újra.";
@@ -36,6 +39,13 @@
 "bump_up_product_cell_chat_now_button_d" = "Mérföld";
 "bump_up_product_cell_featured_stripe" = "Kiemelt";
 "bump_up_product_detail_featured_label" = "KIEMELT";
+"bump_up_view_boost_pay_button_title" = "Feature it again for %@";
+"bump_up_view_boost_subtitle_boost_listing" = "Since you already featured your listing in the last 24 hours, we'll let you purchase another feature for less!";
+"bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
+"bump_up_view_boost_subtitle_send_top" = "Your listing's still featured, but you can add an extra boost. It'll move to the top and be featured for 24 hours starting now.";
+"bump_up_view_boost_title_boost_listing" = "Boost your featured listing";
+"bump_up_view_boost_title_cheaper_boost" = "Get a cheaper boost now";
+"bump_up_view_boost_title_send_top" = "Send it to the top again";
 "bump_up_view_free_subtitle" = "Minél többször osztod meg hirdetésedet, annál láthatóbb lesz.";
 "bump_up_view_free_title" = "UGRASZD FEL HIRDETÉSEDET";
 "bump_up_view_pay_button_title" = "Kiemelés: %@";
@@ -347,8 +357,8 @@
 "filters_real_estate_bedrooms_not_set" = "Nincs megadva";
 "filters_real_estate_offer_type_not_set" = "Nincs megadva";
 "filters_real_estate_property_type_not_set" = "Nincs megadva";
-"filters_real_estate_size_from_feed_filter_cell" = "From";
-"filters_real_estate_size_to_feed_filter_cell" = "To";
+"filters_real_estate_size_from_feed_filter_cell" = "Ettől";
+"filters_real_estate_size_to_feed_filter_cell" = "Eddig";
 "filters_save_button" = "Szűrők mentése";
 "filters_section_car_info" = "Autóinfók";
 "filters_section_categories" = "Kategóriák";
@@ -511,6 +521,7 @@
 "passive_buyers_message" = "Lépj kapcsolatba hasonló portékák után érdeklődő vásárlókkal";
 "passive_buyers_not_available" = "Hoppá! A vásárlók nem találhatók.";
 "passive_buyers_title" = "EZEK A VÁSÁRLÓK ÉRDEKLŐDNEK";
+"photo_viewer_chat_button" = "Chat";
 "post_category_detail_add_make" = "Gyártó hozzáadása";
 "post_category_detail_add_model" = "Típus hozzáadása";
 "post_category_detail_car_make" = "Gyártó";

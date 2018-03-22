@@ -79,6 +79,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_banner_wait_text", comment: "")
 	}
 
+	static var bumpUpBannerBoostText: String {
+		return NSLocalizedString("bump_up_banner_boost_text", comment: "")
+	}
+
+	static var bumpUpBannerBoostProgressTitle: String {
+		return NSLocalizedString("bump_up_banner_boost_progress_title", comment: "")
+	}
+
 	static var bumpUpBannerFreeButtonTitle: String {
 		return NSLocalizedString("bump_up_banner_free_button_title", comment: "")
 	}
@@ -157,6 +165,38 @@ struct LGLocalizedString {
 
 	static func bumpUpViewPayButtonTitle(_ var1: String) -> String {
 		return String(format: NSLocalizedString("bump_up_view_pay_button_title", comment: ""), var1)
+	}
+
+	static func bumpUpViewBoostPayButtonTitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("bump_up_view_boost_pay_button_title", comment: ""), var1)
+	}
+
+	static var bumpUpViewBoostTitleSendTop: String {
+		return NSLocalizedString("bump_up_view_boost_title_send_top", comment: "")
+	}
+
+	static var bumpUpViewBoostTitleBoostListing: String {
+		return NSLocalizedString("bump_up_view_boost_title_boost_listing", comment: "")
+	}
+
+	static var bumpUpViewBoostTitleCheaperBoost: String {
+		return NSLocalizedString("bump_up_view_boost_title_cheaper_boost", comment: "")
+	}
+
+	static var bumpUpViewBoostSubtitleSendTop: String {
+		return NSLocalizedString("bump_up_view_boost_subtitle_send_top", comment: "")
+	}
+
+	static var bumpUpViewBoostSubtitleBoostListing: String {
+		return NSLocalizedString("bump_up_view_boost_subtitle_boost_listing", comment: "")
+	}
+
+	static var bumpUpViewBoostSubtitleCheaper: String {
+		return NSLocalizedString("bump_up_view_boost_subtitle_cheaper", comment: "")
+	}
+
+	static var bumpUpBoostSuccessAlertText: String {
+		return NSLocalizedString("bump_up_boost_success_alert_text", comment: "")
 	}
 
 	static var bumpUpOldViewPayTitle: String {

@@ -63,7 +63,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var showProTagUserProfile: Bool = false
     var realEstateTutorial: RealEstateTutorial = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
-    
+
     // Country dependant features
     var freePostingModeAllowed = false
     var postingFlowType: PostingFlowType = .standard

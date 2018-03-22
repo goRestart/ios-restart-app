@@ -12,11 +12,14 @@
 "app_share_title" = "ARKADAŞLARINI DAVET ET";
 "app_share_whatsapp_button" = "WhatsApp ile davet et";
 "block_user_error_generic" = "Kullanıcı engellenirken bir hata oluştu.";
+"bump_up_banner_boost_progress_title" = "Featured for the next";
+"bump_up_banner_boost_text" = "Add an extra boost!";
 "bump_up_banner_free_button_title" = "Üste çıkar";
 "bump_up_banner_free_text" = "Daha hızlı satmak için üste çıkar";
 "bump_up_banner_pay_text" = "Hemen sat";
 "bump_up_banner_pay_text_improvement" = "Hemen sat";
 "bump_up_banner_wait_text" = "tekrar öne çıkarmak için";
+"bump_up_boost_success_alert_text" = "Your listing was boosted again!  It will be featured for the next 24 hours.";
 "bump_up_error_bump_generic" = "İlanın öne çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "bump_up_error_bump_token" = "Ödemen gerçekleştirildi fakat ilanın öne çıkarılmadı.";
 "bump_up_error_payment_failed" = "App Store ile bağlantı gerçekleştirilemedi. Ödeme işlemin tamamlanmadı. Lütfen tekrar dene.";
@@ -36,6 +39,13 @@
 "bump_up_product_cell_chat_now_button_d" = "İletişime Geç";
 "bump_up_product_cell_featured_stripe" = "Öne çıkan";
 "bump_up_product_detail_featured_label" = "ÖNE ÇIKAN";
+"bump_up_view_boost_pay_button_title" = "Feature it again for %@";
+"bump_up_view_boost_subtitle_boost_listing" = "Since you already featured your listing in the last 24 hours, we'll let you purchase another feature for less!";
+"bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
+"bump_up_view_boost_subtitle_send_top" = "Your listing's still featured, but you can add an extra boost. It'll move to the top and be featured for 24 hours starting now.";
+"bump_up_view_boost_title_boost_listing" = "Boost your featured listing";
+"bump_up_view_boost_title_cheaper_boost" = "Get a cheaper boost now";
+"bump_up_view_boost_title_send_top" = "Send it to the top again";
 "bump_up_view_free_subtitle" = "Ne kadar çok paylaşırsan ürününü o kadar fazla kişi görür.";
 "bump_up_view_free_title" = "ÜRÜNÜNÜ ÜSTE ÇIKAR";
 "bump_up_view_pay_button_title" = "%@ karşılığında öne çıkar";
@@ -347,8 +357,8 @@
 "filters_real_estate_bedrooms_not_set" = "Belirlenmedi";
 "filters_real_estate_offer_type_not_set" = "Belirlenmedi";
 "filters_real_estate_property_type_not_set" = "Belirlenmedi";
-"filters_real_estate_size_from_feed_filter_cell" = "From";
-"filters_real_estate_size_to_feed_filter_cell" = "To";
+"filters_real_estate_size_from_feed_filter_cell" = "Min";
+"filters_real_estate_size_to_feed_filter_cell" = "Max";
 "filters_save_button" = "Filtreleri Kaydet";
 "filters_section_car_info" = "Araç detayları";
 "filters_section_categories" = "KATEGORİLER";
@@ -511,6 +521,7 @@
 "passive_buyers_message" = "Benzer ürünlerle ilgilenebilecek bu alıcılarla iletişime geç";
 "passive_buyers_not_available" = "Oops! Alıcılar bulunamadı.";
 "passive_buyers_title" = "BU ALICILAR İLGİLENİYOR OLABİLİR";
+"photo_viewer_chat_button" = "Chat";
 "post_category_detail_add_make" = "Marka Ekle";
 "post_category_detail_add_model" = "Model Ekle";
 "post_category_detail_car_make" = "Marka";

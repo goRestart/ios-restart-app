@@ -12,11 +12,14 @@
 "app_share_title" = "ΠΡΟΣΚΑΛΕΣΤΕ ΤΟΥΣ ΦΙΛΟΥΣ ΣΑΣ";
 "app_share_whatsapp_button" = "Προσκαλέστε μέσω Whatsapp";
 "block_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το μπλοκάρισμα του χρήστη.";
+"bump_up_banner_boost_progress_title" = "Προώθηση για το επόμενο";
+"bump_up_banner_boost_text" = "Add an extra boost!";
 "bump_up_banner_free_button_title" = "Προωθήστε";
 "bump_up_banner_free_text" = "Προωθήστε δωρεάν για να πουλήσετε γρηγορότερα";
 "bump_up_banner_pay_text" = "Προωθήστε για να πουλάτε γρηγορότερα";
 "bump_up_banner_pay_text_improvement" = "Πουλήστε τώρα γρηγορότερα";
 "bump_up_banner_wait_text" = "για να προωθήσετε ξανά";
+"bump_up_boost_success_alert_text" = "Your listing was boosted again!  It will be featured for the next 24 hours.";
 "bump_up_error_bump_generic" = "Παρουσιάστηκε σφάλμα κατά την προώθηση της καταχώρησής σας. Παρακαλώ δοκιμάστε ξανά.";
 "bump_up_error_bump_token" = "Η πληρωμή σας έχει προχωρήσει, αλλά η καταχώρησή σας δεν έχει προωθηθεί.";
 "bump_up_error_payment_failed" = "Η σύνδεση στο App Store απέτυχε. Η πληρωμή σας δεν έχει προχωρήσει. Παρακαλώ δοκιμάστε ξανά.";
@@ -36,6 +39,13 @@
 "bump_up_product_cell_chat_now_button_d" = "Συνομιλήστε Τώρα";
 "bump_up_product_cell_featured_stripe" = "Προτεινόμενο";
 "bump_up_product_detail_featured_label" = "ΕΠΙΛΕΓΜΕΝΑ";
+"bump_up_view_boost_pay_button_title" = "Feature it again for %@";
+"bump_up_view_boost_subtitle_boost_listing" = "Επειδή προωθήσατε ήδη την καταχώρησή σας μέσα στις τελευταίες 24 ώρες, σας δίνουμε τη δυνατότητα να κάνετε επιπλέον προώθηση με λιγότερα χρήματα!";
+"bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
+"bump_up_view_boost_subtitle_send_top" = "Η καταχώρησή σας είναι ακόμη προωθημένη, αλλά μπορείτε να δώσετε μια επιπλέον προώθηση. Θα τη μεταφέρει στην κορυφή και θα προωθηθεί για 24 ώρες ξεκινώντας από τώρα.";
+"bump_up_view_boost_title_boost_listing" = "Προωθήστε την καταχώρησή σας";
+"bump_up_view_boost_title_cheaper_boost" = "Αποκτήστε μια φθηνότερη προώθηση τώρα";
+"bump_up_view_boost_title_send_top" = "Στείλτε το ξανά στην κορυφή";
 "bump_up_view_free_subtitle" = "Όσο περισσότερο κοινοποιείτε, τόσο περισσότερη προβολή θα έχει η καταχώρησή σας.";
 "bump_up_view_free_title" = "ΠΡΟΩΘΗΣΤΕ ΤΗΝ ΚΑΤΑΧΩΡΗΣΗ ΣΑΣ";
 "bump_up_view_pay_button_title" = "Προωθήστε το για %@";
@@ -347,8 +357,8 @@
 "filters_real_estate_bedrooms_not_set" = "Καμία ρύθμιση";
 "filters_real_estate_offer_type_not_set" = "Καμία ρύθμιση";
 "filters_real_estate_property_type_not_set" = "Καμία ρύθμιση";
-"filters_real_estate_size_from_feed_filter_cell" = "From";
-"filters_real_estate_size_to_feed_filter_cell" = "To";
+"filters_real_estate_size_from_feed_filter_cell" = "Από";
+"filters_real_estate_size_to_feed_filter_cell" = "Mέχρι";
 "filters_save_button" = "Αποθήκευση φίλτρων";
 "filters_section_car_info" = "Πληροφορίες αυτοκινήτου";
 "filters_section_categories" = "Κατηγορίες";
@@ -511,6 +521,7 @@
 "passive_buyers_message" = "Επικοινωνήστε με τους αγοραστές που ενδιαφέρονται για συναφή προϊόντα";
 "passive_buyers_not_available" = "Όπα! Οι αγοραστές δε βρέθηκαν.";
 "passive_buyers_title" = "ΑΥΤΟΙ ΟΙ ΑΓΟΡΑΣΤΕΣ ΜΠΟΡΕΙ ΝΑ ΕΝΔΙΑΦΕΡΟΝΤΑΙ";
+"photo_viewer_chat_button" = "Chat";
 "post_category_detail_add_make" = "Προσθέστε Δημιουργία";
 "post_category_detail_add_model" = "Προσθέστε Μοντέλο";
 "post_category_detail_car_make" = "Δημιουργία";

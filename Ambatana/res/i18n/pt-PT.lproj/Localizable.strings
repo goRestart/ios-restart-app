@@ -12,11 +12,14 @@
 "app_share_title" = "CONVIDE OS SEUS AMIGOS";
 "app_share_whatsapp_button" = "Convide via Whatsapp";
 "block_user_error_generic" = "Ocorreu um erro ao bloquear este utilizador.";
+"bump_up_banner_boost_progress_title" = "Featured for the next";
+"bump_up_banner_boost_text" = "Add an extra boost!";
 "bump_up_banner_free_button_title" = "Priorizar";
 "bump_up_banner_free_text" = "Dê prioridade gratuitamente para vender mais rápido";
 "bump_up_banner_pay_text" = "Venda mais rápido";
 "bump_up_banner_pay_text_improvement" = "Vender mais rápido agora";
 "bump_up_banner_wait_text" = "para destacar de novo";
+"bump_up_boost_success_alert_text" = "Your listing was boosted again!  It will be featured for the next 24 hours.";
 "bump_up_error_bump_generic" = "Surgiu um erro ao destacar a sua publicação. Tente de novo.";
 "bump_up_error_bump_token" = "O seu pagamento foi processado mas a sua publicação ainda não foi destacada.";
 "bump_up_error_payment_failed" = "Impossível conectar com a App Store. O seu pagamento não foi processado. Tente novamente.";
@@ -36,6 +39,13 @@
 "bump_up_product_cell_chat_now_button_d" = "Converse já";
 "bump_up_product_cell_featured_stripe" = "Destacado";
 "bump_up_product_detail_featured_label" = "DESTACADO";
+"bump_up_view_boost_pay_button_title" = "Feature it again for %@";
+"bump_up_view_boost_subtitle_boost_listing" = "Since you already featured your listing in the last 24 hours, we'll let you purchase another feature for less!";
+"bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
+"bump_up_view_boost_subtitle_send_top" = "Your listing's still featured, but you can add an extra boost. It'll move to the top and be featured for 24 hours starting now.";
+"bump_up_view_boost_title_boost_listing" = "Boost your featured listing";
+"bump_up_view_boost_title_cheaper_boost" = "Get a cheaper boost now";
+"bump_up_view_boost_title_send_top" = "Send it to the top again";
 "bump_up_view_free_subtitle" = "Quanto mais partilhar mais visibilidade a sua publicação terá.";
 "bump_up_view_free_title" = "DÊ PRIORIDADE À SUA PUBLICAÇÃO";
 "bump_up_view_pay_button_title" = "Destaque por %@";
@@ -347,8 +357,8 @@
 "filters_real_estate_bedrooms_not_set" = "Não definido";
 "filters_real_estate_offer_type_not_set" = "Não definido";
 "filters_real_estate_property_type_not_set" = "Não definido";
-"filters_real_estate_size_from_feed_filter_cell" = "From";
-"filters_real_estate_size_to_feed_filter_cell" = "To";
+"filters_real_estate_size_from_feed_filter_cell" = "De";
+"filters_real_estate_size_to_feed_filter_cell" = "E";
 "filters_save_button" = "Guardar filtros";
 "filters_section_car_info" = "Dados do carro";
 "filters_section_categories" = "Categorias";
@@ -511,6 +521,7 @@
 "passive_buyers_message" = "Contacte estes compradores interessados em produtos semelhantes";
 "passive_buyers_not_available" = "Ups! Compradores não encontrados.";
 "passive_buyers_title" = "ESTES COMPRADORES PODEM ESTAR INTERESSADOS";
+"photo_viewer_chat_button" = "Chat";
 "post_category_detail_add_make" = "Adicionar Marca";
 "post_category_detail_add_model" = "Adicionar Modelo";
 "post_category_detail_car_make" = "Marca";
