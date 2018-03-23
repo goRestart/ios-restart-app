@@ -811,7 +811,7 @@
 "contact_subject_option_product_edit" = "Edit or delete listing";
 
 // Contact subject option profile edit. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_option_profile_edit" = "Edit or delete profile";
+"contact_subject_option_profile_edit" = "x";
 
 // Contact subject option report. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_report" = "Report user or spam";
@@ -2373,6 +2373,48 @@
 
 // Verify popup to link with google
 "profile_verify_google_title" = "GOOGLE";
+
+// TItle shown in the verifications screen
+"profile_verifications_view_title" = "How to earn points";
+
+// Title for the section with the possible verification methods
+"profile_verifications_view_verify_section_title" = "VERIFY WITH";
+
+// Subtitle for the section with the possible verificationn methods
+"profile_verifications_view_verify_section_subtitle" = "Personal info won't be shared with other users";
+
+// Option to verify with Facebook title
+"profile_verifications_view_facebook_title" = "Facebook";
+
+// Option to verify with Google title
+"profile_verifications_view_google_title" = "Google";
+
+// Option to verify with Email
+"profile_verifications_view_email_title" = "Email";
+
+// Option to verify phone number
+"profile_verifications_view_phone_number_title" = "Phone number";
+
+// Option to verify with personal ID
+"profile_verifications_view_photo_id_title" = "Photo ID";
+
+// Title for the section with the options to add info to increase karma
+"profile_verifications_view_add_info_section_title" = "ADD YOUR";
+
+// Option to add Profile Picture
+"profile_verifications_view_profile_picture_title" = "Profile picture";
+
+// Option to add a Biography
+"profile_verifications_view_bio_title" = "Bio";
+
+// Section for exta options to increase Karma score
+"profile_verifications_view_extra_section_title" = "BUY & SELL";
+
+// cell explaining that marking items as sold, increases Karma score
+"profile_verifications_view_mark_as_sold_title" = "Mark a listing as sold";
+
+// cell explaining that marking items as sold, increases Karma score
+"profile_verifications_view_mark_as_sold_subtitle" = "\"+2 pts each (up to 10 pts)\"";
 
 // Button to verify accounts
 "profile_build_trust_button" = "Build Trust";
