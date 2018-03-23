@@ -565,6 +565,12 @@ struct TrackerEvent {
         params.addListingParams(listing)
         return TrackerEvent(name: .listingReport, params: params)
     }
+    
+    static func listingReportError(_ reportError: EventParameterProductReportError) -> TrackerEvent {
+        var params = EventParameters()
+        params.addRepositoryErrorParams(reportError)
+        return TrackerEvent(name: .listingReportError, params: params)
+    }
 
     static func listingSellStart(_ typePage: EventParameterTypePage,
                                  buttonName: EventParameterButtonNameType?,

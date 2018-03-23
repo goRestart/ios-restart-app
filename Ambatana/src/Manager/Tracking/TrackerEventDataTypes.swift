@@ -60,6 +60,7 @@ enum EventName: String {
     case listingMarkAsSoldOutsideLetgo      = "product-detail-sold-outside-letgo"
     case listingMarkAsUnsold                = "product-detail-unsold"
     case listingReport                      = "product-detail-report"
+    case listingReportError                 = "product-detail-report-error"
     
     case listingSellYourStuffButton         = "product-sell-your-stuff-button"
     case listingSellStart                   = "product-sell-start"
@@ -752,6 +753,24 @@ enum EventParameterPostListingError {
     }
 }
 
+enum EventParameterProductReportError {
+    case network
+    case internalError
+    case serverError
+    
+    var description: String {
+        switch self {
+        case .network:
+            return "report-network"
+        case .internalError:
+            return "report-internal"
+        case .serverError:
+            return "report-server"
+        }
+    }
+    
+}
+
 enum EventParameterChatError {
     case network(code: Int?)
     case internalError(description: String?)
@@ -1249,6 +1268,10 @@ struct EventParameters {
     internal mutating func addLoginParams(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
         params[.loginSource] = source.rawValue
         params[.loginRememberedAccount] = rememberedAccount
+    }
+    
+    internal mutating func addRepositoryErrorParams(_ repositoryError: EventParameterProductReportError) {
+        params[.errorDescription] = repositoryError.description
     }
     
     internal mutating func addListingParams(_ listing: Listing) {
