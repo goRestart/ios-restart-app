@@ -26,7 +26,9 @@ class ToastView: UIView {
         return label
     }()
 
-    var title: String = "" { didSet { toastMessage.text = title } }
+    var title: String = "" {
+        didSet { toastMessage.text = title }
+    }
 
     convenience init() {
         self.init(frame: .zero)
