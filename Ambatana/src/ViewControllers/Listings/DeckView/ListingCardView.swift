@@ -63,7 +63,11 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     private let bias: CGFloat = 1
     private var fullDetailsOffset: CGFloat { return min(-Layout.Height.userView + bias,
                                                         -(contentView.bounds.height - detailsView.bounds.height))}
-    private var detailsViewFullyVisible: Bool { return abs(scrollView.contentOffset.y + Layout.Height.userView) < CGFloat.ulpOfOne }
+    private var lastMoreInfoState: MoreInfoState = MoreInfoState.hidden {
+        didSet { moreInfoStateDidChange(oldValue, current: lastMoreInfoState) }
+    }
+
+    private var detailsViewFullyVisible: Bool { return scrollView.contentOffset.y - fullDetailsOffset >= -CGFloat.ulpOfOne }
     private let detailsView = ListingCardDetailsView()
     private var detailsThreshold: CGFloat { return 0.5 * previewImageView.height }
     private var isImageVisibleEnough: Bool { return abs(scrollView.contentOffset.y) > detailsThreshold }
@@ -83,6 +87,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         recycleDisposeBag()
         previewImageView.image = nil
         userView.alpha = 0
+        lastMoreInfoState = .hidden
 
         layoutVerticalContentInset(animated: false)
     }
@@ -358,12 +363,19 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     // MARK: UIScrollViewDelegate
 
+    private func moreInfoStateDidChange(_ previous: MoreInfoState, current: MoreInfoState) {
+        guard previous != current, current == .shown else { return }
+        delegate?.didShowMoreInfo()
+    }
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y >= -Layout.stickyHeaderThreadshold  {
             setStickyHeaderOn()
         } else {
             setStickyHeaderOff()
         }
+
+        lastMoreInfoState = detailsViewFullyVisible ? .shown : .hidden
         if scrollView.contentOffset.y <= -scrollView.contentInset.top {
             let scaleRatio = (-scrollView.contentOffset.y / scrollView.contentInset.top) * 1.2
             previewImageView.transform = CGAffineTransform.identity.scaledBy(x: scaleRatio, y: scaleRatio)
@@ -373,15 +385,12 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
                 && -scrollView.contentOffset.y / scrollView.contentInset.top < 0.7 {
                 let ratio = -scrollView.contentOffset.y / scrollView.contentInset.top / 0.7
                 updateCount(alpha: ratio)
-                if detailsViewFullyVisible {
-                    delegate?.didShowMoreInfo()
-                }
             }
             let diff = scrollView.contentOffset.y - fullDetailsOffset
             bottomBackgroundHeight?.constant = contentView.bounds.height - previewImageView.bounds.height + max(0, diff)
             whiteGradient.alpha = abs(scrollView.contentOffset.y / scrollView.contentInset.top)
         }
-        detailsView.isUserInteractionEnabled = abs(scrollView.contentOffset.y) < detailsThreshold
+        detailsView.isUserInteractionEnabled = !isImageVisibleEnough
     }
 
     private func setStickyHeaderOn() {
