@@ -36,4 +36,16 @@ extension RepositoryError {
             }
         }
     }
+    
+    var reportError: EventParameterProductReportError {
+        switch self {
+        case .network:
+            return .network
+        case .serverError, .notFound, .forbidden, .unauthorized, .tooManyRequests, .userNotVerified, .wsChatError:
+            return .serverError
+        case .internalError:
+            return .internalError
+        }
+    }
+    
 }

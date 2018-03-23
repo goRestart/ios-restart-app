@@ -598,6 +598,16 @@ extension TabCoordinator: ListingDetailNavigator {
         }
         rootViewController.dismiss(animated: true, completion: completion)
     }
+    
+    func openRealEstateOnboarding(pages: [LGTutorialPage],
+                                  origin: EventParameterTypePage,
+                                  tutorialType: EventParameterTutorialType) {
+        guard pages.count > 0 else { return }
+        let viewModel = LGTutorialViewModel(pages: pages, origin: origin, tutorialType: tutorialType)
+        let viewController = LGTutorialViewController(viewModel: viewModel)
+        viewController.modalPresentationStyle = .overFullScreen
+        navigationController.present(viewController, animated: true, completion: nil)
+    }
 }
 
 
@@ -674,7 +684,9 @@ extension TabCoordinator: UINavigationControllerDelegate {
 
     func navigationController(_ navigationController: UINavigationController,
                               didShow viewController: UIViewController, animated: Bool) {
-        if let photoViewer = viewController as? PhotoViewerViewController {
+        if let main = viewController as? MainListingsViewController {
+            main.tabBarController?.setTabBarHidden(false, animated: true)
+        } else if let photoViewer = viewController as? PhotoViewerViewController {
             let leftGesture = UIScreenEdgePanGestureRecognizer(target: self,
                                                                action: #selector(handlePhotoViewerEdgeGesture))
             leftGesture.edges = .left

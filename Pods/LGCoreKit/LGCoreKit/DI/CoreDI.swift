@@ -96,13 +96,18 @@ final class CoreDI: InternalDI {
                                                       taxonomiesCache: taxonomiesCache,
                                                       locationManager: locationManager)
         self.categoryRepository = categoryRepository
+        
+        let spellCorrectorDataSource = SpellCorrectorApiDataSource(apiClient: apiClient)
+        let spellCorrectorRepository = LGSpellCorrectorRepository(dataSource: spellCorrectorDataSource)
+        
 
         let listingDataSource = ListingApiDataSource(apiClient: apiClient)
         let listingsLimboDAO = ListingsLimboUDDAO(userDefaults: userDefaults)
         let listingRepository = LGListingRepository(listingDataSource: listingDataSource,
                                                     myUserRepository: myUserRepository,
                                                     listingsLimboDAO: listingsLimboDAO,
-                                                    carsInfoRepository: carsInfoRepository)
+                                                    carsInfoRepository: carsInfoRepository,
+                                                    spellCorrectorRepository: spellCorrectorRepository)
         self.listingRepository = listingRepository
 
         let apiDataSource = UserApiDataSource(apiClient: apiClient)

@@ -18,7 +18,6 @@ class TabBarViewModel: BaseViewModel {
     
     var shouldShowRealEstateTooltip: Bool {
         return featureFlags.realEstateEnabled.isActive &&
-            featureFlags.realEstateImprovements.isActive &&
             !keyValueStorage[.realEstateTooltipSellButtonAlreadyShown]
     }
     var isMostSearchedItemsCameraBadgeEnabled: Bool {

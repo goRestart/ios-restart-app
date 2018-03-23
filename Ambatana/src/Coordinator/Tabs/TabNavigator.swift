@@ -51,6 +51,9 @@ protocol TabNavigator: class {
     func canOpenAppInvite() -> Bool
     func openRatingList(_ userId: String)
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool)
+    func openRealEstateOnboarding(pages: [LGTutorialPage],
+                                  origin: EventParameterTypePage,
+                                  tutorialType: EventParameterTutorialType)
 }
 
 protocol ListingDetailNavigator: TabNavigator {

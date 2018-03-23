@@ -52,7 +52,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                 let locale = Locale(identifier: "es_ES")
 
                 sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository: installationRepository,
-                    locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                    keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                     fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
                     locale: locale, source: .install, action: .signup)
                 sut.delegate = self
@@ -84,6 +84,9 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     it("has an empty password") {
                         expect(sut.password.value) == ""
                     }
+                    it("maps feature flags' terms and conditions enabled") {
+                        expect(sut.termsAndConditionsEnabled) == featureFlags.signUpEmailTermsAndConditionsAcceptRequired
+                    }
                 }
 
                 context("did not log in previously") {
@@ -105,7 +108,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
 
                         let locale = Locale(identifier: "es_ES")
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
-                            locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                            keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
                             locale: locale, source: .install, action: .signup)
                     }
@@ -128,7 +131,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
 
                         let locale = Locale(identifier: "es_ES")
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
-                            locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                            keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
                             locale: locale , source: .install, action: .signup)
                     }
@@ -151,7 +154,7 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
 
                         let locale = Locale(identifier: "es_ES")
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
-                            locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                            keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
                             locale: locale , source: .install, action: .signup)
                     }
@@ -167,41 +170,12 @@ class SignUpLogInViewModelSpec: BaseViewModelSpec {
                     }
                 }
 
-                context("phone locale is in Turkey") {
-                    beforeEach {
-                        let locale = Locale(identifier: "tr_TR")
-                        sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
-                            locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
-                            fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale , source: .install, action: .signup)
-                    }
-
-                    it("has terms and conditions enabled") {
-                        expect(sut.termsAndConditionsEnabled) == true
-                    }
-                }
-
-                context("current postal address's country code is Turkey") {
-                    beforeEach {
-                        let locale = Locale(identifier: "es_ES")
-                        locationManager.currentLocation = LGLocation(latitude: 12.00, longitude: 34.03, type: .sensor, postalAddress: PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "tr", country: ""))
-                        sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
-                            locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
-                            fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
-                            locale: locale , source: .install, action: .signup)
-                    }
-
-                    it("has terms and conditions enabled") {
-                        expect(sut.termsAndConditionsEnabled) == true
-                    }
-                }
-
                 context("phone locale and location are not in Turkey") {
                     beforeEach {
                         let locale = Locale(identifier: "es_ES")
                         locationManager.currentLocation = LGLocation(latitude: 12.00, longitude: 34.03, type: .sensor, postalAddress: PostalAddress(address: "", city: "", zipCode: "", state: "", countryCode: "es", country: ""))
                         sut = SignUpLogInViewModel(sessionManager: sessionManager, installationRepository:  installationRepository,
-                            locationManager: locationManager, keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
+                            keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper,
                             fbLoginHelper: fbLoginHelper, tracker: tracker, featureFlags: featureFlags,
                             locale: locale , source: .install, action: .signup)
                     }

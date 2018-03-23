@@ -60,6 +60,7 @@ protocol ChatDataSource {
     func archiveConversations(_ conversationIds: [String], completion: ChatWebSocketCommandCompletion?)
     func unarchiveConversations(_ conversationIds: [String], completion: ChatWebSocketCommandCompletion?)
     func archiveInactiveConversations(_ conversationIds: [String], completion: ChatWebSocketCommandCompletion?)
+    func markAllConversationsAsRead(completion: ChatWebSocketCommandCompletion?)
     
     // Unread messages
     func unreadMessages(_ userId: String, completion: ChatWebSocketUnreadCountCompletion?)

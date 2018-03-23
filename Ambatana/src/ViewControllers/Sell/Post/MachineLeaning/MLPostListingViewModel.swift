@@ -162,9 +162,6 @@ class MLPostListingViewModel: BaseViewModel {
         imagesSelected = images
         self.predictionData = predictionData
         state.value.predictionData = predictionData
-        if let predictionDataValue = predictionData {
-            tracker.trackEvent(TrackerEvent.predictedPosting(data: predictionDataValue))
-        }
         
         guard sessionManager.loggedIn else {
             state.value = state.value.updating(pendingToUploadImages: images)

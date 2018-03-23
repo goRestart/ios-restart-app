@@ -116,7 +116,7 @@ final class QuickChatView: UIView, QuickChatViewType, DirectAnswersSupportType, 
     }
 
     func setInitialText(_ text: String) {
-        textView.setText(text)
+        textView.setInitialText(text)
         textView.resignFirstResponder()
     }
 

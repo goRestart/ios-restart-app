@@ -565,6 +565,12 @@ struct TrackerEvent {
         params.addListingParams(listing)
         return TrackerEvent(name: .listingReport, params: params)
     }
+    
+    static func listingReportError(_ reportError: EventParameterProductReportError) -> TrackerEvent {
+        var params = EventParameters()
+        params.addRepositoryErrorParams(reportError)
+        return TrackerEvent(name: .listingReportError, params: params)
+    }
 
     static func listingSellStart(_ typePage: EventParameterTypePage,
                                  buttonName: EventParameterButtonNameType?,
@@ -1421,6 +1427,32 @@ struct TrackerEvent {
         params[.openField] = fieldOpen.rawValue
         params[.postingType] = postingType.rawValue
         return TrackerEvent(name: .openOptionOnSummary, params: params)
+    }
+    
+    static func tutorialDialogStart(typePage: EventParameterTypePage,
+                                    typeTutorialDialog: EventParameterTutorialType) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        params[.typeTutorialDialog] = typeTutorialDialog.rawValue
+        return TrackerEvent(name: .tutorialDialogStart, params: params)
+    }
+    
+    static func tutorialDialogComplete(typePage: EventParameterTypePage,
+                                       typeTutorialDialog: EventParameterTutorialType) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        params[.typeTutorialDialog] = typeTutorialDialog.rawValue
+        return TrackerEvent(name: .tutorialDialogComplete, params: params)
+    }
+    
+    static func tutorialDialogAbandon(typePage: EventParameterTypePage,
+                                       typeTutorialDialog: EventParameterTutorialType,
+                                       pageNumber: Int) -> TrackerEvent {
+        var params = EventParameters()
+        params[.typePage] = typePage.rawValue
+        params[.typeTutorialDialog] = typeTutorialDialog.rawValue
+        params[.pageNumber] = pageNumber
+        return TrackerEvent(name: .tutorialDialogAbandon, params: params)
     }
 
     // MARK: - Private methods

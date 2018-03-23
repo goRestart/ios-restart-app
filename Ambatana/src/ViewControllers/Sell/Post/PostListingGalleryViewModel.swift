@@ -79,9 +79,9 @@ class PostListingGalleryViewModel: BaseViewModel {
     
     var noImageSubtitleText: String {
         if let category = postCategory, category == .realEstate {
-            return LGLocalizedString.realEstateGalleryViewSubtitle
+            return LGLocalizedString.realEstateGalleryViewSubtitleParams(maxImagesSelected)
         } else {
-            return LGLocalizedString.productPostGallerySelectPicturesSubtitle
+            return LGLocalizedString.productPostGallerySelectPicturesSubtitleParams(maxImagesSelected)
         }
     }
 

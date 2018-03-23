@@ -46,11 +46,6 @@ class LocationApiDataSource: LocationDataSource {
     
     // MARK: Private methods
 
-//    private static func retrieveSuggestedLocationsDecoder(_ object: Any) -> [SuggestedLocation]? {
-//        let suggestedLocations: [LGSuggestedLocation]? = decode(object)
-//        return suggestedLocations
-//    }
-
     private static func decoderArray(_ object: Any) -> [SuggestedLocation]? {
         guard let data = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) else { return nil }
         do {

@@ -588,6 +588,16 @@ class MainListingsViewModel: BaseViewModel {
         updateListView()
     }
     
+    func showRealEstateTutorial() {
+        guard !keyValueStorage[.realEstateTutorialShown] && featureFlags.realEstateTutorial.isActive else { return }
+        guard let pages = LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial) else {
+            return
+        }
+        keyValueStorage[.realEstateTutorialShown] = true
+        navigator?.openRealEstateOnboarding(pages: pages, origin: .filterBubble, tutorialType: .realEstate)
+    }
+    
+    
     // MARK: - Private methods
 
     private func setup() {

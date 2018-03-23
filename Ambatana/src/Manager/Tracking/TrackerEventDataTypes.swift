@@ -60,6 +60,7 @@ enum EventName: String {
     case listingMarkAsSoldOutsideLetgo      = "product-detail-sold-outside-letgo"
     case listingMarkAsUnsold                = "product-detail-unsold"
     case listingReport                      = "product-detail-report"
+    case listingReportError                 = "product-detail-report-error"
     
     case listingSellYourStuffButton         = "product-sell-your-stuff-button"
     case listingSellStart                   = "product-sell-start"
@@ -186,6 +187,10 @@ enum EventName: String {
     case phoneNumberRequest                 = "phone-number-request"
     case phoneNumberSent                    = "phone-number-sent"
     case phoneNumberNotNow                  = "phone-number-not-now"
+    
+    case tutorialDialogStart                = "onboarding-dialog-start"
+    case tutorialDialogComplete             = "onboarding-dialog-complete"
+    case tutorialDialogAbandon              = "onboarding-dialog-abandon"
 
     case predictedPosting                   = "predicted-posting"
 
@@ -368,6 +373,8 @@ enum EventParameterName: String {
     case mlPredictedCategory = "predicted-category"
     case mlListingCategory = "product-category"
     
+    case typeTutorialDialog   = "type-onboarding-dialog"
+    case pageNumber           = "page-number"
 }
 
 enum EventParameterBoolean: String {
@@ -747,6 +754,24 @@ enum EventParameterPostListingError {
     }
 }
 
+enum EventParameterProductReportError {
+    case network
+    case internalError
+    case serverError
+    
+    var description: String {
+        switch self {
+        case .network:
+            return "report-network"
+        case .internalError:
+            return "report-internal"
+        case .serverError:
+            return "report-server"
+        }
+    }
+    
+}
+
 enum EventParameterChatError {
     case network(code: Int?)
     case internalError(description: String?)
@@ -823,6 +848,9 @@ enum EventParameterTypePage: String {
     case filter = "filter"
     case realEstatePromo = "real-estate-promo"
     case mostSearched = "most-searched"
+    case filterBubble = "filter-bubble"
+    case postingIconInfo = "posting-icon-information"
+    case sellStart = "product-sell-start"
 }
 
 enum EventParameterPermissionType: String {
@@ -1220,6 +1248,10 @@ enum EventParameterMostSearched: String {
     }
 }
 
+enum EventParameterTutorialType: String {
+    case realEstate = "real-estate"
+}
+
 struct EventParameters {
     var params: [EventParameterName : Any] = [:]
     
@@ -1237,6 +1269,10 @@ struct EventParameters {
     internal mutating func addLoginParams(_ source: EventParameterLoginSourceValue, rememberedAccount: Bool? = nil) {
         params[.loginSource] = source.rawValue
         params[.loginRememberedAccount] = rememberedAccount
+    }
+    
+    internal mutating func addRepositoryErrorParams(_ repositoryError: EventParameterProductReportError) {
+        params[.errorDescription] = repositoryError.description
     }
     
     internal mutating func addListingParams(_ listing: Listing) {

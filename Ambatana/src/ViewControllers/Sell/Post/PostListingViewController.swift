@@ -53,7 +53,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     fileprivate let keyboardHelper: KeyboardHelper
     fileprivate var isLoading: Bool = false
     private var viewDidAppear: Bool = false
-
+    
     fileprivate static let detailTopMarginPrice: CGFloat = 100
 
     private let forcedInitialTab: Tab?
@@ -84,7 +84,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
                   keyboardHelper: KeyboardHelper) {
         
         let tabPosition: LGViewPagerTabPosition = .hidden
-        let postFooter = PostListingRedCamButtonFooter()
+        let postFooter = PostListingRedCamButtonFooter(infoButtonIncluded: viewModel.shouldShowInfoButton)
         self.footer = postFooter
         self.footerView = postFooter
 
@@ -149,6 +149,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewDidAppear = true
+        viewModel.showRealEstateTutorial(origin: .sellStart)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -176,6 +177,10 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
     @objc func galleryButtonPressed() {
         guard viewPager.scrollEnabled else { return }
         viewPager.selectTabAtIndex(Tab.gallery.index, animated: true)
+    }
+    
+    @objc func infoButtonPressed() {
+        viewModel.infoButtonPressed()
     }
     
     @objc func galleryPostButtonPressed() {
@@ -357,14 +362,21 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
             .trailing()
             .bottom()
         
-        footer.galleryButton.rx.tap.asObservable().subscribeNext { [weak self] in
+        footer.galleryButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
             self?.galleryButtonPressed()
-        }.disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
+        
+        footer.infoButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
+            self?.infoButtonPressed()
+        }).disposed(by: disposeBag)
+        
+        footer.cameraButton.rx.controlEvent(.touchUpInside).asDriver().drive(onNext: { [weak self] (_) in
+            self?.cameraButtonPressed()
+        }).disposed(by: disposeBag)
+        
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.cameraButton.rx.isEnabled).disposed(by: disposeBag)
         cameraView.takePhotoEnabled.asObservable().bind(to: footer.galleryButton.rx.isEnabled).disposed(by: disposeBag)
-        footer.cameraButton.rx.tap.asObservable().subscribeNext { [weak self] in
-            self?.cameraButtonPressed()
-        }.disposed(by: disposeBag)
+        
     }
 
     private func setupRx() {
@@ -409,6 +421,7 @@ class PostListingViewController: BaseViewController, PostListingViewModelDelegat
         }
     }
 }
+
 
 // MARK: - Car details
 

@@ -43,10 +43,8 @@ protocol FeatureFlaggeable: class {
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var newItemPage: NewItemPage { get }
-    var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting { get }
     var allowCallsForProfessionals: AllowCallsForProfessionals { get }
     var mostSearchedDemandedItems: MostSearchedDemandedItems { get }
-    var realEstateImprovements: RealEstateImprovements { get }
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio { get }
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting { get }
     var realEstateNewCopy: RealEstateNewCopy { get }
@@ -60,6 +58,7 @@ protocol FeatureFlaggeable: class {
     var newUserProfileView: NewUserProfileView { get }
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation { get }
     var searchImprovements: SearchImprovements { get }
+    var relaxedSearch: RelaxedSearch { get }
     var showChatSafetyTips: Bool { get }
     var onboardingIncentivizePosting: OnboardingIncentivizePosting { get }
     var discardedProducts: DiscardedProducts { get }
@@ -67,8 +66,11 @@ protocol FeatureFlaggeable: class {
     var userIsTyping: UserIsTyping { get }
     var servicesCategoryEnabled: ServicesCategoryEnabled { get }
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
+    var realEstateTutorial: RealEstateTutorial { get }
     var machineLearningMVP: MachineLearningMVP { get }
     var chatNorris: ChatNorris { get }
+    var showProTagUserProfile: Bool { get }
+    var summaryAsFirstStep: SummaryAsFirstStep { get }
 
     // Country dependant features
     var freePostingModeAllowed: Bool { get }
@@ -82,7 +84,7 @@ protocol FeatureFlaggeable: class {
     func collectionsAllowedFor(countryCode: String?) -> Bool
     var shouldChangeChatNowCopy: Bool { get }
     var copyForChatNowInTurkey: CopyForChatNowInTurkey { get }
-    
+    var shareTypes: [ShareType] { get }
 }
 
 extension FeatureFlaggeable {
@@ -207,12 +209,15 @@ extension PromoteBumpInEdit {
 extension UserIsTyping {
     var isActive: Bool { return self == .active }
 }
+
 extension ServicesCategoryEnabled {
     var isActive: Bool { return self == .active }
 }
+
 extension NewItemPage {
     var isActive: Bool { return self == .active }
 }
+
 extension IncreaseNumberOfPictures {
     var isActive: Bool { return self == .active }
 }
@@ -234,12 +239,20 @@ extension CopyForChatNowInTurkey {
     }
 }
 
+extension RealEstateTutorial {
+    var isActive: Bool { return self != .baseline && self != .control }
+}
+
 extension MachineLearningMVP {
     var isActive: Bool { return self == .active }
 }
 
 extension ChatNorris {
     var isActive: Bool { return self == .redButton || self == .whiteButton || self == .greenButton }
+}
+
+extension SummaryAsFirstStep {
+    var isActive: Bool { return self == .active }
 }
 
 
@@ -393,13 +406,6 @@ class FeatureFlags: FeatureFlaggeable {
         return TaxonomiesAndTaxonomyChildrenInFeed.fromPosition(abTests.taxonomiesAndTaxonomyChildrenInFeed.value)
     }
     
-    var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting {
-        if Bumper.enabled {
-            return Bumper.showPriceStepRealEstatePosting
-        }
-        return ShowPriceStepRealEstatePosting.fromPosition(abTests.showPriceStepRealEstatePosting.value)
-    }
-    
     var showClockInDirectAnswer: ShowClockInDirectAnswer {
         if Bumper.enabled {
             return Bumper.showClockInDirectAnswer
@@ -419,14 +425,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.mostSearchedDemandedItems
         }
         return MostSearchedDemandedItems.fromPosition(abTests.mostSearchedDemandedItems.value)
-    }
-    
-    
-    var realEstateImprovements: RealEstateImprovements {
-        if Bumper.enabled {
-            return Bumper.realEstateImprovements
-        }
-        return RealEstateImprovements.fromPosition(abTests.realEstateImprovements.value)
     }
     
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio {
@@ -506,6 +504,13 @@ class FeatureFlags: FeatureFlaggeable {
         return SearchImprovements.fromPosition(abTests.searchImprovements.value)
     }
     
+    var relaxedSearch: RelaxedSearch {
+        if Bumper.enabled {
+            return Bumper.relaxedSearch
+        }
+        return RelaxedSearch.fromPosition(abTests.relaxedSearch.value)
+    }
+    
     var onboardingIncentivizePosting: OnboardingIncentivizePosting {
         if Bumper.enabled {
             return Bumper.onboardingIncentivizePosting
@@ -525,6 +530,13 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.userIsTyping
         }
         return UserIsTyping.fromPosition(abTests.userIsTyping.value)
+    }
+    
+    var realEstateTutorial: RealEstateTutorial {
+        if Bumper.enabled {
+            return Bumper.realEstateTutorial
+        }
+        return RealEstateTutorial.fromPosition(abTests.realEstateTutorial.value)
     }
     
     var machineLearningMVP: MachineLearningMVP {
@@ -575,7 +587,22 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return IncreaseNumberOfPictures.fromPosition(abTests.increaseNumberOfPictures.value)
     }
+    
+    var showProTagUserProfile: Bool {
+        if Bumper.enabled {
+            return Bumper.showProTagUserProfile
+        }
+        return abTests.showProTagUserProfile.value
+    }
 
+    var summaryAsFirstStep: SummaryAsFirstStep {
+        if Bumper.enabled {
+            return Bumper.summaryAsFirstStep
+        }
+        return SummaryAsFirstStep.fromPosition(abTests.summaryAsFirstStep.value)
+    }
+    
+    
     // MARK: - Country features
 
     var freePostingModeAllowed: Bool {
@@ -620,7 +647,7 @@ class FeatureFlags: FeatureFlaggeable {
             return false
         }
     }
-
+    
     var signUpEmailTermsAndConditionsAcceptRequired: Bool {
         switch (locationCountryCode, localeCountryCode) {
         case (.turkey?, _), (_, .turkey?):
@@ -637,6 +664,15 @@ class FeatureFlags: FeatureFlaggeable {
             return true
         default:
             return false
+        }
+    }
+    
+    var shareTypes: [ShareType] {
+       switch (locationCountryCode, localeCountryCode) {
+        case (.turkey?, _), (_, .turkey?):
+            return [.whatsapp, .facebook, .email ,.fbMessenger, .twitter, .sms, .telegram]
+        default:
+            return [.sms, .email, .facebook, .fbMessenger, .twitter, .whatsapp, .telegram]
         }
     }
 

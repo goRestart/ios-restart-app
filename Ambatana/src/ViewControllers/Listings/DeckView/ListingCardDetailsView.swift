@@ -25,7 +25,7 @@ protocol ListingCardDetailsViewDelegate: class {
 
 final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCardDetailsViewType {
     private struct Layout {
-        struct Height { static let mapView: CGFloat = 128.0  }
+        struct Height { static let mapView: CGFloat = 136.0  }
         struct Margin { static let statsToDetail: CGFloat = 30 }
     }
 
@@ -79,7 +79,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
             detailMapView.setRegion(region, size: CGSize(width: 300, height: 500))
         }
         titleLabel.text = info.title
-        titleLabel.isHidden = info.title != nil
+        titleLabel.isHidden = info.title == nil
         priceLabel.text = info.price
 
         detailLabel.attributedText = info.description
@@ -162,7 +162,6 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
             titleLabel.font = UIFont.deckTitleFont
             titleLabel.textAlignment = .left
             titleLabel.numberOfLines = 0
-            titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
             titleLabel.backgroundColor = UIColor.white
         }
 
@@ -170,7 +169,6 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
             priceLabel.font = UIFont.deckPriceFont
             priceLabel.textAlignment = .left
             priceLabel.numberOfLines = 1
-            priceLabel.setContentHuggingPriority(.required, for: .vertical)
             priceLabel.backgroundColor = UIColor.white
         }
 
@@ -192,7 +190,7 @@ final class ListingCardDetailsView: UIView, SocialShareViewDelegate, ListingCard
         detailLabel.numberOfLines = 3
         detailLabel.textAlignment = .left
         detailLabel.font = UIFont.deckDetailFont
-        detailLabel.textColor = #colorLiteral(red: 0.7803921569, green: 0.8078431373, blue: 0.7803921569, alpha: 1)
+        detailLabel.textColor = .grayDark
         detailLabel.backgroundColor = UIColor.white
     }
 

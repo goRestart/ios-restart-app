@@ -140,6 +140,7 @@ final class TabBarController: UITabBarController {
             UIView.animate(withDuration: 0.35, animations: { [weak self] () -> Void in
                 self?.floatingSellButton.alpha = alpha
                 self?.tooltip?.alpha = alpha
+                
                 }, completion: { [weak self] (completed) -> Void in
                     if completed {
                         self?.floatingSellButton.isHidden = hidden
@@ -161,11 +162,10 @@ final class TabBarController: UITabBarController {
         DispatchQueue.main.async {
             // Wait for the next RunLoop.
             // When closing a Modal the tabBar frame value is not yet updated and we need to wait for the next runloop
-            if (self.isTabBarHidden == hidden) { return }
-
             let frame = self.tabBar.frame
             let offsetY = (hidden ? frame.size.height : 0)
-            let duration: TimeInterval = (animated ? TimeInterval(UITabBarControllerHideShowBarDuration) : 0.0)
+            let isAnimated = animated && (self.isTabBarHidden != hidden)
+            let duration: TimeInterval = (isAnimated ? TimeInterval(UITabBarControllerHideShowBarDuration) : 0.0)
 
             let transform = CGAffineTransform.identity.translatedBy(x: 0, y: offsetY)
             UIView.animate(withDuration: duration,
@@ -204,6 +204,10 @@ final class TabBarController: UITabBarController {
     @available(iOS 11, *)
     override func viewSafeAreaInsetsDidChange() {
         super.viewSafeAreaInsetsDidChange()
+        updateFloatingButtonInset()
+    }
+
+    private func updateFloatingButtonInset() {
         let bottom: CGFloat = -(tabBar.frame.height + LGUIKitConstants.tabBarSellFloatingButtonDistance)
         guard bottom != floatingSellButtonMarginConstraint.constant else { return }
         floatingSellButtonMarginConstraint.constant = bottom
@@ -248,7 +252,8 @@ final class TabBarController: UITabBarController {
         view.subviews.find(where: { $0.tag == TabBarController.categorySelectionTag })?.removeFromSuperview()
         let vm = ExpandableCategorySelectionViewModel(realEstateEnabled: featureFlags.realEstateEnabled.isActive,
                                                       trendingButtonEnabled: featureFlags.mostSearchedDemandedItems == .trendingButtonExpandableMenu,
-                                                      tagsEnabled: featureFlags.mostSearchedDemandedItems == .subsetAboveExpandableMenu)
+                                                      tagsEnabled: featureFlags.mostSearchedDemandedItems == .subsetAboveExpandableMenu,
+                                                      newBadgeEnabled: featureFlags.realEstateTutorial.isActive)
         vm.delegate = self
         
         let bottomDistance = view.bounds.height - floatingSellButton.frame.maxY

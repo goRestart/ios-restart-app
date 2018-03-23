@@ -15,7 +15,6 @@ protocol ListingCardDetailMapViewDelegate: class {
 
 final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
     private struct Layout {
-        struct Height { static let snapshot: CGFloat = 100.0 }
         struct Defaults {
             static let insets = UIEdgeInsets(top: Metrics.margin, left: Metrics.margin,
                                              bottom: Metrics.margin, right: Metrics.margin)
@@ -89,13 +88,13 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
     }
 
     private func setupStackView() {
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubviewForAutoLayout(verticalStackView)
         verticalStackView.axis = .vertical
         verticalStackView.distribution = .fillProportionally
         verticalStackView.spacing = Metrics.margin
-        addSubview(verticalStackView)
         verticalStackView.layout(with: self)
-            .fillHorizontal(by: Layout.Defaults.insets.left).fillVertical(by: Layout.Defaults.insets.top)
+            .fillHorizontal(by: Layout.Defaults.insets.left)
+            .fillVertical()
     }
 
     private func setupLocationLabel() {
@@ -103,20 +102,15 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         locationLabel.textAlignment = .left
         locationLabel.textColor = #colorLiteral(red: 0.4588235294, green: 0.4588235294, blue: 0.4588235294, alpha: 1)
         locationLabel.backgroundColor = UIColor.white
-
-        locationLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        locationLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
     }
     func setupMapHeader() {
-        mapHeader.translatesAutoresizingMaskIntoConstraints = false
         mapHeader.axis = .horizontal
         mapHeader.distribution = .fillProportionally
-        mapHeader.setContentCompressionResistancePriority(.required, for: .vertical)
-        mapHeader.backgroundColor = UIColor.white
-
+        
         let location = UIImageView(image: #imageLiteral(resourceName: "nit_location"))
         location.contentMode = .center
-        location.layout().width(16)
-        location.setContentHuggingPriority(.required, for: .horizontal)
+        location.widthAnchor.constraint(equalToConstant: 16).isActive = true
         location.backgroundColor = UIColor.white
 
         setupLocationLabel()
@@ -131,9 +125,7 @@ final class ListingCardDetailMapView: UIView, MKMapViewDelegate {
         mapSnapShotView.contentMode = .scaleAspectFill
         mapSnapShotView.clipsToBounds = true
         mapSnapShotView.layer.cornerRadius = Layout.CornerRadius.map
-        mapSnapShotView.translatesAutoresizingMaskIntoConstraints = false
-        let height = mapSnapShotView.heightAnchor.constraint(equalToConstant: Layout.Height.snapshot)
-        height.isActive = true
+        mapSnapShotView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8)
         verticalStackView.addArrangedSubview(mapSnapShotView)
         mapSnapShotView.backgroundColor = .gray
         
