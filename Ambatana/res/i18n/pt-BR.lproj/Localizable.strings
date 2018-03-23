@@ -271,7 +271,7 @@
 "contact_subject_option_login" = "Issues logging in";
 "contact_subject_option_other" = "Other issues";
 "contact_subject_option_product_edit" = "Edit or delete listing";
-"contact_subject_option_profile_edit" = "x";
+"contact_subject_option_profile_edit" = "Edit or delete profile";
 "contact_subject_option_report" = "Report user or spam";
 "direct_answer_availability_title" = "Availability...";
 "direct_answer_condition" = "What condition is it in?";
@@ -781,7 +781,7 @@
 "profile_verifications_view_extra_section_title" = "BUY & SELL";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "\"+2 pts each (up to 10 pts)\"";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
 "profile_verifications_view_mark_as_sold_title" = "Mark a listing as sold";
 "profile_verifications_view_phone_number_title" = "Phone number";
 "profile_verifications_view_photo_id_title" = "Photo ID";

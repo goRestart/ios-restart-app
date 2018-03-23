@@ -811,7 +811,7 @@
 "contact_subject_option_product_edit" = "Edit or delete listing";
 
 // Contact subject option profile edit. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_option_profile_edit" = "x";
+"contact_subject_option_profile_edit" = "Edit or delete profile";
 
 // Contact subject option report. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_report" = "Report user or spam";
@@ -2414,7 +2414,7 @@
 "profile_verifications_view_mark_as_sold_title" = "Mark a listing as sold";
 
 // cell explaining that marking items as sold, increases Karma score
-"profile_verifications_view_mark_as_sold_subtitle" = "\"+2 pts each (up to 10 pts)\"";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
 
 // Button to verify accounts
 "profile_build_trust_button" = "Build Trust";
