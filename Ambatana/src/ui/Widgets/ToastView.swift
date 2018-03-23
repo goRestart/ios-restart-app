@@ -8,37 +8,50 @@
 
 import UIKit
 
-class ToastView: UIView {
+private extension UIColor {
+    static let toastBackground = UIColor(red: 74, green: 74, blue: 74)
+}
 
+class ToastView: UIView {
+    private struct Layout {
+        static let insets = UIEdgeInsets(top: 8, left: 15, bottom: 9, right: 15)
+    }
     static let standardHeight: CGFloat = 33
 
-    // iVars
-    // > UI
-    @IBOutlet private weak var label: UILabel!
-    @IBOutlet private weak var labelTopMarginConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var labelBottomMarginConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var labelLeftMarginConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var labelRightMarginConstraint: NSLayoutConstraint!
+    let toastMessage: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = UIFont.systemRegularFont(size: 13)
+        return label
+    }()
 
-    // > Data
-    var title: String = "" {
-        didSet {
-            if let label = label {
-                label.text = title
-            }
-        }
+    var title: String = "" { didSet { toastMessage.text = title } }
+
+    convenience init() {
+        self.init(frame: .zero)
+        setupUI()
     }
-    
-    // MARK: - Lifecycle
-    
-    static func toastView() -> ToastView? {
-        return Bundle.main.loadNibNamed("ToastView", owner: self, options: nil)?.first as? ToastView
+
+    private func setupUI() {
+        backgroundColor = UIColor.toastBackground
+        setupConstraints()
+    }
+
+    private func setupConstraints() {
+        addSubviewForAutoLayout(toastMessage)
+        NSLayoutConstraint.activate([
+            toastMessage.topAnchor.constraint(equalTo: topAnchor, constant: Layout.insets.top),
+            toastMessage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Layout.insets.right),
+            toastMessage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Layout.insets.bottom),
+            toastMessage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Layout.insets.left)
+        ])
     }
     
     override var intrinsicContentSize : CGSize {
-        var size = label.intrinsicContentSize
-        size.height += labelTopMarginConstraint.constant + labelBottomMarginConstraint.constant
-        size.width += labelLeftMarginConstraint.constant + labelRightMarginConstraint.constant
+        var size = toastMessage.intrinsicContentSize
+        size.height += Layout.insets.top + Layout.insets.bottom
+        size.width += Layout.insets.left + Layout.insets.right
         return size
     }
 }
