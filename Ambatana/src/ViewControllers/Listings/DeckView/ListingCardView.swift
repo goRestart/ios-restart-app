@@ -12,10 +12,10 @@ import RxSwift
 import LGCoreKit
 import MapKit
 
-protocol ListingCardViewDelegate {
-    func didTapOnStatusView()
-    func didTapOnPreview()
-    func didShowMoreInfo()
+protocol ListingCardViewDelegate: class {
+    func cardViewDidTapOnStatusView(_ cardView: ListingCardView)
+    func cardViewDidTapOnPreview(_ cardView: ListingCardView)
+    func cardViewDidShowMoreInfo(_ cardView: ListingCardView)
 }
 
 final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestureRecognizerDelegate, ReusableCell {
@@ -61,7 +61,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     private var scrollViewTapGesture: UITapGestureRecognizer?
 
     private let bias: CGFloat = 1
-    private var fullDetailsOffset: CGFloat { return min(-Layout.Height.userView + bias,
+    private var fullDetailsOffset: CGFloat { return min(-Layout.Height.userView,
                                                         -(contentView.bounds.height - detailsView.bounds.height))}
     private var lastMoreInfoState: MoreInfoState = MoreInfoState.hidden {
         didSet { moreInfoStateDidChange(oldValue, current: lastMoreInfoState) }
@@ -70,7 +70,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
     private var detailsViewFullyVisible: Bool { return scrollView.contentOffset.y - fullDetailsOffset >= -CGFloat.ulpOfOne }
     private let detailsView = ListingCardDetailsView()
     private var detailsThreshold: CGFloat { return 0.5 * previewImageView.height }
-    private var isImageVisibleEnough: Bool { return abs(scrollView.contentOffset.y) > detailsThreshold }
+    private var isPreviewVisible: Bool { return abs(scrollView.contentOffset.y) > detailsThreshold }
     private var fullMapConstraints: [NSLayoutConstraint] = []
 
     private var imageDownloader: ImageDownloaderType?
@@ -238,7 +238,8 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     @objc private func touchUpStatusView() {
         statusView.bounce { [weak self] in
-            self?.delegate?.didTapOnStatusView()
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.cardViewDidTapOnStatusView(strongSelf)
         }
     }
 
@@ -365,7 +366,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
 
     private func moreInfoStateDidChange(_ previous: MoreInfoState, current: MoreInfoState) {
         guard previous != current, current == .shown else { return }
-        delegate?.didShowMoreInfo()
+        delegate?.cardViewDidShowMoreInfo(self)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -390,7 +391,7 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
             bottomBackgroundHeight?.constant = contentView.bounds.height - previewImageView.bounds.height + max(0, diff)
             whiteGradient.alpha = abs(scrollView.contentOffset.y / scrollView.contentInset.top)
         }
-        detailsView.isUserInteractionEnabled = !isImageVisibleEnough
+        detailsView.isUserInteractionEnabled = !isPreviewVisible
     }
 
     private func setStickyHeaderOn() {
@@ -443,10 +444,10 @@ final class ListingCardView: UICollectionViewCell, UIScrollViewDelegate, UIGestu
         }
 
         let didTapBelowUser = sender.location(in: userView).y > 0
-        if didTapBelowUser && isImageVisibleEnough {
+        if didTapBelowUser && isPreviewVisible {
             scrollToDetail()
-        } else if isImageVisibleEnough {
-            delegate?.didTapOnPreview()
+        } else if isPreviewVisible {
+            delegate?.cardViewDidTapOnPreview(self)
         } else {
             showFullImagePreview()
         }
