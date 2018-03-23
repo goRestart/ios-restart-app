@@ -182,11 +182,11 @@ class PostListingViewModel: BaseViewModel {
     }
     
     func infoButtonPressed() {
-        openOnboardingRealEstate()
+        openOnboardingRealEstate(origin: .postingIconInfo)
     }
     
     func learnMorePressed() {
-        openOnboardingRealEstate()
+        openOnboardingRealEstate(origin: .postingLearnMore)
     }
 
     func imagesSelected(_ images: [UIImage], source: EventParameterPictureSource) {
@@ -197,9 +197,9 @@ class PostListingViewModel: BaseViewModel {
         }
     }
     
-    private func openOnboardingRealEstate() {
+    private func openOnboardingRealEstate(origin: EventParameterTypePage) {
         guard let pages = LGTutorialPage.makeRealEstateTutorial(typeOfOnboarding: featureFlags.realEstateTutorial) else { return }
-        navigator?.openRealEstateOnboarding(pages: pages, origin: .postingIconInfo, tutorialType: .realEstate)
+        navigator?.openRealEstateOnboarding(pages: pages, origin: origin, tutorialType: .realEstate)
     }
     
     fileprivate func uploadImages(_ images: [UIImage], source: EventParameterPictureSource) {

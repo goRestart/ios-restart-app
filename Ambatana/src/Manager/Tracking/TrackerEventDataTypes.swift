@@ -831,6 +831,7 @@ enum EventParameterTypePage: String {
     case mostSearched = "most-searched"
     case filterBubble = "filter-bubble"
     case postingIconInfo = "posting-icon-information"
+    case postingLearnMore = "posting-learn-more-button"
     case sellStart = "product-sell-start"
 }
 
