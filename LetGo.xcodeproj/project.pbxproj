@@ -177,9 +177,7 @@
 		0AF5EB6D1FD060B2001DFAE2 /* QuickChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF5EB6B1FD05EA8001DFAE2 /* QuickChatView.swift */; };
 		0AF5EB6F1FD0698B001DFAE2 /* QuickChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF5EB6E1FD0698B001DFAE2 /* QuickChatViewModel.swift */; };
 		0AF5EB701FD069C6001DFAE2 /* QuickChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF5EB6E1FD0698B001DFAE2 /* QuickChatViewModel.swift */; };
-		0AF7CCBB1F8B51F500128303 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7CCBA1F8B51F500128303 /* RoundButton.swift */; };
 		0AF7CCBD1F8B525E00128303 /* OvalLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */; };
-		0AF7CCBE1F8B533D00128303 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7CCBA1F8B51F500128303 /* RoundButton.swift */; };
 		0AF7CCBF1F8B533D00128303 /* OvalLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */; };
 		0AFE311F2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFE311D2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift */; };
 		0AFE31202056DCAB004B6781 /* ListingDeckImagePreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFE311D2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift */; };
@@ -1852,7 +1850,6 @@
 		0AF5EB671FD0118F001DFAE2 /* MapViewSnapShot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewSnapShot.swift; sourceTree = "<group>"; };
 		0AF5EB6B1FD05EA8001DFAE2 /* QuickChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickChatView.swift; sourceTree = "<group>"; };
 		0AF5EB6E1FD0698B001DFAE2 /* QuickChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickChatViewModel.swift; sourceTree = "<group>"; };
-		0AF7CCBA1F8B51F500128303 /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OvalLayer.swift; sourceTree = "<group>"; };
 		0AFE311D2056DCAB004B6781 /* ListingDeckImagePreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckImagePreviewCell.swift; sourceTree = "<group>"; };
 		0AFE311E2056DCAB004B6781 /* ListingDeckImagePreviewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListingDeckImagePreviewLayout.swift; sourceTree = "<group>"; };
@@ -4628,7 +4625,6 @@
 				C73189C81DBE3847005A93EE /* ListHeaderContainer.xib */,
 				2E2208E71DD4BD1100FB2483 /* EmptyCell.swift */,
 				2E2208EA1DD4C0F300FB2483 /* EmptyCell.xib */,
-				0AF7CCBA1F8B51F500128303 /* RoundButton.swift */,
 				0AF7CCBC1F8B525E00128303 /* OvalLayer.swift */,
 				2ECB417C2008CC6900482EF7 /* AdvertisementCell.swift */,
 				2ECB417D2008CC6900482EF7 /* AdvertisementCell.xib */,
@@ -6302,7 +6298,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				726E35BD1FE0342100F98776 /* EditOptionDisclosureView.swift in Sources */,
-				0AF7CCBB1F8B51F500128303 /* RoundButton.swift in Sources */,
 				6A9BFE541C08B444000114DF /* FilterSingleCheckCell.swift in Sources */,
 				50BCE92C1BF6356B00C130CD /* ToastView.swift in Sources */,
 				500210B61CF5D94F0034519F /* ChatDisclaimerCell.swift in Sources */,
@@ -6969,7 +6964,6 @@
 			files = (
 				726E35BE1FE0342100F98776 /* EditOptionDisclosureView.swift in Sources */,
 				F5BBF67B1FD0649A000E37A0 /* ListingAttributePickerCell.swift in Sources */,
-				0AF7CCBE1F8B533D00128303 /* RoundButton.swift in Sources */,
 				C7DB41871C5138B500400945 /* FilterSingleCheckCell.swift in Sources */,
 				C7DB418B1C5138B500400945 /* ToastView.swift in Sources */,
 				500210B71CF5D94F0034519F /* ChatDisclaimerCell.swift in Sources */,

@@ -803,9 +803,7 @@ extension UserViewModel {
 }
 
 extension UserViewModel: ListingCellDelegate {
-    
-    func relatedButtonPressedFor(listing: Listing) {}
-    
+        
     func chatButtonPressedFor(listing: Listing) {}
     
     func editPressedForDiscarded(listing: Listing) {

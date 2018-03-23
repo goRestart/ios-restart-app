@@ -39,7 +39,6 @@ protocol FeatureFlaggeable: class {
     var searchAutocomplete: SearchAutocomplete { get }
     var realEstateEnabled: RealEstateEnabled { get }
     var requestTimeOut: RequestsTimeOut { get }
-    var homeRelatedEnabled: HomeRelatedEnabled { get }
     var taxonomiesAndTaxonomyChildrenInFeed : TaxonomiesAndTaxonomyChildrenInFeed { get }
     var showClockInDirectAnswer : ShowClockInDirectAnswer { get }
     var newItemPage: NewItemPage { get }
@@ -92,10 +91,6 @@ extension FeatureFlaggeable {
     var syncedData: Observable<Bool> {
         return trackingData.map { $0 != nil }
     }
-}
-
-extension HomeRelatedEnabled {
-    var isActive: Bool { get { return self == .active } }
 }
 
 extension TaxonomiesAndTaxonomyChildrenInFeed {
@@ -400,13 +395,6 @@ class FeatureFlags: FeatureFlaggeable {
             return Bumper.realEstateEnabled
         }
         return RealEstateEnabled.fromPosition(abTests.realEstateEnabled.value)
-    }
-    
-    var homeRelatedEnabled: HomeRelatedEnabled {
-        if Bumper.enabled {
-            return Bumper.homeRelatedEnabled
-        }
-        return HomeRelatedEnabled.fromPosition(abTests.homeRelatedEnabled.value)
     }
 
     var newItemPage: NewItemPage {
