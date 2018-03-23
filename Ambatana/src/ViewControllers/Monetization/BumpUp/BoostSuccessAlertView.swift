@@ -28,6 +28,7 @@ class BoostSuccessAlertView: UIView {
 //    }
 
     init() {
+        // TODO: 🦄  Make the cool alert happen!
         super.init(frame: CGRect.zero)
         setupUI()
         setupConstraints()
