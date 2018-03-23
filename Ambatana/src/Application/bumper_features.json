@@ -201,6 +201,11 @@
         "description": "Show machine learning posting flow when pressing Other Items on salchichas menu"
     },
     {
+        "name": "MarkAllConversationsAsRead",
+        "values": ["no", "yes"],
+        "description": "Show a button to mark all conversations as read"
+    },
+    {
         "name": "ShowProTagUserProfile",
         "values": ["no", "yes"],
         "description": "Show Professional tag in user profile"

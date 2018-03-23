@@ -60,6 +60,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var machineLearningMVP: MachineLearningMVP = .control
     var showProTagUserProfile: Bool = false
+    var markAllConversationsAsRead: Bool = false
     var realEstateTutorial: RealEstateTutorial = .control
     var summaryAsFirstStep: SummaryAsFirstStep = .control
 

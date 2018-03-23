@@ -53,6 +53,7 @@ extension Bumper  {
         flags.append(IncreaseNumberOfPictures.self)
         flags.append(RealEstateTutorial.self)
         flags.append(MachineLearningMVP.self)
+        flags.append(MarkAllConversationsAsRead.self)
         flags.append(ShowProTagUserProfile.self)
         flags.append(SummaryAsFirstStep.self)
         Bumper.initialize(flags)
@@ -256,6 +257,11 @@ extension Bumper  {
     static var machineLearningMVP: MachineLearningMVP {
         guard let value = Bumper.value(for: MachineLearningMVP.key) else { return .control }
         return MachineLearningMVP(rawValue: value) ?? .control 
+    }
+
+    static var markAllConversationsAsRead: Bool {
+        guard let value = Bumper.value(for: MarkAllConversationsAsRead.key) else { return false }
+        return MarkAllConversationsAsRead(rawValue: value)?.asBool ?? false
     }
 
     static var showProTagUserProfile: Bool {
@@ -885,6 +891,15 @@ enum MachineLearningMVP: String, BumperFeature  {
             default: return .control
         }
     }
+}
+
+enum MarkAllConversationsAsRead: String, BumperFeature  {
+    case no, yes
+    static var defaultValue: String { return MarkAllConversationsAsRead.no.rawValue }
+    static var enumValues: [MarkAllConversationsAsRead] { return [.no, .yes]}
+    static var values: [String] { return enumValues.map{$0.rawValue} }
+    static var description: String { return "Show a button to mark all conversations as read" } 
+    var asBool: Bool { return self == .yes }
 }
 
 enum ShowProTagUserProfile: String, BumperFeature  {

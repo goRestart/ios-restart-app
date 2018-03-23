@@ -68,6 +68,7 @@ protocol FeatureFlaggeable: class {
     var increaseNumberOfPictures: IncreaseNumberOfPictures { get }
     var realEstateTutorial: RealEstateTutorial { get }
     var machineLearningMVP: MachineLearningMVP { get }
+    var markAllConversationsAsRead: Bool { get }
     var showProTagUserProfile: Bool { get }
     var summaryAsFirstStep: SummaryAsFirstStep { get }
 
@@ -546,7 +547,14 @@ class FeatureFlags: FeatureFlaggeable {
         }
         return MachineLearningMVP.fromPosition(abTests.machineLearningMVP.value)
     }
-
+    
+    var markAllConversationsAsRead: Bool {
+        if Bumper.enabled {
+            return Bumper.markAllConversationsAsRead
+        }
+        return abTests.markAllConversationsAsRead.value
+    }
+    
     var newUserProfileView: NewUserProfileView {
         if Bumper.enabled {
             return Bumper.newUserProfileView

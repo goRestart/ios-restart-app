@@ -140,7 +140,7 @@
 "bump_up_view_boost_subtitle_cheaper" = "Boost your listing right now to get a discount off the typical feature price.";
 
 // Text for boost success alert
-"bump_up_boost_success_alert_text" = "Your listing was boosted again! It will be featured for the next 24 hours.";
+"bump_up_boost_success_alert_text" = "Your listing was boosted again!  It will be featured for the next 24 hours.";
 
 // Title for payment bump up view
 "bump_up_old_view_pay_title" = "SELL FASTER";
@@ -2758,9 +2758,6 @@
 
 // Message inside camera view to explain about picture selection on RE
 "real_estate_camera_view_real_estate_message" = "Snap a picture of the property you want to sell or rent";
-
-// Message inside camera view to open real estate onboarding
-"real_estate_camera_view_real_estate_learn_more" = "Learn more";
 
 // Title for empty state when search for real estate
 "real_estate_empty_state_search_title" = "OOPS! NO HOUSING POSTED NEAR YOU";

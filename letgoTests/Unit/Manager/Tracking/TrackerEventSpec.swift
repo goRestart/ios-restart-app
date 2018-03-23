@@ -4654,6 +4654,15 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
+            describe("chat mark messages as read") {
+                beforeEach {
+                    sut = TrackerEvent.chatMarkMessagesAsRead()
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("mark-messages-as-read"))
+                }
+            }
+            
             describe("tutorial opens") {
                 beforeEach {
                     sut = TrackerEvent.tutorialDialogStart(typePage: .filterBubble, typeTutorialDialog: .realEstate)

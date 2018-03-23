@@ -1149,6 +1149,10 @@ struct TrackerEvent {
         return TrackerEvent(name: .chatInactiveConversationsShown, params: EventParameters())
     }
     
+    static func chatMarkMessagesAsRead() -> TrackerEvent {
+        return TrackerEvent(name: .markMessagesAsRead, params: EventParameters())
+    }
+    
     static func expressChatStart(_ trigger: EventParameterExpressChatTrigger) -> TrackerEvent {
         var params = EventParameters()
         params[.expressChatTrigger] = trigger.rawValue

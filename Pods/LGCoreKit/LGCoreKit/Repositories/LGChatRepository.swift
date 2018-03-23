@@ -10,6 +10,7 @@ import Result
 import RxSwift
 
 class LGChatRepository: InternalChatRepository {
+    
     var chatStatus: Observable<WSChatStatus> {
         return wsChatStatus.asObservable()
     }
@@ -249,6 +250,12 @@ class LGChatRepository: InternalChatRepository {
     
     func internalUnarchiveConversation(_ conversationId: String, completion: ChatCommandCompletion?) {
         dataSource.unarchiveConversations([conversationId]) { result in
+            handleWebSocketResult(result, completion: completion)
+        }
+    }
+    
+    func internalMarkAllConversationsAsRead(completion: ChatCommandCompletion?) {
+        dataSource.markAllConversationsAsRead { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
