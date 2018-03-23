@@ -18,7 +18,6 @@ protocol ListingListViewScrollDelegate: class {
 
 protocol ListingListViewCellsDelegate: class {
     func visibleTopCellWithIndex(_ index: Int, whileScrollingDown scrollingDown: Bool)
-    func shouldShowRelatedListingsButton() -> Bool
 }
 
 protocol ListingListViewHeaderDelegate: class {
@@ -316,7 +315,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                            inCell: cell,
                            delegate: viewModel.listingCellDelegate,
                            imageSize: viewModel.imageViewSizeForItem(at: indexPath.row))
-        (cell as? ListingCell)?.isRelatedEnabled = cellsDelegate?.shouldShowRelatedListingsButton() ?? false
         return cell
     }
 

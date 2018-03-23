@@ -11,12 +11,11 @@ import LGCoreKit
 
 protocol ListingCellDelegate: class {
     func chatButtonPressedFor(listing: Listing)
-    func relatedButtonPressedFor(listing: Listing)
     func editPressedForDiscarded(listing: Listing)
     func moreOptionsPressedForDiscarded(listing: Listing)
 }
 
-final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate {
+final class ListingCell: UICollectionViewCell, ReusableCell {
     
     static let stripeIconWidth: CGFloat = 14
 
@@ -50,14 +49,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate
         view.isHidden = true
         return view
     }()
-    
-    var isRelatedEnabled: Bool = true {
-        didSet {
-            relatedListingButton.isHidden = !isRelatedEnabled
-            relatedListingButton.setNeedsLayout()
-        }
-    }
-    var relatedListingButton = RoundButton()
 
     var listing: Listing?
     weak var delegate: ListingCellDelegate?
@@ -164,7 +155,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate
         cellContent.cornerRadius = LGUIKitConstants.mediumCornerRadius
         
         setupStripArea()
-        setupRelatedListingButton()
         setupDiscardedView()
     }
     
@@ -175,21 +165,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate
         // HIDDEN for the moment while we experiment with 3 columns
         stripeInfoView.isHidden = true
         stripeImageView.isHidden = true
-    }
-    
-    private func setupRelatedListingButton() {
-        relatedListingButton.translatesAutoresizingMaskIntoConstraints = false
-        cellContent.addSubview(relatedListingButton)
-        relatedListingButton.layout(with: thumbnailImageView).bottom(to: .bottom, by: 0)
-        relatedListingButton.layout(with: thumbnailImageView).trailing(to: .trailing, by: 0)
-        relatedListingButton.layout(with: cellContent).proportionalWidth(multiplier: 0.3,
-                                                                         add: 0,
-                                                                         relatedBy: .equal,
-                                                                         priority: UILayoutPriority.required,
-                                                                         constraintBlock: nil)
-        relatedListingButton.layout().widthProportionalToHeight()
-        
-        relatedListingButton.delegate = self
     }
     
     private func setupProductDetailInImage(price: String, title: String?) {
@@ -306,8 +281,6 @@ final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate
         for featuredInfoSubview in featuredListingInfoView.subviews {
             featuredInfoSubview.removeFromSuperview()
         }
-
-        relatedListingButton.compress()
     }
 
     // > Accessibility Ids
@@ -325,12 +298,5 @@ final class ListingCell: UICollectionViewCell, ReusableCell, RoundButtonDelegate
     @objc private func openChat() {
         guard let listing = listing else { return }
         delegate?.chatButtonPressedFor(listing: listing)
-    }
-    
-    // MARK: RoundButtonDelegate
-    
-    func roundedButtonActionDidTrigger(_ button: RoundButton) {
-        guard let listing = self.listing else { return }
-        self.delegate?.relatedButtonPressedFor(listing: listing)
     }
 }

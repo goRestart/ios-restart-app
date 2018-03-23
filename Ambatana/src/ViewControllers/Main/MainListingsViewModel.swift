@@ -755,10 +755,6 @@ extension MainListingsViewModel: ListingListViewModelDataDelegate, ListingListVi
         }
     }
 
-    func shouldShowRelatedListingsButton() -> Bool {
-        return featureFlags.homeRelatedEnabled.isActive
-    }
-
     // MARK: > ListingListViewModelDataDelegate
 
     func listingListVM(_ viewModel: ListingListViewModel, didSucceedRetrievingListingsPage page: UInt,
@@ -1464,9 +1460,6 @@ extension MainListingsViewModel: TaxonomiesDelegate {
 // MARK: ListingCellDelegate
 
 extension MainListingsViewModel: ListingCellDelegate {
-    func relatedButtonPressedFor(listing: Listing) {
-        navigator?.openRelatedItems(relatedToListing: listing)
-    }
 
     func chatButtonPressedFor(listing: Listing) {
         navigator?.openChat(.listingAPI(listing: listing),
