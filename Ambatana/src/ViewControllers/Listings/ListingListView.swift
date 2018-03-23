@@ -728,3 +728,61 @@ extension ListingListView: GADBannerViewDelegate, GADAdSizeDelegate {
                                   feedPosition: feedPosition)
     }
 }
+
+private class DataView: UIView {
+    let waterFallLayout = CHTCollectionViewWaterfallLayout()
+    let collectionView: UICollectionView = {
+        waterFallLayout.scrollDirection = .vertical
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: waterFallLayout)
+        if #available(iOS 10.0, *) {
+            collectionView.isPrefetchingEnabled = true
+        }
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        }
+
+        return collectionView
+    }()
+
+    convenience init() {
+        self.init(frame: .zero)
+        setupUI()
+    }
+
+    private func setupUI() {
+        setupConstraints()
+    }
+
+    private func setupConstraints() {
+        addSubviewForAutoLayout(collectionView)
+        collectionView.layout(with: self).fill()
+    }
+}
+
+private class ActivityView: UIView {
+
+    let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        indicator.tintColor = UIColor(red: 153, green: 153, blue: 153)
+        return indicator
+    }()
+
+    convenience init() {
+        self.init(frame: .zero)
+        setupUI()
+    }
+
+    private func setupUI() {
+        backgroundColor = UIColor.black.withAlphaComponent(0)
+        setupConstraints()
+    }
+
+    private func setupConstraints() {
+        addSubviewForAutoLayout(activityIndicator)
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+    }
+
+}
