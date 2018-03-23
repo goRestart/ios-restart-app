@@ -79,6 +79,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("bump_up_banner_wait_text", comment: "")
 	}
 
+	static var bumpUpBannerBoostText: String {
+		return NSLocalizedString("bump_up_banner_boost_text", comment: "")
+	}
+
+	static var bumpUpBannerBoostProgressTitle: String {
+		return NSLocalizedString("bump_up_banner_boost_progress_title", comment: "")
+	}
+
 	static var bumpUpBannerFreeButtonTitle: String {
 		return NSLocalizedString("bump_up_banner_free_button_title", comment: "")
 	}
@@ -157,6 +165,38 @@ struct LGLocalizedString {
 
 	static func bumpUpViewPayButtonTitle(_ var1: String) -> String {
 		return String(format: NSLocalizedString("bump_up_view_pay_button_title", comment: ""), var1)
+	}
+
+	static func bumpUpViewBoostPayButtonTitle(_ var1: String) -> String {
+		return String(format: NSLocalizedString("bump_up_view_boost_pay_button_title", comment: ""), var1)
+	}
+
+	static var bumpUpViewBoostTitleSendTop: String {
+		return NSLocalizedString("bump_up_view_boost_title_send_top", comment: "")
+	}
+
+	static var bumpUpViewBoostTitleBoostListing: String {
+		return NSLocalizedString("bump_up_view_boost_title_boost_listing", comment: "")
+	}
+
+	static var bumpUpViewBoostTitleCheaperBoost: String {
+		return NSLocalizedString("bump_up_view_boost_title_cheaper_boost", comment: "")
+	}
+
+	static var bumpUpViewBoostSubtitleSendTop: String {
+		return NSLocalizedString("bump_up_view_boost_subtitle_send_top", comment: "")
+	}
+
+	static var bumpUpViewBoostSubtitleBoostListing: String {
+		return NSLocalizedString("bump_up_view_boost_subtitle_boost_listing", comment: "")
+	}
+
+	static var bumpUpViewBoostSubtitleCheaper: String {
+		return NSLocalizedString("bump_up_view_boost_subtitle_cheaper", comment: "")
+	}
+
+	static var bumpUpBoostSuccessAlertText: String {
+		return NSLocalizedString("bump_up_boost_success_alert_text", comment: "")
 	}
 
 	static var bumpUpOldViewPayTitle: String {
@@ -305,6 +345,10 @@ struct LGLocalizedString {
 
 	static var changeBioSaveButton: String {
 		return NSLocalizedString("change_bio_save_button", comment: "")
+	}
+
+	static var changeBioErrorMessage: String {
+		return NSLocalizedString("change_bio_error_message", comment: "")
 	}
 
 	static var changeLocationApplyButton: String {
@@ -797,6 +841,10 @@ struct LGLocalizedString {
 
 	static var chatWithYourselfAlertMsg: String {
 		return NSLocalizedString("chat_with_yourself_alert_msg", comment: "")
+	}
+
+	static var chatMarkConversationAsReadButton: String {
+		return NSLocalizedString("chat_mark_conversation_as_read_button", comment: "")
 	}
 
 	static var collectionTransportTitle: String {
@@ -1471,6 +1519,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_real_estate_bathrooms_not_set", comment: "")
 	}
 
+	static var filtersRealEstateSizeFromFeedFilterCell: String {
+		return NSLocalizedString("filters_real_estate_size_from_feed_filter_cell", comment: "")
+	}
+
+	static var filtersRealEstateSizeToFeedFilterCell: String {
+		return NSLocalizedString("filters_real_estate_size_to_feed_filter_cell", comment: "")
+	}
+
 	static var filtersTagLocationSelected: String {
 		return NSLocalizedString("filters_tag_location_selected", comment: "")
 	}
@@ -1773,6 +1829,10 @@ struct LGLocalizedString {
 
 	static var mainProductsInviteNavigationBarButton: String {
 		return NSLocalizedString("main_products_invite_navigation_bar_button", comment: "")
+	}
+
+	static var mopubAdvertisingText: String {
+		return NSLocalizedString("mopub_advertising_text", comment: "")
 	}
 
 	static var notificationsEmptySubtitle: String {
@@ -2677,6 +2737,10 @@ struct LGLocalizedString {
 
 	static var productPostGallerySelectPicturesSubtitle: String {
 		return NSLocalizedString("product_post_gallery_select_pictures_subtitle", comment: "")
+	}
+
+	static func productPostGallerySelectPicturesSubtitleParams(_ var1: Int) -> String {
+		return String(format: NSLocalizedString("product_post_gallery_select_pictures_subtitle_params", comment: ""), var1)
 	}
 
 	static var productPostGalleryTab: String {
@@ -3635,8 +3699,16 @@ struct LGLocalizedString {
 		return NSLocalizedString("real_estate_gallery_view_subtitle", comment: "")
 	}
 
+	static func realEstateGalleryViewSubtitleParams(_ var1: Int) -> String {
+		return String(format: NSLocalizedString("real_estate_gallery_view_subtitle_params", comment: ""), var1)
+	}
+
 	static var realEstateCameraViewRealEstateMessage: String {
 		return NSLocalizedString("real_estate_camera_view_real_estate_message", comment: "")
+	}
+
+	static var realEstateCameraViewRealEstateLearnMore: String {
+		return NSLocalizedString("real_estate_camera_view_real_estate_learn_more", comment: "")
 	}
 
 	static var realEstateEmptyStateSearchTitle: String {

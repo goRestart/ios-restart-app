@@ -110,4 +110,7 @@ class BaseViewModelSpec: QuickSpec, BaseViewModelDelegate, TabNavigator {
     func canOpenAppInvite() -> Bool { return false }
     func openRatingList(_ userId: String) {}
     func openMostSearchedItems(source: PostingSource, enableSearch: Bool) {}
+    func openRealEstateOnboarding(pages: [LGTutorialPage],
+                                  origin: EventParameterTypePage,
+                                  tutorialType: EventParameterTutorialType) {}
 }

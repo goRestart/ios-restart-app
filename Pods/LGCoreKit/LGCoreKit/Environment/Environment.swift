@@ -22,4 +22,5 @@ protocol Environment {
     var searchProductsBaseURL: String { get }
     var searchRealEstateBaseURL: String { get }
     var niordBaseURL: String { get }
+    var spellCorrectorBaseURL: String { get }
 }

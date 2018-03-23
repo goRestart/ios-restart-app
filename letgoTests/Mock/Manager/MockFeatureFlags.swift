@@ -11,7 +11,6 @@ import Foundation
 import RxSwift
 
 class MockFeatureFlags: FeatureFlaggeable {
-
     var trackingData: Observable<[(String, ABGroupType)]?> {
         return trackingDataVar.asObservable()
     }
@@ -34,14 +33,12 @@ class MockFeatureFlags: FeatureFlaggeable {
     var requestTimeOut: RequestsTimeOut = .thirty
     var homeRelatedEnabled: HomeRelatedEnabled = .control
     var taxonomiesAndTaxonomyChildrenInFeed: TaxonomiesAndTaxonomyChildrenInFeed = .control
-    var showPriceStepRealEstatePosting: ShowPriceStepRealEstatePosting = .control
     var showClockInDirectAnswer: ShowClockInDirectAnswer = .control
     var allowCallsForProfessionals: AllowCallsForProfessionals = .control
     var showSecurityMeetingChatMessage: ShowSecurityMeetingChatMessage = .control
     var mostSearchedDemandedItems: MostSearchedDemandedItems = .control
     var noAdsInFeedForNewUsers: NoAdsInFeedForNewUsers = .control
 
-    var realEstateImprovements: RealEstateImprovements = .control
     var showAdsInFeedWithRatio: ShowAdsInFeedWithRatio = .control
     var removeCategoryWhenClosingPosting: RemoveCategoryWhenClosingPosting = .control
     var realEstateNewCopy: RealEstateNewCopy = .control
@@ -53,6 +50,7 @@ class MockFeatureFlags: FeatureFlaggeable {
     var newUserProfileView: NewUserProfileView = .control
     var turkeyBumpPriceVATAdaptation: TurkeyBumpPriceVATAdaptation = .control
     var searchImprovements: SearchImprovements = .control
+    var relaxedSearch: RelaxedSearch = .control
     var showChatSafetyTips: Bool = false
     var discardedProducts: DiscardedProducts = .control
     var promoteBumpInEdit: PromoteBumpInEdit = .control
@@ -62,7 +60,10 @@ class MockFeatureFlags: FeatureFlaggeable {
     var onboardingIncentivizePosting: OnboardingIncentivizePosting = .control
     var machineLearningMVP: MachineLearningMVP = .control
     var chatNorris: ChatNorris = .control
-    
+    var showProTagUserProfile: Bool = false
+    var realEstateTutorial: RealEstateTutorial = .control
+    var summaryAsFirstStep: SummaryAsFirstStep = .control
+
     // Country dependant features
     var freePostingModeAllowed = false
     var postingFlowType: PostingFlowType = .standard
@@ -78,4 +79,5 @@ class MockFeatureFlags: FeatureFlaggeable {
     func collectionsAllowedFor(countryCode: String?) -> Bool {
         return false
     }
+    var shareTypes: [ShareType] = []
 }

@@ -69,9 +69,9 @@ extension SocialMessage {
     static var utmMediumValue: String { return "letgo_app" }
     static var utmCampaignKey: String { return "utm_campaign" }
     static var utmSourceValue: String { return "ios_app" }
-    static var siteIDKey: String { return "site_id" }
-    static var sub1: String { return "sub1" }
-    static var sub2: String { return "sub2" }
+    static var siteIDKey: String { return "af_siteid" }
+    static var sub1: String { return "af_sub1" }
+    static var sub2: String { return "af_sub2" }
     static var webDeeplink: String { return "af_web_dp" }
     
     

@@ -155,8 +155,7 @@ extension SellCoordinator: PostListingNavigator {
     
     func startDetails(postListingState: PostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
         
-        let shouldShowPrice = featureFlags.showPriceStepRealEstatePosting.isActive
-        let firstStep: PostingDetailStep = shouldShowPriceStep(postListingPrice: postListingState.price, showPriceActive:shouldShowPrice) ? .price : .propertyType
+        let firstStep: PostingDetailStep = featureFlags.summaryAsFirstStep.isActive ? .summary : .price
         
         let viewModel = PostingDetailsViewModel(step: firstStep,
                                                 postListingState: postListingState,
@@ -263,6 +262,16 @@ extension SellCoordinator: PostListingNavigator {
         let vc = BlockingPostingQueuedRequestsViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: false)
     }
+    
+    func openRealEstateOnboarding(pages: [LGTutorialPage],
+                                  origin: EventParameterTypePage,
+                                  tutorialType: EventParameterTutorialType) {
+        guard pages.count > 0 else { return }
+        let viewModel = LGTutorialViewModel(pages: pages, origin: origin, tutorialType: tutorialType)
+        let viewController = LGTutorialViewController(viewModel: viewModel)
+        viewController.modalPresentationStyle = .overCurrentContext
+        navigationController.present(viewController, animated: true, completion: nil)
+    }
 }
 
 
@@ -272,7 +281,6 @@ extension SellCoordinator: ListingPostedNavigator {
     func cancelListingPosted() {
         closeCoordinator(animated: true) { [weak self] in
             guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
-
             delegate.sellCoordinatorDidCancel(strongSelf)
         }
     }
@@ -432,8 +440,7 @@ fileprivate extension SellCoordinator {
 extension SellCoordinator {
     func startDetails(postListingState: MLPostListingState, uploadedImageSource: EventParameterPictureSource?, postingSource: PostingSource, postListingBasicInfo: PostListingBasicDetailViewModel) {
         
-        let shouldShowPrice = featureFlags.showPriceStepRealEstatePosting.isActive
-        let firstStep: PostingDetailStep = shouldShowPriceStep(postListingPrice: postListingState.price, showPriceActive:shouldShowPrice) ? .price : .propertyType
+        let firstStep: PostingDetailStep = featureFlags.summaryAsFirstStep.isActive ? .summary : .price
         
         let viewModel = MLPostingDetailsViewModel(step: firstStep,
                                                   postListingState: postListingState,

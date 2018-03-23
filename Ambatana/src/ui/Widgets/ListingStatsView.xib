@@ -30,16 +30,16 @@
                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_stats_views" translatesAutoresizingMaskIntoConstraints="NO" id="ppx-Fy-GfE">
                                     <rect key="frame" x="8" y="4" width="16" height="16"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="16" id="1Op-ZN-LdQ"/>
+                                        <constraint firstAttribute="width" priority="999" constant="16" id="1Op-ZN-LdQ"/>
                                     </constraints>
                                 </imageView>
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.54000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstItem="ppx-Fy-GfE" firstAttribute="leading" secondItem="b1K-ig-K2G" secondAttribute="leading" constant="8" id="MnA-rQ-BuR"/>
-                                <constraint firstAttribute="trailing" secondItem="txt-ob-Uie" secondAttribute="trailing" constant="7" id="TBl-91-hse"/>
+                                <constraint firstItem="ppx-Fy-GfE" firstAttribute="leading" secondItem="b1K-ig-K2G" secondAttribute="leading" priority="999" constant="8" id="MnA-rQ-BuR"/>
+                                <constraint firstAttribute="trailing" secondItem="txt-ob-Uie" secondAttribute="trailing" priority="999" constant="7" id="TBl-91-hse"/>
                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="80" id="UrR-Tw-cI6"/>
-                                <constraint firstItem="txt-ob-Uie" firstAttribute="leading" secondItem="ppx-Fy-GfE" secondAttribute="trailing" constant="6" id="lCu-SS-UZu"/>
+                                <constraint firstItem="txt-ob-Uie" firstAttribute="leading" secondItem="ppx-Fy-GfE" secondAttribute="trailing" priority="999" constant="6" id="lCu-SS-UZu"/>
                                 <constraint firstAttribute="bottom" secondItem="txt-ob-Uie" secondAttribute="bottom" constant="4" id="np0-XI-ydi"/>
                                 <constraint firstItem="ppx-Fy-GfE" firstAttribute="top" secondItem="b1K-ig-K2G" secondAttribute="top" constant="4" id="s20-qL-cfS"/>
                                 <constraint firstItem="txt-ob-Uie" firstAttribute="top" secondItem="b1K-ig-K2G" secondAttribute="top" constant="4" id="sn9-26-dAZ"/>
@@ -58,19 +58,19 @@
                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_stats_favorite" translatesAutoresizingMaskIntoConstraints="NO" id="hk5-FC-QU9">
                                     <rect key="frame" x="8" y="4" width="16" height="16"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="16" id="snB-gW-LNv"/>
+                                        <constraint firstAttribute="width" priority="999" constant="16" id="snB-gW-LNv"/>
                                     </constraints>
                                 </imageView>
                             </subviews>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.54000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstItem="hk5-FC-QU9" firstAttribute="leading" secondItem="Mmj-j9-3P3" secondAttribute="leading" constant="8" id="1RL-10-ZJN"/>
+                                <constraint firstItem="hk5-FC-QU9" firstAttribute="leading" secondItem="Mmj-j9-3P3" secondAttribute="leading" priority="999" constant="8" id="1RL-10-ZJN"/>
                                 <constraint firstAttribute="bottom" secondItem="vwJ-1n-CQ1" secondAttribute="bottom" constant="4" id="1ZY-aI-e88"/>
                                 <constraint firstItem="hk5-FC-QU9" firstAttribute="top" secondItem="Mmj-j9-3P3" secondAttribute="top" constant="4" id="FBy-LL-zrh"/>
                                 <constraint firstAttribute="bottom" secondItem="hk5-FC-QU9" secondAttribute="bottom" constant="4" id="I5d-HT-Klo"/>
-                                <constraint firstAttribute="trailing" secondItem="vwJ-1n-CQ1" secondAttribute="trailing" constant="7" id="jme-dK-ebK"/>
+                                <constraint firstAttribute="trailing" secondItem="vwJ-1n-CQ1" secondAttribute="trailing" priority="999" constant="7" id="jme-dK-ebK"/>
                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="80" id="kYf-27-ud4"/>
-                                <constraint firstItem="vwJ-1n-CQ1" firstAttribute="leading" secondItem="hk5-FC-QU9" secondAttribute="trailing" constant="6" id="wXr-fH-Doc"/>
+                                <constraint firstItem="vwJ-1n-CQ1" firstAttribute="leading" secondItem="hk5-FC-QU9" secondAttribute="trailing" priority="999" constant="6" id="wXr-fH-Doc"/>
                                 <constraint firstItem="vwJ-1n-CQ1" firstAttribute="top" secondItem="Mmj-j9-3P3" secondAttribute="top" constant="4" id="zmA-jQ-m0Z"/>
                             </constraints>
                         </view>
@@ -107,12 +107,12 @@
             </subviews>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="v5h-jP-jgL" secondAttribute="bottom" id="8Ks-tj-9qI"/>
-                <constraint firstItem="nmt-zR-AiC" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="v5h-jP-jgL" secondAttribute="trailing" constant="17" id="9cb-EA-hS2"/>
-                <constraint firstAttribute="bottom" secondItem="nmt-zR-AiC" secondAttribute="bottom" id="NMc-pL-qjB"/>
-                <constraint firstItem="nmt-zR-AiC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="dfy-iR-eMq"/>
-                <constraint firstAttribute="trailing" secondItem="nmt-zR-AiC" secondAttribute="trailing" id="gBl-hO-6Pl"/>
+                <constraint firstItem="nmt-zR-AiC" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="v5h-jP-jgL" secondAttribute="trailing" constant="8" id="RBa-CE-YVL"/>
+                <constraint firstAttribute="trailing" secondItem="nmt-zR-AiC" secondAttribute="trailing" id="lc2-eC-11a"/>
+                <constraint firstAttribute="bottom" secondItem="nmt-zR-AiC" secondAttribute="bottom" id="mWG-Rm-KgE"/>
                 <constraint firstItem="v5h-jP-jgL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ni1-Vt-Kay"/>
                 <constraint firstItem="v5h-jP-jgL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="trx-JL-vHc"/>
+                <constraint firstItem="nmt-zR-AiC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="vJz-Vb-HpG"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>

@@ -181,7 +181,6 @@ class SignUpLogInViewModel: BaseViewModel {
 
     fileprivate let sessionManager: SessionManager
     private let installationRepository: InstallationRepository
-    private let locationManager: LocationManager
     fileprivate let sendButtonEnabledVar: Variable<Bool>
     fileprivate let disposeBag: DisposeBag
     
@@ -196,12 +195,18 @@ class SignUpLogInViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, installationRepository: InstallationRepository, locationManager: LocationManager,
-         keyValueStorage: KeyValueStorageable, googleLoginHelper: ExternalAuthHelper, fbLoginHelper: ExternalAuthHelper,
-         tracker: Tracker, featureFlags: FeatureFlaggeable, locale: Locale, source: EventParameterLoginSourceValue, action: LoginActionType) {
+    init(sessionManager: SessionManager,
+         installationRepository: InstallationRepository,
+         keyValueStorage: KeyValueStorageable,
+         googleLoginHelper: ExternalAuthHelper,
+         fbLoginHelper: ExternalAuthHelper,
+         tracker: Tracker,
+         featureFlags: FeatureFlaggeable,
+         locale: Locale,
+         source: EventParameterLoginSourceValue,
+         action: LoginActionType) {
         self.sessionManager = sessionManager
         self.installationRepository = installationRepository
-        self.locationManager = locationManager
         self.keyValueStorage = keyValueStorage
         self.featureFlags = featureFlags
         self.loginSource = source
@@ -216,7 +221,7 @@ class SignUpLogInViewModel: BaseViewModel {
         self.termsAccepted = false
         self.newsletterAccepted = false
         self.currentActionType = action
-        self.termsAndConditionsEnabled = false
+        self.termsAndConditionsEnabled = featureFlags.signUpEmailTermsAndConditionsAcceptRequired
         self.unauthorizedErrorCount = 0
         self.suggestedEmailVar = Variable<String?>(nil)
         self.previousEmail = Variable<String?>(nil)
@@ -227,7 +232,6 @@ class SignUpLogInViewModel: BaseViewModel {
         self.disposeBag = DisposeBag()
         super.init()
 
-        checkTermsAndConditionsEnabled()
         updatePreviousEmailAndUsernamesFromKeyValueStorage()
 
         if let previousEmail = previousEmail.value {
@@ -237,19 +241,26 @@ class SignUpLogInViewModel: BaseViewModel {
         setupRx()
     }
     
-    convenience init(source: EventParameterLoginSourceValue, action: LoginActionType) {
+    convenience init(source: EventParameterLoginSourceValue,
+                     action: LoginActionType) {
         let sessionManager = Core.sessionManager
         let installationRepository = Core.installationRepository
-        let locationManager = Core.locationManager
         let keyValueStorage = KeyValueStorage.sharedInstance
         let googleLoginHelper = GoogleLoginHelper()
         let fbLoginHelper = FBLoginHelper()
         let tracker = TrackerProxy.sharedInstance
         let featureFlags = FeatureFlags.sharedInstance
         let locale = Locale.current
-        self.init(sessionManager: sessionManager, installationRepository: installationRepository, locationManager: locationManager,
-                  keyValueStorage: keyValueStorage, googleLoginHelper: googleLoginHelper, fbLoginHelper: fbLoginHelper,
-                  tracker: tracker, featureFlags: featureFlags, locale: locale, source: source, action: action)
+        self.init(sessionManager: sessionManager,
+                  installationRepository: installationRepository,
+                  keyValueStorage: keyValueStorage,
+                  googleLoginHelper: googleLoginHelper,
+                  fbLoginHelper: fbLoginHelper,
+                  tracker: tracker,
+                  featureFlags: featureFlags,
+                  locale: locale,
+                  source: source,
+                  action: action)
     }
     
     
@@ -465,19 +476,6 @@ class SignUpLogInViewModel: BaseViewModel {
             .map { $0?.suggestEmail(domains: Constants.emailSuggestedDomains) }
             .bind(to: suggestedEmailVar)
             .disposed(by: disposeBag)
-    }
-
-    /**
-    Right now terms and conditions will be enabled just for Turkey so it will appear depending on location country code 
-    or phone region
-    */
-    private func checkTermsAndConditionsEnabled() {
-        let turkey = "tr"
-
-        let systemCountryCode = locale.lg_countryCode
-        let countryCode = locationManager.currentLocation?.countryCode ?? systemCountryCode
-
-        termsAndConditionsEnabled = systemCountryCode == turkey || countryCode.lowercased() == turkey
     }
 
     private func processLoginSessionError(_ error: LoginError) {

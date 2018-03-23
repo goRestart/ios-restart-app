@@ -2265,6 +2265,18 @@ class TrackerEventSpec: QuickSpec {
                     expect(itemType).to(equal("1"))
                     
                 }
+                
+                context("with error") {
+                    beforeEach {
+                        sut = TrackerEvent.listingReportError(.network)
+                    }
+                    it("has event name") {
+                        expect(sut.name.rawValue).to(equal("product-detail-report-error"))
+                    }
+                    it("has event value") {
+                        expect(sut.params?[.errorDescription] as? String).to(equal("report-network"))
+                    }
+                }
             }
 
             describe("listingSellStart") {
@@ -4639,6 +4651,61 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("has its event name") {
                     expect(sut.name.rawValue).to(equal("chat-inactive-conversations-shown"))
+                }
+            }
+            
+            describe("tutorial opens") {
+                beforeEach {
+                    sut = TrackerEvent.tutorialDialogStart(typePage: .filterBubble, typeTutorialDialog: .realEstate)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("onboarding-dialog-start"))
+                }
+                it("contains type page") {
+                    let param = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(param) == "filter-bubble"
+                }
+                it("contains type tutorial Dialog") {
+                    let param = sut.params!.stringKeyParams["type-onboarding-dialog"] as? String
+                    expect(param) == "real-estate"
+                }
+            }
+            
+            describe("tutorial abandon") {
+                beforeEach {
+                    sut = TrackerEvent.tutorialDialogAbandon(typePage: .filterBubble, typeTutorialDialog: .realEstate, pageNumber: 1)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("onboarding-dialog-abandon"))
+                }
+                it("contains type page") {
+                    let param = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(param) == "filter-bubble"
+                }
+                it("contains type tutorial Dialog") {
+                    let param = sut.params!.stringKeyParams["type-onboarding-dialog"] as? String
+                    expect(param) == "real-estate"
+                }
+                it("contains page number") {
+                    let param = sut.params!.stringKeyParams["page-number"] as? Int
+                    expect(param) == 1
+                }
+            }
+            
+            describe("tutorial complete") {
+                beforeEach {
+                    sut = TrackerEvent.tutorialDialogComplete(typePage: .filterBubble, typeTutorialDialog: .realEstate)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("onboarding-dialog-complete"))
+                }
+                it("contains type page") {
+                    let param = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(param) == "filter-bubble"
+                }
+                it("contains type tutorial Dialog") {
+                    let param = sut.params!.stringKeyParams["type-onboarding-dialog"] as? String
+                    expect(param) == "real-estate"
                 }
             }
         }
