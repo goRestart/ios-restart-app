@@ -594,7 +594,6 @@
 		50CA9FB01C91696800350C5F /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CA9FAF1C91696800350C5F /* UserViewModel.swift */; };
 		50CA9FB11C91696800350C5F /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CA9FAF1C91696800350C5F /* UserViewModel.swift */; };
 		50CBCD5F1BF0BB8F00A329BB /* CollectionViewFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CBCD5D1BF0BB8F00A329BB /* CollectionViewFooter.swift */; };
-		50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CBCD5E1BF0BB8F00A329BB /* CollectionViewFooter.xib */; };
 		50D08D331E6985A3009CC260 /* letgoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D301E6985A3009CC260 /* letgoUITests.swift */; };
 		50D08DA61E69AF14009CC260 /* RatingManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D08D541E69AF14009CC260 /* RatingManagerSpec.swift */; };
 		50D08DA71E69AF14009CC260 /* iOScfgMockKOIncomplete.json in Resources */ = {isa = PBXBuildFile; fileRef = 50D08D571E69AF14009CC260 /* iOScfgMockKOIncomplete.json */; };
@@ -1551,7 +1550,6 @@
 		C7DB424A1C5138B500400945 /* FiltersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593DD1BF0B8A00097D62F /* FiltersViewController.xib */; };
 		C7DB424B1C5138B500400945 /* words_lowercase.json in Resources */ = {isa = PBXBuildFile; fileRef = D40DA2881AEE291D00B64CE1 /* words_lowercase.json */; };
 		C7DB424C1C5138B500400945 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 502374541B3D3E8D00E02656 /* InfoPlist.strings */; };
-		C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CBCD5E1BF0BB8F00A329BB /* CollectionViewFooter.xib */; };
 		C7DB42531C5138B500400945 /* ios-prod.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC12A1BDA1C4C00B494FA /* ios-prod.json */; };
 		C7DB42561C5138B500400945 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5023745B1B3D3EAB00E02656 /* Localizable.strings */; };
 		C7DB42571C5138B500400945 /* ListingListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D412E0871B4F17C200683FFD /* ListingListView.xib */; };
@@ -2108,7 +2106,6 @@
 		50CA9FAA1C91695F00350C5F /* UserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewController.xib; sourceTree = "<group>"; };
 		50CA9FAF1C91696800350C5F /* UserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		50CBCD5D1BF0BB8F00A329BB /* CollectionViewFooter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewFooter.swift; sourceTree = "<group>"; };
-		50CBCD5E1BF0BB8F00A329BB /* CollectionViewFooter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewFooter.xib; sourceTree = "<group>"; };
 		50CD8F5C1BC27DE30031DCD3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50D08C851E69835D009CC260 /* letgoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = letgoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D08C891E69835D009CC260 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -3389,7 +3386,6 @@
 				C7126BC61E6052E300038CC4 /* CustomTouchesTableView.swift */,
 				2E1F0D961D65F4B80021EDBE /* BubbleNotification.swift */,
 				50CBCD5D1BF0BB8F00A329BB /* CollectionViewFooter.swift */,
-				50CBCD5E1BF0BB8F00A329BB /* CollectionViewFooter.xib */,
 				C78F9DBB1DCA525F00884064 /* ChatTextView.swift */,
 				2E4436301BF389E000814624 /* LGNavBarSearchField.swift */,
 				2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */,
@@ -5433,7 +5429,6 @@
 				2E4ADEC3200515FC00D07D8A /* BumpUpPayViewController.xib in Resources */,
 				720459351F4F7653008D5A97 /* ListingCell.xib in Resources */,
 				C708C83E1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
-				50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */,
 				2E373FA21D3CDEF500AC811C /* UserRatingCell.xib in Resources */,
 				508011191D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
@@ -5572,7 +5567,6 @@
 				2ECB416D20065FB200482EF7 /* BumpUpFreeViewController.xib in Resources */,
 				720459361F4F7653008D5A97 /* ListingCell.xib in Resources */,
 				C708C83F1CDB590400AA87B3 /* AppRatingView.xib in Resources */,
-				C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */,
 				2E373FAE1D3E6F4500AC811C /* UserRatingCell.xib in Resources */,
 				5080111A1D474ED80073F362 /* Congrats-Screen-Images.xcassets in Resources */,
 				C7DB42531C5138B500400945 /* ios-prod.json in Resources */,
