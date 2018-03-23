@@ -36,7 +36,7 @@ enum QuickAnswer {
     case meetUpLocated
 
     // 🦄 hackaton
-    case meetingAssistant
+    case meetingAssistant(chatNorrisABtestVersion: ChatNorris)
 
     enum QuickAnswerType: String {
         case availability
@@ -130,7 +130,7 @@ enum QuickAnswer {
         case .meetUpLocated:
             return LGLocalizedString.directAnswerWhereLocated
         case .meetingAssistant:
-            return "🗓 _Create a Meeting"
+            return "_Let's meet"
         }
     }
 
@@ -227,9 +227,74 @@ enum QuickAnswer {
         }
     }
 
-    static func quickAnswersForChatWith(buyer: Bool, isFree: Bool, isDynamic: Bool, isNegotiable: Bool) -> [[QuickAnswer]] {
+    // Hackaton
+
+    var isMeetingAssistant: Bool {
+        switch self {
+        case .meetingAssistant:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var icon: UIImage? {
+        switch self {
+        case .meetingAssistant:
+            return #imageLiteral(resourceName: "ic_calendar").withRenderingMode(.alwaysTemplate)
+        default:
+            return nil
+        }
+    }
+
+    var textColor: UIColor {
+        switch self {
+        case .meetingAssistant(let chatNorrisABtestVersion):
+            switch chatNorrisABtestVersion {
+            case .baseline, .control, .greenButton, .redButton:
+                return UIColor.white
+            case .whiteButton:
+                return UIColor.primaryColor
+            }
+        default:
+            return UIColor.white
+        }
+    }
+
+    var iconTintColor: UIColor {
+        switch self {
+        case .meetingAssistant(let chatNorrisABtestVersion):
+            switch chatNorrisABtestVersion {
+            case .baseline, .control, .greenButton, .redButton:
+                return UIColor.white
+            case .whiteButton:
+                return UIColor.primaryColor
+            }
+        default:
+            return UIColor.white
+        }
+    }
+
+    var bgColor: UIColor {
+        switch self {
+        case .meetingAssistant(let chatNorrisABtestVersion):
+            switch chatNorrisABtestVersion {
+            case .baseline, .control, .redButton:
+                return UIColor.primaryColor
+            case  .greenButton:
+                return UIColor.terciaryColor
+            case .whiteButton:
+                return UIColor.white
+            }
+        default:
+            return UIColor.primaryColor
+        }
+    }
+
+    static func quickAnswersForChatWith(buyer: Bool, isFree: Bool, isDynamic: Bool, isNegotiable: Bool,
+                                        chatNorrisABtestVersion: ChatNorris) -> [[QuickAnswer]] {
         var result = [[QuickAnswer]]()
-        result.append(meetingAssistantQuickAnswer())
+        result.append(meetingAssistantQuickAnswer(chatNorrisABtestVersion: chatNorrisABtestVersion))
         if isDynamic {
             if isFree {
                 if buyer {
@@ -354,7 +419,7 @@ enum QuickAnswer {
         return [.negotiableYes, .whatsOffer]
     }
 
-    static func meetingAssistantQuickAnswer() -> [QuickAnswer] {
-        return [.meetingAssistant]
+    static func meetingAssistantQuickAnswer(chatNorrisABtestVersion: ChatNorris) -> [QuickAnswer] {
+        return [.meetingAssistant(chatNorrisABtestVersion: chatNorrisABtestVersion)]
     }
 }

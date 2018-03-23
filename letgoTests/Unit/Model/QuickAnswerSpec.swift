@@ -198,7 +198,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = false
                     isDynamic = false
                     isNegotiable = false
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 6 groups of quick answers") {
                     expect(quickAnswers.count) == 6
@@ -228,7 +229,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = false
                     isDynamic = false
                     isNegotiable = true
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 6 groups of quick answers") {
                     expect(quickAnswers.count) == 6
@@ -258,7 +260,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = false
                     isDynamic = true
                     isNegotiable = false
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 6 groups of quick answers") {
                     expect(quickAnswers.count) == 6
@@ -288,7 +291,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = false
                     isDynamic = true
                     isNegotiable = true
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 6 groups of quick answers") {
                     expect(quickAnswers.count) == 6
@@ -318,7 +322,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = true
                     isDynamic = false
                     isNegotiable = false
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 5 groups of quick answers") {
                     expect(quickAnswers.count) == 5
@@ -345,7 +350,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = true
                     isDynamic = false
                     isNegotiable = true
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 5 groups of quick answers") {
                     expect(quickAnswers.count) == 5
@@ -372,7 +378,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = true
                     isDynamic = true
                     isNegotiable = false
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 6 groups of quick answers") {
                     expect(quickAnswers.count) == 6
@@ -402,7 +409,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = true
                     isDynamic = true
                     isNegotiable = true
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 6 groups of quick answers") {
                     expect(quickAnswers.count) == 6
@@ -432,7 +440,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = false
                     isDynamic = false
                     isNegotiable = false
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 4 groups of quick answers") {
                     expect(quickAnswers.count) == 4
@@ -456,7 +465,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = false
                     isDynamic = false
                     isNegotiable = true
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 4 groups of quick answers") {
                     expect(quickAnswers.count) == 4
@@ -480,7 +490,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = false
                     isDynamic = true
                     isNegotiable = false
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 5 groups of quick answers") {
                     expect(quickAnswers.count) == 5
@@ -507,7 +518,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = false
                     isDynamic = true
                     isNegotiable = true
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 5 groups of quick answers") {
                     expect(quickAnswers.count) == 5
@@ -534,7 +546,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = true
                     isDynamic = false
                     isNegotiable = false
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 4 groups of quick answers") {
                     expect(quickAnswers.count) == 4
@@ -558,7 +571,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = true
                     isDynamic = false
                     isNegotiable = true
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 4 groups of quick answers") {
                     expect(quickAnswers.count) == 4
@@ -582,7 +596,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = true
                     isDynamic = true
                     isNegotiable = false
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 5 groups of quick answers") {
                     expect(quickAnswers.count) == 5
@@ -609,7 +624,8 @@ class QuickAnswerSpec: QuickSpec {
                     isBuyer = true
                     isDynamic = true
                     isNegotiable = true
-                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable)
+                    quickAnswers = QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: isDynamic, isNegotiable: isNegotiable,
+                                                                       chatNorrisABtestVersion: .control)
                 }
                 it("receives 5 groups of quick answers") {
                     expect(quickAnswers.count) == 5

@@ -1720,7 +1720,8 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         let isFree = featureFlags.freePostingModeAllowed && listingIsFree.value
         let isBuyer = !conversation.value.amISelling
         let isNegotiable = listingIsNegotiable.value
-        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable)
+        return QuickAnswer.quickAnswersForChatWith(buyer: isBuyer, isFree: isFree, isDynamic: areQuickAnswersDynamic, isNegotiable: isNegotiable,
+                                                   chatNorrisABtestVersion: featureFlags.chatNorris)
     }
     var areQuickAnswersDynamic: Bool {
         switch featureFlags.dynamicQuickAnswers {

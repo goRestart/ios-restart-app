@@ -135,10 +135,6 @@ class MeetingAssistantViewController: BaseViewController {
     }
 
     private func setupLabelActions() {
-        let locationTap = UITapGestureRecognizer(target: self, action: #selector(onLocationLabelTap))
-        locationLabel.addGestureRecognizer(locationTap)
-        locationLabel.isUserInteractionEnabled = true
-
         let dayTap = UITapGestureRecognizer(target: self, action: #selector(onDayLabelTap))
         selectDayLabel.addGestureRecognizer(dayTap)
         selectDayLabel.isUserInteractionEnabled = true
@@ -149,10 +145,6 @@ class MeetingAssistantViewController: BaseViewController {
 
     @objc private func onNavBarCancel() {
         viewModel.cancelMeetingCreation()
-    }
-
-    @objc private func onLocationLabelTap() {
-        viewModel.openLocationSelector()
     }
 
     @objc private func onDayLabelTap() {
