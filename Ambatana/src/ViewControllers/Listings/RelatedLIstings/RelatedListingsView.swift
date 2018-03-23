@@ -42,7 +42,7 @@ class RelatedListingsView: UIView {
             hasListings.value = !objects.isEmpty
         }
     }
-    fileprivate let drawerManager = GridDrawerManager(myUserRepository: Core.myUserRepository)
+    fileprivate let drawerManager = GridDrawerManager(myUserRepository: Core.myUserRepository, locationManager: Core.locationManager)
 
     fileprivate let disposeBag = DisposeBag()
 

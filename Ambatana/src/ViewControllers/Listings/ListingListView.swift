@@ -143,7 +143,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
     }
 
-    private let drawerManager = GridDrawerManager(myUserRepository: Core.myUserRepository)
+    private let drawerManager = GridDrawerManager(myUserRepository: Core.myUserRepository,
+                                                  locationManager: Core.locationManager)
     
     // Delegate
     weak var scrollDelegate: ListingListViewScrollDelegate?

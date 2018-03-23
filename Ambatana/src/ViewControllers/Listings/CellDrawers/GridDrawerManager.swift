@@ -27,9 +27,11 @@ class GridDrawerManager {
     private let showFeaturedStripeHelper = ShowFeaturedStripeHelper(featureFlags: FeatureFlags.sharedInstance,
                                                                     myUserRepository: Core.myUserRepository)
     private let myUserRepository: MyUserRepository
-
-    init(myUserRepository: MyUserRepository) {
+    private let locationManager: LocationManager
+    
+    init(myUserRepository: MyUserRepository, locationManager: LocationManager) {
         self.myUserRepository = myUserRepository
+        self.locationManager = locationManager
     }
 
     func registerCell(inCollectionView collectionView: UICollectionView) {
@@ -76,7 +78,8 @@ class GridDrawerManager {
                                    isFeatured: isFeatured,
                                    isMine: isMine,
                                    price: listing.priceString(freeModeAllowed: freePostingAllowed),
-                                   imageSize: imageSize)
+                                   imageSize: imageSize,
+                                   currentLocation: locationManager.currentLocation)
             listingDrawer.willDisplay(data, inCell: cell)
         case .advertisement(let adData):
             guard let cell = cell as? AdvertisementCell else { return }
@@ -107,7 +110,8 @@ class GridDrawerManager {
                                    isFeatured: isFeatured,
                                    isMine: isMine,
                                    price: listing.priceString(freeModeAllowed: freePostingAllowed),
-                                   imageSize: imageSize)
+                                   imageSize: imageSize,
+                                   currentLocation: locationManager.currentLocation)
             return listingDrawer.draw(data, style: cellStyle, inCell: cell)
         case .collectionCell(let style) where cell is CollectionCell:
             guard let cell = cell as? CollectionCell else { return }

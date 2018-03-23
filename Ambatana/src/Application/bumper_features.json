@@ -201,6 +201,11 @@
         "description": "Show machine learning posting flow when pressing Other Items on salchichas menu"
     },
     {
+        "name": "AddPriceTitleDistanceToListings",
+        "values": ["control", "baseline", "infoInImage", "infoWithWhiteBackground"],
+        "description": "Add price, title and distance to listings"
+    },
+    {
         "name": "MarkAllConversationsAsRead",
         "values": ["no", "yes"],
         "description": "Show a button to mark all conversations as read"
@@ -214,5 +219,10 @@
         "name": "SummaryAsFirstStep",
         "values": ["control", "baseline", "active"],
         "description": "Show directly summary screen instead of Real estate steps"
+    },
+    {
+        "name": "ShowProTagUserProfile",
+        "values": ["no", "yes"],
+        "description": "Show Professional tag in user profile"
     }
 ]
