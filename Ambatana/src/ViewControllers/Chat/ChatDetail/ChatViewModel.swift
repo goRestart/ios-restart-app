@@ -818,30 +818,8 @@ extension ChatViewModel {
     private func afterSendMessageEvents(type: ChatWrapperMessageType) {
         openChatAutomaticMessage = nil
         firstInteractionDone.value = true
-//<<<<<<< HEAD
-//        if let listingId = conversation.value.listing?.objectId,
-//            !keyValueStorage.proSellerAlreadySentPhoneInChat.contains(listingId),
-//            interlocutorIsProfessional.value,
-//            featureFlags.allowCallsForProfessionals.isActive {
-//            switch type {
-//            case .phone:
-//                saveProSellerAlreadySentPhoneInChatFor(listingId: listingId)
-//                if !hasSentAutomaticAnswerForPhoneMessage {
-//                    sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksPhoneCellMessage,
-//                                                        isPhone: true)
-//                    disableAskPhoneMessageButton()
-//                }
-//            case .text, .quickAnswer, .chatSticker, .expressChat, .periscopeDirect, .favoritedListing, .chatNorris:
-//                if !hasSentAutomaticAnswerForOtherMessage {
-//                    sendProfessionalAutomaticAnswerWith(message: LGLocalizedString.professionalDealerAskPhoneThanksOtherCellMessage,
-//                                                        isPhone: false)
-//                }
-//            }
-//        }
-//=======
         lastMessageSentType.value = type
 
-//>>>>>>> CHAT-NORRIS-MAIN-BRANCH
         if shouldAskListingSold {
             var interfaceText: String
             var alertTitle: String
@@ -1432,25 +1410,9 @@ extension ChatViewModel {
 
         var chatMessages = chatViewMessageAdapter.addDisclaimers(filteredViewMessages,
                                                                  disclaimerMessage: defaultDisclaimerMessage)
-//<<<<<<< HEAD
-//        // Add security meeting disclaimer after first response from interlocutor. Ignore if we have more then one page
-//        if featureFlags.showSecurityMeetingChatMessage.isActive && newMessages.count < Constants.numMessagesPerPage,
-//            let lastInterlocutorMessageIndex = chatMessages.reversed().index(where: {
-//                switch $0.type {
-//                case .disclaimer, .userInfo, .askPhoneNumber:
-//                    return false
-//                case .offer, .sticker, .text, .chatNorris:
-//                    return $0.talkerId != myUserRepository.myUser?.objectId
-//                }
-//            })?.base {
-//            let meetingSecurityDisclaimerMessage = chatViewMessageAdapter.createMeetingSecurityDisclaimerMessage()
-//            chatMessages.insert(meetingSecurityDisclaimerMessage, at: chatMessages.index(before: lastInterlocutorMessageIndex))
-//=======
-
         if let securityMeetingIndex = securityMeetingIndex(for: chatMessages) {
             chatMessages.insert(chatViewMessageAdapter.createSecurityMeetingDisclaimerMessage(),
                                 at: securityMeetingIndex)
-//>>>>>>> CHAT-NORRIS-MAIN-BRANCH
         }
         // Add disclaimer at the bottom of the first page
         if let bottomDisclaimerMessage = bottomDisclaimerMessage {

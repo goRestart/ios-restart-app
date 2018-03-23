@@ -101,10 +101,6 @@ extension TaxonomiesAndTaxonomyChildrenInFeed {
     var isActive: Bool { return self == .active }
 }
 
-extension ShowPriceStepRealEstatePosting {
-    var isActive: Bool { return self == .active }
-}
-
 extension AllowCallsForProfessionals {
     var isActive: Bool { return self == .control || self == .baseline }
 }
@@ -118,10 +114,6 @@ extension MostSearchedDemandedItems {
 }
 
 extension RealEstateEnabled {
-    var isActive: Bool { return self == .active }
-}
-
-extension RealEstateImprovements {
     var isActive: Bool { return self == .active }
 }
 
