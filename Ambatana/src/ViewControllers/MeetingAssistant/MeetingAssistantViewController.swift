@@ -13,15 +13,13 @@ import LGCoreKit
 
 class MeetingAssistantViewController: BaseViewController {
 
-    var mapContainer: UIVisualEffectView = UIVisualEffectView()
+    var mapContainer: UIView = UIView()
 
     @IBOutlet weak var locationLabel: UILabel!
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var suggestedLocationsContainer: UIView!
     @IBOutlet weak var suggestedLocationsCollection: UICollectionView!
-
-    @IBOutlet weak var emptyViewLabel: UILabel!
 
     @IBOutlet weak var selectDayLabel: UILabel!
 
@@ -40,7 +38,6 @@ class MeetingAssistantViewController: BaseViewController {
     init(viewModel: MeetingAssistantViewModel) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "MeetingAssistantViewController")
-        viewModel.sugLocDelegate = self
         modalPresentationStyle = .overCurrentContext
     }
 
@@ -61,12 +58,18 @@ class MeetingAssistantViewController: BaseViewController {
     }
 
     private func setupRx() {
+
+        viewModel.suggestedLocations.asObservable().skip(1).bind { [weak self] suggestedLocations in
+            print(suggestedLocations.count)
+            self?.suggestedLocationsCollection.reloadData()
+        }.disposed(by: disposeBag)
+
         viewModel.locationName.asObservable().bind { [weak self] locName in
             if let name = locName {
                 self?.locationLabel.text = name
                 self?.locationLabel.textColor = UIColor.blackText
             } else {
-                self?.locationLabel.text = "Select a location"
+                self?.locationLabel.text = "_Select a location"
                 self?.locationLabel.textColor = UIColor.grayText
             }
         }.disposed(by: disposeBag)
@@ -75,16 +78,12 @@ class MeetingAssistantViewController: BaseViewController {
             if let _ = date {
                 self?.selectDayLabel.textColor = UIColor.blackText
             } else {
-                self?.selectDayLabel.text = "Select a date"
+                self?.selectDayLabel.text = "_Select a date"
                 self?.selectDayLabel.textColor = UIColor.grayText
             }
             }.disposed(by: disposeBag)
 
         viewModel.saveButtonEnabled.asObservable().bind(to: sendMeetingButton.rx.isEnabled).disposed(by: disposeBag)
-
-        viewModel.selectedLocation.asObservable().bindNext { [weak self] loc in
-            self?.suggestedLocationsCollection.reloadData()
-        }.disposed(by: disposeBag)
 
         viewModel.activityIndicatorActive.asObservable().bind { [weak self] active in
             if active {
@@ -96,10 +95,7 @@ class MeetingAssistantViewController: BaseViewController {
     }
 
     private func setupUI() {
-
-        emptyViewLabel.isHidden = true
-//        activityIndicator.isHidden = true
-
+        view.backgroundColor = UIColor.white
         suggestedLocationsCollection.showsHorizontalScrollIndicator = false
 
         let locNib = UINib(nibName: "SuggestedLocationCell", bundle: nil)
@@ -109,10 +105,16 @@ class MeetingAssistantViewController: BaseViewController {
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         }
 
-        setNavBarTitle("Schedule a Meetup")
-        let cancelButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: UIBarButtonItemStyle.plain, target: self, action: #selector(onNavbarCancel))
+        setNavBarTitle("_Schedule a Meetup")
+        setLetGoRightButtonWith(image: #imageLiteral(resourceName: "ic_meeting_tips"),
+                                renderingMode: .alwaysOriginal,
+                                selector: "tipsButtonTapped")
+        setNavBarBackgroundStyle(.transparent(substyle: .light))
+        navigationController?.navigationBar.backgroundColor = UIColor.white
+
+        let cancelButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_close_red"), style: .plain, target: self, action: #selector(onNavBarCancel))
         cancelButton.tintColor = UIColor.primaryColor
-        self.navigationItem.leftBarButtonItem = cancelButton;
+        self.navigationItem.leftBarButtonItem = cancelButton
 
         sendMeetingButton.setTitle("Send Meeting", for: .normal)
         sendMeetingButton.setStyle(.primary(fontSize: .big))
@@ -130,8 +132,6 @@ class MeetingAssistantViewController: BaseViewController {
 
         datePicker.minimumDate = startDate
         datePicker.maximumDate = endDate
-
-        emptyViewLabel.text = "We couldn't find suggestions for your meeting"
     }
 
     private func setupLabelActions() {
@@ -147,21 +147,25 @@ class MeetingAssistantViewController: BaseViewController {
 
     // MARK: Actions
 
-    @objc func onNavbarCancel() {
-        self.navigationController?.dismiss(animated: true, completion: nil)
+    @objc private func onNavBarCancel() {
+        viewModel.cancelMeetingCreation()
     }
 
-    @objc func onLocationLabelTap() {
+    @objc private func onLocationLabelTap() {
         viewModel.openLocationSelector()
     }
 
-    @objc func onDayLabelTap() {
+    @objc private func onDayLabelTap() {
         datePicker.datePickerMode = .dateAndTime
         datePickerContainerHeight.constant = 250
         UIView.animate(withDuration: 0.3) {
             self.datePickerContainer.alpha = 1
             self.view.layoutIfNeeded()
         }
+    }
+
+    @objc private func tipsButtonTapped() {
+        viewModel.openMeetingTips()
     }
     
     @IBAction func onSendMeeting(_ sender: AnyObject) {
@@ -170,9 +174,8 @@ class MeetingAssistantViewController: BaseViewController {
     }
 
     @IBAction func onPickerDoneButton(_ sender: AnyObject) {
-
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE yyyy-MM-dd HH:mm"
+        formatter.dateFormat = "E d MMM hh:mm a"
         selectDayLabel.text = formatter.string(from: datePicker.date)
         viewModel.saveDate(date: datePicker.date)
 
@@ -182,16 +185,6 @@ class MeetingAssistantViewController: BaseViewController {
             self.datePickerContainer.alpha = 0
         }
     }
-
-    func showEmptyScreen() {
-        suggestedLocationsCollection.isHidden = true
-        emptyViewLabel.isHidden = false
-    }
-
-    func hideEmptyScreen() {
-        suggestedLocationsCollection.isHidden = false
-        emptyViewLabel.isHidden = true
-    }
 }
 
 extension MeetingAssistantViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -200,12 +193,16 @@ extension MeetingAssistantViewController: UICollectionViewDataSource, UICollecti
         return SuggestedLocationCell.cellSize()
     }
 
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10.0
+    }
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(-65.0, 20.0, 0.0, 20.0)
+        return UIEdgeInsetsMake(0.0, 20.0, 0.0, 20.0)
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.suggestedLocations?.count ?? 0
+        return viewModel.suggestionsCount
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -217,14 +214,12 @@ extension MeetingAssistantViewController: UICollectionViewDataSource, UICollecti
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SuggestedLocationCell.reuseId, for: indexPath) as? SuggestedLocationCell else {
                 return UICollectionViewCell()
         }
-        guard let sugLoc = viewModel.suggestedLocationAtIndex(indexPath: indexPath) else {
-            return UICollectionViewCell()
-        }
+        let suggestedLocation = viewModel.suggestedLocationAtIndex(indexPath: indexPath)
 
-        cell.setupWithSuggestedLocation(location: sugLoc)
+        cell.setupWithSuggestedLocation(location: suggestedLocation)
         cell.imgDelegate = self
         if let selectedLocationId = viewModel.selectedLocation.value?.locationId,
-            sugLoc.locationId == selectedLocationId {
+            suggestedLocation?.locationId == selectedLocationId {
             cell.isSelected = true
         } else {
             cell.isSelected = false
@@ -237,23 +232,25 @@ extension MeetingAssistantViewController: UICollectionViewDataSource, UICollecti
     }
 }
 
-extension MeetingAssistantViewController: SuggestedLocationsDelegate {
-    func suggestedLocationDidStart() {
-        hideEmptyScreen()
-    }
-
-    func suggestedLocationDidSuccess() {
-        hideEmptyScreen()
-        suggestedLocationsCollection.reloadData()
-    }
-
-    func suggestedLocationDidFail() {
-        showEmptyScreen()
-    }
-}
 
 extension MeetingAssistantViewController: SuggestedLocationCellImageDelegate, MKMapViewDelegate {
-    func imagePressed(coords: LGLocationCoordinates2D) {
+    func imagePressed(coordinates: LGLocationCoordinates2D?) {
+
+        guard let coords = coordinates else {
+            viewModel.openLocationSelector()
+            return
+        }
+
+        view.addSubview(mapContainer)
+        mapContainer.translatesAutoresizingMaskIntoConstraints = false
+        mapContainer.layout(with: view).fill()
+
+        let effect = UIBlurEffect(style: .dark)
+        let mapBlurEffectView = UIVisualEffectView(effect: effect)
+        mapBlurEffectView.alpha = 0.0
+        mapContainer.addSubview(mapBlurEffectView)
+        mapBlurEffectView.translatesAutoresizingMaskIntoConstraints = false
+        mapBlurEffectView.layout(with: mapContainer).fill()
 
         let mapView = MKMapView()
         mapView.delegate = self
@@ -274,26 +271,15 @@ extension MeetingAssistantViewController: SuggestedLocationCellImageDelegate, MK
 
         mapView.add(mapOverlay)
 
-        let effect = UIBlurEffect(style: .dark)
-        mapContainer = UIVisualEffectView(effect: effect)
+        mapContainer.addSubview(mapView)
+        mapView.translatesAutoresizingMaskIntoConstraints = false
 
-        mapContainer.alpha = 0.0
+        mapView.layout().height(300).width(300)
+        mapView.layout(with: mapContainer).center()
 
         let mapTap = UITapGestureRecognizer(target: self, action: #selector(mapTapped))
         mapView.addGestureRecognizer(mapTap)
         mapContainer.addGestureRecognizer(mapTap)
-
-        mapContainer.translatesAutoresizingMaskIntoConstraints = false
-        mapView.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(mapContainer)
-
-        mapContainer.layout(with: view).fill()
-
-        mapContainer.addSubview(mapView)
-
-        mapView.layout().height(300).width(300)
-        mapView.layout(with: mapContainer).center()
 
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.mapContainer.alpha = 1.0

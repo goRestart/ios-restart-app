@@ -141,7 +141,7 @@ private extension ChatOtherMeetingCell {
     @objc func locationTapped() {
         guard let coords = coordinates else { return }
         let rect = locationView.convert(locationView.frame, to: nil)
-        locationDelegate?.imagePressed(coords: coords, originPoint: rect.center)
+        locationDelegate?.imagePressed(coordinates: coords, originPoint: rect.center)
     }
 
     @IBAction func acceptMeeting(_ sender: AnyObject) {

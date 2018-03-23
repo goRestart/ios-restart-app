@@ -1774,7 +1774,8 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     }
 
     private func onMeetingAssistantPressed() {
-        navigator?.openAssistantFor(listingId: listingId ?? "N/A", dataDelegate: self)
+        guard let listingId = conversation.value.listing?.objectId else { return }
+        navigator?.openAssistantFor(listingId: listingId, dataDelegate: self)
     }
 }
 
@@ -1857,7 +1858,7 @@ extension ChatViewModel: MeetingAssistantDataDelegate {
     }
 }
 
-// MARK: Hackaton 💩 🦄
+// MARK: Hackaton 🦄
 
 extension ChatViewModel {
 

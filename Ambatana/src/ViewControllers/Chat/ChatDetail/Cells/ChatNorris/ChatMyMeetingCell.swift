@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 
 protocol MeetingCellImageDelegate: class {
-    func imagePressed(coords: LGLocationCoordinates2D, originPoint: CGPoint)
+    func imagePressed(coordinates: LGLocationCoordinates2D, originPoint: CGPoint)
 }
 
 
@@ -126,7 +126,7 @@ private extension ChatMyMeetingCell {
     @objc func locationTapped() {
         guard let coords = coordinates else { return }
         let rect = locationView.convert(locationView.frame, to: nil)
-        locationDelegate?.imagePressed(coords: coords, originPoint: rect.center)
+        locationDelegate?.imagePressed(coordinates: coords, originPoint: rect.center)
     }
 
     func prettyDateFrom(meetingDate: Date?) -> String? {

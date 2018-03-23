@@ -15,7 +15,7 @@ enum SuggestedLocationsRouter: URLRequestAuthenticable {
     var endpoint: String {
         switch self {
         case .retrieveSuggestedLocations(let listingId):
-            return "/meeting/meeting-point-suggestion/\(listingId)"
+            return "/meeting-point-suggestion/\(listingId)"
         }
     }
 
@@ -28,7 +28,7 @@ enum SuggestedLocationsRouter: URLRequestAuthenticable {
     func asURLRequest() throws -> URLRequest {
         switch self {
         case .retrieveSuggestedLocations:
-            return try Router<APIBaseURL>.read(endpoint: endpoint, params: [:]).asURLRequest()
+            return try Router<MeetingsBaseURL>.read(endpoint: endpoint, params: [:]).asURLRequest()
         }
     }
 }

@@ -183,4 +183,9 @@ extension Date {
     var millisecondsSince1970: TimeInterval {
         return (self.timeIntervalSince1970 * 1000.0).rounded()
     }
+
+    var isSafeTime: Bool {
+        let hour = Calendar.current.component(.hour, from: self)
+        return hour >= Constants.minSafeHourForMeetings && hour <= Constants.maxSafeHourForMeetings
+    }
 }

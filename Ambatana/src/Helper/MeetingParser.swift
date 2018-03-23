@@ -69,10 +69,10 @@ class MeetingParser {
 //    ✅ OK -> Accepted meeting
 //    ❌ Can't do -> Rejected meeting
 
-//    🦄 Would you like to meet?
+//    🗓 Would you like to meet?
 //
 //    📍 Plaza Catalunya 13 (2.2345º N -21.9999º W)
-//    🗓 02/09/2018 06:30 GMT+01
+//    🕐 02/09/2018 06:30 GMT+01
 
     static let dateFormatter = DateFormatter()
 

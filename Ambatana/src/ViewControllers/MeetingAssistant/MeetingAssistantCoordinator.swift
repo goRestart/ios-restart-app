@@ -59,8 +59,14 @@ extension MeetingAssistantCoordinator: MeetingAssistantNavigator {
         let vc = EditLocationViewController(viewModel: viewModel)
         navigationController.pushViewController(vc, animated: true)
     }
-    func sendMeeting(meeting: AssistantMeeting) {
-        print("🤡  THE COORDINATORL!")
 
+    func meetingCreationDidFinish() {
+        closeCoordinator(animated: true, completion: nil)
     }
+
+    func openMeetingTipsWith(closingCompletion: (()->Void)?) {
+        // 🦄
+        print("SHOW TIPS!")
+    }
+
 }

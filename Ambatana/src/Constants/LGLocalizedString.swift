@@ -3187,6 +3187,62 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_verify_google_title", comment: "")
 	}
 
+	static var profileVerificationsViewTitle: String {
+		return NSLocalizedString("profile_verifications_view_title", comment: "")
+	}
+
+	static var profileVerificationsViewVerifySectionTitle: String {
+		return NSLocalizedString("profile_verifications_view_verify_section_title", comment: "")
+	}
+
+	static var profileVerificationsViewVerifySectionSubtitle: String {
+		return NSLocalizedString("profile_verifications_view_verify_section_subtitle", comment: "")
+	}
+
+	static var profileVerificationsViewFacebookTitle: String {
+		return NSLocalizedString("profile_verifications_view_facebook_title", comment: "")
+	}
+
+	static var profileVerificationsViewGoogleTitle: String {
+		return NSLocalizedString("profile_verifications_view_google_title", comment: "")
+	}
+
+	static var profileVerificationsViewEmailTitle: String {
+		return NSLocalizedString("profile_verifications_view_email_title", comment: "")
+	}
+
+	static var profileVerificationsViewPhoneNumberTitle: String {
+		return NSLocalizedString("profile_verifications_view_phone_number_title", comment: "")
+	}
+
+	static var profileVerificationsViewPhotoIdTitle: String {
+		return NSLocalizedString("profile_verifications_view_photo_id_title", comment: "")
+	}
+
+	static var profileVerificationsViewAddInfoSectionTitle: String {
+		return NSLocalizedString("profile_verifications_view_add_info_section_title", comment: "")
+	}
+
+	static var profileVerificationsViewProfilePictureTitle: String {
+		return NSLocalizedString("profile_verifications_view_profile_picture_title", comment: "")
+	}
+
+	static var profileVerificationsViewBioTitle: String {
+		return NSLocalizedString("profile_verifications_view_bio_title", comment: "")
+	}
+
+	static var profileVerificationsViewExtraSectionTitle: String {
+		return NSLocalizedString("profile_verifications_view_extra_section_title", comment: "")
+	}
+
+	static var profileVerificationsViewMarkAsSoldTitle: String {
+		return NSLocalizedString("profile_verifications_view_mark_as_sold_title", comment: "")
+	}
+
+	static var profileVerificationsViewMarkAsSoldSubtitle: String {
+		return NSLocalizedString("profile_verifications_view_mark_as_sold_subtitle", comment: "")
+	}
+
 	static var profileBuildTrustButton: String {
 		return NSLocalizedString("profile_build_trust_button", comment: "")
 	}

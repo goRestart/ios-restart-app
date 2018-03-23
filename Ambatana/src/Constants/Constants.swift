@@ -160,4 +160,8 @@ struct Constants {
     static let usaPhoneNumberDigitsCount = 10
     static let usaFirstDashPosition = 3
     static let usaSecondDashPosition = 7
+
+    // Chat norris
+    static let minSafeHourForMeetings = 10
+    static let maxSafeHourForMeetings = 17
 }

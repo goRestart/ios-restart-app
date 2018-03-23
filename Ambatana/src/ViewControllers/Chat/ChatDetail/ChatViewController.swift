@@ -833,17 +833,17 @@ extension ChatViewController: OtherMeetingCellDelegate {
 }
 
 extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
-    func imagePressed(coords: LGLocationCoordinates2D, originPoint: CGPoint) {
+    func imagePressed(coordinates: LGLocationCoordinates2D, originPoint: CGPoint) {
 
         guard let topView = navigationController?.view else { return }
 
         let mapView = MKMapView()
         mapView.delegate = self
-        mapView.setCenter(coords.coordinates2DfromLocation(), animated: true)
+        mapView.setCenter(coordinates.coordinates2DfromLocation(), animated: true)
 
         mapView.layer.cornerRadius = 20.0
 
-        let clCoordinate = coords.coordinates2DfromLocation()
+        let clCoordinate = coordinates.coordinates2DfromLocation()
         let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2, Constants.accurateRegionRadius*2)
         mapView.setRegion(region, animated: true)
 
@@ -851,7 +851,7 @@ extension ChatViewController: MeetingCellImageDelegate, MKMapViewDelegate {
         mapView.isScrollEnabled = true
         mapView.isPitchEnabled = true
 
-        let mapOverlay: MKOverlay = MKCircle(center:coords.coordinates2DfromLocation(),
+        let mapOverlay: MKOverlay = MKCircle(center:coordinates.coordinates2DfromLocation(),
                                              radius: 300)
 
         mapView.add(mapOverlay)

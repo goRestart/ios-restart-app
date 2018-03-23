@@ -10,11 +10,6 @@ import Foundation
 import LGCoreKit
 import RxSwift
 
-protocol SuggestedLocationsDelegate: class {
-    func suggestedLocationDidStart()
-    func suggestedLocationDidSuccess()
-    func suggestedLocationDidFail()
-}
 
 protocol MeetingAssistantDataDelegate: class {
     func sendMeeting(meeting: AssistantMeeting)
@@ -39,7 +34,7 @@ struct MockSuggestedLocation : SuggestedLocation {
 
 class MeetingAssistantViewModel: BaseViewModel {
 
-    var hardCodedSuggestedLocations: [SuggestedLocation]? {
+    var hardCodedSuggestedLocations: [SuggestedLocation?] {
 
         let mock1 = MockSuggestedLocation(id: "1221", name: "Starbucks", coords: LGLocationCoordinates2D(latitude: 41.38, longitude: 2.18))
         let mock2 = MockSuggestedLocation(id: "46464", name: "City Hall", coords: LGLocationCoordinates2D(latitude: 41.388, longitude: 2.18))
@@ -49,7 +44,9 @@ class MeetingAssistantViewModel: BaseViewModel {
         return [mock1, mock2, mock3, mock4]
     }
 
-    var suggestedLocations: [SuggestedLocation]?
+    var suggestionsCount: Int {
+        return suggestedLocations.value.count
+    }
 
     var listingId: String?
 
@@ -60,9 +57,9 @@ class MeetingAssistantViewModel: BaseViewModel {
 
     weak var navigator: MeetingAssistantNavigator?
     weak var dataDelegate: MeetingAssistantDataDelegate?
-    weak var sugLocDelegate: SuggestedLocationsDelegate?
 
     let activityIndicatorActive = Variable<Bool>(false)
+    let suggestedLocations = Variable<[SuggestedLocation?]>([nil])
 
     let date = Variable<Date?>(nil)
     let saveButtonEnabled = Variable<Bool>(false)
@@ -104,15 +101,13 @@ class MeetingAssistantViewModel: BaseViewModel {
     // MARK: Public methods
 
     func suggestedLocationAtIndex(indexPath: IndexPath) -> SuggestedLocation? {
-        guard let suggestedLocations = suggestedLocations else { return nil }
-        guard 0 <= indexPath.row, indexPath.row < suggestedLocations.count else { return nil }
-        return suggestedLocations[indexPath.row]
+        guard 0 <= indexPath.row, indexPath.row < suggestedLocations.value.count else { return nil }
+        return suggestedLocations.value[indexPath.row]
     }
 
     func selectSuggestedLocationAtIndex(indexPath: IndexPath) {
-        guard let suggestedLocations = suggestedLocations else { return }
-        guard 0 <= indexPath.row, indexPath.row < suggestedLocations.count else { return }
-        selectedLocation.value = suggestedLocations[indexPath.row]
+        guard 0 <= indexPath.row, indexPath.row < suggestedLocations.value.count else { return }
+        selectedLocation.value = suggestedLocations.value[indexPath.row]
 
         self.locationName.value = selectedLocation.value?.locationName
 
@@ -140,32 +135,49 @@ class MeetingAssistantViewModel: BaseViewModel {
                                                          coordinates: coords,
                                                          status: .pending)
 
-        dataDelegate?.sendMeeting(meeting: meeting)
+        if meetingIsSafe(selectedLocation: selectedLocation.value, time: date.value) {
+            dataDelegate?.sendMeeting(meeting: meeting)
+            navigator?.meetingCreationDidFinish()
+        } else {
+            navigator?.openMeetingTipsWith(closingCompletion: { [weak self] in
+                self?.dataDelegate?.sendMeeting(meeting: meeting)
+                self?.navigator?.meetingCreationDidFinish()
+            })
+        }
     }
 
+    func cancelMeetingCreation() {
+        navigator?.meetingCreationDidFinish()
+    }
+
+    func openMeetingTips() {
+        navigator?.openMeetingTipsWith(closingCompletion: nil)
+    }
 
     // private methods
 
+    private func meetingIsSafe(selectedLocation: SuggestedLocation?, time: Date?) -> Bool {
+        guard let _ = selectedLocation, let time = time, time.isSafeTime else { return false }
+        return true
+    }
+
     fileprivate func retrieveSuggestedLocations() {
         guard let listingId = listingId else {
-            sugLocDelegate?.suggestedLocationDidFail()
+            suggestedLocations.value = [nil]
             return
         }
-        sugLocDelegate?.suggestedLocationDidStart()
         activityIndicatorActive.value = true
         locationRepository.retrieveSuggestedLocationsForListing(listingId: listingId) { [weak self] result in
                 self?.activityIndicatorActive.value = false
-                if let value = result.value {
-                    self?.suggestedLocations = value
-                    self?.sugLocDelegate?.suggestedLocationDidSuccess()
-                } else if let error = result.error {
-                    print("💥 \(error)")
-
-                    self?.suggestedLocations = self?.hardCodedSuggestedLocations
-                    self?.sugLocDelegate?.suggestedLocationDidSuccess()
-
-//                    self?.sugLocDelegate?.suggestedLocationDidFail()
-                }
+            var receivedSuggestions: [SuggestedLocation?] = []
+            if let value = result.value {
+                receivedSuggestions = value
+            }
+            else {
+                receivedSuggestions = (self?.hardCodedSuggestedLocations)! // 🦄
+            }
+            receivedSuggestions.append(nil)
+            self?.suggestedLocations.value = receivedSuggestions
         }
     }
 }

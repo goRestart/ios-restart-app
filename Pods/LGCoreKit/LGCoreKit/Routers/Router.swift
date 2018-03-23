@@ -87,6 +87,12 @@ struct SpellCorrectorBaseURL: BaseURL {
     static let contentTypeHeader: String? = nil
 }
 
+struct MeetingsBaseURL: BaseURL {
+    static let baseURL = EnvironmentProxy.sharedInstance.meetingsBaseURL
+    static let acceptHeader: String? = "application/json"
+    static let contentTypeHeader: String? = nil
+}
+
 enum Encoding {
     case json, url
 }
