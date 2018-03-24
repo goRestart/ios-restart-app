@@ -196,7 +196,6 @@
                 <outlet property="locationLabelHeight" destination="gXw-BQ-7Un" id="D49-6C-VLL"/>
                 <outlet property="locationLabelTop" destination="P6y-zz-o0b" id="YA0-LF-jGW"/>
                 <outlet property="locationView" destination="qnV-yd-qoR" id="i5X-zW-DQp"/>
-                <outlet property="locationViewWidth" destination="43Q-v9-JWy" id="RQf-Vr-Q0A"/>
                 <outlet property="meetingContainer" destination="R6K-7q-YwH" id="3qK-GG-GRR"/>
                 <outlet property="meetingDateLabel" destination="bgS-12-Zk7" id="uFN-kS-EOi"/>
                 <outlet property="meetingTimeLabel" destination="mTp-r2-LSI" id="wEP-n7-FgM"/>

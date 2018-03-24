@@ -8,6 +8,7 @@
 
 import Foundation
 import LGCoreKit
+import MapKit
 
 protocol OtherMeetingCellDelegate: class {
     func acceptMeeting()
@@ -37,7 +38,6 @@ class ChatOtherMeetingCell: UITableViewCell, ReusableCell {
 
     @IBOutlet weak var locationLabelHeight: NSLayoutConstraint!
     @IBOutlet weak var locationLabelTop: NSLayoutConstraint!
-    @IBOutlet weak var locationViewWidth: NSLayoutConstraint!
 
     weak var delegate: OtherMeetingCellDelegate?
 
@@ -67,21 +67,20 @@ extension ChatOtherMeetingCell {
             locationLabelTop.constant = 0
         }
 
-        if let coords = coordinates {
-            let mapStringUrl = "https://maps.googleapis.com/maps/api/staticmap?zoom=15&size=200x200&maptype=roadmap&markers=\(coords.latitude),\(coords.longitude)"
-
-            if let url = URL(string: mapStringUrl) {
-                locationView.lg_setImageWithURL(url, placeholderImage: nil) { [weak self] (result, url) in
-                    if let _ = result.error {
-                        self?.hideMapView()
-                    }
-                }
-            } else {
-                hideMapView()
-            }
-        } else {
-            hideMapView()
+        guard let coords = coordinates else {
+            locationView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
+            return
         }
+
+        let coordinates = coords.coordinates2DfromLocation()
+        let region = MKCoordinateRegionMakeWithDistance(coordinates, 300, 300)
+        MKMapView.snapshotAt(region, size: CGSize(width: 100, height: 100), with: { [weak self] (snapshot, error) in
+            guard error == nil, let image = snapshot?.image else {
+                self?.locationView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
+                return
+            }
+            self?.locationView.image = image
+        })
 
         locationLabel.isHidden = false
         locationLabel.text = locationName
@@ -90,11 +89,6 @@ extension ChatOtherMeetingCell {
         meetingTimeLabel.text = prettyTimeFrom(meetingDate: date)
 
         updateStatus(status: status)
-    }
-
-    private func hideMapView() {
-        locationView.isHidden = true
-        locationViewWidth.constant = 0
     }
 
     fileprivate func updateStatus(status: MeetingStatus) {
