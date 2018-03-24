@@ -108,20 +108,15 @@ extension ChatOtherMeetingCell {
         case .accepted:
             statusLabel.text = "_ Accepted"
             statusLabel.textColor = UIColor.asparagus
-            statusIcon.image = #imageLiteral(resourceName: "ic_time")
+            statusIcon.image = nil
             actionsContainerHeight.constant = 0
             actionsContainer.isHidden = true
         case .rejected:
             statusLabel.text = "_ Declined"
             statusLabel.textColor = UIColor.primaryColor
-            statusIcon.image = #imageLiteral(resourceName: "ic_time")
+            statusIcon.image = nil
             actionsContainerHeight.constant = 0
             actionsContainer.isHidden = true
-//        case .canceled:
-//            titleLabel.text = "Canceled"
-//            titleLabel.textColor = UIColor.primaryColor
-//            actionsContainerHeight.constant = 0
-//            actionsContainer.isHidden = true
         }
         layoutIfNeeded()
     }

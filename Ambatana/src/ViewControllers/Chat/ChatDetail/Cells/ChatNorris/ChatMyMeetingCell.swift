@@ -100,16 +100,11 @@ extension ChatMyMeetingCell {
         case .accepted:
             statusLabel.text = "_ Accepted"
             statusLabel.textColor = UIColor.asparagus
-            statusIcon.image = #imageLiteral(resourceName: "ic_time")
+            statusIcon.image = nil
         case .rejected:
             statusLabel.text = "_ Declined"
             statusLabel.textColor = UIColor.primaryColor
-            statusIcon.image = #imageLiteral(resourceName: "ic_time")
-//        case .canceled:
-//            titleLabel.text = "Canceled"
-//            titleLabel.textColor = UIColor.primaryColor
-//            actionCancelHeight.constant = 0
-//            actionCancel.isHidden = true
+            statusIcon.image = nil
         }
         layoutIfNeeded()
     }

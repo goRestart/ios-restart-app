@@ -105,7 +105,6 @@ class ChatViewMessageAdapter {
         case .phone:
             type = ChatViewMessageType.text(text: LGLocalizedString.professionalDealerAskPhoneChatMessage(text))
         case .chatNorris:
-            print("🗓🗓🗓🗓🗓  Meeting received!")
             if let meeting = MeetingParser.createMeetingFromMessage(message: text) {
                 type = ChatViewMessageType.chatNorris(type: meeting.meetingType,
                                                       date: meeting.date,
