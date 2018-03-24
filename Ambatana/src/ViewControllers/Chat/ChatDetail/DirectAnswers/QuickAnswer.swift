@@ -294,7 +294,9 @@ enum QuickAnswer {
     static func quickAnswersForChatWith(buyer: Bool, isFree: Bool, isDynamic: Bool, isNegotiable: Bool,
                                         chatNorrisABtestVersion: ChatNorris) -> [[QuickAnswer]] {
         var result = [[QuickAnswer]]()
-        result.append(meetingAssistantQuickAnswer(chatNorrisABtestVersion: chatNorrisABtestVersion))
+        if chatNorrisABtestVersion.isActive {
+            result.append(meetingAssistantQuickAnswer(chatNorrisABtestVersion: chatNorrisABtestVersion))
+        }
         if isDynamic {
             if isFree {
                 if buyer {

@@ -34,16 +34,6 @@ struct MockSuggestedLocation : SuggestedLocation {
 
 class MeetingAssistantViewModel: BaseViewModel {
 
-    var hardCodedSuggestedLocations: [SuggestedLocation?] {
-
-        let mock1 = MockSuggestedLocation(id: "1221", name: "Starbucks", coords: LGLocationCoordinates2D(latitude: 41.38, longitude: 2.18))
-        let mock2 = MockSuggestedLocation(id: "46464", name: "City Hall", coords: LGLocationCoordinates2D(latitude: 41.388, longitude: 2.18))
-        let mock3 = MockSuggestedLocation(id: "g4e4", name: "Honest Coffe Place", coords: LGLocationCoordinates2D(latitude: 41.38, longitude: 2.17))
-        let mock4 = MockSuggestedLocation(id: "br6j766jb", name: "Papa's", coords: LGLocationCoordinates2D(latitude: 41.388, longitude: 2.17))
-
-        return [mock1, mock2, mock3, mock4]
-    }
-
     var suggestionsCount: Int {
         return suggestedLocations.value.count
     }
@@ -64,19 +54,21 @@ class MeetingAssistantViewModel: BaseViewModel {
     let date = Variable<Date?>(nil)
     let saveButtonEnabled = Variable<Bool>(false)
 
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
-    let locationRepository: LocationRepository
+    private let locationRepository: LocationRepository
+    private let keyValueStorage: KeyValueStorageable
 
     // MARK: - lifecycle
 
     convenience init(listingId: String?) {
-        self.init(listingId: listingId, locationRepository: Core.locationRepository)
+        self.init(listingId: listingId, locationRepository: Core.locationRepository, keyValueStorage: KeyValueStorage.sharedInstance)
     }
 
-    init(listingId: String?, locationRepository: LocationRepository) {
+    init(listingId: String?, locationRepository: LocationRepository, keyValueStorage: KeyValueStorageable) {
         self.listingId = listingId
         self.locationRepository = locationRepository
+        self.keyValueStorage = keyValueStorage
         super.init()
         setupRx()
     }
@@ -106,8 +98,12 @@ class MeetingAssistantViewModel: BaseViewModel {
     }
 
     func selectSuggestedLocationAtIndex(indexPath: IndexPath) {
-        guard 0 <= indexPath.row, indexPath.row < suggestedLocations.value.count else { return }
-        selectedLocation.value = suggestedLocations.value[indexPath.row]
+        guard let suggestedLocation = suggestedLocationAtIndex(indexPath: indexPath) else {
+            openLocationSelector()
+            return
+        }
+
+        selectedLocation.value = suggestedLocation
 
         self.locationName.value = selectedLocation.value?.locationName
 
@@ -135,11 +131,12 @@ class MeetingAssistantViewModel: BaseViewModel {
                                                          coordinates: coords,
                                                          status: .pending)
 
-        if meetingIsSafe(selectedLocation: selectedLocation.value, time: date.value) {
+        if keyValueStorage.meetingSafetyTipsAlreadyShown ||
+            meetingIsSafe(selectedLocation: selectedLocation.value, time: date.value) {
             dataDelegate?.sendMeeting(meeting: meeting)
             navigator?.meetingCreationDidFinish()
         } else {
-            navigator?.openMeetingTipsWith(closingCompletion: { [weak self] in
+            navigator?.openMeetingTipsWith(closeCompletion: { [weak self] in
                 self?.dataDelegate?.sendMeeting(meeting: meeting)
                 self?.navigator?.meetingCreationDidFinish()
             })
@@ -151,7 +148,7 @@ class MeetingAssistantViewModel: BaseViewModel {
     }
 
     func openMeetingTips() {
-        navigator?.openMeetingTipsWith(closingCompletion: nil)
+        navigator?.openMeetingTipsWith(closeCompletion: nil)
     }
 
     // private methods
@@ -168,13 +165,10 @@ class MeetingAssistantViewModel: BaseViewModel {
         }
         activityIndicatorActive.value = true
         locationRepository.retrieveSuggestedLocationsForListing(listingId: listingId) { [weak self] result in
-                self?.activityIndicatorActive.value = false
+            self?.activityIndicatorActive.value = false
             var receivedSuggestions: [SuggestedLocation?] = []
             if let value = result.value {
                 receivedSuggestions = value
-            }
-            else {
-                receivedSuggestions = (self?.hardCodedSuggestedLocations)! // 🦄
             }
             receivedSuggestions.append(nil)
             self?.suggestedLocations.value = receivedSuggestions

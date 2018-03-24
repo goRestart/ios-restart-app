@@ -18,6 +18,8 @@ class ChatMyMeetingCell: UITableViewCell, ReusableCell {
 
     @IBOutlet weak var meetingContainer: UIView!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var statusIcon: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var locationView: UIImageView!
     @IBOutlet weak var locationButton: UIButton!
@@ -92,14 +94,17 @@ extension ChatMyMeetingCell {
     fileprivate func updateStatus(status: MeetingStatus) {
         switch status {
         case .pending:
-            titleLabel.text = "Let's meet up on:"
-            titleLabel.textColor = UIColor.grayText
+            statusLabel.text = "_ Pending"
+            statusLabel.textColor = UIColor.grayText
+            statusIcon.image = #imageLiteral(resourceName: "ic_time")
         case .accepted:
-            titleLabel.text = "Accepted"
-            titleLabel.textColor = UIColor.asparagus
+            statusLabel.text = "_ Accepted"
+            statusLabel.textColor = UIColor.asparagus
+            statusIcon.image = #imageLiteral(resourceName: "ic_time")
         case .rejected:
-            titleLabel.text = "Declined"
-            titleLabel.textColor = UIColor.primaryColor
+            statusLabel.text = "_ Declined"
+            statusLabel.textColor = UIColor.primaryColor
+            statusIcon.image = #imageLiteral(resourceName: "ic_time")
 //        case .canceled:
 //            titleLabel.text = "Canceled"
 //            titleLabel.textColor = UIColor.primaryColor
@@ -119,8 +124,11 @@ private extension ChatMyMeetingCell {
         meetingContainer.layer.shouldRasterize = true
         meetingContainer.layer.rasterizationScale = UIScreen.main.scale
         backgroundColor = UIColor.clear
-        titleLabel.text = "Let's meet up on:"
+        titleLabel.text = "_ Let's meet up on:"
+        titleLabel.textColor = UIColor.grayText
+
         locationButton.addTarget(self, action: #selector(locationTapped), for: .touchUpInside)
+        locationView.cornerRadius = LGUIKitConstants.mediumCornerRadius
     }
 
     @objc func locationTapped() {

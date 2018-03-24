@@ -327,6 +327,10 @@
 		2E75EC501FA86F6E00C5F48F /* AdBannerTrackingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */; };
 		2E75EC531FA89F5B00C5F48F /* AdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */; };
 		2E75EC541FA89F5B00C5F48F /* AdsRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */; };
+		2E8097EF206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8097EE206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift */; };
+		2E8097F0206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8097EE206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift */; };
+		2E8097F22066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8097F12066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift */; };
+		2E8097F32066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8097F12066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift */; };
 		2E8ED6A71EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8ED6A61EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift */; };
 		2E92CBF920248DC600451B65 /* MeetingAssistantCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E92CBF220248DC500451B65 /* MeetingAssistantCoordinator.swift */; };
 		2E92CBFA20248DC600451B65 /* MeetingAssistantNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E92CBF320248DC500451B65 /* MeetingAssistantNavigator.swift */; };
@@ -1957,6 +1961,8 @@
 		2E6B6E3C1D2BC0A500C10A20 /* PostIncentiviserItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostIncentiviserItem.swift; sourceTree = "<group>"; };
 		2E75EC4E1FA86F6D00C5F48F /* AdBannerTrackingStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdBannerTrackingStatus.swift; sourceTree = "<group>"; };
 		2E75EC521FA89F5B00C5F48F /* AdsRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdsRequester.swift; path = Ads/AdsRequester.swift; sourceTree = "<group>"; };
+		2E8097EE206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSafetyTipsViewController.swift; sourceTree = "<group>"; };
+		2E8097F12066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSafetyTipsViewModel.swift; sourceTree = "<group>"; };
 		2E8ED6A61EC2184E00A2B4AE /* FilterTagsVC+RemoveRelatedTagsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FilterTagsVC+RemoveRelatedTagsSpec.swift"; sourceTree = "<group>"; };
 		2E92CBF220248DC500451B65 /* MeetingAssistantCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingAssistantCoordinator.swift; sourceTree = "<group>"; };
 		2E92CBF320248DC500451B65 /* MeetingAssistantNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetingAssistantNavigator.swift; sourceTree = "<group>"; };
@@ -3175,6 +3181,8 @@
 				2E92CBF620248DC500451B65 /* MeetingAssistantViewModel.swift */,
 				2E92CBF720248DC500451B65 /* SuggestedLocationCell.swift */,
 				2E92CBF820248DC500451B65 /* SuggestedLocationCell.xib */,
+				2E8097EE206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift */,
+				2E8097F12066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift */,
 			);
 			path = MeetingAssistant;
 			sourceTree = "<group>";
@@ -6705,6 +6713,7 @@
 				2EBC92121E0ABC4A007F0F82 /* PurchaseableProduct.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ListingListView.swift in Sources */,
 				72854D231F8E287600E54530 /* NumberOfBedrooms.swift in Sources */,
+				2E8097F22066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift in Sources */,
 				C7E73E8D1CD20A49000F2591 /* ViewState.swift in Sources */,
 				2E92CBF920248DC600451B65 /* MeetingAssistantCoordinator.swift in Sources */,
 				C7890A851E55B96D0079964C /* MotionDeviceOrientation.swift in Sources */,
@@ -6811,6 +6820,7 @@
 				C75B5DD31D59E0C500112368 /* ListingCarouselCellModel.swift in Sources */,
 				2E4ADECF200516DD00D07D8A /* ProfessionalDealerAskPhoneViewModel.swift in Sources */,
 				C7DE8AD11C888761005CF37E /* SellListingCell.swift in Sources */,
+				2E8097EF206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift in Sources */,
 				508D486D1CD09E8500C52BE3 /* AlamofireImage+ImageDownloaderType.swift in Sources */,
 				8E0C9DF71E96935300768D27 /* PostCarDetailsView.swift in Sources */,
 				6AA26CFD1CFDBA7600546063 /* ChatDisclaimerCellDrawer.swift in Sources */,
@@ -7536,6 +7546,7 @@
 				C74016DA1D6467C9004C1E9D /* PostListingDetailPriceView.swift in Sources */,
 				C743FEAE1E449EA600B4E912 /* RateBuyersViewController.swift in Sources */,
 				0AB6E1D81F9DD4440048AFFD /* ListingDeckView.swift in Sources */,
+				2E8097F0206660FC00E19FC0 /* MeetingSafetyTipsViewController.swift in Sources */,
 				5076228B1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */,
 				721384081F210C15006DB039 /* TaxonomyTableViewCell.swift in Sources */,
 				72EB705D1E65C44E00BF709B /* ModularNotificationCellDrawer.swift in Sources */,
@@ -7610,6 +7621,7 @@
 				72D928E21E83EB990030F4C3 /* RatingManager.swift in Sources */,
 				2E06EAEF1D70595900A40704 /* FilterRangePriceCell.swift in Sources */,
 				C7BAC9CE1E49E81E005BD0AF /* Listing+LG.swift in Sources */,
+				2E8097F32066610B00E19FC0 /* MeetingSafetyTipsViewModel.swift in Sources */,
 				C7B588581CE1DE1C009B3975 /* DirectAnswersPresenter.swift in Sources */,
 				727463B31FB0AEAB00AD8261 /* LGSearchMap.swift in Sources */,
 				C77B7DBB1DBF9D150043C624 /* PushPermissionsHeader.swift in Sources */,

@@ -14,7 +14,7 @@ import MapKit
 
 class ChatViewController: TextViewController {
 
-    var mapContainer: UIView = UIView() // UIVisualEffectView = UIVisualEffectView()
+    var mapContainer: UIView = UIView()
 
     let navBarHeight: CGFloat = 64
     let inputBarHeight: CGFloat = 44

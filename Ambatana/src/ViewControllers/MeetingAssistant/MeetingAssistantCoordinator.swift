@@ -64,9 +64,17 @@ extension MeetingAssistantCoordinator: MeetingAssistantNavigator {
         closeCoordinator(animated: true, completion: nil)
     }
 
-    func openMeetingTipsWith(closingCompletion: (()->Void)?) {
+    func openMeetingTipsWith(closeCompletion: (()->Void)?) {
         // 🦄
         print("SHOW TIPS!")
+        let tipsVM = MeetingSafetyTipsViewModel(closeCompletion: closeCompletion)
+        tipsVM.navigator = self
+        let tipsVC = MeetingSafetyTipsViewController(viewModel: tipsVM)
+        viewController.present(tipsVC, animated: true, completion: nil)
+    }
+
+    func closeMeetingTipsWith(closeCompletion: (()->Void)?) {
+        viewController.dismiss(animated: true, completion: closeCompletion)
     }
 
 }

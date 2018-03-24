@@ -10,7 +10,7 @@ import UIKit
 import LGCoreKit
 
 protocol SuggestedLocationCellImageDelegate: class {
-    func imagePressed(coordinates: LGLocationCoordinates2D?)
+    func imagePressed(coordinates: LGLocationCoordinates2D?, originPoint: CGPoint)
 }
 
 class SuggestedLocationCell: UICollectionViewCell {
@@ -50,14 +50,8 @@ class SuggestedLocationCell: UICollectionViewCell {
 
     override var isSelected: Bool {
         didSet {
-            guard let _ = location else {
-                if isSelected {
-                    customCellSelected()
-                }
-                return
-            }
+            guard let _ = location else { return }
 
-//            coloredBgView.backgroundColor = isSelected ? UIColor.primaryColor : UIColor.clear
             checkBoxView.isHidden = isSelected ? false : true
 
             if isSelected {
@@ -105,11 +99,8 @@ class SuggestedLocationCell: UICollectionViewCell {
     }
 
     @objc func imageTapped() {
-        imgDelegate?.imagePressed(coordinates: location?.locationCoords)
-    }
-
-    private func customCellSelected() {
-        imgDelegate?.imagePressed(coordinates: nil)
+        let rect = imageView.convert(imageView.frame, to: nil)
+        imgDelegate?.imagePressed(coordinates: location?.locationCoords, originPoint: rect.center)
     }
 
     private func resetUI() {

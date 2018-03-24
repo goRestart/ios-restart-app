@@ -53,7 +53,6 @@ class MeetingAssistantViewController: BaseViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        suggestedLocationsCollection.reloadData()
         view.layoutIfNeeded()
     }
 
@@ -162,7 +161,6 @@ class MeetingAssistantViewController: BaseViewController {
     
     @IBAction func onSendMeeting(_ sender: AnyObject) {
         viewModel.sendMeeting()
-        self.navigationController?.dismiss(animated: true, completion: nil)
     }
 
     @IBAction func onPickerDoneButton(_ sender: AnyObject) {
@@ -226,31 +224,22 @@ extension MeetingAssistantViewController: UICollectionViewDataSource, UICollecti
 
 
 extension MeetingAssistantViewController: SuggestedLocationCellImageDelegate, MKMapViewDelegate {
-    func imagePressed(coordinates: LGLocationCoordinates2D?) {
+    func imagePressed(coordinates: LGLocationCoordinates2D?, originPoint: CGPoint) {
 
-        guard let coords = coordinates else {
+        guard let coordinates = coordinates else {
             viewModel.openLocationSelector()
             return
         }
 
-        view.addSubview(mapContainer)
-        mapContainer.translatesAutoresizingMaskIntoConstraints = false
-        mapContainer.layout(with: view).fill()
-
-        let effect = UIBlurEffect(style: .dark)
-        let mapBlurEffectView = UIVisualEffectView(effect: effect)
-        mapBlurEffectView.alpha = 0.0
-        mapContainer.addSubview(mapBlurEffectView)
-        mapBlurEffectView.translatesAutoresizingMaskIntoConstraints = false
-        mapBlurEffectView.layout(with: mapContainer).fill()
+        guard let topView = navigationController?.view else { return }
 
         let mapView = MKMapView()
         mapView.delegate = self
-        mapView.setCenter(coords.coordinates2DfromLocation(), animated: true)
+        mapView.setCenter(coordinates.coordinates2DfromLocation(), animated: true)
 
         mapView.layer.cornerRadius = 20.0
 
-        let clCoordinate = coords.coordinates2DfromLocation()
+        let clCoordinate = coordinates.coordinates2DfromLocation()
         let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2, Constants.accurateRegionRadius*2)
         mapView.setRegion(region, animated: true)
 
@@ -258,24 +247,41 @@ extension MeetingAssistantViewController: SuggestedLocationCellImageDelegate, MK
         mapView.isScrollEnabled = true
         mapView.isPitchEnabled = true
 
-        let mapOverlay: MKOverlay = MKCircle(center:coords.coordinates2DfromLocation(),
-                                      radius: 300)
+        let mapOverlay: MKOverlay = MKCircle(center:coordinates.coordinates2DfromLocation(),
+                                             radius: 300)
 
         mapView.add(mapOverlay)
 
-        mapContainer.addSubview(mapView)
+        let effect = UIBlurEffect(style: .dark)
+        let mapBgBlurEffect = UIVisualEffectView(effect: effect)
+
+        mapContainer.alpha = 0.0
+
+        let mapTap = UITapGestureRecognizer(target: self, action: #selector(mapTapped))
+        mapView.addGestureRecognizer(mapTap)
+        mapBgBlurEffect.addGestureRecognizer(mapTap)
+
+        mapContainer.translatesAutoresizingMaskIntoConstraints = false
+        mapBgBlurEffect.translatesAutoresizingMaskIntoConstraints = false
         mapView.translatesAutoresizingMaskIntoConstraints = false
+
+        topView.addSubview(mapContainer)
+
+        mapContainer.layout(with: topView).fill()
+
+        mapContainer.addSubview(mapBgBlurEffect)
+        mapBgBlurEffect.layout(with: mapContainer).fill()
+
+        mapContainer.addSubview(mapView)
 
         mapView.layout().height(300).width(300)
         mapView.layout(with: mapContainer).center()
 
-        let mapTap = UITapGestureRecognizer(target: self, action: #selector(mapTapped))
-        mapView.addGestureRecognizer(mapTap)
-        mapContainer.addGestureRecognizer(mapTap)
+        mapContainer.frame = CGRect(x: originPoint.x, y: originPoint.y, width: 0, height: 0)
 
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.mapContainer.alpha = 1.0
-            self?.view.layoutIfNeeded()
+            topView.layoutIfNeeded()
         }
     }
 

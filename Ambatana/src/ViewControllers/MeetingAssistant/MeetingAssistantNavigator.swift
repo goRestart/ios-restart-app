@@ -12,5 +12,6 @@ import LGCoreKit
 protocol MeetingAssistantNavigator: class {
     func openEditLocation(withViewModel viewModel: EditLocationViewModel)
     func meetingCreationDidFinish()
-    func openMeetingTipsWith(closingCompletion: (()->Void)?)
+    func openMeetingTipsWith(closeCompletion: (()->Void)?)
+    func closeMeetingTipsWith(closeCompletion: (()->Void)?)
 }

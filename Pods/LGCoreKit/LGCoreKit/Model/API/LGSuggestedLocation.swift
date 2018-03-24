@@ -13,7 +13,6 @@ public protocol SuggestedLocation {
     var locationName: String { get }
     var locationAddress: String? { get }
     var locationCoords: LGLocationCoordinates2D { get }
-    var imageUrl: String? { get }
 }
 
 
@@ -23,7 +22,6 @@ public struct LGSuggestedLocation: SuggestedLocation, Decodable {
     public let locationName: String
     public let locationAddress: String?
     public let locationCoords: LGLocationCoordinates2D
-    public let imageUrl: String?
 
 
     // MARK: Decode
@@ -34,8 +32,7 @@ public struct LGSuggestedLocation: SuggestedLocation, Decodable {
      "longitude": "1.7950930443031",
      "location_id": "99458b70-807c-3780-83a9-47425e570489",
      "location_name": "paradis"
-     "location_address": "Dumb street 123"
-     "image_url": "http://location.whatever.com/lololo.jpg"
+     "address": "Dumb street 123"
      }
      */
 
@@ -45,10 +42,13 @@ public struct LGSuggestedLocation: SuggestedLocation, Decodable {
         locationId = try keyedContainer.decode(String.self, forKey: .locationId)
         locationName = try keyedContainer.decode(String.self, forKey: .locationName)
         locationAddress = try keyedContainer.decodeIfPresent(String.self, forKey: .locationAddress)
-        let latitude = try keyedContainer.decode(Double.self, forKey: .latitude)
-        let longitude = try keyedContainer.decode(Double.self, forKey: .longitude)
-        locationCoords = LGLocationCoordinates2D(latitude: latitude, longitude: longitude)
-        imageUrl = try keyedContainer.decodeIfPresent(String.self, forKey: .imageUrl)
+        let stringLatitude = try keyedContainer.decode(String.self, forKey: .latitude)
+        let stringLongitude = try keyedContainer.decode(String.self, forKey: .longitude)
+
+        let doubleLatitude = Double(stringLatitude) ?? 0.0
+        let doubleLongitude = Double(stringLongitude) ?? 0.0
+
+        locationCoords = LGLocationCoordinates2D(latitude: doubleLatitude, longitude: doubleLongitude)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -56,7 +56,6 @@ public struct LGSuggestedLocation: SuggestedLocation, Decodable {
         case longitude = "longitude"
         case locationId = "location_id"
         case locationName = "location_name"
-        case locationAddress = "location_address"
-        case imageUrl = "image_url"
+        case locationAddress = "address"
     }
 }

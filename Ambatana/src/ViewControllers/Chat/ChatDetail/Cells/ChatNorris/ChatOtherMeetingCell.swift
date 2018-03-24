@@ -19,6 +19,8 @@ class ChatOtherMeetingCell: UITableViewCell, ReusableCell {
 
     @IBOutlet weak var meetingContainer: UIView!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var statusIcon: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var locationView: UIImageView!
     @IBOutlet weak var locationButton: UIButton!
@@ -98,18 +100,21 @@ extension ChatOtherMeetingCell {
     fileprivate func updateStatus(status: MeetingStatus) {
         switch status {
         case .pending:
-            titleLabel.text = "Let's meet up on:"
-            titleLabel.textColor = UIColor.grayText
+            statusLabel.text = "_ Pending"
+            statusLabel.textColor = UIColor.grayText
+            statusIcon.image = #imageLiteral(resourceName: "ic_time")
             actionsContainerHeight.constant = 44
             actionsContainer.isHidden = false
         case .accepted:
-            titleLabel.text = "Accepted"
-            titleLabel.textColor = UIColor.asparagus
+            statusLabel.text = "_ Accepted"
+            statusLabel.textColor = UIColor.asparagus
+            statusIcon.image = #imageLiteral(resourceName: "ic_time")
             actionsContainerHeight.constant = 0
             actionsContainer.isHidden = true
         case .rejected:
-            titleLabel.text = "Declined"
-            titleLabel.textColor = UIColor.primaryColor
+            statusLabel.text = "_ Declined"
+            statusLabel.textColor = UIColor.primaryColor
+            statusIcon.image = #imageLiteral(resourceName: "ic_time")
             actionsContainerHeight.constant = 0
             actionsContainer.isHidden = true
 //        case .canceled:
@@ -132,10 +137,13 @@ private extension ChatOtherMeetingCell {
         meetingContainer.layer.rasterizationScale = UIScreen.main.scale
         backgroundColor = UIColor.clear
         titleLabel.text = "_ Let's meet up on:"
+        titleLabel.textColor = UIColor.grayText
 
         actionAccept.setTitle("_ Accept", for: .normal)
-        actionReject.setTitle("_ Reschedule", for: .normal)
+        actionReject.setTitle("_ Decline", for: .normal)
         locationButton.addTarget(self, action: #selector(locationTapped), for: .touchUpInside)
+
+        locationView.cornerRadius = LGUIKitConstants.mediumCornerRadius
     }
 
     @objc func locationTapped() {
