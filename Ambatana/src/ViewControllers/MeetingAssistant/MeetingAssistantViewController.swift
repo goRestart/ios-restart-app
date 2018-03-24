@@ -58,8 +58,11 @@ class MeetingAssistantViewController: BaseViewController {
 
     private func setupRx() {
 
-        viewModel.suggestedLocations.asObservable().skip(1).bind { [weak self] suggestedLocations in
-            print(suggestedLocations.count)
+        viewModel.suggestedLocations.asObservable().skip(1).bind { [weak self] _ in
+            self?.suggestedLocationsCollection.reloadData()
+        }.disposed(by: disposeBag)
+
+        viewModel.mapSnapshotsCache.asObservable().bind { [weak self] _ in
             self?.suggestedLocationsCollection.reloadData()
         }.disposed(by: disposeBag)
 
@@ -90,6 +93,7 @@ class MeetingAssistantViewController: BaseViewController {
             } else {
                 self?.activityIndicator.stopAnimating()
             }
+            self?.suggestedLocationsCollection.isHidden = active
         }.disposed(by: disposeBag)
     }
 
@@ -205,8 +209,8 @@ extension MeetingAssistantViewController: UICollectionViewDataSource, UICollecti
                 return UICollectionViewCell()
         }
         let suggestedLocation = viewModel.suggestedLocationAtIndex(indexPath: indexPath)
-
-        cell.setupWithSuggestedLocation(location: suggestedLocation)
+        let mapSnapshot = viewModel.mapSnapshotFor(suggestedLocation: suggestedLocation)
+        cell.setupWithSuggestedLocation(location: suggestedLocation, mapSnapshot: mapSnapshot)
         cell.imgDelegate = self
         if let selectedLocationId = viewModel.selectedLocation.value?.locationId,
             suggestedLocation?.locationId == selectedLocationId {

@@ -38,6 +38,8 @@ class SuggestedLocationCell: UICollectionViewCell {
     }
     weak var imgDelegate: SuggestedLocationCellImageDelegate?
 
+    private var mapImage: UIImage = #imageLiteral(resourceName: "meeting_map_placeholder")
+
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
@@ -106,7 +108,6 @@ class SuggestedLocationCell: UICollectionViewCell {
     private func resetUI() {
         locationNameLabel.text = ""
         locationAddressLabel.text = ""
-        imageView.image = nil
         checkBoxView.isHidden = true
         selectButton.setTitle("_ Select", for: .normal)
         selectButton.setTitleColor(UIColor.primaryColor, for: .normal)
@@ -114,28 +115,11 @@ class SuggestedLocationCell: UICollectionViewCell {
         showShadow()
     }
 
-    func setupWithSuggestedLocation(location: SuggestedLocation?) {
+    func setupWithSuggestedLocation(location: SuggestedLocation?, mapSnapshot: UIImage?) {
         locationNameLabel.numberOfLines = location != nil ? 1 : 0
         locationNameLabel.text = location?.locationName ?? "_ Search another location"
         locationAddressLabel.text = location?.locationAddress
-        setupImageWithCoords(coordinates: location?.locationCoords)
+        imageView.image = mapSnapshot ?? #imageLiteral(resourceName: "meeting_map_placeholder")
         self.location = location
-    }
-
-    func setupImageWithCoords(coordinates: LGLocationCoordinates2D?) {
-
-        guard let coordinates = coordinates else {
-            imageView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
-            return
-        }
-
-        // 🦄 Apple this!
-        let mapStringUrl = "https://maps.googleapis.com/maps/api/staticmap?zoom=15&size=300x300&maptype=roadmap&markers=\(coordinates.latitude),\(coordinates.longitude)"
-
-        if let url = URL(string: mapStringUrl) {
-            imageView.lg_setImageWithURL(url, placeholderImage: #imageLiteral(resourceName: "meeting_map_placeholder"), completion: nil)
-        } else {
-            imageView.image = #imageLiteral(resourceName: "meeting_map_placeholder")
-        }
     }
 }
