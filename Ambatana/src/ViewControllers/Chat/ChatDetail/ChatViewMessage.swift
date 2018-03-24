@@ -224,7 +224,7 @@ extension ChatViewMessage {
         switch type {
         case let .chatNorris(meetingType, meetingDate, locationName, coordinates, _):
             if meetingType == .requested {
-                let acceptedMessageType: ChatViewMessageType = .chatNorris(type: meetingType,
+                let rejectedMessageType: ChatViewMessageType = .chatNorris(type: meetingType,
                                                                            date: meetingDate,
                                                                            locationName: locationName,
                                                                            coordinates: coordinates,
@@ -232,7 +232,7 @@ extension ChatViewMessage {
                 return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
                                        receivedAt: receivedAt,
                                        readAt: readAt,
-                                       type: acceptedMessageType,
+                                       type: rejectedMessageType,
                                        status: status,
                                        warningStatus: warningStatus)
             } else {

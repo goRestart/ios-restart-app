@@ -792,6 +792,7 @@ extension ChatViewModel {
             if let _ = result.value {
                 strongSelf.afterSendMessageEvents(type: type)
                 strongSelf.trackMessageSent(type: type)
+                strongSelf.updateMeetingsStatusAfterSending(message: newMessage)
             } else if let error = result.error {
                 strongSelf.trackMessageSentError(type: type, error: error)
                 // Removing message until we implement the retry-message state behavior
@@ -1345,10 +1346,14 @@ extension ChatViewModel {
     private func refreshLastMessages(_ convId: String) {
         isLoading = true
         chatRepository.indexMessages(convId, numResults: resultsPerPage, offset: 0) { [weak self] result in
-            self?.isLoading = false
+            guard let strongSelf = self else { return }
+            strongSelf.isLoading = false
             guard let newMessages = result.value else { return }
-            self?.mergeMessages(newMessages: newMessages)
-            self?.messagesDidFinishRefreshing.value = true
+            strongSelf.mergeMessages(newMessages: newMessages)
+            strongSelf.messagesDidFinishRefreshing.value = true
+            if strongSelf.meetingsEnabled, let meeting = strongSelf.firstMeetingIn(messages: newMessages) {
+                strongSelf.updateMeetingsStatusAfterReceiving(message: meeting)
+            }
         }
     }
 
@@ -1855,7 +1860,6 @@ extension ChatViewModel {
 extension ChatViewModel: MeetingAssistantDataDelegate {
     func sendMeeting(meeting: AssistantMeeting) {
         sendMeetingMessage(meeting: meeting)
-        markAllPreviousRequestedMeetingsAsRejected()
     }
 }
 
@@ -1880,7 +1884,6 @@ extension ChatViewModel {
                                                coordinates: nil,
                                                status: .rejected)
         sendMeetingMessage(meeting: rejectedMeeting)
-        markAllPreviousRequestedMeetingsAsRejected()
     }
 
     private func markAsAcceptedLastMeetingAndRejectOthers() {
@@ -1904,12 +1907,12 @@ extension ChatViewModel {
         markMeetingsAsRejected(otherMeetingIds)
     }
 
-    private func markAllPreviousRequestedMeetingsAsRejected() {
+    private func markAllPreviousRequestedMeetingsAsRejectedAfter(messageId: String?) {
         var meetingIds: [String] = []
         for chatViewMessage in messages.value {
             switch chatViewMessage.type {
             case let .chatNorris(type, _, _, _, _):
-                if let meetingId = chatViewMessage.objectId, type == .requested {
+                if let meetingId = chatViewMessage.objectId, type == .requested, meetingId != messageId {
                     meetingIds.append(meetingId)
                 }
             case .text, .offer, .sticker, .disclaimer, .userInfo, .askPhoneNumber, .interlocutorIsTyping:
@@ -1931,15 +1934,23 @@ extension ChatViewModel {
     }
 
     private func updateMeetingsStatusAfterReceiving(message: ChatMessage) {
+        updateMeetingsStatusFor(message: message)
+    }
+
+    private func updateMeetingsStatusAfterSending(message: ChatMessage) {
+        updateMeetingsStatusFor(message: message)
+    }
+
+    private func updateMeetingsStatusFor(message: ChatMessage) {
         if message.type == .chatNorris {
             if let meeting = MeetingParser.createMeetingFromMessage(message: message.text) {
                 switch meeting.meetingType {
                 case .rejected:
-                    markAllPreviousRequestedMeetingsAsRejected()
+                    markAllPreviousRequestedMeetingsAsRejectedAfter(messageId: nil)
                 case .accepted:
                     markAsAcceptedLastMeetingAndRejectOthers()
                 case .requested:
-                    markAllPreviousRequestedMeetingsAsRejected()
+                    markAllPreviousRequestedMeetingsAsRejectedAfter(messageId: message.objectId)
                 }
             }
         }
