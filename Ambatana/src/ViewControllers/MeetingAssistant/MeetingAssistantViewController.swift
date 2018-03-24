@@ -15,6 +15,9 @@ class MeetingAssistantViewController: BaseViewController {
 
     var mapContainer: UIView = UIView()
 
+    @IBOutlet weak var placeHeaderLabel: UILabel!
+    @IBOutlet weak var dateTimeHeaderlabel: UILabel!
+
     @IBOutlet weak var locationLabel: UILabel!
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -71,7 +74,7 @@ class MeetingAssistantViewController: BaseViewController {
                 self?.locationLabel.text = name
                 self?.locationLabel.textColor = UIColor.blackText
             } else {
-                self?.locationLabel.text = "_Select a location"
+                self?.locationLabel.text = LGLocalizedString.meetingCreationViewSelectLocation
                 self?.locationLabel.textColor = UIColor.grayText
             }
         }.disposed(by: disposeBag)
@@ -80,7 +83,7 @@ class MeetingAssistantViewController: BaseViewController {
             if let _ = date {
                 self?.selectDayLabel.textColor = UIColor.blackText
             } else {
-                self?.selectDayLabel.text = "_Select a date"
+                self?.selectDayLabel.text = LGLocalizedString.meetingCreationViewSelectDateTime
                 self?.selectDayLabel.textColor = UIColor.grayText
             }
             }.disposed(by: disposeBag)
@@ -108,7 +111,7 @@ class MeetingAssistantViewController: BaseViewController {
             layout.scrollDirection = UICollectionViewScrollDirection.horizontal
         }
 
-        setNavBarTitle("_Schedule a Meetup")
+        setNavBarTitle(LGLocalizedString.meetingCreationViewTitle)
         setLetGoRightButtonWith(image: #imageLiteral(resourceName: "ic_meeting_tips"),
                                 renderingMode: .alwaysOriginal,
                                 selector: "tipsButtonTapped")
@@ -119,7 +122,7 @@ class MeetingAssistantViewController: BaseViewController {
         cancelButton.tintColor = UIColor.primaryColor
         self.navigationItem.leftBarButtonItem = cancelButton
 
-        sendMeetingButton.setTitle("Send Meeting", for: .normal)
+        sendMeetingButton.setTitle(LGLocalizedString.meetingCreationViewSendButton, for: .normal)
         sendMeetingButton.setStyle(.primary(fontSize: .big))
         
         setupLabelActions()
@@ -135,6 +138,9 @@ class MeetingAssistantViewController: BaseViewController {
 
         datePicker.minimumDate = startDate
         datePicker.maximumDate = endDate
+
+        placeHeaderLabel.text = LGLocalizedString.meetingCreationViewPlace.uppercased()
+        dateTimeHeaderlabel.text = LGLocalizedString.meetingCreationViewDateTime.uppercased()
     }
 
     private func setupLabelActions() {

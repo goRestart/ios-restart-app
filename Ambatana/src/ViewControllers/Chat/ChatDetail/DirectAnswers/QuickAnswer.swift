@@ -74,7 +74,7 @@ enum QuickAnswer {
             case .notNegotiable:
                 return LGLocalizedString.directAnswerNotNegotiableTitle
             case .meetingAssistant:
-                return "_Meeting Assistant"
+                return LGLocalizedString.directAnswerLetsMeet
             }
         }
     }
@@ -130,7 +130,7 @@ enum QuickAnswer {
         case .meetUpLocated:
             return LGLocalizedString.directAnswerWhereLocated
         case .meetingAssistant:
-            return "_Let's meet"
+            return LGLocalizedString.directAnswerLetsMeet
         }
     }
 

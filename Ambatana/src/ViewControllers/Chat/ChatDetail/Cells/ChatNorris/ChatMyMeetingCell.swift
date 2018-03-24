@@ -88,15 +88,15 @@ extension ChatMyMeetingCell {
     fileprivate func updateStatus(status: MeetingStatus) {
         switch status {
         case .pending:
-            statusLabel.text = "_ Pending"
+            statusLabel.text = LGLocalizedString.chatMeetingCellStatusPending
             statusLabel.textColor = UIColor.grayText
             statusIcon.image = #imageLiteral(resourceName: "ic_time")
         case .accepted:
-            statusLabel.text = "_ Accepted"
+            statusLabel.text = LGLocalizedString.chatMeetingCellStatusAccepted
             statusLabel.textColor = UIColor.asparagus
             statusIcon.image = nil
         case .rejected:
-            statusLabel.text = "_ Declined"
+            statusLabel.text = LGLocalizedString.chatMeetingCellStatusDeclined
             statusLabel.textColor = UIColor.primaryColor
             statusIcon.image = nil
         }
@@ -113,7 +113,7 @@ private extension ChatMyMeetingCell {
         meetingContainer.layer.shouldRasterize = true
         meetingContainer.layer.rasterizationScale = UIScreen.main.scale
         backgroundColor = UIColor.clear
-        titleLabel.text = "_ Let's meet up on:"
+        titleLabel.text = LGLocalizedString.chatMeetingCellTitle
         titleLabel.textColor = UIColor.grayText
 
         locationButton.addTarget(self, action: #selector(locationTapped), for: .touchUpInside)

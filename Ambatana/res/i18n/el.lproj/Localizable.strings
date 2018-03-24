@@ -781,10 +781,10 @@
 "profile_verifications_view_extra_section_title" = "ΑΓΟΡΆ & ΠΏΛΗΣΗ";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 πόντους για το καθένα (μέχρι 10 πόντους)";
 "profile_verifications_view_mark_as_sold_title" = "Μαρκάρισμα καταχώρησης ως πουλημένης";
 "profile_verifications_view_phone_number_title" = "Αριθμός Τηλεφώνου";
-"profile_verifications_view_photo_id_title" = "Photo ID";
+"profile_verifications_view_photo_id_title" = "Φωτογραφία Tαυτότητας";
 "profile_verifications_view_profile_picture_title" = "Εικόνας προφίλ";
 "profile_verifications_view_title" = "Πώς να κερδίσετε πόντους";
 "profile_verifications_view_verify_section_subtitle" = "Οι προσωπικές σας πληροφορίες δε θα διαμοιραστούν σε άλλους χρήστες";
@@ -859,7 +859,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "4+";
 "real_estate_bedrooms_title" = "Αριθμός υπνοδωματίων";
-"real_estate_camera_view_real_estate_learn_more" = "Learn more";
+"real_estate_camera_view_real_estate_learn_more" = "Μάθετε περισσότερα";
 "real_estate_camera_view_real_estate_message" = "Τραβήξτε μια φωτογραφία της ιδιοκτησίας που θέλετε να νοικιάσετε ή να πουλήσετε";
 "real_estate_current_step_of_total" = "%d από %d";
 "real_estate_empty_state_search_subtitle" = "Γίνετε οι πρώτοι που θα δημοσιεύσουν ιδιοκτησία για πώληση / ενοικίαση στην περιοχή σας ή ελέγξτε ξανά σύντομα!";

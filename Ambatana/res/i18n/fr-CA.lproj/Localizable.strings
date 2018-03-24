@@ -781,10 +781,10 @@
 "profile_verifications_view_extra_section_title" = "ACHETER & VENDRE";
 "profile_verifications_view_facebook_title" = "Facebook";
 "profile_verifications_view_google_title" = "Google";
-"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts each (up to 10 pts)";
+"profile_verifications_view_mark_as_sold_subtitle" = "+2 pts chaque (jusqu'à 10 pts)";
 "profile_verifications_view_mark_as_sold_title" = "Indiquer « vendu » sur une annonce";
 "profile_verifications_view_phone_number_title" = "Numéro de Téléphone";
-"profile_verifications_view_photo_id_title" = "Photo ID";
+"profile_verifications_view_photo_id_title" = "Pièce d'identité avec photo";
 "profile_verifications_view_profile_picture_title" = "Image de profil";
 "profile_verifications_view_title" = "Comment gagner des points";
 "profile_verifications_view_verify_section_subtitle" = "Vos informations personnelles ne seront pas partagées avec les autres utilisateurs";
@@ -859,7 +859,7 @@
 "real_estate_bedrooms_3" = "3";
 "real_estate_bedrooms_4" = "Plus de 4";
 "real_estate_bedrooms_title" = "Nombre de chambres";
-"real_estate_camera_view_real_estate_learn_more" = "Learn more";
+"real_estate_camera_view_real_estate_learn_more" = "En savoir plus";
 "real_estate_camera_view_real_estate_message" = "Prenez une photo de la propriété que vous voulez vendre ou louer";
 "real_estate_current_step_of_total" = "%d de %d";
 "real_estate_empty_state_search_subtitle" = "Soyez le premier/la première à publier une propriété à vendre / louer dans votre secteur ou revenez vérifier prochainement !";

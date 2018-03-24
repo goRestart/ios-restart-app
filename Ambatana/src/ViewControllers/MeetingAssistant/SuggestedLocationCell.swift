@@ -33,8 +33,8 @@ class SuggestedLocationCell: UICollectionViewCell {
 
     private var location: SuggestedLocation?
     private var buttonTitle: String {
-        guard let _ = location else { return "_ Search"}
-        return "_ Select"
+        guard let _ = location else { return LGLocalizedString.meetingCreationViewSearchCellSearch }
+        return LGLocalizedString.meetingCreationViewSuggestCellSelect
     }
     weak var imgDelegate: SuggestedLocationCellImageDelegate?
 
@@ -57,12 +57,12 @@ class SuggestedLocationCell: UICollectionViewCell {
             checkBoxView.isHidden = isSelected ? false : true
 
             if isSelected {
-                selectButton.setTitle("_Selected", for: .normal)
+                selectButton.setTitle(LGLocalizedString.meetingCreationViewSuggestCellSelected, for: .normal)
                 containerView.layer.borderColor = UIColor.primaryColor.cgColor
                 containerView.layer.borderWidth = 2
                 hideShadow()
             } else {
-                selectButton.setTitle("_Select", for: .normal)
+                selectButton.setTitle(LGLocalizedString.meetingCreationViewSuggestCellSelect, for: .normal)
                 containerView.layer.borderColor = UIColor.primaryColor.cgColor
                 containerView.layer.borderWidth = 0
                 showShadow()
@@ -109,7 +109,7 @@ class SuggestedLocationCell: UICollectionViewCell {
         locationNameLabel.text = ""
         locationAddressLabel.text = ""
         checkBoxView.isHidden = true
-        selectButton.setTitle("_ Select", for: .normal)
+        selectButton.setTitle(LGLocalizedString.meetingCreationViewSuggestCellSelect, for: .normal)
         selectButton.setTitleColor(UIColor.primaryColor, for: .normal)
         selectButton.backgroundColor = UIColor.clear
         showShadow()
@@ -117,7 +117,7 @@ class SuggestedLocationCell: UICollectionViewCell {
 
     func setupWithSuggestedLocation(location: SuggestedLocation?, mapSnapshot: UIImage?) {
         locationNameLabel.numberOfLines = location != nil ? 1 : 0
-        locationNameLabel.text = location?.locationName ?? "_ Search another location"
+        locationNameLabel.text = location?.locationName ?? LGLocalizedString.meetingCreationViewSearchCellTitle
         locationAddressLabel.text = location?.locationAddress
         imageView.image = mapSnapshot ?? #imageLiteral(resourceName: "meeting_map_placeholder")
         self.location = location

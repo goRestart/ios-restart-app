@@ -94,19 +94,19 @@ extension ChatOtherMeetingCell {
     fileprivate func updateStatus(status: MeetingStatus) {
         switch status {
         case .pending:
-            statusLabel.text = "_ Pending"
+            statusLabel.text = LGLocalizedString.chatMeetingCellStatusPending
             statusLabel.textColor = UIColor.grayText
             statusIcon.image = #imageLiteral(resourceName: "ic_time")
             actionsContainerHeight.constant = 44
             actionsContainer.isHidden = false
         case .accepted:
-            statusLabel.text = "_ Accepted"
+            statusLabel.text = LGLocalizedString.chatMeetingCellStatusAccepted
             statusLabel.textColor = UIColor.asparagus
             statusIcon.image = nil
             actionsContainerHeight.constant = 0
             actionsContainer.isHidden = true
         case .rejected:
-            statusLabel.text = "_ Declined"
+            statusLabel.text = LGLocalizedString.chatMeetingCellStatusDeclined
             statusLabel.textColor = UIColor.primaryColor
             statusIcon.image = nil
             actionsContainerHeight.constant = 0
@@ -125,11 +125,11 @@ private extension ChatOtherMeetingCell {
         meetingContainer.layer.shouldRasterize = true
         meetingContainer.layer.rasterizationScale = UIScreen.main.scale
         backgroundColor = UIColor.clear
-        titleLabel.text = "_ Let's meet up on:"
+        titleLabel.text = LGLocalizedString.chatMeetingCellTitle
         titleLabel.textColor = UIColor.grayText
 
-        actionAccept.setTitle("_ Accept", for: .normal)
-        actionReject.setTitle("_ Decline", for: .normal)
+        actionAccept.setTitle(LGLocalizedString.chatMeetingCellAcceptButton, for: .normal)
+        actionReject.setTitle(LGLocalizedString.chatMeetingCellDeclineButton, for: .normal)
         locationButton.addTarget(self, action: #selector(locationTapped), for: .touchUpInside)
 
         locationView.cornerRadius = LGUIKitConstants.mediumCornerRadius
