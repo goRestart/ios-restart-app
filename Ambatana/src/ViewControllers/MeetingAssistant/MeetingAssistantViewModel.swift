@@ -15,22 +15,6 @@ protocol MeetingAssistantDataDelegate: class {
     func sendMeeting(meeting: AssistantMeeting)
 }
 
-struct MockSuggestedLocation : SuggestedLocation {
-    var objectId: String?
-    var locationId: String
-    var locationName: String
-    var locationAddress: String?
-    var locationCoords: LGLocationCoordinates2D
-    var imageUrl: String?
-
-    init(id: String, name: String, coords: LGLocationCoordinates2D) {
-        self.locationId = id
-        self.locationName = name
-        self.locationAddress = nil
-        self.locationCoords = coords
-        self.imageUrl = nil
-    }
-}
 
 class MeetingAssistantViewModel: BaseViewModel {
 
