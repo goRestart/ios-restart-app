@@ -189,4 +189,13 @@ extension ChatWrapperMessageType {
             return false
         }
     }
+
+    var assistantMeeting: AssistantMeeting? {
+        switch self {
+        case let .chatNorris(assistantMeeting):
+            return assistantMeeting
+        case .text, .chatSticker, .expressChat, .favoritedListing, .periscopeDirect, .phone, .quickAnswer:
+            return nil
+        }
+    }
 }

@@ -43,17 +43,20 @@ class MeetingAssistantViewModel: BaseViewModel {
 
     private let locationRepository: LocationRepository
     private let keyValueStorage: KeyValueStorageable
+    private let tracker: TrackerProxy
 
     // MARK: - lifecycle
 
     convenience init(listingId: String?) {
-        self.init(listingId: listingId, locationRepository: Core.locationRepository, keyValueStorage: KeyValueStorage.sharedInstance)
+        self.init(listingId: listingId, locationRepository: Core.locationRepository, keyValueStorage: KeyValueStorage.sharedInstance, tracker: TrackerProxy.sharedInstance)
     }
 
-    init(listingId: String?, locationRepository: LocationRepository, keyValueStorage: KeyValueStorageable) {
+    init(listingId: String?, locationRepository: LocationRepository, keyValueStorage: KeyValueStorageable,
+         tracker: TrackerProxy) {
         self.listingId = listingId
         self.locationRepository = locationRepository
         self.keyValueStorage = keyValueStorage
+        self.tracker = tracker
         super.init()
         setupRx()
     }
@@ -71,6 +74,9 @@ class MeetingAssistantViewModel: BaseViewModel {
 
     override func didBecomeActive(_ firstTime: Bool) {
         if firstTime {
+            let meetingStartEvent = TrackerEvent.assistantMeetingStartFor(listingId: listingId)
+            tracker.trackEvent(meetingStartEvent)
+
             retrieveSuggestedLocations()
         }
     }

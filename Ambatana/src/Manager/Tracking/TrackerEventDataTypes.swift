@@ -194,6 +194,8 @@ enum EventName: String {
 
     case predictedPosting                   = "predicted-posting"
 
+    case assistantMeetingStart              = "assistant-meeting-start"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -375,6 +377,11 @@ enum EventParameterName: String {
     
     case typeTutorialDialog   = "type-onboarding-dialog"
     case pageNumber           = "page-number"
+
+    // hackaton
+    case meetingMessageType  = "assistant-meeting-type"
+    case meetingDate         = "assistant-meeting-date"
+    case meetingLocation     = "assistant-meeting-location"
 }
 
 enum EventParameterBoolean: String {
@@ -1189,6 +1196,23 @@ enum EventParameterAdSenseRequestErrorReason: String {
             self = .networkError
         default:
             self = .internalError
+        }
+    }
+}
+
+enum EventParameterAssistantMeetingType: String {
+    case request = "assistant-meeting-complete"
+    case accept = "assistant-meeting-accept"
+    case decline = "assistant-meeting-decline"
+
+    init(meetingMessageType: MeetingMessageType) {
+        switch meetingMessageType {
+        case .requested:
+            self = .request
+        case .accepted:
+            self = .accept
+        case .rejected:
+            self = .decline
         }
     }
 }
